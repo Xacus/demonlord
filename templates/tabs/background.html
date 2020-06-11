@@ -1,0 +1,127 @@
+<div class="grid grid-2col">
+    <div class="col1">
+        <div class="wealth">
+            <div class="header">
+                {{localize "DL.WealthTitle"}}
+                <div class="edit">
+                    <a class="wealth-edit" title="{{localize 'DL.WealthEdit'}}"><i class="fas fa-edit"></i></a>
+                </div>
+            </div>
+            <div class="body">
+                <div class="lifestyle">
+                    <div class="lifestyletitle">
+                        {{localize "DL.WealthLifestyle"}}
+                    </div>
+                    {{#if data.wealth.edit}}
+                        <input type="text" name="data.wealth.lifestyle" value="{{data.wealth.lifestyle}}" />
+                    {{else}}
+                        <label class="resource-label" for="data.wealth.lifestyle">{{data.wealth.lifestyle}}</label>
+                    {{/if}}
+                </div>
+                <div class="grid grid-4col">
+                    <div class="coins">
+                        <div class="cointitle">
+                            {{localize "DL.WealthCoinsGC"}}
+                        </div>
+                        {{#if data.wealth.edit}}
+                            <input type="text" name="data.wealth.gc" value="{{data.wealth.gc}}" />
+                        {{else}}
+                            <label class="resource-label" for="data.wealth.gc">{{data.wealth.gc}}</label>
+                        {{/if}}
+                    </div>
+                    <div class="coins">
+                        <div class="cointitle">
+                            {{localize "DL.WealthCoinsSS"}}
+                        </div>
+                        {{#if data.wealth.edit}}
+                            <input type="text" name="data.wealth.ss" value="{{data.wealth.ss}}" />
+                        {{else}}
+                            <label class="resource-label" for="data.wealth.ss">{{data.wealth.ss}}</label>
+                        {{/if}}
+                    </div>
+                    <div class="coins">
+                        <div class="cointitle">
+                            {{localize "DL.WealthCoinsCP"}}
+                        </div>
+                        {{#if data.wealth.edit}}
+                            <input type="text" name="data.wealth.cp" value="{{data.wealth.cp}}" />
+                        {{else}}
+                            <label class="resource-label" for="data.wealth.cp">{{data.wealth.cp}}</label>
+                        {{/if}}
+                    </div>
+                    <div class="coins">
+                        <div class="cointitle">
+                            {{localize "DL.WealthCoinsBits"}}
+                        </div>
+                        {{#if data.wealth.edit}}
+                            <input type="text" name="data.wealth.bits" value="{{data.wealth.bits}}" />
+                        {{else}}
+                            <label class="resource-label" for="data.wealth.bits">{{data.wealth.bits}}</label>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="paths">
+            <div class="header">
+                {{localize "DL.PathsTitle"}}
+                <div class="edit">
+                    <a class="paths-edit" title="{{localize 'DL.PathsEdit'}}"><i class="fas fa-edit"></i></a>
+                </div>
+            </div>
+            <div class="body">
+                <div class="path">
+                    <div class="pathtitle">
+                        {{localize "DL.PathsPathNovice"}}
+                    </div>
+                    {{#if data.paths.edit}}
+                        <input type="text" name="data.paths.novice" value="{{data.paths.novice}}" />
+                    {{else}}
+                        <label class="resource-label" for="data.paths.novice">{{data.paths.novice}}</label>
+                    {{/if}}
+                </div>
+                <div class="path">
+                    <div class="pathtitle">
+                        {{localize "DL.PathsPathExpert"}}
+                    </div>
+                    {{#if data.paths.edit}}
+                        <input type="text" name="data.paths.expert" value="{{data.paths.expert}}" />
+                    {{else}}
+                        <label class="resource-label" for="data.paths.expert">{{data.paths.expert}}</label>
+                    {{/if}}
+                </div>
+                <div class="path">
+                    <div class="pathtitle">
+                        {{localize "DL.PathsPathMaster"}}
+                    </div>
+                    {{#if data.paths.edit}}
+                        <input type="text" name="data.paths.master" value="{{data.paths.master}}" />
+                    {{else}}
+                        <label class="resource-label" for="data.paths.master">{{data.paths.master}}</label>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="features">
+        <ol class="items-list">
+            <li class="item-header">
+                <div class="weaponnameheader">{{localize "DL.FeaturesTitle"}}</div>
+                <div class="item-controls">
+                    <a class="item-control item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"><i class="fas fa-plus"></i></a>
+                </div>
+            </li>
+            {{#each actor.features as |feature id|}}
+                <li class="feature dropitem" data-item-id="{{feature._id}}">
+                    <div class="item-controls">
+                        <a class="item-control feature-edit" title="{{localize 'DL.FeatureEdit'}}"><i class="fas fa-edit"></i></a>
+                        <a class="item-control feature-delete" title="{{localize 'DL.FeatureDelete'}}"><i class="fas fa-trash"></i></a>
+                    </div>
+                    <div class="featurename">{{feature.name}}</div>
+                    <div class="featurediscription">{{feature.data.description}}</div>
+
+                </li>
+            {{/each}}
+        </ol>
+
+    </div>

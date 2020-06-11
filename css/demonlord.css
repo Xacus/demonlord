@@ -1,0 +1,959 @@
+@import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Shadows Into Light:wght@400;800&family=Shadows Into Light:wght@300;400;500&display=swap");
+/* Global styles */
+.window-app {
+  font-family: "Roboto", sans-serif;
+}
+
+.rollable:hover, .rollable:focus,
+.attribute-roll:hover,
+.attribute-roll:focus,
+.attack-roll:hover,
+.attack-roll:focus,
+.talent-roll:hover,
+.talent-roll:focus,
+.magic-roll:hover,
+.magic-roll:focus,
+.ammo-amount:hover,
+.ammo-amount:focus,
+.talent-uses:hover,
+.talent-uses:focus,
+.spell-uses:hover,
+.spell-uses:focus,
+.tradition-edit:hover,
+.tradition-edit:focus {
+  color: #000;
+  text-shadow: 0 0 10px #fa200b;
+  cursor: pointer;
+}
+
+.grid,
+.grid-2col {
+  display: grid;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4col {
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-5col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-6col {
+  grid-column: span 6 / span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.grid-7col {
+  grid-column: span 7 / span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-8col {
+  grid-column: span 8 / span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.grid-9col {
+  grid-column: span 9 / span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.grid-10col {
+  grid-column: span 10 / span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.grid-11col {
+  grid-column: span 11 / span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.grid-12col {
+  grid-column: span 12 / span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.flex-group-center,
+.flex-group-left,
+.flex-group-right {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #999;
+}
+
+.flex-group-left {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.flex-group-right {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.flex-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.flex-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+/* Styles limited to demonlord sheets */
+.demonlord .card-header {
+  height: 30px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 4px 5px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.demonlord .card-header .attack-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/crossed-swords2.png") no-repeat;
+}
+
+.demonlord .card-header .challenge-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/back-forth2.png") no-repeat;
+}
+
+.demonlord .card-header .talent-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/barbed-sun2.png") no-repeat;
+}
+
+.demonlord .card-header .spell-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/magic-palm2.png") no-repeat;
+}
+
+.demonlord .card-header .header {
+  float: left;
+  font-weight: bold;
+  padding: 2px 5px 0px 5px;
+}
+
+.demonlord .card-header .headertext {
+  float: left;
+  padding-top: 2px;
+  padding-right: 5px;
+}
+
+.demonlord .card-header .FAILURE {
+  float: left;
+  color: red;
+  font-weight: bold;
+}
+
+.demonlord .card-header .SUCCESS {
+  float: left;
+  color: green;
+  font-weight: bold;
+}
+
+.demonlord .result {
+  height: 52px;
+}
+
+.demonlord .result .box {
+  float: left;
+  width: 80px;
+  height: 60px;
+  text-align: center;
+}
+
+.demonlord .result .box .boxborder,
+.demonlord .result .box .boxborderTarget {
+  position: relative;
+  left: 20px;
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  width: 40px;
+  height: 40px;
+}
+
+.demonlord .result .box .boxborder .value,
+.demonlord .result .box .boxborderTarget .value {
+  position: relative;
+  text-align: center;
+  top: 8px;
+  font-size: 17px;
+}
+
+.demonlord .result .box .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.demonlord .result .box .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 70px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  text-align: center;
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.demonlord .result .box .valuetext {
+  position: relative;
+  top: 0px;
+  width: 80px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.demonlord .result .SUCCESS .boxborder {
+  border: 3px solid #7a7971;
+}
+
+.demonlord .result .SUCCESS .boxborder .value {
+  top: 6px;
+  font-weight: bold;
+}
+
+.demonlord .result .FAILURE .boxborderTarget {
+  border: 3px solid #7a7971;
+}
+
+.demonlord .result .FAILURE .boxborderTarget .value {
+  top: 6px;
+  font-weight: bold;
+}
+
+.demonlord .result .boxvs {
+  float: left;
+  width: 30px;
+  height: 60px;
+}
+
+.demonlord .result .boxvs .vs {
+  position: relative;
+  top: 23px;
+  left: 8px;
+  width: 20px;
+  height: 20px;
+}
+
+.demonlord .roll20,
+.demonlord .description {
+  display: block;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.demonlord .roll20 .header,
+.demonlord .description .header {
+  font-weight: bold;
+}
+
+.demonlord .window-content {
+  background: #e3e3e3 url("backgroundN2.png") no-repeat;
+}
+
+.demonlord .item-form {
+  font-family: "Roboto", sans-serif;
+}
+
+.demonlord .sheet-header {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 260px;
+  flex: 0 0 260px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  margin-bottom: -10px;
+}
+
+.demonlord .sheet-header .profile-img {
+  float: left;
+  height: 115px;
+  width: 90px;
+  margin: 0px 10px 10px 0px;
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.demonlord .sheet-header .weapon-img {
+  height: 55px;
+  width: 50px;
+  margin-right: 10px;
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.demonlord .sheet-header .header-fields {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.demonlord .sheet-header .charname {
+  position: relative;
+  float: left;
+  font-family: "Shadows Into Light", sans-serif;
+  font-size: 20px;
+  height: 40px;
+  width: 270px;
+  padding: 0px;
+  margin: 0;
+  border-bottom: 0;
+}
+
+.demonlord .sheet-header .charname input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.demonlord .sheet-header .charancestry {
+  position: relative;
+  float: left;
+  font-family: "Shadows Into Light", sans-serif;
+  font-size: 20px;
+  height: 40px;
+  width: 120px;
+  padding: 0px;
+  margin-left: 10px;
+  border-bottom: 0;
+}
+
+.demonlord .sheet-header .charancestry input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.demonlord .sheet-header .charsex {
+  position: relative;
+  float: left;
+  font-family: "Shadows Into Light", sans-serif;
+  font-size: 20px;
+  height: 40px;
+  width: 70px;
+  padding: 0px;
+  margin-left: 10px;
+  border-bottom: 0;
+}
+
+.demonlord .sheet-header .charsex input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.demonlord .sheet-header .topline {
+  height: 35px;
+}
+
+.demonlord .sheet-header .attributes {
+  height: 72px;
+}
+
+.demonlord .sheet-header .attributes .attributebox {
+  background: url(attbox.png) no-repeat;
+  width: 82px;
+}
+
+.demonlord .sheet-header .attributes .attributebox .attribute {
+  position: relative;
+  top: 11px;
+  left: 25px;
+  width: 25px;
+}
+
+.demonlord .sheet-header .attributes .attributebox .attribute input {
+  width: 25px;
+  height: 25px;
+  margin: 0;
+  padding: 2px;
+  border: 0;
+  font-size: 16px;
+  text-align: center;
+  background: #fff;
+}
+
+.demonlord .sheet-header .attributes .attributebox .attributemod {
+  position: relative;
+  left: 25px;
+  top: 0px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.demonlord .sheet-header .attributes .attributebox .attributetext {
+  position: relative;
+  left: 8px;
+  top: 12px;
+  font-size: 12px;
+  text-align: center;
+  width: 71px;
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox {
+  background: url("charbox.png") no-repeat;
+  width: 82px;
+  height: 68px;
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox .char {
+  position: relative;
+  top: 9px;
+  left: 9px;
+  width: 25px;
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox .char input {
+  width: 24px;
+  height: 21px;
+  margin: 0;
+  padding: 2px;
+  border: 0;
+  font-size: 13px;
+  text-align: center;
+  background: #fff;
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox .char input.checkbox {
+  display: none;
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox .char input.checkbox + label {
+  position: relative;
+  top: -8px;
+  left: -8px;
+  display: inline-block;
+  width: 35px;
+  height: 38px;
+  cursor: pointer;
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox .char input.checkbox:checked + label {
+  background-image: url("bloodstain.png");
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox .chartext {
+  position: relative;
+  left: 5px;
+  top: 19px;
+  width: 85px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox .chartextinjured {
+  position: relative;
+  left: 5px;
+  top: -1px;
+  width: 85px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.demonlord .sheet-tabs {
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
+}
+
+.demonlord .sheet-body,
+.demonlord .sheet-body .tab,
+.demonlord .sheet-body .tab .editor {
+  height: 100%;
+  padding: 2px;
+  font-size: 13px;
+  margin-top: -8px;
+}
+
+.demonlord .sheet-body .weaponalign,
+.demonlord .sheet-body .tab .weaponalign,
+.demonlord .sheet-body .tab .editor .weaponalign {
+  text-align: center;
+}
+
+.demonlord .sheet-body .descriptionblock,
+.demonlord .sheet-body .tab .descriptionblock,
+.demonlord .sheet-body .tab .editor .descriptionblock {
+  margin-top: 10px;
+}
+
+.demonlord .sheet-body .descriptionblock textarea,
+.demonlord .sheet-body .tab .descriptionblock textarea,
+.demonlord .sheet-body .tab .editor .descriptionblock textarea {
+  font-family: "Roboto", sans-serif;
+  border: 1px solid #7a7971;
+  background: rgba(0, 0, 0, 0.05);
+  resize: vertical;
+  height: 200px;
+}
+
+.demonlord .sheet-body .descriptionblock textarea:focus, .demonlord .sheet-body .descriptionblock textarea:active,
+.demonlord .sheet-body .tab .descriptionblock textarea:focus,
+.demonlord .sheet-body .tab .descriptionblock textarea:active,
+.demonlord .sheet-body .tab .editor .descriptionblock textarea:focus,
+.demonlord .sheet-body .tab .editor .descriptionblock textarea:active {
+  -webkit-box-shadow: 0 0 5px red;
+  box-shadow: 0 0 5px red;
+  border: 1px solid #7a7971;
+  outline: 0;
+}
+
+.demonlord .tox .tox-editor-container {
+  background: #fff;
+}
+
+.demonlord .tox .tox-edit-area {
+  padding: 0 8px;
+}
+
+.demonlord .wealth {
+  margin-top: -5px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.demonlord .wealth .header {
+  width: 100%;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+  font-weight: bold;
+}
+
+.demonlord .wealth .header .edit {
+  float: right;
+  width: 15px;
+}
+
+.demonlord .wealth .body {
+  margin-top: 5px;
+}
+
+.demonlord .wealth .body .lifestyle {
+  height: 15px;
+}
+
+.demonlord .wealth .body .lifestyle .lifestyletitle {
+  float: left;
+  height: 20px;
+  width: 50px;
+}
+
+.demonlord .wealth .body .lifestyle input {
+  width: 100px;
+  height: 15px;
+}
+
+.demonlord .wealth .body .coins {
+  height: 15px;
+  margin-bottom: 10px;
+}
+
+.demonlord .wealth .body .coins .cointitle {
+  float: left;
+  height: 20px;
+  width: 25px;
+}
+
+.demonlord .wealth .body .coins input {
+  float: left;
+  height: 15px;
+  width: 35px;
+}
+
+.demonlord .paths {
+  margin-top: -5px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.demonlord .paths .header {
+  width: 100%;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+  font-weight: bold;
+}
+
+.demonlord .paths .header .edit {
+  float: right;
+  width: 15px;
+}
+
+.demonlord .paths .body {
+  margin-top: 5px;
+}
+
+.demonlord .paths .body .path {
+  height: 10px;
+  margin-bottom: 10px;
+}
+
+.demonlord .paths .body .path .pathtitle {
+  float: left;
+  height: 20px;
+  width: 45px;
+}
+
+.demonlord .paths .body .path input {
+  float: left;
+  width: 200px;
+  height: 15px;
+}
+
+.demonlord .itemheader {
+  margin-top: 8px;
+  font-size: 11px;
+  height: 17px;
+  font-weight: bold;
+  padding: 0;
+  border-bottom: 1px solid #BBB;
+}
+
+.demonlord .itemheader .itemnameheader {
+  float: left;
+}
+
+.demonlord .itemheader .item-controls {
+  float: right;
+  width: 10px;
+}
+
+.demonlord .resource {
+  margin-bottom: 7px;
+}
+
+.demonlord .resource .resource-label {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.demonlord .resource textarea {
+  font-family: "Roboto", sans-serif;
+  border: 1px solid #7a7971;
+  background: rgba(0, 0, 0, 0.05);
+  resize: vertical;
+}
+
+.demonlord .resource textarea:focus, .demonlord .resource textarea:active {
+  -webkit-box-shadow: 0 0 5px red;
+  box-shadow: 0 0 5px red;
+  border: 1px solid #7a7971;
+  outline: 0;
+}
+
+.demonlord .tabs {
+  background: url("tabbar.png") no-repeat;
+  height: 100px;
+  /*
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    background: rgba(0, 0, 0, 0.1);
+    */
+  color: #bbb;
+}
+
+.demonlord .tabs .item {
+  line-height: 94px;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  padding-top: 4px;
+}
+
+.demonlord .tabs .item.active {
+  text-decoration: underline;
+  text-shadow: none;
+}
+
+.demonlord .features {
+  margin-top: -10px;
+}
+
+.demonlord .items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.demonlord .items-list .item-header {
+  height: 20px;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.demonlord .items-list .item-header .weaponnameheader {
+  float: left;
+  width: 210px;
+}
+
+.demonlord .items-list .item-header .damageheader {
+  float: left;
+  width: 45px;
+  margin-right: 10px;
+}
+
+.demonlord .items-list .item-header .bonesbanesheader {
+  float: left;
+  width: 30px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.demonlord .items-list .item-header .spelltypeheader {
+  float: left;
+  width: 50px;
+}
+
+.demonlord .items-list .item-header .spellcastingsheader {
+  float: left;
+  width: 100px;
+}
+
+.demonlord .items-list .item-header .propertiesheader {
+  float: left;
+  width: 230px;
+}
+
+.demonlord .items-list .item-header .defenseheader {
+  float: left;
+  width: 100px;
+  margin-right: 10px;
+}
+
+.demonlord .items-list .item-header .spellnameheader {
+  float: left;
+  width: 240px;
+}
+
+.demonlord .items-list .item-header .spellname {
+  float: left;
+  width: 230px;
+}
+
+.demonlord .items-list .item {
+  height: 33px;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+  font-size: 11px;
+}
+
+.demonlord .items-list .item .item-image {
+  float: left;
+  margin-right: 5px;
+  width: 26px;
+}
+
+.demonlord .items-list .item img {
+  display: block;
+}
+
+.demonlord .items-list .item .weaponname {
+  float: left;
+  width: 170px;
+  margin-right: 10px;
+}
+
+.demonlord .items-list .item .talentname {
+  float: left;
+  width: 201px;
+  margin-right: 10px;
+}
+
+.demonlord .items-list .item .damage {
+  float: left;
+  width: 45px;
+  margin-right: 10px;
+}
+
+.demonlord .items-list .item .defense {
+  float: left;
+  width: 100px;
+  margin-right: 10px;
+}
+
+.demonlord .items-list .item .bonesbanes {
+  float: left;
+  width: 30px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.demonlord .items-list .item .properties {
+  float: left;
+  width: 230px;
+}
+
+.demonlord .items-list .item .tradition .traditiontitle {
+  float: left;
+}
+
+.demonlord .items-list .item .tradition .traditionname {
+  float: left;
+  margin-left: 5px;
+  width: 200px;
+}
+
+.demonlord .items-list .item .tradition .traditionname input {
+  width: 180px;
+}
+
+.demonlord .items-list .item .tradition .traditionname .tradition-edit {
+  float: left;
+  width: 200px;
+  font-weight: bold;
+}
+
+.demonlord .items-list .item .tradition .traditionname .tradition-focus {
+  float: left;
+  width: 200px;
+}
+
+.demonlord .items-list .item .itemname {
+  float: left;
+  width: 210px;
+  margin-right: 10px;
+}
+
+.demonlord .items-list .feature {
+  font-size: 11px;
+  margin-top: 10px;
+}
+
+.demonlord .items-list .feature .featurename {
+  height: 14px;
+  font-weight: bold;
+}
+
+.demonlord .items-list .feature .featurediscription {
+  width: 100%;
+  height: auto;
+}
+
+.demonlord .items-list .feature .item-controls {
+  float: right;
+}
+
+.demonlord .items-list .spell .spellname {
+  float: left;
+  width: 200px;
+  margin-right: 10px;
+}
+
+.demonlord .items-list .spell .spelltype {
+  float: left;
+  width: 50px;
+}
+
+.demonlord .items-list .spell .spellcastings {
+  float: left;
+  width: 100px;
+}
+
+.demonlord .items-list .item-align {
+  line-height: 25px;
+}
+
+.demonlord .items-list .item-name {
+  margin: 0;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.demonlord .items-list .item-name input {
+  width: 200px;
+}
+
+.demonlord .items-list .item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 40px;
+  flex: 0 0 40px;
+  text-align: right;
+  font-size: 12px;
+  height: 20px;
+}
+
+.demonlord .items-list .talent {
+  height: 60px;
+}
+
+.demonlord .items-list .talent .talentname {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 220px;
+  flex: 0 0 220px;
+  height: 20px;
+}
+
+.demonlord .items-list .talent .talentuses {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 25px;
+  flex: 0 0 25px;
+  height: 20px;
+}
+
+.demonlord .items-list .talent .talentmod {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 140px;
+  flex: 0 0 140px;
+  height: 20px;
+}

@@ -1,0 +1,14 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+        </div>
+    </header>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        <div class="descriptionblock">
+            <textarea name="data.description">{{data.description}}</textarea>
+        </div>
+    </section>
+</form>

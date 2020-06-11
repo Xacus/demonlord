@@ -1,0 +1,21 @@
+.window-app {
+    font-family: $font-primary;
+}
+
+.rollable,
+.attribute-roll,
+.attack-roll,
+.talent-roll,
+.magic-roll,
+.ammo-amount,
+.talent-uses,
+.spell-uses,
+.tradition-edit {
+
+    &:hover,
+    &:focus {
+        color: #000;
+        text-shadow: 0 0 10px #fa200b;
+        cursor: pointer;
+    }
+}

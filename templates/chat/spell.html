@@ -1,0 +1,119 @@
+<div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}} {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <header class="card-header">
+        <div class="spell-img"></div>
+        <div class="header">{{localize "DL.SpellRollText"}}</div>
+        <div class="headertext">{{item.name}}</div>
+    </header>
+
+    <div class="result">
+        {{#if data.attack.value}}
+            <div class="box">
+                <div class="valuetext">{{data.attack.value}}</div>
+                <div class="boxborder tooltip">
+                    <div class="value">{{data.diceTotal.value}}</div>
+                    <span class="tooltiptext">{{data.diceResult.value}}</span>
+                </div>
+            </div>
+        {{else}}
+            <div class="box {{data.resultText.value}}">
+                <div class="valuetext">{{data.attribute.value}}</div>
+                <div class="boxborder tooltip">
+                    <div class="value">{{data.diceTotal.value}}</div>
+                    <span class="tooltiptext">{{data.diceResult.value}}</span>
+                </div>
+            </div>
+        {{/if}}
+        <div class="boxvs">
+            <div class="vs">{{localize "DL.ChallengeVS"}}</div>
+        </div>
+        {{#if data.against.value}}
+            <div class="box">
+                <div class="valuetext">{{data.against.value}}</div>
+                <div class="boxborderTarget">
+                    <div class="value">X</div>
+                </div>
+            </div>
+        {{else}}
+            <div class="box {{data.resultText.value}}">
+                <div class="valuetext">{{localize "DL.TalentRollTarget"}}</div>
+                <div class="boxborderTarget">
+                    <div class="value">10</div>
+                </div>
+            </div>
+        {{/if}}
+        {{#if data.damage.value}}
+            <div class="box">
+                <div class="valuetext">{{localize "DL.AttackRollDamageText"}}</div>
+                <div class="boxborderTarget">
+                    <div class="value">{{data.damage.value}}</div>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+    {{#if data.description.value}}
+        <div class="description">
+            <div class="header">{{localize "DL.SpellRollDescription"}}</div>
+            <div class="body">{{data.description.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.plus20.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollPlus20"}}</div>
+            <div class="body">{{data.plus20text.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.spelltarget.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollTarget"}}</div>
+            <div class="body">{{data.spelltarget.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.spellarea.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollArea"}}</div>
+            <div class="body">{{data.spellarea.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.spellduration.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollDuration"}}</div>
+            <div class="body">{{data.spellduration.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.spellrequirements.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollRequirements"}}</div>
+            <div class="body">{{data.spellrequirements.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.spellsacrifice.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollSacrifice"}}</div>
+            <div class="body">{{data.spellsacrifice.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.spellpermanence.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollPermanence"}}</div>
+            <div class="body">{{data.spellpermanence.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.spellspecial.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollSpecial"}}</div>
+            <div class="body">{{data.spellspecial.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.spelltriggered.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollTriggered"}}</div>
+            <div class="body">{{data.spelltriggered.value}}</div>
+        </div>
+    {{/if}}
+    {{#if data.spellcastings.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollSpellcastings"}}</div>
+            <div class="body">{{data.spellcastings.value}}</div>
+        </div>
+    {{/if}}
+</div>

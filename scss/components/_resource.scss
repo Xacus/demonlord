@@ -1,0 +1,22 @@
+.resource {
+    margin-bottom: 7px;
+
+    .resource-label {
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    textarea {
+        font-family: $font-primary;
+        border: 1px solid #7a7971;
+        background: rgba(0, 0, 0, 0.05);
+        resize: vertical;
+
+        &:focus,
+        &:active {
+            box-shadow: 0 0 5px red;
+            border: 1px solid #7a7971;
+            outline: 0;
+        }
+    }
+}

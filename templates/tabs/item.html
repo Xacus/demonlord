@@ -1,0 +1,18 @@
+<div class="itemheader">
+    <div class="itemnameheader">{{localize "DL.TabsItems"}}</div>
+    <div class="item-controls">
+        <a class="item-control item-create" title="{{localize 'DL.ItemAddItem'}}" data-type="item"><i class="fas fa-plus"></i></a>
+    </div>
+</div>
+<ol class="items-list grid grid-2col">
+    {{#each actor.gear as |item id|}}
+        <li class="item item-align" data-item-id="{{item._id}}">
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="26" height="26" /></div>
+            <div class="itemname">{{item.data.quantity}} x {{item.name}}</div>
+            <div class="item-controls">
+                <a class="item-control item-edit" title="{{localize 'DL.ItemEditItem'}}"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="{{localize 'DL.ItemDeleteItem'}}"><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+    {{/each}}
+</ol>

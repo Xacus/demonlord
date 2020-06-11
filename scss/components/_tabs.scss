@@ -1,0 +1,24 @@
+.tabs {
+    background: url("tabbar.png") no-repeat;
+    height: 100px;
+
+    /*
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    background: rgba(0, 0, 0, 0.1);
+    */
+    color: #bbb;
+
+    .item {
+        line-height: 94px;
+        font-weight: bold;
+        font-size: 12px;
+        text-transform: uppercase;
+        padding-top: 4px;
+    }
+
+    .item.active {
+        text-decoration: underline;
+        text-shadow: none;
+    }
+}

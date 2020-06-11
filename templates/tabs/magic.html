@@ -1,0 +1,45 @@
+<ol class="items-list">
+    <li class="item-header">
+        <div class="spellnameheader">{{localize "DL.MagicTitle"}}</div>
+        <div class="spellname"></div>
+        <div class="spelltypeheader">{{localize "DL.SpelltypeHeader"}}</div>
+        <div class="bonesbanesheader">{{localize "DL.WeaponBoonsBanesShort"}}</div>
+        <div class="spellcastingsheader">{{localize "DL.TalentUsesTitle"}}</div>
+        <div class="item-controls">
+            <a class="item-control tradition-create" title="{{localize 'DL.MagicAddTradition'}}" data-type="spell"><i class="fas fa-plus"></i></a>
+        </div>
+    </li>
+    {{#each actor.spells as |spell id|}}
+        {{#if data.traditionid}}
+            <li class="item item-align spell dropitem" data-item-id="{{spell._id}}">
+                <div class="item-image">
+                    <img src="{{spell.img}}" title="{{spell.name}}" width="26" height="26" />
+                </div>
+                <div class="spellname magic-roll">{{spell.name}}</div>
+                <div class="spelltype">{{data.spelltype}} {{data.rank}}</div>
+                <div class="bonesbanes">{{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}</div>
+                <div class="spellcastings spell-uses">{{data.castings.value}} / {{data.castings.max}}</div>
+                <div class="item-controls">
+                    <a class="item-control spell-edit" title="{{localize 'DL.MagicEditSpell'}}"><i class="fas fa-edit"></i></a>
+                    <a class="item-control spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i class="fas fa-trash"></i></a>
+                </div>
+            </li>
+        {{else}}
+            <li class="item item-align" data-item-id="{{spell._id}}">
+                <div class="tradition">
+                    <div class="traditionname">
+                        {{#if data.spell.edit}}
+                            <input class="tradition-focus" type="text" name="spell.name" value="{{spell.name}}" />
+                        {{else}}
+                            <label class="tradition-edit" for="spell.name">{{spell.name}}</label>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="item-controls">
+                    <a class="item-control spell-create" title="{{localize 'DL.MagicAddSpell'}}" data-type="spell"><i class="fas fa-plus"></i></a>
+                    <a class="item-control tradition-delete" title="{{localize 'DL.MagicDeleteTradition'}}"><i class="fas fa-trash"></i></a>
+                </div>
+            </li>
+        {{/if}}
+    {{/each}}
+</ol>

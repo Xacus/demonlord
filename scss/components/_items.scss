@@ -1,0 +1,233 @@
+.features {
+    margin-top: -10px;
+}
+
+.items-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    margin-top: 5px;
+    margin-bottom: 15px;
+
+    .item-header {
+        height: 20px;
+        padding: 3px 0;
+        border-bottom: 1px solid #BBB;
+        font-size: 11px;
+        font-weight: bold;
+
+        .weaponnameheader {
+            float: left;
+            width: 210px;
+        }
+
+        .damageheader {
+            float: left;
+            width: 45px;
+            margin-right: 10px;
+        }
+
+        .bonesbanesheader {
+            float: left;
+            width: 30px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .spelltypeheader {
+            float: left;
+            width: 50px;
+        }
+
+        .spellcastingsheader {
+            float: left;
+            width: 100px;
+        }
+
+        .propertiesheader {
+            float: left;
+            width: 230px;
+        }
+
+        .defenseheader {
+            float: left;
+            width: 100px;
+            margin-right: 10px;
+        }
+
+        .spellnameheader {
+            float: left;
+            width: 240px;
+        }
+
+        .spellname {
+            float: left;
+            width: 230px;
+        }
+    }
+
+    .item {
+        height: 33px;
+        padding: 3px 0;
+        border-bottom: 1px solid #BBB;
+        font-size: 11px;
+
+        .item-image {
+            float: left;
+            margin-right: 5px;
+            width: 26px;
+        }
+
+        img {
+            display: block;
+        }
+
+        .weaponname {
+            float: left;
+            width: 170px;
+            margin-right: 10px;
+        }
+
+        .talentname {
+            float: left;
+            width: 201px;
+            margin-right: 10px;
+        }
+
+        .damage {
+            float: left;
+            width: 45px;
+            margin-right: 10px;
+        }
+
+        .defense {
+            float: left;
+            width: 100px;
+            margin-right: 10px;
+        }
+
+        .bonesbanes {
+            float: left;
+            width: 30px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .properties {
+            float: left;
+            width: 230px;
+        }
+
+        .tradition {
+            .traditiontitle {
+                float: left;
+            }
+
+            .traditionname {
+                float: left;
+                margin-left: 5px;
+                width: 200px;
+
+                input {
+                    width: 180px;
+                }
+
+                .tradition-edit {
+                    float: left;
+                    width: 200px;
+                    font-weight: bold;
+                }
+
+                .tradition-focus {
+                    float: left;
+                    width: 200px;
+                }
+            }
+        }
+
+        .itemname {
+            float: left;
+            width: 210px;
+            margin-right: 10px;
+        }
+    }
+
+    .feature {
+        font-size: 11px;
+        margin-top: 10px;
+
+        .featurename {
+            height: 14px;
+            font-weight: bold;
+        }
+
+        .featurediscription {
+            width: 100%;
+            height: auto;
+        }
+
+        .item-controls {
+            float: right;
+        }
+    }
+
+    .spell {
+        .spellname {
+            float: left;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .spelltype {
+            float: left;
+            width: 50px;
+        }
+
+        .spellcastings {
+            float: left;
+            width: 100px;
+        }
+    }
+
+    .item-align {
+        line-height: 25px;
+    }
+
+    .item-name {
+        margin: 0;
+        font-size: 12px;
+        font-weight: bold;
+
+        input {
+            width: 200px;
+        }
+    }
+
+    .item-controls {
+        flex: 0 0 40px;
+        text-align: right;
+        font-size: 12px;
+        height: 20px;
+    }
+
+    .talent {
+        height: 60px;
+
+        .talentname {
+            flex: 0 0 220px;
+            height: 20px;
+        }
+
+        .talentuses {
+            flex: 0 0 25px;
+            height: 20px;
+        }
+
+        .talentmod {
+            flex: 0 0 140px;
+            height: 20px;
+        }
+
+    }
+}
