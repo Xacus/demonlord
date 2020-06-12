@@ -163,6 +163,13 @@
     "DL.FeatureEdit": "Edit feature",
     "DL.FeatureDelete": "Delete feature",
 
+    "DL.ProfessionsTitle": "Professions",
+    "DL.ProfessionsEdit": "Edit professions",
+    "DL.ReligionTitle": "Religion",
+    "DL.ReligionEdit": "Edit religion",
+    "DL.LanguagesTitle": "Languages",
+    "DL.LanguagesEdit": "Edit languages",
+
     "DL.DialogChallengeRoll": "Challenge Roll: ",
     "DL.DialogAttackRoll": "Attack Roll: ",
     "DL.DialogTalentRoll": "Talent Roll: ",

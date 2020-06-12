@@ -102,6 +102,51 @@
                 </div>
             </div>
         </div>
+        <div class="religion">
+            <div class="header">
+                {{localize "DL.ReligionTitle"}}
+                <div class="edit">
+                    <a class="religion-edit" title="{{localize 'DL.ReligionEdit'}}"><i class="fas fa-edit"></i></a>
+                </div>
+            </div>
+            <div class="body">
+                {{#if data.religion.edit}}
+                    <input type="text" name="data.religion.value" value="{{data.religion.value}}" />
+                {{else}}
+                    <label class="resource-label" for="data.religion.value">{{data.religion.value}}</label>
+                {{/if}}
+            </div>
+        </div>
+        <div class="professions">
+            <div class="header">
+                {{localize "DL.ProfessionsTitle"}}
+                <div class="edit">
+                    <a class="profession-edit" title="{{localize 'DL.ProfessionsEdit'}}"><i class="fas fa-edit"></i></a>
+                </div>
+            </div>
+            <div class="body">
+                {{#if data.professions.edit}}
+                    <textarea name="data.professions.value">{{data.professions.value}}</textarea>
+                {{else}}
+                    <label class="resource-label" for="data.professions.value">{{data.professions.value}}</label>
+                {{/if}}
+            </div>
+        </div>
+        <div class="languages">
+            <div class="header">
+                {{localize "DL.LanguagesTitle"}}
+                <div class="edit">
+                    <a class="languages-edit" title="{{localize 'DL.LanguagesEdit'}}"><i class="fas fa-edit"></i></a>
+                </div>
+            </div>
+            <div class="body">
+                {{#if data.languages.edit}}
+                    <textarea name="data.languages.value">{{data.languages.value}}</textarea>
+                {{else}}
+                    <label class="resource-label" for="data.languages.value">{{data.languages.value}}</label>
+                {{/if}}
+            </div>
+        </div>
     </div>
     <div class="features">
         <ol class="items-list">

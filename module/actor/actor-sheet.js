@@ -278,6 +278,64 @@ export class DemonlordActorSheet extends ActorSheet {
             });
         });
 
+        // Profession
+        html.find('.profession-edit').click(ev => {
+            const actor = this.actor;
+
+            let showEdit = actor.data.data.professions.edit;
+            if (showEdit) {
+                actor.data.data.professions.edit = false;
+            } else {
+                actor.data.data.professions.edit = true;
+            }
+
+            let that = this;
+            actor.update({
+                "data.professions.edit": actor.data.data.professions.edit
+            }).then(item => {
+                that.render();
+            });
+        });
+
+
+        // Religion
+        html.find('.religion-edit').click(ev => {
+            const actor = this.actor;
+
+            let showEdit = actor.data.data.religion.edit;
+            if (showEdit) {
+                actor.data.data.religion.edit = false;
+            } else {
+                actor.data.data.religion.edit = true;
+            }
+
+            let that = this;
+            actor.update({
+                "data.religion.edit": actor.data.data.religion.edit
+            }).then(item => {
+                that.render();
+            });
+        });
+
+        // Languages
+        html.find('.languages-edit').click(ev => {
+            const actor = this.actor;
+
+            let showEdit = actor.data.data.languages.edit;
+            if (showEdit) {
+                actor.data.data.languages.edit = false;
+            } else {
+                actor.data.data.languages.edit = true;
+            }
+
+            let that = this;
+            actor.update({
+                "data.languages.edit": actor.data.data.languages.edit
+            }).then(item => {
+                that.render();
+            });
+        });
+
         // Add Spell Item
         html.find('.spell-create').click(this._onSpellCreate.bind(this));
 

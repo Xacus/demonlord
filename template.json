@@ -77,8 +77,14 @@
             "templates": ["base"],
             "level": 0,
             "ancestry": "",
-            "religion": "",
-            "languages": "",
+            "religion": {
+                "edit": false,
+                "value": ""
+            },
+            "languages": {
+                "edit": false,
+                "value": ""
+            },
             "wealth": {
                 "edit": false,
                 "lifestyle": "",
@@ -88,7 +94,10 @@
                 "ss": 0,
                 "gc": 0
             },
-            "professions": "",
+            "professions": {
+                "edit": false,
+                "value": ""
+            },
             "paths": {
                 "edit": false,
                 "novice": "",

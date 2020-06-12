@@ -621,6 +621,7 @@
   margin-top: -5px;
   font-size: 11px;
   font-weight: bold;
+  margin-bottom: 25px;
 }
 
 .demonlord .paths .header {
@@ -654,6 +655,93 @@
   float: left;
   width: 200px;
   height: 15px;
+}
+
+.demonlord .professions,
+.demonlord .religion,
+.demonlord .languages {
+  margin-top: -5px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 35px;
+}
+
+.demonlord .professions .header,
+.demonlord .religion .header,
+.demonlord .languages .header {
+  width: 100%;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+  font-weight: bold;
+}
+
+.demonlord .professions .header .edit,
+.demonlord .religion .header .edit,
+.demonlord .languages .header .edit {
+  float: right;
+  width: 15px;
+}
+
+.demonlord .professions .body,
+.demonlord .religion .body,
+.demonlord .languages .body {
+  margin-top: 5px;
+}
+
+.demonlord .professions .body textarea,
+.demonlord .religion .body textarea,
+.demonlord .languages .body textarea {
+  float: left;
+  width: 100%;
+  height: 100px;
+  resize: none;
+}
+
+.demonlord .professions .body textarea:focus, .demonlord .professions .body textarea:active,
+.demonlord .religion .body textarea:focus,
+.demonlord .religion .body textarea:active,
+.demonlord .languages .body textarea:focus,
+.demonlord .languages .body textarea:active {
+  -webkit-box-shadow: 0 0 5px red;
+  box-shadow: 0 0 5px red;
+  border: 1px solid #7a7971;
+  outline: 0;
+}
+
+.demonlord .professions .body input,
+.demonlord .religion .body input,
+.demonlord .languages .body input {
+  float: left;
+  width: 200px;
+  height: 15px;
+}
+
+.demonlord .religion {
+  margin-bottom: 25px;
+}
+
+.demonlord .religion .body {
+  height: 15px;
+}
+
+.demonlord .professions {
+  height: 110px;
+}
+
+.demonlord .professions .body {
+  height: 100px;
+}
+
+.demonlord .languages {
+  height: 80px;
+}
+
+.demonlord .languages .body {
+  height: 70px;
+}
+
+.demonlord .languages .body textarea {
+  height: 70px;
 }
 
 .demonlord .itemheader {
