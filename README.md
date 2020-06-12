@@ -1,4 +1,4 @@
-# Demonlord System
+# Shadow of the Demonlord System
 
 This is Shadow of the Demonlord for FoundryVTT.
 
