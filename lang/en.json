@@ -6,7 +6,7 @@
     "DL.AttributeModifier": "Modifier",
     "DL.CharHealth": "Health",
     "DL.CharHealthDamage": "Damage",
-    "DL.CharHealthHealingRating": "Healing Rating",
+    "DL.CharHealthHealingRating": "Healing Rate",
     "DL.CharHealthInjured": "Injured",
     "DL.CharDefense": "Defense",
     "DL.CharPerception": "Perception",

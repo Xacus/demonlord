@@ -434,25 +434,29 @@ export class DemonlordActorSheet extends ActorSheet {
             const li = event.currentTarget.closest(".item");
             const item = this.actor.getOwnedItem(li.dataset.itemId);
 
-            let d = new Dialog({
-                title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
-                content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-                buttons: {
-                    roll: {
-                        icon: '<i class="fas fa-check"></i>',
-                        label: game.i18n.localize('DL.DialogRoll'),
-                        callback: (html) => this.rollSpell(item, html.children()[1].value)
+            if (item.data.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
+                let d = new Dialog({
+                    title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
+                    content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                    buttons: {
+                        roll: {
+                            icon: '<i class="fas fa-check"></i>',
+                            label: game.i18n.localize('DL.DialogRoll'),
+                            callback: (html) => this.rollSpell(item, html.children()[1].value)
+                        },
+                        cancel: {
+                            icon: '<i class="fas fa-times"></i>',
+                            label: game.i18n.localize('DL.DialogCancel'),
+                            callback: () => {}
+                        }
                     },
-                    cancel: {
-                        icon: '<i class="fas fa-times"></i>',
-                        label: game.i18n.localize('DL.DialogCancel'),
-                        callback: () => {}
-                    }
-                },
-                default: "roll",
-                close: () => {}
-            });
-            d.render(true);
+                    default: "roll",
+                    close: () => {}
+                });
+                d.render(true);
+            } else {
+                this.rollSpell(item, 0)
+            }
         });
 
         html.find('.rest-char').click(ev => {
