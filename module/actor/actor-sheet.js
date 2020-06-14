@@ -743,6 +743,9 @@ export class DemonlordActorSheet extends ActorSheet {
         let attackRoll = new Roll(diceformular, {});
         attackRoll.roll();
 
+        // Roll Against Target
+        const targetNumber = this.getTargetNumber(weapon);
+
         //Plus20 roll
         let plus20 = (attackRoll._total >= 20 ? true : false);
 
@@ -763,11 +766,17 @@ export class DemonlordActorSheet extends ActorSheet {
                 diceResult: {
                     value: attackRoll.result.toString()
                 },
+                resultText: {
+                    value: (attackRoll._total >= targetNumber ? "SUCCESS" : "FAILURE")
+                },
                 attack: {
                     value: attackAttribute.toUpperCase()
                 },
                 against: {
                     value: weapon.data.data.action.against.toUpperCase()
+                },
+                againstNumber: {
+                    value: targetNumber
                 },
                 damage: {
                     value: damageRoll._total
@@ -780,6 +789,9 @@ export class DemonlordActorSheet extends ActorSheet {
                 },
                 description: {
                     value: weapon.data.data.description
+                },
+                tagetname: {
+                    value: this.getTargetName()
                 }
             }
         };
@@ -822,6 +834,9 @@ export class DemonlordActorSheet extends ActorSheet {
         let attackRoll = new Roll(diceformular, {});
         attackRoll.roll();
 
+        // Roll Against Target
+        const targetNumber = this.getTargetNumber(talent);
+
         //Plus20 roll
         let plus20 = (attackRoll._total >= 20 ? true : false);
 
@@ -845,11 +860,17 @@ export class DemonlordActorSheet extends ActorSheet {
                 diceResult: {
                     value: attackRoll.result.toString()
                 },
+                resultText: {
+                    value: (attackRoll._total >= targetNumber ? "SUCCESS" : "FAILURE")
+                },
                 attack: {
                     value: attackAttribute.toUpperCase()
                 },
                 against: {
                     value: talent.data.data.action.against.toUpperCase()
+                },
+                againstNumber: {
+                    value: targetNumber
                 },
                 damage: {
                     value: damageRoll._total
@@ -862,6 +883,9 @@ export class DemonlordActorSheet extends ActorSheet {
                 },
                 description: {
                     value: talent.data.data.description
+                },
+                tagetname: {
+                    value: this.getTargetName()
                 }
             }
         };
@@ -902,6 +926,9 @@ export class DemonlordActorSheet extends ActorSheet {
         let attackRoll = new Roll(diceformular, {});
         attackRoll.roll();
 
+        // Roll Against Target
+        const targetNumber = this.getTargetNumber(spell);
+
         //Plus20 roll
         let plus20 = (attackRoll._total >= 20 ? true : false);
 
@@ -923,13 +950,16 @@ export class DemonlordActorSheet extends ActorSheet {
                     value: attackRoll.result.toString()
                 },
                 resultText: {
-                    value: (attackRoll._total >= 10 ? "SUCCESS" : "FAILURE")
+                    value: (attackRoll._total >= targetNumber ? "SUCCESS" : "FAILURE")
                 },
                 attack: {
                     value: attackAttribute.toUpperCase()
                 },
                 against: {
                     value: spell.data.data.action.against.toUpperCase()
+                },
+                againstNumber: {
+                    value: targetNumber
                 },
                 damage: {
                     value: damageRoll._total
@@ -972,6 +1002,9 @@ export class DemonlordActorSheet extends ActorSheet {
                 },
                 spelltriggered: {
                     value: spell.data.data.triggered
+                },
+                tagetname: {
+                    value: this.getTargetName()
                 }
             }
         };
@@ -1008,5 +1041,32 @@ export class DemonlordActorSheet extends ActorSheet {
             close: () => {}
         });
         d.render(true);
+    }
+
+    getTargetNumber(weapon) {
+        let tagetNumber;
+
+        game.user.targets.forEach(async target => {
+            const targetActor = target.actor;
+            let againstSelectedAttribute = weapon.data.data.action.against.toLowerCase();
+
+            if (againstSelectedAttribute == "defense") {
+                tagetNumber = targetActor.data.data.characteristics.defense;
+            } else {
+                tagetNumber = targetActor.data.data.attributes[againstSelectedAttribute].value;
+            }
+        });
+
+        return tagetNumber;
+    }
+
+    getTargetName() {
+        let tagetName;
+
+        game.user.targets.forEach(async target => {
+            tagetName = target.name;
+        });
+
+        return tagetName;
     }
 }
