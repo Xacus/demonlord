@@ -139,6 +139,7 @@
     "DL.TalentRollText": "ROLL",
     "DL.TalentRollDescription": "Description",
     "DL.TalentRollTarget": "TARGET",
+    "DL.TargetRollText": "Target:",
 
     "DL.ItemAddItem": "Add item",
     "DL.ItemEditItem": "Edit item",
@@ -192,6 +193,7 @@
     "DL.CreatureDifficultyTitle": "DIFFICULTY",
     "DL.CreatureDifficulty": "Difficulty",
     "DL.CreatureSize": "Size",
+    "DL.CreatureDescriptor": "Descriptor",
     "DL.CreaturePerception": "Perception",
     "DL.CreatureStrength": "Strength",
     "DL.CreatureAgility": "Agility",
@@ -200,6 +202,8 @@
     "DL.CreatureDefense": "Defense",
     "DL.CreatureArmor": "Armor",
     "DL.CreatureHealth": "Health",
+    "DL.CreatureInsanity": "Insanity",
+    "DL.CreatureCorruption": "Corruption",
     "DL.CreatureSpeed": "Speed",
     "DL.CreatureSpeedTraits": "Speed traits",
     "DL.CreaturePerceptionSenses": "Senses",
@@ -229,6 +233,8 @@
     "DL.CreatureSpecialEndRound": "End of the Round",
     "DL.CreatureWeaponWith": "with",
     "DL.CreatureFrightening": "Frightening",
-    "DL.CreatureHorrifying": "Horrifying"
+    "DL.CreatureFrighteningDescription": "A creature that does not have the frightening or horrifying trait must make a Will challenge roll when it first sees one or more creatures with this trait. It makes the roll with 1 bane if it can see four or more frightening creatures at once. On a failure, the creature becomes frightened for a number of rounds equal to 1d3 + its Insanity total or gains 1 Insanity if it is already frightened. Once a creature makes this roll, whether it succeeds or fails, it cannot again be affected by this trait of the creature or creatures it saw until after it completes a rest.",
+    "DL.CreatureHorrifying": "Horrifying",
+    "DL.CreatureHorrifyingDescription": "A creature that does not have the horrifying trait must make a Will challenge roll when it first sees one or more creatures with this trait. It makes the roll with 1 bane if it can see four or more horrifying creatures at once. On a failure, the creature gains 1 Insanity, or 1d3 Insanity if it is already frightened. Once a creature makes this roll, whether it succeeds or fails, it cannot again be affected by this trait of the creature or creatures it saw until after it completes a rest. Regardless of the outcome of the challenge roll, creatures that lack the frightening or horrifying trait make attack rolls against horrifying creatures with 1 bane."
 
 }

@@ -49,14 +49,37 @@
 
         .size {
             float: left;
-            width: 180px;
+            width: 200px;
             padding-right: 5px;
 
             input {
-                width: 149px;
+                width: 70px;
                 height: 12px;
                 margin-top: 2px;
                 color: #fff;
+            }
+
+            ::placeholder {
+                color: #fff;
+                opacity: 0.5;
+            }
+        }
+
+        .descriptor {
+            float: left;
+            width: 130px;
+            padding-right: 5px;
+
+            input {
+                width: 120px;
+                height: 12px;
+                margin-top: 2px;
+                color: #fff;
+            }
+
+            ::placeholder {
+                color: #fff;
+                opacity: 0.5;
             }
         }
 
@@ -74,6 +97,24 @@
             label {
                 float: left;
                 padding-right: 5px;
+            }
+
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 260px;
+                background-color: rgba(0, 0, 0, 0.9);
+                color: #fff;
+                text-align: left;
+                border-radius: 3px;
+                padding: 5px;
+                top: 77px;
+                right: 20px;
+                position: absolute;
+                z-index: 1;
+            }
+
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
             }
         }
     }
@@ -131,9 +172,12 @@
 
                 .armor {
                     padding-right: 5px;
+                    width: auto;
                 }
 
-                .health {
+                .health,
+                .insanity,
+                .corruption {
                     float: left;
                     padding-left: 10px;
                 }

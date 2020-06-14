@@ -23,7 +23,12 @@
                 {{#if data.edit}}
                     <input name="data.characteristics.size" type="text" value="{{data.characteristics.size}}" placeholder="{{localize 'DL.CreatureSize'}}" />
                 {{else}}
-                    <label for="data.characteristics.size">{{data.characteristics.size}}</label>
+                    <label for="data.characteristics.size">{{data.characteristics.size}} {{data.descriptor}}</label>
+                {{/if}}
+            </div>
+            <div class="descriptor">
+                {{#if data.edit}}
+                    <input name="data.descriptor" type="text" value="{{data.descriptor}}" placeholder="{{localize 'DL.CreatureDescriptor'}}" />
                 {{/if}}
             </div>
             {{#if data.edit}}
@@ -38,10 +43,16 @@
             {{else}}
                 <div class="trait">
                     {{#if data.frightening}}
-                        <label for="data.frightening">{{localize "DL.CreatureFrightening"}}</label>
+                        <div class="tooltip">
+                            <label for="data.frightening">{{localize "DL.CreatureFrightening"}}</label>
+                            <span class="tooltiptext">{{localize "DL.CreatureFrighteningDescription"}}</span>
+                        </div>
                     {{/if}}
                     {{#if data.horrifying}}
-                        <label for="data.horrifying">{{localize "DL.CreatureHorrifying"}}</label>
+                        <div class="tooltip">
+                            <label for="data.horrifying">{{localize "DL.CreatureHorrifying"}}</label>
+                            <span class="tooltiptext">{{localize "DL.CreatureHorrifyingDescription"}}</span>
+                        </div>
                     {{/if}}
                 </div>
             {{/if}}
@@ -91,6 +102,22 @@
                             <input name="data.characteristics.health.max" type="text" value="{{data.characteristics.health.max}}" />
                         {{else}}
                             <label for="data.characteristics.health.max">{{data.characteristics.health.max}}</label>
+                        {{/if}}
+                    </div>
+                    <div class="insanity">
+                        <div class="stattitle">{{localize "DL.CreatureInsanity"}}</div>
+                        {{#if data.edit}}
+                            <input name="data.characteristics.insanity" type="text" value="{{data.characteristics.insanity}}" />
+                        {{else}}
+                            <label for="data.characteristics.insanity">{{data.characteristics.insanity}}</label>
+                        {{/if}}
+                    </div>
+                    <div class="corruption">
+                        <div class="stattitle">{{localize "DL.CreatureCorruption"}}</div>
+                        {{#if data.edit}}
+                            <input name="data.characteristics.corruption" type="text" value="{{data.characteristics.corruption}}" />
+                        {{else}}
+                            <label for="data.characteristics.corruption">{{data.characteristics.corruption}}</label>
                         {{/if}}
                     </div>
                 </div>

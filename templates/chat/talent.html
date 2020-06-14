@@ -1,15 +1,37 @@
 <div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}} {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
-    <header class="card-header">
-        <div class="talent-img"></div>
-        <div class="header">
-            {{#if data.against.value}}
-                {{localize "DL.AttackRollText"}}
-            {{else}}
-                {{localize "DL.TalentRollTitle"}}
-            {{/if}}</div>
-        <div class="headertext">{{item.name}}</div>
-    </header>
-
+    {{#if data.roll.value}}
+        <header class="card-header">
+            <div class="talent-img"></div>
+            <div class="attackbox">
+                <div class="header">
+                    {{#if data.against.value}}
+                        {{localize "DL.AttackRollText"}}
+                    {{else}}
+                        {{localize "DL.TalentRollTitle"}}
+                    {{/if}}
+                </div>
+                <div class="headertext">{{item.name}}</div>
+            </div>
+            <div class="targetbox">
+                <div class="header">{{localize "DL.TargetRollText"}}</div>
+                <div class="targetname">{{data.tagetname.value}}</div>
+            </div>
+        </header>
+    {{else}}
+        <header class="card-headersmall">
+            <div class="talent-img"></div>
+            <div class="attackbox">
+                <div class="header">
+                    {{#if data.against.value}}
+                        {{localize "DL.AttackRollText"}}
+                    {{else}}
+                        {{localize "DL.TalentRollTitle"}}
+                    {{/if}}
+                </div>
+                <div class="headertext">{{item.name}}</div>
+            </div>
+        </header>
+    {{/if}}
     {{#if data.roll.value}}
         <div class="result">
             <div class="box {{data.resultText.value}}">
@@ -29,10 +51,16 @@
                 <div class="boxvs">
                     <div class="vs">{{localize "DL.ChallengeVS"}}</div>
                 </div>
-                <div class="box">
+                <div class="box {{data.resultText.value}}">
                     <div class="valuetext">{{data.against.value}}</div>
                     <div class="boxborderTarget">
-                        <div class="value">X</div>
+                        <div class="value">
+                            {{#if data.againstNumber.value}}
+                                {{data.againstNumber.value}}
+                            {{else}}
+                                X
+                            {{/if}}
+                        </div>
                     </div>
                 </div>
                 {{#if data.damage.value}}

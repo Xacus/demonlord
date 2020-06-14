@@ -133,7 +133,7 @@
 
 /* Styles limited to demonlord sheets */
 .demonlord .card-header {
-  height: 30px;
+  height: 50px;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
   padding: 4px 5px;
@@ -145,6 +145,7 @@
   float: left;
   height: 22px;
   width: 22px;
+  margin-top: 8px;
   background: url("icons/crossed-swords2.png") no-repeat;
 }
 
@@ -159,6 +160,7 @@
   float: left;
   height: 22px;
   width: 22px;
+  margin-top: 8px;
   background: url("icons/barbed-sun2.png") no-repeat;
 }
 
@@ -166,6 +168,7 @@
   float: left;
   height: 22px;
   width: 22px;
+  margin-top: 8px;
   background: url("icons/magic-palm2.png") no-repeat;
 }
 
@@ -181,6 +184,12 @@
   padding-right: 5px;
 }
 
+.demonlord .card-header .targetname {
+  float: left;
+  padding-top: 2px;
+  padding-right: 5px;
+}
+
 .demonlord .card-header .FAILURE {
   float: left;
   color: red;
@@ -191,6 +200,51 @@
   float: left;
   color: green;
   font-weight: bold;
+}
+
+.demonlord .card-header .attackbox {
+  float: left;
+  width: 240px;
+}
+
+.demonlord .card-header .targetbox {
+  float: left;
+  width: 240px;
+}
+
+.demonlord .card-headersmall {
+  height: 30px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 4px 5px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.demonlord .card-headersmall .spell-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/magic-palm2.png") no-repeat;
+}
+
+.demonlord .card-headersmall .talent-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/barbed-sun2.png") no-repeat;
+}
+
+.demonlord .card-headersmall .header {
+  float: left;
+  font-weight: bold;
+  padding: 2px 5px 0px 5px;
+}
+
+.demonlord .card-headersmall .headertext {
+  float: left;
+  padding-top: 2px;
+  padding-right: 5px;
 }
 
 .demonlord .result {
@@ -342,15 +396,78 @@
 
 .demonlord .creature .subheader .size {
   float: left;
-  width: 180px;
+  width: 200px;
   padding-right: 5px;
 }
 
 .demonlord .creature .subheader .size input {
-  width: 149px;
+  width: 70px;
   height: 12px;
   margin-top: 2px;
   color: #fff;
+}
+
+.demonlord .creature .subheader .size ::-webkit-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .size ::-moz-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .size :-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .size ::-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .size ::placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor {
+  float: left;
+  width: 130px;
+  padding-right: 5px;
+}
+
+.demonlord .creature .subheader .descriptor input {
+  width: 120px;
+  height: 12px;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.demonlord .creature .subheader .descriptor ::-webkit-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor ::-moz-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor :-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor ::-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor ::placeholder {
+  color: #fff;
+  opacity: 0.5;
 }
 
 .demonlord .creature .subheader .trait {
@@ -368,6 +485,24 @@
 .demonlord .creature .subheader .trait label {
   float: left;
   padding-right: 5px;
+}
+
+.demonlord .creature .subheader .trait .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 260px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: left;
+  border-radius: 3px;
+  padding: 5px;
+  top: 77px;
+  right: 20px;
+  position: absolute;
+  z-index: 1;
+}
+
+.demonlord .creature .subheader .trait .tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 
 .demonlord .creature .left {
@@ -428,9 +563,12 @@
 
 .demonlord .creature .left .body .stat .armor {
   padding-right: 5px;
+  width: auto;
 }
 
-.demonlord .creature .left .body .stat .health {
+.demonlord .creature .left .body .stat .health,
+.demonlord .creature .left .body .stat .insanity,
+.demonlord .creature .left .body .stat .corruption {
   float: left;
   padding-left: 10px;
 }
