@@ -9,6 +9,9 @@ import {
     DemonlordActorSheet
 } from "./actor/actor-sheet.js";
 import {
+    DemonlordCreatureSheet
+} from "./actor/creature-sheet.js";
+import {
     DemonlordItem
 } from "./item/item.js";
 import {
@@ -31,8 +34,15 @@ Hooks.once('init', async function () {
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("demonlord", DemonlordActorSheet, {
+        types: ['character'],
         makeDefault: true
     });
+
+    Actors.registerSheet("demonlord", DemonlordCreatureSheet, {
+        types: ['creature'],
+        makeDefault: true
+    });
+
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("demonlord", DemonlordItemSheet, {
         makeDefault: true

@@ -12,8 +12,9 @@
 /* Styles limited to demonlord sheets */
 .demonlord {
     @import 'components/chat';
+    @import 'components/creature';
     @import 'components/forms';
+    @import 'components/items';
     @import 'components/resource';
     @import 'components/tabs';
-    @import 'components/items';
 }

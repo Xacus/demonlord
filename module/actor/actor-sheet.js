@@ -62,6 +62,7 @@ export class DemonlordActorSheet extends ActorSheet {
         for (let i of sheetData.items) {
             let item = i.data;
             i.img = i.img || DEFAULT_TOKEN;
+
             // Append to gear.
             if (i.type === 'item') {
                 gear.push(i);
@@ -139,6 +140,25 @@ export class DemonlordActorSheet extends ActorSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
 
+        // Edit Creature
+        html.find('.creature-edit').click(ev => {
+            const actor = this.actor;
+
+            let showEdit = actor.data.data.edit;
+            if (showEdit) {
+                actor.data.data.edit = false;
+            } else {
+                actor.data.data.edit = true;
+            }
+
+            let that = this;
+            actor.update({
+                "data.edit": actor.data.data.edit
+            }).then(item => {
+                that.render();
+            });
+        });
+
         // Add Inventory Item
         html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -153,7 +173,7 @@ export class DemonlordActorSheet extends ActorSheet {
         html.find('.item-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
 
-            this._showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li);
+            this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li);
         });
 
         // Update Feature Item
@@ -167,7 +187,7 @@ export class DemonlordActorSheet extends ActorSheet {
         html.find('.feature-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".feature");
 
-            this._showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteFeatureText'), li);
+            this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteFeatureText'), li);
         });
 
         // Add Tradition Item
@@ -237,7 +257,7 @@ export class DemonlordActorSheet extends ActorSheet {
         html.find('.tradition-delete').click(ev => {
             const li = $(ev.currentTarget).parents("li");
 
-            this._showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteTraditionText'), li);
+            this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteTraditionText'), li);
         });
 
         // Wealth
@@ -349,7 +369,7 @@ export class DemonlordActorSheet extends ActorSheet {
         html.find('.spell-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
 
-            this._showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteSpellText'), li);
+            this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteSpellText'), li);
         });
 
         // Rollable
@@ -487,7 +507,7 @@ export class DemonlordActorSheet extends ActorSheet {
             }
         });
 
-        // Rollable Attack
+        // Rollable Attack Spell
         html.find('.magic-roll').click(ev => {
             const li = event.currentTarget.closest(".item");
             const item = this.actor.getOwnedItem(li.dataset.itemId);
@@ -968,7 +988,7 @@ export class DemonlordActorSheet extends ActorSheet {
         });
     }
 
-    _showDeleteDialog(title, content, item) {
+    showDeleteDialog(title, content, item) {
         let d = new Dialog({
             title: title,
             content: content,

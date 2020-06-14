@@ -116,15 +116,18 @@
         },
         "creature": {
             "templates": ["base"],
+            "edit": false,
             "difficulty": 0,
             "frightening": false,
             "horrifying": false,
             "descriptor": "",
-            "specials": []
+            "perceptionsenses": "",
+            "speedtraits": "",
+            "armor": ""
         }
     },
     "Item": {
-        "types": ["item", "feature", "spell", "talent", "weapon", "armor", "ammo"],
+        "types": ["item", "feature", "spell", "talent", "weapon", "armor", "ammo", "specialattack", "specialaction", "magic", "endoftheround"],
         "templates": {
             "base": {
                 "description": ""
@@ -184,6 +187,18 @@
         "ammo": {
             "templates": ["base"],
             "amount": 0
+        },
+        "specialattack": {
+            "templates": ["base"]
+        },
+        "specialaction": {
+            "templates": ["base"]
+        },
+        "magic": {
+            "templates": ["base"]
+        },
+        "endoftheround": {
+            "templates": ["base"]
         }
     }
 }
