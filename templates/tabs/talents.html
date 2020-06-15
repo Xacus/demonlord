@@ -9,7 +9,7 @@
         </div>
     </li>
     {{#each actor.talents as |talent id|}}
-        <li class="item item-align" data-item-id="{{talent._id}}">
+        <li class="item item-align dropitem" data-item-id="{{talent._id}}">
             <div class="talentname talent-roll">{{talent.name}}</div>
             <div class="damage">{{#if data.action.damage}}{{data.action.damage}}{{else}}-{{/if}}</div>
             <div class="bonesbanes">{{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}</div>
