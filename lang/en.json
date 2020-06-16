@@ -250,6 +250,18 @@
     "DL.TurnSlow": "SLOW",
 
 
+    "DL.ModsFastTurnFieldHeader": "Initiative",
     "DL.ModsFastTurnField": "Fast Turn",
-    "DL.ModsSaveChanges": "Save Changes"
+    "DL.ModsSaveChanges": "Save Changes",
+    "DL.ModsDisableAll": "Disable all",
+    "DL.ModsModsField": "Mods",
+    "DL.ModsName": "Name",
+    "DL.ModsEffects": "Effects",
+    "DL.ModsModifier": "Modifier",
+    "DL.ModsBoonsBanes": "Boons/Banes",
+    "DL.ModsAttribute": "Attribute",
+    "DL.ModsDamage": "Damage",
+    "DL.ModsHealth": "Health",
+    "DL.ModsRounds": "Rounds"
+
 }
