@@ -255,6 +255,15 @@
             }
         }
 
+        .description {
+            font-size: 12px;
+            argin-top: 0px;
+
+            textarea {
+                min-height: 200px;
+            }
+        }
+
         .body {
             margin: 5px 0 10px 0;
             padding: 0;

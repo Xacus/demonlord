@@ -663,6 +663,15 @@
   text-align: center;
 }
 
+.demonlord .creature .actions .description {
+  font-size: 12px;
+  argin-top: 0px;
+}
+
+.demonlord .creature .actions .description textarea {
+  min-height: 200px;
+}
+
 .demonlord .creature .actions .body {
   margin: 5px 0 10px 0;
   padding: 0;
@@ -735,6 +744,22 @@
   font-size: 12px;
 }
 
+.demonlord .form-block .form-headermods {
+  float: left;
+  height: 20px;
+  padding-top: 2px;
+  padding-right: 5px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.demonlord .form-block .item-controls {
+  float: right;
+  width: 15px;
+  margin-top: 4px;
+  margin-right: 3px;
+}
+
 .demonlord .form-block .form-line {
   width: 100%;
   height: 18px;
@@ -744,6 +769,13 @@
   float: left;
   padding-top: 2px;
   padding-right: 5px;
+}
+
+.demonlord .form-block .form-line .enablemod {
+  float: left;
+  width: 20px;
+  height: 16px;
+  margin: -3px 5px 0 -8px;
 }
 
 .demonlord .form-block .form-line .form-fields {
@@ -764,8 +796,17 @@
   height: 16px;
 }
 
+.demonlord .form-block .form-line .form-fields input[type="checkbox"] {
+  width: 15px;
+}
+
 .demonlord .form-block .form-line .form-fields .number input {
   width: 30px;
+  text-align: right;
+}
+
+.demonlord .form-block .form-line .form-fields .numbermid input {
+  width: 50px;
   text-align: right;
 }
 

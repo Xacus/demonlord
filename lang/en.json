@@ -232,6 +232,7 @@
     "DL.CreatureSpecialActions": "Special Actions",
     "DL.CreatureSpecialMagic": "Magic",
     "DL.CreatureSpecialEndRound": "End of the Round",
+    "DL.CreatureDiscription": "Description",
     "DL.CreatureWeaponWith": "with",
     "DL.CreatureFrightening": "Frightening",
     "DL.CreatureFrighteningDescription": "A creature that does not have the frightening or horrifying trait must make a Will challenge roll when it first sees one or more creatures with this trait. It makes the roll with 1 bane if it can see four or more frightening creatures at once. On a failure, the creature becomes frightened for a number of rounds equal to 1d3 + its Insanity total or gains 1 Insanity if it is already frightened. Once a creature makes this roll, whether it succeeds or fails, it cannot again be affected by this trait of the creature or creatures it saw until after it completes a rest.",
@@ -250,6 +251,9 @@
     "DL.TurnSlow": "SLOW",
 
 
+    "DL.ModsAdd": "Add modifier",
+    "DL.ModsEdit": "Edit modifier",
+    "DL.ModsDelete": "Delete modifier",
     "DL.ModsFastTurnFieldHeader": "Initiative",
     "DL.ModsFastTurnField": "Fast Turn",
     "DL.ModsSaveChanges": "Save Changes",
