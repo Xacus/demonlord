@@ -247,6 +247,27 @@
   padding-right: 5px;
 }
 
+.demonlord .init-header {
+  height: 30px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 4px 5px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.demonlord .init-header .init-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/pentagram.png") no-repeat;
+}
+
+.demonlord .init-header .inittext {
+  float: left;
+  padding: 2px 0 0 5px;
+}
+
 .demonlord .result {
   height: 52px;
 }

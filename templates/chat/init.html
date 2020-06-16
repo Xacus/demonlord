@@ -1,0 +1,6 @@
+<div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}} {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <header class="init-header">
+        <div class="init-img"></div>
+        <div class="inittext">{{localize "DL.DialogInitiativeTurn"}}<b>{{data.turn.value}}</b>{{localize "DL.DialogInitiativeTurnEnd"}}</div>
+    </header>
+</div>

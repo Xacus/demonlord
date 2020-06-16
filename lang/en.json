@@ -189,6 +189,7 @@
     "DL.DialogDeleteTraitText": "The Trait will be permanently deleted.",
 
     "DL.CreatureEdit": "Edit Creature",
+    "DL.CreatureSave": "Save Creature",
     "DL.CreatureName": "Name",
     "DL.CreatureDifficultyTitle": "DIFFICULTY",
     "DL.CreatureDifficulty": "Difficulty",
@@ -234,7 +235,21 @@
     "DL.CreatureWeaponWith": "with",
     "DL.CreatureFrightening": "Frightening",
     "DL.CreatureFrighteningDescription": "A creature that does not have the frightening or horrifying trait must make a Will challenge roll when it first sees one or more creatures with this trait. It makes the roll with 1 bane if it can see four or more frightening creatures at once. On a failure, the creature becomes frightened for a number of rounds equal to 1d3 + its Insanity total or gains 1 Insanity if it is already frightened. Once a creature makes this roll, whether it succeeds or fails, it cannot again be affected by this trait of the creature or creatures it saw until after it completes a rest.",
+    "DL.CreatureFrighteningDescription": "A creature that does not have the frightening or horrifying trait must make a Will challenge roll when it first sees one or more creatures with this trait. It makes the roll with 1 bane if it can see four or more frightening creatures at once. On a failure, the creature becomes frightened for a number of rounds equal to 1d3 + its Insanity total or gains 1 Insanity if it is already frightened. Once a creature makes this roll, whether it succeeds or fails, it cannot again be affected by this trait of the creature or creatures it saw until after it completes a rest.",
     "DL.CreatureHorrifying": "Horrifying",
-    "DL.CreatureHorrifyingDescription": "A creature that does not have the horrifying trait must make a Will challenge roll when it first sees one or more creatures with this trait. It makes the roll with 1 bane if it can see four or more horrifying creatures at once. On a failure, the creature gains 1 Insanity, or 1d3 Insanity if it is already frightened. Once a creature makes this roll, whether it succeeds or fails, it cannot again be affected by this trait of the creature or creatures it saw until after it completes a rest. Regardless of the outcome of the challenge roll, creatures that lack the frightening or horrifying trait make attack rolls against horrifying creatures with 1 bane."
+    "DL.CreatureHorrifyingDescription": "A creature that does not have the horrifying trait must make a Will challenge roll when it first sees one or more creatures with this trait. It makes the roll with 1 bane if it can see four or more horrifying creatures at once. On a failure, the creature gains 1 Insanity, or 1d3 Insanity if it is already frightened. Once a creature makes this roll, whether it succeeds or fails, it cannot again be affected by this trait of the creature or creatures it saw until after it completes a rest. Regardless of the outcome of the challenge roll, creatures that lack the frightening or horrifying trait make attack rolls against horrifying creatures with 1 bane.",
 
+    "DL.SettingInitMessage": "Initiative Messages",
+    "DL.SettingInitMessageHint": "Show if player chooses Fast or Slow turn in Chat Log.",
+    "DL.DialogInitiative": "Initiative",
+    "DL.DialogInitiativeTurn": "Has chosen to make a ",
+    "DL.DialogInitiativeTurnEnd": " turn.",
+    "DL.DialogTurnFast": "Fast",
+    "DL.DialogTurnSlow": "Slow",
+    "DL.TurnFast": "FAST",
+    "DL.TurnSlow": "SLOW",
+
+
+    "DL.ModsFastTurnField": "Fast Turn",
+    "DL.ModsSaveChanges": "Save Changes"
 }

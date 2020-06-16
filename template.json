@@ -4,6 +4,7 @@
         "templates": {
             "base": {
                 "description": "",
+                "fastturn": false,
                 "attributes": {
                     "strength": {
                         "value": 10,
@@ -70,7 +71,8 @@
                     "stunned": false,
                     "surprised": false,
                     "unconscious": false
-                }
+                },
+                "mods": []
             }
         },
         "character": {

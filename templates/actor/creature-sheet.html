@@ -209,7 +209,13 @@
         <div class="right">
             <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="180" width="130" />
             <div class="edit">
-                <a class="creature-edit" title="{{localize 'DL.CreatureEdit'}}"><i class="fas fa-edit"> {{localize "DL.CreatureEdit"}}</i></a>
+                <a class="creature-edit" title="{{localize 'DL.CreatureEdit'}}">
+                    {{#if data.edit}}
+                        <i class="fas fa-save"> {{localize "DL.CreatureSave"}}</i>
+                    {{else}}
+                        <i class="fas fa-edit"> {{localize "DL.CreatureEdit"}}</i>
+                    {{/if}}
+                </a>
             </div>
         </div>
         <div class="actions">

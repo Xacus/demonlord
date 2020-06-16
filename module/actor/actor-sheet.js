@@ -1,7 +1,6 @@
-/**
- * Extend the basic ActorSheet with some very simple modifications
- * @extends {ActorSheet}
- */
+import {
+    DLActorModifiers
+} from "../dialog/actor-modifiers.js";
 export class DemonlordActorSheet extends ActorSheet {
 
     /** @override */
@@ -19,7 +18,35 @@ export class DemonlordActorSheet extends ActorSheet {
         });
     }
 
+    /**
+     * Extend and override the sheet header buttons
+     * @override
+     */
+    _getHeaderButtons() {
+        let buttons = super._getHeaderButtons();
+        // Token Configuration
+        const canConfigure = game.user.isGM || this.actor.owner;
+        if (this.options.editable && canConfigure) {
+            buttons = [
+                {
+                    label: 'Actor Mods',
+                    class: 'configure-actor',
+                    icon: 'fas fa-dice',
+                    onclick: (ev) => this._onConfigureActor(ev),
+                },
+            ].concat(buttons);
+        }
+        return buttons;
+    }
     /* -------------------------------------------- */
+
+    _onConfigureActor(event) {
+        event.preventDefault();
+        new DLActorModifiers(this.actor, {
+            top: this.position.top + 40,
+            left: this.position.left + (this.position.width - 400) / 2,
+        }).render(true);
+    }
 
     /** @override */
     getData() {

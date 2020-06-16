@@ -17,9 +17,15 @@ import {
 import {
     DemonlordItemSheet
 } from "./item/item-sheet.js";
+import {
+    registerSettings
+} from "./settings.js";
+import {
+    rollInitiative,
+    setupTurns
+} from "./init/init.js";
 
 Hooks.once('init', async function () {
-
     game.demonlord = {
         DemonlordActor,
         DemonlordItem,
@@ -28,8 +34,14 @@ Hooks.once('init', async function () {
 
     // Define custom Entity classes
     CONFIG.DL = DL;
+
+    Combat.prototype.rollInitiative = rollInitiative;
+    Combat.prototype.setupTurns = setupTurns;
+
     CONFIG.Actor.entityClass = DemonlordActor;
     CONFIG.Item.entityClass = DemonlordItem;
+
+    registerSettings();
 
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheet);
@@ -86,7 +98,6 @@ Hooks.once("ready", async function () {
  * This function runs after game data has been requested and loaded from the servers, so entities exist
  */
 Hooks.once("setup", function () {
-
     // Localize CONFIG objects once up-front
     const toLocalize = [
     "attributes"
@@ -97,6 +108,20 @@ Hooks.once("setup", function () {
             return obj;
         }, {});
     }
+});
+
+Hooks.on("renderCombatTracker", (app, html, data) => {
+    let init;
+    const currentCombat = data.combats[data.combatCount - 1];
+
+    html.find('.combatant').each((i, el) => {
+        const combId = el.getAttribute('data-combatant-id');
+        const combatant = currentCombat.data.combatants.find((c) => c._id == combId);
+
+        init = combatant.actor.data.data.fastturn ? game.i18n.localize('DL.TurnFast') : game.i18n.localize('DL.TurnSlow');
+
+        el.getElementsByClassName('token-initiative')[0].innerHTML = `<span class="initiative">` + init + `</span>`;
+    });
 });
 
 /* -------------------------------------------- */
