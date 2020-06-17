@@ -736,6 +736,10 @@
   font-size: 11px;
 }
 
+.demonlord .form-block .items-list {
+  margin-bottom: 0;
+}
+
 .demonlord .form-block .form-header {
   height: 20px;
   padding-top: 2px;
@@ -753,16 +757,9 @@
   font-size: 12px;
 }
 
-.demonlord .form-block .item-controls {
-  float: right;
-  width: 15px;
-  margin-top: 4px;
-  margin-right: 3px;
-}
-
 .demonlord .form-block .form-line {
   width: 100%;
-  height: 18px;
+  height: 22px;
 }
 
 .demonlord .form-block .form-line .form-fieldheader {
@@ -771,15 +768,26 @@
   padding-right: 5px;
 }
 
+.demonlord .form-block .form-line .bold {
+  font-weight: bold;
+}
+
 .demonlord .form-block .form-line .enablemod {
   float: left;
   width: 20px;
   height: 16px;
-  margin: -3px 5px 0 -8px;
+  margin: -2px 5px 0 -8px;
+}
+
+.demonlord .form-block .form-line .disable {
+  float: left;
+  width: 150px;
+  height: 16px;
+  margin: -2px 0 0 0;
 }
 
 .demonlord .form-block .form-line .form-fields {
-  float: right;
+  float: left;
   margin-top: -3px;
   padding-top: 2px;
 }
@@ -808,6 +816,40 @@
 .demonlord .form-block .form-line .form-fields .numbermid input {
   width: 50px;
   text-align: right;
+}
+
+.demonlord .form-block .form-line .item-controls {
+  float: right;
+  width: 15px;
+  margin-top: 2px;
+}
+
+.demonlord .form-block .form-modline {
+  width: 100%;
+  height: 12px;
+}
+
+.demonlord .form-block .form-modline .form-fields {
+  float: left;
+  margin-top: -3px;
+  padding-top: 2px;
+}
+
+.demonlord .form-block .form-modline .form-fields .modname {
+  width: 130px;
+  padding-left: 17px;
+}
+
+.demonlord .form-block .form-modline .form-fields .modeffects {
+  width: 93px;
+}
+
+.demonlord .form-block .form-modline .form-fields .modmodifier {
+  width: 36px;
+}
+
+.demonlord .form-block .form-modline .form-fields .modrounds {
+  width: 48px;
 }
 
 .demonlord .window-content {

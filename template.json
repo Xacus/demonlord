@@ -71,8 +71,7 @@
                     "stunned": false,
                     "surprised": false,
                     "unconscious": false
-                },
-                "mods": []
+                }
             }
         },
         "character": {
@@ -129,7 +128,7 @@
         }
     },
     "Item": {
-        "types": ["item", "feature", "spell", "talent", "weapon", "armor", "ammo", "specialattack", "specialaction", "magic", "endoftheround"],
+        "types": ["item", "feature", "spell", "talent", "weapon", "armor", "ammo", "specialattack", "specialaction", "magic", "endoftheround", "mod"],
         "templates": {
             "base": {
                 "description": ""
@@ -201,6 +200,13 @@
         },
         "endoftheround": {
             "templates": ["base"]
+        },
+        "mod": {
+            "active": true,
+            "modtype": "",
+            "modifier": 0,
+            "rounds": 0,
+            "roundsleft": 0
         }
     }
 }

@@ -9,6 +9,7 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
     const combatantUpdates = [];
     const initMessages = [];
     let init = 0;
+    let turn = "";
 
     // Structure input data
     ids = typeof ids === 'string' ? [ids] : ids;
@@ -23,10 +24,26 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
         if (c.defeated)
             continue;
 
-        if (c.actor.data.type == "character") {
-            init = c.actor.data.data.fastturn ? 70 : 30;
+        // FAST/SLOW Turn select
+        turn = await selectTurnType(c.actor, c.actor.data.data.fastturn);
+
+        if (turn != "") {
+            const fastslow = (turn == "fast") ? true : false;
+            if (c.actor.data.type == "character") {
+                init = fastslow ? 70 : 30;
+            } else {
+                init = fastslow ? 50 : 10;
+            }
+
+            await c.actor.update({
+                "data.fastturn": fastslow
+            });
         } else {
-            init = c.actor.data.data.fastturn ? 50 : 10;
+            if (c.actor.data.type == "character") {
+                init = c.actor.data.data.fastturn ? 70 : 30;
+            } else {
+                init = c.actor.data.data.fastturn ? 50 : 10;
+            }
         }
 
         combatantUpdates.push({
@@ -107,3 +124,38 @@ export const setupTurns = function () {
         ui.combat.updateTrackedResources();
     return this.turns;
 };
+
+const selectTurnType = async function (actor, fastturn) {
+    let turn = "";
+    const template = 'systems/demonlord/templates/dialogs/choose-turn-dialog.html';
+    const html = await renderTemplate(template, {
+        data: {
+            fastturn: fastturn
+        }
+    });
+    return new Promise((resolve) => {
+        new Dialog({
+            title: `${actor.name}: ${game.i18n.localize('DL.TurnChooseTurn')}`,
+            content: html,
+            buttons: {
+                ok: {
+                    icon: '<i class="fas"></i>',
+                    label: game.i18n.localize('DL.TurnFast'),
+                    callback: (html) => {
+                        turn = "fast";
+                    },
+                },
+                cancel: {
+                    icon: '<i class="fas"></i>',
+                    label: game.i18n.localize('DL.TurnSlow'),
+                    callback: (html) => {
+                        turn = "slow";
+                    },
+                },
+            },
+            close: () => {
+                resolve(turn);
+            },
+        }).render(true);
+    });
+}

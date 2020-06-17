@@ -24,7 +24,6 @@ export class DemonlordActorSheet extends ActorSheet {
      */
     _getHeaderButtons() {
         let buttons = super._getHeaderButtons();
-        // Token Configuration
         const canConfigure = game.user.isGM || this.actor.owner;
         if (this.options.editable && canConfigure) {
             buttons = [
@@ -83,6 +82,7 @@ export class DemonlordActorSheet extends ActorSheet {
         const armor = [];
         const ammo = [];
         const talents = [];
+        const mods = [];
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
@@ -90,32 +90,22 @@ export class DemonlordActorSheet extends ActorSheet {
             let item = i.data;
             i.img = i.img || DEFAULT_TOKEN;
 
-            // Append to gear.
             if (i.type === 'item') {
                 gear.push(i);
-            }
-            // Append to features.
-            else if (i.type === 'feature') {
+            } else if (i.type === 'feature') {
                 features.push(i);
-            }
-            // Append to spells.
-            else if (i.type === 'spell') {
+            } else if (i.type === 'spell') {
                 spells.push(i);
-            }
-            // Append to weapons.
-            else if (i.type === 'weapon') {
+            } else if (i.type === 'weapon') {
                 weapons.push(i);
-            }
-            // Append to armor.
-            else if (i.type === 'armor') {
+            } else if (i.type === 'armor') {
                 armor.push(i);
-            }
-            // Append to ammo.
-            else if (i.type === 'ammo') {
+            } else if (i.type === 'ammo') {
                 ammo.push(i);
-            } // Append to ammo.
-            else if (i.type === 'talent') {
+            } else if (i.type === 'talent') {
                 talents.push(i);
+            } else if (i.type === 'mod') {
+                mods.push(i);
             }
         }
 
@@ -127,6 +117,7 @@ export class DemonlordActorSheet extends ActorSheet {
         actorData.armor = armor;
         actorData.ammo = ammo;
         actorData.talents = talents;
+        actorData.mods = mods;
     }
 
     /* -------------------------------------------- */
@@ -605,6 +596,7 @@ export class DemonlordActorSheet extends ActorSheet {
      */
     _onItemCreate(event) {
         event.preventDefault();
+
         const header = event.currentTarget;
         // Get the type of item to create.
         const type = header.dataset.type;
