@@ -459,11 +459,11 @@ export class DemonlordActorSheet extends ActorSheet {
                     cancel: {
                         icon: '<i class="fas fa-times"></i>',
                         label: game.i18n.localize('DL.DialogCancel'),
-                        callback: () => {}
+                        callback: () => { }
                     }
                 },
                 default: "roll",
-                close: () => {}
+                close: () => { }
             });
             d.render(true);
         });
@@ -485,11 +485,11 @@ export class DemonlordActorSheet extends ActorSheet {
                     cancel: {
                         icon: '<i class="fas fa-times"></i>',
                         label: game.i18n.localize('DL.DialogCancel'),
-                        callback: () => {}
+                        callback: () => { }
                     }
                 },
                 default: "roll",
-                close: () => {}
+                close: () => { }
             });
             d.render(true);
         });
@@ -513,11 +513,11 @@ export class DemonlordActorSheet extends ActorSheet {
                         cancel: {
                             icon: '<i class="fas fa-times"></i>',
                             label: game.i18n.localize('DL.DialogCancel'),
-                            callback: () => {}
+                            callback: () => { }
                         }
                     },
                     default: "roll",
-                    close: () => {}
+                    close: () => { }
                 });
                 d.render(true);
             } else {
@@ -543,11 +543,11 @@ export class DemonlordActorSheet extends ActorSheet {
                         cancel: {
                             icon: '<i class="fas fa-times"></i>',
                             label: game.i18n.localize('DL.DialogCancel'),
-                            callback: () => {}
+                            callback: () => { }
                         }
                     },
                     default: "roll",
-                    close: () => {}
+                    close: () => { }
                 });
                 d.render(true);
             } else {
@@ -739,10 +739,10 @@ export class DemonlordActorSheet extends ActorSheet {
             chatData.content = content;
             if (game.dice3d) {
                 game.dice3d.showForRoll(r, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-              } else {
+            } else {
                 chatData.sound = CONFIG.sounds.dice;
                 ChatMessage.create(chatData);
-              }
+            }
         });
     }
 
@@ -831,16 +831,16 @@ export class DemonlordActorSheet extends ActorSheet {
                 alias: this.actor.name
             }
         };
-          
+
         let template = 'systems/demonlord/templates/chat/combat.html';
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;
             if (game.dice3d) {
                 game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-              } else {
+            } else {
                 chatData.sound = CONFIG.sounds.dice;
                 ChatMessage.create(chatData);
-              }
+            }
         });
     }
 
@@ -940,10 +940,10 @@ export class DemonlordActorSheet extends ActorSheet {
             chatData.content = content;
             if (game.dice3d) {
                 game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-              } else {
+            } else {
                 chatData.sound = CONFIG.sounds.dice;
                 ChatMessage.create(chatData);
-              }
+            }
         });
     }
 
@@ -1068,10 +1068,10 @@ export class DemonlordActorSheet extends ActorSheet {
             chatData.content = content;
             if (game.dice3d) {
                 game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-              } else {
+            } else {
                 chatData.sound = CONFIG.sounds.dice;
                 ChatMessage.create(chatData);
-              }
+            }
         });
     }
 
@@ -1088,11 +1088,11 @@ export class DemonlordActorSheet extends ActorSheet {
                 no: {
                     icon: '<i class="fas fa-times"></i>',
                     label: game.i18n.localize('DL.DialogNo'),
-                    callback: () => {}
+                    callback: () => { }
                 }
             },
             default: "no",
-            close: () => {}
+            close: () => { }
         });
         d.render(true);
     }

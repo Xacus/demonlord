@@ -1,6 +1,7 @@
 export class DLActorModifiers extends FormApplication {
     static get defaultOptions() {
         const options = super.defaultOptions;
+        options.id = 'sheet-modifiers';
         options.classes = ["demonlord", "sheet", "actor"];
         options.template = 'systems/demonlord/templates/dialogs/actor-modifiers-dialog.html';
         options.width = 350;
@@ -191,11 +192,11 @@ export class DLActorModifiers extends FormApplication {
                 no: {
                     icon: '<i class="fas fa-times"></i>',
                     label: game.i18n.localize('DL.DialogNo'),
-                    callback: () => {}
+                    callback: () => { }
                 }
             },
             default: "no",
-            close: () => {}
+            close: () => { }
         });
         d.render(true);
     }
