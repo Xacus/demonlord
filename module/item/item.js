@@ -33,11 +33,11 @@ export class DemonlordItem extends Item {
                 cancel: {
                     icon: '<i class="fas fa-times"></i>',
                     label: game.i18n.localize('DL.DialogCancel'),
-                    callback: () => {}
+                    callback: () => { }
                 }
             },
             default: "roll",
-            close: () => {}
+            close: () => { }
         });
         d.render(true);
     }
@@ -80,21 +80,21 @@ export class DemonlordItem extends Item {
             chatData.content = content;
             if (game.dice3d) {
                 game.dice3d.showForRoll(roll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-              } else {
+            } else {
                 chatData.sound = CONFIG.sounds.dice;
                 ChatMessage.create(chatData);
-              }
+            }
         });
 
-/*
-        // Render the template
-        chatData["content"] = await renderTemplate(template, templateData);
-
-        // Create the chat message
-        return ChatMessage.create(chatData, {
-            displaySheet: false
-        });
-        */
+        /*
+                // Render the template
+                chatData["content"] = await renderTemplate(template, templateData);
+        
+                // Create the chat message
+                return ChatMessage.create(chatData, {
+                    displaySheet: false
+                });
+                */
     }
 
     makeAttackRoll(item, boonsbanes) {
@@ -135,6 +135,10 @@ export class DemonlordItem extends Item {
         let damageformular = item.data.action.damage;
         let damageRoll = new Roll(damageformular, {});
         damageRoll.roll();
+
+        if (attackRoll._total >= targetNumber) {
+            this.addDamageToTarget(damageRoll._total);
+        }
 
         if (datatype == "weapon") {
             dataTemplate = this.createCombatTemplateData(item, attackRoll, damageRoll, attackAttribute, targetNumber);
@@ -349,5 +353,15 @@ export class DemonlordItem extends Item {
         });
 
         return tagetName;
+    }
+
+    async addDamageToTarget(damage) {
+        game.user.targets.forEach(async target => {
+            const targetActor = target.actor;
+            const currentDamage = 0 + targetActor.data.data.characteristics.health.damage;
+            await targetActor.update({
+                "data.characteristics.health.damage": currentDamage + damage
+            });
+        });
     }
 }

@@ -781,6 +781,10 @@ export class DemonlordActorSheet extends ActorSheet {
         let damageRoll = new Roll(damageformular, {});
         damageRoll.roll();
 
+        if (attackRoll._total >= targetNumber) {
+            this.addDamageToTarget(damageRoll._total);
+        }
+
         var templateData = {
             actor: this.actor,
             item: {
@@ -880,6 +884,10 @@ export class DemonlordActorSheet extends ActorSheet {
         let damageformular = talent.data.data.action.damage;
         let damageRoll = new Roll(damageformular, {});
         damageRoll.roll();
+
+        if (attackRoll._total >= targetNumber) {
+            this.addDamageToTarget(damageRoll._total);
+        }
 
         var templateData = {
             actor: this.actor,
@@ -981,6 +989,10 @@ export class DemonlordActorSheet extends ActorSheet {
         let damageformular = spell.data.data.action.damage;
         let damageRoll = new Roll(damageformular, {});
         damageRoll.roll();
+
+        if (attackRoll._total >= targetNumber) {
+            this.addDamageToTarget(damageRoll._total);
+        }
 
         var templateData = {
             actor: this.actor,
@@ -1122,5 +1134,15 @@ export class DemonlordActorSheet extends ActorSheet {
         });
 
         return tagetName;
+    }
+
+    async addDamageToTarget(damage) {
+        game.user.targets.forEach(async target => {
+            const targetActor = target.actor;
+            const currentDamage = 0 + targetActor.data.data.characteristics.health.damage;
+            await targetActor.update({
+                "data.characteristics.health.damage": currentDamage + damage
+            });
+        });
     }
 }

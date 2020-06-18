@@ -2,12 +2,16 @@
     "name": "demonlord",
     "title": "Shadow of the Demon Lord",
     "description": "The Shadow of the Demonlord system for FoundryVTT",
-    "version": "0.7.4",
+    "version": "0.7.5",
     "author": "Bo Kehlet",
     "minimumCoreVersion": "0.6",
     "compatibleCoreVersion": "0.6.2",
-    "esmodules": ["module/demonlord.js"],
-    "styles": ["css/demonlord.css"],
+    "esmodules": [
+        "module/demonlord.js"
+    ],
+    "styles": [
+        "css/demonlord.css"
+    ],
     "scripts": [],
     "packs": [
         {
@@ -16,29 +20,29 @@
             "system": "demonlord",
             "path": "packs/weapons.db",
             "entity": "Item"
-},
+        },
         {
             "name": "armor",
             "label": "Armor",
             "system": "demonlord",
             "path": "packs/armor.db",
             "entity": "Item"
-},
+        },
         {
             "name": "ammunition",
             "label": "Ammunition",
             "system": "demonlord",
             "path": "packs/ammunition.db",
             "entity": "Item"
-}
-],
+        }
+    ],
     "languages": [
         {
             "lang": "en",
             "name": "English",
             "path": "lang/en.json"
-  }
-],
+        }
+    ],
     "gridDistance": 5,
     "gridUnits": "ft",
     "primaryTokenAttribute": null,

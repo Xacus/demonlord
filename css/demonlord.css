@@ -596,7 +596,8 @@
 
 .demonlord .creature .left .body .stat .health,
 .demonlord .creature .left .body .stat .insanity,
-.demonlord .creature .left .body .stat .corruption {
+.demonlord .creature .left .body .stat .corruption,
+.demonlord .creature .left .body .stat .damage {
   float: left;
   padding-left: 10px;
 }

@@ -3,17 +3,18 @@
         <div class="header">
             <div class="charname">
                 {{#if data.edit}}
-                    <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CreatureName'}}" />
+                <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CreatureName'}}" />
                 {{else}}
-                    <label for="actor.name">{{actor.name}}</label>
+                <label for="actor.name">{{actor.name}}</label>
                 {{/if}}
             </div>
             <div class="diff">
                 {{localize "DL.CreatureDifficultyTitle"}}
                 {{#if data.edit}}
-                    <input name="data.difficulty" type="text" value="{{data.difficulty}}" placeholder="{{localize 'DL.CreatureDifficulty'}}" />
+                <input name="data.difficulty" type="text" value="{{data.difficulty}}"
+                    placeholder="{{localize 'DL.CreatureDifficulty'}}" />
                 {{else}}
-                    <label for="data.difficulty">{{data.difficulty}}</label>
+                <label for="data.difficulty">{{data.difficulty}}</label>
                 {{/if}}
             </div>
         </div>
@@ -21,199 +22,235 @@
             <div class="size">
                 {{localize "DL.CreatureSize"}}
                 {{#if data.edit}}
-                    <input name="data.characteristics.size" type="text" value="{{data.characteristics.size}}" placeholder="{{localize 'DL.CreatureSize'}}" />
+                <input name="data.characteristics.size" type="text" value="{{data.characteristics.size}}"
+                    placeholder="{{localize 'DL.CreatureSize'}}" />
                 {{else}}
-                    <label for="data.characteristics.size">{{data.characteristics.size}} {{data.descriptor}}</label>
+                <label for="data.characteristics.size">{{data.characteristics.size}} {{data.descriptor}}</label>
                 {{/if}}
             </div>
             <div class="descriptor">
                 {{#if data.edit}}
-                    <input name="data.descriptor" type="text" value="{{data.descriptor}}" placeholder="{{localize 'DL.CreatureDescriptor'}}" />
+                <input name="data.descriptor" type="text" value="{{data.descriptor}}"
+                    placeholder="{{localize 'DL.CreatureDescriptor'}}" />
                 {{/if}}
             </div>
             {{#if data.edit}}
-                <div class="trait">
-                    <input type="checkbox" name="data.frightening" id="data.frightening" class="checkinput" {{checked data.frightening}} />
-                    <label for="data.frightening">{{localize "DL.CreatureFrightening"}}</label>
-                </div>
-                <div class="trait">
-                    <input type="checkbox" name="data.horrifying" id="data.horrifying" class="checkinput" {{checked data.horrifying}} />
-                    <label for="data.horrifying">{{localize "DL.CreatureHorrifying"}}</label>
-                </div>
+            <div class="trait">
+                <input type="checkbox" name="data.frightening" id="data.frightening" class="checkinput"
+                    {{checked data.frightening}} />
+                <label for="data.frightening">{{localize "DL.CreatureFrightening"}}</label>
+            </div>
+            <div class="trait">
+                <input type="checkbox" name="data.horrifying" id="data.horrifying" class="checkinput"
+                    {{checked data.horrifying}} />
+                <label for="data.horrifying">{{localize "DL.CreatureHorrifying"}}</label>
+            </div>
             {{else}}
-                <div class="trait">
-                    {{#if data.frightening}}
-                        <div class="tooltip">
-                            <label for="data.frightening">{{localize "DL.CreatureFrightening"}}</label>
-                            <span class="tooltiptext">{{localize "DL.CreatureFrighteningDescription"}}</span>
-                        </div>
-                    {{/if}}
-                    {{#if data.horrifying}}
-                        <div class="tooltip">
-                            <label for="data.horrifying">{{localize "DL.CreatureHorrifying"}}</label>
-                            <span class="tooltiptext">{{localize "DL.CreatureHorrifyingDescription"}}</span>
-                        </div>
-                    {{/if}}
+            <div class="trait">
+                {{#if data.frightening}}
+                <div class="tooltip">
+                    <label for="data.frightening">{{localize "DL.CreatureFrightening"}}</label>
+                    <span class="tooltiptext">{{localize "DL.CreatureFrighteningDescription"}}</span>
                 </div>
+                {{/if}}
+                {{#if data.horrifying}}
+                <div class="tooltip">
+                    <label for="data.horrifying">{{localize "DL.CreatureHorrifying"}}</label>
+                    <span class="tooltiptext">{{localize "DL.CreatureHorrifyingDescription"}}</span>
+                </div>
+                {{/if}}
+            </div>
             {{/if}}
         </div>
         <div class="left">
             <div class="body">
                 <div class="stat">
-                    <div class="stattitle attribute-roll" data-key="perception">{{localize "DL.CreaturePerception"}}</div>
+                    <div class="stattitle attribute-roll" data-key="perception">{{localize "DL.CreaturePerception"}}
+                    </div>
                     {{#if data.edit}}
-                        <div class="value">
-                            <input name="data.attributes.perception.value" type="text" value="{{data.attributes.perception.value}}" />
-                        </div>
-                        <div class="senses">
-                            <input name="data.perceptionsenses" type="text" value="{{data.perceptionsenses}}" placeholder="{{localize 'DL.CreaturePerceptionSenses'}}" />
-                        </div>
+                    <div class="value">
+                        <input name="data.attributes.perception.value" type="text"
+                            value="{{data.attributes.perception.value}}" />
+                    </div>
+                    <div class="senses">
+                        <input name="data.perceptionsenses" type="text" value="{{data.perceptionsenses}}"
+                            placeholder="{{localize 'DL.CreaturePerceptionSenses'}}" />
+                    </div>
                     {{else}}
-                        <div class="value">
-                            <label for="data.attributes.perception.value">{{data.attributes.perception.value}}({{numberFormat data.attributes.perception.modifier decimals=0 sign=true}})</label>
-                        </div>
-                        <div class="senses">
-                            <label for="data.perceptionsenses">{{data.perceptionsenses}}</label>
-                        </div>
+                    <div class="value">
+                        <label
+                            for="data.attributes.perception.value">{{data.attributes.perception.value}}({{numberFormat data.attributes.perception.modifier decimals=0 sign=true}})</label>
+                    </div>
+                    <div class="senses">
+                        <label for="data.perceptionsenses">{{data.perceptionsenses}}</label>
+                    </div>
                     {{/if}}
                 </div>
                 <div class="stat">
                     <div>
                         <div class="stattitle">{{localize "DL.CreatureDefense"}}</div>
                         {{#if data.edit}}
-                            <div class="value">
-                                <input name="data.characteristics.defense" type="text" value="{{data.characteristics.defense}}" />
-                            </div>
-                            <div class="armor">
-                                <input name="data.armor" type="text" value="{{data.armor}}" placeholder="{{localize 'DL.CreatureArmor'}}" />
-                            </div>
+                        <div class="value">
+                            <input name="data.characteristics.defense" type="text"
+                                value="{{data.characteristics.defense}}" />
+                        </div>
+                        <div class="armor">
+                            <input name="data.armor" type="text" value="{{data.armor}}"
+                                placeholder="{{localize 'DL.CreatureArmor'}}" />
+                        </div>
                         {{else}}
-                            <div class="value">
-                                <label for="data.characteristics.defense">{{data.characteristics.defense}}</label>
-                            </div>
-                            <div class="armor">
-                                <label for="data.armor">{{data.armor}}</label>
-                            </div>
+                        <div class="value">
+                            <label for="data.characteristics.defense">{{data.characteristics.defense}}</label>
+                        </div>
+                        <div class="armor">
+                            <label for="data.armor">{{data.armor}}</label>
+                        </div>
                         {{/if}}
                     </div>
                     <div class="health">
                         <div class="stattitle">{{localize "DL.CreatureHealth"}}</div>
                         {{#if data.edit}}
-                            <input name="data.characteristics.health.max" type="text" value="{{data.characteristics.health.max}}" />
+                        <input name="data.characteristics.health.max" type="text"
+                            value="{{data.characteristics.health.max}}" />
                         {{else}}
-                            <label for="data.characteristics.health.max">{{data.characteristics.health.max}}</label>
+                        <label for="data.characteristics.health.max">{{data.characteristics.health.max}}</label>
+                        {{/if}}
+                    </div>
+                    <div class="damage">
+                        <div class="stattitle">{{localize "DL.CreatureDamage"}}</div>
+                        {{#if data.edit}}
+                        <input name="data.characteristics.health.damage" type="text"
+                            value="{{data.characteristics.health.damage}}" />
+                        {{else}}
+                        <label for="data.characteristics.health.damage">{{data.characteristics.health.damage}}</label>
                         {{/if}}
                     </div>
                     <div class="insanity">
                         <div class="stattitle">{{localize "DL.CreatureInsanity"}}</div>
                         {{#if data.edit}}
-                            <input name="data.characteristics.insanity" type="text" value="{{data.characteristics.insanity}}" />
+                        <input name="data.characteristics.insanity" type="text"
+                            value="{{data.characteristics.insanity}}" />
                         {{else}}
-                            <label for="data.characteristics.insanity">{{data.characteristics.insanity}}</label>
+                        <label for="data.characteristics.insanity">{{data.characteristics.insanity}}</label>
                         {{/if}}
                     </div>
                     <div class="corruption">
                         <div class="stattitle">{{localize "DL.CreatureCorruption"}}</div>
                         {{#if data.edit}}
-                            <input name="data.characteristics.corruption" type="text" value="{{data.characteristics.corruption}}" />
+                        <input name="data.characteristics.corruption" type="text"
+                            value="{{data.characteristics.corruption}}" />
                         {{else}}
-                            <label for="data.characteristics.corruption">{{data.characteristics.corruption}}</label>
+                        <label for="data.characteristics.corruption">{{data.characteristics.corruption}}</label>
                         {{/if}}
                     </div>
                 </div>
                 <div class="stat grid grid-4col">
                     <div>
-                        <div class="stattitle attribute-roll" data-key="strength">{{localize "DL.CreatureStrength"}}</div>
+                        <div class="stattitle attribute-roll" data-key="strength">{{localize "DL.CreatureStrength"}}
+                        </div>
                         {{#if data.edit}}
-                            <input name="data.attributes.strength.value" type="text" value="{{data.attributes.strength.value}}" />
+                        <input name="data.attributes.strength.value" type="text"
+                            value="{{data.attributes.strength.value}}" />
                         {{else}}
-                            <label for="data.attributes.strength.value">{{data.attributes.strength.value}} ({{numberFormat data.attributes.strength.modifier decimals=0 sign=true}})</label>
+                        <label for="data.attributes.strength.value">{{data.attributes.strength.value}}
+                            ({{numberFormat data.attributes.strength.modifier decimals=0 sign=true}})</label>
                         {{/if}}
                     </div>
                     <div>
                         <div class="stattitle attribute-roll" data-key="agility">{{localize "DL.CreatureAgility"}}</div>
                         {{#if data.edit}}
-                            <input name="data.attributes.agility.value" type="text" value="{{data.attributes.agility.value}}" />
+                        <input name="data.attributes.agility.value" type="text"
+                            value="{{data.attributes.agility.value}}" />
                         {{else}}
-                            <label for="data.attributes.agility.value">{{data.attributes.agility.value}} ({{numberFormat data.attributes.agility.modifier decimals=0 sign=true}})</label>
+                        <label for="data.attributes.agility.value">{{data.attributes.agility.value}}
+                            ({{numberFormat data.attributes.agility.modifier decimals=0 sign=true}})</label>
                         {{/if}}
                     </div>
                     <div>
-                        <div class="stattitle attribute-roll" data-key="intellect">{{localize "DL.CreatureIntellect"}}</div>
+                        <div class="stattitle attribute-roll" data-key="intellect">{{localize "DL.CreatureIntellect"}}
+                        </div>
                         {{#if data.edit}}
-                            <input name="data.attributes.intellect.value" type="text" value="{{data.attributes.intellect.value}}" />
+                        <input name="data.attributes.intellect.value" type="text"
+                            value="{{data.attributes.intellect.value}}" />
                         {{else}}
-                            <label for="data.attributes.intellect.value">{{data.attributes.intellect.value}} ({{numberFormat data.attributes.intellect.modifier decimals=0 sign=true}})</label>
+                        <label for="data.attributes.intellect.value">{{data.attributes.intellect.value}}
+                            ({{numberFormat data.attributes.intellect.modifier decimals=0 sign=true}})</label>
                         {{/if}}
                     </div>
                     <div>
                         <div class="stattitle attribute-roll" data-key="will">{{localize "DL.CreatureWill"}}</div>
                         {{#if data.edit}}
-                            <input name="data.attributes.will.value" type="text" value="{{data.attributes.will.value}}" />
+                        <input name="data.attributes.will.value" type="text" value="{{data.attributes.will.value}}" />
                         {{else}}
-                            <label for="data.attributes.will.value">{{data.attributes.will.value}} ({{numberFormat data.attributes.will.modifier decimals=0 sign=true}})</label>
+                        <label for="data.attributes.will.value">{{data.attributes.will.value}}
+                            ({{numberFormat data.attributes.will.modifier decimals=0 sign=true}})</label>
                         {{/if}}
                     </div>
                 </div>
                 <div class="stat">
                     <div class="stattitle">{{localize "DL.CreatureSpeed"}}</div>
                     {{#if data.edit}}
-                        <input name="data.characteristics.speed" type="text" value="{{data.characteristics.speed}}" />
-                        <div class="speedtraits">
-                            <input name="data.speedtraits" type="text" value="{{data.speedtraits}}" placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
-                        </div>
+                    <input name="data.characteristics.speed" type="text" value="{{data.characteristics.speed}}" />
+                    <div class="speedtraits">
+                        <input name="data.speedtraits" type="text" value="{{data.speedtraits}}"
+                            placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
+                    </div>
                     {{else}}
-                        <div class="value">
-                            <label for="data.characteristics.speed">{{data.characteristics.speed}}</label>
-                        </div>
-                        <div class="speedtraits">
-                            <label for="data.speedtraits">{{data.speedtraits}}</label>
-                        </div>
+                    <div class="value">
+                        <label for="data.characteristics.speed">{{data.characteristics.speed}}</label>
+                    </div>
+                    <div class="speedtraits">
+                        <label for="data.speedtraits">{{data.speedtraits}}</label>
+                    </div>
                     {{/if}}
                 </div>
                 <div class="traits">
                     <ol class="items-list">
                         {{#if data.edit}}
-                            <li class="item-header">
-                                <div class="traitnameheader">{{localize "DL.CreatureTraits"}}</div>
-                                <div class="item-controls">
-                                    <a class="item-control item-create" title="{{localize 'DL.CreatureTraitsAdd'}}" data-type="feature"><i class="fas fa-plus"></i></a>
-                                </div>
-                            </li>
-                            {{#each actor.features as |feature id|}}
-                                <li class="feature dropitem" data-item-id="{{feature._id}}">
-                                    <div class="item-controls">
-                                        <a class="item-control feature-edit" title="{{localize 'DL.FeatureEdit'}}"><i class="fas fa-edit"></i></a>
-                                        <a class="item-control feature-delete" title="{{localize 'DL.FeatureDelete'}}"><i class="fas fa-trash"></i></a>
-                                    </div>
-                                    <div class="featurename">{{feature.name}}</div>
-                                    <div class="featurediscription">{{feature.data.description}}
-                                    </div>
-                                </li>
-                            {{/each}}
+                        <li class="item-header">
+                            <div class="traitnameheader">{{localize "DL.CreatureTraits"}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-create" title="{{localize 'DL.CreatureTraitsAdd'}}"
+                                    data-type="feature"><i class="fas fa-plus"></i></a>
+                            </div>
+                        </li>
+                        {{#each actor.features as |feature id|}}
+                        <li class="feature dropitem" data-item-id="{{feature._id}}">
+                            <div class="item-controls">
+                                <a class="item-control feature-edit" title="{{localize 'DL.FeatureEdit'}}"><i
+                                        class="fas fa-edit"></i></a>
+                                <a class="item-control feature-delete" title="{{localize 'DL.FeatureDelete'}}"><i
+                                        class="fas fa-trash"></i></a>
+                            </div>
+                            <div class="featurename">{{feature.name}}</div>
+                            <div class="featurediscription">{{feature.data.description}}
+                            </div>
+                        </li>
+                        {{/each}}
                         {{else}}
-                            {{#each actor.features as |feature id|}}
-                                <li class="feature dropitem" data-item-id="{{feature._id}}">
-                                    <div class="featurename">
-                                        {{feature.name}}
-                                    </div>
-                                    <div class="featurediscription">{{feature.data.description}}
-                                    </div>
-                                </li>
-                            {{/each}}
+                        {{#each actor.features as |feature id|}}
+                        <li class="feature dropitem" data-item-id="{{feature._id}}">
+                            <div class="featurename">
+                                {{feature.name}}
+                            </div>
+                            <div class="featurediscription">{{feature.data.description}}
+                            </div>
+                        </li>
+                        {{/each}}
                         {{/if}}
                     </ol>
                 </div>
             </div>
         </div>
         <div class="right">
-            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="180" width="130" />
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="180"
+                width="130" />
             <div class="edit">
                 <a class="creature-edit" title="{{localize 'DL.CreatureEdit'}}">
                     {{#if data.edit}}
-                        <i class="fas fa-save"> {{localize "DL.CreatureSave"}}</i>
+                    <i class="fas fa-save"> {{localize "DL.CreatureSave"}}</i>
                     {{else}}
-                        <i class="fas fa-edit"> {{localize "DL.CreatureEdit"}}</i>
+                    <i class="fas fa-edit"> {{localize "DL.CreatureEdit"}}</i>
                     {{/if}}
                 </a>
             </div>
@@ -222,193 +259,217 @@
             <div class="header">
                 <div class="itemname">{{localize "DL.CreatureAttackOptions"}}</div>
                 {{#if data.edit}}
-                    <div class="item-controls">
-                        <a class="item-control item-create" title="{{localize 'DL.CreatureAddAttackOptions'}}" data-type="weapon"><i class="fas fa-plus"></i></a>
-                    </div>
+                <div class="item-controls">
+                    <a class="item-control item-create" title="{{localize 'DL.CreatureAddAttackOptions'}}"
+                        data-type="weapon"><i class="fas fa-plus"></i></a>
+                </div>
                 {{/if}}
             </div>
             <ol class="body">
                 {{#if data.edit}}
-                    {{#each actor.weapons as |weapon id|}}
-                        <li class="item dropitem" data-item-id="{{weapon._id}}">
-                            <div class="itemname">
-                                {{weapon.name}}
-                            </div>
-                            <div class="item-controls">
-                                <a class="item-control item-edit" title="{{localize 'DL.WeaponEdit'}}"><i class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-trash"></i></a>
-                            </div>
-                        </li>
-                    {{/each}}
+                {{#each actor.weapons as |weapon id|}}
+                <li class="item dropitem" data-item-id="{{weapon._id}}">
+                    <div class="itemname">
+                        {{weapon.name}}
+                    </div>
+                    <div class="item-controls">
+                        <a class="item-control item-edit" title="{{localize 'DL.WeaponEdit'}}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="{{localize 'DL.WeaponDelete'}}"><i
+                                class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/each}}
                 {{else}}
-                    {{#each actor.weapons as |weapon id|}}
-                        {{#if data.description}}
-                            <li class="item dropitem" data-item-id="{{weapon._id}}">
-                                <div class="itemnamefull" data-key="{{id}}">{{weapon.name}}
-                                </div>
-                                <div class="itemtext">{{data.description}}</div>
-                            </li>
-                        {{else}}
-                            <li class="item" data-item-id="{{weapon._id}}">
-                                <div class="itemnamefull dropitem attack-roll" data-key="{{id}}">{{weapon.name}}
-                                    {{#if data.properties}}
-                                        ({{data.properties}}) {{/if}}{{#if data.action.boonsbanes}}{{localize "DL.CreatureWeaponWith"}} {{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}} {{#if data.action.boonsbanes}}{{localize "DL.WeaponBoonsBanes"}}{{/if}}{{#if data.action.damage}} ({{data.action.damage}}){{/if}}
-                                </div>
-                            </li>
-                        {{/if}}
-                    {{/each}}
+                {{#each actor.weapons as |weapon id|}}
+                {{#if data.description}}
+                <li class="item dropitem" data-item-id="{{weapon._id}}">
+                    <div class="itemnamefull" data-key="{{id}}">{{weapon.name}}
+                    </div>
+                    <div class="itemtext">{{data.description}}</div>
+                </li>
+                {{else}}
+                <li class="item" data-item-id="{{weapon._id}}">
+                    <div class="itemnamefull dropitem attack-roll" data-key="{{id}}">{{weapon.name}}
+                        {{#if data.properties}}
+                        ({{data.properties}}) {{/if}}{{#if data.action.boonsbanes}}{{localize "DL.CreatureWeaponWith"}}
+                        {{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}
+                        {{#if data.action.boonsbanes}}{{localize "DL.WeaponBoonsBanes"}}{{/if}}{{#if data.action.damage}}
+                        ({{data.action.damage}}){{/if}}
+                    </div>
+                </li>
+                {{/if}}
+                {{/each}}
                 {{/if}}
             </ol>
             <div class="header">
                 <div class="itemname">{{localize "DL.CreatureSpecialAttacks"}}</div>
                 {{#if data.edit}}
-                    <div class="item-controls">
-                        <a class="item-control item-create" title="{{localize 'DL.CreatureAddSpecialAttacks'}}" data-type="specialattack"><i class="fas fa-plus"></i></a>
-                    </div>
+                <div class="item-controls">
+                    <a class="item-control item-create" title="{{localize 'DL.CreatureAddSpecialAttacks'}}"
+                        data-type="specialattack"><i class="fas fa-plus"></i></a>
+                </div>
                 {{/if}}
             </div>
             <ol class="body">
                 {{#if data.edit}}
-                    {{#each actor.specialattacks as |item id|}}
-                        <li class="item" data-item-id="{{item._id}}">
-                            <div class="itemname">{{item.name}}</div>
-                            <div class="item-controls">
-                                <a class="item-control item-edit" title="{{localize 'DL.CreatureEditSpecialAttacks'}}"><i class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete" title="{{localize 'DL.CreatureDeleteSpecialAttacks'}}"><i class="fas fa-trash"></i></a>
-                            </div>
-                        </li>
-                    {{/each}}
+                {{#each actor.specialattacks as |item id|}}
+                <li class="item" data-item-id="{{item._id}}">
+                    <div class="itemname">{{item.name}}</div>
+                    <div class="item-controls">
+                        <a class="item-control item-edit" title="{{localize 'DL.CreatureEditSpecialAttacks'}}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="{{localize 'DL.CreatureDeleteSpecialAttacks'}}"><i
+                                class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/each}}
                 {{else}}
-                    {{#each actor.specialattacks as |item id|}}
-                        <li class="item" data-item-id="{{item._id}}">
-                            <div class="itemnamefull">{{item.name}}</div>
-                            <div class="itemtext">{{data.description}}</div>
-                        </li>
-                    {{/each}}
+                {{#each actor.specialattacks as |item id|}}
+                <li class="item" data-item-id="{{item._id}}">
+                    <div class="itemnamefull">{{item.name}}</div>
+                    <div class="itemtext">{{data.description}}</div>
+                </li>
+                {{/each}}
                 {{/if}}
             </ol>
             <div class="header">
                 <div class="itemname">{{localize "DL.CreatureSpecialActions"}}</div>
                 {{#if data.edit}}
-                    <div class="item-controls">
-                        <a class="item-control item-create" title="{{localize 'DL.CreatureAddSpecialActions'}}" data-type="specialaction"><i class="fas fa-plus"></i></a>
-                    </div>
+                <div class="item-controls">
+                    <a class="item-control item-create" title="{{localize 'DL.CreatureAddSpecialActions'}}"
+                        data-type="specialaction"><i class="fas fa-plus"></i></a>
+                </div>
                 {{/if}}
             </div>
             <ol class="body">
                 {{#if data.edit}}
-                    {{#each actor.specialactions as |item id|}}
-                        <li class="item" data-item-id="{{item._id}}">
-                            <div class="itemname">{{item.name}}</div>
-                            <div class="item-controls">
-                                <a class="item-control item-edit" title="{{localize 'DL.CreatureEditSpecialActions'}}"><i class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete" title="{{localize 'DL.CreatureDeleteSpecialActions'}}"><i class="fas fa-trash"></i></a>
-                            </div>
-                        </li>
-                    {{/each}}
+                {{#each actor.specialactions as |item id|}}
+                <li class="item" data-item-id="{{item._id}}">
+                    <div class="itemname">{{item.name}}</div>
+                    <div class="item-controls">
+                        <a class="item-control item-edit" title="{{localize 'DL.CreatureEditSpecialActions'}}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="{{localize 'DL.CreatureDeleteSpecialActions'}}"><i
+                                class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/each}}
                 {{else}}
-                    {{#each actor.specialactions as |item id|}}
-                        <li class="item" data-item-id="{{item._id}}">
-                            <div class="itemnamefull">{{item.name}}</div>
-                            <div class="itemtext">{{data.description}}</div>
-                        </li>
-                    {{/each}}
+                {{#each actor.specialactions as |item id|}}
+                <li class="item" data-item-id="{{item._id}}">
+                    <div class="itemnamefull">{{item.name}}</div>
+                    <div class="itemtext">{{data.description}}</div>
+                </li>
+                {{/each}}
                 {{/if}}
             </ol>
             <div class="header">
                 <div class="itemname">{{localize "DL.CreatureSpecialMagic"}}
                     {{#if data.edit}}
-                        <input name="data.characteristics.power" type="text" value="{{data.characteristics.power}}" />
+                    <input name="data.characteristics.power" type="text" value="{{data.characteristics.power}}" />
                     {{else}}
-                        ({{data.characteristics.power}})
+                    ({{data.characteristics.power}})
                     {{/if}}
                 </div>
                 {{#if data.edit}}
-                    <div class="item-controls">
-                        <a class="item-control tradition-create" title="{{localize 'DL.MagicAddTradition'}}" data-type="spell"><i class="fas fa-plus"></i></a>
-                    </div>
+                <div class="item-controls">
+                    <a class="item-control tradition-create" title="{{localize 'DL.MagicAddTradition'}}"
+                        data-type="spell"><i class="fas fa-plus"></i></a>
+                </div>
                 {{/if}}
             </div>
             <ol class="body">
                 {{#if data.edit}}
-                    {{#each actor.spells as |spell id|}}
-                        {{#if data.traditionid}}
-                            <li class="item spell dropitem" data-item-id="{{spell._id}}">
-                                <div class="itemname">{{spell.name}}</div>
-                                <div class="spellcastings">({{data.castings.value}} / {{data.castings.max}}), </div>
-                                <div class="spelltype">{{data.spelltype}} {{data.rank}}, </div>
-                                <div class="bonesbanes">{{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}</div>
-                                <div class="item-controls">
-                                    <a class="item-control spell-edit" title="{{localize 'DL.MagicEditSpell'}}"><i class="fas fa-edit"></i></a>
-                                    <a class="item-control spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </li>
-                        {{else}}
-                            <li class="item traditionitem" data-item-id="{{spell._id}}">
-                                <div class="tradition">
-                                    <div class="itemname">
-                                        {{#if data.spell.edit}}
-                                            <input class="tradition-focus" type="text" name="spell.name" value="{{spell.name}}" />
-                                        {{else}}
-                                            <label class="tradition-edit" for="spell.name">{{spell.name}}</label>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                                <div class="item-controls">
-                                    <a class="item-control spell-create" title="{{localize 'DL.MagicAddSpell'}}" data-type="spell"><i class="fas fa-plus"></i></a>
-                                    <a class="item-control tradition-delete" title="{{localize 'DL.MagicDeleteTradition'}}"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </li>
-                        {{/if}}
-                    {{/each}}
+                {{#each actor.spells as |spell id|}}
+                {{#if data.traditionid}}
+                <li class="item spell dropitem" data-item-id="{{spell._id}}">
+                    <div class="itemname">{{spell.name}}</div>
+                    <div class="spellcastings">({{data.castings.value}} / {{data.castings.max}}), </div>
+                    <div class="spelltype">{{data.spelltype}} {{data.rank}}, </div>
+                    <div class="bonesbanes">
+                        {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}
+                    </div>
+                    <div class="item-controls">
+                        <a class="item-control spell-edit" title="{{localize 'DL.MagicEditSpell'}}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="item-control spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i
+                                class="fas fa-trash"></i></a>
+                    </div>
+                </li>
                 {{else}}
-                    {{#each actor.spells as |spell id|}}
-                        {{#if data.traditionid}}
-                            <li class="item spell dropitem" data-item-id="{{spell._id}}">
-                                <div class="itemname magic-roll">{{spell.name}}</div>
-                                <div class="spellcastings spell-uses">({{data.castings.value}} / {{data.castings.max}}), </div>
+                <li class="item traditionitem" data-item-id="{{spell._id}}">
+                    <div class="tradition">
+                        <div class="itemname">
+                            {{#if data.spell.edit}}
+                            <input class="tradition-focus" type="text" name="spell.name" value="{{spell.name}}" />
+                            {{else}}
+                            <label class="tradition-edit" for="spell.name">{{spell.name}}</label>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="item-controls">
+                        <a class="item-control spell-create" title="{{localize 'DL.MagicAddSpell'}}"
+                            data-type="spell"><i class="fas fa-plus"></i></a>
+                        <a class="item-control tradition-delete" title="{{localize 'DL.MagicDeleteTradition'}}"><i
+                                class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/if}}
+                {{/each}}
+                {{else}}
+                {{#each actor.spells as |spell id|}}
+                {{#if data.traditionid}}
+                <li class="item spell dropitem" data-item-id="{{spell._id}}">
+                    <div class="itemname magic-roll">{{spell.name}}</div>
+                    <div class="spellcastings spell-uses">({{data.castings.value}} / {{data.castings.max}}), </div>
 
-                                <div class="spelltype">{{data.spelltype}} {{data.rank}}, </div>
-                                <div class="bonesbanes">{{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}</div>
-                            </li>
-                        {{else}}
-                            <li class="item traditionitem" data-item-id="{{spell._id}}">
-                                <div class="tradition">
-                                    <div class="itemname">
-                                        <label for="spell.name">{{localize "DL.MagicTraditionTitle"}}{{spell.name}}</label>
-                                    </div>
-                                </div>
-                            </li>
-                        {{/if}}
-                    {{/each}}
+                    <div class="spelltype">{{data.spelltype}} {{data.rank}}, </div>
+                    <div class="bonesbanes">
+                        {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}
+                    </div>
+                </li>
+                {{else}}
+                <li class="item traditionitem" data-item-id="{{spell._id}}">
+                    <div class="tradition">
+                        <div class="itemname">
+                            <label for="spell.name">{{localize "DL.MagicTraditionTitle"}}{{spell.name}}</label>
+                        </div>
+                    </div>
+                </li>
+                {{/if}}
+                {{/each}}
                 {{/if}}
             </ol>
             <div class="header">
                 <div class="itemname">{{localize "DL.CreatureSpecialEndRound"}}</div>
                 {{#if data.edit}}
-                    <div class="item-controls">
-                        <a class="item-control item-create" title="{{localize 'DL.CreatureAddEndRound'}}" data-type="endoftheround"><i class="fas fa-plus"></i></a>
-                    </div>
+                <div class="item-controls">
+                    <a class="item-control item-create" title="{{localize 'DL.CreatureAddEndRound'}}"
+                        data-type="endoftheround"><i class="fas fa-plus"></i></a>
+                </div>
                 {{/if}}
             </div>
             <ol class="body">
                 {{#if data.edit}}
-                    {{#each actor.endoftheround as |item id|}}
-                        <li class="item" data-item-id="{{item._id}}">
-                            <div class="itemname">{{item.name}}</div>
-                            <div class="item-controls">
-                                <a class="item-control item-edit" title="{{localize 'DL.CreatureEditEndRound'}}"><i class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete" title="{{localize 'DL.CreatureDeleteEndRound'}}"><i class="fas fa-trash"></i></a>
-                            </div>
-                        </li>
-                    {{/each}}
+                {{#each actor.endoftheround as |item id|}}
+                <li class="item" data-item-id="{{item._id}}">
+                    <div class="itemname">{{item.name}}</div>
+                    <div class="item-controls">
+                        <a class="item-control item-edit" title="{{localize 'DL.CreatureEditEndRound'}}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="{{localize 'DL.CreatureDeleteEndRound'}}"><i
+                                class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/each}}
                 {{else}}
-                    {{#each actor.endoftheround as |item id|}}
-                        <li class="item" data-item-id="{{item._id}}">
-                            <div class="itemnamefull">{{item.name}}</div>
-                            <div class="itemtext">{{data.description}}</div>
-                        </li>
-                    {{/each}}
+                {{#each actor.endoftheround as |item id|}}
+                <li class="item" data-item-id="{{item._id}}">
+                    <div class="itemnamefull">{{item.name}}</div>
+                    <div class="itemtext">{{data.description}}</div>
+                </li>
+                {{/each}}
                 {{/if}}
             </ol>
             <div class="header">
