@@ -55,18 +55,6 @@
         padding-right: 5px;
     }
 
-    .FAILURE {
-        float: left;
-        color: red;
-        font-weight: bold;
-    }
-
-    .SUCCESS {
-        float: left;
-        color: green;
-        font-weight: bold;
-    }
-
     .attackbox {
         float: left;
         width: 240px;
@@ -97,6 +85,13 @@
         background: url("icons/magic-palm2.png") no-repeat;
     }
 
+    .challenge-img {
+        float: left;
+        height: 22px;
+        width: 22px;
+        background: url("icons/back-forth2.png") no-repeat;
+    }
+
     .talent-img {
         float: left;
         height: 22px;
@@ -114,6 +109,18 @@
         float: left;
         padding-top: 2px;
         padding-right: 5px;
+    }
+
+    .FAILURE {
+        float: left;
+        color: red;
+        font-weight: bold;
+    }
+
+    .SUCCESS {
+        float: left;
+        color: green;
+        font-weight: bold;
     }
 }
 

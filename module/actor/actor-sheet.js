@@ -733,7 +733,8 @@ export class DemonlordActorSheet extends ActorSheet {
                 speaker: ChatMessage.getSpeaker({
                     actor: this.actor
                 }),
-                content: content
+                content: content,
+                sound: CONFIG.sounds.dice
             });
         });
     }
@@ -822,7 +823,8 @@ export class DemonlordActorSheet extends ActorSheet {
                 speaker: ChatMessage.getSpeaker({
                     actor: this.actor
                 }),
-                content: content
+                content: content,
+                sound: CONFIG.sounds.dice
             });
         });
     }
@@ -916,7 +918,8 @@ export class DemonlordActorSheet extends ActorSheet {
                 speaker: ChatMessage.getSpeaker({
                     actor: this.actor
                 }),
-                content: content
+                content: content,
+                sound: CONFIG.sounds.dice
             });
         });
     }
@@ -1035,7 +1038,8 @@ export class DemonlordActorSheet extends ActorSheet {
                 speaker: ChatMessage.getSpeaker({
                     actor: this.actor
                 }),
-                content: content
+                content: content,
+                sound: CONFIG.sounds.dice
             });
         });
     }

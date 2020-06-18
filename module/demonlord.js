@@ -37,6 +37,7 @@ Hooks.once('init', async function () {
 
     Combat.prototype.rollInitiative = rollInitiative;
     Combat.prototype.setupTurns = setupTurns;
+    //Combat.prototype.startCombat = startCombat;
 
     CONFIG.Actor.entityClass = DemonlordActor;
     CONFIG.Item.entityClass = DemonlordItem;

@@ -190,18 +190,6 @@
   padding-right: 5px;
 }
 
-.demonlord .card-header .FAILURE {
-  float: left;
-  color: red;
-  font-weight: bold;
-}
-
-.demonlord .card-header .SUCCESS {
-  float: left;
-  color: green;
-  font-weight: bold;
-}
-
 .demonlord .card-header .attackbox {
   float: left;
   width: 240px;
@@ -228,6 +216,13 @@
   background: url("icons/magic-palm2.png") no-repeat;
 }
 
+.demonlord .card-headersmall .challenge-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/back-forth2.png") no-repeat;
+}
+
 .demonlord .card-headersmall .talent-img {
   float: left;
   height: 22px;
@@ -245,6 +240,18 @@
   float: left;
   padding-top: 2px;
   padding-right: 5px;
+}
+
+.demonlord .card-headersmall .FAILURE {
+  float: left;
+  color: red;
+  font-weight: bold;
+}
+
+.demonlord .card-headersmall .SUCCESS {
+  float: left;
+  color: green;
+  font-weight: bold;
 }
 
 .demonlord .init-header {
@@ -806,6 +813,7 @@
 
 .demonlord .form-block .form-line .form-fields input[type="checkbox"] {
   width: 15px;
+  margin-top: -1px;
 }
 
 .demonlord .form-block .form-line .form-fields .number input {
@@ -816,6 +824,18 @@
 .demonlord .form-block .form-line .form-fields .numbermid input {
   width: 50px;
   text-align: right;
+}
+
+.demonlord .form-block .form-line .form-fields .radioblock,
+.demonlord .form-block .form-line .form-fields .radioblockfast {
+  padding-right: 15px;
+  margin-left: 0px;
+}
+
+.demonlord .form-block .form-line .form-fields .radioblock input[type="radio"],
+.demonlord .form-block .form-line .form-fields .radioblockfast input[type="radio"] {
+  width: 15px;
+  margin-top: -1px;
 }
 
 .demonlord .form-block .form-line .item-controls {

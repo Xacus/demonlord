@@ -7,4 +7,12 @@ export const registerSettings = function () {
         type: Boolean,
         config: true
     });
+    game.settings.register('demonlord', 'initRandomize', {
+        name: game.i18n.localize('DL.SettingInitRandomize'),
+        hint: game.i18n.localize('DL.SettingInitRandomizeHint'),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 };

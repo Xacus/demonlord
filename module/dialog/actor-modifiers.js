@@ -51,7 +51,14 @@ export class DLActorModifiers extends FormApplication {
 
         html.find('.disable').click(ev => {
             html.find(`input[type=checkbox][id="active"]`).prop('checked', false);
+        });
 
+        html.find('.radioblockfast').click(ev => {
+            this.updateTurnOrder(true);
+        });
+
+        html.find('.radioblock').click(ev => {
+            this.updateTurnOrder(false);
         });
     }
 
@@ -72,11 +79,7 @@ export class DLActorModifiers extends FormApplication {
 
         // Fetch data from form
         for (const [k, v] of Object.entries(formData)) {
-            if (k == "actor.data.fastturn") {
-                this.object.update({
-                    "data.fastturn": v
-                });
-            } else if (k == "id") {
+            if (k == "id") {
                 if (Array.isArray(v)) {
                     for (let id of v) {
                         ids.push(id);
@@ -195,5 +198,11 @@ export class DLActorModifiers extends FormApplication {
             close: () => {}
         });
         d.render(true);
+    }
+
+    async updateTurnOrder(value) {
+        await this.object.update({
+            "data.fastturn": value
+        });
     }
 }

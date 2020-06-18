@@ -75,6 +75,7 @@
 
             input[type="checkbox"] {
                 width: 15px;
+                margin-top: -1px;
             }
 
             .number {
@@ -88,6 +89,17 @@
                 input {
                     width: 50px;
                     text-align: right;
+                }
+            }
+
+            .radioblock,
+            .radioblockfast {
+                padding-right: 15px;
+                margin-left: 0px;
+
+                input[type="radio"] {
+                    width: 15px;
+                    margin-top: -1px;
                 }
             }
         }
