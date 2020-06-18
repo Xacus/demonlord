@@ -49,22 +49,20 @@ export class DemonlordItem extends Item {
         let template = "";
         let templateData = null;
 
+        const roll = this.makeAttackRoll(item, boonsbanes);
+
         if (datatype == "weapon") {
             template = "systems/demonlord/templates/chat/combat.html"
-
-            templateData = this.getChatData(item, boonsbanes);
+            templateData = this.getChatData(roll, item, boonsbanes);
         } else if (datatype == "spell") {
             template = "systems/demonlord/templates/chat/spell.html"
-
-            templateData = this.getChatData(item, boonsbanes);
+            templateData = this.getChatData(roll, item, boonsbanes);
         } else if (datatype == "talent") {
             template = "systems/demonlord/templates/chat/talent.html"
-
-            templateData = this.getChatData(item, boonsbanes);
+            templateData = this.getChatData(roll, item, boonsbanes);
         }
 
-        // Basic chat message data
-        const chatData = {
+        let chatData = {
             user: game.user._id,
             speaker: {
                 actor: this.actor._id,
@@ -78,6 +76,17 @@ export class DemonlordItem extends Item {
         if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM").map(u => u._id);
         if (rollMode === "blindroll") chatData["blind"] = true;
 
+        renderTemplate(template, templateData).then(content => {
+            chatData.content = content;
+            if (game.dice3d) {
+                game.dice3d.showForRoll(roll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+              } else {
+                chatData.sound = CONFIG.sounds.dice;
+                ChatMessage.create(chatData);
+              }
+        });
+
+/*
         // Render the template
         chatData["content"] = await renderTemplate(template, templateData);
 
@@ -85,12 +94,11 @@ export class DemonlordItem extends Item {
         return ChatMessage.create(chatData, {
             displaySheet: false
         });
+        */
     }
 
-    getChatData(item, boonsbanes) {
-        const datatype = item.type.toLowerCase();
+    makeAttackRoll(item, boonsbanes) {
         let diceformular = "1d20";
-        let dataTemplate;
         let roll = false;
 
         // Add Attribute modifer to roll
@@ -111,7 +119,14 @@ export class DemonlordItem extends Item {
             diceformular = diceformular + "+" + boonsbanes + "d6kh";
         }
         let attackRoll = new Roll(diceformular, {});
-        attackRoll.roll();
+        return attackRoll.roll();
+    }
+
+    getChatData(attackRoll, item, boonsbanes) {
+        const datatype = item.type.toLowerCase();
+        let dataTemplate;
+
+        let attackAttribute = item.data.action.attack;
 
         // Roll Against Target
         const targetNumber = this.getTargetNumber(item);

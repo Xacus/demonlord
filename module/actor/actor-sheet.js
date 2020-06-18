@@ -707,7 +707,6 @@ export class DemonlordActorSheet extends ActorSheet {
         let r = new Roll(diceformular, {});
         r.roll();
 
-
         var templateData = {
             actor: this.actor,
             item: {
@@ -726,16 +725,24 @@ export class DemonlordActorSheet extends ActorSheet {
             }
         };
 
+        let chatData = {
+            user: game.user._id,
+            speaker: {
+                actor: this.actor._id,
+                token: this.actor.token,
+                alias: this.actor.name
+            }
+        };
+
         let template = 'systems/demonlord/templates/chat/challenge.html';
         renderTemplate(template, templateData).then(content => {
-            ChatMessage.create({
-                user: game.user._id,
-                speaker: ChatMessage.getSpeaker({
-                    actor: this.actor
-                }),
-                content: content,
-                sound: CONFIG.sounds.dice
-            });
+            chatData.content = content;
+            if (game.dice3d) {
+                game.dice3d.showForRoll(r, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+              } else {
+                chatData.sound = CONFIG.sounds.dice;
+                ChatMessage.create(chatData);
+              }
         });
     }
 
@@ -816,16 +823,24 @@ export class DemonlordActorSheet extends ActorSheet {
             }
         };
 
+        let chatData = {
+            user: game.user._id,
+            speaker: {
+                actor: this.actor._id,
+                token: this.actor.token,
+                alias: this.actor.name
+            }
+        };
+          
         let template = 'systems/demonlord/templates/chat/combat.html';
         renderTemplate(template, templateData).then(content => {
-            ChatMessage.create({
-                user: game.user._id,
-                speaker: ChatMessage.getSpeaker({
-                    actor: this.actor
-                }),
-                content: content,
-                sound: CONFIG.sounds.dice
-            });
+            chatData.content = content;
+            if (game.dice3d) {
+                game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+              } else {
+                chatData.sound = CONFIG.sounds.dice;
+                ChatMessage.create(chatData);
+              }
         });
     }
 
@@ -911,16 +926,24 @@ export class DemonlordActorSheet extends ActorSheet {
             }
         };
 
+        let chatData = {
+            user: game.user._id,
+            speaker: {
+                actor: this.actor._id,
+                token: this.actor.token,
+                alias: this.actor.name
+            }
+        };
+
         let template = 'systems/demonlord/templates/chat/talent.html';
         renderTemplate(template, templateData).then(content => {
-            ChatMessage.create({
-                user: game.user._id,
-                speaker: ChatMessage.getSpeaker({
-                    actor: this.actor
-                }),
-                content: content,
-                sound: CONFIG.sounds.dice
-            });
+            chatData.content = content;
+            if (game.dice3d) {
+                game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+              } else {
+                chatData.sound = CONFIG.sounds.dice;
+                ChatMessage.create(chatData);
+              }
         });
     }
 
@@ -1031,16 +1054,24 @@ export class DemonlordActorSheet extends ActorSheet {
             }
         };
 
+        let chatData = {
+            user: game.user._id,
+            speaker: {
+                actor: this.actor._id,
+                token: this.actor.token,
+                alias: this.actor.name
+            }
+        };
+
         let template = 'systems/demonlord/templates/chat/spell.html';
         renderTemplate(template, templateData).then(content => {
-            ChatMessage.create({
-                user: game.user._id,
-                speaker: ChatMessage.getSpeaker({
-                    actor: this.actor
-                }),
-                content: content,
-                sound: CONFIG.sounds.dice
-            });
+            chatData.content = content;
+            if (game.dice3d) {
+                game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+              } else {
+                chatData.sound = CONFIG.sounds.dice;
+                ChatMessage.create(chatData);
+              }
         });
     }
 

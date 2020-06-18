@@ -17,6 +17,8 @@ Uses the standard Combat Tracker but with a few changes. It still uses the stand
 ### **Compendiums:**
 The weapons, armors and ammunition from the core rulebook is available for draging and droping onto your character sheet.
 
+### **Dice So Nice!:**
+This module is supported.
 
 Shadow of the Demon Lord is ©2015 Schwalb Entertainment, LLC. All rights reserved.
 Shadow of the Demon Lord, Schwalb Entertainment, and their associated logos are trademarks of Schwalb Entertainment, LLC.
