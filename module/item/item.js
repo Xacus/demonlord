@@ -358,9 +358,9 @@ export class DemonlordItem extends Item {
     async addDamageToTarget(damage) {
         game.user.targets.forEach(async target => {
             const targetActor = target.actor;
-            const currentDamage = 0 + targetActor.data.data.characteristics.health.damage;
+            const currentDamage = parseInt(targetActor.data.data.characteristics.health.value);
             await targetActor.update({
-                "data.characteristics.health.damage": currentDamage + damage
+                "data.characteristics.health.value": currentDamage + damage
             });
         });
     }

@@ -1,6 +1,9 @@
 {
     "Actor": {
-        "types": ["character", "creature"],
+        "types": [
+            "character",
+            "creature"
+        ],
         "templates": {
             "base": {
                 "description": "",
@@ -40,7 +43,7 @@
                 "characteristics": {
                     "health": {
                         "max": 0,
-                        "damage": 0,
+                        "value": 0,
                         "injured": false,
                         "healingrate": 0
                     },
@@ -75,7 +78,9 @@
             }
         },
         "character": {
-            "templates": ["base"],
+            "templates": [
+                "base"
+            ],
             "level": 0,
             "ancestry": "",
             "religion": {
@@ -116,7 +121,9 @@
             }
         },
         "creature": {
-            "templates": ["base"],
+            "templates": [
+                "base"
+            ],
             "edit": false,
             "difficulty": 0,
             "frightening": false,
@@ -128,7 +135,20 @@
         }
     },
     "Item": {
-        "types": ["item", "feature", "spell", "talent", "weapon", "armor", "ammo", "specialattack", "specialaction", "magic", "endoftheround", "mod"],
+        "types": [
+            "item",
+            "feature",
+            "spell",
+            "talent",
+            "weapon",
+            "armor",
+            "ammo",
+            "specialattack",
+            "specialaction",
+            "magic",
+            "endoftheround",
+            "mod"
+        ],
         "templates": {
             "base": {
                 "description": ""
@@ -142,16 +162,23 @@
             }
         },
         "item": {
-            "templates": ["base"],
+            "templates": [
+                "base"
+            ],
             "quantity": 1
         },
         "feature": {
-            "templates": ["base"]
+            "templates": [
+                "base"
+            ]
         },
         "spell": {
             "traditionid": "",
             "edit": false,
-            "templates": ["base", "action"],
+            "templates": [
+                "base",
+                "action"
+            ],
             "spelltype": "",
             "rank": 0,
             "attribute": "",
@@ -170,36 +197,54 @@
             "triggered": ""
         },
         "talent": {
-            "templates": ["base", "action"],
+            "templates": [
+                "base",
+                "action"
+            ],
             "uses": {
                 "value": 0,
                 "max": 0
             }
         },
         "weapon": {
-            "templates": ["base", "action"],
+            "templates": [
+                "base",
+                "action"
+            ],
             "hands": "",
             "properties": ""
         },
         "armor": {
-            "templates": ["base"],
+            "templates": [
+                "base"
+            ],
             "defense": ""
         },
         "ammo": {
-            "templates": ["base"],
+            "templates": [
+                "base"
+            ],
             "amount": 0
         },
         "specialattack": {
-            "templates": ["base"]
+            "templates": [
+                "base"
+            ]
         },
         "specialaction": {
-            "templates": ["base"]
+            "templates": [
+                "base"
+            ]
         },
         "magic": {
-            "templates": ["base"]
+            "templates": [
+                "base"
+            ]
         },
         "endoftheround": {
-            "templates": ["base"]
+            "templates": [
+                "base"
+            ]
         },
         "mod": {
             "active": true,

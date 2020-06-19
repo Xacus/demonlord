@@ -4,7 +4,8 @@
             <li class="form-line">
                 <div class="form-fieldheader bold">{{localize "DL.ModsModsField"}}</div>
                 <div class="item-controls">
-                    <a class="item-control item-create" title="{{localize 'DL.ModsAdd'}}" data-type="mod"><i class="fas fa-plus"></i></a>
+                    <a class="item-control item-create" title="{{localize 'DL.ModsAdd'}}" data-type="mod"><i
+                            class="fas fa-plus"></i></a>
                 </div>
             </li>
             <li class="form-line">
@@ -26,46 +27,53 @@
 
             </li>
             {{#each mods as |item id|}}
-                <li class="form-line dropitem" data-item-id="{{item._id}}">
-                    <div class="form-line">
-                        <input type="hidden" name="id" value="{{item._id}}" />
-                        <div class="enablemod"><input type="checkbox" name="item.data.active" id="active" {{checked item.data.active}} /></div>
-                        <div class="form-fields">
-                            <input type="text" name="item.name" value="{{item.name}}" />
-                        </div>
-                        <div class="form-fields">
-                            <select name="item.data.modtype" data-dtype="String">
-                                {{#select item.data.modtype}}
-                                    <option value="">—</option>
-                                    <option value="{{localize 'DL.ModsListBoonsBanes'}}">{{localize "DL.ModsListBoonsBanes"}}</option>
-                                    <option value="{{localize 'DL.ModsListDamage'}}">{{localize "DL.ModsListDamage"}}</option>
-                                    <option value="{{localize 'DL.ModsListAttack'}}">{{localize "DL.ModsListAttack"}}</option>
-                                    <option value="{{localize 'DL.ModsListChallenge'}}">{{localize "DL.ModsListChallenge"}}</option>
-                                    <option value="{{localize 'DL.ModsListDefense'}}">{{localize "DL.ModsListDefense"}}</option>
-                                    <option value="{{localize 'DL.ModsListHealth'}}">{{localize "DL.ModsListHealth"}}</option>
-                                    <option value="{{localize 'DL.ModsListStrength'}}">{{localize "DL.ModsListStrength"}}</option>
-                                    <option value="{{localize 'DL.ModsListAgility'}}">{{localize "DL.ModsListAgility"}}</option>
-                                    <option value="{{localize 'DL.ModsListIntellect'}}">{{localize "DL.ModsListIntellect"}}</option>
-                                    <option value="{{localize 'DL.AttributeWill'}}">{{localize "DL.AttributeWill"}}</option>
-                                    <option value="{{localize 'DL.ModsListPerception'}}">{{localize "DL.ModsListPerception"}}</option>
-                                {{/select}}
-                            </select>
-                        </div>
-                        <div class="form-fields">
-                            <div class="number">
-                                <input type="text" name="item.data.modifier" value="{{item.data.modifier}}" />
-                            </div>
-                        </div>
-                        <div class="form-fields">
-                            <div class="number">
-                                <input type="text" name="item.data.rounds" value="{{item.data.rounds}}" />
-                            </div>
-                        </div>
-                        <div class="item-controls">
-                            <a class="item-control item-delete" title="{{localize 'DL.ModsDelete'}}"><i class="fas fa-trash"></i></a>
+            <li class="form-line dropitem" data-item-id="{{item._id}}">
+                <div class="form-line">
+                    <input type="hidden" name="id" value="{{item._id}}" />
+                    <div class="enablemod"><input type="checkbox" name="item.data.active" id="active"
+                            {{checked item.data.active}} /></div>
+                    <div class="form-fields">
+                        <input type="text" name="item.name" value="{{item.name}}" />
+                    </div>
+                    <div class="form-fields">
+                        <select name="item.data.modtype" data-dtype="String">
+                            {{#select item.data.modtype}}
+                            <option value="">—</option>
+                            <option value="{{localize 'DL.ModsListBoonsBanes'}}">{{localize "DL.ModsListBoonsBanes"}}
+                            </option>
+                            <option value="{{localize 'DL.ModsListDamage'}}">{{localize "DL.ModsListDamage"}}</option>
+                            <option value="{{localize 'DL.ModsListAttack'}}">{{localize "DL.ModsListAttack"}}</option>
+                            <option value="{{localize 'DL.ModsListChallenge'}}">{{localize "DL.ModsListChallenge"}}
+                            </option>
+                            <option value="{{localize 'DL.ModsListDefense'}}">{{localize "DL.ModsListDefense"}}</option>
+                            <option value="{{localize 'DL.ModsListHealth'}}">{{localize "DL.ModsListHealth"}}</option>
+                            <option value="{{localize 'DL.ModsListStrength'}}">{{localize "DL.ModsListStrength"}}
+                            </option>
+                            <option value="{{localize 'DL.ModsListAgility'}}">{{localize "DL.ModsListAgility"}}</option>
+                            <option value="{{localize 'DL.ModsListIntellect'}}">{{localize "DL.ModsListIntellect"}}
+                            </option>
+                            <option value="{{localize 'DL.AttributeWill'}}">{{localize "DL.AttributeWill"}}</option>
+                            <option value="{{localize 'DL.ModsListPerception'}}">{{localize "DL.ModsListPerception"}}
+                            </option>
+                            {{/select}}
+                        </select>
+                    </div>
+                    <div class="form-fields">
+                        <div class="number">
+                            <input type="text" name="item.data.modifier" value="{{item.data.modifier}}" />
                         </div>
                     </div>
-                </li>
+                    <div class="form-fields">
+                        <div class="number">
+                            <input type="text" name="item.data.rounds" value="{{item.data.rounds}}" />
+                        </div>
+                    </div>
+                    <div class="item-controls">
+                        <a class="item-control item-delete" title="{{localize 'DL.ModsDelete'}}"><i
+                                class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+            </li>
             {{/each}}
         </ol>
     </div>
@@ -77,23 +85,23 @@
             <li class="form-line">
                 <div class="form-fields">
                     {{#if actor.data.fastturn}}
-                        <div class="radioblockfast">
-                            <input type="radio" name="actor.data.fastturn" id="data.fastturn.true" checked />
-                            <label for="data.fastturn.true">{{localize "DL.ModsFastTurnField"}}</label>
-                        </div>
-                        <div class="radioblock">
-                            <input type="radio" name="actor.data.fastturn" id="data.fastturn.false" />
-                            <label for="data.fastturn.false">{{localize "DL.ModsSlowTurnField"}}</label>
-                        </div>
+                    <div class="radioblockfast">
+                        <input type="radio" name="actor.data.fastturn" id="data.fastturn.true" checked />
+                        <label for="data.fastturn.true">{{localize "DL.ModsFastTurnField"}}</label>
+                    </div>
+                    <div class="radioblock">
+                        <input type="radio" name="actor.data.fastturn" id="data.fastturn.false" />
+                        <label for="data.fastturn.false">{{localize "DL.ModsSlowTurnField"}}</label>
+                    </div>
                     {{else}}
-                        <div class="radioblockfast">
-                            <input type="radio" name="actor.data.fastturn" id="data.fastturn.true" />
-                            <label for="data.fastturn.true">{{localize "DL.ModsFastTurnField"}}</label>
-                        </div>
-                        <div class="radioblock">
-                            <input type="radio" name="actor.data.fastturn" id="data.fastturn.false" checked />
-                            <label for="data.fastturn.false">{{localize "DL.ModsSlowTurnField"}}</label>
-                        </div>
+                    <div class="radioblockfast">
+                        <input type="radio" name="actor.data.fastturn" id="data.fastturn.true" />
+                        <label for="data.fastturn.true">{{localize "DL.ModsFastTurnField"}}</label>
+                    </div>
+                    <div class="radioblock">
+                        <input type="radio" name="actor.data.fastturn" id="data.fastturn.false" checked />
+                        <label for="data.fastturn.false">{{localize "DL.ModsSlowTurnField"}}</label>
+                    </div>
                     {{/if}}
                 </div>
             </li>

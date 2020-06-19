@@ -5,30 +5,38 @@
 
         <div class="header-fields">
             <div class="topline gridrow">
-                <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+                <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100"
+                    width="100" />
                 <div class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></div>
-                <div class="charancestry"><input name="data.ancestry" type="text" value="{{data.ancestry}}" placeholder="Ancestry" /></div>
-                <div class="charsex"><input name="data.apperance.sex" type="text" value="{{data.apperance.sex}}" placeholder="Sex" /></div>
+                <div class="charancestry"><input name="data.ancestry" type="text" value="{{data.ancestry}}"
+                        placeholder="Ancestry" /></div>
+                <div class="charsex"><input name="data.apperance.sex" type="text" value="{{data.apperance.sex}}"
+                        placeholder="Sex" /></div>
             </div>
             <div class="attributes grid grid-5col">
                 {{#each data.attributes as |attribute key|}}
-                    <div class="attributebox">
-                        <div class="attribute">
-                            <input name="data.attributes.{{key}}.value" type="text" value="{{attribute.value}}" data-dtype="{{attribute.dtype}}" placeholder="" />
-                        </div>
-                        <div class="attributemod">
-                            <label for="data.attribute.{{key}}.modifier" class="mod">{{numberFormat attribute.modifier decimals=0 sign=true}}</label>
-                        </div>
-
-                        <div class="attributetext attribute-roll" data-key="{{key}}"><label for="data.attribute.{{key}}.value">{{attribute.label}}</label></div>
+                <div class="attributebox">
+                    <div class="attribute">
+                        <input name="data.attributes.{{key}}.value" type="text" value="{{attribute.value}}"
+                            data-dtype="{{attribute.dtype}}" placeholder="" />
                     </div>
+                    <div class="attributemod">
+                        <label for="data.attribute.{{key}}.modifier"
+                            class="mod">{{numberFormat attribute.modifier decimals=0 sign=true}}</label>
+                    </div>
+
+                    <div class="attributetext attribute-roll" data-key="{{key}}"><label
+                            for="data.attribute.{{key}}.value">{{attribute.label}}</label></div>
+                </div>
                 {{/each}}
             </div>
             <div class="characteristics grid grid-6col">
                 <div class="characteristic">
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.level.value" type="text" value="{{data.characteristics.level.value}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.level.value" type="text"
+                                value="{{data.characteristics.level.value}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
                             <label for="data.characteristics.level.value">{{localize "DL.CharLevel"}}</label>
@@ -36,7 +44,9 @@
                     </div>
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.size.value" type="text" value="{{data.characteristics.size.value}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.size.value" type="text"
+                                value="{{data.characteristics.size.value}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
                             <label for="data.characteristics.size.value">{{localize "DL.CharSize"}}</label>
@@ -46,7 +56,9 @@
                 <div class="characteristic">
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.speed.value" type="text" value="{{data.characteristics.speed.value}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.speed.value" type="text"
+                                value="{{data.characteristics.speed.value}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
                             <label for="data.characteristics.speed.value">{{localize "DL.CharSpeed"}}</label>
@@ -54,7 +66,9 @@
                     </div>
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.power.value" type="text" value="{{data.characteristics.power.value}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.power.value" type="text"
+                                value="{{data.characteristics.power.value}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
                             <label for="data.characteristics.power.value">{{localize "DL.CharPower"}}</label>
@@ -64,7 +78,9 @@
                 <div class="characteristic">
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.insanity.value" type="text" value="{{data.characteristics.insanity.value}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.insanity.value" type="text"
+                                value="{{data.characteristics.insanity.value}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
                             <label for="data.characteristics.insanity.value">{{localize "DL.CharInsanity"}}</label>
@@ -72,7 +88,9 @@
                     </div>
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.corruption.value" type="text" value="{{data.characteristics.corruption.value}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.corruption.value" type="text"
+                                value="{{data.characteristics.corruption.value}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
                             <label for="data.characteristics.corruption.value">{{localize "DL.CharCorruption"}}</label>
@@ -82,7 +100,9 @@
                 <div class="characteristic">
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.health.max" type="text" value="{{data.characteristics.health.max}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.health.max" type="text"
+                                value="{{data.characteristics.health.max}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
                             <label for="data.characteristics.health.max">{{localize "DL.CharHealth"}}</label>
@@ -90,35 +110,45 @@
                     </div>
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.health.healingrate" type="text" value="{{data.characteristics.health.healingrate}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.health.healingrate" type="text"
+                                value="{{data.characteristics.health.healingrate}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
-                            <label for="data.characteristics.health.healingrate">{{localize "DL.CharHealthHealingRating"}}</label>
+                            <label
+                                for="data.characteristics.health.healingrate">{{localize "DL.CharHealthHealingRating"}}</label>
                         </div>
                     </div>
                 </div>
                 <div class="characteristic">
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.health.damage" type="text" value="{{data.characteristics.health.damage}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.health.value" type="text"
+                                value="{{data.characteristics.health.value}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
-                            <label for="data.characteristics.health.damage">{{localize "DL.CharHealthDamage"}}</label>
+                            <label for="data.characteristics.health.value">{{localize "DL.CharHealthDamage"}}</label>
                         </div>
                     </div>
                     <div class="charbox">
                         <div class="char">
-                            <input type="checkbox" name="data.characteristics.health.injured" id="data.characteristics.health.injured" class="checkbox" {{checked data.characteristics.health.injured}} /><label for="data.characteristics.health.injured" />
+                            <input type="checkbox" name="data.characteristics.health.injured"
+                                id="data.characteristics.health.injured" class="checkbox"
+                                {{checked data.characteristics.health.injured}} /><label
+                                for="data.characteristics.health.injured" />
                         </div>
                         <div class="chartextinjured">
-                            <label for="data.characteristics.health.max">{{localize "DL.CharHealthInjured"}}</label>
+                            <label for="data.characteristics.health.injured">{{localize "DL.CharHealthInjured"}}</label>
                         </div>
                     </div>
                 </div>
                 <div class="characteristic">
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.fortune.value" type="text" value="{{data.characteristics.fortune.value}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.fortune.value" type="text"
+                                value="{{data.characteristics.fortune.value}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
                             <label for="data.characteristics.fortune.value">{{localize "DL.CharFortune"}}</label>
@@ -126,7 +156,9 @@
                     </div>
                     <div class="charbox">
                         <div class="char">
-                            <input name="data.characteristics.defense" type="text" value="{{data.characteristics.defense}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+                            <input name="data.characteristics.defense" type="text"
+                                value="{{data.characteristics.defense}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartext">
                             <label for="data.characteristics.defense">{{localize "DL.CharDefense"}}</label>
