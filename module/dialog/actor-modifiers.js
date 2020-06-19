@@ -58,6 +58,11 @@ export class DLActorModifiers extends FormApplication {
             html.find(`input[type=checkbox][id="active"]`).prop('checked', false);
         });
 
+        html.find('.radioblock').click(ev => {
+            this.updateTurnOrder(false);
+        });
+
+        // Affliction Rules
         html.find('.radioblockfast').click(ev => {
             const slowed = html.find(`input[type=checkbox][id="data.afflictions.slowed"]`)[0];
             const frightened = html.find(`input[type=checkbox][id="data.afflictions.frightened"]`)[0];
@@ -69,11 +74,6 @@ export class DLActorModifiers extends FormApplication {
             }
         });
 
-        html.find('.radioblock').click(ev => {
-            this.updateTurnOrder(false);
-        });
-
-        // Affliction Rules
         html.find(`input[type=checkbox][id="data.afflictions.asleep"]`).click(ev => {
             if (ev.currentTarget.checked) {
                 const prone = html.find(`input[type=checkbox][id="data.afflictions.prone"]`).prop('checked', true);
@@ -209,7 +209,8 @@ export class DLActorModifiers extends FormApplication {
             }
             else if (k.includes("afflictions.frightened")) {
                 await this.object.update({
-                    "data.afflictions.frightened": v
+                    "data.afflictions.frightened": v,
+                    "data.fastturn": false
                 });
             }
             else if (k.includes("afflictions.grabbed")) {
@@ -234,12 +235,14 @@ export class DLActorModifiers extends FormApplication {
             }
             else if (k.includes("afflictions.prone")) {
                 await this.object.update({
-                    "data.afflictions.prone": v
+                    "data.afflictions.prone": v,
+                    "data.fastturn": false
                 });
             }
             else if (k.includes("afflictions.slowed")) {
                 await this.object.update({
-                    "data.afflictions.slowed": v
+                    "data.afflictions.slowed": v,
+                    "data.fastturn": false
                 });
             }
             else if (k.includes("afflictions.stunned")) {
