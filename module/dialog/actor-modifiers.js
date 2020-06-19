@@ -5,7 +5,7 @@ export class DLActorModifiers extends FormApplication {
         options.classes = ["demonlord", "sheet", "actor"];
         options.template = 'systems/demonlord/templates/dialogs/actor-modifiers-dialog.html';
         options.width = 350;
-        options.height = 350;
+        options.height = 500;
         return options;
     }
     /* -------------------------------------------- */
@@ -50,6 +50,10 @@ export class DLActorModifiers extends FormApplication {
             this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li, liObj);
         });
 
+        html.find('.disableafflictions').click(ev => {
+            html.find(`input[type=checkbox][id^="data.afflictions"]`).prop('checked', false);
+        });
+
         html.find('.disable').click(ev => {
             html.find(`input[type=checkbox][id="active"]`).prop('checked', false);
         });
@@ -77,6 +81,7 @@ export class DLActorModifiers extends FormApplication {
         const modtype = [];
         const modifiers = [];
         const rounds = [];
+        const afflictions = [];
 
         // Fetch data from form
         for (const [k, v] of Object.entries(formData)) {
@@ -128,6 +133,100 @@ export class DLActorModifiers extends FormApplication {
                 } else {
                     rounds.push(v);
                 }
+            } else if (k.includes("afflictions.asleep")) {
+                await this.object.update({
+                    "data.afflictions.asleep": v
+                });
+            }
+            else if (k.includes("afflictions.blinded")) {
+                await this.object.update({
+                    "data.afflictions.blinded": v
+                });
+            }
+            else if (k.includes("afflictions.charmed")) {
+                await this.object.update({
+                    "data.afflictions.charmed": v
+                });
+            }
+            else if (k.includes("afflictions.compelled")) {
+                await this.object.update({
+                    "data.afflictions.compelled": v
+                });
+            }
+            else if (k.includes("afflictions.dazed")) {
+                await this.object.update({
+                    "data.afflictions.dazed": v
+                });
+            }
+            else if (k.includes("afflictions.deafened")) {
+                await this.object.update({
+                    "data.afflictions.deafened": v
+                });
+            }
+            else if (k.includes("afflictions.defenseless")) {
+                await this.object.update({
+                    "data.afflictions.defenseless": v
+                });
+            }
+            else if (k.includes("afflictions.diseased")) {
+                await this.object.update({
+                    "data.afflictions.diseased": v
+                });
+            }
+            else if (k.includes("afflictions.fatigued")) {
+                await this.object.update({
+                    "data.afflictions.fatigued": v
+                });
+            }
+            else if (k.includes("afflictions.frightened")) {
+                await this.object.update({
+                    "data.afflictions.frightened": v
+                });
+            }
+            else if (k.includes("afflictions.grabbed")) {
+                await this.object.update({
+                    "data.afflictions.grabbed": v
+                });
+            }
+            else if (k.includes("afflictions.immobilized")) {
+                await this.object.update({
+                    "data.afflictions.immobilized": v
+                });
+            }
+            else if (k.includes("afflictions.impaired")) {
+                await this.object.update({
+                    "data.afflictions.impaired": v
+                });
+            }
+            else if (k.includes("afflictions.poisoned")) {
+                await this.object.update({
+                    "data.afflictions.poisoned": v
+                });
+            }
+            else if (k.includes("afflictions.prone")) {
+                await this.object.update({
+                    "data.afflictions.prone": v
+                });
+            }
+            else if (k.includes("afflictions.slowed")) {
+                await this.object.update({
+                    "data.afflictions.slowed": v
+                });
+            }
+            else if (k.includes("afflictions.stunned")) {
+                await this.object.update({
+                    "data.afflictions.stunned": v
+                });
+            }
+            else if (k.includes("afflictions.surprised")) {
+                await this.object.update({
+                    "data.afflictions.surprised": v
+                });
+            }
+            else if (k.includes("afflictions.unconscious")) {
+                await this.object.update({
+                    "data.afflictions.unconscious": v
+                });
             }
         }
 
@@ -204,6 +303,30 @@ export class DLActorModifiers extends FormApplication {
     async updateTurnOrder(value) {
         await this.object.update({
             "data.fastturn": value
+        });
+    }
+
+    async updateAfflictions(afflictions) {
+        await this.object.update({
+            "data.afflictions.asleep": afflictions[0],
+            "data.afflictions.blinded": afflictions[1],
+            "data.afflictions.charmed": afflictions[2],
+            "data.afflictions.compelled": afflictions[3],
+            "data.afflictions.dazed": afflictions[4],
+            "data.afflictions.deafened": afflictions[5],
+            "data.afflictions.defenseless": afflictions[6],
+            "data.afflictions.diseased": afflictions[7],
+            "data.afflictions.fatigued": afflictions[8],
+            "data.afflictions.frightened": afflictions[9],
+            "data.afflictions.grabbed": afflictions[10],
+            "data.afflictions.immobilized": afflictions[11],
+            "data.afflictions.impaired": afflictions[12],
+            "data.afflictions.poisoned": afflictions[13],
+            "data.afflictions.prone": afflictions[14],
+            "data.afflictions.slowed": afflictions[15],
+            "data.afflictions.stunned": afflictions[16],
+            "data.afflictions.surprised": afflictions[17],
+            "data.afflictions.unconscious": afflictions[18]
         });
     }
 }

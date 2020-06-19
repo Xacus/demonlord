@@ -80,6 +80,154 @@
     <div class=form-block>
         <ol class="items-list">
             <li class="form-line">
+                <div class="form-fieldheader bold">{{localize "DL.ModsAfflictions"}}</div>
+            </li>
+            <li class="form-line">
+                <div class="disableafflictions"><a name="disableafflictions"
+                        id="disableafflictions">{{localize "DL.ModsDisableAfflictions"}}</a></div>
+            </li>
+            <li>
+                <div class="grid grid-3col">
+                    <div class="affliction">
+                        <input type="checkbox" name="data.afflictions.asleep" id="data.afflictions.asleep"
+                            {{checked actor.data.afflictions.asleep}} />
+                        <label for="data.afflictions.asleep">
+                            {{localize "DL.asleep"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.blinded" id="data.afflictions.blinded"
+                            {{checked actor.data.afflictions.blinded}} />
+                        <label for="actor.data.afflictions.blinded">
+                            {{localize "DL.blinded"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.charmed" id="data.afflictions.charmed"
+                            {{checked actor.data.afflictions.charmed}} />
+                        <label for="actor.data.afflictions.charmed">
+                            {{localize "DL.charmed"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.compelled"
+                            id="actor.data.afflictions.compelled" {{checked actor.data.afflictions.compelled}} />
+                        <label for="actor.data.afflictions.compelled">
+                            {{localize "DL.compelled"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.dazed" id="data.afflictions.dazed"
+                            {{checked actor.data.afflictions.dazed}} />
+                        <label for="actor.data.afflictions.dazed">
+                            {{localize "DL.dazed"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.deafened" id="data.afflictions.deafened"
+                            {{checked actor.data.afflictions.deafened}} />
+                        <label for="actor.data.afflictions.deafened">
+                            {{localize "DL.deafened"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.defenseless"
+                            id="data.afflictions.defenseless" {{checked actor.data.afflictions.defenseless}} />
+                        <label for="actor.data.afflictions.defenseless">
+                            {{localize "DL.defenseless"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.diseased" id="data.afflictions.diseased"
+                            {{checked actor.data.afflictions.diseased}} />
+                        <label for="actor.data.afflictions.diseased">
+                            {{localize "DL.diseased"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.fatigued" id="data.afflictions.fatigued"
+                            {{checked actor.data.afflictions.fatigued}} />
+                        <label for="actor.data.afflictions.fatigued">
+                            {{localize "DL.fatigued"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.frightened" id="data.afflictions.frightened"
+                            {{checked actor.data.afflictions.frightened}} />
+                        <label for="actor.data.afflictions.frightened">
+                            {{localize "DL.frightened"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.grabbed" id="data.afflictions.grabbed"
+                            {{checked actor.data.afflictions.grabbed}} />
+                        <label for="actor.data.afflictions.grabbed">
+                            {{localize "DL.grabbed"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.immobilized"
+                            id="data.afflictions.immobilized" {{checked actor.data.afflictions.immobilized}} />
+                        <label for="actor.data.afflictions.immobilized">
+                            {{localize "DL.immobilized"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.impaired" id="data.afflictions.impaired"
+                            {{checked actor.data.afflictions.impaired}} />
+                        <label for="actor.data.afflictions.impaired">
+                            {{localize "DL.impaired"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.poisoned" id="data.afflictions.poisoned"
+                            {{checked actor.data.afflictions.poisoned}} />
+                        <label for="actor.data.afflictions.poisoned">
+                            {{localize "DL.poisoned"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.prone" id="data.afflictions.prone"
+                            {{checked actor.data.afflictions.prone}} />
+                        <label for="actor.data.afflictions.prone">
+                            {{localize "DL.prone"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.slowed" id="data.afflictions.slowed"
+                            {{checked actor.data.afflictions.slowed}} />
+                        <label for="actor.data.afflictions.slowed">
+                            {{localize "DL.slowed"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.stunned" id="data.afflictions.stunned"
+                            {{checked actor.data.afflictions.stunned}} />
+                        <label for="actor.data.afflictions.stunned">
+                            {{localize "DL.stunned"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.surprised" id="data.afflictions.surprised"
+                            {{checked actor.data.afflictions.surprised}} />
+                        <label for="actor.data.afflictions.surprised">
+                            {{localize "DL.surprised"}}
+                        </label>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.unconscious"
+                            id="data.afflictions.unconscious" {{checked actor.data.afflictions.unconscious}} />
+                        <label for="actor.data.afflictions.unconscious">
+                            {{localize "DL.unconscious"}}
+                        </label>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+    <div class=form-block>
+        <ol class="items-list">
+            <li class="form-line">
                 <div class="form-fieldheader bold">{{localize "DL.ModsFastTurnFieldHeader"}}</div>
             </li>
             <li class="form-line">

@@ -8,6 +8,24 @@
 
     .items-list {
         margin-bottom: 0;
+
+        .affliction {
+            height: 18px;
+
+            input {
+                float: left;
+            }
+
+            label {
+                float: left;
+                margin-top: 5px;
+            }
+        }
+
+        .grid {
+            gap: 0;
+            margin-top: 0;
+        }
     }
 
     .form-header {
@@ -47,7 +65,6 @@
             height: 16px;
             margin: -2px 5px 0 -8px;
         }
-
 
         .disable {
             float: left;

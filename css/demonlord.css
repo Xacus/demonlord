@@ -748,6 +748,24 @@
   margin-bottom: 0;
 }
 
+.demonlord .form-block .items-list .affliction {
+  height: 18px;
+}
+
+.demonlord .form-block .items-list .affliction input {
+  float: left;
+}
+
+.demonlord .form-block .items-list .affliction label {
+  float: left;
+  margin-top: 5px;
+}
+
+.demonlord .form-block .items-list .grid {
+  gap: 0;
+  margin-top: 0;
+}
+
 .demonlord .form-block .form-header {
   height: 20px;
   padding-top: 2px;

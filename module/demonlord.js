@@ -101,8 +101,8 @@ Hooks.once("ready", async function () {
 Hooks.once("setup", function () {
     // Localize CONFIG objects once up-front
     const toLocalize = [
-    "attributes"
-  ];
+        "attributes"
+    ];
     for (let o of toLocalize) {
         CONFIG.DL[o] = Object.entries(CONFIG.DL[o]).reduce((obj, e) => {
             obj[e[0]] = game.i18n.localize(e[1]);
