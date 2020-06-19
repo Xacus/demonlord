@@ -88,14 +88,6 @@ export class DLActorModifiers extends FormApplication {
             }
         });
 
-
-        html.find(`input[type=checkbox][id="data.afflictions.frightened"]`).click(ev => {
-            if (ev.currentTarget.checked) {
-                html.find(`input[type=radio][id="data.fastturn.false"]`).prop('checked', true);
-                this.updateTurnOrder(false);
-            }
-        });
-
         html.find(`input[type=checkbox][id="data.afflictions.slowed"]`).click(ev => {
             if (ev.currentTarget.checked) {
                 html.find(`input[type=radio][id="data.fastturn.false"]`).prop('checked', true);
@@ -265,6 +257,14 @@ export class DLActorModifiers extends FormApplication {
                     "data.afflictions.unconscious": v
                 });
             }
+        }
+
+        // Afflictions: Asleep 
+        if (this.object.data.data.afflictions.asleep) {
+            await this.object.update({
+                "data.afflictions.prone": true,
+                "data.afflictions.unconscious": true
+            });
         }
 
         // Update Mods     

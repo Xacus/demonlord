@@ -195,7 +195,7 @@ const selectTurnType = async function (actor, fastturn) {
         }
     });
     return new Promise((resolve) => {
-        if (actor.data.data.afflictions.frightened) {
+        if (actor.data.data.afflictions.frightened || actor.data.data.afflictions.slowed) {
             new Dialog({
                 title: `${actor.name}: ${game.i18n.localize('DL.TurnChooseTurn')}`,
                 content: html,
