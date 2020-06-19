@@ -195,28 +195,47 @@ const selectTurnType = async function (actor, fastturn) {
         }
     });
     return new Promise((resolve) => {
-        new Dialog({
-            title: `${actor.name}: ${game.i18n.localize('DL.TurnChooseTurn')}`,
-            content: html,
-            buttons: {
-                ok: {
-                    icon: '<i class="fas"></i>',
-                    label: game.i18n.localize('DL.TurnFast'),
-                    callback: (html) => {
-                        turn = "fast";
+        if (actor.data.data.afflictions.frightened) {
+            new Dialog({
+                title: `${actor.name}: ${game.i18n.localize('DL.TurnChooseTurn')}`,
+                content: html,
+                buttons: {
+                    cancel: {
+                        icon: '<i class="fas"></i>',
+                        label: game.i18n.localize('DL.TurnSlow'),
+                        callback: (html) => {
+                            turn = "slow";
+                        },
                     },
                 },
-                cancel: {
-                    icon: '<i class="fas"></i>',
-                    label: game.i18n.localize('DL.TurnSlow'),
-                    callback: (html) => {
-                        turn = "slow";
+                close: () => {
+                    resolve(turn);
+                },
+            }).render(true);
+        } else {
+            new Dialog({
+                title: `${actor.name}: ${game.i18n.localize('DL.TurnChooseTurn')}`,
+                content: html,
+                buttons: {
+                    ok: {
+                        icon: '<i class="fas"></i>',
+                        label: game.i18n.localize('DL.TurnFast'),
+                        callback: (html) => {
+                            turn = "fast";
+                        },
+                    },
+                    cancel: {
+                        icon: '<i class="fas"></i>',
+                        label: game.i18n.localize('DL.TurnSlow'),
+                        callback: (html) => {
+                            turn = "slow";
+                        },
                     },
                 },
-            },
-            close: () => {
-                resolve(turn);
-            },
-        }).render(true);
+                close: () => {
+                    resolve(turn);
+                },
+            }).render(true);
+        }
     });
 }

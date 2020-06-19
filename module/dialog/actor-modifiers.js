@@ -58,6 +58,13 @@ export class DLActorModifiers extends FormApplication {
             html.find(`input[type=checkbox][id="active"]`).prop('checked', false);
         });
 
+        html.find(`input[type=checkbox][id="data.afflictions.frightened"]`).click(ev => {
+            if (ev.currentTarget.checked) {
+                html.find(`input[type=radio][id="data.fastturn.false"]`).prop('checked', true);
+                this.updateTurnOrder(false);
+            }
+        });
+
         html.find('.radioblockfast').click(ev => {
             this.updateTurnOrder(true);
         });

@@ -673,10 +673,10 @@
 
 .demonlord .creature .actions .description {
   font-size: 12px;
-  argin-top: 0px;
 }
 
-.demonlord .creature .actions .description textarea {
+.demonlord .creature .actions .description .editor, .demonlord .creature .actions .description .editor-content {
+  height: 100%;
   min-height: 200px;
 }
 

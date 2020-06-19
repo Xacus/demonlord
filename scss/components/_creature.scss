@@ -258,9 +258,9 @@
 
         .description {
             font-size: 12px;
-            argin-top: 0px;
 
-            textarea {
+            .editor, .editor-content {
+                height: 100%;
                 min-height: 200px;
             }
         }
@@ -295,8 +295,6 @@
                     height: 14px;
                     font-weight: bold;
                 }
-
-                .itemtext {}
 
                 .item-controls {
                     float: right;
