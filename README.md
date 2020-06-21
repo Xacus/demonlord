@@ -34,6 +34,7 @@ This module is supported.
 - [x] Basic Background (Paths, Professions, Wealth).
 - [x] Combat Tracker (Fast/Slow Turn).
 - [x] Dice So Nice! Support.
+- [x] Macros for players.
 - [ ] Redesign Background (Paths, Professions, Wealth).
 - [ ] Redesign Talents.
 - [ ] Redesign Magic.
