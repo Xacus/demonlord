@@ -6,6 +6,8 @@ Shadow of the Demonlord has no open license, but permission was granted to make 
 
 It a basic and playable character and creature sheet but not with much automation. 
 
+## **Features**
+
 ### **Combat Tracker:**
 Uses the standard Combat Tracker but with a few changes. It still uses the standard way of having a initiative value that determines the order of actors. You can still change the number manually if your players need a different order.
 
@@ -19,6 +21,26 @@ The weapons, armors and ammunition from the core rulebook is available for dragi
 
 ### **Dice So Nice!:**
 This module is supported.
+
+
+## **Plans**
+- [x] Enter Abilities, Characteristics and calculate modifers.
+- [x] Weapons.
+- [x] Talents.
+- [x] Magic(Traditions and Spells)
+- [x] Items.
+- [x] Creature statblock.
+- [x] Compendium.
+- [x] Basic Background (Paths, Professions, Wealth).
+- [x] Combat Tracker (Fast/Slow Turn).
+- [x] Dice So Nice! Support.
+- [ ] Redesign Background (Paths, Professions, Wealth).
+- [ ] Redesign Talents.
+- [ ] Redesign Magic.
+- [ ] Actor Mods (Your character buffs)
+- [ ] Afflictions.
+- [ ] Rules Engine.
+- [ ] New design.
 
 Shadow of the Demon Lord is ©2015 Schwalb Entertainment, LLC. All rights reserved.
 Shadow of the Demon Lord, Schwalb Entertainment, and their associated logos are trademarks of Schwalb Entertainment, LLC.
