@@ -121,11 +121,162 @@ Hooks.on("renderCombatTracker", (app, html, data) => {
 
         init = combatant.actor.data.data.fastturn ? game.i18n.localize('DL.TurnFast') : game.i18n.localize('DL.TurnSlow');
 
-        el.getElementsByClassName('token-initiative')[0].innerHTML = `<span class="initiative">` + init + `</span>`;
+        el.getElementsByClassName('token-initiative')[0].innerHTML = `<span class="initiative turnorder">` + init + `</span>`;
 
         //el.getElementsByClassName('token-initiative')[0].innerHTML = `<a class="combatant-control turnorder" title="` + game.i18n.localize('DL.TurnChooseTurn') + `" data-control="rollInitiative">` + init + `</a>`;
         //  this.combat.rollInitiative(li.data('combatant-id'))
     });
+});
+
+Hooks.on('updateActor', async (actor, updateData, options, userId) => {
+    if (updateData.data &&
+        (game.user.isGM || actor.owner)) {
+        const actorData = actor.data;
+        const asleep = CONFIG.DL.statusIcons.asleep;
+        const blinded = CONFIG.DL.statusIcons.blinded;
+        const dazed = CONFIG.DL.statusIcons.dazed;
+        const deafened = CONFIG.DL.statusIcons.deafened;
+        const frightened = CONFIG.DL.statusIcons.frightened;
+        const poisoned = CONFIG.DL.statusIcons.poisoned;
+        const prone = CONFIG.DL.statusIcons.prone;
+        const unconscious = CONFIG.DL.statusIcons.unconscious;
+        const injured = CONFIG.DL.statusIcons.blood;
+
+        for (const t of actor.getActiveTokens()) {
+            if (t.data.actorLink && t.scene.id === game.scenes.active.id) {
+                if (actorData.data.characteristics.health.injured &&
+                    !t.data.effects.includes(injured))
+                    await t.toggleEffect(injured);
+                else if (!actorData.data.characteristics.health.injured &&
+                    t.data.effects.includes(injured))
+                    await t.toggleEffect(injured);
+                if (actorData.data.afflictions.asleep &&
+                    !t.data.effects.includes(asleep))
+                    await t.toggleEffect(asleep);
+                else if (!actorData.data.afflictions.asleep &&
+                    t.data.effects.includes(asleep))
+                    await t.toggleEffect(asleep);
+                if (actorData.data.afflictions.blinded &&
+                    !t.data.effects.includes(blinded))
+                    await t.toggleEffect(blinded);
+                else if (!actorData.data.afflictions.blinded &&
+                    t.data.effects.includes(blinded))
+                    await t.toggleEffect(blinded);
+                if (actorData.data.afflictions.dazed &&
+                    !t.data.effects.includes(dazed))
+                    await t.toggleEffect(dazed);
+                else if (!actorData.data.afflictions.dazed &&
+                    t.data.effects.includes(dazed))
+                    await t.toggleEffect(dazed);
+                if (actorData.data.afflictions.deafened &&
+                    !t.data.effects.includes(deafened))
+                    await t.toggleEffect(deafened);
+                else if (!actorData.data.afflictions.deafened &&
+                    t.data.effects.includes(deafened))
+                    await t.toggleEffect(deafened);
+                if (actorData.data.afflictions.frightened &&
+                    !t.data.effects.includes(frightened))
+                    await t.toggleEffect(frightened);
+                else if (!actorData.data.afflictions.frightened &&
+                    t.data.effects.includes(frightened))
+                    await t.toggleEffect(frightened);
+                if (actorData.data.afflictions.poisoned &&
+                    !t.data.effects.includes(poisoned))
+                    await t.toggleEffect(poisoned);
+                else if (!actorData.data.afflictions.poisoned &&
+                    t.data.effects.includes(poisoned))
+                    await t.toggleEffect(poisoned);
+                if (actorData.data.afflictions.prone &&
+                    !t.data.effects.includes(prone))
+                    await t.toggleEffect(prone);
+                else if (!actorData.data.afflictions.prone &&
+                    t.data.effects.includes(prone))
+                    await t.toggleEffect(prone);
+                if (actorData.data.afflictions.unconscious &&
+                    !t.data.effects.includes(unconscious))
+                    await t.toggleEffect(unconscious);
+                else if (!actorData.data.afflictions.unconscious &&
+                    t.data.effects.includes(unconscious))
+                    await t.toggleEffect(unconscious);
+            }
+        }
+    }
+});
+
+Hooks.on('preCreateToken', async (scene, createData, options, userId) => {
+    // return if the token has no linked actor
+    if (!createData.actorLink)
+        return;
+    const actor = game.actors.get(createData.actorId);
+    // return if this token has no actor
+    if (!actor)
+        return;
+
+    const asleep = CONFIG.DL.statusIcons.asleep;
+    const blinded = CONFIG.DL.statusIcons.blinded;
+    const dazed = CONFIG.DL.statusIcons.dazed;
+    const deafened = CONFIG.DL.statusIcons.deafened;
+    const frightened = CONFIG.DL.statusIcons.frightened;
+    const poisoned = CONFIG.DL.statusIcons.poisoned;
+    const prone = CONFIG.DL.statusIcons.prone;
+    const unconscious = CONFIG.DL.statusIcons.unconscious;
+    const injured = CONFIG.DL.statusIcons.blood;
+
+    const actorData = actor.data;
+    const createEffects = [];
+    if (actorData.data.characteristics.health.injured)
+        createEffects.push(injured);
+    if (actorData.data.afflictions.asleep)
+        createEffects.push(asleep);
+    if (actorData.data.afflictions.blinded)
+        createEffects.push(blinded);
+    if (actorData.data.afflictions.dazed)
+        createEffects.push(dazed);
+    if (actorData.data.afflictions.deafened)
+        createEffects.push(deafened);
+    if (actorData.data.afflictions.frightened)
+        createEffects.push(frightened);
+    if (actorData.data.afflictions.poisoned)
+        createEffects.push(poisoned);
+    if (actorData.data.afflictions.prone)
+        createEffects.push(prone);
+    if (actorData.data.afflictions.unconscious)
+        createEffects.push(unconscious);
+    createData.effects = createEffects;
+});
+
+Hooks.on('preUpdateToken', async (scene, token, updateData, options) => {
+    const asleep = CONFIG.DL.statusIcons.asleep;
+    const blinded = CONFIG.DL.statusIcons.blinded;
+    const dazed = CONFIG.DL.statusIcons.dazed;
+    const deafened = CONFIG.DL.statusIcons.deafened;
+    const frightened = CONFIG.DL.statusIcons.frightened;
+    const poisoned = CONFIG.DL.statusIcons.poisoned;
+    const prone = CONFIG.DL.statusIcons.prone;
+    const unconscious = CONFIG.DL.statusIcons.unconscious;
+    const injured = CONFIG.DL.statusIcons.blood;
+
+    if (updateData.effects) {
+        if (token.actorLink) {
+            // linked token
+            const tokenActor = game.actors.get(token.actorId);
+            await tokenActor.update({
+                'data.afflictions': {
+                    asleep: updateData.effects.includes(asleep),
+                    blinded: updateData.effects.includes(blinded),
+                    dazed: updateData.effects.includes(dazed),
+                    deafened: updateData.effects.includes(deafened),
+                    frightened: updateData.effects.includes(frightened),
+                    poisoned: updateData.effects.includes(poisoned),
+                    prone: updateData.effects.includes(prone),
+                    unconscious: updateData.effects.includes(unconscious)
+                },
+                'data.characteristics.health': {
+                    injured: updateData.effects.includes(injured)
+                }
+            });
+        }
+    }
 });
 
 /* -------------------------------------------- */
