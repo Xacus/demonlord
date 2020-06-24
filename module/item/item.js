@@ -42,13 +42,11 @@ export class DemonlordItem extends Item {
         d.render(true);
     }
 
-    async rollMacro(boonsbanes) {
+    async rollMacro(item, boonsbanes) {
         const token = this.actor.token;
-        const item = this.data;
         const datatype = item.type.toLowerCase();
         let template = "";
         let templateData = null;
-
         const roll = this.makeAttackRoll(item, boonsbanes);
 
         if (datatype == "weapon") {
@@ -110,6 +108,9 @@ export class DemonlordItem extends Item {
             diceformular = diceformular + "+" + attribute.modifier;
             roll = true;
         }
+
+        item.data.action.boonsbanes = item.data.action.boonsbanes + 0;
+
         // Add weapon boonsbanes
         if (item.data.action.boonsbanes != 0) {
             boonsbanes = parseInt(boonsbanes) + parseInt(item.data.action.boonsbanes);
@@ -179,7 +180,7 @@ export class DemonlordItem extends Item {
                     value: targetNumber
                 },
                 damage: {
-                    value: damageRoll._total
+                    value: attackRoll._total >= targetNumber || targetNumber == undefined ? damageRoll._total : 0
                 },
                 plus20: {
                     value: plus20
@@ -227,7 +228,7 @@ export class DemonlordItem extends Item {
                     value: targetNumber
                 },
                 damage: {
-                    value: damageRoll._total
+                    value: attackRoll._total >= targetNumber || targetNumber == undefined ? damageRoll._total : 0
                 },
                 attribute: {
                     value: spell.data.attribute
@@ -308,7 +309,7 @@ export class DemonlordItem extends Item {
                     value: targetNumber
                 },
                 damage: {
-                    value: damageRoll._total
+                    value: attackRoll._total >= targetNumber || targetNumber == undefined ? damageRoll._total : 0
                 },
                 plus20: {
                     value: plus20

@@ -122,6 +122,9 @@ Hooks.on("renderCombatTracker", (app, html, data) => {
         init = combatant.actor.data.data.fastturn ? game.i18n.localize('DL.TurnFast') : game.i18n.localize('DL.TurnSlow');
 
         el.getElementsByClassName('token-initiative')[0].innerHTML = `<span class="initiative">` + init + `</span>`;
+
+        //el.getElementsByClassName('token-initiative')[0].innerHTML = `<a class="combatant-control turnorder" title="` + game.i18n.localize('DL.TurnChooseTurn') + `" data-control="rollInitiative">` + init + `</a>`;
+        //  this.combat.rollInitiative(li.data('combatant-id'))
     });
 });
 

@@ -208,10 +208,16 @@ export class DLActorModifiers extends FormApplication {
                 });
             }
             else if (k.includes("afflictions.frightened")) {
-                await this.object.update({
-                    "data.afflictions.frightened": v,
-                    "data.fastturn": false
-                });
+                if (v == true) {
+                    await this.object.update({
+                        "data.afflictions.frightened": v,
+                        "data.fastturn": false
+                    });
+                } else {
+                    await this.object.update({
+                        "data.afflictions.frightened": v
+                    });
+                }
             }
             else if (k.includes("afflictions.grabbed")) {
                 await this.object.update({
@@ -235,15 +241,20 @@ export class DLActorModifiers extends FormApplication {
             }
             else if (k.includes("afflictions.prone")) {
                 await this.object.update({
-                    "data.afflictions.prone": v,
-                    "data.fastturn": false
+                    "data.afflictions.prone": v
                 });
             }
             else if (k.includes("afflictions.slowed")) {
-                await this.object.update({
-                    "data.afflictions.slowed": v,
-                    "data.fastturn": false
-                });
+                if (v == true) {
+                    await this.object.update({
+                        "data.afflictions.slowed": v,
+                        "data.fastturn": false
+                    });
+                } else {
+                    await this.object.update({
+                        "data.afflictions.slowed": v
+                    });
+                }
             }
             else if (k.includes("afflictions.stunned")) {
                 await this.object.update({

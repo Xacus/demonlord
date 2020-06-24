@@ -810,7 +810,7 @@ export class DemonlordActorSheet extends ActorSheet {
                     value: targetNumber
                 },
                 damage: {
-                    value: damageRoll._total
+                    value: attackRoll._total >= targetNumber || targetNumber == undefined ? damageRoll._total : 0
                 },
                 plus20: {
                     value: plus20
@@ -852,6 +852,7 @@ export class DemonlordActorSheet extends ActorSheet {
         let talentName = talent.name;
         let diceformular = "1d20";
         let roll = false;
+        let attackRoll = null;
 
         // Add Attribute modifer to roll
         let attackAttribute = talent.data.data.action.attack;
@@ -861,31 +862,31 @@ export class DemonlordActorSheet extends ActorSheet {
         if (attackAttribute) {
             diceformular = diceformular + "+" + attribute.modifier;
             roll = true;
-        }
 
-        // Add weapon boonsbanes
-        if (talent.data.data.action.boonsbanes != 0) {
-            boonsbanes = parseInt(boonsbanes) + parseInt(talent.data.data.action.boonsbanes);
-        }
+            // Add weapon boonsbanes
+            if (talent.data.data.action.boonsbanes != 0) {
+                boonsbanes = parseInt(boonsbanes) + parseInt(talent.data.data.action.boonsbanes);
+            }
 
-        if (boonsbanes != 0) {
-            diceformular = diceformular + "+" + boonsbanes + "d6kh";
+            if (boonsbanes != 0) {
+                diceformular = diceformular + "+" + boonsbanes + "d6kh";
+            }
+            attackRoll = new Roll(diceformular, {});
+            attackRoll.roll();
         }
-        let attackRoll = new Roll(diceformular, {});
-        attackRoll.roll();
 
         // Roll Against Target
         const targetNumber = this.getTargetNumber(talent);
 
         //Plus20 roll
-        let plus20 = (attackRoll._total >= 20 ? true : false);
+        let plus20 = (attackRoll != null && attackRoll._total >= 20 ? true : false);
 
         // Roll Damage
         let damageformular = talent.data.data.action.damage;
         let damageRoll = new Roll(damageformular, {});
         damageRoll.roll();
 
-        if (attackRoll._total >= targetNumber) {
+        if (attackRoll != null && attackRoll._total >= targetNumber) {
             this.addDamageToTarget(damageRoll._total);
         }
 
@@ -899,13 +900,13 @@ export class DemonlordActorSheet extends ActorSheet {
                     value: roll
                 },
                 diceTotal: {
-                    value: attackRoll._total
+                    value: attackRoll != null ? attackRoll._total : ""
                 },
                 diceResult: {
-                    value: attackRoll.result.toString()
+                    value: attackRoll != null ? attackRoll.result.toString() : ""
                 },
                 resultText: {
-                    value: (attackRoll._total >= targetNumber ? "SUCCESS" : "FAILURE")
+                    value: (attackRoll != null && attackRoll._total >= targetNumber ? "SUCCESS" : "FAILURE")
                 },
                 attack: {
                     value: attackAttribute.toUpperCase()
@@ -917,7 +918,7 @@ export class DemonlordActorSheet extends ActorSheet {
                     value: targetNumber
                 },
                 damage: {
-                    value: damageRoll._total
+                    value: attackRoll._total >= targetNumber || targetNumber == undefined ? damageRoll._total : 0
                 },
                 plus20: {
                     value: plus20
@@ -946,10 +947,12 @@ export class DemonlordActorSheet extends ActorSheet {
         let template = 'systems/demonlord/templates/chat/talent.html';
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;
-            if (game.dice3d) {
+            if (game.dice3d && attackRoll != null) {
                 game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
             } else {
-                chatData.sound = CONFIG.sounds.dice;
+                if (attackRoll != null) {
+                    chatData.sound = CONFIG.sounds.dice;
+                }
                 ChatMessage.create(chatData);
             }
         });
@@ -1019,7 +1022,7 @@ export class DemonlordActorSheet extends ActorSheet {
                     value: targetNumber
                 },
                 damage: {
-                    value: damageRoll._total
+                    value: attackRoll._total >= targetNumber || targetNumber == undefined ? damageRoll._total : 0
                 },
                 attribute: {
                     value: spell.data.data.attribute
