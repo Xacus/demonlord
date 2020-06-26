@@ -130,56 +130,18 @@ export const setupTurns = function () {
 };
 
 export const startCombat = async function () {
-    let found = false;
-    for (let actors of game.actors) {
-        if (actors.name == "End of round") {
-            found = true;
+    for (const combatant of game.combat.combatants) {
+        let init = 0;
+
+        if (combatant.actor.data.type == "character") {
+            init = combatant.actor.data.data.fastturn ? 70 : 30;
+        } else {
+            init = combatant.actor.data.data.fastturn ? 50 : 10;
         }
+
+        game.combat.setInitiative(combatant._id, init);
     }
 
-    if (!found) {
-        let actor = await Actor.create({
-            name: "End of round",
-            type: "character",
-            img: "systems/demonlord/css/bloodstain.png",
-            sort: 12000,
-            data: {},
-            token: {},
-            items: [],
-            flags: {}
-        });
-
-        let combatant = await game.combat.createCombatant({
-            data: {
-                actor: actor,
-                initiative: 1
-            }
-        });
-    } else {
-        let combatantFound = false;
-        // Check if added to Combat Tracker
-        for (let combatant of game.combat.combatants) {
-            if (combatant.name == "End of round") {
-                combatantFound = true;
-            }
-        }
-
-        if (!combatantFound) {
-            alert("NOT");
-            let combatant = await game.combat.createCombatant({
-                data: {
-                    actor: actor,
-                    initiative: 1
-                }
-            });
-        }
-    }
-
-    /*
-    async createCombatant(data, options) {
-    return this.createEmbeddedEntity("Combatant", data, options);
-  }
-  */
     return this.update({
         round: 1,
         turn: 0

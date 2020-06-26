@@ -22,7 +22,7 @@ export class Tradition {
         return this.spells;
     }
 
-    set setSpell(Spell spell) {
+    set setSpell(spell) {
         this.spells.push(spell);
     }
 }

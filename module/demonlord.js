@@ -22,8 +22,10 @@ import {
 } from "./settings.js";
 import {
     rollInitiative,
-    setupTurns
+    setupTurns,
+    startCombat
 } from "./init/init.js";
+import combattracker from './combattracker.js';
 
 Hooks.once('init', async function () {
     game.demonlord = {
@@ -37,10 +39,11 @@ Hooks.once('init', async function () {
 
     Combat.prototype.rollInitiative = rollInitiative;
     Combat.prototype.setupTurns = setupTurns;
-    //Combat.prototype.startCombat = startCombat;
+    Combat.prototype.startCombat = startCombat;
 
     CONFIG.Actor.entityClass = DemonlordActor;
     CONFIG.Item.entityClass = DemonlordItem;
+    CONFIG.ui.combat = combattracker;
 
     registerSettings();
 
@@ -111,26 +114,26 @@ Hooks.once("setup", function () {
     }
 });
 
-Hooks.on("renderCombatTracker", (app, html, data) => {
-    let init;
-    const currentCombat = data.combats[data.combatCount - 1];
-
-    html.find('.combatant').each((i, el) => {
-        const combId = el.getAttribute('data-combatant-id');
-        const combatant = currentCombat.data.combatants.find((c) => c._id == combId);
-
-        init = combatant.actor.data.data.fastturn ? game.i18n.localize('DL.TurnFast') : game.i18n.localize('DL.TurnSlow');
-
-        el.getElementsByClassName('token-initiative')[0].innerHTML = `<span class="initiative turnorder">` + init + `</span>`;
-
-        //el.getElementsByClassName('token-initiative')[0].innerHTML = `<a class="combatant-control turnorder" title="` + game.i18n.localize('DL.TurnChooseTurn') + `" data-control="rollInitiative">` + init + `</a>`;
-        //  this.combat.rollInitiative(li.data('combatant-id'))
-    });
-});
-
 Hooks.on('updateActor', async (actor, updateData, options, userId) => {
     if (updateData.data &&
         (game.user.isGM || actor.owner)) {
+
+        if (game.combat) {
+            for (const combatant of game.combat.combatants) {
+                let init = 0;
+
+                if (combatant.actor == actor) {
+                    if (actor.data.type == "character") {
+                        init = actor.data.data.fastturn ? 70 : 30;
+                    } else {
+                        init = actor.data.data.fastturn ? 50 : 10;
+                    }
+
+                    game.combat.setInitiative(combatant._id, init);
+                }
+            }
+        }
+
         const actorData = actor.data;
         const asleep = CONFIG.DL.statusIcons.asleep;
         const blinded = CONFIG.DL.statusIcons.blinded;
