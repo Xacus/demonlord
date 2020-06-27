@@ -38,11 +38,12 @@ This module is supported.
 - [x] Dice So Nice! Support.
 - [x] Macros for players.
 - [x] Macros for creatures.
+- [x] Afflictions - Fase 1, saving.
 - [ ] Redesign Background (Paths, Professions, Wealth).
 - [ ] Redesign Talents.
 - [ ] Redesign Magic.
 - [ ] Actor Mods (Your character buffs)
-- [ ] Afflictions.
+- [ ] Afflictions - Fase 2.
 - [ ] Rules Engine.
 - [ ] New design.
 
