@@ -11,9 +11,11 @@ It a basic and playable character and creature sheet but not with much automatio
 ### **Combat Tracker:**
 Uses the standard Combat Tracker but with a few changes. It still uses the standard way of having a initiative value that determines the order of actors. You can still change the number manually if your players need a different order.
 
-* It shows FAST/SLOW turns on each Actor.
+* It shows FAST/SLOW turns for each Actor.
 * When rolling/rerolling initiative you are prompted to choose between Fast or Slow turn.
+* It's also possible to change turn order directly in the Combat Tracker by clicking on FAST/SLOW on your actor.
 * On your character sheet at the top of the window their is a "Actor Mods" menu button. Their you can set the default initiative turn order for you character, npcs and creatures. When you create an Actor the default is set to Slow.
+* Use characteristics.health to track damage on your token. It uses characteristics.health.value for damage score and characteristics.health.max as health score.
 * System Settings: I added som settings regarding showing messages in the chat log when changing between fast and slow turn and randomizing the initiative a lille.
 
 ### **Compendiums:**
