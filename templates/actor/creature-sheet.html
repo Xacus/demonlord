@@ -289,7 +289,7 @@
                     <div class="itemtext">{{data.description}}</div>
                 </li>
                 {{else}}
-                <li class="item" data-item-id="{{weapon._id}}">
+                <li class="item dropitem" data-item-id="{{weapon._id}}">
                     <div class="itemnamefull dropitem attack-roll" data-key="{{id}}">{{weapon.name}}
                         {{#if data.properties}}
                         ({{data.properties}}) {{/if}}{{#if data.action.boonsbanes}}{{localize "DL.CreatureWeaponWith"}}

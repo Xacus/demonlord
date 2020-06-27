@@ -764,7 +764,7 @@ export class DemonlordActorSheet extends ActorSheet {
             boonsbanes = parseInt(boonsbanes) + parseInt(weapon.data.data.action.boonsbanes);
         }
 
-        if (boonsbanes != 0) {
+        if (boonsbanes != NaN && boonsbanes != 0) {
             diceformular = diceformular + "+" + boonsbanes + "d6kh";
         }
         let attackRoll = new Roll(diceformular, {});
@@ -868,7 +868,7 @@ export class DemonlordActorSheet extends ActorSheet {
                 boonsbanes = parseInt(boonsbanes) + parseInt(talent.data.data.action.boonsbanes);
             }
 
-            if (boonsbanes != 0) {
+            if (boonsbanes != NaN && boonsbanes != 0) {
                 diceformular = diceformular + "+" + boonsbanes + "d6kh";
             }
             attackRoll = new Roll(diceformular, {});
@@ -976,7 +976,7 @@ export class DemonlordActorSheet extends ActorSheet {
             boonsbanes = parseInt(boonsbanes) + parseInt(spell.data.data.action.boonsbanes);
         }
 
-        if (boonsbanes != 0) {
+        if (boonsbanes != NaN && boonsbanes != 0) {
             diceformular = diceformular + "+" + boonsbanes + "d6kh";
         }
         let attackRoll = new Roll(diceformular, {});

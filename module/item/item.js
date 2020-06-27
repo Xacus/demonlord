@@ -109,14 +109,12 @@ export class DemonlordItem extends Item {
             roll = true;
         }
 
-        item.data.action.boonsbanes = item.data.action.boonsbanes + 0;
-
         // Add weapon boonsbanes
         if (item.data.action.boonsbanes != 0) {
             boonsbanes = parseInt(boonsbanes) + parseInt(item.data.action.boonsbanes);
         }
 
-        if (boonsbanes != 0) {
+        if (boonsbanes != NaN && boonsbanes != 0) {
             diceformular = diceformular + "+" + boonsbanes + "d6kh";
         }
         let attackRoll = new Roll(diceformular, {});
