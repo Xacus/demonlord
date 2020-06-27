@@ -230,6 +230,7 @@
     "DL.TurnFast": "FAST",
     "DL.TurnSlow": "SLOW",
     "DL.TurnChooseTurn": "Choose your turn order",
+    "DL.TurnChangeTurn": "Change your turn order",
     "DL.TurnTurnOrder": "Turn order:",
     "DL.TurnOrderFastPlayer": "Fast Turn: Players",
     "DL.TurnOrderSlowPlayer": "Slow Turn: Players",

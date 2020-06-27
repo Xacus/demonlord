@@ -352,32 +352,36 @@ export class DLActorModifiers extends FormApplication {
     }
 
     async updateTurnOrder(value) {
-        await this.object.update({
-            "data.fastturn": value
-        });
+        if (game.user.isGM || combatant.actor.owner) {
+            await this.object.update({
+                "data.fastturn": value
+            });
+        }
     }
 
     async updateAfflictions(afflictions) {
-        await this.object.update({
-            "data.afflictions.asleep": afflictions[0],
-            "data.afflictions.blinded": afflictions[1],
-            "data.afflictions.charmed": afflictions[2],
-            "data.afflictions.compelled": afflictions[3],
-            "data.afflictions.dazed": afflictions[4],
-            "data.afflictions.deafened": afflictions[5],
-            "data.afflictions.defenseless": afflictions[6],
-            "data.afflictions.diseased": afflictions[7],
-            "data.afflictions.fatigued": afflictions[8],
-            "data.afflictions.frightened": afflictions[9],
-            "data.afflictions.grabbed": afflictions[10],
-            "data.afflictions.immobilized": afflictions[11],
-            "data.afflictions.impaired": afflictions[12],
-            "data.afflictions.poisoned": afflictions[13],
-            "data.afflictions.prone": afflictions[14],
-            "data.afflictions.slowed": afflictions[15],
-            "data.afflictions.stunned": afflictions[16],
-            "data.afflictions.surprised": afflictions[17],
-            "data.afflictions.unconscious": afflictions[18]
-        });
+        if (game.user.isGM || combatant.actor.owner) {
+            await this.object.update({
+                "data.afflictions.asleep": afflictions[0],
+                "data.afflictions.blinded": afflictions[1],
+                "data.afflictions.charmed": afflictions[2],
+                "data.afflictions.compelled": afflictions[3],
+                "data.afflictions.dazed": afflictions[4],
+                "data.afflictions.deafened": afflictions[5],
+                "data.afflictions.defenseless": afflictions[6],
+                "data.afflictions.diseased": afflictions[7],
+                "data.afflictions.fatigued": afflictions[8],
+                "data.afflictions.frightened": afflictions[9],
+                "data.afflictions.grabbed": afflictions[10],
+                "data.afflictions.immobilized": afflictions[11],
+                "data.afflictions.impaired": afflictions[12],
+                "data.afflictions.poisoned": afflictions[13],
+                "data.afflictions.prone": afflictions[14],
+                "data.afflictions.slowed": afflictions[15],
+                "data.afflictions.stunned": afflictions[16],
+                "data.afflictions.surprised": afflictions[17],
+                "data.afflictions.unconscious": afflictions[18]
+            });
+        }
     }
 }
