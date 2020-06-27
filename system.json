@@ -5,7 +5,7 @@
     "version": "0.8.3",
     "author": "Bo Kehlet",
     "minimumCoreVersion": "0.6",
-    "compatibleCoreVersion": "0.6.2",
+    "compatibleCoreVersion": "0.6.4",
     "esmodules": [
         "module/demonlord.js"
     ],
