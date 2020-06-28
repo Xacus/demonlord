@@ -1,6 +1,6 @@
 # System: Shadow of the Demonlord
 
-This is Shadow of the Demonlord for FoundryVTT.
+This is Shadow of the Demon Lord for FoundryVTT.
 
 Shadow of the Demonlord has no open license, but permission was granted to make the system.
 
