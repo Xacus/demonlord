@@ -35,6 +35,7 @@ Hooks.once('init', async function () {
         rollItemMacro,
         rollWeaponMacro,
         rollTalentMacro,
+        rollSpellMacro,
         rollAttributeMacro
     };
 
@@ -349,6 +350,9 @@ async function createDemonlordMacro(data, slot) {
         case 'talent':
             command = `game.demonlord.rollTalentMacro("${item.name}");`;
             break;
+        case 'spell':
+            command = `game.demonlord.rollSpellMacro("${item.name}");`;
+            break;
         case 'item':
             command = `game.demonlord.rollItemMacro("${item.name}");`;
             break;
@@ -419,6 +423,22 @@ function rollTalentMacro(itemName) {
     if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
 
     return actor.rollTalent(item.id);
+}
+
+/**
+ * Roll Macro from a Spell.
+ * @param {string} itemName
+ * @return {Promise}
+ */
+function rollSpellMacro(itemName) {
+    const speaker = ChatMessage.getSpeaker();
+    let actor;
+    if (speaker.token) actor = game.actors.tokens[speaker.token];
+    if (!actor) actor = game.actors.get(speaker.actor);
+    const item = actor ? actor.items.find(i => i.name === itemName) : null;
+    if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+
+    return actor.rollSpell(item.id);
 }
 
 /**

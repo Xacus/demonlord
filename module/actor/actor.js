@@ -530,7 +530,7 @@ export class DemonlordActor extends Actor {
     rollSpell(itemId, options = { event: null }) {
         const item = this.getOwnedItem(itemId);
 
-        if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
+        if (item.data.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
             let d = new Dialog({
                 title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
                 content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
