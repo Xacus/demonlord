@@ -27,7 +27,9 @@
 .roll-damage:hover,
 .roll-damage:focus,
 .apply-damage:hover,
-.apply-damage:focus {
+.apply-damage:focus,
+.use-talent:hover,
+.use-talent:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;

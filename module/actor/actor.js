@@ -294,7 +294,7 @@ export class DemonlordActor extends Actor {
                         value: buffs.attackeffects
                     },
                     isCreature: {
-                        value: this.data.type == "creature" && game.user.isGM ? true : false
+                        value: this.data.type == "creature" ? true : false
                     }
                 }
             };
@@ -325,7 +325,7 @@ export class DemonlordActor extends Actor {
     }
 
     rollTalent(itemId, options = { event: null }) {
-        const item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+        let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
 
         if (item.data?.vs?.attribute) {
             let d = new Dialog({
@@ -474,12 +474,31 @@ export class DemonlordActor extends Actor {
                     value: target != null ? target.name : ""
                 },
                 isCreature: {
-                    value: this.data.type == "creature" ? false : true
+                    value: this.data.type == "creature" ? true : false
                 },
                 pureDamage: {
                     value: talent.data?.damage
                 }
             }
+        }
+
+        if (this.data.type == "creature" && game.user.isGM) {
+            let chatDataCre = {
+                user: game.user._id,
+                speaker: {
+                    actor: this._id,
+                    token: this.token,
+                    alias: this.name
+                }
+            };
+
+            chatDataCre["whisper"] = ChatMessage.getWhisperRecipients("GM");
+
+            let template = 'systems/demonlord/templates/chat/description.html';
+            renderTemplate(template, templateData).then(content => {
+                chatDataCre.content = content;
+                ChatMessage.create(chatDataCre);
+            });
         }
 
         let chatData = {
@@ -505,26 +524,7 @@ export class DemonlordActor extends Actor {
                 }
             });
         }
-        /*
-                if (this.data.type == "creature" && game.user.isGM) {
-                    let chatDataCre = {
-                        user: game.user._id,
-                        speaker: {
-                            actor: this._id,
-                            token: this.token,
-                            alias: this.name
-                        }
-                    };
-        
-                    chatDataCre["whisper"] = ChatMessage.getWhisperRecipients("GM");
-        
-                    let template = 'systems/demonlord/templates/chat/description.html';
-                    renderTemplate(template, templateData).then(content => {
-                        chatDataCre.content = content;
-                        ChatMessage.create(chatDataCre);
-                    });
-                }
-                */
+
     }
 
     rollSpell(itemId, options = { event: null }) {
@@ -737,31 +737,31 @@ export class DemonlordActor extends Actor {
 
         for (let talent of talents) {
             if (talent.data.addtonextroll) {
-                if (talent.data.boonsbanesactive && talent.data.action.boonsbanes != "") {
-                    characterbuffs.attackbonus = parseInt(characterbuffs.attackbonus) + parseInt(talent.data.action.boonsbanes);
+                if (talent.data?.boonsbanesactive && talent.data.action?.boonsbanes != "") {
+                    characterbuffs.attackbonus = parseInt(characterbuffs.attackbonus) + parseInt(talent.data.action?.boonsbanes);
                 }
-                if (talent.data.damageactive && talent.data.action.damage != "") {
-                    characterbuffs.attackdamagebonus += "+" + talent.data.action.damage;
+                if (talent.data?.damageactive && talent.data.action?.damage != "") {
+                    characterbuffs.attackdamagebonus += "+" + talent.data.action?.damage;
                 }
-                if (talent.data.plus20active && talent.data.action.plus20 != "") {
+                if (talent.data?.plus20active && talent.data.action?.plus20 != "") {
                     characterbuffs.attack20plusdamagebonus += "+" + talent.data.action.plus20;
                 }
-                if (talent.data.challenge.boonsbanesactive && talent.data.challenge.boonsbanes != "") {
-                    characterbuffs.challengebonus = parseInt(characterbuffs.challengebonus) + parseInt(talent.data.challenge.boonsbanes);
+                if (talent.data?.challenge?.boonsbanesactive && talent.data.challenge?.boonsbanes != "") {
+                    characterbuffs.challengebonus = parseInt(characterbuffs.challengebonus) + parseInt(talent.data.challenge?.boonsbanes);
                     characterbuffs.challengeeffects += this.buildTalentEffects(talent, true, type);
                 } else {
                     characterbuffs.attackeffects += this.buildTalentEffects(talent, true, type);
                 }
-                if (talent.data.bonuses.defenseactive && talent.data.bonuses.defense != "") {
+                if (talent.data.bonuses?.defenseactive && talent.data.bonuses?.defense != "") {
                     characterbuffs.defensebonus += parseInt(talent.data.bonuses.defense);
                 }
-                if (talent.data.bonuses.healthactive && talent.data.bonuses.health != "") {
+                if (talent.data.bonuses?.healthactive && talent.data.bonuses?.health != "") {
                     characterbuffs.healthbonus += parseInt(talent.data.bonuses.health);
                 }
-                if (talent.data.bonuses.speedactive && talent.data.bonuses.speed != "") {
+                if (talent.data.bonuses?.speedactive && talent.data.bonuses?.speed != "") {
                     characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed);
                 }
-                if (talent.data.healing.healactive && talent.data.healing.rate != "") {
+                if (talent.data.healing?.healactive && talent.data.healing?.rate != "") {
                     characterbuffs.healing += parseInt(talent.data.healing.rate);
                 }
             }
@@ -850,9 +850,9 @@ export class DemonlordActor extends Actor {
     }
 
     async addCharacterBonuses(talent) {
-        const healthbonus = talent.data.bonuses.defenseactive && talent.data.bonuses.health != "" ? parseInt(talent.data.bonuses.health) : 0;
-        const defensebonus = talent.data.bonuses.healthactive && talent.data.bonuses.defense != "" ? parseInt(talent.data.bonuses.defense) : 0;
-        const speedbonus = talent.data.bonuses.speedactive && talent.data.bonuses.speed != "" ? parseInt(talent.data.bonuses.speed) : 0;
+        const healthbonus = talent.data.bonuses?.defenseactive && talent.data.bonuses?.health != "" ? parseInt(talent.data.bonuses?.health) : 0;
+        const defensebonus = talent.data.bonuses?.healthactive && talent.data.bonuses?.defense != "" ? parseInt(talent.data.bonuses?.defense) : 0;
+        const speedbonus = talent.data.bonuses?.speedactive && talent.data.bonuses?.speed != "" ? parseInt(talent.data.bonuses?.speed) : 0;
 
         await this.update({
             "data.characteristics.health.max": parseInt(this.data.data.characteristics.health.max) + healthbonus,
@@ -863,9 +863,9 @@ export class DemonlordActor extends Actor {
     }
 
     async removeCharacterBonuses(talent) {
-        const healthbonus = talent.data.bonuses.defenseactive && talent.data.bonuses.health != "" ? parseInt(talent.data.bonuses.health) : 0;
-        const defensebonus = talent.data.bonuses.healthactive && talent.data.bonuses.defense != "" ? parseInt(talent.data.bonuses.defense) : 0;
-        const speedbonus = talent.data.bonuses.speedactive && talent.data.bonuses.speed != "" ? parseInt(talent.data.bonuses.speed) : 0;
+        const healthbonus = talent.data.bonuses?.defenseactive && talent.data.bonuses?.health != "" ? parseInt(talent.data.bonuses?.health) : 0;
+        const defensebonus = talent.data.bonuses?.healthactive && talent.data.bonuses?.defense != "" ? parseInt(talent.data.bonuses?.defense) : 0;
+        const speedbonus = talent.data.bonuses?.speedactive && talent.data.bonuses?.speed != "" ? parseInt(talent.data.bonuses?.speed) : 0;
 
         await this.update({
             "data.characteristics.health.max": parseInt(this.data.data.characteristics.health.max) - healthbonus,

@@ -32,7 +32,6 @@ Hooks.once('init', async function () {
     game.demonlord = {
         DemonlordActor,
         DemonlordItem,
-        rollItemMacro,
         rollWeaponMacro,
         rollTalentMacro,
         rollSpellMacro,
@@ -101,7 +100,8 @@ async function preloadHandlebarsTemplates() {
         "systems/demonlord/templates/chat/challenge.html",
         "systems/demonlord/templates/chat/combat.html",
         "systems/demonlord/templates/chat/talent.html",
-        "systems/demonlord/templates/chat/spell.html"
+        "systems/demonlord/templates/chat/spell.html",
+        "systems/demonlord/templates/chat/description.html"
     ];
     return loadTemplates(templatePaths);
 }
@@ -353,9 +353,6 @@ async function createDemonlordMacro(data, slot) {
         case 'spell':
             command = `game.demonlord.rollSpellMacro("${item.name}");`;
             break;
-        case 'item':
-            command = `game.demonlord.rollItemMacro("${item.name}");`;
-            break;
         default:
             break;
     }
@@ -374,23 +371,6 @@ async function createDemonlordMacro(data, slot) {
     }
     game.user.assignHotbarMacro(macro, slot);
     return false;
-}
-
-/**
- * Roll Macro from an Item.
- * @param {string} itemName
- * @return {Promise}
- */
-function rollItemMacro(itemName) {
-    const speaker = ChatMessage.getSpeaker();
-    let actor;
-    if (speaker.token) actor = game.actors.tokens[speaker.token];
-    if (!actor) actor = game.actors.get(speaker.actor);
-    const item = actor ? actor.items.find(i => i.name === itemName) : null;
-    if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
-
-    // Trigger the item roll
-    return item.roll();
 }
 
 /**

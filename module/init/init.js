@@ -148,6 +148,25 @@ export const startCombat = async function () {
     });
 }
 
+/**
+   * Advance the combat to the next round
+   * @return {Promise}
+   */
+/*  
+export const nextRound = async function () {
+    alert("NEXT");
+    let turn = 0;
+    if (this.settings.skipDefeated) {
+        turn = this.turns.findIndex(t => !t.defeated);
+        if (turn === -1) {
+            ui.notifications.warn(game.i18n.localize("COMBAT.NoneRemaining"));
+            turn = 0;
+        }
+    }
+    return this.update({ round: this.round + 1, turn: turn });
+}
+*/
+
 const selectTurnType = async function (actor, fastturn) {
     let turn = "";
     const template = 'systems/demonlord/templates/dialogs/choose-turn-dialog.html';

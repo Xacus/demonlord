@@ -5,7 +5,11 @@
         <div class="talent-img"></div>
         <div class="attackbox">
             <div class="header">
+                {{#if data.isCreature.value}}
+                {{localize "DL.AttackSpecialRollText"}}
+                {{else}}
                 {{localize "DL.TalentRollTitle"}}
+                {{/if}}
             </div>
             <div class="headertext">{{item.name}}</div>
         </div>
@@ -70,6 +74,7 @@
     {{/if}}
     {{#if data.description.value}}
     {{#if data.isCreature.value}}
+    {{else}}
     <div class="description">
         <div class="header">{{localize "DL.TalentRollDescription"}}</div>
         <div class="body">{{{data.description.value}}}</div>
