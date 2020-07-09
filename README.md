@@ -32,6 +32,10 @@ Challenge Roll Macros:
 - game.demonlord.rollAttributeMacro("will");
 - game.demonlord.rollAttributeMacro("perception");
 
+Roll Initiative Macro:
+Rolls initiative for the selected actor token.
+- game.demonlord.rollInitMacro(); 
+
 ### **Tracking:**
 You can track both Health and Insanity and they are set on the token when an Actor is created.
 - characteristics.health

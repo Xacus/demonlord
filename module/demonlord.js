@@ -35,7 +35,8 @@ Hooks.once('init', async function () {
         rollWeaponMacro,
         rollTalentMacro,
         rollSpellMacro,
-        rollAttributeMacro
+        rollAttributeMacro,
+        rollInitMacro
     };
 
     // Define custom Entity classes
@@ -434,4 +435,28 @@ function rollAttributeMacro(attributeName) {
     const attribute = actor ? actor.data.data.attributes[attributeName] : null;
 
     return actor.rollChallenge(attribute);
+}
+
+/**
+ * Create a Macro from an Attribute.
+ * @param {string} attributeName
+ * @return {Promise}
+ */
+function rollInitMacro() {
+    const speaker = ChatMessage.getSpeaker();
+    let combatantFound = null;
+    let actor;
+    if (speaker.token) actor = game.actors.tokens[speaker.token];
+    if (!actor) actor = game.actors.get(speaker.actor);
+
+    for (const combatant of game.combat.combatants) {
+        let init = 0;
+
+        if (combatant.actor == actor) {
+            combatantFound = combatant;
+        }
+    }
+
+    if (combatantFound)
+        game.combat.rollInitiative(combatantFound._id);
 }
