@@ -27,8 +27,38 @@ export default class extends CombatTracker {
             const combId = li.dataset.combatantId;
             const currentCombat = this.getCurrentCombat();
             const combatant = currentCombat.combatants.find((c) => c._id == combId);
+            const initMessages = [];
 
             if (game.user.isGM || combatant.actor.owner) {
+                if (game.settings.get('demonlord', 'initMessage')) {
+                    var templateData = {
+                        actor: combatant.actor,
+                        item: {
+                            name: game.i18n.localize('DL.DialogInitiative')
+                        },
+                        data: {
+                            turn: {
+                                value: combatant.actor.data.data.fastturn ? game.i18n.localize('DL.DialogTurnSlow') : game.i18n.localize('DL.DialogTurnFast')
+                            }
+                        }
+                    };
+
+                    let chatData = {
+                        user: game.user._id,
+                        speaker: {
+                            actor: combatant.actor._id,
+                            token: combatant.actor.token,
+                            alias: combatant.actor.name
+                        }
+                    };
+
+                    let template = 'systems/demonlord/templates/chat/init.html';
+                    renderTemplate(template, templateData).then(content => {
+                        chatData.content = content;
+                        ChatMessage.create(chatData);
+                    });
+                }
+
                 this.updateActorsFastturn(combatant.actor);
             }
         });
