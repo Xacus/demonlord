@@ -207,7 +207,6 @@ export class DemonlordActor extends Actor {
 
     rollAttack(weapon, boonsbanes, buffs) {
         const target = this.getTarget();
-        let weaponName = weapon.name;
         let diceformular = "1d20";
 
         // Roll Against Target
@@ -258,7 +257,7 @@ export class DemonlordActor extends Actor {
             var templateData = {
                 actor: this,
                 item: {
-                    name: weaponName
+                    name: weapon.name
                 },
                 data: {
                     diceTotal: {
@@ -268,10 +267,10 @@ export class DemonlordActor extends Actor {
                         value: attackRoll.result.toString()
                     },
                     resultText: {
-                        value: targetNumber != undefined ? attackRoll != null && attackRoll._total >= targetNumber ? "SUCCESS" : "FAILURE" : ""
+                        value: attackRoll != null && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
                     },
                     didHit: {
-                        value: (attackRoll._total >= targetNumber ? true : false)
+                        value: attackRoll._total >= targetNumber ? true : false
                     },
                     attack: {
                         value: attackAttribute.toUpperCase()
@@ -461,7 +460,7 @@ export class DemonlordActor extends Actor {
                     value: attackRoll != null ? attackRoll.result.toString() : ""
                 },
                 resultText: {
-                    value: targetNumber != undefined ? attackRoll != null && attackRoll._total >= targetNumber ? "SUCCESS" : "FAILURE" : ""
+                    value: attackRoll != null && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
                 },
                 didHit: {
                     value: attackRoll != null && attackRoll._total >= targetNumber ? true : false
@@ -473,7 +472,7 @@ export class DemonlordActor extends Actor {
                     value: talent.data?.vs?.against.toUpperCase()
                 },
                 againstNumber: {
-                    value: target != null && target.actor.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') ? targetNumber : "?"
+                    value: target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') ? targetNumber : "?"
                 },
                 damageFormular: {
                     value: damageformular
@@ -528,6 +527,165 @@ export class DemonlordActor extends Actor {
         }
     }
 
+    rollSpell(itemId, options = { event: null }) {
+        const item = this.getOwnedItem(itemId);
+
+        if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
+            let d = new Dialog({
+                title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
+                content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                buttons: {
+                    roll: {
+                        icon: '<i class="fas fa-check"></i>',
+                        label: game.i18n.localize('DL.DialogRoll'),
+                        callback: (html) => this.useSpell(item, html.children()[1].value)
+                    },
+                    cancel: {
+                        icon: '<i class="fas fa-times"></i>',
+                        label: game.i18n.localize('DL.DialogCancel'),
+                        callback: () => { }
+                    }
+                },
+                default: "roll",
+                close: () => { }
+            });
+            d.render(true);
+        } else {
+            this.useSpell(item, 0)
+        }
+    }
+
+    useSpell(spell, boonsbanes) {
+        const target = this.getTarget();
+        let diceformular = "1d20";
+
+        // Add Attribute modifer to roll
+        let attackAttribute = spell.data.data?.action?.attack;
+        const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
+
+        // Roll for Attack
+        if (attackAttribute) {
+            diceformular = diceformular + "+" + attribute.modifier;
+        }
+
+        // Add weapon boonsbanes
+        if (spell.data.action?.boonsbanes != 0) {
+            boonsbanes = parseInt(boonsbanes) + parseInt(spell.data?.action?.boonsbanes);
+        }
+
+        if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
+            diceformular = diceformular + "+" + boonsbanes + "d6kh";
+        }
+        let attackRoll = new Roll(diceformular, {});
+        attackRoll.roll();
+
+        // Roll Against Target
+        const targetNumber = this.getTargetNumber(spell);
+
+        //Plus20 roll
+        let plus20 = (attackRoll._total >= 20 ? true : false);
+
+        // Roll Damage
+        let damageformular = spell.data.data.action?.damage;
+
+        var templateData = {
+            actor: this,
+            item: {
+                name: spell.name
+            },
+            data: {
+                diceTotal: {
+                    value: attackRoll._total
+                },
+                diceResult: {
+                    value: attackRoll.result.toString()
+                },
+                resultText: {
+                    value: attackRoll != null && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
+                },
+                didHit: {
+                    value: attackRoll._total >= targetNumber ? true : false
+                },
+                attack: {
+                    value: attackAttribute.toUpperCase()
+                },
+                against: {
+                    value: spell.data.data.action?.against.toUpperCase()
+                },
+                againstNumber: {
+                    value: target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') ? targetNumber : "?"
+                },
+                damageFormular: {
+                    value: damageformular
+                },
+                attribute: {
+                    value: spell.data.data?.attribute
+                },
+                plus20: {
+                    value: plus20
+                },
+                plus20text: {
+                    value: spell.data.data?.action?.plus20
+                },
+                description: {
+                    value: spell.data.data?.description
+                },
+                spellcastings: {
+                    value: spell.data.data?.castings?.max
+                },
+                spellduration: {
+                    value: spell.data.data?.duration
+                },
+                spelltarget: {
+                    value: spell.data.data?.target
+                },
+                spellarea: {
+                    value: spell.data.data?.area
+                },
+                spellrequirements: {
+                    value: spell.data.data?.requirements
+                },
+                spellsacrifice: {
+                    value: spell.data.data?.sacrifice
+                },
+                spellpermanence: {
+                    value: spell.data.data?.permanence
+                },
+                spellspecial: {
+                    value: spell.data.data?.special
+                },
+                spelltriggered: {
+                    value: spell.data.data?.triggered
+                },
+                tagetname: {
+                    value: target != null ? target.name : ""
+                }
+            }
+        };
+
+        let chatData = {
+            user: game.user._id,
+            speaker: {
+                actor: this._id,
+                token: this.token,
+                alias: this.name
+            }
+        };
+
+        let template = 'systems/demonlord/templates/chat/spell.html';
+        renderTemplate(template, templateData).then(content => {
+            chatData.content = content;
+            if (game.dice3d && attackRoll != null) {
+                game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+            } else {
+                if (attackRoll != null) {
+                    chatData.sound = CONFIG.sounds.dice;
+                }
+                ChatMessage.create(chatData);
+            }
+        });
+    }
+
     getTarget() {
         let selectedTarget = null
         game.user.targets.forEach(async target => {
@@ -539,15 +697,15 @@ export class DemonlordActor extends Actor {
 
     getTargetNumber(weapon) {
         let tagetNumber;
-
         game.user.targets.forEach(async target => {
             const targetActor = target.actor;
-            let againstSelectedAttribute = weapon.data.data.action.against?.toLowerCase();
-
-            if (againstSelectedAttribute == "defense") {
-                tagetNumber = targetActor.data.data.characteristics.defense;
-            } else {
-                tagetNumber = targetActor.data.data.attributes[againstSelectedAttribute].value;
+            if (targetActor) {
+                let againstSelectedAttribute = weapon.data.data?.action?.against?.toLowerCase();
+                if (againstSelectedAttribute == "defense") {
+                    tagetNumber = targetActor.data.data?.characteristics?.defense;
+                } else {
+                    tagetNumber = targetActor.data.data?.attributes[againstSelectedAttribute]?.value;
+                }
             }
         });
 
@@ -716,6 +874,16 @@ export class DemonlordActor extends Actor {
             "data.characteristics.defense": parseInt(this.data.data.characteristics.defense) - defensebonus,
             "data.characteristics.speed.value": parseInt(this.data.data.characteristics.speed.value) - speedbonus,
             "data.activebonuses": false
+        });
+    }
+
+    async addDamageToTarget(damage) {
+        game.user.targets.forEach(async target => {
+            const targetActor = target.actor;
+            const currentDamage = parseInt(targetActor.data.data.characteristics.health.value);
+            await targetActor.update({
+                "data.characteristics.health.value": currentDamage + damage
+            });
         });
     }
 }

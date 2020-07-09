@@ -490,31 +490,7 @@ export class DemonlordActorSheet extends ActorSheet {
         // Rollable Attack Spell
         html.find('.magic-roll').click(ev => {
             const li = event.currentTarget.closest(".item");
-            const item = this.actor.getOwnedItem(li.dataset.itemId);
-
-            if (item.data.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
-                let d = new Dialog({
-                    title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
-                    content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-                    buttons: {
-                        roll: {
-                            icon: '<i class="fas fa-check"></i>',
-                            label: game.i18n.localize('DL.DialogRoll'),
-                            callback: (html) => this.rollSpell(item, html.children()[1].value)
-                        },
-                        cancel: {
-                            icon: '<i class="fas fa-times"></i>',
-                            label: game.i18n.localize('DL.DialogCancel'),
-                            callback: () => { }
-                        }
-                    },
-                    default: "roll",
-                    close: () => { }
-                });
-                d.render(true);
-            } else {
-                this.rollSpell(item, 0)
-            }
+            this.actor.rollSpell(li.dataset.itemId, { event: event });
         });
 
         html.find('.rest-char').click(ev => {
@@ -669,138 +645,6 @@ export class DemonlordActorSheet extends ActorSheet {
         }
     }
 
-    rollSpell(spell, boonsbanes) {
-        let spellName = spell.name;
-        let diceformular = "1d20";
-
-        // Add Attribute modifer to roll
-        let attackAttribute = spell.data.data.action.attack;
-        const attribute = this.actor.data.data.attributes[attackAttribute.toLowerCase()];
-
-        // Roll for Attack
-        if (attackAttribute) {
-            diceformular = diceformular + "+" + attribute.modifier;
-        }
-
-        // Add weapon boonsbanes
-        if (spell.data.data.action.boonsbanes != 0) {
-            boonsbanes = parseInt(boonsbanes) + parseInt(spell.data.data.action.boonsbanes);
-        }
-
-        if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
-            diceformular = diceformular + "+" + boonsbanes + "d6kh";
-        }
-        let attackRoll = new Roll(diceformular, {});
-        attackRoll.roll();
-
-        // Roll Against Target
-        const targetNumber = this.getTargetNumber(spell);
-
-        //Plus20 roll
-        let plus20 = (attackRoll._total >= 20 ? true : false);
-
-        // Roll Damage
-        let damageformular = spell.data.data.action.damage;
-        let damageRoll = new Roll(damageformular, {});
-        damageRoll.roll();
-
-        if (attackRoll._total >= targetNumber) {
-            this.addDamageToTarget(damageRoll._total);
-        }
-
-        var templateData = {
-            actor: this.actor,
-            item: {
-                name: spellName
-            },
-            data: {
-                diceTotal: {
-                    value: attackRoll._total
-                },
-                diceResult: {
-                    value: attackRoll.result.toString()
-                },
-                resultText: {
-                    value: (attackRoll._total >= targetNumber ? "SUCCESS" : "FAILURE")
-                },
-                attack: {
-                    value: attackAttribute.toUpperCase()
-                },
-                against: {
-                    value: spell.data.data.action.against.toUpperCase()
-                },
-                againstNumber: {
-                    value: targetNumber
-                },
-                damage: {
-                    value: attackRoll._total >= targetNumber || targetNumber == undefined ? damageRoll._total : 0
-                },
-                attribute: {
-                    value: spell.data.data.attribute
-                },
-                plus20: {
-                    value: plus20
-                },
-                plus20text: {
-                    value: spell.data.data.action.plus20
-                },
-                description: {
-                    value: spell.data.data.description
-                },
-                spellcastings: {
-                    value: spell.data.data.castings.max
-                },
-                spellduration: {
-                    value: spell.data.data.duration
-                },
-                spelltarget: {
-                    value: spell.data.data.target
-                },
-                spellarea: {
-                    value: spell.data.data.area
-                },
-                spellrequirements: {
-                    value: spell.data.data.requirements
-                },
-                spellsacrifice: {
-                    value: spell.data.data.sacrifice
-                },
-                spellpermanence: {
-                    value: spell.data.data.permanence
-                },
-                spellspecial: {
-                    value: spell.data.data.special
-                },
-                spelltriggered: {
-                    value: spell.data.data.triggered
-                },
-                tagetname: {
-                    value: this.getTarget().name
-                }
-            }
-        };
-
-        let chatData = {
-            user: game.user._id,
-            speaker: {
-                actor: this.actor._id,
-                token: this.actor.token,
-                alias: this.actor.name
-            }
-        };
-
-        let template = 'systems/demonlord/templates/chat/spell.html';
-        renderTemplate(template, templateData).then(content => {
-            chatData.content = content;
-            if (game.dice3d) {
-                game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-            } else {
-                chatData.sound = CONFIG.sounds.dice;
-                ChatMessage.create(chatData);
-            }
-        });
-    }
-
     showDeleteDialog(title, content, item) {
         let d = new Dialog({
             title: title,
@@ -821,15 +665,5 @@ export class DemonlordActorSheet extends ActorSheet {
             close: () => { }
         });
         d.render(true);
-    }
-
-    async addDamageToTarget(damage) {
-        game.user.targets.forEach(async target => {
-            const targetActor = target.actor;
-            const currentDamage = parseInt(targetActor.data.data.characteristics.health.value);
-            await targetActor.update({
-                "data.characteristics.health.value": currentDamage + damage
-            });
-        });
     }
 }

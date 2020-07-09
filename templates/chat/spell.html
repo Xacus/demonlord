@@ -23,7 +23,6 @@
     {{/if}}
     {{#if data.attack.value}}
     <div class="result">
-
         <div class="box {{data.resultText.value}}">
             <div class="valuetext">{{data.attack.value}}</div>
             <div class="boxborder tooltip">
@@ -38,82 +37,82 @@
             <div class="valuetext">{{data.against.value}}</div>
             <div class="boxborderTarget">
                 <div class="value">
-                    {{#if data.againstNumber.value}}
                     {{data.againstNumber.value}}
-                    {{else}}
-                    X
-                    {{/if}}
                 </div>
             </div>
         </div>
-        {{#if data.damage.value}}
-        <div class="box">
-            <div class="valuetext">{{localize "DL.AttackRollDamageText"}}</div>
-            <div class="boxborderTarget">
-                <div class="value">{{data.damage.value}}</div>
+    </div>
+    {{/if}}
+    {{#if data.description.value}}
+    {{#if data.isCreature.value}}
+    <div class="description" style="visibility : hidden; height: 0;">
+        {{else}}
+        <div class="description">
+            {{/if}}
+            <div class="header">{{localize "DL.SpellRollDescription"}}</div>
+            <div class="body">{{{data.description.value}}}</div>
+        </div>
+        {{/if}}
+        {{#if data.plus20.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollPlus20"}}</div>
+            <div class="body">{{data.plus20text.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spelltarget.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollTarget"}}</div>
+            <div class="body">{{data.spelltarget.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellarea.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollArea"}}</div>
+            <div class="body">{{data.spellarea.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellduration.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollDuration"}}</div>
+            <div class="body">{{data.spellduration.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellrequirements.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollRequirements"}}</div>
+            <div class="body">{{data.spellrequirements.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellsacrifice.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollSacrifice"}}</div>
+            <div class="body">{{data.spellsacrifice.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellpermanence.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollPermanence"}}</div>
+            <div class="body">{{data.spellpermanence.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellspecial.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollSpecial"}}</div>
+            <div class="body">{{data.spellspecial.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spelltriggered.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollTriggered"}}</div>
+            <div class="body">{{data.spelltriggered.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.didHit.value}}
+        <div class="combatactions roll-damage">
+            <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageFormular.value}}">
+                <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
+                <div>{{localize "DL.DialogTalentRollDamage"}} ({{data.damageFormular.value}})</div>
             </div>
         </div>
         {{/if}}
     </div>
-    {{/if}}
-    {{#if data.description.value}}
-    <div class="description">
-        <div class="header">{{localize "DL.SpellRollDescription"}}</div>
-        <div class="body">{{{data.description.value}}}</div>
-    </div>
-    {{/if}}
-    {{#if data.plus20.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollPlus20"}}</div>
-        <div class="body">{{data.plus20text.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spelltarget.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollTarget"}}</div>
-        <div class="body">{{data.spelltarget.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellarea.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollArea"}}</div>
-        <div class="body">{{data.spellarea.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellduration.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollDuration"}}</div>
-        <div class="body">{{data.spellduration.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellrequirements.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollRequirements"}}</div>
-        <div class="body">{{data.spellrequirements.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellsacrifice.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollSacrifice"}}</div>
-        <div class="body">{{data.spellsacrifice.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellpermanence.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollPermanence"}}</div>
-        <div class="body">{{data.spellpermanence.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellspecial.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollSpecial"}}</div>
-        <div class="body">{{data.spellspecial.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spelltriggered.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollTriggered"}}</div>
-        <div class="body">{{data.spelltriggered.value}}</div>
-    </div>
-    {{/if}}
-</div>
