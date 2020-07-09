@@ -319,26 +319,6 @@ export class DemonlordActor extends Actor {
                     ChatMessage.create(chatData);
                 }
             });
-            /*
-                        if (this.actor.data.type == "creature" && game.user.isGM) {
-                            let chatDataCre = {
-                                user: game.user._id,
-                                speaker: {
-                                    actor: this.actor._id,
-                                    token: this.actor.token,
-                                    alias: this.actor.name
-                                }
-                            };
-            
-                            chatDataCre["whisper"] = ChatMessage.getWhisperRecipients("GM");
-            
-                            let template = 'systems/demonlord/templates/chat/description.html';
-                            renderTemplate(template, templateData).then(content => {
-                                chatDataCre.content = content;
-                                ChatMessage.create(chatDataCre);
-                            });
-                        }
-            */
         } else {
             ui.notifications.info(game.i18n.localize('DL.DialogWarningTargetNotSelected'));
         }
@@ -525,6 +505,26 @@ export class DemonlordActor extends Actor {
                 }
             });
         }
+        /*
+                if (this.data.type == "creature" && game.user.isGM) {
+                    let chatDataCre = {
+                        user: game.user._id,
+                        speaker: {
+                            actor: this._id,
+                            token: this.token,
+                            alias: this.name
+                        }
+                    };
+        
+                    chatDataCre["whisper"] = ChatMessage.getWhisperRecipients("GM");
+        
+                    let template = 'systems/demonlord/templates/chat/description.html';
+                    renderTemplate(template, templateData).then(content => {
+                        chatDataCre.content = content;
+                        ChatMessage.create(chatDataCre);
+                    });
+                }
+                */
     }
 
     rollSpell(itemId, options = { event: null }) {
@@ -785,8 +785,6 @@ export class DemonlordActor extends Actor {
             effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentExtraDamage20plus') + ": " + talent.data.action.plus20 + "<br>";
         if (talent.data?.challenge?.boonsbanesactive && talent.data?.challenge?.boonsbanes)
             effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentChallengeBoonsBanes') + ": " + talent.data.challenge.boonsbanes + "<br>";
-        if (type == "TALENT" && talent.data?.vs?.active && talent.data?.vs?.attribute)
-            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentVSRoll') + ": " + talent.data.vs.attribute + " VS " + talent.data.vs.against + "<br>";
         if (type == "TALENT" && talent.data?.vs?.boonsbanesactive && talent.data?.vs?.boonsbanes)
             effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentVSBoonsBanes') + ": " + talent.data.vs.boonsbanes
                 + "<br>";
