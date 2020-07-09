@@ -1,9 +1,49 @@
 .resource {
-    margin-bottom: 7px;
+    padding: 5px;
 
     .resource-label {
         font-weight: bold;
         font-size: 12px;
+    }
+
+    .modifierblock {
+        padding: 5px;
+        border: 1px solid #bbb;
+        border-radius: 2px;
+
+        input[type="text"], select {
+            margin-bottom: 5px;
+            font-size: 11px;
+            height: 20px;
+        }
+
+        .grid {
+            margin: 0;
+        }
+
+        label {
+            font-size: 11px;
+        }
+    }
+
+    .modifierblockcheck {
+        padding: 5px;
+        border: 1px solid #bbb;
+        border-radius: 2px;
+
+        input {
+            margin: 2px 0 2px -3px;
+            height: 12px;
+        }
+
+        .grid {
+            margin: 0 0 10px 0;
+        }
+
+        label {
+            font-size: 11px;
+            margin-left: -2px;
+        }
     }
 
     textarea {

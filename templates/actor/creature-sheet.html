@@ -128,10 +128,10 @@
                     <div class="insanity">
                         <div class="stattitle">{{localize "DL.CreatureInsanity"}}</div>
                         {{#if data.edit}}
-                        <input name="data.characteristics.insanity" type="text"
-                            value="{{data.characteristics.insanity}}" />
+                        <input name="data.characteristics.insanity.value" type="text"
+                            value="{{data.characteristics.insanity.value}}" />
                         {{else}}
-                        <label for="data.characteristics.insanity">{{data.characteristics.insanity}}</label>
+                        <label for="data.characteristics.insanity.value">{{data.characteristics.insanity.value}}</label>
                         {{/if}}
                     </div>
                     <div class="corruption">
@@ -271,6 +271,10 @@
                 <li class="item dropitem" data-item-id="{{weapon._id}}">
                     <div class="itemname">
                         {{weapon.name}}
+                        {{#if data.properties}}
+                        ({{data.properties}}) {{/if}}
+                        {{#if data.action.damage}}
+                        ({{data.action.damage}}){{/if}}
                     </div>
                     <div class="item-controls">
                         <a class="item-control item-edit" title="{{localize 'DL.WeaponEdit'}}"><i
@@ -282,23 +286,17 @@
                 {{/each}}
                 {{else}}
                 {{#each actor.weapons as |weapon id|}}
-                {{#if data.description}}
-                <li class="item dropitem" data-item-id="{{weapon._id}}">
-                    <div class="itemnamefull" data-key="{{id}}">{{weapon.name}}
-                    </div>
-                    <div class="itemtext">{{data.description}}</div>
-                </li>
-                {{else}}
                 <li class="item dropitem" data-item-id="{{weapon._id}}">
                     <div class="itemnamefull dropitem attack-roll" data-key="{{id}}">{{weapon.name}}
                         {{#if data.properties}}
                         ({{data.properties}}) {{/if}}{{#if data.action.boonsbanes}}{{localize "DL.CreatureWeaponWith"}}
                         {{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}
-                        {{#if data.action.boonsbanes}}{{localize "DL.WeaponBoonsBanes"}}{{/if}}{{#if data.action.damage}}
+                        {{#if data.action.boonsbanes}}{{localize "DL.WeaponBoonsBanes"}}{{/if}}
+                        {{#if data.action.damage}}
                         ({{data.action.damage}}){{/if}}
                     </div>
+                    <div class="itemtext">{{{data.description}}}</div>
                 </li>
-                {{/if}}
                 {{/each}}
                 {{/if}}
             </ol>
@@ -307,13 +305,13 @@
                 {{#if data.edit}}
                 <div class="item-controls">
                     <a class="item-control item-create" title="{{localize 'DL.CreatureAddSpecialAttacks'}}"
-                        data-type="specialattack"><i class="fas fa-plus"></i></a>
+                        data-type="talent"><i class="fas fa-plus"></i></a>
                 </div>
                 {{/if}}
             </div>
             <ol class="body">
                 {{#if data.edit}}
-                {{#each actor.specialattacks as |item id|}}
+                {{#each actor.talents as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <div class="itemname">{{item.name}}</div>
                     <div class="item-controls">
@@ -325,10 +323,10 @@
                 </li>
                 {{/each}}
                 {{else}}
-                {{#each actor.specialattacks as |item id|}}
+                {{#each actor.talents as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
-                    <div class="itemnamefull">{{item.name}}</div>
-                    <div class="itemtext">{{data.description}}</div>
+                    <div class="itemnamefull talent-roll">{{item.name}}</div>
+                    <div class="itemtext">{{{data.description}}}</div>
                 </li>
                 {{/each}}
                 {{/if}}
@@ -359,7 +357,7 @@
                 {{#each actor.specialactions as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <div class="itemnamefull">{{item.name}}</div>
-                    <div class="itemtext">{{data.description}}</div>
+                    <div class="itemtext">{{{data.description}}}</div>
                 </li>
                 {{/each}}
                 {{/if}}
@@ -467,7 +465,7 @@
                 {{#each actor.endoftheround as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <div class="itemnamefull">{{item.name}}</div>
-                    <div class="itemtext">{{data.description}}</div>
+                    <div class="itemtext">{{{data.description}}}</div>
                 </li>
                 {{/each}}
                 {{/if}}

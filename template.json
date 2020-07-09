@@ -8,6 +8,7 @@
             "base": {
                 "description": "",
                 "fastturn": false,
+                "activebonuses": false,
                 "attributes": {
                     "strength": {
                         "value": 10,
@@ -48,12 +49,19 @@
                         "healingrate": 0
                     },
                     "defense": 0,
-                    "size": "",
-                    "speed": 0,
+                    "size": "1",
+                    "speed": 10,
                     "power": 0,
-                    "insanity": 0,
+                    "insanity": {
+                        "min": 0,
+                        "max": 0,
+                        "value": 0
+                    },
                     "corruption": 0,
-                    "fortune": 0
+                    "fortune": 0,
+                    "defensebonus": 0,
+                    "healthbonus": 0,
+                    "speedbonus": 0
                 },
                 "afflictions": {
                     "asleep": false,
@@ -143,22 +151,26 @@
             "talent",
             "weapon",
             "armor",
-            "ammo",
-            "specialattack",
+            "ammo"
             "specialaction",
             "magic",
             "endoftheround",
-            "mod"
+            "mod",
+            "ancestry"
         ],
         "templates": {
             "base": {
                 "description": ""
             },
             "action": {
+                "active": true,
                 "attack": "",
                 "against": "",
-                "damage": "-",
-                "boonsbanes": 0,
+                "damageactive": true,
+                "damage": "",
+                "boonsbanesactive": true,
+                "boonsbanes": "",
+                "plus20active": true,
                 "plus20": ""
             }
         },
@@ -202,9 +214,39 @@
                 "base",
                 "action"
             ],
+            "addtonextroll": false,
+            "multipleoptions": false,
             "uses": {
-                "value": 0,
-                "max": 0
+                "value": "",
+                "max": ""
+            },
+            "challenge": {
+                "active": true,
+                "attribute": "",
+                "boonsbanesactive": true,
+                "boonsbanes": ""
+            },
+            "vs": {
+                "active": true,
+                "attribute": "",
+                "against": "",
+                "damageactive": true,
+                "damage": "",
+                "boonsbanesactive": true,
+                "boonsbanes": ""
+            },
+            "healing": {
+                "healactive": true,
+                "rate": ""
+            },
+            "damage": "",
+            "bonuses": {
+                "defenseactive": true,
+                "defense": "",
+                "healthactive": true,
+                "health": "",
+                "speedactive": true,
+                "speed": ""
             }
         },
         "weapon": {
@@ -227,11 +269,6 @@
             ],
             "amount": 0
         },
-        "specialattack": {
-            "templates": [
-                "base"
-            ]
-        },
         "specialaction": {
             "templates": [
                 "base"
@@ -253,6 +290,31 @@
             "modifier": 0,
             "rounds": 0,
             "roundsleft": 0
+        },
+        "ancestry": {
+            "description": "",
+            "attributes": {
+                "strength": 10,
+                "agility": 10,
+                "intellect": 10,
+                "will": 10,
+                "perception": 10
+            },
+            "characteristics": {
+                "health": 0,
+                "healingrate": 0,
+                "defense": 0,
+                "size": "1",
+                "speed": 10,
+                "power": 0,
+                "insanity": 0,
+                "corruption": 0
+            },
+            "level4": {
+                "healthbonus": 0,
+                "option1": true,
+                "option1text": ""
+            }
         }
     }
 }

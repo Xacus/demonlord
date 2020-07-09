@@ -133,10 +133,10 @@ export const startCombat = async function () {
     for (const combatant of game.combat.combatants) {
         let init = 0;
 
-        if (combatant.actor.data.type == "character") {
-            init = combatant.actor.data.data.fastturn ? 70 : 30;
+        if (combatant.actor?.data?.type == "character") {
+            init = combatant.actor?.data?.data.fastturn ? 70 : 30;
         } else {
-            init = combatant.actor.data.data.fastturn ? 50 : 10;
+            init = combatant.actor?.data?.data.fastturn ? 50 : 10;
         }
 
         game.combat.setInitiative(combatant._id, init);

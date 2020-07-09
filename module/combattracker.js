@@ -23,12 +23,12 @@ export default class extends CombatTracker {
         super.activateListeners(html);
 
         html.find('.dlturnorder').click(ev => {
-            if (game.user.isGM || combatant.actor.owner) {
-                const li = ev.currentTarget.closest("li");
-                const combId = li.dataset.combatantId;
-                const currentCombat = this.getCurrentCombat();
-                const combatant = currentCombat.combatants.find((c) => c._id == combId);
+            const li = ev.currentTarget.closest("li");
+            const combId = li.dataset.combatantId;
+            const currentCombat = this.getCurrentCombat();
+            const combatant = currentCombat.combatants.find((c) => c._id == combId);
 
+            if (game.user.isGM || combatant.actor.owner) {
                 this.updateActorsFastturn(combatant.actor);
             }
         });

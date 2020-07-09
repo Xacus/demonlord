@@ -26,7 +26,7 @@
         {{!-- Description Tab --}}
         <div class=" tab" data-group="primary" data-tab="description">
             <div class="descriptionblock">
-                <textarea name="data.description">{{data.description}}</textarea>
+                {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
             </div>
         </div>
     </section>

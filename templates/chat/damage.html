@@ -1,0 +1,29 @@
+<div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <header class="card-headersmall">
+        <div class="damage-img"></div>
+        <div class="attackbox">
+            <div class="header">{{localize "DL.DamageRollText"}}</div>
+            <div class="headertext"></div>
+        </div>
+    </header>
+
+    <div class="damageaction apply-damage">
+        <div class="header" data-damage="{{data.damageTotal.value}}">
+            <img src="systems/demonlord/css/icons/drop.png" width="15" height="15" />
+            <div>{{localize "DL.DialogTalentApplyDamage"}} ({{data.damageTotal.value}})</div>
+        </div>
+    </div>
+    <div class="damageaction apply-damage">
+        <div class="header" data-damage="{{data.damageDouble.value}}">
+            <img src="systems/demonlord/css/icons/drop.png" width="15" height="15" />
+            <div>{{localize "DL.DialogTalentApplyDoubleDamage"}} ({{data.damageDouble.value}})</div>
+        </div>
+    </div>
+    <div class="damageaction apply-damage">
+        <div class="header" data-damage="{{data.damageHalf.value}}">
+            <img src="systems/demonlord/css/icons/drop.png" width="15" height="15" />
+            <div>{{localize "DL.DialogTalentApplyHalfDamage"}} ({{data.damageHalf.value}})</div>
+        </div>
+    </div>
+</div>

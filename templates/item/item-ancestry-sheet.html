@@ -1,0 +1,95 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <div class="header-fields">
+            <div class="gridrow"><input name="name" type="text" value="{{item.name}}" placeholder="Armor Name" /></div>
+        </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="attributes">Ancestry</a>
+        <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        {{!-- Attributes Tab --}}
+        <div class="tab weapons" data-group="primary" data-tab="attributes">
+            <div class="gridrow">
+                <div class="resource">
+                    <label class="resource-label">{{localize "DL.Attributes"}}</label>
+                    <div class="modifierblock">
+                        <label class="resource-label">{{localize "DL.AttributeStrength"}}</label>
+                        <input type="text" name="data.attributes.strength" value="{{data.attributes.strength}}" />
+                        <label class="resource-label">{{localize "DL.AttributeAgility"}}</label>
+                        <input type="text" name="data.attributes.agility" value="{{data.attributes.agility}}" />
+                        <label class="resource-label">{{localize "DL.AttributeIntellect"}}</label>
+                        <input type="text" name="data.attributes.intellect" value="{{data.attributes.intellect}}" />
+                        <label class="resource-label">{{localize "DL.AttributeWill"}}</label>
+                        <input type="text" name="data.attributes.will" value="{{data.attributes.will}}" />
+                    </div>
+                </div>
+                <div class="resource">
+                    <label class="resource-label">{{localize "DL.Characteristics"}}</label>
+                    <div class="modifierblock">
+                        <label class="resource-label">{{localize "DL.CharPerception"}}</label>
+                        <input type="text" name="data.attributes.perception" value="{{data.attributes.perception}}" />
+                        <label class="resource-label">{{localize "DL.CharDefense"}}</label>
+                        <input type="text" name="data.characteristics.defense"
+                            value="{{data.characteristics.defense}}" />
+                        <label class="resource-label">{{localize "DL.CharHealth"}}</label>
+                        <input type="text" name="data.characteristics.health" value="{{data.characteristics.health}}" />
+                        <label class="resource-label">{{localize "DL.CharHealthHealingRating"}}</label>
+                        <input type="text" name="data.characteristics.healingrate"
+                            value="{{data.characteristics.healingrate}}" />
+                        <label class="resource-label">{{localize "DL.CharSize"}}</label>
+                        <input type="text" name="data.characteristics.size" value="{{data.characteristics.size}}" />
+                        <label class="resource-label">{{localize "DL.CharSpeed"}}</label>
+                        <input type="text" name="data.characteristics.speed" value="{{data.characteristics.speed}}" />
+                        <label class="resource-label">{{localize "DL.CharPower"}}</label>
+                        <input type="text" name="data.characteristics.power" value="{{data.characteristics.power}}" />
+                        <label class="resource-label">{{localize "DL.CharInsanity"}}</label>
+                        <input type="text" name="data.characteristics.insanity"
+                            value="{{data.characteristics.insanity}}" />
+                        <label class="resource-label">{{localize "DL.CharCorruption"}}</label>
+                        <input type="text" name="data.characteristics.corruption"
+                            value="{{data.characteristics.corruption}}" />
+                    </div>
+                </div>
+                <div class="resource">
+                    <label class="resource-label">{{localize "DL.AncestryLevel4"}}</label>
+                    <div class="modifierblock">
+                        <label class="resource-label">{{localize "DL.CharHealth"}}</label>
+                        <input type="text" name="data.level4.healthbonus" value="{{data.level4.healthbonus}}" />
+                        {{#if data.level4.option1}}
+                        <div class="radiotrue">
+                            <input type="radio" name="data.level4.options" id="data.level4.option.true" {{checked}} />
+                            <label for="data.level4.option1">{{localize "DL.AncestryLearnSpell"}}</label>
+                        </div>
+                        <div class="radiofalse">
+                            <input type="radio" name="data.level4.options" id="data.level4.option.false" />
+                            <label for="data.level4.option1">{{localize "DL.AncestryLearnTalent"}}</label>
+                        </div>
+                        {{else}}
+                        <div class="radiotrue">
+                            <input type="radio" name="data.level4.options" id="data.level4.option.true" />
+                            <label for="data.level4.option1">{{localize "DL.AncestryLearnSpell"}}</label>
+                        </div>
+                        <div class="radiofalse">
+                            <input type="radio" name="data.level4.options" id="data.level4.option.false" {{checked}} />
+                            <label for="data.level4.option1">{{localize "DL.AncestryLearnTalent"}}</label>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{!-- Description Tab --}}
+        <div class="tab" data-group="primary" data-tab="description">
+            <div class="descriptionblock">
+                <textarea name="data.description">{{data.description}}</textarea>
+            </div>
+        </div>
+    </section>
+</form>

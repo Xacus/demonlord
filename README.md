@@ -24,6 +24,18 @@ The weapons, armors and ammunition from the core rulebook is available for dragi
 ### **Dice So Nice!:**
 This module is supported.
 
+### **Macros:**
+Challenge Roll Macros: 
+- game.demonlord.rollAttributeMacro("strength");
+- game.demonlord.rollAttributeMacro("agility");
+- game.demonlord.rollAttributeMacro("intellect");
+- game.demonlord.rollAttributeMacro("will");
+- game.demonlord.rollAttributeMacro("perception");
+
+### **Tracking:**
+You can track both Health and Insanity and they are set on the token when an Actor is created.
+- characteristics.health
+- characteristics.insanity
 
 ## **Plans**
 - [x] Enter Abilities, Characteristics and calculate modifers.
@@ -40,11 +52,17 @@ This module is supported.
 - [x] Macros for creatures.
 - [x] Actor Mods - Fase 1, general structur. 
 - [x] Afflictions - Fase 1, saving.
+- [x] Afflictions - Fase 2, icons on token, rules.
+- [x] Redesign Talents.
+- [x] Ancestry.
+- [x] Calculating characteristics.
+- [x] Creature statblock - Fase 2, Special Attack are Talents.
 - [ ] Redesign Background (Paths, Professions, Wealth).
-- [ ] Redesign Talents.
 - [ ] Redesign Magic.
+- [ ] New Paths system. Calculating Attributes and Health.
 - [ ] Actor Mods - Fase 2. (Your character buffs)
-- [ ] Afflictions - Fase 2.
+- [ ] Afflictions - Fase 3.
+- [ ] Level up system.
 - [ ] Rules Engine.
 - [ ] New design.
 

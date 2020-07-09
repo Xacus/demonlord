@@ -15,4 +15,12 @@ export const registerSettings = function () {
         type: Boolean,
         config: true
     });
+    game.settings.register('demonlord', 'attackShowDefense', {
+        name: game.i18n.localize('DL.SettingAttackShowEnemyAttribute'),
+        hint: game.i18n.localize('DL.SettingAttackShowEnemyAttributeHint'),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 };

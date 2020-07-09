@@ -26,12 +26,16 @@ import {
     startCombat
 } from "./init/init.js";
 import combattracker from './combattracker.js';
+import { CharacterBuff } from './buff.js';
 
 Hooks.once('init', async function () {
     game.demonlord = {
         DemonlordActor,
         DemonlordItem,
-        rollItemMacro
+        rollItemMacro,
+        rollWeaponMacro,
+        rollTalentMacro,
+        rollAttributeMacro
     };
 
     // Define custom Entity classes
@@ -64,6 +68,8 @@ Hooks.once('init', async function () {
         makeDefault: true
     });
 
+    window.CharacterBuff = CharacterBuff;
+
     // If you need to add Handlebars helpers, here are a few useful examples:
     Handlebars.registerHelper('concat', function () {
         var outStr = '';
@@ -79,6 +85,8 @@ Hooks.once('init', async function () {
         return str.toLowerCase();
     });
 
+    Handlebars.registerHelper("json", JSON.stringify);
+
     preloadHandlebarsTemplates();
 });
 
@@ -89,6 +97,10 @@ async function preloadHandlebarsTemplates() {
         "systems/demonlord/templates/tabs/magic.html",
         "systems/demonlord/templates/tabs/item.html",
         "systems/demonlord/templates/tabs/background.html",
+        "systems/demonlord/templates/chat/challenge.html",
+        "systems/demonlord/templates/chat/combat.html",
+        "systems/demonlord/templates/chat/talent.html",
+        "systems/demonlord/templates/chat/spell.html"
     ];
     return loadTemplates(templatePaths);
 }
@@ -113,6 +125,34 @@ Hooks.once("setup", function () {
         }, {});
     }
 });
+
+/**
+ * Set default values for new actors' tokens
+ */
+Hooks.on("preCreateActor", (createData) => {
+    let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL;
+
+    if (createData.type == "creature") {
+        disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
+    }
+
+    // Set wounds, advantage, and display name visibility
+    mergeObject(createData,
+        {
+            "token.bar1": { "attribute": "characteristics.health" },        // Default Bar 1 to Health 
+            "token.bar2": { "attribute": "characteristics.insanity" },      // Default Bar 2 to Insanity
+            "token.displayName": CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,     // Default display name to be on owner hover
+            "token.displayBars": CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,     // Default display bars to be on owner hover
+            "token.disposition": disposition,                               // Default disposition to neutral
+            "token.name": createData.name                                   // Set token name to actor name
+        })
+
+    // Default characters to HasVision = true and Link Data = true
+    if (createData.type == "character") {
+        createData.token.vision = true;
+        createData.token.actorLink = true;
+    }
+})
 
 Hooks.on('updateActor', async (actor, updateData, options, userId) => {
     if (updateData.data &&
@@ -282,6 +322,8 @@ Hooks.on('preUpdateToken', async (scene, token, updateData, options) => {
     }
 });
 
+Hooks.on("renderChatLog", (app, html, data) => DemonlordItem.chatListeners(html));
+
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */
@@ -299,7 +341,21 @@ async function createDemonlordMacro(data, slot) {
     const item = data.data;
 
     // Create the macro command
-    const command = `game.demonlord.rollItemMacro("${item.name}");`;
+    let command;
+    switch (item.type) {
+        case 'weapon':
+            command = `game.demonlord.rollWeaponMacro("${item.name}");`;
+            break;
+        case 'talent':
+            command = `game.demonlord.rollTalentMacro("${item.name}");`;
+            break;
+        case 'item':
+            command = `game.demonlord.rollItemMacro("${item.name}");`;
+            break;
+        default:
+            break;
+    }
+
     let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));
     if (!macro) {
         macro = await Macro.create({
@@ -317,8 +373,7 @@ async function createDemonlordMacro(data, slot) {
 }
 
 /**
- * Create a Macro from an Item drop.
- * Get an existing item macro if one exists, otherwise create a new one.
+ * Roll Macro from an Item.
  * @param {string} itemName
  * @return {Promise}
  */
@@ -332,4 +387,51 @@ function rollItemMacro(itemName) {
 
     // Trigger the item roll
     return item.roll();
+}
+
+/**
+ * Roll Macro from a Weapon.
+ * @param {string} itemName
+ * @return {Promise}
+ */
+function rollWeaponMacro(itemName) {
+    const speaker = ChatMessage.getSpeaker();
+    let actor;
+    if (speaker.token) actor = game.actors.tokens[speaker.token];
+    if (!actor) actor = game.actors.get(speaker.actor);
+    const item = actor ? actor.items.find(i => i.name === itemName) : null;
+    if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+
+    return actor.rollWeaponAttack(item.id);
+}
+
+/**
+ * Roll Macro from a Talent.
+ * @param {string} itemName
+ * @return {Promise}
+ */
+function rollTalentMacro(itemName) {
+    const speaker = ChatMessage.getSpeaker();
+    let actor;
+    if (speaker.token) actor = game.actors.tokens[speaker.token];
+    if (!actor) actor = game.actors.get(speaker.actor);
+    const item = actor ? actor.items.find(i => i.name === itemName) : null;
+    if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+
+    return actor.rollTalent(item.id);
+}
+
+/**
+ * Create a Macro from an Attribute.
+ * @param {string} attributeName
+ * @return {Promise}
+ */
+function rollAttributeMacro(attributeName) {
+    const speaker = ChatMessage.getSpeaker();
+    let actor;
+    if (speaker.token) actor = game.actors.tokens[speaker.token];
+    if (!actor) actor = game.actors.get(speaker.actor);
+    const attribute = actor ? actor.data.data.attributes[attributeName] : null;
+
+    return actor.rollChallenge(attribute);
 }

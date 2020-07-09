@@ -21,7 +21,13 @@
 .spell-uses:hover,
 .spell-uses:focus,
 .tradition-edit:hover,
-.tradition-edit:focus {
+.tradition-edit:focus,
+.roll-healing:hover,
+.roll-healing:focus,
+.roll-damage:hover,
+.roll-damage:focus,
+.apply-damage:hover,
+.apply-damage:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
@@ -209,6 +215,13 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
+.demonlord .card-headersmall .damage-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/damage.png") no-repeat;
+}
+
 .demonlord .card-headersmall .spell-img {
   float: left;
   height: 22px;
@@ -319,6 +332,8 @@
   padding: 5px 0;
   position: absolute;
   z-index: 1;
+  left: -17px;
+  top: 27px;
 }
 
 .demonlord .result .box .valuetext {
@@ -330,7 +345,7 @@
 }
 
 .demonlord .result .SUCCESS .boxborder {
-  border: 3px solid #7a7971;
+  border: 3px solid green;
 }
 
 .demonlord .result .SUCCESS .boxborder .value {
@@ -338,11 +353,11 @@
   font-weight: bold;
 }
 
-.demonlord .result .FAILURE .boxborderTarget {
-  border: 3px solid #7a7971;
+.demonlord .result .FAILURE .boxborder {
+  border: 3px solid red;
 }
 
-.demonlord .result .FAILURE .boxborderTarget .value {
+.demonlord .result .FAILURE .boxborder .value {
   top: 6px;
   font-weight: bold;
 }
@@ -371,6 +386,12 @@
 .demonlord .roll20 .header,
 .demonlord .description .header {
   font-weight: bold;
+}
+
+.demonlord .chat-uses {
+  float: right;
+  margin-top: -10px;
+  font-size: 12px;
 }
 
 .demonlord .creature .header {
@@ -891,6 +912,27 @@
   width: 48px;
 }
 
+.demonlord .talentactions, .demonlord .combatactions, .demonlord .damageaction {
+  margin-top: 5px;
+  padding: 5px;
+  background: #BBB;
+  border: 1px solid #666;
+  border-radius: 3px;
+  font-size: 12px;
+  height: 27px;
+}
+
+.demonlord .talentactions img, .demonlord .combatactions img, .demonlord .damageaction img {
+  float: left;
+  margin: 0 0 0 -5px;
+  border: 0;
+}
+
+.demonlord .talentactions div, .demonlord .combatactions div, .demonlord .damageaction div {
+  float: left;
+  padding-left: 5px;
+}
+
 .demonlord .window-content {
   background: #e3e3e3 url("backgroundN2.png") no-repeat;
 }
@@ -974,9 +1016,9 @@
   border-bottom: 0;
 }
 
-.demonlord .sheet-header .charancestry input {
+.demonlord .sheet-header .charancestry div input {
   width: 100%;
-  height: 100%;
+  height: 40px;
   margin: 0;
 }
 
@@ -1013,12 +1055,12 @@
 
 .demonlord .sheet-header .attributes .attributebox .attribute {
   position: relative;
-  top: 11px;
-  left: 25px;
+  top: 14px;
+  left: 26px;
   width: 25px;
 }
 
-.demonlord .sheet-header .attributes .attributebox .attribute input {
+.demonlord .sheet-header .attributes .attributebox .attribute label {
   width: 25px;
   height: 25px;
   margin: 0;
@@ -1032,7 +1074,7 @@
 .demonlord .sheet-header .attributes .attributebox .attributemod {
   position: relative;
   left: 25px;
-  top: 0px;
+  top: 5px;
   font-size: 11px;
   text-align: center;
 }
@@ -1040,7 +1082,7 @@
 .demonlord .sheet-header .attributes .attributebox .attributetext {
   position: relative;
   left: 8px;
-  top: 12px;
+  top: 18px;
   font-size: 12px;
   text-align: center;
   width: 71px;
@@ -1088,10 +1130,32 @@
   background-image: url("bloodstain.png");
 }
 
+.demonlord .sheet-header .characteristics .characteristic .charbox .charlabel {
+  position: relative;
+  top: 11px;
+  left: 12px;
+  width: 25px;
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox .charlabel div {
+  width: 30px;
+  margin-left: -6px;
+  text-align: center;
+}
+
 .demonlord .sheet-header .characteristics .characteristic .charbox .chartext {
   position: relative;
   left: 5px;
   top: 19px;
+  width: 85px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.demonlord .sheet-header .characteristics .characteristic .charbox .chartextlabel {
+  position: relative;
+  left: 5px;
+  top: 24px;
   width: 85px;
   font-size: 11px;
   font-weight: bold;
@@ -1117,7 +1181,7 @@
 .demonlord .sheet-body .tab .editor {
   height: 100%;
   padding: 2px;
-  font-size: 13px;
+  font-size: 12px;
   margin-top: -8px;
 }
 
@@ -1131,6 +1195,16 @@
 .demonlord .sheet-body .tab .descriptionblock,
 .demonlord .sheet-body .tab .editor .descriptionblock {
   margin-top: 10px;
+  height: 100%;
+}
+
+.demonlord .sheet-body .descriptionblock .editor, .demonlord .sheet-body .descriptionblock .editor-content,
+.demonlord .sheet-body .tab .descriptionblock .editor,
+.demonlord .sheet-body .tab .descriptionblock .editor-content,
+.demonlord .sheet-body .tab .editor .descriptionblock .editor,
+.demonlord .sheet-body .tab .editor .descriptionblock .editor-content {
+  height: 100%;
+  min-height: 200px;
 }
 
 .demonlord .sheet-body .descriptionblock textarea,
@@ -1376,11 +1450,14 @@
 }
 
 .demonlord .items-list .item-header {
-  height: 20px;
-  padding: 3px 0;
+  height: 16px;
   border-bottom: 1px solid #BBB;
   font-size: 11px;
   font-weight: bold;
+}
+
+.demonlord .items-list .item-header .item-controls {
+  height: 0;
 }
 
 .demonlord .items-list .item-header .weaponnameheader {
@@ -1452,12 +1529,6 @@
 .demonlord .items-list .item .weaponname {
   float: left;
   width: 170px;
-  margin-right: 10px;
-}
-
-.demonlord .items-list .item .talentname {
-  float: left;
-  width: 201px;
   margin-right: 10px;
 }
 
@@ -1575,21 +1646,37 @@
 }
 
 .demonlord .items-list .talent {
-  height: 60px;
+  height: auto;
+  width: 100%;
+  padding: 0 0 1px 0;
+  border: 1px solid #BBB;
+  border-radius: 2px;
+}
+
+.demonlord .items-list .talent .talentheader {
+  background-color: #999;
+  line-height: 20px;
+  padding: 0 3px;
+  margin-bottom: 2px;
 }
 
 .demonlord .items-list .talent .talentname {
+  float: left;
   -webkit-box-flex: 0;
   -ms-flex: 0 0 220px;
   flex: 0 0 220px;
   height: 20px;
+  font-weight: bold;
 }
 
-.demonlord .items-list .talent .talentuses {
+.demonlord .items-list .talent .talent-uses {
+  float: right;
   -webkit-box-flex: 0;
   -ms-flex: 0 0 25px;
   flex: 0 0 25px;
-  height: 20px;
+  height: 17px;
+  line-height: 17px;
+  padding-right: 3px;
 }
 
 .demonlord .items-list .talent .talentmod {
@@ -1599,13 +1686,77 @@
   height: 20px;
 }
 
+.demonlord .items-list .talent .option {
+  float: left;
+  min-width: 160px;
+  height: 17px;
+  line-height: 17px;
+  padding: 0px 1px 0 4px;
+  text-align: left;
+}
+
+.demonlord .items-list .talent .bonesbanes {
+  float: left;
+  width: 100%;
+  height: 17px;
+  line-height: 17px;
+  padding: 0 1px;
+  text-align: left;
+}
+
+.demonlord .items-list .talent input[type="checkbox"] {
+  float: left;
+  height: 12px;
+  margin: 2px 0 0 -3px;
+}
+
 .demonlord .resource {
-  margin-bottom: 7px;
+  padding: 5px;
 }
 
 .demonlord .resource .resource-label {
   font-weight: bold;
   font-size: 12px;
+}
+
+.demonlord .resource .modifierblock {
+  padding: 5px;
+  border: 1px solid #bbb;
+  border-radius: 2px;
+}
+
+.demonlord .resource .modifierblock input[type="text"], .demonlord .resource .modifierblock select {
+  margin-bottom: 5px;
+  font-size: 11px;
+  height: 20px;
+}
+
+.demonlord .resource .modifierblock .grid {
+  margin: 0;
+}
+
+.demonlord .resource .modifierblock label {
+  font-size: 11px;
+}
+
+.demonlord .resource .modifierblockcheck {
+  padding: 5px;
+  border: 1px solid #bbb;
+  border-radius: 2px;
+}
+
+.demonlord .resource .modifierblockcheck input {
+  margin: 2px 0 2px -3px;
+  height: 12px;
+}
+
+.demonlord .resource .modifierblockcheck .grid {
+  margin: 0 0 10px 0;
+}
+
+.demonlord .resource .modifierblockcheck label {
+  font-size: 11px;
+  margin-left: -2px;
 }
 
 .demonlord .resource textarea {
@@ -1630,7 +1781,7 @@
     border-bottom: 2px solid #000;
     background: rgba(0, 0, 0, 0.1);
     */
-  color: #bbb;
+  color: #ddd;
 }
 
 .demonlord .tabs .item {

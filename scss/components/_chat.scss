@@ -78,6 +78,13 @@
     margin-bottom: 10px;
     background: rgba(0, 0, 0, 0.1);
 
+    .damage-img {
+        float: left;
+        height: 22px;
+        width: 22px;
+        background: url("icons/damage.png") no-repeat;
+    }
+
     .spell-img {
         float: left;
         height: 22px;
@@ -188,6 +195,8 @@
                 padding: 5px 0;
                 position: absolute;
                 z-index: 1;
+                left: -17px;
+                top: 27px;
             }
         }
 
@@ -202,7 +211,7 @@
 
     .SUCCESS {
         .boxborder {
-            border: 3px solid #7a7971;
+            border: 3px solid green;
 
             .value {
                 top: 6px;
@@ -212,8 +221,8 @@
     }
 
     .FAILURE {
-        .boxborderTarget {
-            border: 3px solid #7a7971;
+        .boxborder {
+            border: 3px solid red;
 
             .value {
                 top: 6px;
@@ -246,4 +255,10 @@
     .header {
         font-weight: bold;
     }
+}
+
+.chat-uses {
+    float:right;
+    margin-top: -10px;
+    font-size: 12px;
 }

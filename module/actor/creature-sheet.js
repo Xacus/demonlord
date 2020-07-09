@@ -46,10 +46,10 @@ export class DemonlordCreatureSheet extends DemonlordActorSheet {
         const weapons = [];
         const spells = [];
         const features = [];
-        const specialattacks = [];
         const specialactions = [];
         const magic = [];
         const endoftheround = [];
+        const talents = [];
 
         for (let i of sheetData.items) {
             let item = i.data;
@@ -61,23 +61,23 @@ export class DemonlordCreatureSheet extends DemonlordActorSheet {
                 weapons.push(i);
             } else if (i.type === 'spell') {
                 spells.push(i);
-            } else if (i.type === 'specialattack') {
-                specialattacks.push(i);
             } else if (i.type === 'specialaction') {
                 specialactions.push(i);
             } else if (i.type === 'magic') {
                 magic.push(i);
             } else if (i.type === 'endoftheround') {
                 endoftheround.push(i);
+            } else if (i.type === 'talent') {
+                talents.push(i);
             }
         }
 
         actorData.weapons = weapons;
         actorData.spells = spells;
         actorData.features = features;
-        actorData.specialattacks = specialattacks;
         actorData.specialactions = specialactions;
         actorData.magic = magic;
         actorData.endoftheround = endoftheround;
+        actorData.talents = talents;
     }
 }

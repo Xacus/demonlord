@@ -158,4 +158,25 @@
 
 }
 
+.talentactions, .combatactions, .damageaction {
+    margin-top: 5px;
+    padding: 5px;
+    background: #BBB;
+    border: 1px solid #666;
+    border-radius: 3px;
+    font-size: 12px;
+    height: 27px;
+
+    img {
+        float: left;
+        margin: 0 0 0 -5px;
+        border: 0;
+    }
+
+    div {
+        float: left;
+        padding-left: 5px;
+    }
+}
+
 .sheet-footer {}
