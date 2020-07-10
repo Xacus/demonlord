@@ -59,6 +59,8 @@
             {{localize 'DL.ArmorStrengthMin'}} {{data.strengthmin}}{{/if}}
         </div>
         <div class="item-controls">
+            <a class="item-control {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}"
+                title="{{localize 'DL.ArmorWear'}}"><i class="fas fa-tshirt"></i></a>
             <a class="item-control item-edit" title="{{localize 'DL.ArmorEdit'}}"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-trash"></i></a>
         </div>

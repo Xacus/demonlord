@@ -217,6 +217,22 @@ export class DemonlordActorSheet extends ActorSheet {
             this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li);
         });
 
+        // Update Inventory Item
+        html.find('.item-wear').click(ev => {
+            const li = $(ev.currentTarget).parents(".item");
+            const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.data("itemId")))
+
+            item.data.wear = false;
+            this.actor.updateEmbeddedEntity('OwnedItem', item);
+        });
+        html.find('.item-wearoff').click(ev => {
+            const li = $(ev.currentTarget).parents(".item");
+            const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.data("itemId")))
+
+            item.data.wear = true;
+            this.actor.updateEmbeddedEntity('OwnedItem', item);
+        });
+
         // Update Feature Item
         html.find('.feature-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".feature");

@@ -86,6 +86,7 @@
     "DL.ArmorStrengthRequiremet": "Requires Strength or higher",
     "DL.ArmorAdd": "Add armor",
     "DL.ArmorEdit": "Edit armor",
+    "DL.ArmorWear": "Wear armor",
     "DL.ArmorDelete": "Delete armor",
     "DL.AmmoTitle": "Ammunition",
     "DL.AmmoAmount": "Amount",

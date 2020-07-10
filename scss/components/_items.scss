@@ -206,6 +206,14 @@
         text-align: right;
         font-size: 12px;
         height: 20px;
+
+        .item-control {
+            padding-left: 1px;
+        }
+
+        .item-wearoff {
+            color: #999;
+        }
     }
 
     .talent {
