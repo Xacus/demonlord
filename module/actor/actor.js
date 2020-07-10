@@ -744,7 +744,7 @@ export class DemonlordActor extends Actor {
                     characterbuffs.attackdamagebonus += "+" + talent.data.action?.damage;
                 }
                 if (talent.data?.plus20active && talent.data.action?.plus20 != "") {
-                    characterbuffs.attack20plusdamagebonus += "+" + talent.data.action.plus20;
+                    characterbuffs.attack20plusdamagebonus += "+" + talent.data.action?.plus20;
                 }
                 if (talent.data?.challenge?.boonsbanesactive && talent.data.challenge?.boonsbanes != "") {
                     characterbuffs.challengebonus = parseInt(characterbuffs.challengebonus) + parseInt(talent.data.challenge?.boonsbanes);
@@ -778,34 +778,34 @@ export class DemonlordActor extends Actor {
         }
 
         if (talent.data?.boonsbanesactive && talent.data?.action?.boonsbanes)
-            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentAttackBoonsBanes') + ": " + talent.data.action.boonsbanes + "<br>";
+            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentAttackBoonsBanes') + ": " + talent.data.action?.boonsbanes + "<br>";
         if (talent.data?.damageactive && talent.data?.action?.damage)
-            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentExtraDamage') + ": " + talent.data.action.damage + "<br>";
+            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentExtraDamage') + ": " + talent.data.action?.damage + "<br>";
         if (talent.data?.plus20active && talent.data?.action?.plus20)
-            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentExtraDamage20plus') + ": " + talent.data.action.plus20 + "<br>";
+            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentExtraDamage20plus') + ": " + talent.data.action?.plus20 + "<br>";
         if (talent.data?.challenge?.boonsbanesactive && talent.data?.challenge?.boonsbanes)
-            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentChallengeBoonsBanes') + ": " + talent.data.challenge.boonsbanes + "<br>";
+            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentChallengeBoonsBanes') + ": " + talent.data.challenge?.boonsbanes + "<br>";
         if (type == "TALENT" && talent.data?.vs?.boonsbanesactive && talent.data?.vs?.boonsbanes)
-            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentVSBoonsBanes') + ": " + talent.data.vs.boonsbanes
+            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentVSBoonsBanes') + ": " + talent.data.vs?.boonsbanes
                 + "<br>";
         if (type == "TALENT" && talent.data?.vs?.damageactive && talent.data?.vs?.damage)
-            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentVSDamage') + ": " + talent.data.vs.damage
+            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentVSDamage') + ": " + talent.data.vs?.damage
                 + "<br>";
         if (type == "TALENT" && talent.data?.healing?.healactive && talent.data?.healing?.rate)
-            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentHealing') + ": " + talent.data.healing.rate
+            effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentHealing') + ": " + talent.data.healing?.rate
                 + "<br>";
         if (type == "TALENT" && talent.data?.damage)
             effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentDamage') + ": " + talent.data?.damage
                 + "<br>";
         if (!showTalentName && type == "TALENT") {
             if (talent.data?.bonuses?.defenseactive && talent.data?.bonuses?.defense)
-                effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentBonusesDefense') + ": " + talent.data.bonuses.defense
+                effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentBonusesDefense') + ": " + talent.data.bonuses?.defense
                     + "<br>";
             if (talent.data?.bonuses?.healthactive && talent.data?.bonuses?.health)
-                effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentBonusesHealth') + ": " + talent.data.bonuses.health
+                effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentBonusesHealth') + ": " + talent.data.bonuses?.health
                     + "<br>";
             if (talent.data?.bonuses?.speedactive && talent.data?.bonuses?.speed)
-                effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentBonusesSpeed') + ": " + talent.data.bonuses.speed
+                effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentBonusesSpeed') + ": " + talent.data.bonuses?.speed
                     + "<br>";
         }
         if (effects == talent.name + ":<br>")
@@ -815,8 +815,8 @@ export class DemonlordActor extends Actor {
     }
 
     async activateTalent(talent, setActive) {
-        let uses = talent.data.uses.value;
-        let usesmax = talent.data.uses.max;
+        let uses = talent.data.uses?.value;
+        let usesmax = talent.data.uses?.max;
 
         if (parseInt(uses) >= 0) {
             if (uses < usesmax) {
