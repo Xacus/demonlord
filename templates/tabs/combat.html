@@ -44,7 +44,20 @@
         <div class="weaponname">
             {{armor.name}}
         </div>
-        <div class="defense">{{data.defense}}</div>
+        <div class="defense">
+            {{#if data.defense}}
+            {{localize "DL.ArmorDefense"}} + {{data.defense}}
+            {{/if}}
+            {{#if data.agility}}
+            {{localize "DL.ArmorAgility"}} + {{data.agility}}
+            {{/if}}
+            {{#if data.fixed}}
+            {{localize "DL.ArmorFixed"}} {{data.fixed}}
+            {{/if}}
+            {{#if data.properties}}, {{data.properties}}{{/if}}
+            {{#if data.strengthmin}},
+            {{localize 'DL.ArmorStrengthMin'}} {{data.strengthmin}}{{/if}}
+        </div>
         <div class="item-controls">
             <a class="item-control item-edit" title="{{localize 'DL.ArmorEdit'}}"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-trash"></i></a>

@@ -255,13 +255,19 @@
                 "action"
             ],
             "hands": "",
-            "properties": ""
+            "properties": "",
+            "strengthmin": ""
         },
         "armor": {
             "templates": [
                 "base"
             ],
-            "defense": ""
+            "properties": "",
+            "defense": "",
+            "agility": "",
+            "fixed": "",
+            "strengthmin": "",
+            "wear": true
         },
         "ammo": {
             "templates": [

@@ -18,8 +18,33 @@
         <div class="tab weapons" data-group="primary" data-tab="attributes">
             <div class="gridrow">
                 <div class="resource">
-                    <label class="resource-label">{{localize "DL.ArmorDefense"}}</label>
-                    <input type="text" name="data.defense" value="{{data.defense}}" />
+                    <label class="resource-label">{{localize "DL.ArmorBonuses"}}</label>
+                    <div class="modifierblock">
+                        <label class="resource-label">{{localize "DL.ArmorDefense"}}</label>
+                        <input type="text" name="data.defense" value="{{data.defense}}" />
+                        <label class="resource-label">{{localize "DL.ArmorAgility"}}</label>
+                        <input type="text" name="data.agility" value="{{data.agility}}" />
+                        <label class="resource-label">{{localize "DL.ArmorFixed"}}</label>
+                        <input type="text" name="data.fixed" value="{{data.fixed}}" />
+                    </div>
+                </div>
+            </div>
+            <div class="gridrow">
+                <div class="resource">
+                    <label class="resource-label">{{localize "DL.ArmorProperties"}}</label>
+                    <div class="modifierblock">
+                        <label class="resource-label">{{localize "DL.ArmorProperties"}}</label>
+                        <input type="text" name="data.properties" value="{{data.properties}}" />
+                    </div>
+                </div>
+            </div>
+            <div class="gridrow">
+                <div class="resource">
+                    <label class="resource-label">{{localize "DL.ArmorStrengthMin"}}</label>
+                    <div class="modifierblock">
+                        <label class="resource-label">{{localize "DL.ArmorStrengthRequiremet"}}</label>
+                        <input type="text" name="data.strengthmin" value="{{data.strengthmin}}" />
+                    </div>
                 </div>
             </div>
         </div>
