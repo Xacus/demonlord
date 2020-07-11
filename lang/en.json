@@ -215,6 +215,7 @@
     "DL.DialogTalentApplyDoubleDamage": "Apply Double Damage to target",
     "DL.DialogTalentApplyHalfDamage": "Apply Half Damage to target",
     "DL.DialogWarningTargetNotSelected": "Target not selected",
+    "DL.DialogWarningActorsNotSelected": "Actor(s) not selected",
     "DL.DialogUseItem": "Use Item:",
     "DL.DialogUseItemHealingPotion": "Healing Potion",
     "DL.DialogUseItemHealingPotionText": "Heals # points of damage.",

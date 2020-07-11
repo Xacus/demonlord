@@ -8,6 +8,11 @@ It a basic and playable character and creature sheet but not with much automatio
 
 ## **Features**
 
+### **General:**
+Remember, that you as a player only can effect your own Actor and not take damage or heal other Actors. It's the job of the GM to micromanage damage/healing etc. 
+
+As a GM when you need to apply damage/healing you just select a single or more actors and then use the apply button in the chat.
+
 ### **Combat Tracker:**
 Uses the standard Combat Tracker but with a few changes. It still uses the standard way of having a initiative value that determines the order of actors. You can still change the number manually if your players need a different order.
 

@@ -16,7 +16,7 @@ export default class extends CombatTracker {
             const combId = el.getAttribute('data-combatant-id');
             const combatant = currentCombat.combatants.find((c) => c._id == combId);
 
-            init = combatant.actor.data.data.fastturn ? game.i18n.localize('DL.TurnFast') : game.i18n.localize('DL.TurnSlow');
+            init = combatant.actor.data?.data?.fastturn ? game.i18n.localize('DL.TurnFast') : game.i18n.localize('DL.TurnSlow');
             el.getElementsByClassName('token-initiative')[0].innerHTML = `<a class="combatant-control dlturnorder" title="` + game.i18n.localize('DL.TurnChangeTurn') + `">` + init + `</a>`;
         });
 
@@ -38,7 +38,7 @@ export default class extends CombatTracker {
                         },
                         data: {
                             turn: {
-                                value: combatant.actor.data.data.fastturn ? game.i18n.localize('DL.DialogTurnSlow') : game.i18n.localize('DL.DialogTurnFast')
+                                value: combatant.actor.data?.data?.fastturn ? game.i18n.localize('DL.DialogTurnSlow') : game.i18n.localize('DL.DialogTurnFast')
                             }
                         }
                     };

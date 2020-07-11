@@ -34,26 +34,35 @@ export class DemonlordItem extends Item {
         event.preventDefault();
         const li = event.currentTarget;
         const item = li.children[0];
-        const healing = item.dataset.healing;
-        let targetfound = false;
+        const healing = parseInt(item.dataset.healing);
 
-        game.user.targets.forEach(async target => {
-            const targetActor = target.actor;
-            const currentDamage = parseInt(targetActor.data.data.characteristics.health.value);
-            targetfound = true;
+        var selected = canvas.tokens.controlled;
+        if (selected.length == 0)
+            ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
 
-            let newdamage = currentDamage - parseInt(healing);
-            if (newdamage < 0)
-                newdamage = 0;
+        selected.forEach(token => {
+            if (token.data.actorData.data?.characteristics != undefined) {
+                let tokenData = duplicate(token.data);
+                let hp = tokenData.actorData.data.characteristics.health;
 
-            await targetActor.update({
-                "data.characteristics.health.value": newdamage
-            });
+                let newdamage = parseInt(hp.value) - healing;
+                if (newdamage < 0)
+                    newdamage = 0;
+
+                hp.value = newdamage;
+                token.update(tokenData);
+            } else {
+                let actorData = duplicate(token.actor.data);
+                let hp = actorData.data.characteristics.health;
+
+                let newdamage = parseInt(hp.value) - healing;
+                if (newdamage < 0)
+                    newdamage = 0;
+
+                hp.value = newdamage;
+                token.actor.update(actorData);
+            }
         });
-
-        if (!targetfound) {
-            ui.notifications.info(game.i18n.localize('DL.DialogWarningTargetNotSelected'));
-        }
     }
 
     static async _onChatRollDamage(event) {
@@ -109,27 +118,36 @@ export class DemonlordItem extends Item {
         const li = event.currentTarget;
         const item = li.children[0];
         const damage = parseInt(item.dataset.damage);
-        let targetfound = false;
 
-        game.user.targets.forEach(async target => {
-            const targetActor = target.actor;
-            const currentDamage = parseInt(targetActor.data.data.characteristics.health.value);
-            const health = parseInt(targetActor.data.data.characteristics.health.max);
+        var selected = canvas.tokens.controlled;
+        if (selected.length == 0)
+            ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
 
-            targetfound = true;
+        selected.forEach(token => {
+            if (token.data.actorData.data?.characteristics != undefined) {
+                let tokenData = duplicate(token.data);
+                let hp = tokenData.actorData.data.characteristics.health;
+                const health = parseInt(token.actor.data.data.characteristics.health.max);
 
-            let newdamage = currentDamage + damage;
-            if (newdamage > health)
-                newdamage = health;
+                let newdamage = parseInt(hp.value) + damage;
+                if (newdamage > health)
+                    newdamage = health;
 
-            await targetActor.update({
-                "data.characteristics.health.value": newdamage
-            });
+                hp.value = newdamage;
+                token.update(tokenData);
+            } else {
+                let actorData = duplicate(token.actor.data);
+                let hp = actorData.data.characteristics.health;
+                const health = parseInt(actorData.data.characteristics.health.max);
+
+                let newdamage = parseInt(hp.value) + damage;
+                if (newdamage > health)
+                    newdamage = health;
+
+                hp.value = newdamage;
+                token.actor.update(actorData);
+            }
         });
-
-        if (!targetfound) {
-            ui.notifications.info(game.i18n.localize('DL.DialogWarningTargetNotSelected'));
-        }
     }
 
     static async _onChatUseTalent(event) {
