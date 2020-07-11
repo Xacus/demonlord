@@ -480,5 +480,33 @@ function healingPotionMacro() {
         actor.update({
             "data.characteristics.health.value": newdamage
         });
+
+
+        var templateData = {
+            actor: this.actor,
+            data: {
+                itemname: {
+                    value: game.i18n.localize('DL.DialogUseItemHealingPotion')
+                },
+                description: {
+                    value: game.i18n.localize('DL.DialogUseItemHealingPotionText').replace("#", healingRate)
+                }
+            }
+        };
+
+        let chatData = {
+            user: game.user._id,
+            speaker: {
+                actor: actor._id,
+                token: actor.token,
+                alias: actor.name
+            }
+        };
+
+        let template = 'systems/demonlord/templates/chat/useitem.html';
+        renderTemplate(template, templateData).then(content => {
+            chatData.content = content;
+            ChatMessage.create(chatData);
+        });
     }
 }

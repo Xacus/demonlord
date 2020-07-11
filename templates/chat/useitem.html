@@ -1,0 +1,15 @@
+<div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <header class="card-headersmall">
+        <div class="attack-img"></div>
+        <div class="attackbox">
+            <div class="header">{{localize "DL.DialogUseItem"}}</div>
+            <div class="headertext">{{data.itemname.value}}</div>
+        </div>
+    </header>
+
+    <div class="description">
+        <div class="header">{{localize "DL.AttackRollDescription"}}</div>
+        <div class="body">{{{data.description.value}}}</div>
+    </div>
+</div>
