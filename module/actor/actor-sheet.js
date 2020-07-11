@@ -488,7 +488,7 @@ export class DemonlordActorSheet extends ActorSheet {
             const div = $(ev.currentTarget);
             const attributeName = div.data("key");
             const attribute = this.actor.data.data.attributes[attributeName];
-            this.actor.rollAttribute(attribute);
+            this.actor.rollChallenge(attribute);
         });
 
         // Rollable Attack
