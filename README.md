@@ -36,6 +36,10 @@ Roll Initiative Macro:
 Rolls initiative for the selected actor token.
 - game.demonlord.rollInitMacro(); 
 
+Healing Potion Macro:
+Takes the selected actors Healing Rate and subtracts it from his/her damage.
+- game.demonlord.healingPotionMacro();
+
 ### **Tracking:**
 You can track both Health and Insanity and they are set on the token when an Actor is created.
 - characteristics.health

@@ -36,7 +36,8 @@ Hooks.once('init', async function () {
         rollTalentMacro,
         rollSpellMacro,
         rollAttributeMacro,
-        rollInitMacro
+        rollInitMacro,
+        healingPotionMacro
     };
 
     // Define custom Entity classes
@@ -439,8 +440,6 @@ function rollAttributeMacro(attributeName) {
 
 /**
  * Create a Macro from an Attribute.
- * @param {string} attributeName
- * @return {Promise}
  */
 function rollInitMacro() {
     const speaker = ChatMessage.getSpeaker();
@@ -459,4 +458,27 @@ function rollInitMacro() {
 
     if (combatantFound)
         game.combat.rollInitiative(combatantFound._id);
+}
+
+/**
+ * Create a Macro for using a Healing Potion.
+ */
+function healingPotionMacro() {
+    const speaker = ChatMessage.getSpeaker();
+    let actor;
+    if (speaker.token) actor = game.actors.tokens[speaker.token];
+    if (!actor) actor = game.actors.get(speaker.actor);
+
+    if (actor) {
+        const currentDamage = parseInt(actor.data.data.characteristics.health.value);
+        const healingRate = parseInt(actor.data.data.characteristics.health.healingrate);
+
+        let newdamage = currentDamage - healingRate;
+        if (newdamage < 0)
+            newdamage = 0;
+
+        actor.update({
+            "data.characteristics.health.value": newdamage
+        });
+    }
 }
