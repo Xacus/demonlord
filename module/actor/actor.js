@@ -50,6 +50,7 @@ export class DemonlordActor extends Actor {
             data.attributes.agility.value = parseInt(ancestry.data.attributes.agility);
             data.attributes.intellect.value = parseInt(ancestry.data.attributes.intellect);
             data.attributes.will.value = parseInt(ancestry.data.attributes.will);
+            data.attributes.perception.value = parseInt(ancestry.data.attributes.perception);
 
             data.characteristics.defense = parseInt(ancestry.data.characteristics.defense) + parseInt(characterbuffs.defensebonus);
             data.characteristics.health.max = parseInt(ancestry.data.characteristics.health) + parseInt(ancestry.data.level4.healthbonus) + characterbuffs.healthbonus;
