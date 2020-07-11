@@ -13,6 +13,10 @@ export class DemonlordItem extends Item {
         const itemData = this.data;
         const actorData = this.actor ? this.actor.data : {};
         const data = itemData.data;
+
+        if (itemData.type == "armor" && itemData.data.strengthmin && (parseInt(itemData.data.strengthmin) > parseInt(actorData.data?.attributes?.strength?.value))) {
+            itemData.data.wear = false;
+        }
     }
 
     /**

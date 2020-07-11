@@ -45,7 +45,9 @@ export class DemonlordActor extends Actor {
         const characterbuffs = this.generateCharacterBuffs();
 
         const ancestries = this.getEmbeddedCollection("OwnedItem").filter(e => "ancestry" === e.type)
+        let savedAncestry = null;
         for (let ancestry of ancestries) {
+            savedAncestry = ancestry;
             data.attributes.strength.value = parseInt(ancestry.data.attributes.strength);
             data.attributes.agility.value = parseInt(ancestry.data.attributes.agility);
             data.attributes.intellect.value = parseInt(ancestry.data.attributes.intellect);
@@ -65,6 +67,21 @@ export class DemonlordActor extends Actor {
             data.characteristics.insanity.value = parseInt(ancestry.data.characteristics.insanity);
             data.characteristics.corruption = parseInt(ancestry.data.characteristics.corruption);
         }
+
+        const armors = this.getEmbeddedCollection("OwnedItem").filter(e => "armor" === e.type);
+        let armorpoint = 0;
+        let defenseBonus = 0;
+        for (let armor of armors) {
+            if (armor.data.wear) {
+                if (armor.data.agility && armorpoint == 0)
+                    armorpoint = parseInt(savedAncestry.data.characteristics.defense) + parseInt(characterbuffs.defensebonus) + parseInt(armor.data.agility);
+                if (armor.data.fixed)
+                    armorpoint = parseInt(armor.data.fixed);
+                if (armor.data.defense)
+                    defenseBonus = parseInt(armor.data.defense);
+            }
+        }
+        data.characteristics.defense = (armorpoint == 0 ? parseInt(data.characteristics.defense) : armorpoint) + defenseBonus;
     }
 
     async createItemCreate(event) {
