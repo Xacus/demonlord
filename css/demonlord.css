@@ -253,6 +253,13 @@
   background: url("icons/barbed-sun2.png") no-repeat;
 }
 
+.demonlord .card-headersmall .init-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  background: url("icons/pentagram.png") no-repeat;
+}
+
 .demonlord .card-headersmall .header {
   float: left;
   font-weight: bold;
