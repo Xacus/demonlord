@@ -37,7 +37,8 @@ Hooks.once('init', async function () {
         rollSpellMacro,
         rollAttributeMacro,
         rollInitMacro,
-        healingPotionMacro
+        healingPotionMacro,
+        requestChallengeRollMacro
     };
 
     // Define custom Entity classes
@@ -504,6 +505,44 @@ function healingPotionMacro() {
         };
 
         let template = 'systems/demonlord/templates/chat/useitem.html';
+        renderTemplate(template, templateData).then(content => {
+            chatData.content = content;
+            ChatMessage.create(chatData);
+        });
+    }
+}
+
+function requestChallengeRollMacro() {
+    const speaker = ChatMessage.getSpeaker();
+    let actor;
+    if (speaker.token) actor = game.actors.tokens[speaker.token];
+    if (!actor) actor = game.actors.get(speaker.actor);
+
+    if (actor) {
+        var templateData = {
+            actor: this.actor,
+            data: {
+                itemname: {
+                    value: game.i18n.localize('DL.DialogUseItemHealingPotion')
+                },
+                description: {
+                    value: ""
+                }
+            }
+        };
+
+        let chatData = {
+            user: game.user._id,
+            speaker: {
+                actor: actor._id,
+                token: actor.token,
+                alias: "GM"
+            }
+        };
+
+        chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
+
+        let template = 'systems/demonlord/templates/chat/requestchallengeroll.html';
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;
             ChatMessage.create(chatData);

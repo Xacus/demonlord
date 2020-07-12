@@ -32,6 +32,8 @@ export class DemonlordItem extends Item {
         html.on('click', '.roll-damage', this._onChatRollDamage.bind(this));
         html.on('click', '.apply-damage', this._onChatApplyDamage.bind(this));
         html.on('click', '.use-talent', this._onChatUseTalent.bind(this));
+        html.on('click', '.request-challengeroll', this._onChatRequestChallengeRoll.bind(this));
+        html.on('click', '.make-challengeroll', this._onChatMakeChallengeRoll.bind(this));
     }
 
     static async _onChatApplyHealing(event) {
@@ -76,7 +78,6 @@ export class DemonlordItem extends Item {
         const actor = this._getChatCardActor(token);
         const item = li.children[0];
         const damageformular = item.dataset.damage;
-        let targetfound = false;
 
         let damageRoll = new Roll(damageformular, {});
         damageRoll.roll();
@@ -184,6 +185,81 @@ export class DemonlordItem extends Item {
 
         console.log(this.data);
         */
+    }
+
+    static async _onChatRequestChallengeRoll(event) {
+        event.preventDefault();
+        const li = event.currentTarget;
+        const item = li.children[0];
+        const attribute = item.dataset.attribute;
+        const start = li.closest(".demonlord");
+        const boonsbanes = start.children[1].children[0].children[1].value;
+
+        var selected = canvas.tokens.controlled;
+        if (selected.length == 0)
+            ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
+
+        let boonsbanestext = "";
+        if (boonsbanes == 1)
+            boonsbanestext = boonsbanes + " " + game.i18n.localize('DL.DialogBoon');
+        if (boonsbanes > 1)
+            boonsbanestext = boonsbanes + " " + game.i18n.localize('DL.DialogBoons');
+        if (boonsbanes == -1)
+            boonsbanestext = boonsbanes.replace("-", "") + " " + game.i18n.localize('DL.DialogBane');
+        if (boonsbanes < -1)
+            boonsbanestext = boonsbanes.replace("-", "") + " " + game.i18n.localize('DL.DialogBanes');
+
+        selected.forEach(token => {
+            const actor = token.actor;
+
+            var templateData = {
+                actor: this.actor,
+                data: {
+                    attribute: {
+                        value: attribute
+                    },
+                    boonsbanes: {
+                        value: boonsbanes
+                    },
+                    boonsbanestext: {
+                        value: boonsbanestext
+                    }
+                }
+            };
+
+            let chatData = {
+                user: game.user._id,
+                speaker: {
+                    actor: actor._id,
+                    token: actor.token,
+                    alias: actor.name
+                }
+            };
+
+            chatData["whisper"] = ChatMessage.getWhisperRecipients(actor.name);
+
+            let template = 'systems/demonlord/templates/chat/makechallengeroll.html';
+            renderTemplate(template, templateData).then(content => {
+                chatData.content = content;
+                ChatMessage.create(chatData);
+            });
+        });
+    }
+
+    static async _onChatMakeChallengeRoll(event) {
+        event.preventDefault();
+        const li = event.currentTarget;
+        const item = li.children[0];
+        const attributeName = item.dataset.attribute;
+        const boonsbanes = item.dataset.boonsbanes;
+        const selected = canvas.tokens.controlled;
+
+        selected.forEach(token => {
+            const actor = token.actor;
+            const attribute = actor.data.data.attributes[attributeName.toLowerCase()];
+
+            actor.rollAttribute(attribute, boonsbanes);
+        });
     }
 
     /**

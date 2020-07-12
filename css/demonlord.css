@@ -29,7 +29,11 @@
 .apply-damage:hover,
 .apply-damage:focus,
 .use-talent:hover,
-.use-talent:focus {
+.use-talent:focus,
+.request-challengeroll:hover,
+.request-challengeroll:focus,
+.make-challengeroll:hover,
+.make-challengeroll:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
@@ -938,6 +942,15 @@
 .demonlord .talentactions .blood, .demonlord .combatactions .blood, .demonlord .damageaction .blood {
   margin-left: -8px;
   margin-top: 1px;
+}
+
+.demonlord .talentactions .challenge-img, .demonlord .combatactions .challenge-img, .demonlord .damageaction .challenge-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  margin-top: -3px;
+  margin-left: -5px;
+  background: url("icons/back-forth2.png") no-repeat;
 }
 
 .demonlord .window-content {
