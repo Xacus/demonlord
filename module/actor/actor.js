@@ -27,19 +27,6 @@ export class DemonlordActor extends Actor {
         const data = actorData.data;
         let will;
 
-        // Loop through ability scores, and add their modifiers to our sheet output.
-        for (let [key, attribute] of Object.entries(data.attributes)) {
-            if (attribute.value > attribute.max) {
-                attribute.value = attribute.max;
-            }
-            if (attribute.value < attribute.min) {
-                attribute.value = attribute.min;
-            }
-
-            attribute.modifier = (attribute.value - 10);
-            attribute.label = CONFIG.DL.attributes[key].toUpperCase();
-        }
-
         data.characteristics.insanity.max = data.attributes.will.value;
 
         const characterbuffs = this.generateCharacterBuffs();
@@ -68,10 +55,29 @@ export class DemonlordActor extends Actor {
             data.characteristics.corruption = parseInt(ancestry.data.characteristics.corruption);
         }
 
+        // Loop through ability scores, and add their modifiers to our sheet output.
+        for (let [key, attribute] of Object.entries(data.attributes)) {
+            if (attribute.value > attribute.max) {
+                attribute.value = attribute.max;
+            }
+            if (attribute.value < attribute.min) {
+                attribute.value = attribute.min;
+            }
+
+            attribute.modifier = (attribute.value - 10);
+            attribute.label = CONFIG.DL.attributes[key].toUpperCase();
+        }
+
         const armors = this.getEmbeddedCollection("OwnedItem").filter(e => "armor" === e.type);
         let armorpoint = 0;
         let defenseBonus = 0;
         for (let armor of armors) {
+            if (armor.data.strengthmin && (parseInt(armor.data.strengthmin) > parseInt(data.attributes.strength.value))) {
+                armor.data.wear = false;
+            } else if (armor.data.strengthmin) {
+                armor.data.wear = true;
+            }
+
             if (armor.data.wear) {
                 if (armor.data.agility && armorpoint == 0)
                     armorpoint = parseInt(savedAncestry.data.characteristics.defense) + parseInt(characterbuffs.defensebonus) + parseInt(armor.data.agility);
