@@ -38,7 +38,7 @@ Hooks.once('init', async function () {
         rollAttributeMacro,
         rollInitMacro,
         healingPotionMacro,
-        requestChallengeRollMacro
+        requestRollMacro
     };
 
     // Define custom Entity classes
@@ -512,7 +512,7 @@ function healingPotionMacro() {
     }
 }
 
-function requestChallengeRollMacro() {
+function requestRollMacro() {
     const speaker = ChatMessage.getSpeaker();
     let actor;
     if (speaker.token) actor = game.actors.tokens[speaker.token];
@@ -542,7 +542,7 @@ function requestChallengeRollMacro() {
 
         chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
 
-        let template = 'systems/demonlord/templates/chat/requestchallengeroll.html';
+        let template = 'systems/demonlord/templates/chat/requestroll.html';
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;
             ChatMessage.create(chatData);

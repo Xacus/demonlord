@@ -158,6 +158,11 @@
 
 }
 
+.sectionblock {
+    border: 1px solid #666;
+    padding: 8px;
+    margin-bottom: 10px;
+}
 .talentactions, .combatactions, .damageaction {
     margin-top: 5px;
     padding: 5px;
@@ -190,6 +195,15 @@
         margin-top: -3px;
         margin-left: -5px;
         background: url("icons/back-forth2.png") no-repeat;
+    }
+
+    .init-img {
+        float: left;
+        height: 22px;
+        width: 22px;
+        margin-top: -3px;
+        margin-left: -5px;
+        background: url("icons/pentagram.png") no-repeat;
     }
 }
 

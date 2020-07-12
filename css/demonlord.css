@@ -33,7 +33,11 @@
 .request-challengeroll:hover,
 .request-challengeroll:focus,
 .make-challengeroll:hover,
-.make-challengeroll:focus {
+.make-challengeroll:focus,
+.request-initroll:hover,
+.request-initroll:focus,
+.make-initroll:hover,
+.make-initroll:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
@@ -918,6 +922,12 @@
   width: 48px;
 }
 
+.demonlord .sectionblock {
+  border: 1px solid #666;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
 .demonlord .talentactions, .demonlord .combatactions, .demonlord .damageaction {
   margin-top: 5px;
   padding: 5px;
@@ -951,6 +961,15 @@
   margin-top: -3px;
   margin-left: -5px;
   background: url("icons/back-forth2.png") no-repeat;
+}
+
+.demonlord .talentactions .init-img, .demonlord .combatactions .init-img, .demonlord .damageaction .init-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  margin-top: -3px;
+  margin-left: -5px;
+  background: url("icons/pentagram.png") no-repeat;
 }
 
 .demonlord .window-content {

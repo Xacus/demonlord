@@ -1,0 +1,59 @@
+<div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <header class="card-headersmall">
+        <div class="challenge-img"></div>
+        <div class="attackbox">
+            <div class="header">{{localize "DL.DialogRequestRoll"}}</div>
+            <div class="headertext"></div>
+        </div>
+    </header>
+
+    <label class="resource-label">{{localize "DL.ChallengeRoll"}}</label>
+    <div class="sectionblock">
+        <div class="boonsbanes">
+            <div class="header">
+                <div>{{localize "DL.ModsListBoonsBanes"}}</div>
+                <input type="text" name="boonsbanes" value="0" />
+            </div>
+        </div>
+        <div class="damageaction request-challengeroll">
+            <div class="header" data-attribute="{{localize 'DL.AttributeStrength'}}">
+                <div class="challenge-img"></div>
+                <div>{{localize "DL.AttributeStrength"}}</div>
+            </div>
+        </div>
+        <div class="damageaction request-challengeroll">
+            <div class="header" data-attribute="{{localize 'DL.AttributeAgility'}}">
+                <div class="challenge-img"></div>
+                <div>{{localize "DL.AttributeAgility"}}</div>
+            </div>
+        </div>
+        <div class="damageaction request-challengeroll">
+            <div class="header" data-attribute="{{localize 'DL.AttributeIntellect'}}">
+                <div class="challenge-img"></div>
+                <div>{{localize "DL.AttributeIntellect"}}</div>
+            </div>
+        </div>
+        <div class="damageaction request-challengeroll">
+            <div class="header" data-attribute="{{localize 'DL.AttributeWill'}}">
+                <div class="challenge-img"></div>
+                <div>{{localize "DL.AttributeWill"}}</div>
+            </div>
+        </div>
+        <div class="damageaction request-challengeroll">
+            <div class="header" data-attribute="{{localize 'DL.CharPerception'}}">
+                <div class="challenge-img"></div>
+                <div>{{localize "DL.CharPerception"}}</div>
+            </div>
+        </div>
+    </div>
+    <label class="resource-label">{{localize "DL.DialogRequestInitiative"}}</label>
+    <div class="sectionblock">
+        <div class="damageaction request-initroll">
+            <div class="header">
+                <div class="init-img"></div>
+                <div>{{localize "DL.DialogInitiative"}}</div>
+            </div>
+        </div>
+    </div>
+</div>

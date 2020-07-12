@@ -34,6 +34,8 @@ export class DemonlordItem extends Item {
         html.on('click', '.use-talent', this._onChatUseTalent.bind(this));
         html.on('click', '.request-challengeroll', this._onChatRequestChallengeRoll.bind(this));
         html.on('click', '.make-challengeroll', this._onChatMakeChallengeRoll.bind(this));
+        html.on('click', '.request-initroll', this._onChatRequestInitRoll.bind(this));
+        html.on('click', '.make-initroll', this._onChatMakeInitRoll.bind(this));
     }
 
     static async _onChatApplyHealing(event) {
@@ -260,6 +262,62 @@ export class DemonlordItem extends Item {
 
             actor.rollAttribute(attribute, boonsbanes);
         });
+    }
+
+    static async _onChatRequestInitRoll(event) {
+        event.preventDefault();
+        const li = event.currentTarget;
+        const item = li.children[0];
+        const attribute = item.dataset.attribute;
+        const start = li.closest(".demonlord");
+
+        var selected = canvas.tokens.controlled;
+        if (selected.length == 0)
+            ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
+
+        selected.forEach(token => {
+            const actor = token.actor;
+
+            var templateData = {
+                actor: this.actor,
+                data: {}
+            };
+
+            let chatData = {
+                user: game.user._id,
+                speaker: {
+                    actor: actor._id,
+                    token: actor.token,
+                    alias: actor.name
+                }
+            };
+
+            chatData["whisper"] = ChatMessage.getWhisperRecipients(actor.name);
+
+            let template = 'systems/demonlord/templates/chat/makeinitroll.html';
+            renderTemplate(template, templateData).then(content => {
+                chatData.content = content;
+                ChatMessage.create(chatData);
+            });
+        });
+    }
+
+    static async _onChatMakeInitRoll(event) {
+        event.preventDefault();
+        let combatantFound = null;
+
+        var selected = canvas.tokens.controlled;
+        selected.forEach(token => {
+            for (const combatant of game.combat.combatants) {
+                if (combatant.actor == token.actor) {
+                    combatantFound = combatant;
+                }
+            }
+        });
+
+        if (combatantFound) {
+            game.combat.rollInitiative(combatantFound._id);
+        }
     }
 
     /**
