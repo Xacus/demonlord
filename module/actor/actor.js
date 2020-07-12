@@ -50,9 +50,9 @@ export class DemonlordActor extends Actor {
             }
             data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4);
             data.characteristics.size = ancestry.data.characteristics.size;
-            data.characteristics.power = parseInt(ancestry.data.characteristics.power);
-            data.characteristics.insanity.value = parseInt(ancestry.data.characteristics.insanity);
-            data.characteristics.corruption = parseInt(ancestry.data.characteristics.corruption);
+            //data.characteristics.power = parseInt(data.characteristics.power);
+            //data.characteristics.insanity.value = parseInt(data.characteristics.insanity.value) + parseInt(ancestry.data.characteristics.insanity);
+            //data.characteristics.corruption = parseInt(data.characteristics.corruption) + parseInt(ancestry.data.characteristics.corruption);
         }
 
         // Loop through ability scores, and add their modifiers to our sheet output.

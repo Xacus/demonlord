@@ -113,8 +113,9 @@
                         </div>
                     </div>
                     <div class="charbox">
-                        <div class="charlabel">
-                            <div>{{data.characteristics.power}}</div>
+                        <div class="char">
+                            <input name="data.characteristics.power" type="text" value="{{data.characteristics.power}}"
+                                data-dtype="{{attribute.dtype}}" placeholder="" />
                         </div>
                         <div class="chartextlabel">
                             <label for="data.characteristics.power">{{localize "DL.CharPower"}}</label>
@@ -123,16 +124,20 @@
                 </div>
                 <div class="characteristic">
                     <div class="charbox">
-                        <div class="charlabel">
-                            <div>{{data.characteristics.insanity.value}}</div>
+                        <div class="char">
+                            <input name="data.characteristics.insanity.value" type="text"
+                                value="{{data.characteristics.insanity.value}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartextlabel">
                             <label for="data.characteristics.insanity.value">{{localize "DL.CharInsanity"}}</label>
                         </div>
                     </div>
                     <div class="charbox">
-                        <div class="charlabel">
-                            <div>{{data.characteristics.corruption}}</div>
+                        <div class="char">
+                            <input name="data.characteristics.corruption" type="text"
+                                value="{{data.characteristics.corruption}}" data-dtype="{{attribute.dtype}}"
+                                placeholder="" />
                         </div>
                         <div class="chartextlabel">
                             <label for="data.characteristics.corruption">{{localize "DL.CharCorruption"}}</label>
