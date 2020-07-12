@@ -45,6 +45,10 @@ Healing Potion Macro:
 Takes the selected actors Healing Rate and subtracts it from his/her damage.
 - game.demonlord.healingPotionMacro();
 
+Request Roll Macro:
+GM Tool for requesting players to make Challenge or Initiative rolls. Select player to send request to. A private message is send to the players with a button to roll.
+- game.demonlord.requestRollMacro();
+
 ### **Tracking:**
 You can track both Health and Insanity and they are set on the token when an Actor is created.
 - characteristics.health

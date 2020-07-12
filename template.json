@@ -299,17 +299,10 @@
         },
         "ancestry": {
             "description": "",
-            "attributes": {
-                "strength": 10,
-                "agility": 10,
-                "intellect": 10,
-                "will": 10,
-                "perception": 10
-            },
             "characteristics": {
-                "health": 0,
-                "healingrate": 0,
-                "defense": 0,
+                "perceptionmodifier": "",
+                "healthmodifier": "",
+                "defensemodifier": "",
                 "size": "1",
                 "speed": 10,
                 "power": 0,

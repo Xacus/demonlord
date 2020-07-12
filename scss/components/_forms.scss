@@ -107,7 +107,42 @@
 
             .attribute {
                 position: relative;
-                top: 14px;
+                top: 12px;
+                left: 26px;
+                width: 25px;
+
+                input {
+                    width: 25px;
+                    height: 25px;
+                    margin: 0;
+                    padding: 2px;
+                    border: 0;
+                    font-size: 16px;
+                    text-align: center;
+                    background: #fff;
+                }
+            }
+
+            .attributemod {
+                position: relative;
+                left: 25px;
+                top: 0px;
+                font-size: 11px;
+                text-align: center;
+            }
+
+            .attributetext {
+                position: relative;
+                left: 8px;
+                top: 12px;
+                font-size: 12px;
+                text-align: center;
+                width: 71px;
+            }
+
+            .attributeper {
+                position: relative;
+                top: 15px;
                 left: 26px;
                 width: 25px;
 
@@ -123,7 +158,7 @@
                 }
             }
 
-            .attributemod {
+            .attributemodper {
                 position: relative;
                 left: 25px;
                 top: 5px;
@@ -131,7 +166,7 @@
                 text-align: center;
             }
 
-            .attributetext {
+            .attributetextper {
                 position: relative;
                 left: 8px;
                 top: 18px;

@@ -35,20 +35,20 @@ export class DemonlordActor extends Actor {
         let savedAncestry = null;
         for (let ancestry of ancestries) {
             savedAncestry = ancestry;
-            data.attributes.strength.value = parseInt(ancestry.data.attributes.strength);
-            data.attributes.agility.value = parseInt(ancestry.data.attributes.agility);
-            data.attributes.intellect.value = parseInt(ancestry.data.attributes.intellect);
-            data.attributes.will.value = parseInt(ancestry.data.attributes.will);
-            data.attributes.perception.value = parseInt(ancestry.data.attributes.perception);
+            data.attributes.perception.value = parseInt(data.attributes.intellect.value) + parseInt(ancestry.data.characteristics.perceptionmodifier);
 
-            data.characteristics.defense = parseInt(ancestry.data.characteristics.defense) + parseInt(characterbuffs.defensebonus);
-            data.characteristics.health.max = parseInt(ancestry.data.characteristics.health) + parseInt(ancestry.data.level4.healthbonus) + characterbuffs.healthbonus;
-            if (data.afflictions.slowed) {
-                data.characteristics.speed = Math.floor(parseInt(ancestry.data.characteristics.speed) / 2);
+            if (parseInt(ancestry.data.characteristics?.defensemodifier) > 5) {
+                data.characteristics.defense = parseInt(ancestry.data.characteristics?.defensemodifier) + parseInt(characterbuffs.defensebonus);
             } else {
-                data.characteristics.speed = parseInt(ancestry.data.characteristics.speed) + parseInt(characterbuffs.speedbonus);
+                data.characteristics.defense = parseInt(data.attributes.agility.value) + parseInt(ancestry.data.characteristics.defensemodifier) + parseInt(characterbuffs.defensebonus);
             }
-            data.characteristics.health.healingrate = parseInt(ancestry.data.characteristics.healingrate);
+            data.characteristics.health.max = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + parseInt(ancestry.data.level4?.healthbonus) + characterbuffs.healthbonus;
+            if (data.afflictions.slowed) {
+                data.characteristics.speed = Math.floor(parseInt(ancestry.data.characteristics?.speed) / 2);
+            } else {
+                data.characteristics.speed = parseInt(ancestry.data.characteristics?.speed) + parseInt(characterbuffs.speedbonus);
+            }
+            data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4);
             data.characteristics.size = ancestry.data.characteristics.size;
             data.characteristics.power = parseInt(ancestry.data.characteristics.power);
             data.characteristics.insanity.value = parseInt(ancestry.data.characteristics.insanity);
@@ -72,22 +72,20 @@ export class DemonlordActor extends Actor {
         let armorpoint = 0;
         let defenseBonus = 0;
         for (let armor of armors) {
-            if (armor.data.strengthmin && (parseInt(armor.data.strengthmin) > parseInt(data.attributes.strength.value))) {
+            if (armor.data.strengthmin != "" && (parseInt(armor.data.strengthmin) > parseInt(data.attributes.strength.value))) {
                 armor.data.wear = false;
-            } else if (armor.data.strengthmin) {
-                armor.data.wear = true;
             }
 
             if (armor.data.wear) {
                 if (armor.data.agility && armorpoint == 0)
-                    armorpoint = parseInt(savedAncestry.data.characteristics.defense) + parseInt(characterbuffs.defensebonus) + parseInt(armor.data.agility);
+                    armorpoint = parseInt(savedAncestry.data.characteristics.defensemodifier) + parseInt(characterbuffs.defensebonus) + parseInt(armor.data.agility);
                 if (armor.data.fixed)
                     armorpoint = parseInt(armor.data.fixed);
                 if (armor.data.defense)
                     defenseBonus = parseInt(armor.data.defense);
             }
         }
-        data.characteristics.defense = (armorpoint == 0 ? parseInt(data.characteristics.defense) : armorpoint) + defenseBonus;
+        data.characteristics.defense = data.characteristics.defense + armorpoint + defenseBonus;
     }
 
     async createItemCreate(event) {
