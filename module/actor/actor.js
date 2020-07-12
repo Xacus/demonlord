@@ -26,7 +26,6 @@ export class DemonlordActor extends Actor {
     _prepareCharacterData(actorData) {
         const data = actorData.data;
         let will;
-
         data.characteristics.insanity.max = data.attributes.will.value;
 
         const characterbuffs = this.generateCharacterBuffs();
@@ -38,10 +37,11 @@ export class DemonlordActor extends Actor {
             data.attributes.perception.value = parseInt(data.attributes.intellect.value) + parseInt(ancestry.data.characteristics.perceptionmodifier);
 
             if (parseInt(ancestry.data.characteristics?.defensemodifier) > 5) {
-                data.characteristics.defense = parseInt(ancestry.data.characteristics?.defensemodifier) + parseInt(characterbuffs.defensebonus);
+                data.characteristics.defense = parseInt(ancestry.data.characteristics?.defensemodifier);
             } else {
-                data.characteristics.defense = parseInt(data.attributes.agility.value) + parseInt(ancestry.data.characteristics.defensemodifier) + parseInt(characterbuffs.defensebonus);
+                data.characteristics.defense = parseInt(data.attributes.agility.value) + parseInt(ancestry.data.characteristics.defensemodifier);
             }
+
             data.characteristics.health.max = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + parseInt(ancestry.data.level4?.healthbonus) + characterbuffs.healthbonus;
             if (data.afflictions.slowed) {
                 data.characteristics.speed = Math.floor(parseInt(ancestry.data.characteristics?.speed) / 2);
@@ -70,6 +70,7 @@ export class DemonlordActor extends Actor {
 
         const armors = this.getEmbeddedCollection("OwnedItem").filter(e => "armor" === e.type);
         let armorpoint = 0;
+        let agilitypoint = 0;
         let defenseBonus = 0;
         for (let armor of armors) {
             if (armor.data.strengthmin != "" && (parseInt(armor.data.strengthmin) > parseInt(data.attributes.strength.value))) {
@@ -77,15 +78,21 @@ export class DemonlordActor extends Actor {
             }
 
             if (armor.data.wear) {
-                if (armor.data.agility && armorpoint == 0)
-                    armorpoint = parseInt(savedAncestry.data.characteristics.defensemodifier) + parseInt(characterbuffs.defensebonus) + parseInt(armor.data.agility);
+                if (armor.data.agility && agilitypoint == 0)
+                    agilitypoint = parseInt(armor.data.agility);
                 if (armor.data.fixed)
                     armorpoint = parseInt(armor.data.fixed);
                 if (armor.data.defense)
                     defenseBonus = parseInt(armor.data.defense);
             }
         }
-        data.characteristics.defense = data.characteristics.defense + armorpoint + defenseBonus;
+
+        if (armorpoint >= 11)
+            data.characteristics.defense = parseInt(armorpoint) + parseInt(defenseBonus);
+        else
+            data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(defenseBonus) + parseInt(agilitypoint);
+
+        data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(characterbuffs.defensebonus);
     }
 
     async createItemCreate(event) {
@@ -875,13 +882,14 @@ export class DemonlordActor extends Actor {
         const healthbonus = talent.data.bonuses?.defenseactive && talent.data.bonuses?.health != "" ? parseInt(talent.data.bonuses?.health) : 0;
         const defensebonus = talent.data.bonuses?.healthactive && talent.data.bonuses?.defense != "" ? parseInt(talent.data.bonuses?.defense) : 0;
         const speedbonus = talent.data.bonuses?.speedactive && talent.data.bonuses?.speed != "" ? parseInt(talent.data.bonuses?.speed) : 0;
-
-        await this.update({
-            "data.characteristics.health.max": parseInt(this.data.data.characteristics.health.max) + healthbonus,
-            "data.characteristics.defense": parseInt(this.data.data.characteristics.defense) + defensebonus,
-            "data.characteristics.speed.value": parseInt(this.data.data.characteristics.speed.value) + speedbonus,
-            "data.activebonuses": true
-        });
+        /*
+                await this.update({
+                    "data.characteristics.health.max": parseInt(this.data.data.characteristics.health.max) + healthbonus,
+                    "data.characteristics.defense": parseInt(this.data.data.characteristics.defense) + defensebonus,
+                    "data.characteristics.speed.value": parseInt(this.data.data.characteristics.speed.value) + speedbonus,
+                    "data.activebonuses": true
+                });
+                */
     }
 
     async removeCharacterBonuses(talent) {
