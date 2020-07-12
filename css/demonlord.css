@@ -979,6 +979,15 @@
   background: url("icons/pentagram.png") no-repeat;
 }
 
+.demonlord .talentactions .talent-img, .demonlord .combatactions .talent-img, .demonlord .damageaction .talent-img {
+  float: left;
+  height: 22px;
+  width: 22px;
+  margin-top: -3px;
+  margin-left: -5px;
+  background: url("icons/barbed-sun2.png") no-repeat;
+}
+
 .demonlord .window-content {
   background: #e3e3e3 url("backgroundN2.png") no-repeat;
 }

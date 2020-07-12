@@ -162,9 +162,10 @@ export class DemonlordItem extends Item {
         const actor = this._getChatCardActor(token);
         if (!actor) return;
 
-        const li = event.currentTarget;
-        const div = li.children[0];
+        const div = event.currentTarget.children[0];
         const talentId = div.dataset.itemId;
+        alert(talentId);
+        actor.rollTalent(talentId);
 
         //const item = actor.getOwnedItem(talentId);
         /*

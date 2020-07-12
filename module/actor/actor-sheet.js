@@ -217,6 +217,57 @@ export class DemonlordActorSheet extends ActorSheet {
             this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li);
         });
 
+        // View Talent
+        html.find('.item-view').click(ev => {
+            const li = $(ev.currentTarget).parents(".item");
+            const talent = this.actor.getOwnedItem(li.data("itemId")).data;
+            let usesText = "";
+
+            if (parseInt(talent.data?.uses?.value) >= 0 && parseInt(talent.data?.uses?.max) > 0) {
+                let uses = parseInt(talent.data.uses?.value);
+                let usesmax = parseInt(talent.data.uses?.max);
+                usesText = game.i18n.localize('DL.TalentUses') + ": " + uses + " / " + usesmax;
+            }
+
+            var templateData = {
+                actor: this.actor,
+                item: {
+                    name: talent.name
+                },
+                data: {
+                    id: {
+                        value: talent._id
+                    },
+                    effects: {
+                        value: this.actor.buildTalentEffects(talent, false, "TALENT")
+                    },
+                    description: {
+                        value: talent.data.description
+                    },
+                    uses: {
+                        value: usesText
+                    }
+                }
+            };
+
+            let chatData = {
+                user: game.user._id,
+                speaker: {
+                    actor: this.actor._id,
+                    token: this.actor.token,
+                    alias: this.actor.name
+                }
+            };
+
+            chatData["whisper"] = ChatMessage.getWhisperRecipients(this.actor.name);
+
+            let template = 'systems/demonlord/templates/chat/showtalent.html';
+            renderTemplate(template, templateData).then(content => {
+                chatData.content = content;
+                ChatMessage.create(chatData);
+            });
+        });
+
         // Update Inventory Item
         html.find('.item-wear').click(ev => {
             const li = $(ev.currentTarget).parents(".item");

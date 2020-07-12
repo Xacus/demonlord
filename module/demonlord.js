@@ -104,7 +104,8 @@ async function preloadHandlebarsTemplates() {
         "systems/demonlord/templates/chat/combat.html",
         "systems/demonlord/templates/chat/talent.html",
         "systems/demonlord/templates/chat/spell.html",
-        "systems/demonlord/templates/chat/description.html"
+        "systems/demonlord/templates/chat/description.html",
+        "systems/demonlord/templates/chat/showtalent.html"
     ];
     return loadTemplates(templatePaths);
 }
