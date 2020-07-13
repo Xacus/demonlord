@@ -24,10 +24,12 @@
         <div class="body">{{{data.description.value}}}</div>
     </div>
     {{/if}}
+    {{#if data.uses.value}}
     <div class="damageaction use-talent">
         <div class="header" data-item-id="{{data.id.value}}">
             <div class="talent-img"></div>
             <div>{{localize "DL.DialogUseTalent"}}</div>
         </div>
     </div>
+    {{/if}}
 </div>

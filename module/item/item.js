@@ -164,30 +164,7 @@ export class DemonlordItem extends Item {
 
         const div = event.currentTarget.children[0];
         const talentId = div.dataset.itemId;
-        alert(talentId);
         actor.rollTalent(talentId);
-
-        //const item = actor.getOwnedItem(talentId);
-        /*
-        const token = this.actor.token;
-        const item = this.data;
-        const actorData = this.actor ? this.actor.data.data : {};
-        const itemData = item.data;
-
-        console.log(this.actor);
-        console.log(itemData);
-*/
-        /*
-        event.preventDefault();
-        const li = event.currentTarget;
-        const token = event.currentTarget.closest(".demonlord");
-        const actor = game.actors.get(token.dataset.actorId);
-        const div = li.children[0];
-        const talentId = div.dataset.itemId;
-        const talent = actor.getEmbeddedEntity("OwnedItem", talentId);
-
-        console.log(this.data);
-        */
     }
 
     static async _onChatRequestChallengeRoll(event) {
