@@ -166,9 +166,10 @@
 }
 
 #hotbar .macro,
-#hotbar .bar-controls  {
+#hotbar .bar-controls,
+#hotbar .macro.inactive {
     border-radius: 0px;
-    box-shadow: 0 0 5px #444 inset;
+    box-shadow: none;
 }
 
 #hotbar #hotbar-directory-controls, 
@@ -178,7 +179,7 @@
 
 #hotbar .macro:hover,
 #hotbar .bar-controls:hover  {
-    box-shadow: 0 0 5px #444 inset;
+    box-shadow: none;
     border: 1px solid var(--demonlord-red);
 }
 
