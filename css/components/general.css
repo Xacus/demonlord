@@ -1,0 +1,52 @@
+form {
+  display: grid;
+  grid: "sidebar header" 110px "sidebar nav" minmax(-webkit-min-content, -webkit-max-content) "sidebar content" 1fr/247px 1fr;
+  grid: "sidebar header" 110px "sidebar nav" minmax(min-content, max-content) "sidebar content" 1fr/247px 1fr;
+  font-family: "Gelasio", "Signika", Georgia, serif;
+}
+
+form input[type=text] {
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  background: none;
+  padding: 0;
+  margin: 1px 0;
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+form input[type=text]:hover,
+form input[type=text]:focus {
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+form input:disabled,
+form select:disabled,
+form textarea:disabled {
+  color: #444;
+  border: none;
+}
+
+form input:disabled:hover,
+form select:disabled:hover,
+form textarea:disabled:hover,
+form input:disabled:focus,
+form select:disabled:focus,
+form textarea:disabled:focus {
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+form select {
+  font-size: 10px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+form span,
+form label {
+  display: block;
+}

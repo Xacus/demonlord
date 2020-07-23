@@ -3,7 +3,6 @@
         <div class="weaponnameheader">{{localize "DL.WeaponTitle"}}</div>
         <div class="damageheader">{{localize "DL.WeaponDamage"}}</div>
         <div class="bonesbanesheader">{{localize "DL.WeaponBoonsBanesShort"}}</div>
-        <div class="propertiesheader">{{localize "DL.WeaponProperties"}}</div>
         <div class="item-controls">
             <a class="item-control item-create" title="{{localize 'DL.WeaponAdd'}}" data-type="weapon"><i
                     class="fas fa-plus"></i></a>
@@ -12,7 +11,7 @@
     {{#each actor.weapons as |weapon id|}}
     <li class="item dropitem" data-item-id="{{weapon._id}}">
         <div class="item-image">
-            <img src="{{weapon.img}}" title="{{weapon.name}}" width="26" height="26" />
+            <img src="{{weapon.img}}" title="{{weapon.name}}" width="30" height="30" />
         </div>
         <div class="weaponname attack-roll" data-key="{{id}}">
             {{weapon.name}} ({{data.hands}})
@@ -32,7 +31,6 @@
 <ol class="items-list">
     <li class="item-header">
         <div class="weaponnameheader">{{localize "DL.ArmorTitle"}}</div>
-        <div class="defenseheader">{{localize "DL.ArmorDefense"}}</div>
         <div class="item-controls">
             <a class="item-control item-create" title="{{localize 'DL.ArmorAdd'}}" data-type="armor"><i
                     class="fas fa-plus"></i></a>
@@ -40,7 +38,7 @@
     </li>
     {{#each actor.armor as |armor id|}}
     <li class="item item-align dropitem" data-item-id="{{armor._id}}">
-        <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="26" height="26" /></div>
+        <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="30" height="30" /></div>
         <div class="weaponname">
             {{armor.name}}
         </div>
@@ -78,7 +76,7 @@
     </li>
     {{#each actor.ammo as |ammo id|}}
     <li class="item item-align dropitem" data-item-id="{{ammo._id}}">
-        <div class="item-image"><img src="{{ammo.img}}" title="{{ammo.name}}" width="26" height="26" /></div>
+        <div class="item-image"><img src="{{ammo.img}}" title="{{ammo.name}}" width="30" height="30" /></div>
         <div class="weaponname">
             {{ammo.name}}
         </div>

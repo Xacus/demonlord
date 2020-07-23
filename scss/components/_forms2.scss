@@ -1,0 +1,394 @@
+.content {
+    float: right;
+    width: calc(100% - 220px)
+}
+
+.sheet-body {
+    position: relative;
+    grid-area: content;
+}
+.sheet-body .sheet-content,
+.sheet-body .sheet-content .inventory {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 12px
+}
+
+.character .character-details {
+    display: grid;
+    grid: "img alignment deity"30px "img details details"150px/120px 120px 1fr;
+    margin-top: 4px
+}
+
+.sheet-body .sheet-content .tab,
+.sheet-body .sheet-content .tab .editor {
+    height: auto;
+    padding: 2px 5px;
+    font-size: 12px;
+    margin-top: 0px;
+    overflow-y: auto;
+
+    .weaponalign {
+        text-align: center;
+    }
+
+    .descriptionblock {
+        margin: 10px 5px 0px 5px;
+        height: 100%;
+
+        .editor, .editor-content {
+            height: 100%;
+            min-height: 200px;
+        }
+
+        textarea {
+            font-family: $font-primary;
+            border: 1px solid #7a7971;
+            background: rgba(0, 0, 0, 0.05);
+            resize: vertical;
+            height: 200px;
+
+            &:focus,
+            &:active {
+                box-shadow: 0 0 5px red;
+                border: 1px solid #7a7971;
+                outline: 0;
+            }
+        }
+    }
+}
+
+.tox {
+    .tox-editor-container {
+        background: $c-white;
+    }
+
+    .tox-edit-area {
+        padding: 0 8px;
+    }
+}
+
+.background {
+    margin-right: 10px;
+}
+
+.col1 {
+    input[type=text] {
+        background: rgba(0, 0, 0, 0.05);
+        color: #000;
+    }
+}
+
+.wealth {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 0 10px 0 0;
+
+    .header {
+        width: 100%;
+        padding: 3px 0;
+        border-bottom: 1px solid var(--demonlord-red);
+        font-weight: bold;
+        font-family: $font-header;
+        font-size: 12px;
+
+        .edit {
+            float: right;
+            width: 15px;
+        }
+    }
+
+    .body {
+        margin-top: 5px;
+
+        .lifestyle {
+            height: 15px;
+
+            .lifestyletitle {
+                float: left;
+                height: 20px;
+                width: 50px;
+            }
+
+            input {
+                width: 100px;
+                height: 15px;
+            }
+
+            label {
+                font-weight: normal;
+            }
+        }
+
+        .coins {
+            height: 15px;
+            margin-bottom: 10px;
+
+            .cointitle {
+                float: left;
+                height: 20px;
+                width: 25px;
+            }
+
+            input {
+                float: left;
+                height: 15px;
+                width: 35px;
+            }
+
+            label {
+                font-weight: normal;
+            }
+        }
+    }
+}
+
+.paths {
+    margin-top: -5px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 25px;
+
+    .header {
+        width: 100%;
+        padding: 3px 0;
+        border-bottom: 1px solid var(--demonlord-red);
+        font-weight: bold;
+        font-family: $font-header;
+        font-size: 12px;
+
+        .edit {
+            float: right;
+            width: 15px;
+        }
+    }
+
+    .body {
+        margin-top: 5px;
+
+        .path {
+            height: 10px;
+            margin-bottom: 10px;
+
+            .pathtitle {
+                float: left;
+                height: 20px;
+                padding-right: 5px;
+            }
+
+            label {
+                font-weight: normal;
+            }
+
+            input {
+                float: right;
+                width: 180px;
+                height: 15px;
+            }
+        }
+    }
+}
+
+.professions,
+.languages,
+.religionback,
+.features {
+    margin-top: -5px;
+    font-size: 11px;
+    margin-bottom: 35px;
+
+    .header {
+        width: 100%;
+        padding: 3px 0;
+        border-bottom: 1px solid var(--demonlord-red);
+        font-weight: bold;
+        font-family: $font-header;
+        font-size: 12px;
+
+        .edit {
+            float: right;
+            width: 28px;
+        }
+    }
+
+    .body {
+        margin-top: 5px;
+
+        textarea {
+            float: left;
+            width: 100%;
+            height: 100px;
+            resize: none;
+
+            &:focus,
+            &:active {
+                box-shadow: 0 0 5px red;
+                border: 1px solid #7a7971;
+                outline: 0;
+            }
+        }
+
+        input {
+            float: left;
+            width: 200px;
+            height: 15px;
+        }
+    }
+}
+
+.religionback {
+    margin-bottom: 25px;
+
+    .body {
+        height: 15px;
+    }
+}
+
+.professions {
+    height: 110px;
+
+    .body {
+        height: 100px;
+    }
+}
+
+.languages {
+    height: 80px;
+
+    .body {
+        height: 70px;
+
+        textarea {
+            height: 70px;
+        }
+    }
+}
+
+.itemheader {
+    margin-top: 8px;
+    font-size: 13px;
+    height: 17px;
+    font-weight: bold;
+    padding: 0;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-family: $font-header;
+
+    .itemnameheader {
+        float: left;
+    }
+
+    .item-controls {
+        float: right;
+        width: 10px;
+    }
+}
+
+.body {
+    color: #000;
+    margin-top: -10px;
+
+    input[type=text] {
+        background: rgba(0, 0, 0, 0.1);
+        height: 17px;
+        color: #000;
+        border-radius: 0px;
+        padding-left: 5px;
+    }
+
+    input[type=text]:focus, input[type=text]:hover {
+        background: rgba(0, 0, 0, 0.3);
+        height: 17px;
+        padding-left: 6px;
+        border-radius: 0px;
+    }
+
+    .charinfo {
+        margin-bottom: 10px;
+        height: 45px;
+
+        .ancestry {
+            float: left;
+            width: 140px;
+            cursor: pointer;
+        }
+
+        .gender {
+            float: left;
+            width: 70px;
+            margin-left: 10px;
+        }
+
+        .age {
+            float: left;
+            width: 40px;
+            margin-left: 10px;
+        }
+
+        .size {
+            float: left;
+            width: 40px;
+            margin-left: 10px;
+
+            div {
+                background: rgba(0, 0, 0, 0.05);
+                height: 18px;
+                padding-top: 2px;
+                padding-left: 5px;
+            }
+        }
+
+        .religion {
+            float: left;
+            width: 150px;
+            margin-left: 10px;
+
+            img {
+                position: relative;
+                left: 146px;
+                top: -35px;
+                height: 40px;
+                width: 40px;
+                border-radius: 20px;
+                border: none;
+                background-color: #fff;
+                box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0,0,0,.5), 0 0 8px #a22223;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .charinfo2 {
+        float: left;
+        margin-bottom: 10px;
+        margin-top: -35px;
+        margin-left: -10px;
+        height: 45px;
+
+        .eyes, .hair, .height, .weight {
+            float: left;
+            width: 108px;
+            margin-left: 10px;
+        }
+    }
+
+    .chardetail {
+        float: left;
+        width: 100%;
+        padding-right: 10px;
+        margin-top: -15px;
+    }
+
+    .languages {
+        float: left;
+        width: 100%;
+        padding-right: 10px;
+        margin-top: -10px;
+        margin-bottom: 50px;
+        height: 24px;
+    }
+}

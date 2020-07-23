@@ -1,14 +1,83 @@
-<div class="itemheader">
-    <div class="itemnameheader">{{localize "DL.TabsItems"}}</div>
-    <div class="item-controls">
-        <a class="item-control item-create" title="{{localize 'DL.ItemAddItem'}}" data-type="item"><i
-                class="fas fa-plus"></i></a>
+<ol class="items-list">
+    <li class="item-header">
+        <div class="weaponnameheader">{{localize "DL.TabsInventory"}}</div>
+    </li>
+</ol>
+<div class="wealth">
+    <div class="header">
+        {{localize "DL.WealthTitle"}}
+        <div class="edit">
+            <a class="wealth-edit" title="{{localize 'DL.WealthEdit'}}"><i class="fas fa-edit"></i></a>
+        </div>
+    </div>
+    <div class="body">
+        <div class="lifestyle">
+            <div class="lifestyletitle">
+                {{localize "DL.WealthLifestyle"}}
+            </div>
+            {{#if data.wealth.edit}}
+            <input type="text" name="data.wealth.lifestyle" value="{{data.wealth.lifestyle}}" />
+            {{else}}
+            <label class="resource-label" for="data.wealth.lifestyle">{{data.wealth.lifestyle}}</label>
+            {{/if}}
+        </div>
+        <div class="grid grid-4col">
+            <div class="coins">
+                <div class="cointitle">
+                    {{localize "DL.WealthCoinsGC"}}
+                </div>
+                {{#if data.wealth.edit}}
+                <input type="text" name="data.wealth.gc" value="{{data.wealth.gc}}" />
+                {{else}}
+                <label class="resource-label" for="data.wealth.gc">{{data.wealth.gc}}</label>
+                {{/if}}
+            </div>
+            <div class="coins">
+                <div class="cointitle">
+                    {{localize "DL.WealthCoinsSS"}}
+                </div>
+                {{#if data.wealth.edit}}
+                <input type="text" name="data.wealth.ss" value="{{data.wealth.ss}}" />
+                {{else}}
+                <label class="resource-label" for="data.wealth.ss">{{data.wealth.ss}}</label>
+                {{/if}}
+            </div>
+            <div class="coins">
+                <div class="cointitle">
+                    {{localize "DL.WealthCoinsCP"}}
+                </div>
+                {{#if data.wealth.edit}}
+                <input type="text" name="data.wealth.cp" value="{{data.wealth.cp}}" />
+                {{else}}
+                <label class="resource-label" for="data.wealth.cp">{{data.wealth.cp}}</label>
+                {{/if}}
+            </div>
+            <div class="coins">
+                <div class="cointitle">
+                    {{localize "DL.WealthCoinsBits"}}
+                </div>
+                {{#if data.wealth.edit}}
+                <input type="text" name="data.wealth.bits" value="{{data.wealth.bits}}" />
+                {{else}}
+                <label class="resource-label" for="data.wealth.bits">{{data.wealth.bits}}</label>
+                {{/if}}
+            </div>
+        </div>
     </div>
 </div>
-<ol class="items-list grid grid-2col">
+<ol class="items-list">
+    <li class="item-header">
+        <div class="weaponnameheader">{{localize "DL.TabsItems"}}</div>
+        <div class="item-controls">
+            <a class="item-control item-create" title="{{localize 'DL.ItemAddItem'}}" data-type="item"><i
+                    class="fas fa-plus"></i></a>
+        </div>
+    </li>
+</ol>
+<ol class="items-list grid grid-2col listitems">
     {{#each actor.gear as |item id|}}
     <li class="item item-align" data-item-id="{{item._id}}">
-        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="26" height="26" /></div>
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="30" height="30" /></div>
         <div class="itemname">{{item.data.quantity}} x {{item.name}}</div>
         <div class="item-controls">
             <a class="item-control item-edit" title="{{localize 'DL.ItemEditItem'}}"><i class="fas fa-edit"></i></a>

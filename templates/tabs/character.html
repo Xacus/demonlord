@@ -1,0 +1,159 @@
+<ol class="items-list">
+    <li class="item-header">
+        <div class="spellnameheader">{{localize "DL.CharacterTitle"}}</div>
+    </li>
+</ol>
+<div class="body">
+    <div class="charinfo">
+        <div class="ancestry">
+            {{#each actor.ancestry as |item id|}}
+            <div class="item" data-item-id="{{item._id}}">
+                <label class="resource-label" for="data.ancestry">{{localize 'DL.CharAncestry'}}</label>
+                <input class="item-edit ancestry" name="data.ancestry" type="text" value="{{item.name}}"
+                    placeholder="{{localize 'DL.CharAncestry'}}" />
+            </div>
+            {{/each}}
+        </div>
+        <div class="gender">
+            <label class="resource-label" for="data.apperance.sex">{{localize 'DL.CharGender'}}</label>
+            <input name="data.apperance.sex" type="text" value="{{data.apperance.sex}}"
+                placeholder="{{localize 'DL.CharGender'}}" />
+        </div>
+        <div class="age">
+            <label class="resource-label" for="data.apperance.age">{{localize 'DL.CharAge'}}</label>
+            <input name="data.apperance.age" type="text" value="{{data.apperance.age}}"
+                placeholder="{{localize 'DL.CharAge'}}" />
+        </div>
+        <div class="religion">
+            <label class="resource-label" for="data.religion.value">{{localize 'DL.CharReligion'}}</label>
+            <input name="data.religion.value" type="text" value="{{data.religion.value}}"
+                placeholder="{{localize 'DL.CharReligion'}}" />
+            <img src="{{data.religion.image}}" alt="{{data.religion.value}}" title="{{localize 'DL.CharReligion'}}"
+                data-edit="data.religion.image" height="30" width="30" />
+        </div>
+    </div>
+    <div class="charinfo2">
+        <div class="eyes">
+            <label class="resource-label" for="data.apperance.eyes">{{localize 'DL.CharEyes'}}</label>
+            <input name="data.apperance.eyes" type="text" value="{{data.apperance.eyes}}"
+                placeholder="{{localize 'DL.CharEyes'}}" />
+        </div>
+        <div class="hair">
+            <label class="resource-label" for="data.apperance.hair">{{localize 'DL.CharHair'}}</label>
+            <input name="data.apperance.hair" type="text" value="{{data.apperance.hair}}"
+                placeholder="{{localize 'DL.CharHair'}}" />
+        </div>
+        <div class="height">
+            <label class="resource-label" for="data.apperance.height">{{localize 'DL.CharHeight'}}</label>
+            <input name="data.apperance.height" type="text" value="{{data.apperance.height}}"
+                placeholder="{{localize 'DL.CharHeight'}}" />
+        </div>
+        <div class="weight">
+            <label class="resource-label" for="data.apperance.weight">{{localize 'DL.CharWeight'}}</label>
+            <input name="data.apperance.weight" type="text" value="{{data.apperance.weight}}"
+                placeholder="{{localize 'DL.CharWeight'}}" />
+        </div>
+    </div>
+    <div class="languages">
+        <label class="resource-label" for="data.apperance.age">{{localize 'DL.LanguagesTitle'}}</label>
+        <input name="data.languages.value" type="text" value="{{data.languages.value}}"
+            placeholder="{{localize 'DL.LanguagesTitle'}}" />
+    </div>
+    <div class="grid grid-2col chardetail">
+        <div class="colleft">
+            <div class="paths">
+                <div class="header">
+                    {{localize "DL.PathsTitle"}}
+                </div>
+                <div class="body">
+                    <div class="path">
+                        <div class="pathtitle">
+                            {{localize "DL.PathsPathNovice"}}
+                        </div>
+                        <input type="text" name="data.paths.novice" value="{{data.paths.novice}}" />
+                    </div>
+                    <div class="path">
+                        <div class="pathtitle">
+                            {{localize "DL.PathsPathExpert"}}
+                        </div>
+                        <input type="text" name="data.paths.expert" value="{{data.paths.expert}}" />
+                    </div>
+                    <div class="path">
+                        <div class="pathtitle">
+                            {{localize "DL.PathsPathMaster"}}
+                        </div>
+                        <input type="text" name="data.paths.master" value="{{data.paths.master}}" />
+                    </div>
+                </div>
+            </div>
+            <div class="professions">
+                <div class="header">
+                    {{localize "DL.ProfessionsTitle"}}
+                    <div class="edit">
+                        <a class="item-control item-create" title="{{localize 'DL.ProfessionsAdd'}}"
+                            data-type="profession"><i class="fas fa-plus"></i></a>
+                        <a class="profession-edit" title="{{localize 'DL.ProfessionsEdit'}}"><i
+                                class="fas fa-edit"></i></a>
+                    </div>
+                </div>
+                <div class="body">
+                    <ol class="professionslist">
+                        {{#if data.professions.edit}}
+                        {{#each actor.professions as |profession id|}}
+                        <li class="item editprofession" data-item-id="{{profession._id}}">
+                            <div class="item-controls">
+                                <a class="item-control item-delete" title="{{localize 'DL.ProfessionsDelete'}}"><i
+                                        class="fas fa-trash"></i></a>
+                            </div>
+                            <input type="text" name="profession.name" data-target="name" value="{{profession.name}}" />
+                            <textarea name="data.description"
+                                data-target="data.description">{{data.description}}</textarea>
+                        </li>
+                        {{/each}}
+                        {{else}}
+                        {{#each actor.professions as |profession id|}}
+                        <li class="item dropitem" data-item-id="{{profession._id}}">
+                            <label class="resource-label" for="profession.name">{{profession.name}}</label>
+                            <div>{{data.description}}</div>
+                        </li>
+                        {{/each}}
+                        {{/if}}
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="colright features">
+            <div class="header">
+                {{localize "DL.FeaturesTitle"}}
+                <div class="edit">
+                    <a class="item-control item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"><i
+                            class="fas fa-plus"></i></a>
+                    <a class="feature-edit" title="{{localize 'DL.FeatureEdit'}}"><i class="fas fa-edit"></i></a>
+                </div>
+            </div>
+            <div class="body">
+                <ol class="featureslist">
+                    {{#if data.features.edit}}
+                    {{#each actor.features as |feature id|}}
+                    <li class="feature editfeature" data-item-id="{{feature._id}}">
+                        <div class="item-controls">
+                            <a class="item-control feature-delete" title="{{localize 'DL.FeatureDelete'}}"><i
+                                    class="fas fa-trash"></i></a>
+                        </div>
+                        <input type="text" name="feature.name" data-target="name" value="{{feature.name}}" />
+                        <textarea name="data.description" data-target="data.description">{{data.description}}</textarea>
+                    </li>
+                    {{/each}}
+                    {{else}}
+                    {{#each actor.features as |feature id|}}
+                    <li class="feature dropitem" data-item-id="{{feature._id}}">
+                        <label class="resource-label" for="feature.name">{{feature.name}}</label>
+                        <div class="featurediscription">{{data.description}}</div>
+                    </li>
+                    {{/each}}
+                    {{/if}}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 .features {
-    margin-top: -10px;
+    margin-top: -6px;
 }
 
 .items-list {
@@ -22,20 +22,19 @@
 
         .weaponnameheader {
             float: left;
-            width: 210px;
+            width: 230px;
         }
 
         .damageheader {
             float: left;
-            width: 45px;
+            width: 65px;
             margin-right: 10px;
         }
 
         .bonesbanesheader {
             float: left;
-            width: 30px;
+            width: 50px;
             margin-right: 10px;
-            text-align: center;
         }
 
         .spelltypeheader {
@@ -45,7 +44,7 @@
 
         .spellcastingsheader {
             float: left;
-            width: 100px;
+            width: 50px;
         }
 
         .propertiesheader {
@@ -61,17 +60,12 @@
 
         .spellnameheader {
             float: left;
-            width: 240px;
-        }
-
-        .spellname {
-            float: left;
-            width: 230px;
+            width: 350px;
         }
     }
 
     .item {
-        height: 33px;
+        height: 37px;
         padding: 3px 0;
         border-bottom: 1px solid #BBB;
         font-size: 11px;
@@ -79,7 +73,7 @@
         .item-image {
             float: left;
             margin-right: 5px;
-            width: 26px;
+            width: 30px;
         }
 
         img {
@@ -88,32 +82,32 @@
 
         .weaponname {
             float: left;
-            width: 170px;
+            width: 185px;
             margin-right: 10px;
         }
 
         .damage {
             float: left;
-            width: 45px;
+            width: 65px;
             margin-right: 10px;
         }
 
         .defense {
             float: left;
-            width: 300px;
+            width: 280px;
             margin-right: 10px;
         }
 
         .bonesbanes {
             float: left;
-            width: 30px;
+            width: 50px;
             margin-right: 10px;
-            text-align: center;
+            padding-left: 2px;
         }
 
         .properties {
             float: left;
-            width: 230px;
+            width: 350px;
         }
 
         .tradition {
@@ -145,7 +139,7 @@
 
         .itemname {
             float: left;
-            width: 210px;
+            width: 145px;
             margin-right: 10px;
         }
     }
@@ -172,7 +166,7 @@
     .spell {
         .spellname {
             float: left;
-            width: 200px;
+            width: 305px;
             margin-right: 10px;
         }
 
@@ -183,7 +177,11 @@
 
         .spellcastings {
             float: left;
-            width: 100px;
+            width: 50px;
+        }
+
+        .spellinfo {
+            float: left;
         }
     }
 

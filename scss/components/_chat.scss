@@ -127,7 +127,7 @@
 
     .FAILURE {
         float: left;
-        color: red;
+        color: var(--demonlord-red);
         font-weight: bold;
     }
 
@@ -218,7 +218,7 @@
 
     .SUCCESS {
         .boxborder {
-            border: 3px solid green;
+            border: 3px solid darkgreen;
 
             .value {
                 top: 6px;
@@ -229,7 +229,7 @@
 
     .FAILURE {
         .boxborder {
-            border: 3px solid red;
+            border: 3px solid var(--demonlord-red);
 
             .value {
                 top: 6px;

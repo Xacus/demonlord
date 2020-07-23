@@ -10,7 +10,8 @@
         "module/demonlord.js"
     ],
     "styles": [
-        "css/demonlord.css"
+        "css/demonlord.css",
+        "css/demonlord2.css"
     ],
     "scripts": [],
     "packs": [

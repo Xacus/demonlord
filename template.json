@@ -94,7 +94,8 @@
             "ancestry": "",
             "religion": {
                 "edit": false,
-                "value": ""
+                "value": "",
+                "image": "systems/demonlord/icons/bird.png"
             },
             "languages": {
                 "edit": false,
@@ -112,6 +113,9 @@
             "professions": {
                 "edit": false,
                 "value": ""
+            },
+            "features": {
+                "edit": false
             },
             "paths": {
                 "edit": false,
@@ -156,7 +160,8 @@
             "magic",
             "endoftheround",
             "mod",
-            "ancestry"
+            "ancestry",
+            "profession"
         ],
         "templates": {
             "base": {
@@ -300,9 +305,9 @@
         "ancestry": {
             "description": "",
             "characteristics": {
-                "perceptionmodifier": "",
-                "healthmodifier": "",
-                "defensemodifier": "",
+                "perceptionmodifier": 0,
+                "healthmodifier": 0,
+                "defensemodifier": 0,
                 "size": "1",
                 "speed": 10,
                 "power": 0,
@@ -314,6 +319,11 @@
                 "option1": true,
                 "option1text": ""
             }
+        },
+        "profession": {
+            "templates": [
+                "base"
+            ]
         }
     }
 }

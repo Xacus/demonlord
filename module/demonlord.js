@@ -9,6 +9,9 @@ import {
     DemonlordActorSheet
 } from "./actor/actor-sheet.js";
 import {
+    DemonlordActorSheet2
+} from "./actor/actor-sheet2.js";
+import {
     DemonlordCreatureSheet
 } from "./actor/creature-sheet.js";
 import {
@@ -17,6 +20,9 @@ import {
 import {
     DemonlordItemSheet
 } from "./item/item-sheet.js";
+import {
+    DemonlordItemSheet2
+} from "./item/item-sheet2.js";
 import {
     registerSettings
 } from "./settings.js";
@@ -58,6 +64,10 @@ Hooks.once('init', async function () {
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("demonlord", DemonlordActorSheet, {
         types: ['character'],
+        makeDefault: false
+    });
+    Actors.registerSheet("demonlord", DemonlordActorSheet2, {
+        types: ['character'],
         makeDefault: true
     });
 
@@ -68,6 +78,9 @@ Hooks.once('init', async function () {
 
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("demonlord", DemonlordItemSheet, {
+        makeDefault: false
+    });
+    Items.registerSheet("demonlord", DemonlordItemSheet2, {
         makeDefault: true
     });
 
@@ -95,6 +108,7 @@ Hooks.once('init', async function () {
 
 async function preloadHandlebarsTemplates() {
     const templatePaths = [
+        "systems/demonlord/templates/tabs/character.html",
         "systems/demonlord/templates/tabs/combat.html",
         "systems/demonlord/templates/tabs/talents.html",
         "systems/demonlord/templates/tabs/magic.html",

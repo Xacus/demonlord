@@ -14,17 +14,18 @@
 
     {{!-- Sheet Body --}}
     <section class="sheet-body">
-
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            <div class="descriptionblock">
-                <textarea name="data.description">{{data.description}}</textarea>
+        <section class="sheet-content">
+            {{!-- Description Tab --}}
+            <div class="tab" data-group="primary" data-tab="description">
+                <div class="descriptionblock">
+                    <textarea name="data.description">{{data.description}}</textarea>
+                </div>
             </div>
-        </div>
 
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            {{!-- As you add new fields, add them in here! --}}
-        </div>
+            {{!-- Attributes Tab --}}
+            <div class="tab attributes" data-group="primary" data-tab="attributes">
+                {{!-- As you add new fields, add them in here! --}}
+            </div>
+        </section>
     </section>
 </form>

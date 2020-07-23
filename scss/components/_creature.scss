@@ -1,3 +1,13 @@
+.sheet-body .sheet-content .descriptionblock {
+    margin: 40px 5px 0px 5px;
+    height: 100%;
+
+    .editor, .editor-content {
+        height: 100%;
+        min-height: 200px;
+    }
+}
+
 .creature {
     .header {
         height: 20px;

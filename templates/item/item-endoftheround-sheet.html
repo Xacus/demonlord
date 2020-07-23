@@ -7,8 +7,10 @@
 
     {{!-- Sheet Body --}}
     <section class="sheet-body">
-        <div class="descriptionblock">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
-        </div>
+        <section class="sheet-content">
+            <div class="descriptionblock">
+                {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+            </div>
+        </section>
     </section>
 </form>

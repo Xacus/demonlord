@@ -43,7 +43,11 @@
 .request-initroll:hover,
 .request-initroll:focus,
 .make-initroll:hover,
-.make-initroll:focus {
+.make-initroll:focus,
+.addInsanity:hover,
+.addInsanity:focus,
+.addDamage:hover,
+.addDamage:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
@@ -151,6 +155,45 @@
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+}
+
+.flexrow {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.flexrow > * {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.flexcol {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+.flexcol > * {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
 }
 
 :root {
@@ -560,7 +603,7 @@
 
 .demonlord .card-headersmall .FAILURE {
   float: left;
-  color: red;
+  color: var(--demonlord-red);
   font-weight: bold;
 }
 
@@ -648,7 +691,7 @@
 }
 
 .demonlord .result .SUCCESS .boxborder {
-  border: 3px solid green;
+  border: 3px solid darkgreen;
 }
 
 .demonlord .result .SUCCESS .boxborder .value {
@@ -657,7 +700,7 @@
 }
 
 .demonlord .result .FAILURE .boxborder {
-  border: 3px solid red;
+  border: 3px solid var(--demonlord-red);
 }
 
 .demonlord .result .FAILURE .boxborder .value {
@@ -695,368 +738,6 @@
   float: right;
   margin-top: -10px;
   font-size: 12px;
-}
-
-.demonlord .creature .header {
-  height: 20px;
-  line-height: 20px;
-  background: #000;
-  color: #fff;
-  font-size: 12px;
-  margin-bottom: 1px;
-}
-
-.demonlord .creature .header .charname {
-  float: left;
-  width: 100px;
-  padding-left: 5px;
-}
-
-.demonlord .creature .header .charname input {
-  float: left;
-  width: 170px;
-  height: 15px;
-  margin-top: 2px;
-  color: #fff;
-}
-
-.demonlord .creature .header .diff {
-  float: right;
-  width: 100px;
-  padding: 1px 5px 0 0;
-  text-align: right;
-  font-size: 11px;
-}
-
-.demonlord .creature .header .diff input {
-  float: right;
-  width: 30px;
-  height: 15px;
-  margin: 2px 0 0 2px;
-  color: #fff;
-  text-align: center;
-}
-
-.demonlord .creature .subheader {
-  height: 16px;
-  background: #9C0719;
-  color: #fff;
-  font-size: 10px;
-  line-height: 16px;
-  padding-left: 5px;
-}
-
-.demonlord .creature .subheader .size {
-  float: left;
-  width: 200px;
-  padding-right: 5px;
-}
-
-.demonlord .creature .subheader .size input {
-  width: 70px;
-  height: 12px;
-  margin-top: 2px;
-  color: #fff;
-}
-
-.demonlord .creature .subheader .size ::-webkit-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .size ::-moz-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .size :-ms-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .size ::-ms-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .size ::placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .descriptor {
-  float: left;
-  width: 130px;
-  padding-right: 5px;
-}
-
-.demonlord .creature .subheader .descriptor input {
-  width: 120px;
-  height: 12px;
-  margin-top: 2px;
-  color: #fff;
-}
-
-.demonlord .creature .subheader .descriptor ::-webkit-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .descriptor ::-moz-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .descriptor :-ms-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .descriptor ::-ms-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .descriptor ::placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.demonlord .creature .subheader .trait {
-  float: right;
-  font-size: 10px;
-}
-
-.demonlord .creature .subheader .trait input {
-  float: left;
-  width: 12px;
-  margin-top: -2px;
-  padding-right: 5px;
-}
-
-.demonlord .creature .subheader .trait label {
-  float: left;
-  padding-right: 5px;
-}
-
-.demonlord .creature .subheader .trait .tooltip .tooltiptext {
-  visibility: hidden;
-  width: 260px;
-  background-color: rgba(0, 0, 0, 0.9);
-  color: #fff;
-  text-align: left;
-  border-radius: 3px;
-  padding: 5px;
-  top: 77px;
-  right: 20px;
-  position: absolute;
-  z-index: 1;
-}
-
-.demonlord .creature .subheader .trait .tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-
-.demonlord .creature .left {
-  float: left;
-  width: 353px;
-  margin-right: 20px;
-}
-
-.demonlord .creature .left .body {
-  float: left;
-  width: 100%;
-  margin-top: 5px;
-}
-
-.demonlord .creature .left .body .stat {
-  float: left;
-  width: 100%;
-  text-align: left;
-  font-size: 11px;
-  font-weight: bold;
-  margin-bottom: 2px;
-}
-
-.demonlord .creature .left .body .stat label {
-  font-weight: normal;
-}
-
-.demonlord .creature .left .body .stat input {
-  float: left;
-  width: 30px;
-  height: 13px;
-  margin: 0 0 0 2px;
-  text-align: center;
-}
-
-.demonlord .creature .left .body .stat .stattitle {
-  float: left;
-  padding-right: 2px;
-}
-
-.demonlord .creature .left .body .stat .value {
-  float: left;
-}
-
-.demonlord .creature .left .body .stat .senses,
-.demonlord .creature .left .body .stat .speedtraits,
-.demonlord .creature .left .body .stat .armor {
-  float: left;
-  padding-left: 5px;
-  width: 150px;
-}
-
-.demonlord .creature .left .body .stat .senses input,
-.demonlord .creature .left .body .stat .speedtraits input,
-.demonlord .creature .left .body .stat .armor input {
-  width: 140px;
-}
-
-.demonlord .creature .left .body .stat .armor {
-  padding-right: 5px;
-  width: auto;
-}
-
-.demonlord .creature .left .body .stat .health,
-.demonlord .creature .left .body .stat .insanity,
-.demonlord .creature .left .body .stat .corruption,
-.demonlord .creature .left .body .stat .damage {
-  float: left;
-  padding-left: 10px;
-}
-
-.demonlord .creature .left .body .grid,
-.demonlord .creature .left .body .grid-2col {
-  margin: 0 0 2px 0;
-}
-
-.demonlord .creature .left .body .traits {
-  float: left;
-  width: 100%;
-  font-size: 10px;
-  margin-top: -5px;
-}
-
-.demonlord .creature .left .body .traits .traitnameheader {
-  float: left;
-  width: 50px;
-  font-size: 11px;
-}
-
-.demonlord .creature .left .body .traits .items-list .item-header {
-  height: 18px;
-}
-
-.demonlord .creature .left .body .traits .items-list .item-controls {
-  float: right;
-  margin-top: 0px;
-}
-
-.demonlord .creature .right {
-  float: left;
-  width: 130px;
-  padding-top: 8px;
-}
-
-.demonlord .creature .right .edit {
-  width: 130px;
-  font-size: 11px;
-}
-
-.demonlord .creature .actions {
-  float: left;
-  width: 100%;
-}
-
-.demonlord .creature .actions .header {
-  float: none;
-  background: #A7A9AC;
-  border-bottom: 0;
-  line-height: 20px;
-  padding-left: 5px;
-  color: #000;
-}
-
-.demonlord .creature .actions .header .itemname {
-  float: left;
-  font-size: 12px;
-}
-
-.demonlord .creature .actions .header .item-controls {
-  float: right;
-  margin-right: 5px;
-}
-
-.demonlord .creature .actions .header input {
-  width: 30px;
-  height: 13px;
-  margin: 0 0 0 2px;
-  text-align: center;
-}
-
-.demonlord .creature .actions .description {
-  font-size: 12px;
-}
-
-.demonlord .creature .actions .description .editor, .demonlord .creature .actions .description .editor-content {
-  height: 100%;
-  min-height: 200px;
-}
-
-.demonlord .creature .actions .body {
-  margin: 5px 0 10px 0;
-  padding: 0;
-  font-size: 11px;
-  list-style: none;
-}
-
-.demonlord .creature .actions .body .item {
-  margin: 0 0 10px 0;
-  padding: 0;
-  height: auto;
-  overflow-y: auto;
-}
-
-.demonlord .creature .actions .body .item .itemname {
-  float: left;
-  height: 14px;
-  font-weight: bold;
-}
-
-.demonlord .creature .actions .body .item .itemname input {
-  width: 150px;
-  height: 13px;
-  margin: 0 0 0 2px;
-}
-
-.demonlord .creature .actions .body .item .itemnamefull {
-  float: left;
-  width: 100%;
-  height: 14px;
-  font-weight: bold;
-}
-
-.demonlord .creature .actions .body .item .item-controls {
-  float: right;
-  width: 25px;
-  margin-right: 5px;
-}
-
-.demonlord .creature .actions .body .item .spellcastings,
-.demonlord .creature .actions .body .item .spelltype,
-.demonlord .creature .actions .body .item .bonesbanes {
-  float: left;
-  padding-left: 5px;
-}
-
-.demonlord .creature .actions .body .traditionitem {
-  margin-top: 10px;
-  margin-bottom: 2px;
-}
-
-.demonlord .creature .actions .body .spell {
-  margin: 0 0 0 10px;
 }
 
 .demonlord .form-block {
@@ -1812,8 +1493,380 @@
   width: 10px;
 }
 
+.demonlord .sheet-body .sheet-content .descriptionblock {
+  margin: 40px 5px 0px 5px;
+  height: 100%;
+}
+
+.demonlord .sheet-body .sheet-content .descriptionblock .editor, .demonlord .sheet-body .sheet-content .descriptionblock .editor-content {
+  height: 100%;
+  min-height: 200px;
+}
+
+.demonlord .creature .header {
+  height: 20px;
+  line-height: 20px;
+  background: #000;
+  color: #fff;
+  font-size: 12px;
+  margin-bottom: 1px;
+}
+
+.demonlord .creature .header .charname {
+  float: left;
+  width: 100px;
+  padding-left: 5px;
+}
+
+.demonlord .creature .header .charname input {
+  float: left;
+  width: 170px;
+  height: 15px;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.demonlord .creature .header .diff {
+  float: right;
+  width: 100px;
+  padding: 1px 5px 0 0;
+  text-align: right;
+  font-size: 11px;
+}
+
+.demonlord .creature .header .diff input {
+  float: right;
+  width: 30px;
+  height: 15px;
+  margin: 2px 0 0 2px;
+  color: #fff;
+  text-align: center;
+}
+
+.demonlord .creature .subheader {
+  height: 16px;
+  background: #9C0719;
+  color: #fff;
+  font-size: 10px;
+  line-height: 16px;
+  padding-left: 5px;
+}
+
+.demonlord .creature .subheader .size {
+  float: left;
+  width: 200px;
+  padding-right: 5px;
+}
+
+.demonlord .creature .subheader .size input {
+  width: 70px;
+  height: 12px;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.demonlord .creature .subheader .size ::-webkit-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .size ::-moz-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .size :-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .size ::-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .size ::placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor {
+  float: left;
+  width: 130px;
+  padding-right: 5px;
+}
+
+.demonlord .creature .subheader .descriptor input {
+  width: 120px;
+  height: 12px;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.demonlord .creature .subheader .descriptor ::-webkit-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor ::-moz-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor :-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor ::-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .descriptor ::placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.demonlord .creature .subheader .trait {
+  float: right;
+  font-size: 10px;
+}
+
+.demonlord .creature .subheader .trait input {
+  float: left;
+  width: 12px;
+  margin-top: -2px;
+  padding-right: 5px;
+}
+
+.demonlord .creature .subheader .trait label {
+  float: left;
+  padding-right: 5px;
+}
+
+.demonlord .creature .subheader .trait .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 260px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: left;
+  border-radius: 3px;
+  padding: 5px;
+  top: 77px;
+  right: 20px;
+  position: absolute;
+  z-index: 1;
+}
+
+.demonlord .creature .subheader .trait .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.demonlord .creature .left {
+  float: left;
+  width: 353px;
+  margin-right: 20px;
+}
+
+.demonlord .creature .left .body {
+  float: left;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.demonlord .creature .left .body .stat {
+  float: left;
+  width: 100%;
+  text-align: left;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.demonlord .creature .left .body .stat label {
+  font-weight: normal;
+}
+
+.demonlord .creature .left .body .stat input {
+  float: left;
+  width: 30px;
+  height: 13px;
+  margin: 0 0 0 2px;
+  text-align: center;
+}
+
+.demonlord .creature .left .body .stat .stattitle {
+  float: left;
+  padding-right: 2px;
+}
+
+.demonlord .creature .left .body .stat .value {
+  float: left;
+}
+
+.demonlord .creature .left .body .stat .senses,
+.demonlord .creature .left .body .stat .speedtraits,
+.demonlord .creature .left .body .stat .armor {
+  float: left;
+  padding-left: 5px;
+  width: 150px;
+}
+
+.demonlord .creature .left .body .stat .senses input,
+.demonlord .creature .left .body .stat .speedtraits input,
+.demonlord .creature .left .body .stat .armor input {
+  width: 140px;
+}
+
+.demonlord .creature .left .body .stat .armor {
+  padding-right: 5px;
+  width: auto;
+}
+
+.demonlord .creature .left .body .stat .health,
+.demonlord .creature .left .body .stat .insanity,
+.demonlord .creature .left .body .stat .corruption,
+.demonlord .creature .left .body .stat .damage {
+  float: left;
+  padding-left: 10px;
+}
+
+.demonlord .creature .left .body .grid,
+.demonlord .creature .left .body .grid-2col {
+  margin: 0 0 2px 0;
+}
+
+.demonlord .creature .left .body .traits {
+  float: left;
+  width: 100%;
+  font-size: 10px;
+  margin-top: -5px;
+}
+
+.demonlord .creature .left .body .traits .traitnameheader {
+  float: left;
+  width: 50px;
+  font-size: 11px;
+}
+
+.demonlord .creature .left .body .traits .items-list .item-header {
+  height: 18px;
+}
+
+.demonlord .creature .left .body .traits .items-list .item-controls {
+  float: right;
+  margin-top: 0px;
+}
+
+.demonlord .creature .right {
+  float: left;
+  width: 130px;
+  padding-top: 8px;
+}
+
+.demonlord .creature .right .edit {
+  width: 130px;
+  font-size: 11px;
+}
+
+.demonlord .creature .actions {
+  float: left;
+  width: 100%;
+}
+
+.demonlord .creature .actions .header {
+  float: none;
+  background: #A7A9AC;
+  border-bottom: 0;
+  line-height: 20px;
+  padding-left: 5px;
+  color: #000;
+}
+
+.demonlord .creature .actions .header .itemname {
+  float: left;
+  font-size: 12px;
+}
+
+.demonlord .creature .actions .header .item-controls {
+  float: right;
+  margin-right: 5px;
+}
+
+.demonlord .creature .actions .header input {
+  width: 30px;
+  height: 13px;
+  margin: 0 0 0 2px;
+  text-align: center;
+}
+
+.demonlord .creature .actions .description {
+  font-size: 12px;
+}
+
+.demonlord .creature .actions .description .editor, .demonlord .creature .actions .description .editor-content {
+  height: 100%;
+  min-height: 200px;
+}
+
+.demonlord .creature .actions .body {
+  margin: 5px 0 10px 0;
+  padding: 0;
+  font-size: 11px;
+  list-style: none;
+}
+
+.demonlord .creature .actions .body .item {
+  margin: 0 0 10px 0;
+  padding: 0;
+  height: auto;
+  overflow-y: auto;
+}
+
+.demonlord .creature .actions .body .item .itemname {
+  float: left;
+  height: 14px;
+  font-weight: bold;
+}
+
+.demonlord .creature .actions .body .item .itemname input {
+  width: 150px;
+  height: 13px;
+  margin: 0 0 0 2px;
+}
+
+.demonlord .creature .actions .body .item .itemnamefull {
+  float: left;
+  width: 100%;
+  height: 14px;
+  font-weight: bold;
+}
+
+.demonlord .creature .actions .body .item .item-controls {
+  float: right;
+  width: 25px;
+  margin-right: 5px;
+}
+
+.demonlord .creature .actions .body .item .spellcastings,
+.demonlord .creature .actions .body .item .spelltype,
+.demonlord .creature .actions .body .item .bonesbanes {
+  float: left;
+  padding-left: 5px;
+}
+
+.demonlord .creature .actions .body .traditionitem {
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+
+.demonlord .creature .actions .body .spell {
+  margin: 0 0 0 10px;
+}
+
 .demonlord .features {
-  margin-top: -10px;
+  margin-top: -6px;
 }
 
 .demonlord .items-list {
@@ -1838,20 +1891,19 @@
 
 .demonlord .items-list .item-header .weaponnameheader {
   float: left;
-  width: 210px;
+  width: 230px;
 }
 
 .demonlord .items-list .item-header .damageheader {
   float: left;
-  width: 45px;
+  width: 65px;
   margin-right: 10px;
 }
 
 .demonlord .items-list .item-header .bonesbanesheader {
   float: left;
-  width: 30px;
+  width: 50px;
   margin-right: 10px;
-  text-align: center;
 }
 
 .demonlord .items-list .item-header .spelltypeheader {
@@ -1861,7 +1913,7 @@
 
 .demonlord .items-list .item-header .spellcastingsheader {
   float: left;
-  width: 100px;
+  width: 50px;
 }
 
 .demonlord .items-list .item-header .propertiesheader {
@@ -1877,16 +1929,11 @@
 
 .demonlord .items-list .item-header .spellnameheader {
   float: left;
-  width: 240px;
-}
-
-.demonlord .items-list .item-header .spellname {
-  float: left;
-  width: 230px;
+  width: 350px;
 }
 
 .demonlord .items-list .item {
-  height: 33px;
+  height: 37px;
   padding: 3px 0;
   border-bottom: 1px solid #BBB;
   font-size: 11px;
@@ -1895,7 +1942,7 @@
 .demonlord .items-list .item .item-image {
   float: left;
   margin-right: 5px;
-  width: 26px;
+  width: 30px;
 }
 
 .demonlord .items-list .item img {
@@ -1904,32 +1951,32 @@
 
 .demonlord .items-list .item .weaponname {
   float: left;
-  width: 170px;
+  width: 185px;
   margin-right: 10px;
 }
 
 .demonlord .items-list .item .damage {
   float: left;
-  width: 45px;
+  width: 65px;
   margin-right: 10px;
 }
 
 .demonlord .items-list .item .defense {
   float: left;
-  width: 300px;
+  width: 280px;
   margin-right: 10px;
 }
 
 .demonlord .items-list .item .bonesbanes {
   float: left;
-  width: 30px;
+  width: 50px;
   margin-right: 10px;
-  text-align: center;
+  padding-left: 2px;
 }
 
 .demonlord .items-list .item .properties {
   float: left;
-  width: 230px;
+  width: 350px;
 }
 
 .demonlord .items-list .item .tradition .traditiontitle {
@@ -1959,7 +2006,7 @@
 
 .demonlord .items-list .item .itemname {
   float: left;
-  width: 210px;
+  width: 145px;
   margin-right: 10px;
 }
 
@@ -1984,7 +2031,7 @@
 
 .demonlord .items-list .spell .spellname {
   float: left;
-  width: 200px;
+  width: 305px;
   margin-right: 10px;
 }
 
@@ -1995,7 +2042,11 @@
 
 .demonlord .items-list .spell .spellcastings {
   float: left;
-  width: 100px;
+  width: 50px;
+}
+
+.demonlord .items-list .spell .spellinfo {
+  float: left;
 }
 
 .demonlord .items-list .item-align {

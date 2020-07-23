@@ -7,7 +7,8 @@
             <div class="topline gridrow">
                 <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100"
                     width="100" />
-                <div class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></div>
+                <div class="charname"><input name="name" type="text" value="{{actor.name}}"
+                        placeholder="{{localize 'DL.CharName'}}" /></div>
                 <div class="charancestry">
                     {{#each actor.ancestry as |item id|}}
                     <div class="item" data-item-id="{{item._id}}">
@@ -214,7 +215,7 @@
         <a class="item" data-tab="combat">{{localize "DL.TabsCombat"}}</a>
         <a class="item" data-tab="talents">{{localize "DL.TabsTalents"}}</a>
         <a class="item" data-tab="magic">{{localize "DL.TabsMagic"}}</a>
-        <a class="item" data-tab="items">{{localize "DL.TabsItems"}}</a>
+        <a class="item" data-tab="items">{{localize "DL.TabsInventory"}}</a>
         <a class="item" data-tab="background">{{localize "DL.TabsBackground"}}
         </a>
     </nav>

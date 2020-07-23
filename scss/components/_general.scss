@@ -1,0 +1,41 @@
+form {
+    font-family: "Gelasio", "Signika", Georgia, serif;
+    input[type=text] {
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+        background: none;
+        padding: 0;
+        margin: 1px 0;
+        color: #fff;
+        border: 1px solid transparent;
+    }
+    input[type=text]:hover,
+    input[type=text]:focus {
+        border: 0;
+        box-shadow: none;
+    }
+    input:disabled,
+    select:disabled,
+    textarea:disabled {
+        color: #444;
+        border: none
+    }
+    input:disabled:hover,
+    select:disabled:hover,
+    textarea:disabled:hover,
+    input:disabled:focus,
+    select:disabled:focus,
+    textarea:disabled:focus {
+        border: none;
+        box-shadow: none
+    }
+    select {
+        font-size: 10px;
+        height: 18px;
+        background: rgba(255, 255, 255, .5);
+    }
+    span,
+    label {
+        display: block
+    }
+}

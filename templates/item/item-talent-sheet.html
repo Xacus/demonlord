@@ -13,124 +13,126 @@
 
     {{!-- Sheet Body --}}
     <section class="sheet-body">
-        {{!-- Attributes Tab --}}
-        <div class="tab weapons" data-group="primary" data-tab="attributes">
-            <div class="gridrow">
-                <div class="resource">
-                    <label class="resource-label">{{localize "DL.TalentMultipleOptions"}}</label>
-                    <div class="modifierblockcheck">
-                        <input type="checkbox" name="data.multipleoptions" id="multipleoptions"
-                            {{checked data.multipleoptions}} />
-                        <label for="data.multipleoptions"
-                            class="resource-label">{{localize "DL.TalentHasMultipleOptions"}}</label>
+        <section class="sheet-content">
+            {{!-- Attributes Tab --}}
+            <div class="tab weapons" data-group="primary" data-tab="attributes">
+                <div class="gridrow">
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentMultipleOptions"}}</label>
+                        <div class="modifierblockcheck">
+                            <input type="checkbox" name="data.multipleoptions" id="multipleoptions"
+                                {{checked data.multipleoptions}} />
+                            <label for="data.multipleoptions"
+                                class="resource-label">{{localize "DL.TalentHasMultipleOptions"}}</label>
+                        </div>
                     </div>
-                </div>
-                <div class="resource">
-                    <label class="resource-label">{{localize "DL.TalentUsesTitle"}}</label>
-                    <div class="modifierblock">
-                        <div class="grid grid-2col">
-                            <div>
-                                <label class="resource-label">{{localize "DL.TalentUses"}}</label>
-                                <input type="text" name="data.uses.value" value="{{data.uses.value}}" />
-                            </div>
-                            <div>
-                                <label class="resource-label">{{localize "DL.TalentUsesMax"}}</label>
-                                <input type="text" name="data.uses.max" value="{{data.uses.max}}" />
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentUsesTitle"}}</label>
+                        <div class="modifierblock">
+                            <div class="grid grid-2col">
+                                <div>
+                                    <label class="resource-label">{{localize "DL.TalentUses"}}</label>
+                                    <input type="text" name="data.uses.value" value="{{data.uses.value}}" />
+                                </div>
+                                <div>
+                                    <label class="resource-label">{{localize "DL.TalentUsesMax"}}</label>
+                                    <input type="text" name="data.uses.max" value="{{data.uses.max}}" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="resource">
-                    <label class="resource-label">{{localize "DL.AttackRoll"}}</label>
-                    <div class="modifierblock">
-                        <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-                        <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}" />
-                        <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
-                        <input type="text" name="data.action.damage" value="{{data.action.damage}}" />
-                        <label class="resource-label">{{localize "DL.WeaponAttack20"}}</label>
-                        <input type="text" name="data.action.plus20" value="{{data.action.plus20}}" />
-                    </div>
-                </div>
-                <div class="resource">
-                    <label class="resource-label">{{localize "DL.ChallengeRoll"}}</label>
-                    <div class="modifierblock">
-                        <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-                        <input type="text" name="data.challenge.boonsbanes" value="{{data.challenge.boonsbanes}}" />
-                    </div>
-                </div>
-                <div class="resource">
-                    <label class="resource-label">{{localize "DL.VSRoll"}}</label>
-                    <div class="modifierblock">
-                        <div class="grid grid-3col">
-                            <div class="weaponalign">
-                                <label class="resource-label">{{localize "DL.WeaponAttackModifier"}}</label>
-                                <select name="data.vs.attribute" data-dtype="String">
-                                    {{#select data.vs.attribute}}
-                                    <option value="">—</option>
-                                    <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
-                                    <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
-                                    <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
-                                    <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                                    <option value="Perception">{{localize "DL.CharPerception"}}</option>
-                                    {{/select}}
-                                </select>
-                            </div>
-                            <div class="weaponalign">
-                                <label>VS</label>
-                            </div>
-                            <div class="weaponalign">
-                                <label class="resource-label">{{localize "DL.WeaponDefenseModifier"}}</label>
-                                <select name="data.vs.against" data-dtype="String">
-                                    {{#select data.vs.against}}
-                                    <option value="">—</option>
-                                    <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
-                                    <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
-                                    <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
-                                    <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                                    <option value="Perception">{{localize "DL.CharPerception"}}</option>
-                                    <option value="Defense">{{localize "DL.CharDefense"}}</option>
-                                    {{/select}}
-                                </select>
-                            </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.AttackRoll"}}</label>
+                        <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
+                            <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}" />
+                            <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
+                            <input type="text" name="data.action.damage" value="{{data.action.damage}}" />
+                            <label class="resource-label">{{localize "DL.WeaponAttack20"}}</label>
+                            <input type="text" name="data.action.plus20" value="{{data.action.plus20}}" />
                         </div>
-                        <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-                        <input type="text" name="data.vs.boonsbanes" value="{{data.vs.boonsbanes}}" />
-                        <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
-                        <input type="text" name="data.vs.damage" value="{{data.vs.damage}}" />
                     </div>
-                </div>
-                <div class="resource">
-                    <label class="resource-label">{{localize "DL.TalentHealing"}}</label>
-                    <div class="modifierblock">
-                        <label class="resource-label">{{localize "DL.TalentHealingRate"}}</label>
-                        <input type="text" name="data.healing.rate" value="{{data.healing.rate}}" />
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.ChallengeRoll"}}</label>
+                        <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
+                            <input type="text" name="data.challenge.boonsbanes" value="{{data.challenge.boonsbanes}}" />
+                        </div>
                     </div>
-                </div>
-                <div class="resource">
-                    <label class="resource-label">{{localize "DL.TalentDamage"}}</label>
-                    <div class="modifierblock">
-                        <label class="resource-label">{{localize "DL.TalentRollDamage"}}</label>
-                        <input type="text" name="data.damage" value="{{data.damage}}" />
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.VSRoll"}}</label>
+                        <div class="modifierblock">
+                            <div class="grid grid-3col">
+                                <div class="weaponalign">
+                                    <label class="resource-label">{{localize "DL.WeaponAttackModifier"}}</label>
+                                    <select name="data.vs.attribute" data-dtype="String">
+                                        {{#select data.vs.attribute}}
+                                        <option value="">—</option>
+                                        <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
+                                        <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
+                                        <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+                                        <option value="Will">{{localize "DL.AttributeWill"}}</option>
+                                        <option value="Perception">{{localize "DL.CharPerception"}}</option>
+                                        {{/select}}
+                                    </select>
+                                </div>
+                                <div class="weaponalign">
+                                    <label>VS</label>
+                                </div>
+                                <div class="weaponalign">
+                                    <label class="resource-label">{{localize "DL.WeaponDefenseModifier"}}</label>
+                                    <select name="data.vs.against" data-dtype="String">
+                                        {{#select data.vs.against}}
+                                        <option value="">—</option>
+                                        <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
+                                        <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
+                                        <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+                                        <option value="Will">{{localize "DL.AttributeWill"}}</option>
+                                        <option value="Perception">{{localize "DL.CharPerception"}}</option>
+                                        <option value="Defense">{{localize "DL.CharDefense"}}</option>
+                                        {{/select}}
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
+                            <input type="text" name="data.vs.boonsbanes" value="{{data.vs.boonsbanes}}" />
+                            <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
+                            <input type="text" name="data.vs.damage" value="{{data.vs.damage}}" />
+                        </div>
                     </div>
-                </div>
-                <div class="resource">
-                    <label class="resource-label">{{localize "DL.TalentBonuses"}}</label>
-                    <div class="modifierblock">
-                        <label class="resource-label">{{localize "DL.TalentBonusesDefense"}}</label>
-                        <input type="text" name="data.bonuses.defense" value="{{data.bonuses.defense}}" />
-                        <label class="resource-label">{{localize "DL.TalentBonusesHealth"}}</label>
-                        <input type="text" name="data.bonuses.health" value="{{data.bonuses.health}}" />
-                        <label class="resource-label">{{localize "DL.TalentBonusesSpeed"}}</label>
-                        <input type="text" name="data.bonuses.speed" value="{{data.bonuses.speed}}" />
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentHealing"}}</label>
+                        <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.TalentHealingRate"}}</label>
+                            <input type="text" name="data.healing.rate" value="{{data.healing.rate}}" />
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentDamage"}}</label>
+                        <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.TalentRollDamage"}}</label>
+                            <input type="text" name="data.damage" value="{{data.damage}}" />
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentBonuses"}}</label>
+                        <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.TalentBonusesDefense"}}</label>
+                            <input type="text" name="data.bonuses.defense" value="{{data.bonuses.defense}}" />
+                            <label class="resource-label">{{localize "DL.TalentBonusesHealth"}}</label>
+                            <input type="text" name="data.bonuses.health" value="{{data.bonuses.health}}" />
+                            <label class="resource-label">{{localize "DL.TalentBonusesSpeed"}}</label>
+                            <input type="text" name="data.bonuses.speed" value="{{data.bonuses.speed}}" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {{!-- Description Tab --}}
-        <div class=" tab" data-group="primary" data-tab="description">
-            <div class="descriptionblock">
-                {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+            {{!-- Description Tab --}}
+            <div class=" tab" data-group="primary" data-tab="description">
+                <div class="descriptionblock">
+                    {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+                </div>
             </div>
-        </div>
+        </section>
     </section>
 </form>
