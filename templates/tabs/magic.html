@@ -22,9 +22,46 @@
             {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}
         </div>
         <div class="spellcastings spell-uses">{{data.castings.value}} / {{data.castings.max}}</div>
-        <div class="spellinfo">{{#if data.duration}}{{localize "DL.SpellDuration"}}:
-            {{data.duration}}, {{/if}} {{#if data.target}}{{localize "DL.SpellTarget"}}: {{data.target}}, {{/if}}
-            {{#if data.area}}{{localize "DL.SpellArea"}}: {{data.area}}{{/if}}</div>
+        <div class="toggleInfo"><i class="fas fa-angle-right"></i> {{localize "DL.SpellShowSpellInfo"}}
+        </div>
+        <div class="spellinfo" style="display: none;">
+            {{#if data.action.damage}}
+            <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}}<br>
+            {{/if}}
+            {{#if data.duration}}
+            <b>{{localize "DL.SpellDuration"}}:</b> {{data.duration}}<br>
+            {{/if}}
+            {{#if data.target}}
+            <b>{{localize "DL.SpellTarget"}}:</b> {{data.target}}<br>
+            {{/if}}
+            {{#if data.area}}
+            <b>{{localize "DL.SpellArea"}}:</b> {{data.area}}<br>
+            {{/if}}
+            {{#if data.requirements}}
+            <b>{{localize "DL.SpellRequirements"}}:</b> {{data.requirements}}<br>
+            {{/if}}
+            {{#if data.sacrifice}}
+            <b>{{localize "DL.SpellSacrifice"}}:</b> {{data.sacrifice}}<br>
+            {{/if}}
+            {{#if data.permanence}}
+            <b>{{localize "DL.SpellPermanence"}}:</b> {{data.permanence}}<br>
+            {{/if}}
+            {{#if data.aftereffect}}
+            <b>{{localize "DL.SpellAftereffect"}}:</b> {{data.aftereffect}}<br>
+            {{/if}}
+            {{#if data.special}}
+            <b>{{localize "DL.SpellSpecial"}}:</b> {{data.special}}<br>
+            {{/if}}
+            {{#if data.triggered}}
+            <b>{{localize "DL.SpellTriggered"}}:</b> {{data.triggered}}<br>
+            {{/if}}
+            {{#if data.action.plus20}}
+            <b>{{localize "DL.WeaponAttack20"}}:</b> {{data.action.plus20}}<br>
+            {{/if}}
+            {{#if data.description}}
+            {{{data.description}}}
+            {{/if}}
+        </div>
         <div class="item-controls">
             <a class="item-control spell-edit" title="{{localize 'DL.MagicEditSpell'}}"><i class="fas fa-edit"></i></a>
             <a class="item-control spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i

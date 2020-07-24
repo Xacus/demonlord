@@ -46,8 +46,12 @@
 .make-initroll:focus,
 .addInsanity:hover,
 .addInsanity:focus,
+.addCorruption:hover,
+.addCorruption:focus,
 .addDamage:hover,
-.addDamage:focus {
+.addDamage:focus,
+.toggleInfo:hover,
+.toggleInfo:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
@@ -644,10 +648,10 @@
 }
 
 .demonlord2.item .items-list .item {
-  height: 37px;
   padding: 3px 0;
   border-bottom: 1px solid #333;
   font-size: 12px;
+  overflow-y: auto;
 }
 
 .demonlord2.item .items-list .item .item-image {
@@ -1404,7 +1408,7 @@
   position: absolute;
   height: 45px;
   width: 188px;
-  top: 270px;
+  top: 315px;
 }
 
 .demonlord2 form aside .sidebar .chars .defensebox, .demonlord2 form aside .sidebar .chars .speedbox, .demonlord2 form aside .sidebar .chars .powerbox {
@@ -1455,12 +1459,12 @@
   left: -43px;
 }
 
-.demonlord2 form aside .sidebar .health, .demonlord2 form aside .sidebar .insanity {
+.demonlord2 form aside .sidebar .health, .demonlord2 form aside .sidebar .insanity, .demonlord2 form aside .sidebar .corruption {
   margin-top: 20px;
   padding: 5px;
 }
 
-.demonlord2 form aside .sidebar .health .healthbar, .demonlord2 form aside .sidebar .insanity .healthbar {
+.demonlord2 form aside .sidebar .health .healthbar, .demonlord2 form aside .sidebar .insanity .healthbar, .demonlord2 form aside .sidebar .corruption .healthbar {
   width: 178px;
   background-color: #e0e0e0;
   padding: 1px;
@@ -1470,7 +1474,7 @@
   box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
 }
 
-.demonlord2 form aside .sidebar .health .healthbar-fill, .demonlord2 form aside .sidebar .health .insanity-fill, .demonlord2 form aside .sidebar .insanity .healthbar-fill, .demonlord2 form aside .sidebar .insanity .insanity-fill {
+.demonlord2 form aside .sidebar .health .healthbar-fill, .demonlord2 form aside .sidebar .health .insanity-fill, .demonlord2 form aside .sidebar .health .corruption-fill, .demonlord2 form aside .sidebar .insanity .healthbar-fill, .demonlord2 form aside .sidebar .insanity .insanity-fill, .demonlord2 form aside .sidebar .insanity .corruption-fill, .demonlord2 form aside .sidebar .corruption .healthbar-fill, .demonlord2 form aside .sidebar .corruption .insanity-fill, .demonlord2 form aside .sidebar .corruption .corruption-fill {
   display: block;
   height: 12px;
   background-color: var(--demonlord-red);
@@ -1480,14 +1484,14 @@
   transition: width 500ms ease-in-out;
 }
 
-.demonlord2 form aside .sidebar .health .healtmax, .demonlord2 form aside .sidebar .health .insanitymax, .demonlord2 form aside .sidebar .insanity .healtmax, .demonlord2 form aside .sidebar .insanity .insanitymax {
+.demonlord2 form aside .sidebar .health .healtmax, .demonlord2 form aside .sidebar .health .insanitymax, .demonlord2 form aside .sidebar .health .corruptionmax, .demonlord2 form aside .sidebar .insanity .healtmax, .demonlord2 form aside .sidebar .insanity .insanitymax, .demonlord2 form aside .sidebar .insanity .corruptionmax, .demonlord2 form aside .sidebar .corruption .healtmax, .demonlord2 form aside .sidebar .corruption .insanitymax, .demonlord2 form aside .sidebar .corruption .corruptionmax {
   float: right;
   margin-top: -13px;
   padding-right: 5px;
   color: #000;
 }
 
-.demonlord2 form aside .sidebar .health .damage, .demonlord2 form aside .sidebar .health .insanityvalue, .demonlord2 form aside .sidebar .insanity .damage, .demonlord2 form aside .sidebar .insanity .insanityvalue {
+.demonlord2 form aside .sidebar .health .damage, .demonlord2 form aside .sidebar .health .insanityvalue, .demonlord2 form aside .sidebar .health .corruptionvalue, .demonlord2 form aside .sidebar .insanity .damage, .demonlord2 form aside .sidebar .insanity .insanityvalue, .demonlord2 form aside .sidebar .insanity .corruptionvalue, .demonlord2 form aside .sidebar .corruption .damage, .demonlord2 form aside .sidebar .corruption .insanityvalue, .demonlord2 form aside .sidebar .corruption .corruptionvalue {
   float: left;
   margin-top: -13px;
   padding-left: 5px;
@@ -1500,6 +1504,14 @@
 
 .demonlord2 form aside .sidebar .insanity .insanity-fill {
   background-color: darkgreen;
+}
+
+.demonlord2 form aside .sidebar .corruption {
+  margin: 4px 0 0 0;
+}
+
+.demonlord2 form aside .sidebar .corruption .corruption-fill {
+  background-color: darkmagenta;
 }
 
 .demonlord2 form aside .sidebar::-webkit-scrollbar-track {
@@ -1588,10 +1600,10 @@
 }
 
 .demonlord2 .items-list .item {
-  height: 37px;
   padding: 3px 0;
   border-bottom: 1px solid #333;
   font-size: 12px;
+  overflow-y: auto;
 }
 
 .demonlord2 .items-list .item .item-image {
@@ -1713,6 +1725,12 @@
 
 .demonlord2 .items-list .spell .spellinfo {
   float: left;
+  margin-top: 10px;
+}
+
+.demonlord2 .items-list .spell .toggleInfo {
+  float: left;
+  width: 400px;
 }
 
 .demonlord2 .items-list .item-align {
@@ -2712,13 +2730,13 @@
 
 .demonlord2 .body .charinfo .religion {
   float: left;
-  width: 150px;
+  width: 160px;
   margin-left: 10px;
 }
 
 .demonlord2 .body .charinfo .religion img {
   position: relative;
-  left: 146px;
+  left: 150px;
   top: -35px;
   height: 40px;
   width: 40px;
@@ -2740,7 +2758,7 @@
 
 .demonlord2 .body .charinfo2 .eyes, .demonlord2 .body .charinfo2 .hair, .demonlord2 .body .charinfo2 .height, .demonlord2 .body .charinfo2 .weight {
   float: left;
-  width: 108px;
+  width: 111px;
   margin-left: 10px;
 }
 

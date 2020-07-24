@@ -65,10 +65,10 @@
     }
 
     .item {
-        height: 37px;
         padding: 3px 0;
         border-bottom: 1px solid #BBB;
         font-size: 11px;
+        overflow-y: auto;
 
         .item-image {
             float: left;
@@ -182,6 +182,12 @@
 
         .spellinfo {
             float: left;
+            margin-top: 10px;
+        }
+
+        .toggleInfo {
+            float: left;
+            width: 400px;
         }
     }
 

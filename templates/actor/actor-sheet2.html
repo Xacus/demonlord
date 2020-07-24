@@ -19,7 +19,7 @@
                 <div class="healingratetext">{{localize "DL.CharHealthHealingRating"}}</div>
             </div>
             <div class="health">
-                <div class="addDamage">Damage</div>
+                <div class="addDamage">{{localize "DL.TalentDamage"}}</div>
                 <div class="healthbar">
                     <span class="healthbar-fill"></span>
                 </div>
@@ -27,12 +27,20 @@
                 <div class="damage">{{data.characteristics.health.value}}</div>
             </div>
             <div class="insanity">
-                <div class="addInsanity">Insanity</div>
+                <div class="addInsanity">{{localize "DL.CharInsanity"}}</div>
                 <div class="healthbar">
-                    <span class="insanity-fill" style="width: 8%;"></span>
+                    <span class="insanity-fill"></span>
                 </div>
                 <div class="insanitymax">{{data.characteristics.insanity.max}}</div>
                 <div class="insanityvalue">{{data.characteristics.insanity.value}}</div>
+            </div>
+            <div class="corruption">
+                <div class="addCorruption">{{localize "DL.CharCorruption"}}</div>
+                <div class="healthbar">
+                    <span class="corruption-fill"></span>
+                </div>
+                <div class="corruptionmax">20</div>
+                <div class="corruptionvalue">{{data.characteristics.corruption}}</div>
             </div>
             <div class="chars grid grid-4col">
                 <div class="defensebox">

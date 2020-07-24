@@ -46,8 +46,12 @@
 .make-initroll:focus,
 .addInsanity:hover,
 .addInsanity:focus,
+.addCorruption:hover,
+.addCorruption:focus,
 .addDamage:hover,
-.addDamage:focus {
+.addDamage:focus,
+.toggleInfo:hover,
+.toggleInfo:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
@@ -1933,10 +1937,10 @@
 }
 
 .demonlord .items-list .item {
-  height: 37px;
   padding: 3px 0;
   border-bottom: 1px solid #BBB;
   font-size: 11px;
+  overflow-y: auto;
 }
 
 .demonlord .items-list .item .item-image {
@@ -2047,6 +2051,12 @@
 
 .demonlord .items-list .spell .spellinfo {
   float: left;
+  margin-top: 10px;
+}
+
+.demonlord .items-list .spell .toggleInfo {
+  float: left;
+  width: 400px;
 }
 
 .demonlord .items-list .item-align {

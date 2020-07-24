@@ -52,8 +52,9 @@ export class DemonlordItem extends Item {
             if (token.data.actorData.data?.characteristics != undefined) {
                 let tokenData = duplicate(token.data);
                 let hp = tokenData.actorData.data.characteristics.health;
+                let rate = tokenData.actorData.data.characteristics.health.healingrate;
 
-                let newdamage = parseInt(hp.value) - healing;
+                let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
                 if (newdamage < 0)
                     newdamage = 0;
 
@@ -62,8 +63,9 @@ export class DemonlordItem extends Item {
             } else {
                 let actorData = duplicate(token.actor.data);
                 let hp = actorData.data.characteristics.health;
+                let rate = actorData.data.characteristics.health.healingrate;
 
-                let newdamage = parseInt(hp.value) - healing;
+                let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
                 if (newdamage < 0)
                     newdamage = 0;
 

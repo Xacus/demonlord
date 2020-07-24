@@ -181,6 +181,17 @@ export class DemonlordActorSheet extends ActorSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
 
+        // Toggle Spell Info
+        html.find('.toggleInfo').click(ev => {
+            const div = ev.currentTarget;
+            const parent = div.parentElement;
+            if (parent.children[6].style.display === "none") {
+                parent.children[6].style.display = "block";
+            } else {
+                parent.children[6].style.display = "none";
+            }
+        });
+
         // Edit Creature
         html.find('.creature-edit').click(ev => {
             const actor = this.actor;

@@ -11,7 +11,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
         return mergeObject(super.defaultOptions, {
             classes: ["demonlord2", "sheet", "actor"],
             template: "systems/demonlord/templates/actor/actor-sheet2.html",
-            width: 730,
+            width: 742,
             height: 700,
             tabs: [{
                 navSelector: ".sheet-navigation",
@@ -187,6 +187,17 @@ export class DemonlordActorSheet2 extends ActorSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
 
+        // Toggle Spell Info
+        html.find('.toggleInfo').click(ev => {
+            const div = ev.currentTarget;
+            const parent = div.parentElement;
+            if (parent.children[6].style.display === "none") {
+                parent.children[6].style.display = "block";
+            } else {
+                parent.children[6].style.display = "none";
+            }
+        });
+
         let healthbar = html.find('.healthbar-fill');
         healthbar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.health.value) / parseInt(this.actor.data.data.characteristics.health.max)) * 100) + "%";
 
@@ -222,6 +233,26 @@ export class DemonlordActorSheet2 extends ActorSheet {
             let that = this;
             this.actor.update({
                 "data.characteristics.insanity.value": value
+            }).then(item => {
+                that.render();
+            });
+        });
+
+        let corruptionbar = html.find('.corruption-fill');
+        corruptionbar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.corruption) / parseInt(20)) * 100) + "%";
+
+        html.find('.addCorruption').click(ev => {
+            let value = parseInt(this.actor.data.data.characteristics.corruption);
+            let max = parseInt(20);
+
+            if (value >= max)
+                value = 0;
+            else
+                value++;
+
+            let that = this;
+            this.actor.update({
+                "data.characteristics.corruption": value
             }).then(item => {
                 that.render();
             });

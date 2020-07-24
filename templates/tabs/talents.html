@@ -92,13 +92,13 @@
             {{localize 'DL.TalentVSExtraDamage'}}: {{data.vs.damage}}
         </div>
         {{/if}}
-        {{#if data.healing.rate}}
+        {{#if data.healing.healing}}
         <div class="option" data-item-id="{{talent._id}}">
             {{#if data.multipleoptions}}
             <input type="checkbox" name="data.healing.healactive" id="optionhealingactive{{talent._id}}"
                 {{checked data.healing.healactive}} />
             {{/if}}
-            {{localize 'DL.TalentHealing'}}: {{data.healing.rate}}
+            {{localize 'DL.TalentHealingOptions'}}
         </div>
         {{/if}}
         {{#if data.damage}}

@@ -496,8 +496,8 @@ export class DemonlordActor extends Actor {
                     value: usesText
                 },
                 healing: {
-                    value: talent.data?.healing?.healactive && talent.data?.healing?.rate != "" ?
-                        talent.data.healing.rate : ""
+                    value: talent.data?.healing?.healactive && talent.data?.healing?.healing ?
+                        talent.data?.healing?.healing : false
                 },
                 targetname: {
                     value: target != null ? target.name : ""

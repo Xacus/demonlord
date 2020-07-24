@@ -242,6 +242,7 @@
             },
             "healing": {
                 "healactive": true,
+                "healing": false,
                 "rate": ""
             },
             "damage": "",
