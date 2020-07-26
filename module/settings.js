@@ -23,4 +23,12 @@ export const registerSettings = function () {
         type: Boolean,
         config: true
     });
+    game.settings.register('demonlord', 'reverseDamage', {
+        name: game.i18n.localize('DL.SettingAttackReverseDamage'),
+        hint: game.i18n.localize('DL.SettingAttackReverseDamageHint'),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 };

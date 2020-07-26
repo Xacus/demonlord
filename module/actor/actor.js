@@ -41,8 +41,15 @@ export class DemonlordActor extends Actor {
             } else {
                 data.characteristics.defense = parseInt(data.attributes.agility.value) + parseInt(ancestry.data.characteristics.defensemodifier);
             }
+            if (game.settings.get('demonlord', 'reverseDamage')) {
+                if (data.characteristics.health.value == 0) {
+                    data.characteristics.health.value = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + parseInt(ancestry.data.level4?.healthbonus) + characterbuffs.healthbonus;
+                }
+                data.characteristics.health.max = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + parseInt(ancestry.data.level4?.healthbonus) + characterbuffs.healthbonus;
+            } else {
+                data.characteristics.health.max = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + parseInt(ancestry.data.level4?.healthbonus) + characterbuffs.healthbonus;
+            }
 
-            data.characteristics.health.max = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + parseInt(ancestry.data.level4?.healthbonus) + characterbuffs.healthbonus;
             if (data.afflictions.slowed) {
                 data.characteristics.speed = Math.floor(parseInt(ancestry.data.characteristics?.speed) / 2);
             } else {
@@ -558,29 +565,34 @@ export class DemonlordActor extends Actor {
 
     rollSpell(itemId, options = { event: null }) {
         const item = this.getOwnedItem(itemId);
+        let attackAttribute = item.data.data?.action?.attack;
 
-        if (item.data.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
-            let d = new Dialog({
-                title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
-                content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-                buttons: {
-                    roll: {
-                        icon: '<i class="fas fa-check"></i>',
-                        label: game.i18n.localize('DL.DialogRoll'),
-                        callback: (html) => this.useSpell(item, html.children()[1].value)
+        if (attackAttribute) {
+            if (item.data.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
+                let d = new Dialog({
+                    title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
+                    content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                    buttons: {
+                        roll: {
+                            icon: '<i class="fas fa-check"></i>',
+                            label: game.i18n.localize('DL.DialogRoll'),
+                            callback: (html) => this.useSpell(item, html.children()[1].value)
+                        },
+                        cancel: {
+                            icon: '<i class="fas fa-times"></i>',
+                            label: game.i18n.localize('DL.DialogCancel'),
+                            callback: () => { }
+                        }
                     },
-                    cancel: {
-                        icon: '<i class="fas fa-times"></i>',
-                        label: game.i18n.localize('DL.DialogCancel'),
-                        callback: () => { }
-                    }
-                },
-                default: "roll",
-                close: () => { }
-            });
-            d.render(true);
+                    default: "roll",
+                    close: () => { }
+                });
+                d.render(true);
+            } else {
+                this.useSpell(item, 0);
+            }
         } else {
-            this.useSpell(item, 0)
+            this.useSpell(item, 0);
         }
     }
 
@@ -704,10 +716,10 @@ export class DemonlordActor extends Actor {
         let template = 'systems/demonlord/templates/chat/spell.html';
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;
-            if (game.dice3d && attackRoll != null) {
+            if (game.dice3d && attackRoll != null && attackAttribute) {
                 game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
             } else {
-                if (attackRoll != null) {
+                if (attackRoll != null && attackAttribute) {
                     chatData.sound = CONFIG.sounds.dice;
                 }
                 ChatMessage.create(chatData);
@@ -909,9 +921,22 @@ export class DemonlordActor extends Actor {
         game.user.targets.forEach(async target => {
             const targetActor = target.actor;
             const currentDamage = parseInt(targetActor.data.data.characteristics.health.value);
-            await targetActor.update({
-                "data.characteristics.health.value": currentDamage + damage
-            });
+            alert(damage);
+            if (game.settings.get('demonlord', 'reverseDamage')) {
+                if (currentDamage - damage <= 0) {
+                    await targetActor.update({
+                        "data.characteristics.health.value": 0
+                    });
+                } else {
+                    await targetActor.update({
+                        "data.characteristics.health.value": currentDamage - damage
+                    });
+                }
+            } else {
+                await targetActor.update({
+                    "data.characteristics.health.value": currentDamage + damage
+                });
+            }
         });
     }
 }

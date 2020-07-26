@@ -54,22 +54,40 @@ export class DemonlordItem extends Item {
                 let hp = tokenData.actorData.data.characteristics.health;
                 let rate = tokenData.actorData.data.characteristics.health.healingrate;
 
-                let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
-                if (newdamage < 0)
-                    newdamage = 0;
+                if (game.settings.get('demonlord', 'reverseDamage')) {
+                    let newdamage = parseInt(hp.value) + (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
+                    if (newdamage > hp.max)
+                        newdamage = parseInt(hp.max);
 
-                hp.value = newdamage;
+                    hp.value = newdamage;
+                } else {
+                    let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
+                    if (newdamage < 0)
+                        newdamage = 0;
+
+                    hp.value = newdamage;
+                }
+
                 token.update(tokenData);
             } else {
                 let actorData = duplicate(token.actor.data);
                 let hp = actorData.data.characteristics.health;
                 let rate = actorData.data.characteristics.health.healingrate;
 
-                let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
-                if (newdamage < 0)
-                    newdamage = 0;
+                if (game.settings.get('demonlord', 'reverseDamage')) {
+                    let newdamage = parseInt(hp.value) + (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
+                    if (newdamage > hp.max)
+                        newdamage = parseInt(hp.max);
 
-                hp.value = newdamage;
+                    hp.value = newdamage;
+                } else {
+                    let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
+                    if (newdamage < 0)
+                        newdamage = 0;
+
+                    hp.value = newdamage;
+                }
+
                 token.actor.update(actorData);
             }
         });
@@ -138,22 +156,40 @@ export class DemonlordItem extends Item {
                 let hp = tokenData.actorData.data.characteristics.health;
                 const health = parseInt(token.actor.data.data.characteristics.health.max);
 
-                let newdamage = parseInt(hp.value) + damage;
-                if (newdamage > health)
-                    newdamage = health;
+                if (game.settings.get('demonlord', 'reverseDamage')) {
+                    let newdamage = parseInt(hp.value) - damage;
+                    if (newdamage < 0)
+                        newdamage = 0;
 
-                hp.value = newdamage;
+                    hp.value = newdamage;
+                } else {
+                    let newdamage = parseInt(hp.value) + damage;
+                    if (newdamage > health)
+                        newdamage = health;
+
+                    hp.value = newdamage;
+                }
+
                 token.update(tokenData);
             } else {
                 let actorData = duplicate(token.actor.data);
                 let hp = actorData.data.characteristics.health;
                 const health = parseInt(actorData.data.characteristics.health.max);
 
-                let newdamage = parseInt(hp.value) + damage;
-                if (newdamage > health)
-                    newdamage = health;
+                if (game.settings.get('demonlord', 'reverseDamage')) {
+                    let newdamage = parseInt(hp.value) - damage;
+                    if (newdamage < 0)
+                        newdamage = 0;
 
-                hp.value = newdamage;
+                    hp.value = newdamage;
+                } else {
+                    let newdamage = parseInt(hp.value) + damage;
+                    if (newdamage > health)
+                        newdamage = health;
+
+                    hp.value = newdamage;
+                }
+
                 token.actor.update(actorData);
             }
         });

@@ -303,6 +303,8 @@
     "DL.SettingInitRandomizeHint": "Makes your initiative more random and adds a d6 to your initiative value.",
     "DL.SettingAttackShowEnemyAttribute": "Show enemy stats",
     "DL.SettingAttackShowEnemyAttributeHint": "Show the enemy stats you are rolling agaist.",
+    "DL.SettingAttackReverseDamage": "Reverse Damage/Health",
+    "DL.SettingAttackReverseDamageHint": "Substract damage from Health insted of adding damage.",
     "DL.DialogInitiative": "Initiative",
     "DL.DialogInitiativeTurn": "Has chosen to make a ",
     "DL.DialogInitiativeTurnEnd": " turn.",

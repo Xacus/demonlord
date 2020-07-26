@@ -205,10 +205,17 @@ export class DemonlordActorSheet2 extends ActorSheet {
             let value = parseInt(this.actor.data.data.characteristics.health.value);
             let max = parseInt(this.actor.data.data.characteristics.health.max);
 
-            if (value >= max)
-                value = 0;
-            else
-                value++;
+            if (game.settings.get('demonlord', 'reverseDamage')) {
+                if (value <= 0)
+                    value = max;
+                else
+                    value--;
+            } else {
+                if (value >= max)
+                    value = 0;
+                else
+                    value++;
+            }
 
             let that = this;
             this.actor.update({
