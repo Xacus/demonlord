@@ -42,18 +42,10 @@
                 <div class="corruptionmax">20</div>
                 <div class="corruptionvalue">{{data.characteristics.corruption}}</div>
             </div>
-            <div class="chars grid grid-4col">
+            <div class="chars grid grid-2col">
                 <div class="defensebox">
                     <div class="defensetext">{{localize "DL.CharDefense"}}</div>
                     <div class="defense">{{data.characteristics.defense}}</div>
-                </div>
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.CharSize"}}</div>
-                    <div class="speed">{{data.characteristics.size}}</div>
-                </div>
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.CharSpeed"}}</div>
-                    <div class="speed">{{data.characteristics.speed}}</div>
                 </div>
                 <div class="powerbox">
                     <div class="powertext">{{localize "DL.CharPower"}}</div>
@@ -61,6 +53,16 @@
                         <input name="data.characteristics.power" type="text" value="{{data.characteristics.power}}"
                             data-dtype="{{attribute.dtype}}" placeholder="" />
                     </div>
+                </div>
+            </div>
+            <div class="chars grid grid-2col">
+                <div class="speedbox">
+                    <div class="speedtext">{{localize "DL.CharSize"}}</div>
+                    <div class="speed">{{data.characteristics.size}}</div>
+                </div>
+                <div class="speedbox">
+                    <div class="speedtext">{{localize "DL.CharSpeed"}}</div>
+                    <div class="speed">{{data.characteristics.speed}}</div>
                 </div>
             </div>
         </div>

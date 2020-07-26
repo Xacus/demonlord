@@ -74,6 +74,7 @@ You can track both Health and Insanity and they are set on the token when an Act
 - [x] Ancestry.
 - [x] Calculating characteristics.
 - [x] Creature statblock - Fase 2, Special Attack are Talents.
+- [x] New design.
 - [ ] Redesign Background (Paths, Professions, Wealth).
 - [ ] Redesign Magic.
 - [ ] New Paths system. Calculating Attributes and Health.
@@ -81,7 +82,6 @@ You can track both Health and Insanity and they are set on the token when an Act
 - [ ] Afflictions - Fase 3.
 - [ ] Level up system.
 - [ ] Rules Engine.
-- [ ] New design.
 
 Shadow of the Demon Lord is ©2015 Schwalb Entertainment, LLC. All rights reserved.
 Shadow of the Demon Lord, Schwalb Entertainment, and their associated logos are trademarks of Schwalb Entertainment, LLC.

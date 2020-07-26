@@ -107,22 +107,19 @@ form {
                 gap: 0;
             }
             .chars {
-                position: absolute;
-                height: 45px;
-                width: 188px;
-                top: 315px;
+                margin-bottom: -7px;
 
                 .defensebox, .speedbox, .powerbox {
                     float: left;
                     position: relative;
                     height: 54px;
                     text-align: center;
-                    padding-left: 11px;
+                    padding-left: 27px;
                     padding-top: 15px;
 
                         .defense, .speed, .power {
                             height: 26px;
-                            width: 26px;
+                            width: 40px;
                             border-radius: 16px;
                             border: none;
                             box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0,0,0,.5), 0 0 8px #a22223;

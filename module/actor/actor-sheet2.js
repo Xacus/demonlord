@@ -201,20 +201,34 @@ export class DemonlordActorSheet2 extends ActorSheet {
         let healthbar = html.find('.healthbar-fill');
         healthbar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.health.value) / parseInt(this.actor.data.data.characteristics.health.max)) * 100) + "%";
 
-        html.find('.addDamage').click(ev => {
+        html.on('mousedown', '.addDamage', ev => {
             let value = parseInt(this.actor.data.data.characteristics.health.value);
             let max = parseInt(this.actor.data.data.characteristics.health.max);
 
-            if (game.settings.get('demonlord', 'reverseDamage')) {
-                if (value <= 0)
-                    value = max;
-                else
-                    value--;
-            } else {
-                if (value >= max)
-                    value = 0;
-                else
-                    value++;
+            if (event.button == 0) {
+                if (game.settings.get('demonlord', 'reverseDamage')) {
+                    if (value <= 0)
+                        value = max;
+                    else
+                        value--;
+                } else {
+                    if (value >= max)
+                        value = 0;
+                    else
+                        value++;
+                }
+            } else if (event.button == 2) {
+                if (game.settings.get('demonlord', 'reverseDamage')) {
+                    if (value <= 0 || value >= max)
+                        value = max;
+                    else
+                        value++;
+                } else {
+                    if (value >= max)
+                        value = 0;
+                    else
+                        value--;
+                }
             }
 
             let that = this;
@@ -228,14 +242,21 @@ export class DemonlordActorSheet2 extends ActorSheet {
         let insanitybar = html.find('.insanity-fill');
         insanitybar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.insanity.value) / parseInt(this.actor.data.data.characteristics.insanity.max)) * 100) + "%";
 
-        html.find('.addInsanity').click(ev => {
+        html.on('mousedown', '.addInsanity', ev => {
             let value = parseInt(this.actor.data.data.characteristics.insanity.value);
             let max = parseInt(this.actor.data.data.characteristics.insanity.max);
 
-            if (value >= max)
-                value = 0;
-            else
-                value++;
+            if (event.button == 0) {
+                if (value >= max)
+                    value = 0;
+                else
+                    value++;
+            } else if (event.button == 2) {
+                if (value >= max || value <= 0)
+                    value = 0;
+                else
+                    value--
+            }
 
             let that = this;
             this.actor.update({
@@ -248,14 +269,21 @@ export class DemonlordActorSheet2 extends ActorSheet {
         let corruptionbar = html.find('.corruption-fill');
         corruptionbar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.corruption) / parseInt(20)) * 100) + "%";
 
-        html.find('.addCorruption').click(ev => {
+        html.on('mousedown', '.addCorruption', ev => {
             let value = parseInt(this.actor.data.data.characteristics.corruption);
             let max = parseInt(20);
 
-            if (value >= max)
-                value = 0;
-            else
-                value++;
+            if (event.button == 0) {
+                if (value >= max)
+                    value = 0;
+                else
+                    value++;
+            } else if (event.button == 2) {
+                if (value >= max || value <= 0)
+                    value = 0;
+                else
+                    value--
+            }
 
             let that = this;
             this.actor.update({
@@ -610,17 +638,24 @@ export class DemonlordActorSheet2 extends ActorSheet {
             this.actor.rollAbility(abl);
         });
 
-        html.find('.ammo-amount').click(ev => {
-            const li = event.currentTarget.closest(".item");
+        html.on('mousedown', '.ammo-amount', ev => {
+            const li = ev.currentTarget.closest(".item");
             const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
             let amount = item.data.amount;
 
-            if (amount > 0) {
-                item.data.amount = Number(amount) - 1;
+            if (event.button == 0) {
+                if (amount >= 0) {
+                    item.data.amount = Number(amount) + 1;
+                }
+            } else if (event.button == 2) {
+                if (amount > 0) {
+                    item.data.amount = Number(amount) - 1;
+                }
             }
 
             this.actor.updateEmbeddedEntity('OwnedItem', item);
         });
+
 
         html.find('.talent-uses').click(ev => {
             const li = event.currentTarget.closest(".item");
