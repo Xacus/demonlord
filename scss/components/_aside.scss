@@ -70,9 +70,8 @@ form {
                     border-radius: 16px;
                     border: none;
                     box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0,0,0,.5), 0 0 8px #a22223;
-                    font-family: $font-header;
                     font-weight: 500;
-                    font-size: 16px;
+                    font-size: 14px;
                     padding-left: 2px;
                     padding-top: 4px;
 
@@ -123,11 +122,10 @@ form {
                             border-radius: 16px;
                             border: none;
                             box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0,0,0,.5), 0 0 8px #a22223;
-                            font-family: $font-header;
                             font-weight: 500;
-                            font-size: 16px;
+                            font-size: 13px;
                             padding-left: 2px;
-                            padding-top: 4px;
+                            padding-top: 5px;
 
                             input {
                                 margin-top: -4px;
@@ -147,8 +145,8 @@ form {
             .healingratebox { 
                 left: 186px;
                 .healingrate {
-                    padding-left: 9px;
-                    padding-top: 4px;
+                    padding-left: 10px;
+                    padding-top: 5px;
                 }
                 .healingratetext {
                     left: -43px;

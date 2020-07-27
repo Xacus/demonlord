@@ -160,7 +160,8 @@
         border-bottom: 1px solid var(--demonlord-red);
         font-weight: bold;
         font-family: $font-header;
-        font-size: 12px;
+        font-size: 10px;
+        text-transform: uppercase;
 
         .edit {
             float: right;
@@ -208,11 +209,12 @@
         border-bottom: 1px solid var(--demonlord-red);
         font-weight: bold;
         font-family: $font-header;
-        font-size: 12px;
+        font-size: 10px;
+        text-transform: uppercase;
 
         .edit {
             float: right;
-            width: 28px;
+            width: 24px;
         }
     }
 

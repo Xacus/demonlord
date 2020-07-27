@@ -11,7 +11,7 @@
 
 .window-app .window-header {
     font-family: $font-header;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 
@@ -236,8 +236,8 @@
 /* Players */
 #players {
     background: url(../ui/sidebar_background.jpg);
-    //font-family: $font-header;
-    font-size: 12px;
+    font-family: $font-header;
+    font-size: 11px;
     text-transform: uppercase;
     border: 1px solid #666;
     border-radius: 0px

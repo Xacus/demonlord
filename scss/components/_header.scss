@@ -42,10 +42,10 @@ form {
             float: right;
             position: relative;
             top: -30px;
-            right: 18px;
+            right: 20px;
             font-family: $font-header;
-            font-weight: 500;
-            font-size: 13px;
+            font-weight: 400;
+            font-size: 11px;
         }
         .level {
             float: right;
@@ -57,9 +57,8 @@ form {
             border-radius: 16px;
             border: none;
             box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0,0,0,.5), 0 0 8px #a22223;
-            font-family: $font-header;
             font-weight: 500;
-            font-size: 16px;
+            font-size: 13px;
 
             input {
                 margin-left: 1px;
@@ -95,7 +94,6 @@ form {
                 border-radius: 16px;
                 border: none;
                 box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0,0,0,.5), 0 0 8px #a22223;
-                font-family: $font-header;
                 font-weight: 500;
                 font-size: 20px;
 
@@ -106,7 +104,7 @@ form {
                     margin-top: 3px;
                     padding: 2px;
                     border: 0;
-                    font-size: 16px;
+                    font-size: 15px;
                     text-align: center;
                     color: #fff;
                 }
@@ -130,7 +128,7 @@ form {
                 color: #fff;
                 font-family: $font-header;
                 font-weight: 500;
-                font-size: 13px;
+                font-size: 11px;
                 text-align: center;
             }
 
@@ -143,7 +141,6 @@ form {
                 border-radius: 16px;
                 border: none;
                 box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0,0,0,.5), 0 0 8px #a22223;
-                font-family: $font-header;
                 font-weight: 500;
                 font-size: 20px;
 
@@ -155,7 +152,7 @@ form {
                     padding: 2px;
                     padding-top: 6px;
                     border: 0;
-                    font-size: 16px;
+                    font-size: 15px;
                     text-align: center;
                     color: #fff;
                 }
@@ -180,7 +177,7 @@ form {
                 color: #fff;
                 font-family: $font-header;
                 font-weight: 500;
-                font-size: 13px;
+                font-size: 11px;
                 text-align: center;
             }
         }
@@ -205,11 +202,13 @@ form {
 }
 nav.sheet-navigation {
     font-family: $font-header;
+    font-size: 10px;
     display: inline-flex;
     justify-content: space-evenly;
     align-items: center;
     border: none;
     color: white;
+    text-transform: uppercase;
 }
 .sheet-navigation {
     grid-area: nav;

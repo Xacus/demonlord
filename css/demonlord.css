@@ -1,11 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Shadows Into Light:wght@400;800&family=Shadows Into Light:wght@300;400;500&display=swap");
-@font-face {
-  font-family: "Poison Hope";
-  src: url("../fonts/poisonhope.ttf");
-  font-weight: 400;
-}
-
+@import url("https://fonts.googleapis.com/css2?family=IM+Fell+English+SC:wght@400;800&display=swap");
 /* Global styles */
 .window-app {
   font-family: "Roboto", sans-serif;
@@ -212,8 +207,8 @@
 }
 
 .window-app .window-header {
-  font-family: "Poison Hope", sans-serif;
-  font-size: 13px;
+  font-family: "IM Fell English SC", serif;
+  font-size: 14px;
 }
 
 /* Sidebar */
@@ -223,7 +218,7 @@
 }
 
 #sidebar h2 {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
   border-bottom: 0px;
   color: var(--demonlord-red);
@@ -238,7 +233,7 @@
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
   background: none;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 13px;
 }
 
@@ -293,12 +288,12 @@
 }
 
 .sidebar-tab .directory-list .directory-item h3 {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
 }
 
 .sidebar-tab .directory-list .directory-item h4 {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 14px;
 }
 
@@ -307,7 +302,7 @@
   border: 0px;
   background: var(--demonlord-red);
   color: white;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
 }
 
@@ -338,7 +333,7 @@
   color: white;
   border: 1px solid #666;
   border-radius: 1px;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
 }
 
 #chat-controls div.roll-type-select select:hover {
@@ -356,12 +351,12 @@
 
 #chat-log .message .message-header .message-sender,
 #chat-log .message .message-header .message-metadata {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
 }
 
 /* Hotbar */
 #hotbar {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
 }
 
 #hotbar #macro-list {
@@ -401,7 +396,7 @@
   background: black;
   border: 1px solid #666;
   border-radius: 3px;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 13px;
 }
 
@@ -445,7 +440,8 @@
 /* Players */
 #players {
   background: url(../ui/sidebar_background.jpg);
-  font-size: 12px;
+  font-family: "IM Fell English SC", serif;
+  font-size: 11px;
   text-transform: uppercase;
   border: 1px solid #666;
   border-radius: 0px;
@@ -458,7 +454,7 @@
 /* Combat Tracker */
 #combat #combat-round .encounters h3,
 #combat #combat-controls a.center {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
 }
 
@@ -471,12 +467,12 @@
 }
 
 #combat li.combatant .token-initiative {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
 }
 
 /* Scene */
 #scenes .scene h3 {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
 }
 

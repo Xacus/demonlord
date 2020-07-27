@@ -4,8 +4,6 @@ This is Shadow of the Demon Lord for FoundryVTT.
 
 Shadow of the Demonlord has no open license, but permission was granted to make the system.
 
-It a basic and playable character and creature sheet but not with much automation. 
-
 ## **Features**
 
 ### **General:**

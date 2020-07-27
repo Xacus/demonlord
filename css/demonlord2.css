@@ -1,11 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Shadows Into Light:wght@400;800&family=Shadows Into Light:wght@300;400;500&display=swap");
-@font-face {
-  font-family: "Poison Hope";
-  src: url("../fonts/poisonhope.ttf");
-  font-weight: 400;
-}
-
+@import url("https://fonts.googleapis.com/css2?family=IM+Fell+English+SC:wght@400;800&display=swap");
 /* Global styles */
 .window-app {
   font-family: "Roboto", sans-serif;
@@ -212,8 +207,8 @@
 }
 
 .window-app .window-header {
-  font-family: "Poison Hope", sans-serif;
-  font-size: 13px;
+  font-family: "IM Fell English SC", serif;
+  font-size: 14px;
 }
 
 /* Sidebar */
@@ -223,7 +218,7 @@
 }
 
 #sidebar h2 {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
   border-bottom: 0px;
   color: var(--demonlord-red);
@@ -238,7 +233,7 @@
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
   background: none;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 13px;
 }
 
@@ -293,12 +288,12 @@
 }
 
 .sidebar-tab .directory-list .directory-item h3 {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
 }
 
 .sidebar-tab .directory-list .directory-item h4 {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 14px;
 }
 
@@ -307,7 +302,7 @@
   border: 0px;
   background: var(--demonlord-red);
   color: white;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
 }
 
@@ -338,7 +333,7 @@
   color: white;
   border: 1px solid #666;
   border-radius: 1px;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
 }
 
 #chat-controls div.roll-type-select select:hover {
@@ -356,12 +351,12 @@
 
 #chat-log .message .message-header .message-sender,
 #chat-log .message .message-header .message-metadata {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
 }
 
 /* Hotbar */
 #hotbar {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
 }
 
 #hotbar #macro-list {
@@ -401,7 +396,7 @@
   background: black;
   border: 1px solid #666;
   border-radius: 3px;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 13px;
 }
 
@@ -445,7 +440,8 @@
 /* Players */
 #players {
   background: url(../ui/sidebar_background.jpg);
-  font-size: 12px;
+  font-family: "IM Fell English SC", serif;
+  font-size: 11px;
   text-transform: uppercase;
   border: 1px solid #666;
   border-radius: 0px;
@@ -458,7 +454,7 @@
 /* Combat Tracker */
 #combat #combat-round .encounters h3,
 #combat #combat-controls a.center {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
 }
 
@@ -471,12 +467,12 @@
 }
 
 #combat li.combatant .token-initiative {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
 }
 
 /* Scene */
 #scenes .scene h3 {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 16px;
 }
 
@@ -548,7 +544,7 @@
 
 .demonlord2.item .sheet-header .header-fields input[type=text] {
   width: 100%;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-weight: 500;
   font-size: 20px;
   color: #fff;
@@ -595,9 +591,10 @@
 .demonlord2.item .items-list .item-header {
   height: 16px;
   border-bottom: 1px solid var(--demonlord-red);
-  font-size: 13px;
   font-weight: bold;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
+  font-size: 10px;
+  text-transform: uppercase;
 }
 
 .demonlord2.item .items-list .item-header .item-controls {
@@ -1367,9 +1364,8 @@
   border: none;
   -webkit-box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
   box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
-  font-family: "Poison Hope", sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   padding-left: 2px;
   padding-top: 4px;
 }
@@ -1424,11 +1420,10 @@
   border: none;
   -webkit-box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
   box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
-  font-family: "Poison Hope", sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 13px;
   padding-left: 2px;
-  padding-top: 4px;
+  padding-top: 5px;
 }
 
 .demonlord2 form aside .sidebar .chars .defensebox .defense input, .demonlord2 form aside .sidebar .chars .defensebox .speed input, .demonlord2 form aside .sidebar .chars .defensebox .power input, .demonlord2 form aside .sidebar .chars .speedbox .defense input, .demonlord2 form aside .sidebar .chars .speedbox .speed input, .demonlord2 form aside .sidebar .chars .speedbox .power input, .demonlord2 form aside .sidebar .chars .powerbox .defense input, .demonlord2 form aside .sidebar .chars .powerbox .speed input, .demonlord2 form aside .sidebar .chars .powerbox .power input {
@@ -1448,8 +1443,8 @@
 }
 
 .demonlord2 form aside .sidebar .healingratebox .healingrate {
-  padding-left: 9px;
-  padding-top: 4px;
+  padding-left: 10px;
+  padding-top: 5px;
 }
 
 .demonlord2 form aside .sidebar .healingratebox .healingratetext {
@@ -1544,9 +1539,10 @@
 .demonlord2 .items-list .item-header {
   height: 16px;
   border-bottom: 1px solid var(--demonlord-red);
-  font-size: 13px;
   font-weight: bold;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
+  font-size: 10px;
+  text-transform: uppercase;
 }
 
 .demonlord2 .items-list .item-header .item-controls {
@@ -2455,7 +2451,7 @@
   padding: 3px 0;
   border-bottom: 1px solid var(--demonlord-red);
   font-weight: bold;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-size: 12px;
 }
 
@@ -2520,8 +2516,9 @@
   padding: 3px 0;
   border-bottom: 1px solid var(--demonlord-red);
   font-weight: bold;
-  font-family: "Poison Hope", sans-serif;
-  font-size: 12px;
+  font-family: "IM Fell English SC", serif;
+  font-size: 10px;
+  text-transform: uppercase;
 }
 
 .demonlord2 .paths .header .edit {
@@ -2571,8 +2568,9 @@
   padding: 3px 0;
   border-bottom: 1px solid var(--demonlord-red);
   font-weight: bold;
-  font-family: "Poison Hope", sans-serif;
-  font-size: 12px;
+  font-family: "IM Fell English SC", serif;
+  font-size: 10px;
+  text-transform: uppercase;
 }
 
 .demonlord2 .professions .header .edit,
@@ -2580,7 +2578,7 @@
 .demonlord2 .religionback .header .edit,
 .demonlord2 .features .header .edit {
   float: right;
-  width: 28px;
+  width: 24px;
 }
 
 .demonlord2 .professions .body,
@@ -2657,7 +2655,7 @@
   font-weight: bold;
   padding: 0;
   border-bottom: 1px solid var(--demonlord-red);
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
 }
 
 .demonlord2 .itemheader .itemnameheader {
@@ -2956,7 +2954,7 @@
 
 .demonlord2.actor .sheet-header .header-fields h1.char-name input[type=text] {
   width: 365px;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-weight: 500;
   font-size: 20px;
   color: #fff;
@@ -2977,10 +2975,10 @@
   float: right;
   position: relative;
   top: -30px;
-  right: 18px;
-  font-family: "Poison Hope", sans-serif;
-  font-weight: 500;
-  font-size: 13px;
+  right: 20px;
+  font-family: "IM Fell English SC", serif;
+  font-weight: 400;
+  font-size: 11px;
 }
 
 .demonlord2.actor .sheet-header .header-fields .level {
@@ -2994,9 +2992,8 @@
   border: none;
   -webkit-box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
   box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
-  font-family: "Poison Hope", sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 13px;
 }
 
 .demonlord2.actor .sheet-header .header-fields .level input {
@@ -3007,7 +3004,7 @@
 }
 
 .demonlord2.actor .sheet-header .header-fields label {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-weight: 500;
   font-size: 14px;
 }
@@ -3034,7 +3031,6 @@
   border: none;
   -webkit-box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
   box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
-  font-family: "Poison Hope", sans-serif;
   font-weight: 500;
   font-size: 20px;
 }
@@ -3046,7 +3042,7 @@
   margin-top: 3px;
   padding: 2px;
   border: 0;
-  font-size: 16px;
+  font-size: 15px;
   text-align: center;
   color: #fff;
 }
@@ -3067,9 +3063,9 @@
   font-size: 12px;
   width: 71px;
   color: #fff;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 11px;
   text-align: center;
 }
 
@@ -3083,7 +3079,6 @@
   border: none;
   -webkit-box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
   box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
-  font-family: "Poison Hope", sans-serif;
   font-weight: 500;
   font-size: 20px;
 }
@@ -3096,7 +3091,7 @@
   padding: 2px;
   padding-top: 6px;
   border: 0;
-  font-size: 16px;
+  font-size: 15px;
   text-align: center;
   color: #fff;
 }
@@ -3118,9 +3113,9 @@
   text-align: center;
   width: 71px;
   color: #fff;
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 11px;
   text-align: center;
 }
 
@@ -3147,7 +3142,8 @@
 }
 
 .demonlord2.actor nav.sheet-navigation {
-  font-family: "Poison Hope", sans-serif;
+  font-family: "IM Fell English SC", serif;
+  font-size: 10px;
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -3159,6 +3155,7 @@
   align-items: center;
   border: none;
   color: white;
+  text-transform: uppercase;
 }
 
 .demonlord2.actor .sheet-navigation {

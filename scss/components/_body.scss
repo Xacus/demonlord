@@ -29,9 +29,10 @@
     .item-header {
         height: 16px;
         border-bottom: 1px solid var(--demonlord-red);
-        font-size: 13px;
         font-weight: bold;
         font-family: $font-header;
+        font-size: 10px;
+        text-transform: uppercase;
 
         .item-controls {
             height: 0;
