@@ -65,8 +65,7 @@ export class DLActorModifiers extends FormApplication {
         // Affliction Rules
         html.find('.radioblockfast').click(ev => {
             const slowed = html.find(`input[type=checkbox][id="data.afflictions.slowed"]`)[0];
-            const frightened = html.find(`input[type=checkbox][id="data.afflictions.frightened"]`)[0];
-            if (slowed.checked || frightened.checked) {
+            if (slowed.checked) {
                 html.find(`input[type=radio][id="data.fastturn.false"]`).prop('checked', true);
             }
             else {
@@ -78,13 +77,6 @@ export class DLActorModifiers extends FormApplication {
             if (ev.currentTarget.checked) {
                 const prone = html.find(`input[type=checkbox][id="data.afflictions.prone"]`).prop('checked', true);
                 const unconscious = html.find(`input[type=checkbox][id="data.afflictions.unconscious"]`).prop('checked', true);
-            }
-        });
-
-        html.find(`input[type=checkbox][id="data.afflictions.frightened"]`).click(ev => {
-            if (ev.currentTarget.checked) {
-                html.find(`input[type=radio][id="data.fastturn.false"]`).prop('checked', true);
-                this.updateTurnOrder(false);
             }
         });
 
@@ -208,16 +200,9 @@ export class DLActorModifiers extends FormApplication {
                 });
             }
             else if (k.includes("afflictions.frightened")) {
-                if (v == true) {
-                    await this.object.update({
-                        "data.afflictions.frightened": v,
-                        "data.fastturn": false
-                    });
-                } else {
-                    await this.object.update({
-                        "data.afflictions.frightened": v
-                    });
-                }
+                await this.object.update({
+                    "data.afflictions.frightened": v
+                });
             }
             else if (k.includes("afflictions.grabbed")) {
                 await this.object.update({

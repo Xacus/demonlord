@@ -52,6 +52,9 @@ You can track both Health and Insanity and they are set on the token when an Act
 - characteristics.health
 - characteristics.insanity
 
+### **Bars:**
+Damage, Insanity and Corruption can be increased and decreased by left/right clicking on the headertext.
+
 ## **Plans**
 - [x] Enter Abilities, Characteristics and calculate modifers.
 - [x] Weapons.
