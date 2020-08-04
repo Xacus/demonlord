@@ -2938,7 +2938,6 @@
 
 .demonlord2.actor .sheet-header {
   grid-area: header;
-  margin-right: 20px;
 }
 
 .demonlord2.actor .sheet-header .header-fields {
@@ -2976,7 +2975,7 @@
   float: right;
   position: relative;
   top: -30px;
-  right: 20px;
+  right: 40px;
   font-family: "IM Fell English SC", serif;
   font-weight: 400;
   font-size: 11px;
@@ -2986,7 +2985,7 @@
   float: right;
   position: relative;
   top: -29px;
-  right: -50px;
+  right: -30px;
   height: 26px;
   width: 26px;
   border-radius: 16px;
@@ -3011,9 +3010,10 @@
 }
 
 .demonlord2.actor .sheet-header .attributes {
-  height: 54px;
   position: absolute;
   top: 60px;
+  height: 54px;
+  width: 440px;
 }
 
 .demonlord2.actor .sheet-header .attributes .attributebox {
@@ -3025,7 +3025,7 @@
 .demonlord2.actor .sheet-header .attributes .attributebox .attribute {
   position: relative;
   top: 17px;
-  left: 21px;
+  left: 24px;
   height: 32px;
   width: 32px;
   border-radius: 16px;
@@ -3062,7 +3062,6 @@
   left: 0px;
   top: -46px;
   font-size: 12px;
-  width: 71px;
   color: #fff;
   font-family: "IM Fell English SC", serif;
   font-weight: 500;
@@ -3073,7 +3072,7 @@
 .demonlord2.actor .sheet-header .attributes .attributebox .attributeper {
   position: relative;
   top: 15px;
-  left: 21px;
+  left: 24px;
   height: 32px;
   width: 32px;
   border-radius: 16px;
@@ -3109,15 +3108,12 @@
 .demonlord2.actor .sheet-header .attributes .attributebox .attributetextper {
   position: relative;
   left: 0px;
-  top: -48px;
-  font-size: 12px;
+  top: -49px;
   text-align: center;
-  width: 71px;
   color: #fff;
   font-family: "IM Fell English SC", serif;
   font-weight: 500;
   font-size: 11px;
-  text-align: center;
 }
 
 .demonlord2.actor .sheet-header > * {

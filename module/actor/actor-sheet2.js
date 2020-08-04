@@ -224,7 +224,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
                     else
                         value++;
                 } else {
-                    if (value >= max)
+                    if (value >= max || value == 0)
                         value = 0;
                     else
                         value--;

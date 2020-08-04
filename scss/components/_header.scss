@@ -9,7 +9,7 @@ form {
 }
 .sheet-header {
     grid-area: header;
-    margin-right: 20px;
+
     .header-fields {
         font-family: "Roboto", system, -apple-system, sans-serif;
         font-size: 8px;
@@ -42,7 +42,7 @@ form {
             float: right;
             position: relative;
             top: -30px;
-            right: 20px;
+            right: 40px;
             font-family: $font-header;
             font-weight: 400;
             font-size: 11px;
@@ -51,7 +51,7 @@ form {
             float: right;
             position: relative;
             top: -29px;
-            right: -50px;
+            right: -30px;
             height: 26px;
             width: 26px;
             border-radius: 16px;
@@ -76,9 +76,10 @@ form {
     }
 
     .attributes {
-        height: 54px;
         position: absolute;
         top: 60px;
+        height: 54px;
+        width: 440px;
 
         .attributebox {
             float: right;
@@ -88,7 +89,7 @@ form {
             .attribute {
                 position: relative;
                 top: 17px;
-                left: 21px;
+                left: 24px;
                 height: 32px;
                 width: 32px;
                 border-radius: 16px;
@@ -124,7 +125,6 @@ form {
                 left: 0px;
                 top: -46px;
                 font-size: 12px;
-                width: 71px;
                 color: #fff;
                 font-family: $font-header;
                 font-weight: 500;
@@ -135,7 +135,7 @@ form {
             .attributeper {
                 position: relative;
                 top: 15px;
-                left: 21px;
+                left: 24px;
                 height: 32px;
                 width: 32px;
                 border-radius: 16px;
@@ -170,15 +170,12 @@ form {
             .attributetextper {
                 position: relative;
                 left: 0px;
-                top: -48px;
-                font-size: 12px;
+                top: -49px;
                 text-align: center;
-                width: 71px;
                 color: #fff;
                 font-family: $font-header;
                 font-weight: 500;
                 font-size: 11px;
-                text-align: center;
             }
         }
     }
