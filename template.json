@@ -183,7 +183,14 @@
             "templates": [
                 "base"
             ],
-            "quantity": 1
+            "quantity": 1,
+            "wear": true,
+            "enchantment": {
+                "attackbonus": 0,
+                "challengebonus": 0,
+                "damage": "",
+                "defense": 0
+            }
         },
         "feature": {
             "templates": [

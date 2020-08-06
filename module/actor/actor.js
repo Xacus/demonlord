@@ -166,11 +166,15 @@ export class DemonlordActor extends Actor {
     }
 
     rollAttribute(attribute, boonsbanes) {
+        const buffs = this.generateCharacterBuffs("");
         let attribueName = attribute.label.charAt(0).toUpperCase() + attribute.label.toLowerCase().slice(1);
 
         // Roll
         let diceformular = "1d20+" + attribute.modifier;
 
+        if (buffs?.challengebonus != "") {
+            boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus);
+        }
         if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
             diceformular = diceformular + "+" + boonsbanes + "d6kh";
         }
@@ -248,116 +252,121 @@ export class DemonlordActor extends Actor {
         // Roll Against Target
         const targetNumber = this.getTargetNumber(weapon);
 
+        //if (targetNumber != undefined) {
+        // Add Attribute modifer to roll
+        let attackAttribute = weapon.data.data.action.attack;
+        const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
+
+        // Roll for Attack
+        if (attackAttribute) {
+            diceformular = diceformular + "+" + attribute.modifier;
+        }
+
+        // Add weapon boonsbanes
+        if (weapon.data.data.action.boonsbanes != 0) {
+            boonsbanes = parseInt(boonsbanes) + parseInt(weapon.data.data.action.boonsbanes);
+        }
+
+        // Add buffs from Talents
+        if (buffs?.attackbonus != "") {
+            boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackbonus);
+        }
+
+        if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
+            diceformular = diceformular + "+" + boonsbanes + "d6kh";
+        }
+        let attackRoll = new Roll(diceformular, {});
+        attackRoll.roll();
+
+        //Plus20 roll
+        let plus20 = false;
         if (targetNumber != undefined) {
-            // Add Attribute modifer to roll
-            let attackAttribute = weapon.data.data.action.attack;
-            const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
+            plus20 = attackRoll._total >= 20 && (attackRoll._total >= parseInt(targetNumber) + 5) ? true : false;
+        }
 
-            // Roll for Attack
-            if (attackAttribute) {
-                diceformular = diceformular + "+" + attribute.modifier;
-            }
+        // Roll Damage
+        let damageformular = weapon.data.data.action.damage;
 
-            // Add weapon boonsbanes
-            if (weapon.data.data.action.boonsbanes != 0) {
-                boonsbanes = parseInt(boonsbanes) + parseInt(weapon.data.data.action.boonsbanes);
-            }
+        // Add buffs from Talents - Boons/Banes
+        if (buffs?.attackdamagebonus != "") {
+            damageformular = damageformular + buffs.attackdamagebonus;
+        }
 
-            // Add buffs from Talents
-            if (buffs?.attackbonus != "") {
-                boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackbonus);
-            }
+        // Add buffs from Talents - 20+ Damage
+        if (plus20) {
+            damageformular = damageformular + buffs.attack20plusdamagebonus;
+        }
 
-            if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
-                diceformular = diceformular + "+" + boonsbanes + "d6kh";
-            }
-            let attackRoll = new Roll(diceformular, {});
-            attackRoll.roll();
-
-            //Plus20 roll
-            let plus20 = attackRoll._total >= 20 && (attackRoll._total >= parseInt(targetNumber) + 5) ? true : false;
-
-            // Roll Damage
-            let damageformular = weapon.data.data.action.damage;
-
-            // Add buffs from Talents - Boons/Banes
-            if (buffs?.attackdamagebonus != "") {
-                damageformular = damageformular + buffs.attackdamagebonus;
-            }
-
-            // Add buffs from Talents - 20+ Damage
-            if (plus20) {
-                damageformular = damageformular + buffs.attack20plusdamagebonus;
-            }
-
-            var templateData = {
-                actor: this,
-                item: {
-                    name: weapon.name
+        var templateData = {
+            actor: this,
+            item: {
+                name: weapon.name
+            },
+            data: {
+                diceTotal: {
+                    value: attackRoll._total
                 },
-                data: {
-                    diceTotal: {
-                        value: attackRoll._total
-                    },
-                    diceResult: {
-                        value: attackRoll.result.toString()
-                    },
-                    resultText: {
-                        value: attackRoll != null && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
-                    },
-                    didHit: {
-                        value: attackRoll._total >= targetNumber ? true : false
-                    },
-                    attack: {
-                        value: attackAttribute.toUpperCase()
-                    },
-                    against: {
-                        value: weapon.data.data.action.against.toUpperCase()
-                    },
-                    againstNumber: {
-                        value: target.actor.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') ? targetNumber : "?"
-                    },
-                    damageFormular: {
-                        value: damageformular
-                    },
-                    description: {
-                        value: weapon.data.data.description
-                    },
-                    targetname: {
-                        value: target.name
-                    },
-                    effects: {
-                        value: buffs.attackeffects
-                    },
-                    isCreature: {
-                        value: this.data.type == "creature" ? true : false
-                    }
+                diceResult: {
+                    value: attackRoll.result.toString()
+                },
+                resultText: {
+                    value: attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
+                },
+                didHit: {
+                    value: targetNumber == undefined || attackRoll._total >= targetNumber ? true : false
+                },
+                attack: {
+                    value: attackAttribute.toUpperCase()
+                },
+                against: {
+                    value: weapon.data.data.action.against.toUpperCase()
+                },
+                againstNumber: {
+                    value: (target != null && target.actor.data.type == "character") || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?"
+                },
+                damageFormular: {
+                    value: damageformular
+                },
+                description: {
+                    value: weapon.data.data.description
+                },
+                targetname: {
+                    value: target != null ? target.name : ""
+                },
+                effects: {
+                    value: buffs.attackeffects
+                },
+                isCreature: {
+                    value: this.data.type == "creature" ? true : false
                 }
-            };
+            }
+        };
 
-            let chatData = {
-                user: game.user._id,
-                speaker: {
-                    actor: this._id,
-                    token: this.token,
-                    alias: this.name
-                }
-            };
+        let chatData = {
+            user: game.user._id,
+            speaker: {
+                actor: this._id,
+                token: this.token,
+                alias: this.name
+            }
+        };
 
-            let template = 'systems/demonlord/templates/chat/combat.html';
-            renderTemplate(template, templateData).then(content => {
-                chatData.content = content;
+        let template = 'systems/demonlord/templates/chat/combat.html';
+        renderTemplate(template, templateData).then(content => {
+            chatData.content = content;
 
-                if (game.dice3d) {
-                    game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-                } else {
-                    chatData.sound = CONFIG.sounds.dice;
-                    ChatMessage.create(chatData);
-                }
-            });
+            if (game.dice3d) {
+                game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+            } else {
+                chatData.sound = CONFIG.sounds.dice;
+                ChatMessage.create(chatData);
+            }
+        });
+        /*
         } else {
             ui.notifications.info(game.i18n.localize('DL.DialogWarningTargetNotSelected'));
         }
+        */
     }
 
     rollTalent(itemId, options = { event: null }) {
@@ -404,52 +413,56 @@ export class DemonlordActor extends Actor {
         if (talent.data?.vs?.attribute) {
             targetNumber = this.getVSTargetNumber(talent);
 
-            if (targetNumber != undefined) {
-                if (talent.data.vs?.damageactive) {
-                    this.activateTalent(talent, true);
-                } else {
-                    this.activateTalent(talent, false);
+            //if (targetNumber != undefined) {
+            if (talent.data.vs?.damageactive) {
+                this.activateTalent(talent, true);
+            } else {
+                this.activateTalent(talent, false);
+            }
+
+            attackAttribute = talent.data.vs.attribute;
+            const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
+
+            if (attackAttribute) {
+                diceformular = diceformular + "+" + attribute.modifier;
+                roll = true;
+
+                // Add boonsbanes
+                if (talent.data.vs.boonsbanes != 0) {
+                    boonsbanes = parseInt(boonsbanes) + parseInt(talent.data.vs.boonsbanes);
+                }
+                // Add buffs from Talents
+                if (buffs?.challengebonus != 0) {
+                    boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus);
+                }
+                if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
+                    diceformular = diceformular + "+" + boonsbanes + "d6kh";
                 }
 
-                attackAttribute = talent.data.vs.attribute;
-                const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
+                attackRoll = new Roll(diceformular, {});
+                attackRoll.roll();
 
-                if (attackAttribute) {
-                    diceformular = diceformular + "+" + attribute.modifier;
-                    roll = true;
+                // Roll Against Target
+                targetNumber = this.getVSTargetNumber(talent);
+            }
 
-                    // Add boonsbanes
-                    if (talent.data.vs.boonsbanes != 0) {
-                        boonsbanes = parseInt(boonsbanes) + parseInt(talent.data.vs.boonsbanes);
-                    }
-                    // Add buffs from Talents
-                    if (buffs?.challengebonus != 0) {
-                        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus);
-                    }
-                    if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
-                        diceformular = diceformular + "+" + boonsbanes + "d6kh";
-                    }
-
-                    attackRoll = new Roll(diceformular, {});
-                    attackRoll.roll();
-
-                    // Roll Against Target
-                    targetNumber = this.getVSTargetNumber(talent);
-                }
-
-                if (talent.data.vs.damageactive && talent.data.vs.damage) {
-                    damageformular = talent.data.vs.damage;
-                }
+            if (talent.data.vs.damageactive && talent.data.vs.damage) {
+                damageformular = talent.data.vs.damage;
+            }
+            /*
             } else {
                 ui.notifications.info(game.i18n.localize('DL.DialogWarningTargetNotSelected'));
             }
+            */
         } else {
             this.activateTalent(talent, true);
         }
 
+        /*
         if (talent.data?.damage && target == null) {
             ui.notifications.info(game.i18n.localize('DL.DialogWarningTargetNotSelected'));
         }
+        */
 
         if (parseInt(talent.data?.uses?.value) >= 0 && parseInt(talent.data?.uses?.max) > 0) {
             let uses = parseInt(talent.data.uses?.value);
@@ -476,10 +489,10 @@ export class DemonlordActor extends Actor {
                     value: attackRoll != null ? attackRoll.result.toString() : ""
                 },
                 resultText: {
-                    value: attackRoll != null && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
+                    value: attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
                 },
                 didHit: {
-                    value: attackRoll != null && attackRoll._total >= targetNumber ? true : false
+                    value: targetNumber != undefined || attackRoll._total >= targetNumber ? true : false
                 },
                 attack: {
                     value: attackAttribute.toUpperCase()
@@ -488,7 +501,7 @@ export class DemonlordActor extends Actor {
                     value: talent.data?.vs?.against.toUpperCase()
                 },
                 againstNumber: {
-                    value: target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') ? targetNumber : "?"
+                    value: target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?"
                 },
                 damageFormular: {
                     value: damageformular
@@ -546,7 +559,7 @@ export class DemonlordActor extends Actor {
             }
         };
 
-        if ((talent.data?.damage && target != null) || (talent.data?.vs?.attribute && targetNumber != undefined) || (!talent.data?.vs?.attribute && !talent.data?.damage)) {
+        if (talent.data?.damage || talent.data?.vs?.attribute || (!talent.data?.vs?.attribute && !talent.data?.damage)) {
             let template = 'systems/demonlord/templates/chat/talent.html';
             renderTemplate(template, templateData).then(content => {
                 chatData.content = content;
@@ -807,6 +820,29 @@ export class DemonlordActor extends Actor {
                 }
             }
         }
+
+        const items = this.getEmbeddedCollection("OwnedItem").filter(e => "item" === e.type);
+        let itemAttackbonus = 0;
+        let itemChallengebonus = 0;
+        let itemDamageBonus = "";
+        let itemDefenseBonus = 0;
+        for (let item of items) {
+            if (item.data.wear) {
+                if (item.data.enchantment?.attackbonus != null)
+                    itemAttackbonus += parseInt(item.data.enchantment?.attackbonus);
+                if (item.data.enchantment?.challengebonus != null)
+                    itemChallengebonus += parseInt(item.data.enchantment?.challengebonus);
+                if (item.data.enchantment?.damage != "")
+                    itemDamageBonus += "+" + item.data.enchantment?.damage;
+                if (item.data.enchantment?.defense != null)
+                    itemDefenseBonus += parseInt(item.data.enchantment?.defense);
+            }
+        }
+
+        characterbuffs.attackbonus += itemAttackbonus;
+        characterbuffs.challengebonus += itemChallengebonus;
+        characterbuffs.attackdamagebonus += itemDamageBonus;
+        characterbuffs.defensebonus += itemDefenseBonus;
 
         return characterbuffs;
     }
