@@ -133,12 +133,17 @@ export const startCombat = async function () {
     for (const combatant of game.combat.combatants) {
         let init = 0;
 
+        //if (combatant.name != "End of Round") {
         if (combatant.actor?.data?.type == "character") {
             init = combatant.actor?.data?.data.fastturn ? 70 : 30;
         } else {
             init = combatant.actor?.data?.data.fastturn ? 50 : 10;
         }
-
+        /*
+        } else {
+            init = 1;
+        }
+        */
         game.combat.setInitiative(combatant._id, init);
     }
 
@@ -149,23 +154,46 @@ export const startCombat = async function () {
 }
 
 /**
-   * Advance the combat to the next round
+   * Advance the combat to the next turn
    * @return {Promise}
    */
-/*  
-export const nextRound = async function () {
-    alert("NEXT");
-    let turn = 0;
-    if (this.settings.skipDefeated) {
-        turn = this.turns.findIndex(t => !t.defeated);
-        if (turn === -1) {
-            ui.notifications.warn(game.i18n.localize("COMBAT.NoneRemaining"));
-            turn = 0;
+export const nextTurn = async function () {
+    let turn = this.turn;
+    let skip = this.settings.skipDefeated;
+    // Determine the next turn number
+    let next = null;
+    if (skip) {
+        for (let [i, t] of this.turns.entries()) {
+            if (t.name == "End of Round") {
+                postEndOfRound();
+            }
+
+            if (i <= turn) continue;
+            if (!t.defeated) {
+                next = i;
+                break;
+            }
         }
+    } else next = turn + 1;
+
+    // Maybe advance to the next round
+    let round = this.round;
+    if ((this.round === 0) || (next === null) || (next >= this.turns.length)) {
+        round = round + 1;
+        next = 0;
+        if (skip) {
+            next = this.turns.findIndex(t => !t.defeated);
+            if (next === -1) {
+                ui.notifications.warn(game.i18n.localize("COMBAT.NoneRemaining"));
+                next = 0;
+            }
+        }
+
+        handleCharacterMods();
     }
-    return this.update({ round: this.round + 1, turn: turn });
+    // Update the encounter
+    return this.update({ round: round, turn: next });
 }
-*/
 
 const selectTurnType = async function (actor, fastturn) {
     let turn = "";
@@ -219,4 +247,26 @@ const selectTurnType = async function (actor, fastturn) {
             }).render(true);
         }
     });
+}
+
+const postEndOfRound = async function () {
+    for (const combatant of game.combat.combatants) {
+        if (combatant.actor?.data?.type != "character") {
+            const endofrounds = combatant.actor.getEmbeddedCollection("OwnedItem").filter(e => "endoftheround" === e.type);
+            for (let endofround of endofrounds) {
+                console.log(endofround.name);
+            }
+        }
+    }
+}
+
+const handleCharacterMods = async function () {
+    for (const combatant of game.combat.combatants) {
+        const mods = combatant.actor.getEmbeddedCollection("OwnedItem").filter(e => "mod" === e.type);
+        for (let mod of mods) {
+            if (mod.data.active) {
+                combatant.actor.updateCharacterMods(mod);
+            }
+        }
+    }
 }

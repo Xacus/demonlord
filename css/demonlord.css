@@ -845,6 +845,11 @@
   text-align: right;
 }
 
+.demonlord .form-block .form-line .form-fields .numberLabel {
+  margin-top: 4px;
+  margin-left: 19px;
+}
+
 .demonlord .form-block .form-line .form-fields .numbermid input {
   width: 50px;
   text-align: right;
@@ -885,7 +890,7 @@
 }
 
 .demonlord .form-block .form-modline .form-fields .modeffects {
-  width: 93px;
+  width: 147px;
 }
 
 .demonlord .form-block .form-modline .form-fields .modmodifier {

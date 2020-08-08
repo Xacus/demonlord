@@ -9,6 +9,26 @@ export default class extends CombatTracker {
 
     /** @override */
     activateListeners(html) {
+        /*
+        // Add End of Round Actor
+        let found = false;
+        for (let actor of game.actors) {
+            if (actor.name == "End of Round") {
+                found = true;
+            }
+        }
+
+        if (!found) {
+            let actor = Actor.create({
+                name: "End of Round",
+                type: "character",
+                img: "systems/demonlord/ui/icons/pentragram.png",
+                sort: 12000,
+                token: {},
+                items: []
+            });
+        }
+*/
         let init;
         html.find('.combatant').each((i, el) => {
             const currentCombat = this.getCurrentCombat();

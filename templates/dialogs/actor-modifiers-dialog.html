@@ -24,7 +24,9 @@
                 <div class="form-fields">
                     <div class="modrounds">{{localize "DL.ModsRounds"}}</div>
                 </div>
-
+                <div class="form-fields">
+                    <div class="modmodifier">{{localize "DL.ModsRoundsLeft"}}</div>
+                </div>
             </li>
             {{#each mods as |item id|}}
             <li class="form-line dropitem" data-item-id="{{item._id}}">
@@ -39,23 +41,17 @@
                         <select name="item.data.modtype" data-dtype="String">
                             {{#select item.data.modtype}}
                             <option value="">—</option>
-                            <option value="{{localize 'DL.ModsListBoonsBanes'}}">{{localize "DL.ModsListBoonsBanes"}}
+                            <option value="{{localize 'DL.TalentAttackBoonsBanes'}}">
+                                {{localize "DL.TalentAttackBoonsBanes"}}
+                            </option>
+                            <option value="{{localize 'DL.TalentChallengeBoonsBanes'}}">
+                                {{localize "DL.TalentChallengeBoonsBanes"}}
                             </option>
                             <option value="{{localize 'DL.ModsListDamage'}}">{{localize "DL.ModsListDamage"}}</option>
-                            <option value="{{localize 'DL.ModsListAttack'}}">{{localize "DL.ModsListAttack"}}</option>
-                            <option value="{{localize 'DL.ModsListChallenge'}}">{{localize "DL.ModsListChallenge"}}
+                            <option value="{{localize 'DL.ItemDefenseModifier'}}">{{localize "DL.ItemDefenseModifier"}}
                             </option>
-                            <option value="{{localize 'DL.ModsListDefense'}}">{{localize "DL.ModsListDefense"}}</option>
                             <option value="{{localize 'DL.ModsListHealth'}}">{{localize "DL.ModsListHealth"}}</option>
                             <option value="{{localize 'DL.ModsListSpeed'}}">{{localize "DL.ModsListSpeed"}}</option>
-                            <option value="{{localize 'DL.ModsListStrength'}}">{{localize "DL.ModsListStrength"}}
-                            </option>
-                            <option value="{{localize 'DL.ModsListAgility'}}">{{localize "DL.ModsListAgility"}}</option>
-                            <option value="{{localize 'DL.ModsListIntellect'}}">{{localize "DL.ModsListIntellect"}}
-                            </option>
-                            <option value="{{localize 'DL.AttributeWill'}}">{{localize "DL.AttributeWill"}}</option>
-                            <option value="{{localize 'DL.ModsListPerception'}}">{{localize "DL.ModsListPerception"}}
-                            </option>
                             {{/select}}
                         </select>
                     </div>
@@ -67,6 +63,11 @@
                     <div class="form-fields">
                         <div class="number">
                             <input type="text" name="item.data.rounds" value="{{item.data.rounds}}" />
+                        </div>
+                    </div>
+                    <div class="form-fields">
+                        <div class="numberLabel">
+                            {{item.data.roundsleft}}
                         </div>
                     </div>
                     <div class="item-controls">

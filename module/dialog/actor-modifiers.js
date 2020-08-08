@@ -4,7 +4,7 @@ export class DLActorModifiers extends FormApplication {
         options.id = 'sheet-modifiers';
         options.classes = ["demonlord", "sheet", "actor"];
         options.template = 'systems/demonlord/templates/dialogs/actor-modifiers-dialog.html';
-        options.width = 350;
+        options.width = 430;
         options.height = 500;
         return options;
     }
@@ -269,14 +269,40 @@ export class DLActorModifiers extends FormApplication {
         // Update Mods     
         let i = 0;
         for (let mod of mods) {
-            const update = {
-                _id: mod._id,
-                "name": names[i],
-                "data.active": active[i],
-                "data.modtype": modtype[i],
-                "data.modifier": modifiers[i],
-                "data.rounds": rounds[i]
-            };
+            let update = null;
+
+            if (parseInt(mod.data.roundsleft) == 0) {
+                update = {
+                    _id: mod._id,
+                    "name": names[i],
+                    "data.active": active[i],
+                    "data.modtype": modtype[i],
+                    "data.modifier": modifiers[i],
+                    "data.rounds": rounds[i],
+                    "data.roundsleft": rounds[i]
+                };
+            } else if (parseInt(mod.data.roundsleft) > 0) {
+                update = {
+                    _id: mod._id,
+                    "name": names[i],
+                    "data.active": active[i],
+                    "data.modtype": modtype[i],
+                    "data.modifier": modifiers[i],
+                    "data.rounds": rounds[i]
+                };
+            }
+
+            if (!active[i]) {
+                update = {
+                    _id: mod._id,
+                    "name": names[i],
+                    "data.active": active[i],
+                    "data.modtype": modtype[i],
+                    "data.modifier": modifiers[i],
+                    "data.rounds": rounds[i],
+                    "data.roundsleft": rounds[i]
+                };
+            }
 
             await this.object.updateEmbeddedEntity("OwnedItem", update);
 

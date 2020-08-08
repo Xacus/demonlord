@@ -838,11 +838,40 @@ export class DemonlordActor extends Actor {
                     itemDefenseBonus += parseInt(item.data.enchantment?.defense);
             }
         }
-
         characterbuffs.attackbonus += itemAttackbonus;
         characterbuffs.challengebonus += itemChallengebonus;
         characterbuffs.attackdamagebonus += itemDamageBonus;
         characterbuffs.defensebonus += itemDefenseBonus;
+
+        const mods = this.getEmbeddedCollection("OwnedItem").filter(e => "mod" === e.type);
+        let modAttackbonus = 0;
+        let modChallengebonus = 0;
+        let modDamageBonus = "";
+        let modDefenseBonus = 0;
+        let modHealingBonus = 0;
+        let modSpeedBonus = 0;
+        for (let mod of mods) {
+            if (mod.data.active) {
+                if (mod.data.modtype == game.i18n.localize('DL.TalentAttackBoonsBanes'))
+                    modAttackbonus += parseInt(mod.data.modifier);
+                if (mod.data.modtype == game.i18n.localize('DL.TalentChallengeBoonsBanes'))
+                    modChallengebonus += parseInt(mod.data.modifier);
+                if (mod.data.modtype == game.i18n.localize('DL.ModsListDamage'))
+                    modDamageBonus += "+" + mod.data.modifier;
+                if (mod.data.modtype == game.i18n.localize('DL.ItemDefenseModifier'))
+                    modDefenseBonus += parseInt(mod.data.modifier);
+                if (mod.data.modtype == game.i18n.localize('DL.ModsListHealth'))
+                    modHealingBonus += parseInt(mod.data.modifier);
+                if (mod.data.modtype == game.i18n.localize('DL.ModsListSpeed'))
+                    modSpeedBonus += parseInt(mod.data.modifier);
+            }
+        }
+        characterbuffs.attackbonus += modAttackbonus;
+        characterbuffs.challengebonus += modChallengebonus;
+        characterbuffs.attackdamagebonus += modDamageBonus;
+        characterbuffs.defensebonus += modDefenseBonus;
+        characterbuffs.healthbonus += modHealingBonus;
+        characterbuffs.speedbonus += modSpeedBonus;
 
         return characterbuffs;
     }
@@ -974,5 +1003,21 @@ export class DemonlordActor extends Actor {
                 });
             }
         });
+    }
+
+    async updateCharacterMods(modItem) {
+        const mod = duplicate(modItem);
+
+        let roundsleft = parseInt(mod.data.roundsleft);
+        if (roundsleft > 0) {
+            roundsleft--;
+            mod.data.roundsleft = roundsleft;
+            if (roundsleft == 0) {
+                mod.data.roundsleft = mod.data.rounds;
+                mod.data.active = false;
+            }
+            await this.updateEmbeddedEntity("OwnedItem", mod);
+            this.render(true);
+        }
     }
 }

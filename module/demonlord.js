@@ -29,7 +29,8 @@ import {
 import {
     rollInitiative,
     setupTurns,
-    startCombat
+    startCombat,
+    nextTurn
 } from "./init/init.js";
 import combattracker from './combattracker.js';
 import { CharacterBuff } from './buff.js';
@@ -53,6 +54,7 @@ Hooks.once('init', async function () {
     Combat.prototype.rollInitiative = rollInitiative;
     Combat.prototype.setupTurns = setupTurns;
     Combat.prototype.startCombat = startCombat;
+    Combat.prototype.nextTurn = nextTurn;
 
     CONFIG.Actor.entityClass = DemonlordActor;
     CONFIG.Item.entityClass = DemonlordItem;

@@ -338,6 +338,7 @@
     "DL.ModsEffects": "Effects",
     "DL.ModsModifier": "Mod",
     "DL.ModsRounds": "Rounds",
+    "DL.ModsRoundsLeft": "Left",
     "DL.ModsListBoonsBanes": "Boons/Banes",
     "DL.ModsListDamage": "Damage",
     "DL.ModsListAttack": "Attack",
