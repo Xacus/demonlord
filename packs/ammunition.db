@@ -1,5 +1,5 @@
 {"_id":"3DyeaERbAOaGT8pA","name":"Bullets","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","amount":"5"},"flags":{},"img":"systems/demonlord/icons/ammunition/bullets.png"}
 {"_id":"5jbJ3sA7G1QxWvSf","name":"Arrows","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","amount":"5"},"flags":{},"img":"systems/demonlord/icons/ammunition/arrows.png"}
-{"_id":"Bmr3cvbAdC57YL6W","name":"Darts","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","amount":"5"},"flags":{},"img":"systems/demonlord/icons/olditems/dart.png"}
+{"_id":"Bmr3cvbAdC57YL6W","name":"Darts","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","amount":"5"},"flags":{},"img":"systems/demonlord/icons/weapons/dart.png"}
 {"_id":"Y6Xp0ynkGeM44abA","name":"Bolts","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","amount":"5"},"flags":{},"img":"systems/demonlord/icons/ammunition/bolts.png"}
-{"_id":"dOlgELtLo49QcCJc","name":"Stones","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","amount":"5"},"flags":{},"img":"systems/demonlord/icons/olditems/stones.png"}
+{"_id":"dOlgELtLo49QcCJc","name":"Stones","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","amount":"5"},"flags":{},"img":"systems/demonlord/icons/ammunition/rock.png"}

@@ -617,6 +617,13 @@ export class DemonlordActor extends Actor {
         let attackAttribute = spell.data.data?.action?.attack;
         const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
 
+        let defenseAttribute = spell.data.data?.action?.defense;
+        let challStrength = defenseAttribute == game.i18n.localize('DL.AttributeStrength') ? true : false;
+        let challAgility = defenseAttribute == game.i18n.localize('DL.AttributeAgility') ? true : false;
+        let challIntellect = defenseAttribute == game.i18n.localize('DL.AttributeIntellect') ? true : false;
+        let challWill = defenseAttribute == game.i18n.localize('DL.AttributeWill') ? true : false;
+        let challPerception = defenseAttribute == game.i18n.localize('DL.AttributePerception') ? true : false;
+
         // Roll for Attack
         if (attackAttribute) {
             diceformular = diceformular + "+" + attribute.modifier;
@@ -639,8 +646,17 @@ export class DemonlordActor extends Actor {
         //Plus20 roll
         let plus20 = (attackRoll._total >= 20 ? true : false);
 
+        // Effect Dice roll
+        let effectdice = "";
+        if (spell.data.data.effectdice != "" && spell.data.data.effectdice != undefined) {
+            let effectRoll = new Roll(spell.data.data.effectdice, {});
+            effectRoll.roll();
+            effectdice = effectRoll._total;
+        }
+
         // Roll Damage
         let damageformular = spell.data.data.action?.damage;
+        let damageExtraformular = spell.data.data.action?.plus20damage;
 
         var templateData = {
             actor: this,
@@ -671,6 +687,9 @@ export class DemonlordActor extends Actor {
                 },
                 damageFormular: {
                     value: damageformular
+                },
+                damageExtraFormular: {
+                    value: damageExtraformular
                 },
                 attribute: {
                     value: spell.data.data?.attribute
@@ -713,6 +732,30 @@ export class DemonlordActor extends Actor {
                 },
                 tagetname: {
                     value: target != null ? target.name : ""
+                },
+                effectdice: {
+                    value: effectdice
+                },
+                defense: {
+                    value: spell.data.data?.action?.defense
+                },
+                defenseboonsbanes: {
+                    value: spell.data.data?.action?.defenseboonsbanes
+                },
+                challStrength: {
+                    value: challStrength
+                },
+                challAgility: {
+                    value: challAgility
+                },
+                challIntellect: {
+                    value: challIntellect
+                },
+                challWill: {
+                    value: challWill
+                },
+                challPerception: {
+                    value: challPerception
                 }
             }
         };

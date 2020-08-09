@@ -356,6 +356,12 @@ Hooks.on('preUpdateToken', async (scene, token, updateData, options) => {
 
 Hooks.on("renderChatLog", (app, html, data) => DemonlordItem.chatListeners(html));
 
+Hooks.on("renderChatMessage", async (app, html, msg) => {
+    if (!game.user.isGM) {
+        html.find(".gmonly").remove();
+    }
+});
+
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */

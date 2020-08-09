@@ -211,7 +211,9 @@ export class DemonlordItem extends Item {
         const item = li.children[0];
         const attribute = item.dataset.attribute;
         const start = li.closest(".demonlord");
-        const boonsbanes = start.children[1].children[0].children[1].value;
+        let boonsbanes = start.children[1].children[0].children[1]?.value;
+        if (boonsbanes == undefined)
+            boonsbanes = parseInt(item.dataset.boba);
 
         var selected = canvas.tokens.controlled;
         if (selected.length == 0)

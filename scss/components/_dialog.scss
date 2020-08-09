@@ -168,7 +168,7 @@
     padding: 8px;
     margin-bottom: 10px;
 }
-.talentactions, .combatactions, .damageaction {
+.talentactions, .combatactions, .damageaction, .challengeaction {
     margin-top: 5px;
     padding: 5px;
     background: #BBB;
@@ -219,6 +219,13 @@
         margin-left: -5px;
         background: url("icons/barbed-sun2.png") no-repeat;
     }
+}
+
+.challengeaction {
+    background: #999;
+}
+.gmonly {
+    margin-top: 15px;
 }
 
 .sheet-footer {}

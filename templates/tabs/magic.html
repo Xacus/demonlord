@@ -28,14 +28,19 @@
             {{#if data.action.damage}}
             <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}}<br>
             {{/if}}
-            {{#if data.duration}}
-            <b>{{localize "DL.SpellDuration"}}:</b> {{data.duration}}<br>
+            {{#if data.action.defense}}
+            <b>{{localize "DL.SpellTypeDefense"}}</b>
+            {{localize "DL.ChallengeRoll"}}: {{data.action.defense}}
+            {{#if data.action.defenseboonsbanes}}({{data.action.defenseboonsbanes}}){{/if}}<br>
             {{/if}}
             {{#if data.target}}
             <b>{{localize "DL.SpellTarget"}}:</b> {{data.target}}<br>
             {{/if}}
             {{#if data.area}}
             <b>{{localize "DL.SpellArea"}}:</b> {{data.area}}<br>
+            {{/if}}
+            {{#if data.duration}}
+            <b>{{localize "DL.SpellDuration"}}:</b> {{data.duration}}<br>
             {{/if}}
             {{#if data.requirements}}
             <b>{{localize "DL.SpellRequirements"}}:</b> {{data.requirements}}<br>
@@ -55,8 +60,11 @@
             {{#if data.triggered}}
             <b>{{localize "DL.SpellTriggered"}}:</b> {{data.triggered}}<br>
             {{/if}}
+            {{#if data.action.plus20damage}}
+            <b>{{localize "DL.WeaponAttack20"}}:</b> {{data.action.plus20damage}}<br>
+            {{/if}}
             {{#if data.action.plus20}}
-            <b>{{localize "DL.WeaponAttack20"}}:</b> {{data.action.plus20}}<br>
+            <b>{{localize "DL.WeaponAttack20Text"}}:</b> {{data.action.plus20}}<br>
             {{/if}}
             {{#if data.description}}
             {{{data.description}}}

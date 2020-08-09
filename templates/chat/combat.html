@@ -51,14 +51,12 @@
                 <div class="body">{{{data.description.value}}}</div>
             </div>
             {{/if}}
-            {{#if data.didHit.value}}
             <div class="combatactions roll-damage">
                 <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageFormular.value}}">
                     <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
                     <div>{{localize "DL.DialogTalentRollDamage"}} ({{data.damageFormular.value}})</div>
                 </div>
             </div>
-            {{/if}}
         </div>
     </div>
 </section>

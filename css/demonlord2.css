@@ -2298,7 +2298,7 @@
   margin-bottom: 10px;
 }
 
-.demonlord2 .talentactions, .demonlord2 .combatactions, .demonlord2 .damageaction {
+.demonlord2 .talentactions, .demonlord2 .combatactions, .demonlord2 .damageaction, .demonlord2 .challengeaction {
   margin-top: 5px;
   padding: 5px;
   background: #BBB;
@@ -2308,23 +2308,23 @@
   height: 27px;
 }
 
-.demonlord2 .talentactions img, .demonlord2 .combatactions img, .demonlord2 .damageaction img {
+.demonlord2 .talentactions img, .demonlord2 .combatactions img, .demonlord2 .damageaction img, .demonlord2 .challengeaction img {
   float: left;
   margin: 0 0 0 -5px;
   border: 0;
 }
 
-.demonlord2 .talentactions div, .demonlord2 .combatactions div, .demonlord2 .damageaction div {
+.demonlord2 .talentactions div, .demonlord2 .combatactions div, .demonlord2 .damageaction div, .demonlord2 .challengeaction div {
   float: left;
   padding-left: 5px;
 }
 
-.demonlord2 .talentactions .blood, .demonlord2 .combatactions .blood, .demonlord2 .damageaction .blood {
+.demonlord2 .talentactions .blood, .demonlord2 .combatactions .blood, .demonlord2 .damageaction .blood, .demonlord2 .challengeaction .blood {
   margin-left: -8px;
   margin-top: 1px;
 }
 
-.demonlord2 .talentactions .challenge-img, .demonlord2 .combatactions .challenge-img, .demonlord2 .damageaction .challenge-img {
+.demonlord2 .talentactions .challenge-img, .demonlord2 .combatactions .challenge-img, .demonlord2 .damageaction .challenge-img, .demonlord2 .challengeaction .challenge-img {
   float: left;
   height: 22px;
   width: 22px;
@@ -2333,7 +2333,7 @@
   background: url("icons/back-forth2.png") no-repeat;
 }
 
-.demonlord2 .talentactions .init-img, .demonlord2 .combatactions .init-img, .demonlord2 .damageaction .init-img {
+.demonlord2 .talentactions .init-img, .demonlord2 .combatactions .init-img, .demonlord2 .damageaction .init-img, .demonlord2 .challengeaction .init-img {
   float: left;
   height: 22px;
   width: 22px;
@@ -2342,13 +2342,21 @@
   background: url("icons/pentagram.png") no-repeat;
 }
 
-.demonlord2 .talentactions .talent-img, .demonlord2 .combatactions .talent-img, .demonlord2 .damageaction .talent-img {
+.demonlord2 .talentactions .talent-img, .demonlord2 .combatactions .talent-img, .demonlord2 .damageaction .talent-img, .demonlord2 .challengeaction .talent-img {
   float: left;
   height: 22px;
   width: 22px;
   margin-top: -3px;
   margin-left: -5px;
   background: url("icons/barbed-sun2.png") no-repeat;
+}
+
+.demonlord2 .challengeaction {
+  background: #999;
+}
+
+.demonlord2 .gmonly {
+  margin-top: 15px;
 }
 
 .demonlord2 .content {

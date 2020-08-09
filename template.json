@@ -176,7 +176,10 @@
                 "boonsbanesactive": true,
                 "boonsbanes": "",
                 "plus20active": true,
-                "plus20": ""
+                "plus20": "",
+                "plus20damage": "",
+                "defense": "",
+                "defenseboonsbanes": ""
             }
         },
         "item": {
@@ -207,6 +210,7 @@
             "spelltype": "",
             "rank": 0,
             "attribute": "",
+            "effectdice": "",
             "castings": {
                 "value": 0,
                 "max": 0
@@ -219,7 +223,8 @@
             "permanence": "",
             "aftereffect": "",
             "special": "",
-            "triggered": ""
+            "triggered": "",
+            "roundsleft": 0
         },
         "talent": {
             "templates": [
