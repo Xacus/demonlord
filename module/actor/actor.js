@@ -170,7 +170,9 @@ export class DemonlordActor extends Actor {
         let attribueName = attribute.label.charAt(0).toUpperCase() + attribute.label.toLowerCase().slice(1);
 
         // Roll
-        let diceformular = "1d20+" + attribute.modifier;
+        let diceformular = "1d20";
+        if (attribute.modifier > 0)
+            diceformular = diceformular + "+" + attribute.modifier;
 
         if (buffs?.challengebonus != "") {
             boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus);
@@ -262,7 +264,7 @@ export class DemonlordActor extends Actor {
         const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
 
         // Roll for Attack
-        if (attackAttribute) {
+        if (attribute.modifier > 0) {
             diceformular = diceformular + "+" + attribute.modifier;
         }
 
@@ -423,7 +425,8 @@ export class DemonlordActor extends Actor {
             const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
 
             if (attackAttribute) {
-                diceformular = diceformular + "+" + attribute.modifier;
+                if (attribute.modifier > 0)
+                    diceformular = diceformular + "+" + attribute.modifier;
                 roll = true;
 
                 // Add boonsbanes
@@ -631,13 +634,13 @@ export class DemonlordActor extends Actor {
         let challPerception = defenseAttribute == game.i18n.localize('DL.AttributePerception') ? true : false;
 
         // Roll for Attack
-        if (attackAttribute) {
+        if (attribute.modifier > 0) {
             diceformular = diceformular + "+" + attribute.modifier;
         }
 
         // Add weapon boonsbanes
-        if (spell.data.action?.boonsbanes != 0) {
-            boonsbanes = parseInt(boonsbanes) + parseInt(spell.data?.action?.boonsbanes);
+        if (spell.data.data?.action?.boonsbanes != 0) {
+            boonsbanes = parseInt(boonsbanes) + parseInt(spell.data?.data?.action?.boonsbanes);
         }
 
         if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
