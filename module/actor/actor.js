@@ -319,9 +319,9 @@ export class DemonlordActor extends Actor {
                     value: (target != null && target.actor.data.type == "character") || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?"
                 },
                 damageFormular: {
-                    value: weapon.data.data.action.damage
+                    value: weapon.data.data.action.damage + buffs.attackdamagebonus
                 },
-                damageExtraFormular: {
+                damageExtra20plusFormular: {
                     value: buffs.attack20plusdamagebonus.charAt(0) == "+" ? buffs.attack20plusdamagebonus.substr(1) : buffs.attack20plusdamagebonus
                 },
                 description: {
@@ -508,7 +508,7 @@ export class DemonlordActor extends Actor {
                 damageFormular: {
                     value: damageformular
                 },
-                damageExtraFormular: {
+                damageExtra20plusFormular: {
                     value: talent.data?.action?.plus20
                 },
                 effects: {
@@ -663,10 +663,6 @@ export class DemonlordActor extends Actor {
             effectdice = effectRoll._total;
         }
 
-        // Roll Damage
-        let damageformular = spell.data.data.action?.damage;
-        let damageExtraformular = spell.data.data.action?.plus20damage;
-
         var templateData = {
             actor: this,
             item: {
@@ -695,10 +691,10 @@ export class DemonlordActor extends Actor {
                     value: target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') ? targetNumber : "?"
                 },
                 damageFormular: {
-                    value: damageformular
+                    value: spell.data.data.action?.damage
                 },
-                damageExtraFormular: {
-                    value: damageExtraformular
+                damageExtra20plusFormular: {
+                    value: spell.data.data.action?.plus20damage
                 },
                 attribute: {
                     value: spell.data.data?.attribute
@@ -903,11 +899,6 @@ export class DemonlordActor extends Actor {
         let modDefenseBonus = 0;
         let modHealingBonus = 0;
         let modSpeedBonus = 0;
-        let modStrength = 0;
-        let modAgility = 0;
-        let modIntellect = 0;
-        let modWill = 0;
-        let modPerception = 0;
         for (let mod of mods) {
             if (mod.data.active) {
                 if (mod.data.modtype == game.i18n.localize('DL.TalentAttackBoonsBanes'))

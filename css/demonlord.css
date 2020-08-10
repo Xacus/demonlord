@@ -665,7 +665,6 @@
 
 .demonlord .result .box .tooltip:hover .tooltiptext {
   visibility: visible;
-  text-align: left;
 }
 
 .demonlord .result .box .tooltip .tooltiptext {
@@ -673,8 +672,8 @@
   width: 260px;
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
-  text-align: center;
-  border: 1px solid #7a7971;
+  text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   padding: 5px 0;
   position: absolute;
