@@ -53,6 +53,7 @@ export default class extends CombatTracker {
                 if (game.settings.get('demonlord', 'initMessage')) {
                     var templateData = {
                         actor: combatant.actor,
+                        token: canvas.tokens.controlled[0].data,
                         item: {
                             name: game.i18n.localize('DL.DialogInitiative')
                         },

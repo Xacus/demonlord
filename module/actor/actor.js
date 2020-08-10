@@ -188,6 +188,7 @@ export class DemonlordActor extends Actor {
 
         var templateData = {
             actor: this,
+            token: canvas.tokens.controlled[0].data,
             item: {
                 name: attribueName.toUpperCase()
             },
@@ -295,6 +296,7 @@ export class DemonlordActor extends Actor {
 
         var templateData = {
             actor: this,
+            token: canvas.tokens.controlled[0].data,
             item: {
                 name: weapon.name
             },
@@ -477,6 +479,7 @@ export class DemonlordActor extends Actor {
 
         var templateData = {
             actor: this,
+            token: canvas.tokens.controlled[0].data,
             item: {
                 name: talent.name
             },
@@ -668,6 +671,7 @@ export class DemonlordActor extends Actor {
 
         var templateData = {
             actor: this,
+            token: canvas.tokens.controlled[0].data,
             item: {
                 name: spell.name
             },

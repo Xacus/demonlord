@@ -13,6 +13,16 @@
         margin-top: 8px;
         background: url("icons/crossed-swords2.png") no-repeat;
     }
+    
+    .token-img {
+        float: left;
+        height: 40px;
+        width: 40px;
+
+        img {
+            border: 0;
+        }
+    }
 
     .challenge-img {
         float: left;
@@ -57,16 +67,28 @@
 
     .attackbox {
         float: left;
-        width: 240px;
+        width: 220px;
 
         .header {}
     }
 
     .targetbox {
         float: left;
-        width: 240px;
+        width: 220px;
 
         .header {}
+    }
+
+    .FAILURE {
+        float: left;
+        color: var(--demonlord-red);
+        font-weight: bold;
+    }
+
+    .SUCCESS {
+        float: left;
+        color: green;
+        font-weight: bold;
     }
 }
 

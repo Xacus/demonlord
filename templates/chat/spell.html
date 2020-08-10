@@ -2,7 +2,8 @@
     {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     {{#if data.attack.value}}
     <header class="card-header">
-        <div class="spell-img"></div>
+        <div class="token-img"><img class="profile-img" src="{{token.img}}" data-edit="img" title="{{actor.name}}"
+                height="40" width="40" /></div>
         <div class="attackbox">
             <div class="header">{{localize "DL.SpellRollText"}}</div>
             <div class="headertext">{{item.name}}</div>
@@ -13,8 +14,9 @@
         </div>
     </header>
     {{else}}
-    <header class="card-headersmall">
-        <div class="spell-img"></div>
+    <header class="card-header">
+        <div class="token-img"><img class="profile-img" src="{{token.img}}" data-edit="img" title="{{actor.name}}"
+                height="40" width="40" /></div>
         <div class="attackbox">
             <div class="header">{{localize "DL.SpellRollText"}}</div>
             <div class="headertext">{{item.name}}</div>

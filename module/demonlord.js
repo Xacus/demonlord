@@ -519,6 +519,7 @@ function healingPotionMacro() {
 
         var templateData = {
             actor: this.actor,
+            token: canvas.tokens.controlled[0].data,
             data: {
                 itemname: {
                     value: game.i18n.localize('DL.DialogUseItemHealingPotion')

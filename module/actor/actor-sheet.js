@@ -242,6 +242,7 @@ export class DemonlordActorSheet extends ActorSheet {
 
             var templateData = {
                 actor: this.actor,
+                token: canvas.tokens.controlled[0].data,
                 item: {
                     name: talent.name
                 },

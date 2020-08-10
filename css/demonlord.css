@@ -494,6 +494,16 @@
   background: url("icons/crossed-swords2.png") no-repeat;
 }
 
+.demonlord .card-header .token-img {
+  float: left;
+  height: 40px;
+  width: 40px;
+}
+
+.demonlord .card-header .token-img img {
+  border: 0;
+}
+
 .demonlord .card-header .challenge-img {
   float: left;
   height: 22px;
@@ -537,12 +547,24 @@
 
 .demonlord .card-header .attackbox {
   float: left;
-  width: 240px;
+  width: 220px;
 }
 
 .demonlord .card-header .targetbox {
   float: left;
-  width: 240px;
+  width: 220px;
+}
+
+.demonlord .card-header .FAILURE {
+  float: left;
+  color: var(--demonlord-red);
+  font-weight: bold;
+}
+
+.demonlord .card-header .SUCCESS {
+  float: left;
+  color: green;
+  font-weight: bold;
 }
 
 .demonlord .card-headersmall {

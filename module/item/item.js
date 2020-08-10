@@ -106,6 +106,7 @@ export class DemonlordItem extends Item {
 
         var templateData = {
             actor: this.actor,
+            token: canvas.tokens.controlled[0].data,
             data: {
                 damageTotal: {
                     value: damageRoll._total
@@ -303,6 +304,7 @@ export class DemonlordItem extends Item {
 
             var templateData = {
                 actor: this.actor,
+                token: canvas.tokens.controlled[0].data,
                 data: {}
             };
 

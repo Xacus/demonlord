@@ -57,6 +57,7 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
 
         var templateData = {
             actor: this.actor,
+            token: canvas.tokens.controlled[0].data,
             item: {
                 name: game.i18n.localize('DL.DialogInitiative')
             },
