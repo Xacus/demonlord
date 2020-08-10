@@ -106,7 +106,6 @@
         </div>
     </div>
     {{/if}}
-    {{#if data.didHit.value}}
     {{#if data.damageFormular.value}}
     <div class="combatactions roll-damage">
         <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageFormular.value}}">
@@ -115,12 +114,19 @@
         </div>
     </div>
     {{/if}}
-    {{/if}}
     {{#if data.pureDamage.value}}
     <div class="combatactions roll-damage">
         <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.pureDamage.value}}">
             <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
             <div>{{localize "DL.DialogTalentRollDamage"}} ({{data.pureDamage.value}})</div>
+        </div>
+    </div>
+    {{/if}}
+    {{#if data.damageExtraFormular.value}}
+    <div class="combatactions roll-damage">
+        <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageExtraFormular.value}}">
+            <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
+            <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtraFormular.value}})</div>
         </div>
     </div>
     {{/if}}

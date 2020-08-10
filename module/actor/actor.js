@@ -291,19 +291,6 @@ export class DemonlordActor extends Actor {
             plus20 = attackRoll._total >= 20 && (attackRoll._total >= parseInt(targetNumber) + 5) ? true : false;
         }
 
-        // Roll Damage
-        let damageformular = weapon.data.data.action.damage;
-
-        // Add buffs from Talents - Boons/Banes
-        if (buffs?.attackdamagebonus != "") {
-            damageformular = damageformular + buffs.attackdamagebonus;
-        }
-
-        // Add buffs from Talents - 20+ Damage
-        if (plus20) {
-            damageformular = damageformular + buffs.attack20plusdamagebonus;
-        }
-
         var templateData = {
             actor: this,
             item: {
@@ -332,7 +319,10 @@ export class DemonlordActor extends Actor {
                     value: (target != null && target.actor.data.type == "character") || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?"
                 },
                 damageFormular: {
-                    value: damageformular
+                    value: weapon.data.data.action.damage
+                },
+                damageExtraFormular: {
+                    value: buffs.attack20plusdamagebonus.charAt(0) == "+" ? buffs.attack20plusdamagebonus.substr(1) : buffs.attack20plusdamagebonus
                 },
                 description: {
                     value: weapon.data.data.description
@@ -517,6 +507,9 @@ export class DemonlordActor extends Actor {
                 },
                 damageFormular: {
                     value: damageformular
+                },
+                damageExtraFormular: {
+                    value: talent.data?.action?.plus20
                 },
                 effects: {
                     value: this.buildTalentEffects(talent, false, "TALENT")
@@ -910,6 +903,11 @@ export class DemonlordActor extends Actor {
         let modDefenseBonus = 0;
         let modHealingBonus = 0;
         let modSpeedBonus = 0;
+        let modStrength = 0;
+        let modAgility = 0;
+        let modIntellect = 0;
+        let modWill = 0;
+        let modPerception = 0;
         for (let mod of mods) {
             if (mod.data.active) {
                 if (mod.data.modtype == game.i18n.localize('DL.TalentAttackBoonsBanes'))

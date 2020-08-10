@@ -16,5 +16,10 @@ export class CharacterBuff {
         this.healthbonus = obj.healthbonus || 0;
         this.speedbonus = obj.speedactive || 0;
         this.healing = obj.healing || 0;
+        this.strength = obj.strength || 0;
+        this.agility = obj.agility || 0;
+        this.intellect = obj.intellect || 0;
+        this.will = obj.will || 0;
+        this.perception = obj.perception || 0;
     }
 }

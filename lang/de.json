@@ -118,6 +118,7 @@
     "DL.TalentVSRoll": "VS Wurf",
     "DL.TalentVSBoonsBanes": "VS Boni/Mali",
     "DL.TalentVSDamage": "VS Schaden",
+    "DL.TalentVSExtraDamage": "VS Schaden",
     "DL.TalentActive": "(Aktiv)",
     "DL.TalentUsed": "(Benutzt)",
     "DL.TalentDeactivate": "Talent deaktivieren",
