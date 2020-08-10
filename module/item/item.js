@@ -214,6 +214,8 @@ export class DemonlordItem extends Item {
         let boonsbanes = start.children[1].children[0].children[1]?.value;
         if (boonsbanes == undefined)
             boonsbanes = parseInt(item.dataset.boba);
+        if (isNaN(boonsbanes))
+            boonsbanes = 0;
 
         var selected = canvas.tokens.controlled;
         if (selected.length == 0)
@@ -274,11 +276,14 @@ export class DemonlordItem extends Item {
         const boonsbanes = item.dataset.boonsbanes;
         const selected = canvas.tokens.controlled;
 
+        const start = li.closest(".demonlord");
+        let boonsbanesEntered = start.children[1].children[0].children[0].children[1]?.value;
+
         selected.forEach(token => {
             const actor = token.actor;
             const attribute = actor.data.data.attributes[attributeName.toLowerCase()];
 
-            actor.rollAttribute(attribute, boonsbanes);
+            actor.rollAttribute(attribute, parseInt(boonsbanes) + parseInt(boonsbanesEntered));
         });
     }
 

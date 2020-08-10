@@ -745,7 +745,7 @@ export class DemonlordActor extends Actor {
                     value: spell.data.data?.action?.defense
                 },
                 defenseboonsbanes: {
-                    value: spell.data.data?.action?.defenseboonsbanes
+                    value: parseInt(spell.data.data?.action?.defenseboonsbanes)
                 },
                 challStrength: {
                     value: challStrength
@@ -1087,8 +1087,6 @@ export class DemonlordActor extends Actor {
         let diceData = { dice: [] };
         for (let i = 0; i < diceRoll.parts.length; i++) {
             if (diceRoll.parts[i] instanceof Die) {
-                console.log(diceRoll.parts[i]);
-
                 let pool = diceRoll.parts[i].rolls;
                 let faces = diceRoll.parts[i].faces;
 

@@ -8,10 +8,18 @@
         </div>
     </header>
 
-    <div class="damageaction make-challengeroll">
-        <div class="header" data-attribute="{{data.attribute.value}}" data-boonsbanes="{{data.boonsbanes.value}}">
-            <div class="challenge-img"></div>
-            <div>{{data.attribute.value}} ({{data.boonsbanestext.value}})</div>
+    <div class="sectionblock">
+        <div class="boonsbanes">
+            <div class="header">
+                <div>{{localize "DL.ModsListBoonsBanes"}}</div>
+                <input type="text" name="boonsbanes" value="0" />
+            </div>
+        </div>
+        <div class="damageaction make-challengeroll">
+            <div class="header" data-attribute="{{data.attribute.value}}" data-boonsbanes="{{data.boonsbanes.value}}">
+                <div class="challenge-img"></div>
+                <div>{{data.attribute.value}} ({{data.boonsbanestext.value}})</div>
+            </div>
         </div>
     </div>
 </div>
