@@ -665,12 +665,13 @@
 
 .demonlord .result .box .tooltip:hover .tooltiptext {
   visibility: visible;
+  text-align: left;
 }
 
 .demonlord .result .box .tooltip .tooltiptext {
   visibility: hidden;
-  width: 70px;
-  background-color: rgba(0, 0, 0, 0.4);
+  width: 260px;
+  background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
   text-align: center;
   border: 1px solid #7a7971;
@@ -966,6 +967,37 @@
 
 .demonlord .gmonly {
   margin-top: 15px;
+}
+
+.demonlord .dice {
+  margin: 2px;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 25px;
+  height: 25px;
+}
+
+.demonlord .dice label {
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  z-index: 1;
+  padding-top: 4px;
+}
+
+.demonlord .dice img {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: none;
+}
+
+.demonlord .modifier {
+  margin: 2px;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
 }
 
 .demonlord .window-content {

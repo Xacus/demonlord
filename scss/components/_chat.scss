@@ -189,12 +189,13 @@
         .tooltip {
             &:hover .tooltiptext {
                 visibility: visible;
+                text-align: left;
             }
 
             .tooltiptext {
                 visibility: hidden;
-                width: 70px;
-                background-color: rgba(0, 0, 0, 0.4);
+                width: 260px;
+                background-color: rgba(0, 0, 0, 0.5);
                 color: #fff;
                 text-align: center;
                 border: 1px solid #7a7971;

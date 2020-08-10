@@ -181,6 +181,9 @@ export class DemonlordActor extends Actor {
         let r = new Roll(diceformular, {});
         r.roll();
 
+        // Format Dice
+        const diceData = this.formatDice(r);
+
         var templateData = {
             actor: this,
             item: {
@@ -196,7 +199,8 @@ export class DemonlordActor extends Actor {
                 resultText: {
                     value: (r._total >= 10 ? "SUCCESS" : "FAILURE")
                 }
-            }
+            },
+            diceData
         };
 
         let chatData = {
@@ -278,6 +282,9 @@ export class DemonlordActor extends Actor {
         let attackRoll = new Roll(diceformular, {});
         attackRoll.roll();
 
+        // Format Dice
+        let diceData = this.formatDice(attackRoll);
+
         //Plus20 roll
         let plus20 = false;
         if (targetNumber != undefined) {
@@ -339,7 +346,8 @@ export class DemonlordActor extends Actor {
                 isCreature: {
                     value: this.data.type == "creature" ? true : false
                 }
-            }
+            },
+            diceData
         };
 
         let chatData = {
@@ -406,6 +414,7 @@ export class DemonlordActor extends Actor {
         let targetNumber = 0;
         let usesText = "";
         let damageformular = "";
+        let diceData = "";
 
         // Generate Character Buffs
         const buffs = this.generateCharacterBuffs("TALENT");
@@ -441,6 +450,9 @@ export class DemonlordActor extends Actor {
 
                 attackRoll = new Roll(diceformular, {});
                 attackRoll.roll();
+
+                // Format Dice
+                diceData = this.formatDice(attackRoll);
 
                 // Roll Against Target
                 targetNumber = this.getVSTargetNumber(talent);
@@ -528,7 +540,8 @@ export class DemonlordActor extends Actor {
                 pureDamage: {
                     value: talent.data?.damage
                 }
-            }
+            },
+            diceData
         }
 
         if (this.data.type == "creature" && game.user.isGM) {
@@ -639,6 +652,9 @@ export class DemonlordActor extends Actor {
         }
         let attackRoll = new Roll(diceformular, {});
         attackRoll.roll();
+
+        // Format Dice
+        let diceData = this.formatDice(attackRoll);
 
         // Roll Against Target
         const targetNumber = this.getTargetNumber(spell);
@@ -757,7 +773,8 @@ export class DemonlordActor extends Actor {
                 challPerception: {
                     value: challPerception
                 }
-            }
+            },
+            diceData
         };
 
         let chatData = {
@@ -1062,5 +1079,57 @@ export class DemonlordActor extends Actor {
             await this.updateEmbeddedEntity("OwnedItem", mod);
             this.render(true);
         }
+    }
+
+    formatDice(diceRoll) {
+        let pushDice = (diceData, total, faces, color) => {
+            let img = null;
+            if ([4, 6, 8, 10, 12, 20].indexOf(faces) > -1) {
+                img = `../icons/svg/d${faces}-grey.svg`;
+            }
+            diceData.dice.push({
+                img: img,
+                result: total,
+                dice: true,
+                color: color
+            });
+        };
+
+        let diceData = { dice: [] };
+        for (let i = 0; i < diceRoll.parts.length; i++) {
+            if (diceRoll.parts[i] instanceof Die) {
+                console.log(diceRoll.parts[i]);
+
+                let pool = diceRoll.parts[i].rolls;
+                let faces = diceRoll.parts[i].faces;
+
+                pool.forEach((pooldie) => {
+                    if (pooldie.discarded) {
+                        pushDice(diceData, pooldie.roll, faces, "#777");
+                    } else {
+                        pushDice(diceData, pooldie.roll, faces, "white");
+                    }
+
+                });
+            } else if (typeof diceRoll.parts[i] == 'string') {
+                const parsed = parseInt(diceRoll.parts[i]);
+                if (!isNaN(parsed)) {
+                    diceData.dice.push({
+                        img: null,
+                        result: parsed,
+                        dice: false,
+                        color: 'white'
+                    });
+                } else {
+                    diceData.dice.push({
+                        img: null,
+                        result: diceRoll.parts[i],
+                        dice: false
+                    });
+                }
+            }
+        }
+
+        return diceData;
     }
 }

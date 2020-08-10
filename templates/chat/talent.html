@@ -48,7 +48,18 @@
             </div>
             <div class="boxborder tooltip">
                 <div class="value">{{data.diceTotal.value}}</div>
-                <span class="tooltiptext">{{data.diceResult.value}}</span>
+                <span class="tooltiptext">
+                    {{#each diceData.dice}}
+                    <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                        <label style="color:{{this.color}};">
+                            {{this.result}}
+                        </label>
+                        {{#if this.img}}
+                        <img src='{{this.img}}' />
+                        {{/if}}
+                    </div>
+                    {{/each}}
+                </span>
             </div>
         </div>
         {{#if data.against.value}}

@@ -12,13 +12,23 @@
                 <div class="targetname">{{data.targetname.value}}</div>
             </div>
         </header>
-
         <div class="result">
             <div class="box {{data.resultText.value}}">
                 <div class="valuetext">{{data.attack.value}}</div>
                 <div class="boxborder tooltip">
                     <div class="value">{{data.diceTotal.value}}</div>
-                    <span class="tooltiptext">{{data.diceResult.value}}</span>
+                    <span class="tooltiptext">
+                        {{#each diceData.dice}}
+                        <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                            <label style="color:{{this.color}};">
+                                {{this.result}}
+                            </label>
+                            {{#if this.img}}
+                            <img src='{{this.img}}' />
+                            {{/if}}
+                        </div>
+                        {{/each}}
+                    </span>
                 </div>
             </div>
             {{#if data.against.value}}

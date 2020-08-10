@@ -229,3 +229,27 @@
 }
 
 .sheet-footer {}
+
+.dice {
+    margin: 2px;
+    display: inline-flex;
+    width: 25px;
+    height: 25px;
+}
+.dice label {
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    padding-top: 4px;
+}
+.dice img {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: none;
+}
+.modifier {
+    margin: 2px;
+    display: inline-flex;
+}
