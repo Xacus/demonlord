@@ -762,6 +762,20 @@
   font-size: 12px;
 }
 
+.demonlord .showinfo {
+  position: relative;
+  top: -20px;
+  left: 40px;
+  float: left;
+  height: 0px;
+  font-size: 12px;
+}
+
+.demonlord .showlessinfo {
+  font-size: 12px;
+  margin-top: -3px;
+}
+
 .demonlord .form-block {
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;

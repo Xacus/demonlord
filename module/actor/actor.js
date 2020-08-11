@@ -30,7 +30,7 @@ export class DemonlordActor extends Actor {
 
         const characterbuffs = this.generateCharacterBuffs();
 
-        const ancestries = this.getEmbeddedCollection("OwnedItem").filter(e => "ancestry" === e.type)
+        const ancestries = this.getEmbeddedCollection("OwnedItem").filter(e => "ancestry" === e.type);
         let savedAncestry = null;
         for (let ancestry of ancestries) {
             savedAncestry = ancestry;
@@ -171,8 +171,8 @@ export class DemonlordActor extends Actor {
 
         // Roll
         let diceformular = "1d20";
-        if (attribute.modifier > 0)
-            diceformular = diceformular + "+" + attribute.modifier;
+        if (attribute)
+            diceformular = diceformular + (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
 
         if (buffs?.challengebonus != "") {
             boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus);
@@ -188,7 +188,6 @@ export class DemonlordActor extends Actor {
 
         var templateData = {
             actor: this,
-            token: canvas.tokens.controlled[0].data,
             item: {
                 name: attribueName.toUpperCase()
             },
@@ -261,13 +260,12 @@ export class DemonlordActor extends Actor {
 
         //if (targetNumber != undefined) {
         // Add Attribute modifer to roll
-        let attackAttribute = weapon.data.data.action.attack;
-        const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
+        let attackAttribute = weapon.data.data.action?.attack;
+        const attribute = this.data.data?.attributes[attackAttribute.toLowerCase()];
 
         // Roll for Attack
-        if (attribute.modifier > 0) {
-            diceformular = diceformular + "+" + attribute.modifier;
-        }
+        if (attribute)
+            diceformular = diceformular + (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
 
         // Add weapon boonsbanes
         if (weapon.data.data.action.boonsbanes != 0) {
@@ -296,8 +294,8 @@ export class DemonlordActor extends Actor {
 
         var templateData = {
             actor: this,
-            token: canvas.tokens.controlled[0].data,
             item: {
+                data: weapon,
                 name: weapon.name
             },
             data: {
@@ -427,8 +425,8 @@ export class DemonlordActor extends Actor {
             const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
 
             if (attackAttribute) {
-                if (attribute.modifier > 0)
-                    diceformular = diceformular + "+" + attribute.modifier;
+                if (attribute)
+                    diceformular += (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
                 roll = true;
 
                 // Add boonsbanes
@@ -440,7 +438,7 @@ export class DemonlordActor extends Actor {
                     boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus);
                 }
                 if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
-                    diceformular = diceformular + "+" + boonsbanes + "d6kh";
+                    diceformular += "+" + boonsbanes + "d6kh";
                 }
 
                 attackRoll = new Roll(diceformular, {});
@@ -479,7 +477,6 @@ export class DemonlordActor extends Actor {
 
         var templateData = {
             actor: this,
-            token: canvas.tokens.controlled[0].data,
             item: {
                 name: talent.name
             },
@@ -637,8 +634,8 @@ export class DemonlordActor extends Actor {
         let challPerception = defenseAttribute == game.i18n.localize('DL.AttributePerception') ? true : false;
 
         // Roll for Attack
-        if (attribute.modifier > 0) {
-            diceformular = diceformular + "+" + attribute.modifier;
+        if (attribute) {
+            diceformular = diceformular + (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
         }
 
         // Add weapon boonsbanes
@@ -671,8 +668,8 @@ export class DemonlordActor extends Actor {
 
         var templateData = {
             actor: this,
-            token: canvas.tokens.controlled[0].data,
             item: {
+                data: spell,
                 name: spell.name
             },
             data: {

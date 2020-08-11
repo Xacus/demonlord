@@ -357,8 +357,34 @@ Hooks.on('preUpdateToken', async (scene, token, updateData, options) => {
 Hooks.on("renderChatLog", (app, html, data) => DemonlordItem.chatListeners(html));
 
 Hooks.on("renderChatMessage", async (app, html, msg) => {
+    var actor = loadActorForChatMessage(msg.message.speaker);
+
+    if (actor && actor.data?.type === "character") {
+        let path = actor.data.data.paths.master != "" ? actor.data.data.paths.master : "";
+        path = actor.data.data.paths.expert != "" ? actor.data.data.paths.expert : "";
+        path = actor.data.data.paths.novice;
+
+        if (game.settings.get('demonlord', 'usingChatPortraitModule'))
+            html.find(".showinfo").prepend(actor.data.data.ancestry + ", " + path);
+        else
+            html.find(".showlessinfo").prepend(actor.data.data.ancestry + ", " + path);
+    }
+
     if (!game.user.isGM) {
         html.find(".gmonly").remove();
+    } else {
+        if (actor && actor.data?.type === "creature") {
+            let status = "Size " + actor.data.data.characteristics.size + " " + actor.data.data.descriptor;
+            if (actor.data.data.frightening)
+                status += ", " + game.i18n.localize('DL.CreatureFrightening');
+            if (actor.data.data.horrifying)
+                status += ", " + game.i18n.localize('DL.CreatureHorrifying');
+
+            if (game.settings.get('demonlord', 'usingChatPortraitModule'))
+                html.find(".showinfo").prepend(status);
+            else
+                html.find(".showlessinfo").prepend(status);
+        }
     }
 });
 
@@ -519,7 +545,7 @@ function healingPotionMacro() {
 
         var templateData = {
             actor: this.actor,
-            token: canvas.tokens.controlled[0].data,
+            token: canvas.tokens.controlled[0]?.data,
             data: {
                 itemname: {
                     value: game.i18n.localize('DL.DialogUseItemHealingPotion')
@@ -583,4 +609,22 @@ function requestRollMacro() {
             ChatMessage.create(chatData);
         });
     }
+}
+
+function loadActorForChatMessage(speaker) {
+    var actor;
+    if (speaker.token) {
+        actor = game.actors.tokens[speaker.token];
+    }
+    if (!actor) {
+        actor = game.actors.get((speaker.actor));
+    }
+    if (!actor) {
+        game.actors.forEach((value) => {
+            if (value.name === speaker.alias) {
+                actor = value;
+            }
+        });
+    }
+    return actor;
 }

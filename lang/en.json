@@ -317,6 +317,8 @@
     "DL.SettingAttackShowEnemyAttributeHint": "Show the enemy stats you are rolling agaist.",
     "DL.SettingAttackReverseDamage": "Reverse Damage/Health",
     "DL.SettingAttackReverseDamageHint": "Substract damage from Health insted of adding damage.",
+    "DL.SettingUsingChatPortraitModule": "Using Chat Portrait Module",
+    "DL.SettingUsingChatPortraitModuleHint": "Use the space below actor name for additional info.",
     "DL.DialogInitiative": "Initiative",
     "DL.DialogInitiativeTurn": "Has chosen to make a ",
     "DL.DialogInitiativeTurnEnd": " turn.",

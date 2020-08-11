@@ -31,4 +31,12 @@ export const registerSettings = function () {
         type: Boolean,
         config: true
     });
+    game.settings.register('demonlord', 'usingChatPortraitModule', {
+        name: game.i18n.localize('DL.SettingUsingChatPortraitModule'),
+        hint: game.i18n.localize('DL.SettingUsingChatPortraitModuleHint'),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 };

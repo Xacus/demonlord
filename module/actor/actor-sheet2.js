@@ -146,6 +146,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
             };
 
             ancestry.push(this.actor.createOwnedItem(itemData));
+        } else if (ancestry.length > 1) {
+            this.actor.deleteEmbeddedEntity("OwnedItem", ancestry[0]._id);
+            this.actor.render(false);
         }
     }
 
@@ -343,7 +346,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
             var templateData = {
                 actor: this.actor,
-                token: canvas.tokens.controlled[0].data,
+                token: canvas.tokens.controlled[0]?.data,
                 item: {
                     name: talent.name
                 },
@@ -761,6 +764,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
         // Drag events for macros.
         if (this.actor.owner) {
             let handler = ev => this._onDragItemStart(ev);
+
             html.find('li.dropitem').each((i, li) => {
                 if (li.classList.contains("inventory-header")) return;
                 li.setAttribute("draggable", true);
@@ -769,6 +773,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
         }
     }
 
+    _onCreateEmbeddedEntity(embeddedName, child, options, userId) {
+        alert("CREATE");
+    }
     /**
      * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
      * @param {Event} event   The originating click event

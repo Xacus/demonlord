@@ -106,7 +106,6 @@ export class DemonlordItem extends Item {
 
         var templateData = {
             actor: this.actor,
-            token: canvas.tokens.controlled[0].data,
             data: {
                 damageTotal: {
                     value: damageRoll._total
@@ -212,7 +211,7 @@ export class DemonlordItem extends Item {
         const item = li.children[0];
         const attribute = item.dataset.attribute;
         const start = li.closest(".demonlord");
-        let boonsbanes = start.children[1].children[0].children[1]?.value;
+        let boonsbanes = start.children[3].children[0].children[1]?.value;
         if (boonsbanes == undefined)
             boonsbanes = parseInt(item.dataset.boba);
         if (isNaN(boonsbanes))
@@ -304,7 +303,7 @@ export class DemonlordItem extends Item {
 
             var templateData = {
                 actor: this.actor,
-                token: canvas.tokens.controlled[0].data,
+                token: canvas.tokens.controlled[0]?.data,
                 data: {}
             };
 

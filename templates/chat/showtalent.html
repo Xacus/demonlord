@@ -1,8 +1,10 @@
 <div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
     {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     <header class="card-header">
+        {{#if token.img}}
         <div class="token-img"><img class="profile-img" src="{{token.img}}" data-edit="img" title="{{actor.name}}"
                 height="40" width="40" /></div>
+        {{/if}}
         <div class="attackbox">
             <div class="header">
                 {{localize "DL.TalentRollTitle"}}
