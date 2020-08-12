@@ -171,7 +171,7 @@ export class DemonlordActor extends Actor {
 
         // Roll
         let diceformular = "1d20";
-        if (attribute)
+        if (attribute && attribute.modifier != 0)
             diceformular = diceformular + (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
 
         if (buffs?.challengebonus != "") {
@@ -264,7 +264,7 @@ export class DemonlordActor extends Actor {
         const attribute = this.data.data?.attributes[attackAttribute.toLowerCase()];
 
         // Roll for Attack
-        if (attribute)
+        if (attribute && attribute.modifier != 0)
             diceformular = diceformular + (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
 
         // Add weapon boonsbanes
@@ -425,7 +425,7 @@ export class DemonlordActor extends Actor {
             const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
 
             if (attackAttribute) {
-                if (attribute)
+                if (attribute && attribute.modifier != 0)
                     diceformular += (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
                 roll = true;
 
@@ -634,7 +634,7 @@ export class DemonlordActor extends Actor {
         let challPerception = defenseAttribute == game.i18n.localize('DL.AttributePerception') ? true : false;
 
         // Roll for Attack
-        if (attribute) {
+        if (attribute && attribute.modifier != 0) {
             diceformular = diceformular + (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
         }
 
