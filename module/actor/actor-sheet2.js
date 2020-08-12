@@ -68,7 +68,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
         // Prepare items.
         if (this.actor.data.type == 'character') {
             this._prepareCharacterItems(data);
-            this._prepareSpellBook(data.actor);
         }
 
         return data;
@@ -95,6 +94,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
         const mods = [];
         const ancestry = [];
         const professions = [];
+        const spellbook = {};
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
@@ -150,37 +150,36 @@ export class DemonlordActorSheet2 extends ActorSheet {
             this.actor.deleteEmbeddedEntity("OwnedItem", ancestry[0]._id);
             this.actor.render(false);
         }
+
+        actorData.spellbook = this._prepareSpellBook(actorData);
     }
 
     /* -------------------------------------------- */
-
     _prepareSpellBook(actorData) {
-        var dictTraditions = [];
-        var dictSpells = [];
+        const spellbook = {};
+        const registerTradition = (i, label) => {
+            spellbook[i] = {
+                tradition: label,
+                spells: []
+            };
+        };
 
-        for (let spell of actorData.spells) {
-            if (spell.data.traditionid) {
-                let tradition = this.actor.getOwnedItem(spell.data.traditionid);
-                if (tradition) {
-                    dictTraditions[spell.data.traditionid] = tradition;
-                    dictSpells.push(spell);
-                }
-            } else {
-                dictTraditions[spell._id] = spell;
+        let s = 0;
+        const traditions = [... new Set(actorData.spells.map(spell => spell.data.tradition))];
+        traditions.sort().forEach(tradition => {
+            if (tradition != undefined) {
+                registerTradition(s, tradition);
+
+                actorData.spells.forEach(spell => {
+                    if (spell.data.tradition == tradition) {
+                        spellbook[s].spells.push(spell);
+                    }
+                });
+                s++
             }
-        }
+        });
 
-        actorData.spells = [];
-
-        for (let [key, tradition] of Object.entries(dictTraditions)) {
-            actorData.spells.push(tradition);
-
-            for (let spell of dictSpells) {
-                if (key == spell.data.traditionid) {
-                    actorData.spells.push(spell);
-                }
-            }
-        }
+        return spellbook;
     }
 
     /** @override */

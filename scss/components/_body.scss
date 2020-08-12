@@ -26,6 +26,12 @@
     overflow-y: auto;
     margin: 5px 10px 20px 0;
 
+    .tradition-header {
+        margin-top: 15px;
+        font-weight: bold;
+        font-family: $font-header;
+    }
+
     .item-header {
         height: 16px;
         border-bottom: 1px solid var(--demonlord-red);

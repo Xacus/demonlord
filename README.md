@@ -76,10 +76,10 @@ Damage, Insanity and Corruption can be increased and decreased by left/right cli
 - [x] Calculating characteristics.
 - [x] Creature statblock - Fase 2, Special Attack are Talents.
 - [x] New design.
+- [x] Actor Mods - Fase 2. (Your character buffs)
+- [x] Redesign Magic.
 - [ ] Redesign Background (Paths, Professions, Wealth).
-- [ ] Redesign Magic.
 - [ ] New Paths system. Calculating Attributes and Health.
-- [ ] Actor Mods - Fase 2. (Your character buffs)
 - [ ] Afflictions - Fase 3.
 - [ ] Level up system.
 - [ ] Rules Engine.

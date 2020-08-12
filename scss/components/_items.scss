@@ -10,6 +10,12 @@
     margin-top: 5px;
     margin-bottom: 15px;
 
+    .tradition-header {
+        margin-top: 15px;
+        font-weight: bold;
+        font-family: $font-header;
+    }
+    
     .item-header {
         height: 16px;
         border-bottom: 1px solid #BBB;

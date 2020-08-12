@@ -1958,6 +1958,12 @@
   margin-bottom: 15px;
 }
 
+.demonlord .items-list .tradition-header {
+  margin-top: 15px;
+  font-weight: bold;
+  font-family: "IM Fell English SC", serif;
+}
+
 .demonlord .items-list .item-header {
   height: 16px;
   border-bottom: 1px solid #BBB;

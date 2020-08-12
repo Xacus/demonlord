@@ -1536,6 +1536,12 @@
   margin: 5px 10px 20px 0;
 }
 
+.demonlord2 .items-list .tradition-header {
+  margin-top: 15px;
+  font-weight: bold;
+  font-family: "IM Fell English SC", serif;
+}
+
 .demonlord2 .items-list .item-header {
   height: 16px;
   border-bottom: 1px solid var(--demonlord-red);
