@@ -1949,6 +1949,11 @@
   margin-top: -6px;
 }
 
+.demonlord .tradition-header {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
 .demonlord .items-list {
   list-style: none;
   margin: 0;
@@ -1956,12 +1961,6 @@
   overflow-y: auto;
   margin-top: 5px;
   margin-bottom: 15px;
-}
-
-.demonlord .items-list .tradition-header {
-  margin-top: 15px;
-  font-weight: bold;
-  font-family: "IM Fell English SC", serif;
 }
 
 .demonlord .items-list .item-header {

@@ -2,6 +2,11 @@
     margin-top: -6px;
 }
 
+.tradition-header {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
 .items-list {
     list-style: none;
     margin: 0;
@@ -9,12 +14,6 @@
     overflow-y: auto;
     margin-top: 5px;
     margin-bottom: 15px;
-
-    .tradition-header {
-        margin-top: 15px;
-        font-weight: bold;
-        font-family: $font-header;
-    }
     
     .item-header {
         height: 16px;

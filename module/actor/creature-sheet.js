@@ -79,5 +79,34 @@ export class DemonlordCreatureSheet extends DemonlordActorSheet {
         actorData.magic = magic;
         actorData.endoftheround = endoftheround;
         actorData.talents = talents;
+
+        actorData.spellbook = this._prepareSpellBook(actorData);
+    }
+
+    _prepareSpellBook(actorData) {
+        const spellbook = {};
+        const registerTradition = (i, label) => {
+            spellbook[i] = {
+                tradition: label,
+                spells: []
+            };
+        };
+
+        let s = 0;
+        const traditions = [... new Set(actorData.spells.map(spell => spell.data.tradition))];
+        traditions.sort().forEach(tradition => {
+            if (tradition != undefined) {
+                registerTradition(s, tradition);
+
+                actorData.spells.forEach(spell => {
+                    if (spell.data.tradition == tradition) {
+                        spellbook[s].spells.push(spell);
+                    }
+                });
+                s++
+            }
+        });
+
+        return spellbook;
     }
 }

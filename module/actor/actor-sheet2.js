@@ -828,17 +828,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
     _onSpellCreate(event) {
         event.preventDefault();
 
-        const li = event.currentTarget.closest("li");
-        const tradition = this.actor.getOwnedItem(li.dataset.itemId);
-
-        //arr.splice(2, 0, "Lene");
-
         const header = event.currentTarget;
         // Get the type of item to create.
         const type = header.dataset.type;
         // Grab any data associated with this control.
         const data = duplicate(header.dataset);
-        data.traditionid = li.dataset.itemId;
         // Initialize a default name.
         const name = `New ${type.capitalize()}`;
         // Prepare the item object.
