@@ -75,7 +75,7 @@ Hooks.once('init', async function () {
 
     Actors.registerSheet("demonlord", DemonlordCreatureSheet, {
         types: ['creature'],
-        makeDefault: true
+        makeDefault: false
     });
 
     Items.unregisterSheet("core", ItemSheet);
