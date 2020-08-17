@@ -173,6 +173,7 @@
   "DL.SpellRollTriggered": "Desencadeada",
   "DL.SpellEffectDice": "Effect Dice",
   "DL.SpellEffectDiceResult": "Result:",
+  "DL.SpellMaxUsesReached": "Maximum uses of the spell reached",
   "DL.ChallengeRollText": "Jogada de desafio:",
   "DL.ChallengeRequestRollText": "Request Challenge Roll:",
   "DL.ChallengeVS": "VS",

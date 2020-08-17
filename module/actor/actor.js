@@ -582,51 +582,57 @@ export class DemonlordActor extends Actor {
                 }
             });
         }
-
     }
 
     rollSpell(itemId, options = { event: null }) {
-        const item = this.getOwnedItem(itemId);
-        let attackAttribute = item.data.data?.action?.attack;
+        const item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+        let attackAttribute = item.data?.action?.attack;
+        let uses = parseInt(item.data?.castings?.value);
+        let usesmax = parseInt(item.data?.castings?.max);
 
-        if (attackAttribute) {
-            if (item.data.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
-                let d = new Dialog({
-                    title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
-                    content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-                    buttons: {
-                        roll: {
-                            icon: '<i class="fas fa-check"></i>',
-                            label: game.i18n.localize('DL.DialogRoll'),
-                            callback: (html) => this.useSpell(item, html.children()[1].value)
+        if ((uses == 0 && usesmax == 0) || uses != usesmax) {
+            if (attackAttribute) {
+                if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
+                    let d = new Dialog({
+                        title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
+                        content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                        buttons: {
+                            roll: {
+                                icon: '<i class="fas fa-check"></i>',
+                                label: game.i18n.localize('DL.DialogRoll'),
+                                callback: (html) => this.useSpell(item, html.children()[1].value)
+                            },
+                            cancel: {
+                                icon: '<i class="fas fa-times"></i>',
+                                label: game.i18n.localize('DL.DialogCancel'),
+                                callback: () => { }
+                            }
                         },
-                        cancel: {
-                            icon: '<i class="fas fa-times"></i>',
-                            label: game.i18n.localize('DL.DialogCancel'),
-                            callback: () => { }
-                        }
-                    },
-                    default: "roll",
-                    close: () => { }
-                });
-                d.render(true);
+                        default: "roll",
+                        close: () => { }
+                    });
+                    d.render(true);
+                } else {
+                    this.useSpell(item, 0);
+                }
             } else {
                 this.useSpell(item, 0);
             }
         } else {
-            this.useSpell(item, 0);
+            ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'));
         }
     }
 
     useSpell(spell, boonsbanes) {
         const target = this.getTarget();
         let diceformular = "1d20";
+        let usesText = "";
 
         // Add Attribute modifer to roll
-        let attackAttribute = spell.data.data?.action?.attack;
+        let attackAttribute = spell.data?.action?.attack;
         const attribute = this.data.data.attributes[attackAttribute.toLowerCase()];
 
-        let defenseAttribute = spell.data.data?.action?.defense;
+        let defenseAttribute = spell.data?.action?.defense;
         let challStrength = defenseAttribute == game.i18n.localize('DL.AttributeStrength') ? true : false;
         let challAgility = defenseAttribute == game.i18n.localize('DL.AttributeAgility') ? true : false;
         let challIntellect = defenseAttribute == game.i18n.localize('DL.AttributeIntellect') ? true : false;
@@ -640,7 +646,7 @@ export class DemonlordActor extends Actor {
 
         // Add weapon boonsbanes
         if (spell.data.data?.action?.boonsbanes != 0) {
-            boonsbanes = parseInt(boonsbanes) + parseInt(spell.data?.data?.action?.boonsbanes);
+            boonsbanes = parseInt(boonsbanes) + parseInt(spell.data?.action?.boonsbanes);
         }
 
         if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
@@ -660,10 +666,25 @@ export class DemonlordActor extends Actor {
 
         // Effect Dice roll
         let effectdice = "";
-        if (spell.data.data.effectdice != "" && spell.data.data.effectdice != undefined) {
-            let effectRoll = new Roll(spell.data.data.effectdice, {});
+        if (spell.data.effectdice != "" && spell.data.effectdice != undefined) {
+            let effectRoll = new Roll(spell.data.effectdice, {});
             effectRoll.roll();
             effectdice = effectRoll._total;
+        }
+
+        if (parseInt(spell.data?.castings?.value) >= 0 && parseInt(spell.data?.castings?.max) > 0) {
+            let uses = parseInt(spell.data?.castings?.value);
+            let usesmax = parseInt(spell.data?.castings?.max);
+
+            if (uses < usesmax) {
+                spell.data.castings.value = Number(uses) + 1;
+                uses++;
+            } else {
+                spell.data.castings.value = 0;
+            }
+            this.updateEmbeddedEntity('OwnedItem', spell);
+
+            usesText = game.i18n.localize('DL.SpellCastingsUses') + ": " + uses + " / " + usesmax;
         }
 
         var templateData = {
@@ -689,55 +710,55 @@ export class DemonlordActor extends Actor {
                     value: attackAttribute.toUpperCase()
                 },
                 against: {
-                    value: spell.data.data.action?.against.toUpperCase()
+                    value: spell.data.action?.against.toUpperCase()
                 },
                 againstNumber: {
                     value: target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') ? targetNumber : "?"
                 },
                 damageFormular: {
-                    value: spell.data.data.action?.damage
+                    value: spell.data.action?.damage
                 },
                 damageExtra20plusFormular: {
-                    value: spell.data.data.action?.plus20damage
+                    value: spell.data.action?.plus20damage
                 },
                 attribute: {
-                    value: spell.data.data?.attribute
+                    value: spell.data?.attribute
                 },
                 plus20: {
                     value: plus20
                 },
                 plus20text: {
-                    value: spell.data.data?.action?.plus20
+                    value: spell.data?.action?.plus20
                 },
                 description: {
-                    value: spell.data.data?.description
+                    value: spell.data?.description
                 },
                 spellcastings: {
-                    value: spell.data.data?.castings?.max
+                    value: spell.data?.castings?.max
                 },
                 spellduration: {
-                    value: spell.data.data?.duration
+                    value: spell.data?.duration
                 },
                 spelltarget: {
-                    value: spell.data.data?.target
+                    value: spell.data?.target
                 },
                 spellarea: {
-                    value: spell.data.data?.area
+                    value: spell.data?.area
                 },
                 spellrequirements: {
-                    value: spell.data.data?.requirements
+                    value: spell.data?.requirements
                 },
                 spellsacrifice: {
-                    value: spell.data.data?.sacrifice
+                    value: spell.data?.sacrifice
                 },
                 spellpermanence: {
-                    value: spell.data.data?.permanence
+                    value: spell.data?.permanence
                 },
                 spellspecial: {
-                    value: spell.data.data?.special
+                    value: spell.data?.special
                 },
                 spelltriggered: {
-                    value: spell.data.data?.triggered
+                    value: spell.data?.triggered
                 },
                 tagetname: {
                     value: target != null ? target.name : ""
@@ -746,10 +767,10 @@ export class DemonlordActor extends Actor {
                     value: effectdice
                 },
                 defense: {
-                    value: spell.data.data?.action?.defense
+                    value: spell.data?.action?.defense
                 },
                 defenseboonsbanes: {
-                    value: parseInt(spell.data.data?.action?.defenseboonsbanes)
+                    value: parseInt(spell.data?.action?.defenseboonsbanes)
                 },
                 challStrength: {
                     value: challStrength
@@ -765,6 +786,9 @@ export class DemonlordActor extends Actor {
                 },
                 challPerception: {
                     value: challPerception
+                },
+                uses: {
+                    value: usesText
                 }
             },
             diceData

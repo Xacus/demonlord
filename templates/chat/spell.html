@@ -25,6 +25,9 @@
         </div>
     </header>
     {{/if}}
+    {{#if data.uses.value}}
+    <div class="chat-uses">{{data.uses.value}}</div>
+    {{/if}}
     {{#if data.attack.value}}
     <div class="result">
         <div class="box {{data.resultText.value}}">
