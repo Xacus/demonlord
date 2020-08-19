@@ -34,7 +34,13 @@
     </header>
     {{/if}}
     {{#if data.uses.value}}
+    {{#if data.isCreature.value}}
+    <div class="gmonly">
+        <div class="chat-uses">{{data.uses.value}}</div>
+    </div>
+    {{else}}
     <div class="chat-uses">{{data.uses.value}}</div>
+    {{/if}}
     {{/if}}
     {{#if data.roll.value}}
     <div class="result">
@@ -48,6 +54,22 @@
             </div>
             <div class="boxborder tooltip">
                 <div class="value">{{data.diceTotal.value}}</div>
+                {{#if data.isCreature.value}}
+                <div class="gmonly">
+                    <span class="tooltiptext">
+                        {{#each diceData.dice}}
+                        <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                            <label style="color:{{this.color}};">
+                                {{this.result}}
+                            </label>
+                            {{#if this.img}}
+                            <img src='{{this.img}}' />
+                            {{/if}}
+                        </div>
+                        {{/each}}
+                    </span>
+                </div>
+                {{else}}
                 <span class="tooltiptext">
                     {{#each diceData.dice}}
                     <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
@@ -60,6 +82,7 @@
                     </div>
                     {{/each}}
                 </span>
+                {{/if}}
             </div>
         </div>
         {{#if data.against.value}}
@@ -78,16 +101,31 @@
     </div>
     {{/if}}
     {{#if data.effects.value}}
+    {{#if data.isCreature.value}}
+    <div class="gmonly">
+        <div class="description">
+            <div class="header">{{localize "DL.TalentRollEffects"}}</div>
+            <div class="body">{{{data.effects.value}}}</div>
+        </div>
+    </div>
+    {{else}}
     <div class="description">
         <div class="header">{{localize "DL.TalentRollEffects"}}</div>
         <div class="body">{{{data.effects.value}}}</div>
     </div>
     {{/if}}
+    {{/if}}
     {{#if data.description.value}}
     {{#if data.isCreature.value}}
+    <div class="gmonly">
+        <div class="description">
+            <div class="header">{{localize "DL.AttackRollDescription"}}</div>
+            <div class="body">{{{data.description.value}}}</div>
+        </div>
+    </div>
     {{else}}
     <div class="description">
-        <div class="header">{{localize "DL.TalentRollDescription"}}</div>
+        <div class="header">{{localize "DL.AttackRollDescription"}}</div>
         <div class="body">{{{data.description.value}}}</div>
     </div>
     {{/if}}
@@ -106,6 +144,34 @@
         </div>
     </div>
     {{/if}}
+    {{#if data.isCreature.value}}
+    <div class="gmonly">
+        {{#if data.damageFormular.value}}
+        <div class="combatactions roll-damage">
+            <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageFormular.value}}">
+                <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
+                <div>{{localize "DL.DialogTalentRollDamage"}} ({{data.damageFormular.value}})</div>
+            </div>
+        </div>
+        {{/if}}
+        {{#if data.pureDamage.value}}
+        <div class="combatactions roll-damage">
+            <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.pureDamage.value}}">
+                <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
+                <div>{{localize "DL.DialogTalentRollDamage"}} ({{data.pureDamage.value}})</div>
+            </div>
+        </div>
+        {{/if}}
+        {{#if data.damageExtra20plusFormular.value}}
+        <div class="combatactions roll-damage">
+            <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageExtra20plusFormular.value}}">
+                <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
+                <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular.value}})</div>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+    {{else}}
     {{#if data.damageFormular.value}}
     <div class="combatactions roll-damage">
         <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageFormular.value}}">
@@ -129,5 +195,6 @@
             <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular.value}})</div>
         </div>
     </div>
+    {{/if}}
     {{/if}}
 </div>

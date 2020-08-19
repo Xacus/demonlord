@@ -228,32 +228,38 @@ export class DemonlordActor extends Actor {
 
     rollWeaponAttack(itemId, options = { event: null }) {
         const item = this.getOwnedItem(itemId);
+        let attackAttribute = item.data.data.action?.attack;
         const characterbuffs = this.generateCharacterBuffs("ATTACK");
 
-        let d = new Dialog({
-            title: game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name),
-            content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-            buttons: {
-                roll: {
-                    icon: '<i class="fas fa-check"></i>',
-                    label: game.i18n.localize('DL.DialogRoll'),
-                    callback: (html) => this.rollAttack(item, html.children()[1].value, characterbuffs)
+        if (attackAttribute) {
+            let d = new Dialog({
+                title: game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name),
+                content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                buttons: {
+                    roll: {
+                        icon: '<i class="fas fa-check"></i>',
+                        label: game.i18n.localize('DL.DialogRoll'),
+                        callback: (html) => this.rollAttack(item, html.children()[1].value, characterbuffs)
+                    },
+                    cancel: {
+                        icon: '<i class="fas fa-times"></i>',
+                        label: game.i18n.localize('DL.DialogCancel'),
+                        callback: () => { }
+                    }
                 },
-                cancel: {
-                    icon: '<i class="fas fa-times"></i>',
-                    label: game.i18n.localize('DL.DialogCancel'),
-                    callback: () => { }
-                }
-            },
-            default: "roll",
-            close: () => { }
-        });
-        d.render(true);
+                default: "roll",
+                close: () => { }
+            });
+            d.render(true);
+        } else {
+            this.rollAttack(item, 0, characterbuffs)
+        }
     }
 
     rollAttack(weapon, boonsbanes, buffs) {
         const target = this.getTarget();
         let diceformular = "1d20";
+        let attackRoll = null;
 
         // Roll Against Target
         const targetNumber = this.getTargetNumber(weapon);
@@ -263,25 +269,27 @@ export class DemonlordActor extends Actor {
         let attackAttribute = weapon.data.data.action?.attack;
         const attribute = this.data.data?.attributes[attackAttribute.toLowerCase()];
 
-        // Roll for Attack
-        if (attribute && attribute.modifier != 0)
-            diceformular = diceformular + (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
+        if (attackAttribute) {
+            // Roll for Attack
+            if (attribute && attribute.modifier != 0)
+                diceformular = diceformular + (attribute.modifier > 0 ? "+" + attribute.modifier : attribute.modifier);
 
-        // Add weapon boonsbanes
-        if (weapon.data.data.action.boonsbanes != 0) {
-            boonsbanes = parseInt(boonsbanes) + parseInt(weapon.data.data.action.boonsbanes);
-        }
+            // Add weapon boonsbanes
+            if (weapon.data.data.action.boonsbanes != 0) {
+                boonsbanes = parseInt(boonsbanes) + parseInt(weapon.data.data.action.boonsbanes);
+            }
 
-        // Add buffs from Talents
-        if (buffs?.attackbonus != "") {
-            boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackbonus);
-        }
+            // Add buffs from Talents
+            if (buffs?.attackbonus != "") {
+                boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackbonus);
+            }
 
-        if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
-            diceformular = diceformular + "+" + boonsbanes + "d6kh";
+            if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
+                diceformular = diceformular + "+" + boonsbanes + "d6kh";
+            }
+            attackRoll = new Roll(diceformular, {});
+            attackRoll.roll();
         }
-        let attackRoll = new Roll(diceformular, {});
-        attackRoll.roll();
 
         // Format Dice
         let diceData = this.formatDice(attackRoll);
@@ -300,10 +308,10 @@ export class DemonlordActor extends Actor {
             },
             data: {
                 diceTotal: {
-                    value: attackRoll._total
+                    value: attackRoll != null ? attackRoll._total : ""
                 },
                 diceResult: {
-                    value: attackRoll.result.toString()
+                    value: attackRoll != null ? attackRoll.result.toString() : ""
                 },
                 resultText: {
                     value: attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
@@ -355,10 +363,11 @@ export class DemonlordActor extends Actor {
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;
 
-            if (game.dice3d) {
+            if (game.dice3d && attackRoll != null) {
                 game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
             } else {
-                chatData.sound = CONFIG.sounds.dice;
+                if (attackRoll != null)
+                    chatData.sound = CONFIG.sounds.dice;
                 ChatMessage.create(chatData);
             }
         });
@@ -371,29 +380,35 @@ export class DemonlordActor extends Actor {
 
     rollTalent(itemId, options = { event: null }) {
         let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+        let uses = parseInt(item.data?.uses?.value);
+        let usesmax = parseInt(item.data?.uses?.max);
 
-        if (item.data?.vs?.attribute) {
-            let d = new Dialog({
-                title: game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
-                content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-                buttons: {
-                    roll: {
-                        icon: '<i class="fas fa-check"></i>',
-                        label: game.i18n.localize('DL.DialogRoll'),
-                        callback: (html) => this.useTalent(item, html.children()[1].value)
+        if ((uses == 0 && usesmax == 0) || uses != usesmax) {
+            if (item.data?.vs?.attribute) {
+                let d = new Dialog({
+                    title: game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
+                    content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                    buttons: {
+                        roll: {
+                            icon: '<i class="fas fa-check"></i>',
+                            label: game.i18n.localize('DL.DialogRoll'),
+                            callback: (html) => this.useTalent(item, html.children()[1].value)
+                        },
+                        cancel: {
+                            icon: '<i class="fas fa-times"></i>',
+                            label: game.i18n.localize('DL.DialogCancel'),
+                            callback: () => { }
+                        }
                     },
-                    cancel: {
-                        icon: '<i class="fas fa-times"></i>',
-                        label: game.i18n.localize('DL.DialogCancel'),
-                        callback: () => { }
-                    }
-                },
-                default: "roll",
-                close: () => { }
-            });
-            d.render(true);
+                    default: "roll",
+                    close: () => { }
+                });
+                d.render(true);
+            } else {
+                this.useTalent(item, null)
+            }
         } else {
-            this.useTalent(item, null)
+            ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'));
         }
     }
 
@@ -538,25 +553,6 @@ export class DemonlordActor extends Actor {
                 }
             },
             diceData
-        }
-
-        if (this.data.type == "creature" && game.user.isGM) {
-            let chatDataCre = {
-                user: game.user._id,
-                speaker: {
-                    actor: this._id,
-                    token: this.token,
-                    alias: this.name
-                }
-            };
-
-            chatDataCre["whisper"] = ChatMessage.getWhisperRecipients("GM");
-
-            let template = 'systems/demonlord/templates/chat/description.html';
-            renderTemplate(template, templateData).then(content => {
-                chatDataCre.content = content;
-                ChatMessage.create(chatDataCre);
-            });
         }
 
         let chatData = {
@@ -789,6 +785,9 @@ export class DemonlordActor extends Actor {
                 },
                 uses: {
                     value: usesText
+                },
+                isCreature: {
+                    value: this.data.type == "creature" ? true : false
                 }
             },
             diceData
@@ -1099,48 +1098,51 @@ export class DemonlordActor extends Actor {
     }
 
     formatDice(diceRoll) {
-        let pushDice = (diceData, total, faces, color) => {
-            let img = null;
-            if ([4, 6, 8, 10, 12, 20].indexOf(faces) > -1) {
-                img = `../icons/svg/d${faces}-grey.svg`;
-            }
-            diceData.dice.push({
-                img: img,
-                result: total,
-                dice: true,
-                color: color
-            });
-        };
-
         let diceData = { dice: [] };
-        for (let i = 0; i < diceRoll.parts.length; i++) {
-            if (diceRoll.parts[i] instanceof Die) {
-                let pool = diceRoll.parts[i].rolls;
-                let faces = diceRoll.parts[i].faces;
 
-                pool.forEach((pooldie) => {
-                    if (pooldie.discarded) {
-                        pushDice(diceData, pooldie.roll, faces, "#777");
-                    } else {
-                        pushDice(diceData, pooldie.roll, faces, "white");
-                    }
-
+        if (diceRoll != null) {
+            let pushDice = (diceData, total, faces, color) => {
+                let img = null;
+                if ([4, 6, 8, 10, 12, 20].indexOf(faces) > -1) {
+                    img = `../icons/svg/d${faces}-grey.svg`;
+                }
+                diceData.dice.push({
+                    img: img,
+                    result: total,
+                    dice: true,
+                    color: color
                 });
-            } else if (typeof diceRoll.parts[i] == 'string') {
-                const parsed = parseInt(diceRoll.parts[i]);
-                if (!isNaN(parsed)) {
-                    diceData.dice.push({
-                        img: null,
-                        result: parsed,
-                        dice: false,
-                        color: 'white'
+            };
+
+            for (let i = 0; i < diceRoll.parts.length; i++) {
+                if (diceRoll.parts[i] instanceof Die) {
+                    let pool = diceRoll.parts[i].rolls;
+                    let faces = diceRoll.parts[i].faces;
+
+                    pool.forEach((pooldie) => {
+                        if (pooldie.discarded) {
+                            pushDice(diceData, pooldie.roll, faces, "#777");
+                        } else {
+                            pushDice(diceData, pooldie.roll, faces, "white");
+                        }
+
                     });
-                } else {
-                    diceData.dice.push({
-                        img: null,
-                        result: diceRoll.parts[i],
-                        dice: false
-                    });
+                } else if (typeof diceRoll.parts[i] == 'string') {
+                    const parsed = parseInt(diceRoll.parts[i]);
+                    if (!isNaN(parsed)) {
+                        diceData.dice.push({
+                            img: null,
+                            result: parsed,
+                            dice: false,
+                            color: 'white'
+                        });
+                    } else {
+                        diceData.dice.push({
+                            img: null,
+                            result: diceRoll.parts[i],
+                            dice: false
+                        });
+                    }
                 }
             }
         }

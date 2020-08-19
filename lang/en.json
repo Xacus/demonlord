@@ -126,6 +126,7 @@
     "DL.TalentEdit": "Edit talent",
     "DL.TalentView": "View talent info",
     "DL.TalentDelete": "Delete talent",
+    "DL.TalentMaxUsesReached": "Maximum uses of the talent reached",
     "DL.MagicTitle": "Magic",
     "DL.BackgroundTitle": "Background",
     "DL.CharacterTitle": "Character",
