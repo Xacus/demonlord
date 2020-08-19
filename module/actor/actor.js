@@ -200,6 +200,9 @@ export class DemonlordActor extends Actor {
                 },
                 resultText: {
                     value: (r._total >= 10 ? "SUCCESS" : "FAILURE")
+                },
+                isCreature: {
+                    value: this.data.type == "creature" ? true : false
                 }
             },
             diceData
@@ -284,9 +287,12 @@ export class DemonlordActor extends Actor {
                 boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackbonus);
             }
 
-            if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
-                diceformular = diceformular + "+" + boonsbanes + "d6kh";
+            if (boonsbanes == undefined || boonsbanes == NaN || boonsbanes == 0) {
+                boonsbanes = 0;
+            } else {
+                diceformular += "+" + boonsbanes + "d6kh";
             }
+
             attackRoll = new Roll(diceformular, {});
             attackRoll.roll();
         }
@@ -453,6 +459,11 @@ export class DemonlordActor extends Actor {
                     boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus);
                 }
                 if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
+                    diceformular += "+" + boonsbanes + "d6kh";
+                }
+                if (boonsbanes == undefined || boonsbanes == NaN || boonsbanes == 0) {
+                    boonsbanes = 0;
+                } else {
                     diceformular += "+" + boonsbanes + "d6kh";
                 }
 
@@ -641,12 +652,13 @@ export class DemonlordActor extends Actor {
         }
 
         // Add weapon boonsbanes
-        if (spell.data.data?.action?.boonsbanes != 0) {
+        if (spell.data?.action?.boonsbanes != 0) {
             boonsbanes = parseInt(boonsbanes) + parseInt(spell.data?.action?.boonsbanes);
         }
-
-        if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
-            diceformular = diceformular + "+" + boonsbanes + "d6kh";
+        if (boonsbanes == undefined || boonsbanes == NaN || boonsbanes == 0) {
+            boonsbanes = 0;
+        } else {
+            diceformular += "+" + boonsbanes + "d6kh";
         }
         let attackRoll = new Roll(diceformular, {});
         attackRoll.roll();
@@ -825,12 +837,16 @@ export class DemonlordActor extends Actor {
         return selectedTarget;
     }
 
-    getTargetNumber(weapon) {
+    getTargetNumber(item) {
         let tagetNumber;
         game.user.targets.forEach(async target => {
             const targetActor = target.actor;
             if (targetActor) {
-                let againstSelectedAttribute = weapon.data.data?.action?.against?.toLowerCase();
+                let againstSelectedAttribute = item.data.data?.action?.against?.toLowerCase();
+
+                if (againstSelectedAttribute == undefined)
+                    againstSelectedAttribute = item.data.action?.against?.toLowerCase();
+
                 if (againstSelectedAttribute == "defense") {
                     tagetNumber = targetActor.data.data?.characteristics?.defense;
                 } else {

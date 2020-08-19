@@ -210,8 +210,8 @@ export class DemonlordItem extends Item {
         const li = event.currentTarget;
         const item = li.children[0];
         const attribute = item.dataset.attribute;
-        const start = li.closest(".demonlord");
-        let boonsbanes = start.children[3].children[0].children[1]?.value;
+        const start = li.closest(".request-challengeroll");
+        let boonsbanes = start.children[0].value;
         if (boonsbanes == undefined)
             boonsbanes = parseInt(item.dataset.boba);
         if (isNaN(boonsbanes))

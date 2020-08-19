@@ -12,6 +12,22 @@
             <div class="valuetext">{{item.name}}</div>
             <div class="boxborder tooltip">
                 <div class="value">{{data.diceTotal.value}}</div>
+                {{#if data.isCreature.value}}
+                <div class="gmonly">
+                    <span class="tooltiptext">
+                        {{#each diceData.dice}}
+                        <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                            <label style="color:{{this.color}};">
+                                {{this.result}}
+                            </label>
+                            {{#if this.img}}
+                            <img src='{{this.img}}' />
+                            {{/if}}
+                        </div>
+                        {{/each}}
+                    </span>
+                </div>
+                {{else}}
                 <span class="tooltiptext">
                     {{#each diceData.dice}}
                     <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
@@ -24,6 +40,7 @@
                     </div>
                     {{/each}}
                 </span>
+                {{/if}}
             </div>
         </div>
         <div class="boxvs">
