@@ -9,7 +9,7 @@
         </div>
     </li>
     {{#each actor.weapons as |weapon id|}}
-    <li class="item dropitem" data-item-id="{{weapon._id}}">
+    <li class="item wearitem dropitem" data-item-id="{{weapon._id}}">
         <div class="item-image">
             <img src="{{weapon.img}}" title="{{weapon.name}}" width="30" height="30" />
         </div>
@@ -20,8 +20,11 @@
         <div class="bonesbanes">
             {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}
         </div>
-        <div class="properties">{{data.properties}}</div>
+        <div class="properties">{{data.properties}}{{#if data.strengthmin}}{{#if data.properties}},
+            {{/if}}{{localize 'DL.ArmorStrengthMin'}} {{data.strengthmin}}{{/if}}</div>
         <div class="item-controls">
+            <a class="item-control {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}"
+                title="{{localize 'DL.WeaponWear'}}"><i class="fas fa-tshirt"></i></a>
             <a class="item-control item-edit" title="{{localize 'DL.WeaponEdit'}}"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-trash"></i></a>
         </div>
@@ -37,7 +40,7 @@
         </div>
     </li>
     {{#each actor.armor as |armor id|}}
-    <li class="item item-align armoritem dropitem" data-item-id="{{armor._id}}">
+    <li class="item item-align wearitem dropitem" data-item-id="{{armor._id}}">
         <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="30" height="30" /></div>
         <div class="weaponname">
             {{armor.name}}

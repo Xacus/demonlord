@@ -79,12 +79,14 @@ export class DemonlordActor extends Actor {
         let armorpoint = 0;
         let agilitypoint = 0;
         let defenseBonus = 0;
+        let speedPenalty = 0;
         for (let armor of armors) {
-            if (armor.data.strengthmin != "" && (parseInt(armor.data.strengthmin) > parseInt(data.attributes.strength.value))) {
-                armor.data.wear = false;
-            }
-
             if (armor.data.wear) {
+                // If you wear armor and do not meet or exceed its requirements: -2 speed
+                if (armor.data.strengthmin != "" && (parseInt(armor.data.strengthmin) > parseInt(data.attributes.strength.value))) {
+                    speedPenalty = -2;
+                }
+
                 if (armor.data.agility && agilitypoint == 0)
                     agilitypoint = parseInt(armor.data.agility);
                 if (armor.data.fixed)
@@ -99,7 +101,10 @@ export class DemonlordActor extends Actor {
         else
             data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(defenseBonus) + parseInt(agilitypoint);
 
+        characterbuffs.speedbonus += speedPenalty;
+
         data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(characterbuffs.defensebonus);
+        data.characteristics.speed = parseInt(data.characteristics.speed) + parseInt(characterbuffs.speedbonus);
     }
 
     async createItemCreate(event) {
@@ -216,7 +221,11 @@ export class DemonlordActor extends Actor {
                 alias: this.name
             }
         };
-
+        /*
+                if (this.data.type == "creature") {
+                    chatData.whisper = game.user._id;
+                }
+        */
         let template = 'systems/demonlord/templates/chat/challenge.html';
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;
@@ -267,7 +276,6 @@ export class DemonlordActor extends Actor {
         // Roll Against Target
         const targetNumber = this.getTargetNumber(weapon);
 
-        //if (targetNumber != undefined) {
         // Add Attribute modifer to roll
         let attackAttribute = weapon.data.data.action?.attack;
         const attribute = this.data.data?.attributes[attackAttribute.toLowerCase()];
@@ -286,6 +294,14 @@ export class DemonlordActor extends Actor {
             if (buffs?.attackbonus != "") {
                 boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackbonus);
             }
+
+            // If you wear a weapon and do not meet or exceed its requirements: -1 Bane
+            if (weapon.data.data.wear) {
+                if (weapon.data.data.strengthmin != "" && (parseInt(weapon.data.data.strengthmin) > parseInt(this.data.data?.attributes?.strength?.value))) {
+                    boonsbanes--;
+                }
+            }
+
 
             if (boonsbanes == undefined || boonsbanes == NaN || boonsbanes == 0) {
                 boonsbanes = 0;
@@ -934,6 +950,18 @@ export class DemonlordActor extends Actor {
         characterbuffs.challengebonus += itemChallengebonus;
         characterbuffs.attackdamagebonus += itemDamageBonus;
         characterbuffs.defensebonus += itemDefenseBonus;
+
+        // If you wear armor and do not meet or exceed its requirements: -1 Bane
+        const armors = this.getEmbeddedCollection("OwnedItem").filter(e => "armor" === e.type);
+        let armorAttackbonus = 0;
+        for (let armor of armors) {
+            if (armor.data.wear) {
+                if (armor.data.strengthmin != "" && (parseInt(armor.data.strengthmin) > parseInt(this.data.data?.attributes?.strength?.value))) {
+                    armorAttackbonus = -1;
+                }
+            }
+        }
+        characterbuffs.attackbonus += armorAttackbonus;
 
         const mods = this.getEmbeddedCollection("OwnedItem").filter(e => "mod" === e.type);
         let modAttackbonus = 0;

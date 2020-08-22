@@ -398,14 +398,14 @@ export class DemonlordActorSheet2 extends ActorSheet {
             this.actor.updateEmbeddedEntity('OwnedItem', item);
         });
 
-        html.find('.armoritem').each((i, el) => {
+        html.find('.wearitem').each((i, el) => {
             const itemId = el.getAttribute('data-item-id');
             const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
 
             if (item.data.wear) {
                 if (item.data.strengthmin != "" && (parseInt(item.data.strengthmin) > parseInt(this.actor.data.data.attributes.strength.value))) {
                     let controls = el.getElementsByClassName("item-control");
-                    controls[0].className += " armorred";
+                    controls[0].className += " itemred";
                 }
             }
         });

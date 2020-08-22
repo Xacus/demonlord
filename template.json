@@ -274,7 +274,8 @@
             ],
             "hands": "",
             "properties": "",
-            "strengthmin": ""
+            "strengthmin": "",
+            "wear": true
         },
         "armor": {
             "templates": [

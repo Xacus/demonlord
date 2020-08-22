@@ -89,6 +89,7 @@
     "DL.WeaponAdd": "Add weapon",
     "DL.WeaponEdit": "Edit weapon",
     "DL.WeaponDelete": "Delete weapon",
+    "DL.WeaponWear": "Equip weapon",
     "DL.ArmorTitle": "Armor",
     "DL.ArmorBonuses": "Bonuses",
     "DL.ArmorDefense": "Defense",
