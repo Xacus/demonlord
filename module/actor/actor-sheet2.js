@@ -394,9 +394,20 @@ export class DemonlordActorSheet2 extends ActorSheet {
         html.find('.item-wearoff').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
             const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.data("itemId")))
-
             item.data.wear = true;
             this.actor.updateEmbeddedEntity('OwnedItem', item);
+        });
+
+        html.find('.armoritem').each((i, el) => {
+            const itemId = el.getAttribute('data-item-id');
+            const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
+
+            if (item.data.wear) {
+                if (item.data.strengthmin != "" && (parseInt(item.data.strengthmin) > parseInt(this.actor.data.data.attributes.strength.value))) {
+                    let controls = el.getElementsByClassName("item-control");
+                    controls[0].className += " armorred";
+                }
+            }
         });
 
         // Update Feature Item

@@ -1763,6 +1763,10 @@
   color: #999;
 }
 
+.demonlord2 .items-list .item-controls .armorred {
+  color: var(--demonlord-red);
+}
+
 .demonlord2 .items-list .talent {
   height: auto;
   width: 100%;
