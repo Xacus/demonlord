@@ -81,7 +81,7 @@ export class DemonlordActor extends Actor {
         let defenseBonus = 0;
         let speedPenalty = 0;
         for (let armor of armors) {
-            if (armor.data.wear) {
+            if (armor.data.wear && !armor.name.toLowerCase().includes("shield")) {
                 // If you wear armor and do not meet or exceed its requirements: -2 speed
                 if (armor.data.strengthmin != "" && (parseInt(armor.data.strengthmin) > parseInt(data.attributes.strength.value))) {
                     speedPenalty = -2;
@@ -301,7 +301,6 @@ export class DemonlordActor extends Actor {
                     boonsbanes--;
                 }
             }
-
 
             if (boonsbanes == undefined || boonsbanes == NaN || boonsbanes == 0) {
                 boonsbanes = 0;
@@ -955,7 +954,7 @@ export class DemonlordActor extends Actor {
         const armors = this.getEmbeddedCollection("OwnedItem").filter(e => "armor" === e.type);
         let armorAttackbonus = 0;
         for (let armor of armors) {
-            if (armor.data.wear) {
+            if (armor.data.wear && !armor.name.toLowerCase().includes("shield")) {
                 if (armor.data.strengthmin != "" && (parseInt(armor.data.strengthmin) > parseInt(this.data.data?.attributes?.strength?.value))) {
                     armorAttackbonus = -1;
                 }
