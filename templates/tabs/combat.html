@@ -13,7 +13,7 @@
         <div class="item-image">
             <img src="{{weapon.img}}" title="{{weapon.name}}" width="30" height="30" />
         </div>
-        <div class="weaponname attack-roll" data-key="{{id}}">
+        <div class="weaponname {{#if data.wear}}attack-roll{{/if}}" data-key="{{id}}">
             {{weapon.name}} ({{data.hands}})
         </div>
         <div class="damage">{{#if data.action.damage}}{{data.action.damage}}{{else}}-{{/if}}</div>
