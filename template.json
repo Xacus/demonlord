@@ -286,7 +286,8 @@
             "agility": "",
             "fixed": "",
             "strengthmin": "",
-            "wear": true
+            "wear": true,
+            "isShield": false
         },
         "ammo": {
             "templates": [

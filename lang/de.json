@@ -103,6 +103,7 @@
     "DL.ArmorEdit": "Rüstungen bearbeiten",
     "DL.ArmorWear": "Rüstung getragen",
     "DL.ArmorDelete": "Rüstung entfernen",
+    "DL.ArmorIsShield": "Is Shield",
     "DL.AmmoTitle": "Munition",
     "DL.AmmoAmount": "Anzahl",
     "DL.AmmoAdd": "Munnition hinzufügen",
