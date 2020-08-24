@@ -28,24 +28,7 @@ The weapons, armors and ammunition from the core rulebook is available for dragi
 This module is supported.
 
 ### **Macros:**
-Challenge Roll Macros: 
-- game.demonlord.rollAttributeMacro("strength");
-- game.demonlord.rollAttributeMacro("agility");
-- game.demonlord.rollAttributeMacro("intellect");
-- game.demonlord.rollAttributeMacro("will");
-- game.demonlord.rollAttributeMacro("perception");
-
-Roll Initiative Macro:
-Rolls initiative for the selected actor token.
-- game.demonlord.rollInitMacro(); 
-
-Healing Potion Macro:
-Takes the selected actors Healing Rate and subtracts it from his/her damage.
-- game.demonlord.healingPotionMacro();
-
-Request Roll Macro:
-GM Tool for requesting players to make Challenge or Initiative rolls. Select player to send request to. A private message is send to the players with a button to roll.
-- game.demonlord.requestRollMacro();
+The previous macros are replaced with a Compendium of macros that you can import into you game.
 
 ### **Tracking:**
 You can track both Health and Insanity and they are set on the token when an Actor is created.

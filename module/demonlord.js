@@ -44,8 +44,7 @@ Hooks.once('init', async function () {
         rollSpellMacro,
         rollAttributeMacro,
         rollInitMacro,
-        healingPotionMacro,
-        requestRollMacro
+        healingPotionMacro
     };
 
     // Define custom Entity classes
@@ -122,7 +121,6 @@ async function preloadHandlebarsTemplates() {
         "systems/demonlord/templates/chat/init.html",
         "systems/demonlord/templates/chat/makechallengeroll.html",
         "systems/demonlord/templates/chat/makeinitroll.html",
-        "systems/demonlord/templates/chat/requestroll.html",
         "systems/demonlord/templates/chat/showtalent.html",
         "systems/demonlord/templates/chat/spell.html",
         "systems/demonlord/templates/chat/talent.html",
@@ -521,13 +519,18 @@ function rollSpellMacro(itemName) {
  * @return {Promise}
  */
 function rollAttributeMacro(attributeName) {
-    const speaker = ChatMessage.getSpeaker();
-    let actor;
-    if (speaker.token) actor = game.actors.tokens[speaker.token];
-    if (!actor) actor = game.actors.get(speaker.actor);
-    const attribute = actor ? actor.data.data.attributes[attributeName] : null;
+    var selected = canvas.tokens.controlled;
+    if (selected.length == 0) {
+        ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
+    } else {
+        const speaker = ChatMessage.getSpeaker();
+        let actor;
+        if (speaker.token) actor = game.actors.tokens[speaker.token];
+        if (!actor) actor = game.actors.get(speaker.actor);
+        const attribute = actor ? actor.data.data.attributes[attributeName] : null;
 
-    return actor.rollChallenge(attribute);
+        return actor.rollChallenge(attribute);
+    }
 }
 
 /**
@@ -597,44 +600,6 @@ function healingPotionMacro() {
         };
 
         let template = 'systems/demonlord/templates/chat/useitem.html';
-        renderTemplate(template, templateData).then(content => {
-            chatData.content = content;
-            ChatMessage.create(chatData);
-        });
-    }
-}
-
-function requestRollMacro() {
-    const speaker = ChatMessage.getSpeaker();
-    let actor;
-    if (speaker.token) actor = game.actors.tokens[speaker.token];
-    if (!actor) actor = game.actors.get(speaker.actor);
-
-    if (actor) {
-        var templateData = {
-            actor: this.actor,
-            data: {
-                itemname: {
-                    value: game.i18n.localize('DL.DialogUseItemHealingPotion')
-                },
-                description: {
-                    value: ""
-                }
-            }
-        };
-
-        let chatData = {
-            user: game.user._id,
-            speaker: {
-                actor: actor._id,
-                token: actor.token,
-                alias: "GM"
-            }
-        };
-
-        chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
-
-        let template = 'systems/demonlord/templates/chat/requestroll.html';
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;
             ChatMessage.create(chatData);
