@@ -4,6 +4,8 @@ This is Shadow of the Demon Lord for FoundryVTT.
 
 Shadow of the Demonlord has no open license, but permission was granted to make the system.
 
+Ancestries, Talents and Spell are not providet as content. Support this awesome system and buy the books. https://schwalbentertainment.com
+
 ## **Features**
 
 ### **General:**
@@ -22,7 +24,8 @@ Uses the standard Combat Tracker but with a few changes. It still uses the stand
 * System Settings: I added som settings regarding showing messages in the chat log when changing between fast and slow turn and randomizing the initiative a lille.
 
 ### **Compendiums:**
-The weapons, armors and ammunition from the core rulebook is available for draging and droping onto your character sheet.
+- The weapons, armors and ammunition from the core rulebook is available for draging and droping onto your character sheet.
+- Macros for player and GM can be imported.
 
 ### **Dice So Nice!:**
 This module is supported.
@@ -67,5 +70,11 @@ Damage, Insanity and Corruption can be increased and decreased by left/right cli
 - [ ] Level up system.
 - [ ] Rules Engine.
 
+## **Credits**
 Shadow of the Demon Lord is ©2015 Schwalb Entertainment, LLC. All rights reserved.
 Shadow of the Demon Lord, Schwalb Entertainment, and their associated logos are trademarks of Schwalb Entertainment, LLC.
+
+A huge thanks to Robert Schwalb for letting me do this system.
+
+Icons are licensed to be used only in this application. Any other use is prohibited.
+
