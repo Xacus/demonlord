@@ -28,6 +28,7 @@ export class DemonlordItem extends Item {
         html.on('click', '.roll-damage', this._onChatRollDamage.bind(this));
         html.on('click', '.apply-damage', this._onChatApplyDamage.bind(this));
         html.on('click', '.use-talent', this._onChatUseTalent.bind(this));
+        html.on('click', '.request-challengeroll', this._onChatRequestChallengeRoll.bind(this));
         html.on('click', '.make-challengeroll', this._onChatMakeChallengeRoll.bind(this));
         html.on('click', '.request-initroll', this._onChatRequestInitRoll.bind(this));
         html.on('click', '.make-initroll', this._onChatMakeInitRoll.bind(this));
@@ -200,6 +201,69 @@ export class DemonlordItem extends Item {
         actor.rollTalent(talentId);
     }
 
+    static async _onChatRequestChallengeRoll(event) {
+        event.preventDefault();
+        const li = event.currentTarget;
+        const item = li.children[0];
+        const attribute = item.dataset.attribute;
+        const start = li.closest(".request-challengeroll");
+        let boonsbanes = start.children[0].value;
+        if (boonsbanes == undefined)
+            boonsbanes = parseInt(item.dataset.boba);
+        if (isNaN(boonsbanes))
+            boonsbanes = 0;
+
+        var selected = canvas.tokens.controlled;
+        if (selected.length == 0)
+            ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
+
+        let boonsbanestext = "";
+        if (boonsbanes == 1)
+            boonsbanestext = boonsbanes + " " + game.i18n.localize('DL.DialogBoon');
+        if (boonsbanes > 1)
+            boonsbanestext = boonsbanes + " " + game.i18n.localize('DL.DialogBoons');
+        if (boonsbanes == -1)
+            boonsbanestext = boonsbanes.replace("-", "") + " " + game.i18n.localize('DL.DialogBane');
+        if (boonsbanes < -1)
+            boonsbanestext = boonsbanes.replace("-", "") + " " + game.i18n.localize('DL.DialogBanes');
+
+        selected.forEach(token => {
+            const actor = token.actor;
+
+            var templateData = {
+                actor: actor,
+                data: {
+                    attribute: {
+                        value: attribute
+                    },
+                    boonsbanes: {
+                        value: boonsbanes
+                    },
+                    boonsbanestext: {
+                        value: boonsbanestext
+                    }
+                }
+            };
+
+            let chatData = {
+                user: game.user._id,
+                speaker: {
+                    actor: actor._id,
+                    token: actor.token,
+                    alias: actor.name
+                }
+            };
+
+            chatData["whisper"] = ChatMessage.getWhisperRecipients(actor.name);
+
+            let template = 'systems/demonlord/templates/chat/makechallengeroll.html';
+            renderTemplate(template, templateData).then(content => {
+                chatData.content = content;
+                ChatMessage.create(chatData);
+            });
+        });
+    }
+
     static async _onChatMakeChallengeRoll(event) {
         event.preventDefault();
         const li = event.currentTarget;
@@ -207,7 +271,7 @@ export class DemonlordItem extends Item {
         const attributeName = item.dataset.attribute;
         const boonsbanes = item.dataset.boonsbanes;
         const actorId = item.dataset.actorid;
-        const actor = game.actors.get(actorId)
+        const actor = game.actors.get(actorId);
         const attribute = actor.data.data.attributes[attributeName.toLowerCase()];
         const start = li.closest(".demonlord");
         let boonsbanesEntered = start.children[1].children[0].children[0].children[1]?.value;
