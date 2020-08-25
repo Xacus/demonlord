@@ -174,6 +174,15 @@
                         </div>
                     </div>
                     <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentHealing"}}</label>
+                        <div class="modifierblockcheck">
+                            <input type="checkbox" name="data.healing.healing" id="healingoptions"
+                                {{checked data.healing.healing}} />
+                            <label for="data.healing.healing"
+                                class="resource-label">{{localize "DL.TalentHealingOptions"}}</label>
+                        </div>
+                    </div>
+                    <div class="resource">
                         <label class="resource-label">{{localize "DL.SpellEffectDice"}}</label>
                         <div class="modifierblock">
                             <input type="text" name="data.effectdice" value="{{data.effectdice}}" />

@@ -2,7 +2,7 @@
     "name": "demonlord",
     "title": "Shadow of the Demon Lord",
     "description": "The Shadow of the Demonlord system for FoundryVTT",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "author": "Bo Kehlet",
     "minimumCoreVersion": "0.6",
     "compatibleCoreVersion": "0.6.4",

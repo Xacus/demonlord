@@ -41,6 +41,9 @@
             {{localize "DL.ChallengeRoll"}}: {{data.action.defense}}
             {{#if data.action.defenseboonsbanes}}({{data.action.defenseboonsbanes}}){{/if}}<br>
             {{/if}}
+            {{#if data.healing.healing}}
+            <b>{{localize 'DL.TalentHealingOptions'}}</b>
+            {{/if}}
             {{#if data.target}}
             <b>{{localize "DL.SpellTarget"}}:</b> {{data.target}}<br>
             {{/if}}

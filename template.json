@@ -224,7 +224,12 @@
             "aftereffect": "",
             "special": "",
             "triggered": "",
-            "roundsleft": 0
+            "roundsleft": 0,
+            "healing": {
+                "healactive": true,
+                "healing": false,
+                "rate": ""
+            }
         },
         "talent": {
             "templates": [

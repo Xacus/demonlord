@@ -717,6 +717,9 @@ export class DemonlordActor extends Actor {
                 name: spell.name
             },
             data: {
+                id: {
+                    value: spell._id
+                },
                 diceTotal: {
                     value: attackRoll._total
                 },
@@ -815,6 +818,10 @@ export class DemonlordActor extends Actor {
                 },
                 isCreature: {
                     value: this.data.type == "creature" ? true : false
+                },
+                healing: {
+                    value: spell.data?.healing?.healactive && spell.data?.healing?.healing ?
+                        spell.data?.healing?.healing : false
                 }
             },
             diceData
