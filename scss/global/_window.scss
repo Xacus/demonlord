@@ -22,11 +22,20 @@
 .addInsanity,
 .addCorruption,
 .addDamage,
-.toggleInfo {
-
+.toggleInfo,
+.toggleEffectInfo {
     &:hover,
     &:focus {
         color: #000;
+        text-shadow: 0 0 10px #fa200b;
+        cursor: pointer;
+    }
+}
+
+#combat-endofround {
+    &:hover,
+    &:focus {
+        color: #fff;
         text-shadow: 0 0 10px #fa200b;
         cursor: pointer;
     }

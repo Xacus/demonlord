@@ -357,6 +357,15 @@ Hooks.on("renderChatLog", (app, html, data) => DemonlordItem.chatListeners(html)
 Hooks.on("renderChatMessage", async (app, html, msg) => {
     var actor = loadActorForChatMessage(msg.message.speaker);
 
+    /*
+    const regex = /(\d+)?d(\d+)([\+\-]\d+)?/ig;
+    const text = html.find(".message-content")[0].innerHTML;
+    const found = text.match(regex);
+    console.log(found);
+    var rrr = text.replace(found[1], "<a href=''>" + found[1] + "</a>");
+    html.find(".message-content").replaceWith(rrr);
+    */
+
     if (actor && actor.data?.type === "character") {
         let path = actor.data.data.paths.master != "" ? actor.data.data.paths.master : "";
         path = actor.data.data.paths.expert != "" ? actor.data.data.paths.expert : "";

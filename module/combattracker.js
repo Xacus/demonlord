@@ -1,3 +1,6 @@
+import {
+    DLEndOfRound
+} from "./dialog/endofround.js";
 export default class extends CombatTracker {
     constructor(options) {
         super(options);
@@ -30,6 +33,7 @@ export default class extends CombatTracker {
         }
 */
         let init;
+        let hasEndOfRoundEffects = false;
         html.find('.combatant').each((i, el) => {
             const currentCombat = this.getCurrentCombat();
 
@@ -38,6 +42,10 @@ export default class extends CombatTracker {
 
             init = combatant.actor.data?.data?.fastturn ? game.i18n.localize('DL.TurnFast') : game.i18n.localize('DL.TurnSlow');
             el.getElementsByClassName('token-initiative')[0].innerHTML = `<a class="combatant-control dlturnorder" title="` + game.i18n.localize('DL.TurnChangeTurn') + `">` + init + `</a>`;
+
+            const endofrounds = combatant.actor.getEmbeddedCollection("OwnedItem").filter(e => "endoftheround" === e.type);
+            if (endofrounds.length > 0)
+                hasEndOfRoundEffects = true;
         });
 
         super.activateListeners(html);
@@ -82,6 +90,17 @@ export default class extends CombatTracker {
                 this.updateActorsFastturn(combatant.actor);
             }
         });
+
+        // Add "End of the Round" to the Combat Tracker
+        if (hasEndOfRoundEffects && game.user.isGM)
+            html.find("#combat-tracker").append('<li id="combat-endofround" class="combatant actor directory-item flexrow"><img class="token-image" title="Hag" src="systems/demonlord/ui/icons/pentragram.png"/><div class="token-name flexcol"><h4>End of the Round</h4></div></li>');
+
+        html.find('#combat-endofround').click(ev => {
+            new DLEndOfRound(this.getCurrentCombat(), {
+                top: 50,
+                right: 700
+            }).render(true);
+        });
     }
 
     getCurrentCombat() {
@@ -96,7 +115,7 @@ export default class extends CombatTracker {
 
     async updateActorsFastturn(actor) {
         await actor.update({
-            "data.fastturn": !actor.data.data.fastturn
+            "data.fastturn": !actor.data?.data?.fastturn
         });
 
         if (game.combat) {
@@ -105,9 +124,9 @@ export default class extends CombatTracker {
 
                 if (combatant.actor == actor) {
                     if (actor.data.type == "character") {
-                        init = actor.data.data.fastturn ? 70 : 30;
+                        init = actor.data?.data.fastturn ? 70 : 30;
                     } else {
-                        init = actor.data.data.fastturn ? 50 : 10;
+                        init = actor.data?.data.fastturn ? 50 : 10;
                     }
 
                     game.combat.setInitiative(combatant._id, init);

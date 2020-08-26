@@ -46,8 +46,16 @@
 .addDamage:hover,
 .addDamage:focus,
 .toggleInfo:hover,
-.toggleInfo:focus {
+.toggleInfo:focus,
+.toggleEffectInfo:hover,
+.toggleEffectInfo:focus {
   color: #000;
+  text-shadow: 0 0 10px #fa200b;
+  cursor: pointer;
+}
+
+#combat-endofround:hover, #combat-endofround:focus {
+  color: #fff;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
 }
@@ -456,6 +464,10 @@
 #combat #combat-controls a.center {
   font-family: "IM Fell English SC", serif;
   font-size: 16px;
+}
+
+#combat #combat-endofround {
+  border-top: 2px groove var(--demonlord-red);
 }
 
 #combat #combat-round {
@@ -936,6 +948,48 @@
 
 .demonlord .form-block .form-modline .form-fields .modrounds {
   width: 48px;
+}
+
+.demonlord .form-block .creature-list {
+  margin: 0;
+  padding: 0;
+}
+
+.demonlord .form-block .creature-list .creature-entry {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.demonlord .form-block .creature-list .creature-entry .header {
+  width: 100%;
+  height: 55px;
+}
+
+.demonlord .form-block .creature-list .creature-entry .header h4 {
+  font-family: "IM Fell English SC", serif;
+  font-size: 14px;
+}
+
+.demonlord .form-block .creature-list .creature-entry .header .headerbody {
+  margin-top: -10px;
+}
+
+.demonlord .form-block .creature-list .creature-entry .effects .effect .effectname {
+  font-weight: bold;
+}
+
+.demonlord .form-block .creature-list .creature-entry .effects .effect .effectsescription {
+  margin-top: -5px;
+}
+
+.demonlord .form-block .creature-list .token-image {
+  float: left;
+  border: none;
+  height: 48px;
+  width: 48px;
+  margin-right: 10px;
 }
 
 .demonlord .sectionblock {

@@ -1,0 +1,73 @@
+.window-content {
+    background: url(paper.jpg);
+
+    .form-block {
+    font-size: 11px;
+
+    .creature-list {
+        margin: 0 0 0px 0;
+        padding: 0;
+
+        .creature-entry {
+            list-style: none;
+            overflow-y: auto;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            background: rgba(0, 0, 0, 0.1);
+
+            .header {
+                width: 100%;
+                padding: 5px;
+
+                h4 {
+                    font-family: "IM Fell English SC", serif;
+                    font-size: 14px;
+                }
+
+                .headerbody {
+                    margin-top: -10px;
+                }
+            }
+
+            .toggleEffectInfo {
+                height: 13px;
+                width: 200px;
+                
+            }
+
+            .effectInfo {
+                float: left;
+                margin-top: -20px;
+                margin-bottom: 10px;
+            }
+
+            .effects {
+                list-style: none;
+                margin: 5px 0px -15px 5px;
+                padding: 0;
+                overflow-y: auto;
+                padding-top: 20px;
+
+                .effect {
+                    .effectname {
+                        font-weight: bold;
+                    }
+                    .effectsescription {
+                        margin-top: -5px;
+                    }
+                }
+            }
+        }
+
+        .token-image {
+            float: left;
+            border: none;
+            height: 48px;
+            width: 48px;
+            margin-right: 10px;
+        }
+    }
+}
+}

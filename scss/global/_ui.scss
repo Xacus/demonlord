@@ -254,6 +254,10 @@
     font-size: 16px;
 }
 
+#combat #combat-endofround {
+    border-top: 2px groove var(--demonlord-red);
+}
+
 #combat #combat-round {
     border-bottom: 2px groove var(--demonlord-red);
 }

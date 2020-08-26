@@ -161,6 +161,52 @@
         }
     }
 
+
+    .creature-list {
+        margin: 0;
+        padding: 0;
+
+        .creature-entry {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+
+            .header {
+                width: 100%;
+                height: 55px;
+
+                h4 {
+                    font-family: "IM Fell English SC", serif;
+                    font-size: 14px;
+                }
+
+                .headerbody {
+                    margin-top: -10px;
+                }
+            }
+
+            .effects {
+                .effect {
+                    .effectname {
+                        font-weight: bold;
+                    }
+                    .effectsescription {
+                        margin-top: -5px;
+                    }
+                }
+            }
+        }
+
+        .token-image {
+            float: left;
+            border: none;
+            height: 48px;
+            width: 48px;
+            margin-right: 10px;
+        }
+    }
+
 }
 
 .sectionblock {

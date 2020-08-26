@@ -46,9 +46,7 @@
 .addDamage:hover,
 .addDamage:focus,
 .toggleInfo:hover,
-.toggleInfo:focus,
-.toggleEffectInfo:hover,
-.toggleEffectInfo:focus {
+.toggleInfo:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
