@@ -25,9 +25,10 @@ export class DLEndOfRound extends FormApplication {
     getData() {
         const currentCombat = this.object.data;
         let creatures = {};
-        const registerCreature = (i, actor, token) => {
+        const registerCreature = (i, actor, token, init) => {
             creatures[i] = {
                 tokenActorId: token.actorId,
+                initiative: init,
                 actor: actor,
                 token: token,
                 endOfRoundEffects: []
@@ -35,7 +36,7 @@ export class DLEndOfRound extends FormApplication {
         };
 
         var dictCombatants = [];
-        for (const combatant of currentCombat.combatants) {
+        for (const combatant of currentCombat.combatants.sort((a, b) => (a.initiative > b.initiative) ? -1 : 1)) {
             if (!combatant.defeated && combatant.actor?.data?.type != "character")
                 dictCombatants[combatant.token.actorId] = combatant;
         }
@@ -43,7 +44,7 @@ export class DLEndOfRound extends FormApplication {
         let s = 0;
         for (let [key, combatant] of Object.entries(dictCombatants)) {
             const actor = combatant.actor;
-            registerCreature(s, actor, combatant.token);
+            registerCreature(s, actor, combatant.token, combatant.initiative);
 
             const endofrounds = combatant.actor.getEmbeddedCollection("OwnedItem").filter(e => "endoftheround" === e.type);
             for (let endofround of endofrounds) {
