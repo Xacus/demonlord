@@ -118,19 +118,24 @@ async function preloadHandlebarsTemplates() {
         "systems/demonlord/templates/chat/challenge.html",
         "systems/demonlord/templates/chat/combat.html",
         "systems/demonlord/templates/chat/damage.html",
+        "systems/demonlord/templates/chat/description.html",
+        "systems/demonlord/templates/chat/heal.html",
         "systems/demonlord/templates/chat/init.html",
         "systems/demonlord/templates/chat/makechallengeroll.html",
         "systems/demonlord/templates/chat/makeinitroll.html",
+        "systems/demonlord/templates/chat/rest.html",
         "systems/demonlord/templates/chat/showtalent.html",
         "systems/demonlord/templates/chat/spell.html",
         "systems/demonlord/templates/chat/talent.html",
-        "systems/demonlord/templates/chat/description.html",
-        "systems/demonlord/templates/chat/showtalent.html",
+        "systems/demonlord/templates/chat/useitem.html",
         "systems/demonlord/templates/actor/actor-sheet.html",
         "systems/demonlord/templates/actor/actor-sheet2.html",
         "systems/demonlord/templates/actor/sidemenu.html",
         "systems/demonlord/templates/actor/header.html",
-        "systems/demonlord/templates/actor/creature-sheet.html"
+        "systems/demonlord/templates/actor/creature-sheet.html",
+        "systems/demonlord/templates/dialog/actor-modifiers-dialog.html",
+        "systems/demonlord/templates/dialog/choose-turn-dialog.html",
+        "systems/demonlord/templates/dialog/endofround-dialog.html"
     ];
     return loadTemplates(templatePaths);
 }
