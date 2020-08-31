@@ -390,5 +390,6 @@
     "DL.stunned": "Stunned",
     "DL.surprised": "Surprised",
     "DL.unconscious": "Unconscious",
-    "DL.GMTools": "GM Tools"
+    "DL.GMTools": "GM Tools",
+    "DL.ToogleBarView": "Toogle Barview"
 }

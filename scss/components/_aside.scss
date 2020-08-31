@@ -102,11 +102,51 @@ form {
                 }
             }
 
+            .editBars {
+                position: relative;
+                left: 174px;
+                top: 25px;
+            }
+
+            .barboxes {
+                margin-bottom: 20px;
+
+                .barbox {
+                    height: 45px;
+                    text-align: center;
+                    padding-left: 5px;
+                    padding-top: 15px;
+                    width: 100%;
+
+                        .healthedit, .insanityedit, .corruptionedit {
+                            height: 19px;
+                            width: 40px;
+                            border-radius: 16px;
+                            border: none;
+                            box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0,0,0,.5), 0 0 8px #a22223;
+                            font-weight: 500;
+                            font-size: 13px;
+                            padding-left: 2px;
+                            padding-top: 2px;
+
+                            input {
+                                margin-top: -4px;
+                            }
+                        }
+
+                        .healthtext, .insanitytext, .corruptiontext {
+                            width: 150px;
+                            text-align: left;
+                            padding-bottom: 4px;
+                        }
+                }
+            }
+
             .chars.grid {
                 gap: 0;
             }
             .chars {
-                margin-bottom: -7px;
+                margin-bottom: -19px;
 
                 .defensebox, .speedbox, .powerbox {
                     float: left;
@@ -117,7 +157,7 @@ form {
                     padding-top: 15px;
 
                         .defense, .speed, .power {
-                            height: 26px;
+                            height: 19px;
                             width: 40px;
                             border-radius: 16px;
                             border: none;
@@ -125,7 +165,7 @@ form {
                             font-weight: 500;
                             font-size: 13px;
                             padding-left: 2px;
-                            padding-top: 5px;
+                            padding-top: 2px;
 
                             input {
                                 margin-top: -4px;
@@ -154,7 +194,7 @@ form {
             }
 
             .health, .insanity, .corruption  {
-                margin-top: 20px;
+                margin-top: 10px;
                 padding: 5px;
                 .healthbar {
                     width: 178px;

@@ -189,6 +189,25 @@ export class DemonlordActorSheet2 extends ActorSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
 
+        // Edit HealthBar, Insanity and Corruption
+        html.find('.bar-edit').click(ev => {
+            const actor = this.actor;
+
+            let showEdit = actor.data.data.characteristics.editbar;
+            if (showEdit) {
+                actor.data.data.characteristics.editbar = false;
+            } else {
+                actor.data.data.characteristics.editbar = true;
+            }
+
+            let that = this;
+            actor.update({
+                "data.characteristics.editbar": actor.data.data.characteristics.editbar
+            }).then(item => {
+                that.render();
+            });
+        });
+
         // Toggle Spell Info
         html.find('.toggleInfo').click(ev => {
             const div = ev.currentTarget;
@@ -201,7 +220,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
         });
 
         let healthbar = html.find('.healthbar-fill');
-        healthbar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.health.value) / parseInt(this.actor.data.data.characteristics.health.max)) * 100) + "%";
+        if (healthbar.length > 0)
+            healthbar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.health.value) / parseInt(this.actor.data.data.characteristics.health.max)) * 100) + "%";
 
         html.on('mousedown', '.addDamage', ev => {
             let value = parseInt(this.actor.data.data.characteristics.health.value);
@@ -242,7 +262,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
         });
 
         let insanitybar = html.find('.insanity-fill');
-        insanitybar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.insanity.value) / parseInt(this.actor.data.data.characteristics.insanity.max)) * 100) + "%";
+        if (insanitybar.length > 0)
+            insanitybar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.insanity.value) / parseInt(this.actor.data.data.characteristics.insanity.max)) * 100) + "%";
 
         html.on('mousedown', '.addInsanity', ev => {
             let value = parseInt(this.actor.data.data.characteristics.insanity.value);
@@ -269,7 +290,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
         });
 
         let corruptionbar = html.find('.corruption-fill');
-        corruptionbar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.corruption) / parseInt(20)) * 100) + "%";
+        if (corruptionbar.length > 0)
+            corruptionbar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.corruption) / parseInt(20)) * 100) + "%";
 
         html.on('mousedown', '.addCorruption', ev => {
             let value = parseInt(this.actor.data.data.characteristics.corruption);
