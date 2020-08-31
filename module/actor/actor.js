@@ -43,11 +43,22 @@ export class DemonlordActor extends Actor {
             }
             if (game.settings.get('demonlord', 'reverseDamage')) {
                 if (data.characteristics.health.value == 0) {
-                    data.characteristics.health.value = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + parseInt(ancestry.data.level4?.healthbonus) + characterbuffs.healthbonus;
+                    data.characteristics.health.value = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + characterbuffs.healthbonus;
                 }
-                data.characteristics.health.max = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + parseInt(ancestry.data.level4?.healthbonus) + characterbuffs.healthbonus;
+                data.characteristics.health.max = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + characterbuffs.healthbonus;
             } else {
-                data.characteristics.health.max = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + parseInt(ancestry.data.level4?.healthbonus) + characterbuffs.healthbonus;
+                data.characteristics.health.max = parseInt(data.attributes.strength.value) + parseInt(ancestry.data.characteristics?.healthmodifier) + characterbuffs.healthbonus;
+            }
+            if (data.level >= 4) {
+                if (game.settings.get('demonlord', 'reverseDamage')) {
+                    if (data.characteristics.health.value == 0) {
+                        data.characteristics.health.value += parseInt(ancestry.data.level4?.healthbonus);
+                    }
+                    data.characteristics.health.max += parseInt(ancestry.data.level4?.healthbonus);
+                } else {
+                    data.characteristics.health.max += parseInt(ancestry.data.level4?.healthbonus);
+                }
+
             }
 
             if (data.afflictions.slowed) {
