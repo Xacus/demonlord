@@ -20,6 +20,30 @@
             <a class="bar-edit" title="{{localize 'DL.ToogleBarView'}}"><i class="fas fa-edit"></i></a>
         </div>
         {{#if data.characteristics.editbar}}
+        <div class="barboxes">
+            <div class="barbox">
+                <div class="healthtext">{{localize "DL.TalentDamage"}}</div>
+                <div class="healthedit">
+                    <input name="data.characteristics.health.value" type="text"
+                        value="{{data.characteristics.health.value}}" placeholder="" />
+                </div>
+            </div>
+            <div class="barbox">
+                <div class="insanitytext">{{localize "DL.CharInsanity"}}</div>
+                <div class="insanityedit">
+                    <input name="data.characteristics.insanity.value" type="text"
+                        value="{{data.characteristics.insanity.value}}" placeholder="" />
+                </div>
+            </div>
+            <div class="barbox">
+                <div class="corruptiontext">{{localize "DL.CharCorruption"}}</div>
+                <div class="corruptionedit">
+                    <input name="data.characteristics.corruption" type="text"
+                        value="{{data.characteristics.corruption}}" placeholder="" />
+                </div>
+            </div>
+        </div>
+        {{else}}
         <div class="health">
             <div class="addDamage">{{localize "DL.TalentDamage"}}</div>
             <div class="healthbar">
@@ -43,30 +67,6 @@
             </div>
             <div class="corruptionmax">20</div>
             <div class="corruptionvalue">{{data.characteristics.corruption}}</div>
-        </div>
-        {{else}}
-        <div class="barboxes">
-            <div class="barbox">
-                <div class="healthtext">{{localize "DL.TalentDamage"}}</div>
-                <div class="healthedit">
-                    <input name="data.characteristics.health.value" type="text"
-                        value="{{data.characteristics.health.value}}" placeholder="" />
-                </div>
-            </div>
-            <div class="barbox">
-                <div class="insanitytext">{{localize "DL.CharInsanity"}}</div>
-                <div class="insanityedit">
-                    <input name="data.characteristics.insanity.value" type="text"
-                        value="{{data.characteristics.insanity.value}}" placeholder="" />
-                </div>
-            </div>
-            <div class="barbox">
-                <div class="corruptiontext">{{localize "DL.CharCorruption"}}</div>
-                <div class="corruptionedit">
-                    <input name="data.characteristics.corruption" type="text"
-                        value="{{data.characteristics.corruption}}" placeholder="" />
-                </div>
-            </div>
         </div>
         {{/if}}
         <div class="chars grid grid-2col">

@@ -58,7 +58,6 @@ export class DemonlordActor extends Actor {
                 } else {
                     data.characteristics.health.max += parseInt(ancestry.data.level4?.healthbonus);
                 }
-
             }
 
             if (data.afflictions.slowed) {
