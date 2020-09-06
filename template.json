@@ -188,6 +188,7 @@
                 "base"
             ],
             "quantity": 1,
+            "value": "",
             "wear": true,
             "enchantment": {
                 "attackbonus": 0,

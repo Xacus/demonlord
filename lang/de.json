@@ -198,6 +198,7 @@
     "DL.ItemEditItem": "Gegenstände bearbeiten",
     "DL.ItemDeleteItem": "Gegenstände entfernen",
     "DL.ItemAmount": "Anzahl",
+    "DL.ItemValue": "Value",
     "DL.ItemEnchantment": "Enchantment",
     "DL.ItemDamage": "Schaden",
     "DL.ItemDefenseModifier": "Verteidigungs Modifikator",

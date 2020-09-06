@@ -199,6 +199,7 @@
     "DL.ItemDeleteItem": "Delete item",
     "DL.ItemName": "Item name",
     "DL.ItemAmount": "Amount",
+    "DL.ItemValue": "Value",
     "DL.ItemEnchantment": "Enchantment",
     "DL.ItemDamage": "Damage",
     "DL.ItemDefenseModifier": "Defense Modifier",

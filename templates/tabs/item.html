@@ -78,7 +78,7 @@
     {{#each actor.gear as |item id|}}
     <li class="item item-align" data-item-id="{{item._id}}">
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="30" height="30" /></div>
-        <div class="itemname">{{item.data.quantity}} x {{item.name}}</div>
+        <div class="itemname">{{item.data.quantity}} x {{item.name}} {{#if data.value}}({{data.value}}){{/if}}</div>
         <div class="item-controls">
             <a class="item-control {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}"
                 title="{{localize 'DL.ItemWear'}}"><i class="fas fa-tshirt"></i></a>

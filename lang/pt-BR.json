@@ -198,6 +198,7 @@
   "DL.ItemEditItem": "Editar item",
   "DL.ItemDeleteItem": "Excluir item",
   "DL.ItemAmount": "Preço",
+  "DL.ItemValue": "Value",
   "DL.ItemEnchantment": "Enchantment",
   "DL.ItemDamage": "Dano",
   "DL.ItemDefenseModifier": "Modificador de Defesa",
