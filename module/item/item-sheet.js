@@ -73,7 +73,7 @@ export class DemonlordItemSheet extends ItemSheet {
 
         if (item.type == "talent") {
             // If a Talent has no uses it's always active
-            if (updateData.data?.uses?.value == "" && updateData.data?.uses?.max == "") {
+            if ((updateData.data?.uses?.value == "" && updateData.data?.uses?.max == "") || (updateData.data?.uses?.value == "0" && updateData.data?.uses?.max == "0")) {
                 await this.object.update({
                     "data.addtonextroll": true
                 });

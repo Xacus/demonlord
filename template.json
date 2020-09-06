@@ -272,7 +272,8 @@
                 "health": "",
                 "speedactive": true,
                 "speed": ""
-            }
+            },
+            "groupname": ""
         },
         "weapon": {
             "templates": [

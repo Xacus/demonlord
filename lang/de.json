@@ -129,6 +129,8 @@
     "DL.TalentView": "View talent info",
     "DL.TalentDelete": "Talent entfernen",
     "DL.TalentMaxUsesReached": "Maximum uses of the talent reached",
+    "DL.TalentShowSpellInfo": "Talent Info",
+    "DL.TalentGroupname": "Talent groupname",
     "DL.MagicTitle": "Magie",
     "DL.BackgroundTitle": "Hintergrund",
     "DL.CharacterTitle": "Charakter",

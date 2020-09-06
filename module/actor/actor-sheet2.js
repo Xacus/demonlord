@@ -95,6 +95,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
         const ancestry = [];
         const professions = [];
         const spellbook = {};
+        const talentbook = {};
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
@@ -152,6 +153,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
         }
 
         actorData.spellbook = this._prepareSpellBook(actorData);
+        actorData.talentbook = this._prepareTalentBook(actorData);
     }
 
     /* -------------------------------------------- */
@@ -180,6 +182,34 @@ export class DemonlordActorSheet2 extends ActorSheet {
         });
 
         return spellbook;
+    }
+
+    _prepareTalentBook(actorData) {
+        const talentbook = {};
+        const registerTalentGroup = (i, label) => {
+            talentbook[i] = {
+                groupname: label,
+                talents: []
+            };
+        };
+
+        let s = 0;
+        const talentgroups = [... new Set(actorData.talents.map(talent => talent.data.groupname))];
+        talentgroups.sort().forEach(groupname => {
+            console.log("groupname=" + groupname);
+            if (groupname != undefined) {
+                registerTalentGroup(s, groupname);
+
+                actorData.talents.forEach(talent => {
+                    if (talent.data.groupname == groupname) {
+                        talentbook[s].talents.push(talent);
+                    }
+                });
+                s++
+            }
+        });
+
+        return talentbook;
     }
 
     /** @override */
@@ -216,6 +246,17 @@ export class DemonlordActorSheet2 extends ActorSheet {
                 parent.children[6].style.display = "block";
             } else {
                 parent.children[6].style.display = "none";
+            }
+        });
+
+        // Toggle Spell Info
+        html.find('.toggleTalentInfo').click(ev => {
+            const div = ev.currentTarget;
+            const parent = div.parentElement;
+            if (parent.children[4].style.display === "none") {
+                parent.children[4].style.display = "block";
+            } else {
+                parent.children[4].style.display = "none";
             }
         });
 
@@ -351,58 +392,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
             const li = $(ev.currentTarget).parents(".item");
 
             this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li);
-        });
-
-        // View Talent
-        html.find('.item-view').click(ev => {
-            const li = $(ev.currentTarget).parents(".item");
-            const talent = this.actor.getOwnedItem(li.data("itemId")).data;
-            let usesText = "";
-
-            if (parseInt(talent.data?.uses?.value) >= 0 && parseInt(talent.data?.uses?.max) > 0) {
-                let uses = parseInt(talent.data.uses?.value);
-                let usesmax = parseInt(talent.data.uses?.max);
-                usesText = game.i18n.localize('DL.TalentUses') + ": " + uses + " / " + usesmax;
-            }
-
-            var templateData = {
-                actor: this.actor,
-                token: canvas.tokens.controlled[0]?.data,
-                item: {
-                    name: talent.name
-                },
-                data: {
-                    id: {
-                        value: talent._id
-                    },
-                    effects: {
-                        value: this.actor.buildTalentEffects(talent, false, "TALENT")
-                    },
-                    description: {
-                        value: talent.data.description
-                    },
-                    uses: {
-                        value: usesText
-                    }
-                }
-            };
-
-            let chatData = {
-                user: game.user._id,
-                speaker: {
-                    actor: this.actor._id,
-                    token: this.actor.token,
-                    alias: this.actor.name
-                }
-            };
-
-            chatData["whisper"] = ChatMessage.getWhisperRecipients(this.actor.name);
-
-            let template = 'systems/demonlord/templates/chat/showtalent.html';
-            renderTemplate(template, templateData).then(content => {
-                chatData.content = content;
-                ChatMessage.create(chatData);
-            });
         });
 
         // Update Inventory Item
@@ -699,7 +688,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
             let uses = item.data.uses.value;
             let usesmax = item.data.uses.max;
 
-            if (uses < usesmax) {
+            if (uses == 0 && usesmax == 0) {
+                item.data.addtonextroll = true;
+            } else if (uses < usesmax) {
                 item.data.uses.value = Number(uses) + 1;
                 item.data.addtonextroll = true;
             } else {

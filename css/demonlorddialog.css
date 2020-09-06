@@ -47,6 +47,8 @@
 .addDamage:focus,
 .toggleInfo:hover,
 .toggleInfo:focus,
+.toggleTalentInfo:hover,
+.toggleTalentInfo:focus,
 .toggleEffectInfo:hover,
 .toggleEffectInfo:focus {
   color: #000;

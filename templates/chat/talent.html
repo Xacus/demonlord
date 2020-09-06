@@ -3,7 +3,9 @@
     <div class="showinfo"></div>
     <div class="showlessinfo"></div>
     {{#if data.roll.value}}
-    <header class="card-headersmall">
+    <header class="card-header">
+        <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img"
+                title="{{item.data.name}}" height="40" width="40" /></div>
         <div class="attackbox">
             <div class="header">
                 {{#if data.isCreature.value}}
@@ -20,7 +22,9 @@
         </div>
     </header>
     {{else}}
-    <header class="card-headersmall">
+    <header class="card-header">
+        <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img"
+                title="{{item.data.name}}" height="40" width="40" /></div>
         <div class="attackbox">
             <div class="header">
                 {{#if data.against.value}}
