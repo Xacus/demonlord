@@ -49,6 +49,8 @@
 .toggleInfo:focus,
 .toggleTalentInfo:hover,
 .toggleTalentInfo:focus,
+.toggleItemInfo:hover,
+.toggleItemInfo:focus,
 .toggleEffectInfo:hover,
 .toggleEffectInfo:focus {
   color: #000;
@@ -496,6 +498,13 @@
   background-repeat: repeat-x, no-repeat;
   background-size: auto 96px, cover;
   background-attachment: local;
+}
+
+.demonlord2.item form input[type=text]:focus, .demonlord2.item form input[type=text]:hover {
+  background: rgba(0, 0, 0, 0.3);
+  height: 20px;
+  padding-left: 6px;
+  border-radius: 0px;
 }
 
 .demonlord2.item .tabs {
@@ -1709,10 +1718,6 @@
   width: 350px;
 }
 
-.demonlord2 .items-list .item .tradition {
-  margin-top: 15px;
-}
-
 .demonlord2 .items-list .item .tradition .traditiontitle {
   float: left;
 }
@@ -1736,9 +1741,6 @@
 .demonlord2 .items-list .item .tradition .traditionname .tradition-focus {
   float: left;
   width: 200px;
-  background: rgba(0, 0, 0, 0.5);
-  margin-left: -5px;
-  padding-left: 5px;
 }
 
 .demonlord2 .items-list .item .itemname {
@@ -1850,6 +1852,11 @@
 }
 
 .demonlord2 .items-list .talent .toggleTalentInfo {
+  float: left;
+  width: 400px;
+}
+
+.demonlord2 .items-list .talent .toggleItemInfo {
   float: left;
   width: 400px;
 }

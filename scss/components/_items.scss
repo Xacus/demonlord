@@ -67,6 +67,11 @@
             float: left;
             width: 350px;
         }
+
+        .traditionnameheader {
+            float: left;
+            width: 380px;
+        }
     }
 
     .item {
@@ -144,8 +149,8 @@
 
         .itemname {
             float: left;
-            width: 140px;
-            margin-right: 10px;
+            height: 14px;
+                    font-weight: bold;
         }
     }
 
@@ -226,42 +231,41 @@
     }
 
     .talent {
-        height: auto;
-        width: 100%;
-        padding: 0 0 1px 0;
-        border: 1px solid #BBB;
-        border-radius: 2px;
-
         .talentheader {
-            background-color: #999;
-            line-height: 20px;
-            padding: 0 3px;
-            margin-bottom: 2px;
-        }
-
-        .talentname {
             float: left;
-            flex: 0 0 220px;
-            height: 20px;
+            width: 335px;
+            margin-right: 10px;
             font-weight: bold;
         }
 
-        .talent-uses {
-            float: right;
-            flex: 0 0 25px;
-            height: 17px;
-            line-height: 17px;
-            padding-right: 3px;
+        .talenttype {
+            float: left;
+            width: 50px;
         }
 
-        .talentmod {
-            flex: 0 0 140px;
-            height: 20px;
+        .talent-uses {
+            float: left;
+            width: 50px;
+        }
+
+        .spellinfo {
+            float: left;
+            margin-top: 10px;
+        }
+
+        .toggleTalentInfo {
+            float: left;
+            width: 530px;
+        }
+
+        .toggleItemInfo {
+            float: left;
+            width: 500px;
         }
 
         .option {
             float: left;
-            min-width: 160px;
+            min-width: 575px;
             height: 17px;
             line-height: 17px;
             padding: 0px 1px 0 4px;

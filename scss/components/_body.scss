@@ -144,8 +144,6 @@
         }
 
         .tradition {
-            margin-top: 15px;
-
             .traditiontitle {
                 float: left;
             }
@@ -168,9 +166,6 @@
                 .tradition-focus {
                     float: left;
                     width: 200px;
-                    background: rgba(0, 0, 0, 0.5);
-                    margin-left: -5px;
-                    padding-left: 5px;
                 }
             }
         }
@@ -285,6 +280,11 @@
         }
 
         .toggleTalentInfo {
+            float: left;
+            width: 400px;
+        }
+
+        .toggleItemInfo {
             float: left;
             width: 400px;
         }

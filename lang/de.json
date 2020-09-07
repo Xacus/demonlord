@@ -205,6 +205,7 @@
     "DL.ItemDamage": "Schaden",
     "DL.ItemDefenseModifier": "Verteidigungs Modifikator",
     "DL.ItemWear": "Gegenstände getragen",
+    "DL.ItemShowInfo": "Item Info",
     "DL.WealthTitle": "Vermögen",
     "DL.WealthLifestyle": "Lebensunterhalt: ",
     "DL.WealthCoinsGC": "G: ",

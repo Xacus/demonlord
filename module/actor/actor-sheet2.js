@@ -260,6 +260,17 @@ export class DemonlordActorSheet2 extends ActorSheet {
             }
         });
 
+        // Toggle Item Info
+        html.find('.toggleItemInfo').click(ev => {
+            const div = ev.currentTarget;
+            const parent = div.parentElement;
+            if (parent.children[3].style.display === "none") {
+                parent.children[3].style.display = "block";
+            } else {
+                parent.children[3].style.display = "none";
+            }
+        });
+
         let healthbar = html.find('.healthbar-fill');
         if (healthbar.length > 0)
             healthbar[0].style.width = Math.floor((parseInt(this.actor.data.data.characteristics.health.value) / parseInt(this.actor.data.data.characteristics.health.max)) * 100) + "%";

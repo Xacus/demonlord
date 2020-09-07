@@ -206,6 +206,7 @@
     "DL.ItemDamage": "Damage",
     "DL.ItemDefenseModifier": "Defense Modifier",
     "DL.ItemWear": "Wear item",
+    "DL.ItemShowInfo": "Item Info",
     "DL.WealthTitle": "Wealth",
     "DL.WealthLifestyle": "Lifestyle: ",
     "DL.WealthCoinsGC": "GC: ",

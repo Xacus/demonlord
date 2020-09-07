@@ -36,7 +36,7 @@
                 <input type="checkbox" name="data.boonsbanesactive" id="optionboons{{talent._id}}"
                     {{checked data.boonsbanesactive}} />
                 {{/if}}
-                {{localize 'DL.TalentAttackBoonsBanes'}}:
+                <b>{{localize 'DL.TalentAttackBoonsBanes'}}:</b>
                 {{numberFormat data.action.boonsbanes decimals=0 sign=true}}
             </div>
             {{/if}}
@@ -46,7 +46,7 @@
                 <input type="checkbox" name="data.damageactive" id="optionattackdamage{{talent._id}}"
                     {{checked data.damageactive}} />
                 {{/if}}
-                {{localize 'DL.TalentExtraDamage'}}: {{data.action.damage}}
+                <b>{{localize 'DL.TalentExtraDamage'}}:</b> {{data.action.damage}}
             </div>
             {{/if}}
             {{#if data.action.plus20}}
@@ -55,7 +55,7 @@
                 <input type="checkbox" name="data.plus20active" id="potionattackplus20{{talent._id}}"
                     {{checked data.plus20active}} />
                 {{/if}}
-                {{localize 'DL.TalentExtraDamage20plus'}}: {{data.action.plus20}}
+                <b>{{localize 'DL.TalentExtraDamage20plus'}}:</b> {{data.action.plus20}}
             </div>
             {{/if}}
             {{#if data.challenge.boonsbanes}}
@@ -64,7 +64,7 @@
                 <input type="checkbox" name="data.challenge.boonsbanesactive"
                     id="optionchaboonsbanesactive{{talent._id}}" {{checked data.challenge.boonsbanesactive}} />
                 {{/if}}
-                {{localize 'DL.TalentChallengeBoonsBanes'}}:
+                <b>{{localize 'DL.TalentChallengeBoonsBanes'}}:</b>
                 {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}
             </div>
             {{/if}}
@@ -74,7 +74,8 @@
                 <input type="checkbox" name="data.vs.active" id="optionvsactive{{talent._id}}"
                     {{checked data.vs.active}} />
                 {{/if}}
-                {{localize 'DL.TalentVSRoll'}}: {{data.vs.attribute}} {{localize 'DL.ChallengeVS'}} {{data.vs.against}}
+                <b>{{localize 'DL.TalentVSRoll'}}:</b> {{data.vs.attribute}} {{localize 'DL.ChallengeVS'}}
+                {{data.vs.against}}
             </div>
             {{/if}}
             {{#if data.vs.boonsbanes}}
@@ -83,7 +84,7 @@
                 <input type="checkbox" name="data.vs.boonsbanesactive" id="optionvsboonsbanesactive{{talent._id}}"
                     {{checked data.vs.boonsbanesactive}} />
                 {{/if}}
-                {{localize 'DL.TalentVSBoonsBanes'}}: {{numberFormat data.vs.boonsbanes decimals=0 sign=true}}
+                <b>{{localize 'DL.TalentVSBoonsBanes'}}:</b> {{numberFormat data.vs.boonsbanes decimals=0 sign=true}}
             </div>
             {{/if}}
             {{#if data.vs.damage}}
@@ -92,7 +93,7 @@
                 <input type="checkbox" name="data.vs.damageactive" id="optionvsdamage{{talent._id}}"
                     {{checked data.vs.damageactive}} />
                 {{/if}}
-                {{localize 'DL.TalentVSDamage'}}: {{data.vs.damage}}
+                <b>{{localize 'DL.TalentVSDamage'}}:</b> {{data.vs.damage}}
             </div>
             {{/if}}
             {{#if data.healing.healing}}
@@ -101,12 +102,12 @@
                 <input type="checkbox" name="data.healing.healactive" id="optionhealingactive{{talent._id}}"
                     {{checked data.healing.healactive}} />
                 {{/if}}
-                {{localize 'DL.TalentHealingOptions'}}
+                <b>{{localize 'DL.TalentHealingOptions'}}</b>
             </div>
             {{/if}}
             {{#if data.damage}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{localize 'DL.TalentDamage'}}: {{data.damage}}
+                <b>{{localize 'DL.TalentDamage'}}:</b> {{data.damage}}
             </div>
             {{/if}}
             {{#if data.bonuses.defense}}
@@ -115,7 +116,7 @@
                 <input type="checkbox" name="data.bonuses.defenseactive" id="optiondefenseactive{{talent._id}}"
                     {{checked data.bonuses.defenseactive}} />
                 {{/if}}
-                {{localize 'DL.TalentBonusesDefense'}}: {{data.bonuses.defense}}
+                <b>{{localize 'DL.TalentBonusesDefense'}}:</b> {{data.bonuses.defense}}
             </div>
             {{/if}}
             {{#if data.bonuses.health}}
@@ -124,7 +125,7 @@
                 <input type="checkbox" name="data.bonuses.healthactive" id="optionhealthactive{{talent._id}}"
                     {{checked data.bonuses.healthactive}} />
                 {{/if}}
-                {{localize 'DL.TalentBonusesHealth'}}: {{data.bonuses.health}}
+                <b>{{localize 'DL.TalentBonusesHealth'}}:</b> {{data.bonuses.health}}
             </div>
             {{/if}}
             {{#if data.bonuses.speed}}
@@ -133,7 +134,7 @@
                 <input type="checkbox" name="data.bonuses.speedactive" id="optionspeedactive{{talent._id}}"
                     {{checked data.bonuses.speedactive}} />
                 {{/if}}
-                {{localize 'DL.TalentBonusesSpeed'}}: {{data.bonuses.speed}}
+                <b>{{localize 'DL.TalentBonusesSpeed'}}:</b> {{data.bonuses.speed}}
             </div>
             {{/if}}
             {{#if data.description}}

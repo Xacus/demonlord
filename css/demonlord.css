@@ -49,6 +49,8 @@
 .toggleInfo:focus,
 .toggleTalentInfo:hover,
 .toggleTalentInfo:focus,
+.toggleItemInfo:hover,
+.toggleItemInfo:focus,
 .toggleEffectInfo:hover,
 .toggleEffectInfo:focus {
   color: #000;
@@ -2074,6 +2076,11 @@
   width: 350px;
 }
 
+.demonlord .items-list .item-header .traditionnameheader {
+  float: left;
+  width: 380px;
+}
+
 .demonlord .items-list .item {
   padding: 3px 0;
   border-bottom: 1px solid #BBB;
@@ -2148,8 +2155,8 @@
 
 .demonlord .items-list .item .itemname {
   float: left;
-  width: 140px;
-  margin-right: 10px;
+  height: 14px;
+  font-weight: bold;
 }
 
 .demonlord .items-list .feature {
@@ -2228,50 +2235,41 @@
   color: #999;
 }
 
-.demonlord .items-list .talent {
-  height: auto;
-  width: 100%;
-  padding: 0 0 1px 0;
-  border: 1px solid #BBB;
-  border-radius: 2px;
-}
-
 .demonlord .items-list .talent .talentheader {
-  background-color: #999;
-  line-height: 20px;
-  padding: 0 3px;
-  margin-bottom: 2px;
-}
-
-.demonlord .items-list .talent .talentname {
   float: left;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 220px;
-  flex: 0 0 220px;
-  height: 20px;
+  width: 335px;
+  margin-right: 10px;
   font-weight: bold;
 }
 
-.demonlord .items-list .talent .talent-uses {
-  float: right;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 25px;
-  flex: 0 0 25px;
-  height: 17px;
-  line-height: 17px;
-  padding-right: 3px;
+.demonlord .items-list .talent .talenttype {
+  float: left;
+  width: 50px;
 }
 
-.demonlord .items-list .talent .talentmod {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 140px;
-  flex: 0 0 140px;
-  height: 20px;
+.demonlord .items-list .talent .talent-uses {
+  float: left;
+  width: 50px;
+}
+
+.demonlord .items-list .talent .spellinfo {
+  float: left;
+  margin-top: 10px;
+}
+
+.demonlord .items-list .talent .toggleTalentInfo {
+  float: left;
+  width: 530px;
+}
+
+.demonlord .items-list .talent .toggleItemInfo {
+  float: left;
+  width: 500px;
 }
 
 .demonlord .items-list .talent .option {
   float: left;
-  min-width: 160px;
+  min-width: 575px;
   height: 17px;
   line-height: 17px;
   padding: 0px 1px 0 4px;

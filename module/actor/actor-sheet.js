@@ -223,6 +223,28 @@ export class DemonlordActorSheet extends ActorSheet {
             }
         });
 
+        // Toggle Spell Info
+        html.find('.toggleTalentInfo').click(ev => {
+            const div = ev.currentTarget;
+            const parent = div.parentElement;
+            if (parent.children[4].style.display === "none") {
+                parent.children[4].style.display = "block";
+            } else {
+                parent.children[4].style.display = "none";
+            }
+        });
+
+        // Toggle Item Info
+        html.find('.toggleItemInfo').click(ev => {
+            const div = ev.currentTarget;
+            const parent = div.parentElement;
+            if (parent.children[3].style.display === "none") {
+                parent.children[3].style.display = "block";
+            } else {
+                parent.children[3].style.display = "none";
+            }
+        });
+
         // Edit Creature
         html.find('.creature-edit').click(ev => {
             const actor = this.actor;

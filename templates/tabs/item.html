@@ -73,12 +73,29 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
-</ol>
-<ol class="items-list grid grid-2col listitems">
     {{#each actor.gear as |item id|}}
-    <li class="item item-align" data-item-id="{{item._id}}">
+    <li class="item item-align talent dropitem" data-item-id="{{item._id}}">
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="30" height="30" /></div>
         <div class="itemname">{{item.data.quantity}} x {{item.name}} {{#if data.value}}({{data.value}}){{/if}}</div>
+        <div class="toggleItemInfo"><i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
+        </div>
+        <div class="spellinfo" style="display: none;">
+            {{#if data.enchantment.attackbonus}}
+            <b>{{localize "DL.TalentAttackBoonsBanes"}}:</b> {{data.enchantment.attackbonus}}<br>
+            {{/if}}
+            {{#if data.enchantment.challengebonus}}
+            <b>{{localize "DL.TalentChallengeBoonsBanes"}}:</b> {{data.enchantment.challengebonus}}<br>
+            {{/if}}
+            {{#if data.enchantment.damage}}
+            <b>{{localize "DL.ItemDamage"}}:</b> {{data.enchantment.damage}}<br>
+            {{/if}}
+            {{#if data.enchantment.defense}}
+            <b>{{localize "DL.ItemDefenseModifier"}}:</b> {{data.enchantment.defense}}<br>
+            {{/if}}
+            {{#if data.description}}
+            {{{data.description}}}
+            {{/if}}
+        </div>
         <div class="item-controls">
             <a class="item-control {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}"
                 title="{{localize 'DL.ItemWear'}}"><i class="fas fa-tshirt"></i></a>
