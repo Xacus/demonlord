@@ -3320,3 +3320,8 @@
   grid-area: nav;
   margin-right: 20px;
 }
+
+.demonlord2.actor .sheet-navigation a.item.active {
+  border-bottom: 1px solid var(--demonlord-red);
+  text-shadow: 0 0 8px red;
+}

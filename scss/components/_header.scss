@@ -210,4 +210,9 @@ nav.sheet-navigation {
 .sheet-navigation {
     grid-area: nav;
     margin-right: 20px;
+
+    a.item.active {
+        border-bottom: 1px solid var(--demonlord-red);
+        text-shadow: 0 0 8px red;
+    }
 }
