@@ -214,8 +214,8 @@
             "attribute": "",
             "effectdice": "",
             "castings": {
-                "value": 0,
-                "max": 0
+                "value": "",
+                "max": ""
             },
             "duration": "",
             "target": "",
