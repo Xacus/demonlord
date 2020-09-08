@@ -2860,6 +2860,12 @@
   cursor: pointer;
 }
 
+.demonlord2 .body .charinfo .ancestry .editAncestry {
+  position: relative;
+  top: -16px;
+  left: 124px;
+}
+
 .demonlord2 .body .charinfo .gender {
   float: left;
   width: 70px;

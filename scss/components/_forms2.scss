@@ -317,6 +317,12 @@
             float: left;
             width: 140px;
             cursor: pointer;
+
+            .editAncestry {
+                position: relative;
+                top: -16px;
+                left: 124px;
+            }
         }
 
         .gender {

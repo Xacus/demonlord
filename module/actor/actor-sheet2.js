@@ -196,7 +196,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
         let s = 0;
         const talentgroups = [... new Set(actorData.talents.map(talent => talent.data.groupname))];
         talentgroups.sort().forEach(groupname => {
-            console.log("groupname=" + groupname);
             if (groupname != undefined) {
                 registerTalentGroup(s, groupname);
 

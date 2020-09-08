@@ -262,10 +262,12 @@ const postEndOfRound = async function () {
 
 const handleCharacterMods = async function () {
     for (const combatant of game.combat.combatants) {
-        const mods = combatant.actor.getEmbeddedCollection("OwnedItem").filter(e => "mod" === e.type);
-        for (let mod of mods) {
-            if (mod.data.active) {
-                combatant.actor.updateCharacterMods(mod);
+        const mods = combatant.actor?.getEmbeddedCollection("OwnedItem").filter(e => "mod" === e.type);
+        if (mods) {
+            for (let mod of mods) {
+                if (mod.data.active) {
+                    combatant.actor.updateCharacterMods(mod);
+                }
             }
         }
     }
