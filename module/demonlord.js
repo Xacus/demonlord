@@ -384,7 +384,10 @@ Hooks.on("renderChatMessage", async (app, html, msg) => {
 
     if (!game.user.isGM) {
         html.find(".gmonly").remove();
+        html.find(".gmonlyzero").remove();
     } else {
+        html.find(".gmremove").remove();
+
         if (actor && actor.data?.type === "creature") {
             let status = "Size " + actor.data.data.characteristics.size + " " + actor.data.data.descriptor;
             if (actor.data.data.frightening)

@@ -331,6 +331,8 @@ export class DemonlordActor extends Actor {
             plus20 = attackRoll._total >= 20 && (attackRoll._total >= parseInt(targetNumber) + 5) ? true : false;
         }
 
+        const againstNumber = (target != null && target.actor.data.type == "character") || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?";
+
         var templateData = {
             actor: this,
             item: {
@@ -357,7 +359,10 @@ export class DemonlordActor extends Actor {
                     value: weapon.data.data.action.against.toUpperCase()
                 },
                 againstNumber: {
-                    value: (target != null && target.actor.data.type == "character") || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?"
+                    value: againstNumber
+                },
+                againstNumberGM: {
+                    value: againstNumber == "?" ? targetNumber : againstNumber
                 },
                 damageFormular: {
                     value: weapon.data.data.action.damage + buffs.attackdamagebonus
@@ -526,6 +531,8 @@ export class DemonlordActor extends Actor {
             usesText = game.i18n.localize('DL.TalentUses') + ": " + uses + " / " + usesmax;
         }
 
+        const againstNumber = target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?";
+
         var templateData = {
             actor: this,
             item: {
@@ -558,7 +565,10 @@ export class DemonlordActor extends Actor {
                     value: talent.data?.vs?.against.toUpperCase()
                 },
                 againstNumber: {
-                    value: target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?"
+                    value: againstNumber
+                },
+                againstNumberGM: {
+                    value: againstNumber == "?" ? targetNumber : againstNumber
                 },
                 damageFormular: {
                     value: damageformular
@@ -721,6 +731,8 @@ export class DemonlordActor extends Actor {
             usesText = game.i18n.localize('DL.SpellCastingsUses') + ": " + uses + " / " + usesmax;
         }
 
+        const againstNumber = target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?";
+
         var templateData = {
             actor: this,
             item: {
@@ -750,7 +762,10 @@ export class DemonlordActor extends Actor {
                     value: spell.data.action?.against.toUpperCase()
                 },
                 againstNumber: {
-                    value: target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') ? targetNumber : "?"
+                    value: againstNumber
+                },
+                againstNumberGM: {
+                    value: againstNumber == "?" ? targetNumber : againstNumber
                 },
                 damageFormular: {
                     value: spell.data.action?.damage
