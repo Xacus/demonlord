@@ -79,7 +79,7 @@ export class DemonlordItemSheet2 extends ItemSheet {
                 });
 
                 const characterbuffs = this.generateCharacterBuffs();
-                await this.actor.update({
+                await this.actor?.update({
                     "data.characteristics.defensebonus": parseInt(characterbuffs.defensebonus),
                     "data.characteristics.healthbonus": parseInt(characterbuffs.healthbonus),
                     "data.characteristics.speedbonus": parseInt(characterbuffs.speedbonus)
@@ -96,19 +96,21 @@ export class DemonlordItemSheet2 extends ItemSheet {
 
     generateCharacterBuffs() {
         const characterbuffs = new CharacterBuff();
-        const talents = this.actor.getEmbeddedCollection("OwnedItem").filter(e => "talent" === e.type)
+        const talents = this.actor?.getEmbeddedCollection("OwnedItem").filter(e => "talent" === e.type)
 
-        for (let talent of talents) {
-            if (talent.data.addtonextroll) {
-                if (this.actor.data.data.activebonuses || (talent.data.uses.value == "" && talent.data.uses.max == "")) {
-                    if (talent.data.bonuses.defenseactive && talent.data.bonuses.defense != "") {
-                        characterbuffs.defensebonus += parseInt(talent.data.bonuses.defense);
-                    }
-                    if (talent.data.bonuses.healthactive && talent.data.bonuses.health != "") {
-                        characterbuffs.healthbonus += parseInt(talent.data.bonuses.health);
-                    }
-                    if (talent.data.bonuses.speedactive && talent.data.bonuses.speed != "") {
-                        characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed);
+        if (talents) {
+            for (let talent of talents) {
+                if (talent.data.addtonextroll) {
+                    if (this.actor.data.data.activebonuses || (talent.data.uses.value == "" && talent.data.uses.max == "")) {
+                        if (talent.data.bonuses.defenseactive && talent.data.bonuses.defense != "") {
+                            characterbuffs.defensebonus += parseInt(talent.data.bonuses.defense);
+                        }
+                        if (talent.data.bonuses.healthactive && talent.data.bonuses.health != "") {
+                            characterbuffs.healthbonus += parseInt(talent.data.bonuses.health);
+                        }
+                        if (talent.data.bonuses.speedactive && talent.data.bonuses.speed != "") {
+                            characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed);
+                        }
                     }
                 }
             }
