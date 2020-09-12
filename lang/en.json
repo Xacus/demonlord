@@ -47,6 +47,7 @@
     "DL.AncestryPerceptionModifier": "Perception Modifier",
     "DL.AncestryDefenseModifier": "Defense Modifier",
     "DL.AncestryHealthModifier": "Health Modifier",
+    "DL.AncestryHealingRateModifier": "Healing Rate Modifier",
     "DL.Afflictions": "Afflictions",
     "DL.TabsCharacter": "Character",
     "DL.TabsCombat": "Combat",

@@ -331,6 +331,7 @@
                 "perceptionmodifier": 0,
                 "healthmodifier": 0,
                 "defensemodifier": 0,
+                "healingratemodifier": 0,
                 "size": "1",
                 "speed": 10,
                 "power": 0,

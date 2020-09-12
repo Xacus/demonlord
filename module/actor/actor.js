@@ -65,7 +65,7 @@ export class DemonlordActor extends Actor {
             } else {
                 data.characteristics.speed = parseInt(ancestry.data.characteristics?.speed) + parseInt(characterbuffs.speedbonus);
             }
-            data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4);
+            data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4) + parseInt(ancestry.data.characteristics?.healingratemodifier);
             data.characteristics.size = ancestry.data.characteristics.size;
             //data.characteristics.power = parseInt(data.characteristics.power);
             //data.characteristics.insanity.value = parseInt(data.characteristics.insanity.value) + parseInt(ancestry.data.characteristics.insanity);
