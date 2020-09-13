@@ -194,7 +194,9 @@
                 "attackbonus": 0,
                 "challengebonus": 0,
                 "damage": "",
-                "defense": 0
+                "defense": 0,
+                "speed": 0,
+                "perception": 0
             }
         },
         "feature": {

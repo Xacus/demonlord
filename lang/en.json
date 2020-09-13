@@ -206,6 +206,8 @@
     "DL.ItemEnchantment": "Enchantment",
     "DL.ItemDamage": "Damage",
     "DL.ItemDefenseModifier": "Defense Modifier",
+    "DL.ItemSpeedModifier": "Speed Modifier",
+    "DL.ItemPerceptionModifier": "Perception Modifier",
     "DL.ItemWear": "Wear item",
     "DL.ItemShowInfo": "Item Info",
     "DL.WealthTitle": "Wealth",

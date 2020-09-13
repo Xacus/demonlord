@@ -60,11 +60,7 @@ export class DemonlordActor extends Actor {
                 }
             }
 
-            if (data.afflictions.slowed) {
-                data.characteristics.speed = Math.floor(parseInt(ancestry.data.characteristics?.speed) / 2);
-            } else {
-                data.characteristics.speed = parseInt(ancestry.data.characteristics?.speed) + parseInt(characterbuffs.speedbonus);
-            }
+            data.characteristics.speed = parseInt(ancestry.data.characteristics?.speed);
             data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4) + parseInt(ancestry.data.characteristics?.healingratemodifier);
             data.characteristics.size = ancestry.data.characteristics.size;
             //data.characteristics.power = parseInt(data.characteristics.power);
@@ -115,6 +111,10 @@ export class DemonlordActor extends Actor {
 
         data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(characterbuffs.defensebonus);
         data.characteristics.speed = parseInt(data.characteristics.speed) + parseInt(characterbuffs.speedbonus);
+
+        if (data.afflictions.slowed) {
+            data.characteristics.speed = Math.floor(parseInt(data.characteristics.speed) / 2);
+        }
     }
 
     async createItemCreate(event) {
@@ -966,6 +966,9 @@ export class DemonlordActor extends Actor {
         let itemChallengebonus = 0;
         let itemDamageBonus = "";
         let itemDefenseBonus = 0;
+        let itemSpeedBonus = 0;
+        let itemPerceptionBonus = 0;
+
         for (let item of items) {
             if (item.data.wear) {
                 if (item.data.enchantment?.attackbonus != null)
@@ -976,12 +979,18 @@ export class DemonlordActor extends Actor {
                     itemDamageBonus += "+" + item.data.enchantment?.damage;
                 if (item.data.enchantment?.defense != null)
                     itemDefenseBonus += parseInt(item.data.enchantment?.defense);
+                if (item.data.enchantment?.speed != null)
+                    itemSpeedBonus += parseInt(item.data.enchantment?.speed);
+                if (item.data.enchantment?.perception != null)
+                    itemPerceptionBonus += parseInt(item.data.enchantment?.perception);
             }
         }
         characterbuffs.attackbonus += itemAttackbonus;
         characterbuffs.challengebonus += itemChallengebonus;
         characterbuffs.attackdamagebonus += itemDamageBonus;
         characterbuffs.defensebonus += itemDefenseBonus;
+        characterbuffs.speedbonus += itemSpeedBonus;
+        characterbuffs.perception += itemPerceptionBonus;
 
         // If you wear armor and do not meet or exceed its requirements: -1 Bane
         const armors = this.getEmbeddedCollection("OwnedItem").filter(e => "armor" === e.type);
