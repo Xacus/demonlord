@@ -63,6 +63,7 @@ export class DemonlordActor extends Actor {
             data.characteristics.speed = parseInt(ancestry.data.characteristics?.speed);
             data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4) + parseInt(ancestry.data.characteristics?.healingratemodifier);
             data.characteristics.size = ancestry.data.characteristics.size;
+
             //data.characteristics.power = parseInt(data.characteristics.power);
             //data.characteristics.insanity.value = parseInt(data.characteristics.insanity.value) + parseInt(ancestry.data.characteristics.insanity);
             //data.characteristics.corruption = parseInt(data.characteristics.corruption) + parseInt(ancestry.data.characteristics.corruption);
@@ -107,14 +108,14 @@ export class DemonlordActor extends Actor {
         else
             data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(defenseBonus) + parseInt(agilitypoint);
 
+        data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(characterbuffs.defensebonus);
+
         characterbuffs.speedbonus += speedPenalty;
 
-        data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(characterbuffs.defensebonus);
-        data.characteristics.speed = parseInt(data.characteristics.speed) + parseInt(characterbuffs.speedbonus);
-
-        if (data.afflictions.slowed) {
-            data.characteristics.speed = Math.floor(parseInt(data.characteristics.speed) / 2);
-        }
+        if (data.afflictions.slowed)
+            data.characteristics.speed = Math.floor(parseInt(data.characteristics.speed + speedPenalty) / 2);
+        else
+            data.characteristics.speed = parseInt(data.characteristics.speed) + parseInt(characterbuffs.speedbonus);
     }
 
     async createItemCreate(event) {
