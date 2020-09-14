@@ -124,6 +124,9 @@ export class DemonlordItem extends Item {
             }
         };
 
+        let rollMode = game.settings.get("core", "rollMode");
+        if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
+
         let template = 'systems/demonlord/templates/chat/damage.html';
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;

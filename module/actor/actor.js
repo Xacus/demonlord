@@ -232,6 +232,10 @@ export class DemonlordActor extends Actor {
                 alias: this.name
             }
         };
+
+        let rollMode = game.settings.get("core", "rollMode");
+        if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
+
         /*
                 if (this.data.type == "creature") {
                     chatData.whisper = game.user._id;
@@ -395,6 +399,9 @@ export class DemonlordActor extends Actor {
                 alias: this.name
             }
         };
+
+        let rollMode = game.settings.get("core", "rollMode");
+        if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
 
         let template = 'systems/demonlord/templates/chat/combat.html';
         renderTemplate(template, templateData).then(content => {
@@ -611,6 +618,9 @@ export class DemonlordActor extends Actor {
                 alias: this.name
             }
         };
+
+        let rollMode = game.settings.get("core", "rollMode");
+        if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
 
         if (talent.data?.damage || talent.data?.vs?.attribute || (!talent.data?.vs?.attribute && !talent.data?.damage)) {
             let template = 'systems/demonlord/templates/chat/talent.html';
@@ -862,6 +872,9 @@ export class DemonlordActor extends Actor {
                 alias: this.name
             }
         };
+
+        let rollMode = game.settings.get("core", "rollMode");
+        if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
 
         let template = 'systems/demonlord/templates/chat/spell.html';
         renderTemplate(template, templateData).then(content => {
