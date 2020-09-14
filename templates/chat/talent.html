@@ -57,7 +57,10 @@
                 {{/if}}
             </div>
             <div class="boxborder tooltip">
-                <div class="value">{{data.diceTotal.value}}</div>
+                <div class="value">
+                    <div class="gmremove">{{data.diceTotal.value}}</div>
+                    <div class="gmonlyzero">{{data.diceTotalGM.value}}</div>
+                </div>
                 {{#if data.isCreature.value}}
                 <div class="gmonly">
                     <span class="tooltiptext">

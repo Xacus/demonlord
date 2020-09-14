@@ -336,6 +336,13 @@ export class DemonlordActor extends Actor {
             plus20 = attackRoll._total >= 20 && (attackRoll._total >= parseInt(targetNumber) + 5) ? true : false;
         }
 
+        let resultText = attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE";
+        let diceTotal = attackRoll != null ? attackRoll._total : "";
+        if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+            diceTotal = "?";
+            resultText = "";
+        }
+
         const againstNumber = (target != null && target.actor.data.type == "character") || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?";
 
         var templateData = {
@@ -346,13 +353,16 @@ export class DemonlordActor extends Actor {
             },
             data: {
                 diceTotal: {
+                    value: diceTotal
+                },
+                diceTotalGM: {
                     value: attackRoll != null ? attackRoll._total : ""
                 },
                 diceResult: {
                     value: attackRoll != null ? attackRoll.result.toString() : ""
                 },
                 resultText: {
-                    value: attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
+                    value: resultText
                 },
                 didHit: {
                     value: targetNumber == undefined || attackRoll._total >= targetNumber ? true : false
@@ -408,7 +418,13 @@ export class DemonlordActor extends Actor {
             chatData.content = content;
 
             if (game.dice3d && attackRoll != null) {
-                game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+                if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+                    if (attackRoll != null)
+                        chatData.sound = CONFIG.sounds.dice;
+                    ChatMessage.create(chatData);
+                } else {
+                    game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+                }
             } else {
                 if (attackRoll != null)
                     chatData.sound = CONFIG.sounds.dice;
@@ -539,6 +555,13 @@ export class DemonlordActor extends Actor {
             usesText = game.i18n.localize('DL.TalentUses') + ": " + uses + " / " + usesmax;
         }
 
+        let resultText = attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE";
+        let diceTotal = attackRoll != null ? attackRoll._total : "";
+        if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+            diceTotal = "?";
+            resultText = "";
+        }
+
         const againstNumber = target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?";
 
         var templateData = {
@@ -555,13 +578,16 @@ export class DemonlordActor extends Actor {
                     value: roll
                 },
                 diceTotal: {
+                    value: diceTotal
+                },
+                diceTotalGM: {
                     value: attackRoll != null ? attackRoll._total : ""
                 },
                 diceResult: {
                     value: attackRoll != null ? attackRoll.result.toString() : ""
                 },
                 resultText: {
-                    value: attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
+                    value: resultText
                 },
                 didHit: {
                     value: targetNumber != undefined || attackRoll._total >= targetNumber ? true : false
@@ -627,7 +653,13 @@ export class DemonlordActor extends Actor {
             renderTemplate(template, templateData).then(content => {
                 chatData.content = content;
                 if (game.dice3d && attackRoll != null) {
-                    game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+                    if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+                        if (attackRoll != null)
+                            chatData.sound = CONFIG.sounds.dice;
+                        ChatMessage.create(chatData);
+                    } else {
+                        game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+                    }
                 } else {
                     if (attackRoll != null) {
                         chatData.sound = CONFIG.sounds.dice;
@@ -742,6 +774,13 @@ export class DemonlordActor extends Actor {
             usesText = game.i18n.localize('DL.SpellCastingsUses') + ": " + uses + " / " + usesmax;
         }
 
+        let resultText = attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE";
+        let diceTotal = attackRoll != null ? attackRoll._total : "";
+        if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+            diceTotal = "?";
+            resultText = "";
+        }
+
         const againstNumber = target != null && target.actor?.data.type == "character" || game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined ? targetNumber : "?";
 
         var templateData = {
@@ -755,13 +794,16 @@ export class DemonlordActor extends Actor {
                     value: spell._id
                 },
                 diceTotal: {
-                    value: attackRoll._total
+                    value: diceTotal
+                },
+                diceTotalGM: {
+                    value: attackRoll != null ? attackRoll._total : ""
                 },
                 diceResult: {
                     value: attackRoll.result.toString()
                 },
                 resultText: {
-                    value: attackRoll != null && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE"
+                    value: resultText
                 },
                 didHit: {
                     value: attackRoll._total >= targetNumber ? true : false
@@ -880,7 +922,13 @@ export class DemonlordActor extends Actor {
         renderTemplate(template, templateData).then(content => {
             chatData.content = content;
             if (game.dice3d && attackRoll != null && attackAttribute) {
-                game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+                if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+                    if (attackRoll != null)
+                        chatData.sound = CONFIG.sounds.dice;
+                    ChatMessage.create(chatData);
+                } else {
+                    game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+                }
             } else {
                 if (attackRoll != null && attackAttribute) {
                     chatData.sound = CONFIG.sounds.dice;

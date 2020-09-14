@@ -15,6 +15,14 @@ export const registerSettings = function () {
         type: Boolean,
         config: true
     });
+    game.settings.register('demonlord', 'attackShowAttack', {
+        name: game.i18n.localize('DL.SettingAttackShowEnemyAttributeAtt'),
+        hint: game.i18n.localize('DL.SettingAttackShowEnemyAttributeAttHint'),
+        default: true,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
     game.settings.register('demonlord', 'attackShowDefense', {
         name: game.i18n.localize('DL.SettingAttackShowEnemyAttribute'),
         hint: game.i18n.localize('DL.SettingAttackShowEnemyAttributeHint'),
