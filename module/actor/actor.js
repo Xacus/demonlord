@@ -512,9 +512,6 @@ export class DemonlordActor extends Actor {
                 if (buffs?.challengebonus != 0) {
                     boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus);
                 }
-                if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
-                    diceformular += "+" + boonsbanes + "d6kh";
-                }
                 if (boonsbanes == undefined || boonsbanes == NaN || boonsbanes == 0) {
                     boonsbanes = 0;
                 } else {
