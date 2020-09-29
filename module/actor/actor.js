@@ -1093,6 +1093,12 @@ export class DemonlordActor extends Actor {
         characterbuffs.healthbonus += modHealingBonus;
         characterbuffs.speedbonus += modSpeedBonus;
 
+        // Afflictions
+        if (this.data.data.afflictions?.fatigued) {
+            characterbuffs.attackbonus += -1;
+            characterbuffs.challengebonus += -1;
+        }
+
         return characterbuffs;
     }
 
