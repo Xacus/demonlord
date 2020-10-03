@@ -39,3 +39,17 @@ form {
         display: block
     }
 }
+
+.tox {
+    .tox-toolbar-overlord, .tox-editor-container {
+        background: transparent;
+    }
+
+    .tox-toolbar, .tox-toolbar__overflow, .tox-toolbar__primary {
+        background-color: transparent;
+    }
+
+    .tox-edit-area {
+        padding: 0 8px;
+    }
+}

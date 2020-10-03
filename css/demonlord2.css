@@ -582,6 +582,20 @@
   padding-left: 6px;
 }
 
+.demonlord2.item .itemsheet-header {
+  padding: 5px;
+}
+
+.demonlord2.item .itemsheet-header img {
+  margin-right: 0px;
+  border-radius: 5px;
+}
+
+.demonlord2.item .itemsheet-header .header-fields {
+  margin-top: 0px;
+  margin-left: 5px;
+}
+
 .demonlord2.item .item-form {
   font-family: "Roboto", sans-serif;
 }
@@ -2990,6 +3004,18 @@
 .demonlord2 form span,
 .demonlord2 form label {
   display: block;
+}
+
+.demonlord2 .tox .tox-toolbar-overlord, .demonlord2 .tox .tox-editor-container {
+  background: transparent;
+}
+
+.demonlord2 .tox .tox-toolbar, .demonlord2 .tox .tox-toolbar__overflow, .demonlord2 .tox .tox-toolbar__primary {
+  background-color: transparent;
+}
+
+.demonlord2 .tox .tox-edit-area {
+  padding: 0 8px;
 }
 
 .demonlord2 .resource {

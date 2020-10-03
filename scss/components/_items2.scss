@@ -82,6 +82,20 @@ form {
     }
 }
 
+.itemsheet-header {
+    padding: 5px;
+
+    img {
+        margin-right: 0px;
+        border-radius: 5px;
+    }
+
+    .header-fields {
+        margin-top: 0px;
+        margin-left: 5px;
+    }
+}
+
 .item-form {
     font-family: $font-primary;
 }
