@@ -84,6 +84,11 @@
                     "stunned": false,
                     "surprised": false,
                     "unconscious": false
+                },
+                "damageeffects": {
+                    "incapacitated": false,
+                    "disabled": false,
+                    "dying": false
                 }
             }
         },

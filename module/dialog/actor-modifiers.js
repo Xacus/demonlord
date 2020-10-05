@@ -86,6 +86,25 @@ export class DLActorModifiers extends FormApplication {
                 this.updateTurnOrder(false);
             }
         });
+
+        // Damage Effects
+        html.find(`input[type=checkbox][id="data.damageeffects.incapacitated"]`).click(ev => {
+            if (ev.currentTarget.checked) {
+                const prone = html.find(`input[type=checkbox][id="data.afflictions.prone"]`).prop('checked', true);
+            }
+        });
+
+        html.find(`input[type=checkbox][id="data.damageeffects.disabled"]`).click(ev => {
+            if (ev.currentTarget.checked) {
+                const defenseless = html.find(`input[type=checkbox][id="data.afflictions.defenseless"]`).prop('checked', true);
+            }
+        });
+
+        html.find(`input[type=checkbox][id="data.damageeffects.dying"]`).click(ev => {
+            if (ev.currentTarget.checked) {
+                const prone = html.find(`input[type=checkbox][id="data.afflictions.unconscious"]`).prop('checked', true);
+            }
+        });
     }
 
     /**
@@ -256,6 +275,38 @@ export class DLActorModifiers extends FormApplication {
                     "data.afflictions.unconscious": v
                 });
             }
+            else if (k.includes("damageeffects.incapacitated")) {
+                await this.object.update({
+                    "data.damageeffects.incapacitated": v
+                });
+            }
+            else if (k.includes("damageeffects.disabled")) {
+                await this.object.update({
+                    "data.damageeffects.disabled": v
+                });
+            }
+            else if (k.includes("damageeffects.dying")) {
+                await this.object.update({
+                    "data.damageeffects.dying": v
+                });
+            }
+        }
+
+        // Damage Effects
+        if (this.object.data.data.damageeffects.incapacitated) {
+            await this.object.update({
+                "data.afflictions.prone": true
+            });
+        }
+        if (this.object.data.data.damageeffects.disabled) {
+            await this.object.update({
+                "data.afflictions.defenseless": true
+            });
+        }
+        if (this.object.data.data.damageeffects.dying) {
+            await this.object.update({
+                "data.afflictions.unconscious": true
+            });
         }
 
         // Afflictions: Asleep 
@@ -365,30 +416,6 @@ export class DLActorModifiers extends FormApplication {
     async updateTurnOrder(value) {
         await this.object.update({
             "data.fastturn": value
-        });
-    }
-
-    async updateAfflictions(afflictions) {
-        await this.object.update({
-            "data.afflictions.asleep": afflictions[0],
-            "data.afflictions.blinded": afflictions[1],
-            "data.afflictions.charmed": afflictions[2],
-            "data.afflictions.compelled": afflictions[3],
-            "data.afflictions.dazed": afflictions[4],
-            "data.afflictions.deafened": afflictions[5],
-            "data.afflictions.defenseless": afflictions[6],
-            "data.afflictions.diseased": afflictions[7],
-            "data.afflictions.fatigued": afflictions[8],
-            "data.afflictions.frightened": afflictions[9],
-            "data.afflictions.grabbed": afflictions[10],
-            "data.afflictions.immobilized": afflictions[11],
-            "data.afflictions.impaired": afflictions[12],
-            "data.afflictions.poisoned": afflictions[13],
-            "data.afflictions.prone": afflictions[14],
-            "data.afflictions.slowed": afflictions[15],
-            "data.afflictions.stunned": afflictions[16],
-            "data.afflictions.surprised": afflictions[17],
-            "data.afflictions.unconscious": afflictions[18]
         });
     }
 }
