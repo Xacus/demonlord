@@ -1098,6 +1098,18 @@ export class DemonlordActor extends Actor {
             characterbuffs.attackbonus += -1;
             characterbuffs.challengebonus += -1;
         }
+        if (this.data.data.afflictions?.diseased) {
+            characterbuffs.attackbonus += -1;
+            characterbuffs.challengebonus += -1;
+        }
+        if (this.data.data.afflictions?.impaired) {
+            characterbuffs.attackbonus += -1;
+            characterbuffs.challengebonus += -1;
+        }
+        if (this.data.data.afflictions?.poisoned) {
+            characterbuffs.attackbonus += -1;
+            characterbuffs.challengebonus += -1;
+        }
 
         return characterbuffs;
     }

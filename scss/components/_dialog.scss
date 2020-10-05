@@ -20,6 +20,30 @@
                 float: left;
                 margin-top: 5px;
             }
+
+            .fas {
+                margin-top: 5px;
+                margin-left: 5px;
+            }
+
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 260px;
+                background-color: rgba(0, 0, 0, 0.9);
+                color: #fff;
+                text-align: left;
+                border-radius: 3px;
+                padding: 5px;
+                top: 40px;
+                right: 20px;
+                position: absolute;
+                z-index: 1;
+
+            }
+
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+            }
         }
 
         .grid {

@@ -819,6 +819,29 @@
   margin-top: 5px;
 }
 
+.demonlord .form-block .items-list .affliction .fas {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.demonlord .form-block .items-list .affliction .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 260px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: left;
+  border-radius: 3px;
+  padding: 5px;
+  top: 40px;
+  right: 20px;
+  position: absolute;
+  z-index: 1;
+}
+
+.demonlord .form-block .items-list .affliction .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 .demonlord .form-block .items-list .grid {
   gap: 0;
   margin-top: 0;
