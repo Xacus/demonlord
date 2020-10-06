@@ -28,7 +28,6 @@ import {
 } from "./settings.js";
 import {
     rollInitiative,
-    setupTurns,
     startCombat,
     nextTurn
 } from "./init/init.js";
@@ -51,7 +50,6 @@ Hooks.once('init', async function () {
     CONFIG.DL = DL;
 
     Combat.prototype.rollInitiative = rollInitiative;
-    Combat.prototype.setupTurns = setupTurns;
     Combat.prototype.startCombat = startCombat;
     Combat.prototype.nextTurn = nextTurn;
 

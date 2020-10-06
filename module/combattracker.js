@@ -12,26 +12,6 @@ export default class extends CombatTracker {
 
     /** @override */
     activateListeners(html) {
-        /*
-        // Add End of Round Actor
-        let found = false;
-        for (let actor of game.actors) {
-            if (actor.name == "End of Round") {
-                found = true;
-            }
-        }
-
-        if (!found) {
-            let actor = Actor.create({
-                name: "End of Round",
-                type: "character",
-                img: "systems/demonlord/ui/icons/pentragram.png",
-                sort: 12000,
-                token: {},
-                items: []
-            });
-        }
-*/
         let init;
         let hasEndOfRoundEffects = false;
         html.find('.combatant').each((i, el) => {
@@ -105,11 +85,8 @@ export default class extends CombatTracker {
 
     getCurrentCombat() {
         const combat = this.combat;
-        const hasCombat = combat !== null;
-        const view = canvas.scene;
-        const combats = view ? game.combats.entities.filter(c => c.data.scene === view._id) : [];
+        const combats = combat.scene ? game.combats.entities.filter(c => c.data.scene === combat.scene._id) : [];
         const currentIdx = combats.findIndex(c => c === this.combat);
-
         return combats[currentIdx];
     }
 
