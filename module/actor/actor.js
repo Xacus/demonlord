@@ -162,12 +162,12 @@ export class DemonlordActor extends Actor {
 
         let d = new Dialog({
             title: game.i18n.localize('DL.DialogChallengeRoll') + game.i18n.localize(attLabel),
-            content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+            content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
             buttons: {
                 roll: {
                     icon: '<i class="fas fa-check"></i>',
                     label: game.i18n.localize('DL.DialogRoll'),
-                    callback: (html) => this.rollAttribute(attribute, html.children()[1].value)
+                    callback: (html) => this.rollAttribute(attribute, html.find('[id=\"boonsbanes\"]')[0].value)
                 },
                 cancel: {
                     icon: '<i class="fas fa-times"></i>',
@@ -210,9 +210,6 @@ export class DemonlordActor extends Actor {
             data: {
                 diceTotal: {
                     value: r._total
-                },
-                diceResult: {
-                    value: r.result.toString()
                 },
                 resultText: {
                     value: (r._total >= 10 ? "SUCCESS" : "FAILURE")
@@ -261,12 +258,12 @@ export class DemonlordActor extends Actor {
         if (attackAttribute) {
             let d = new Dialog({
                 title: game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name),
-                content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
                 buttons: {
                     roll: {
                         icon: '<i class="fas fa-check"></i>',
                         label: game.i18n.localize('DL.DialogRoll'),
-                        callback: (html) => this.rollAttack(item, html.children()[1].value, characterbuffs)
+                        callback: (html) => this.rollAttack(item, html.find('[id=\"boonsbanes\"]')[0].value, characterbuffs)
                     },
                     cancel: {
                         icon: '<i class="fas fa-times"></i>',
@@ -281,6 +278,8 @@ export class DemonlordActor extends Actor {
         } else {
             this.rollAttack(item, 0, characterbuffs)
         }
+
+        // html.children()[1].value
     }
 
     rollAttack(weapon, boonsbanes, buffs) {
@@ -357,9 +356,6 @@ export class DemonlordActor extends Actor {
                 },
                 diceTotalGM: {
                     value: attackRoll != null ? attackRoll._total : ""
-                },
-                diceResult: {
-                    value: attackRoll != null ? attackRoll.result.toString() : ""
                 },
                 resultText: {
                     value: resultText
@@ -447,12 +443,12 @@ export class DemonlordActor extends Actor {
             if (item.data?.vs?.attribute) {
                 let d = new Dialog({
                     title: game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
-                    content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                    content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
                     buttons: {
                         roll: {
                             icon: '<i class="fas fa-check"></i>',
                             label: game.i18n.localize('DL.DialogRoll'),
-                            callback: (html) => this.useTalent(item, html.children()[1].value)
+                            callback: (html) => this.useTalent(item, html.find('[id=\"boonsbanes\"]')[0].value)
                         },
                         cancel: {
                             icon: '<i class="fas fa-times"></i>',
@@ -580,9 +576,6 @@ export class DemonlordActor extends Actor {
                 diceTotalGM: {
                     value: attackRoll != null ? attackRoll._total : ""
                 },
-                diceResult: {
-                    value: attackRoll != null ? attackRoll.result.toString() : ""
-                },
                 resultText: {
                     value: resultText
                 },
@@ -678,12 +671,12 @@ export class DemonlordActor extends Actor {
                 if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
                     let d = new Dialog({
                         title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
-                        content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                        content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
                         buttons: {
                             roll: {
                                 icon: '<i class="fas fa-check"></i>',
                                 label: game.i18n.localize('DL.DialogRoll'),
-                                callback: (html) => this.useSpell(item, html.children()[1].value)
+                                callback: (html) => this.useSpell(item, html.find('[id=\"boonsbanes\"]')[0].value)
                             },
                             cancel: {
                                 icon: '<i class="fas fa-times"></i>',
@@ -795,9 +788,6 @@ export class DemonlordActor extends Actor {
                 },
                 diceTotalGM: {
                     value: attackRoll != null ? attackRoll._total : ""
-                },
-                diceResult: {
-                    value: attackRoll.result.toString()
                 },
                 resultText: {
                     value: resultText
@@ -1276,21 +1266,21 @@ export class DemonlordActor extends Actor {
                 });
             };
 
-            for (let i = 0; i < diceRoll.parts.length; i++) {
-                if (diceRoll.parts[i] instanceof Die) {
-                    let pool = diceRoll.parts[i].rolls;
-                    let faces = diceRoll.parts[i].faces;
+            for (let i = 0; i < diceRoll.terms.length; i++) {
+                if (diceRoll.terms[i] instanceof Die) {
+                    let pool = diceRoll.terms[i].results;
+                    let faces = diceRoll.terms[i].faces;
 
                     pool.forEach((pooldie) => {
                         if (pooldie.discarded) {
-                            pushDice(diceData, pooldie.roll, faces, "#777");
+                            pushDice(diceData, pooldie.result, faces, "#777");
                         } else {
-                            pushDice(diceData, pooldie.roll, faces, "white");
+                            pushDice(diceData, pooldie.result, faces, "white");
                         }
 
                     });
-                } else if (typeof diceRoll.parts[i] == 'string') {
-                    const parsed = parseInt(diceRoll.parts[i]);
+                } else if (typeof diceRoll.terms[i] == 'string') {
+                    const parsed = parseInt(diceRoll.terms[i]);
                     if (!isNaN(parsed)) {
                         diceData.dice.push({
                             img: null,
@@ -1301,7 +1291,24 @@ export class DemonlordActor extends Actor {
                     } else {
                         diceData.dice.push({
                             img: null,
-                            result: diceRoll.parts[i],
+                            result: diceRoll.terms[i],
+                            dice: false
+                        });
+                    }
+                }
+                else if (typeof diceRoll.terms[i] == 'number') {
+                    const parsed = parseInt(diceRoll.terms[i]);
+                    if (!isNaN(parsed)) {
+                        diceData.dice.push({
+                            img: null,
+                            result: parsed,
+                            dice: false,
+                            color: 'white'
+                        });
+                    } else {
+                        diceData.dice.push({
+                            img: null,
+                            result: diceRoll.terms[i],
                             dice: false
                         });
                     }
