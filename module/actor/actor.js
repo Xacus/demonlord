@@ -112,10 +112,23 @@ export class DemonlordActor extends Actor {
 
         characterbuffs.speedbonus += speedPenalty;
 
+        // Afflictions
         if (data.afflictions.slowed)
             data.characteristics.speed = Math.floor(parseInt(data.characteristics.speed + speedPenalty) / 2);
         else
             data.characteristics.speed = parseInt(data.characteristics.speed) + parseInt(characterbuffs.speedbonus);
+
+        if (data.afflictions.defenseless)
+            data.characteristics.speed = 5;
+
+        if (data.afflictions.blinded)
+            data.characteristics.speed = parseInt(data.characteristics.speed) < 2 ? parseInt(data.characteristics.speed) : 2;
+
+        if (data.afflictions.immobilized)
+            data.characteristics.speed = 0;
+
+        if (data.afflictions.unconscious)
+            data.characteristics.defense = 5;
     }
 
     async createItemCreate(event) {
@@ -160,25 +173,37 @@ export class DemonlordActor extends Actor {
     rollChallenge(attribute) {
         const attLabel = attribute.label.charAt(0).toUpperCase() + attribute.label.toLowerCase().slice(1);
 
-        let d = new Dialog({
-            title: game.i18n.localize('DL.DialogChallengeRoll') + game.i18n.localize(attLabel),
-            content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-            buttons: {
-                roll: {
-                    icon: '<i class="fas fa-check"></i>',
-                    label: game.i18n.localize('DL.DialogRoll'),
-                    callback: (html) => this.rollAttribute(attribute, html.find('[id=\"boonsbanes\"]')[0].value)
+        if (this.data.data.afflictions.defenseless && attLabel != "Perception") {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningDefenselessFailer'));
+        } else if (this.data.data.afflictions.unconscious) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningUnconsciousFailer'));
+        } else if (this.data.data.afflictions.blinded && attLabel == "Perception") {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningBlindedChallengeFailer'));
+        } else if (this.data.data.afflictions.stunned) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningStunnedFailer'));
+        } else if (this.data.data.afflictions.surprised) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningSurprisedFailer'));
+        } else {
+            let d = new Dialog({
+                title: game.i18n.localize('DL.DialogChallengeRoll') + game.i18n.localize(attLabel),
+                content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                buttons: {
+                    roll: {
+                        icon: '<i class="fas fa-check"></i>',
+                        label: game.i18n.localize('DL.DialogRoll'),
+                        callback: (html) => this.rollAttribute(attribute, html.find('[id=\"boonsbanes\"]')[0].value)
+                    },
+                    cancel: {
+                        icon: '<i class="fas fa-times"></i>',
+                        label: game.i18n.localize('DL.DialogCancel'),
+                        callback: () => { }
+                    }
                 },
-                cancel: {
-                    icon: '<i class="fas fa-times"></i>',
-                    label: game.i18n.localize('DL.DialogCancel'),
-                    callback: () => { }
-                }
-            },
-            default: "roll",
-            close: () => { }
-        });
-        d.render(true);
+                default: "roll",
+                close: () => { }
+            });
+            d.render(true);
+        }
     }
 
     rollAttribute(attribute, boonsbanes) {
@@ -251,35 +276,45 @@ export class DemonlordActor extends Actor {
     }
 
     rollWeaponAttack(itemId, options = { event: null }) {
-        const item = this.getOwnedItem(itemId);
-        let attackAttribute = item.data.data.action?.attack;
-        const characterbuffs = this.generateCharacterBuffs("ATTACK");
-
-        if (attackAttribute) {
-            let d = new Dialog({
-                title: game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name),
-                content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-                buttons: {
-                    roll: {
-                        icon: '<i class="fas fa-check"></i>',
-                        label: game.i18n.localize('DL.DialogRoll'),
-                        callback: (html) => this.rollAttack(item, html.find('[id=\"boonsbanes\"]')[0].value, characterbuffs)
-                    },
-                    cancel: {
-                        icon: '<i class="fas fa-times"></i>',
-                        label: game.i18n.localize('DL.DialogCancel'),
-                        callback: () => { }
-                    }
-                },
-                default: "roll",
-                close: () => { }
-            });
-            d.render(true);
+        if (this.data.data.afflictions.dazed) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'));
+        } else if (this.data.data.afflictions.defenseless) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningDefenselessFailer'));
+        } else if (this.data.data.afflictions.surprised) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningSurprisedFailer'));
+        } else if (this.data.data.afflictions.stunned) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningStunnedFailer'));
+        } else if (this.data.data.afflictions.unconscious) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningUnconsciousFailer'));
         } else {
-            this.rollAttack(item, 0, characterbuffs)
-        }
+            const item = this.getOwnedItem(itemId);
+            let attackAttribute = item.data.data.action?.attack;
+            const characterbuffs = this.generateCharacterBuffs("ATTACK");
 
-        // html.children()[1].value
+            if (attackAttribute) {
+                let d = new Dialog({
+                    title: game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name),
+                    content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                    buttons: {
+                        roll: {
+                            icon: '<i class="fas fa-check"></i>',
+                            label: game.i18n.localize('DL.DialogRoll'),
+                            callback: (html) => this.rollAttack(item, html.find('[id=\"boonsbanes\"]')[0].value, characterbuffs)
+                        },
+                        cancel: {
+                            icon: '<i class="fas fa-times"></i>',
+                            label: game.i18n.localize('DL.DialogCancel'),
+                            callback: () => { }
+                        }
+                    },
+                    default: "roll",
+                    close: () => { }
+                });
+                d.render(true);
+            } else {
+                this.rollAttack(item, 0, characterbuffs)
+            }
+        }
     }
 
     rollAttack(weapon, boonsbanes, buffs) {
@@ -435,36 +470,48 @@ export class DemonlordActor extends Actor {
     }
 
     rollTalent(itemId, options = { event: null }) {
-        let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
-        let uses = parseInt(item.data?.uses?.value);
-        let usesmax = parseInt(item.data?.uses?.max);
-
-        if ((uses == 0 && usesmax == 0) || uses != usesmax) {
-            if (item.data?.vs?.attribute) {
-                let d = new Dialog({
-                    title: game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
-                    content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-                    buttons: {
-                        roll: {
-                            icon: '<i class="fas fa-check"></i>',
-                            label: game.i18n.localize('DL.DialogRoll'),
-                            callback: (html) => this.useTalent(item, html.find('[id=\"boonsbanes\"]')[0].value)
-                        },
-                        cancel: {
-                            icon: '<i class="fas fa-times"></i>',
-                            label: game.i18n.localize('DL.DialogCancel'),
-                            callback: () => { }
-                        }
-                    },
-                    default: "roll",
-                    close: () => { }
-                });
-                d.render(true);
-            } else {
-                this.useTalent(item, null)
-            }
+        if (this.data.data.afflictions.dazed) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'));
+        } else if (this.data.data.afflictions.defenseless) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningDefenselessFailer'));
+        } else if (this.data.data.afflictions.surprised) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningSurprisedFailer'));
+        } else if (this.data.data.afflictions.stunned) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningStunnedFailer'));
+        } else if (this.data.data.afflictions.unconscious) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningUnconsciousFailer'));
         } else {
-            ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'));
+            let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+            let uses = parseInt(item.data?.uses?.value);
+            let usesmax = parseInt(item.data?.uses?.max);
+
+            if ((uses == 0 && usesmax == 0) || uses != usesmax) {
+                if (item.data?.vs?.attribute) {
+                    let d = new Dialog({
+                        title: game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
+                        content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                        buttons: {
+                            roll: {
+                                icon: '<i class="fas fa-check"></i>',
+                                label: game.i18n.localize('DL.DialogRoll'),
+                                callback: (html) => this.useTalent(item, html.find('[id=\"boonsbanes\"]')[0].value)
+                            },
+                            cancel: {
+                                icon: '<i class="fas fa-times"></i>',
+                                label: game.i18n.localize('DL.DialogCancel'),
+                                callback: () => { }
+                            }
+                        },
+                        default: "roll",
+                        close: () => { }
+                    });
+                    d.render(true);
+                } else {
+                    this.useTalent(item, null)
+                }
+            } else {
+                ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'));
+            }
         }
     }
 
@@ -661,41 +708,53 @@ export class DemonlordActor extends Actor {
     }
 
     rollSpell(itemId, options = { event: null }) {
-        const item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
-        let attackAttribute = item.data?.action?.attack;
-        let uses = parseInt(item.data?.castings?.value);
-        let usesmax = parseInt(item.data?.castings?.max);
+        if (this.data.data.afflictions.dazed) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'));
+        } else if (this.data.data.afflictions.defenseless) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningDefenselessFailer'));
+        } else if (this.data.data.afflictions.surprised) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningSurprisedFailer'));
+        } else if (this.data.data.afflictions.stunned) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningStunnedFailer'));
+        } else if (this.data.data.afflictions.unconscious) {
+            ui.notifications.error(game.i18n.localize('DL.DialogWarningUnconsciousFailer'));
+        } else {
+            const item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+            let attackAttribute = item.data?.action?.attack;
+            let uses = parseInt(item.data?.castings?.value);
+            let usesmax = parseInt(item.data?.castings?.max);
 
-        if ((uses == 0 && usesmax == 0) || uses != usesmax) {
-            if (attackAttribute) {
-                if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
-                    let d = new Dialog({
-                        title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
-                        content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
-                        buttons: {
-                            roll: {
-                                icon: '<i class="fas fa-check"></i>',
-                                label: game.i18n.localize('DL.DialogRoll'),
-                                callback: (html) => this.useSpell(item, html.find('[id=\"boonsbanes\"]')[0].value)
+            if ((uses == 0 && usesmax == 0) || uses != usesmax) {
+                if (attackAttribute) {
+                    if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
+                        let d = new Dialog({
+                            title: game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
+                            content: "<b>" + game.i18n.localize('DL.DialogAddBonesAndBanes') + "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                            buttons: {
+                                roll: {
+                                    icon: '<i class="fas fa-check"></i>',
+                                    label: game.i18n.localize('DL.DialogRoll'),
+                                    callback: (html) => this.useSpell(item, html.find('[id=\"boonsbanes\"]')[0].value)
+                                },
+                                cancel: {
+                                    icon: '<i class="fas fa-times"></i>',
+                                    label: game.i18n.localize('DL.DialogCancel'),
+                                    callback: () => { }
+                                }
                             },
-                            cancel: {
-                                icon: '<i class="fas fa-times"></i>',
-                                label: game.i18n.localize('DL.DialogCancel'),
-                                callback: () => { }
-                            }
-                        },
-                        default: "roll",
-                        close: () => { }
-                    });
-                    d.render(true);
+                            default: "roll",
+                            close: () => { }
+                        });
+                        d.render(true);
+                    } else {
+                        this.useSpell(item, 0);
+                    }
                 } else {
                     this.useSpell(item, 0);
                 }
             } else {
-                this.useSpell(item, 0);
+                ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'));
             }
-        } else {
-            ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'));
         }
     }
 
