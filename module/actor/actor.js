@@ -212,7 +212,7 @@ export class DemonlordActor extends Actor {
                     value: r._total
                 },
                 resultText: {
-                    value: (r._total >= 10 ? "SUCCESS" : "FAILURE")
+                    value: (r._total >= 10 ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure'))
                 },
                 isCreature: {
                     value: this.data.type == "creature" ? true : false
@@ -335,7 +335,7 @@ export class DemonlordActor extends Actor {
             plus20 = attackRoll._total >= 20 && (attackRoll._total >= parseInt(targetNumber) + 5) ? true : false;
         }
 
-        let resultText = attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE";
+        let resultText = attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure');
         let diceTotal = attackRoll != null ? attackRoll._total : "";
         if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
             diceTotal = "?";
@@ -548,7 +548,7 @@ export class DemonlordActor extends Actor {
             usesText = game.i18n.localize('DL.TalentUses') + ": " + uses + " / " + usesmax;
         }
 
-        let resultText = attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE";
+        let resultText = attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure');
         let diceTotal = attackRoll != null ? attackRoll._total : "";
         if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
             diceTotal = "?";
@@ -764,7 +764,7 @@ export class DemonlordActor extends Actor {
             usesText = game.i18n.localize('DL.SpellCastingsUses') + ": " + uses + " / " + usesmax;
         }
 
-        let resultText = attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? "SUCCESS" : "FAILURE";
+        let resultText = attackRoll != null && targetNumber != undefined && attackRoll._total >= parseInt(targetNumber) ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure');
         let diceTotal = attackRoll != null ? attackRoll._total : "";
         if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
             diceTotal = "?";

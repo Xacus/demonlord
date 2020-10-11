@@ -209,6 +209,7 @@ export class DemonlordItem extends Item {
         const li = event.currentTarget;
         const item = li.children[0];
         const attribute = item.dataset.attribute;
+
         const start = li.closest(".request-challengeroll");
         let boonsbanes = start.children[0].value;
         if (boonsbanes == undefined)
@@ -237,7 +238,7 @@ export class DemonlordItem extends Item {
                 actor: actor,
                 data: {
                     attribute: {
-                        value: attribute
+                        value: game.i18n.localize(CONFIG.DL.attributes[attribute.toLowerCase()])
                     },
                     boonsbanes: {
                         value: boonsbanes

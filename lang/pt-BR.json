@@ -420,5 +420,16 @@
   "DL.AfflictionsSlowed": "A slowed creature can take only a slow turn (see Combat), its Speed is halved, and it cannot benefit from increases to Speed.",
   "DL.AfflictionsStunned": "A stunned creature cannot move or use actions. The creature automatically gets a failure on any challenge rolls it would make. Other creatures make all attack rolls against the stunned creature with 1 boon.",
   "DL.AfflictionsSurprised": "A surprised creature cannot use actions, cannot move, and automatically gets a failure on any challenge rolls it would make.",
-  "DL.AfflictionsUnconscious": "An unconscious creature is unable to act, move, or perceive its surroundings. The creature’s Defense is 5. It cannot use actions or move, and all its challenge rolls result in failure."
+  "DL.AfflictionsUnconscious": "An unconscious creature is unable to act, move, or perceive its surroundings. The creature’s Defense is 5. It cannot use actions or move, and all its challenge rolls result in failure.",
+  "DL.DiceResultSuccess": "SUCCESS",
+  "DL.DiceResultFailure": "FAILURE",
+  "DL.MacroCancel": "Cancel",
+  "DL.MacroChallengeTitle": "Request Challenge Roll",
+  "DL.MacroChallengeChoose": "Choose Attribute:",
+  "DL.MacroChallengeRequestRoll": "Request Roll",
+  "DL.MacroHealTitle": "Heal",
+  "DL.MacroHealChoose": "Choose Healing:",
+  "DL.MacroHealHealingRate": "Healing Rate",
+  "DL.MacroHealHalfHealingRate": "Half Healing Rate",
+  "DL.MacroHealApplyHealing": "Apply Healing"
 }

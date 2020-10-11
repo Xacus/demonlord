@@ -426,5 +426,16 @@
     "DL.AfflictionsSlowed": "Una criatura ralentizada solo puede usar un turno lento (ver Combate), reduce a la mitad su Velocidad y no puede beneficiarse de aumentos a esta característica.",
     "DL.AfflictionsStunned": "Una criatura aturdida no puede moverse ni realizar acciones. Todas las pruebas fracasan automáticamente. Todos sus atacantes reciben 1 ventaja.",
     "DL.AfflictionsSurprised": "Una criatura sorprendida no puede moverse ni realizar acciones. Todas las pruebas fracasan automáticamente.",
-    "DL.AfflictionsUnconscious": "Una criatura inconsciente es incapaz de actuar, moverse o percibir su entorno. Su Defensa es 5. No puede realizar acciones ni moverse, y todas las pruebas fracasan automáticamente."
+    "DL.AfflictionsUnconscious": "Una criatura inconsciente es incapaz de actuar, moverse o percibir su entorno. Su Defensa es 5. No puede realizar acciones ni moverse, y todas las pruebas fracasan automáticamente.",
+    "DL.DiceResultSuccess": "SUCCESS",
+    "DL.DiceResultFailure": "FAILURE",
+    "DL.MacroCancel": "Cancel",
+    "DL.MacroChallengeTitle": "Request Challenge Roll",
+    "DL.MacroChallengeChoose": "Choose Attribute:",
+    "DL.MacroChallengeRequestRoll": "Request Roll",
+    "DL.MacroHealTitle": "Heal",
+    "DL.MacroHealChoose": "Choose Healing:",
+    "DL.MacroHealHealingRate": "Healing Rate",
+    "DL.MacroHealHalfHealingRate": "Half Healing Rate",
+    "DL.MacroHealApplyHealing": "Apply Healing"
 }
