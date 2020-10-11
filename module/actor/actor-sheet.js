@@ -505,10 +505,10 @@ export class DemonlordActorSheet extends ActorSheet {
         html.find('.ammo-amount').click(ev => {
             const li = event.currentTarget.closest(".item");
             const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
-            let amount = item.data.amount;
+            let amount = item.data.quantity;
 
             if (amount > 0) {
-                item.data.amount = Number(amount) - 1;
+                item.data.quantity = Number(amount) - 1;
             }
 
             this.actor.updateEmbeddedEntity('OwnedItem', item);

@@ -238,7 +238,8 @@
                 "healactive": true,
                 "healing": false,
                 "rate": ""
-            }
+            },
+            "quantity": 1
         },
         "talent": {
             "templates": [
@@ -290,7 +291,8 @@
             "hands": "",
             "properties": "",
             "strengthmin": "",
-            "wear": true
+            "wear": true,
+            "quantity": 1
         },
         "armor": {
             "templates": [
@@ -302,13 +304,14 @@
             "fixed": "",
             "strengthmin": "",
             "wear": true,
-            "isShield": false
+            "isShield": false,
+            "quantity": 1
         },
         "ammo": {
             "templates": [
                 "base"
             ],
-            "amount": 0
+            "quantity": 5
         },
         "specialaction": {
             "templates": [
