@@ -439,6 +439,8 @@
     "DL.MacroChallengeTitle": "Request Challenge Roll",
     "DL.MacroChallengeChoose": "Choose Attribute:",
     "DL.MacroChallengeRequestRoll": "Request Roll",
+    "DL.MacroMakeChallengeRollTitle": "Make Challenge Roll",
+    "DL.MacroMakeChallengeRollRoll": "Roll",
     "DL.MacroHealTitle": "Heal",
     "DL.MacroHealChoose": "Choose Healing:",
     "DL.MacroHealHealingRate": "Healing Rate",
