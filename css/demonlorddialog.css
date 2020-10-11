@@ -492,20 +492,26 @@
   font-size: 16px;
 }
 
-.demonlorddialog .window-content {
+.window-content {
   background: url(paper.jpg);
 }
 
-.demonlorddialog .window-content .form-block {
+.window-content .form-block {
   font-size: 11px;
 }
 
-.demonlorddialog .window-content .form-block .creature-list {
+.window-content .form-block .items-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.window-content .form-block .creature-list {
   margin: 0 0 0px 0;
   padding: 0;
 }
 
-.demonlorddialog .window-content .form-block .creature-list .creature-entry {
+.window-content .form-block .creature-list .creature-entry {
   list-style: none;
   overflow-y: auto;
   padding-bottom: 5px;
@@ -515,32 +521,32 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
-.demonlorddialog .window-content .form-block .creature-list .creature-entry .header {
+.window-content .form-block .creature-list .creature-entry .header {
   width: 100%;
   padding: 5px;
 }
 
-.demonlorddialog .window-content .form-block .creature-list .creature-entry .header h4 {
+.window-content .form-block .creature-list .creature-entry .header h4 {
   font-family: "IM Fell English SC", serif;
   font-size: 14px;
 }
 
-.demonlorddialog .window-content .form-block .creature-list .creature-entry .header .headerbody {
+.window-content .form-block .creature-list .creature-entry .header .headerbody {
   margin-top: -10px;
 }
 
-.demonlorddialog .window-content .form-block .creature-list .creature-entry .toggleEffectInfo {
+.window-content .form-block .creature-list .creature-entry .toggleEffectInfo {
   height: 13px;
   width: 200px;
 }
 
-.demonlorddialog .window-content .form-block .creature-list .creature-entry .effectInfo {
+.window-content .form-block .creature-list .creature-entry .effectInfo {
   float: left;
   margin-top: -20px;
   margin-bottom: 10px;
 }
 
-.demonlorddialog .window-content .form-block .creature-list .creature-entry .effects {
+.window-content .form-block .creature-list .creature-entry .effects {
   list-style: none;
   margin: 5px 0px -15px 5px;
   padding: 0;
@@ -548,18 +554,184 @@
   padding-top: 20px;
 }
 
-.demonlorddialog .window-content .form-block .creature-list .creature-entry .effects .effect .effectname {
+.window-content .form-block .creature-list .creature-entry .effects .effect .effectname {
   font-weight: bold;
 }
 
-.demonlorddialog .window-content .form-block .creature-list .creature-entry .effects .effect .effectsescription {
+.window-content .form-block .creature-list .creature-entry .effects .effect .effectsescription {
   margin-top: -5px;
 }
 
-.demonlorddialog .window-content .form-block .creature-list .token-image {
+.window-content .form-block .creature-list .token-image {
   float: left;
   border: none;
   height: 48px;
   width: 48px;
   margin-right: 10px;
+}
+
+.affliction {
+  height: 18px;
+}
+
+.affliction input {
+  float: left;
+}
+
+.affliction label {
+  float: left;
+  margin-top: 5px;
+}
+
+.affliction .fas {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.affliction .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 260px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: left;
+  border-radius: 3px;
+  padding: 5px;
+  top: 40px;
+  right: 20px;
+  position: absolute;
+  z-index: 1;
+}
+
+.affliction .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.form-header {
+  height: 20px;
+  padding-top: 2px;
+  padding-right: 5px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.form-headermods {
+  float: left;
+  height: 20px;
+  padding-top: 2px;
+  padding-right: 5px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.form-line {
+  width: 100%;
+  height: 22px;
+}
+
+.form-line .form-fieldheader {
+  float: left;
+  padding-top: 2px;
+  padding-right: 5px;
+}
+
+.form-line .bold {
+  font-weight: bold;
+}
+
+.form-line .enablemod {
+  float: left;
+  width: 20px;
+  height: 16px;
+  margin: -2px 5px 0 -8px;
+}
+
+.form-line .disable {
+  float: left;
+  width: 150px;
+  height: 16px;
+  margin: -2px 0 0 0;
+}
+
+.form-line .form-fields {
+  float: left;
+  margin-top: -3px;
+  padding-top: 2px;
+}
+
+.form-line .form-fields div {
+  float: left;
+  margin-left: 5px;
+}
+
+.form-line .form-fields select,
+.form-line .form-fields input {
+  margin-top: 2px;
+  font-size: 11px;
+  height: 16px;
+}
+
+.form-line .form-fields input[type="checkbox"] {
+  width: 15px;
+  margin-top: -1px;
+}
+
+.form-line .form-fields .number input {
+  width: 30px;
+  text-align: right;
+}
+
+.form-line .form-fields .numberLabel {
+  margin-top: 4px;
+  margin-left: 19px;
+}
+
+.form-line .form-fields .numbermid input {
+  width: 50px;
+  text-align: right;
+}
+
+.form-line .form-fields .radioblock,
+.form-line .form-fields .radioblockfast {
+  padding-right: 15px;
+  margin-left: 0px;
+}
+
+.form-line .form-fields .radioblock input[type="radio"],
+.form-line .form-fields .radioblockfast input[type="radio"] {
+  width: 15px;
+  margin-top: -1px;
+}
+
+.form-line .item-controls {
+  float: right;
+  width: 15px;
+  margin-top: 2px;
+}
+
+.form-modline {
+  width: 100%;
+  height: 12px;
+}
+
+.form-modline .form-fields {
+  float: left;
+  margin-top: -3px;
+  padding-top: 2px;
+}
+
+.form-modline .form-fields .modname {
+  width: 130px;
+  padding-left: 17px;
+}
+
+.form-modline .form-fields .modeffects {
+  width: 147px;
+}
+
+.form-modline .form-fields .modmodifier {
+  width: 36px;
+}
+
+.form-modline .form-fields .modrounds {
+  width: 48px;
 }

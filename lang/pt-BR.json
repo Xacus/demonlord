@@ -439,5 +439,6 @@
   "DL.MacroHealChoose": "Choose Healing:",
   "DL.MacroHealHealingRate": "Healing Rate",
   "DL.MacroHealHalfHealingRate": "Half Healing Rate",
-  "DL.MacroHealApplyHealing": "Apply Healing"
+  "DL.MacroHealApplyHealing": "Apply Healing",
+  "DL.MacroApplyAfflicationTitle": "Apply Afflictions"
 }
