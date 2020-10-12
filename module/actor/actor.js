@@ -171,7 +171,9 @@ export class DemonlordActor extends Actor {
     }
 
     rollChallenge(attribute) {
-        const attLabel = attribute.label.charAt(0).toUpperCase() + attribute.label.toLowerCase().slice(1);
+        let attLabel = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
+        if (!attribute.label && isNaN(attLabel))
+            attLabel = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
 
         if (this.data.data.afflictions.defenseless && attLabel != "Perception") {
             ui.notifications.error(game.i18n.localize('DL.DialogWarningDefenselessFailer'));
@@ -208,7 +210,9 @@ export class DemonlordActor extends Actor {
 
     rollAttribute(attribute, boonsbanes) {
         const buffs = this.generateCharacterBuffs("");
-        let attribueName = attribute.label.charAt(0).toUpperCase() + attribute.label.toLowerCase().slice(1);
+        let attribueName = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
+        if (!attribute.label && isNaN(attribueName))
+            attribueName = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
 
         // Roll
         let diceformular = "1d20";

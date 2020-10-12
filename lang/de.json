@@ -442,5 +442,10 @@
     "DL.MacroHealHealingRate": "Healing Rate",
     "DL.MacroHealHalfHealingRate": "Half Healing Rate",
     "DL.MacroHealApplyHealing": "Apply Healing",
-    "DL.MacroApplyAfflicationTitle": "Apply Afflictions"
+    "DL.MacroApplyAfflicationTitle": "Apply Afflictions",
+    "tokenactionhud.challenge": "Challenge Roll",
+    "tokenactionhud.weapons": "Weapons",
+    "tokenactionhud.talents": "Talents",
+    "tokenactionhud.spells": "Spells",
+    "tokenactionhud.utility": "Utility"
 }
