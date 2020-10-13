@@ -452,5 +452,12 @@
     "tokenactionhud.talents": "Talents",
     "tokenactionhud.spells": "Spells",
     "tokenactionhud.utility": "Utility",
-    "tokenactionhud.rest": "Rest"
+    "tokenactionhud.rest": "Rest",
+    "tokenactionhud.attackoptions": "Attack Options",
+    "tokenactionhud.specialattacks": "Special Attacks",
+    "tokenactionhud.attributestrength": "Strength",
+    "tokenactionhud.attributeagility": "Agility",
+    "tokenactionhud.attributeintellect": "Intellect",
+    "tokenactionhud.attributewill": "Will",
+    "tokenactionhud.attributeperception": "Perception"
 }

@@ -445,8 +445,15 @@
     "DL.MacroApplyAfflicationTitle": "Apply Afflictions",
     "tokenactionhud.challenge": "Challenge Roll",
     "tokenactionhud.weapons": "Weapons",
-    "tokenactionhud.talents": "Talents",
-    "tokenactionhud.spells": "Spells",
+    "tokenactionhud.talents": "Talente",
+    "tokenactionhud.spells": "Zauber",
     "tokenactionhud.utility": "Utility",
-    "tokenactionhud.rest": "Rest"
+    "tokenactionhud.rest": "Rest",
+    "tokenactionhud.attackoptions": "Attack Options",
+    "tokenactionhud.specialattacks": "Special Attacks",
+    "tokenactionhud.attributestrength": "Stärke",
+    "tokenactionhud.attributeagility": "Gewandheit",
+    "tokenactionhud.attributeintellect": "Intelligenz",
+    "tokenactionhud.attributewill": "Willenskraft",
+    "tokenactionhud.attributeperception": "Wahrnehmung"
 }
