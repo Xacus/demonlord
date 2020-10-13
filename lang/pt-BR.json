@@ -445,5 +445,6 @@
   "tokenactionhud.weapons": "Weapons",
   "tokenactionhud.talents": "Talents",
   "tokenactionhud.spells": "Spells",
-  "tokenactionhud.utility": "Utility"
+  "tokenactionhud.utility": "Utility",
+  "tokenactionhud.rest": "Rest"
 }

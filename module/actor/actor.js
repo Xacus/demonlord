@@ -1381,4 +1381,96 @@ export class DemonlordActor extends Actor {
 
         return diceData;
     }
+
+    restActor(token) {
+        const actor = token.actor;
+
+        // Talents
+        const talents = actor.getEmbeddedCollection("OwnedItem").filter(e => "talent" === e.type)
+
+        for (let talent of talents) {
+            const item = duplicate(actor.getEmbeddedEntity("OwnedItem", talent._id))
+            item.data.uses.value = 0;
+
+            actor.updateEmbeddedEntity("OwnedItem", item);
+        }
+
+        // Spells
+        const spells = actor.getEmbeddedCollection("OwnedItem").filter(e => "spell" === e.type)
+
+        for (let spell of spells) {
+            const item = duplicate(actor.getEmbeddedEntity("OwnedItem", spell._id))
+
+            item.data.castings.value = 0;
+
+            actor.updateEmbeddedEntity("OwnedItem", item);
+        }
+
+        this.applyHealing(token, true);
+
+        var templateData = {
+            actor: actor
+        };
+
+        let chatData = {
+            user: game.user._id,
+            speaker: {
+                actor: actor._id,
+                token: actor.token,
+                alias: actor.name
+            }
+        };
+
+        let template = 'systems/demonlord/templates/chat/rest.html';
+        renderTemplate(template, templateData).then(content => {
+            chatData.content = content;
+            ChatMessage.create(chatData);
+        });
+    }
+
+    applyHealing(token, fullHealingRate) {
+        const actor = token.actor;
+
+        if (token.data.actorData.data?.characteristics != undefined) {
+            let tokenData = duplicate(token.data);
+            let hp = tokenData.actorData.data.characteristics.health;
+            let rate = tokenData.actorData.data.characteristics.health.healingrate;
+
+            if (game.settings.get('demonlord', 'reverseDamage')) {
+                let newdamage = parseInt(hp.value) + (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
+                if (newdamage > hp.max)
+                    newdamage = parseInt(hp.max);
+
+                hp.value = newdamage;
+            } else {
+                let newdamage = parseInt(hp.value) - (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
+                if (newdamage < 0)
+                    newdamage = 0;
+
+                hp.value = newdamage;
+            }
+
+            token.update(tokenData);
+        } else {
+            let actorData = duplicate(token.actor.data);
+            let hp = actorData.data.characteristics.health;
+            let rate = actorData.data.characteristics.health.healingrate;
+
+            if (game.settings.get('demonlord', 'reverseDamage')) {
+                let newdamage = parseInt(hp.value) + (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
+                if (newdamage > hp.max)
+                    newdamage = parseInt(hp.max);
+
+                hp.value = newdamage;
+            } else {
+                let newdamage = parseInt(hp.value) - (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
+                if (newdamage < 0)
+                    newdamage = 0;
+
+                hp.value = newdamage;
+            }
+
+            token.actor.update(actorData);
+        }
+    }
 }
