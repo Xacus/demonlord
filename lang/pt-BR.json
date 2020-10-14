@@ -440,18 +440,5 @@
   "DL.MacroHealHealingRate": "Healing Rate",
   "DL.MacroHealHalfHealingRate": "Half Healing Rate",
   "DL.MacroHealApplyHealing": "Apply Healing",
-  "DL.MacroApplyAfflicationTitle": "Apply Afflictions",
-  "tokenactionhud.challenge": "Challenge Roll",
-  "tokenactionhud.weapons": "Weapons",
-  "tokenactionhud.talents": "Talentos",
-  "tokenactionhud.spells": "Magias",
-  "tokenactionhud.utility": "Utility",
-  "tokenactionhud.rest": "Rest",
-  "tokenactionhud.attackoptions": "Attack Options",
-  "tokenactionhud.specialattacks": "Special Attacks",
-  "tokenactionhud.attributestrength": "Força",
-  "tokenactionhud.attributeagility": "Agilidade",
-  "tokenactionhud.attributeintellect": "Intelecto",
-  "tokenactionhud.attributewill": "Vontade",
-  "tokenactionhud.attributeperception": "Percepção"
+  "DL.MacroApplyAfflicationTitle": "Apply Afflictions"
 }
