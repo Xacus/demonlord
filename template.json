@@ -277,6 +277,8 @@
                 "defense": "",
                 "healthactive": true,
                 "health": "",
+                "poweractive": true,
+                "power": "",
                 "speedactive": true,
                 "speed": ""
             },

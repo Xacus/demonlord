@@ -109,6 +109,7 @@ export class DemonlordActor extends Actor {
             data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(defenseBonus) + parseInt(agilitypoint);
 
         data.characteristics.defense = parseInt(data.characteristics.defense) + parseInt(characterbuffs.defensebonus);
+        data.characteristics.power = parseInt(characterbuffs.powerbonus);
 
         characterbuffs.speedbonus += speedPenalty;
 
@@ -149,6 +150,7 @@ export class DemonlordActor extends Actor {
             await this.update({
                 "data.characteristics.defensebonus": parseInt(characterbuffs.defensebonus) - (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
                 "data.characteristics.healthbonus": parseInt(characterbuffs.healthbonus) - (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
+                "data.characteristics.powerbonus": parseInt(characterbuffs.powerbonus) - (parseInt(child.data.bonuses.power) ? parseInt(child.data.bonuses.power) : 0),
                 "data.characteristics.speedbonus": parseInt(characterbuffs.speedbonus) - (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
                 "data.characteristics.defense": parseInt(this.data.data.characteristics.defense) - (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
                 "data.characteristics.health.max": parseInt(this.data.data.characteristics.health.max) - (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
@@ -1011,6 +1013,9 @@ export class DemonlordActor extends Actor {
                 if (talent.data.bonuses?.healthactive && talent.data.bonuses?.health != "") {
                     characterbuffs.healthbonus += parseInt(talent.data.bonuses.health);
                 }
+                if (talent.data.bonuses?.poweractive && talent.data.bonuses?.power != "") {
+                    characterbuffs.powerbonus += parseInt(talent.data.bonuses.power);
+                }
                 if (talent.data.bonuses?.speedactive && talent.data.bonuses?.speed != "") {
                     characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed);
                 }
@@ -1148,6 +1153,9 @@ export class DemonlordActor extends Actor {
             if (talent.data?.bonuses?.healthactive && talent.data?.bonuses?.health)
                 effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentBonusesHealth') + ": " + talent.data.bonuses?.health
                     + "<br>";
+            if (talent.data?.bonuses?.poweractive && talent.data?.bonuses?.power)
+                effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentBonusesPower') + ": " + talent.data.bonuses?.power
+                    + "<br>";
             if (talent.data?.bonuses?.speedactive && talent.data?.bonuses?.speed)
                 effects += "&nbsp;&nbsp;&nbsp;• " + game.i18n.localize('DL.TalentBonusesSpeed') + ": " + talent.data.bonuses?.speed
                     + "<br>";
@@ -1196,6 +1204,7 @@ export class DemonlordActor extends Actor {
     async addCharacterBonuses(talent) {
         const healthbonus = talent.data.bonuses?.defenseactive && talent.data.bonuses?.health != "" ? parseInt(talent.data.bonuses?.health) : 0;
         const defensebonus = talent.data.bonuses?.healthactive && talent.data.bonuses?.defense != "" ? parseInt(talent.data.bonuses?.defense) : 0;
+        const powerbonus = talent.data.bonuses?.poweractive && talent.data.bonuses?.power != "" ? parseInt(talent.data.bonuses?.power) : 0;
         const speedbonus = talent.data.bonuses?.speedactive && talent.data.bonuses?.speed != "" ? parseInt(talent.data.bonuses?.speed) : 0;
         /*
                 await this.update({
@@ -1210,11 +1219,13 @@ export class DemonlordActor extends Actor {
     async removeCharacterBonuses(talent) {
         const healthbonus = talent.data.bonuses?.defenseactive && talent.data.bonuses?.health != "" ? parseInt(talent.data.bonuses?.health) : 0;
         const defensebonus = talent.data.bonuses?.healthactive && talent.data.bonuses?.defense != "" ? parseInt(talent.data.bonuses?.defense) : 0;
+        const powerbonus = talent.data.bonuses?.poweractive && talent.data.bonuses?.power != "" ? parseInt(talent.data.bonuses?.power) : 0;
         const speedbonus = talent.data.bonuses?.speedactive && talent.data.bonuses?.speed != "" ? parseInt(talent.data.bonuses?.speed) : 0;
 
         await this.update({
             "data.characteristics.health.max": parseInt(this.data.data.characteristics.health.max) - healthbonus,
             "data.characteristics.defense": parseInt(this.data.data.characteristics.defense) - defensebonus,
+            "data.characteristics.power": parseInt(this.data.data.characteristics.power) - powerbonus,
             "data.characteristics.speed.value": parseInt(this.data.data.characteristics.speed.value) - speedbonus,
             "data.activebonuses": false
         });

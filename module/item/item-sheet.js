@@ -82,6 +82,7 @@ export class DemonlordItemSheet extends ItemSheet {
                 await this.actor.update({
                     "data.characteristics.defensebonus": parseInt(characterbuffs.defensebonus),
                     "data.characteristics.healthbonus": parseInt(characterbuffs.healthbonus),
+                    "data.characteristics.powerbonus": parseInt(characterbuffs.powerbonus),
                     "data.characteristics.speedbonus": parseInt(characterbuffs.speedbonus)
                 });
             } else {
@@ -106,6 +107,9 @@ export class DemonlordItemSheet extends ItemSheet {
                     }
                     if (talent.data.bonuses.healthactive && talent.data.bonuses.health != "") {
                         characterbuffs.healthbonus += parseInt(talent.data.bonuses.health);
+                    }
+                    if (talent.data.bonuses.poweractive && talent.data.bonuses.power != "") {
+                        characterbuffs.powerbonus += parseInt(talent.data.bonuses.power);
                     }
                     if (talent.data.bonuses.speedactive && talent.data.bonuses.speed != "") {
                         characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed);

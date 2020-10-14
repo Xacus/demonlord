@@ -128,6 +128,15 @@
                 <b>{{localize 'DL.TalentBonusesHealth'}}:</b> {{data.bonuses.health}}
             </div>
             {{/if}}
+            {{#if data.bonuses.power}}
+            <div class="option" data-item-id="{{talent._id}}">
+                {{#if data.multipleoptions}}
+                <input type="checkbox" name="data.bonuses.poweractive" id="optionpoweractive{{talent._id}}"
+                    {{checked data.bonuses.poweractive}} />
+                {{/if}}
+                <b>{{localize 'DL.TalentBonusesPower'}}:</b> {{data.bonuses.power}}
+            </div>
+            {{/if}}
             {{#if data.bonuses.speed}}
             <div class="option" data-item-id="{{talent._id}}">
                 {{#if data.multipleoptions}}
