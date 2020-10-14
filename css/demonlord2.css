@@ -3155,6 +3155,7 @@
 
 .demonlord2.actor .sheet-header {
   grid-area: header;
+  position: relative;
 }
 
 .demonlord2.actor .sheet-header .header-fields {
@@ -3165,8 +3166,16 @@
   text-transform: uppercase;
   letter-spacing: .25px;
   color: #fff;
-  margin-top: 4px;
-  margin-left: 0px;
+  height: 30px;
+  position: absolute;
+  top: 5px;
+  left: 0;
+}
+
+.demonlord2.actor .sheet-header .header-fields h1.char-name {
+  float: left;
+  border: none;
+  width: 365px;
 }
 
 .demonlord2.actor .sheet-header .header-fields h1.char-name input[type=text] {
@@ -3189,20 +3198,15 @@
 }
 
 .demonlord2.actor .sheet-header .header-fields .leveltext {
-  float: right;
-  position: relative;
-  top: -30px;
-  right: 40px;
+  float: left;
   font-family: "IM Fell English SC", serif;
   font-weight: 400;
   font-size: 11px;
+  margin: 0 7px 0 38px;
 }
 
 .demonlord2.actor .sheet-header .header-fields .level {
   float: right;
-  position: relative;
-  top: -29px;
-  right: -30px;
   height: 26px;
   width: 26px;
   border-radius: 16px;
@@ -3227,10 +3231,8 @@
 }
 
 .demonlord2.actor .sheet-header .attributes {
-  position: absolute;
-  top: 60px;
   height: 54px;
-  width: 440px;
+  margin-top: 45px;
 }
 
 .demonlord2.actor .sheet-header .attributes .attributebox {

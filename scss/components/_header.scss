@@ -9,6 +9,7 @@ form {
 }
 .sheet-header {
     grid-area: header;
+    position: relative;
 
     .header-fields {
         font-family: "Roboto", system, -apple-system, sans-serif;
@@ -18,19 +19,28 @@ form {
         text-transform: uppercase;
         letter-spacing: .25px;
         color: #fff;
-        margin-top: 4px;
-        margin-left: 0px;
-        h1.char-name input[type=text] {
+        height: 30px;
+        position: absolute;
+        top: 5px;
+        left: 0;
+
+        h1.char-name { 
+            float: left;
+            border: none;
             width: 365px;
-            font-family: $font-header;
-            font-weight: 500;
-            font-size: 20px;
-            color: #fff;
-            line-height: calc(1em + 1px);
-            border-bottom: 1px solid transparent;
-            height: 26px;
-            padding-left: 5px;
-            margin-left: -5px;
+
+            input[type=text] {
+                width: 365px;
+                font-family: $font-header;
+                font-weight: 500;
+                font-size: 20px;
+                color: #fff;
+                line-height: calc(1em + 1px);
+                border-bottom: 1px solid transparent;
+                height: 26px;
+                padding-left: 5px;
+                margin-left: -5px;
+            }
         }
         h1.char-name input[type=text]:focus {
             padding-left: 5px;
@@ -39,24 +49,21 @@ form {
         }
 
         .leveltext {
-            float: right;
-            position: relative;
-            top: -30px;
-            right: 40px;
-            font-family: $font-header;
+            float: left;
+            font-family: "IM Fell English SC", serif;
             font-weight: 400;
             font-size: 11px;
+            margin: 0 7px 0 38px;
         }
+
         .level {
             float: right;
-            position: relative;
-            top: -29px;
-            right: -30px;
             height: 26px;
             width: 26px;
             border-radius: 16px;
             border: none;
-            box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0,0,0,.5), 0 0 8px #a22223;
+            -webkit-box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
+            box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
             font-weight: 500;
             font-size: 13px;
 
@@ -76,10 +83,8 @@ form {
     }
 
     .attributes {
-        position: absolute;
-        top: 60px;
         height: 54px;
-        width: 440px;
+        margin-top: 45px;
 
         .attributebox {
             float: right;
