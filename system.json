@@ -81,8 +81,8 @@
             "path": "lang/es.json"
         }
     ],
-    "gridDistance": 5,
-    "gridUnits": "ft",
+    "gridDistance": 1,
+    "gridUnits": "yd",
     "primaryTokenAttribute": "characteristics.health",
     "secondaryTokenAttribute": "",
     "socket": true,
