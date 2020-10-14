@@ -4,8 +4,8 @@
     "description": "The Shadow of the Demonlord system for FoundryVTT",
     "version": "1.3.0",
     "author": "Bo Kehlet",
-    "minimumCoreVersion": "0.7.3",
-    "compatibleCoreVersion": "0.7.3",
+    "minimumCoreVersion": "0.7.4",
+    "compatibleCoreVersion": "0.7.4",
     "esmodules": [
         "module/demonlord.js"
     ],
@@ -75,11 +75,11 @@
             "name": "Deutsch",
             "path": "lang/de.json"
         },
-		{
-			"lang": "es",
-			"name": "Spanish",
-			"path": "lang/es.json"
-		}
+        {
+            "lang": "es",
+            "name": "Spanish",
+            "path": "lang/es.json"
+        }
     ],
     "gridDistance": 5,
     "gridUnits": "ft",
