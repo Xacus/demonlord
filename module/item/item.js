@@ -2,6 +2,9 @@
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
+import {
+    PathLevel
+} from "../pathlevel.js";
 export class DemonlordItem extends Item {
     /**
      * Augment the basic Item data model with additional dynamic data.

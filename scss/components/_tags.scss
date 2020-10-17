@@ -1,0 +1,92 @@
+// Character sheet tag display.
+.tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  list-style-type: none;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+}
+
+.tag {
+  position: relative;
+  padding: 3px 20px 3px 6px;
+  background: $c-light;
+  margin: 2px 5px 2px 2px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  list-style-type: none;
+}
+
+// Tagging widget.
+.tagging {
+  padding: 5px 10px 8px;
+
+  .tag {
+    background-color: $c-navy-up;
+    padding: 4px 22px 4px 6px;
+
+    .tag-i {
+      color: $c-white;
+
+      &:hover,
+      &:focus {
+        color: $c-navy;
+      }
+    }
+
+    > span {
+      display: none;
+    }
+  }
+
+  .tag-input {
+    &:hover,
+    &:focus {
+      box-shadow: 0 1px 0 $c-navy-up;
+    }
+  }
+}
+
+.remove-tag {
+  position: absolute;
+  right: 2px;
+  width: 15px;
+  height: 15px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  transition: all ease-in-out 0.25s;
+  border-radius: 50px;
+
+  &:hover {
+    color: #fff;
+    background: var(--demonlord-red);
+  }
+
+  &::before {
+    display: block;
+    content: "\00D7";
+  }
+}
+
+.awesomplete {
+  > ul {
+    background-color: $c-navy-up;
+
+    &::before {
+      background-color: $c-navy-up;
+    }
+  }
+}
+
+.help-text {
+  color: #999;
+  font-size: 12px;
+}

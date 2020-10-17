@@ -167,7 +167,8 @@
             "endoftheround",
             "mod",
             "ancestry",
-            "profession"
+            "profession",
+            "path"
         ],
         "templates": {
             "base": {
@@ -358,6 +359,13 @@
             "templates": [
                 "base"
             ]
+        },
+        "path": {
+            "templates": [
+                "base"
+            ],
+            "type": "novice",
+            "levels": []
         }
     }
 }

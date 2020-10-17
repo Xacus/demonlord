@@ -806,9 +806,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
         }
     }
 
-    _onCreateEmbeddedEntity(embeddedName, child, options, userId) {
-        alert("CREATE");
-    }
     /**
      * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
      * @param {Event} event   The originating click event

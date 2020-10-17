@@ -2,19 +2,22 @@
     "name": "demonlord",
     "title": "Shadow of the Demon Lord",
     "description": "The Shadow of the Demonlord system for FoundryVTT",
-    "version": "1.3.0",
-    "author": "Bo Kehlet",
+    "version": "1.4.0",
+    "author": "Xacus",
     "minimumCoreVersion": "0.7.4",
     "compatibleCoreVersion": "0.7.4",
     "esmodules": [
         "module/demonlord.js"
     ],
     "styles": [
+        "css/lib/tagify.css",
         "css/demonlord.css",
         "css/demonlord2.css",
         "css/demonlorddialog.css"
     ],
-    "scripts": [],
+    "scripts": [
+        "scripts/lib/tagify.min.js"
+    ],
     "packs": [
         {
             "name": "weapons",
