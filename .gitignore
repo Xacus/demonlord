@@ -1,6 +1,7 @@
 # IDE
 .idea/
 .vs/
+.DS_Store
 
 # Node Modules
 node_modules/

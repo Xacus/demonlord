@@ -18,11 +18,14 @@ import {
     DemonlordItem
 } from "./item/item.js";
 import {
-    DemonlordItemSheet
-} from "./item/item-sheet.js";
-import {
-    DemonlordItemSheet2
+    DemonlordItemSheetDefault
 } from "./item/item-sheet2.js";
+import {
+    DemonlordPathSetup
+} from "./item/path-setup.js";
+import {
+    DemonlordPathPlayerView
+} from "./item/path-playersheet.js";
 import {
     registerSettings
 } from "./settings.js";
@@ -76,12 +79,12 @@ Hooks.once('init', async function () {
     });
 
     Items.unregisterSheet("core", ItemSheet);
-    Items.registerSheet("demonlord", DemonlordItemSheet, {
-        makeDefault: false
-    });
-    Items.registerSheet("demonlord", DemonlordItemSheet2, {
+    Items.registerSheet("demonlord", DemonlordItemSheetDefault, {
+        types: ["item", "feature", "spell", "talent", "weapon", "armor", "ammo", "specialaction", "magic", "endoftheround", "mod", "ancestry", "profession"],
         makeDefault: true
     });
+    Items.registerSheet("demonlord", DemonlordPathSetup, { types: ["path"], makeDefault: true });
+    Items.registerSheet("demonlord", DemonlordPathPlayerView, { types: ["path"], makeDefault: false });
 
     window.CharacterBuff = CharacterBuff;
 

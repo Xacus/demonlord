@@ -443,6 +443,7 @@
     "DL.MacroHealHalfHealingRate": "Half Healing Rate",
     "DL.MacroHealApplyHealing": "Apply Healing",
     "DL.MacroApplyAfflicationTitle": "Apply Afflictions",
+    "DL.TabsPath": "Path",
     "DL.TabsPathSetup": "Path Setup",
     "DL.TabsPathDescription": "Path Description",
     "DL.PathsPathType": "Path Type",

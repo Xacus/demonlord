@@ -616,6 +616,15 @@
   margin-left: 5px;
 }
 
+.demonlord2.item .itemsheet-header .header-fields .title {
+  font-family: "IM Fell English SC", serif;
+  font-weight: 500;
+  font-size: 20px;
+  font-weight: normal;
+  text-transform: none;
+  margin-top: 5px;
+}
+
 .demonlord2.item nav.sheet-tabs {
   margin: 0;
   height: 23px;
@@ -2707,7 +2716,7 @@
 
 .demonlord2 .sheet-body .sheet-content .tab,
 .demonlord2 .sheet-body .sheet-content .tab .editor {
-  height: auto;
+  height: 100%;
   padding: 2px 5px;
   font-size: 12px;
   margin-top: 0px;

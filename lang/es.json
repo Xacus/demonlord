@@ -447,6 +447,7 @@
     "DL.MacroHealHalfHealingRate": "Mitad de T. Sanación",
     "DL.MacroHealApplyHealing": "Aplicar curación",
     "DL.MacroApplyAfflicationTitle": "Apply Afflictions",
+    "DL.TabsPath": "Path",
     "DL.TabsPathSetup": "Path Setup",
     "DL.TabsPathDescription": "Path Description",
     "DL.PathsPathType": "Path Type",

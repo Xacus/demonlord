@@ -1,0 +1,336 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header itemsheet-header">
+        <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <div class="header-fields">
+            <div class="title">{{localize "DL.PathsPathNovice"}} {{item.name}}</div>
+        </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="attributes">{{localize "DL.TabsPath"}}</a>
+        <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        <section class="sheet-content">
+            <div class="tab paths" data-group="primary" data-tab="attributes">
+                <div class="gridrow">
+                    <div class="resource">
+                        <label class="pathtypes">{{localize "DL.PathsPathType"}}</label>
+                        <select name="data.type" data-dtype="String">
+                            {{#select data.type}}
+                            <option value="">—</option>
+                            <option value="novice">{{localize "DL.CharPathNovice"}}
+                            </option>
+                            <option value="master">{{localize "DL.CharPathExpert"}}
+                            </option>
+                            <option value="expert">{{localize "DL.CharPathMaster"}}
+                            </option>
+                            {{/select}}
+                        </select>
+                    </div>
+                </div>
+                <div class="gridrow">
+                    <div class="resource">
+                        <ol class="items-list">
+                            <li class="item-header">
+                                <div class="weaponnameheader">{{localize "DL.PathsLevelsTitle"}}</div>
+                                <div class="item-controls">
+                                    <a class="item-control add-level" title="{{localize 'DL.PathsAddLevel'}}"
+                                        data-type="weapon"><i class="fas fa-plus"></i></a>
+                                </div>
+                            </li>
+                            {{#each item.levels as |level id|}}
+                            <li class="level" data-item-id="{{id}}">
+                                <div class="level">
+                                    <label>{{localize 'DL.PathsLevelsSubTitle'}}</label>
+                                    <input type="text" name="level.level" value="{{level.level}}" data-dtype="Number" />
+                                </div>
+                                <div class="item-controls">
+                                    <a class="item-control delete-level" title="{{localize 'DL.PathsDeleteLevel'}}"><i
+                                            class="fas fa-trash"></i></a>
+                                </div>
+                                <div class="attributes">
+                                    <div class="option">
+                                        <label>{{localize 'DL.PathsLevelAttributesSubtitle'}}</label>
+                                        <select name="level.attributeSelect" data-dtype="String">
+                                            {{#select level.attributeSelect}}
+                                            <option value="-">{{localize "DL.PathsLevelAttributesNone"}}</option>
+                                            <option value="choosetwo">{{localize "DL.PathsLevelAttributesChooseTwo"}}
+                                            </option>
+                                            <option value="choosethree">
+                                                {{localize "DL.PathsLevelAttributesChooseThree"}}
+                                            </option>
+                                            <option value="fixed">{{localize "DL.PathsLevelAttributesFixed"}}
+                                            </option>
+                                            <option value="twosets">{{localize "DL.PathsLevelAttributesTwoSets"}}
+                                            </option>
+                                            {{/select}}
+                                        </select>
+                                    </div>
+                                    {{#if level.attributeSelectIsChooseTwo}}
+                                    <div class="attributesselect">
+                                        <div class="grid grid-4col">
+                                            <div>
+                                                <label>{{localize 'DL.AttributeStrength'}}</label>
+                                                <input type="text" name="level.attributeStrength"
+                                                    value="{{level.attributeStrength}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.AttributeAgility'}}</label>
+                                                <input type="text" name="level.attributeAgility"
+                                                    value="{{level.attributeAgility}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.AttributeIntellect'}}</label>
+                                                <input type="text" name="level.attributeIntellect"
+                                                    value="{{level.attributeIntellect}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.AttributeWill'}}</label>
+                                                <input type="text" name="level.attributeWill"
+                                                    value="{{level.attributeWill}}" data-dtype="Number" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/if}}
+                                    {{#if level.attributeSelectIsChooseThree}}
+                                    <div class="attributesselect">
+                                        <div class="grid grid-4col">
+                                            <div>
+                                                <label>{{localize 'DL.AttributeStrength'}}</label>
+                                                <input type="text" name="level.attributeStrength"
+                                                    value="{{level.attributeStrength}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.AttributeAgility'}}</label>
+                                                <input type="text" name="level.attributeAgility"
+                                                    value="{{level.attributeAgility}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.AttributeIntellect'}}</label>
+                                                <input type="text" name="level.attributeIntellect"
+                                                    value="{{level.attributeIntellect}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.AttributeWill'}}</label>
+                                                <input type="text" name="level.attributeWill"
+                                                    value="{{level.attributeWill}}" data-dtype="Number" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/if}}
+                                    {{#if level.attributeSelectIsFixed}}
+                                    <div class="attributesselect">
+                                        <div class="grid grid-4col">
+                                            <div>
+                                                <label>{{localize 'DL.AttributeStrength'}}</label>
+                                                <input type="text" name="level.attributeStrength"
+                                                    value="{{level.attributeStrength}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.AttributeAgility'}}</label>
+                                                <input type="text" name="level.attributeAgility"
+                                                    value="{{level.attributeAgility}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.AttributeIntellect'}}</label>
+                                                <input type="text" name="level.attributeIntellect"
+                                                    value="{{level.attributeIntellect}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.AttributeWill'}}</label>
+                                                <input type="text" name="level.attributeWill"
+                                                    value="{{level.attributeWill}}" data-dtype="Number" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/if}}
+                                    {{#if level.attributeSelectIsTwoSet}}
+                                    <div class="attributesselect twoset">
+                                        <div class="grid grid-2col">
+                                            <div>
+                                                <select name="level.attributeSelect" data-dtype="String">
+                                                    {{#select level.attributeSelect}}
+                                                    <option value="strength">
+                                                        {{localize "DL.AttributeStrength"}}</option>
+                                                    <option value="agility">
+                                                        {{localize "DL.AttributeAgility"}}
+                                                    </option>
+                                                    <option value="intellect">
+                                                        {{localize "DL.AttributeIntellect"}}
+                                                    </option>
+                                                    <option value="will">
+                                                        {{localize "DL.AttributeWill"}}
+                                                    </option>
+                                                    {{/select}}
+                                                </select>
+                                                <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
+                                                <select name="level.attributeSelect" data-dtype="String">
+                                                    {{#select level.attributeSelect}}
+                                                    <option value="strength">
+                                                        {{localize "DL.AttributeStrength"}}</option>
+                                                    <option value="agility">
+                                                        {{localize "DL.AttributeAgility"}}
+                                                    </option>
+                                                    <option value="intellect">
+                                                        {{localize "DL.AttributeIntellect"}}
+                                                    </option>
+                                                    <option value="will">
+                                                        {{localize "DL.AttributeWill"}}
+                                                    </option>
+                                                    {{/select}}
+                                                </select>
+                                                <input type="text" name="level.setvalue1" value="{{level.setvalue1}}"
+                                                    data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <select name="level.attributeSelect" data-dtype="String">
+                                                    {{#select level.attributeSelect}}
+                                                    <option value="strength">
+                                                        {{localize "DL.AttributeStrength"}}</option>
+                                                    <option value="agility">
+                                                        {{localize "DL.AttributeAgility"}}
+                                                    </option>
+                                                    <option value="intellect">
+                                                        {{localize "DL.AttributeIntellect"}}
+                                                    </option>
+                                                    <option value="will">
+                                                        {{localize "DL.AttributeWill"}}
+                                                    </option>
+                                                    {{/select}}
+                                                </select>
+                                                <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
+                                                <select name="level.attributeSelect" data-dtype="String">
+                                                    {{#select level.attributeSelect}}
+                                                    <option value="strength">
+                                                        {{localize "DL.AttributeStrength"}}</option>
+                                                    <option value="agility">
+                                                        {{localize "DL.AttributeAgility"}}
+                                                    </option>
+                                                    <option value="intellect">
+                                                        {{localize "DL.AttributeIntellect"}}
+                                                    </option>
+                                                    <option value="will">
+                                                        {{localize "DL.AttributeWill"}}
+                                                    </option>
+                                                    {{/select}}
+                                                </select>
+                                                <input type="text" name="level.setvalue2" value="{{level.setvalue2}}"
+                                                    data-dtype="Number" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/if}}
+                                </div>
+                                <div class="characteristics">
+                                    <div class="option">
+                                        <label>{{localize 'DL.PathsLevelCharacteristicsSubtitle'}}</label>
+                                    </div>
+                                    <div class="characteristicsselect">
+                                        <div class="grid grid-6col">
+                                            <div>
+                                                <label>{{localize 'DL.CharPerception'}}</label>
+                                                <input type="text" name="level.characteristicsPerception"
+                                                    value="{{level.characteristicsPerception}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.CharHealth'}}</label>
+                                                <input type="text" name="level.characteristicsHealth"
+                                                    value="{{level.characteristicsHealth}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.CharPower'}}</label>
+                                                <input type="text" name="level.characteristicsPower"
+                                                    value="{{level.characteristicsPower}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.CharSpeed'}}</label>
+                                                <input type="text" name="level.characteristicsSpeed"
+                                                    value="{{level.characteristicsSpeed}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.CharDefense'}}</label>
+                                                <input type="text" name="level.characteristicsDefense"
+                                                    value="{{level.characteristicsDefense}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.CharCorruption'}}</label>
+                                                <input type="text" name="level.characteristicsCorruption"
+                                                    value="{{level.characteristicsCorruption}}" data-dtype="Number" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="language">
+                                    <div class="option">
+                                        <label>{{localize 'DL.PathsLevelLanguages'}}</label>
+                                    </div>
+                                    <div><textarea name="level.languagesText">{{level.languagesText}}</textarea></div>
+                                </div>
+                                <div class="equipment">
+                                    <div class="option">
+                                        <label>{{localize 'DL.PathsLevelEquipment'}}</label>
+                                    </div>
+                                    <div><textarea name="level.equipmentText">{{level.equipmentText}}</textarea></div>
+                                </div>
+                                <div class="magic">
+                                    <div class="option">
+                                        <label>{{localize 'DL.TabsMagic'}}</label>
+                                    </div>
+                                    <div><textarea name="level.magicText">{{level.magicText}}</textarea></div>
+                                </div>
+                                <div class="talents">
+                                    <div class="option">
+                                        <label>{{localize 'DL.TabsTalents'}}</label>
+                                        <select name="level.talentsSelect" data-dtype="String">
+                                            {{#select level.talentsSelect}}
+                                            <option value="all">{{localize "DL.PathsLevelTalentSelectAll"}}</option>
+                                            <option value="chooseone">{{localize "DL.PathsLevelTalentChooseOne"}}
+                                            </option>
+                                            {{/select}}
+                                        </select>
+                                    </div>
+                                    <div class=" item-container drop-area" data-group="talent" data-level="{{id}}">
+                                        <ul class="tags">
+                                            {{#each level.talents as |talent id|}}
+                                            <li class="tag" data-item-id="{{id}}">{{talent.name}}<span
+                                                    class="remove-tag delete-item" role="button"
+                                                    data-action="delete"></span>
+                                            </li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="spells">
+                                    <div class="option">
+                                        <label>{{localize 'DL.MagicSpellsTitle'}}</label>
+                                    </div>
+                                    <div class=" item-container drop-area" data-group="spell" data-level="{{id}}">
+                                        <ul class="tags">
+                                            {{#each level.spells as |spell id|}}
+                                            <li class="tag" data-item-id="{{id}}">{{spell.name}}<span
+                                                    class="remove-tag delete-item" role="button"
+                                                    data-action="delete"></span>
+                                            </li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            {{/each}}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            {{!-- Description Tab --}}
+            <div class=" tab" data-group="primary" data-tab="description">
+                <div class="descriptionblock">
+                    {{{data.description}}}
+                </div>
+            </div>
+        </section>
+    </section>
+</form>
