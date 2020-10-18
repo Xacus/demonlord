@@ -173,12 +173,14 @@
 
         .path {
             height: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 13px;
+            font-size: 12px;
 
             .pathtitle {
                 float: left;
                 height: 20px;
                 padding-right: 5px;
+                padding-top: 5px;
             }
 
             label {
@@ -188,7 +190,29 @@
             input {
                 float: right;
                 width: 160px;
-                height: 15px;
+                height: 17px;
+            }
+
+            .editPath {
+                position: relative;
+                top: -14px;
+                left: 215px;
+                width: 15px;
+            }
+
+            .path-label {
+                float: right;
+                background: rgba(0, 0, 0, 0.1);
+                color: #000;
+                border-radius: 0px;
+                margin-top: 3px;
+                padding: 2px 2px 2px 5px;
+                width: 160px;
+
+                &:hover {
+                    background: rgba(0, 0, 0, 0.3);
+                    cursor: pointer;
+                }
             }
         }
     }

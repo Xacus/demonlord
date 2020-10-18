@@ -2912,13 +2912,15 @@
 
 .demonlord2 .paths .body .path {
   height: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
+  font-size: 12px;
 }
 
 .demonlord2 .paths .body .path .pathtitle {
   float: left;
   height: 20px;
   padding-right: 5px;
+  padding-top: 5px;
 }
 
 .demonlord2 .paths .body .path label {
@@ -2928,7 +2930,29 @@
 .demonlord2 .paths .body .path input {
   float: right;
   width: 160px;
-  height: 15px;
+  height: 17px;
+}
+
+.demonlord2 .paths .body .path .editPath {
+  position: relative;
+  top: -14px;
+  left: 215px;
+  width: 15px;
+}
+
+.demonlord2 .paths .body .path .path-label {
+  float: right;
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+  border-radius: 0px;
+  margin-top: 3px;
+  padding: 2px 2px 2px 5px;
+  width: 160px;
+}
+
+.demonlord2 .paths .body .path .path-label:hover {
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 .demonlord2 .professions,

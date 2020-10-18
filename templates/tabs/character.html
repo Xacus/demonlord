@@ -69,24 +69,39 @@
                     {{localize "DL.PathsTitle"}}
                 </div>
                 <div class="body">
-                    <div class="path">
+                    {{#each actor.pathNovice as |path id|}}
+                    <div class="path" data-item-id="{{path._id}}">
                         <div class="pathtitle">
                             {{localize "DL.PathsPathNovice"}}
                         </div>
-                        <input type="text" name="data.paths.novice" value="{{data.paths.novice}}" />
+                        <label class="path-label" for="path.name">{{path.name}}</label>
+                        <div class="editPath item-edit">
+                            <i class="fas fa-edit"></i>
+                        </div>
                     </div>
-                    <div class="path">
+                    {{/each}}
+                    {{#each actor.pathExpert as |path id|}}
+                    <div class="path" data-item-id="{{path._id}}">
                         <div class="pathtitle">
                             {{localize "DL.PathsPathExpert"}}
                         </div>
-                        <input type="text" name="data.paths.expert" value="{{data.paths.expert}}" />
+                        <label class="path-label" for="path.name">{{path.name}}</label>
+                        <div class="editPath item-edit">
+                            <i class="fas fa-edit"></i>
+                        </div>
                     </div>
-                    <div class="path">
+                    {{/each}}
+                    {{#each actor.pathMaster as |path id|}}
+                    <div class="path" data-item-id="{{path._id}}">
                         <div class="pathtitle">
                             {{localize "DL.PathsPathMaster"}}
                         </div>
-                        <input type="text" name="data.paths.master" value="{{data.paths.master}}" />
+                        <label class="path-label" for="path.name">{{path.name}}</label>
+                        <div class="editPath item-edit">
+                            <i class="fas fa-edit"></i>
+                        </div>
                     </div>
+                    {{/each}}
                 </div>
             </div>
             <div class="professions">

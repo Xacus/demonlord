@@ -94,8 +94,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
         const mods = [];
         const ancestry = [];
         const professions = [];
-        const spellbook = {};
-        const talentbook = {};
+        const pathNovice = [];
+        const pathExpert = [];
+        const pathMaster = [];
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
@@ -123,6 +124,20 @@ export class DemonlordActorSheet2 extends ActorSheet {
                 ancestry.push(i);
             } else if (i.type === 'profession') {
                 professions.push(i);
+            } else if (i.type === 'path') {
+                switch (i.data.type) {
+                    case 'novice':
+                        pathNovice.push(i);
+                        break;
+                    case 'expert':
+                        pathExpert.push(i);
+                        break;
+                    case 'master':
+                        pathMaster.push(i);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -137,6 +152,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
         actorData.mods = mods;
         actorData.ancestry = ancestry;
         actorData.professions = professions;
+        actorData.pathNovice = pathNovice;
+        actorData.pathExpert = pathExpert;
+        actorData.pathMaster = pathMaster;
 
 
         if (ancestry.length == 0) {
@@ -149,6 +167,19 @@ export class DemonlordActorSheet2 extends ActorSheet {
             ancestry.push(this.actor.createOwnedItem(itemData));
         } else if (ancestry.length > 1) {
             this.actor.deleteEmbeddedEntity("OwnedItem", ancestry[0]._id);
+            this.actor.render(false);
+        }
+
+        if (pathNovice.length > 1) {
+            this.actor.deleteEmbeddedEntity("OwnedItem", pathNovice[0]._id);
+            this.actor.render(false);
+        }
+        if (pathExpert.length > 1) {
+            this.actor.deleteEmbeddedEntity("OwnedItem", pathExpert[0]._id);
+            this.actor.render(false);
+        }
+        if (pathMaster.length > 1) {
+            this.actor.deleteEmbeddedEntity("OwnedItem", pathMaster[0]._id);
             this.actor.render(false);
         }
 
