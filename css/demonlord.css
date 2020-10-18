@@ -1932,6 +1932,11 @@
   font-size: 11px;
 }
 
+.demonlord .creature .right img {
+  height: auto;
+  border: 0;
+}
+
 .demonlord .creature .actions {
   float: left;
   width: 100%;

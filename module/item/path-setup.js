@@ -17,7 +17,10 @@ export class DemonlordPathSetup extends ItemSheet {
                 navSelector: ".sheet-tabs",
                 contentSelector: ".sheet-body",
                 initial: "attributes"
-            }]
+            }],
+            scrollY: [
+                ".tab.paths"
+            ]
         });
     }
 
@@ -257,20 +260,26 @@ export class DemonlordPathSetup extends ItemSheet {
                         for (let id of v) {
                             item.data.data.levels[index].talentsSelect = id;
 
-                            if (id == "all")
+                            if (id == "all") {
                                 item.data.data.levels[index].talentsSelect = "all";
-                            else
+                                item.data.data.levels[index].talentsChooseOne = false;
+                            } else {
                                 item.data.data.levels[index].talentsSelect = "chooseone";
+                                item.data.data.levels[index].talentsChooseOne = true;
+                            }
 
                             index++;
                         }
                     } else {
                         item.data.data.levels[index].talentsSelect = v;
 
-                        if (v == "all")
+                        if (v == "all") {
                             item.data.data.levels[index].talentsSelect = "all";
-                        else
+                            item.data.data.levels[index].talentsChooseOne = false;
+                        } else {
                             item.data.data.levels[index].talentsSelect = "chooseone";
+                            item.data.data.levels[index].talentsChooseOne = true;
+                        }
                     }
                 } else if (k == "level.attributeStrength") {
                     let index = 0;

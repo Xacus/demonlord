@@ -20,6 +20,31 @@
   list-style-type: none;
 }
 
+.tagclean {
+  position: relative;
+  padding: 3px 6px 3px 6px;
+  background: $c-light;
+  margin: 2px 5px 2px 2px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  list-style-type: none;
+
+  &:hover {
+    color: #fff;
+    background: var(--demonlord-red);
+  }
+}
+
+.tagcleanselect {
+  color: #fff;
+  background: var(--demonlord-red);
+
+  &:hover {
+    color: #000;
+    background-color: $c-navy-up;
+  }
+}
+
 // Tagging widget.
 .tagging {
   padding: 5px 10px 8px;

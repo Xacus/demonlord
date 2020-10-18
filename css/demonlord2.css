@@ -670,7 +670,7 @@
   border-bottom: 1px solid var(--demonlord-red);
   font-weight: bold;
   font-family: "IM Fell English SC", serif;
-  font-size: 10px;
+  font-size: 13px;
   text-transform: uppercase;
 }
 
@@ -741,6 +741,12 @@
   margin-right: 5px;
 }
 
+.demonlord2.item .items-list li.level div.level span, .demonlord2.item .items-list li.level div.attributes span, .demonlord2.item .items-list li.level div.characteristics span, .demonlord2.item .items-list li.level div.talents span, .demonlord2.item .items-list li.level div.spells span, .demonlord2.item .items-list li.level div.equipment span, .demonlord2.item .items-list li.level div.language span, .demonlord2.item .items-list li.level div.magic span {
+  float: left;
+  margin-top: 2px;
+  margin-right: 1px;
+}
+
 .demonlord2.item .items-list li.level div.level input, .demonlord2.item .items-list li.level div.attributes input, .demonlord2.item .items-list li.level div.characteristics input, .demonlord2.item .items-list li.level div.talents input, .demonlord2.item .items-list li.level div.spells input, .demonlord2.item .items-list li.level div.equipment input, .demonlord2.item .items-list li.level div.language input, .demonlord2.item .items-list li.level div.magic input {
   float: left;
   width: 20px;
@@ -748,6 +754,10 @@
   color: #000;
   background: #edf2f7;
   border-radius: 0px;
+}
+
+.demonlord2.item .items-list li.level div.level input[type="checkbox"], .demonlord2.item .items-list li.level div.attributes input[type="checkbox"], .demonlord2.item .items-list li.level div.characteristics input[type="checkbox"], .demonlord2.item .items-list li.level div.talents input[type="checkbox"], .demonlord2.item .items-list li.level div.spells input[type="checkbox"], .demonlord2.item .items-list li.level div.equipment input[type="checkbox"], .demonlord2.item .items-list li.level div.language input[type="checkbox"], .demonlord2.item .items-list li.level div.magic input[type="checkbox"] {
+  margin-top: 1px;
 }
 
 .demonlord2.item .items-list li.level div.level select, .demonlord2.item .items-list li.level div.attributes select, .demonlord2.item .items-list li.level div.characteristics select, .demonlord2.item .items-list li.level div.talents select, .demonlord2.item .items-list li.level div.spells select, .demonlord2.item .items-list li.level div.equipment select, .demonlord2.item .items-list li.level div.language select, .demonlord2.item .items-list li.level div.magic select {
@@ -792,6 +802,16 @@
   min-height: 50px;
 }
 
+.demonlord2.item .items-list li.level div.level .select-area, .demonlord2.item .items-list li.level div.attributes .select-area, .demonlord2.item .items-list li.level div.characteristics .select-area, .demonlord2.item .items-list li.level div.talents .select-area, .demonlord2.item .items-list li.level div.spells .select-area, .demonlord2.item .items-list li.level div.equipment .select-area, .demonlord2.item .items-list li.level div.language .select-area, .demonlord2.item .items-list li.level div.magic .select-area {
+  position: relative;
+  margin-top: 20px;
+  padding: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  text-align: center;
+  width: 105%;
+  min-height: 50px;
+}
+
 .demonlord2.item .items-list li.level div.level .drop-hover, .demonlord2.item .items-list li.level div.attributes .drop-hover, .demonlord2.item .items-list li.level div.characteristics .drop-hover, .demonlord2.item .items-list li.level div.talents .drop-hover, .demonlord2.item .items-list li.level div.spells .drop-hover, .demonlord2.item .items-list li.level div.equipment .drop-hover, .demonlord2.item .items-list li.level div.language .drop-hover, .demonlord2.item .items-list li.level div.magic .drop-hover {
   position: relative;
 }
@@ -809,6 +829,26 @@
 
 .demonlord2.item .items-list li.level div.level label {
   font-weight: bold;
+}
+
+.demonlord2.item .items-list li.level div.equipment textarea, .demonlord2.item .items-list li.level div.language textarea, .demonlord2.item .items-list li.level div.magic textarea {
+  width: 105%;
+}
+
+.demonlord2.item .items-list li.level div.levelheader {
+  width: 100%;
+  height: 30px;
+  padding: 5px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.demonlord2.item .items-list li.level div.levelheader label, .demonlord2.item .items-list li.level div.levelheader span {
+  float: left;
+  margin-top: 2px;
+  margin-right: 5px;
 }
 
 .demonlord2.item .items-list li.level .item-controls {
@@ -1363,6 +1403,11 @@
 .demonlord2.item .creature .right .edit {
   width: 130px;
   font-size: 11px;
+}
+
+.demonlord2.item .creature .right img {
+  height: auto;
+  border: 0;
 }
 
 .demonlord2.item .creature .actions {
@@ -2807,7 +2852,6 @@
 .demonlord2 .wealth .body .lifestyle .lifestyletitle {
   float: left;
   height: 20px;
-  width: 50px;
 }
 
 .demonlord2 .wealth .body .lifestyle input {
@@ -3304,6 +3348,31 @@
   border-radius: 4px;
   text-transform: capitalize;
   list-style-type: none;
+}
+
+.demonlord2 .tagclean {
+  position: relative;
+  padding: 3px 6px 3px 6px;
+  background: #edf2f7;
+  margin: 2px 5px 2px 2px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  list-style-type: none;
+}
+
+.demonlord2 .tagclean:hover {
+  color: #fff;
+  background: var(--demonlord-red);
+}
+
+.demonlord2 .tagcleanselect {
+  color: #fff;
+  background: var(--demonlord-red);
+}
+
+.demonlord2 .tagcleanselect:hover {
+  color: #000;
+  background-color: #5b7094;
 }
 
 .demonlord2 .tagging {

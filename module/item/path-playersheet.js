@@ -17,7 +17,10 @@ export class DemonlordPathPlayerView extends ItemSheet {
                 navSelector: ".sheet-tabs",
                 contentSelector: ".sheet-body",
                 initial: "attributes"
-            }]
+            }],
+            scrollY: [
+                ".tab.paths"
+            ]
         });
     }
 
