@@ -366,7 +366,7 @@ export class DemonlordActor extends Actor {
         }
 
         // Format Dice
-        let diceData = this.formatDice(attackRoll);
+        let diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(attackRoll) : this.formatDiceOld(attackRoll);
 
         //Plus20 roll
         let plus20 = false;
@@ -569,7 +569,7 @@ export class DemonlordActor extends Actor {
                 attackRoll.roll();
 
                 // Format Dice
-                diceData = this.formatDice(attackRoll);
+                diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(attackRoll) : this.formatDiceOld(attackRoll);
 
                 // Roll Against Target
                 targetNumber = this.getVSTargetNumber(talent);
@@ -796,7 +796,7 @@ export class DemonlordActor extends Actor {
         attackRoll.roll();
 
         // Format Dice
-        let diceData = this.formatDice(attackRoll);
+        let diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(attackRoll) : this.formatDiceOld(attackRoll);
 
         // Roll Against Target
         const targetNumber = this.getTargetNumber(spell);
