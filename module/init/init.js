@@ -162,6 +162,39 @@ export const nextTurn = async function () {
     return this.update({ round: round, turn: next });
 }
 
+export const setupTurns = function () {
+    const scene = game.scenes.get(this.data.scene, {
+        strict: true
+    });
+    const players = game.users.players;
+
+    let turns = this.data.combatants
+        .map((c) => {
+            c.token = scene.getEmbeddedEntity('Token', c.tokenId, {
+                strict: false
+            });
+            if (!c.token)
+                return c;
+            c.actor = Actor.fromToken(new Token(c.token, scene));
+            c.players = c.actor ?
+                players.filter((u) => c.actor.hasPerm(u, 'OWNER')) : [];
+            c.owner = game.user.isGM || (c.actor ? c.actor.owner : false);
+            c.visible = c.owner || !c.hidden;
+            return c;
+        })
+        .filter((c) => c.token);
+
+    turns = turns.sort((a, b) => (a.initiative > b.initiative) ? -1 : 1);
+
+    // Ensure the current turn is bounded
+    this.data.turn = Math.min(turns.length - 1, Math.max(this.data.turn, 0));
+    this.turns = turns;
+    // When turns change, tracked resources also change
+    if (ui.combat)
+        ui.combat.updateTrackedResources();
+    return this.turns;
+};
+
 const selectTurnType = async function (actor, fastturn) {
     let turn = "";
     const template = 'systems/demonlord/templates/dialogs/choose-turn-dialog.html';

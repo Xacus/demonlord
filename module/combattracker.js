@@ -15,7 +15,7 @@ export default class extends CombatTracker {
         let init;
         let hasEndOfRoundEffects = false;
         html.find('.combatant').each((i, el) => {
-            const currentCombat = this.getCurrentCombat();
+            const currentCombat = isNewerVersion(game.data.version, "0.6.9") ? this.getCurrentCombat() : this.getCurrentCombatOld();
 
             const combId = el.getAttribute('data-combatant-id');
             const combatant = currentCombat.combatants.find((c) => c._id == combId);
@@ -33,7 +33,7 @@ export default class extends CombatTracker {
         html.find('.dlturnorder').click(ev => {
             const li = ev.currentTarget.closest("li");
             const combId = li.dataset.combatantId;
-            const currentCombat = this.getCurrentCombat();
+            const currentCombat = isNewerVersion(game.data.version, "0.6.9") ? this.getCurrentCombat() : this.getCurrentCombatOld();
             const combatant = currentCombat.combatants.find((c) => c._id == combId);
             const initMessages = [];
 
@@ -76,7 +76,7 @@ export default class extends CombatTracker {
             html.find("#combat-tracker").append('<li id="combat-endofround" class="combatant actor directory-item flexrow"><img class="token-image" title="Hag" src="systems/demonlord/ui/icons/pentragram.png"/><div class="token-name flexcol"><h4>End of the Round</h4></div></li>');
 
         html.find('#combat-endofround').click(ev => {
-            new DLEndOfRound(this.getCurrentCombat(), {
+            new DLEndOfRound(isNewerVersion(game.data.version, "0.6.9") ? this.getCurrentCombat() : this.getCurrentCombatOld(), {
                 top: 50,
                 right: 700
             }).render(true);
@@ -87,6 +87,14 @@ export default class extends CombatTracker {
         const combat = this.combat;
         const combats = combat.scene ? game.combats.entities.filter(c => c.data.scene === combat.scene._id) : [];
         const currentIdx = combats.findIndex(c => c === this.combat);
+        return combats[currentIdx];
+    }
+
+    getCurrentCombatOld() {
+        const combat = this.combat;
+        const view = canvas.scene;
+        const combats = view ? game.combats.entities.filter(c => c.data.scene === view._id) : [];
+
         return combats[currentIdx];
     }
 
