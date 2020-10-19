@@ -6,16 +6,24 @@
 <div class="body">
     <div class="charinfo">
         <div class="ancestry">
-            {{#each actor.ancestry as |item id|}}
-            <div class="item" data-item-id="{{item._id}}">
-                <label class="resource-label" for="data.ancestry">{{localize 'DL.CharAncestry'}}</label>
-                <input class="item-edit ancestry" name="data.ancestry" type="text" value="{{item.name}}"
-                    placeholder="{{localize 'DL.CharAncestry'}}" />
-                <div class="editAncestry item-edit">
-                    <i class="fas fa-edit"></i>
+            {{#if actor.ancestry}}
+                {{#each actor.ancestry as |item id|}}
+                <div class="item" data-item-id="{{item._id}}">
+                    <label class="resource-label" for="data.ancestry">{{localize 'DL.CharAncestry'}}</label>
+                    <input class="ancestry-edit ancestry" name="data.ancestry" type="text" value="{{item.name}}"
+                        placeholder="{{localize 'DL.CharAncestry'}}" />
+                    <div class="editAncestry ancestry-edit">
+                        <i class="fas fa-edit"></i>
+                    </div>
                 </div>
-            </div>
-            {{/each}}
+                {{/each}}
+            {{else}}
+                <div class="item">
+                    <label class="resource-label" for="data.ancestry">{{localize 'DL.CharAncestry'}}</label>
+                    <input class="ancestry" name="data.ancestry" type="text" value="{{data.ancestry}}"
+                        placeholder="{{localize 'DL.CharAncestry'}}" />
+                </div>
+            {{/if}}
         </div>
         <div class="gender">
             <label class="resource-label" for="data.apperance.sex">{{localize 'DL.CharGender'}}</label>
@@ -75,20 +83,18 @@
                             <div class="pathtitle">
                                 {{localize "DL.CharPathNovice"}}
                             </div>
-                            <label class="path-label" for="path.name">{{path.name}}</label>
-                            <div class="editPath item-edit">
+                            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
+                            <div class="editPath path-edit">
                                 <i class="fas fa-edit"></i>
                             </div>
                         </div>
                         {{/each}}
                     {{else}}
                         <div class="path">
-                            <div class="path" data-item-id="{{path._id}}">
-                                <div class="pathtitle">
-                                    {{localize "DL.CharPathNovice"}}
-                                </div>
-                                <input type="text" name="data.paths.novice" value="{{data.paths.novice}}" />
+                            <div class="pathtitle">
+                                {{localize "DL.CharPathNovice"}}
                             </div>
+                            <input type="text" name="data.paths.novice" value="{{data.paths.novice}}" />
                         </div>
                     {{/if}}
                     {{#if actor.pathExpert}}
@@ -97,8 +103,8 @@
                             <div class="pathtitle">
                                 {{localize "DL.CharPathExpert"}}
                             </div>
-                            <label class="path-label" for="path.name">{{path.name}}</label>
-                            <div class="editPath item-edit">
+                            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
+                            <div class="editPath path-edit">
                                 <i class="fas fa-edit"></i>
                             </div>
                         </div>
@@ -117,8 +123,8 @@
                             <div class="pathtitle">
                                 {{localize "DL.CharPathMaster"}}
                             </div>
-                            <label class="path-label" for="path.name">{{path.name}}</label>
-                            <div class="editPath item-edit">
+                            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
+                            <div class="editPath path-edit">
                                 <i class="fas fa-edit"></i>
                             </div>
                         </div>

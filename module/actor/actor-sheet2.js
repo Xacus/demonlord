@@ -156,35 +156,44 @@ export class DemonlordActorSheet2 extends ActorSheet {
         actorData.pathExpert = pathExpert;
         actorData.pathMaster = pathMaster;
 
-
-        if (ancestry.length == 0) {
-            const itemData = {
-                name: "Ancestry",
-                type: "ancestry",
-                data: null
-            };
-
-            ancestry.push(this.actor.createOwnedItem(itemData));
-        } else if (ancestry.length > 1) {
-            this.actor.deleteEmbeddedEntity("OwnedItem", ancestry[0]._id);
-            this.actor.render(false);
-        }
-
-        if (pathNovice.length > 1) {
-            this.actor.deleteEmbeddedEntity("OwnedItem", pathNovice[0]._id);
-            this.actor.render(false);
-        }
-        if (pathExpert.length > 1) {
-            this.actor.deleteEmbeddedEntity("OwnedItem", pathExpert[0]._id);
-            this.actor.render(false);
-        }
-        if (pathMaster.length > 1) {
-            this.actor.deleteEmbeddedEntity("OwnedItem", pathMaster[0]._id);
-            this.actor.render(false);
-        }
-
         actorData.spellbook = this._prepareSpellBook(actorData);
         actorData.talentbook = this._prepareTalentBook(actorData);
+    }
+
+    /** @override */
+    async _onDrop(event) {
+        // Try to extract the data
+        let data;
+        try {
+        data = JSON.parse(event.dataTransfer.getData('text/plain'));
+        } catch (err) {
+        return false;
+        }
+        const actor = this.actor;
+
+        // Handle the drop with a Hooked function
+        const allowed = Hooks.call("dropActorSheetData", actor, this, data);
+        if ( allowed === false ) return;
+
+        // Handle different data types
+        switch ( data.type ) {
+        case "Item":
+            let item = game.items.get(data.id);
+            if (item.data.type === "path") {
+                const paths = this.actor.getEmbeddedCollection("OwnedItem").filter(e => "path" === e.type && item.data.data.type === e.data.type);
+                if (paths.length > 0)
+                    this.actor.deleteEmbeddedEntity("OwnedItem", paths[0]._id);
+            } else if (item.data.type === "ancestry") {
+                const ancestries = this.actor.getEmbeddedCollection("OwnedItem").filter(e => "ancestry" === e.type);
+                ancestries.forEach(ancestry => {
+                    this.actor.deleteEmbeddedEntity("OwnedItem", ancestry._id);
+                });
+            }
+            
+            return this._onDropItem(event, data);
+        case "Actor":
+            return this._onDropActor(event, data);
+        }
     }
 
     /* -------------------------------------------- */
@@ -425,6 +434,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
         html.find('.item-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
             const item = this.actor.getOwnedItem(li.data("itemId"));
+
             item.sheet.render(true);
         });
 
@@ -489,7 +499,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
         });
 
         html.find('.editfeature').change(ev => {
-            let id = $(ev.currentTarget).attr("data-item-id")
+            let id = $(ev.currentTarget).attr("data-item-id");
             let namevalue = ev.currentTarget.children[1].value;
             let descriptionvalue = ev.currentTarget.children[2].value;
 
@@ -499,6 +509,30 @@ export class DemonlordActorSheet2 extends ActorSheet {
                 'data.description': descriptionvalue
             });
         })
+
+        // Ancestry
+        html.on('mousedown', '.ancestry-edit', ev => {
+            const div = $(ev.currentTarget).parents(".item");
+            const item = this.actor.getOwnedItem(div.data("itemId"));
+
+            if (ev.button == 0) {
+                item.sheet.render(true);
+            } else if (ev.button == 2) {
+                this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
+            }
+        });
+
+        // Paths
+        html.on('mousedown', '.path-edit', ev => {
+            const div = $(ev.currentTarget).parents(".path");
+            const item = this.actor.getOwnedItem(div.data("itemId"));
+
+            if (ev.button == 0) {
+                item.sheet.render(true);
+            } else if (ev.button == 2) {
+                this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
+            }
+        });
 
 
         // Add Tradition Item

@@ -2940,6 +2940,10 @@
   width: 15px;
 }
 
+.demonlord2 .paths .body .path .editPath:hover {
+  cursor: pointer;
+}
+
 .demonlord2 .paths .body .path .path-label {
   float: left;
   background: rgba(0, 0, 0, 0.1);
