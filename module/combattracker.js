@@ -94,7 +94,7 @@ export default class extends CombatTracker {
         const combat = this.combat;
         const view = canvas.scene;
         const combats = view ? game.combats.entities.filter(c => c.data.scene === view._id) : [];
-
+        const currentIdx = combats.findIndex(c => c === this.combat);
         return combats[currentIdx];
     }
 
