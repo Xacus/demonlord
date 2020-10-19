@@ -172,15 +172,14 @@
         margin-top: 5px;
 
         .path {
-            height: 10px;
-            margin-bottom: 13px;
+            height: 45px;
             font-size: 12px;
+            font-weight: normal;
 
             .pathtitle {
                 float: left;
-                height: 20px;
-                padding-right: 5px;
-                padding-top: 5px;
+                padding: 5px 5px 0 0;
+                margin-bottom: -2px;
             }
 
             label {
@@ -188,26 +187,27 @@
             }
 
             input {
-                float: right;
-                width: 160px;
-                height: 17px;
+                float: left;
+                width: 100%;
+                margin-top: 3px;
+                padding: 1px 2px 1px 5px;
             }
 
             .editPath {
                 position: relative;
-                top: -14px;
+                top: -15px;
                 left: 215px;
                 width: 15px;
             }
 
             .path-label {
-                float: right;
+                float: left;
                 background: rgba(0, 0, 0, 0.1);
                 color: #000;
                 border-radius: 0px;
                 margin-top: 3px;
-                padding: 2px 2px 2px 5px;
-                width: 160px;
+                padding: 1px 2px 1px 5px;
+                width: 100%;
 
                 &:hover {
                     background: rgba(0, 0, 0, 0.3);
