@@ -209,7 +209,6 @@ export class DemonlordActor extends Actor {
     }
 
     rollAttribute(attribute, boonsbanes) {
-        console.log("rollAttribute");
         const buffs = this.generateCharacterBuffs("");
         let attribueName = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
         if (!attribute.label && isNaN(attribueName))
@@ -367,7 +366,7 @@ export class DemonlordActor extends Actor {
         }
 
         // Format Dice
-        let diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(attackRoll) : this.formatDiceOld(attackRoll);
+        let diceData = this.formatDice(attackRoll);
 
         //Plus20 roll
         let plus20 = false;
@@ -570,7 +569,7 @@ export class DemonlordActor extends Actor {
                 attackRoll.roll();
 
                 // Format Dice
-                diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(attackRoll) : this.formatDiceOld(attackRoll);
+                diceData = this.formatDice(attackRoll);
 
                 // Roll Against Target
                 targetNumber = this.getVSTargetNumber(talent);
@@ -797,7 +796,7 @@ export class DemonlordActor extends Actor {
         attackRoll.roll();
 
         // Format Dice
-        let diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(attackRoll) : this.formatDiceOld(attackRoll);
+        let diceData = this.formatDice(attackRoll);
 
         // Roll Against Target
         const targetNumber = this.getTargetNumber(spell);
@@ -1400,9 +1399,9 @@ export class DemonlordActor extends Actor {
                 });
             };
 
-            for (let i = 0; i < diceRoll.parts.length; i++) {
-                if (diceRoll.parts[i] instanceof Die) {
-                    let pool = diceRoll.parts[i].rolls;
+            for (let i = 0; i < diceRoll.terms.length; i++) {
+                if (diceRoll.terms[i] instanceof Die) {
+                    let pool = diceRoll.parts[i].results;
                     let faces = diceRoll.parts[i].faces;
 
                     pool.forEach((pooldie) => {
@@ -1415,6 +1414,23 @@ export class DemonlordActor extends Actor {
                     });
                 } else if (typeof diceRoll.parts[i] == 'string') {
                     const parsed = parseInt(diceRoll.parts[i]);
+                    if (!isNaN(parsed)) {
+                        diceData.dice.push({
+                            img: null,
+                            result: parsed,
+                            dice: false,
+                            color: 'white'
+                        });
+                    } else {
+                        diceData.dice.push({
+                            img: null,
+                            result: diceRoll.terms[i],
+                            dice: false
+                        });
+                    }
+                }
+                else if (typeof diceRoll.terms[i] == 'number') {
+                    const parsed = parseInt(diceRoll.terms[i]);
                     if (!isNaN(parsed)) {
                         diceData.dice.push({
                             img: null,
