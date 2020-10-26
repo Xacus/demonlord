@@ -233,7 +233,7 @@ nav.sheet-tabs {
 
         div.level, div.attributes, div.characteristics, div.talents, div.spells, div.equipment, div.language, div.magic {
             float: left;
-            width: 95%;
+            width: 100%;
             padding: 4px 0;
 
             label {
@@ -250,7 +250,7 @@ nav.sheet-tabs {
 
             input {
                 float: left;
-                width: 20px;
+                width: 16px;
                 text-align: center;
                 color: #000;
                 background: #edf2f7;
@@ -258,7 +258,12 @@ nav.sheet-tabs {
             }
 
             input[type="checkbox"] {
-                margin-top: 1px;
+                margin-top: -1px;
+
+                &:hover {
+                    width: 16px;
+                    margin-top: 0px;
+                }
             }
 
             select {
@@ -282,6 +287,14 @@ nav.sheet-tabs {
                     font-weight: bold;
                 }
             }
+
+            .info {
+                float: right;
+                position: relative;
+                top: -13px;
+                font-size: 11px;
+            }
+
             .attributesselect, .characteristicsselect {
                 float: left;
                 width: 100%;
@@ -300,7 +313,7 @@ nav.sheet-tabs {
                 padding: 10px;
                 border: 4px dashed rgba(0, 0, 0, 0.25);
                 text-align: center;
-                width: 105%;
+                width: 100%;
                 min-height: 50px;
             }
 
@@ -310,7 +323,7 @@ nav.sheet-tabs {
                 padding: 10px;
                 border: 2px solid rgba(0, 0, 0, 0.25);
                 text-align: center;
-                width: 105%;
+                width: 100%;
                 min-height: 50px;
             }
 

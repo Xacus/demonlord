@@ -20,7 +20,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
             }]
         });
     }
-
+    
     /**
      * Extend and override the sheet header buttons
      * @override

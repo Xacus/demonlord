@@ -731,7 +731,7 @@
 
 .demonlord2.item .items-list li.level div.level, .demonlord2.item .items-list li.level div.attributes, .demonlord2.item .items-list li.level div.characteristics, .demonlord2.item .items-list li.level div.talents, .demonlord2.item .items-list li.level div.spells, .demonlord2.item .items-list li.level div.equipment, .demonlord2.item .items-list li.level div.language, .demonlord2.item .items-list li.level div.magic {
   float: left;
-  width: 95%;
+  width: 100%;
   padding: 4px 0;
 }
 
@@ -749,7 +749,7 @@
 
 .demonlord2.item .items-list li.level div.level input, .demonlord2.item .items-list li.level div.attributes input, .demonlord2.item .items-list li.level div.characteristics input, .demonlord2.item .items-list li.level div.talents input, .demonlord2.item .items-list li.level div.spells input, .demonlord2.item .items-list li.level div.equipment input, .demonlord2.item .items-list li.level div.language input, .demonlord2.item .items-list li.level div.magic input {
   float: left;
-  width: 20px;
+  width: 16px;
   text-align: center;
   color: #000;
   background: #edf2f7;
@@ -757,7 +757,12 @@
 }
 
 .demonlord2.item .items-list li.level div.level input[type="checkbox"], .demonlord2.item .items-list li.level div.attributes input[type="checkbox"], .demonlord2.item .items-list li.level div.characteristics input[type="checkbox"], .demonlord2.item .items-list li.level div.talents input[type="checkbox"], .demonlord2.item .items-list li.level div.spells input[type="checkbox"], .demonlord2.item .items-list li.level div.equipment input[type="checkbox"], .demonlord2.item .items-list li.level div.language input[type="checkbox"], .demonlord2.item .items-list li.level div.magic input[type="checkbox"] {
-  margin-top: 1px;
+  margin-top: -1px;
+}
+
+.demonlord2.item .items-list li.level div.level input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.attributes input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.characteristics input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.talents input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.spells input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.equipment input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.language input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.magic input[type="checkbox"]:hover {
+  width: 16px;
+  margin-top: 0px;
 }
 
 .demonlord2.item .items-list li.level div.level select, .demonlord2.item .items-list li.level div.attributes select, .demonlord2.item .items-list li.level div.characteristics select, .demonlord2.item .items-list li.level div.talents select, .demonlord2.item .items-list li.level div.spells select, .demonlord2.item .items-list li.level div.equipment select, .demonlord2.item .items-list li.level div.language select, .demonlord2.item .items-list li.level div.magic select {
@@ -782,6 +787,13 @@
   font-weight: bold;
 }
 
+.demonlord2.item .items-list li.level div.level .info, .demonlord2.item .items-list li.level div.attributes .info, .demonlord2.item .items-list li.level div.characteristics .info, .demonlord2.item .items-list li.level div.talents .info, .demonlord2.item .items-list li.level div.spells .info, .demonlord2.item .items-list li.level div.equipment .info, .demonlord2.item .items-list li.level div.language .info, .demonlord2.item .items-list li.level div.magic .info {
+  float: right;
+  position: relative;
+  top: -13px;
+  font-size: 11px;
+}
+
 .demonlord2.item .items-list li.level div.level .attributesselect, .demonlord2.item .items-list li.level div.level .characteristicsselect, .demonlord2.item .items-list li.level div.attributes .attributesselect, .demonlord2.item .items-list li.level div.attributes .characteristicsselect, .demonlord2.item .items-list li.level div.characteristics .attributesselect, .demonlord2.item .items-list li.level div.characteristics .characteristicsselect, .demonlord2.item .items-list li.level div.talents .attributesselect, .demonlord2.item .items-list li.level div.talents .characteristicsselect, .demonlord2.item .items-list li.level div.spells .attributesselect, .demonlord2.item .items-list li.level div.spells .characteristicsselect, .demonlord2.item .items-list li.level div.equipment .attributesselect, .demonlord2.item .items-list li.level div.equipment .characteristicsselect, .demonlord2.item .items-list li.level div.language .attributesselect, .demonlord2.item .items-list li.level div.language .characteristicsselect, .demonlord2.item .items-list li.level div.magic .attributesselect, .demonlord2.item .items-list li.level div.magic .characteristicsselect {
   float: left;
   width: 100%;
@@ -798,7 +810,7 @@
   padding: 10px;
   border: 4px dashed rgba(0, 0, 0, 0.25);
   text-align: center;
-  width: 105%;
+  width: 100%;
   min-height: 50px;
 }
 
@@ -808,7 +820,7 @@
   padding: 10px;
   border: 2px solid rgba(0, 0, 0, 0.25);
   text-align: center;
-  width: 105%;
+  width: 100%;
   min-height: 50px;
 }
 

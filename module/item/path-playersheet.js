@@ -3,7 +3,8 @@
  * @extends {ItemSheet}
  */
 import {
-    PathLevel
+    PathLevel,
+    PathLevelItem
 } from "../pathlevel.js";
 export class DemonlordPathPlayerView extends ItemSheet {
 
@@ -11,6 +12,7 @@ export class DemonlordPathPlayerView extends ItemSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             classes: ["demonlord2", "sheet", "item"],
+            template: "systems/demonlord/templates/item/path-playersheet.html",
             width: 620,
             height: 550,
             tabs: [{
@@ -22,12 +24,6 @@ export class DemonlordPathPlayerView extends ItemSheet {
                 ".tab.paths"
             ]
         });
-    }
-
-    /** @override */
-    get template() {
-        const path = "systems/demonlord/templates/item";
-        return `${path}/path-playersheet.html`;
     }
 
     /* -------------------------------------------- */
@@ -74,84 +70,13 @@ export class DemonlordPathPlayerView extends ItemSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
 
-        html.find('.add-level').click(ev => {
-            this.addLevel(ev);
+        html.find('.transfer-talent').click(ev => {
+            this.showTransferDialog(game.i18n.localize('DL.PathsDialogTransferTalent'), game.i18n.localize('DL.PathsDialogTransferTalentText'), ev, "TALENT")
         });
 
-        html.find('.delete-level').click(ev => {
-            const itemIndex = ev.currentTarget.parentElement.parentElement.getAttribute('data-item-id');
-            this.showDeleteDialog(game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevel'), game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevelText'), itemIndex)
+        html.find('.transfer-spell').click(ev => {
+            this.showTransferDialog(game.i18n.localize('DL.PathsDialogTransferSpell'), game.i18n.localize('DL.PathsDialogTransferSpellText'), ev, "SPELL")
         });
-
-        // Add drag events.
-        html.find('.drop-area')
-            .on('dragover', this._onDragOver.bind(this))
-            .on('dragleave', this._onDragLeave.bind(this))
-            .on('drop', this._onDrop.bind(this));
-
-        html.find('.delete-item').click(ev => {
-            const itemLevel = ev.currentTarget.parentElement.parentElement.parentElement.getAttribute('data-level');
-            const itemGroup = ev.currentTarget.parentElement.parentElement.parentElement.getAttribute('data-group');
-            const itemIndex = ev.currentTarget.parentElement.getAttribute('data-item-id');
-
-            this.deleteItem(itemLevel, itemGroup, itemIndex);
-        });
-    }
-
-    async _onDragOver(ev) {
-        let $self = $(ev.originalEvent.target);
-        let $dropTarget = $self;
-        $dropTarget.addClass('drop-hover');
-        return false;
-    }
-
-    async _onDragLeave(ev) {
-        let $self = $(ev.originalEvent.target);
-        let $dropTarget = $self;
-        $dropTarget.removeClass('drop-hover');
-        return false;
-    }
-
-    async _onDrop(ev) {
-        let $self = $(ev.originalEvent.target);
-        let $dropTarget = $self;
-
-        // Get data.
-        let data;
-        try {
-            data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'));
-            if (data.type !== "Item") return;
-        } catch (err) {
-            return false;
-        }
-
-        let level = $dropTarget.data('level');
-        let group = $dropTarget.data('group');
-        this._addItem(data.id, level, group);
-
-        $dropTarget.removeClass('drop-hover');
-        return false;
-    }
-
-    async _addItem(itemId, level, group) {
-        let itemData = duplicate(this.item.data);
-        let item = game.items.get(itemId);
-
-        switch (item.type) {
-            case 'talent':
-                let talents = itemData.data.levels[level]?.talents;
-                talents.push(item);
-                break;
-            case 'spell':
-                let spells = itemData.data.levels[level]?.spells;
-                spells.push(item);
-                break;
-            default:
-                break;
-        }
-
-        await this.item.update(itemData, { diff: false });
-        this.render(true);
     }
 
     /**
@@ -165,310 +90,212 @@ export class DemonlordPathPlayerView extends ItemSheet {
         const updateData = expandObject(formData);
 
         if (item.type == "path") {
+            let maxAttChoicesPrLevel = {};
+            let attChoicesMadePrLevel = {};
             for (const [k, v] of Object.entries(formData)) {
-                //console.log("k=" + k + ", v=" + v);
-                if (k == "level.level") {
-                    let index = 0;
-
+                if (k == "level") {
                     if (Array.isArray(v)) {
                         for (let id of v) {
-                            item.data.data.levels[index].level = parseInt(id);
-                            index++;
+                            let maxChoices = item.data.data.levels[id].attributeSelectIsChooseTwo ? 2 : 0;
+                            maxChoices = item.data.data.levels[id].attributeSelectIsChooseThree ? 3 : maxChoices;
+                            maxChoices = item.data.data.levels[id].attributeSelectIsFixed ? 10 : maxChoices;
+                            //maxChoices = item.data.data.levels[id].attributeSelectIsTwoSet ? 2 : maxChoices;
+
+                            maxAttChoicesPrLevel[id] = maxChoices;
+                            attChoicesMadePrLevel[id] = 0;
                         }
                     } else {
-                        item.data.data.levels[index].level = parseInt(v);
+                        let maxChoices = item.data.data.levels[v].attributeSelectIsChooseTwo ? 2 : 0;
+                        maxChoices = item.data.data.levels[v].attributeSelectIsChooseThree ? 3 : maxChoices;
+                        maxChoices = item.data.data.levels[v].attributeSelectIsFixed ? 10 : maxChoices;
+                        //maxChoices = item.data.data.levels[v].attributeSelectIsTwoSet ? 2 : maxChoices;
+
+                        maxAttChoicesPrLevel[v] = maxChoices;
+                        attChoicesMadePrLevel[v] = 0;
                     }
-                } else if (k == "level.attributeSelect") {
+                } else if (k == "level.attributeStrengthSelected") {
                     let index = 0;
 
                     if (Array.isArray(v)) {
                         for (let id of v) {
-                            item.data.data.levels[index].attributeSelect = id;
-
-                            if (id == "choosetwo") {
-                                item.data.data.levels[index].attributeSelectIsChooseTwo = true;
-                                item.data.data.levels[index].attributeSelectIsChooseThree = false;
-                                item.data.data.levels[index].attributeSelectIsFixed = false;
-                                item.data.data.levels[index].attributeSelectIsTwoSet = false;
-                            } else if (id == "choosethree") {
-                                item.data.data.levels[index].attributeSelectIsChooseTwo = false;
-                                item.data.data.levels[index].attributeSelectIsChooseThree = true;
-                                item.data.data.levels[index].attributeSelectIsFixed = false;
-                                item.data.data.levels[index].attributeSelectIsTwoSet = false;
-                            } else if (id == "fixed") {
-                                item.data.data.levels[index].attributeSelectIsChooseTwo = false;
-                                item.data.data.levels[index].attributeSelectIsChooseThree = false;
-                                item.data.data.levels[index].attributeSelectIsFixed = true;
-                                item.data.data.levels[index].attributeSelectIsTwoSet = false;
-                            } else if (id == "twosets") {
-                                item.data.data.levels[index].attributeSelectIsChooseTwo = false;
-                                item.data.data.levels[index].attributeSelectIsChooseThree = false;
-                                item.data.data.levels[index].attributeSelectIsFixed = false;
-                                item.data.data.levels[index].attributeSelectIsTwoSet = true;
+                            if (id == false) {
+                                item.data.data.levels[index].attributeStrengthSelected = id;
+    
+                                if (item.data.data.levels[index].attributeStrengthSelected && attChoicesMadePrLevel[index] > 0)
+                                    attChoicesMadePrLevel[index]--; 
                             } else {
-                                item.data.data.levels[index].attributeSelectIsChooseTwo = false;
-                                item.data.data.levels[index].attributeSelectIsChooseThree = false;
-                                item.data.data.levels[index].attributeSelectIsFixed = false;
-                                item.data.data.levels[index].attributeSelectIsTwoSet = false;
-
-                                item.data.data.levels[index].attributeStrength = 0;
-                                item.data.data.levels[index].attributeAgility = 0;
-                                item.data.data.levels[index].attributeIntellect = 0;
-                                item.data.data.levels[index].attributeWill = 0;
+                                if (maxAttChoicesPrLevel[index] > attChoicesMadePrLevel[index]) {
+                                    item.data.data.levels[index].attributeStrengthSelected = id;
+                                    attChoicesMadePrLevel[index]++;
+                                } else {
+                                    item.data.data.levels[index].attributeStrengthSelected = false;
+                                    return ui.notifications.warn("More attributes selected than allowed");
+                                }
                             }
+
                             index++;
                         }
                     } else {
-                        item.data.data.levels[index].attributeSelect = v;
+                        if (v == false) {
+                            item.data.data.levels[index].attributeStrengthSelected = v;
 
-                        if (v == "choosetwo") {
-                            item.data.data.levels[index].attributeSelectIsChooseTwo = true;
-                            item.data.data.levels[index].attributeSelectIsChooseThree = false;
-                            item.data.data.levels[index].attributeSelectIsFixed = false;
-                            item.data.data.levels[index].attributeSelectIsTwoSet = false;
-                        } else if (v == "choosethree") {
-                            item.data.data.levels[index].attributeSelectIsChooseTwo = false;
-                            item.data.data.levels[index].attributeSelectIsChooseThree = true;
-                            item.data.data.levels[index].attributeSelectIsFixed = false;
-                            item.data.data.levels[index].attributeSelectIsTwoSet = false;
-                        } else if (v == "fixed") {
-                            item.data.data.levels[index].attributeSelectIsChooseTwo = false;
-                            item.data.data.levels[index].attributeSelectIsChooseThree = false;
-                            item.data.data.levels[index].attributeSelectIsFixed = true;
-                            item.data.data.levels[index].attributeSelectIsTwoSet = false;
-                        } else if (v == "twosets") {
-                            item.data.data.levels[index].attributeSelectIsChooseTwo = false;
-                            item.data.data.levels[index].attributeSelectIsChooseThree = false;
-                            item.data.data.levels[index].attributeSelectIsFixed = false;
-                            item.data.data.levels[index].attributeSelectIsTwoSet = true;
+                            if (item.data.data.levels[index].attributeStrengthSelected && attChoicesMadePrLevel[index] > 0)
+                                attChoicesMadePrLevel[index]--; 
                         } else {
-                            item.data.data.levels[index].attributeSelectIsChooseTwo = false;
-                            item.data.data.levels[index].attributeSelectIsChooseThree = false;
-                            item.data.data.levels[index].attributeSelectIsFixed = false;
-                            item.data.data.levels[index].attributeSelectIsTwoSet = false;
-
-                            item.data.data.levels[index].attributeStrength = 0;
-                            item.data.data.levels[index].attributeAgility = 0;
-                            item.data.data.levels[index].attributeIntellect = 0;
-                            item.data.data.levels[index].attributeWill = 0;
+                            if (maxAttChoicesPrLevel[index] > attChoicesMadePrLevel[index]) {
+                                item.data.data.levels[index].attributeStrengthSelected = v;
+                                attChoicesMadePrLevel[index]++;
+                            } else {
+                                item.data.data.levels[index].attributeStrengthSelected = false;
+                                return ui.notifications.warn("More attributes selected than allowed");
+                            }
                         }
                     }
-                } else if (k == "level.talentsSelect") {
+                } else if (k == "level.attributeAgilitySelected") {
                     let index = 0;
 
                     if (Array.isArray(v)) {
                         for (let id of v) {
-                            item.data.data.levels[index].talentsSelect = id;
-
-                            if (id == "all")
-                                item.data.data.levels[index].talentsSelect = "all";
-                            else
-                                item.data.data.levels[index].talentsSelect = "chooseone";
+                            if (id == false) {
+                                item.data.data.levels[index].attributeAgilitySelected = id;
+    
+                                if (item.data.data.levels[index].attributeAgilitySelected && attChoicesMadePrLevel[index] > 0)
+                                    attChoicesMadePrLevel[index]--; 
+                            } else {
+                                if (maxAttChoicesPrLevel[index] > attChoicesMadePrLevel[index]) {
+                                    item.data.data.levels[index].attributeAgilitySelected = id;
+                                    attChoicesMadePrLevel[index]++;
+                                } else {
+                                    item.data.data.levels[index].attributeAgilitySelected = false;
+                                    return ui.notifications.warn("More attributes selected than allowed");
+                                }
+                            }
 
                             index++;
                         }
                     } else {
-                        item.data.data.levels[index].talentsSelect = v;
+                        if (v == false) {
+                            item.data.data.levels[index].attributeAgilitySelected = v;
 
-                        if (v == "all")
-                            item.data.data.levels[index].talentsSelect = "all";
-                        else
-                            item.data.data.levels[index].talentsSelect = "chooseone";
+                            if (item.data.data.levels[index].attributeAgilitySelected && attChoicesMadePrLevel[index] > 0)
+                                attChoicesMadePrLevel[index]--; 
+                        } else {
+                            if (maxAttChoicesPrLevel[index] > attChoicesMadePrLevel[index]) {
+                                item.data.data.levels[index].attributeAgilitySelected = v;
+                                attChoicesMadePrLevel[index]++;
+                            } else {
+                                item.data.data.levels[index].attributeAgilitySelected = false;
+                                return ui.notifications.warn("More attributes selected than allowed");
+                            }
+                        }
                     }
-                } else if (k == "level.attributeStrength") {
+                } else if (k == "level.attributeIntellectSelected") {
                     let index = 0;
 
                     if (Array.isArray(v)) {
                         for (let id of v) {
-                            item.data.data.levels[index].attributeStrength = parseInt(id);
+                            if (id == false) {
+                                item.data.data.levels[index].attributeIntellectSelected = id;
+    
+                                if (item.data.data.levels[index].attributeIntellectSelected && attChoicesMadePrLevel[index] > 0)
+                                    attChoicesMadePrLevel[index]--; 
+                            } else {
+                                if (maxAttChoicesPrLevel[index] > attChoicesMadePrLevel[index]) {
+                                    item.data.data.levels[index].attributeIntellectSelected = id;
+                                    attChoicesMadePrLevel[index]++;
+                                } else {
+                                    item.data.data.levels[index].attributeIntellectSelected = false;
+                                    return ui.notifications.warn("More attributes selected than allowed");
+                                }
+                            }
+
                             index++;
                         }
                     } else {
-                        item.data.data.levels[index].attributeStrength = parseInt(v);
+                        if (v == false) {
+                            item.data.data.levels[index].attributeIntellectSelected = v;
+
+                            if (item.data.data.levels[index].attributeIntellectSelected && attChoicesMadePrLevel[index] > 0)
+                                attChoicesMadePrLevel[index]--; 
+                        } else {
+                            if (maxAttChoicesPrLevel[index] > attChoicesMadePrLevel[index]) {
+                                item.data.data.levels[index].attributeIntellectSelected = v;
+                                attChoicesMadePrLevel[index]++;
+                            } else {
+                                item.data.data.levels[index].attributeIntellectSelected = false;
+                                return ui.notifications.warn("More attributes selected than allowed");
+                            }
+                        }
                     }
-                } else if (k == "level.attributeAgility") {
+                } else if (k == "level.attributeWillSelected") {
                     let index = 0;
 
                     if (Array.isArray(v)) {
                         for (let id of v) {
-                            item.data.data.levels[index].attributeAgility = parseInt(id);
+                            if (id == false) {
+                                item.data.data.levels[index].attributeWillSelected = id;
+    
+                                if (item.data.data.levels[index].attributeWillSelected && attChoicesMadePrLevel[index] > 0)
+                                    attChoicesMadePrLevel[index]--; 
+                            } else {
+                                if (maxAttChoicesPrLevel[index] > attChoicesMadePrLevel[index]) {
+                                    item.data.data.levels[index].attributeWillSelected = id;
+                                    attChoicesMadePrLevel[index]++;
+                                } else {
+                                    item.data.data.levels[index].attributeWillSelected = false;
+                                    return ui.notifications.warn("More attributes selected than allowed");
+                                }
+                            }
+
                             index++;
                         }
                     } else {
-                        item.data.data.levels[index].attributeAgility = parseInt(v);
-                    }
-                } else if (k == "level.attributeIntellect") {
-                    let index = 0;
+                        if (v == false) {
+                            item.data.data.levels[index].attributeWillSelected = v;
 
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].attributeIntellect = parseInt(id);
-                            index++;
+                            if (item.data.data.levels[index].attributeWillSelected && attChoicesMadePrLevel[index] > 0)
+                                attChoicesMadePrLevel[index]--; 
+                        } else {
+                            if (maxAttChoicesPrLevel[index] > attChoicesMadePrLevel[index]) {
+                                item.data.data.levels[index].attributeWillSelected = v;
+                                attChoicesMadePrLevel[index]++;
+                            } else {
+                                item.data.data.levels[index].attributeWillSelected = false;
+                                return ui.notifications.warn("More attributes selected than allowed");
+                            }
                         }
-                    } else {
-                        item.data.data.levels[index].attributeIntellect = parseInt(v);
-                    }
-                } else if (k == "level.attributeWill") {
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].attributeWill = parseInt(id);
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].attributeWill = parseInt(v);
-                    }
-                } else if (k == "level.characteristicsPerception") {
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].characteristicsPerception = parseInt(id);
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].characteristicsPerception = parseInt(v);
-                    }
-                } else if (k == "level.characteristicsHealth") {
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].characteristicsHealth = parseInt(id);
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].characteristicsHealth = parseInt(v);
-                    }
-                } else if (k == "level.characteristicsPower") {
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].characteristicsPower = parseInt(id);
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].characteristicsPower = parseInt(v);
-                    }
-                } else if (k == "level.characteristicsSpeed") {
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].characteristicsSpeed = parseInt(id);
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].characteristicsSpeed = parseInt(v);
-                    }
-                } else if (k == "level.characteristicsDefense") {
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].characteristicsDefense = parseInt(id);
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].characteristicsDefense = parseInt(v);
-                    }
-                } else if (k == "level.characteristicsCorruption") {
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].characteristicsCorruption = parseInt(id);
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].characteristicsCorruption = parseInt(v);
-                    }
-                } else if (k == "level.languagesText") {
-
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].languagesText = id;
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].languagesText = v;
-                    }
-                } else if (k == "level.equipmentText") {
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].equipmentText = id;
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].equipmentText = v;
-                    }
-                } else if (k == "level.magicText") {
-                    let index = 0;
-
-                    if (Array.isArray(v)) {
-                        for (let id of v) {
-                            item.data.data.levels[index].magicText = id;
-                            index++;
-                        }
-                    } else {
-                        item.data.data.levels[index].magicText = v;
                     }
                 }
-
             }
+
             await this.object.update({
                 "data.levels": duplicate(this.item.data.data.levels)
             });
         }
 
-        return this.entity.update(updateData);
+        return this.object.update(formData);
     }
 
-    async addLevel(event) {
+    async transferItem(event, type) {
         event.preventDefault();
 
-        let itemData = duplicate(this.item.data);
-        itemData.data.levels.push(new PathLevel());
+        const levelIndex = event.currentTarget.closest(".level").getAttribute('data-item-id');
+        const itemIndex = event.currentTarget.getAttribute('data-item-id');
 
-        await this.item.update(itemData, { diff: false });
-        this.render(true);
-    }
+        if (type === "TALENT") { 
+            const selectedLevelItem = this.object.data.data.levels[levelIndex].talents[itemIndex];
+            const item = game.items.get(selectedLevelItem.id);
 
-    async deleteLevel(index) {
-        let itemData = duplicate(this.item.data);
-        itemData.data.levels.splice(index, 1);
+            await this.actor.createOwnedItem(item);
+        } else {
+            const selectedLevelItem = this.object.data.data.levels[levelIndex].spells[itemIndex];
+            const item = game.items.get(selectedLevelItem.id);
 
-        await this.item.update(itemData, { diff: false });
-        this.render(true);
-    }
-
-    async deleteItem(itemLevel, itemGroup, itemIndex) {
-        let itemData = duplicate(this.item.data);
-
-        switch (itemGroup) {
-            case 'talent':
-                let talents = itemData.data.levels[itemLevel].talents;
-                talents.splice(itemIndex, 1);
-                break;
-            case 'spell':
-                let spells = itemData.data.levels[itemLevel].spells;
-                spells.splice(itemIndex, 1);
-                break;
-            default:
-                break;
+            await this.actor.createOwnedItem(item);
         }
-
-        await this.item.update(itemData, { diff: false });
-        this.render(true);
     }
 
-    showDeleteDialog(title, content, itemIndex) {
+    showTransferDialog(title, content, event, type) {
         let d = new Dialog({
             title: title,
             content: content,
@@ -476,7 +303,7 @@ export class DemonlordPathPlayerView extends ItemSheet {
                 yes: {
                     icon: '<i class="fas fa-check"></i>',
                     label: game.i18n.localize('DL.DialogYes'),
-                    callback: (html) => this.deleteLevel(itemIndex)
+                    callback: (html) => this.transferItem(event, type)
                 },
                 no: {
                     icon: '<i class="fas fa-times"></i>',

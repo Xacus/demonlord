@@ -65,8 +65,10 @@
                                             </option>
                                             <option value="fixed">{{localize "DL.PathsLevelAttributesFixed"}}
                                             </option>
+                                            <!--
                                             <option value="twosets">{{localize "DL.PathsLevelAttributesTwoSets"}}
                                             </option>
+                                            -->
                                             {{/select}}
                                         </select>
                                     </div>
@@ -232,11 +234,6 @@
                                     <div class="characteristicsselect">
                                         <div class="grid grid-3col">
                                             <div>
-                                                <label>{{localize 'DL.CharPerception'}}</label>
-                                                <input type="text" name="level.characteristicsPerception"
-                                                    value="{{level.characteristicsPerception}}" data-dtype="Number" />
-                                            </div>
-                                            <div>
                                                 <label>{{localize 'DL.CharHealth'}}</label>
                                                 <input type="text" name="level.characteristicsHealth"
                                                     value="{{level.characteristicsHealth}}" data-dtype="Number" />
@@ -245,6 +242,11 @@
                                                 <label>{{localize 'DL.CharPower'}}</label>
                                                 <input type="text" name="level.characteristicsPower"
                                                     value="{{level.characteristicsPower}}" data-dtype="Number" />
+                                            </div>
+                                            <div>
+                                                <label>{{localize 'DL.CharPerception'}}</label>
+                                                <input type="text" name="level.characteristicsPerception"
+                                                    value="{{level.characteristicsPerception}}" data-dtype="Number" />
                                             </div>
                                             <div>
                                                 <label>{{localize 'DL.CharSpeed'}}</label>

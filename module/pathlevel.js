@@ -17,10 +17,10 @@ export class PathLevel {
         this.attributeAgility = obj.attributeAgility || 0;
         this.attributeIntellect = obj.attributeIntellect || 0;
         this.attributeWill = obj.attributeWill || 0;
-        this.attributeStrengthSelected = obj.attributeStrengthSelected || 0;
-        this.attributeAgilitySelected = obj.attributeAgilitySelected || 0;
-        this.attributeIntellectSelected = obj.attributeIntellectSelected || 0;
-        this.attributeWillSelected = obj.attributeWillSelected || 0;
+        this.attributeStrengthSelected = obj.attributeStrengthSelected || false;
+        this.attributeAgilitySelected = obj.attributeAgilitySelected || false;
+        this.attributeIntellectSelected = obj.attributeIntellectSelected || false;
+        this.attributeWillSelected = obj.attributeWillSelected || false;
 
         this.characteristicsPerception = obj.characteristicsPerception || 0;
         this.characteristicsDefense = obj.characteristicsDefense || 0;
@@ -38,5 +38,20 @@ export class PathLevel {
         this.talentsSelected = obj.talentsSelected || [];
         this.talents = obj.talents || [];
         this.spells = obj.spells || [];
+    }
+}
+
+export class PathLevelItem {
+    constructor(obj) {
+        if (obj === undefined) {
+            obj = {};
+        }
+        if (typeof (obj) === "string") {
+            obj = JSON.parse(obj);
+        }
+
+        this.id = obj.id || "";
+        this.name = obj.name || "";
+        this.description = obj.description || "";
     }
 }

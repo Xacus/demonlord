@@ -60,6 +60,7 @@ export class DemonlordActor extends Actor {
                 }
             }
 
+            data.characteristics.power = parseInt(ancestry.data.characteristics?.power);
             data.characteristics.speed = parseInt(ancestry.data.characteristics?.speed);
             data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4) + parseInt(ancestry.data.characteristics?.healingratemodifier);
             data.characteristics.size = ancestry.data.characteristics.size;
@@ -67,6 +68,28 @@ export class DemonlordActor extends Actor {
             //data.characteristics.power = parseInt(data.characteristics.power);
             //data.characteristics.insanity.value = parseInt(data.characteristics.insanity.value) + parseInt(ancestry.data.characteristics.insanity);
             //data.characteristics.corruption = parseInt(data.characteristics.corruption) + parseInt(ancestry.data.characteristics.corruption);
+        }
+
+        // Paths
+        if (data.level > 0) {
+            const actor = this;
+
+            for (let i = 1; i <= data.level; i++) {
+                const paths = this.getEmbeddedCollection("OwnedItem").filter(e => "path" === e.type);
+                paths.forEach(path => {
+                    path.data.levels.filter( function($level) {
+                        return $level.level == i;
+                    }).forEach(function($level) {
+                        data.characteristics.health.max += $level.characteristicsHealth;
+                        data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4);
+                        data.characteristics.power = parseInt(data.characteristics.power) + parseInt($level.characteristicsPower);
+                        data.characteristics.defense += $level.characteristicsDefense;
+                        data.characteristics.speed += $level.characteristicsSpeed;
+                        data.characteristics.corruption += $level.characteristicsCorruption;
+                        data.attributes.perception.value += $level.characteristicsPerception;
+                    });
+                });
+            }
         }
 
         // Loop through ability scores, and add their modifiers to our sheet output.

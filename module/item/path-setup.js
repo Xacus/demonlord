@@ -3,7 +3,8 @@
  * @extends {ItemSheet}
  */
 import {
-    PathLevel
+    PathLevel,
+    PathLevelItem
 } from "../pathlevel.js";
 export class DemonlordPathSetup extends ItemSheet {
 
@@ -11,6 +12,7 @@ export class DemonlordPathSetup extends ItemSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             classes: ["demonlord2", "sheet", "item"],
+            template: "systems/demonlord/templates/item/path-setup.html",
             width: 620,
             height: 550,
             tabs: [{
@@ -22,12 +24,6 @@ export class DemonlordPathSetup extends ItemSheet {
                 ".tab.paths"
             ]
         });
-    }
-
-    /** @override */
-    get template() {
-        const path = "systems/demonlord/templates/item";
-        return `${path}/path-setup.html`;
     }
 
     /* -------------------------------------------- */
@@ -80,7 +76,7 @@ export class DemonlordPathSetup extends ItemSheet {
 
         html.find('.delete-level').click(ev => {
             const itemIndex = ev.currentTarget.parentElement.parentElement.getAttribute('data-item-id');
-            this.showDeleteDialog(game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevel'), game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevelText'), itemIndex)
+            this.showDeleteDialog(game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevel'), game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevelText'), itemIndex);
         });
 
         // Add drag events.
@@ -136,15 +132,24 @@ export class DemonlordPathSetup extends ItemSheet {
     async _addItem(itemId, level, group) {
         let itemData = duplicate(this.item.data);
         let item = game.items.get(itemId);
+        let levelItem = new PathLevelItem();
 
         switch (item.type) {
             case 'talent':
+                levelItem.id = item._id;
+                levelItem.name = item.name;
+                levelItem.description = item.description;
+
                 let talents = itemData.data.levels[level]?.talents;
-                talents.push(item);
+                talents.push(levelItem);
                 break;
             case 'spell':
+                levelItem.id = item._id;
+                levelItem.name = item.name;
+                levelItem.description = item.description;
+
                 let spells = itemData.data.levels[level]?.spells;
-                spells.push(item);
+                spells.push(levelItem);
                 break;
             default:
                 break;
@@ -166,7 +171,6 @@ export class DemonlordPathSetup extends ItemSheet {
 
         if (item.type == "path") {
             for (const [k, v] of Object.entries(formData)) {
-                //console.log("k=" + k + ", v=" + v);
                 if (k == "level.level") {
                     let index = 0;
 

@@ -21,75 +21,82 @@
                         <ol class="items-list">
                             {{#each item.levels as |level id|}}
                             <li class="level" data-item-id="{{id}}">
+                                <input type="hidden" name="level" value="{{id}}"/>
                                 <div class="levelheader">
                                     <label>{{localize 'DL.PathsLevelsSubTitle'}}</label>
                                     <span>{{level.level}}</span>
                                 </div>
                                 <div class="attributes">
+                                    {{#if level.attributeSelectIsChooseTwo}}
                                     <div class="option">
                                         <label>{{localize 'DL.PathsLevelAttributesSubtitle'}}{{#if level.attributeSelectIsChooseTwo}}: ({{localize 'DL.PathsLevelAttributesChooseTwo'}}){{/if}}{{#if level.PathsLevelAttributesChooseThree}}: ({{localize 'DL.PathsLevelAttributesChooseThree'}}){{/if}}</label>
                                     </div>
-                                    {{#if level.attributeSelectIsChooseTwo}}
                                     <div class="attributesselect">
                                         <div class="grid grid-4col">
                                             <div>
-                                                <input type="checkbox" name="level.attributeStrengthIsChecked"
-                            id="level.attributeStrengthIsChecked" {{checked level.attributeStrengthIsChecked}} />
-                                                <label>{{localize 'DL.AttributeStrength'}}</label>
+                                                <input type="checkbox" name="level.attributeStrengthSelected"
+                            id="level.attributeStrengthSelected{{id}}" {{checked level.attributeStrengthSelected}} />
+                                                <label for="level.attributeStrengthSelected{{id}}">{{localize 'DL.AttributeStrength'}}</label>
                                                 <span>+{{level.attributeStrength}}</span>
                                             </div>
                                             <div>
-                                                <input type="checkbox" name="level.attributeAgilityIsChecked"
-                            id="level.attributeAgilityIsChecked" {{checked level.attributeAgilityIsChecked}} />
-                                                <label>{{localize 'DL.AttributeAgility'}}</label>
+                                                <input type="checkbox" name="level.attributeAgilitySelected"
+                            id="level.attributeAgilitySelected{{id}}" {{checked level.attributeAgilitySelected}} />
+                                                <label for="level.attributeAgilitySelected{{id}}">{{localize 'DL.AttributeAgility'}}</label>
                                                 <span>+{{level.attributeAgility}}</span>
                                             </div>
                                             <div>
-                                                <input type="checkbox" name="level.attributeIntellectIsChecked"
-                            id="level.attributeIntellectIsChecked" {{checked level.attributeIntellectIsChecked}} />
-                                                <label>{{localize 'DL.AttributeIntellect'}}</label>
+                                                <input type="checkbox" name="level.attributeIntellectSelected"
+                            id="level.attributeIntellectSelected{{id}}" {{checked level.attributeIntellectSelected}} />
+                                                <label for="level.attributeIntellectSelected{{id}}">{{localize 'DL.AttributeIntellect'}}</label>
                                                 <span>+{{level.attributeIntellect}}</span>
                                             </div>
                                             <div>
-                                                <input type="checkbox" name="level.attributeWillIsChecked"
-                            id="level.attributeWillIsChecked" {{checked level.attributeWillIsChecked}} />
-                                                <label>{{localize 'DL.AttributeWill'}}</label>
+                                                <input type="checkbox" name="level.attributeWillSelected"
+                            id="level.attributeWillSelected{{id}}" {{checked level.attributeWillSelected}} />
+                                                <label for="level.attributeWillSelected{{id}}">{{localize 'DL.AttributeWill'}}</label>
                                                 <span>+{{level.attributeWill}}</span>
                                             </div>
                                         </div>
                                     </div>
                                     {{/if}}
                                     {{#if level.attributeSelectIsChooseThree}}
+                                    <div class="option">
+                                        <label>{{localize 'DL.PathsLevelAttributesSubtitle'}}{{#if level.attributeSelectIsChooseTwo}}: ({{localize 'DL.PathsLevelAttributesChooseTwo'}}){{/if}}{{#if level.PathsLevelAttributesChooseThree}}: ({{localize 'DL.PathsLevelAttributesChooseThree'}}){{/if}}</label>
+                                    </div>
                                     <div class="attributesselect">
                                         <div class="grid grid-4col">
                                             <div>
-                                                <input type="checkbox" name="level.attributeStrengthIsChecked"
-                            id="level.attributeStrengthIsChecked" {{checked level.attributeStrengthIsChecked}} />
-                                                <label>{{localize 'DL.AttributeStrength'}}</label>
+                                                <input type="checkbox" name="level.attributeStrengthSelected"
+                            id="level.attributeStrengthSelected{{id}}" {{checked level.attributeStrengthSelected}} />
+                                                <label for="level.attributeStrengthSelected{{id}}">{{localize 'DL.AttributeStrength'}}</label>
                                                 <span>+{{level.attributeStrength}}</span>
                                             </div>
                                             <div>
-                                                <input type="checkbox" name="level.attributeAgilityIsChecked"
-                            id="level.attributeAgilityIsChecked" {{checked level.attributeAgilityIsChecked}} />
-                                                <label>{{localize 'DL.AttributeAgility'}}</label>
+                                                <input type="checkbox" name="level.attributeAgilitySelected"
+                            id="level.attributeAgilitySelected{{id}}" {{checked level.attributeAgilitySelected}} />
+                                                <label for="level.attributeAgilitySelected{{id}}">{{localize 'DL.AttributeAgility'}}</label>
                                                 <span>+{{level.attributeAgility}}</span>
                                             </div>
                                             <div>
-                                                <input type="checkbox" name="level.attributeIntellectIsChecked"
-                            id="level.attributeIntellectIsChecked" {{checked level.attributeIntellectIsChecked}} />
-                                                <label>{{localize 'DL.AttributeIntellect'}}</label>
+                                                <input type="checkbox" name="level.attributeIntellectSelected"
+                            id="level.attributeIntellectSelected{{id}}" {{checked level.attributeIntellectSelected}} />
+                                                <label for="level.attributeIntellectSelected{{id}}">{{localize 'DL.AttributeIntellect'}}</label>
                                                 <span>+{{level.attributeIntellect}}</span>
                                             </div>
                                             <div>
-                                                <input type="checkbox" name="level.attributeWillIsChecked"
-                            id="level.attributeWillIsChecked" {{checked level.attributeWillIsChecked}} />
-                                                <label>{{localize 'DL.AttributeWill'}}</label>
+                                                <input type="checkbox" name="level.attributeWillSelected"
+                            id="level.attributeWillSelected{{id}}" {{checked level.attributeWillSelected}} />
+                                                <label for="level.attributeWillSelected{{id}}">{{localize 'DL.AttributeWill'}}</label>
                                                 <span>+{{level.attributeWill}}</span>
                                             </div>
                                         </div>
                                     </div>
                                     {{/if}}
                                     {{#if level.attributeSelectIsFixed}}
+                                    <div class="option">
+                                        <label>{{localize 'DL.PathsLevelAttributesSubtitle'}}{{#if level.attributeSelectIsChooseTwo}}: ({{localize 'DL.PathsLevelAttributesChooseTwo'}}){{/if}}{{#if level.PathsLevelAttributesChooseThree}}: ({{localize 'DL.PathsLevelAttributesChooseThree'}}){{/if}}</label>
+                                    </div>
                                     <div class="attributesselect">
                                         <div class="grid grid-4col">
                                             {{#if level.attributeStrength}}
@@ -120,6 +127,9 @@
                                     </div>
                                     {{/if}}
                                     {{#if level.attributeSelectIsTwoSet}}
+                                    <div class="option">
+                                        <label>{{localize 'DL.PathsLevelAttributesSubtitle'}}{{#if level.attributeSelectIsChooseTwo}}: ({{localize 'DL.PathsLevelAttributesChooseTwo'}}){{/if}}{{#if level.PathsLevelAttributesChooseThree}}: ({{localize 'DL.PathsLevelAttributesChooseThree'}}){{/if}}</label>
+                                    </div>
                                     <div class="attributesselect twoset">
                                         <div class="grid grid-2col">
                                             <div>
@@ -202,12 +212,6 @@
                                     </div>
                                     <div class="characteristicsselect">
                                         <div class="grid grid-6col">
-                                            {{#if level.characteristicsPerception}}
-                                            <div>
-                                                <label>{{localize 'DL.CharPerception'}}</label>
-                                                <span>+{{level.characteristicsPerception}}</span>
-                                            </div>
-                                            {{/if}}
                                             {{#if level.characteristicsHealth}}
                                             <div>
                                                 <label>{{localize 'DL.CharHealth'}}</label>
@@ -218,6 +222,12 @@
                                             <div>
                                                 <label>{{localize 'DL.CharPower'}}</label>
                                                 <span>+{{level.characteristicsPower}}</span>
+                                            </div>
+                                            {{/if}}
+                                            {{#if level.characteristicsPerception}}
+                                            <div>
+                                                <label>{{localize 'DL.CharPerception'}}</label>
+                                                <span>+{{level.characteristicsPerception}}</span>
                                             </div>
                                             {{/if}}
                                             {{#if level.characteristicsSpeed}}
@@ -270,10 +280,11 @@
                                     <div class="option">
                                         <label>{{localize 'DL.TabsTalents'}}{{#if level.talentsChooseOne}}: ({{localize 'DL.PathsLevelTalentChooseOne'}}){{/if}}</label>
                                     </div>
-                                    <div class=" item-container select-area" data-group="talent" data-level="{{id}}">
+                                    <div class="info">{{localize 'DL.PathsTransfer'}}</div>
+                                    <div class="item-container select-area" data-group="talent" data-level="{{id}}">
                                         <ul class="tags">
                                             {{#each level.talents as |talent id|}}
-                                            <li class="tagclean select-item" data-item-id="{{id}}">{{talent.name}}</li>
+                                            <li class="tagclean select-item transfer-talent" data-item-id="{{id}}">{{talent.name}}</li>
                                             {{/each}}
                                         </ul>
                                     </div>
@@ -284,10 +295,11 @@
                                     <div class="option">
                                         <label>{{localize 'DL.MagicSpellsTitle'}}</label>
                                     </div>
-                                    <div class=" item-container select-area" data-group="spell" data-level="{{id}}">
+                                    <div class="info">{{localize 'DL.PathsTransfer'}}</div>
+                                    <div class="item-container select-area" data-group="spell" data-level="{{id}}">
                                         <ul class="tags">
                                             {{#each level.spells as |spell id|}}
-                                            <li class="tagclean select-item" data-item-id="{{id}}">{{spell.name}}</li>
+                                            <li class="tagclean select-item transfer-spell" data-item-id="{{id}}">{{spell.name}}</li>
                                             {{/each}}
                                         </ul>
                                     </div>
