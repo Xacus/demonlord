@@ -5,6 +5,10 @@
 import {
     PathLevel
 } from "../pathlevel.js";
+import {
+    FormatDice,
+    FormatDiceOld
+} from "../dice.js";
 export class DemonlordItem extends Item {
     /**
      * Augment the basic Item data model with additional dynamic data.
@@ -102,7 +106,10 @@ export class DemonlordItem extends Item {
 
         let damageRoll = new Roll(damageformular, {});
         damageRoll.roll();
+        
+        const diceData = isNewerVersion(game.data.version, "0.6.9") ? FormatDice(damageRoll) : FormatDiceOld(damageRoll);
 
+        console.log(diceData);
         var templateData = {
             actor: this.actor,
             data: {
@@ -114,8 +121,12 @@ export class DemonlordItem extends Item {
                 },
                 damageHalf: {
                     value: Math.floor(parseInt(damageRoll._total) / 2)
+                },
+                isCreature: {
+                    value: actor.data.type == "creature" ? true : false
                 }
-            }
+            },
+            diceData
         };
 
         let chatData = {

@@ -2290,6 +2290,24 @@
   font-weight: bold;
 }
 
+.demonlord2 .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.demonlord2 .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 260px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  left: 19px;
+}
+
 .demonlord2 .init-header {
   height: 30px;
   border-top: 1px solid #000;

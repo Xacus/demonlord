@@ -2,6 +2,10 @@
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
+import {
+    FormatDice,
+    FormatDiceOld
+} from "../dice.js";
 export class DemonlordActor extends Actor {
 
     /**
@@ -252,7 +256,7 @@ export class DemonlordActor extends Actor {
         r.roll();
 
         // Format Dice
-        const diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(r) : this.formatDiceOld(r);
+        const diceData = isNewerVersion(game.data.version, "0.6.9") ? FormatDice(r) : FormatDiceOld(r);
 
         var templateData = {
             actor: this,
@@ -389,7 +393,7 @@ export class DemonlordActor extends Actor {
         }
 
         // Format Dice
-        let diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(attackRoll) : this.formatDiceOld(attackRoll);
+        let diceData = isNewerVersion(game.data.version, "0.6.9") ? FormatDice(attackRoll) : FormatDiceOld(attackRoll);
 
         //Plus20 roll
         let plus20 = false;
@@ -592,7 +596,7 @@ export class DemonlordActor extends Actor {
                 attackRoll.roll();
 
                 // Format Dice
-                diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(attackRoll) : this.formatDiceOld(attackRoll);
+                diceData = isNewerVersion(game.data.version, "0.6.9") ? FormatDice(attackRoll) : FormatDiceOld(attackRoll);
 
                 // Roll Against Target
                 targetNumber = this.getVSTargetNumber(talent);
@@ -819,7 +823,7 @@ export class DemonlordActor extends Actor {
         attackRoll.roll();
 
         // Format Dice
-        let diceData = isNewerVersion(game.data.version, "0.6.9") ? this.formatDice(attackRoll) : this.formatDiceOld(attackRoll);
+        let diceData = isNewerVersion(game.data.version, "0.6.9") ? FormatDice(attackRoll) : FormatDiceOld(attackRoll);
 
         // Roll Against Target
         const targetNumber = this.getTargetNumber(spell);
@@ -1333,146 +1337,6 @@ export class DemonlordActor extends Actor {
             await this.updateEmbeddedEntity("OwnedItem", mod);
             this.render(true);
         }
-    }
-
-    formatDice(diceRoll) {
-        let diceData = { dice: [] };
-
-        if (diceRoll != null) {
-            let pushDice = (diceData, total, faces, color) => {
-                let img = null;
-                if ([4, 6, 8, 10, 12, 20].indexOf(faces) > -1) {
-                    img = `../icons/svg/d${faces}-grey.svg`;
-                }
-                diceData.dice.push({
-                    img: img,
-                    result: total,
-                    dice: true,
-                    color: color
-                });
-            };
-
-            for (let i = 0; i < diceRoll.terms.length; i++) {
-                if (diceRoll.terms[i] instanceof Die) {
-                    let pool = diceRoll.terms[i].results;
-                    let faces = diceRoll.terms[i].faces;
-
-                    pool.forEach((pooldie) => {
-                        if (pooldie.discarded) {
-                            pushDice(diceData, pooldie.result, faces, "#777");
-                        } else {
-                            pushDice(diceData, pooldie.result, faces, "white");
-                        }
-
-                    });
-                } else if (typeof diceRoll.terms[i] == 'string') {
-                    const parsed = parseInt(diceRoll.terms[i]);
-                    if (!isNaN(parsed)) {
-                        diceData.dice.push({
-                            img: null,
-                            result: parsed,
-                            dice: false,
-                            color: 'white'
-                        });
-                    } else {
-                        diceData.dice.push({
-                            img: null,
-                            result: diceRoll.terms[i],
-                            dice: false
-                        });
-                    }
-                }
-                else if (typeof diceRoll.terms[i] == 'number') {
-                    const parsed = parseInt(diceRoll.terms[i]);
-                    if (!isNaN(parsed)) {
-                        diceData.dice.push({
-                            img: null,
-                            result: parsed,
-                            dice: false,
-                            color: 'white'
-                        });
-                    } else {
-                        diceData.dice.push({
-                            img: null,
-                            result: diceRoll.terms[i],
-                            dice: false
-                        });
-                    }
-                }
-            }
-        }
-
-        return diceData;
-    }
-
-    formatDiceOld(diceRoll) {
-        let diceData = { dice: [] };
-
-        if (diceRoll != null) {
-            let pushDice = (diceData, total, faces, color) => {
-                let img = null;
-                if ([4, 6, 8, 10, 12, 20].indexOf(faces) > -1) {
-                    img = `../icons/svg/d${faces}-grey.svg`;
-                }
-                diceData.dice.push({
-                    img: img,
-                    result: total,
-                    dice: true,
-                    color: color
-                });
-            };
-
-            for (let i = 0; i < diceRoll.terms.length; i++) {
-                if (diceRoll.terms[i] instanceof Die) {
-                    let pool = diceRoll.parts[i].results;
-                    let faces = diceRoll.parts[i].faces;
-
-                    pool.forEach((pooldie) => {
-                        if (pooldie.discarded) {
-                            pushDice(diceData, pooldie.roll, faces, "#777");
-                        } else {
-                            pushDice(diceData, pooldie.roll, faces, "white");
-                        }
-
-                    });
-                } else if (typeof diceRoll.parts[i] == 'string') {
-                    const parsed = parseInt(diceRoll.parts[i]);
-                    if (!isNaN(parsed)) {
-                        diceData.dice.push({
-                            img: null,
-                            result: parsed,
-                            dice: false,
-                            color: 'white'
-                        });
-                    } else {
-                        diceData.dice.push({
-                            img: null,
-                            result: diceRoll.terms[i],
-                            dice: false
-                        });
-                    }
-                }
-                else if (typeof diceRoll.terms[i] == 'number') {
-                    const parsed = parseInt(diceRoll.terms[i]);
-                    if (!isNaN(parsed)) {
-                        diceData.dice.push({
-                            img: null,
-                            result: parsed,
-                            dice: false,
-                            color: 'white'
-                        });
-                    } else {
-                        diceData.dice.push({
-                            img: null,
-                            result: diceRoll.parts[i],
-                            dice: false
-                        });
-                    }
-                }
-            }
-        }
-
-        return diceData;
     }
 
     async restActor(token) {
