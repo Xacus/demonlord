@@ -18,61 +18,88 @@
         <section class="sheet-body">
             <section class="sheet-content">
                 {{!-- Attributes Tab --}}
-                <div class="tab weapons" data-group="primary" data-tab="attributes">
+                <div class="tab paths" data-group="primary" data-tab="attributes">
                     <div class="gridrow">
                         <div class="resource">
-                            <label class="resource-label">{{localize "DL.Characteristics"}}</label>
-                            <div class="modifierblock">
-                                <label class="resource-label">{{localize "DL.AncestryPerceptionModifier"}}</label>
-                                <input type="text" name="data.characteristics.perceptionmodifier"
-                                    value="{{data.characteristics.perceptionmodifier}}" />
-                                <label class="resource-label">{{localize "DL.AncestryDefenseModifier"}}</label>
-                                <input type="text" name="data.characteristics.defensemodifier"
-                                    value="{{data.characteristics.defensemodifier}}" />
-                                <label class="resource-label">{{localize "DL.AncestryHealthModifier"}}</label>
-                                <input type="text" name="data.characteristics.healthmodifier"
-                                    value="{{data.characteristics.healthmodifier}}" />
-                                <label class="resource-label">{{localize "DL.AncestryHealingRateModifier"}}</label>
-                                <input type="text" name="data.characteristics.healingratemodifier"
-                                    value="{{data.characteristics.healingratemodifier}}" />
-                                <label class="resource-label">{{localize "DL.CharPower"}}</label>
-                                <input type="text" name="data.characteristics.power"
-                                    value="{{data.characteristics.power}}" />
-                                <label class="resource-label">{{localize "DL.CharSize"}}</label>
-                                <input type="text" name="data.characteristics.size"
-                                    value="{{data.characteristics.size}}" />
-                                <label class="resource-label">{{localize "DL.CharSpeed"}}</label>
-                                <input type="text" name="data.characteristics.speed"
-                                    value="{{data.characteristics.speed}}" />
-                            </div>
-                        </div>
-                        <div class="resource">
-                            <label class="resource-label">{{localize "DL.AncestryLevel4"}}</label>
-                            <div class="modifierblock">
-                                <label class="resource-label">{{localize "DL.CharHealth"}}</label>
-                                <input type="text" name="data.level4.healthbonus" value="{{data.level4.healthbonus}}" />
-                                {{#if data.level4.option1}}
-                                <div class="radiotrue">
-                                    <input type="radio" name="data.level4.options" id="data.level4.option.true"
-                                        {{checked}} />
-                                    <label for="data.level4.option1">{{localize "DL.AncestryLearnSpell"}}</label>
-                                </div>
-                                <div class="radiofalse">
-                                    <input type="radio" name="data.level4.options" id="data.level4.option.false" />
-                                    <label for="data.level4.option1">{{localize "DL.AncestryLearnTalent"}}</label>
-                                </div>
-                                {{else}}
-                                <div class="radiotrue">
-                                    <input type="radio" name="data.level4.options" id="data.level4.option.true" />
-                                    <label for="data.level4.option1">{{localize "DL.AncestryLearnSpell"}}</label>
-                                </div>
-                                <div class="radiofalse">
-                                    <input type="radio" name="data.level4.options" id="data.level4.option.false"
-                                        {{checked}} />
-                                    <label for="data.level4.option1">{{localize "DL.AncestryLearnTalent"}}</label>
-                                </div>
-                                {{/if}}
-                            </div>
+                            <ol class="items-list">
+                                <li class="level">
+                                    <div class="levelheader">
+                                        <label>{{localize 'DL.Characteristics'}}</label>
+                                    </div>
+                                    <div class="attributes">
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.AncestryPerceptionModifier"}}</label>
+                                            <input type="text" name="data.characteristics.perceptionmodifier"
+                                                value="{{data.characteristics.perceptionmodifier}}" />
+                                        </div>
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.AncestryDefenseModifier"}}</label>
+                                            <input type="text" name="data.characteristics.defensemodifier"
+                                                value="{{data.characteristics.defensemodifier}}" />
+                                        </div>
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.AncestryHealthModifier"}}</label>
+                                            <input type="text" name="data.characteristics.healthmodifier"
+                                                value="{{data.characteristics.healthmodifier}}" />
+                                        </div>
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.AncestryHealingRateModifier"}}</label>
+                                            <input type="text" name="data.characteristics.healingratemodifier"
+                                            value="{{data.characteristics.healingratemodifier}}" />
+                                        </div>
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.CharPower"}}</label>
+                                            <input type="text" name="data.characteristics.power"
+                                            value="{{data.characteristics.power}}" />
+                                        </div>
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.CharSize"}}</label>
+                                            <input type="text" name="data.characteristics.size"
+                                            value="{{data.characteristics.size}}" />
+                                        </div>
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.CharSpeed"}}</label>
+                                            <input type="text" name="data.characteristics.speed"
+                                            value="{{data.characteristics.speed}}" />
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="level">
+                                    <div class="levelheader">
+                                        <label>{{localize 'DL.AncestryLevel4'}}</label>
+                                    </div>
+                                    <div class="attributes">
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.CharHealth"}}</label>
+                                            <input type="text" name="data.level4.healthbonus" value="{{data.level4.healthbonus}}" />
+                                        </div>
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.AncestryOptionTitle"}}</label>
+                                        </div>
+                                        {{#if data.level4.option1}}
+                                        <div class="radiotrue">
+                                            <input type="radio" name="data.level4.options" id="data.level4.option.true"
+                                                {{checked}} />
+                                            <label for="data.level4.option1">{{localize "DL.AncestryLearnSpell"}}</label>
+                                        </div>
+                                        <div class="radiofalse">
+                                            <input type="radio" name="data.level4.options" id="data.level4.option.false" />
+                                            <label for="data.level4.option1">{{localize "DL.AncestryLearnTalent"}}</label>
+                                        </div>
+                                        {{else}}
+                                        <div class="radiotrue">
+                                            <input type="radio" name="data.level4.options" id="data.level4.option.true" />
+                                            <label for="data.level4.option1">{{localize "DL.AncestryLearnSpell"}}</label>
+                                        </div>
+                                        <div class="radiofalse">
+                                            <input type="radio" name="data.level4.options" id="data.level4.option.false"
+                                                {{checked}} />
+                                            <label for="data.level4.option1">{{localize "DL.AncestryLearnTalent"}}</label>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                </li>
+                            </ol>
                         </div>
                     </div>
                 </div>

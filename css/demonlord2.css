@@ -839,6 +839,24 @@
   background: rgba(0, 0, 0, 0.15);
 }
 
+.demonlord2.item .items-list li.level div.level .leftbox, .demonlord2.item .items-list li.level div.attributes .leftbox, .demonlord2.item .items-list li.level div.characteristics .leftbox, .demonlord2.item .items-list li.level div.talents .leftbox, .demonlord2.item .items-list li.level div.spells .leftbox, .demonlord2.item .items-list li.level div.equipment .leftbox, .demonlord2.item .items-list li.level div.language .leftbox, .demonlord2.item .items-list li.level div.magic .leftbox {
+  float: left;
+  width: 100%;
+  padding: 2px 0px;
+}
+
+.demonlord2.item .items-list li.level div.level .leftbox label, .demonlord2.item .items-list li.level div.attributes .leftbox label, .demonlord2.item .items-list li.level div.characteristics .leftbox label, .demonlord2.item .items-list li.level div.talents .leftbox label, .demonlord2.item .items-list li.level div.spells .leftbox label, .demonlord2.item .items-list li.level div.equipment .leftbox label, .demonlord2.item .items-list li.level div.language .leftbox label, .demonlord2.item .items-list li.level div.magic .leftbox label {
+  min-width: 150px;
+}
+
+.demonlord2.item .items-list li.level div.level .leftbox input, .demonlord2.item .items-list li.level div.attributes .leftbox input, .demonlord2.item .items-list li.level div.characteristics .leftbox input, .demonlord2.item .items-list li.level div.talents .leftbox input, .demonlord2.item .items-list li.level div.spells .leftbox input, .demonlord2.item .items-list li.level div.equipment .leftbox input, .demonlord2.item .items-list li.level div.language .leftbox input, .demonlord2.item .items-list li.level div.magic .leftbox input {
+  float: right;
+}
+
+.demonlord2.item .items-list li.level div.level .radiotrue label, .demonlord2.item .items-list li.level div.level .radiofalse label, .demonlord2.item .items-list li.level div.attributes .radiotrue label, .demonlord2.item .items-list li.level div.attributes .radiofalse label, .demonlord2.item .items-list li.level div.characteristics .radiotrue label, .demonlord2.item .items-list li.level div.characteristics .radiofalse label, .demonlord2.item .items-list li.level div.talents .radiotrue label, .demonlord2.item .items-list li.level div.talents .radiofalse label, .demonlord2.item .items-list li.level div.spells .radiotrue label, .demonlord2.item .items-list li.level div.spells .radiofalse label, .demonlord2.item .items-list li.level div.equipment .radiotrue label, .demonlord2.item .items-list li.level div.equipment .radiofalse label, .demonlord2.item .items-list li.level div.language .radiotrue label, .demonlord2.item .items-list li.level div.language .radiofalse label, .demonlord2.item .items-list li.level div.magic .radiotrue label, .demonlord2.item .items-list li.level div.magic .radiofalse label {
+  padding-left: 5px;
+}
+
 .demonlord2.item .items-list li.level div.level label {
   font-weight: bold;
 }

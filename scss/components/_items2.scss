@@ -341,6 +341,26 @@ nav.sheet-tabs {
                     background: rgba(0,0,0,0.15);
                 }
             }
+
+            .leftbox {
+                float: left;
+                width: 100%;
+                padding: 2px 0px;
+
+                label {
+                    min-width: 150px;
+                }
+
+                input {
+                    float: right;
+                }
+            }
+
+            .radiotrue, .radiofalse {
+                label {
+                    padding-left: 5px;
+                }
+            }
         }
 
         div.level {
