@@ -87,8 +87,8 @@ Hooks.once('init', async function () {
         types: ["item", "feature", "spell", "talent", "weapon", "armor", "ammo", "specialaction", "magic", "endoftheround", "mod", "ancestry", "profession"],
         makeDefault: true
     });
-    Items.registerSheet("demonlord", DemonlordPathSetup, { types: ["path"], makeDefault: false });
-    Items.registerSheet("demonlord", DemonlordPathPlayerView, { types: ["path"], makeDefault: true });
+    Items.registerSheet("demonlord", DemonlordPathSetup, { types: ["path"], makeDefault: true });
+    Items.registerSheet("demonlord", DemonlordPathPlayerView, { types: ["path"], makeDefault: false });
 
     window.CharacterBuff = CharacterBuff;
 

@@ -179,11 +179,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
         switch ( data.type ) {
         case "Item":
             let item = game.items.get(data.id);
-            if (item.data.type === "path") {
+            if (item != null && item.data?.type === "path") {
                 const paths = this.actor.getEmbeddedCollection("OwnedItem").filter(e => "path" === e.type && item.data.data.type === e.data.type);
                 if (paths.length > 0)
                     this.actor.deleteEmbeddedEntity("OwnedItem", paths[0]._id);
-            } else if (item.data.type === "ancestry") {
+            } else if (item != null && item.data.type === "ancestry") {
                 const ancestries = this.actor.getEmbeddedCollection("OwnedItem").filter(e => "ancestry" === e.type);
                 ancestries.forEach(ancestry => {
                     this.actor.deleteEmbeddedEntity("OwnedItem", ancestry._id);
