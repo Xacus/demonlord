@@ -297,6 +297,10 @@ export class DemonlordActor extends Actor {
   }
 
   rollChallenge (attribute) {
+    if (typeof attribute === 'string' || attribute instanceof String) {
+      attribute = this.data.data.attributes[attribute]
+    }
+
     let attLabel =
       attribute.label?.charAt(0).toUpperCase() +
       attribute.label?.toLowerCase().slice(1)
