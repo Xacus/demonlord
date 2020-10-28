@@ -64,10 +64,10 @@ Damage, Insanity and Corruption can be increased and decreased by left/right cli
 - [x] New design.
 - [x] Actor Mods - Fase 2. (Your character buffs)
 - [x] Redesign Magic.
-- [ ] Redesign Background (Paths, Professions, Wealth).
-- [ ] New Paths system. Calculating Attributes and Health.
+- [x] New Paths system. Calculating characteristic bonuses.
+- [x] Level up system. (more or less done with Ancestry and Paths)
+- [ ] Redesign Background (Professions, Wealth).
 - [ ] Afflictions - Fase 3.
-- [ ] Level up system.
 - [ ] Rules Engine.
 
 ## **Credits**
@@ -78,3 +78,5 @@ A huge thanks to Robert Schwalb for letting me do this system.
 
 Icons are licensed to be used only in this application. Any other use is prohibited.
 
+## **Discord**
+Please join the Discord Server: https://discord.gg/DUMfrUc
