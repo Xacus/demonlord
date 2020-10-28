@@ -6,3 +6,6 @@
 # Node Modules
 node_modules/
 npm-debug.log
+.eslintrc.js
+package-lock.json
+package.json
