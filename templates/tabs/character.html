@@ -194,14 +194,14 @@
                                     class="fas fa-trash"></i></a>
                         </div>
                         <input type="text" name="feature.name" data-target="name" value="{{feature.name}}" />
-                        <textarea name="data.description" data-target="data.description">{{data.description}}</textarea>
+                        <textarea name="feature.description" data-target="feature.description">{{feature.description}}</textarea>
                     </li>
                     {{/each}}
                     {{else}}
                     {{#each actor.features as |feature id|}}
                     <li class="feature dropitem" data-item-id="{{feature._id}}">
                         <label class="resource-label" for="feature.name">{{feature.name}}</label>
-                        <div class="featurediscription">{{data.description}}</div>
+                        <div class="featurediscription">{{feature.description}}</div>
                     </li>
                     {{/each}}
                     {{/if}}
