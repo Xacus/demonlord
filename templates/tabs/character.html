@@ -159,15 +159,15 @@
                                         class="fas fa-trash"></i></a>
                             </div>
                             <input type="text" name="profession.name" data-target="name" value="{{profession.name}}" />
-                            <textarea name="data.description"
-                                data-target="data.description">{{data.description}}</textarea>
+                            <textarea name="profession.data.description"
+                                data-target="profession.data.description">{{profession.data.description}}</textarea>
                         </li>
                         {{/each}}
                         {{else}}
                         {{#each actor.professions as |profession id|}}
                         <li class="item dropitem" data-item-id="{{profession._id}}">
                             <label class="resource-label" for="profession.name">{{profession.name}}</label>
-                            <div>{{data.description}}</div>
+                            <div>{{profession.data.description}}</div>
                         </li>
                         {{/each}}
                         {{/if}}
@@ -194,14 +194,14 @@
                                     class="fas fa-trash"></i></a>
                         </div>
                         <input type="text" name="feature.name" data-target="name" value="{{feature.name}}" />
-                        <textarea name="feature.description" data-target="feature.description">{{data.description}}</textarea>
+                        <textarea name="feature.data.description" data-target="feature.data.description">{{feature.data.description}}</textarea>
                     </li>
                     {{/each}}
                     {{else}}
                     {{#each actor.features as |feature id|}}
                     <li class="feature dropitem" data-item-id="{{feature._id}}">
                         <label class="resource-label" for="feature.name">{{feature.name}}</label>
-                        <div class="featurediscription">{{data.description}}</div>
+                        <div class="featurediscription">{{feature.data.description}}</div>
                     </li>
                     {{/each}}
                     {{/if}}
