@@ -100,7 +100,7 @@ export class DemonlordActor extends Actor {
       // data.characteristics.corruption = parseInt(data.characteristics.corruption) + parseInt(ancestry.data.characteristics.corruption);
     }
 
-    if (savedAncestry == null) {
+    if (savedAncestry == null && this.data.type != 'creature') {
       data.attributes.perception.value = parseInt(
         data.attributes.intellect.value
       )
@@ -620,10 +620,22 @@ export class DemonlordActor extends Actor {
           )
         },
         attack: {
-          value: attackAttribute.toUpperCase()
+          value: attackAttribute
+            ? game.i18n.localize(
+                CONFIG.DL.attributes[
+                  attackAttribute.toLowerCase()
+                ].toUpperCase()
+              )
+            : ''
         },
         against: {
-          value: weapon.data.data.action.against.toUpperCase()
+          value: weapon.data?.data?.action?.against
+            ? game.i18n.localize(
+                CONFIG.DL.attributes[
+                  weapon.data?.data?.action?.against.toLowerCase()
+                ].toUpperCase()
+              )
+            : ''
         },
         againstNumber: {
           value: againstNumber
@@ -905,10 +917,22 @@ export class DemonlordActor extends Actor {
           )
         },
         attack: {
-          value: attackAttribute.toUpperCase()
+          value: attackAttribute
+            ? game.i18n.localize(
+                CONFIG.DL.attributes[
+                  attackAttribute.toLowerCase()
+                ].toUpperCase()
+              )
+            : ''
         },
         against: {
-          value: talent.data?.vs?.against.toUpperCase()
+          value: talent.data?.vs?.against
+            ? game.i18n.localize(
+                CONFIG.DL.attributes[
+                  talent.data?.vs?.against.toLowerCase()
+                ].toUpperCase()
+              )
+            : ''
         },
         againstNumber: {
           value: againstNumber
@@ -1075,15 +1099,13 @@ export class DemonlordActor extends Actor {
     const attribute = this.data.data.attributes[attackAttribute.toLowerCase()]
 
     const defenseAttribute = spell.data?.action?.defense
-    const challStrength =
-      defenseAttribute == game.i18n.localize('DL.AttributeStrength')
-    const challAgility =
-      defenseAttribute == game.i18n.localize('DL.AttributeAgility')
-    const challIntellect =
-      defenseAttribute == game.i18n.localize('DL.AttributeIntellect')
-    const challWill = defenseAttribute == game.i18n.localize('DL.AttributeWill')
-    const challPerception =
-      defenseAttribute == game.i18n.localize('DL.AttributePerception')
+    const challStrength = defenseAttribute == 'Strength'
+    const challAgility = defenseAttribute == 'Agility'
+    const challIntellect = defenseAttribute == 'Intellect'
+    const challWill = defenseAttribute == 'Will'
+    const challPerception = defenseAttribute == 'Perception'
+
+    console.log(defenseAttribute)
 
     // Roll for Attack
     if (attribute && attribute.modifier != 0) {
@@ -1192,10 +1214,22 @@ export class DemonlordActor extends Actor {
           value: attackRoll._total >= targetNumber
         },
         attack: {
-          value: attackAttribute.toUpperCase()
+          value: attackAttribute
+            ? game.i18n.localize(
+                CONFIG.DL.attributes[
+                  attackAttribute.toLowerCase()
+                ].toUpperCase()
+              )
+            : ''
         },
         against: {
-          value: spell.data.action?.against.toUpperCase()
+          value: spell.data.action?.against
+            ? game.i18n.localize(
+                CONFIG.DL.attributes[
+                  spell.data.action?.against.toLowerCase()
+                ].toUpperCase()
+              )
+            : ''
         },
         againstNumber: {
           value: againstNumber
