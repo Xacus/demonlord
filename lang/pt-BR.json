@@ -128,6 +128,8 @@
   "DL.TalentDeactivate": "Desativar talento",
   "DL.TalentAdd": "Adicionar talento",
   "DL.TalentEdit": "Editar talento",
+  "DL.TalentActivate": "Active talent",
+  "DL.TalentDeActivate": "Deactive talent",
   "DL.TalentView": "Ver informações de talento",
   "DL.TalentDelete": "Excluir talento",
   "DL.TalentMaxUsesReached": "Maximum uses of the talent reached",

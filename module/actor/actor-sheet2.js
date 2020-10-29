@@ -763,6 +763,34 @@ export class DemonlordActorSheet2 extends ActorSheet {
       this.actor.updateEmbeddedEntity('OwnedItem', item)
     })
 
+    // Talent Activate Manual
+    html.find('.talent-activate').click((ev) => {
+      const li = event.currentTarget.closest('.item')
+      const item = duplicate(
+        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+      )
+      const uses = item.data.uses.value
+      const usesmax = item.data.uses.max
+
+      if (usesmax > 0) item.data.uses.value = 1
+
+      item.data.addtonextroll = true
+      this.actor.updateEmbeddedEntity('OwnedItem', item)
+    })
+
+    html.find('.talent-deactivate').click((ev) => {
+      const li = event.currentTarget.closest('.item')
+      const item = duplicate(
+        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+      )
+
+      item.data.uses.value = 0
+      item.data.addtonextroll = false
+      this.actor.removeCharacterBonuses(item)
+
+      this.actor.updateEmbeddedEntity('OwnedItem', item)
+    })
+
     html.find('.spell-uses').click((ev) => {
       const li = event.currentTarget.closest('.item')
       const item = duplicate(
