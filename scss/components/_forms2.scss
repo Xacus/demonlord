@@ -199,10 +199,8 @@
       }
 
       .editPath {
-        position: relative;
-        top: -15px;
-        left: 215px;
-        width: 15px;
+        float: right;
+        margin-top: -15px;
 
         &:hover {
           cursor: pointer;

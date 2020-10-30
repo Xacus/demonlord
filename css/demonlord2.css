@@ -3189,10 +3189,8 @@
 }
 
 .demonlord2 .paths .body .path .editPath {
-  position: relative;
-  top: -15px;
-  left: 215px;
-  width: 15px;
+  float: right;
+  margin-top: -15px;
 }
 
 .demonlord2 .paths .body .path .editPath:hover {
