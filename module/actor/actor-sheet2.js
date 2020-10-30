@@ -13,7 +13,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
           contentSelector: '.sheet-body',
           initial: 'character'
         }
-      ]
+      ],
+      scrollY: ['.tab.active']
     })
   }
 
