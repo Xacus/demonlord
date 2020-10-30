@@ -5,7 +5,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord2', 'sheet', 'actor'],
-      template: 'systems/demonlord/templates/actor/actor-sheet2.html',
       width: 742,
       height: 700,
       tabs: [
@@ -16,6 +15,14 @@ export class DemonlordActorSheet2 extends ActorSheet {
         }
       ]
     })
+  }
+
+  /** @override */
+  get template () {
+    if (!game.user.isGM && this.actor.limited) {
+      return 'systems/demonlord/templates/actor/limited-sheet.html'
+    }
+    return 'systems/demonlord/templates/actor/actor-sheet2.html'
   }
 
   /**

@@ -3029,7 +3029,8 @@
   height: 100%;
 }
 
-.demonlord2 .sheet-body .sheet-content .tab .descriptionblock .editor, .demonlord2 .sheet-body .sheet-content .tab .descriptionblock .editor-content,
+.demonlord2 .sheet-body .sheet-content .tab .descriptionblock .editor,
+.demonlord2 .sheet-body .sheet-content .tab .descriptionblock .editor-content,
 .demonlord2 .sheet-body .sheet-content .tab .editor .descriptionblock .editor,
 .demonlord2 .sheet-body .sheet-content .tab .editor .descriptionblock .editor-content {
   height: 100%;
@@ -3054,6 +3055,10 @@
   outline: 0;
 }
 
+.demonlord2 .sheet-body .sheet-content .limited {
+  margin-top: 15px;
+}
+
 .demonlord2 .tox .tox-editor-container {
   background: #fff;
 }
@@ -3066,7 +3071,7 @@
   margin-right: 10px;
 }
 
-.demonlord2 .col1 input[type=text] {
+.demonlord2 .col1 input[type="text"] {
   background: rgba(0, 0, 0, 0.05);
   color: #000;
 }
@@ -3330,7 +3335,7 @@
   margin-top: -10px;
 }
 
-.demonlord2 .body input[type=text] {
+.demonlord2 .body input[type="text"] {
   background: rgba(0, 0, 0, 0.1);
   height: 17px;
   color: #000;
@@ -3338,7 +3343,8 @@
   padding-left: 5px;
 }
 
-.demonlord2 .body input[type=text]:focus, .demonlord2 .body input[type=text]:hover {
+.demonlord2 .body input[type="text"]:focus,
+.demonlord2 .body input[type="text"]:hover {
   background: rgba(0, 0, 0, 0.3);
   height: 17px;
   padding-left: 6px;
@@ -3416,7 +3422,10 @@
   height: 45px;
 }
 
-.demonlord2 .body .charinfo2 .eyes, .demonlord2 .body .charinfo2 .hair, .demonlord2 .body .charinfo2 .height, .demonlord2 .body .charinfo2 .weight {
+.demonlord2 .body .charinfo2 .eyes,
+.demonlord2 .body .charinfo2 .hair,
+.demonlord2 .body .charinfo2 .height,
+.demonlord2 .body .charinfo2 .weight {
   float: left;
   width: 111px;
   margin-left: 10px;
