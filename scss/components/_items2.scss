@@ -1,664 +1,681 @@
 .window-content {
-    background: url("../ui/sidebar_background.jpg"), url("paper.jpg");
-    background-repeat: repeat-x, no-repeat;
-    background-size: auto 96px, cover;
-    background-attachment: local;
+  background: url("../ui/sidebar_background.jpg"), url("paper.jpg");
+  background-repeat: repeat-x, no-repeat;
+  background-size: auto 96px, cover;
+  background-attachment: local;
 }
 
 form {
-    input[type=text]:focus, input[type=text]:hover {
-        background: rgba(0, 0, 0, 0.3);
-        height: 20px;
-        padding-left: 6px;
-        border-radius: 0px;
-    }
+  input[type="text"]:focus,
+  input[type="text"]:hover {
+    background: rgba(0, 0, 0, 0.3);
+    height: 20px;
+    padding-left: 6px;
+    border-radius: 0px;
+  }
 }
 
 .tabs {
-    color: #ddd;
+  color: #ddd;
 
-    .item {
-        line-height: 30px;
-        font-weight: bold;
-        font-size: 12px;
-        text-transform: uppercase;
-        padding-top: 4px;
-    }
+  .item {
+    line-height: 30px;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-top: 4px;
+  }
 
-    .item.active {
-        text-decoration: underline;
-        text-shadow: none;
-    }
+  .item.active {
+    text-decoration: underline;
+    text-shadow: none;
+  }
 }
 
 .sheet-body {
-    position: relative;
-    grid: none;
+  position: relative;
+  grid: none;
 }
 
 .sheet-body .sheet-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding-top: 2px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 2px;
 
-    .paths {
-        font-weight: normal;
+  .paths {
+    font-weight: normal;
 
-        select {
-            background: #edf2f7;
-        }
+    select {
+      background: #edf2f7;
     }
+  }
 
-    .pathtypes {
-        float: left;
-        font-weight: bold;
-        margin: 1px 5px 0 0;
-    }
+  .pathtypes {
+    float: left;
+    font-weight: bold;
+    margin: 1px 5px 0 0;
+  }
 }
 
 .sheet-header {
-    height: 60px;
+  height: 60px;
 
-    img {
-        cursor: pointer;
-    } 
+  img {
+    cursor: pointer;
+  }
 
-    .header-fields {
-        font-family: "Roboto", system, -apple-system, sans-serif;
-        font-size: 8px;
-        font-weight: 700;
-        line-height: 1;
-        text-transform: uppercase;
-        letter-spacing: .25px;
-        color: #fff;
-        margin-top: 4px;
-        margin-left: 0px;
-        input[type=text] {
-            width: 100%;
-            font-family: $font-header;
-            font-weight: 500;
-            font-size: 20px;
-            color: #fff;
-            line-height: calc(1em + 1px);
-            border-bottom: 1px solid transparent;
-            height: 26px;
-            padding: 5px;
-        }
-        input[type=text]:focus {
-            background: rgba(0, 0, 0, 0.5);
-            padding-left: 6px;
-        }
+  .header-fields {
+    font-family: "Roboto", system, -apple-system, sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+    color: #fff;
+    margin-top: 4px;
+    margin-left: 0px;
+    input[type="text"] {
+      width: 100%;
+      font-family: $font-header;
+      font-weight: 500;
+      font-size: 20px;
+      color: #fff;
+      line-height: calc(1em + 1px);
+      border-bottom: 1px solid transparent;
+      height: 26px;
+      padding: 5px;
     }
+    input[type="text"]:focus {
+      background: rgba(0, 0, 0, 0.5);
+      padding-left: 6px;
+    }
+  }
 }
 
 .itemsheet-header {
-    position: relative;
-    padding: 5px;
-    height: 73px;
+  position: relative;
+  padding: 5px;
+  height: 73px;
 
-    img {
-        margin-right: 0px;
-        border-radius: 5px;
+  img {
+    margin-right: 0px;
+    border-radius: 5px;
+  }
+
+  .header-fields {
+    position: absolute;
+    top: 0px;
+    left: 70px;
+    width: 400px;
+    margin-top: 0px;
+    margin-left: 5px;
+
+    .title {
+      font-family: "IM Fell English SC", serif;
+      font-weight: 500;
+      font-size: 20px;
+      font-weight: normal;
+      text-transform: none;
+      margin-top: 5px;
     }
-
-    .header-fields {
-        position: absolute;
-        top: 0px;
-        left: 70px;
-        width: 400px;
-        margin-top: 0px;
-        margin-left: 5px;
-
-        .title {
-            font-family: "IM Fell English SC", serif;
-            font-weight: 500;
-            font-size: 20px;
-            font-weight: normal;
-            text-transform: none;
-            margin-top: 5px;
-        }
-    }
+  }
 }
 
 nav.sheet-tabs {
-    margin: 0;
-    height: 23px;
-    border: 0;
-    border-top: 1px solid #b5b3a4;
+  margin: 0;
+  height: 23px;
+  border: 0;
+  border-top: 1px solid #b5b3a4;
 
-    .item {
-        line-height: 20px;
-    }
+  .item {
+    line-height: 20px;
+  }
 }
 
 .item-form {
-    font-family: $font-primary;
+  font-family: $font-primary;
 }
 
 .features {
-    .featureheader  {
-        width: 100%;
-        font-size: 12px;
-    }
+  .featureheader {
+    width: 100%;
+    font-size: 12px;
+  }
 
-    .items-list {
-        margin-right: 0;
-    }
+  .items-list {
+    margin-right: 0;
+  }
 
+  .item-controls {
+    margin-top: -14px;
+  }
+
+  .feature {
     .item-controls {
-        margin-top: -14px;
+      margin-top: 0;
     }
-
-    .feature {
-        .item-controls {
-            margin-top: 0;
-        }
-    }
+  }
 }
 
 .items-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow-y: auto;
-    margin: 5px 10px 20px 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  margin: 5px 10px 20px 0;
 
-    .item-header {
-        height: 16px;
-        border-bottom: 1px solid var(--demonlord-red);
-        font-weight: bold;
-        font-family: $font-header;
-        font-size: 13px;
-        text-transform: uppercase;
+  .item-header {
+    height: 16px;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: $font-header;
+    font-size: 13px;
+    text-transform: uppercase;
 
-        .item-controls {
-            height: 0;
-        }
-
-        .weaponnameheader {
-            float: left;
-            width: 230px;
-        }
-
-        .damageheader {
-            float: left;
-            width: 70px;
-            margin-right: 10px;
-        }
-
-        .bonesbanesheader {
-            float: left;
-            width: 50px;
-            margin-right: 10px;
-        }
-
-        .spelltypeheader {
-            float: left;
-            width: 50px;
-        }
-
-        .spellcastingsheader {
-            float: left;
-            width: 50px;
-        }
-
-        .propertiesheader {
-            float: left;
-            width: 230px;
-        }
-
-        .defenseheader {
-            float: left;
-            width: 100px;
-            margin-right: 10px;
-        }
-
-        .spellnameheader {
-            float: left;
-            width: 270px;
-        }
+    .item-controls {
+      height: 0;
     }
 
-    li.level {
+    .weaponnameheader {
+      float: left;
+      width: 230px;
+    }
+
+    .damageheader {
+      float: left;
+      width: 70px;
+      margin-right: 10px;
+    }
+
+    .bonesbanesheader {
+      float: left;
+      width: 50px;
+      margin-right: 10px;
+    }
+
+    .spelltypeheader {
+      float: left;
+      width: 50px;
+    }
+
+    .spellcastingsheader {
+      float: left;
+      width: 50px;
+    }
+
+    .propertiesheader {
+      float: left;
+      width: 230px;
+    }
+
+    .defenseheader {
+      float: left;
+      width: 100px;
+      margin-right: 10px;
+    }
+
+    .spellnameheader {
+      float: left;
+      width: 270px;
+    }
+  }
+
+  li.level {
+    float: left;
+    width: 100%;
+    padding: 5px 5px 7px 5px;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+
+    div.level,
+    div.attributes,
+    div.characteristics,
+    div.talents,
+    div.spells,
+    div.equipment,
+    div.language,
+    div.magic {
+      float: left;
+      width: 100%;
+      padding: 4px 0;
+
+      label {
+        float: left;
+        margin-top: 2px;
+        margin-right: 5px;
+      }
+
+      span {
+        float: left;
+        margin-top: 2px;
+        margin-right: 1px;
+      }
+
+      input {
+        float: left;
+        width: 16px;
+        text-align: center;
+        color: #000;
+        background: #edf2f7;
+        border-radius: 0px;
+      }
+
+      input[type="checkbox"] {
+        margin-top: -1px;
+
+        &:hover {
+          width: 16px;
+          margin-top: 0px;
+        }
+      }
+
+      select {
+        float: left;
+        color: #000;
+        background: #edf2f7;
+        border-radius: 0px;
+      }
+
+      input:focus,
+      input:hover {
+        padding: 0;
+        height: 17px;
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      .option {
         float: left;
         width: 100%;
-        padding: 5px 5px 7px 5px;
-        background: rgba(0, 0, 0, 0.1);
-        margin: 10px 0;
 
-        div.level, div.attributes, div.characteristics, div.talents, div.spells, div.equipment, div.language, div.magic {
-            float: left;
-            width: 100%;
-            padding: 4px 0;
-
-            label {
-                float: left;
-                margin-top: 2px;
-                margin-right: 5px;
-            }
-
-            span {
-                float: left;
-                margin-top: 2px;
-                margin-right: 1px;
-            }
-
-            input {
-                float: left;
-                width: 16px;
-                text-align: center;
-                color: #000;
-                background: #edf2f7;
-                border-radius: 0px;
-            }
-
-            input[type="checkbox"] {
-                margin-top: -1px;
-
-                &:hover {
-                    width: 16px;
-                    margin-top: 0px;
-                }
-            }
-
-            select {
-                float: left;
-                color: #000;
-                background: #edf2f7;
-                border-radius: 0px;
-            }
- 
-            input:focus, input:hover {
-                padding: 0;
-                height: 17px;
-                background: rgba(0, 0, 0, 0.1);
-            }
-
-            .option {
-                float: left;
-                width: 100%;
-
-                label {
-                    font-weight: bold;
-                }
-            }
-
-            .info {
-                float: right;
-                position: relative;
-                top: -13px;
-                font-size: 11px;
-            }
-
-            .attributesselect, .characteristicsselect {
-                float: left;
-                width: 100%;
-                margin-left: 10px;
-            }
-
-            .twoset {
-                label, input {
-                    margin: 0 10px;
-                }
-            }
-
-            .drop-area {
-                position: relative;
-                margin-top: 20px;
-                padding: 10px;
-                border: 4px dashed rgba(0, 0, 0, 0.25);
-                text-align: center;
-                width: 100%;
-                min-height: 50px;
-            }
-
-            .select-area {
-                position: relative;
-                margin-top: 20px;
-                padding: 10px;
-                border: 2px solid rgba(0, 0, 0, 0.25);
-                text-align: center;
-                width: 100%;
-                min-height: 50px;
-            }
-
-            .drop-hover {
-                position: relative;
-
-                &::before {
-                    display: block;
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0,0,0,0.15);
-                }
-            }
-
-            .leftbox {
-                float: left;
-                width: 100%;
-                padding: 2px 0px;
-
-                label {
-                    min-width: 150px;
-                }
-
-                input {
-                    float: right;
-                }
-            }
-
-            .radiotrue, .radiofalse {
-                label {
-                    padding-left: 5px;
-                }
-            }
+        label {
+          font-weight: bold;
         }
+      }
 
-        div.level {
-            label {
-                font-weight: bold;
-            }
-        }
-
-        div.equipment textarea, div.language textarea, div.magic textarea {
-            width: 105%;
-        }
-
-        div.levelheader {
-            width: 100%;
-            height: 30px;
-            padding: 5px;
-            font-size: 14px;
-            text-transform: uppercase;
-            font-weight: bold;
-            background: rgba(0, 0, 0, 0.1);
-
-            label, span {
-                float: left;
-                margin-top: 2px;
-                margin-right: 5px;
-            }
-        }
-
-
-        .item-controls {
-            float: right;
-            position: relative;
-            top: 5px;
-            margin-right: 3px;
-        }
-    }
-
-    .item {
-        padding: 3px 0;
-        border-bottom: 1px solid #333;
-        font-size: 12px;
-        overflow-y: auto;
-
-        .item-image {
-            float: left;
-            margin-right: 5px;
-            width: 30px;
-        }
-
-        img {
-            display: block;
-        }
-
-        .weaponname {
-            float: left;
-            width: 185px;
-            margin-right: 10px;
-        }
-
-        .damage {
-            float: left;
-            width: 65px;
-            margin-right: 10px;
-        }
-
-        .defense {
-            float: left;
-            width: 300px;
-            margin-right: 10px;
-        }
-
-        .ammo-amount {
-            width: 50px;
-        }
-
-        .bonesbanes {
-            float: left;
-            width: 50px;
-            margin-right: 10px;
-            padding-left: 5px;
-        }
-
-        .properties {
-            float: left;
-            width: 350px;
-        }
-
-        .tradition {
-            margin-top: 15px;
-
-            .traditiontitle {
-                float: left;
-            }
-
-            .traditionname {
-                float: left;
-                margin-left: 5px;
-                width: 200px;
-
-                input {
-                    width: 180px;
-                }
-
-                .tradition-edit {
-                    float: left;
-                    width: 200px;
-                    font-weight: bold;
-                }
-
-                .tradition-focus {
-                    float: left;
-                    width: 200px;
-                    background: rgba(0, 0, 0, 0.5);
-                    margin-left: -5px;
-                    padding-left: 5px;
-                }
-            }
-        }
-
-        .itemname {
-            float: left;
-            width: 145px;
-            margin-right: 10px;
-        }
-    }
-
-    .feature {
+      .info {
+        float: right;
+        position: relative;
+        top: -13px;
         font-size: 11px;
-        margin-top: 10px;
+      }
 
-        .featurename {
-            height: 14px;
-            font-weight: bold;
+      .attributesselect,
+      .characteristicsselect {
+        float: left;
+        width: 100%;
+        margin-left: 10px;
+      }
+
+      .twoset {
+        label,
+        input {
+          margin: 0 10px;
         }
+      }
 
-        .featurediscription {
-            width: 100%;
-            height: auto;
+      .drop-area {
+        position: relative;
+        margin-top: 20px;
+        padding: 10px;
+        border: 4px dashed rgba(0, 0, 0, 0.25);
+        text-align: center;
+        width: 100%;
+        min-height: 50px;
+      }
+
+      .select-area {
+        position: relative;
+        margin-top: 20px;
+        padding: 10px;
+        border: 2px solid rgba(0, 0, 0, 0.25);
+        text-align: center;
+        width: 100%;
+        min-height: 50px;
+      }
+
+      .drop-hover {
+        position: relative;
+
+        &::before {
+          display: block;
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.15);
         }
+      }
 
-        .item-controls {
-            float: right;
+      .leftbox {
+        float: left;
+        width: 100%;
+        padding: 2px 0px;
+
+        label {
+          min-width: 150px;
         }
-    }
-
-    .spell {
-        .spellname {
-            float: left;
-            width: 225px;
-            margin-right: 10px;
-        }
-
-        .spelltype {
-            float: left;
-            width: 50px;
-        }
-
-        .spellcastings {
-            float: left;
-            width: 50px;
-        }
-        .spellinfo {
-            float: left;
-        }
-    }
-
-    .item-align {
-        width: 100%
-    }
-
-    .item-name {
-        margin: 0;
-        font-size: 12px;
-        font-weight: bold;
 
         input {
-            width: 200px;
+          float: right;
         }
+      }
+
+      .radiotrue,
+      .radiofalse {
+        label {
+          padding-left: 5px;
+        }
+      }
+    }
+
+    div.level {
+      label {
+        font-weight: bold;
+      }
+    }
+
+    div.equipment textarea,
+    div.language textarea,
+    div.magic textarea {
+      width: 100%;
+      font-size: 11px;
+    }
+
+    div.levelheader {
+      width: 100%;
+      height: 30px;
+      padding: 5px;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.1);
+
+      label,
+      span {
+        float: left;
+        margin-top: 2px;
+        margin-right: 5px;
+      }
     }
 
     .item-controls {
-        flex: 0 0 40px;
-        text-align: right;
-        font-size: 12px;
+      float: right;
+      position: relative;
+      top: 5px;
+      margin-right: 3px;
+    }
+  }
 
-        .item-control {
-            padding-left: 1px;
-        }
+  .item {
+    padding: 3px 0;
+    border-bottom: 1px solid #333;
+    font-size: 12px;
+    overflow-y: auto;
 
-        .item-wearoff {
-            color: #999;
-        }
+    .item-image {
+      float: left;
+      margin-right: 5px;
+      width: 30px;
     }
 
-    .talent {
-        height: auto;
-        width: 100%;
-        padding: 0 0 1px 0;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 2px;
-
-
-        .talentheader {
-            background-color: rgba(0, 0, 0, 0.2);
-            color: #000;
-            line-height: 20px;
-            padding: 0 3px;
-            margin-bottom: 2px;
-        }
-
-        .talentname {
-            float: left;
-            flex: 0 0 220px;
-            height: 20px;
-            font-weight: bold;
-        }
-
-        .talent-uses {
-            float: right;
-            flex: 0 0 25px;
-            height: 17px;
-            line-height: 17px;
-            padding-right: 3px;
-        }
-
-        .talentmod {
-            flex: 0 0 140px;
-            height: 20px;
-        }
-
-        .option {
-            float: left;
-            min-width: 160px;
-            height: 17px;
-            line-height: 17px;
-            padding: 0px 1px 0 4px;
-            text-align: left;
-        }
-
-        .bonesbanes {
-            float: left;
-            width: 100%;
-            height: 17px;
-            line-height: 17px;
-            padding: 0 1px;
-            text-align: left;
-        }
-
-        input[type="checkbox"] {
-            float: left;
-            height: 12px;
-            margin: 2px 0 0 -3px;
-        }
+    img {
+      display: block;
     }
+
+    .weaponname {
+      float: left;
+      width: 185px;
+      margin-right: 10px;
+    }
+
+    .damage {
+      float: left;
+      width: 65px;
+      margin-right: 10px;
+    }
+
+    .defense {
+      float: left;
+      width: 300px;
+      margin-right: 10px;
+    }
+
+    .ammo-amount {
+      width: 50px;
+    }
+
+    .bonesbanes {
+      float: left;
+      width: 50px;
+      margin-right: 10px;
+      padding-left: 5px;
+    }
+
+    .properties {
+      float: left;
+      width: 350px;
+    }
+
+    .tradition {
+      margin-top: 15px;
+
+      .traditiontitle {
+        float: left;
+      }
+
+      .traditionname {
+        float: left;
+        margin-left: 5px;
+        width: 200px;
+
+        input {
+          width: 180px;
+        }
+
+        .tradition-edit {
+          float: left;
+          width: 200px;
+          font-weight: bold;
+        }
+
+        .tradition-focus {
+          float: left;
+          width: 200px;
+          background: rgba(0, 0, 0, 0.5);
+          margin-left: -5px;
+          padding-left: 5px;
+        }
+      }
+    }
+
+    .itemname {
+      float: left;
+      width: 145px;
+      margin-right: 10px;
+    }
+  }
+
+  .feature {
+    font-size: 11px;
+    margin-top: 10px;
+
+    .featurename {
+      height: 14px;
+      font-weight: bold;
+    }
+
+    .featurediscription {
+      width: 100%;
+      height: auto;
+    }
+
+    .item-controls {
+      float: right;
+    }
+  }
+
+  .spell {
+    .spellname {
+      float: left;
+      width: 225px;
+      margin-right: 10px;
+    }
+
+    .spelltype {
+      float: left;
+      width: 50px;
+    }
+
+    .spellcastings {
+      float: left;
+      width: 50px;
+    }
+    .spellinfo {
+      float: left;
+    }
+  }
+
+  .item-align {
+    width: 100%;
+  }
+
+  .item-name {
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+
+    input {
+      width: 200px;
+    }
+  }
+
+  .item-controls {
+    flex: 0 0 40px;
+    text-align: right;
+    font-size: 12px;
+
+    .item-control {
+      padding-left: 1px;
+    }
+
+    .item-wearoff {
+      color: #999;
+    }
+  }
+
+  .talent {
+    height: auto;
+    width: 100%;
+    padding: 0 0 1px 0;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+
+    .talentheader {
+      background-color: rgba(0, 0, 0, 0.2);
+      color: #000;
+      line-height: 20px;
+      padding: 0 3px;
+      margin-bottom: 2px;
+    }
+
+    .talentname {
+      float: left;
+      flex: 0 0 220px;
+      height: 20px;
+      font-weight: bold;
+    }
+
+    .talent-uses {
+      float: right;
+      flex: 0 0 25px;
+      height: 17px;
+      line-height: 17px;
+      padding-right: 3px;
+    }
+
+    .talentmod {
+      flex: 0 0 140px;
+      height: 20px;
+    }
+
+    .option {
+      float: left;
+      min-width: 160px;
+      height: 17px;
+      line-height: 17px;
+      padding: 0px 1px 0 4px;
+      text-align: left;
+    }
+
+    .bonesbanes {
+      float: left;
+      width: 100%;
+      height: 17px;
+      line-height: 17px;
+      padding: 0 1px;
+      text-align: left;
+    }
+
+    input[type="checkbox"] {
+      float: left;
+      height: 12px;
+      margin: 2px 0 0 -3px;
+    }
+  }
 }
 
 .listitems {
-    margin-top: -10px;
+  margin-top: -10px;
 }
 
 .colright .items-list {
-    margin-top: 0px;
+  margin-top: 0px;
 }
 
-.professionslist, .featureslist {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow-y: auto;
-    width: 100%;
+.professionslist,
+.featureslist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  width: 100%;
 
-    .item, .feature {
-        padding: 3px 0;
-        border-bottom: 1px solid #333;
-        font-size: 12px;
+  .item,
+  .feature {
+    padding: 3px 0;
+    border-bottom: 1px solid #333;
+    font-size: 12px;
 
-        label {
-            font-weight: bold;
-            padding-right: 15px;
-        }
-
-        div {
-            margin-right: 15px;
-        }
+    label {
+      font-weight: bold;
+      padding-right: 15px;
     }
 
-    .editprofession, .editfeature {
-        height: 130px;
-
-        input {
-            margin-bottom: 5px;
-        }
-
-        .item-controls {
-            float: right;
-            width: 15px;
-            margin: 0;
-            margin-top: 1px;
-        }
+    div {
+      margin-right: 15px;
     }
+  }
+
+  .editprofession,
+  .editfeature {
+    height: 130px;
+
+    input {
+      margin-bottom: 5px;
+    }
+
+    .item-controls {
+      float: right;
+      width: 15px;
+      margin: 0;
+      margin-top: 1px;
+    }
+  }
 }

@@ -500,7 +500,8 @@
   background-attachment: local;
 }
 
-.demonlord2.item form input[type=text]:focus, .demonlord2.item form input[type=text]:hover {
+.demonlord2.item form input[type="text"]:focus,
+.demonlord2.item form input[type="text"]:hover {
   background: rgba(0, 0, 0, 0.3);
   height: 20px;
   padding-left: 6px;
@@ -573,13 +574,13 @@
   font-weight: 700;
   line-height: 1;
   text-transform: uppercase;
-  letter-spacing: .25px;
+  letter-spacing: 0.25px;
   color: #fff;
   margin-top: 4px;
   margin-left: 0px;
 }
 
-.demonlord2.item .sheet-header .header-fields input[type=text] {
+.demonlord2.item .sheet-header .header-fields input[type="text"] {
   width: 100%;
   font-family: "IM Fell English SC", serif;
   font-weight: 500;
@@ -591,7 +592,7 @@
   padding: 5px;
 }
 
-.demonlord2.item .sheet-header .header-fields input[type=text]:focus {
+.demonlord2.item .sheet-header .header-fields input[type="text"]:focus {
   background: rgba(0, 0, 0, 0.5);
   padding-left: 6px;
 }
@@ -729,25 +730,53 @@
   margin: 10px 0;
 }
 
-.demonlord2.item .items-list li.level div.level, .demonlord2.item .items-list li.level div.attributes, .demonlord2.item .items-list li.level div.characteristics, .demonlord2.item .items-list li.level div.talents, .demonlord2.item .items-list li.level div.spells, .demonlord2.item .items-list li.level div.equipment, .demonlord2.item .items-list li.level div.language, .demonlord2.item .items-list li.level div.magic {
+.demonlord2.item .items-list li.level div.level,
+.demonlord2.item .items-list li.level div.attributes,
+.demonlord2.item .items-list li.level div.characteristics,
+.demonlord2.item .items-list li.level div.talents,
+.demonlord2.item .items-list li.level div.spells,
+.demonlord2.item .items-list li.level div.equipment,
+.demonlord2.item .items-list li.level div.language,
+.demonlord2.item .items-list li.level div.magic {
   float: left;
   width: 100%;
   padding: 4px 0;
 }
 
-.demonlord2.item .items-list li.level div.level label, .demonlord2.item .items-list li.level div.attributes label, .demonlord2.item .items-list li.level div.characteristics label, .demonlord2.item .items-list li.level div.talents label, .demonlord2.item .items-list li.level div.spells label, .demonlord2.item .items-list li.level div.equipment label, .demonlord2.item .items-list li.level div.language label, .demonlord2.item .items-list li.level div.magic label {
+.demonlord2.item .items-list li.level div.level label,
+.demonlord2.item .items-list li.level div.attributes label,
+.demonlord2.item .items-list li.level div.characteristics label,
+.demonlord2.item .items-list li.level div.talents label,
+.demonlord2.item .items-list li.level div.spells label,
+.demonlord2.item .items-list li.level div.equipment label,
+.demonlord2.item .items-list li.level div.language label,
+.demonlord2.item .items-list li.level div.magic label {
   float: left;
   margin-top: 2px;
   margin-right: 5px;
 }
 
-.demonlord2.item .items-list li.level div.level span, .demonlord2.item .items-list li.level div.attributes span, .demonlord2.item .items-list li.level div.characteristics span, .demonlord2.item .items-list li.level div.talents span, .demonlord2.item .items-list li.level div.spells span, .demonlord2.item .items-list li.level div.equipment span, .demonlord2.item .items-list li.level div.language span, .demonlord2.item .items-list li.level div.magic span {
+.demonlord2.item .items-list li.level div.level span,
+.demonlord2.item .items-list li.level div.attributes span,
+.demonlord2.item .items-list li.level div.characteristics span,
+.demonlord2.item .items-list li.level div.talents span,
+.demonlord2.item .items-list li.level div.spells span,
+.demonlord2.item .items-list li.level div.equipment span,
+.demonlord2.item .items-list li.level div.language span,
+.demonlord2.item .items-list li.level div.magic span {
   float: left;
   margin-top: 2px;
   margin-right: 1px;
 }
 
-.demonlord2.item .items-list li.level div.level input, .demonlord2.item .items-list li.level div.attributes input, .demonlord2.item .items-list li.level div.characteristics input, .demonlord2.item .items-list li.level div.talents input, .demonlord2.item .items-list li.level div.spells input, .demonlord2.item .items-list li.level div.equipment input, .demonlord2.item .items-list li.level div.language input, .demonlord2.item .items-list li.level div.magic input {
+.demonlord2.item .items-list li.level div.level input,
+.demonlord2.item .items-list li.level div.attributes input,
+.demonlord2.item .items-list li.level div.characteristics input,
+.demonlord2.item .items-list li.level div.talents input,
+.demonlord2.item .items-list li.level div.spells input,
+.demonlord2.item .items-list li.level div.equipment input,
+.demonlord2.item .items-list li.level div.language input,
+.demonlord2.item .items-list li.level div.magic input {
   float: left;
   width: 16px;
   text-align: center;
@@ -756,55 +785,149 @@
   border-radius: 0px;
 }
 
-.demonlord2.item .items-list li.level div.level input[type="checkbox"], .demonlord2.item .items-list li.level div.attributes input[type="checkbox"], .demonlord2.item .items-list li.level div.characteristics input[type="checkbox"], .demonlord2.item .items-list li.level div.talents input[type="checkbox"], .demonlord2.item .items-list li.level div.spells input[type="checkbox"], .demonlord2.item .items-list li.level div.equipment input[type="checkbox"], .demonlord2.item .items-list li.level div.language input[type="checkbox"], .demonlord2.item .items-list li.level div.magic input[type="checkbox"] {
+.demonlord2.item .items-list li.level div.level input[type="checkbox"],
+.demonlord2.item .items-list li.level div.attributes input[type="checkbox"],
+.demonlord2.item .items-list li.level div.characteristics input[type="checkbox"],
+.demonlord2.item .items-list li.level div.talents input[type="checkbox"],
+.demonlord2.item .items-list li.level div.spells input[type="checkbox"],
+.demonlord2.item .items-list li.level div.equipment input[type="checkbox"],
+.demonlord2.item .items-list li.level div.language input[type="checkbox"],
+.demonlord2.item .items-list li.level div.magic input[type="checkbox"] {
   margin-top: -1px;
 }
 
-.demonlord2.item .items-list li.level div.level input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.attributes input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.characteristics input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.talents input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.spells input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.equipment input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.language input[type="checkbox"]:hover, .demonlord2.item .items-list li.level div.magic input[type="checkbox"]:hover {
+.demonlord2.item .items-list li.level div.level input[type="checkbox"]:hover,
+.demonlord2.item .items-list li.level div.attributes input[type="checkbox"]:hover,
+.demonlord2.item .items-list li.level div.characteristics input[type="checkbox"]:hover,
+.demonlord2.item .items-list li.level div.talents input[type="checkbox"]:hover,
+.demonlord2.item .items-list li.level div.spells input[type="checkbox"]:hover,
+.demonlord2.item .items-list li.level div.equipment input[type="checkbox"]:hover,
+.demonlord2.item .items-list li.level div.language input[type="checkbox"]:hover,
+.demonlord2.item .items-list li.level div.magic input[type="checkbox"]:hover {
   width: 16px;
   margin-top: 0px;
 }
 
-.demonlord2.item .items-list li.level div.level select, .demonlord2.item .items-list li.level div.attributes select, .demonlord2.item .items-list li.level div.characteristics select, .demonlord2.item .items-list li.level div.talents select, .demonlord2.item .items-list li.level div.spells select, .demonlord2.item .items-list li.level div.equipment select, .demonlord2.item .items-list li.level div.language select, .demonlord2.item .items-list li.level div.magic select {
+.demonlord2.item .items-list li.level div.level select,
+.demonlord2.item .items-list li.level div.attributes select,
+.demonlord2.item .items-list li.level div.characteristics select,
+.demonlord2.item .items-list li.level div.talents select,
+.demonlord2.item .items-list li.level div.spells select,
+.demonlord2.item .items-list li.level div.equipment select,
+.demonlord2.item .items-list li.level div.language select,
+.demonlord2.item .items-list li.level div.magic select {
   float: left;
   color: #000;
   background: #edf2f7;
   border-radius: 0px;
 }
 
-.demonlord2.item .items-list li.level div.level input:focus, .demonlord2.item .items-list li.level div.level input:hover, .demonlord2.item .items-list li.level div.attributes input:focus, .demonlord2.item .items-list li.level div.attributes input:hover, .demonlord2.item .items-list li.level div.characteristics input:focus, .demonlord2.item .items-list li.level div.characteristics input:hover, .demonlord2.item .items-list li.level div.talents input:focus, .demonlord2.item .items-list li.level div.talents input:hover, .demonlord2.item .items-list li.level div.spells input:focus, .demonlord2.item .items-list li.level div.spells input:hover, .demonlord2.item .items-list li.level div.equipment input:focus, .demonlord2.item .items-list li.level div.equipment input:hover, .demonlord2.item .items-list li.level div.language input:focus, .demonlord2.item .items-list li.level div.language input:hover, .demonlord2.item .items-list li.level div.magic input:focus, .demonlord2.item .items-list li.level div.magic input:hover {
+.demonlord2.item .items-list li.level div.level input:focus,
+.demonlord2.item .items-list li.level div.level input:hover,
+.demonlord2.item .items-list li.level div.attributes input:focus,
+.demonlord2.item .items-list li.level div.attributes input:hover,
+.demonlord2.item .items-list li.level div.characteristics input:focus,
+.demonlord2.item .items-list li.level div.characteristics input:hover,
+.demonlord2.item .items-list li.level div.talents input:focus,
+.demonlord2.item .items-list li.level div.talents input:hover,
+.demonlord2.item .items-list li.level div.spells input:focus,
+.demonlord2.item .items-list li.level div.spells input:hover,
+.demonlord2.item .items-list li.level div.equipment input:focus,
+.demonlord2.item .items-list li.level div.equipment input:hover,
+.demonlord2.item .items-list li.level div.language input:focus,
+.demonlord2.item .items-list li.level div.language input:hover,
+.demonlord2.item .items-list li.level div.magic input:focus,
+.demonlord2.item .items-list li.level div.magic input:hover {
   padding: 0;
   height: 17px;
   background: rgba(0, 0, 0, 0.1);
 }
 
-.demonlord2.item .items-list li.level div.level .option, .demonlord2.item .items-list li.level div.attributes .option, .demonlord2.item .items-list li.level div.characteristics .option, .demonlord2.item .items-list li.level div.talents .option, .demonlord2.item .items-list li.level div.spells .option, .demonlord2.item .items-list li.level div.equipment .option, .demonlord2.item .items-list li.level div.language .option, .demonlord2.item .items-list li.level div.magic .option {
+.demonlord2.item .items-list li.level div.level .option,
+.demonlord2.item .items-list li.level div.attributes .option,
+.demonlord2.item .items-list li.level div.characteristics .option,
+.demonlord2.item .items-list li.level div.talents .option,
+.demonlord2.item .items-list li.level div.spells .option,
+.demonlord2.item .items-list li.level div.equipment .option,
+.demonlord2.item .items-list li.level div.language .option,
+.demonlord2.item .items-list li.level div.magic .option {
   float: left;
   width: 100%;
 }
 
-.demonlord2.item .items-list li.level div.level .option label, .demonlord2.item .items-list li.level div.attributes .option label, .demonlord2.item .items-list li.level div.characteristics .option label, .demonlord2.item .items-list li.level div.talents .option label, .demonlord2.item .items-list li.level div.spells .option label, .demonlord2.item .items-list li.level div.equipment .option label, .demonlord2.item .items-list li.level div.language .option label, .demonlord2.item .items-list li.level div.magic .option label {
+.demonlord2.item .items-list li.level div.level .option label,
+.demonlord2.item .items-list li.level div.attributes .option label,
+.demonlord2.item .items-list li.level div.characteristics .option label,
+.demonlord2.item .items-list li.level div.talents .option label,
+.demonlord2.item .items-list li.level div.spells .option label,
+.demonlord2.item .items-list li.level div.equipment .option label,
+.demonlord2.item .items-list li.level div.language .option label,
+.demonlord2.item .items-list li.level div.magic .option label {
   font-weight: bold;
 }
 
-.demonlord2.item .items-list li.level div.level .info, .demonlord2.item .items-list li.level div.attributes .info, .demonlord2.item .items-list li.level div.characteristics .info, .demonlord2.item .items-list li.level div.talents .info, .demonlord2.item .items-list li.level div.spells .info, .demonlord2.item .items-list li.level div.equipment .info, .demonlord2.item .items-list li.level div.language .info, .demonlord2.item .items-list li.level div.magic .info {
+.demonlord2.item .items-list li.level div.level .info,
+.demonlord2.item .items-list li.level div.attributes .info,
+.demonlord2.item .items-list li.level div.characteristics .info,
+.demonlord2.item .items-list li.level div.talents .info,
+.demonlord2.item .items-list li.level div.spells .info,
+.demonlord2.item .items-list li.level div.equipment .info,
+.demonlord2.item .items-list li.level div.language .info,
+.demonlord2.item .items-list li.level div.magic .info {
   float: right;
   position: relative;
   top: -13px;
   font-size: 11px;
 }
 
-.demonlord2.item .items-list li.level div.level .attributesselect, .demonlord2.item .items-list li.level div.level .characteristicsselect, .demonlord2.item .items-list li.level div.attributes .attributesselect, .demonlord2.item .items-list li.level div.attributes .characteristicsselect, .demonlord2.item .items-list li.level div.characteristics .attributesselect, .demonlord2.item .items-list li.level div.characteristics .characteristicsselect, .demonlord2.item .items-list li.level div.talents .attributesselect, .demonlord2.item .items-list li.level div.talents .characteristicsselect, .demonlord2.item .items-list li.level div.spells .attributesselect, .demonlord2.item .items-list li.level div.spells .characteristicsselect, .demonlord2.item .items-list li.level div.equipment .attributesselect, .demonlord2.item .items-list li.level div.equipment .characteristicsselect, .demonlord2.item .items-list li.level div.language .attributesselect, .demonlord2.item .items-list li.level div.language .characteristicsselect, .demonlord2.item .items-list li.level div.magic .attributesselect, .demonlord2.item .items-list li.level div.magic .characteristicsselect {
+.demonlord2.item .items-list li.level div.level .attributesselect,
+.demonlord2.item .items-list li.level div.level .characteristicsselect,
+.demonlord2.item .items-list li.level div.attributes .attributesselect,
+.demonlord2.item .items-list li.level div.attributes .characteristicsselect,
+.demonlord2.item .items-list li.level div.characteristics .attributesselect,
+.demonlord2.item .items-list li.level div.characteristics .characteristicsselect,
+.demonlord2.item .items-list li.level div.talents .attributesselect,
+.demonlord2.item .items-list li.level div.talents .characteristicsselect,
+.demonlord2.item .items-list li.level div.spells .attributesselect,
+.demonlord2.item .items-list li.level div.spells .characteristicsselect,
+.demonlord2.item .items-list li.level div.equipment .attributesselect,
+.demonlord2.item .items-list li.level div.equipment .characteristicsselect,
+.demonlord2.item .items-list li.level div.language .attributesselect,
+.demonlord2.item .items-list li.level div.language .characteristicsselect,
+.demonlord2.item .items-list li.level div.magic .attributesselect,
+.demonlord2.item .items-list li.level div.magic .characteristicsselect {
   float: left;
   width: 100%;
   margin-left: 10px;
 }
 
-.demonlord2.item .items-list li.level div.level .twoset label, .demonlord2.item .items-list li.level div.level .twoset input, .demonlord2.item .items-list li.level div.attributes .twoset label, .demonlord2.item .items-list li.level div.attributes .twoset input, .demonlord2.item .items-list li.level div.characteristics .twoset label, .demonlord2.item .items-list li.level div.characteristics .twoset input, .demonlord2.item .items-list li.level div.talents .twoset label, .demonlord2.item .items-list li.level div.talents .twoset input, .demonlord2.item .items-list li.level div.spells .twoset label, .demonlord2.item .items-list li.level div.spells .twoset input, .demonlord2.item .items-list li.level div.equipment .twoset label, .demonlord2.item .items-list li.level div.equipment .twoset input, .demonlord2.item .items-list li.level div.language .twoset label, .demonlord2.item .items-list li.level div.language .twoset input, .demonlord2.item .items-list li.level div.magic .twoset label, .demonlord2.item .items-list li.level div.magic .twoset input {
+.demonlord2.item .items-list li.level div.level .twoset label,
+.demonlord2.item .items-list li.level div.level .twoset input,
+.demonlord2.item .items-list li.level div.attributes .twoset label,
+.demonlord2.item .items-list li.level div.attributes .twoset input,
+.demonlord2.item .items-list li.level div.characteristics .twoset label,
+.demonlord2.item .items-list li.level div.characteristics .twoset input,
+.demonlord2.item .items-list li.level div.talents .twoset label,
+.demonlord2.item .items-list li.level div.talents .twoset input,
+.demonlord2.item .items-list li.level div.spells .twoset label,
+.demonlord2.item .items-list li.level div.spells .twoset input,
+.demonlord2.item .items-list li.level div.equipment .twoset label,
+.demonlord2.item .items-list li.level div.equipment .twoset input,
+.demonlord2.item .items-list li.level div.language .twoset label,
+.demonlord2.item .items-list li.level div.language .twoset input,
+.demonlord2.item .items-list li.level div.magic .twoset label,
+.demonlord2.item .items-list li.level div.magic .twoset input {
   margin: 0 10px;
 }
 
-.demonlord2.item .items-list li.level div.level .drop-area, .demonlord2.item .items-list li.level div.attributes .drop-area, .demonlord2.item .items-list li.level div.characteristics .drop-area, .demonlord2.item .items-list li.level div.talents .drop-area, .demonlord2.item .items-list li.level div.spells .drop-area, .demonlord2.item .items-list li.level div.equipment .drop-area, .demonlord2.item .items-list li.level div.language .drop-area, .demonlord2.item .items-list li.level div.magic .drop-area {
+.demonlord2.item .items-list li.level div.level .drop-area,
+.demonlord2.item .items-list li.level div.attributes .drop-area,
+.demonlord2.item .items-list li.level div.characteristics .drop-area,
+.demonlord2.item .items-list li.level div.talents .drop-area,
+.demonlord2.item .items-list li.level div.spells .drop-area,
+.demonlord2.item .items-list li.level div.equipment .drop-area,
+.demonlord2.item .items-list li.level div.language .drop-area,
+.demonlord2.item .items-list li.level div.magic .drop-area {
   position: relative;
   margin-top: 20px;
   padding: 10px;
@@ -814,7 +937,14 @@
   min-height: 50px;
 }
 
-.demonlord2.item .items-list li.level div.level .select-area, .demonlord2.item .items-list li.level div.attributes .select-area, .demonlord2.item .items-list li.level div.characteristics .select-area, .demonlord2.item .items-list li.level div.talents .select-area, .demonlord2.item .items-list li.level div.spells .select-area, .demonlord2.item .items-list li.level div.equipment .select-area, .demonlord2.item .items-list li.level div.language .select-area, .demonlord2.item .items-list li.level div.magic .select-area {
+.demonlord2.item .items-list li.level div.level .select-area,
+.demonlord2.item .items-list li.level div.attributes .select-area,
+.demonlord2.item .items-list li.level div.characteristics .select-area,
+.demonlord2.item .items-list li.level div.talents .select-area,
+.demonlord2.item .items-list li.level div.spells .select-area,
+.demonlord2.item .items-list li.level div.equipment .select-area,
+.demonlord2.item .items-list li.level div.language .select-area,
+.demonlord2.item .items-list li.level div.magic .select-area {
   position: relative;
   margin-top: 20px;
   padding: 10px;
@@ -824,13 +954,27 @@
   min-height: 50px;
 }
 
-.demonlord2.item .items-list li.level div.level .drop-hover, .demonlord2.item .items-list li.level div.attributes .drop-hover, .demonlord2.item .items-list li.level div.characteristics .drop-hover, .demonlord2.item .items-list li.level div.talents .drop-hover, .demonlord2.item .items-list li.level div.spells .drop-hover, .demonlord2.item .items-list li.level div.equipment .drop-hover, .demonlord2.item .items-list li.level div.language .drop-hover, .demonlord2.item .items-list li.level div.magic .drop-hover {
+.demonlord2.item .items-list li.level div.level .drop-hover,
+.demonlord2.item .items-list li.level div.attributes .drop-hover,
+.demonlord2.item .items-list li.level div.characteristics .drop-hover,
+.demonlord2.item .items-list li.level div.talents .drop-hover,
+.demonlord2.item .items-list li.level div.spells .drop-hover,
+.demonlord2.item .items-list li.level div.equipment .drop-hover,
+.demonlord2.item .items-list li.level div.language .drop-hover,
+.demonlord2.item .items-list li.level div.magic .drop-hover {
   position: relative;
 }
 
-.demonlord2.item .items-list li.level div.level .drop-hover::before, .demonlord2.item .items-list li.level div.attributes .drop-hover::before, .demonlord2.item .items-list li.level div.characteristics .drop-hover::before, .demonlord2.item .items-list li.level div.talents .drop-hover::before, .demonlord2.item .items-list li.level div.spells .drop-hover::before, .demonlord2.item .items-list li.level div.equipment .drop-hover::before, .demonlord2.item .items-list li.level div.language .drop-hover::before, .demonlord2.item .items-list li.level div.magic .drop-hover::before {
+.demonlord2.item .items-list li.level div.level .drop-hover::before,
+.demonlord2.item .items-list li.level div.attributes .drop-hover::before,
+.demonlord2.item .items-list li.level div.characteristics .drop-hover::before,
+.demonlord2.item .items-list li.level div.talents .drop-hover::before,
+.demonlord2.item .items-list li.level div.spells .drop-hover::before,
+.demonlord2.item .items-list li.level div.equipment .drop-hover::before,
+.demonlord2.item .items-list li.level div.language .drop-hover::before,
+.demonlord2.item .items-list li.level div.magic .drop-hover::before {
   display: block;
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -839,21 +983,57 @@
   background: rgba(0, 0, 0, 0.15);
 }
 
-.demonlord2.item .items-list li.level div.level .leftbox, .demonlord2.item .items-list li.level div.attributes .leftbox, .demonlord2.item .items-list li.level div.characteristics .leftbox, .demonlord2.item .items-list li.level div.talents .leftbox, .demonlord2.item .items-list li.level div.spells .leftbox, .demonlord2.item .items-list li.level div.equipment .leftbox, .demonlord2.item .items-list li.level div.language .leftbox, .demonlord2.item .items-list li.level div.magic .leftbox {
+.demonlord2.item .items-list li.level div.level .leftbox,
+.demonlord2.item .items-list li.level div.attributes .leftbox,
+.demonlord2.item .items-list li.level div.characteristics .leftbox,
+.demonlord2.item .items-list li.level div.talents .leftbox,
+.demonlord2.item .items-list li.level div.spells .leftbox,
+.demonlord2.item .items-list li.level div.equipment .leftbox,
+.demonlord2.item .items-list li.level div.language .leftbox,
+.demonlord2.item .items-list li.level div.magic .leftbox {
   float: left;
   width: 100%;
   padding: 2px 0px;
 }
 
-.demonlord2.item .items-list li.level div.level .leftbox label, .demonlord2.item .items-list li.level div.attributes .leftbox label, .demonlord2.item .items-list li.level div.characteristics .leftbox label, .demonlord2.item .items-list li.level div.talents .leftbox label, .demonlord2.item .items-list li.level div.spells .leftbox label, .demonlord2.item .items-list li.level div.equipment .leftbox label, .demonlord2.item .items-list li.level div.language .leftbox label, .demonlord2.item .items-list li.level div.magic .leftbox label {
+.demonlord2.item .items-list li.level div.level .leftbox label,
+.demonlord2.item .items-list li.level div.attributes .leftbox label,
+.demonlord2.item .items-list li.level div.characteristics .leftbox label,
+.demonlord2.item .items-list li.level div.talents .leftbox label,
+.demonlord2.item .items-list li.level div.spells .leftbox label,
+.demonlord2.item .items-list li.level div.equipment .leftbox label,
+.demonlord2.item .items-list li.level div.language .leftbox label,
+.demonlord2.item .items-list li.level div.magic .leftbox label {
   min-width: 150px;
 }
 
-.demonlord2.item .items-list li.level div.level .leftbox input, .demonlord2.item .items-list li.level div.attributes .leftbox input, .demonlord2.item .items-list li.level div.characteristics .leftbox input, .demonlord2.item .items-list li.level div.talents .leftbox input, .demonlord2.item .items-list li.level div.spells .leftbox input, .demonlord2.item .items-list li.level div.equipment .leftbox input, .demonlord2.item .items-list li.level div.language .leftbox input, .demonlord2.item .items-list li.level div.magic .leftbox input {
+.demonlord2.item .items-list li.level div.level .leftbox input,
+.demonlord2.item .items-list li.level div.attributes .leftbox input,
+.demonlord2.item .items-list li.level div.characteristics .leftbox input,
+.demonlord2.item .items-list li.level div.talents .leftbox input,
+.demonlord2.item .items-list li.level div.spells .leftbox input,
+.demonlord2.item .items-list li.level div.equipment .leftbox input,
+.demonlord2.item .items-list li.level div.language .leftbox input,
+.demonlord2.item .items-list li.level div.magic .leftbox input {
   float: right;
 }
 
-.demonlord2.item .items-list li.level div.level .radiotrue label, .demonlord2.item .items-list li.level div.level .radiofalse label, .demonlord2.item .items-list li.level div.attributes .radiotrue label, .demonlord2.item .items-list li.level div.attributes .radiofalse label, .demonlord2.item .items-list li.level div.characteristics .radiotrue label, .demonlord2.item .items-list li.level div.characteristics .radiofalse label, .demonlord2.item .items-list li.level div.talents .radiotrue label, .demonlord2.item .items-list li.level div.talents .radiofalse label, .demonlord2.item .items-list li.level div.spells .radiotrue label, .demonlord2.item .items-list li.level div.spells .radiofalse label, .demonlord2.item .items-list li.level div.equipment .radiotrue label, .demonlord2.item .items-list li.level div.equipment .radiofalse label, .demonlord2.item .items-list li.level div.language .radiotrue label, .demonlord2.item .items-list li.level div.language .radiofalse label, .demonlord2.item .items-list li.level div.magic .radiotrue label, .demonlord2.item .items-list li.level div.magic .radiofalse label {
+.demonlord2.item .items-list li.level div.level .radiotrue label,
+.demonlord2.item .items-list li.level div.level .radiofalse label,
+.demonlord2.item .items-list li.level div.attributes .radiotrue label,
+.demonlord2.item .items-list li.level div.attributes .radiofalse label,
+.demonlord2.item .items-list li.level div.characteristics .radiotrue label,
+.demonlord2.item .items-list li.level div.characteristics .radiofalse label,
+.demonlord2.item .items-list li.level div.talents .radiotrue label,
+.demonlord2.item .items-list li.level div.talents .radiofalse label,
+.demonlord2.item .items-list li.level div.spells .radiotrue label,
+.demonlord2.item .items-list li.level div.spells .radiofalse label,
+.demonlord2.item .items-list li.level div.equipment .radiotrue label,
+.demonlord2.item .items-list li.level div.equipment .radiofalse label,
+.demonlord2.item .items-list li.level div.language .radiotrue label,
+.demonlord2.item .items-list li.level div.language .radiofalse label,
+.demonlord2.item .items-list li.level div.magic .radiotrue label,
+.demonlord2.item .items-list li.level div.magic .radiofalse label {
   padding-left: 5px;
 }
 
@@ -861,8 +1041,11 @@
   font-weight: bold;
 }
 
-.demonlord2.item .items-list li.level div.equipment textarea, .demonlord2.item .items-list li.level div.language textarea, .demonlord2.item .items-list li.level div.magic textarea {
-  width: 105%;
+.demonlord2.item .items-list li.level div.equipment textarea,
+.demonlord2.item .items-list li.level div.language textarea,
+.demonlord2.item .items-list li.level div.magic textarea {
+  width: 100%;
+  font-size: 11px;
 }
 
 .demonlord2.item .items-list li.level div.levelheader {
@@ -875,7 +1058,8 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
-.demonlord2.item .items-list li.level div.levelheader label, .demonlord2.item .items-list li.level div.levelheader span {
+.demonlord2.item .items-list li.level div.levelheader label,
+.demonlord2.item .items-list li.level div.levelheader span {
   float: left;
   margin-top: 2px;
   margin-right: 5px;
@@ -1120,7 +1304,8 @@
   margin-top: 0px;
 }
 
-.demonlord2.item .professionslist, .demonlord2.item .featureslist {
+.demonlord2.item .professionslist,
+.demonlord2.item .featureslist {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -1128,30 +1313,48 @@
   width: 100%;
 }
 
-.demonlord2.item .professionslist .item, .demonlord2.item .professionslist .feature, .demonlord2.item .featureslist .item, .demonlord2.item .featureslist .feature {
+.demonlord2.item .professionslist .item,
+.demonlord2.item .professionslist .feature,
+.demonlord2.item .featureslist .item,
+.demonlord2.item .featureslist .feature {
   padding: 3px 0;
   border-bottom: 1px solid #333;
   font-size: 12px;
 }
 
-.demonlord2.item .professionslist .item label, .demonlord2.item .professionslist .feature label, .demonlord2.item .featureslist .item label, .demonlord2.item .featureslist .feature label {
+.demonlord2.item .professionslist .item label,
+.demonlord2.item .professionslist .feature label,
+.demonlord2.item .featureslist .item label,
+.demonlord2.item .featureslist .feature label {
   font-weight: bold;
   padding-right: 15px;
 }
 
-.demonlord2.item .professionslist .item div, .demonlord2.item .professionslist .feature div, .demonlord2.item .featureslist .item div, .demonlord2.item .featureslist .feature div {
+.demonlord2.item .professionslist .item div,
+.demonlord2.item .professionslist .feature div,
+.demonlord2.item .featureslist .item div,
+.demonlord2.item .featureslist .feature div {
   margin-right: 15px;
 }
 
-.demonlord2.item .professionslist .editprofession, .demonlord2.item .professionslist .editfeature, .demonlord2.item .featureslist .editprofession, .demonlord2.item .featureslist .editfeature {
+.demonlord2.item .professionslist .editprofession,
+.demonlord2.item .professionslist .editfeature,
+.demonlord2.item .featureslist .editprofession,
+.demonlord2.item .featureslist .editfeature {
   height: 130px;
 }
 
-.demonlord2.item .professionslist .editprofession input, .demonlord2.item .professionslist .editfeature input, .demonlord2.item .featureslist .editprofession input, .demonlord2.item .featureslist .editfeature input {
+.demonlord2.item .professionslist .editprofession input,
+.demonlord2.item .professionslist .editfeature input,
+.demonlord2.item .featureslist .editprofession input,
+.demonlord2.item .featureslist .editfeature input {
   margin-bottom: 5px;
 }
 
-.demonlord2.item .professionslist .editprofession .item-controls, .demonlord2.item .professionslist .editfeature .item-controls, .demonlord2.item .featureslist .editprofession .item-controls, .demonlord2.item .featureslist .editfeature .item-controls {
+.demonlord2.item .professionslist .editprofession .item-controls,
+.demonlord2.item .professionslist .editfeature .item-controls,
+.demonlord2.item .featureslist .editprofession .item-controls,
+.demonlord2.item .featureslist .editfeature .item-controls {
   float: right;
   width: 15px;
   margin: 0;

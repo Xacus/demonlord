@@ -353,8 +353,11 @@
             "level4": {
                 "healthbonus": 0,
                 "option1": true,
-                "option1text": ""
-            }
+                "option1text": "",
+                "talent": []
+            },
+            "languages": "",
+            "talents": []
         },
         "profession": {
             "templates": [
