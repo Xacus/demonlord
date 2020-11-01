@@ -52,7 +52,9 @@
 .toggleItemInfo:hover,
 .toggleItemInfo:focus,
 .toggleEffectInfo:hover,
-.toggleEffectInfo:focus {
+.toggleEffectInfo:focus,
+.item-uses:hover,
+.item-uses:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;

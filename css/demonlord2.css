@@ -52,7 +52,9 @@
 .toggleItemInfo:hover,
 .toggleItemInfo:focus,
 .toggleEffectInfo:hover,
-.toggleEffectInfo:focus {
+.toggleEffectInfo:focus,
+.item-uses:hover,
+.item-uses:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
@@ -2020,6 +2022,95 @@
   margin-top: 0;
 }
 
+.demonlord2 .responsive-table {
+  padding: 0 10px 0 0;
+  margin: 0;
+}
+
+.demonlord2 .responsive-table li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.demonlord2 .responsive-table .table-header {
+  margin-bottom: 4px;
+  height: 16px;
+  border-bottom: 1px solid var(--demonlord-red);
+  font-weight: bold;
+  font-family: "IM Fell English SC", serif;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.demonlord2 .responsive-table .table-row {
+  margin-bottom: 4px;
+  border-bottom: 1px solid #333;
+}
+
+.demonlord2 .responsive-table .col-1 {
+  -ms-flex-preferred-size: 63%;
+  flex-basis: 63%;
+}
+
+.demonlord2 .responsive-table .col-1 .item-image {
+  float: left;
+  margin-right: 5px;
+}
+
+.demonlord2 .responsive-table .col-1 .spellinfo {
+  margin-top: 10px;
+}
+
+.demonlord2 .responsive-table .col-2 {
+  -ms-flex-preferred-size: 15%;
+  flex-basis: 15%;
+  text-align: center;
+}
+
+.demonlord2 .responsive-table .col-3 {
+  -ms-flex-preferred-size: 12%;
+  flex-basis: 12%;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.demonlord2 .responsive-table .col-4 {
+  -ms-flex-preferred-size: 10%;
+  flex-basis: 10%;
+  text-align: right;
+  font-size: 12px;
+}
+
+.demonlord2 .responsive-table .col-4 .item-wearoff {
+  color: #999;
+}
+
+@media all and (max-width: 100%) {
+  .demonlord2 .responsive-table .table-header {
+    display: none;
+  }
+  .demonlord2 .responsive-table li {
+    display: block;
+  }
+  .demonlord2 .responsive-table .col {
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+  }
+  .demonlord2 .responsive-table .col {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .demonlord2 .responsive-table .col:before {
+    padding-right: 10px;
+    content: attr(data-label);
+    -ms-flex-preferred-size: 50%;
+    flex-basis: 50%;
+    text-align: right;
+  }
+}
+
 .demonlord2 .items-list {
   list-style: none;
   margin: 0;
@@ -2085,6 +2176,11 @@
   margin-right: 10px;
 }
 
+.demonlord2 .items-list .item-header .itemname {
+  float: left;
+  margin-right: 15px;
+}
+
 .demonlord2 .items-list .item-header .spellnameheader {
   float: left;
   width: 270px;
@@ -2093,6 +2189,26 @@
 .demonlord2 .items-list .item-header .traditionnameheader {
   float: left;
   width: 380px;
+}
+
+.demonlord2 .items-list .item-header .item-inv {
+  float: right;
+  width: 50px;
+  height: 16px;
+}
+
+.demonlord2 .items-list .itemamount {
+  float: right;
+  margin-right: 15px;
+}
+
+.demonlord2 .items-list .itemvalue {
+  float: right;
+  margin-right: 15px;
+}
+
+.demonlord2 .items-list .itemline {
+  margin-right: 15px;
 }
 
 .demonlord2 .items-list .item {
@@ -2175,6 +2291,17 @@
   float: left;
   width: 140px;
   margin-right: 10px;
+}
+
+.demonlord2 .items-list .item .itemtile {
+  float: left;
+  margin-right: 15px;
+}
+
+.demonlord2 .items-list .item .item-inv {
+  float: right;
+  width: 50px;
+  height: 16px;
 }
 
 .demonlord2 .items-list .feature {
@@ -2297,37 +2424,56 @@
   margin-top: 0px;
 }
 
-.demonlord2 .professionslist, .demonlord2 .featureslist {
+.demonlord2 .professionslist,
+.demonlord2 .featureslist {
   list-style: none;
   margin: 0;
   padding: 0;
   overflow-y: auto;
 }
 
-.demonlord2 .professionslist .item, .demonlord2 .professionslist .feature, .demonlord2 .featureslist .item, .demonlord2 .featureslist .feature {
+.demonlord2 .professionslist .item,
+.demonlord2 .professionslist .feature,
+.demonlord2 .featureslist .item,
+.demonlord2 .featureslist .feature {
   padding: 3px 0;
   border-bottom: 1px solid #333;
   font-size: 12px;
 }
 
-.demonlord2 .professionslist .item label, .demonlord2 .professionslist .feature label, .demonlord2 .featureslist .item label, .demonlord2 .featureslist .feature label {
+.demonlord2 .professionslist .item label,
+.demonlord2 .professionslist .feature label,
+.demonlord2 .featureslist .item label,
+.demonlord2 .featureslist .feature label {
   font-weight: bold;
   padding-right: 15px;
 }
 
-.demonlord2 .professionslist .item div, .demonlord2 .professionslist .feature div, .demonlord2 .featureslist .item div, .demonlord2 .featureslist .feature div {
+.demonlord2 .professionslist .item div,
+.demonlord2 .professionslist .feature div,
+.demonlord2 .featureslist .item div,
+.demonlord2 .featureslist .feature div {
   margin-right: 15px;
 }
 
-.demonlord2 .professionslist .editprofession, .demonlord2 .professionslist .editfeature, .demonlord2 .featureslist .editprofession, .demonlord2 .featureslist .editfeature {
+.demonlord2 .professionslist .editprofession,
+.demonlord2 .professionslist .editfeature,
+.demonlord2 .featureslist .editprofession,
+.demonlord2 .featureslist .editfeature {
   height: 130px;
 }
 
-.demonlord2 .professionslist .editprofession input, .demonlord2 .professionslist .editfeature input, .demonlord2 .featureslist .editprofession input, .demonlord2 .featureslist .editfeature input {
+.demonlord2 .professionslist .editprofession input,
+.demonlord2 .professionslist .editfeature input,
+.demonlord2 .featureslist .editprofession input,
+.demonlord2 .featureslist .editfeature input {
   margin-bottom: 5px;
 }
 
-.demonlord2 .professionslist .editprofession .item-controls, .demonlord2 .professionslist .editfeature .item-controls, .demonlord2 .featureslist .editprofession .item-controls, .demonlord2 .featureslist .editfeature .item-controls {
+.demonlord2 .professionslist .editprofession .item-controls,
+.demonlord2 .professionslist .editfeature .item-controls,
+.demonlord2 .featureslist .editprofession .item-controls,
+.demonlord2 .featureslist .editfeature .item-controls {
   float: right;
   width: 15px;
   margin: 0;
@@ -3107,6 +3253,7 @@
 .demonlord2 .wealth .body .lifestyle .lifestyletitle {
   float: left;
   height: 20px;
+  margin-right: 5px;
 }
 
 .demonlord2 .wealth .body .lifestyle input {

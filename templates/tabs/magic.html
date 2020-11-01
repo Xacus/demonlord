@@ -30,7 +30,7 @@
             {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}
         </div>
         <div class="spellcastings spell-uses">{{#if data.castings.max}}{{data.castings.value}} /
-            {{data.castings.max}}{{/if}}</div>
+            {{data.castings.max}} <i class="fas fa-arrows-alt-v"></i>{{/if}}</div>
         <div class="toggleInfo"><i class="fas fa-angle-right"></i> {{localize "DL.SpellShowSpellInfo"}}
         </div>
         <div class="spellinfo" style="display: none;">

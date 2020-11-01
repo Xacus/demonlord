@@ -359,7 +359,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
           if (value <= 0 || value >= max) value = max
           else value++
         } else {
-          if (value >= max || value == 0) value = 0
+          if (value <= 0) value = 0
           else value--
         }
       }
@@ -388,11 +388,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
       let value = parseInt(this.actor.data.data.characteristics.insanity.value)
       const max = parseInt(this.actor.data.data.characteristics.insanity.max)
 
-      if (event.button == 0) {
+      if (ev.button == 0) {
         if (value >= max) value = 0
         else value++
-      } else if (event.button == 2) {
-        if (value >= max || value <= 0) value = 0
+      } else if (ev.button == 2) {
+        if (value <= 0) value = 0
         else value--
       }
 
@@ -420,11 +420,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
       let value = parseInt(this.actor.data.data.characteristics.corruption)
       const max = parseInt(20)
 
-      if (event.button == 0) {
+      if (ev.button == 0) {
         if (value >= max) value = 0
         else value++
-      } else if (event.button == 2) {
-        if (value >= max || value <= 0) value = 0
+      } else if (ev.button == 2) {
+        if (value <= 0) value = 0
         else value--
       }
 
@@ -737,11 +737,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
       )
       const amount = item.data.quantity
 
-      if (event.button == 0) {
+      if (ev.button == 0) {
         if (amount >= 0) {
           item.data.quantity = Number(amount) + 1
         }
-      } else if (event.button == 2) {
+      } else if (ev.button == 2) {
         if (amount > 0) {
           item.data.quantity = Number(amount) - 1
         }
@@ -750,23 +750,37 @@ export class DemonlordActorSheet2 extends ActorSheet {
       this.actor.updateEmbeddedEntity('OwnedItem', item)
     })
 
-    html.find('.talent-uses').click((ev) => {
-      const li = event.currentTarget.closest('.item')
+    html.on('mousedown', '.talent-uses', (ev) => {
+      const li = ev.currentTarget.closest('.item')
       const item = duplicate(
         this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
       )
       const uses = item.data.uses.value
       const usesmax = item.data.uses.max
 
-      if (uses == 0 && usesmax == 0) {
-        item.data.addtonextroll = true
-      } else if (uses < usesmax) {
-        item.data.uses.value = Number(uses) + 1
-        item.data.addtonextroll = true
-      } else {
-        item.data.uses.value = 0
-        item.data.addtonextroll = false
-        this.actor.removeCharacterBonuses(item)
+      if (ev.button == 0) {
+        if (uses == 0 && usesmax == 0) {
+          item.data.addtonextroll = true
+        } else if (uses < usesmax) {
+          item.data.uses.value = Number(uses) + 1
+          item.data.addtonextroll = true
+        } else {
+          item.data.uses.value = 0
+          item.data.addtonextroll = false
+          this.actor.removeCharacterBonuses(item)
+        }
+      } else if (ev.button == 2) {
+        if (uses == 0 && usesmax == 0) {
+          item.data.addtonextroll = true
+        } else if (uses > 0 && uses <= usesmax) {
+          item.data.uses.value = Number(uses) - 1
+          if (Number(uses) - 1 == 0) item.data.addtonextroll = false
+          else item.data.addtonextroll = true
+        } else {
+          item.data.uses.value = 0
+          item.data.addtonextroll = false
+          this.actor.removeCharacterBonuses(item)
+        }
       }
 
       this.actor.updateEmbeddedEntity('OwnedItem', item)
@@ -800,18 +814,43 @@ export class DemonlordActorSheet2 extends ActorSheet {
       this.actor.updateEmbeddedEntity('OwnedItem', item)
     })
 
-    html.find('.spell-uses').click((ev) => {
-      const li = event.currentTarget.closest('.item')
+    html.on('mousedown', '.spell-uses', (ev) => {
+      const li = ev.currentTarget.closest('.item')
       const item = duplicate(
         this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
       )
       const uses = item.data.castings.value
       const usesmax = item.data.castings.max
 
-      if (uses < usesmax) {
-        item.data.castings.value = Number(uses) + 1
-      } else {
-        item.data.castings.value = 0
+      if (ev.button == 0) {
+        if (uses < usesmax) {
+          item.data.castings.value = Number(uses) + 1
+        } else {
+          item.data.castings.value = 0
+        }
+      } else if (ev.button == 2) {
+        if (uses > 0 && uses <= usesmax) {
+          item.data.castings.value = Number(uses) - 1
+          if (Number(uses) - 1 == 0) item.data.addtonextroll = false
+          else item.data.addtonextroll = true
+        } else {
+          item.data.castings.value = 0
+        }
+      }
+
+      this.actor.updateEmbeddedEntity('OwnedItem', item)
+    })
+
+    html.on('mousedown', '.item-uses', (ev) => {
+      const li = ev.currentTarget.closest('.item')
+      const item = duplicate(
+        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+      )
+
+      if (ev.button == 0) {
+        item.data.quantity++
+      } else if (ev.button == 2) {
+        if (item.data.quantity > 0) item.data.quantity--
       }
 
       this.actor.updateEmbeddedEntity('OwnedItem', item)

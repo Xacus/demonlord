@@ -1,5 +1,5 @@
 .window-app {
-    font-family: $font-primary;
+  font-family: $font-primary;
 }
 
 .rollable,
@@ -25,20 +25,21 @@
 .toggleInfo,
 .toggleTalentInfo,
 .toggleItemInfo,
-.toggleEffectInfo {
-    &:hover,
-    &:focus {
-        color: #000;
-        text-shadow: 0 0 10px #fa200b;
-        cursor: pointer;
-    }
+.toggleEffectInfo,
+.item-uses {
+  &:hover,
+  &:focus {
+    color: #000;
+    text-shadow: 0 0 10px #fa200b;
+    cursor: pointer;
+  }
 }
 
 #combat-endofround {
-    &:hover,
-    &:focus {
-        color: #fff;
-        text-shadow: 0 0 10px #fa200b;
-        cursor: pointer;
-    }
+  &:hover,
+  &:focus {
+    color: #fff;
+    text-shadow: 0 0 10px #fa200b;
+    cursor: pointer;
+  }
 }

@@ -1,337 +1,451 @@
 .features {
-    .featureheader  {
-        width: 100%;
-        font-size: 12px;
-    }
+  .featureheader {
+    width: 100%;
+    font-size: 12px;
+  }
 
-    .items-list {
-        margin-right: 0;
-    }
+  .items-list {
+    margin-right: 0;
+  }
 
+  .item-controls {
+    margin-top: -14px;
+  }
+
+  .feature {
     .item-controls {
-        margin-top: -14px;
+      margin-top: 0;
+    }
+  }
+}
+
+.responsive-table {
+  padding: 0 10px 0 0;
+  margin: 0;
+
+  li {
+    display: flex;
+  }
+  .table-header {
+    margin-bottom: 4px;
+    height: 16px;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: "IM Fell English SC", serif;
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+  .table-row {
+    margin-bottom: 4px;
+    border-bottom: 1px solid #333;
+  }
+  .col-1 {
+    flex-basis: 63%;
+
+    .item-image {
+      float: left;
+      margin-right: 5px;
     }
 
-    .feature {
-        .item-controls {
-            margin-top: 0;
-        }
+    .spellinfo {
+      margin-top: 10px;
     }
+  }
+  .col-2 {
+    flex-basis: 15%;
+    text-align: center;
+  }
+  .col-3 {
+    flex-basis: 12%;
+    text-align: right;
+    padding-right: 10px;
+  }
+  .col-4 {
+    flex-basis: 10%;
+    text-align: right;
+    font-size: 12px;
+
+    .item-wearoff {
+      color: #999;
+    }
+  }
+
+  @media all and (max-width: 100%) {
+    .table-header {
+      display: none;
+    }
+    .table-row {
+    }
+    li {
+      display: block;
+    }
+    .col {
+      flex-basis: 100%;
+    }
+    .col {
+      display: flex;
+      &:before {
+        padding-right: 10px;
+        content: attr(data-label);
+        flex-basis: 50%;
+        text-align: right;
+      }
+    }
+  }
 }
 
 .items-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  margin: 5px 10px 20px 0;
+
+  .tradition-header {
+    margin-top: 15px;
+    font-weight: bold;
+    font-family: $font-header;
+  }
+
+  .item-header {
+    height: 16px;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: $font-header;
+    font-size: 10px;
+    text-transform: uppercase;
+
+    .item-controls {
+      height: 0;
+    }
+
+    .weaponnameheader {
+      float: left;
+      width: 230px;
+    }
+
+    .damageheader {
+      float: left;
+      width: 70px;
+      margin-right: 10px;
+    }
+
+    .bonesbanesheader {
+      float: left;
+      width: 50px;
+      margin-right: 10px;
+    }
+
+    .spelltypeheader {
+      float: left;
+      width: 50px;
+    }
+
+    .spellcastingsheader {
+      float: left;
+      width: 50px;
+    }
+
+    .propertiesheader {
+      float: left;
+      width: 230px;
+    }
+
+    .defenseheader {
+      float: left;
+      width: 100px;
+      margin-right: 10px;
+    }
+
+    .itemname {
+      float: left;
+      margin-right: 15px;
+    }
+
+    .spellnameheader {
+      float: left;
+      width: 270px;
+    }
+
+    .traditionnameheader {
+      float: left;
+      width: 380px;
+    }
+
+    .item-inv {
+      float: right;
+      width: 50px;
+      height: 16px;
+    }
+  }
+
+  .itemamount {
+    float: right;
+    margin-right: 15px;
+  }
+
+  .itemvalue {
+    float: right;
+    margin-right: 15px;
+  }
+
+  .itemline {
+    margin-right: 15px;
+  }
+
+  .item {
+    padding: 3px 0;
+    border-bottom: 1px solid #333;
+    font-size: 12px;
     overflow-y: auto;
-    margin: 5px 10px 20px 0;
 
-    .tradition-header {
-        margin-top: 15px;
-        font-weight: bold;
-        font-family: $font-header;
+    .item-image {
+      float: left;
+      margin-right: 5px;
+      width: 30px;
     }
 
-    .item-header {
-        height: 16px;
-        border-bottom: 1px solid var(--demonlord-red);
-        font-weight: bold;
-        font-family: $font-header;
-        font-size: 10px;
-        text-transform: uppercase;
-
-        .item-controls {
-            height: 0;
-        }
-
-        .weaponnameheader {
-            float: left;
-            width: 230px;
-        }
-
-        .damageheader {
-            float: left;
-            width: 70px;
-            margin-right: 10px;
-        }
-
-        .bonesbanesheader {
-            float: left;
-            width: 50px;
-            margin-right: 10px;
-        }
-
-        .spelltypeheader {
-            float: left;
-            width: 50px;
-        }
-
-        .spellcastingsheader {
-            float: left;
-            width: 50px;
-        }
-
-        .propertiesheader {
-            float: left;
-            width: 230px;
-        }
-
-        .defenseheader {
-            float: left;
-            width: 100px;
-            margin-right: 10px;
-        }
-
-        .spellnameheader {
-            float: left;
-            width: 270px;
-        }
-
-        .traditionnameheader {
-            float: left;
-            width: 380px;
-        }
+    img {
+      display: block;
     }
 
-    .item {
-        padding: 3px 0;
-        border-bottom: 1px solid #333;
-        font-size: 12px;
-        overflow-y: auto;
-
-        .item-image {
-            float: left;
-            margin-right: 5px;
-            width: 30px;
-        }
-
-        img {
-            display: block;
-        }
-
-        .weaponname {
-            float: left;
-            width: 185px;
-            margin-right: 10px;
-        }
-
-        .damage {
-            float: left;
-            width: 65px;
-            margin-right: 10px;
-        }
-
-        .defense {
-            float: left;
-            width: 300px;
-            margin-right: 10px;
-        }
-
-        .ammo-amount {
-            width: 50px;
-        }
-
-        .bonesbanes {
-            float: left;
-            width: 50px;
-            margin-right: 10px;
-            padding-left: 5px;
-        }
-
-        .properties {
-            float: left;
-            width: 350px;
-        }
-
-        .tradition {
-            .traditiontitle {
-                float: left;
-            }
-
-            .traditionname {
-                float: left;
-                margin-left: 5px;
-                width: 200px;
-
-                input {
-                    width: 180px;
-                }
-
-                .tradition-edit {
-                    float: left;
-                    width: 200px;
-                    font-weight: bold;
-                }
-
-                .tradition-focus {
-                    float: left;
-                    width: 200px;
-                }
-            }
-        }
-
-        .itemname {
-            float: left;
-            width: 140px;
-            margin-right: 10px;
-        }
+    .weaponname {
+      float: left;
+      width: 185px;
+      margin-right: 10px;
     }
 
-    .feature {
-        font-size: 11px;
-        margin-top: 10px;
-
-        .featurename {
-            height: 14px;
-            font-weight: bold;
-        }
-
-        .featurediscription {
-            width: 100%;
-            height: auto;
-        }
-
-        .item-controls {
-            float: right;
-        }
+    .damage {
+      float: left;
+      width: 65px;
+      margin-right: 10px;
     }
 
-    .spell {
-        .spellname {
-            float: left;
-            width: 225px;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
-        .spelltype {
-            float: left;
-            width: 50px;
-        }
-
-        .spellcastings {
-            float: left;
-            width: 50px;
-        }
-        .spellinfo {
-            float: left;
-            margin-top: 10px;
-        }
-
-        .toggleInfo {
-            float: left;
-            width: 400px;
-        }
+    .defense {
+      float: left;
+      width: 300px;
+      margin-right: 10px;
     }
 
-    .item-align {
-        width: 100%
+    .ammo-amount {
+      width: 50px;
     }
 
-    .item-name {
-        margin: 0;
-        font-size: 12px;
-        font-weight: bold;
+    .bonesbanes {
+      float: left;
+      width: 50px;
+      margin-right: 10px;
+      padding-left: 5px;
+    }
+
+    .properties {
+      float: left;
+      width: 350px;
+    }
+
+    .tradition {
+      .traditiontitle {
+        float: left;
+      }
+
+      .traditionname {
+        float: left;
+        margin-left: 5px;
+        width: 200px;
 
         input {
-            width: 200px;
+          width: 180px;
         }
+
+        .tradition-edit {
+          float: left;
+          width: 200px;
+          font-weight: bold;
+        }
+
+        .tradition-focus {
+          float: left;
+          width: 200px;
+        }
+      }
+    }
+
+    .itemname {
+      float: left;
+      width: 140px;
+      margin-right: 10px;
+    }
+
+    .itemtile {
+      float: left;
+      margin-right: 15px;
+    }
+
+    .item-inv {
+      float: right;
+      width: 50px;
+      height: 16px;
+    }
+  }
+
+  .feature {
+    font-size: 11px;
+    margin-top: 10px;
+
+    .featurename {
+      height: 14px;
+      font-weight: bold;
+    }
+
+    .featurediscription {
+      width: 100%;
+      height: auto;
     }
 
     .item-controls {
-        flex: 0 0 40px;
-        text-align: right;
-        font-size: 12px;
+      float: right;
+    }
+  }
 
-        .item-control {
-            padding-left: 1px;
-        }
-
-        .item-wearoff {
-            color: #999;
-        }
-
-        .itemred {
-            color: var(--demonlord-red);
-        }
+  .spell {
+    .spellname {
+      float: left;
+      width: 225px;
+      margin-right: 10px;
+      font-weight: bold;
     }
 
-    .talent {
-        .talentheader {
-            float: left;
-            width: 335px;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
-        .talenttype {
-            float: left;
-            width: 50px;
-        }
-
-        .talent-uses {
-            float: left;
-            width: 50px;
-        }
-
-        .spellinfo {
-            float: left;
-            margin-top: 10px;
-        }
-
-        .toggleTalentInfo {
-            float: left;
-            width: 400px;
-        }
-
-        .toggleItemInfo {
-            float: left;
-            width: 400px;
-        }
+    .spelltype {
+      float: left;
+      width: 50px;
     }
+
+    .spellcastings {
+      float: left;
+      width: 50px;
+    }
+    .spellinfo {
+      float: left;
+      margin-top: 10px;
+    }
+
+    .toggleInfo {
+      float: left;
+      width: 400px;
+    }
+  }
+
+  .item-align {
+    width: 100%;
+  }
+
+  .item-name {
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+
+    input {
+      width: 200px;
+    }
+  }
+
+  .item-controls {
+    flex: 0 0 40px;
+    text-align: right;
+    font-size: 12px;
+
+    .item-control {
+      padding-left: 1px;
+    }
+
+    .item-wearoff {
+      color: #999;
+    }
+
+    .itemred {
+      color: var(--demonlord-red);
+    }
+  }
+
+  .talent {
+    .talentheader {
+      float: left;
+      width: 335px;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    .talenttype {
+      float: left;
+      width: 50px;
+    }
+
+    .talent-uses {
+      float: left;
+      width: 50px;
+    }
+
+    .spellinfo {
+      float: left;
+      margin-top: 10px;
+    }
+
+    .toggleTalentInfo {
+      float: left;
+      width: 400px;
+    }
+
+    .toggleItemInfo {
+      float: left;
+      width: 400px;
+    }
+  }
 }
 
 .listitems {
-    margin-top: -10px;
+  margin-top: -10px;
 }
 
 .colright .items-list {
-    margin-top: 0px;
+  margin-top: 0px;
 }
 
-.professionslist, .featureslist {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow-y: auto;
+.professionslist,
+.featureslist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
 
-    .item, .feature {
-        padding: 3px 0;
-        border-bottom: 1px solid #333;
-        font-size: 12px;
+  .item,
+  .feature {
+    padding: 3px 0;
+    border-bottom: 1px solid #333;
+    font-size: 12px;
 
-        label {
-            font-weight: bold;
-            padding-right: 15px;
-        }
-
-        div {
-            margin-right: 15px;
-        }
+    label {
+      font-weight: bold;
+      padding-right: 15px;
     }
 
-    .editprofession, .editfeature {
-        height: 130px;
-
-        input {
-            margin-bottom: 5px;
-        }
-
-        .item-controls {
-            float: right;
-            width: 15px;
-            margin: 0;
-            margin-top: 1px;
-        }
+    div {
+      margin-right: 15px;
     }
+  }
+
+  .editprofession,
+  .editfeature {
+    height: 130px;
+
+    input {
+      margin-bottom: 5px;
+    }
+
+    .item-controls {
+      float: right;
+      width: 15px;
+      margin: 0;
+      margin-top: 1px;
+    }
+  }
 }
