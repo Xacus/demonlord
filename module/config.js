@@ -23,3 +23,9 @@ DL.statusIcons = {
   unconscious: 'icons/svg/unconscious.svg',
   blood: 'icons/svg/blood.svg'
 }
+
+DL.pathtype = {
+  novice: 'DL.CharPathNovice',
+  expert: 'DL.CharPathExpert',
+  master: 'DL.CharPathMaster'
+}
