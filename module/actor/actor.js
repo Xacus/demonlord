@@ -94,10 +94,6 @@ export class DemonlordActor extends Actor {
         Math.floor(parseInt(data.characteristics.health.max) / 4) +
         parseInt(ancestry.data.characteristics?.healingratemodifier)
       data.characteristics.size = ancestry.data.characteristics.size
-
-      // data.characteristics.power = parseInt(data.characteristics.power);
-      // data.characteristics.insanity.value = parseInt(data.characteristics.insanity.value) + parseInt(ancestry.data.characteristics.insanity);
-      // data.characteristics.corruption = parseInt(data.characteristics.corruption) + parseInt(ancestry.data.characteristics.corruption);
     }
 
     if (savedAncestry == null && this.data.type != 'creature') {
@@ -143,8 +139,6 @@ export class DemonlordActor extends Actor {
                 parseInt($level.characteristicsPower)
               data.characteristics.defense += $level.characteristicsDefense
               data.characteristics.speed += $level.characteristicsSpeed
-              data.characteristics.corruption +=
-                $level.characteristicsCorruption
               data.attributes.perception.value +=
                 $level.characteristicsPerception
             })
