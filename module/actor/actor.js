@@ -1846,7 +1846,6 @@ export class DemonlordActor extends Actor {
         mod.data.active = false
       }
       await this.updateEmbeddedEntity('OwnedItem', mod)
-      this.render(true)
     }
   }
 
