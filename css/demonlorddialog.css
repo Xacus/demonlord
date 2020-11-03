@@ -578,6 +578,8 @@
 
 .affliction input {
   float: left;
+  height: 16px;
+  width: 16px;
 }
 
 .affliction label {
@@ -644,7 +646,12 @@
   float: left;
   width: 20px;
   height: 16px;
-  margin: -2px 5px 0 -8px;
+  margin: -2px 5px 0 -5px;
+}
+
+.form-line .enablemod input {
+  height: 16px;
+  width: 16px;
 }
 
 .form-line .disable {
@@ -722,18 +729,22 @@
 }
 
 .form-modline .form-fields .modname {
-  width: 130px;
-  padding-left: 17px;
+  width: 133px;
+  padding-left: 20px;
 }
 
 .form-modline .form-fields .modeffects {
-  width: 147px;
+  width: 152px;
 }
 
 .form-modline .form-fields .modmodifier {
-  width: 36px;
+  width: 35px;
 }
 
 .form-modline .form-fields .modrounds {
-  width: 48px;
+  width: 43px;
+}
+
+.form-modline .form-fields .modleft {
+  width: 22px;
 }

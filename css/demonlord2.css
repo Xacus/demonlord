@@ -2888,7 +2888,7 @@
   float: left;
   width: 20px;
   height: 16px;
-  margin: -2px 5px 0 -8px;
+  margin: -2px 5px 0 -5px;
 }
 
 .demonlord2 .form-block .form-line .disable {
@@ -2966,20 +2966,24 @@
 }
 
 .demonlord2 .form-block .form-modline .form-fields .modname {
-  width: 130px;
-  padding-left: 17px;
+  width: 133px;
+  padding-left: 20px;
 }
 
 .demonlord2 .form-block .form-modline .form-fields .modeffects {
-  width: 147px;
+  width: 152px;
 }
 
 .demonlord2 .form-block .form-modline .form-fields .modmodifier {
-  width: 36px;
+  width: 35px;
 }
 
 .demonlord2 .form-block .form-modline .form-fields .modrounds {
-  width: 48px;
+  width: 43px;
+}
+
+.demonlord2 .form-block .form-modline .form-fields .modleft {
+  width: 22px;
 }
 
 .demonlord2 .form-block .creature-list {
@@ -3030,33 +3034,48 @@
   margin-bottom: 10px;
 }
 
-.demonlord2 .talentactions, .demonlord2 .combatactions, .demonlord2 .damageaction, .demonlord2 .challengeaction {
+.demonlord2 .talentactions,
+.demonlord2 .combatactions,
+.demonlord2 .damageaction,
+.demonlord2 .challengeaction {
   margin-top: 5px;
   padding: 5px;
-  background: #BBB;
+  background: #bbb;
   border: 1px solid #666;
   border-radius: 3px;
   font-size: 12px;
   height: 27px;
 }
 
-.demonlord2 .talentactions img, .demonlord2 .combatactions img, .demonlord2 .damageaction img, .demonlord2 .challengeaction img {
+.demonlord2 .talentactions img,
+.demonlord2 .combatactions img,
+.demonlord2 .damageaction img,
+.demonlord2 .challengeaction img {
   float: left;
   margin: 0 0 0 -5px;
   border: 0;
 }
 
-.demonlord2 .talentactions div, .demonlord2 .combatactions div, .demonlord2 .damageaction div, .demonlord2 .challengeaction div {
+.demonlord2 .talentactions div,
+.demonlord2 .combatactions div,
+.demonlord2 .damageaction div,
+.demonlord2 .challengeaction div {
   float: left;
   padding-left: 5px;
 }
 
-.demonlord2 .talentactions .blood, .demonlord2 .combatactions .blood, .demonlord2 .damageaction .blood, .demonlord2 .challengeaction .blood {
+.demonlord2 .talentactions .blood,
+.demonlord2 .combatactions .blood,
+.demonlord2 .damageaction .blood,
+.demonlord2 .challengeaction .blood {
   margin-left: -8px;
   margin-top: 1px;
 }
 
-.demonlord2 .talentactions .challenge-img, .demonlord2 .combatactions .challenge-img, .demonlord2 .damageaction .challenge-img, .demonlord2 .challengeaction .challenge-img {
+.demonlord2 .talentactions .challenge-img,
+.demonlord2 .combatactions .challenge-img,
+.demonlord2 .damageaction .challenge-img,
+.demonlord2 .challengeaction .challenge-img {
   float: left;
   height: 22px;
   width: 22px;
@@ -3065,7 +3084,10 @@
   background: url("icons/back-forth2.png") no-repeat;
 }
 
-.demonlord2 .talentactions .init-img, .demonlord2 .combatactions .init-img, .demonlord2 .damageaction .init-img, .demonlord2 .challengeaction .init-img {
+.demonlord2 .talentactions .init-img,
+.demonlord2 .combatactions .init-img,
+.demonlord2 .damageaction .init-img,
+.demonlord2 .challengeaction .init-img {
   float: left;
   height: 22px;
   width: 22px;
@@ -3074,7 +3096,10 @@
   background: url("icons/pentagram.png") no-repeat;
 }
 
-.demonlord2 .talentactions .talent-img, .demonlord2 .combatactions .talent-img, .demonlord2 .damageaction .talent-img, .demonlord2 .challengeaction .talent-img {
+.demonlord2 .talentactions .talent-img,
+.demonlord2 .combatactions .talent-img,
+.demonlord2 .damageaction .talent-img,
+.demonlord2 .challengeaction .talent-img {
   float: left;
   height: 22px;
   width: 22px;

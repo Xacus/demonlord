@@ -1,249 +1,258 @@
 .window-content {
-    background: url(paper.jpg);
+  background: url(paper.jpg);
 
-    .form-block {
-        font-size: 11px;
+  .form-block {
+    font-size: 11px;
 
-        .items-list {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .creature-list {
-            margin: 0 0 0px 0;
-            padding: 0;
-
-            .creature-entry {
-                list-style: none;
-                overflow-y: auto;
-                padding-bottom: 5px;
-                margin-bottom: 10px;
-                border-top: 1px solid #000;
-                border-bottom: 1px solid #000;
-                background: rgba(0, 0, 0, 0.1);
-
-                .header {
-                    width: 100%;
-                    padding: 5px;
-
-                    h4 {
-                        font-family: "IM Fell English SC", serif;
-                        font-size: 14px;
-                    }
-
-                    .headerbody {
-                        margin-top: -10px;
-                    }
-                }
-
-                .toggleEffectInfo {
-                    height: 13px;
-                    width: 200px;
-                    
-                }
-
-                .effectInfo {
-                    float: left;
-                    margin-top: -20px;
-                    margin-bottom: 10px;
-                }
-
-                .effects {
-                    list-style: none;
-                    margin: 5px 0px -15px 5px;
-                    padding: 0;
-                    overflow-y: auto;
-                    padding-top: 20px;
-
-                    .effect {
-                        .effectname {
-                            font-weight: bold;
-                        }
-                        .effectsescription {
-                            margin-top: -5px;
-                        }
-                    }
-                }
-            }
-
-            .token-image {
-                float: left;
-                border: none;
-                height: 48px;
-                width: 48px;
-                margin-right: 10px;
-            }
-        }
+    .items-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
+
+    .creature-list {
+      margin: 0 0 0px 0;
+      padding: 0;
+
+      .creature-entry {
+        list-style: none;
+        overflow-y: auto;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+        background: rgba(0, 0, 0, 0.1);
+
+        .header {
+          width: 100%;
+          padding: 5px;
+
+          h4 {
+            font-family: "IM Fell English SC", serif;
+            font-size: 14px;
+          }
+
+          .headerbody {
+            margin-top: -10px;
+          }
+        }
+
+        .toggleEffectInfo {
+          height: 13px;
+          width: 200px;
+        }
+
+        .effectInfo {
+          float: left;
+          margin-top: -20px;
+          margin-bottom: 10px;
+        }
+
+        .effects {
+          list-style: none;
+          margin: 5px 0px -15px 5px;
+          padding: 0;
+          overflow-y: auto;
+          padding-top: 20px;
+
+          .effect {
+            .effectname {
+              font-weight: bold;
+            }
+            .effectsescription {
+              margin-top: -5px;
+            }
+          }
+        }
+      }
+
+      .token-image {
+        float: left;
+        border: none;
+        height: 48px;
+        width: 48px;
+        margin-right: 10px;
+      }
+    }
+  }
 }
 
-    .affliction {
-            height: 18px;
+.affliction {
+  height: 18px;
 
-            input {
-                float: left;
-            }
+  input {
+    float: left;
+    height: 16px;
+    width: 16px;
+  }
 
-            label {
-                float: left;
-                margin-top: 5px;
-            }
+  label {
+    float: left;
+    margin-top: 5px;
+  }
 
-            .fas {
-                margin-top: 5px;
-                margin-left: 5px;
-            }
+  .fas {
+    margin-top: 5px;
+    margin-left: 5px;
+  }
 
-            .tooltip .tooltiptext {
-                visibility: hidden;
-                width: 260px;
-                background-color: rgba(0, 0, 0, 0.9);
-                color: #fff;
-                text-align: left;
-                border-radius: 3px;
-                padding: 5px;
-                top: 40px;
-                right: 20px;
-                position: absolute;
-                z-index: 1;
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 260px;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    text-align: left;
+    border-radius: 3px;
+    padding: 5px;
+    top: 40px;
+    right: 20px;
+    position: absolute;
+    z-index: 1;
+  }
 
-            }
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+}
 
-            .tooltip:hover .tooltiptext {
-                visibility: visible;
-            }
-        }
+.form-header {
+  height: 20px;
+  padding-top: 2px;
+  padding-right: 5px;
+  font-weight: bold;
+  font-size: 12px;
+}
 
-    .form-header {
-        height: 20px;
-        padding-top: 2px;
-        padding-right: 5px;
-        font-weight: bold;
-        font-size: 12px;
+.form-headermods {
+  float: left;
+  height: 20px;
+  padding-top: 2px;
+  padding-right: 5px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.form-line {
+  width: 100%;
+  height: 22px;
+
+  .form-fieldheader {
+    float: left;
+    padding-top: 2px;
+    padding-right: 5px;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .enablemod {
+    float: left;
+    width: 20px;
+    height: 16px;
+    margin: -2px 5px 0 -5px;
+
+    input {
+      height: 16px;
+      width: 16px;
+    }
+  }
+
+  .disable {
+    float: left;
+    width: 150px;
+    height: 16px;
+    margin: -2px 0 0 0;
+  }
+
+  .form-fields {
+    float: left;
+    margin-top: -3px;
+    padding-top: 2px;
+
+    div {
+      float: left;
+      margin-left: 5px;
     }
 
-    .form-headermods {
-        float: left;
-        height: 20px;
-        padding-top: 2px;
-        padding-right: 5px;
-        font-weight: bold;
-        font-size: 12px;
+    select,
+    input {
+      margin-top: 2px;
+      font-size: 11px;
+      height: 16px;
     }
 
-    .form-line {
-        width: 100%;
-        height: 22px;
-
-        .form-fieldheader {
-            float: left;
-            padding-top: 2px;
-            padding-right: 5px;
-        }
-
-        .bold {
-            font-weight: bold;
-        }
-
-        .enablemod {
-            float: left;
-            width: 20px;
-            height: 16px;
-            margin: -2px 5px 0 -8px;
-        }
-
-        .disable {
-            float: left;
-            width: 150px;
-            height: 16px;
-            margin: -2px 0 0 0;
-        }
-
-        .form-fields {
-            float: left;
-            margin-top: -3px;
-            padding-top: 2px;
-
-            div {
-                float: left;
-                margin-left: 5px;
-            }
-
-            select,
-            input {
-                margin-top: 2px;
-                font-size: 11px;
-                height: 16px;
-            }
-
-            input[type="checkbox"] {
-                width: 15px;
-                margin-top: -1px;
-            }
-
-            .number {
-                input {
-                    width: 30px;
-                    text-align: right;
-                }
-            }
-
-            .numberLabel {
-                margin-top: 4px;
-                margin-left: 19px;
-            }
-
-            .numbermid {
-                input {
-                    width: 50px;
-                    text-align: right;
-                }
-            }
-
-            .radioblock,
-            .radioblockfast {
-                padding-right: 15px;
-                margin-left: 0px;
-
-                input[type="radio"] {
-                    width: 15px;
-                    margin-top: -1px;
-                }
-            }
-        }
-
-        .item-controls {
-            float: right;
-            width: 15px;
-            margin-top: 2px;
-        }
+    input[type="checkbox"] {
+      width: 15px;
+      margin-top: -1px;
     }
 
-    .form-modline {
-        width: 100%;
-        height: 12px;
-
-        .form-fields {
-            float: left;
-            margin-top: -3px;
-            padding-top: 2px;
-
-            .modname {
-                width: 130px;
-                padding-left: 17px;
-            }
-
-            .modeffects {
-                width: 147px;
-            }
-
-            .modmodifier {
-                width: 36px;
-            }
-
-            .modrounds {
-                width: 48px;
-            }
-        }
+    .number {
+      input {
+        width: 30px;
+        text-align: right;
+      }
     }
+
+    .numberLabel {
+      margin-top: 4px;
+      margin-left: 19px;
+    }
+
+    .numbermid {
+      input {
+        width: 50px;
+        text-align: right;
+      }
+    }
+
+    .radioblock,
+    .radioblockfast {
+      padding-right: 15px;
+      margin-left: 0px;
+
+      input[type="radio"] {
+        width: 15px;
+        margin-top: -1px;
+      }
+    }
+  }
+
+  .item-controls {
+    float: right;
+    width: 15px;
+    margin-top: 2px;
+  }
+}
+
+.form-modline {
+  width: 100%;
+  height: 12px;
+
+  .form-fields {
+    float: left;
+    margin-top: -3px;
+    padding-top: 2px;
+
+    .modname {
+      width: 133px;
+      padding-left: 20px;
+    }
+
+    .modeffects {
+      width: 152px;
+    }
+
+    .modmodifier {
+      width: 35px;
+    }
+
+    .modrounds {
+      width: 43px;
+    }
+
+    .modleft {
+      width: 22px;
+    }
+  }
+}
