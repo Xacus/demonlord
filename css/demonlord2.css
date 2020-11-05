@@ -3931,7 +3931,7 @@
   font-weight: 700;
   line-height: 1;
   text-transform: uppercase;
-  letter-spacing: .25px;
+  letter-spacing: 0.25px;
   color: #fff;
   height: 30px;
   position: absolute;
@@ -3945,7 +3945,7 @@
   width: 365px;
 }
 
-.demonlord2.actor .sheet-header .header-fields h1.char-name input[type=text] {
+.demonlord2.actor .sheet-header .header-fields h1.char-name input[type="text"] {
   width: 365px;
   font-family: "IM Fell English SC", serif;
   font-weight: 500;
@@ -3958,7 +3958,7 @@
   margin-left: -5px;
 }
 
-.demonlord2.actor .sheet-header .header-fields h1.char-name input[type=text]:focus {
+.demonlord2.actor .sheet-header .header-fields h1.char-name input[type="text"]:focus {
   padding-left: 5px;
   margin-left: -5px;
   background: rgba(0, 0, 0, 0.5);
@@ -4032,6 +4032,11 @@
   font-size: 15px;
   text-align: center;
   color: #fff;
+}
+
+.demonlord2.actor .sheet-header .attributes .attributebox .attribute input[type="text"]:focus {
+  border-radius: 16px;
+  background: #555;
 }
 
 .demonlord2.actor .sheet-header .attributes .attributebox .attributemod {

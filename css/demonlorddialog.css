@@ -604,6 +604,8 @@
   right: 20px;
   position: absolute;
   z-index: 1;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
 }
 
 .affliction .tooltip:hover .tooltiptext {
