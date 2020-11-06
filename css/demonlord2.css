@@ -4038,9 +4038,14 @@
 
 .demonlord2.actor .sheet-header .header-fields .level input {
   margin-left: 1px;
-  margin-top: 0px;
+  margin-top: 1px;
   text-align: center;
   color: white;
+}
+
+.demonlord2.actor .sheet-header .header-fields .level input[type="text"]:focus {
+  border-radius: 16px;
+  background: #555;
 }
 
 .demonlord2.actor .sheet-header .header-fields label {

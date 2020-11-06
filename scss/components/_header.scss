@@ -71,9 +71,14 @@ form {
 
       input {
         margin-left: 1px;
-        margin-top: 0px;
+        margin-top: 1px;
         text-align: center;
         color: white;
+      }
+
+      input[type="text"]:focus {
+        border-radius: 16px;
+        background: #555;
       }
     }
 

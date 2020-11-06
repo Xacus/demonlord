@@ -7,6 +7,63 @@
             placeholder="" /></div>
 </div>
 <div class="attributes grid grid-5col">
+    {{#if useDemonlordMode}}
+    <div class="attributebox">
+        <div class="attributeper">
+            <label for="data.attributes.strength.value">{{data.attributes.strength.value}}</label>
+        </div>
+        <div class="attributemod">
+            <label for="data.attributes.strength.modifier"
+                class="mod">{{numberFormat data.attributes.strength.modifier decimals=0 sign=true}}</label>
+        </div>
+        <div class="attributetext attribute-roll" data-key="strength"><label
+                for="data.attributes.strength.value">{{data.attributes.strength.label}}</label></div>
+    </div>
+    <div class="attributebox">
+        <div class="attributeper">
+            <label for="data.attributes.agility.value">{{data.attributes.agility.value}}</label>
+        </div>
+        <div class="attributemod">
+            <label for="data.attributes.agility.modifier"
+                class="mod">{{numberFormat data.attributes.agility.modifier decimals=0 sign=true}}</label>
+        </div>
+        <div class="attributetext attribute-roll" data-key="agility"><label
+                for="data.attributes.agility.value">{{data.attributes.agility.label}}</label></div>
+    </div>
+    <div class="attributebox">
+        <div class="attributeper">
+            <label for="data.attributes.intellect.value">{{data.attributes.intellect.value}}</label>
+        </div>
+        <div class="attributemod">
+            <label for="data.attributes.intellect.modifier"
+                class="mod">{{numberFormat data.attributes.intellect.modifier decimals=0 sign=true}}</label>
+        </div>
+        <div class="attributetext attribute-roll" data-key="intellect"><label
+                for="data.attributes.intellect.value">{{data.attributes.intellect.label}}</label></div>
+    </div>
+    <div class="attributebox">
+        <div class="attributeper">
+            <label for="data.attributes.will.value">{{data.attributes.perception.value}}</label>
+        </div>
+        <div class="attributemod">
+            <label for="data.attributes.will.modifier"
+                class="mod">{{numberFormat data.attributes.will.modifier decimals=0 sign=true}}</label>
+        </div>
+        <div class="attributetext attribute-roll" data-key="will"><label
+                for="data.attributes.will.value">{{data.attributes.will.label}}</label></div>
+    </div>
+    <div class="attributebox">
+        <div class="attributeper">
+            <label for="data.attributes.perception.value">{{data.attributes.perception.value}}</label>
+        </div>
+        <div class="attributemodper">
+            <label for="data.attributes.perception.modifier"
+                class="mod">{{numberFormat data.attributes.perception.modifier decimals=0 sign=true}}</label>
+        </div>
+        <div class="attributetextper attribute-roll" data-key="perception"><label
+                for="data.attributes.perception.value">{{data.attributes.perception.label}}</label></div>
+    </div>
+    {{else}}
     <div class="attributebox">
         <div class="attribute">
             <input name="data.attributes.strength.value" type="text" value="{{data.attributes.strength.value}}"
@@ -66,4 +123,5 @@
         <div class="attributetextper attribute-roll" data-key="perception"><label
                 for="data.attributes.perception.value">{{data.attributes.perception.label}}</label></div>
     </div>
+    {{/if}}
 </div>

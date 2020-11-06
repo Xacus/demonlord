@@ -68,6 +68,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
   getData () {
     const data = super.getData()
     data.isGM = game.user.isGM
+    data.useDemonlordMode = !game.settings.get('demonlord', 'useHomebrewMode')
     data.dtypes = ['String', 'Number', 'Boolean']
     for (const attr of Object.values(data.data.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean'
