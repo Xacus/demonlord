@@ -54,7 +54,11 @@
 .toggleEffectInfo:hover,
 .toggleEffectInfo:focus,
 .item-uses:hover,
-.item-uses:focus {
+.item-uses:focus,
+.path-edit:hover,
+.path-edit:focus,
+.ancestry-create:hover,
+.ancestry-create:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;

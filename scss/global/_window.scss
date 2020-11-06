@@ -26,7 +26,9 @@
 .toggleTalentInfo,
 .toggleItemInfo,
 .toggleEffectInfo,
-.item-uses {
+.item-uses,
+.path-edit,
+.ancestry-create {
   &:hover,
   &:focus {
     color: #000;

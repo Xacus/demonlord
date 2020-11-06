@@ -144,7 +144,7 @@
             "templates": [
                 "base"
             ],
-            "edit": false,
+            "edit": true,
             "difficulty": 0,
             "frightening": false,
             "horrifying": false,
@@ -340,6 +340,28 @@
         },
         "ancestry": {
             "description": "",
+            "attributes": {
+                "strength": {
+                    "value": 10,
+                    "min": 0,
+                    "max": 20
+                },
+                "agility": {
+                    "value": 10,
+                    "min": 0,
+                    "max": 20
+                },
+                "intellect": {
+                    "value": 10,
+                    "min": 0,
+                    "max": 20
+                },
+                "will": {
+                    "value": 10,
+                    "min": 0,
+                    "max": 20
+                }
+            },
             "characteristics": {
                 "perceptionmodifier": 0,
                 "healthmodifier": 0,

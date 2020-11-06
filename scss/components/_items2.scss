@@ -250,6 +250,10 @@ nav.sheet-tabs {
         margin-right: 5px;
       }
 
+      label.bold {
+        font-weight: bold;
+      }
+
       span {
         float: left;
         margin-top: 2px;
@@ -362,8 +366,16 @@ nav.sheet-tabs {
           min-width: 150px;
         }
 
-        input {
+        input,
+        div {
           float: right;
+        }
+
+        div {
+          width: 20px;
+          text-align: center;
+          color: #000;
+          border: 1px solid rgba(0, 0, 0, 0.1);
         }
       }
 
@@ -372,6 +384,14 @@ nav.sheet-tabs {
         label {
           padding-left: 5px;
         }
+      }
+
+      .outline {
+        float: left;
+        width: 20px;
+        text-align: center;
+        color: #000;
+        border: 1px solid rgba(0, 0, 0, 0.1);
       }
     }
 

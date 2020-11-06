@@ -572,6 +572,10 @@ export class DemonlordActorSheet2 extends ActorSheet {
       }
     })
 
+    html.on('mousedown', '.ancestry-create', (ev) => {
+      this.createAncestry(ev)
+    })
+
     // Paths
     html.on('mousedown', '.path-edit', (ev) => {
       const div = $(ev.currentTarget).parents('.path')
@@ -1063,5 +1067,10 @@ export class DemonlordActorSheet2 extends ActorSheet {
       close: () => {}
     })
     d.render(true)
+  }
+
+  async createAncestry (ev) {
+    const data = { name: 'New ancestry', type: 'ancestry' }
+    const item = await this.actor.createEmbeddedEntity('OwnedItem', data)
   }
 }

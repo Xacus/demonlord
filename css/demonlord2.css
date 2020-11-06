@@ -54,7 +54,11 @@
 .toggleEffectInfo:hover,
 .toggleEffectInfo:focus,
 .item-uses:hover,
-.item-uses:focus {
+.item-uses:focus,
+.path-edit:hover,
+.path-edit:focus,
+.ancestry-create:hover,
+.ancestry-create:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
@@ -758,6 +762,17 @@
   margin-right: 5px;
 }
 
+.demonlord2.item .items-list li.level div.level label.bold,
+.demonlord2.item .items-list li.level div.attributes label.bold,
+.demonlord2.item .items-list li.level div.characteristics label.bold,
+.demonlord2.item .items-list li.level div.talents label.bold,
+.demonlord2.item .items-list li.level div.spells label.bold,
+.demonlord2.item .items-list li.level div.equipment label.bold,
+.demonlord2.item .items-list li.level div.language label.bold,
+.demonlord2.item .items-list li.level div.magic label.bold {
+  font-weight: bold;
+}
+
 .demonlord2.item .items-list li.level div.level span,
 .demonlord2.item .items-list li.level div.attributes span,
 .demonlord2.item .items-list li.level div.characteristics span,
@@ -1010,14 +1025,36 @@
 }
 
 .demonlord2.item .items-list li.level div.level .leftbox input,
+.demonlord2.item .items-list li.level div.level .leftbox div,
 .demonlord2.item .items-list li.level div.attributes .leftbox input,
+.demonlord2.item .items-list li.level div.attributes .leftbox div,
 .demonlord2.item .items-list li.level div.characteristics .leftbox input,
+.demonlord2.item .items-list li.level div.characteristics .leftbox div,
 .demonlord2.item .items-list li.level div.talents .leftbox input,
+.demonlord2.item .items-list li.level div.talents .leftbox div,
 .demonlord2.item .items-list li.level div.spells .leftbox input,
+.demonlord2.item .items-list li.level div.spells .leftbox div,
 .demonlord2.item .items-list li.level div.equipment .leftbox input,
+.demonlord2.item .items-list li.level div.equipment .leftbox div,
 .demonlord2.item .items-list li.level div.language .leftbox input,
-.demonlord2.item .items-list li.level div.magic .leftbox input {
+.demonlord2.item .items-list li.level div.language .leftbox div,
+.demonlord2.item .items-list li.level div.magic .leftbox input,
+.demonlord2.item .items-list li.level div.magic .leftbox div {
   float: right;
+}
+
+.demonlord2.item .items-list li.level div.level .leftbox div,
+.demonlord2.item .items-list li.level div.attributes .leftbox div,
+.demonlord2.item .items-list li.level div.characteristics .leftbox div,
+.demonlord2.item .items-list li.level div.talents .leftbox div,
+.demonlord2.item .items-list li.level div.spells .leftbox div,
+.demonlord2.item .items-list li.level div.equipment .leftbox div,
+.demonlord2.item .items-list li.level div.language .leftbox div,
+.demonlord2.item .items-list li.level div.magic .leftbox div {
+  width: 20px;
+  text-align: center;
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .demonlord2.item .items-list li.level div.level .radiotrue label,
@@ -1037,6 +1074,21 @@
 .demonlord2.item .items-list li.level div.magic .radiotrue label,
 .demonlord2.item .items-list li.level div.magic .radiofalse label {
   padding-left: 5px;
+}
+
+.demonlord2.item .items-list li.level div.level .outline,
+.demonlord2.item .items-list li.level div.attributes .outline,
+.demonlord2.item .items-list li.level div.characteristics .outline,
+.demonlord2.item .items-list li.level div.talents .outline,
+.demonlord2.item .items-list li.level div.spells .outline,
+.demonlord2.item .items-list li.level div.equipment .outline,
+.demonlord2.item .items-list li.level div.language .outline,
+.demonlord2.item .items-list li.level div.magic .outline {
+  float: left;
+  width: 20px;
+  text-align: center;
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .demonlord2.item .items-list li.level div.level label {
