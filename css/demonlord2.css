@@ -1856,13 +1856,17 @@
   cursor: pointer;
 }
 
-.demonlord2 form aside .sidebar .injuredbox, .demonlord2 form aside .sidebar .healingratebox {
+.demonlord2 form aside .sidebar .injuredbox,
+.demonlord2 form aside .sidebar .healingratebox {
   position: absolute;
   top: 143px;
   left: 35px;
 }
 
-.demonlord2 form aside .sidebar .injuredbox .injured, .demonlord2 form aside .sidebar .injuredbox .healingrate, .demonlord2 form aside .sidebar .healingratebox .injured, .demonlord2 form aside .sidebar .healingratebox .healingrate {
+.demonlord2 form aside .sidebar .injuredbox .injured,
+.demonlord2 form aside .sidebar .injuredbox .healingrate,
+.demonlord2 form aside .sidebar .healingratebox .injured,
+.demonlord2 form aside .sidebar .healingratebox .healingrate {
   height: 26px;
   width: 26px;
   border-radius: 16px;
@@ -1875,11 +1879,17 @@
   padding-top: 4px;
 }
 
-.demonlord2 form aside .sidebar .injuredbox .injured input.checkbox, .demonlord2 form aside .sidebar .injuredbox .healingrate input.checkbox, .demonlord2 form aside .sidebar .healingratebox .injured input.checkbox, .demonlord2 form aside .sidebar .healingratebox .healingrate input.checkbox {
+.demonlord2 form aside .sidebar .injuredbox .injured input.checkbox,
+.demonlord2 form aside .sidebar .injuredbox .healingrate input.checkbox,
+.demonlord2 form aside .sidebar .healingratebox .injured input.checkbox,
+.demonlord2 form aside .sidebar .healingratebox .healingrate input.checkbox {
   display: none;
 }
 
-.demonlord2 form aside .sidebar .injuredbox .injured input.checkbox + label, .demonlord2 form aside .sidebar .injuredbox .healingrate input.checkbox + label, .demonlord2 form aside .sidebar .healingratebox .injured input.checkbox + label, .demonlord2 form aside .sidebar .healingratebox .healingrate input.checkbox + label {
+.demonlord2 form aside .sidebar .injuredbox .injured input.checkbox + label,
+.demonlord2 form aside .sidebar .injuredbox .healingrate input.checkbox + label,
+.demonlord2 form aside .sidebar .healingratebox .injured input.checkbox + label,
+.demonlord2 form aside .sidebar .healingratebox .healingrate input.checkbox + label {
   position: relative;
   top: -7px;
   left: -9px;
@@ -1890,11 +1900,17 @@
   text-align: center;
 }
 
-.demonlord2 form aside .sidebar .injuredbox .injured input.checkbox:checked + label, .demonlord2 form aside .sidebar .injuredbox .healingrate input.checkbox:checked + label, .demonlord2 form aside .sidebar .healingratebox .injured input.checkbox:checked + label, .demonlord2 form aside .sidebar .healingratebox .healingrate input.checkbox:checked + label {
+.demonlord2 form aside .sidebar .injuredbox .injured input.checkbox:checked + label,
+.demonlord2 form aside .sidebar .injuredbox .healingrate input.checkbox:checked + label,
+.demonlord2 form aside .sidebar .healingratebox .injured input.checkbox:checked + label,
+.demonlord2 form aside .sidebar .healingratebox .healingrate input.checkbox:checked + label {
   background-image: url("bloodstain.png");
 }
 
-.demonlord2 form aside .sidebar .injuredbox .injuredtext, .demonlord2 form aside .sidebar .injuredbox .healingratetext, .demonlord2 form aside .sidebar .healingratebox .injuredtext, .demonlord2 form aside .sidebar .healingratebox .healingratetext {
+.demonlord2 form aside .sidebar .injuredbox .injuredtext,
+.demonlord2 form aside .sidebar .injuredbox .healingratetext,
+.demonlord2 form aside .sidebar .healingratebox .injuredtext,
+.demonlord2 form aside .sidebar .healingratebox .healingratetext {
   position: absolute;
   text-align: center;
   left: 0px;
@@ -1919,7 +1935,9 @@
   width: 100%;
 }
 
-.demonlord2 form aside .sidebar .barboxes .barbox .healthedit, .demonlord2 form aside .sidebar .barboxes .barbox .insanityedit, .demonlord2 form aside .sidebar .barboxes .barbox .corruptionedit {
+.demonlord2 form aside .sidebar .barboxes .barbox .healthedit,
+.demonlord2 form aside .sidebar .barboxes .barbox .insanityedit,
+.demonlord2 form aside .sidebar .barboxes .barbox .corruptionedit {
   height: 19px;
   width: 40px;
   border-radius: 16px;
@@ -1932,11 +1950,15 @@
   padding-top: 2px;
 }
 
-.demonlord2 form aside .sidebar .barboxes .barbox .healthedit input, .demonlord2 form aside .sidebar .barboxes .barbox .insanityedit input, .demonlord2 form aside .sidebar .barboxes .barbox .corruptionedit input {
+.demonlord2 form aside .sidebar .barboxes .barbox .healthedit input,
+.demonlord2 form aside .sidebar .barboxes .barbox .insanityedit input,
+.demonlord2 form aside .sidebar .barboxes .barbox .corruptionedit input {
   margin-top: -4px;
 }
 
-.demonlord2 form aside .sidebar .barboxes .barbox .healthtext, .demonlord2 form aside .sidebar .barboxes .barbox .insanitytext, .demonlord2 form aside .sidebar .barboxes .barbox .corruptiontext {
+.demonlord2 form aside .sidebar .barboxes .barbox .healthtext,
+.demonlord2 form aside .sidebar .barboxes .barbox .insanitytext,
+.demonlord2 form aside .sidebar .barboxes .barbox .corruptiontext {
   width: 150px;
   text-align: left;
   padding-bottom: 4px;
@@ -1950,7 +1972,9 @@
   margin-bottom: -19px;
 }
 
-.demonlord2 form aside .sidebar .chars .defensebox, .demonlord2 form aside .sidebar .chars .speedbox, .demonlord2 form aside .sidebar .chars .powerbox {
+.demonlord2 form aside .sidebar .chars .defensebox,
+.demonlord2 form aside .sidebar .chars .speedbox,
+.demonlord2 form aside .sidebar .chars .powerbox {
   float: left;
   position: relative;
   height: 54px;
@@ -1959,7 +1983,15 @@
   padding-top: 15px;
 }
 
-.demonlord2 form aside .sidebar .chars .defensebox .defense, .demonlord2 form aside .sidebar .chars .defensebox .speed, .demonlord2 form aside .sidebar .chars .defensebox .power, .demonlord2 form aside .sidebar .chars .speedbox .defense, .demonlord2 form aside .sidebar .chars .speedbox .speed, .demonlord2 form aside .sidebar .chars .speedbox .power, .demonlord2 form aside .sidebar .chars .powerbox .defense, .demonlord2 form aside .sidebar .chars .powerbox .speed, .demonlord2 form aside .sidebar .chars .powerbox .power {
+.demonlord2 form aside .sidebar .chars .defensebox .defense,
+.demonlord2 form aside .sidebar .chars .defensebox .speed,
+.demonlord2 form aside .sidebar .chars .defensebox .power,
+.demonlord2 form aside .sidebar .chars .speedbox .defense,
+.demonlord2 form aside .sidebar .chars .speedbox .speed,
+.demonlord2 form aside .sidebar .chars .speedbox .power,
+.demonlord2 form aside .sidebar .chars .powerbox .defense,
+.demonlord2 form aside .sidebar .chars .powerbox .speed,
+.demonlord2 form aside .sidebar .chars .powerbox .power {
   height: 19px;
   width: 40px;
   border-radius: 16px;
@@ -1972,11 +2004,27 @@
   padding-top: 2px;
 }
 
-.demonlord2 form aside .sidebar .chars .defensebox .defense input, .demonlord2 form aside .sidebar .chars .defensebox .speed input, .demonlord2 form aside .sidebar .chars .defensebox .power input, .demonlord2 form aside .sidebar .chars .speedbox .defense input, .demonlord2 form aside .sidebar .chars .speedbox .speed input, .demonlord2 form aside .sidebar .chars .speedbox .power input, .demonlord2 form aside .sidebar .chars .powerbox .defense input, .demonlord2 form aside .sidebar .chars .powerbox .speed input, .demonlord2 form aside .sidebar .chars .powerbox .power input {
+.demonlord2 form aside .sidebar .chars .defensebox .defense input,
+.demonlord2 form aside .sidebar .chars .defensebox .speed input,
+.demonlord2 form aside .sidebar .chars .defensebox .power input,
+.demonlord2 form aside .sidebar .chars .speedbox .defense input,
+.demonlord2 form aside .sidebar .chars .speedbox .speed input,
+.demonlord2 form aside .sidebar .chars .speedbox .power input,
+.demonlord2 form aside .sidebar .chars .powerbox .defense input,
+.demonlord2 form aside .sidebar .chars .powerbox .speed input,
+.demonlord2 form aside .sidebar .chars .powerbox .power input {
   margin-top: -4px;
 }
 
-.demonlord2 form aside .sidebar .chars .defensebox .defensetext, .demonlord2 form aside .sidebar .chars .defensebox .speedtext, .demonlord2 form aside .sidebar .chars .defensebox .powertext, .demonlord2 form aside .sidebar .chars .speedbox .defensetext, .demonlord2 form aside .sidebar .chars .speedbox .speedtext, .demonlord2 form aside .sidebar .chars .speedbox .powertext, .demonlord2 form aside .sidebar .chars .powerbox .defensetext, .demonlord2 form aside .sidebar .chars .powerbox .speedtext, .demonlord2 form aside .sidebar .chars .powerbox .powertext {
+.demonlord2 form aside .sidebar .chars .defensebox .defensetext,
+.demonlord2 form aside .sidebar .chars .defensebox .speedtext,
+.demonlord2 form aside .sidebar .chars .defensebox .powertext,
+.demonlord2 form aside .sidebar .chars .speedbox .defensetext,
+.demonlord2 form aside .sidebar .chars .speedbox .speedtext,
+.demonlord2 form aside .sidebar .chars .speedbox .powertext,
+.demonlord2 form aside .sidebar .chars .powerbox .defensetext,
+.demonlord2 form aside .sidebar .chars .powerbox .speedtext,
+.demonlord2 form aside .sidebar .chars .powerbox .powertext {
   position: absolute;
   text-align: center;
   left: 0px;
@@ -1989,20 +2037,24 @@
 }
 
 .demonlord2 form aside .sidebar .healingratebox .healingrate {
-  padding-left: 10px;
   padding-top: 5px;
+  text-align: center;
 }
 
 .demonlord2 form aside .sidebar .healingratebox .healingratetext {
   left: -43px;
 }
 
-.demonlord2 form aside .sidebar .health, .demonlord2 form aside .sidebar .insanity, .demonlord2 form aside .sidebar .corruption {
+.demonlord2 form aside .sidebar .health,
+.demonlord2 form aside .sidebar .insanity,
+.demonlord2 form aside .sidebar .corruption {
   margin-top: 10px;
   padding: 5px;
 }
 
-.demonlord2 form aside .sidebar .health .healthbar, .demonlord2 form aside .sidebar .insanity .healthbar, .demonlord2 form aside .sidebar .corruption .healthbar {
+.demonlord2 form aside .sidebar .health .healthbar,
+.demonlord2 form aside .sidebar .insanity .healthbar,
+.demonlord2 form aside .sidebar .corruption .healthbar {
   width: 178px;
   background-color: #e0e0e0;
   padding: 1px;
@@ -2012,7 +2064,15 @@
   box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
 }
 
-.demonlord2 form aside .sidebar .health .healthbar-fill, .demonlord2 form aside .sidebar .health .insanity-fill, .demonlord2 form aside .sidebar .health .corruption-fill, .demonlord2 form aside .sidebar .insanity .healthbar-fill, .demonlord2 form aside .sidebar .insanity .insanity-fill, .demonlord2 form aside .sidebar .insanity .corruption-fill, .demonlord2 form aside .sidebar .corruption .healthbar-fill, .demonlord2 form aside .sidebar .corruption .insanity-fill, .demonlord2 form aside .sidebar .corruption .corruption-fill {
+.demonlord2 form aside .sidebar .health .healthbar-fill,
+.demonlord2 form aside .sidebar .health .insanity-fill,
+.demonlord2 form aside .sidebar .health .corruption-fill,
+.demonlord2 form aside .sidebar .insanity .healthbar-fill,
+.demonlord2 form aside .sidebar .insanity .insanity-fill,
+.demonlord2 form aside .sidebar .insanity .corruption-fill,
+.demonlord2 form aside .sidebar .corruption .healthbar-fill,
+.demonlord2 form aside .sidebar .corruption .insanity-fill,
+.demonlord2 form aside .sidebar .corruption .corruption-fill {
   display: block;
   height: 12px;
   background-color: var(--demonlord-red);
@@ -2022,14 +2082,30 @@
   transition: width 500ms ease-in-out;
 }
 
-.demonlord2 form aside .sidebar .health .healtmax, .demonlord2 form aside .sidebar .health .insanitymax, .demonlord2 form aside .sidebar .health .corruptionmax, .demonlord2 form aside .sidebar .insanity .healtmax, .demonlord2 form aside .sidebar .insanity .insanitymax, .demonlord2 form aside .sidebar .insanity .corruptionmax, .demonlord2 form aside .sidebar .corruption .healtmax, .demonlord2 form aside .sidebar .corruption .insanitymax, .demonlord2 form aside .sidebar .corruption .corruptionmax {
+.demonlord2 form aside .sidebar .health .healtmax,
+.demonlord2 form aside .sidebar .health .insanitymax,
+.demonlord2 form aside .sidebar .health .corruptionmax,
+.demonlord2 form aside .sidebar .insanity .healtmax,
+.demonlord2 form aside .sidebar .insanity .insanitymax,
+.demonlord2 form aside .sidebar .insanity .corruptionmax,
+.demonlord2 form aside .sidebar .corruption .healtmax,
+.demonlord2 form aside .sidebar .corruption .insanitymax,
+.demonlord2 form aside .sidebar .corruption .corruptionmax {
   float: right;
   margin-top: -13px;
   padding-right: 5px;
   color: #000;
 }
 
-.demonlord2 form aside .sidebar .health .damage, .demonlord2 form aside .sidebar .health .insanityvalue, .demonlord2 form aside .sidebar .health .corruptionvalue, .demonlord2 form aside .sidebar .insanity .damage, .demonlord2 form aside .sidebar .insanity .insanityvalue, .demonlord2 form aside .sidebar .insanity .corruptionvalue, .demonlord2 form aside .sidebar .corruption .damage, .demonlord2 form aside .sidebar .corruption .insanityvalue, .demonlord2 form aside .sidebar .corruption .corruptionvalue {
+.demonlord2 form aside .sidebar .health .damage,
+.demonlord2 form aside .sidebar .health .insanityvalue,
+.demonlord2 form aside .sidebar .health .corruptionvalue,
+.demonlord2 form aside .sidebar .insanity .damage,
+.demonlord2 form aside .sidebar .insanity .insanityvalue,
+.demonlord2 form aside .sidebar .insanity .corruptionvalue,
+.demonlord2 form aside .sidebar .corruption .damage,
+.demonlord2 form aside .sidebar .corruption .insanityvalue,
+.demonlord2 form aside .sidebar .corruption .corruptionvalue {
   float: left;
   margin-top: -13px;
   padding-left: 5px;

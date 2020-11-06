@@ -34,9 +34,62 @@ export class DemonlordActor extends Actor {
     const ancestries = this.getEmbeddedCollection('OwnedItem').filter(
       (e) => e.type === 'ancestry'
     )
+
     let savedAncestry = null
     for (const ancestry of ancestries) {
       savedAncestry = ancestry
+
+      if (!game.settings.get('demonlord', 'useHomebrewMode')) {
+        data.attributes.strength.value = parseInt(
+          ancestry.data.attributes?.strength.value
+        )
+        data.attributes.agility.value = parseInt(
+          ancestry.data.attributes?.agility.value
+        )
+        data.attributes.intellect.value = parseInt(
+          ancestry.data.attributes?.intellect.value
+        )
+        data.attributes.will.value = parseInt(
+          ancestry.data.attributes?.will.value
+        )
+
+        // Paths
+        if (data.level > 0) {
+          for (let i = 1; i <= data.level; i++) {
+            const paths = this.getEmbeddedCollection('OwnedItem').filter(
+              (e) => e.type === 'path'
+            )
+            paths.forEach((path) => {
+              path.data.levels
+                .filter(function ($level) {
+                  return $level.level == i
+                })
+                .forEach(function ($level) {
+                  // Attributes
+                  if ($level.attributeStrengthSelected) {
+                    data.attributes.strength.value += parseInt(
+                      $level.attributeStrength
+                    )
+                  }
+                  if ($level.attributeAgilitySelected) {
+                    data.attributes.agility.value += parseInt(
+                      $level.attributeAgility
+                    )
+                  }
+                  if ($level.attributeIntellectSelected) {
+                    data.attributes.intellect.value += parseInt(
+                      $level.attributeIntellect
+                    )
+                  }
+                  if ($level.attributeWillSelected) {
+                    data.attributes.will.value += parseInt($levelattributeWill)
+                  }
+                })
+            })
+          }
+        }
+      }
+
       data.attributes.perception.value =
         parseInt(data.attributes.intellect.value) +
         parseInt(ancestry.data.characteristics.perceptionmodifier)
@@ -130,6 +183,7 @@ export class DemonlordActor extends Actor {
               return $level.level == i
             })
             .forEach(function ($level) {
+              // Characteristics
               data.characteristics.health.max += $level.characteristicsHealth
               data.characteristics.health.healingrate = Math.floor(
                 parseInt(data.characteristics.health.max) / 4
@@ -1098,8 +1152,6 @@ export class DemonlordActor extends Actor {
     const challIntellect = defenseAttribute == 'Intellect'
     const challWill = defenseAttribute == 'Will'
     const challPerception = defenseAttribute == 'Perception'
-
-    console.log(defenseAttribute)
 
     // Roll for Attack
     if (attribute && attribute.modifier != 0) {

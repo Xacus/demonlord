@@ -250,7 +250,6 @@ export class DemonlordActorSheet extends ActorSheet {
     // Edit Creature
     html.find('.creature-edit').click((ev) => {
       const actor = this.actor
-      console.log(actor)
       const showEdit = actor.data.data.edit
       if (showEdit) {
         actor.data.data.edit = false
