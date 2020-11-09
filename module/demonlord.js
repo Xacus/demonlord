@@ -142,9 +142,9 @@ async function preloadHandlebarsTemplates () {
     'systems/demonlord/templates/actor/header.html',
     'systems/demonlord/templates/actor/limited-header.html',
     'systems/demonlord/templates/actor/creature-sheet.html',
-    'systems/demonlord/templates/dialog/actor-modifiers-dialog.html',
-    'systems/demonlord/templates/dialog/choose-turn-dialog.html',
-    'systems/demonlord/templates/dialog/endofround-dialog.html'
+    'systems/demonlord/templates/dialogs/actor-modifiers-dialog.html',
+    'systems/demonlord/templates/dialogs/choose-turn-dialog.html',
+    'systems/demonlord/templates/dialogs/endofround-dialog.html'
   ]
   return loadTemplates(templatePaths)
 }

@@ -2700,6 +2700,7 @@
 }
 
 .demonlord2 .card-headersmall {
+  position: relative;
   height: 30px;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
@@ -2782,7 +2783,8 @@
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  left: 19px;
+  left: 7px;
+  top: 24px;
 }
 
 .demonlord2 .init-header {
@@ -3238,10 +3240,6 @@
 
 .demonlord2 .challengeaction {
   background: #999;
-}
-
-.demonlord2 .gmonly {
-  margin-top: 15px;
 }
 
 .demonlord2 .dice {
