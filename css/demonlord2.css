@@ -745,7 +745,7 @@
 .demonlord2.item .items-list li.level div.language,
 .demonlord2.item .items-list li.level div.magic {
   float: left;
-  width: 100%;
+  width: 99%;
   padding: 4px 0;
 }
 
@@ -1122,7 +1122,7 @@
 .demonlord2.item .items-list li.level .item-controls {
   float: right;
   position: relative;
-  top: 5px;
+  top: -20px;
   margin-right: 3px;
 }
 
