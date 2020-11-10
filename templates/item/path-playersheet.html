@@ -278,12 +278,27 @@
                                 {{#if level.talents}}
                                 <div class="talents">
                                     <div class="option">
-                                        <label>{{localize 'DL.TabsTalents'}}{{#if level.talentsChooseOne}}: ({{localize 'DL.PathsLevelTalentChooseOne'}}){{/if}}</label>
+                                        <label>{{localize 'DL.TabsTalents'}}</label>
                                     </div>
                                     <div class="info">{{localize 'DL.PathsTransfer'}}</div>
                                     <div class="item-container select-area" data-group="talent" data-level="{{id}}">
                                         <ul class="tags">
                                             {{#each level.talents as |talent id|}}
+                                            <li class="tagclean select-item transfer-talent" data-item-id="{{id}}">{{talent.name}}</li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                </div>
+                                {{/if}}
+                                {{#if level.talentspick}}
+                                <div class="talents">
+                                    <div class="option">
+                                        <label>{{localize 'DL.TabsTalents'}}: ({{localize 'DL.PathsLevelTalentChooseOne'}})</label>
+                                    </div>
+                                    <div class="info">{{localize 'DL.PathsTransfer'}}</div>
+                                    <div class="item-container select-area" data-group="talent" data-level="{{id}}">
+                                        <ul class="tags">
+                                            {{#each level.talentspick as |talent id|}}
                                             <li class="tagclean select-item transfer-talent" data-item-id="{{id}}">{{talent.name}}</li>
                                             {{/each}}
                                         </ul>

@@ -287,19 +287,26 @@
                                 <div class="talents">
                                     <div class="option">
                                         <label>{{localize 'DL.TabsTalents'}}</label>
-                                        <select name="level.talentsSelect" data-dtype="String">
-                                            {{#select level.talentsSelect}}
-                                            <option value="all">{{localize "DL.PathsLevelTalentSelectAll"}}</option>
-                                            <option value="chooseone">{{localize "DL.PathsLevelTalentChooseOne"}}
-                                            </option>
-                                            {{/select}}
-                                        </select>
                                     </div>
                                     <div class=" item-container drop-area" data-group="talent" data-level="{{id}}">
                                         <ul class="tags">
                                             {{#each level.talents as |talent id|}}
                                             <li class="tag" data-item-id="{{id}}">{{talent.name}}<span
                                                     class="remove-tag delete-item" role="button"
+                                                    data-action="delete"></span>
+                                            </li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="talents">
+                                    <div class="option">
+                                        <label>{{localize 'DL.TabsTalents'}}: ({{localize 'DL.PathsLevelTalentChooseOne'}})</label>
+                                    </div>
+                                    <div class=" item-container drop-area" data-group="talentpick" data-level="{{id}}">
+                                        <ul class="tags">
+                                            {{#each level.talentspick as |talent id|}}
+                                            <li class="tag" data-item-id="{{id}}">{{talent.name}}<span class="remove-tag delete-item" role="button"
                                                     data-action="delete"></span>
                                             </li>
                                             {{/each}}

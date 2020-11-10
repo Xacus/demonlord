@@ -82,7 +82,7 @@ export class DemonlordActor extends Actor {
                     )
                   }
                   if ($level.attributeWillSelected) {
-                    data.attributes.will.value += parseInt($levelattributeWill)
+                    data.attributes.will.value += parseInt($level.attributeWill)
                   }
                 })
             })

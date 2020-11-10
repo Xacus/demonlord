@@ -38,11 +38,13 @@ export class DemonlordPathPlayerView extends ItemSheet {
 
   _prepareLevels (data) {
     const itemData = data.item
-    const levels = []
+    let levels = []
 
     for (const level of itemData.data.levels) {
       levels.push(level)
     }
+
+    levels = levels.sort((a, b) => (a.level > b.level ? 1 : -1))
 
     itemData.levels = levels
   }
