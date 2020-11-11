@@ -121,6 +121,17 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         ev
       )
     })
+
+    html.find('.edit-ancestrytalents').click((ev) => {
+      const that = this
+      this.item
+        .update({
+          'data.editTalents': !this.item.data.data.editTalents
+        })
+        .then((item) => {
+          that.render()
+        })
+    })
   }
 
   async _onDragOver (ev) {
@@ -138,24 +149,23 @@ export class DemonlordItemSheetDefault extends ItemSheet {
   }
 
   async _onDrop (ev) {
-    if (game.user.isGM) {
-      const $self = $(ev.originalEvent.target)
-      const $dropTarget = $self
+    const $self = $(ev.originalEvent.target)
+    const $dropTarget = $self
 
-      // Get data.
-      let data
-      try {
-        data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'))
-        if (data.type !== 'Item') return
-      } catch (err) {
-        return false
-      }
-
-      const group = $dropTarget.data('group')
-      this._addItem(data.id, group)
-
-      $dropTarget.removeClass('drop-hover')
+    // Get data.
+    let data
+    try {
+      data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'))
+      if (data.type !== 'Item') return
+    } catch (err) {
+      return false
     }
+
+    const group = $dropTarget.data('group')
+    this._addItem(data.id, group)
+
+    $dropTarget.removeClass('drop-hover')
+
     return false
   }
 

@@ -380,7 +380,8 @@
                 "talent": []
             },
             "languages": "",
-            "talents": []
+            "talents": [],
+            "editTalents": false
         },
         "profession": {
             "templates": [

@@ -185,12 +185,19 @@
                                             <textarea name="data.languages">{{data.languages}}</textarea>
                                         </div>
                                         {{else}}
-                                        {{#if data.languages}}
-                                        <div class="option">
-                                            <label>{{localize 'DL.PathsLevelLanguages'}}</label>
-                                        </div>
-                                        <div>{{data.languages}}</div>
-                                        {{/if}}
+                                            {{#if useDemonlordMode}}
+                                                {{#if data.languages}}
+                                                <div class="option">
+                                                    <label>{{localize 'DL.PathsLevelLanguages'}}</label>
+                                                </div>
+                                                <div>{{data.languages}}</div>
+                                                {{/if}}
+                                            {{else}}
+                                                <div class="option">
+                                                    <label>{{localize 'DL.PathsLevelLanguages'}}</label>
+                                                    <textarea name="data.languages">{{data.languages}}</textarea>
+                                                </div>
+                                            {{/if}}
                                         {{/if}}
                                     </div>
                                     {{#if isGM}}
@@ -209,21 +216,62 @@
                                         </div>
                                     </div>
                                     {{else}}
-                                    {{#if data.talents}}
-                                    <div class="talents">
-                                        <div class="option">
-                                            <label>{{localize 'DL.TabsTalents'}}</label>
-                                        </div>
-                                        <div class="info">{{localize 'DL.PathsTransfer'}}</div>
-                                        <div class="item-container select-area" data-group="talent" data-level="{{id}}">
-                                            <ul class="tags">
-                                                {{#each data.talents as |talent id|}}
-                                                <li class="tagclean select-item transfer-talent" data-item-id="{{id}}">{{talent.name}}</li>
-                                                {{/each}}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    {{/if}}
+                                        {{#if useDemonlordMode}}
+                                            {{#if data.talents}}
+                                            <div class="talents">
+                                                <div class="option">
+                                                    <label>{{localize 'DL.TabsTalents'}}</label>
+                                                </div>
+                                                <div class="info">{{localize 'DL.PathsTransfer'}}</div>
+                                                <div class="item-container select-area" data-group="talent" data-level="{{id}}">
+                                                    <ul class="tags">
+                                                        {{#each data.talents as |talent id|}}
+                                                        <li class="tagclean select-item transfer-talent" data-item-id="{{id}}">{{talent.name}}</li>
+                                                        {{/each}}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            {{/if}}
+                                        {{else}}
+                                            {{#if data.editTalents}}
+                                            <div class="talents">
+                                                <div class="option">
+                                                    <label>{{localize 'DL.TabsTalents'}}</label>
+                                                    <a class="editAncestry edit-ancestrytalents" title="{{localize 'DL.AncestryEdit'}}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                                <div class=" item-container drop-area" data-group="talent" data-level="{{id}}">
+                                                    <ul class="tags">
+                                                        {{#each data.talents as |talent id|}}
+                                                        <li class="tag" data-item-id="{{id}}">{{talent.name}}<span class="remove-tag delete-ancestryitem"
+                                                                role="button" data-action="delete"></span>
+                                                        </li>
+                                                        {{/each}}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            {{else}}
+                                                {{#if data.talents}}
+                                                <div class="talents">
+                                                    <div class="option">
+                                                        <label>{{localize 'DL.TabsTalents'}}</label>
+                                                        <a class="editAncestry edit-ancestrytalents" title="{{localize 'DL.AncestryEdit'}}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="info">{{localize 'DL.PathsTransfer'}}</div>
+                                                    <div class="item-container select-area" data-group="talent" data-level="{{id}}">
+                                                        <ul class="tags">
+                                                            {{#each data.talents as |talent id|}}
+                                                            <li class="tagclean select-item transfer-talent" data-item-id="{{id}}">{{talent.name}}</li>
+                                                            {{/each}}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                {{/if}}
+                                            {{/if}}
+                                        {{/if}}
                                     {{/if}}
                                 </li>
                                 <li class="level">
@@ -289,21 +337,63 @@
                                             </div>
                                         </div>
                                         {{else}}
-                                        {{#if data.level4.talent}}
-                                        <div class="talents">
-                                            <div class="option">
-                                                <label>{{localize 'DL.TabsTalents'}}</label>
-                                            </div>
-                                            <div class="info">{{localize 'DL.PathsTransfer'}}</div>
-                                            <div class="item-container select-area" data-group="talent4" data-level="{{id}}">
-                                                <ul class="tags">
-                                                    {{#each data.level4.talent as |talent id|}}
-                                                    <li class="tagclean select-item transfer-talent" data-item-id="{{id}}">{{talent.name}}</li>
-                                                    {{/each}}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        {{/if}}
+                                            {{#if useDemonlordMode}}
+                                                {{#if data.level4.talent}}
+                                                <div class="talents">
+                                                    <div class="option">
+                                                        <label>{{localize 'DL.TabsTalents'}}</label>
+                                                    </div>
+                                                    <div class="info">{{localize 'DL.PathsTransfer'}}</div>
+                                                    <div class="item-container select-area" data-group="talent4" data-level="{{id}}">
+                                                        <ul class="tags">
+                                                            {{#each data.level4.talent as |talent id|}}
+                                                            <li class="tagclean select-item transfer-talent" data-item-id="{{id}}">{{talent.name}}</li>
+                                                            {{/each}}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                {{/if}}
+                                            {{else}}
+                                                {{#if data.editTalents}}
+                                                <div class="talents">
+                                                    <div class="option">
+                                                        <label>{{localize 'DL.TabsTalents'}}</label>
+                                                        <a class="editAncestry edit-ancestrytalents" title="{{localize 'DL.AncestryEdit'}}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="info">{{localize 'DL.PathsTransfer'}}</div>
+                                                    <div class=" item-container drop-area" data-group="talent4" data-level="{{id}}">
+                                                        <ul class="tags">
+                                                            {{#each data.level4.talent as |talent id|}}
+                                                            <li class="tag" data-item-id="{{id}}">{{talent.name}}<span class="remove-tag delete-ancestryitem" role="button"
+                                                                    data-action="delete"></span>
+                                                            </li>
+                                                            {{/each}}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                {{else}}
+                                                    {{#if data.level4.talent}}
+                                                    <div class="talents">
+                                                        <div class="option">
+                                                            <label>{{localize 'DL.TabsTalents'}}</label>
+                                                            <a class="editAncestry edit-ancestrytalents" title="{{localize 'DL.AncestryEdit'}}">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="info">{{localize 'DL.PathsTransfer'}}</div>
+                                                        <div class="item-container select-area" data-group="talent4" data-level="{{id}}">
+                                                            <ul class="tags">
+                                                                {{#each data.level4.talent as |talent id|}}
+                                                                <li class="tagclean select-item transfer-talent" data-item-id="{{id}}">{{talent.name}}</li>
+                                                                {{/each}}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    {{/if}} 
+                                                {{/if}}
+                                            {{/if}}
                                         {{/if}}
                                     </div>
                                 </li>
