@@ -347,6 +347,8 @@
     "DL.SettingAttackReverseDamageHint": "Schaden von Lebenspunkten abziehen, als als Schaden aufzuaddieren.",
     "DL.SettingUsingHomebrewMode": "Use Homebrew mode",
     "DL.SettingUsingHomebrewModeHint": "Attributes are not set or calculated on an Ancestry. You manually enter and updates them on the charactersheet youself.",
+    "DL.SettingLockAncestry": "Lock fields on Ancestry",
+    "DL.SettingLockAncestrHint": "Remove players access to change modifers, Speed, Insanity, Corruption and Health.",
     "DL.DialogInitiative": "Initiative",
     "DL.DialogInitiativeTurn": "Hat sich entschieden einen ",
     "DL.DialogInitiativeTurnEnd": " Zug zu machen.",

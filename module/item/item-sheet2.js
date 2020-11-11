@@ -35,6 +35,8 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     const data = super.getData()
     data.isGM = game.user.isGM
     data.useDemonlordMode = !game.settings.get('demonlord', 'useHomebrewMode')
+    data.lockAncestry =
+      game.settings.get('demonlord', 'lockAncestry') && !game.user.isGM
 
     if (this.item.data.type == 'path') {
       this._prepareLevels(data)

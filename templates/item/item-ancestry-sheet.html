@@ -55,51 +55,7 @@
                                     </div>
                                     <div class="attributes">
                                         {{#if useDemonlordMode}}
-                                            {{#if isGM}}
-                                            <div class="leftbox">
-                                                <label class="resource-label">{{localize "DL.AncestryPerceptionModifier"}}</label>
-                                                <input type="text" name="data.characteristics.perceptionmodifier"
-                                                    value="{{data.characteristics.perceptionmodifier}}" />
-                                            </div>
-                                            <div class="leftbox">
-                                                <label class="resource-label">{{localize "DL.AncestryDefenseModifier"}}</label>
-                                                <input type="text" name="data.characteristics.defensemodifier"
-                                                    value="{{data.characteristics.defensemodifier}}" />
-                                            </div>
-                                            <div class="leftbox">
-                                                <label class="resource-label">{{localize "DL.AncestryHealthModifier"}}</label>
-                                                <input type="text" name="data.characteristics.healthmodifier"
-                                                    value="{{data.characteristics.healthmodifier}}" />
-                                            </div>
-                                            <div class="leftbox">
-                                                <label class="resource-label">{{localize "DL.AncestryHealingRateModifier"}}</label>
-                                                <input type="text" name="data.characteristics.healingratemodifier"
-                                                value="{{data.characteristics.healingratemodifier}}" />
-                                            </div>
-                                            <div class="leftbox">
-                                                <label class="resource-label">{{localize "DL.CharPower"}}</label>
-                                                <input type="text" name="data.characteristics.power"
-                                                value="{{data.characteristics.power}}" />
-                                            </div>
-                                            <div class="leftbox">
-                                                <label class="resource-label">{{localize "DL.CharSize"}}</label>
-                                                <input type="text" name="data.characteristics.size"
-                                                value="{{data.characteristics.size}}" />
-                                            </div>
-                                            <div class="leftbox">
-                                                <label class="resource-label">{{localize "DL.CharSpeed"}}</label>
-                                                <input type="text" name="data.characteristics.speed"
-                                                value="{{data.characteristics.speed}}" />
-                                            </div>
-                                            <div class="leftbox">
-                                                <label class="resource-label">{{localize "DL.CharInsanity"}}</label>
-                                                <input type="text" name="data.characteristics.insanity" value="{{data.characteristics.insanity}}" />
-                                            </div>
-                                            <div class="leftbox">
-                                                <label class="resource-label">{{localize "DL.CharCorruption"}}</label>
-                                                <input type="text" name="data.characteristics.corruption" value="{{data.characteristics.corruption}}" />
-                                            </div>
-                                            {{else}}
+                                            {{#if lockAncestry}}
                                             <div class="leftbox">
                                                 <label class="resource-label">{{localize "DL.AncestryPerceptionModifier"}}</label>
                                                 <div>{{data.characteristics.perceptionmodifier}}</div>
@@ -118,7 +74,7 @@
                                             </div>
                                             <div class="leftbox">
                                                 <label class="resource-label">{{localize "DL.CharPower"}}</label>
-                                                <div>{{data.characteristics.power}}</div>
+                                                <input type="text" name="data.characteristics.power" value="{{data.characteristics.power}}" />
                                             </div>
                                             <div class="leftbox">
                                                 <label class="resource-label">{{localize "DL.CharSize"}}</label>
@@ -136,6 +92,50 @@
                                                 <label class="resource-label">{{localize "DL.CharCorruption"}}</label>
                                                 <div>{{data.characteristics.corruption}}</div>
                                             </div>
+                                            {{else}}
+                                                <div class="leftbox">
+                                                    <label class="resource-label">{{localize "DL.AncestryPerceptionModifier"}}</label>
+                                                    <input type="text" name="data.characteristics.perceptionmodifier"
+                                                        value="{{data.characteristics.perceptionmodifier}}" />
+                                                </div>
+                                                <div class="leftbox">
+                                                    <label class="resource-label">{{localize "DL.AncestryDefenseModifier"}}</label>
+                                                    <input type="text" name="data.characteristics.defensemodifier"
+                                                        value="{{data.characteristics.defensemodifier}}" />
+                                                </div>
+                                                <div class="leftbox">
+                                                    <label class="resource-label">{{localize "DL.AncestryHealthModifier"}}</label>
+                                                    <input type="text" name="data.characteristics.healthmodifier"
+                                                        value="{{data.characteristics.healthmodifier}}" />
+                                                </div>
+                                                <div class="leftbox">
+                                                    <label class="resource-label">{{localize "DL.AncestryHealingRateModifier"}}</label>
+                                                    <input type="text" name="data.characteristics.healingratemodifier"
+                                                    value="{{data.characteristics.healingratemodifier}}" />
+                                                </div>
+                                                <div class="leftbox">
+                                                    <label class="resource-label">{{localize "DL.CharPower"}}</label>
+                                                    <input type="text" name="data.characteristics.power"
+                                                    value="{{data.characteristics.power}}" />
+                                                </div>
+                                                <div class="leftbox">
+                                                    <label class="resource-label">{{localize "DL.CharSize"}}</label>
+                                                    <input type="text" name="data.characteristics.size"
+                                                    value="{{data.characteristics.size}}" />
+                                                </div>
+                                                <div class="leftbox">
+                                                    <label class="resource-label">{{localize "DL.CharSpeed"}}</label>
+                                                    <input type="text" name="data.characteristics.speed"
+                                                    value="{{data.characteristics.speed}}" />
+                                                </div>
+                                                <div class="leftbox">
+                                                    <label class="resource-label">{{localize "DL.CharInsanity"}}</label>
+                                                    <input type="text" name="data.characteristics.insanity" value="{{data.characteristics.insanity}}" />
+                                                </div>
+                                                <div class="leftbox">
+                                                    <label class="resource-label">{{localize "DL.CharCorruption"}}</label>
+                                                    <input type="text" name="data.characteristics.corruption" value="{{data.characteristics.corruption}}" />
+                                                </div>
                                             {{/if}}
                                         {{else}}
                                             <div class="leftbox">
@@ -232,15 +232,15 @@
                                     </div>
                                     <div class="attributes">
                                         {{#if useDemonlordMode}}
-                                            {{#if isGM}}
+                                            {{#if lockAncestry}}
                                             <div class="leftbox">
                                                 <label class="resource-label">{{localize "DL.CharHealth"}}</label>
-                                                <input type="text" name="data.level4.healthbonus" value="{{data.level4.healthbonus}}" />
+                                                <div>{{data.level4.healthbonus}}</div>
                                             </div>
                                             {{else}}
                                             <div class="leftbox">
                                                 <label class="resource-label">{{localize "DL.CharHealth"}}</label>
-                                                <div>{{data.level4.healthbonus}}</div>
+                                                <input type="text" name="data.level4.healthbonus" value="{{data.level4.healthbonus}}" />
                                             </div>
                                             {{/if}}
                                         {{else}}

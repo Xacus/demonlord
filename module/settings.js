@@ -7,6 +7,14 @@ export const registerSettings = function () {
     type: Boolean,
     config: true
   })
+  game.settings.register('demonlord', 'lockAncestry', {
+    name: game.i18n.localize('DL.SettingLockAncestry'),
+    hint: game.i18n.localize('DL.SettingLockAncestrHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true
+  })
   game.settings.register('demonlord', 'initMessage', {
     name: game.i18n.localize('DL.SettingInitMessage'),
     hint: game.i18n.localize('DL.SettingInitMessageHint'),
