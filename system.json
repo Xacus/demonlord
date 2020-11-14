@@ -5,7 +5,7 @@
     "version": "1.4.9",
     "author": "Xacus",
     "minimumCoreVersion": "0.6.6",
-    "compatibleCoreVersion": "0.7.6",
+    "compatibleCoreVersion": "0.7.7",
     "esmodules": [
         "module/demonlord.js"
     ],
