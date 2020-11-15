@@ -185,9 +185,6 @@ export class DemonlordActor extends Actor {
             .forEach(function ($level) {
               // Characteristics
               data.characteristics.health.max += $level.characteristicsHealth
-              data.characteristics.health.healingrate = Math.floor(
-                parseInt(data.characteristics.health.max) / 4
-              )
               data.characteristics.power =
                 parseInt(data.characteristics.power) +
                 parseInt($level.characteristicsPower)
