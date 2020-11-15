@@ -14,6 +14,23 @@ export class PathLevel {
       obj.attributeSelectIsChooseThree || false
     this.attributeSelectIsFixed = obj.attributeSelectIsFixed || false
     this.attributeSelectIsTwoSet = obj.attributeSelectIsTwoSet || false
+
+    this.attributeSelectTwoSet1 = obj.attributeSelectTwoSet1 || ''
+    this.attributeSelectTwoSet2 = obj.attributeSelectTwoSet2 || ''
+    this.attributeSelectTwoSet3 = obj.attributeSelectTwoSet3 || ''
+    this.attributeSelectTwoSet4 = obj.attributeSelectTwoSet4 || ''
+    this.attributeSelectTwoSet1Label = obj.attributeSelectTwoSet1Label || ''
+    this.attributeSelectTwoSet2Label = obj.attributeSelectTwoSet2Label || ''
+    this.attributeSelectTwoSet3Label = obj.attributeSelectTwoSet3Label || ''
+    this.attributeSelectTwoSet4Label = obj.attributeSelectTwoSet4Label || ''
+
+    this.attributeSelectTwoSetValue1 = obj.attributeSelectTwoSetValue1 || 0
+    this.attributeSelectTwoSetValue2 = obj.attributeSelectTwoSetValue2 || 0
+    this.attributeSelectTwoSetSelectedValue1 =
+      obj.attributeSelectTwoSetSelectedValue1 || true
+    this.attributeSelectTwoSetSelectedValue2 =
+      obj.attributeSelectTwoSetSelectedValue2 || true
+
     this.attributeStrength = obj.attributeStrength || 0
     this.attributeAgility = obj.attributeAgility || 0
     this.attributeIntellect = obj.attributeIntellect || 0

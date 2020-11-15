@@ -320,6 +320,25 @@ nav.sheet-tabs {
         input {
           margin: 0 10px;
         }
+
+        input[type="radio"] {
+          margin-top: -2px;
+
+          &:hover {
+            margin-top: -4px;
+          }
+        }
+
+        .twosetvalue {
+          margin-left: -5px;
+          margin-top: 0px;
+        }
+
+        .twosetradio {
+          label {
+            margin-left: -7px;
+          }
+        }
       }
 
       .drop-area {

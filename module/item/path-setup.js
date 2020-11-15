@@ -282,6 +282,83 @@ export class DemonlordPathSetup extends ItemSheet {
               item.data.data.levels[index].attributeWill = 0
             }
           }
+        } else if (k == 'level.attributeSelectTwoSet1') {
+          const index = 0
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.levels[index].attributeSelectTwoSet1 = id
+
+              index++
+            }
+          } else {
+            item.data.data.levels[index].attributeSelectTwoSet1 = v
+          }
+        } else if (k == 'level.attributeSelectTwoSet2') {
+          const index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.levels[index].attributeSelectTwoSet2 = id
+
+              index++
+            }
+          } else {
+            item.data.data.levels[index].attributeSelectTwoSet2 = v
+          }
+        } else if (k == 'level.attributeSelectTwoSet3') {
+          const index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.levels[index].attributeSelectTwoSet3 = id
+
+              index++
+            }
+          } else {
+            item.data.data.levels[index].attributeSelectTwoSet3 = v
+          }
+        } else if (k == 'level.attributeSelectTwoSet4') {
+          const index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.levels[index].attributeSelectTwoSet4 = id
+
+              index++
+            }
+          } else {
+            item.data.data.levels[index].attributeSelectTwoSet4 = v
+          }
+        } else if (k == 'level.attributeSelectTwoSetValue1') {
+          const index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.levels[
+                index
+              ].attributeSelectTwoSetValue1 = parseInt(id)
+              index++
+            }
+          } else {
+            item.data.data.levels[index].attributeSelectTwoSetValue1 = parseInt(
+              v
+            )
+          }
+        } else if (k == 'level.attributeSelectTwoSetValue2') {
+          const index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.levels[
+                index
+              ].attributeSelectTwoSetValue2 = parseInt(id)
+              index++
+            }
+          } else {
+            item.data.data.levels[index].attributeSelectTwoSetValue2 = parseInt(
+              v
+            )
+          }
         } else if (k == 'level.attributeStrength') {
           let index = 0
 
@@ -296,6 +373,7 @@ export class DemonlordPathSetup extends ItemSheet {
         } else if (k == 'level.attributeAgility') {
           let index = 0
 
+          console.log(v)
           if (Array.isArray(v)) {
             for (const id of v) {
               item.data.data.levels[index].attributeAgility = parseInt(id)

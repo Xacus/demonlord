@@ -41,6 +41,19 @@ export class DemonlordPathPlayerView extends ItemSheet {
     let levels = []
 
     for (const level of itemData.data.levels) {
+      level.attributeSelectTwoSet1Label = game.i18n.localize(
+        CONFIG.DL.attributes[level.attributeSelectTwoSet1]
+      )
+      level.attributeSelectTwoSet2Label = game.i18n.localize(
+        CONFIG.DL.attributes[level.attributeSelectTwoSet2]
+      )
+      level.attributeSelectTwoSet3Label = game.i18n.localize(
+        CONFIG.DL.attributes[level.attributeSelectTwoSet3]
+      )
+      level.attributeSelectTwoSet4Label = game.i18n.localize(
+        CONFIG.DL.attributes[level.attributeSelectTwoSet4]
+      )
+
       levels.push(level)
     }
 
@@ -116,7 +129,9 @@ export class DemonlordPathPlayerView extends ItemSheet {
               maxChoices = item.data.data.levels[id].attributeSelectIsFixed
                 ? 10
                 : maxChoices
-              // maxChoices = item.data.data.levels[id].attributeSelectIsTwoSet ? 2 : maxChoices;
+              maxChoices = item.data.data.levels[id].attributeSelectIsTwoSet
+                ? 2
+                : maxChoices
 
               maxAttChoicesPrLevel[id] = maxChoices
               attChoicesMadePrLevel[id] = 0
@@ -131,7 +146,9 @@ export class DemonlordPathPlayerView extends ItemSheet {
             maxChoices = item.data.data.levels[v].attributeSelectIsFixed
               ? 10
               : maxChoices
-            // maxChoices = item.data.data.levels[v].attributeSelectIsTwoSet ? 2 : maxChoices;
+            maxChoices = item.data.data.levels[v].attributeSelectIsTwoSet
+              ? 2
+              : maxChoices
 
             maxAttChoicesPrLevel[v] = maxChoices
             attChoicesMadePrLevel[v] = 0
@@ -346,6 +363,90 @@ export class DemonlordPathPlayerView extends ItemSheet {
               }
             }
           }
+        } else if (k == 'level.attributeSelectTwoSetSelectedValue1') {
+          let index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.levels[index].attributeSelectTwoSetSelectedValue1 =
+                id == 'true'
+
+              this.setTwoSetAttributeValue(
+                item.data.data.levels[index]
+                  .attributeSelectTwoSetSelectedValue1,
+                index,
+                item.data.data.levels[index].attributeSelectTwoSet1,
+                item.data.data.levels[index].attributeSelectTwoSetValue1
+              )
+              this.setTwoSetAttributeValue(
+                !item.data.data.levels[index]
+                  .attributeSelectTwoSetSelectedValue1,
+                index,
+                item.data.data.levels[index].attributeSelectTwoSet2,
+                item.data.data.levels[index].attributeSelectTwoSetValue1
+              )
+
+              index++
+            }
+          } else {
+            item.data.data.levels[index].attributeSelectTwoSetSelectedValue1 =
+              v == 'true'
+
+            this.setTwoSetAttributeValue(
+              item.data.data.levels[index].attributeSelectTwoSetSelectedValue1,
+              index,
+              item.data.data.levels[index].attributeSelectTwoSet1,
+              item.data.data.levels[index].attributeSelectTwoSetValue1
+            )
+            this.setTwoSetAttributeValue(
+              !item.data.data.levels[index].attributeSelectTwoSetSelectedValue1,
+              index,
+              item.data.data.levels[index].attributeSelectTwoSet2,
+              item.data.data.levels[index].attributeSelectTwoSetValue1
+            )
+          }
+        } else if (k == 'level.attributeSelectTwoSetSelectedValue2') {
+          let index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.levels[index].attributeSelectTwoSetSelectedValue2 =
+                id == 'true'
+
+              this.setTwoSetAttributeValue(
+                item.data.data.levels[index]
+                  .attributeSelectTwoSetSelectedValue2,
+                index,
+                item.data.data.levels[index].attributeSelectTwoSet3,
+                item.data.data.levels[index].attributeSelectTwoSetValue2
+              )
+              this.setTwoSetAttributeValue(
+                !item.data.data.levels[index]
+                  .attributeSelectTwoSetSelectedValue2,
+                index,
+                item.data.data.levels[index].attributeSelectTwoSet4,
+                item.data.data.levels[index].attributeSelectTwoSetValue2
+              )
+
+              index++
+            }
+          } else {
+            item.data.data.levels[index].attributeSelectTwoSetSelectedValue2 =
+              v == 'true'
+
+            this.setTwoSetAttributeValue(
+              item.data.data.levels[index].attributeSelectTwoSetSelectedValue2,
+              index,
+              item.data.data.levels[index].attributeSelectTwoSet3,
+              item.data.data.levels[index].attributeSelectTwoSetValue2
+            )
+            this.setTwoSetAttributeValue(
+              !item.data.data.levels[index].attributeSelectTwoSetSelectedValue2,
+              index,
+              item.data.data.levels[index].attributeSelectTwoSet4,
+              item.data.data.levels[index].attributeSelectTwoSetValue2
+            )
+          }
         }
       }
 
@@ -401,5 +502,42 @@ export class DemonlordPathPlayerView extends ItemSheet {
       close: () => {}
     })
     d.render(true)
+  }
+
+  setTwoSetAttributeValue (isSelected, index, attribute, attributeValue) {
+    const item = this.object
+
+    switch (attribute) {
+      case 'Strength':
+        isSelected
+          ? (item.data.data.levels[index].attributeStrength = attributeValue)
+          : (item.data.data.levels[index].attributeStrength = 0)
+
+        item.data.data.levels[index].attributeStrengthSelected = isSelected
+        break
+      case 'Agility':
+        isSelected
+          ? (item.data.data.levels[index].attributeAgility = attributeValue)
+          : (item.data.data.levels[index].attributeAgility = 0)
+
+        item.data.data.levels[index].attributeAgilitySelected = isSelected
+        break
+      case 'Intellect':
+        isSelected
+          ? (item.data.data.levels[index].attributeIntellect = attributeValue)
+          : (item.data.data.levels[index].attributeIntellect = 0)
+
+        item.data.data.levels[index].attributeIntellectSelected = isSelected
+        break
+      case 'Will':
+        isSelected
+          ? (item.data.data.levels[index].attributeWill = attributeValue)
+          : (item.data.data.levels[index].attributeWill = 0)
+
+        item.data.data.levels[index].attributeWillSelected = isSelected
+        break
+      default:
+        break
+    }
   }
 }

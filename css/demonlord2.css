@@ -939,6 +939,51 @@
   margin: 0 10px;
 }
 
+.demonlord2.item .items-list li.level div.level .twoset input[type="radio"],
+.demonlord2.item .items-list li.level div.attributes .twoset input[type="radio"],
+.demonlord2.item .items-list li.level div.characteristics .twoset input[type="radio"],
+.demonlord2.item .items-list li.level div.talents .twoset input[type="radio"],
+.demonlord2.item .items-list li.level div.spells .twoset input[type="radio"],
+.demonlord2.item .items-list li.level div.equipment .twoset input[type="radio"],
+.demonlord2.item .items-list li.level div.language .twoset input[type="radio"],
+.demonlord2.item .items-list li.level div.magic .twoset input[type="radio"] {
+  margin-top: -2px;
+}
+
+.demonlord2.item .items-list li.level div.level .twoset input[type="radio"]:hover,
+.demonlord2.item .items-list li.level div.attributes .twoset input[type="radio"]:hover,
+.demonlord2.item .items-list li.level div.characteristics .twoset input[type="radio"]:hover,
+.demonlord2.item .items-list li.level div.talents .twoset input[type="radio"]:hover,
+.demonlord2.item .items-list li.level div.spells .twoset input[type="radio"]:hover,
+.demonlord2.item .items-list li.level div.equipment .twoset input[type="radio"]:hover,
+.demonlord2.item .items-list li.level div.language .twoset input[type="radio"]:hover,
+.demonlord2.item .items-list li.level div.magic .twoset input[type="radio"]:hover {
+  margin-top: -4px;
+}
+
+.demonlord2.item .items-list li.level div.level .twoset .twosetvalue,
+.demonlord2.item .items-list li.level div.attributes .twoset .twosetvalue,
+.demonlord2.item .items-list li.level div.characteristics .twoset .twosetvalue,
+.demonlord2.item .items-list li.level div.talents .twoset .twosetvalue,
+.demonlord2.item .items-list li.level div.spells .twoset .twosetvalue,
+.demonlord2.item .items-list li.level div.equipment .twoset .twosetvalue,
+.demonlord2.item .items-list li.level div.language .twoset .twosetvalue,
+.demonlord2.item .items-list li.level div.magic .twoset .twosetvalue {
+  margin-left: -5px;
+  margin-top: 0px;
+}
+
+.demonlord2.item .items-list li.level div.level .twoset .twosetradio label,
+.demonlord2.item .items-list li.level div.attributes .twoset .twosetradio label,
+.demonlord2.item .items-list li.level div.characteristics .twoset .twosetradio label,
+.demonlord2.item .items-list li.level div.talents .twoset .twosetradio label,
+.demonlord2.item .items-list li.level div.spells .twoset .twosetradio label,
+.demonlord2.item .items-list li.level div.equipment .twoset .twosetradio label,
+.demonlord2.item .items-list li.level div.language .twoset .twosetradio label,
+.demonlord2.item .items-list li.level div.magic .twoset .twosetradio label {
+  margin-left: -7px;
+}
+
 .demonlord2.item .items-list li.level div.level .drop-area,
 .demonlord2.item .items-list li.level div.attributes .drop-area,
 .demonlord2.item .items-list li.level div.characteristics .drop-area,

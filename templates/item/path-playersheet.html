@@ -128,79 +128,67 @@
                                     {{/if}}
                                     {{#if level.attributeSelectIsTwoSet}}
                                     <div class="option">
-                                        <label>{{localize 'DL.PathsLevelAttributesSubtitle'}}{{#if level.attributeSelectIsChooseTwo}}: ({{localize 'DL.PathsLevelAttributesChooseTwo'}}){{/if}}{{#if level.PathsLevelAttributesChooseThree}}: ({{localize 'DL.PathsLevelAttributesChooseThree'}}){{/if}}</label>
+                                        <label>{{localize 'DL.PathsLevelAttributesSubtitle'}}</label>
                                     </div>
                                     <div class="attributesselect twoset">
                                         <div class="grid grid-2col">
                                             <div>
-                                                <select name="level.attributeSelect" data-dtype="String">
-                                                    {{#select level.attributeSelect}}
-                                                    <option value="strength">
-                                                        {{localize "DL.AttributeStrength"}}</option>
-                                                    <option value="agility">
-                                                        {{localize "DL.AttributeAgility"}}
-                                                    </option>
-                                                    <option value="intellect">
-                                                        {{localize "DL.AttributeIntellect"}}
-                                                    </option>
-                                                    <option value="will">
-                                                        {{localize "DL.AttributeWill"}}
-                                                    </option>
-                                                    {{/select}}
-                                                </select>
+                                                {{#if level.attributeSelectTwoSetSelectedValue1}}
+                                                <div class="twosetradio">
+                                                    <input type="radio" name="level.attributeSelectTwoSetSelectedValue1" id="level.attributeSelectTwoSetSelectedValue1.true" value="true" {{checked}} />
+                                                    <label for="level.attributeSelectTwoSetSelectedValue1.true">{{level.attributeSelectTwoSet1Label}}</label>
+                                                    <span class="twosetvalue">+{{level.attributeSelectTwoSetValue1}}</span>
+                                                </div>
                                                 <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
-                                                <select name="level.attributeSelect" data-dtype="String">
-                                                    {{#select level.attributeSelect}}
-                                                    <option value="strength">
-                                                        {{localize "DL.AttributeStrength"}}</option>
-                                                    <option value="agility">
-                                                        {{localize "DL.AttributeAgility"}}
-                                                    </option>
-                                                    <option value="intellect">
-                                                        {{localize "DL.AttributeIntellect"}}
-                                                    </option>
-                                                    <option value="will">
-                                                        {{localize "DL.AttributeWill"}}
-                                                    </option>
-                                                    {{/select}}
-                                                </select>
-                                                <input type="text" name="level.setvalue1" value="{{level.setvalue1}}"
-                                                    data-dtype="Number" />
+                                                <div class="twosetradio">
+                                                    <input type="radio" name="level.attributeSelectTwoSetSelectedValue1" id="level.attributeSelectTwoSetSelectedValue1.false" value="false" />
+                                                    <label for="level.attributeSelectTwoSetSelectedValue1.false">{{level.attributeSelectTwoSet2Label}}</label>
+                                                    <span class="twosetvalue">+{{level.attributeSelectTwoSetValue1}}</span>
+                                                </div>
+                                                {{else}}
+                                                <div class="twosetradio">
+                                                    <input type="radio" name="level.attributeSelectTwoSetSelectedValue1" id="level.attributeSelectTwoSetSelectedValue1.true" value="true" />
+                                                    <label for="level.attributeSelectTwoSetSelectedValue1.true">{{level.attributeSelectTwoSet1Label}}</label>
+                                                    <span class="twosetvalue">+{{level.attributeSelectTwoSetValue1}}</span>
+                                                </div>
+                                                <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
+                                                <div class="twosetradio">
+                                                    <input type="radio" name="level.attributeSelectTwoSetSelectedValue1" id="level.attributeSelectTwoSetSelectedValue1.false" value="false" {{checked}} />
+                                                    <label for="level.attributeSelectTwoSetSelectedValue1.false">{{level.attributeSelectTwoSet2Label}}</label>
+                                                    <span class="twosetvalue">+{{level.attributeSelectTwoSetValue1}}</span>
+                                                </div>
+                                                {{/if}}
                                             </div>
                                             <div>
-                                                <select name="level.attributeSelect" data-dtype="String">
-                                                    {{#select level.attributeSelect}}
-                                                    <option value="strength">
-                                                        {{localize "DL.AttributeStrength"}}</option>
-                                                    <option value="agility">
-                                                        {{localize "DL.AttributeAgility"}}
-                                                    </option>
-                                                    <option value="intellect">
-                                                        {{localize "DL.AttributeIntellect"}}
-                                                    </option>
-                                                    <option value="will">
-                                                        {{localize "DL.AttributeWill"}}
-                                                    </option>
-                                                    {{/select}}
-                                                </select>
+                                                {{#if level.attributeSelectTwoSetSelectedValue2}}
+                                                <div class="twosetradio">
+                                                    <input type="radio" name="level.attributeSelectTwoSetSelectedValue2"
+                                                        id="level.attributeSelectTwoSetSelectedValue2.true" value="true" {{checked}} />
+                                                    <label for="level.attributeSelectTwoSetSelectedValue2.true">{{level.attributeSelectTwoSet3Label}}</label>
+                                                    <span class="twosetvalue">+{{level.attributeSelectTwoSetValue2}}</span>
+                                                </div>
                                                 <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
-                                                <select name="level.attributeSelect" data-dtype="String">
-                                                    {{#select level.attributeSelect}}
-                                                    <option value="strength">
-                                                        {{localize "DL.AttributeStrength"}}</option>
-                                                    <option value="agility">
-                                                        {{localize "DL.AttributeAgility"}}
-                                                    </option>
-                                                    <option value="intellect">
-                                                        {{localize "DL.AttributeIntellect"}}
-                                                    </option>
-                                                    <option value="will">
-                                                        {{localize "DL.AttributeWill"}}
-                                                    </option>
-                                                    {{/select}}
-                                                </select>
-                                                <input type="text" name="level.setvalue2" value="{{level.setvalue2}}"
-                                                    data-dtype="Number" />
+                                                <div class="twosetradio">
+                                                    <input type="radio" name="level.attributeSelectTwoSetSelectedValue2"
+                                                        id="level.attributeSelectTwoSetSelectedValue2.false" value="false" />
+                                                    <label for="level.attributeSelectTwoSetSelectedValue2.false">{{level.attributeSelectTwoSet4Label}}</label>
+                                                    <span class="twosetvalue">+{{level.attributeSelectTwoSetValue2}}</span>
+                                                </div>
+                                                {{else}}
+                                                <div class="twosetradio">
+                                                    <input type="radio" name="level.attributeSelectTwoSetSelectedValue2"
+                                                        id="level.attributeSelectTwoSetSelectedValue2.true" value="true" />
+                                                    <label for="level.attributeSelectTwoSetSelectedValue2.true">{{level.attributeSelectTwoSet3Label}}</label>
+                                                    <span class="twosetvalue">+{{level.attributeSelectTwoSetValue2}}</span>
+                                                </div>
+                                                <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
+                                                <div class="twosetradio">
+                                                    <input type="radio" name="level.attributeSelectTwoSetSelectedValue2"
+                                                        id="level.attributeSelectTwoSetSelectedValue2.false" value="false" {{checked}} />
+                                                    <label for="level.attributeSelectTwoSetSelectedValue2.false">{{level.attributeSelectTwoSet4Label}}</label>
+                                                    <span class="twosetvalue">+{{level.attributeSelectTwoSetValue2}}</span>
+                                                </div>
+                                                {{/if}}
                                             </div>
                                         </div>
                                     </div>

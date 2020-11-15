@@ -65,10 +65,8 @@
                                             </option>
                                             <option value="fixed">{{localize "DL.PathsLevelAttributesFixed"}}
                                             </option>
-                                            <!--
                                             <option value="twosets">{{localize "DL.PathsLevelAttributesTwoSets"}}
                                             </option>
-                                            -->
                                             {{/select}}
                                         </select>
                                     </div>
@@ -154,8 +152,8 @@
                                     <div class="attributesselect twoset">
                                         <div class="grid grid-2col">
                                             <div>
-                                                <select name="level.attributeSelect" data-dtype="String">
-                                                    {{#select level.attributeSelect}}
+                                                <select name="level.attributeSelectTwoSet1" data-dtype="String">
+                                                    {{#select level.attributeSelectTwoSet1}}
                                                     <option value="strength">
                                                         {{localize "DL.AttributeStrength"}}</option>
                                                     <option value="agility">
@@ -170,8 +168,8 @@
                                                     {{/select}}
                                                 </select>
                                                 <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
-                                                <select name="level.attributeSelect" data-dtype="String">
-                                                    {{#select level.attributeSelect}}
+                                                <select name="level.attributeSelectTwoSet2" data-dtype="String">
+                                                    {{#select level.attributeSelectTwoSet2}}
                                                     <option value="strength">
                                                         {{localize "DL.AttributeStrength"}}</option>
                                                     <option value="agility">
@@ -185,12 +183,12 @@
                                                     </option>
                                                     {{/select}}
                                                 </select>
-                                                <input type="text" name="level.setvalue1" value="{{level.setvalue1}}"
+                                                <input type="text" name="level.attributeSelectTwoSetValue1" value="{{level.attributeSelectTwoSetValue1}}"
                                                     data-dtype="Number" />
                                             </div>
                                             <div>
-                                                <select name="level.attributeSelect" data-dtype="String">
-                                                    {{#select level.attributeSelect}}
+                                                <select name="level.attributeSelectTwoSet3" data-dtype="String">
+                                                    {{#select level.attributeSelectTwoSet3}}
                                                     <option value="strength">
                                                         {{localize "DL.AttributeStrength"}}</option>
                                                     <option value="agility">
@@ -205,8 +203,8 @@
                                                     {{/select}}
                                                 </select>
                                                 <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
-                                                <select name="level.attributeSelect" data-dtype="String">
-                                                    {{#select level.attributeSelect}}
+                                                <select name="level.attributeSelectTwoSet4" data-dtype="String">
+                                                    {{#select level.attributeSelectTwoSet4}}
                                                     <option value="strength">
                                                         {{localize "DL.AttributeStrength"}}</option>
                                                     <option value="agility">
@@ -220,7 +218,7 @@
                                                     </option>
                                                     {{/select}}
                                                 </select>
-                                                <input type="text" name="level.setvalue2" value="{{level.setvalue2}}"
+                                                <input type="text" name="level.attributeSelectTwoSetValue2" value="{{level.attributeSelectTwoSetValue2}}"
                                                     data-dtype="Number" />
                                             </div>
                                         </div>
