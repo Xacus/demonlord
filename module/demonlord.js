@@ -532,7 +532,7 @@ async function createDemonlordMacro (data, slot) {
         `\ngame.demonlord.rollWeaponMacro("${item.name}", "0", "");`
       break
     case 'talent':
-      command = `game.demonlord.rollTalentMacro("${item.name}");`
+      command = `// Active = [true/false/], blank = toggle true/false.\ngame.demonlord.rollTalentMacro("${item.name}", "true");`
       break
     case 'spell':
       command = `game.demonlord.rollSpellMacro("${item.name}");`
@@ -584,7 +584,7 @@ function rollWeaponMacro (itemName, boonsbanes, damagebonus) {
  * @param {string} itemName
  * @return {Promise}
  */
-function rollTalentMacro (itemName) {
+function rollTalentMacro (itemName, state) {
   const speaker = ChatMessage.getSpeaker()
   let actor
   if (speaker.token) actor = game.actors.tokens[speaker.token]
@@ -596,7 +596,26 @@ function rollTalentMacro (itemName) {
     )
   }
 
-  return actor.rollTalent(item.id)
+  switch (state) {
+    case 'true':
+      actor.rollTalent(item._id)
+      break
+
+    case 'false':
+      item.data.data.uses.value = 0
+      item.data.data.addtonextroll = false
+      actor.updateEmbeddedEntity('OwnedItem', item.data)
+      break
+
+    case '':
+      item.data.data.addtonextroll = !item.data.data.addtonextroll
+      if (item.data.data.addtonextroll) actor.rollTalent(item._id)
+      break
+
+    default:
+      actor.rollTalent(item.id)
+      break
+  }
 }
 
 /**
