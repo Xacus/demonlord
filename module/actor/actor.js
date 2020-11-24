@@ -486,12 +486,9 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
-
-    /*
-                if (this.data.type == "creature") {
-                    chatData.whisper = game.user._id;
-                }
-        */
+    if (this.data.type == 'creature') {
+      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
+    }
     const template = 'systems/demonlord/templates/chat/challenge.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
