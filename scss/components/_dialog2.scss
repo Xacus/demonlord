@@ -77,6 +77,21 @@
   }
 }
 
+.challengedialog {
+  padding: 2px 0 5px 0;
+
+  input {
+    margin-top: -5px;
+    width: 40px;
+    margin-left: 5px;
+    text-align: center;
+    height: 20px;
+    border-radius: 0px;
+    background: #edf2f7;
+    font-size: 12px;
+  }
+}
+
 .affliction {
   height: 18px;
 

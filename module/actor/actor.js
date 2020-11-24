@@ -385,12 +385,17 @@ export class DemonlordActor extends Actor {
     } else {
       const d = new Dialog({
         title:
-          game.i18n.localize('DL.DialogChallengeRoll') +
-          game.i18n.localize(attLabel),
+          this.name +
+          ': ' +
+          game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2),
         content:
-          '<b>' +
+          "<div class='challengedialog'><b>" +
+          game.i18n.localize('DL.DialogChallengeRoll') +
+          '</b>' +
+          game.i18n.localize(attLabel) +
+          "<br/></div><div class='challengedialog'><b>" +
           game.i18n.localize('DL.DialogAddBonesAndBanes') +
-          "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+          "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/></div>",
         buttons: {
           roll: {
             icon: '<i class="fas fa-check"></i>',
