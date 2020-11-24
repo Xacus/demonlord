@@ -516,12 +516,20 @@ async function createDemonlordMacro (data, slot) {
     )
   }
   const item = data.data
+  // DL.WeaponName, WeaponBoonsBanes, WeaponDamageBonus
 
   // Create the macro command
   let command
   switch (item.type) {
     case 'weapon':
-      command = `game.demonlord.rollWeaponMacro("${item.name}");`
+      command =
+        '// ' +
+        game.i18n.localize('DL.WeaponName') +
+        ', ' +
+        game.i18n.localize('DL.WeaponBoonsBanes') +
+        ', ' +
+        game.i18n.localize('DL.WeaponDamageBonus') +
+        `\ngame.demonlord.rollWeaponMacro("${item.name}", "0", "");`
       break
     case 'talent':
       command = `game.demonlord.rollTalentMacro("${item.name}");`
@@ -556,7 +564,7 @@ async function createDemonlordMacro (data, slot) {
  * @param {string} itemName
  * @return {Promise}
  */
-function rollWeaponMacro (itemName) {
+function rollWeaponMacro (itemName, boonsbanes, damagebonus) {
   const speaker = ChatMessage.getSpeaker()
   let actor
   if (speaker.token) actor = game.actors.tokens[speaker.token]
@@ -568,7 +576,7 @@ function rollWeaponMacro (itemName) {
     )
   }
 
-  return actor.rollWeaponAttack(item.id)
+  return actor.rollWeaponAttackMacro(item.id, boonsbanes, damagebonus)
 }
 
 /**

@@ -86,6 +86,12 @@
         </div>
         {{/if}}
         {{/if}}
+        {{#if data.armorEffects.value}}
+        <div class="description">
+            <div class="header">{{localize "DL.AttackArmorRequirments"}}</div>
+            <div class="body">{{{data.armorEffects.value}}}</div>
+        </div>
+        {{/if}}
         {{#if data.description.value}}
         {{#if data.isCreature.value}}
         <div class="gmonly">

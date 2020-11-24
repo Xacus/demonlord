@@ -501,6 +501,68 @@ export class DemonlordActor extends Actor {
     })
   }
 
+  rollWeaponAttackMacro (itemId, boonsbanes, damagebonus) {
+    if (this.data.data.afflictions.dazed) {
+      ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
+    } else if (this.data.data.afflictions.defenseless) {
+      ui.notifications.error(
+        game.i18n.localize('DL.DialogWarningDefenselessFailer')
+      )
+    } else if (this.data.data.afflictions.surprised) {
+      ui.notifications.error(
+        game.i18n.localize('DL.DialogWarningSurprisedFailer')
+      )
+    } else if (this.data.data.afflictions.stunned) {
+      ui.notifications.error(
+        game.i18n.localize('DL.DialogWarningStunnedFailer')
+      )
+    } else if (this.data.data.afflictions.unconscious) {
+      ui.notifications.error(
+        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
+      )
+    } else {
+      const item = this.getOwnedItem(itemId)
+      const attackAttribute = item.data.data.action?.attack
+      const characterbuffs = this.generateCharacterBuffs('ATTACK')
+      characterbuffs.attackbonus += boonsbanes ? parseInt(boonsbanes) : 0
+      characterbuffs.attackdamagebonus += damagebonus ? '+' + damagebonus : ''
+
+      if (attackAttribute) {
+        const d = new Dialog({
+          title:
+            game.i18n.localize('DL.DialogAttackRoll') +
+            game.i18n.localize(item.name),
+          content:
+            '<b>' +
+            game.i18n.localize('DL.DialogAddBonesAndBanes') +
+            "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+          buttons: {
+            roll: {
+              icon: '<i class="fas fa-check"></i>',
+              label: game.i18n.localize('DL.DialogRoll'),
+              callback: (html) =>
+                this.rollAttack(
+                  item,
+                  html.find('[id="boonsbanes"]')[0].value,
+                  characterbuffs
+                )
+            },
+            cancel: {
+              icon: '<i class="fas fa-times"></i>',
+              label: game.i18n.localize('DL.DialogCancel'),
+              callback: () => {}
+            }
+          },
+          default: 'roll',
+          close: () => {}
+        })
+        d.render(true)
+      } else {
+        this.rollAttack(item, 0, characterbuffs)
+      }
+    }
+  }
+
   rollWeaponAttack (itemId, options = { event: null }) {
     if (this.data.data.afflictions.dazed) {
       ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
@@ -713,6 +775,9 @@ export class DemonlordActor extends Actor {
         },
         effects: {
           value: buffs.attackeffects
+        },
+        armorEffects: {
+          value: this.buildArmorEffects(!buffs.armorRequirementMeet)
         },
         isCreature: {
           value: this.data.type == 'creature'
@@ -1593,6 +1658,7 @@ export class DemonlordActor extends Actor {
             parseInt(this.data.data?.attributes?.strength?.value)
         ) {
           armorAttackbonus = -1
+          characterbuffs.armorRequirementMeet = false
         }
       }
     }
@@ -1777,6 +1843,19 @@ export class DemonlordActor extends Actor {
       }
     }
     if (effects == talent.name + ':<br>') effects = ''
+
+    return effects
+  }
+
+  buildArmorEffects (armorRequirementsNotMeet) {
+    let effects
+
+    if (armorRequirementsNotMeet) {
+      effects =
+        '&nbsp;&nbsp;&nbsp;• ' +
+        game.i18n.localize('DL.TalentAttackBoonsBanes') +
+        ': -1 <br>'
+    }
 
     return effects
   }
