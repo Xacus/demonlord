@@ -6,6 +6,7 @@
         ],
         "templates": {
             "base": {
+                "isNPC": false,
                 "description": "",
                 "fastturn": false,
                 "activebonuses": false,
