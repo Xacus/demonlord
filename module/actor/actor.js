@@ -36,6 +36,7 @@ export class DemonlordActor extends Actor {
     )
 
     let savedAncestry = null
+    let pathHealthBonus = 0
     for (const ancestry of ancestries) {
       savedAncestry = ancestry
 
@@ -84,41 +85,34 @@ export class DemonlordActor extends Actor {
                   if ($level.attributeWillSelected) {
                     data.attributes.will.value += parseInt($level.attributeWill)
                   }
+
+                  pathHealthBonus += $level.characteristicsHealth
                 })
             })
           }
         }
       }
 
-      data.attributes.perception.value =
-        parseInt(data.attributes.intellect.value) +
-        parseInt(ancestry.data.characteristics.perceptionmodifier)
-
-      if (parseInt(ancestry.data.characteristics?.defensemodifier) > 5) {
-        data.characteristics.defense = parseInt(
-          ancestry.data.characteristics?.defensemodifier
-        )
-      } else {
-        data.characteristics.defense =
-          parseInt(data.attributes.agility.value) +
-          parseInt(ancestry.data.characteristics.defensemodifier)
-      }
+      // Calculate Health and Healing Rate
       if (game.settings.get('demonlord', 'reverseDamage')) {
         if (data.characteristics.health.value == 0) {
           data.characteristics.health.value =
             parseInt(data.attributes.strength.value) +
             parseInt(ancestry.data.characteristics?.healthmodifier) +
-            characterbuffs.healthbonus
+            characterbuffs.healthbonus +
+            pathHealthBonus
         }
         data.characteristics.health.max =
           parseInt(data.attributes.strength.value) +
           parseInt(ancestry.data.characteristics?.healthmodifier) +
-          characterbuffs.healthbonus
+          characterbuffs.healthbonus +
+          pathHealthBonus
       } else {
         data.characteristics.health.max =
           parseInt(data.attributes.strength.value) +
           parseInt(ancestry.data.characteristics?.healthmodifier) +
-          characterbuffs.healthbonus
+          characterbuffs.healthbonus +
+          pathHealthBonus
       }
       if (data.level >= 4) {
         if (game.settings.get('demonlord', 'reverseDamage')) {
@@ -136,6 +130,24 @@ export class DemonlordActor extends Actor {
           )
         }
       }
+      data.characteristics.health.healingrate =
+        Math.floor(parseInt(data.characteristics.health.max) / 4) +
+        parseInt(ancestry.data.characteristics?.healingratemodifier)
+      // ******************
+
+      data.attributes.perception.value =
+        parseInt(data.attributes.intellect.value) +
+        parseInt(ancestry.data.characteristics.perceptionmodifier)
+
+      if (parseInt(ancestry.data.characteristics?.defensemodifier) > 5) {
+        data.characteristics.defense = parseInt(
+          ancestry.data.characteristics?.defensemodifier
+        )
+      } else {
+        data.characteristics.defense =
+          parseInt(data.attributes.agility.value) +
+          parseInt(ancestry.data.characteristics.defensemodifier)
+      }
 
       data.characteristics.power = parseInt(
         ancestry.data.characteristics?.power
@@ -143,9 +155,6 @@ export class DemonlordActor extends Actor {
       data.characteristics.speed = parseInt(
         ancestry.data.characteristics?.speed
       )
-      data.characteristics.health.healingrate =
-        Math.floor(parseInt(data.characteristics.health.max) / 4) +
-        parseInt(ancestry.data.characteristics?.healingratemodifier)
       data.characteristics.size = ancestry.data.characteristics.size
     }
 
@@ -184,7 +193,6 @@ export class DemonlordActor extends Actor {
             })
             .forEach(function ($level) {
               // Characteristics
-              data.characteristics.health.max += $level.characteristicsHealth
               data.characteristics.power =
                 parseInt(data.characteristics.power) +
                 parseInt($level.characteristicsPower)
