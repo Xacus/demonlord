@@ -204,7 +204,7 @@
                     {{#each actor.features as |feature id|}}
                     <li class="feature dropitem" data-item-id="{{feature._id}}">
                         <label class="resource-label" for="feature.name">{{feature.name}}</label>
-                        <div class="featurediscription">{{feature.data.description}}</div>
+                        <div class="featurediscription">{{{feature.data.description}}}</div>
                     </li>
                     {{/each}}
                     {{/if}}
