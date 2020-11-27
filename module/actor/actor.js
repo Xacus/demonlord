@@ -313,7 +313,7 @@ export class DemonlordActor extends Actor {
   async _onDeleteEmbeddedEntity (embeddedName, child, options, userId) {
     const characterbuffs = this.generateCharacterBuffs()
 
-    if (child.data.addtonextroll) {
+    if (child.data?.addtonextroll) {
       await this.update({
         'data.characteristics.defensebonus':
           parseInt(characterbuffs.defensebonus) -
