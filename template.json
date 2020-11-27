@@ -6,7 +6,6 @@
         ],
         "templates": {
             "base": {
-                "isNPC": false,
                 "description": "",
                 "fastturn": false,
                 "activebonuses": false,
@@ -98,6 +97,7 @@
             "templates": [
                 "base"
             ],
+            "isPC": true,
             "level": 0,
             "ancestry": "",
             "religion": {
@@ -170,7 +170,8 @@
             "mod",
             "ancestry",
             "profession",
-            "path"
+            "path",
+            "creaturerole"
         ],
         "templates": {
             "base": {
@@ -395,6 +396,33 @@
             ],
             "type": "novice",
             "levels": []
+        },
+        "creaturerole": {
+            "templates": [
+                "base"
+            ],
+            "type": "",
+            "difficultystep": 0,
+            "size": 0,
+            "bonuses": {
+                "strength": 0,
+                "agility": 0,
+                "intellect": 0,
+                "will": 0,
+                "perception": 0,
+                "defense": 0,
+                "health": 0,
+                "power": 0,
+                "speed": 0,
+                "boonsbanes": 0,
+                "damagebonus": ""
+            },
+            "talents": [],
+            "magic": {
+                "power": 0,
+                "description": "",
+                "spells": []
+            }
         }
     }
 }

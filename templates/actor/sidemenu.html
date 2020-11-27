@@ -1,8 +1,22 @@
 <aside>
     <div class="sidebar" data-group="dashboard" data-tab="sidebar">
+        <div class="isPC">
+            <label class="switch">
+                <input type="checkbox" id="data.isPC" name="data.isPC" {{checked data.isPC}}>
+                <div class="slider round">
+                    <span class="on">PC</span><span class="off">NPC</span>
+                </div>
+            </label>
+        </div>
+        {{#if data.isPC}}
         <div class="frame">
             <img class="profile-img" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img" />
         </div>
+        {{else}}
+        <div class="framenpc">
+            <img class="profile-img" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img" />
+        </div>
+        {{/if}}
         <div class="injuredbox">
             <div class="injured">
                 <input type="checkbox" name="data.characteristics.health.injured"
