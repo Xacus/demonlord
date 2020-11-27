@@ -91,6 +91,15 @@ export class DemonlordPathPlayerView extends ItemSheet {
       )
     })
 
+    html.find('.transfer-talentpick').click((ev) => {
+      this.showTransferDialog(
+        game.i18n.localize('DL.PathsDialogTransferTalent'),
+        game.i18n.localize('DL.PathsDialogTransferTalentText'),
+        ev,
+        'TALENTPICKS'
+      )
+    })
+
     html.find('.transfer-spell').click((ev) => {
       this.showTransferDialog(
         game.i18n.localize('DL.PathsDialogTransferSpell'),
@@ -469,6 +478,12 @@ export class DemonlordPathPlayerView extends ItemSheet {
     if (type === 'TALENT') {
       const selectedLevelItem = this.object.data.data.levels[levelIndex]
         .talents[itemIndex]
+      const item = game.items.get(selectedLevelItem.id)
+
+      await this.actor.createOwnedItem(item)
+    } else if (type === 'TALENTPICKS') {
+      const selectedLevelItem = this.object.data.data.levels[levelIndex]
+        .talentspick[itemIndex]
       const item = game.items.get(selectedLevelItem.id)
 
       await this.actor.createOwnedItem(item)
