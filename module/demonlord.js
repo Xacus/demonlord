@@ -609,6 +609,8 @@ function rollTalentMacro (itemName, state) {
 
     case '':
       item.data.data.addtonextroll = !item.data.data.addtonextroll
+      actor.updateEmbeddedEntity('OwnedItem', item.data)
+
       if (item.data.data.addtonextroll) actor.rollTalent(item._id)
       break
 
