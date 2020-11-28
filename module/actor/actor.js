@@ -37,6 +37,8 @@ export class DemonlordActor extends Actor {
 
     let savedAncestry = null
     let pathHealthBonus = 0
+    let ancestryFixedArmor = false
+
     for (const ancestry of ancestries) {
       savedAncestry = ancestry
 
@@ -139,10 +141,11 @@ export class DemonlordActor extends Actor {
         parseInt(data.attributes.intellect.value) +
         parseInt(ancestry.data.characteristics.perceptionmodifier)
 
-      if (parseInt(ancestry.data.characteristics?.defensemodifier) > 5) {
+      if (parseInt(ancestry.data.characteristics?.defensemodifier) > 10) {
         data.characteristics.defense = parseInt(
           ancestry.data.characteristics?.defensemodifier
         )
+        ancestryFixedArmor = true
       } else {
         data.characteristics.defense =
           parseInt(data.attributes.agility.value) +
@@ -179,6 +182,7 @@ export class DemonlordActor extends Actor {
     }
 
     // Paths
+    let pathDefenseBonus = 0
     if (data.level > 0) {
       const actor = this
 
@@ -196,7 +200,7 @@ export class DemonlordActor extends Actor {
               data.characteristics.power =
                 parseInt(data.characteristics.power) +
                 parseInt($level.characteristicsPower)
-              data.characteristics.defense += $level.characteristicsDefense
+              pathDefenseBonus = $level.characteristicsDefense
               data.characteristics.speed += $level.characteristicsSpeed
               data.attributes.perception.value +=
                 $level.characteristicsPerception
@@ -231,6 +235,7 @@ export class DemonlordActor extends Actor {
         if (
           !armor.data.isShield &&
           armor.data.strengthmin != '' &&
+          !ancestryFixedArmor &&
           parseInt(armor.data.strengthmin) >
             parseInt(data.attributes.strength.value)
         ) {
@@ -245,19 +250,20 @@ export class DemonlordActor extends Actor {
       }
     }
 
-    if (armorpoint >= 11) {
+    if (ancestryFixedArmor) {
+      data.characteristics.defense += pathDefenseBonus + defenseBonus
+    } else if (armorpoint >= 11) {
       data.characteristics.defense =
-        parseInt(armorpoint) + parseInt(defenseBonus)
+        parseInt(armorpoint) + parseInt(defenseBonus) + pathDefenseBonus
     } else {
       data.characteristics.defense =
         parseInt(data.characteristics.defense) +
         parseInt(defenseBonus) +
-        parseInt(agilitypoint)
+        parseInt(agilitypoint) +
+        pathDefenseBonus
     }
 
-    data.characteristics.defense =
-      parseInt(data.characteristics.defense) +
-      parseInt(characterbuffs.defensebonus)
+    if (data.characteristics.defense > 25) data.characteristics.defense = 25
 
     characterbuffs.speedbonus += speedPenalty
 
