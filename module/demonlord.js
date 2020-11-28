@@ -216,11 +216,23 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
     const actorData = actor.data
     const asleep = CONFIG.DL.statusIcons.asleep
     const blinded = CONFIG.DL.statusIcons.blinded
+    const charmed = CONFIG.DL.statusIcons.charmed
+    const compelled = CONFIG.DL.statusIcons.compelled
     const dazed = CONFIG.DL.statusIcons.dazed
     const deafened = CONFIG.DL.statusIcons.deafened
+    const defenseless = CONFIG.DL.statusIcons.defenseless
+    const diseased = CONFIG.DL.statusIcons.diseased
+    const fatigued = CONFIG.DL.statusIcons.fatigued
     const frightened = CONFIG.DL.statusIcons.frightened
+    const horrified = CONFIG.DL.statusIcons.horrified
+    const grabbed = CONFIG.DL.statusIcons.grabbed
+    const immobilized = CONFIG.DL.statusIcons.immobilized
+    const impaired = CONFIG.DL.statusIcons.impaired
     const poisoned = CONFIG.DL.statusIcons.poisoned
     const prone = CONFIG.DL.statusIcons.prone
+    const slowed = CONFIG.DL.statusIcons.slowed
+    const stunned = CONFIG.DL.statusIcons.stunned
+    const surprised = CONFIG.DL.statusIcons.surprised
     const unconscious = CONFIG.DL.statusIcons.unconscious
     const injured = CONFIG.DL.statusIcons.blood
 
@@ -260,6 +272,28 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
           await t.toggleEffect(blinded)
         }
         if (
+          actorData.data.afflictions.charmed &&
+          !t.data.effects.includes(charmed)
+        ) {
+          await t.toggleEffect(charmed)
+        } else if (
+          !actorData.data.afflictions.charmed &&
+          t.data.effects.includes(charmed)
+        ) {
+          await t.toggleEffect(charmed)
+        }
+        if (
+          actorData.data.afflictions.compelled &&
+          !t.data.effects.includes(compelled)
+        ) {
+          await t.toggleEffect(compelled)
+        } else if (
+          !actorData.data.afflictions.compelled &&
+          t.data.effects.includes(compelled)
+        ) {
+          await t.toggleEffect(compelled)
+        }
+        if (
           actorData.data.afflictions.dazed &&
           !t.data.effects.includes(dazed)
         ) {
@@ -282,6 +316,39 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
           await t.toggleEffect(deafened)
         }
         if (
+          actorData.data.afflictions.defenseless &&
+          !t.data.effects.includes(defenseless)
+        ) {
+          await t.toggleEffect(defenseless)
+        } else if (
+          !actorData.data.afflictions.defenseless &&
+          t.data.effects.includes(defenseless)
+        ) {
+          await t.toggleEffect(defenseless)
+        }
+        if (
+          actorData.data.afflictions.diseased &&
+          !t.data.effects.includes(diseased)
+        ) {
+          await t.toggleEffect(diseased)
+        } else if (
+          !actorData.data.afflictions.diseased &&
+          t.data.effects.includes(diseased)
+        ) {
+          await t.toggleEffect(diseased)
+        }
+        if (
+          actorData.data.afflictions.fatigued &&
+          !t.data.effects.includes(fatigued)
+        ) {
+          await t.toggleEffect(fatigued)
+        } else if (
+          !actorData.data.afflictions.fatigued &&
+          t.data.effects.includes(fatigued)
+        ) {
+          await t.toggleEffect(fatigued)
+        }
+        if (
           actorData.data.afflictions.frightened &&
           !t.data.effects.includes(frightened)
         ) {
@@ -291,6 +358,50 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
           t.data.effects.includes(frightened)
         ) {
           await t.toggleEffect(frightened)
+        }
+        if (
+          actorData.data.afflictions.horrified &&
+          !t.data.effects.includes(horrified)
+        ) {
+          await t.toggleEffect(horrified)
+        } else if (
+          !actorData.data.afflictions.horrified &&
+          t.data.effects.includes(horrified)
+        ) {
+          await t.toggleEffect(horrified)
+        }
+        if (
+          actorData.data.afflictions.grabbed &&
+          !t.data.effects.includes(grabbed)
+        ) {
+          await t.toggleEffect(grabbed)
+        } else if (
+          !actorData.data.afflictions.grabbed &&
+          t.data.effects.includes(grabbed)
+        ) {
+          await t.toggleEffect(grabbed)
+        }
+        if (
+          actorData.data.afflictions.immobilized &&
+          !t.data.effects.includes(immobilized)
+        ) {
+          await t.toggleEffect(immobilized)
+        } else if (
+          !actorData.data.afflictions.immobilized &&
+          t.data.effects.includes(immobilized)
+        ) {
+          await t.toggleEffect(immobilized)
+        }
+        if (
+          actorData.data.afflictions.impaired &&
+          !t.data.effects.includes(impaired)
+        ) {
+          await t.toggleEffect(impaired)
+        } else if (
+          !actorData.data.afflictions.impaired &&
+          t.data.effects.includes(impaired)
+        ) {
+          await t.toggleEffect(impaired)
         }
         if (
           actorData.data.afflictions.poisoned &&
@@ -313,6 +424,39 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
           t.data.effects.includes(prone)
         ) {
           await t.toggleEffect(prone)
+        }
+        if (
+          actorData.data.afflictions.slowed &&
+          !t.data.effects.includes(slowed)
+        ) {
+          await t.toggleEffect(slowed)
+        } else if (
+          !actorData.data.afflictions.slowed &&
+          t.data.effects.includes(slowed)
+        ) {
+          await t.toggleEffect(slowed)
+        }
+        if (
+          actorData.data.afflictions.stunned &&
+          !t.data.effects.includes(stunned)
+        ) {
+          await t.toggleEffect(stunned)
+        } else if (
+          !actorData.data.afflictions.stunned &&
+          t.data.effects.includes(stunned)
+        ) {
+          await t.toggleEffect(stunned)
+        }
+        if (
+          actorData.data.afflictions.surprised &&
+          !t.data.effects.includes(surprised)
+        ) {
+          await t.toggleEffect(surprised)
+        } else if (
+          !actorData.data.afflictions.surprised &&
+          t.data.effects.includes(surprised)
+        ) {
+          await t.toggleEffect(surprised)
         }
         if (
           actorData.data.afflictions.unconscious &&
@@ -339,11 +483,23 @@ Hooks.on('preCreateToken', async (scene, createData, options, userId) => {
 
   const asleep = CONFIG.DL.statusIcons.asleep
   const blinded = CONFIG.DL.statusIcons.blinded
+  const charmed = CONFIG.DL.statusIcons.charmed
+  const compelled = CONFIG.DL.statusIcons.compelled
   const dazed = CONFIG.DL.statusIcons.dazed
   const deafened = CONFIG.DL.statusIcons.deafened
+  const defenseless = CONFIG.DL.statusIcons.defenseless
+  const diseased = CONFIG.DL.statusIcons.diseased
+  const fatigued = CONFIG.DL.statusIcons.fatigued
   const frightened = CONFIG.DL.statusIcons.frightened
+  const horrified = CONFIG.DL.statusIcons.horrified
+  const grabbed = CONFIG.DL.statusIcons.grabbed
+  const immobilized = CONFIG.DL.statusIcons.immobilized
+  const impaired = CONFIG.DL.statusIcons.impaired
   const poisoned = CONFIG.DL.statusIcons.poisoned
   const prone = CONFIG.DL.statusIcons.prone
+  const slowed = CONFIG.DL.statusIcons.slowed
+  const stunned = CONFIG.DL.statusIcons.stunned
+  const surprised = CONFIG.DL.statusIcons.surprised
   const unconscious = CONFIG.DL.statusIcons.unconscious
   const injured = CONFIG.DL.statusIcons.blood
 
@@ -352,11 +508,23 @@ Hooks.on('preCreateToken', async (scene, createData, options, userId) => {
   if (actorData.data.characteristics.health.injured) createEffects.push(injured)
   if (actorData.data.afflictions.asleep) createEffects.push(asleep)
   if (actorData.data.afflictions.blinded) createEffects.push(blinded)
+  if (actorData.data.afflictions.charmed) createEffects.push(charmed)
+  if (actorData.data.afflictions.compelled) createEffects.push(compelled)
   if (actorData.data.afflictions.dazed) createEffects.push(dazed)
   if (actorData.data.afflictions.deafened) createEffects.push(deafened)
+  if (actorData.data.afflictions.defenseless) createEffects.push(defenseless)
+  if (actorData.data.afflictions.diseased) createEffects.push(diseased)
+  if (actorData.data.afflictions.fatigued) createEffects.push(fatigued)
   if (actorData.data.afflictions.frightened) createEffects.push(frightened)
+  if (actorData.data.afflictions.horrified) createEffects.push(horrified)
+  if (actorData.data.afflictions.grabbed) createEffects.push(grabbed)
+  if (actorData.data.afflictions.immobilized) createEffects.push(immobilized)
+  if (actorData.data.afflictions.impaired) createEffects.push(impaired)
   if (actorData.data.afflictions.poisoned) createEffects.push(poisoned)
   if (actorData.data.afflictions.prone) createEffects.push(prone)
+  if (actorData.data.afflictions.slowed) createEffects.push(slowed)
+  if (actorData.data.afflictions.stunned) createEffects.push(stunned)
+  if (actorData.data.afflictions.surprised) createEffects.push(surprised)
   if (actorData.data.afflictions.unconscious) createEffects.push(unconscious)
   createData.effects = createEffects
 })
@@ -364,11 +532,23 @@ Hooks.on('preCreateToken', async (scene, createData, options, userId) => {
 Hooks.on('preUpdateToken', async (scene, token, updateData, options) => {
   const asleep = CONFIG.DL.statusIcons.asleep
   const blinded = CONFIG.DL.statusIcons.blinded
+  const charmed = CONFIG.DL.statusIcons.charmed
+  const compelled = CONFIG.DL.statusIcons.compelled
   const dazed = CONFIG.DL.statusIcons.dazed
   const deafened = CONFIG.DL.statusIcons.deafened
+  const defenseless = CONFIG.DL.statusIcons.defenseless
+  const diseased = CONFIG.DL.statusIcons.diseased
+  const fatigued = CONFIG.DL.statusIcons.fatigued
   const frightened = CONFIG.DL.statusIcons.frightened
+  const horrified = CONFIG.DL.statusIcons.horrified
+  const grabbed = CONFIG.DL.statusIcons.grabbed
+  const immobilized = CONFIG.DL.statusIcons.immobilized
+  const impaired = CONFIG.DL.statusIcons.impaired
   const poisoned = CONFIG.DL.statusIcons.poisoned
   const prone = CONFIG.DL.statusIcons.prone
+  const slowed = CONFIG.DL.statusIcons.slowed
+  const stunned = CONFIG.DL.statusIcons.stunned
+  const surprised = CONFIG.DL.statusIcons.surprised
   const unconscious = CONFIG.DL.statusIcons.unconscious
   const injured = CONFIG.DL.statusIcons.blood
 
@@ -380,11 +560,23 @@ Hooks.on('preUpdateToken', async (scene, token, updateData, options) => {
         'data.afflictions': {
           asleep: updateData.effects.includes(asleep),
           blinded: updateData.effects.includes(blinded),
+          charmed: updateData.effects.includes(charmed),
+          compelled: updateData.effects.includes(compelled),
           dazed: updateData.effects.includes(dazed),
           deafened: updateData.effects.includes(deafened),
+          defenseless: updateData.effects.includes(defenseless),
+          diseased: updateData.effects.includes(diseased),
+          fatigued: updateData.effects.includes(fatigued),
           frightened: updateData.effects.includes(frightened),
+          horrified: updateData.effects.includes(horrified),
+          grabbed: updateData.effects.includes(grabbed),
+          immobilized: updateData.effects.includes(immobilized),
+          impaired: updateData.effects.includes(impaired),
           poisoned: updateData.effects.includes(poisoned),
           prone: updateData.effects.includes(prone),
+          slowed: updateData.effects.includes(slowed),
+          stunned: updateData.effects.includes(stunned),
+          surprised: updateData.effects.includes(surprised),
           unconscious: updateData.effects.includes(unconscious)
         },
         'data.characteristics.health': {

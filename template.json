@@ -76,6 +76,7 @@
                     "fatigued": false,
                     "frightened": false,
                     "frightenedsource": false,
+                    "horrified": false,
                     "grabbed": false,
                     "immobilized": false,
                     "impaired": false,
