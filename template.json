@@ -198,6 +198,7 @@
                 "base"
             ],
             "quantity": 1,
+            "availability": "",
             "value": "",
             "wear": true,
             "enchantment": {
@@ -298,7 +299,9 @@
             "properties": "",
             "strengthmin": "",
             "wear": true,
-            "quantity": 1
+            "quantity": 1,
+            "availability": "",
+            "value": ""
         },
         "armor": {
             "templates": [
@@ -311,13 +314,16 @@
             "strengthmin": "",
             "wear": true,
             "isShield": false,
-            "quantity": 1
+            "quantity": 1,
+            "availability": "",
+            "value": ""
         },
         "ammo": {
             "templates": [
                 "base"
             ],
-            "quantity": 5
+            "quantity": 5,
+            "value": ""
         },
         "specialaction": {
             "templates": [

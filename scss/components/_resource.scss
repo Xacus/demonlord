@@ -1,71 +1,79 @@
 .resource {
+  padding: 5px;
+
+  .resource-label {
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .modifierblock {
     padding: 5px;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+
+    input[type="text"],
+    select {
+      margin-bottom: 5px;
+      font-size: 11px;
+      height: 20px;
+    }
+
+    .grid {
+      margin: 0;
+    }
+
+    label {
+      font-size: 11px;
+      width: 100px;
+      height: 20px;
+    }
 
     .resource-label {
-        font-weight: bold;
-        font-size: 12px;
+      float: left;
+      width: 100%;
+      height: 20px;
+      margin-bottom: -4px;
+    }
+  }
+
+  .modifierblockcheck,
+  .modifierblockcheckHeight {
+    padding: 5px;
+    border: 1px solid #333;
+    border-radius: 2px;
+
+    input {
+      float: left;
+      margin: 0px 0 2px -3px;
+      height: 12px;
+      color: #000;
     }
 
-    .modifierblock {
-        padding: 5px;
-        border: 1px solid #bbb;
-        border-radius: 2px;
-
-        input[type="text"], select {
-            margin-bottom: 5px;
-            font-size: 11px;
-            height: 20px;
-        }
-
-        .grid {
-            margin: 0;
-        }
-
-        label {
-            font-size: 11px;
-            width: 100px;
-            height: 20px;
-        }
-        
-        .resource-label {
-            float: left;
-            width: 100%;
-            height: 20px;
-            margin-bottom: -4px;
-        }
+    .grid {
+      margin: 0 0 10px 0;
     }
 
-    .modifierblockcheck {
-        padding: 5px;
-        border: 1px solid #bbb;
-        border-radius: 2px;
-
-        input {
-            margin: 2px 0 2px -3px;
-            height: 12px;
-        }
-
-        .grid {
-            margin: 0 0 10px 0;
-        }
-
-        label {
-            font-size: 11px;
-            margin-left: -2px;
-        }
+    label {
+      font-size: 11px;
+      margin-left: -2px;
     }
+  }
 
-    textarea {
-        font-family: $font-primary;
-        border: 1px solid #7a7971;
-        background: rgba(0, 0, 0, 0.05);
-        resize: vertical;
+  .modifierblockcheckHeight {
+    height: 37px;
+  }
 
-        &:focus,
-        &:active {
-            box-shadow: 0 0 5px red;
-            border: 1px solid #7a7971;
-            outline: 0;
-        }
+  textarea {
+    font-family: $font-primary;
+    border: 1px solid #7a7971;
+    background: rgba(0, 0, 0, 0.05);
+    resize: vertical;
+
+    &:focus,
+    &:active {
+      box-shadow: 0 0 5px red;
+      border: 1px solid #7a7971;
+      outline: 0;
     }
+  }
 }

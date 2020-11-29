@@ -2382,7 +2382,8 @@
   border-radius: 2px;
 }
 
-.demonlord .resource .modifierblock input[type="text"], .demonlord .resource .modifierblock select {
+.demonlord .resource .modifierblock input[type="text"],
+.demonlord .resource .modifierblock select {
   margin-bottom: 5px;
   font-size: 11px;
   height: 20px;
@@ -2405,24 +2406,34 @@
   margin-bottom: -4px;
 }
 
-.demonlord .resource .modifierblockcheck {
+.demonlord .resource .modifierblockcheck,
+.demonlord .resource .modifierblockcheckHeight {
   padding: 5px;
-  border: 1px solid #bbb;
+  border: 1px solid #333;
   border-radius: 2px;
 }
 
-.demonlord .resource .modifierblockcheck input {
-  margin: 2px 0 2px -3px;
+.demonlord .resource .modifierblockcheck input,
+.demonlord .resource .modifierblockcheckHeight input {
+  float: left;
+  margin: 0px 0 2px -3px;
   height: 12px;
+  color: #000;
 }
 
-.demonlord .resource .modifierblockcheck .grid {
+.demonlord .resource .modifierblockcheck .grid,
+.demonlord .resource .modifierblockcheckHeight .grid {
   margin: 0 0 10px 0;
 }
 
-.demonlord .resource .modifierblockcheck label {
+.demonlord .resource .modifierblockcheck label,
+.demonlord .resource .modifierblockcheckHeight label {
   font-size: 11px;
   margin-left: -2px;
+}
+
+.demonlord .resource .modifierblockcheckHeight {
+  height: 37px;
 }
 
 .demonlord .resource textarea {

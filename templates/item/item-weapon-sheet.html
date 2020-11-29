@@ -19,20 +19,45 @@
             {{!-- Attributes Tab --}}
             <div class="tab weapons" data-group="primary" data-tab="attributes">
                 <div class="gridrow">
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.WeaponHands"}}</label>
-                        <div class="modifierblock">
-                            <select name="data.hands" data-dtype="String">
-                                {{#select data.hands}}
-                                <option value="">—</option>
-                                <option value="One">{{localize "DL.WeaponHandsOne"}}
-                                </option>
-                                <option value="Two">{{localize "DL.WeaponHandsTwo"}}
-                                </option>
-                                <option value="Off">{{localize "DL.WeaponHandsOff"}}
-                                </option>
-                                {{/select}}
-                            </select>
+                    <div class="resource grid grid-3col">
+                        <div>
+                            <label class="resource-label">{{localize "DL.WeaponHands"}}</label>
+                            <div class="modifierblock">
+                                <select name="data.hands" data-dtype="String">
+                                    {{#select data.hands}}
+                                    <option value="">—</option>
+                                    <option value="One">{{localize "DL.WeaponHandsOne"}}
+                                    </option>
+                                    <option value="Two">{{localize "DL.WeaponHandsTwo"}}
+                                    </option>
+                                    <option value="Off">{{localize "DL.WeaponHandsOff"}}
+                                    </option>
+                                    {{/select}}
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="resource-label">{{localize "DL.Availability"}}</label>
+                            <div class="modifierblock">
+                                <select name="data.availability" data-dtype="String">
+                                    {{#select data.availability}}
+                                    <option value="C">{{localize "DL.AvailabilityCommon"}}
+                                    </option>
+                                    <option value="U">{{localize "DL.AvailabilityUncommon"}}
+                                    </option>
+                                    <option value="R">{{localize "DL.AvailabilityRare"}}
+                                    </option>
+                                    <option value="E">{{localize "DL.AvailabilityExotic"}}
+                                    </option>
+                                    {{/select}}
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="resource-label">{{localize "DL.ItemValue"}}</label>
+                            <div class="modifierblock">
+                                <input type="text" name="data.value" value="{{data.value}}" />
+                            </div>
                         </div>
                     </div>
                     <div class="resource">
