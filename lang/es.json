@@ -441,6 +441,7 @@
     "DL.AfflictionsDiseased": "Una criatura mermada realiza todas sus pruebas y tiradas de ataque con 1 desventaja.",
     "DL.AfflictionsFatigued": "Una criatura fatigada realiza todas sus pruebas y tiradas de ataque con 1 desventaja.",
     "DL.AfflictionsFrightened": "Una criatura atemorizada realiza todas sus pruebas y tiradas de ataque con 1 desventaja. Igualmente, no puede realizar turnos rápidos (ver Combate).",
+    "DL.AfflictionsHorrified": "A horrified creature makes attack rolls and challenge rolls with 3 banes when it can see the source of the frightened affliction.",
     "DL.AfflictionsGrabbed": "Los efectos de esta aflicción dependen del Tamaño de la criatura. Si la víctima de la presa es igual o más pequeña que el atacante, no podrá liberarse hasta que este quite la aflicción. Si la víctima es más grande que quien realiza la presa, tan pronto como la primera se mueva, el atacante tendrá la opción de moverse con ella (ver Apresar para más información sobre cómo apresar y Liberarse para saber cómo escapar de la presa).",
     "DL.AfflictionsImmobilized": "Una criatura inmovilizada tiene una Velocidad 0 y no puede beneficiarse de ninguna bonificación a dicha característica. Los atacantes hacen sus tiradas de ataque con 1 ventaja.",
     "DL.AfflictionsImpaired": "Una criatura envenenada realiza todas sus pruebas y tiradas de ataque con 1 desventaja.",
@@ -490,5 +491,6 @@
     "DL.PathsDialogTransferTalentText": "¿Estás seguro de transferir este talento al actor?",
     "DL.PathsDialogTransferSpell": "Transferir conjuro",
     "DL.PathsDialogTransferSpellText": "¿Estás seguro de transferir este conjuro al actor?",
-    "DL.PathsTransfer": "Haz clic en lo que quieres transferir"
+    "DL.PathsTransfer": "Haz clic en lo que quieres transferir",
+    "DL.CharacterGenerator": "Character Generator"
 }

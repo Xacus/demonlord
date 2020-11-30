@@ -771,3 +771,27 @@
 .form-modline .form-fields .modleft {
   width: 22px;
 }
+
+.tooltipEffect {
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  cursor: help;
+}
+
+.tooltipEffect .tooltiptextEffect {
+  visibility: hidden;
+  width: 270px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  border-radius: 3px;
+  padding: 5px;
+  margin-top: 20px;
+  position: absolute;
+  left: 10px;
+  z-index: 1;
+  font-size: 11px;
+}
+
+.tooltipEffect:hover .tooltiptextEffect {
+  visibility: visible;
+}

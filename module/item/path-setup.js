@@ -373,7 +373,6 @@ export class DemonlordPathSetup extends ItemSheet {
         } else if (k == 'level.attributeAgility') {
           let index = 0
 
-          console.log(v)
           if (Array.isArray(v)) {
             for (const id of v) {
               item.data.data.levels[index].attributeAgility = parseInt(id)
