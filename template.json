@@ -132,7 +132,7 @@
                 "expert": "",
                 "master": ""
             },
-            "apperance": {
+            "appearance": { // appearance
                 "age": 0,
                 "sex": "",
                 "eyes": "",
