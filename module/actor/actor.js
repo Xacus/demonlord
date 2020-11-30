@@ -89,6 +89,20 @@ export class DemonlordActor extends Actor {
                   }
 
                   pathHealthBonus += $level.characteristicsHealth
+
+                  switch (path.data.type) {
+                    case 'novice':
+                      data.paths.novice = path.name
+                      break
+                    case 'expert':
+                      data.paths.expert = path.name
+                      break
+                    case 'master':
+                      data.paths.master = path.name
+                      break
+                    default:
+                      break
+                  }
                 })
             })
           }
@@ -683,6 +697,10 @@ export class DemonlordActor extends Actor {
 
       attackRoll = new Roll(diceformular, {})
       attackRoll.roll()
+    } else {
+      ui.notifications.error(
+        game.i18n.localize('DL.DialogWarningWeaponAttackModifier')
+      )
     }
 
     // Format Dice
@@ -692,7 +710,7 @@ export class DemonlordActor extends Actor {
 
     // Plus20 roll
     let plus20 = false
-    if (targetNumber != undefined) {
+    if (targetNumber != undefined && attackRoll != null) {
       plus20 = !!(
         attackRoll._total >= 20 &&
         attackRoll._total >= parseInt(targetNumber) + 5
@@ -739,7 +757,8 @@ export class DemonlordActor extends Actor {
         },
         didHit: {
           value: !!(
-            targetNumber == undefined || attackRoll._total >= targetNumber
+            targetNumber == undefined ||
+            (attackRoll != null && attackRoll._total >= targetNumber)
           )
         },
         attack: {

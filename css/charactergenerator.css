@@ -1,0 +1,526 @@
+@import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Shadows Into Light:wght@400;800&family=Shadows Into Light:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IM+Fell+English+SC:wght@400;800&display=swap");
+/* Global styles */
+.window-app {
+  font-family: "Roboto", sans-serif;
+}
+
+.rollable:hover, .rollable:focus,
+.attribute-roll:hover,
+.attribute-roll:focus,
+.attack-roll:hover,
+.attack-roll:focus,
+.talent-roll:hover,
+.talent-roll:focus,
+.magic-roll:hover,
+.magic-roll:focus,
+.ammo-amount:hover,
+.ammo-amount:focus,
+.talent-uses:hover,
+.talent-uses:focus,
+.spell-uses:hover,
+.spell-uses:focus,
+.tradition-edit:hover,
+.tradition-edit:focus,
+.roll-healing:hover,
+.roll-healing:focus,
+.roll-damage:hover,
+.roll-damage:focus,
+.apply-damage:hover,
+.apply-damage:focus,
+.use-talent:hover,
+.use-talent:focus,
+.request-challengeroll:hover,
+.request-challengeroll:focus,
+.make-challengeroll:hover,
+.make-challengeroll:focus,
+.request-initroll:hover,
+.request-initroll:focus,
+.make-initroll:hover,
+.make-initroll:focus,
+.addInsanity:hover,
+.addInsanity:focus,
+.addCorruption:hover,
+.addCorruption:focus,
+.addDamage:hover,
+.addDamage:focus,
+.toggleInfo:hover,
+.toggleInfo:focus,
+.toggleTalentInfo:hover,
+.toggleTalentInfo:focus,
+.toggleItemInfo:hover,
+.toggleItemInfo:focus,
+.toggleEffectInfo:hover,
+.toggleEffectInfo:focus,
+.item-uses:hover,
+.item-uses:focus,
+.path-edit:hover,
+.path-edit:focus,
+.ancestry-create:hover,
+.ancestry-create:focus,
+.edit-ancestrytalents:hover,
+.edit-ancestrytalents:focus {
+  color: #000;
+  text-shadow: 0 0 10px #fa200b;
+  cursor: pointer;
+}
+
+#combat-endofround:hover, #combat-endofround:focus {
+  color: #fff;
+  text-shadow: 0 0 10px #fa200b;
+  cursor: pointer;
+}
+
+.grid,
+.grid-2col {
+  display: grid;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4col {
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-5col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-6col {
+  grid-column: span 6 / span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.grid-7col {
+  grid-column: span 7 / span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-8col {
+  grid-column: span 8 / span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.grid-9col {
+  grid-column: span 9 / span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.grid-10col {
+  grid-column: span 10 / span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.grid-11col {
+  grid-column: span 11 / span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.grid-12col {
+  grid-column: span 12 / span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.flex-group-center,
+.flex-group-left,
+.flex-group-right {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #999;
+}
+
+.flex-group-left {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.flex-group-right {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.flex-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.flex-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.flexrow {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.flexrow > * {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.flexcol {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+.flexcol > * {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+:root {
+  --demonlord-red: #a22223;
+}
+
+::-webkit-scrollbar-thumb {
+  outline: none;
+  border-radius: 3px;
+  background: var(--demonlord-red);
+  border: 1px solid #8d3b3c;
+}
+
+.window-app .window-header {
+  font-family: "IM Fell English SC", serif;
+  font-size: 14px;
+}
+
+/* Sidebar */
+#sidebar {
+  background: url(../ui/sidebar_background.jpg);
+  border-radius: 0px;
+}
+
+#sidebar h2 {
+  font-family: "IM Fell English SC", serif;
+  font-size: 16px;
+  border-bottom: 0px;
+  color: var(--demonlord-red);
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+#sidebar button {
+  color: white;
+  background-color: none;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+  background: none;
+  font-family: "IM Fell English SC", serif;
+  font-size: 13px;
+}
+
+#sidebar button:hover {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: var(--demonlord-red);
+  border-color: var(--demonlord-red);
+}
+
+#sidebar-tabs {
+  border-bottom: 1px solid var(--demonlord-red);
+  -webkit-box-shadow: 0 0 10px darkred;
+  box-shadow: 0 0 10px darkred;
+}
+
+#sidebar-tabs > .item.active {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 0px solid var(--demonlord-red);
+}
+
+#sidebar .tabs .item.active {
+  text-shadow: none;
+  color: var(--demonlord-red);
+}
+
+#sidebar .directory-header a:hover,
+#chat-controls a:hover {
+  color: white;
+}
+
+#sidebar .directory-header .header-search i {
+  color: var(--demonlord-red);
+}
+
+.sidebar-tab .directory-header .header-search input {
+  background: none;
+  border-radius: 0px;
+  border: 1px solid var(--demonlord-red);
+  color: white;
+}
+
+.sidebar-tab .directory-header .header-search input:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: white;
+}
+
+.sidebar-tab .directory-list .folder .context {
+  border-color: var(--demonlord-red);
+}
+
+.sidebar-tab .directory-list .directory-item h3 {
+  font-family: "IM Fell English SC", serif;
+  font-size: 16px;
+}
+
+.sidebar-tab .directory-list .directory-item h4 {
+  font-family: "IM Fell English SC", serif;
+  font-size: 14px;
+}
+
+/* Compendoum */
+#compendium h3 {
+  border: 0px;
+  background: var(--demonlord-red);
+  color: white;
+  font-family: "IM Fell English SC", serif;
+  font-size: 16px;
+}
+
+/* Chat */
+#chat-form textarea {
+  background: white;
+  border-radius: 0px;
+  border: 1px solid var(--demonlord-red);
+  margin-top: 3px;
+}
+
+#chat-controls {
+  border-top: 2px groove var(--demonlord-red);
+  padding-top: 5px;
+}
+
+#chat-controls .roll-type-select label i {
+  width: 25px;
+  height: 25px;
+  color: #f0f8ff00;
+  background: url(../ui/icons/pentragram.png);
+}
+
+#chat-controls div.roll-type-select select {
+  background: none;
+  border: none;
+  padding: 0px;
+  color: white;
+  border: 1px solid #666;
+  border-radius: 1px;
+  font-family: "IM Fell English SC", serif;
+}
+
+#chat-controls div.roll-type-select select:hover {
+  border: 1px solid var(--demonlord-red);
+  background-color: var(--demonlord-red);
+}
+
+#chat-log {
+  margin-bottom: 4px;
+}
+
+#chat-log .message {
+  border: 1px solid #6f6c66;
+}
+
+#chat-log .message .message-header .message-sender,
+#chat-log .message .message-header .message-metadata {
+  font-family: "IM Fell English SC", serif;
+}
+
+/* Hotbar */
+#hotbar {
+  font-family: "IM Fell English SC", serif;
+}
+
+#hotbar #macro-list {
+  background: url(../ui/sidebar_background.jpg);
+  border: 1px solid black;
+}
+
+#hotbar .macro,
+#hotbar .bar-controls,
+#hotbar .macro.inactive {
+  border-radius: 0px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#hotbar #hotbar-directory-controls,
+#hotbar #hotbar-page-controls {
+  background: black;
+}
+
+#hotbar .macro:hover,
+#hotbar .bar-controls:hover {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid var(--demonlord-red);
+}
+
+/* Navigation */
+#navigation #nav-toggle,
+#navigation #scene-list #nav-item {
+  background-color: black;
+  border-radius: 3px;
+  border: 1px solid #666;
+}
+
+#navigation #scene-list .scene {
+  background: black;
+  border: 1px solid #666;
+  border-radius: 3px;
+  font-family: "IM Fell English SC", serif;
+  font-size: 13px;
+}
+
+#navigation #scene-list .scene.gm {
+  background: black;
+  border: 1px solid var(--demonlord-red);
+}
+
+#navigation #scene-list .scene.view {
+  border: 1px solid var(--demonlord-red);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background: black;
+  color: white;
+}
+
+/* Controls */
+#controls .scene-control.active,
+#controls .control-tool.active,
+#controls .scene-control:hover,
+#controls .control-tool:hover {
+  color: var(--demonlord-red);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid var(--demonlord-red);
+}
+
+#controls .scene-control,
+#controls .control-tool {
+  background-color: black;
+  border-radius: 3px;
+  border: 1px solid #666;
+}
+
+#controls .scene-control,
+#controls .control-tool {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/* Players */
+#players {
+  background: url(../ui/sidebar_background.jpg);
+  font-family: "IM Fell English SC", serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  border: 1px solid #666;
+  border-radius: 0px;
+}
+
+#players ol .player-name.self {
+  color: var(--demonlord-red);
+}
+
+/* Combat Tracker */
+#combat #combat-round .encounters h3,
+#combat #combat-controls a.center {
+  font-family: "IM Fell English SC", serif;
+  font-size: 16px;
+}
+
+#combat #combat-endofround {
+  border-top: 2px groove var(--demonlord-red);
+}
+
+#combat #combat-round {
+  border-bottom: 2px groove var(--demonlord-red);
+}
+
+#combat #combat-controls {
+  border-top: 2px groove var(--demonlord-red);
+}
+
+#combat li.combatant .token-initiative {
+  font-family: "IM Fell English SC", serif;
+}
+
+/* Scene */
+#scenes .scene h3 {
+  font-family: "IM Fell English SC", serif;
+  font-size: 16px;
+}
+
+/* Styles limited to demonlord sheets */
+.charactergenerator .window-content {
+  background: #e3e3e3 url("paper.jpg") no-repeat;
+}
+
+.charactergenerator label {
+  font-weight: bold;
+}
+
+.charactergenerator input[type="text"],
+.charactergenerator select {
+  background: rgba(0, 0, 0, 0.1);
+  height: 20px;
+  color: #000;
+  border-radius: 0px;
+  padding-left: 5px;
+  margin-bottom: 10px;
+  font-size: 11px;
+}
+
+.charactergenerator input[type="text"]:focus,
+.charactergenerator input[type="text"]:hover {
+  background: rgba(0, 0, 0, 0.3);
+}

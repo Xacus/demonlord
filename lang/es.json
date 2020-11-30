@@ -279,6 +279,7 @@
     "DL.DialogWarningSurprisedFailer": "Estás sorprendido y no puedes usar acciones o movimientos, y todas tus tiradas de prueba fracasan.",
     "DL.DialogWarningStunnedFailer": "Estás aturdido y no puedes usar acciones o movimientos, y todas tus tiradas de pruebas fracasan.",
     "DL.DialogWarningUnconsciousFailer": "Estás inconsciente y no puedes usar acciones o moverte, y todas tus tiradas de prueba fracasan.",
+    "DL.DialogWarningWeaponAttackModifier": "Attack modifier is not set on the weapon.",
     "DL.DialogUseItem": "Usar objeto:",
     "DL.DialogUseItemHealingPotion": "Poción de curación",
     "DL.DialogUseItemHealingPotionText": "Curar # puntos de daño.",

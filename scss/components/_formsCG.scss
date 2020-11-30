@@ -1,0 +1,23 @@
+.window-content {
+  background: #e3e3e3 url("paper.jpg") no-repeat;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+select {
+  background: rgba(0, 0, 0, 0.1);
+  height: 20px;
+  color: #000;
+  border-radius: 0px;
+  padding-left: 5px;
+  margin-bottom: 10px;
+  font-size: 11px;
+}
+
+input[type="text"]:focus,
+input[type="text"]:hover {
+  background: rgba(0, 0, 0, 0.3);
+}

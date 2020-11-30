@@ -1,4 +1,5 @@
 import { DLActorModifiers } from '../dialog/actor-modifiers.js'
+import { DLCharacterGenerater } from '../dialog/actor-generator.js'
 import { CharacterBuff } from '../buff.js'
 export class DemonlordActorSheet2 extends ActorSheet {
   /** @override */
@@ -50,6 +51,14 @@ export class DemonlordActorSheet2 extends ActorSheet {
   _onConfigureActor (event) {
     event.preventDefault()
     new DLActorModifiers(this.actor, {
+      top: this.position.top + 40,
+      left: this.position.left + (this.position.width - 400) / 2
+    }).render(true)
+  }
+
+  _onGenerateActor (event) {
+    event.preventDefault()
+    new DLCharacterGenerater(this.actor, {
       top: this.position.top + 40,
       left: this.position.left + (this.position.width - 400) / 2
     }).render(true)

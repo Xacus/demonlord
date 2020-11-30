@@ -278,6 +278,7 @@
   "DL.DialogWarningSurprisedFailer": "You're surprised and cannot use actions or move, and all your challenge rolls result in failure.",
   "DL.DialogWarningStunnedFailer": "You're stunned and cannot use actions or move, and all your challenge rolls result in failure.",
   "DL.DialogWarningUnconsciousFailer": "You're unconscious and cannot use actions or move, and all your challenge rolls result in failure.",
+  "DL.DialogWarningWeaponAttackModifier": "Attack modifier is not set on the weapon.",
   "DL.DialogUseItem": "Gastar Item:",
   "DL.DialogUseItemHealingPotion": "Poção de Cura",
   "DL.DialogUseItemHealingPotionText": "Cura # pontos de dano.",

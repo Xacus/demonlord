@@ -278,6 +278,7 @@
     "DL.DialogWarningSurprisedFailer": "You're surprised and cannot use actions or move, and all your challenge rolls result in failure.",
     "DL.DialogWarningStunnedFailer": "You're stunned and cannot use actions or move, and all your challenge rolls result in failure.",
     "DL.DialogWarningUnconsciousFailer": "You're unconscious and cannot use actions or move, and all your challenge rolls result in failure.",
+    "DL.DialogWarningWeaponAttackModifier": "Attack modifier is not set on the weapon.",
     "DL.DialogUseItem": "Gegenstand benutzen:",
     "DL.DialogUseItemHealingPotion": "Heiltrank",
     "DL.DialogUseItemHealingPotionText": "Heile # Punkte Schaden.",
