@@ -111,7 +111,7 @@ export class DemonlordActor extends Actor {
 
       // Calculate Health and Healing Rate
       if (game.settings.get('demonlord', 'reverseDamage')) {
-        if (data.characteristics.health.value == 0) {
+        if (data.characteristics.health.value < 0) {
           data.characteristics.health.value =
             parseInt(data.attributes.strength.value) +
             parseInt(ancestry.data.characteristics?.healthmodifier) +
