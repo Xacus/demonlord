@@ -2,7 +2,7 @@
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-import { PathLevelItem } from '../pathlevel.js'
+import { PathLevelItem, DamageType } from '../pathlevel.js'
 
 export class DemonlordItemSheetDefault extends ItemSheet {
   /** @override */
@@ -18,7 +18,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           initial: 'attributes'
         }
       ],
-      scrollY: ['.tab.paths']
+      scrollY: ['.tab.paths', '.tab.active']
     })
   }
 
@@ -40,7 +40,12 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
     if (this.item.data.type == 'path') {
       this._prepareLevels(data)
-    }
+    } else if (
+      this.item.data.type == 'weapon' ||
+      this.item.data.type == 'spell'
+    ) {
+      this._prepareDamageTypes(data)
+    } else if (this.item.data.type == 'talent') this._prepareVSDamageTypes(data)
 
     return data
   }
@@ -66,6 +71,35 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     itemData.levels = levels
     itemData.talents = talents
     itemData.talents4 = talents4
+  }
+
+  _prepareDamageTypes (data) {
+    const itemData = data.item
+    const damagetypes = []
+    const vsdamagetypes = []
+
+    for (const damagetype of itemData.data?.damagetypes) {
+      damagetypes.push(damagetype)
+    }
+
+    itemData.damagetypes = damagetypes
+  }
+
+  _prepareVSDamageTypes (data) {
+    const itemData = data.item
+    const damagetypes = []
+    const vsdamagetypes = []
+
+    for (const damagetype of itemData.data?.damagetypes) {
+      damagetypes.push(damagetype)
+    }
+
+    for (const vsdamagetype of itemData.data?.vs?.damagetypes) {
+      vsdamagetypes.push(vsdamagetype)
+    }
+
+    itemData.damagetypes = damagetypes
+    itemData.vsdamagetypes = vsdamagetypes
   }
 
   /* -------------------------------------------- */
@@ -94,6 +128,14 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
     html.find('.radiofalse').click((ev) => {
       this.updateOption(false)
+    })
+
+    html.find('.damagetype-control').click((ev) => {
+      this.onManageDamageType(ev, this.item)
+    })
+
+    html.find('.vsdamagetype-control').click((ev) => {
+      this.onManageVSDamageType(ev, this.item)
     })
 
     // Add drag events.
@@ -290,6 +332,65 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           'data.addtonextroll': false
         })
       }
+
+      for (const [k, v] of Object.entries(formData)) {
+        if (k == 'altdamagevs') {
+          let index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.vs.damagetypes[index].damage = id
+              index++
+            }
+          } else {
+            item.data.data.vs.damagetypes[index].damage = v
+          }
+        } else if (k == 'altdamagetypevs') {
+          let index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.vs.damagetypes[index].damagetype = id
+              index++
+            }
+          } else {
+            item.data.data.vs.damagetypes[index].damagetype = v
+          }
+        }
+      }
+
+      await this.object.update({
+        'data.vs.damagetypes': duplicate(this.item.data.data?.vs?.damagetypes)
+      })
+    } else if (item.type == 'weapon' || item.type == 'spell') {
+      for (const [k, v] of Object.entries(formData)) {
+        if (k == 'altdamage') {
+          let index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.damagetypes[index].damage = id
+              index++
+            }
+          } else {
+            item.data.data.damagetypes[index].damage = v
+          }
+        } else if (k == 'altdamagetype') {
+          let index = 0
+
+          if (Array.isArray(v)) {
+            for (const id of v) {
+              item.data.data.damagetypes[index].damagetype = id
+              index++
+            }
+          } else {
+            item.data.data.damagetypes[index].damagetype = v
+          }
+        }
+      }
+      await this.object.update({
+        'data.damagetypes': duplicate(this.item.data.data.damagetypes)
+      })
     }
 
     return this.entity.update(updateData)
@@ -339,5 +440,48 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     await this.object.update({
       'data.level4.option1': selected
     })
+  }
+
+  async onManageDamageType (event, item) {
+    event.preventDefault()
+    const a = event.currentTarget
+    const itemData = duplicate(item)
+
+    switch (a.dataset.action) {
+      case 'create':
+        console.log(itemData)
+        itemData.data.damagetypes.push(new DamageType())
+
+        await this.item.update(itemData, { diff: false })
+        this.render(true)
+        break
+      case 'delete':
+        itemData.data.damagetypes.splice(a.dataset.id, 1)
+
+        await this.item.update(itemData, { diff: false })
+        this.render(true)
+        break
+    }
+  }
+
+  async onManageVSDamageType (event, item) {
+    event.preventDefault()
+    const a = event.currentTarget
+    const itemData = duplicate(item)
+
+    switch (a.dataset.action) {
+      case 'create':
+        itemData.data.vs.damagetypes.push(new DamageType())
+
+        await this.item.update(itemData, { diff: false })
+        this.render(true)
+        break
+      case 'delete':
+        itemData.data.vs.damagetypes.splice(a.dataset.id, 1)
+
+        await this.item.update(itemData, { diff: false })
+        this.render(true)
+        break
+    }
   }
 }

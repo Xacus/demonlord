@@ -1,4 +1,11 @@
 export const registerSettings = function () {
+  game.settings.register('demonlord', 'systemMigrationVersion', {
+    name: 'System Migration Version',
+    scope: 'world',
+    config: false,
+    type: String,
+    default: ''
+  })
   game.settings.register('demonlord', 'useHomebrewMode', {
     name: game.i18n.localize('DL.SettingUsingHomebrewMode'),
     hint: game.i18n.localize('DL.SettingUsingHomebrewModeHint'),

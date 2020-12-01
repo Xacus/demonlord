@@ -2406,6 +2406,15 @@
   margin-bottom: -4px;
 }
 
+.demonlord .resource .modifierblock .damagevalue {
+  width: 78%;
+}
+
+.demonlord .resource .modifierblock .damagetype {
+  float: right;
+  width: 20%;
+}
+
 .demonlord .resource .modifierblockcheck,
 .demonlord .resource .modifierblockcheckHeight {
   padding: 5px;
@@ -2448,6 +2457,16 @@
   box-shadow: 0 0 5px red;
   border: 1px solid #7a7971;
   outline: 0;
+}
+
+.demonlord .resource .item-controls {
+  float: right;
+  margin-top: -15px;
+}
+
+.demonlord .resource .item-controls-line {
+  float: right;
+  margin-top: -21px;
 }
 
 .demonlord .tabs {

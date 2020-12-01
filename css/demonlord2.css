@@ -3994,6 +3994,15 @@
   color: #000;
 }
 
+.demonlord2 .resource .modifierblock .damagevalue {
+  width: 78%;
+}
+
+.demonlord2 .resource .modifierblock .damagetype {
+  float: right;
+  width: 20%;
+}
+
 .demonlord2 .resource .modifierblockcheck,
 .demonlord2 .resource .modifierblockcheckHeight {
   padding: 5px;
@@ -4026,6 +4035,7 @@
 
 .demonlord2 .resource textarea {
   font-family: "Roboto", sans-serif;
+  font-size: 11px;
   border: 1px solid #7a7971;
   background: rgba(0, 0, 0, 0.05);
   resize: vertical;
@@ -4036,6 +4046,16 @@
   box-shadow: 0 0 5px red;
   border: 1px solid #7a7971;
   outline: 0;
+}
+
+.demonlord2 .resource .item-controls {
+  float: right;
+  margin-top: -15px;
+}
+
+.demonlord2 .resource .item-controls-line {
+  float: right;
+  margin-top: -21px;
 }
 
 .demonlord2 .tabs {

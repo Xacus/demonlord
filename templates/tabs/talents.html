@@ -93,9 +93,14 @@
                 <input type="checkbox" name="data.vs.damageactive" id="optionvsdamage{{talent._id}}"
                     {{checked data.vs.damageactive}} />
                 {{/if}}
-                <b>{{localize 'DL.TalentVSDamage'}}:</b> {{data.vs.damage}}
+                <b>{{localize 'DL.TalentVSDamage'}}:</b> {{data.vs.damage}} ({{data.vs.damagetype}})
             </div>
             {{/if}}
+            {{#each data.vs.damagetypes as |damagetype id|}}
+            <div class="option" data-item-id="{{talent._id}}">
+                <b>{{localize 'DL.TalentVSDamage'}}:</b> {{damagetype.damage}} ({{damagetype.damagetype}})
+            </div>
+            {{/each}}
             {{#if data.healing.healing}}
             <div class="option" data-item-id="{{talent._id}}">
                 {{#if data.multipleoptions}}

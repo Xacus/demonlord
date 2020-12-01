@@ -74,3 +74,17 @@ export class PathLevelItem {
     this.description = obj.description || ''
   }
 }
+
+export class DamageType {
+  constructor (obj) {
+    if (obj === undefined) {
+      obj = {}
+    }
+    if (typeof obj === 'string') {
+      obj = JSON.parse(obj)
+    }
+
+    this.damage = obj.damage || ''
+    this.damagetype = obj.damagetype || ''
+  }
+}

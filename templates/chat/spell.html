@@ -244,12 +244,22 @@
     </div>
     {{#if data.damageFormular.value}}
     <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageFormular.value}}">
+        <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageFormular.value}}"
+            data-damagetype="{{data.damageType.value}}">
             <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
-            <div>{{localize "DL.DialogTalentRollDamage"}} ({{data.damageFormular.value}})</div>
+            <div>{{data.damageType.value}} {{localize "DL.WeaponDamage"}} ({{data.damageFormular.value}})</div>
         </div>
     </div>
     {{/if}}
+    {{#each data.damageTypes.value as |damagetype id|}}
+    <div class="combatactions roll-damage">
+        <div class="header" data-item-id="{{data.id.value}}" data-damage="{{damagetype.damage}}"
+            data-damagetype="{{damagetype.damagetype}}">
+            <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
+            <div>{{damagetype.damagetype}} {{localize "DL.WeaponDamage"}} ({{damagetype.damage}})</div>
+        </div>
+    </div>
+    {{/each}}
     {{#if data.damageExtra20plusFormular.value}}
     <div class="combatactions roll-damage">
         <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageExtra20plusFormular.value}}">

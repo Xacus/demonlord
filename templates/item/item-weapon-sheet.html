@@ -119,8 +119,23 @@
                     </div>
                     <div class="resource">
                         <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
+                        <div class="item-controls">
+                            <a class="item-control damagetype-control" title="{{localize 'DL.DamageAddType'}}" data-action="create"><i
+                                    class="fas fa-plus"></i></a>
+                        </div>
                         <div class="modifierblock">
-                            <input type="text" name="data.action.damage" value="{{data.action.damage}}" />
+                            <input class="damagevalue" type="text" name="data.action.damage" value="{{data.action.damage}}"  placeholder="{{localize 'DL.WeaponDamage'}}"/>
+                            <input class="damagetype" type="text" name="data.action.damagetype" value="{{data.action.damagetype}}" placeholder="{{localize 'DL.DamageType'}}"/>
+                            {{#each item.damagetypes as |damagetype id|}}
+                            <input class="damagevalue" type="text" name="altdamage" value="{{damagetype.damage}}"
+                                placeholder="{{localize 'DL.WeaponDamage'}}" />
+                            <input class="damagetype" type="text" name="altdamagetype" value="{{damagetype.damagetype}}"
+                                placeholder="{{localize 'DL.DamageType'}}" />
+                            <div class="item-controls-line">
+                                <a class="item-control damagetype-control" title="{{localize 'DL.DamageAddType'}}" data-action="delete" data-id="{{id}}"><i
+                                        class="fas fa-trash"></i></a>
+                            </div>
+                            {{/each}}
                         </div>
                     </div>
                     <div class="resource">

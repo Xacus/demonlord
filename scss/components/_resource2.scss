@@ -40,6 +40,14 @@
       margin-bottom: -4px;
       color: #000;
     }
+
+    .damagevalue {
+      width: 78%;
+    }
+    .damagetype {
+      float: right;
+      width: 20%;
+    }
   }
 
   .modifierblockcheck,
@@ -71,6 +79,7 @@
 
   textarea {
     font-family: $font-primary;
+    font-size: 11px;
     border: 1px solid #7a7971;
     background: rgba(0, 0, 0, 0.05);
     resize: vertical;
@@ -81,5 +90,15 @@
       border: 1px solid #7a7971;
       outline: 0;
     }
+  }
+
+  .item-controls {
+    float: right;
+    margin-top: -15px;
+  }
+
+  .item-controls-line {
+    float: right;
+    margin-top: -21px;
   }
 }

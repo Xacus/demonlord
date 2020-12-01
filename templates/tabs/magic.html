@@ -35,8 +35,11 @@
         </div>
         <div class="spellinfo" style="display: none;">
             {{#if data.action.damage}}
-            <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}}<br>
+            <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}} ({{data.action.damagetype}})<br>
             {{/if}}
+            {{#each data.damagetypes as |damagetype id|}}
+            <b>{{localize 'DL.WeaponDamage'}}:</b> {{damagetype.damage}} ({{damagetype.damagetype}})<br>
+            {{/each}}
             {{#if data.action.defense}}
             <b>{{localize "DL.SpellTypeDefense"}}</b>
             {{localize "DL.ChallengeRoll"}}: {{data.action.defense}}

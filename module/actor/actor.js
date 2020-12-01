@@ -281,6 +281,12 @@ export class DemonlordActor extends Actor {
 
     characterbuffs.speedbonus += speedPenalty
 
+    if (game.settings.get('demonlord', 'useHomebrewMode')) {
+      data.characteristics.health.healingrate = Math.floor(
+        parseInt(data.characteristics.health.max) / 4
+      )
+    }
+
     // Afflictions
     if (data.afflictions.slowed) {
       data.characteristics.speed = Math.floor(
@@ -788,6 +794,12 @@ export class DemonlordActor extends Actor {
         damageFormular: {
           value: weapon.data.data.action.damage + buffs.attackdamagebonus
         },
+        damageType: {
+          value: weapon.data.data.action.damagetype
+        },
+        damageTypes: {
+          value: weapon.data.data.damagetypes
+        },
         damageExtra20plusFormular: {
           value:
             buffs.attack20plusdamagebonus.charAt(0) == '+'
@@ -1088,6 +1100,15 @@ export class DemonlordActor extends Actor {
         damageFormular: {
           value: damageformular
         },
+        damageType: {
+          value:
+            talent.data.vs.damageactive && talent.data.vs.damage
+              ? talent.data?.vs?.damagetype
+              : talent.data?.damagetype
+        },
+        damageTypes: {
+          value: talent.data?.vs.damagetypes
+        },
         damageExtra20plusFormular: {
           value: talent.data?.action?.plus20
         },
@@ -1114,6 +1135,9 @@ export class DemonlordActor extends Actor {
         },
         pureDamage: {
           value: talent.data?.damage
+        },
+        pureDamageType: {
+          value: talent.data?.damagetype
         }
       },
       diceData
@@ -1382,6 +1406,12 @@ export class DemonlordActor extends Actor {
         },
         damageFormular: {
           value: spell.data.action?.damage
+        },
+        damageType: {
+          value: spell.data.action?.damagetype
+        },
+        damageTypes: {
+          value: spell.data?.damagetypes
         },
         damageExtra20plusFormular: {
           value: spell.data.action?.plus20damage
@@ -1978,7 +2008,6 @@ export class DemonlordActor extends Actor {
       const currentDamage = parseInt(
         targetActor.data.data.characteristics.health.value
       )
-      alert(damage)
       if (game.settings.get('demonlord', 'reverseDamage')) {
         if (currentDamage - damage <= 0) {
           await targetActor.update({

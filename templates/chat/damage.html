@@ -4,7 +4,7 @@
     <div class="showlessinfo"></div>
     <header class="card-headersmall tooltip">
         <div class="attackbox">
-            <div class="header">{{localize "DL.DamageRollText"}}: {{data.damageTotal.value}}</div>
+            <div class="header">{{data.damagetype.value}} {{localize "DL.DamageRollText"}}: {{data.damageTotal.value}}</div>
             {{#if data.isCreature.value}}
                 <div class="gmonly">
                     <span class="tooltiptext">

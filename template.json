@@ -184,13 +184,15 @@
                 "against": "",
                 "damageactive": true,
                 "damage": "",
+                "damagetype": "",
                 "boonsbanesactive": true,
                 "boonsbanes": "",
                 "plus20active": true,
                 "plus20": "",
                 "plus20damage": "",
                 "defense": "",
-                "defenseboonsbanes": ""
+                "defenseboonsbanes": "",
+                "damagetypes": []
             }
         },
         "item": {
@@ -270,8 +272,10 @@
                 "against": "",
                 "damageactive": true,
                 "damage": "",
+                "damagetype": "",
                 "boonsbanesactive": true,
-                "boonsbanes": ""
+                "boonsbanes": "",
+                "damagetypes": []
             },
             "healing": {
                 "healactive": true,
@@ -279,6 +283,7 @@
                 "rate": ""
             },
             "damage": "",
+            "damagetype": "",
             "bonuses": {
                 "defenseactive": true,
                 "defense": "",

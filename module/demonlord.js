@@ -17,6 +17,7 @@ import {
 } from './init/init.js'
 import combattracker from './combattracker.js'
 import { CharacterBuff } from './buff.js'
+import * as migrations from './migration.js'
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -27,7 +28,8 @@ Hooks.once('init', async function () {
     rollSpellMacro,
     rollAttributeMacro,
     rollInitMacro,
-    healingPotionMacro
+    healingPotionMacro,
+    migrations
   }
 
   // Define custom Entity classes
@@ -152,6 +154,32 @@ async function preloadHandlebarsTemplates () {
 Hooks.once('ready', async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDemonlordMacro(data, slot))
+
+  // Determine whether a system migration is required and feasible
+  if (!game.user.isGM) return
+  const currentVersion = game.settings.get(
+    'demonlord',
+    'systemMigrationVersion'
+  )
+
+  const NEEDS_MIGRATION_VERSION = '1.4.15'
+  const COMPATIBLE_MIGRATION_VERSION = 0.8
+
+  const needsMigration =
+    currentVersion && isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion)
+  if (!needsMigration && currentVersion != '') return
+
+  // Perform the migration
+  if (
+    currentVersion &&
+    isNewerVersion(COMPATIBLE_MIGRATION_VERSION, currentVersion)
+  ) {
+    const warning =
+      'Your Demonlord system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.'
+    ui.notifications.error(warning, { permanent: true })
+  }
+
+  migrations.migrateWorld()
 })
 
 /**

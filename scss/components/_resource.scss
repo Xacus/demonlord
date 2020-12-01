@@ -34,6 +34,14 @@
       height: 20px;
       margin-bottom: -4px;
     }
+
+    .damagevalue {
+      width: 78%;
+    }
+    .damagetype {
+      float: right;
+      width: 20%;
+    }
   }
 
   .modifierblockcheck,
@@ -75,5 +83,15 @@
       border: 1px solid #7a7971;
       outline: 0;
     }
+  }
+
+  .item-controls {
+    float: right;
+    margin-top: -15px;
+  }
+
+  .item-controls-line {
+    float: right;
+    margin-top: -21px;
   }
 }

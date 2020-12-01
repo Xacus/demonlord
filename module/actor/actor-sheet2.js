@@ -36,6 +36,12 @@ export class DemonlordActorSheet2 extends ActorSheet {
     const canConfigure = game.user.isGM || this.actor.owner
     if (this.options.editable && canConfigure) {
       buttons = [
+        /* {
+          label: game.i18n.localize('DL.CharacterGenerator'),
+          class: 'generate-actor',
+          icon: 'fas fa-user',
+          onclick: (ev) => this._onGenerateActor(ev)
+        }, */
         {
           label: 'Actor Mods',
           class: 'configure-actor',
