@@ -166,7 +166,6 @@
             "armor",
             "ammo",
             "specialaction",
-            "magic",
             "endoftheround",
             "mod",
             "ancestry",
@@ -331,11 +330,6 @@
             "value": ""
         },
         "specialaction": {
-            "templates": [
-                "base"
-            ]
-        },
-        "magic": {
             "templates": [
                 "base"
             ]

@@ -76,7 +76,6 @@ Hooks.once('init', async function () {
       'armor',
       'ammo',
       'specialaction',
-      'magic',
       'endoftheround',
       'mod',
       'ancestry',
