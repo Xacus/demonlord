@@ -265,16 +265,21 @@ export class DemonlordActor extends Actor {
     }
 
     if (ancestryFixedArmor) {
-      data.characteristics.defense += pathDefenseBonus + defenseBonus
+      data.characteristics.defense +=
+        pathDefenseBonus + defenseBonus + characterbuffs.defensebonus
     } else if (armorpoint >= 11) {
       data.characteristics.defense =
-        parseInt(armorpoint) + parseInt(defenseBonus) + pathDefenseBonus
+        parseInt(armorpoint) +
+        parseInt(defenseBonus) +
+        pathDefenseBonus +
+        characterbuffs.defensebonus
     } else {
       data.characteristics.defense =
         parseInt(data.characteristics.defense) +
         parseInt(defenseBonus) +
         parseInt(agilitypoint) +
-        pathDefenseBonus
+        pathDefenseBonus +
+        characterbuffs.defensebonus
     }
 
     if (data.characteristics.defense > 25) data.characteristics.defense = 25
