@@ -107,6 +107,38 @@ export class DemonlordActor extends Actor {
             })
           }
         }
+      } else {
+        // Paths
+        if (data.level > 0) {
+          for (let i = 1; i <= data.level; i++) {
+            const paths = this.getEmbeddedCollection('OwnedItem').filter(
+              (e) => e.type === 'path'
+            )
+            paths.forEach((path) => {
+              path.data.levels
+                .filter(function ($level) {
+                  return $level.level == i
+                })
+                .forEach(function ($level) {
+                  pathHealthBonus += $level.characteristicsHealth
+
+                  switch (path.data.type) {
+                    case 'novice':
+                      data.paths.novice = path.name
+                      break
+                    case 'expert':
+                      data.paths.expert = path.name
+                      break
+                    case 'master':
+                      data.paths.master = path.name
+                      break
+                    default:
+                      break
+                  }
+                })
+            })
+          }
+        }
       }
 
       // Calculate Health and Healing Rate
