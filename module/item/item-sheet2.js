@@ -298,7 +298,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           if (item != null) await this.actor.createOwnedItem(item)
         }
       } else if (itemGroup === 'talent4') {
-        for (const talent of this.object.data.data.level4) {
+        for (const talent of this.object.data.data.level4.talent) {
           const item = game.items.get(talent.id)
 
           if (item != null) await this.actor.createOwnedItem(item)
