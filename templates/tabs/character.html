@@ -170,7 +170,7 @@
                         {{#each actor.professions as |profession id|}}
                         <li class="item dropitem" data-item-id="{{profession._id}}">
                             <label class="resource-label" for="profession.name">{{profession.name}}</label>
-                            <div>{{profession.data.description}}</div>
+                            <div>{{{profession.data.description}}}</div>
                         </li>
                         {{/each}}
                         {{/if}}

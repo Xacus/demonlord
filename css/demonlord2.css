@@ -605,6 +605,14 @@
   padding-left: 6px;
 }
 
+.demonlord2.item .template-type {
+  position: absolute;
+  left: 80px;
+  top: 27px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
 .demonlord2.item .itemsheet-header {
   position: relative;
   padding: 5px;
@@ -632,6 +640,7 @@
   font-weight: normal;
   text-transform: none;
   margin-top: 5px;
+  margin-left: 5px;
 }
 
 .demonlord2.item nav.sheet-tabs {

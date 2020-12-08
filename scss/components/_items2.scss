@@ -97,6 +97,14 @@ form {
   }
 }
 
+.template-type {
+  position: absolute;
+  left: 80px;
+  top: 27px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
 .itemsheet-header {
   position: relative;
   padding: 5px;
@@ -122,6 +130,7 @@ form {
       font-weight: normal;
       text-transform: none;
       margin-top: 5px;
+      margin-left: 5px
     }
   }
 }

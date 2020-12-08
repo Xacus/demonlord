@@ -1,7 +1,10 @@
 <form class="{{cssClass}}" autocomplete="off">
     <header class="sheet-header itemsheet-header">
+        <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
-            <input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+            <div class="gridrow">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+            </div>
         </div>
         <div class="template-type">{{item.type}}</div>
     </header>
