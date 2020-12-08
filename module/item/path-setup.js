@@ -35,6 +35,10 @@ export class DemonlordPathSetup extends ItemSheet {
       this._prepareLevelsView(data)
     }
 
+    if (!game.user.isGM) {
+      data.item.data.editPath = false
+    }
+
     return data
   }
 
