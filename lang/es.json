@@ -493,8 +493,12 @@
     "DL.PathsLevelDeleteDialogDeleteLevelText": "¿Estás seguro de eliminar el nivel?",
     "DL.PathsDialogTransferTalent": "Transferir talento",
     "DL.PathsDialogTransferTalentText": "¿Estás seguro de transferir este talento al actor?",
+    "DL.PathsDialogTransferTalents": "Transfer Talents",
+    "DL.PathsDialogTransferTalentsText": "Are you sure you want to transfer all Talents to the Actor?",
     "DL.PathsDialogTransferSpell": "Transferir conjuro",
     "DL.PathsDialogTransferSpellText": "¿Estás seguro de transferir este conjuro al actor?",
     "DL.PathsTransfer": "Haz clic en lo que quieres transferir",
+    "DL.PathsTalentTransfers": "Transfer all Talents",
+    "DL.PathsSpellTransfers": "Transfer all Spells",
     "DL.CharacterGenerator": "Character Generator"
 }

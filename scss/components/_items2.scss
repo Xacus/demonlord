@@ -168,6 +168,7 @@ nav.sheet-tabs {
   padding: 0;
   overflow-y: auto;
   margin: 5px 10px 20px 0;
+  width: 100%;
 
   .item-header {
     height: 16px;
@@ -395,6 +396,25 @@ nav.sheet-tabs {
           text-align: center;
           color: #000;
           border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+      }
+
+      .attbox {
+        width: 100%;
+        padding: 2px 0px;
+
+        label {
+          float: left;
+          margin-top: 0;
+        }
+
+        div {
+          float: left;
+          width: 20px;
+          text-align: center;
+          color: #000;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          margin: -2px 1px 0 1px;
         }
       }
 

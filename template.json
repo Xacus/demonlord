@@ -389,7 +389,8 @@
             },
             "languages": "",
             "talents": [],
-            "editTalents": false
+            "editTalents": false,
+            "editAncestry": false
         },
         "profession": {
             "templates": [

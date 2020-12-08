@@ -98,9 +98,9 @@ export const migrateItemData = function (item) {
   const itemTypes = ['weapon', 'talent', 'spell']
 
   if (itemTypes.includes(item.type)) {
-    updateData['data.action.damagetypes'] = []
+    updateData['data.damagetypes'] = undefined
 
-    if (item.type === 'talent') updateData['data.vs.damagetypes'] = []
+    if (item.type === 'talent') updateData['data.vs.damagetypes'] = undefined
   }
 
   if (!isObjectEmpty(updateData)) {

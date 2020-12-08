@@ -672,6 +672,7 @@
   padding: 0;
   overflow-y: auto;
   margin: 5px 10px 20px 0;
+  width: 100%;
 }
 
 .demonlord2.item .items-list .item-header {
@@ -1102,6 +1103,46 @@
   text-align: center;
   color: #000;
   border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.demonlord2.item .items-list li.level div.level .attbox,
+.demonlord2.item .items-list li.level div.attributes .attbox,
+.demonlord2.item .items-list li.level div.characteristics .attbox,
+.demonlord2.item .items-list li.level div.talents .attbox,
+.demonlord2.item .items-list li.level div.spells .attbox,
+.demonlord2.item .items-list li.level div.equipment .attbox,
+.demonlord2.item .items-list li.level div.language .attbox,
+.demonlord2.item .items-list li.level div.magic .attbox {
+  width: 100%;
+  padding: 2px 0px;
+}
+
+.demonlord2.item .items-list li.level div.level .attbox label,
+.demonlord2.item .items-list li.level div.attributes .attbox label,
+.demonlord2.item .items-list li.level div.characteristics .attbox label,
+.demonlord2.item .items-list li.level div.talents .attbox label,
+.demonlord2.item .items-list li.level div.spells .attbox label,
+.demonlord2.item .items-list li.level div.equipment .attbox label,
+.demonlord2.item .items-list li.level div.language .attbox label,
+.demonlord2.item .items-list li.level div.magic .attbox label {
+  float: left;
+  margin-top: 0;
+}
+
+.demonlord2.item .items-list li.level div.level .attbox div,
+.demonlord2.item .items-list li.level div.attributes .attbox div,
+.demonlord2.item .items-list li.level div.characteristics .attbox div,
+.demonlord2.item .items-list li.level div.talents .attbox div,
+.demonlord2.item .items-list li.level div.spells .attbox div,
+.demonlord2.item .items-list li.level div.equipment .attbox div,
+.demonlord2.item .items-list li.level div.language .attbox div,
+.demonlord2.item .items-list li.level div.magic .attbox div {
+  float: left;
+  width: 20px;
+  text-align: center;
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin: -2px 1px 0 1px;
 }
 
 .demonlord2.item .items-list li.level div.level .radiotrue label,
@@ -2667,14 +2708,24 @@
   float: right;
 }
 
-.demonlord2 .switch {
+.demonlord2 .togglegm {
+  float: right;
+  margin-right: 5px;
+}
+
+.demonlord2 .switch, .demonlord2 .switchBig {
   position: relative;
   display: inline-block;
   width: 48px;
   height: 12px;
 }
 
-.demonlord2 .switch input {
+.demonlord2 .switchBig {
+  width: 55px;
+  height: 14px;
+}
+
+.demonlord2 .switch input, .demonlord2 .switchBig input {
   display: none;
 }
 
@@ -2704,6 +2755,11 @@
   transition: 0.4s;
 }
 
+.demonlord2 .switchBig .slider:before {
+  height: 10px;
+  width: 10px;
+}
+
 .demonlord2 input:checked + .slider {
   background-color: #333;
 }
@@ -2717,6 +2773,12 @@
   -webkit-transform: translateX(36px);
   -ms-transform: translateX(36px);
   transform: translateX(36px);
+}
+
+.demonlord2 .switchBig input:checked + .slider:before {
+  -webkit-transform: translateX(41px);
+  -ms-transform: translateX(41px);
+  transform: translateX(41px);
 }
 
 .demonlord2 .on {
@@ -2734,6 +2796,11 @@
   left: 50%;
   font-size: 9px;
   font-family: Verdana, sans-serif;
+}
+
+.demonlord2 .switchBig .on,
+.demonlord2 .switchBig .off {
+  font-size: 10px;
 }
 
 .demonlord2 input:checked + .slider .on {

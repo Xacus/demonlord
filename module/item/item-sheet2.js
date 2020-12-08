@@ -34,9 +34,8 @@ export class DemonlordItemSheetDefault extends ItemSheet {
   getData () {
     const data = super.getData()
     data.isGM = game.user.isGM
-    data.useDemonlordMode = !game.settings.get('demonlord', 'useHomebrewMode')
-    data.lockAncestry =
-      game.settings.get('demonlord', 'lockAncestry') && !game.user.isGM
+    data.useDemonlordMode = game.settings.get('demonlord', 'useHomebrewMode')
+    data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
 
     if (this.item.data.type == 'path') {
       this._prepareLevels(data)
@@ -46,6 +45,11 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     ) {
       this._prepareDamageTypes(data)
     } else if (this.item.data.type == 'talent') this._prepareVSDamageTypes(data)
+    else if (this.item.data.type == 'ancestry') {
+      if (!game.user.isGM && !data.useDemonlordMode) {
+        data.item.data.editAncestry = false
+      }
+    }
 
     return data
   }
@@ -76,7 +80,6 @@ export class DemonlordItemSheetDefault extends ItemSheet {
   _prepareDamageTypes (data) {
     const itemData = data.item
     const damagetypes = []
-    const vsdamagetypes = []
 
     for (const damagetype of itemData.data?.damagetypes) {
       damagetypes.push(damagetype)
@@ -160,6 +163,14 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       this.showTransferDialog(
         game.i18n.localize('DL.PathsDialogTransferTalent'),
         game.i18n.localize('DL.PathsDialogTransferTalentText'),
+        ev
+      )
+    })
+
+    html.find('.transfer-talents').click((ev) => {
+      this.showTransferDialog(
+        game.i18n.localize('DL.PathsDialogTransferTalents'),
+        game.i18n.localize('DL.PathsDialogTransferTalentsText'),
         ev
       )
     })
@@ -277,21 +288,40 @@ export class DemonlordItemSheetDefault extends ItemSheet {
   async transferItem (event) {
     event.preventDefault()
 
-    const itemIndex = event.currentTarget.getAttribute('data-item-id')
-    const itemGroup = event.currentTarget.parentElement.parentElement.getAttribute(
-      'data-group'
-    )
+    if (event.currentTarget.className.indexOf('transfer-talents')) {
+      const itemGroup = event.currentTarget.getAttribute('data-group')
 
-    if (itemGroup === 'talent') {
-      const selectedLevelItem = this.object.data.data.talents[itemIndex]
-      const item = game.items.get(selectedLevelItem.id)
+      if (itemGroup === 'talent') {
+        for (const talent of this.object.data.data.talents) {
+          const item = game.items.get(talent.id)
 
-      await this.actor.createOwnedItem(item)
-    } else if (itemGroup === 'talent4') {
-      const selectedLevelItem = this.object.data.data.level4.talent[itemIndex]
-      const item = game.items.get(selectedLevelItem.id)
+          if (item != null) await this.actor.createOwnedItem(item)
+        }
+      } else if (itemGroup === 'talent4') {
+        for (const talent of this.object.data.data.level4) {
+          const item = game.items.get(talent.id)
 
-      await this.actor.createOwnedItem(item)
+          if (item != null) await this.actor.createOwnedItem(item)
+        }
+      }
+    } else {
+      // Transfer single Item
+      const itemIndex = event.currentTarget.getAttribute('data-item-id')
+      const itemGroup = event.currentTarget.parentElement.parentElement.getAttribute(
+        'data-group'
+      )
+
+      if (itemGroup === 'talent') {
+        const selectedLevelItem = this.object.data.data.talents[itemIndex]
+        const item = game.items.get(selectedLevelItem.id)
+
+        if (item != null) await this.actor.createOwnedItem(item)
+      } else if (itemGroup === 'talent4') {
+        const selectedLevelItem = this.object.data.data.level4.talent[itemIndex]
+        const item = game.items.get(selectedLevelItem.id)
+
+        if (item != null) await this.actor.createOwnedItem(item)
+      }
     }
   }
 
@@ -449,7 +479,6 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
     switch (a.dataset.action) {
       case 'create':
-        console.log(itemData)
         itemData.data.damagetypes.push(new DamageType())
 
         await this.item.update(itemData, { diff: false })
