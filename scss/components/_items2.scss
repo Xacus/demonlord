@@ -188,7 +188,11 @@ nav.sheet-tabs {
     text-transform: uppercase;
 
     .item-controls {
-      height: 0;
+      position: relative;
+      right: 0px;
+      height: 15px;
+      width: 15px;
+      margin-top: 0px;
     }
 
     .weaponnameheader {
@@ -476,7 +480,7 @@ nav.sheet-tabs {
     .item-controls {
       float: right;
       position: relative;
-      top: -20px;
+      top: -10px;
       margin-right: 3px;
     }
   }

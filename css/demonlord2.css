@@ -694,7 +694,11 @@
 }
 
 .demonlord2.item .items-list .item-header .item-controls {
-  height: 0;
+  position: relative;
+  right: 0px;
+  height: 15px;
+  width: 15px;
+  margin-top: 0px;
 }
 
 .demonlord2.item .items-list .item-header .weaponnameheader {
@@ -1219,7 +1223,7 @@
 .demonlord2.item .items-list li.level .item-controls {
   float: right;
   position: relative;
-  top: -20px;
+  top: -10px;
   margin-right: 3px;
 }
 
@@ -2718,8 +2722,9 @@
 }
 
 .demonlord2 .togglegm {
-  float: right;
-  margin-right: 5px;
+  position: absolute;
+  right: 7px;
+  top: 52px;
 }
 
 .demonlord2 .switch, .demonlord2 .switchBig {
@@ -2751,6 +2756,10 @@
   transition: 0.4s;
 }
 
+.demonlord2 .switchBig .slider {
+  background-color: #666;
+}
+
 .demonlord2 .slider:before {
   position: absolute;
   content: "";
@@ -2771,6 +2780,10 @@
 
 .demonlord2 input:checked + .slider {
   background-color: #333;
+}
+
+.demonlord2 .switchBig input:checked + .slider {
+  background-color: #666;
 }
 
 .demonlord2 input:focus + .slider {

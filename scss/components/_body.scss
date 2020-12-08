@@ -455,8 +455,9 @@
 }
 
 .togglegm {
-  float: right;
-  margin-right: 5px;
+  position: absolute;
+  right: 7px;
+  top: 52px;
 }
 
 .switch, .switchBig {
@@ -488,6 +489,10 @@
   transition: 0.4s;
 }
 
+.switchBig .slider {
+  background-color: #666;
+}
+
 .slider:before {
   position: absolute;
   content: "";
@@ -508,6 +513,11 @@
 input:checked + .slider {
   background-color: #333;
 }
+
+.switchBig input:checked + .slider {
+  background-color: #666;
+}
+
 
 input:focus + .slider {
   box-shadow: 0 0 1px #2196f3;

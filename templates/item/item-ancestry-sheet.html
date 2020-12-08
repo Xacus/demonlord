@@ -7,6 +7,27 @@
                 </div>
             </div>
             <div class="template-type">{{item.type}}</div>
+            {{#if isGM}}
+            <div class="togglegm">
+                <label class="switchBig">
+                    <input type="checkbox" id="data.editAncestry" name="data.editAncestry" {{checked data.editAncestry}}>
+                    <div class="slider round">
+                        <span class="on">Edit</span><span class="off">View</span>
+                    </div>
+                </label>
+            </div>
+            {{else}}
+                {{#if useDemonlordMode}}
+                <div class="togglegm">
+                    <label class="switchBig">
+                        <input type="checkbox" id="data.editAncestry" name="data.editAncestry" {{checked data.editAncestry}}>
+                        <div class="slider round">
+                            <span class="on">Edit</span><span class="off">View</span>
+                        </div>
+                    </label>
+                </div>
+                {{/if}}
+            {{/if}}
         </header>
 
         {{!-- Sheet Tab Navigation --}}
@@ -20,27 +41,6 @@
             <section class="sheet-content">
                 {{!-- Attributes Tab --}}
                 <div class="tab paths" data-group="primary" data-tab="attributes">
-                    {{#if isGM}}
-                    <div class="togglegm">
-                        <label class="switchBig">
-                            <input type="checkbox" id="data.editAncestry" name="data.editAncestry" {{checked data.editAncestry}}>
-                            <div class="slider round">
-                                <span class="on">Edit</span><span class="off">View</span>
-                            </div>
-                        </label>
-                    </div>
-                    {{else}}
-                        {{#if useDemonlordMode}}
-                        <div class="togglegm">
-                            <label class="switchBig">
-                                <input type="checkbox" id="data.editAncestry" name="data.editAncestry" {{checked data.editAncestry}}>
-                                <div class="slider round">
-                                    <span class="on">Edit</span><span class="off">View</span>
-                                </div>
-                            </label>
-                        </div>
-                        {{/if}}
-                    {{/if}}
                     <div class="gridrow">
                         <div class="resource">
                             <ol class="items-list">

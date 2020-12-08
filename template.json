@@ -390,7 +390,7 @@
             "languages": "",
             "talents": [],
             "editTalents": false,
-            "editAncestry": false
+            "editAncestry": true
         },
         "profession": {
             "templates": [
@@ -402,7 +402,8 @@
                 "base"
             ],
             "type": "novice",
-            "levels": []
+            "levels": [],
+            "editPath": true
         },
         "creaturerole": {
             "templates": [
