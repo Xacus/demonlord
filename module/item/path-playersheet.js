@@ -91,6 +91,15 @@ export class DemonlordPathPlayerView extends ItemSheet {
       )
     })
 
+    html.find('.transfer-talents').click((ev) => {
+      this.showTransferDialog(
+        game.i18n.localize('DL.PathsDialogTransferTalents'),
+        game.i18n.localize('DL.PathsDialogTransferTalentsText'),
+        ev,
+        'TALENTS'
+      )
+    })
+
     html.find('.transfer-talentpick').click((ev) => {
       this.showTransferDialog(
         game.i18n.localize('DL.PathsDialogTransferTalent'),
@@ -470,30 +479,38 @@ export class DemonlordPathPlayerView extends ItemSheet {
   async transferItem (event, type) {
     event.preventDefault()
 
-    const levelIndex = event.currentTarget
-      .closest('.level')
-      .getAttribute('data-item-id')
-    const itemIndex = event.currentTarget.getAttribute('data-item-id')
+    if (event.currentTarget.className.indexOf('transfer-talents')) {
+      const levelIndex = event.currentTarget.getAttribute('data-level')
 
-    if (type === 'TALENT') {
-      const selectedLevelItem = this.object.data.data.levels[levelIndex]
-        .talents[itemIndex]
-      const item = game.items.get(selectedLevelItem.id)
-
-      await this.actor.createOwnedItem(item)
-    } else if (type === 'TALENTPICKS') {
-      const selectedLevelItem = this.object.data.data.levels[levelIndex]
-        .talentspick[itemIndex]
-      const item = game.items.get(selectedLevelItem.id)
-
-      await this.actor.createOwnedItem(item)
+      for (const talent of this.object.data.data.levels[levelIndex].talents) {
+        const item = game.items.get(talent.id)
+        if (item != null) await this.actor.createOwnedItem(item)
+      }
     } else {
-      const selectedLevelItem = this.object.data.data.levels[levelIndex].spells[
-        itemIndex
-      ]
-      const item = game.items.get(selectedLevelItem.id)
+      const levelIndex = event.currentTarget
+        .closest('.level')
+        .getAttribute('data-item-id')
+      const itemIndex = event.currentTarget.getAttribute('data-item-id')
 
-      await this.actor.createOwnedItem(item)
+      if (type === 'TALENT') {
+        const selectedLevelItem = this.object.data.data.levels[levelIndex]
+          .talents[itemIndex]
+        const item = game.items.get(selectedLevelItem.id)
+
+        await this.actor.createOwnedItem(item)
+      } else if (type === 'TALENTPICKS') {
+        const selectedLevelItem = this.object.data.data.levels[levelIndex]
+          .talentspick[itemIndex]
+        const item = game.items.get(selectedLevelItem.id)
+
+        await this.actor.createOwnedItem(item)
+      } else {
+        const selectedLevelItem = this.object.data.data.levels[levelIndex]
+          .spells[itemIndex]
+        const item = game.items.get(selectedLevelItem.id)
+
+        await this.actor.createOwnedItem(item)
+      }
     }
   }
 
