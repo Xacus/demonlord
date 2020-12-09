@@ -179,38 +179,6 @@
     }
   }
 
-  .item-list {
-    list-style: none;
-    margin: 0 0 20px 0;
-    padding: 0;
-  }
-
-  .items-header {
-    border-bottom: 1px solid var(--demonlord-red);
-    font-weight: bold;
-    font-family: $font-header;
-    text-transform: uppercase;
-    height: 16px;
-    margin: 2px 0;
-    padding: 0;
-    align-items: center;
-    > * {
-      font-size: 10px;
-      text-align: center;
-    }
-    .item-name {
-      flex: 2;
-      padding-left: 5px;
-      font-size: 10px;
-    }
-    .effect-controls {
-      text-align: right;
-      flex: 0 0 60px;
-      justify-content: space-between;
-    }
-  }
-
-
   .itemamount {
     float: right;
     margin-right: 15px;
@@ -317,41 +285,6 @@
       float: right;
       width: 50px;
       height: 16px;
-    }
-
-    .item-name {
-      color: #000;
-      flex: 2;
-
-      .item-image {
-        flex: 0 0 30px;
-        height: 30px;
-        background-size: 30px;
-        border: none;
-        margin-right: 5px;
-      }
-      h4 {
-        margin: 0;
-        white-space: nowrap;
-        overflow-x: hidden;
-      }
-    }
-
-
-    .effect-source,
-    .effect-duration,
-    .effect-controls {
-      text-align: center;
-      font-size: 12px;
-    }
-    .effect-controls {
-      border: none;
-      flex: 0 0 60px;
-      justify-content: space-between;
-
-      .effect-control {
-        margin: 0;
-      }
     }
   }
 
