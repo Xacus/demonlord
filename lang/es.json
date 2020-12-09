@@ -59,7 +59,6 @@
     "DL.TabsMagic": "Magia",
     "DL.TabsItems": "Objetos",
     "DL.TabsInventory": "Inventario",
-    "DL.TabsEffects": "Effects",
     "DL.TabsBackground": "Transfondo",
     "DL.TabsAttributes": "Atributos",
     "DL.TabsDescription": "Descripción",
@@ -501,10 +500,5 @@
     "DL.PathsTransfer": "Haz clic en lo que quieres transferir",
     "DL.PathsTalentTransfers": "Transfer all Talents",
     "DL.PathsSpellTransfers": "Transfer all Spells",
-    "DL.CharacterGenerator": "Character Generator",
-    "DL.EffectCreate": "Add effect",
-    "DL.EffectAdd": "Add",
-    "DL.EffectToggle": "Toggle",
-    "DL.EffectEdit": "Edit",
-    "DL.EffectDelete": "Delete"
+    "DL.CharacterGenerator": "Character Generator"
 }
