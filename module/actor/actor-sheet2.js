@@ -1,6 +1,10 @@
 import { DLActorModifiers } from '../dialog/actor-modifiers.js'
 import { DLCharacterGenerater } from '../dialog/actor-generator.js'
-import { CharacterBuff } from '../buff.js'
+import {
+  onManageActiveEffect,
+  prepareActiveEffectCategories
+} from '../effects.js'
+
 export class DemonlordActorSheet2 extends ActorSheet {
   /** @override */
   static get defaultOptions () {
@@ -70,6 +74,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     }).render(true)
   }
 
+  /*
   async _updateObject (event, formData) {
     const actor = this.object
     const updateData = expandObject(formData)
@@ -78,13 +83,18 @@ export class DemonlordActorSheet2 extends ActorSheet {
       diff: false
     })
   }
-
+*/
   /** @override */
   getData () {
     const data = super.getData()
     data.isGM = game.user.isGM
     data.useDemonlordMode = !game.settings.get('demonlord', 'useHomebrewMode')
     data.dtypes = ['String', 'Number', 'Boolean']
+    data.effects = prepareActiveEffectCategories(this.entity.effects)
+
+    data.actor = duplicate(this.actor.data)
+    data.data = data.actor.data
+
     for (const attr of Object.values(data.data.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean'
     }
@@ -292,6 +302,12 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
+
+    if (this.isEditable) {
+      html
+        .find('.effect-control')
+        .click((ev) => onManageActiveEffect(ev, this.entity))
+    }
 
     // Edit HealthBar, Insanity and Corruption
     html.find('.bar-edit').click((ev) => {

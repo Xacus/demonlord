@@ -2434,6 +2434,48 @@
   height: 16px;
 }
 
+.demonlord2 .items-list .item-list {
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+.demonlord2 .items-list .items-header {
+  border-bottom: 1px solid var(--demonlord-red);
+  font-weight: bold;
+  font-family: "IM Fell English SC", serif;
+  text-transform: uppercase;
+  height: 16px;
+  margin: 2px 0;
+  padding: 0;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.demonlord2 .items-list .items-header > * {
+  font-size: 10px;
+  text-align: center;
+}
+
+.demonlord2 .items-list .items-header .item-name {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding-left: 5px;
+  font-size: 10px;
+}
+
+.demonlord2 .items-list .items-header .effect-controls {
+  text-align: right;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 60px;
+  flex: 0 0 60px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
 .demonlord2 .items-list .itemamount {
   float: right;
   margin-right: 15px;
@@ -2539,6 +2581,50 @@
   float: right;
   width: 50px;
   height: 16px;
+}
+
+.demonlord2 .items-list .item .item-name {
+  color: #000;
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+}
+
+.demonlord2 .items-list .item .item-name .item-image {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 30px;
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+
+.demonlord2 .items-list .item .item-name h4 {
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+
+.demonlord2 .items-list .item .effect-source,
+.demonlord2 .items-list .item .effect-duration,
+.demonlord2 .items-list .item .effect-controls {
+  text-align: center;
+  font-size: 12px;
+}
+
+.demonlord2 .items-list .item .effect-controls {
+  border: none;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 60px;
+  flex: 0 0 60px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.demonlord2 .items-list .item .effect-controls .effect-control {
+  margin: 0;
 }
 
 .demonlord2 .items-list .feature {

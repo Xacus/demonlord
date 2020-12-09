@@ -113,6 +113,7 @@ async function preloadHandlebarsTemplates () {
   const templatePaths = [
     'systems/demonlord/templates/tabs/character.html',
     'systems/demonlord/templates/tabs/combat.html',
+    'systems/demonlord/templates/tabs/effects.html',
     'systems/demonlord/templates/tabs/talents.html',
     'systems/demonlord/templates/tabs/magic.html',
     'systems/demonlord/templates/tabs/item.html',
