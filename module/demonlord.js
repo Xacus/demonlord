@@ -4,6 +4,7 @@ import { DemonlordActor } from './actor/actor.js'
 import { DemonlordActorSheet } from './actor/actor-sheet.js'
 import { DemonlordActorSheet2 } from './actor/actor-sheet2.js'
 import { DemonlordCreatureSheet } from './actor/creature-sheet.js'
+import { DemonlordNewCreatureSheet } from './actor/new-creature-sheet.js'
 import { DemonlordItem } from './item/item.js'
 import { DemonlordItemSheetDefault } from './item/item-sheet2.js'
 import { DemonlordPathSetup } from './item/path-setup.js'
@@ -60,6 +61,10 @@ Hooks.once('init', async function () {
   })
 
   Actors.registerSheet('demonlord', DemonlordCreatureSheet, {
+    types: ['creature'],
+    makeDefault: true
+  })
+  Actors.registerSheet('demonlord', DemonlordNewCreatureSheet, {
     types: ['creature'],
     makeDefault: false
   })
@@ -140,7 +145,10 @@ async function preloadHandlebarsTemplates () {
     'systems/demonlord/templates/actor/creature-sheet.html',
     'systems/demonlord/templates/dialogs/actor-modifiers-dialog.html',
     'systems/demonlord/templates/dialogs/choose-turn-dialog.html',
-    'systems/demonlord/templates/dialogs/endofround-dialog.html'
+    'systems/demonlord/templates/dialogs/endofround-dialog.html',
+    'systems/demonlord/templates/actor/new-creature-sheet.html',
+    'systems/demonlord/templates/actor/new-creature-header.html',
+    'systems/demonlord/templates/actor/new-creature-sidemenu.html'
   ]
   return loadTemplates(templatePaths)
 }

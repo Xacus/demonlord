@@ -29,7 +29,7 @@ form {
     width: 247px;
     position: fixed;
     overflow: hidden;
-    background: url("sidebar.png") no-repeat top center;
+    background: url("sidebar_creature.png") no-repeat top center;
 
     .sidebar {
       margin: 0px 23px 0 30px;
@@ -84,6 +84,7 @@ form {
       }
 
       .injuredbox,
+      .injuredboxright,
       .healingratebox {
         position: absolute;
         top: 143px;
@@ -129,6 +130,16 @@ form {
         }
       }
 
+      .injuredboxright {
+        top: 143px;
+        left: 188px;
+
+        .injuredtext {
+          left: -30px;
+          top: 30px;
+        }
+      }
+
       .editBars {
         position: relative;
         left: 174px;
@@ -161,6 +172,12 @@ form {
 
             input {
               margin-top: -4px;
+              margin-left: -2px;
+
+              &:focus  {
+                border-radius: 16px;
+                background: #555;
+              }
             }
           }
 
@@ -174,6 +191,9 @@ form {
         }
       }
 
+      .charsstat {
+        margin-top: 25px;
+      }
       .chars.grid {
         gap: 0;
       }
@@ -206,6 +226,12 @@ form {
 
             input {
               margin-top: -4px;
+              margin-left: -2px;
+
+              &:focus {
+                border-radius: 16px;
+                background: #555;
+              }
             }
           }
 
@@ -223,6 +249,7 @@ form {
 
       .healingratebox {
         left: 186px;
+        margin-bottom: 10px;
         .healingrate {
           padding-top: 5px;
           text-align: center;
@@ -290,6 +317,34 @@ form {
         .corruption-fill {
           background-color: darkmagenta;
         }
+      }
+
+      .armor, .speedtraits {
+        padding: 10px;
+
+        input[type='text'] {
+          width: 174px;
+          font-family: 'Roboto', system, -apple-system, sans-serif;
+          font-size: 11px;
+          color: #fff;
+          line-height: calc(1em + 1px);
+          height: 26px;
+          padding: 10px;
+          margin-left: -5px;
+          background: rgba(0, 0, 0, 1);
+
+          &:focus,
+          &:hover {
+            padding-left: 5px;
+            margin-left: 1px;
+            margin-top: 1px;
+            background:#000;
+          }
+        }
+      }
+
+      .speedtraits {
+        margin-top: -10px;
       }
     }
 
