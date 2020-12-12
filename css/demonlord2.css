@@ -2257,6 +2257,10 @@
   box-shadow: none;
 }
 
+.demonlord2 form aside.npc {
+  background: url("sidebar_npc.png") no-repeat top center;
+}
+
 .demonlord2 .features .featureheader {
   width: 100%;
   font-size: 12px;
