@@ -74,9 +74,74 @@ export class DemonlordActorSheet2 extends ActorSheet {
     const actor = this.object
     const updateData = expandObject(formData)
 
-    await actor.update(updateData, {
-      diff: false
-    })
+    if (
+      updateData.data.level &&
+      updateData.data.level != actor.data.data.level
+    ) {
+      // Create Talents for new level
+      const paths = this.actor
+        .getEmbeddedCollection('OwnedItem')
+        .filter((e) => e.type === 'path')
+
+      if (updateData.data.level > actor.data.data.level) {
+        for (const path of paths) {
+          for (const level of path.data.levels) {
+            if (
+              level.level > actor.data.data.level &&
+              level.level <= updateData.data.level
+            ) {
+              for (const talent of level.talents) {
+                await this.actor.createEmbeddedEntity(
+                  'OwnedItem',
+                  game.items.get(talent.id)
+                )
+              }
+              for (const spell of level.spells) {
+                await this.actor.createEmbeddedEntity(
+                  'OwnedItem',
+                  game.items.get(spell.id)
+                )
+              }
+            }
+          }
+        }
+      } else if (updateData.data.level < actor.data.data.level) {
+        for (const path of paths) {
+          for (const level of path.data.levels) {
+            if (
+              level.level <= actor.data.data.level &&
+              level.level > updateData.data.level
+            ) {
+              for (const talent of level.talents) {
+                const actorTalent = this.actor
+                  .getEmbeddedCollection('OwnedItem')
+                  .filter((e) => e.type === 'talent' && e.name === talent.name)
+
+                if (actorTalent.length > 0) {
+                  await this.actor.deleteEmbeddedEntity(
+                    'OwnedItem',
+                    actorTalent[0]._id
+                  )
+                }
+              }
+              for (const spell of level.spells) {
+                const actorSpell = this.actor
+                  .getEmbeddedCollection('OwnedItem')
+                  .filter((e) => e.type === 'spell' && e.name === spell.name)
+
+                if (actorSpell.length > 0) {
+                  await this.actor.deleteEmbeddedEntity(
+                    'OwnedItem',
+                    actorSpell[0]._id
+                  )
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return this.entity.update(formData)
   }
 
   /** @override */
@@ -184,47 +249,127 @@ export class DemonlordActorSheet2 extends ActorSheet {
     actorData.talentbook = this._prepareTalentBook(actorData)
   }
 
-  /** @override */
-  async _onDrop (event) {
-    // Try to extract the data
-    let data
-    try {
-      data = JSON.parse(event.dataTransfer.getData('text/plain'))
-    } catch (err) {
-      return false
-    }
-    const actor = this.actor
+  async _onDropItemCreate (itemData) {
+    switch (itemData.type) {
+      case 'ancestry':
+        // Delete existing Talents
+        const ancestries = this.actor
+          .getEmbeddedCollection('OwnedItem')
+          .filter((e) => e.type === 'ancestry')
 
-    // Handle the drop with a Hooked function
-    const allowed = Hooks.call('dropActorSheetData', actor, this, data)
-    if (allowed === false) return
+        for (const ancestry of ancestries) {
+          for (let index = 0; index < ancestry.data.talents.length; index++) {
+            const talent = ancestry.data.talents[index]
+            const actorTalent = this.actor
+              .getEmbeddedCollection('OwnedItem')
+              .filter((e) => e.type === 'talent' && e.name === talent.name)
 
-    // Handle different data types
-    switch (data.type) {
-      case 'Item':
-        const item = game.items.get(data.id)
-        if (item != null && item.data?.type === 'path') {
-          const paths = this.actor
-            .getEmbeddedCollection('OwnedItem')
-            .filter(
-              (e) => e.type === 'path' && item.data.data.type === e.data.type
-            )
-          if (paths.length > 0) {
-            this.actor.deleteEmbeddedEntity('OwnedItem', paths[0]._id)
+            if (actorTalent.length > 0) {
+              await this.actor.deleteEmbeddedEntity(
+                'OwnedItem',
+                actorTalent[0]._id
+              )
+            }
           }
-        } else if (item != null && item.data.type === 'ancestry') {
-          const ancestries = this.actor
-            .getEmbeddedCollection('OwnedItem')
-            .filter((e) => e.type === 'ancestry')
-          ancestries.forEach((ancestry) => {
-            this.actor.deleteEmbeddedEntity('OwnedItem', ancestry._id)
-          })
+          await this.actor.deleteEmbeddedEntity('OwnedItem', ancestry._id)
         }
 
-        return this._onDropItem(event, data)
-      case 'Actor':
-        return this._onDropActor(event, data)
+        // Create Talents
+        for (const talent of itemData.data.talents) {
+          await this.actor.createEmbeddedEntity(
+            'OwnedItem',
+            game.items.get(talent.id)
+          )
+        }
+        break
+      case 'path':
+        // Delete existing Talenst
+        const paths = this.actor
+          .getEmbeddedCollection('OwnedItem')
+          .filter(
+            (e) => e.type === 'path' && itemData.data.type === e.data.type
+          )
+
+        for (const path of paths) {
+          for (const level of path.data.levels) {
+            for (const talent of level.talents) {
+              const actorTalent = this.actor
+                .getEmbeddedCollection('OwnedItem')
+                .filter((e) => e.type === 'talent' && e.name === talent.name)
+
+              if (actorTalent.length > 0) {
+                await this.actor.deleteEmbeddedEntity(
+                  'OwnedItem',
+                  actorTalent[0]._id
+                )
+              }
+            }
+          }
+          await this.actor.deleteEmbeddedEntity('OwnedItem', path._id)
+        }
+
+        // Create Talents
+        if (this.actor.data.data.level > 0) {
+          for (let i = 1; i <= this.actor.data.data.level; i++) {
+            const level = itemData.data.levels.filter(
+              (level) => level.level === i
+            )
+
+            if (level[0]) {
+              for (const talent of level[0].talents) {
+                await this.actor.createEmbeddedEntity(
+                  'OwnedItem',
+                  game.items.get(talent.id)
+                )
+              }
+            }
+          }
+        }
+
+        // Delete existing Spells
+        for (const path of paths) {
+          for (const level of path.data.levels) {
+            for (const spell of level.spells) {
+              const actorSpell = this.actor
+                .getEmbeddedCollection('OwnedItem')
+                .filter((e) => e.type === 'spell' && e.name === spell.name)
+
+              if (actorSpell.length > 0) {
+                await this.actor.deleteEmbeddedEntity(
+                  'OwnedItem',
+                  actorSpell[0]._id
+                )
+              }
+            }
+          }
+          await this.actor.deleteEmbeddedEntity('OwnedItem', path._id)
+        }
+
+        // Create Spells
+        if (this.actor.data.data.level > 0) {
+          for (let i = 1; i <= this.actor.data.data.level; i++) {
+            const level = itemData.data.levels.filter(
+              (level) => level.level === i
+            )
+
+            if (level[0]) {
+              for (const spell of level[0].spells) {
+                await this.actor.createEmbeddedEntity(
+                  'OwnedItem',
+                  game.items.get(spell.id)
+                )
+              }
+            }
+          }
+        }
+
+        break
+      default:
+        break
     }
+    return super._onDropItemCreate(itemData)
+
+    // return this.actor.createEmbeddedEntity('OwnedItem', itemData)
   }
 
   /* -------------------------------------------- */
@@ -285,6 +430,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     return talentbook
   }
+  /* -------------------------------------------- */
 
   /** @override */
   activateListeners (html) {
@@ -970,7 +1116,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
    */
   _onItemCreate (event) {
     event.preventDefault()
-
     const header = event.currentTarget
     // Get the type of item to create.
     const type = header.dataset.type
@@ -1087,6 +1232,10 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
   async createAncestry (ev) {
     const data = { name: 'New ancestry', type: 'ancestry' }
-    const item = await this.actor.createEmbeddedEntity('OwnedItem', data)
+    const talentToCreate = await this.actor.createEmbeddedEntity(
+      'OwnedItem',
+      data
+    )
+    await this.actor.update(talentToCreate)
   }
 }

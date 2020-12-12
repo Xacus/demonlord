@@ -496,7 +496,7 @@
     "DL.PathsDialogTransferTalents": "Transfer Talents",
     "DL.PathsDialogTransferTalentsText": "Are you sure you want to transfer all Talents to the Actor?",
     "DL.PathsDialogTransferSpell": "Transfer Spell",
-    "DL.PathsDialogTransferSpellText": "Are you sure you want to delete the Spell to the Actor?",
+    "DL.PathsDialogTransferSpellText": "Are you sure you want to transfer the Spell to the Actor?",
     "DL.PathsTransfer": "Click on items to transfer",
     "DL.PathsTalentTransfers": "Transfer all Talents",
     "DL.PathsSpellTransfers": "Transfer all Spells",

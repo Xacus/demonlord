@@ -968,7 +968,7 @@ export class DemonlordPathSetup extends ItemSheet {
       })
     }
 
-    return this.entity.update(updateData)
+    return this.object.update(formData)
   }
 
   async addLevel (event) {
@@ -1038,7 +1038,7 @@ export class DemonlordPathSetup extends ItemSheet {
   async transferItem (event, type) {
     event.preventDefault()
 
-    if (event.currentTarget.className.indexOf('transfer-talents')) {
+    if (event.currentTarget.className.indexOf('transfer-talents') > 0) {
       const levelIndex = event.currentTarget.getAttribute('data-level')
 
       for (const talent of this.object.data.data.levels[levelIndex].talents) {
@@ -1099,28 +1099,28 @@ export class DemonlordPathSetup extends ItemSheet {
     const item = this.object
 
     switch (attribute) {
-      case 'Strength':
+      case 'strength':
         isSelected
           ? (item.data.data.levels[index].attributeStrength = attributeValue)
           : (item.data.data.levels[index].attributeStrength = 0)
 
         item.data.data.levels[index].attributeStrengthSelected = isSelected
         break
-      case 'Agility':
+      case 'agility':
         isSelected
           ? (item.data.data.levels[index].attributeAgility = attributeValue)
           : (item.data.data.levels[index].attributeAgility = 0)
 
         item.data.data.levels[index].attributeAgilitySelected = isSelected
         break
-      case 'Intellect':
+      case 'intellect':
         isSelected
           ? (item.data.data.levels[index].attributeIntellect = attributeValue)
           : (item.data.data.levels[index].attributeIntellect = 0)
 
         item.data.data.levels[index].attributeIntellectSelected = isSelected
         break
-      case 'Will':
+      case 'will':
         isSelected
           ? (item.data.data.levels[index].attributeWill = attributeValue)
           : (item.data.data.levels[index].attributeWill = 0)

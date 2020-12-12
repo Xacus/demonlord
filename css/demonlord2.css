@@ -2707,6 +2707,27 @@
   margin-bottom: 5px;
 }
 
+.demonlord2 .professionslist .editprofession textarea,
+.demonlord2 .professionslist .editfeature textarea,
+.demonlord2 .featureslist .editprofession textarea,
+.demonlord2 .featureslist .editfeature textarea {
+  background: rgba(0, 0, 0, 0.1);
+  border: 0;
+  border-radius: 0;
+  font-family: "Gelasio", "Signika", Georgia, serif;
+  font-size: 11px;
+}
+
+.demonlord2 .professionslist .editprofession textarea:focus, .demonlord2 .professionslist .editprofession textarea:hover,
+.demonlord2 .professionslist .editfeature textarea:focus,
+.demonlord2 .professionslist .editfeature textarea:hover,
+.demonlord2 .featureslist .editprofession textarea:focus,
+.demonlord2 .featureslist .editprofession textarea:hover,
+.demonlord2 .featureslist .editfeature textarea:focus,
+.demonlord2 .featureslist .editfeature textarea:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
 .demonlord2 .professionslist .editprofession .item-controls,
 .demonlord2 .professionslist .editfeature .item-controls,
 .demonlord2 .featureslist .editprofession .item-controls,

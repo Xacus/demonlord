@@ -441,6 +441,18 @@
       margin-bottom: 5px;
     }
 
+    textarea {
+      background: rgba(0, 0, 0, 0.1);
+      border: 0;
+      border-radius: 0;
+      font-family: "Gelasio", "Signika", Georgia, serif;
+      font-size: 11px;
+
+      &:focus, &:hover {
+        background: rgba(0, 0, 0, 0.3);
+      }
+    }
+
     .item-controls {
       float: right;
       width: 15px;
