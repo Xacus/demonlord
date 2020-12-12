@@ -4321,6 +4321,43 @@
   background: var(--demonlord-red);
 }
 
+.newcreature .tagcleantooltip {
+  position: relative;
+  padding: 3px 6px 3px 6px;
+  background: #edf2f7;
+  margin: 2px 5px 2px 2px;
+  border-radius: 4px;
+  list-style-type: none;
+}
+
+.newcreature .tagcleantooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: left;
+  border-radius: 3px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  top: 0;
+  left: 0;
+  -webkit-transform: translate(-8%, calc(-100% - 10px));
+  -ms-transform: translate(-8%, calc(-100% - 10px));
+  transform: translate(-8%, calc(-100% - 10px));
+}
+
+.newcreature .tagcleantooltip:hover {
+  color: #fff;
+  background: var(--demonlord-red);
+}
+
+.newcreature .tagcleantooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 .newcreature .tagcleanselect {
   color: #fff;
   background: var(--demonlord-red);

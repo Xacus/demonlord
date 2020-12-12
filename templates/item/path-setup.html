@@ -611,7 +611,11 @@
                                     <div class="item-container select-area">
                                         <ul class="tags">
                                             {{#each level.talents as |talent id|}}
-                                            <li class="tagclean" data-item-id="{{id}}">{{talent.name}}</li>
+                                            <li class="tagcleantooltip" data-item-id="{{id}}">{{talent.name}}
+                                                {{#if talent.description}} 
+                                                <span class="tooltiptext">{{{talent.description}}}</span>
+                                                {{/if}}
+                                            </li>
                                             {{/each}}
                                         </ul>
                                     </div>
@@ -626,7 +630,11 @@
                                     <div class="item-container select-area" data-group="talent" data-level="{{id}}">
                                         <ul class="tags">
                                             {{#each level.talentspick as |talent id|}}
-                                            <li class="tagclean select-item transfer-talentpick" data-item-id="{{id}}">{{talent.name}}</li>
+                                            <li class="tagcleantooltip select-item transfer-talentpick" data-item-id="{{id}}">{{talent.name}}
+                                                {{#if talent.description}} 
+                                                <span class="tooltiptext">{{{talent.description}}}</span>
+                                                {{/if}}
+                                            </li>
                                             {{/each}}
                                         </ul>
                                     </div>
@@ -640,7 +648,11 @@
                                     <div class="item-container select-area" data-group="spell" data-level="{{id}}">
                                         <ul class="tags">
                                             {{#each level.spells as |spell id|}}
-                                            <li class="tagclean select-item" data-item-id="{{id}}">{{spell.name}}</li>
+                                            <li class="tagcleantooltip" data-item-id="{{id}}">{{spell.name}}
+                                                {{#if talent.description}} 
+                                                <span class="tooltiptext">{{{spell.description}}}</span>
+                                                {{/if}}
+                                            </li>
                                             {{/each}}
                                         </ul>
                                     </div>

@@ -35,6 +35,41 @@
   }
 }
 
+.tagcleantooltip {
+  position: relative;
+  padding: 3px 6px 3px 6px;
+  background: $c-light;
+  margin: 2px 5px 2px 2px;
+  border-radius: 4px;
+  list-style-type: none;
+
+  .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    text-align: left;
+    border-radius: 3px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    top: 0;
+    left: 0;
+    transform: translate(-8%, calc(-100% - 10px));
+  }
+
+  &:hover {
+    color: #fff;
+    background: var(--demonlord-red);
+  }
+
+  &:hover .tooltiptext {
+    visibility: visible;
+  }
+}
+
 .tagcleanselect {
   color: #fff;
   background: var(--demonlord-red);

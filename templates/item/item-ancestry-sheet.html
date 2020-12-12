@@ -242,7 +242,11 @@
                                             <div class="item-container select-area" data-level="{{id}}">
                                                 <ul class="tags">
                                                     {{#each data.talents as |talent id|}}
-                                                    <li class="tagclean" data-item-id="{{id}}">{{talent.name}}</li>
+                                                    <li class="tagcleantooltip" data-item-id="{{id}}">{{talent.name}}
+                                                        {{#if talent.description}} 
+                                                        <span class="tooltiptext">{{{talent.description}}}</span>
+                                                        {{/if}}
+                                                    </li>
                                                     {{/each}}
                                                 </ul>
                                             </div>
@@ -308,7 +312,11 @@
                                                 <div class="item-container select-area" data-level="{{id}}">
                                                     <ul class="tags">
                                                         {{#each data.level4.talent as |talent id|}}
-                                                        <li class="tagclean" data-item-id="{{id}}">{{talent.name}}</li>
+                                                        <li class="tagcleantooltip" data-item-id="{{id}}">{{talent.name}}
+                                                            {{#if talent.description}} 
+                                                            <span class="tooltiptext">{{{talent.description}}}</span>
+                                                            {{/if}}
+                                                        </li>
                                                         {{/each}}
                                                     </ul>
                                                 </div>

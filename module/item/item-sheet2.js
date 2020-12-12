@@ -231,7 +231,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       case 'talent':
         levelItem.id = item._id
         levelItem.name = item.name
-        levelItem.description = item.description
+        levelItem.description = item.data.data.description
 
         if (group === 'talent') itemData.data.talents.push(levelItem)
         else itemData.data.level4.talent.push(levelItem)
