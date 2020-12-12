@@ -608,7 +608,6 @@
                                     <div class="option">
                                         <label>{{localize 'DL.TabsTalents'}}</label>
                                     </div>
-                                    <div class="info"><a class="item-control transfer-talents" data-level="{{id}}" data-group="talent" title="{{localize 'DL.PathsTalentTransfers'}}">{{localize 'DL.PathsTalentTransfers'}}</a></div>
                                     <div class="item-container select-area">
                                         <ul class="tags">
                                             {{#each level.talents as |talent id|}}
@@ -638,11 +637,10 @@
                                     <div class="option">
                                         <label>{{localize 'DL.MagicSpellsTitle'}}</label>
                                     </div>
-                                    <div class="info">{{localize 'DL.PathsTransfer'}}</div>
                                     <div class="item-container select-area" data-group="spell" data-level="{{id}}">
                                         <ul class="tags">
                                             {{#each level.spells as |spell id|}}
-                                            <li class="tagclean select-item transfer-spell" data-item-id="{{id}}">{{spell.name}}</li>
+                                            <li class="tagclean select-item" data-item-id="{{id}}">{{spell.name}}</li>
                                             {{/each}}
                                         </ul>
                                     </div>
