@@ -2962,7 +2962,7 @@
 }
 
 .demonlord2 .switchTurn .slider {
-  background-color: #000;
+  background: none;
 }
 
 .demonlord2 .slider:before {
@@ -2997,7 +2997,7 @@
 }
 
 .demonlord2 .switchTurn input:checked + .slider {
-  background-color: #000;
+  background: none;
 }
 
 .demonlord2 input:focus + .slider {

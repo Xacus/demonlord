@@ -509,7 +509,7 @@
   background-color: #666;
 }
 .switchTurn .slider {
-  background-color: #000;
+  background: none;
 }
 
 
@@ -541,7 +541,7 @@ input:checked + .slider {
   background-color: #666;
 }
 .switchTurn input:checked + .slider {
-  background-color: #000;
+  background: none;
 }
 
 input:focus + .slider {

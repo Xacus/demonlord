@@ -2501,7 +2501,7 @@
 }
 
 .newcreature .switchTurn .slider {
-  background-color: #000;
+  background: none;
 }
 
 .newcreature .slider:before {
@@ -2536,7 +2536,7 @@
 }
 
 .newcreature .switchTurn input:checked + .slider {
-  background-color: #000;
+  background: none;
 }
 
 .newcreature input:focus + .slider {
