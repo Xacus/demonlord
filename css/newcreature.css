@@ -3992,6 +3992,34 @@
   background-color: #5b7094;
 }
 
+.newcreature .creaturetooltip {
+  position: relative;
+}
+
+.newcreature .creaturetooltip .tooltiptext {
+  visibility: hidden;
+  width: 350px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: left;
+  border-radius: 3px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  top: 10px;
+  right: 0;
+}
+
+.newcreature .creaturetooltip:hover {
+  background: var(--demonlord-red);
+}
+
+.newcreature .creaturetooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 .newcreature .tagging {
   padding: 5px 10px 8px;
 }
@@ -4454,6 +4482,11 @@
   margin: -15px 0 0 0;
 }
 
+.newcreature .items-list .item-header {
+  border: 0;
+  margin-top: 5px;
+}
+
 .newcreature .items-list .feature {
   font-size: 12px;
 }
@@ -4493,7 +4526,7 @@
 .newcreature .accordion .toggleAccordion::after {
   font-family: 'Font Awesome 5 Free';
   content: '\f077';
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   position: relative;
   float: right;
@@ -4507,6 +4540,59 @@
   padding: 5px;
   z-index: 1;
   font-size: 12px;
+}
+
+.newcreature .accordion .content .header {
+  margin: 5px 0;
+  height: 10px;
+}
+
+.newcreature .accordion .content .header .item-controls {
+  float: right;
+  margin-top: -15px;
+}
+
+.newcreature .accordion .content .body .item-controls {
+  float: right;
+  margin-top: -15px;
+}
+
+.newcreature .accordion .content .body .spellnameheader {
+  float: left;
+  margin: 10px 0 3px 0;
+}
+
+.newcreature .accordion .content .body li.item {
+  display: block;
+}
+
+.newcreature .accordion .content .body li.item .spellinfo {
+  display: block;
+  float: left;
+  width: 100%;
+}
+
+.newcreature .accordion .content .body li.item .spellinfo .itemname {
+  float: left;
+  font-weight: bold;
+}
+
+.newcreature .accordion .content .body li.item .spellinfo .spellcastings,
+.newcreature .accordion .content .body li.item .spellinfo .spelltype,
+.newcreature .accordion .content .body li.item .spellinfo .bonesbanes {
+  float: left;
+  padding-left: 5px;
+}
+
+.newcreature .accordion .content .body li.item .spellinfo .item-controls {
+  float: right;
+  margin-top: 0px;
+}
+
+.newcreature .accordion .content .body li.tradition-header {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 .newcreature .accordion .change::after {

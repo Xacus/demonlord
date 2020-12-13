@@ -19,7 +19,7 @@ export class DemonlordNewCreatureSheet extends DemonlordActorSheet {
           initial: 'combat'
         }
       ],
-      scrollY: ['.creature']
+      scrollY: ['.accordion']
     })
   }
 

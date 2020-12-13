@@ -1905,6 +1905,11 @@
   margin: -15px 0 0 0;
 }
 
+.demonlord2.item .items-list .item-header {
+  border: 0;
+  margin-top: 5px;
+}
+
 .demonlord2.item .items-list .feature {
   font-size: 12px;
 }
@@ -1944,7 +1949,7 @@
 .demonlord2.item .accordion .toggleAccordion::after {
   font-family: 'Font Awesome 5 Free';
   content: '\f077';
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   position: relative;
   float: right;
@@ -1958,6 +1963,59 @@
   padding: 5px;
   z-index: 1;
   font-size: 12px;
+}
+
+.demonlord2.item .accordion .content .header {
+  margin: 5px 0;
+  height: 10px;
+}
+
+.demonlord2.item .accordion .content .header .item-controls {
+  float: right;
+  margin-top: -15px;
+}
+
+.demonlord2.item .accordion .content .body .item-controls {
+  float: right;
+  margin-top: -15px;
+}
+
+.demonlord2.item .accordion .content .body .spellnameheader {
+  float: left;
+  margin: 10px 0 3px 0;
+}
+
+.demonlord2.item .accordion .content .body li.item {
+  display: block;
+}
+
+.demonlord2.item .accordion .content .body li.item .spellinfo {
+  display: block;
+  float: left;
+  width: 100%;
+}
+
+.demonlord2.item .accordion .content .body li.item .spellinfo .itemname {
+  float: left;
+  font-weight: bold;
+}
+
+.demonlord2.item .accordion .content .body li.item .spellinfo .spellcastings,
+.demonlord2.item .accordion .content .body li.item .spellinfo .spelltype,
+.demonlord2.item .accordion .content .body li.item .spellinfo .bonesbanes {
+  float: left;
+  padding-left: 5px;
+}
+
+.demonlord2.item .accordion .content .body li.item .spellinfo .item-controls {
+  float: right;
+  margin-top: 0px;
+}
+
+.demonlord2.item .accordion .content .body li.tradition-header {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 .demonlord2.item .accordion .change::after {
@@ -4380,6 +4438,34 @@
 .demonlord2 .tagcleanselect:hover {
   color: #000;
   background-color: #5b7094;
+}
+
+.demonlord2 .creaturetooltip {
+  position: relative;
+}
+
+.demonlord2 .creaturetooltip .tooltiptext {
+  visibility: hidden;
+  width: 350px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: left;
+  border-radius: 3px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  top: 10px;
+  right: 0;
+}
+
+.demonlord2 .creaturetooltip:hover {
+  background: var(--demonlord-red);
+}
+
+.demonlord2 .creaturetooltip:hover .tooltiptext {
+  visibility: visible;
 }
 
 .demonlord2 .tagging {

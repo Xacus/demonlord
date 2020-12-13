@@ -2093,6 +2093,11 @@
   margin: -15px 0 0 0;
 }
 
+.demonlord .items-list .item-header {
+  border: 0;
+  margin-top: 5px;
+}
+
 .demonlord .items-list .feature {
   font-size: 12px;
 }
@@ -2132,7 +2137,7 @@
 .demonlord .accordion .toggleAccordion::after {
   font-family: 'Font Awesome 5 Free';
   content: '\f077';
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   position: relative;
   float: right;
@@ -2146,6 +2151,59 @@
   padding: 5px;
   z-index: 1;
   font-size: 12px;
+}
+
+.demonlord .accordion .content .header {
+  margin: 5px 0;
+  height: 10px;
+}
+
+.demonlord .accordion .content .header .item-controls {
+  float: right;
+  margin-top: -15px;
+}
+
+.demonlord .accordion .content .body .item-controls {
+  float: right;
+  margin-top: -15px;
+}
+
+.demonlord .accordion .content .body .spellnameheader {
+  float: left;
+  margin: 10px 0 3px 0;
+}
+
+.demonlord .accordion .content .body li.item {
+  display: block;
+}
+
+.demonlord .accordion .content .body li.item .spellinfo {
+  display: block;
+  float: left;
+  width: 100%;
+}
+
+.demonlord .accordion .content .body li.item .spellinfo .itemname {
+  float: left;
+  font-weight: bold;
+}
+
+.demonlord .accordion .content .body li.item .spellinfo .spellcastings,
+.demonlord .accordion .content .body li.item .spellinfo .spelltype,
+.demonlord .accordion .content .body li.item .spellinfo .bonesbanes {
+  float: left;
+  padding-left: 5px;
+}
+
+.demonlord .accordion .content .body li.item .spellinfo .item-controls {
+  float: right;
+  margin-top: 0px;
+}
+
+.demonlord .accordion .content .body li.tradition-header {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 .demonlord .accordion .change::after {
