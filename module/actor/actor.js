@@ -499,9 +499,6 @@ export class DemonlordActor extends Actor {
         diceformular +
         (attribute.modifier > 0 ? '+' + attribute.modifier : attribute.modifier)
     }
-
-    console.log(attribute)
-
     if (buffs?.challengebonus != '') {
       boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus)
     }
@@ -754,7 +751,7 @@ export class DemonlordActor extends Actor {
       }
 
       // Add buffs from Talents
-      if (buffs?.attackbonus != '') {
+      if (buffs?.attackbonus > 0) {
         boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackbonus)
       }
 
@@ -1684,7 +1681,7 @@ export class DemonlordActor extends Actor {
       if (talent.data.addtonextroll) {
         if (
           talent.data?.boonsbanesactive &&
-          talent.data.action?.boonsbanes != ''
+          talent.data.action?.boonsbanes > 0
         ) {
           characterbuffs.attackbonus =
             parseInt(characterbuffs.attackbonus) +
@@ -1697,112 +1694,98 @@ export class DemonlordActor extends Actor {
           characterbuffs.attack20plusdamagebonus +=
             '+' + talent.data.action?.plus20
         }
-        if (
-          talent.data?.challenge?.boonsbanesactive &&
-          talent.data.challenge?.boonsbanes != ''
-        ) {
-          characterbuffs.challengebonus =
-            parseInt(characterbuffs.challengebonus) +
-            parseInt(talent.data.challenge?.boonsbanes)
-          characterbuffs.challengeeffects += this.buildTalentEffects(
-            talent,
-            true,
-            type
-          )
-        } else {
-          characterbuffs.attackeffects += this.buildTalentEffects(
-            talent,
-            true,
-            type
-          )
-        }
-        if (
-          talent.data?.challenge?.boonsbanesactive &&
-          parseInt(talent.data.challenge?.strengthboonsbanes) > 0
-        ) {
-          characterbuffs.challengestrengthbonus =
-            parseInt(characterbuffs.challengestrengthbonus) +
-            parseInt(talent.data.challenge?.strengthboonsbanes)
-          characterbuffs.challengeeffects += this.buildTalentEffects(
-            talent,
-            true,
-            type
-          )
-        }
-        if (
-          talent.data?.challenge?.boonsbanesactive &&
-          parseInt(talent.data.challenge?.agilityboonsbanes) > 0
-        ) {
-          characterbuffs.challengeagilitybonus =
-            parseInt(characterbuffs.challengeagilitybonus) +
-            parseInt(talent.data.challenge?.agilityboonsbanes)
-          characterbuffs.challengeeffects += this.buildTalentEffects(
-            talent,
-            true,
-            type
-          )
-        }
-        if (
-          talent.data?.challenge?.boonsbanesactive &&
-          parseInt(talent.data.challenge?.intellectboonsbanes) > 0
-        ) {
-          characterbuffs.challengeintellectbonus =
-            parseInt(characterbuffs.challengeintellectbonus) +
-            parseInt(talent.data.challenge?.intellectboonsbanes)
-          characterbuffs.challengeeffects += this.buildTalentEffects(
-            talent,
-            true,
-            type
-          )
-        }
-        if (
-          talent.data?.challenge?.boonsbanesactive &&
-          parseInt(talent.data.challenge?.willboonsbanes) > 0
-        ) {
-          characterbuffs.challengewillbonus =
-            parseInt(characterbuffs.challengewillbonus) +
-            parseInt(talent.data.challenge?.willboonsbanes)
-          characterbuffs.challengeeffects += this.buildTalentEffects(
-            talent,
-            true,
-            type
-          )
-        }
-        if (
-          talent.data?.challenge?.boonsbanesactive &&
-          parseInt(talent.data.challenge?.perceptionboonsbanes) > 0
-        ) {
-          characterbuffs.challengeperceptionbonus =
-            parseInt(characterbuffs.challengeperceptionbonus) +
-            parseInt(talent.data.challenge?.perceptionboonsbanes)
-          characterbuffs.challengeeffects += this.buildTalentEffects(
-            talent,
-            true,
-            type
-          )
+
+        if (talent.data?.challenge.boonsbanesactive) {
+          switch (talent.data?.challenge?.boonsbanesselect) {
+            case 'all':
+              characterbuffs.challengebonus =
+                parseInt(characterbuffs.challengebonus) +
+                parseInt(talent.data.challenge?.boonsbanes)
+              characterbuffs.challengeeffects += this.buildTalentEffects(
+                talent,
+                true,
+                type
+              )
+              break
+
+            case 'strength':
+              characterbuffs.challengestrengthbonus =
+                parseInt(characterbuffs.challengestrengthbonus) +
+                parseInt(talent.data.challenge?.boonsbanes)
+              characterbuffs.challengeeffects += this.buildTalentEffects(
+                talent,
+                true,
+                type
+              )
+              break
+
+            case 'agility':
+              characterbuffs.challengeagilitybonus =
+                parseInt(characterbuffs.challengeagilitybonus) +
+                parseInt(talent.data.challenge?.boonsbanes)
+              characterbuffs.challengeeffects += this.buildTalentEffects(
+                talent,
+                true,
+                type
+              )
+              break
+
+            case 'intellect':
+              characterbuffs.challengeintellectbonus =
+                parseInt(characterbuffs.challengeintellectbonus) +
+                parseInt(talent.data.challenge?.boonsbanes)
+              characterbuffs.challengeeffects += this.buildTalentEffects(
+                talent,
+                true,
+                type
+              )
+              break
+
+            case 'will':
+              characterbuffs.challengewillbonus =
+                parseInt(characterbuffs.challengewillbonus) +
+                parseInt(talent.data.challenge?.boonsbanes)
+              characterbuffs.challengeeffects += this.buildTalentEffects(
+                talent,
+                true,
+                type
+              )
+              break
+
+            case 'perception':
+              characterbuffs.challengeperceptionbonus =
+                parseInt(characterbuffs.challengeperceptionbonus) +
+                parseInt(talent.data.challenge?.boonsbanes)
+              characterbuffs.challengeeffects += this.buildTalentEffects(
+                talent,
+                true,
+                type
+              )
+              break
+
+            default:
+              break
+          }
         }
         if (
           talent.data.bonuses?.defenseactive &&
-          talent.data.bonuses?.defense != ''
+          talent.data.bonuses?.defense > 0
         ) {
           characterbuffs.defensebonus += parseInt(talent.data.bonuses.defense)
         }
         if (
           talent.data.bonuses?.healthactive &&
-          talent.data.bonuses?.health != ''
+          talent.data.bonuses?.health > 0
         ) {
           characterbuffs.healthbonus += parseInt(talent.data.bonuses.health)
         }
         if (
           talent.data.bonuses?.speedactive &&
-          talent.data.bonuses?.speed != ''
+          talent.data.bonuses?.speed > 0
         ) {
           characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed)
         }
-        if (
-          talent.data.healing?.healactive &&
-          talent.data.healing?.rate != ''
-        ) {
+        if (talent.data.healing?.healactive && talent.data.healing?.rate > 0) {
           characterbuffs.healing += parseInt(talent.data.healing.rate)
         }
       }
@@ -1967,7 +1950,9 @@ export class DemonlordActor extends Actor {
       effects +=
         '&nbsp;&nbsp;&nbsp;• ' +
         game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-        ': ' +
+        ' (' +
+        talent.data?.challenge?.boonsbanesselect +
+        '): ' +
         talent.data.challenge?.boonsbanes +
         '<br>'
     }

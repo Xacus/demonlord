@@ -6,7 +6,7 @@
     font-size: 12px;
   }
 
-  .modifierblock {
+  .modifierblock, .modifierblockH {
     padding: 5px;
     border: 1px solid #333;
     border-radius: 2px;
@@ -48,6 +48,20 @@
       float: right;
       width: 20%;
     }
+    .boonbaneselect {
+      float: left;
+    }
+
+    .boonbanetype {
+      float: left;
+      margin-top: 0;
+      margin-left: 10px;
+      width: 20%;
+    }
+  }
+
+  .modifierblockH {
+    min-height: 50px;
   }
 
   .modifierblockcheck,

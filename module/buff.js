@@ -19,7 +19,7 @@ export class CharacterBuff {
     this.challengeeffects = obj.challengeeffects || ''
     this.defensebonus = obj.defensebonus || 0
     this.healthbonus = obj.healthbonus || 0
-    this.speedbonus = obj.speedactive || 0
+    this.speedbonus = obj.speedbonus || 0
     this.healing = obj.healing || 0
     this.strength = obj.strength || 0
     this.agility = obj.agility || 0

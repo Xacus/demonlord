@@ -263,6 +263,7 @@
                 "active": true,
                 "attribute": "",
                 "boonsbanesactive": true,
+                "boonsbanesselect": "",
                 "boonsbanes": "",
                 "strengthboonsbanes": "",
                 "agilityboonsbanes": "",

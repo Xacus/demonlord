@@ -3819,14 +3819,15 @@
   font-size: 12px;
 }
 
-.newcreature .resource .modifierblock {
+.newcreature .resource .modifierblock, .newcreature .resource .modifierblockH {
   padding: 5px;
   border: 1px solid #333;
   border-radius: 2px;
 }
 
 .newcreature .resource .modifierblock input[type="text"],
-.newcreature .resource .modifierblock select {
+.newcreature .resource .modifierblock select, .newcreature .resource .modifierblockH input[type="text"],
+.newcreature .resource .modifierblockH select {
   margin-bottom: 5px;
   font-size: 11px;
   height: 20px;
@@ -3836,18 +3837,18 @@
   padding-left: 5px;
 }
 
-.newcreature .resource .modifierblock .grid {
+.newcreature .resource .modifierblock .grid, .newcreature .resource .modifierblockH .grid {
   margin: 0;
 }
 
-.newcreature .resource .modifierblock label {
+.newcreature .resource .modifierblock label, .newcreature .resource .modifierblockH label {
   font-size: 11px;
   width: 100px;
   height: 20px;
   color: #000;
 }
 
-.newcreature .resource .modifierblock .resource-label {
+.newcreature .resource .modifierblock .resource-label, .newcreature .resource .modifierblockH .resource-label {
   float: left;
   width: 100%;
   height: 20px;
@@ -3855,13 +3856,28 @@
   color: #000;
 }
 
-.newcreature .resource .modifierblock .damagevalue {
+.newcreature .resource .modifierblock .damagevalue, .newcreature .resource .modifierblockH .damagevalue {
   width: 78%;
 }
 
-.newcreature .resource .modifierblock .damagetype {
+.newcreature .resource .modifierblock .damagetype, .newcreature .resource .modifierblockH .damagetype {
   float: right;
   width: 20%;
+}
+
+.newcreature .resource .modifierblock .boonbaneselect, .newcreature .resource .modifierblockH .boonbaneselect {
+  float: left;
+}
+
+.newcreature .resource .modifierblock .boonbanetype, .newcreature .resource .modifierblockH .boonbanetype {
+  float: left;
+  margin-top: 0;
+  margin-left: 10px;
+  width: 20%;
+}
+
+.newcreature .resource .modifierblockH {
+  min-height: 50px;
 }
 
 .newcreature .resource .modifierblockcheck,

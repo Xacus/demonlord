@@ -4280,14 +4280,15 @@
   font-size: 12px;
 }
 
-.demonlord2 .resource .modifierblock {
+.demonlord2 .resource .modifierblock, .demonlord2 .resource .modifierblockH {
   padding: 5px;
   border: 1px solid #333;
   border-radius: 2px;
 }
 
 .demonlord2 .resource .modifierblock input[type="text"],
-.demonlord2 .resource .modifierblock select {
+.demonlord2 .resource .modifierblock select, .demonlord2 .resource .modifierblockH input[type="text"],
+.demonlord2 .resource .modifierblockH select {
   margin-bottom: 5px;
   font-size: 11px;
   height: 20px;
@@ -4297,18 +4298,18 @@
   padding-left: 5px;
 }
 
-.demonlord2 .resource .modifierblock .grid {
+.demonlord2 .resource .modifierblock .grid, .demonlord2 .resource .modifierblockH .grid {
   margin: 0;
 }
 
-.demonlord2 .resource .modifierblock label {
+.demonlord2 .resource .modifierblock label, .demonlord2 .resource .modifierblockH label {
   font-size: 11px;
   width: 100px;
   height: 20px;
   color: #000;
 }
 
-.demonlord2 .resource .modifierblock .resource-label {
+.demonlord2 .resource .modifierblock .resource-label, .demonlord2 .resource .modifierblockH .resource-label {
   float: left;
   width: 100%;
   height: 20px;
@@ -4316,13 +4317,28 @@
   color: #000;
 }
 
-.demonlord2 .resource .modifierblock .damagevalue {
+.demonlord2 .resource .modifierblock .damagevalue, .demonlord2 .resource .modifierblockH .damagevalue {
   width: 78%;
 }
 
-.demonlord2 .resource .modifierblock .damagetype {
+.demonlord2 .resource .modifierblock .damagetype, .demonlord2 .resource .modifierblockH .damagetype {
   float: right;
   width: 20%;
+}
+
+.demonlord2 .resource .modifierblock .boonbaneselect, .demonlord2 .resource .modifierblockH .boonbaneselect {
+  float: left;
+}
+
+.demonlord2 .resource .modifierblock .boonbanetype, .demonlord2 .resource .modifierblockH .boonbanetype {
+  float: left;
+  margin-top: 0;
+  margin-left: 10px;
+  width: 20%;
+}
+
+.demonlord2 .resource .modifierblockH {
+  min-height: 50px;
 }
 
 .demonlord2 .resource .modifierblockcheck,

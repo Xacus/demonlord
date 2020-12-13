@@ -40,11 +40,11 @@
                             <div class="grid grid-2col">
                                 <div>
                                     <label class="resource-label">{{localize "DL.TalentUses"}}</label>
-                                    <input type="text" name="data.uses.value" value="{{data.uses.value}}" />
+                                    <input type="text" name="data.uses.value" value="{{data.uses.value}}" data-dtype="Number" placeholder="0"/>
                                 </div>
                                 <div>
                                     <label class="resource-label">{{localize "DL.TalentUsesMax"}}</label>
-                                    <input type="text" name="data.uses.max" value="{{data.uses.max}}" />
+                                    <input type="text" name="data.uses.max" value="{{data.uses.max}}" data-dtype="Number" placeholder="0" />
                                 </div>
                             </div>
                         </div>
@@ -53,29 +53,30 @@
                         <label class="resource-label">{{localize "DL.AttackRollBonuses"}}</label>
                         <div class="modifierblock">
                             <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-                            <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}" />
+                            <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}" data-dtype="Number" placeholder="{{localize 'DL.TalentAddBoonsBanesBonus'}}"/>
                             <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
                             <input type="text" name="data.action.damage" value="{{data.action.damage}}"
-                                placeholder="{{localize 'DL.WeaponDamage'}}" />
+                                placeholder="{{localize 'DL.TalentAddDamageToYourAttackRoll'}}" />
                             <label class="resource-label">{{localize "DL.WeaponAttack20"}}</label>
-                            <input type="text" name="data.action.plus20" value="{{data.action.plus20}}" />
+                            <input type="text" name="data.action.plus20" value="{{data.action.plus20}}" placeholder="{{localize 'DL.TalentAddExtraDamageToYourAttackRoll'}}"/>
                         </div>
                     </div>
                     <div class="resource">
-                        <label class="resource-label">{{localize "DL.ChallengeRoll"}}</label>
-                        <div class="modifierblock">
-                            <label class="resource-label">{{localize "DL.PathsLevelTalentSelectAll"}} {{localize "DL.WeaponBoonsBanes"}}</label>
-                            <input type="text" name="data.challenge.boonsbanes" value="{{data.challenge.boonsbanes}}" />
-                            <label class="resource-label">{{localize "DL.AttributeStrength"}} {{localize "DL.WeaponBoonsBanes"}}</label>
-                            <input type="text" name="data.challenge.strengthboonsbanes" value="{{data.challenge.strengthboonsbanes}}" />
-                            <label class="resource-label">{{localize "DL.AttributeAgility"}} {{localize "DL.WeaponBoonsBanes"}}</label>
-                            <input type="text" name="data.challenge.agilityboonsbanes" value="{{data.challenge.agilityboonsbanes}}" />
-                            <label class="resource-label">{{localize "DL.AttributeIntellect"}} {{localize "DL.WeaponBoonsBanes"}}</label>
-                            <input type="text" name="data.challenge.intellectboonsbanes" value="{{data.challenge.intellectboonsbanes}}" />
-                            <label class="resource-label">{{localize "DL.AttributeWill"}} {{localize "DL.WeaponBoonsBanes"}}</label>
-                            <input type="text" name="data.challenge.willboonsbanes" value="{{data.challenge.willboonsbanes}}" />
-                            <label class="resource-label">{{localize "DL.CharPerception"}} {{localize "DL.WeaponBoonsBanes"}}</label>
-                            <input type="text" name="data.challenge.perceptionboonsbanes" value="{{data.challenge.perceptionboonsbanes}}" />
+                        <label class="resource-label">{{localize "DL.TalentChallengeRollBonus"}}</label>
+                        <div class="modifierblockH">
+                            <label class="resource-label">{{localize "DL.TalentRollAttribute"}}</label>
+                            <select name="data.challenge.boonsbanesselect" data-dtype="String" class="boonbaneselect">
+                                {{#select data.challenge.boonsbanesselect}}
+                                <option value="">—</option>
+                                <option value="all">{{localize "DL.PathsLevelTalentSelectAll"}}</option>
+                                <option value="strength">{{localize "DL.AttributeStrength"}}</option>
+                                <option value="agility">{{localize "DL.AttributeAgility"}}</option>
+                                <option value="intellect">{{localize "DL.AttributeIntellect"}}</option>
+                                <option value="will">{{localize "DL.AttributeWill"}}</option>
+                                <option value="perception">{{localize "DL.CharPerception"}}</option>
+                                {{/select}}
+                            </select>
+                            <input class="boonbanetype" type="text" data-dtype="Number" name="data.challenge.boonsbanes" value="{{data.challenge.boonsbanes}}" placeholder="{{localize 'DL.WeaponBoonsBanes'}}" />
                         </div>
                     </div>
                     <div class="resource">
@@ -114,7 +115,7 @@
                                 </div>
                             </div>
                             <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-                            <input type="text" name="data.vs.boonsbanes" value="{{data.vs.boonsbanes}}" />
+                            <input type="text" name="data.vs.boonsbanes" value="{{data.vs.boonsbanes}}" data-dtype="Number" placeholder="{{localize 'DL.TalentAddBoonsBanesBonus'}}"/>
                             <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
                             <div class="item-controls">
                                 <a class="item-control vsdamagetype-control" title="{{localize 'DL.DamageAddType'}}" data-action="create"><i
@@ -145,7 +146,7 @@
                         </div>
                     </div>
                     <div class="resource">
-                        <label class="resource-label">{{localize "DL.TalentDamage"}}</label>
+                        <label class="resource-label">{{localize "DL.TalentMakeADamageRoll"}}</label>
                         <div class="modifierblock">
                             <label class="resource-label">{{localize "DL.TalentRollDamage"}}</label>
                             <input class="damagevalue" type="text" name="data.damage" value="{{data.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}" />
@@ -154,14 +155,14 @@
                         </div>
                     </div>
                     <div class="resource">
-                        <label class="resource-label">{{localize "DL.TalentBonuses"}}</label>
+                        <label class="resource-label">{{localize "DL.TalentAddBonusesToYourCharacteristics"}}</label>
                         <div class="modifierblock">
                             <label class="resource-label">{{localize "DL.TalentBonusesDefense"}}</label>
-                            <input type="text" name="data.bonuses.defense" value="{{data.bonuses.defense}}" />
+                            <input type="text" name="data.bonuses.defense" value="{{data.bonuses.defense}}" data-dtype="Number" placeholder="0"/>
                             <label class="resource-label">{{localize "DL.TalentBonusesHealth"}}</label>
-                            <input type="text" name="data.bonuses.health" value="{{data.bonuses.health}}" />
+                            <input type="text" name="data.bonuses.health" value="{{data.bonuses.health}}" data-dtype="Number" placeholder="0"/>
                             <label class="resource-label">{{localize "DL.TalentBonusesSpeed"}}</label>
-                            <input type="text" name="data.bonuses.speed" value="{{data.bonuses.speed}}" />
+                            <input type="text" name="data.bonuses.speed" value="{{data.bonuses.speed}}" data-dtype="Number" placeholder="0"/>
                         </div>
                     </div>
                 </div>
