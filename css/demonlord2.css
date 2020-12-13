@@ -1892,6 +1892,91 @@
   margin: 0 0 0 10px;
 }
 
+.demonlord2.item .description {
+  margin: -10px 0 0 0;
+}
+
+.demonlord2.item .description .editor, .demonlord2.item .description .editor-content {
+  height: 100%;
+  min-height: 200px;
+}
+
+.demonlord2.item .items-list {
+  margin: -15px 0 0 0;
+}
+
+.demonlord2.item .items-list .feature {
+  font-size: 12px;
+}
+
+.demonlord2.item .items-list .feature .featurename {
+  margin-bottom: -5px;
+}
+
+.demonlord2.item .accordion {
+  margin-right: 10px;
+  overflow-y: auto;
+}
+
+.demonlord2.item .accordion .toggleAccordion {
+  display: block;
+  padding: 8px 10px;
+  margin: 0 0 10px 0;
+  cursor: pointer;
+  color: #000;
+  -webkit-transition: ease 0.5s;
+  -o-transition: ease 0.5s;
+  transition: ease 0.5s;
+  position: relative;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--demonlord-red);
+  font-weight: bold;
+  font-family: 'IM Fell English SC', serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.demonlord2.item .accordion .toggleAccordion:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.demonlord2.item .accordion .toggleAccordion::after {
+  font-family: 'Font Awesome 5 Free';
+  content: '\f077';
+  font-size: 14px;
+  font-weight: bold;
+  position: relative;
+  float: right;
+  right: 0px;
+  top: 0px;
+}
+
+.demonlord2.item .accordion .content {
+  position: relative;
+  width: 100%;
+  padding: 5px;
+  z-index: 1;
+  font-size: 12px;
+}
+
+.demonlord2.item .accordion .change::after {
+  content: '\f078';
+}
+
+.demonlord2.item ol, .demonlord2.item li {
+  list-style: none;
+  padding: 0;
+}
+
+.demonlord2.item .itemnamefull {
+  font-weight: bold;
+}
+
+.demonlord2.item .itemtext {
+  padding: 0 10px;
+}
+
 .demonlord2 .window-content {
   padding: 5px;
   font-size: 13px;

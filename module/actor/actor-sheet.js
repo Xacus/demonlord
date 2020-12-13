@@ -214,6 +214,18 @@ export class DemonlordActorSheet extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
 
+    // Toggle Accordion
+    html.find('.toggleAccordion').click((ev) => {
+      const div = ev.currentTarget
+      if (div.nextElementSibling.style.display === 'none') {
+        div.nextElementSibling.style.display = 'block'
+        div.className = 'toggleAccordion change'
+      } else {
+        div.nextElementSibling.style.display = 'none'
+        div.className = 'toggleAccordion'
+      }
+    })
+
     // Toggle Spell Info
     html.find('.toggleInfo').click((ev) => {
       const div = ev.currentTarget

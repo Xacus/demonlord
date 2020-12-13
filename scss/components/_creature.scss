@@ -335,3 +335,85 @@
         }
     }
 }
+
+.description {
+    margin: -10px 0 0 0;
+}
+.description .editor, .description .editor-content {
+  height: 100%;
+  min-height: 200px;
+}
+
+.items-list {
+    margin: -15px 0 0 0;   
+
+    .feature {
+        font-size: 12px;
+
+        .featurename {
+            margin-bottom: -5px;
+        }
+    }
+}
+
+.accordion {
+    margin-right: 10px;
+    overflow-y: auto;
+
+  .toggleAccordion {
+    display: block;
+    padding: 8px 10px;
+    margin: 0 0 10px 0;
+    cursor: pointer;
+    color: #000;
+    transition: ease 0.5s;
+    position: relative;
+    overflow-y: auto;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .toggleAccordion:hover {
+    background:rgba(0, 0, 0, 0.3);
+  }
+
+  .toggleAccordion::after {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f077';
+    font-size: 14px;
+    font-weight: bold;
+    position: relative;
+    float: right;
+    right: 0px;
+    top: 0px;
+  }
+
+  .content {
+    position: relative;
+    width: 100%;
+    padding: 5px;
+    z-index: 1;
+    font-size: 12px;
+  }
+
+  .change::after {
+    content: '\f078';
+  }
+}
+
+ol, li {
+    list-style: none;
+    padding: 0;
+}
+
+.itemnamefull {
+    font-weight: bold;
+}
+
+.itemtext {
+    padding: 0 10px;
+}

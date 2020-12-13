@@ -1516,382 +1516,6 @@
   margin-top: 1px;
 }
 
-.newcreature.item .sheet-body .sheet-content .descriptionblock {
-  margin: 40px 5px 0px 5px;
-  height: 100%;
-}
-
-.newcreature.item .sheet-body .sheet-content .descriptionblock .editor, .newcreature.item .sheet-body .sheet-content .descriptionblock .editor-content {
-  height: 100%;
-  min-height: 200px;
-}
-
-.newcreature.item .creature .header {
-  height: 20px;
-  line-height: 20px;
-  background: #000;
-  color: #fff;
-  font-size: 12px;
-  margin-bottom: 1px;
-}
-
-.newcreature.item .creature .header .charname {
-  float: left;
-  padding-left: 5px;
-}
-
-.newcreature.item .creature .header .charname input {
-  float: left;
-  width: 170px;
-  height: 15px;
-  margin-top: 2px;
-  color: #fff;
-}
-
-.newcreature.item .creature .header .diff {
-  float: right;
-  width: 100px;
-  padding: 1px 5px 0 0;
-  text-align: right;
-  font-size: 11px;
-}
-
-.newcreature.item .creature .header .diff input {
-  float: right;
-  width: 30px;
-  height: 15px;
-  margin: 2px 0 0 2px;
-  color: #fff;
-  text-align: center;
-}
-
-.newcreature.item .creature .subheader {
-  height: 16px;
-  background: #9C0719;
-  color: #fff;
-  font-size: 10px;
-  line-height: 16px;
-  padding-left: 5px;
-}
-
-.newcreature.item .creature .subheader .size {
-  float: left;
-  width: 200px;
-  padding-right: 5px;
-}
-
-.newcreature.item .creature .subheader .size input {
-  width: 70px;
-  height: 12px;
-  margin-top: 2px;
-  color: #fff;
-}
-
-.newcreature.item .creature .subheader .size ::-webkit-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .size ::-moz-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .size :-ms-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .size ::-ms-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .size ::placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .descriptor {
-  float: left;
-  width: 130px;
-  padding-right: 5px;
-}
-
-.newcreature.item .creature .subheader .descriptor input {
-  width: 120px;
-  height: 12px;
-  margin-top: 2px;
-  color: #fff;
-}
-
-.newcreature.item .creature .subheader .descriptor ::-webkit-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .descriptor ::-moz-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .descriptor :-ms-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .descriptor ::-ms-input-placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .descriptor ::placeholder {
-  color: #fff;
-  opacity: 0.5;
-}
-
-.newcreature.item .creature .subheader .trait {
-  float: right;
-  font-size: 10px;
-}
-
-.newcreature.item .creature .subheader .trait input {
-  float: left;
-  width: 12px;
-  margin-top: -2px;
-  padding-right: 5px;
-}
-
-.newcreature.item .creature .subheader .trait label {
-  float: left;
-  padding-right: 5px;
-}
-
-.newcreature.item .creature .subheader .trait .tooltip .tooltiptext {
-  visibility: hidden;
-  width: 260px;
-  background-color: rgba(0, 0, 0, 0.9);
-  color: #fff;
-  text-align: left;
-  border-radius: 3px;
-  padding: 5px;
-  top: 77px;
-  right: 20px;
-  position: absolute;
-  z-index: 1;
-}
-
-.newcreature.item .creature .subheader .trait .tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-
-.newcreature.item .creature .left {
-  float: left;
-  width: 353px;
-  margin-right: 20px;
-}
-
-.newcreature.item .creature .left .body {
-  float: left;
-  width: 100%;
-  margin-top: 5px;
-}
-
-.newcreature.item .creature .left .body .stat {
-  float: left;
-  width: 100%;
-  text-align: left;
-  font-size: 11px;
-  font-weight: bold;
-  margin-bottom: 2px;
-}
-
-.newcreature.item .creature .left .body .stat label {
-  font-weight: normal;
-}
-
-.newcreature.item .creature .left .body .stat input {
-  float: left;
-  width: 30px;
-  height: 13px;
-  margin: 0 0 0 2px;
-  text-align: center;
-}
-
-.newcreature.item .creature .left .body .stat .stattitle {
-  float: left;
-  padding-right: 2px;
-}
-
-.newcreature.item .creature .left .body .stat .value {
-  float: left;
-}
-
-.newcreature.item .creature .left .body .stat .senses,
-.newcreature.item .creature .left .body .stat .speedtraits,
-.newcreature.item .creature .left .body .stat .armor {
-  float: left;
-  padding-left: 5px;
-  width: 150px;
-}
-
-.newcreature.item .creature .left .body .stat .senses input,
-.newcreature.item .creature .left .body .stat .speedtraits input,
-.newcreature.item .creature .left .body .stat .armor input {
-  width: 140px;
-}
-
-.newcreature.item .creature .left .body .stat .armor {
-  padding-right: 5px;
-  width: auto;
-}
-
-.newcreature.item .creature .left .body .stat .health,
-.newcreature.item .creature .left .body .stat .insanity,
-.newcreature.item .creature .left .body .stat .corruption,
-.newcreature.item .creature .left .body .stat .damage {
-  float: left;
-  padding-left: 10px;
-}
-
-.newcreature.item .creature .left .body .grid,
-.newcreature.item .creature .left .body .grid-2col {
-  margin: 0 0 2px 0;
-}
-
-.newcreature.item .creature .left .body .traits {
-  float: left;
-  width: 100%;
-  font-size: 10px;
-  margin-top: -5px;
-}
-
-.newcreature.item .creature .left .body .traits .traitnameheader {
-  float: left;
-  width: 50px;
-  font-size: 11px;
-}
-
-.newcreature.item .creature .left .body .traits .items-list .item-header {
-  height: 18px;
-}
-
-.newcreature.item .creature .left .body .traits .items-list .item-controls {
-  float: right;
-  margin-top: 0px;
-}
-
-.newcreature.item .creature .right {
-  float: left;
-  width: 130px;
-  padding-top: 8px;
-}
-
-.newcreature.item .creature .right .edit {
-  width: 130px;
-  font-size: 11px;
-}
-
-.newcreature.item .creature .right img {
-  height: auto;
-  border: 0;
-}
-
-.newcreature.item .creature .actions {
-  float: left;
-  width: 100%;
-}
-
-.newcreature.item .creature .actions .header {
-  float: none;
-  background: #A7A9AC;
-  border-bottom: 0;
-  line-height: 20px;
-  padding-left: 5px;
-  color: #000;
-}
-
-.newcreature.item .creature .actions .header .itemname {
-  float: left;
-  font-size: 12px;
-}
-
-.newcreature.item .creature .actions .header .item-controls {
-  float: right;
-  margin-right: 5px;
-}
-
-.newcreature.item .creature .actions .header input {
-  width: 30px;
-  height: 13px;
-  margin: 0 0 0 2px;
-  text-align: center;
-}
-
-.newcreature.item .creature .actions .description {
-  font-size: 12px;
-}
-
-.newcreature.item .creature .actions .description .editor, .newcreature.item .creature .actions .description .editor-content {
-  height: 100%;
-  min-height: 200px;
-}
-
-.newcreature.item .creature .actions .body {
-  margin: 5px 0 10px 0;
-  padding: 0;
-  font-size: 11px;
-  list-style: none;
-}
-
-.newcreature.item .creature .actions .body .item {
-  margin: 0 0 10px 0;
-  padding: 0;
-  height: auto;
-  overflow-y: auto;
-}
-
-.newcreature.item .creature .actions .body .item .itemname {
-  float: left;
-  height: 14px;
-  font-weight: bold;
-}
-
-.newcreature.item .creature .actions .body .item .itemname input {
-  width: 150px;
-  height: 13px;
-  margin: 0 0 0 2px;
-}
-
-.newcreature.item .creature .actions .body .item .itemnamefull {
-  float: left;
-  width: 100%;
-  height: 14px;
-  font-weight: bold;
-}
-
-.newcreature.item .creature .actions .body .item .item-controls {
-  float: right;
-  width: 25px;
-  margin-right: 5px;
-}
-
-.newcreature.item .creature .actions .body .item .spellcastings,
-.newcreature.item .creature .actions .body .item .spelltype,
-.newcreature.item .creature .actions .body .item .bonesbanes {
-  float: left;
-  padding-left: 5px;
-}
-
-.newcreature.item .creature .actions .body .traditionitem {
-  margin-top: 10px;
-  margin-bottom: 2px;
-}
-
-.newcreature.item .creature .actions .body .spell {
-  margin: 0 0 0 10px;
-}
-
 .newcreature .window-content {
   padding: 5px;
   font-size: 13px;
@@ -4439,6 +4063,467 @@
 .newcreature .help-text {
   color: #999;
   font-size: 12px;
+}
+
+.newcreature .sheet-body .sheet-content .descriptionblock {
+  margin: 40px 5px 0px 5px;
+  height: 100%;
+}
+
+.newcreature .sheet-body .sheet-content .descriptionblock .editor, .newcreature .sheet-body .sheet-content .descriptionblock .editor-content {
+  height: 100%;
+  min-height: 200px;
+}
+
+.newcreature .creature .header {
+  height: 20px;
+  line-height: 20px;
+  background: #000;
+  color: #fff;
+  font-size: 12px;
+  margin-bottom: 1px;
+}
+
+.newcreature .creature .header .charname {
+  float: left;
+  padding-left: 5px;
+}
+
+.newcreature .creature .header .charname input {
+  float: left;
+  width: 170px;
+  height: 15px;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.newcreature .creature .header .diff {
+  float: right;
+  width: 100px;
+  padding: 1px 5px 0 0;
+  text-align: right;
+  font-size: 11px;
+}
+
+.newcreature .creature .header .diff input {
+  float: right;
+  width: 30px;
+  height: 15px;
+  margin: 2px 0 0 2px;
+  color: #fff;
+  text-align: center;
+}
+
+.newcreature .creature .subheader {
+  height: 16px;
+  background: #9C0719;
+  color: #fff;
+  font-size: 10px;
+  line-height: 16px;
+  padding-left: 5px;
+}
+
+.newcreature .creature .subheader .size {
+  float: left;
+  width: 200px;
+  padding-right: 5px;
+}
+
+.newcreature .creature .subheader .size input {
+  width: 70px;
+  height: 12px;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.newcreature .creature .subheader .size ::-webkit-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .size ::-moz-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .size :-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .size ::-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .size ::placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .descriptor {
+  float: left;
+  width: 130px;
+  padding-right: 5px;
+}
+
+.newcreature .creature .subheader .descriptor input {
+  width: 120px;
+  height: 12px;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.newcreature .creature .subheader .descriptor ::-webkit-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .descriptor ::-moz-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .descriptor :-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .descriptor ::-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .descriptor ::placeholder {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.newcreature .creature .subheader .trait {
+  float: right;
+  font-size: 10px;
+}
+
+.newcreature .creature .subheader .trait input {
+  float: left;
+  width: 12px;
+  margin-top: -2px;
+  padding-right: 5px;
+}
+
+.newcreature .creature .subheader .trait label {
+  float: left;
+  padding-right: 5px;
+}
+
+.newcreature .creature .subheader .trait .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 260px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: left;
+  border-radius: 3px;
+  padding: 5px;
+  top: 77px;
+  right: 20px;
+  position: absolute;
+  z-index: 1;
+}
+
+.newcreature .creature .subheader .trait .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.newcreature .creature .left {
+  float: left;
+  width: 353px;
+  margin-right: 20px;
+}
+
+.newcreature .creature .left .body {
+  float: left;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.newcreature .creature .left .body .stat {
+  float: left;
+  width: 100%;
+  text-align: left;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.newcreature .creature .left .body .stat label {
+  font-weight: normal;
+}
+
+.newcreature .creature .left .body .stat input {
+  float: left;
+  width: 30px;
+  height: 13px;
+  margin: 0 0 0 2px;
+  text-align: center;
+}
+
+.newcreature .creature .left .body .stat .stattitle {
+  float: left;
+  padding-right: 2px;
+}
+
+.newcreature .creature .left .body .stat .value {
+  float: left;
+}
+
+.newcreature .creature .left .body .stat .senses,
+.newcreature .creature .left .body .stat .speedtraits,
+.newcreature .creature .left .body .stat .armor {
+  float: left;
+  padding-left: 5px;
+  width: 150px;
+}
+
+.newcreature .creature .left .body .stat .senses input,
+.newcreature .creature .left .body .stat .speedtraits input,
+.newcreature .creature .left .body .stat .armor input {
+  width: 140px;
+}
+
+.newcreature .creature .left .body .stat .armor {
+  padding-right: 5px;
+  width: auto;
+}
+
+.newcreature .creature .left .body .stat .health,
+.newcreature .creature .left .body .stat .insanity,
+.newcreature .creature .left .body .stat .corruption,
+.newcreature .creature .left .body .stat .damage {
+  float: left;
+  padding-left: 10px;
+}
+
+.newcreature .creature .left .body .grid,
+.newcreature .creature .left .body .grid-2col {
+  margin: 0 0 2px 0;
+}
+
+.newcreature .creature .left .body .traits {
+  float: left;
+  width: 100%;
+  font-size: 10px;
+  margin-top: -5px;
+}
+
+.newcreature .creature .left .body .traits .traitnameheader {
+  float: left;
+  width: 50px;
+  font-size: 11px;
+}
+
+.newcreature .creature .left .body .traits .items-list .item-header {
+  height: 18px;
+}
+
+.newcreature .creature .left .body .traits .items-list .item-controls {
+  float: right;
+  margin-top: 0px;
+}
+
+.newcreature .creature .right {
+  float: left;
+  width: 130px;
+  padding-top: 8px;
+}
+
+.newcreature .creature .right .edit {
+  width: 130px;
+  font-size: 11px;
+}
+
+.newcreature .creature .right img {
+  height: auto;
+  border: 0;
+}
+
+.newcreature .creature .actions {
+  float: left;
+  width: 100%;
+}
+
+.newcreature .creature .actions .header {
+  float: none;
+  background: #A7A9AC;
+  border-bottom: 0;
+  line-height: 20px;
+  padding-left: 5px;
+  color: #000;
+}
+
+.newcreature .creature .actions .header .itemname {
+  float: left;
+  font-size: 12px;
+}
+
+.newcreature .creature .actions .header .item-controls {
+  float: right;
+  margin-right: 5px;
+}
+
+.newcreature .creature .actions .header input {
+  width: 30px;
+  height: 13px;
+  margin: 0 0 0 2px;
+  text-align: center;
+}
+
+.newcreature .creature .actions .description {
+  font-size: 12px;
+}
+
+.newcreature .creature .actions .description .editor, .newcreature .creature .actions .description .editor-content {
+  height: 100%;
+  min-height: 200px;
+}
+
+.newcreature .creature .actions .body {
+  margin: 5px 0 10px 0;
+  padding: 0;
+  font-size: 11px;
+  list-style: none;
+}
+
+.newcreature .creature .actions .body .item {
+  margin: 0 0 10px 0;
+  padding: 0;
+  height: auto;
+  overflow-y: auto;
+}
+
+.newcreature .creature .actions .body .item .itemname {
+  float: left;
+  height: 14px;
+  font-weight: bold;
+}
+
+.newcreature .creature .actions .body .item .itemname input {
+  width: 150px;
+  height: 13px;
+  margin: 0 0 0 2px;
+}
+
+.newcreature .creature .actions .body .item .itemnamefull {
+  float: left;
+  width: 100%;
+  height: 14px;
+  font-weight: bold;
+}
+
+.newcreature .creature .actions .body .item .item-controls {
+  float: right;
+  width: 25px;
+  margin-right: 5px;
+}
+
+.newcreature .creature .actions .body .item .spellcastings,
+.newcreature .creature .actions .body .item .spelltype,
+.newcreature .creature .actions .body .item .bonesbanes {
+  float: left;
+  padding-left: 5px;
+}
+
+.newcreature .creature .actions .body .traditionitem {
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+
+.newcreature .creature .actions .body .spell {
+  margin: 0 0 0 10px;
+}
+
+.newcreature .description {
+  margin: -10px 0 0 0;
+}
+
+.newcreature .description .editor, .newcreature .description .editor-content {
+  height: 100%;
+  min-height: 200px;
+}
+
+.newcreature .items-list {
+  margin: -15px 0 0 0;
+}
+
+.newcreature .items-list .feature {
+  font-size: 12px;
+}
+
+.newcreature .items-list .feature .featurename {
+  margin-bottom: -5px;
+}
+
+.newcreature .accordion {
+  margin-right: 10px;
+  overflow-y: auto;
+}
+
+.newcreature .accordion .toggleAccordion {
+  display: block;
+  padding: 8px 10px;
+  margin: 0 0 10px 0;
+  cursor: pointer;
+  color: #000;
+  -webkit-transition: ease 0.5s;
+  -o-transition: ease 0.5s;
+  transition: ease 0.5s;
+  position: relative;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--demonlord-red);
+  font-weight: bold;
+  font-family: 'IM Fell English SC', serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.newcreature .accordion .toggleAccordion:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.newcreature .accordion .toggleAccordion::after {
+  font-family: 'Font Awesome 5 Free';
+  content: '\f077';
+  font-size: 14px;
+  font-weight: bold;
+  position: relative;
+  float: right;
+  right: 0px;
+  top: 0px;
+}
+
+.newcreature .accordion .content {
+  position: relative;
+  width: 100%;
+  padding: 5px;
+  z-index: 1;
+  font-size: 12px;
+}
+
+.newcreature .accordion .change::after {
+  content: '\f078';
+}
+
+.newcreature ol, .newcreature li {
+  list-style: none;
+  padding: 0;
+}
+
+.newcreature .itemnamefull {
+  font-weight: bold;
+}
+
+.newcreature .itemtext {
+  padding: 0 10px;
 }
 
 .newcreature.actor form {

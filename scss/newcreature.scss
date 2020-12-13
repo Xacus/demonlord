@@ -13,7 +13,6 @@
 /* Styles limited to demonlord sheets */
 .newcreature.item {
     @import 'components/items2';
-    @import 'components/creature';
 }
 
 .newcreature {
@@ -26,6 +25,7 @@
     @import 'components/resource2';
     @import 'components/tabs2';
     @import 'components/tags';
+    @import 'components/creature';
 }
 
 .newcreature.actor {
