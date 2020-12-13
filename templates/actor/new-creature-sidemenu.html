@@ -86,6 +86,14 @@
                 <input name="data.speedtraits" type="text" value="{{data.speedtraits}}"
                     data-dtype="String" placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
             </div>
+            <div class="turnmode">
+                <label class="switchTurn">
+                    <input type="checkbox" id="data.fastturn" name="data.fastturn" {{checked data.fastturn}}>
+                    <div class="slider round">
+                        <span class="on">Fast turn</span><span class="off">Slow turn</span>
+                    </div>
+                </label>
+            </div>
         </div>
     </div>
 </aside>

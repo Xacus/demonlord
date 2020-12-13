@@ -107,12 +107,23 @@
                 <div class="speed">{{data.characteristics.speed}}</div>
             </div>
         </div>
-        <div class="chars grid">
+        <div class="chars grid grid-2col">
             <div class="speedbox">
                 <div class="speedtext">{{localize "DL.CharFortune"}}</div>
                 <div class="speed"><input name="data.characteristics.fortune" type="text"
                         value="{{data.characteristics.fortune}}" data-dtype="Number" placeholder="" />
                 </div>
+            </div>
+            <div></div>
+        </div>
+        <div class="chars flexrow">
+            <div class="turnmode">
+                <label class="switchTurn">
+                    <input type="checkbox" id="data.fastturn" name="data.fastturn" {{checked data.fastturn}}>
+                    <div class="slider round">
+                        <span class="on">Fast turn</span><span class="off">Slow turn</span>
+                    </div>
+                </label>
             </div>
         </div>
     </div>

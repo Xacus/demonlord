@@ -2200,9 +2200,12 @@
   margin-top: 0px;
 }
 
+.demonlord .accordion .content .body li.item .enditemtext {
+  margin-top: -5px;
+}
+
 .demonlord .accordion .content .body li.tradition-header {
   display: block;
-  margin-top: 10px;
   font-weight: bold;
 }
 
@@ -2221,6 +2224,11 @@
 
 .demonlord .itemtext {
   padding: 0 10px;
+}
+
+.demonlord .turnmode {
+  margin-top: 5px;
+  margin-left: 48px;
 }
 
 .demonlord .features {

@@ -2462,7 +2462,7 @@
   top: 52px;
 }
 
-.newcreature .switch, .newcreature .switchBig {
+.newcreature .switch, .newcreature .switchBig, .newcreature .switchTurn {
   position: relative;
   display: inline-block;
   width: 48px;
@@ -2474,7 +2474,12 @@
   height: 14px;
 }
 
-.newcreature .switch input, .newcreature .switchBig input {
+.newcreature .switchTurn {
+  width: 92px;
+  height: 14px;
+}
+
+.newcreature .switch input, .newcreature .switchBig input, .newcreature .switchTurn input {
   display: none;
 }
 
@@ -2495,6 +2500,10 @@
   background-color: #666;
 }
 
+.newcreature .switchTurn .slider {
+  background-color: #000;
+}
+
 .newcreature .slider:before {
   position: absolute;
   content: "";
@@ -2513,12 +2522,21 @@
   width: 10px;
 }
 
+.newcreature .switchTurn .slider:before {
+  height: 10px;
+  width: 10px;
+}
+
 .newcreature input:checked + .slider {
   background-color: #333;
 }
 
 .newcreature .switchBig input:checked + .slider {
   background-color: #666;
+}
+
+.newcreature .switchTurn input:checked + .slider {
+  background-color: #000;
 }
 
 .newcreature input:focus + .slider {
@@ -2536,6 +2554,12 @@
   -webkit-transform: translateX(41px);
   -ms-transform: translateX(41px);
   transform: translateX(41px);
+}
+
+.newcreature .switchTurn input:checked + .slider:before {
+  -webkit-transform: translateX(78px);
+  -ms-transform: translateX(78px);
+  transform: translateX(78px);
 }
 
 .newcreature .on {
@@ -2560,6 +2584,12 @@
   font-size: 10px;
 }
 
+.newcreature .switchTurn .on,
+.newcreature .switchTurn .off {
+  text-align: center;
+  width: 65px;
+}
+
 .newcreature input:checked + .slider .on {
   display: block;
 }
@@ -2569,7 +2599,14 @@
 }
 
 .newcreature .slider.round {
+  border-radius: 16px;
+}
+
+.newcreature .switchTurn .slider.round {
   border-radius: 34px;
+  border: none;
+  -webkit-box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
 }
 
 .newcreature .slider.round:before {
@@ -4585,9 +4622,12 @@
   margin-top: 0px;
 }
 
+.newcreature .accordion .content .body li.item .enditemtext {
+  margin-top: -5px;
+}
+
 .newcreature .accordion .content .body li.tradition-header {
   display: block;
-  margin-top: 10px;
   font-weight: bold;
 }
 
@@ -4606,6 +4646,11 @@
 
 .newcreature .itemtext {
   padding: 0 10px;
+}
+
+.newcreature .turnmode {
+  margin-top: 5px;
+  margin-left: 48px;
 }
 
 .newcreature.actor form {

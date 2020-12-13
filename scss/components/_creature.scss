@@ -448,11 +448,14 @@
                     margin-top: 0px;
                 }
             }
+
+            .enditemtext {
+                margin-top: -5px;
+            }
         }
 
         li.tradition-header {
             display: block;
-            margin-top: 10px;
             font-weight: bold;
         }
     }
@@ -474,4 +477,9 @@ ol, li {
 
 .itemtext {
     padding: 0 10px;
+}
+
+.turnmode {
+    margin-top: 5px;
+    margin-left: 48px;
 }
