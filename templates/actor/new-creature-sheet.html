@@ -32,7 +32,7 @@
                                         class="fas fa-trash"></i></a>
                             </div>
                             <div class="featurename">{{feature.name}}</div>
-                            <div class="featurediscription">{{{feature.data.description}}}
+                            <div class="itemtext">{{{feature.data.description}}}
                             </div>
                         </li>
                         {{/each}}
@@ -42,7 +42,7 @@
                             <div class="featurename">
                                 {{feature.name}}
                             </div>
-                            <div class="featurediscription">{{{feature.data.description}}}
+                            <div class="itemtext">{{{feature.data.description}}}
                             </div>
                         </li>
                         {{/each}}
@@ -274,7 +274,7 @@
                         {{#each actor.endoftheround as |item id|}}
                         <li class="item" data-item-id="{{item._id}}">
                             <div class="itemnamefull">{{item.name}}</div>
-                            <div class="enditemtext">{{{data.description}}}</div>
+                            <div class="itemtext">{{{data.description}}}</div>
                         </li>
                         {{/each}}
                         {{/if}}

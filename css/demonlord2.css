@@ -2035,7 +2035,7 @@
 }
 
 .demonlord2.item .itemtext {
-  padding: 0 10px;
+  margin: -5px 10px 5px 10px;
 }
 
 .demonlord2.item .turnmode {
