@@ -1957,6 +1957,11 @@
   top: 0px;
 }
 
+.demonlord2.item .accordion ol, .demonlord2.item .accordion li {
+  list-style: none;
+  padding: 0;
+}
+
 .demonlord2.item .accordion .content {
   position: relative;
   width: 100%;
@@ -2023,11 +2028,6 @@
 
 .demonlord2.item .accordion .change::after {
   content: '\f078';
-}
-
-.demonlord2.item ol, .demonlord2.item li {
-  list-style: none;
-  padding: 0;
 }
 
 .demonlord2.item .itemnamefull {

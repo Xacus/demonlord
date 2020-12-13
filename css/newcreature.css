@@ -4583,6 +4583,11 @@
   top: 0px;
 }
 
+.newcreature .accordion ol, .newcreature .accordion li {
+  list-style: none;
+  padding: 0;
+}
+
 .newcreature .accordion .content {
   position: relative;
   width: 100%;
@@ -4649,11 +4654,6 @@
 
 .newcreature .accordion .change::after {
   content: '\f078';
-}
-
-.newcreature ol, .newcreature li {
-  list-style: none;
-  padding: 0;
 }
 
 .newcreature .itemnamefull {

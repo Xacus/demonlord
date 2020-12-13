@@ -2145,6 +2145,11 @@
   top: 0px;
 }
 
+.demonlord .accordion ol, .demonlord .accordion li {
+  list-style: none;
+  padding: 0;
+}
+
 .demonlord .accordion .content {
   position: relative;
   width: 100%;
@@ -2211,11 +2216,6 @@
 
 .demonlord .accordion .change::after {
   content: '\f078';
-}
-
-.demonlord ol, .demonlord li {
-  list-style: none;
-  padding: 0;
 }
 
 .demonlord .itemnamefull {

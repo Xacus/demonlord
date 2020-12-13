@@ -396,6 +396,11 @@
     top: 0px;
   }
 
+  ol, li {
+    list-style: none;
+    padding: 0;  
+  }
+
   .content {
     position: relative;
     width: 100%;
@@ -464,11 +469,6 @@
   .change::after {
     content: '\f078';
   }
-}
-
-ol, li {
-    list-style: none;
-    padding: 0;
 }
 
 .itemnamefull {
