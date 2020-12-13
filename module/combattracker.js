@@ -20,7 +20,7 @@ export default class extends CombatTracker {
       const combId = el.getAttribute('data-combatant-id')
       const combatant = currentCombat.combatants.find((c) => c._id == combId)
 
-      init = combatant.actor.data?.data?.fastturn
+      init = combatant.actor?.data?.data?.fastturn
         ? game.i18n.localize('DL.TurnFast')
         : game.i18n.localize('DL.TurnSlow')
       el.getElementsByClassName('token-initiative')[0].innerHTML =
@@ -55,9 +55,12 @@ export default class extends CombatTracker {
         }
       }
 
-      const endofrounds = combatant.actor
-        .getEmbeddedCollection('OwnedItem')
-        .filter((e) => e.type === 'endoftheround')
+      const endofrounds =
+        combatant.actor != null
+          ? combatant?.actor
+              .getEmbeddedCollection('OwnedItem')
+              .filter((e) => e.type === 'endoftheround')
+          : ''
       if (endofrounds.length > 0) hasEndOfRoundEffects = true
     })
 
