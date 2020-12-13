@@ -263,7 +263,12 @@
                 "active": true,
                 "attribute": "",
                 "boonsbanesactive": true,
-                "boonsbanes": ""
+                "boonsbanes": "",
+                "strengthboonsbanes": "",
+                "agilityboonsbanes": "",
+                "intellectboonsbanes": "",
+                "willboonsbanes": "",
+                "perceptionboonsbanes": ""
             },
             "vs": {
                 "active": true,

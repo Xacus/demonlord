@@ -2080,11 +2080,11 @@
   margin: 0 0 0 10px;
 }
 
-.demonlord .description {
+.demonlord .credescription {
   margin: -10px 0 0 0;
 }
 
-.demonlord .description .editor, .demonlord .description .editor-content {
+.demonlord .credescription .editor, .demonlord .credescription .editor-content {
   height: 100%;
   min-height: 200px;
 }

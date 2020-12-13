@@ -428,6 +428,12 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
   generateCharacterBuffs () {
     const characterbuffs = new CharacterBuff()
+    characterbuffs.challengestrengthbonus = 0
+    characterbuffs.challengeagilitybonus = 0
+    characterbuffs.challengeintellectbonus = 0
+    characterbuffs.challengewillbonus = 0
+    characterbuffs.challengeperceptionbonus = 0
+
     const talents = this.actor
       ?.getEmbeddedCollection('OwnedItem')
       .filter((e) => e.type === 'talent')

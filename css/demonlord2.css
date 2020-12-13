@@ -1892,11 +1892,11 @@
   margin: 0 0 0 10px;
 }
 
-.demonlord2.item .description {
+.demonlord2.item .credescription {
   margin: -10px 0 0 0;
 }
 
-.demonlord2.item .description .editor, .demonlord2.item .description .editor-content {
+.demonlord2.item .credescription .editor, .demonlord2.item .credescription .editor-content {
   height: 100%;
   min-height: 200px;
 }
