@@ -99,10 +99,6 @@
     right: 0;
   }
 
-  &:hover {
-    background: var(--demonlord-red);
-  }
-
   &:hover .tooltiptext {
     visibility: visible;
   }

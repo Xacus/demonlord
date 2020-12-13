@@ -4012,10 +4012,6 @@
   right: 0;
 }
 
-.newcreature .creaturetooltip:hover {
-  background: var(--demonlord-red);
-}
-
 .newcreature .creaturetooltip:hover .tooltiptext {
   visibility: visible;
 }
