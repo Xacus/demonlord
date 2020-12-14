@@ -344,6 +344,8 @@ export class DemonlordActor extends Actor {
           : 2
     }
 
+    data.characteristics.power += parseInt(characterbuffs.powerbonus)
+
     if (data.afflictions.immobilized) data.characteristics.speed = 0
 
     if (data.afflictions.unconscious) data.characteristics.defense = 5
@@ -1785,6 +1787,12 @@ export class DemonlordActor extends Actor {
         ) {
           characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed)
         }
+        if (
+          talent.data.bonuses?.poweractive &&
+          talent.data.bonuses?.power > 0
+        ) {
+          characterbuffs.powerbonus += parseInt(talent.data.bonuses.power)
+        }
         if (talent.data.healing?.healactive && talent.data.healing?.rate > 0) {
           characterbuffs.healing += parseInt(talent.data.healing.rate)
         }
@@ -2028,6 +2036,14 @@ export class DemonlordActor extends Actor {
           talent.data.bonuses?.speed +
           '<br>'
       }
+      if (talent.data?.bonuses?.poweractive && talent.data?.bonuses?.power) {
+        effects +=
+          '&nbsp;&nbsp;&nbsp;• ' +
+          game.i18n.localize('DL.TalentBonusesPower') +
+          ': ' +
+          talent.data.bonuses?.power +
+          '<br>'
+      }
     }
     if (effects == talent.name + ':<br>') effects = ''
 
@@ -2086,17 +2102,22 @@ export class DemonlordActor extends Actor {
 
   async addCharacterBonuses (talent) {
     const healthbonus =
-      talent.data.bonuses?.defenseactive && talent.data.bonuses?.health != ''
+      talent.data.bonuses?.defenseactive && talent.data.bonuses?.health > 0
         ? parseInt(talent.data.bonuses?.health)
         : 0
     const defensebonus =
-      talent.data.bonuses?.healthactive && talent.data.bonuses?.defense != ''
+      talent.data.bonuses?.healthactive && talent.data.bonuses?.defense > 0
         ? parseInt(talent.data.bonuses?.defense)
         : 0
     const speedbonus =
-      talent.data.bonuses?.speedactive && talent.data.bonuses?.speed != ''
+      talent.data.bonuses?.speedactive && talent.data.bonuses?.speed > 0
         ? parseInt(talent.data.bonuses?.speed)
         : 0
+    const powerbonus =
+      talent.data.bonuses?.poweractive && talent.data.bonuses?.power > 0
+        ? parseInt(talent.data.bonuses?.power)
+        : 0
+
     /*
                 await this.update({
                     "data.characteristics.health.max": parseInt(this.data.data.characteristics.health.max) + healthbonus,
@@ -2109,16 +2130,20 @@ export class DemonlordActor extends Actor {
 
   async removeCharacterBonuses (talent) {
     const healthbonus =
-      talent.data.bonuses?.defenseactive && talent.data.bonuses?.health != ''
+      talent.data.bonuses?.defenseactive && talent.data.bonuses?.health > 0
         ? parseInt(talent.data.bonuses?.health)
         : 0
     const defensebonus =
-      talent.data.bonuses?.healthactive && talent.data.bonuses?.defense != ''
+      talent.data.bonuses?.healthactive && talent.data.bonuses?.defense > 0
         ? parseInt(talent.data.bonuses?.defense)
         : 0
     const speedbonus =
-      talent.data.bonuses?.speedactive && talent.data.bonuses?.speed != ''
+      talent.data.bonuses?.speedactive && talent.data.bonuses?.speed > 0
         ? parseInt(talent.data.bonuses?.speed)
+        : 0
+    const powerbonus =
+      talent.data.bonuses?.poweractive && talent.data.bonuses?.power > 0
+        ? parseInt(talent.data.bonuses?.power)
         : 0
 
     await this.update({
@@ -2128,6 +2153,8 @@ export class DemonlordActor extends Actor {
         parseInt(this.data.data.characteristics.defense) - defensebonus,
       'data.characteristics.speed.value':
         parseInt(this.data.data.characteristics.speed.value) - speedbonus,
+      'data.characteristics.power.value':
+        parseInt(this.data.data.characteristics.power.value) - powerbonus,
       'data.activebonuses': false
     })
   }

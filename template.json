@@ -295,7 +295,9 @@
                 "healthactive": true,
                 "health": "",
                 "speedactive": true,
-                "speed": ""
+                "speed": "",
+                "poweractive": true,
+                "power": ""
             },
             "groupname": "",
             "isActive": false

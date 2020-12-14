@@ -77,6 +77,7 @@
     "DL.TalentBonusesDefense": "Verteidigungsbonus",
     "DL.TalentBonusesHealth": "Lebenspunktebonus",
     "DL.TalentBonusesSpeed": "Geschwindigkeitsbonus",
+    "DL.TalentBonusesPower": "Power bonus",
     "DL.TalentMultipleOptions": "Mehrere Optionen",
     "DL.TalentHasMultipleOptions": "Das Talent hat mehere Optionen",
     "DL.TalentHealingOptions": "Heilungsoption anzeigen",

@@ -120,25 +120,31 @@ export class DemonlordItemSheet extends ItemSheet {
       if (talent.data.addtonextroll) {
         if (
           this.actor.data.data.activebonuses ||
-          (talent.data.uses.value == '' && talent.data.uses.max == '')
+          (talent.data.uses.value > 0 && talent.data.uses.max > 0)
         ) {
           if (
-            talent.data.bonuses.defenseactive &&
-            talent.data.bonuses.defense != ''
+            talent.data.bonuses?.defenseactive &&
+            talent.data.bonuses?.defense > 0
           ) {
             characterbuffs.defensebonus += parseInt(talent.data.bonuses.defense)
           }
           if (
-            talent.data.bonuses.healthactive &&
-            talent.data.bonuses.health != ''
+            talent.data.bonuses?.healthactive &&
+            talent.data.bonuses?.health > 0
           ) {
             characterbuffs.healthbonus += parseInt(talent.data.bonuses.health)
           }
           if (
-            talent.data.bonuses.speedactive &&
-            talent.data.bonuses.speed != ''
+            talent.data.bonuses?.speedactive &&
+            talent.data.bonuses?.speed > 0
           ) {
             characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed)
+          }
+          if (
+            talent.data.bonuses?.poweractive &&
+            talent.data.bonuses?.power > 0
+          ) {
+            characterbuffs.powerbonus += parseInt(talent.data.bonuses.power)
           }
         }
       }
