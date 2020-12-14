@@ -4669,6 +4669,25 @@
   margin-left: 48px;
 }
 
+.newcreature .hidesection {
+  float: right;
+  margin-left: 10px;
+  margin-top: 1px;
+  font-family: 'Font Awesome 5 Free';
+}
+
+.newcreature .hidesection input.checkbox {
+  display: none;
+}
+
+.newcreature .hidesection input.checkbox + label:before {
+  content: '\f070';
+}
+
+.newcreature .hidesection input.checkbox:checked + label:before {
+  content: '\f06e';
+}
+
 .newcreature.actor form {
   display: grid;
   grid: "sidebar header" 130px "sidebar nav" minmax(-webkit-min-content, -webkit-max-content) "sidebar content" 1fr/247px 1fr;

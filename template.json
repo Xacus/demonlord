@@ -92,6 +92,17 @@
                     "disabled": false,
                     "dying": false
                 }
+            },
+            "section": {
+                "sections": {
+                    "showtraits": true,
+                    "showattackoptions": true,
+                    "showspecialattack": true,
+                    "showspecialactions": true,
+                    "showmagic": true,
+                    "showendofround": true,
+                    "showdescription": true
+                }
             }
         },
         "character": {
@@ -144,7 +155,8 @@
         },
         "creature": {
             "templates": [
-                "base"
+                "base",
+                "section"
             ],
             "edit": true,
             "difficulty": 0,

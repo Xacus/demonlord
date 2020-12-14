@@ -2231,6 +2231,25 @@
   margin-left: 48px;
 }
 
+.demonlord .hidesection {
+  float: right;
+  margin-left: 10px;
+  margin-top: 1px;
+  font-family: 'Font Awesome 5 Free';
+}
+
+.demonlord .hidesection input.checkbox {
+  display: none;
+}
+
+.demonlord .hidesection input.checkbox + label:before {
+  content: '\f070';
+}
+
+.demonlord .hidesection input.checkbox:checked + label:before {
+  content: '\f06e';
+}
+
 .demonlord .features {
   margin-top: -6px;
 }

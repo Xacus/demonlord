@@ -484,3 +484,22 @@
     margin-top: 5px;
     margin-left: 48px;
 }
+
+.hidesection {
+    float: right;
+    margin-left: 10px;
+    margin-top: 1px;
+    font-family: 'Font Awesome 5 Free';
+
+    input.checkbox {
+        display: none;
+    }
+
+    input.checkbox + label:before {
+        content: '\f070';
+    }
+
+    input.checkbox:checked + label:before {
+        content: '\f06e';
+    }
+}
