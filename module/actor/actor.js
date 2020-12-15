@@ -1695,6 +1695,12 @@ export class DemonlordActor extends Actor {
         if (talent.data?.plus20active && talent.data.action?.plus20 != '') {
           characterbuffs.attack20plusdamagebonus +=
             '+' + talent.data.action?.plus20
+        } else {
+          characterbuffs.attackeffects += this.buildTalentEffects(
+            talent,
+            true,
+            type
+          )
         }
 
         if (talent.data?.challenge.boonsbanesactive) {

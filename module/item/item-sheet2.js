@@ -338,8 +338,8 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     if (item.type == 'talent') {
       // If a Talent has no uses it's always active
       if (
-        (updateData.data?.uses?.value == '' &&
-          updateData.data?.uses?.max == '') ||
+        (updateData.data?.uses?.value == null &&
+          updateData.data?.uses?.max == null) ||
         (updateData.data?.uses?.value == '0' &&
           updateData.data?.uses?.max == '0')
       ) {
