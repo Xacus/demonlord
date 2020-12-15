@@ -124,6 +124,18 @@ export class DemonlordActorSheet2 extends ActorSheet {
                   )
                 }
               }
+              for (const talent of level.talentspick) {
+                const actorTalent = this.actor
+                  .getEmbeddedCollection('OwnedItem')
+                  .filter((e) => e.type === 'talent' && e.name === talent.name)
+
+                if (actorTalent.length > 0) {
+                  await this.actor.deleteEmbeddedEntity(
+                    'OwnedItem',
+                    actorTalent[0]._id
+                  )
+                }
+              }
               for (const spell of level.spells) {
                 const actorSpell = this.actor
                   .getEmbeddedCollection('OwnedItem')
@@ -730,6 +742,31 @@ export class DemonlordActorSheet2 extends ActorSheet {
       if (ev.button == 0) {
         item.sheet.render(true)
       } else if (ev.button == 2) {
+        const ancestries = this.actor
+          .getEmbeddedCollection('OwnedItem')
+          .filter((e) => e.type === 'ancestry')
+
+        for (const ancestry of ancestries) {
+          for (const talent of ancestry.data.talents) {
+            const actorTalent = this.actor
+              .getEmbeddedCollection('OwnedItem')
+              .filter((e) => e.type === 'talent' && e.name === talent.name)
+
+            if (actorTalent.length > 0) {
+              this.actor.deleteEmbeddedEntity('OwnedItem', actorTalent[0]._id)
+            }
+          }
+          for (const talent of ancestry.data.level4.talent) {
+            const actorTalent = this.actor
+              .getEmbeddedCollection('OwnedItem')
+              .filter((e) => e.type === 'talent' && e.name === talent.name)
+
+            if (actorTalent.length > 0) {
+              this.actor.deleteEmbeddedEntity('OwnedItem', actorTalent[0]._id)
+            }
+          }
+        }
+
         this.actor.deleteEmbeddedEntity('OwnedItem', item._id)
       }
     })
@@ -746,6 +783,42 @@ export class DemonlordActorSheet2 extends ActorSheet {
       if (ev.button == 0) {
         item.sheet.render(true)
       } else if (ev.button == 2) {
+        const paths = this.actor
+          .getEmbeddedCollection('OwnedItem')
+          .filter((e) => e.type === 'path')
+
+        for (const path of paths) {
+          for (const level of path.data.levels) {
+            for (const talent of level.talents) {
+              const actorTalent = this.actor
+                .getEmbeddedCollection('OwnedItem')
+                .filter((e) => e.type === 'talent' && e.name === talent.name)
+
+              if (actorTalent.length > 0) {
+                this.actor.deleteEmbeddedEntity('OwnedItem', actorTalent[0]._id)
+              }
+            }
+            for (const talent of level.talentspick) {
+              const actorTalent = this.actor
+                .getEmbeddedCollection('OwnedItem')
+                .filter((e) => e.type === 'talent' && e.name === talent.name)
+
+              if (actorTalent.length > 0) {
+                this.actor.deleteEmbeddedEntity('OwnedItem', actorTalent[0]._id)
+              }
+            }
+            for (const spell of level.spells) {
+              const actorSpell = this.actor
+                .getEmbeddedCollection('OwnedItem')
+                .filter((e) => e.type === 'spell' && e.name === spell.name)
+
+              if (actorSpell.length > 0) {
+                this.actor.deleteEmbeddedEntity('OwnedItem', actorSpell[0]._id)
+              }
+            }
+          }
+        }
+
         this.actor.deleteEmbeddedEntity('OwnedItem', item._id)
       }
     })
