@@ -88,6 +88,29 @@ export class DemonlordActor extends Actor {
                     data.attributes.will.value += parseInt($level.attributeWill)
                   }
 
+                  if ($level.attributeSelectIsFixed) {
+                    if ($level.attributeStrength > 0) {
+                      data.attributes.strength.value += parseInt(
+                        $level.attributeStrength
+                      )
+                    }
+                    if ($level.attributeAgility > 0) {
+                      data.attributes.agility.value += parseInt(
+                        $level.attributeAgility
+                      )
+                    }
+                    if ($level.attributeIntellect > 0) {
+                      data.attributes.intellect.value += parseInt(
+                        $level.attributeIntellect
+                      )
+                    }
+                    if ($level.attributeWill > 0) {
+                      data.attributes.will.value += parseInt(
+                        $level.attributeWill
+                      )
+                    }
+                  }
+
                   pathHealthBonus += $level.characteristicsHealth
 
                   switch (path.data.type) {
@@ -1695,7 +1718,9 @@ export class DemonlordActor extends Actor {
         if (talent.data?.plus20active && talent.data.action?.plus20 != '') {
           characterbuffs.attack20plusdamagebonus +=
             '+' + talent.data.action?.plus20
-        } else {
+        }
+
+        if (type === 'ATTACK') {
           characterbuffs.attackeffects += this.buildTalentEffects(
             talent,
             true,
@@ -1957,7 +1982,9 @@ export class DemonlordActor extends Actor {
         talent.data.action?.plus20 +
         '<br>'
     }
+
     if (
+      type === 'TALENT' &&
       talent.data?.challenge?.boonsbanesactive &&
       talent.data?.challenge?.boonsbanes
     ) {
@@ -1971,7 +1998,7 @@ export class DemonlordActor extends Actor {
         '<br>'
     }
     if (
-      type == 'TALENT' &&
+      type === 'TALENT' &&
       talent.data?.vs?.boonsbanesactive &&
       talent.data?.vs?.boonsbanes
     ) {
@@ -1983,7 +2010,7 @@ export class DemonlordActor extends Actor {
         '<br>'
     }
     if (
-      type == 'TALENT' &&
+      type === 'TALENT' &&
       talent.data?.vs?.damageactive &&
       talent.data?.vs?.damage
     ) {
@@ -1995,7 +2022,7 @@ export class DemonlordActor extends Actor {
         '<br>'
     }
     if (
-      type == 'TALENT' &&
+      type === 'TALENT' &&
       talent.data?.healing?.healactive &&
       talent.data?.healing?.rate
     ) {
@@ -2006,7 +2033,7 @@ export class DemonlordActor extends Actor {
         talent.data.healing?.rate +
         '<br>'
     }
-    if (type == 'TALENT' && talent.data?.damage) {
+    if (type === 'TALENT' && talent.data?.damage) {
       effects +=
         '&nbsp;&nbsp;&nbsp;• ' +
         game.i18n.localize('DL.TalentDamage') +
@@ -2014,7 +2041,7 @@ export class DemonlordActor extends Actor {
         talent.data?.damage +
         '<br>'
     }
-    if (!showTalentName && type == 'TALENT') {
+    if (!showTalentName && type === 'TALENT') {
       if (
         talent.data?.bonuses?.defenseactive &&
         talent.data?.bonuses?.defense
