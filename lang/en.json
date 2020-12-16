@@ -369,7 +369,7 @@
     "DL.SettingUsingChatPortraitModule": "Using Chat Portrait Module",
     "DL.SettingUsingChatPortraitModuleHint": "Use the space below actor name for additional info.",
     "DL.SettingUsingHomebrewMode": "Use Homebrew mode",
-    "DL.SettingUsingHomebrewModeHint": "Attributes are not set or calculated on an Ancestry. You manually enter and updates them on the charactersheet youself.",
+    "DL.SettingUsingHomebrewModeHint": "Attributes are not calculated based on Ancestry or Path choices; they must be manually entered on the character sheets. Characteristics are still calculated as normal.",
     "DL.SettingLockAncestry": "Lock fields on Ancestry",
     "DL.SettingLockAncestrHint": "Remove players access to change modifers, Speed, Insanity, Corruption and Health.",
     "DL.DialogInitiative": "Initiative",

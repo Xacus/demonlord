@@ -364,7 +364,7 @@
   "DL.SettingAttackShowEnemyAttributeAtt": "Show enemy stats Attack",
   "DL.SettingAttackShowEnemyAttributeAttHint": "Show the enemy stats you are rolling.",
   "DL.SettingUsingHomebrewMode": "Use Homebrew mode",
-  "DL.SettingUsingHomebrewModeHint": "Attributes are not set or calculated on an Ancestry. You manually enter and updates them on the charactersheet youself.",
+  "DL.SettingUsingHomebrewModeHint": "Attributes are not calculated based on Ancestry or Path choices; they must be manually entered on the character sheets. Characteristics are still calculated as normal.",
   "DL.SettingLockAncestry": "Lock fields on Ancestry",
   "DL.SettingLockAncestrHint": "Remove players access to change modifers, Speed, Insanity, Corruption and Health.",
   "DL.DialogInitiative": "Iniciativa",

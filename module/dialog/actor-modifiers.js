@@ -69,24 +69,6 @@ export class DLActorModifiers extends FormApplication {
       html.find('input[type=checkbox][id="active"]').prop('checked', false)
     })
 
-    html.find('.radioblock').click((ev) => {
-      this.updateTurnOrder(false)
-    })
-
-    // Affliction Rules
-    html.find('.radioblockfast').click((ev) => {
-      const slowed = html.find(
-        'input[type=checkbox][id="data.afflictions.slowed"]'
-      )[0]
-      if (slowed.checked) {
-        html
-          .find('input[type=radio][id="data.fastturn.false"]')
-          .prop('checked', true)
-      } else {
-        this.updateTurnOrder(true)
-      }
-    })
-
     html
       .find('input[type=checkbox][id="data.afflictions.asleep"]')
       .click((ev) => {
