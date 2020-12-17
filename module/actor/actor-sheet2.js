@@ -451,6 +451,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
 
+    // Corruption Roll
+    html.find('.corruption-roll').click((ev) => {
+      this.actor.rollCorruption()
+    })
+
     // Edit HealthBar, Insanity and Corruption
     html.find('.bar-edit').click((ev) => {
       const actor = this.actor

@@ -41,6 +41,8 @@
     "DL.CharPathExpert": "Expert",
     "DL.CharPathMaster": "Master",
     "DL.CharDescription": "Description",
+    "DL.CharRolCorruption": "Corruption Roll",
+    "DL.CharRolCorruptionResult": "You gain a Mark of Darkness",
     "DL.AncestryLevel4": "Level 4 Expert",
     "DL.AncestryOptionTitle": "Option",
     "DL.AncestryLearnSpell": "Learn one Spell",

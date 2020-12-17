@@ -2411,6 +2411,14 @@
   color: #000;
 }
 
+.demonlord2 form aside .sidebar .health .corruption-roll,
+.demonlord2 form aside .sidebar .insanity .corruption-roll,
+.demonlord2 form aside .sidebar .corruption .corruption-roll {
+  float: right;
+  position: relative;
+  top: -28px;
+}
+
 .demonlord2 form aside .sidebar .insanity {
   margin: 4px 0 0 0;
 }

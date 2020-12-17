@@ -41,6 +41,8 @@
     "DL.CharPathExpert": "Geselle",
     "DL.CharPathMaster": "Meister",
     "DL.CharDescription": "Beschreibung",
+    "DL.CharRolCorruption": "Corruption Roll",
+    "DL.CharRolCorruptionResult": "You gain a Mark of Darkness",
     "DL.AncestryLevel4": "Stufe 4 Geselle",
     "DL.AncestryOptionTitle": "Option",
     "DL.AncestryLearnSpell": "Lerne einen Spruch",

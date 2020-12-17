@@ -124,6 +124,7 @@ async function preloadHandlebarsTemplates () {
     'systems/demonlord/templates/tabs/background.html',
     'systems/demonlord/templates/chat/challenge.html',
     'systems/demonlord/templates/chat/combat.html',
+    'systems/demonlord/templates/chat/corruption.html',
     'systems/demonlord/templates/chat/damage.html',
     'systems/demonlord/templates/chat/description.html',
     'systems/demonlord/templates/chat/heal.html',

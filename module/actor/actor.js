@@ -1638,6 +1638,77 @@ export class DemonlordActor extends Actor {
     })
   }
 
+  rollCorruption () {
+    const corruptionRoll = new Roll('1d20-', {})
+    corruptionRoll.roll()
+
+    // Format Dice
+    const diceData = isNewerVersion(game.data.version, '0.6.9')
+      ? FormatDice(corruptionRoll)
+      : FormatDiceOld(corruptionRoll)
+
+    var templateData = {
+      actor: this,
+      data: {
+        diceTotal: {
+          value: corruptionRoll._total
+        },
+        tagetValueText: {
+          value: game.i18n.localize('DL.CharCorruption').toUpperCase()
+        },
+        targetValue: {
+          value: this.data.data.characteristics.corruption
+        },
+        resultText: {
+          value:
+            corruptionRoll._total >= this.data.data.characteristics.corruption
+              ? game.i18n.localize('DL.DiceResultSuccess')
+              : game.i18n.localize('DL.DiceResultFailure')
+        },
+        failureText: {
+          value:
+            corruptionRoll._total >= this.data.data.characteristics.corruption
+              ? ''
+              : game.i18n.localize('DL.CharRolCorruptionResult')
+        }
+      },
+      diceData
+    }
+
+    const chatData = {
+      user: game.user._id,
+      speaker: {
+        actor: this._id,
+        token: this.token,
+        alias: this.name
+      }
+    }
+
+    const rollMode = game.settings.get('core', 'rollMode')
+    if (['gmroll', 'blindroll'].includes(rollMode)) {
+      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
+    }
+
+    const template = 'systems/demonlord/templates/chat/corruption.html'
+    renderTemplate(template, templateData).then((content) => {
+      chatData.content = content
+      if (game.dice3d) {
+        game.dice3d
+          .showForRoll(
+            corruptionRoll,
+            game.user,
+            true,
+            chatData.whisper,
+            chatData.blind
+          )
+          .then((displayed) => ChatMessage.create(chatData))
+      } else {
+        chatData.sound = CONFIG.sounds.dice
+        ChatMessage.create(chatData)
+      }
+    })
+  }
+
   getTarget () {
     let selectedTarget = null
     game.user.targets.forEach(async (target) => {
