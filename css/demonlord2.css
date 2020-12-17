@@ -4230,10 +4230,40 @@
 .demonlord2 .body .languages {
   float: left;
   width: 100%;
-  padding-right: 5px;
+  padding-right: 7px;
   margin-top: -10px;
   margin-bottom: 50px;
   height: 24px;
+}
+
+.demonlord2 .body .languages .language {
+  float: left;
+  margin-right: 5px;
+}
+
+.demonlord2 .body .languages .language .languagetitle, .demonlord2 .body .languages .language .delimiter, .demonlord2 .body .languages .language .charhighlight, .demonlord2 .body .languages .language .chardim {
+  float: left;
+}
+
+.demonlord2 .body .languages .language .charhighlight {
+  float: left;
+}
+
+.demonlord2 .body .languages .language .chardim {
+  float: left;
+  color: #777;
+}
+
+.demonlord2 .body .languages .language .item-controls {
+  float: right;
+  margin-left: 2px;
+}
+
+.demonlord2 .body .languages .edit {
+  float: right;
+  position: relative;
+  top: -12px;
+  margin-right: 6px;
 }
 
 .demonlord2 form {
@@ -4392,6 +4422,7 @@
 .demonlord2 .resource .modifierblockcheckHeight label {
   font-size: 11px;
   margin-left: -2px;
+  height: 15px;
 }
 
 .demonlord2 .resource .modifierblockcheckHeight {

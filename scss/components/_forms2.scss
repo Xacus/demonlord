@@ -431,9 +431,39 @@
   .languages {
     float: left;
     width: 100%;
-    padding-right: 5px;
+    padding-right: 7px;
     margin-top: -10px;
     margin-bottom: 50px;
     height: 24px;
+
+    .language {
+      float: left;
+      margin-right: 5px;
+
+      .languagetitle, .delimiter, .charhighlight, .chardim {
+        float: left;
+      }
+      .charhighlight {
+        float: left;
+      }
+      .chardim {
+        float: left;
+        color: #777;
+      }
+
+      .item-controls {
+        float: right;
+        margin-left: 2px;
+      }
+    }
+
+    .edit {
+      float: right;
+      position: relative;
+      top: -12px;
+      margin-right: 6px;
+    }
   }
+
+
 }

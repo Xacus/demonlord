@@ -57,6 +57,7 @@ export class PathLevel {
     this.talents = obj.talents || []
     this.spells = obj.spells || []
     this.talentspick = obj.talents || []
+    this.languages = obj.languages || []
   }
 }
 

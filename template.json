@@ -181,6 +181,7 @@
             "endoftheround",
             "mod",
             "ancestry",
+            "language",
             "profession",
             "path",
             "creaturerole"
@@ -451,6 +452,14 @@
                 "description": "",
                 "spells": []
             }
+        },
+        "language": {
+            "templates": [
+                "base"
+            ],
+            "read": false,
+            "write": false,
+            "speak": true
         }
     }
 }

@@ -83,7 +83,8 @@ Hooks.once('init', async function () {
       'endoftheround',
       'mod',
       'ancestry',
-      'profession'
+      'profession',
+      'language'
     ],
     makeDefault: true
   })

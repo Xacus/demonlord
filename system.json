@@ -50,6 +50,13 @@
             "entity": "Item"
         },
         {
+            "name": "languages",
+            "label": "Languages",
+            "system": "demonlord",
+            "path": "packs/languages.db",
+            "entity": "Item"
+        },
+        {
             "name": "demonlord macros gm",
             "label": "Demonlord Macros - GM",
             "system": "demonlord",

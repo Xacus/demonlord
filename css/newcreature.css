@@ -3742,10 +3742,40 @@
 .newcreature .body .languages {
   float: left;
   width: 100%;
-  padding-right: 5px;
+  padding-right: 7px;
   margin-top: -10px;
   margin-bottom: 50px;
   height: 24px;
+}
+
+.newcreature .body .languages .language {
+  float: left;
+  margin-right: 5px;
+}
+
+.newcreature .body .languages .language .languagetitle, .newcreature .body .languages .language .delimiter, .newcreature .body .languages .language .charhighlight, .newcreature .body .languages .language .chardim {
+  float: left;
+}
+
+.newcreature .body .languages .language .charhighlight {
+  float: left;
+}
+
+.newcreature .body .languages .language .chardim {
+  float: left;
+  color: #777;
+}
+
+.newcreature .body .languages .language .item-controls {
+  float: right;
+  margin-left: 2px;
+}
+
+.newcreature .body .languages .edit {
+  float: right;
+  position: relative;
+  top: -12px;
+  margin-right: 6px;
 }
 
 .newcreature form {
@@ -3904,6 +3934,7 @@
 .newcreature .resource .modifierblockcheckHeight label {
   font-size: 11px;
   margin-left: -2px;
+  height: 15px;
 }
 
 .newcreature .resource .modifierblockcheckHeight {

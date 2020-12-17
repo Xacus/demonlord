@@ -198,6 +198,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     const pathNovice = []
     const pathExpert = []
     const pathMaster = []
+    const languages = []
 
     // Iterate through items, allocating to containers
     // let totalWeight = 0;
@@ -239,6 +240,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
           default:
             break
         }
+      } else if (i.type === 'language') {
+        languages.push(i)
       }
     }
 
@@ -256,6 +259,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     actorData.pathNovice = pathNovice
     actorData.pathExpert = pathExpert
     actorData.pathMaster = pathMaster
+    actorData.languages = languages
 
     actorData.spellbook = this._prepareSpellBook(actorData)
     actorData.talentbook = this._prepareTalentBook(actorData)
@@ -832,12 +836,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     html.find('.wealth-edit').click((ev) => {
       const actor = this.actor
 
-      const showEdit = actor.data.data.wealth.edit
-      if (showEdit) {
-        actor.data.data.wealth.edit = false
-      } else {
-        actor.data.data.wealth.edit = true
-      }
+      actor.data.data.wealth.edit = !actor.data.data.wealth.edit
 
       const that = this
       actor
@@ -853,12 +852,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     html.find('.paths-edit').click((ev) => {
       const actor = this.actor
 
-      const showEdit = actor.data.data.paths.edit
-      if (showEdit) {
-        actor.data.data.paths.edit = false
-      } else {
-        actor.data.data.paths.edit = true
-      }
+      actor.data.data.paths.edit = !actor.data.data.paths.edit
 
       const that = this
       actor
@@ -870,16 +864,68 @@ export class DemonlordActorSheet2 extends ActorSheet {
         })
     })
 
+    // Languages - Edit
+    html.find('.languages-edit').click((ev) => {
+      const actor = this.actor
+
+      actor.data.data.languages.edit = !actor.data.data.languages.edit
+
+      const that = this
+      actor
+        .update({
+          'data.languages.edit': actor.data.data.languages.edit
+        })
+        .then((item) => {
+          that.render()
+        })
+    })
+
+    // Languages - Delete
+    html.find('.language-delete').click((ev) => {
+      const li = $(ev.currentTarget).parents('.language')
+
+      this.showDeleteDialog(
+        game.i18n.localize('DL.DialogAreYouSure'),
+        game.i18n.localize('DL.DialogDeleteLanguageText'),
+        li
+      )
+    })
+    // Language - Toogle Read
+    html.find('.language-toggle-r').click((ev) => {
+      const dev = ev.currentTarget.closest('.language')
+      const item = duplicate(
+        this.actor.getEmbeddedEntity('OwnedItem', dev.dataset.itemId)
+      )
+
+      item.data.read = !item.data.read
+      this.actor.updateEmbeddedEntity('OwnedItem', item)
+    })
+    // Language - Toogle Write
+    html.find('.language-toggle-w').click((ev) => {
+      const dev = ev.currentTarget.closest('.language')
+      const item = duplicate(
+        this.actor.getEmbeddedEntity('OwnedItem', dev.dataset.itemId)
+      )
+
+      item.data.write = !item.data.write
+      this.actor.updateEmbeddedEntity('OwnedItem', item)
+    })
+    // Language - Toogle Speak
+    html.find('.language-toggle-s').click((ev) => {
+      const dev = ev.currentTarget.closest('.language')
+      const item = duplicate(
+        this.actor.getEmbeddedEntity('OwnedItem', dev.dataset.itemId)
+      )
+
+      item.data.speak = !item.data.speak
+      this.actor.updateEmbeddedEntity('OwnedItem', item)
+    })
+
     // Profession
     html.find('.profession-edit').click((ev) => {
       const actor = this.actor
 
-      const showEdit = actor.data.data.professions.edit
-      if (showEdit) {
-        actor.data.data.professions.edit = false
-      } else {
-        actor.data.data.professions.edit = true
-      }
+      actor.data.data.professions.edit = !actor.data.data.professions.edit
 
       const that = this
       actor
@@ -907,38 +953,12 @@ export class DemonlordActorSheet2 extends ActorSheet {
     html.find('.religion-edit').click((ev) => {
       const actor = this.actor
 
-      const showEdit = actor.data.data.religion.edit
-      if (showEdit) {
-        actor.data.data.religion.edit = false
-      } else {
-        actor.data.data.religion.edit = true
-      }
+      actor.data.data.religion.edit = !actor.data.data.religion.edit
 
       const that = this
       actor
         .update({
           'data.religion.edit': actor.data.data.religion.edit
-        })
-        .then((item) => {
-          that.render()
-        })
-    })
-
-    // Languages
-    html.find('.languages-edit').click((ev) => {
-      const actor = this.actor
-
-      const showEdit = actor.data.data.languages.edit
-      if (showEdit) {
-        actor.data.data.languages.edit = false
-      } else {
-        actor.data.data.languages.edit = true
-      }
-
-      const that = this
-      actor
-        .update({
-          'data.languages.edit': actor.data.data.languages.edit
         })
         .then((item) => {
           that.render()
