@@ -37,12 +37,13 @@ export const migrateWorld = async function () {
   }
 
   // Set the migration as complete
+  /*
   game.settings.set(
     'demonlord',
     'systemMigrationVersion',
     game.system.data.version
   )
-
+*/
   ui.notifications.info(
     `Demonlord System Migration to version ${game.system.data.version} completed!`,
     { permanent: true }
@@ -95,12 +96,40 @@ export const migrateActorData = function (actor) {
  */
 export const migrateItemData = function (item) {
   const updateData = {}
-  const itemTypes = ['weapon', 'talent', 'spell']
+  const itemTypes = ['talent', 'path', 'ancestry']
 
   if (itemTypes.includes(item.type)) {
-    updateData['data.damagetypes'] = undefined
+    if (item.type === 'ancestry') updateData['data.languagelist'] = []
+    if (item.type === 'talent') updateData['data.bonuses.poweractive'] = true
+    if (item.type === 'path') {
+      const newLevels = []
+      for (const level of item.data.levels) {
+        level.languages = undefined
 
-    if (item.type === 'talent') updateData['data.vs.damagetypes'] = undefined
+        for (const talent of level.talents) {
+          const getItem = game.items.get(talent.id)
+          if (getItem != null) {
+            talent.description = getItem.data.data.description
+          }
+        }
+        for (const talent of level.talentspick) {
+          const getItem = game.items.get(talent.id)
+          if (getItem != null) {
+            talent.description = getItem.data.data.description
+          }
+        }
+        for (const spell of level.spells) {
+          const getItem = game.items.get(spell.id)
+          if (getItem != null) {
+            spell.description = getItem.data.data.description
+          }
+        }
+
+        newLevels.push(level)
+      }
+
+      updateData['data.levels'] = newLevels
+    }
   }
 
   if (!isObjectEmpty(updateData)) {

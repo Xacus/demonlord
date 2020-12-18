@@ -166,7 +166,7 @@ Hooks.once('ready', async function () {
     'systemMigrationVersion'
   )
 
-  const NEEDS_MIGRATION_VERSION = '1.4.15'
+  const NEEDS_MIGRATION_VERSION = '1.6.4'
   const COMPATIBLE_MIGRATION_VERSION = 0.8
 
   const needsMigration =

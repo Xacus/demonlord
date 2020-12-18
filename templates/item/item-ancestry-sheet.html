@@ -221,6 +221,20 @@
                                     {{#if data.editAncestry}}
                                     <div class="talents">
                                         <div class="option">
+                                            <label>{{localize 'DL.LanguagesTitle'}}</label>
+                                        </div>
+                                        <div class=" item-container drop-area" data-group="language" data-level="{{id}}">
+                                            <ul class="tags">
+                                                {{#each data.languagelist as |language id|}}
+                                                <li class="tag" data-item-id="{{id}}">{{language.name}}<span class="remove-tag delete-ancestryitem" role="button"
+                                                        data-action="delete"></span>
+                                                </li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="talents">
+                                        <div class="option">
                                             <label>{{localize 'DL.TabsTalents'}}</label>
                                         </div>
                                         <div class=" item-container drop-area" data-group="talent" data-level="{{id}}">
@@ -234,6 +248,24 @@
                                         </div>
                                     </div>
                                     {{else}}
+                                        {{#if data.languagelist}}
+                                        <div class="talents">
+                                            <div class="option">
+                                                <label>{{localize 'DL.LanguagesTitle'}}</label>
+                                            </div>
+                                            <div class="item-container select-area" data-level="{{id}}">
+                                                <ul class="tags">
+                                                    {{#each data.languagelist as |language id|}}
+                                                    <li class="tagcleantooltip" data-item-id="{{id}}">{{language.name}}
+                                                        {{#if language.description}} 
+                                                        <span class="tooltiptext">{{{language.description}}}</span>
+                                                        {{/if}}
+                                                    </li>
+                                                    {{/each}}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {{/if}}
                                         {{#if data.talents}}
                                         <div class="talents">
                                             <div class="option">

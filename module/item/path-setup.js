@@ -201,16 +201,31 @@ export class DemonlordPathSetup extends ItemSheet {
 
     const level = $dropTarget.data('level')
     const group = $dropTarget.data('group')
-    this._addItem(data.id, level, group)
+    this._addItem(data, level, group)
 
     $dropTarget.removeClass('drop-hover')
     return false
   }
 
-  async _addItem (itemId, level, group) {
-    const itemData = duplicate(this.item.data)
-    const item = game.items.get(itemId)
+  async _addItem (data, level, group) {
     const levelItem = new PathLevelItem()
+    const itemData = duplicate(this.item.data)
+    let item
+    let type
+
+    if (data.pack) {
+      const pack = game.packs.get(data.pack)
+      if (pack.metadata.entity !== 'Item') return
+      item = await pack.getEntity(data.id)
+      type = item._data.type
+    } else if (data.data) {
+      item = data
+      type = item.type
+    } else {
+      item = game.items.get(data.id)
+      type = item.type
+    }
+    if (!item || !(type === item.data.type)) return
 
     switch (group) {
       case 'talent':

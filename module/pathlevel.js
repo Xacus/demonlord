@@ -73,6 +73,7 @@ export class PathLevelItem {
     this.id = obj.id || ''
     this.name = obj.name || ''
     this.description = obj.description || ''
+    this.pack = obj.pack || ''
   }
 }
 

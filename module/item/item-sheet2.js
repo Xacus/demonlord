@@ -56,6 +56,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
   _prepareLevels (data) {
     const itemData = data.item
+
     const levels = []
     const talents = []
     const talents4 = []
@@ -215,19 +216,35 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     }
 
     const group = $dropTarget.data('group')
-    this._addItem(data.id, group)
+    this._addItem(data, group)
 
     $dropTarget.removeClass('drop-hover')
 
     return false
   }
 
-  async _addItem (itemId, group) {
-    const itemData = duplicate(this.item.data)
-    const item = game.items.get(itemId)
+  async _addItem (data, group) {
+    const itemId = data.id
     const levelItem = new PathLevelItem()
+    const itemData = duplicate(this.item.data)
+    let item
+    let type
 
-    switch (item.type) {
+    if (data.pack) {
+      const pack = game.packs.get(data.pack)
+      if (pack.metadata.entity !== 'Item') return
+      item = await pack.getEntity(data.id)
+      type = item._data.type
+    } else if (data.data) {
+      item = data
+      type = item.type
+    } else {
+      item = game.items.get(data.id)
+      type = item.type
+    }
+    if (!item || !(type === item.data.type)) return
+
+    switch (type) {
       case 'talent':
         levelItem.id = item._id
         levelItem.name = item.name
@@ -235,6 +252,15 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
         if (group === 'talent') itemData.data.talents.push(levelItem)
         else itemData.data.level4.talent.push(levelItem)
+
+        break
+      case 'language':
+        levelItem.id = item._id
+        levelItem.name = item.name
+        levelItem.description = item.data.data.description
+        levelItem.pack = data.pack
+
+        itemData.data.languagelist.push(levelItem)
 
         break
       default:
@@ -254,6 +280,9 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         break
       case 'talent4':
         itemData.data.level4.talent.splice(itemIndex, 1)
+        break
+      case 'language':
+        itemData.data.languagelist.splice(itemIndex, 1)
         break
       default:
         break

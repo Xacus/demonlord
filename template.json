@@ -410,6 +410,7 @@
             },
             "languages": "",
             "talents": [],
+            "languagelist": [],
             "editTalents": false,
             "editAncestry": true
         },

@@ -287,6 +287,16 @@ export class DemonlordActorSheet2 extends ActorSheet {
               )
             }
           }
+          for (const language of ancestry.data.languagelist) {
+            const actorLanguage = this.actor
+              .getEmbeddedCollection('OwnedItem')
+              .filter((e) => e.type === 'language' && e.name === language.name)
+
+            if (actorLanguage.length > 0) {
+              this.actor.deleteEmbeddedEntity('OwnedItem', actorLanguage[0]._id)
+            }
+          }
+
           await this.actor.deleteEmbeddedEntity('OwnedItem', ancestry._id)
         }
 
@@ -297,6 +307,17 @@ export class DemonlordActorSheet2 extends ActorSheet {
             game.items.get(talent.id)
           )
         }
+        // Create Languages
+        for (const language of itemData.data.languagelist) {
+          let item
+          if (language.pack) {
+            const pack = game.packs.get(language.pack)
+            item = await pack.getEntity(language.id)
+          } else item = game.items.get(language.id)
+
+          await this.actor.createEmbeddedEntity('OwnedItem', item)
+        }
+
         break
       case 'path':
         // Delete existing Talenst
@@ -772,6 +793,15 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
             if (actorTalent.length > 0) {
               this.actor.deleteEmbeddedEntity('OwnedItem', actorTalent[0]._id)
+            }
+          }
+          for (const language of ancestry.data.languagelist) {
+            const actorLanguage = this.actor
+              .getEmbeddedCollection('OwnedItem')
+              .filter((e) => e.type === 'language' && e.name === language.name)
+
+            if (actorLanguage.length > 0) {
+              this.actor.deleteEmbeddedEntity('OwnedItem', actorLanguage[0]._id)
             }
           }
         }
