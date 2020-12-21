@@ -86,6 +86,7 @@
   "DL.TalentRollAttribute": "Add bonus to:",
   "DL.TalentChallengeRollBonus": "Challenge Roll: Boons/Banes bonuses",
   "DL.TalentAddBoonsBanesBonus": "Add Boons/Banes bonus to roll",
+  "DL.TalentAddBoonsBanesToAttribute": "Add Boons/Banes bonus to attributes:",
   "DL.TalentMakeADamageRoll": "Make a damage roll",
   "DL.TalentAddDamageToYourAttackRoll": "Add damage to your Attack roll",
   "DL.TalentAddExtraDamageToYourAttackRoll": "Add extra damage to your Attack roll",
