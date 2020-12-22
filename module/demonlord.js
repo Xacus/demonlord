@@ -278,7 +278,7 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
 
     for (const t of actor.getActiveTokens()) {
       if (t.data.actorLink && t.scene.id === game.scenes.active.id) {
-        toggleEffect(t, actorData.data.afflictions.injured, injured)
+        toggleEffect(t, actorData.data.characteristics.health.injured, injured)
         toggleEffect(t, actorData.data.afflictions.asleep, asleep)
         toggleEffect(t, actorData.data.afflictions.blinded, blinded)
         toggleEffect(t, actorData.data.afflictions.charmed, charmed)
@@ -335,7 +335,7 @@ Hooks.on('createToken', async (scene, token) => {
 
   for (const t of actor.getActiveTokens()) {
     if (t.data.actorLink && t.scene.id === game.scenes.active.id) {
-      toggleEffect(t, actorData.data.afflictions.injured, injured)
+      toggleEffect(t, actorData.data.characteristics.health.injured, injured)
       toggleEffect(t, actorData.data.afflictions.asleep, asleep)
       toggleEffect(t, actorData.data.afflictions.blinded, blinded)
       toggleEffect(t, actorData.data.afflictions.charmed, charmed)
