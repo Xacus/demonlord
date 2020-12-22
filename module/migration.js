@@ -37,13 +37,11 @@ export const migrateWorld = async function () {
   }
 
   // Set the migration as complete
-  /*
   game.settings.set(
     'demonlord',
     'systemMigrationVersion',
     game.system.data.version
   )
-*/
   ui.notifications.info(
     `Demonlord System Migration to version ${game.system.data.version} completed!`,
     { permanent: true }
@@ -96,39 +94,116 @@ export const migrateActorData = function (actor) {
  */
 export const migrateItemData = function (item) {
   const updateData = {}
-  const itemTypes = ['talent', 'path', 'ancestry']
+  const itemTypes = ['path', 'ancestry', 'talent']
 
   if (itemTypes.includes(item.type)) {
-    if (item.type === 'ancestry') updateData['data.languagelist'] = []
-    if (item.type === 'talent') updateData['data.bonuses.poweractive'] = true
+    if (item.type === 'ancestry') {
+      if (!item.data.languagelist) updateData['data.languagelist'] = []
+      if (item.data.talents) {
+        const newTalents = []
+        for (const talent of item.data.talents) {
+          const getItem = game.items.get(talent.id)
+          if (getItem != null) {
+            talent.description = getItem.data.data.description
+          }
+
+          newTalents.push(talent)
+        }
+
+        updateData['data.talents'] = newTalents
+      }
+
+      if (item.data.level4.talent) {
+        const newTalents = []
+        for (const talent of item.data.level4.talent) {
+          const getItem = game.items.get(talent.id)
+          if (getItem != null) {
+            talent.description = getItem.data.data.description
+          }
+
+          newTalents.push(talent)
+        }
+
+        updateData['data.level4.talent'] = newTalents
+      }
+    }
+
     if (item.type === 'path') {
       const newLevels = []
       for (const level of item.data.levels) {
-        level.languages = undefined
+        level.languages = []
 
-        for (const talent of level.talents) {
-          const getItem = game.items.get(talent.id)
-          if (getItem != null) {
-            talent.description = getItem.data.data.description
+        if (level.talents) {
+          for (const talent of level.talents) {
+            const getItem = game.items.get(talent.id)
+            if (getItem != null) {
+              talent.description = getItem.data.data.description
+            }
           }
-        }
-        for (const talent of level.talentspick) {
-          const getItem = game.items.get(talent.id)
-          if (getItem != null) {
-            talent.description = getItem.data.data.description
+        } else level.talents = []
+
+        if (level.talentspick) {
+          for (const talent of level.talentspick) {
+            const getItem = game.items.get(talent.id)
+            if (getItem != null) {
+              talent.description = getItem.data.data.description
+            }
           }
-        }
-        for (const spell of level.spells) {
-          const getItem = game.items.get(spell.id)
-          if (getItem != null) {
-            spell.description = getItem.data.data.description
+        } else level.talentspick = []
+
+        if (level.spells) {
+          for (const spell of level.spells) {
+            const getItem = game.items.get(spell.id)
+            if (getItem != null) {
+              spell.description = getItem.data.data.description
+            }
           }
-        }
+        } else level.spells = []
 
         newLevels.push(level)
       }
 
       updateData['data.levels'] = newLevels
+    }
+
+    if (item.type === 'talent') {
+      if (item.data.action.boonsbanes) {
+        updateData['data.action.strengthboonsbanesselect'] = true
+        updateData['data.action.agilityboonsbanesselect'] = true
+      }
+
+      switch (item.data.challenge.boonsbanesselect) {
+        case 'all':
+          updateData['data.challenge.strengthboonsbanesselect'] = true
+          updateData['data.challenge.agilityboonsbanesselect'] = true
+          updateData['data.challenge.intellectboonsbanesselect'] = true
+          updateData['data.challenge.willboonsbanesselect'] = true
+          updateData['data.challenge.perceptionboonsbanesselect'] = true
+          break
+
+        case 'strength':
+          updateData['data.challenge.strengthboonsbanesselect'] = true
+          break
+
+        case 'agility':
+          updateData['data.challenge.agilityboonsbanesselect'] = true
+          break
+
+        case 'intellect':
+          updateData['data.challenge.intellectboonsbanesselect'] = true
+          break
+
+        case 'will':
+          updateData['data.challenge.willboonsbanesselect'] = true
+          break
+
+        case 'perception':
+          updateData['data.challenge.perceptionboonsbanesselect'] = true
+          break
+
+        default:
+          break
+      }
     }
   }
 

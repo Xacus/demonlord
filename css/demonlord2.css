@@ -4394,6 +4394,22 @@
   width: 20%;
 }
 
+.demonlord2 .resource .modifierblock .check, .demonlord2 .resource .modifierblockH .check {
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+.demonlord2 .resource .modifierblock .check input[type="checkbox"], .demonlord2 .resource .modifierblockH .check input[type="checkbox"] {
+  float: left;
+  margin: 0px 0 2px -3px;
+  height: 12px;
+  color: #000;
+}
+
+.demonlord2 .resource .modifierblock .check label, .demonlord2 .resource .modifierblockH .check label {
+  float: none;
+}
+
 .demonlord2 .resource .modifierblockH {
   min-height: 50px;
 }

@@ -58,6 +58,22 @@
       margin-left: 10px;
       width: 20%;
     }
+
+    .check {
+      margin-top: 16px;
+      margin-bottom: 4px;
+
+      input[type="checkbox"] {
+        float: left;
+        margin: 0px 0 2px -3px;
+        height: 12px;
+        color: #000;
+      }
+
+      label {
+        float: none;
+      }
+    }
   }
 
   .modifierblockH {

@@ -369,36 +369,6 @@
             </li>
         </ol>
     </div>
-    <div class=form-block>
-        <ol class="items-list">
-            <li class="form-line">
-                <div class="form-fieldheader bold">{{localize "DL.ModsFastTurnFieldHeader"}}</div>
-            </li>
-            <li class="form-line">
-                <div class="form-fields">
-                    {{#if actor.data.fastturn}}
-                    <div class="radioblockfast">
-                        <input type="radio" name="actor.data.fastturn" id="data.fastturn.true" checked />
-                        <label for="data.fastturn.true">{{localize "DL.ModsFastTurnField"}}</label>
-                    </div>
-                    <div class="radioblock">
-                        <input type="radio" name="actor.data.fastturn" id="data.fastturn.false" />
-                        <label for="data.fastturn.false">{{localize "DL.ModsSlowTurnField"}}</label>
-                    </div>
-                    {{else}}
-                    <div class="radioblockfast">
-                        <input type="radio" name="actor.data.fastturn" id="data.fastturn.true" />
-                        <label for="data.fastturn.true">{{localize "DL.ModsFastTurnField"}}</label>
-                    </div>
-                    <div class="radioblock">
-                        <input type="radio" name="actor.data.fastturn" id="data.fastturn.false" checked />
-                        <label for="data.fastturn.false">{{localize "DL.ModsSlowTurnField"}}</label>
-                    </div>
-                    {{/if}}
-                </div>
-            </li>
-        </ol>
-    </div>
     <footer class="sheet-footer">
         <button type="submit"><i class="fas fa-save"></i>{{localize "DL.ModsSaveChanges"}}</button>
     </footer>

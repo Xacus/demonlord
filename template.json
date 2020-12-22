@@ -204,7 +204,12 @@
                 "plus20damage": "",
                 "defense": "",
                 "defenseboonsbanes": "",
-                "damagetypes": []
+                "damagetypes": [],
+                "strengthboonsbanesselect": false,
+                "agilityboonsbanesselect": false,
+                "intellectboonsbanesselect": false,
+                "willboonsbanesselect": false,
+                "perceptionboonsbanesselect": false
             }
         },
         "item": {
@@ -278,11 +283,11 @@
                 "boonsbanesactive": true,
                 "boonsbanesselect": "",
                 "boonsbanes": "",
-                "strengthboonsbanes": "",
-                "agilityboonsbanes": "",
-                "intellectboonsbanes": "",
-                "willboonsbanes": "",
-                "perceptionboonsbanes": ""
+                "strengthboonsbanesselect": false,
+                "agilityboonsbanesselect": false,
+                "intellectboonsbanesselect": false,
+                "willboonsbanesselect": false,
+                "perceptionboonsbanesselect": false
             },
             "vs": {
                 "active": true,

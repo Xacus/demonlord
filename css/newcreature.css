@@ -3906,6 +3906,22 @@
   width: 20%;
 }
 
+.newcreature .resource .modifierblock .check, .newcreature .resource .modifierblockH .check {
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+.newcreature .resource .modifierblock .check input[type="checkbox"], .newcreature .resource .modifierblockH .check input[type="checkbox"] {
+  float: left;
+  margin: 0px 0 2px -3px;
+  height: 12px;
+  color: #000;
+}
+
+.newcreature .resource .modifierblock .check label, .newcreature .resource .modifierblockH .check label {
+  float: none;
+}
+
 .newcreature .resource .modifierblockH {
   min-height: 50px;
 }

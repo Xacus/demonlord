@@ -8,6 +8,11 @@ export class CharacterBuff {
     }
     this.attackbonus = obj.attackbonus || 0
     this.attackdamagebonus = obj.attackdamagebonus || ''
+    this.attackstrengthbonus = obj.attackstrengthbonus || 0
+    this.attackagilitybonus = obj.attackagilitybonus || 0
+    this.attackintellectbonus = obj.attackintellectbonus || 0
+    this.attackwillbonus = obj.attackwillbonus || 0
+    this.attackperceptionbonus = obj.attackperceptionbonus || 0
     this.attack20plusdamagebonus = obj.attack20plusdamagebonus || ''
     this.attackeffects = obj.attackeffects || ''
     this.challengebonus = obj.challengebonus || 0

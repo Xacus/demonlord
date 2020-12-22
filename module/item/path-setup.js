@@ -232,6 +232,7 @@ export class DemonlordPathSetup extends ItemSheet {
         levelItem.id = item._id
         levelItem.name = item.name
         levelItem.description = item.data.data.description
+        levelItem.pack = data.pack ? data.pack : ''
 
         const talents = itemData.data.levels[level]?.talents
         talents.push(levelItem)
@@ -240,6 +241,7 @@ export class DemonlordPathSetup extends ItemSheet {
         levelItem.id = item._id
         levelItem.name = item.name
         levelItem.description = item.data.data.description
+        levelItem.pack = data.pack ? data.pack : ''
 
         const talentspick = itemData.data.levels[level]?.talentspick
         talentspick.push(levelItem)
@@ -248,6 +250,7 @@ export class DemonlordPathSetup extends ItemSheet {
         levelItem.id = item._id
         levelItem.name = item.name
         levelItem.description = item.data.data.description
+        levelItem.pack = data.pack ? data.pack : ''
 
         const spells = itemData.data.levels[level]?.spells
         spells.push(levelItem)

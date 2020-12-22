@@ -32,67 +32,75 @@
         <div class="spellinfo" style="display: none;">
             {{#if data.action.boonsbanes}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.boonsbanesactive" id="optionboons{{talent._id}}"
-                    {{checked data.boonsbanesactive}} />
+                {{#if data.action.strengthboonsbanesselect}}
+                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeStrength'}}):</b>
+                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
                 {{/if}}
-                <b>{{localize 'DL.TalentAttackBoonsBanes'}}:</b>
-                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}
+                {{#if data.action.agilityboonsbanesselect}}
+                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeAgility'}}):</b>
+                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
+                {{/if}}
+                {{#if data.action.intellectboonsbanesselect}}
+                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeIntellect'}}):</b>
+                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
+                {{/if}}
+                {{#if data.action.willboonsbanesselect}}
+                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeWill'}}):</b>
+                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
+                {{/if}}
+                {{#if data.action.perceptionboonsbanesselect}}
+                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.CharPerception'}}):</b>
+                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
+                {{/if}}
             </div>
             {{/if}}
             {{#if data.action.damage}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.damageactive" id="optionattackdamage{{talent._id}}"
-                    {{checked data.damageactive}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentExtraDamage'}}:</b> {{data.action.damage}}
             </div>
             {{/if}}
             {{#if data.action.plus20}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.plus20active" id="potionattackplus20{{talent._id}}"
-                    {{checked data.plus20active}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentExtraDamage20plus'}}:</b> {{data.action.plus20}}
             </div>
             {{/if}}
             {{#if data.challenge.boonsbanes}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.challenge.boonsbanesactive"
-                    id="optionchaboonsbanesactive{{talent._id}}" {{checked data.challenge.boonsbanesactive}} />
+                {{#if data.challenge.strengthboonsbanesselect}}
+                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeStrength'}}):</b>
+                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
                 {{/if}}
-                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{data.challenge.boonsbanesselect}}):</b>
-                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}
+                {{#if data.challenge.agilityboonsbanesselect}}
+                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeAgility'}}):</b>
+                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
+                {{/if}}
+                {{#if data.challenge.intellectboonsbanesselect}}
+                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeIntellect'}}):</b>
+                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
+                {{/if}}
+                {{#if data.challenge.willboonsbanesselect}}
+                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeWill'}}):</b>
+                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
+                {{/if}}
+                {{#if data.challenge.perceptionboonsbanesselect}}
+                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.CharPerception'}}):</b>
+                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
+                {{/if}}
             </div>
             {{/if}}
             {{#if data.vs.attribute}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.vs.active" id="optionvsactive{{talent._id}}"
-                    {{checked data.vs.active}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentVSRoll'}}:</b> {{data.vs.attribute}} {{localize 'DL.ChallengeVS'}}
                 {{data.vs.against}}
             </div>
             {{/if}}
             {{#if data.vs.boonsbanes}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.vs.boonsbanesactive" id="optionvsboonsbanesactive{{talent._id}}"
-                    {{checked data.vs.boonsbanesactive}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentVSBoonsBanes'}}:</b> {{numberFormat data.vs.boonsbanes decimals=0 sign=true}}
             </div>
             {{/if}}
             {{#if data.vs.damage}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.vs.damageactive" id="optionvsdamage{{talent._id}}"
-                    {{checked data.vs.damageactive}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentVSDamage'}}:</b> {{data.vs.damage}} ({{data.vs.damagetype}})
             </div>
             {{/if}}
@@ -103,10 +111,6 @@
             {{/each}}
             {{#if data.healing.healing}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.healing.healactive" id="optionhealingactive{{talent._id}}"
-                    {{checked data.healing.healactive}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentHealingOptions'}}</b>
             </div>
             {{/if}}
@@ -117,37 +121,21 @@
             {{/if}}
             {{#if data.bonuses.defense}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.bonuses.defenseactive" id="optiondefenseactive{{talent._id}}"
-                    {{checked data.bonuses.defenseactive}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentBonusesDefense'}}:</b> {{data.bonuses.defense}}
             </div>
             {{/if}}
             {{#if data.bonuses.health}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.bonuses.healthactive" id="optionhealthactive{{talent._id}}"
-                    {{checked data.bonuses.healthactive}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentBonusesHealth'}}:</b> {{data.bonuses.health}}
             </div>
             {{/if}}
             {{#if data.bonuses.speed}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.bonuses.speedactive" id="optionspeedactive{{talent._id}}"
-                    {{checked data.bonuses.speedactive}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentBonusesSpeed'}}:</b> {{data.bonuses.speed}}
             </div>
             {{/if}}
             {{#if data.bonuses.power}}
             <div class="option" data-item-id="{{talent._id}}">
-                {{#if data.multipleoptions}}
-                <input type="checkbox" name="data.bonuses.poweractive" id="optionpoweractive{{talent._id}}"
-                    {{checked data.bonuses.poweractive}} />
-                {{/if}}
                 <b>{{localize 'DL.TalentBonusesPower'}}:</b> {{data.bonuses.power}}
             </div>
             {{/if}}
