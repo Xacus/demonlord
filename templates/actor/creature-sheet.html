@@ -12,7 +12,7 @@
                 {{localize "DL.CreatureDifficultyTitle"}}
                 {{#if data.edit}}
                 <input name="data.difficulty" type="text" value="{{data.difficulty}}"
-                    placeholder="{{localize 'DL.CreatureDifficulty'}}" />
+                    placeholder="{{localize 'DL.CreatureDifficulty'}}" data-dtype="Number"/>
                 {{else}}
                 <label for="data.difficulty">{{data.difficulty}}</label>
                 {{/if}}
@@ -70,7 +70,7 @@
                     {{#if data.edit}}
                     <div class="value">
                         <input name="data.attributes.perception.value" type="text"
-                            value="{{data.attributes.perception.value}}" />
+                            value="{{data.attributes.perception.value}}" data-dtype="Number" />
                     </div>
                     <div class="senses">
                         <input name="data.perceptionsenses" type="text" value="{{data.perceptionsenses}}"
@@ -92,11 +92,11 @@
                         {{#if data.edit}}
                         <div class="value">
                             <input name="data.characteristics.defense" type="text"
-                                value="{{data.characteristics.defense}}" />
+                                value="{{data.characteristics.defense}}" data-dtype="Number" />
                         </div>
                         <div class="armor">
                             <input name="data.armor" type="text" value="{{data.armor}}"
-                                placeholder="{{localize 'DL.CreatureArmor'}}" />
+                                placeholder="{{localize 'DL.CreatureArmor'}}" data-dtype="Number" />
                         </div>
                         {{else}}
                         <div class="value">
@@ -111,7 +111,7 @@
                         <div class="stattitle">{{localize "DL.CreatureHealth"}}</div>
                         {{#if data.edit}}
                         <input name="data.characteristics.health.max" type="text"
-                            value="{{data.characteristics.health.max}}" />
+                            value="{{data.characteristics.health.max}}" data-dtype="Number" />
                         {{else}}
                         <label for="data.characteristics.health.max">{{data.characteristics.health.max}}</label>
                         {{/if}}
@@ -120,7 +120,7 @@
                         <div class="stattitle">{{localize "DL.CreatureDamage"}}</div>
                         {{#if data.edit}}
                         <input name="data.characteristics.health.value" type="text"
-                            value="{{data.characteristics.health.value}}" />
+                            value="{{data.characteristics.health.value}}" data-dtype="Number" />
                         {{else}}
                         <label for="data.characteristics.health.value">{{data.characteristics.health.value}}</label>
                         {{/if}}
@@ -129,7 +129,7 @@
                         <div class="stattitle">{{localize "DL.CreatureInsanity"}}</div>
                         {{#if data.edit}}
                         <input name="data.characteristics.insanity.value" type="text"
-                            value="{{data.characteristics.insanity.value}}" />
+                            value="{{data.characteristics.insanity.value}}" data-dtype="Number" />
                         {{else}}
                         <label for="data.characteristics.insanity.value">{{data.characteristics.insanity.value}}</label>
                         {{/if}}
@@ -138,7 +138,7 @@
                         <div class="stattitle">{{localize "DL.CreatureCorruption"}}</div>
                         {{#if data.edit}}
                         <input name="data.characteristics.corruption" type="text"
-                            value="{{data.characteristics.corruption}}" />
+                            value="{{data.characteristics.corruption}}" data-dtype="Number" />
                         {{else}}
                         <label for="data.characteristics.corruption">{{data.characteristics.corruption}}</label>
                         {{/if}}
@@ -150,7 +150,7 @@
                         </div>
                         {{#if data.edit}}
                         <input name="data.attributes.strength.value" type="text"
-                            value="{{data.attributes.strength.value}}" />
+                            value="{{data.attributes.strength.value}}" data-dtype="Number" />
                         {{else}}
                         <label for="data.attributes.strength.value">{{data.attributes.strength.value}}
                             ({{numberFormat data.attributes.strength.modifier decimals=0 sign=true}})</label>
@@ -160,7 +160,7 @@
                         <div class="stattitle attribute-roll" data-key="agility">{{localize "DL.CreatureAgility"}}</div>
                         {{#if data.edit}}
                         <input name="data.attributes.agility.value" type="text"
-                            value="{{data.attributes.agility.value}}" />
+                            value="{{data.attributes.agility.value}}" data-dtype="Number" />
                         {{else}}
                         <label for="data.attributes.agility.value">{{data.attributes.agility.value}}
                             ({{numberFormat data.attributes.agility.modifier decimals=0 sign=true}})</label>
@@ -171,7 +171,7 @@
                         </div>
                         {{#if data.edit}}
                         <input name="data.attributes.intellect.value" type="text"
-                            value="{{data.attributes.intellect.value}}" />
+                            value="{{data.attributes.intellect.value}}" data-dtype="Number" />
                         {{else}}
                         <label for="data.attributes.intellect.value">{{data.attributes.intellect.value}}
                             ({{numberFormat data.attributes.intellect.modifier decimals=0 sign=true}})</label>
@@ -180,7 +180,7 @@
                     <div>
                         <div class="stattitle attribute-roll" data-key="will">{{localize "DL.CreatureWill"}}</div>
                         {{#if data.edit}}
-                        <input name="data.attributes.will.value" type="text" value="{{data.attributes.will.value}}" />
+                        <input name="data.attributes.will.value" type="text" value="{{data.attributes.will.value}}" data-dtype="Number" />
                         {{else}}
                         <label for="data.attributes.will.value">{{data.attributes.will.value}}
                             ({{numberFormat data.attributes.will.modifier decimals=0 sign=true}})</label>
@@ -190,7 +190,7 @@
                 <div class="stat">
                     <div class="stattitle">{{localize "DL.CreatureSpeed"}}</div>
                     {{#if data.edit}}
-                    <input name="data.characteristics.speed" type="text" value="{{data.characteristics.speed}}" />
+                    <input name="data.characteristics.speed" type="text" value="{{data.characteristics.speed}}" data-dtype="Number" />
                     <div class="speedtraits">
                         <input name="data.speedtraits" type="text" value="{{data.speedtraits}}"
                             placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
@@ -366,7 +366,7 @@
                 <li class="header">
                     <div class="itemname">{{localize "DL.CreatureSpecialMagic"}}
                         {{#if data.edit}}
-                        <input name="data.characteristics.power" type="text" value="{{data.characteristics.power}}" />
+                        <input name="data.characteristics.power" type="text" value="{{data.characteristics.power}}" data-dtype="Number" />
                         {{else}}
                         ({{data.characteristics.power}})
                         {{/if}}
