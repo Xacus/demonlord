@@ -515,5 +515,11 @@
   "DL.PathsTransfer": "Click on items to transfer",
   "DL.PathsTalentTransfers": "Transfer all Talents",
   "DL.PathsSpellTransfers": "Transfer all Spells",
-  "DL.CharacterGenerator": "Character Generator"
+  "DL.CharacterGenerator": "Character Generator",
+  "DL.TabsEffects": "Effects",
+  "DL.EffectCreate": "Add effect",
+  "DL.EffectAdd": "Add",
+  "DL.EffectToggle": "Toggle",
+  "DL.EffectEdit": "Edit",
+  "DL.EffectDelete": "Delete"
 }

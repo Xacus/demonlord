@@ -1,12 +1,17 @@
 import { DLActorModifiers } from '../dialog/actor-modifiers.js'
 import { DLCharacterGenerater } from '../dialog/actor-generator.js'
 import { CharacterBuff } from '../buff.js'
+import {
+  onManageActiveEffect,
+  prepareActiveEffectCategories
+} from '../effects.js'
+
 export class DemonlordActorSheet2 extends ActorSheet {
   /** @override */
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord2', 'sheet', 'actor'],
-      width: 742,
+      width: 762,
       height: 700,
       tabs: [
         {
@@ -161,6 +166,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     const data = super.getData()
     data.isGM = game.user.isGM
     data.useDemonlordMode = !game.settings.get('demonlord', 'useHomebrewMode')
+    data.effects = prepareActiveEffectCategories(this.entity.effects)
     data.dtypes = ['String', 'Number', 'Boolean']
     for (const attr of Object.values(data.data.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean'
@@ -475,6 +481,12 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
+
+    if (this.isEditable) {
+      html
+        .find('.effect-control')
+        .click((ev) => onManageActiveEffect(ev, this.entity))
+    }
 
     // Corruption Roll
     html.find('.corruption-roll').click((ev) => {

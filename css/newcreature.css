@@ -2148,6 +2148,47 @@
   height: 16px;
 }
 
+.newcreature .items-list .item-list {
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+.newcreature .items-list .items-header {
+  border-bottom: 1px solid var(--demonlord-red);
+  font-weight: bold;
+  font-family: "IM Fell English SC", serif;
+  text-transform: uppercase;
+  height: 16px;
+  margin: 2px 0;
+  padding: 0;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.newcreature .items-list .items-header > * {
+  font-size: 10px;
+  text-align: center;
+}
+
+.newcreature .items-list .items-header .item-name {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  font-size: 10px;
+}
+
+.newcreature .items-list .items-header .effect-controls {
+  text-align: right;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 60px;
+  flex: 0 0 60px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
 .newcreature .items-list .itemamount {
   float: right;
   margin-right: 15px;
@@ -2253,6 +2294,65 @@
   float: right;
   width: 50px;
   height: 16px;
+}
+
+.newcreature .items-list .item .item-name {
+  color: #000;
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+}
+
+.newcreature .items-list .item .item-name .item-image {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 30px;
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+
+.newcreature .items-list .item .item-name .item-image-small {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 15px;
+  flex: 0 0 15px;
+  height: 15px;
+  background-size: 15px;
+  border: none;
+  margin-right: 5px;
+}
+
+.newcreature .items-list .item .item-name h4 {
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+
+.newcreature .items-list .item .effect-source,
+.newcreature .items-list .item .effect-duration,
+.newcreature .items-list .item .effect-controls {
+  text-align: center;
+  font-size: 12px;
+}
+
+.newcreature .items-list .item .effect-source {
+  text-transform: capitalize;
+}
+
+.newcreature .items-list .item .effect-controls {
+  border: none;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 60px;
+  flex: 0 0 60px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.newcreature .items-list .item .effect-controls .effect-control {
+  margin: 0;
+  height: 14px;
 }
 
 .newcreature .items-list .feature {

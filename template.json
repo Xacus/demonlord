@@ -184,7 +184,8 @@
             "language",
             "profession",
             "path",
-            "creaturerole"
+            "creaturerole",
+            "affliction"
         ],
         "templates": {
             "base": {
@@ -466,6 +467,11 @@
             "read": false,
             "write": false,
             "speak": true
+        },
+        "affliction": {
+            "templates": [
+                "base"
+            ]
         }
     }
 }

@@ -12,6 +12,7 @@
         <a class="item" data-tab="magic">{{localize "DL.TabsMagic"}}</a>
         <a class="item" data-tab="items">{{localize "DL.TabsInventory"}}</a>
         <a class="item" data-tab="background">{{localize "DL.TabsBackground"}}</a>
+        <a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -45,6 +46,13 @@
             <div class="tab biography" data-group="primary" data-tab="background">
                 {{> systems/demonlord/templates/tabs/background.html}}
             </div>
+
+            {{!-- Effects Tab --}}
+            {{!--
+            <div class="tab effects" data-group="primary" data-tab="effects">
+                {{> systems/demonlord/templates/tabs/neweffects.html}}
+            </div>
+            --}}
         </section>
     </section>
 </form>

@@ -521,5 +521,11 @@
     "DL.PathsTransfer": "Klicken um Gegenstände zu überführen",
     "DL.PathsTalentTransfers": "Alle Talente überführen",
     "DL.PathsSpellTransfers": "Alle Zaubersprüche überführen",
-    "DL.CharacterGenerator": "Charaktergenerator"
+    "DL.CharacterGenerator": "Charaktergenerator",
+    "DL.TabsEffects": "Effects",
+    "DL.EffectCreate": "Add effect",
+    "DL.EffectAdd": "Add",
+    "DL.EffectToggle": "Toggle",
+    "DL.EffectEdit": "Edit",
+    "DL.EffectDelete": "Delete"
 }

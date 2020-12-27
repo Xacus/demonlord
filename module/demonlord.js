@@ -84,7 +84,8 @@ Hooks.once('init', async function () {
       'mod',
       'ancestry',
       'profession',
-      'language'
+      'language',
+      'affliction'
     ],
     makeDefault: true
   })
@@ -123,6 +124,8 @@ async function preloadHandlebarsTemplates () {
     'systems/demonlord/templates/tabs/magic.html',
     'systems/demonlord/templates/tabs/item.html',
     'systems/demonlord/templates/tabs/background.html',
+    'systems/demonlord/templates/tabs/effects.html',
+    'systems/demonlord/templates/tabs/neweffects.html',
     'systems/demonlord/templates/chat/challenge.html',
     'systems/demonlord/templates/chat/combat.html',
     'systems/demonlord/templates/chat/corruption.html',

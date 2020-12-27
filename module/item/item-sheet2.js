@@ -3,6 +3,10 @@
  * @extends {ItemSheet}
  */
 import { PathLevelItem, DamageType } from '../pathlevel.js'
+import {
+  onManageActiveEffect,
+  prepareActiveEffectCategories
+} from '../effects.js'
 
 export class DemonlordItemSheetDefault extends ItemSheet {
   /** @override */
@@ -36,6 +40,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     data.isGM = game.user.isGM
     data.useDemonlordMode = game.settings.get('demonlord', 'useHomebrewMode')
     data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
+    data.effects = prepareActiveEffectCategories(this.entity.effects)
 
     if (this.item.data.type == 'path') {
       this._prepareLevels(data)
@@ -125,6 +130,12 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
+
+    if (this.isEditable) {
+      html
+        .find('.effect-control')
+        .click((ev) => onManageActiveEffect(ev, this.entity))
+    }
 
     html.find('.radiotrue').click((ev) => {
       this.updateOption(true)
