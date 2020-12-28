@@ -184,8 +184,7 @@
             "language",
             "profession",
             "path",
-            "creaturerole",
-            "affliction"
+            "creaturerole"
         ],
         "templates": {
             "base": {
