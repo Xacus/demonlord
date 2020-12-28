@@ -27,16 +27,15 @@ Uses the standard Combat Tracker but with a few changes. It still uses the stand
 
 ### **Compendiums:**
 
-- The weapons, armors and ammunition from the core rulebook is available for draging and droping onto your character sheet.
+- The weapons, armors, ammunition and languages from the core rulebook is available for draging and droping onto your character sheet.
 - Macros for player and GM can be imported.
 
-### **Dice So Nice!:**
+### **Module Support:**
 
-This module is supported.
-
-### **Macros:**
-
-The previous macros are replaced with a Compendium of macros that you can import into you game.
+- Dice So Nice!
+- Material Deck. Integration with Elgato Stream Deck.
+- Token Action HUD
+- Token Hotbar
 
 ### **Tracking:**
 
@@ -48,36 +47,6 @@ You can track both Health and Insanity and they are set on the token when an Act
 ### **Bars:**
 
 Damage, Insanity and Corruption can be increased and decreased by left/right clicking on the headertext.
-
-## **Plans**
-
-- [x] Enter Abilities, Characteristics and calculate modifers.
-- [x] Weapons.
-- [x] Talents.
-- [x] Magic(Traditions and Spells)
-- [x] Items.
-- [x] Creature statblock.
-- [x] Compendium.
-- [x] Basic Background (Paths, Professions, Wealth).
-- [x] Combat Tracker (Fast/Slow Turn).
-- [x] Dice So Nice! Support.
-- [x] Macros for players.
-- [x] Macros for creatures.
-- [x] Actor Mods - Fase 1, general structur.
-- [x] Afflictions - Fase 1, saving.
-- [x] Afflictions - Fase 2, icons on token, rules.
-- [x] Redesign Talents.
-- [x] Ancestry.
-- [x] Calculating characteristics.
-- [x] Creature statblock - Fase 2, Special Attack are Talents.
-- [x] New design.
-- [x] Actor Mods - Fase 2. (Your character buffs)
-- [x] Redesign Magic.
-- [x] New Paths system. Calculating characteristic bonuses.
-- [x] Level up system. (more or less done with Ancestry and Paths)
-- [ ] Redesign Background (Professions, Wealth).
-- [ ] Afflictions - Fase 3.
-- [ ] Rules Engine.
 
 ## **Credits**
 
