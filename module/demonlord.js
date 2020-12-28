@@ -84,8 +84,7 @@ Hooks.once('init', async function () {
       'mod',
       'ancestry',
       'profession',
-      'language',
-      'affliction'
+      'language'
     ],
     makeDefault: true
   })

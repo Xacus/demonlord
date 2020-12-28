@@ -56,6 +56,8 @@ export class DemonlordActor extends Actor {
           ancestry.data.attributes?.will.value
         )
 
+        data.characteristics.insanity.max = ancestry.data.attributes?.will.value
+
         // Paths
         if (data.level > 0) {
           for (let i = 1; i <= data.level; i++) {
@@ -228,6 +230,13 @@ export class DemonlordActor extends Actor {
         ancestry.data.characteristics?.speed
       )
       data.characteristics.size = ancestry.data.characteristics.size
+
+      data.characteristics.insanity.value += parseInt(
+        ancestry.data.characteristics.insanity
+      )
+      data.characteristics.corruption += parseInt(
+        ancestry.data.characteristics.corruption
+      )
     }
 
     if (savedAncestry == null && this.data.type != 'creature') {
@@ -320,6 +329,9 @@ export class DemonlordActor extends Actor {
     }
 
     if (ancestryFixedArmor) {
+      if (armorpoint > data.characteristics.defense) {
+        data.characteristics.defense = armorpoint
+      }
       data.characteristics.defense +=
         pathDefenseBonus + defenseBonus + characterbuffs.defensebonus
     } else if (armorpoint >= 11) {

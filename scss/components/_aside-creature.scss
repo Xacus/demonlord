@@ -90,7 +90,9 @@ form {
         top: 143px;
         left: 35px;
         .injured,
-        .healingrate {
+        .healingrate,
+        .frightening,
+        .horrifying {
           height: 26px;
           width: 26px;
           border-radius: 16px;
@@ -121,6 +123,34 @@ form {
             background-image: url("bloodstain.png");
           }
         }
+
+        .frightening {
+          input.checkbox + label {
+            top: -4px;
+            left: -2px;
+            width: 26px;
+            height: 26px;
+            border-radius: 16px;
+          }
+
+          input.checkbox:checked + label {
+            background-image: url('/systems/demonlord/icons/effects/terror.svg');
+          }
+        }
+        .horrifying {
+          input.checkbox + label {
+            top: -3px;
+            left: -2px;
+            width: 26px;
+            height: 26px;
+            border-radius: 16px;
+          }
+
+          input.checkbox:checked + label {
+            background-image: url('/systems/demonlord/icons/effects/horrified.svg');
+          }
+        }
+
         .injuredtext,
         .healingratetext {
           position: absolute;

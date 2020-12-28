@@ -1614,10 +1614,16 @@
 
 .newcreature form aside .sidebar .injuredbox .injured,
 .newcreature form aside .sidebar .injuredbox .healingrate,
+.newcreature form aside .sidebar .injuredbox .frightening,
+.newcreature form aside .sidebar .injuredbox .horrifying,
 .newcreature form aside .sidebar .injuredboxright .injured,
 .newcreature form aside .sidebar .injuredboxright .healingrate,
+.newcreature form aside .sidebar .injuredboxright .frightening,
+.newcreature form aside .sidebar .injuredboxright .horrifying,
 .newcreature form aside .sidebar .healingratebox .injured,
-.newcreature form aside .sidebar .healingratebox .healingrate {
+.newcreature form aside .sidebar .healingratebox .healingrate,
+.newcreature form aside .sidebar .healingratebox .frightening,
+.newcreature form aside .sidebar .healingratebox .horrifying {
   height: 26px;
   width: 26px;
   border-radius: 16px;
@@ -1632,19 +1638,31 @@
 
 .newcreature form aside .sidebar .injuredbox .injured input.checkbox,
 .newcreature form aside .sidebar .injuredbox .healingrate input.checkbox,
+.newcreature form aside .sidebar .injuredbox .frightening input.checkbox,
+.newcreature form aside .sidebar .injuredbox .horrifying input.checkbox,
 .newcreature form aside .sidebar .injuredboxright .injured input.checkbox,
 .newcreature form aside .sidebar .injuredboxright .healingrate input.checkbox,
+.newcreature form aside .sidebar .injuredboxright .frightening input.checkbox,
+.newcreature form aside .sidebar .injuredboxright .horrifying input.checkbox,
 .newcreature form aside .sidebar .healingratebox .injured input.checkbox,
-.newcreature form aside .sidebar .healingratebox .healingrate input.checkbox {
+.newcreature form aside .sidebar .healingratebox .healingrate input.checkbox,
+.newcreature form aside .sidebar .healingratebox .frightening input.checkbox,
+.newcreature form aside .sidebar .healingratebox .horrifying input.checkbox {
   display: none;
 }
 
 .newcreature form aside .sidebar .injuredbox .injured input.checkbox + label,
 .newcreature form aside .sidebar .injuredbox .healingrate input.checkbox + label,
+.newcreature form aside .sidebar .injuredbox .frightening input.checkbox + label,
+.newcreature form aside .sidebar .injuredbox .horrifying input.checkbox + label,
 .newcreature form aside .sidebar .injuredboxright .injured input.checkbox + label,
 .newcreature form aside .sidebar .injuredboxright .healingrate input.checkbox + label,
+.newcreature form aside .sidebar .injuredboxright .frightening input.checkbox + label,
+.newcreature form aside .sidebar .injuredboxright .horrifying input.checkbox + label,
 .newcreature form aside .sidebar .healingratebox .injured input.checkbox + label,
-.newcreature form aside .sidebar .healingratebox .healingrate input.checkbox + label {
+.newcreature form aside .sidebar .healingratebox .healingrate input.checkbox + label,
+.newcreature form aside .sidebar .healingratebox .frightening input.checkbox + label,
+.newcreature form aside .sidebar .healingratebox .horrifying input.checkbox + label {
   position: relative;
   top: -7px;
   left: -9px;
@@ -1657,11 +1675,49 @@
 
 .newcreature form aside .sidebar .injuredbox .injured input.checkbox:checked + label,
 .newcreature form aside .sidebar .injuredbox .healingrate input.checkbox:checked + label,
+.newcreature form aside .sidebar .injuredbox .frightening input.checkbox:checked + label,
+.newcreature form aside .sidebar .injuredbox .horrifying input.checkbox:checked + label,
 .newcreature form aside .sidebar .injuredboxright .injured input.checkbox:checked + label,
 .newcreature form aside .sidebar .injuredboxright .healingrate input.checkbox:checked + label,
+.newcreature form aside .sidebar .injuredboxright .frightening input.checkbox:checked + label,
+.newcreature form aside .sidebar .injuredboxright .horrifying input.checkbox:checked + label,
 .newcreature form aside .sidebar .healingratebox .injured input.checkbox:checked + label,
-.newcreature form aside .sidebar .healingratebox .healingrate input.checkbox:checked + label {
+.newcreature form aside .sidebar .healingratebox .healingrate input.checkbox:checked + label,
+.newcreature form aside .sidebar .healingratebox .frightening input.checkbox:checked + label,
+.newcreature form aside .sidebar .healingratebox .horrifying input.checkbox:checked + label {
   background-image: url("bloodstain.png");
+}
+
+.newcreature form aside .sidebar .injuredbox .frightening input.checkbox + label,
+.newcreature form aside .sidebar .injuredboxright .frightening input.checkbox + label,
+.newcreature form aside .sidebar .healingratebox .frightening input.checkbox + label {
+  top: -4px;
+  left: -2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 16px;
+}
+
+.newcreature form aside .sidebar .injuredbox .frightening input.checkbox:checked + label,
+.newcreature form aside .sidebar .injuredboxright .frightening input.checkbox:checked + label,
+.newcreature form aside .sidebar .healingratebox .frightening input.checkbox:checked + label {
+  background-image: url("/systems/demonlord/icons/effects/terror.svg");
+}
+
+.newcreature form aside .sidebar .injuredbox .horrifying input.checkbox + label,
+.newcreature form aside .sidebar .injuredboxright .horrifying input.checkbox + label,
+.newcreature form aside .sidebar .healingratebox .horrifying input.checkbox + label {
+  top: -3px;
+  left: -2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 16px;
+}
+
+.newcreature form aside .sidebar .injuredbox .horrifying input.checkbox:checked + label,
+.newcreature form aside .sidebar .injuredboxright .horrifying input.checkbox:checked + label,
+.newcreature form aside .sidebar .healingratebox .horrifying input.checkbox:checked + label {
+  background-image: url("/systems/demonlord/icons/effects/horrified.svg");
 }
 
 .newcreature form aside .sidebar .injuredbox .injuredtext,
