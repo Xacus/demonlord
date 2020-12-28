@@ -30,7 +30,7 @@ DL.statusIcons = {
   stunned: 'icons/svg/stoned.svg',
   surprised: 'systems/demonlord/icons/effects/surprised.svg',
   unconscious: 'icons/svg/unconscious.svg',
-  blood: 'icons/svg/blood.svg'
+  injured: 'icons/svg/blood.svg'
 }
 
 DL.pathtype = {

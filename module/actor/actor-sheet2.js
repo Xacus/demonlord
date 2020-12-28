@@ -11,7 +11,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord2', 'sheet', 'actor'],
-      width: 762,
+      width: 742,
       height: 700,
       tabs: [
         {

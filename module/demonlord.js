@@ -202,13 +202,24 @@ Hooks.once('setup', function () {
     }, {})
   }
 
+  // Status Effects Icons
+  const effects = []
   for (const [key, attribute] of Object.entries(CONFIG.DL.statusIcons)) {
-    CONFIG.statusEffects.push({
+    effects.push({
       id: key,
       label: key.charAt(0).toUpperCase() + key.slice(1),
       icon: attribute
     })
   }
+  for (const effect of CONFIG.statusEffects) {
+    effects.push({
+      id: effect.id,
+      label: effect.label,
+      icon: effect.icon
+    })
+  }
+
+  CONFIG.statusEffects = effects
 })
 
 /**
@@ -257,7 +268,7 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
     }
 
     const actorData = actor.data
-    const injured = CONFIG.DL.statusIcons.blood
+    const injured = CONFIG.DL.statusIcons.injured
     const asleep = CONFIG.DL.statusIcons.asleep
     const blinded = CONFIG.DL.statusIcons.blinded
     const charmed = CONFIG.DL.statusIcons.charmed
@@ -307,7 +318,240 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
   }
 })
 
-// Hooks.on('preCreateToken', async (scene, createData, options, userId) => {
+Hooks.on('createActiveEffect', async (actor, effect) => {
+  // When you add a Status Effects directly on the token
+  if (effect) {
+    switch (effect.label) {
+      case 'Injured':
+        await actor.update({
+          'data.characteristics.health.injured': true
+        })
+        break
+      case 'Asleep':
+        await actor.update({
+          'data.afflictions.asleep': true,
+          'data.afflictions.prone': true,
+          'data.afflictions.unconscious': true
+        })
+        break
+      case 'Blinded':
+        await actor.update({
+          'data.afflictions.blinded': true
+        })
+        break
+      case 'Charmed':
+        await actor.update({
+          'data.afflictions.charmed': true
+        })
+        break
+      case 'Compelled':
+        await actor.update({
+          'data.afflictions.compelled': true
+        })
+        break
+      case 'Dazed':
+        await actor.update({
+          'data.afflictions.dazed': true
+        })
+        break
+      case 'Deafened':
+        await actor.update({
+          'data.afflictions.deafened': true
+        })
+        break
+      case 'Defenseless':
+        await actor.update({
+          'data.afflictions.defenseless': true
+        })
+        break
+      case 'Diseased':
+        await actor.update({
+          'data.afflictions.diseased': true
+        })
+        break
+      case 'Fatigued':
+        await actor.update({
+          'data.afflictions.fatigued': true
+        })
+        break
+      case 'Frightened':
+        await actor.update({
+          'data.afflictions.frightened': true
+        })
+        break
+      case 'Horrified':
+        await actor.update({
+          'data.afflictions.horrified': true
+        })
+        break
+      case 'Grabbed':
+        await actor.update({
+          'data.afflictions.grabbed': true
+        })
+        break
+      case 'Immobilized':
+        await actor.update({
+          'data.afflictions.immobilized': true
+        })
+        break
+      case 'Impaired':
+        await actor.update({
+          'data.afflictions.impaired': true
+        })
+        break
+      case 'Poisoned':
+        await actor.update({
+          'data.afflictions.poisoned': true
+        })
+        break
+      case 'Prone':
+        await actor.update({
+          'data.afflictions.prone': true
+        })
+        break
+      case 'Slowed':
+        await actor.update({
+          'data.afflictions.slowed': true
+        })
+        break
+      case 'Stunned':
+        await actor.update({
+          'data.afflictions.stunned': true
+        })
+        break
+      case 'Surprised':
+        await actor.update({
+          'data.afflictions.surprised': true
+        })
+        break
+      case 'Unconscious':
+        await actor.update({
+          'data.afflictions.unconscious': true
+        })
+        break
+      default:
+        break
+    }
+  }
+})
+
+Hooks.on('deleteActiveEffect', async (actor, effect) => {
+  // When you add a Status Effects directly on the token
+  if (effect) {
+    switch (effect.label) {
+      case 'Injured':
+        await actor.update({
+          'data.characteristics.health.injured': false
+        })
+        break
+      case 'Asleep':
+        await actor.update({
+          'data.afflictions.asleep': false,
+          'data.afflictions.prone': false,
+          'data.afflictions.unconscious': false
+        })
+        break
+      case 'Blinded':
+        await actor.update({
+          'data.afflictions.blinded': false
+        })
+        break
+      case 'Charmed':
+        await actor.update({
+          'data.afflictions.charmed': false
+        })
+        break
+      case 'Compelled':
+        await actor.update({
+          'data.afflictions.compelled': false
+        })
+        break
+      case 'Dazed':
+        await actor.update({
+          'data.afflictions.dazed': false
+        })
+        break
+      case 'Deafened':
+        await actor.update({
+          'data.afflictions.deafened': false
+        })
+        break
+      case 'Defenseless':
+        await actor.update({
+          'data.afflictions.defenseless': false
+        })
+        break
+      case 'Diseased':
+        await actor.update({
+          'data.afflictions.diseased': false
+        })
+        break
+      case 'Fatigued':
+        await actor.update({
+          'data.afflictions.fatigued': false
+        })
+        break
+      case 'Frightened':
+        await actor.update({
+          'data.afflictions.frightened': false
+        })
+        break
+      case 'Horrified':
+        await actor.update({
+          'data.afflictions.horrified': false
+        })
+        break
+      case 'Grabbed':
+        await actor.update({
+          'data.afflictions.grabbed': false
+        })
+        break
+      case 'Immobilized':
+        await actor.update({
+          'data.afflictions.immobilized': false
+        })
+        break
+      case 'Impaired':
+        await actor.update({
+          'data.afflictions.impaired': false
+        })
+        break
+      case 'Poisoned':
+        await actor.update({
+          'data.afflictions.poisoned': false
+        })
+        break
+      case 'Prone':
+        await actor.update({
+          'data.afflictions.prone': false
+        })
+        break
+      case 'Slowed':
+        await actor.update({
+          'data.afflictions.slowed': false
+        })
+        break
+      case 'Stunned':
+        await actor.update({
+          'data.afflictions.stunned': false
+        })
+        break
+      case 'Surprised':
+        await actor.update({
+          'data.afflictions.surprised': false
+        })
+        break
+      case 'Unconscious':
+        await actor.update({
+          'data.afflictions.unconscious': false
+        })
+        break
+      default:
+        break
+    }
+  }
+})
+
 Hooks.on('createToken', async (scene, token) => {
   // When Status Effects exists on the Actor but the token is just created
   const actor = game.actors.get(token.actorId)
@@ -334,7 +578,7 @@ Hooks.on('createToken', async (scene, token) => {
   const stunned = CONFIG.DL.statusIcons.stunned
   const surprised = CONFIG.DL.statusIcons.surprised
   const unconscious = CONFIG.DL.statusIcons.unconscious
-  const injured = CONFIG.DL.statusIcons.blood
+  const injured = CONFIG.DL.statusIcons.injured
 
   for (const t of actor.getActiveTokens()) {
     if (t.data.actorLink && t.scene.id === game.scenes.active.id) {
@@ -359,73 +603,6 @@ Hooks.on('createToken', async (scene, token) => {
       toggleEffect(t, actorData.data.afflictions.stunned, stunned)
       toggleEffect(t, actorData.data.afflictions.surprised, surprised)
       toggleEffect(t, actorData.data.afflictions.unconscious, unconscious)
-    }
-  }
-})
-
-Hooks.on('preUpdateToken', async (scene, token, updateData, options) => {
-  // When you add/remove a Status Effects directly on the token
-  const asleep = CONFIG.DL.statusIcons.asleep
-  const blinded = CONFIG.DL.statusIcons.blinded
-  const charmed = CONFIG.DL.statusIcons.charmed
-  const compelled = CONFIG.DL.statusIcons.compelled
-  const dazed = CONFIG.DL.statusIcons.dazed
-  const deafened = CONFIG.DL.statusIcons.deafened
-  const defenseless = CONFIG.DL.statusIcons.defenseless
-  const diseased = CONFIG.DL.statusIcons.diseased
-  const fatigued = CONFIG.DL.statusIcons.fatigued
-  const frightened = CONFIG.DL.statusIcons.frightened
-  const horrified = CONFIG.DL.statusIcons.horrified
-  const grabbed = CONFIG.DL.statusIcons.grabbed
-  const immobilized = CONFIG.DL.statusIcons.immobilized
-  const impaired = CONFIG.DL.statusIcons.impaired
-  const poisoned = CONFIG.DL.statusIcons.poisoned
-  const prone = CONFIG.DL.statusIcons.prone
-  const slowed = CONFIG.DL.statusIcons.slowed
-  const stunned = CONFIG.DL.statusIcons.stunned
-  const surprised = CONFIG.DL.statusIcons.surprised
-  const unconscious = CONFIG.DL.statusIcons.unconscious
-  const injured = CONFIG.DL.statusIcons.blood
-
-  if (updateData.effects) {
-    if (token.actorLink) {
-      const tokenActor = game.actors.get(token.actorId)
-
-      await tokenActor.update({
-        'data.afflictions': {
-          asleep: tokenActor.effects.find((e) => e.data.icon === asleep),
-          blinded: tokenActor.effects.find((e) => e.data.icon === blinded),
-          charmed: tokenActor.effects.find((e) => e.data.icon === charmed),
-          compelled: tokenActor.effects.find((e) => e.data.icon === compelled),
-          dazed: tokenActor.effects.find((e) => e.data.icon === dazed),
-          deafened: tokenActor.effects.find((e) => e.data.icon === deafened),
-          defenseless: tokenActor.effects.find(
-            (e) => e.data.icon === defenseless
-          ),
-          diseased: tokenActor.effects.find((e) => e.data.icon === diseased),
-          fatigued: tokenActor.effects.find((e) => e.data.icon === fatigued),
-          frightened: tokenActor.effects.find(
-            (e) => e.data.icon === frightened
-          ),
-          horrified: tokenActor.effects.find((e) => e.data.icon === horrified),
-          grabbed: tokenActor.effects.find((e) => e.data.icon === grabbed),
-          immobilized: tokenActor.effects.find(
-            (e) => e.data.icon === immobilized
-          ),
-          impaired: tokenActor.effects.find((e) => e.data.icon === impaired),
-          poisoned: tokenActor.effects.find((e) => e.data.icon === poisoned),
-          prone: tokenActor.effects.find((e) => e.data.icon === prone),
-          slowed: tokenActor.effects.find((e) => e.data.icon === slowed),
-          stunned: tokenActor.effects.find((e) => e.data.icon === stunned),
-          surprised: tokenActor.effects.find((e) => e.data.icon === surprised),
-          unconscious: tokenActor.effects.find(
-            (e) => e.data.icon === unconscious
-          )
-        },
-        'data.characteristics.health': {
-          injured: tokenActor.effects.find((e) => e.data.icon === injured)
-        }
-      })
     }
   }
 })
