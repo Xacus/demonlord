@@ -209,7 +209,8 @@
                 "agilityboonsbanesselect": false,
                 "intellectboonsbanesselect": false,
                 "willboonsbanesselect": false,
-                "perceptionboonsbanesselect": false
+                "perceptionboonsbanesselect": false,
+                "extraeffect": ""
             }
         },
         "item": {

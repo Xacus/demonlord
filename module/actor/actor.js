@@ -947,6 +947,12 @@ export class DemonlordActor extends Actor {
         },
         isCreature: {
           value: this.data.type == 'creature'
+        },
+        isPlus20Roll: {
+          value: plus20
+        },
+        hasTarget: {
+          value: targetNumber != undefined
         }
       },
       diceData
@@ -1175,10 +1181,7 @@ export class DemonlordActor extends Actor {
 
     var templateData = {
       actor: this,
-      item: {
-        data: talent,
-        name: talent.name
-      },
+      item: talent,
       data: {
         id: {
           value: talent._id

@@ -64,6 +64,11 @@
                 <b>{{localize 'DL.TalentExtraDamage20plus'}}:</b> {{data.action.plus20}}
             </div>
             {{/if}}
+            {{#if data.action.extraeffect}}
+            <div class="option" data-item-id="{{talent._id}}">
+                <b>{{localize 'DL.TalentExtraEffect'}}:</b> {{data.action.extraeffect}}
+            </div>
+            {{/if}}
             {{#if data.challenge.boonsbanes}}
             <div class="option" data-item-id="{{talent._id}}">
                 {{#if data.challenge.strengthboonsbanesselect}}

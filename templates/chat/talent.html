@@ -4,8 +4,8 @@
     <div class="showlessinfo"></div>
     {{#if data.roll.value}}
     <header class="card-header">
-        <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img"
-                title="{{item.data.name}}" height="40" width="40" /></div>
+        <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img"
+                title="{{item.name}}" height="40" width="40" /></div>
         <div class="attackbox">
             <div class="header">
                 {{#if data.isCreature.value}}
@@ -23,8 +23,8 @@
     </header>
     {{else}}
     <header class="card-header">
-        <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img"
-                title="{{item.data.name}}" height="40" width="40" /></div>
+        <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img"
+                title="{{item.name}}" height="40" width="40" /></div>
         <div class="attackbox">
             <div class="header">
                 {{#if data.against.value}}
@@ -135,6 +135,21 @@
     <div class="description">
         <div class="header">{{localize "DL.AttackRollDescription"}}</div>
         <div class="body">{{{data.description.value}}}</div>
+    </div>
+    {{/if}}
+    {{/if}}
+    {{#if item.data.action.extraeffect}}
+    {{#if data.isCreature.value}}
+    <div class="gmonly">
+        <div class="description">
+            <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
+            <div class="body">{{{item.data.action.extraeffect}}}</div>
+        </div>
+    </div>
+    {{else}}
+    <div class="description">
+        <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
+        <div class="body">{{{item.data.action.extraeffect}}}</div>
     </div>
     {{/if}}
     {{/if}}

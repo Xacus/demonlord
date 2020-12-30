@@ -521,5 +521,6 @@
   "DL.EffectAdd": "Add",
   "DL.EffectToggle": "Toggle",
   "DL.EffectEdit": "Edit",
-  "DL.EffectDelete": "Delete"
+  "DL.EffectDelete": "Delete",
+  "DL.TalentExtraEffect": "Extra Effect"
 }

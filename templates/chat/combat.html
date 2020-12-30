@@ -154,6 +154,9 @@
             </div>
         </div>
         {{/each}}
+
+        {{#if data.hasTarget.value}}
+        {{#if data.isPlus20Roll.value}}
         {{#if data.damageExtra20plusFormular.value}}
         <div class="combatactions roll-damage">
             <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageExtra20plusFormular.value}}">
@@ -162,6 +165,18 @@
             </div>
         </div>
         {{/if}}
+        {{/if}}
+        {{else}}
+        {{#if data.damageExtra20plusFormular.value}}
+        <div class="combatactions roll-damage">
+            <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageExtra20plusFormular.value}}">
+                <img src="systems/demonlord/css/items/damage.png" width="15" height="15" />
+                <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular.value}})</div>
+            </div>
+        </div>
+        {{/if}}
+        {{/if}}
+
         {{/if}}
     </div>
     </div>
