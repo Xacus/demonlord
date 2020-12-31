@@ -528,5 +528,6 @@
     "DL.EffectToggle": "Toggle",
     "DL.EffectEdit": "Edit",
     "DL.EffectDelete": "Delete",
-    "DL.TalentExtraEffect": "Extra Effect"
+    "DL.TalentExtraEffect": "Extra Effect",
+    "DL.AncestryNotTransferred": "Not transferred to character sheet"
 }

@@ -1118,6 +1118,21 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.newcreature.item .items-list li.level div.level .leftbox div.infotext,
+.newcreature.item .items-list li.level div.attributes .leftbox div.infotext,
+.newcreature.item .items-list li.level div.characteristics .leftbox div.infotext,
+.newcreature.item .items-list li.level div.talents .leftbox div.infotext,
+.newcreature.item .items-list li.level div.spells .leftbox div.infotext,
+.newcreature.item .items-list li.level div.equipment .leftbox div.infotext,
+.newcreature.item .items-list li.level div.language .leftbox div.infotext,
+.newcreature.item .items-list li.level div.magic .leftbox div.infotext {
+  float: right;
+  margin-right: 10px;
+  margin-top: 2px;
+  border: 0;
+  width: auto;
+}
+
 .newcreature.item .items-list li.level div.level .attbox,
 .newcreature.item .items-list li.level div.attributes .attbox,
 .newcreature.item .items-list li.level div.characteristics .attbox,

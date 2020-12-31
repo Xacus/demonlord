@@ -404,13 +404,6 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         })
       }
 
-      // Fix PowerActive
-      if (!item.data.data.bonuses.poweractive) {
-        await this.object.update({
-          'data.bonuses.poweractive': true
-        })
-      }
-
       for (const [k, v] of Object.entries(formData)) {
         if (k == 'altdamagevs') {
           let index = 0

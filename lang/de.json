@@ -413,7 +413,7 @@
     "DL.ModsEffects": "Effekte",
     "DL.ModsModifier": "Mod",
     "DL.ModsRounds": "Runden",
-	"DL.ModsRoundsLeft": " verbleibend"
+	"DL.ModsRoundsLeft": " verbleibend",
     "DL.ModsListBoonsBanes": "Boni/Mali",
     "DL.ModsListDamage": "Schaden",
     "DL.ModsListAttack": "Angriff",
@@ -522,11 +522,12 @@
     "DL.PathsTalentTransfers": "Alle Talente überführen",
     "DL.PathsSpellTransfers": "Alle Zaubersprüche überführen",
     "DL.CharacterGenerator": "Charaktergenerator",
-    "DL.TabsEffects": "Effects",
-    "DL.EffectCreate": "Add effect",
-    "DL.EffectAdd": "Add",
-    "DL.EffectToggle": "Toggle",
-    "DL.EffectEdit": "Edit",
-    "DL.EffectDelete": "Delete",
-    "DL.TalentExtraEffect": "Extra Effect"
+    "DL.TabsEffects": "Zustände",
+    "DL.EffectCreate": "Zustand hinzufügen",
+    "DL.EffectAdd": "hinzufügen",
+    "DL.EffectToggle": "Wechseln",
+    "DL.EffectEdit": "Bearbeiten",
+    "DL.EffectDelete": "Entfernen",
+    "DL.TalentExtraEffect": "Extra Effect",
+    "DL.AncestryNotTransferred": "Not transferred to character sheet"
 }
