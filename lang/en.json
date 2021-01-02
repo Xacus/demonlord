@@ -377,6 +377,8 @@
     "DL.SettingAttackShowEnemyAttributeHint": "Show the enemy stats you are rolling agaist.",
     "DL.SettingAttackShowEnemyAttributeAtt": "Show enemy stats Attack",
     "DL.SettingAttackShowEnemyAttributeAttHint": "Show the enemy stats you are rolling.",
+    "DL.SettingRollCreaturesToGM": "Roll Creature Abilities to GM",
+    "DL.SettingRollCreaturesToGMHint": "When you roll for a creature's ability, post it only to the GM in the chat.",
     "DL.SettingAttackReverseDamage": "Reverse Damage/Health",
     "DL.SettingAttackReverseDamageHint": "Substract damage from Health insted of adding damage.",
     "DL.SettingUsingChatPortraitModule": "Using Chat Portrait Module",

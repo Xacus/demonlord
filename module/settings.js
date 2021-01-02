@@ -54,6 +54,14 @@ export const registerSettings = function () {
     type: Boolean,
     config: true
   })
+  game.settings.register('demonlord', 'rollCreaturesToGM', {
+    name: game.i18n.localize('DL.SettingRollCreaturesToGM'),
+    hint: game.i18n.localize('DL.SettingRollCreaturesToGMHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true
+  })
   game.settings.register('demonlord', 'reverseDamage', {
     name: game.i18n.localize('DL.SettingAttackReverseDamage'),
     hint: game.i18n.localize('DL.SettingAttackReverseDamageHint'),

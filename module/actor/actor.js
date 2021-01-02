@@ -231,12 +231,13 @@ export class DemonlordActor extends Actor {
       )
       data.characteristics.size = ancestry.data.characteristics.size
 
-      data.characteristics.insanity.value += parseInt(
-        ancestry.data.characteristics.insanity
-      )
-      data.characteristics.corruption += parseInt(
-        ancestry.data.characteristics.corruption
-      )
+      //These were still breaking the sanity/corruption fields..
+      // data.characteristics.insanity.value += parseInt(
+      //   ancestry.data.characteristics.insanity
+      // )
+      // data.characteristics.corruption += parseInt(
+      //   ancestry.data.characteristics.corruption
+      // )
     }
 
     if (savedAncestry == null && this.data.type != 'creature') {
@@ -571,8 +572,8 @@ export class DemonlordActor extends Actor {
         parseInt(boonsbanes) + parseInt(buffs.challengeperceptionbonus)
     }
 
-    if (boonsbanes != undefined && boonsbanes != NaN && boonsbanes != 0) {
-      diceformular = diceformular + '+' + boonsbanes + 'd6kh'
+    if (boonsbanes != undefined && !isNaN(boonsbanes) && boonsbanes != 0) {
+      diceformular = diceformular + '+' + boonsbanes + 'd6kh';
     }
     const r = new Roll(diceformular, {})
     r.roll()
@@ -617,9 +618,10 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
-    if (this.data.type == 'creature') {
+    if (this.data.type == 'creature' && game.settings.get('demonlord', 'rollCreaturesToGM')) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
+    
     const template = 'systems/demonlord/templates/chat/challenge.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
@@ -822,10 +824,11 @@ export class DemonlordActor extends Actor {
           boonsbanes--
         }
       }
-      if (boonsbanes == undefined || boonsbanes == NaN || boonsbanes == 0) {
-        boonsbanes = 0
+
+      if (boonsbanes == undefined || isNaN(boonsbanes) || boonsbanes == 0) {
+        boonsbanes = 0;
       } else {
-        diceformular += '+' + boonsbanes + 'd6kh'
+        diceformular += '+' + boonsbanes + 'd6kh';
       }
 
       attackRoll = new Roll(diceformular, {})
@@ -1111,10 +1114,10 @@ export class DemonlordActor extends Actor {
         if (buffs?.challengebonus != 0) {
           boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengebonus)
         }
-        if (boonsbanes == undefined || boonsbanes == NaN || boonsbanes == 0) {
+        if (boonsbanes == undefined || isNaN(boonsbanes) || boonsbanes == 0) {
           boonsbanes = 0
         } else {
-          diceformular += '+' + boonsbanes + 'd6kh'
+          diceformular += '+' + boonsbanes + 'd6kh';
         }
 
         attackRoll = new Roll(diceformular, {})
@@ -1446,11 +1449,13 @@ export class DemonlordActor extends Actor {
       }
     }
 
-    if (boonsbanes == undefined || boonsbanes == NaN || boonsbanes == 0) {
-      boonsbanes = 0
+    if (boonsbanes == undefined || isNaN(boonsbanes) || boonsbanes == 0) {
+      boonsbanes = 0;
     } else {
-      diceformular += '+' + boonsbanes + 'd6kh'
+      diceformular += '+' + boonsbanes + 'd6kh';
     }
+
+
     const attackRoll = new Roll(diceformular, {})
     attackRoll.roll()
 
