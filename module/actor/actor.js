@@ -1428,7 +1428,6 @@ export class DemonlordActor extends Actor {
         parseInt(boonsbanes) + parseInt(spell.data?.action?.boonsbanes)
     }
 
-    console.log(attackAttribute)
     // Add buffs from Talents
     if (buffs?.attackbonus > 0) {
       if (attackAttribute === 'Strength' && buffs.attackstrengthbonus != 0) {
