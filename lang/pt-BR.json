@@ -523,5 +523,6 @@
   "DL.EffectEdit": "Edit",
   "DL.EffectDelete": "Delete",
   "DL.TalentExtraEffect": "Extra Effect",
-  "DL.AncestryNotTransferred": "Not transferred to character sheet"
+  "DL.AncestryNotTransferred": "Not transferred to character sheet",
+  "DL.DialogWarningCreatureArmor": "You can't add armor to a creature. Change the Defense value manually."
 }

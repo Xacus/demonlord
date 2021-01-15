@@ -598,6 +598,25 @@ export class DemonlordActorSheet extends ActorSheet {
     }
   }
 
+  async _onDropItemCreate (itemData) {
+    console.log(itemData)
+    switch (itemData.type) {
+      case 'armor':
+        if (this.actor.data.type === 'creature') {
+          ui.notifications.error(
+            game.i18n.localize('DL.DialogWarningCreatureArmor')
+          )
+
+          return
+        }
+        break
+
+      default:
+        break
+    }
+    return super._onDropItemCreate(itemData)
+  }
+
   /**
    * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
    * @param {Event} event   The originating click event
