@@ -87,7 +87,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     const itemData = data.item
     const damagetypes = []
 
-    for (const damagetype of itemData.data?.damagetypes) {
+    for (const damagetype of itemData.data?.action?.damagetypes) {
       damagetypes.push(damagetype)
     }
 
@@ -99,7 +99,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     const damagetypes = []
     const vsdamagetypes = []
 
-    for (const damagetype of itemData.data?.damagetypes) {
+    for (const damagetype of itemData.data?.action?.damagetypes) {
       damagetypes.push(damagetype)
     }
 
@@ -127,7 +127,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
   /** @override */
   activateListeners (html) {
     super.activateListeners(html)
-
+    console.log(this.item)
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
 
@@ -440,27 +440,29 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
           if (Array.isArray(v)) {
             for (const id of v) {
-              item.data.data.damagetypes[index].damage = id
+              item.data.data.action.damagetypes[index].damage = id
               index++
             }
           } else {
-            item.data.data.damagetypes[index].damage = v
+            item.data.data.action.damagetypes[index].damage = v
           }
         } else if (k == 'altdamagetype') {
           let index = 0
 
           if (Array.isArray(v)) {
             for (const id of v) {
-              item.data.data.damagetypes[index].damagetype = id
+              item.data.data.action.damagetypes[index].damagetype = id
               index++
             }
           } else {
-            item.data.data.damagetypes[index].damagetype = v
+            item.data.data.action.damagetypes[index].damagetype = v
           }
         }
       }
       await this.object.update({
-        'data.damagetypes': duplicate(this.item.data.data.damagetypes)
+        'data.action.damagetypes': duplicate(
+          this.item.data.data.action.damagetypes
+        )
       })
     }
 
@@ -532,13 +534,13 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
     switch (a.dataset.action) {
       case 'create':
-        itemData.data.damagetypes.push(new DamageType())
+        itemData.data.action.damagetypes.push(new DamageType())
 
         await this.item.update(itemData, { diff: false })
         this.render(true)
         break
       case 'delete':
-        itemData.data.damagetypes.splice(a.dataset.id, 1)
+        itemData.data.action.damagetypes.splice(a.dataset.id, 1)
 
         await this.item.update(itemData, { diff: false })
         this.render(true)

@@ -191,26 +191,28 @@
                 "description": ""
             },
             "action": {
-                "active": true,
-                "attack": "",
-                "against": "",
-                "damageactive": true,
-                "damage": "",
-                "damagetype": "",
-                "boonsbanesactive": true,
-                "boonsbanes": "",
-                "plus20active": true,
-                "plus20": "",
-                "plus20damage": "",
-                "defense": "",
-                "defenseboonsbanes": "",
-                "damagetypes": [],
-                "strengthboonsbanesselect": false,
-                "agilityboonsbanesselect": false,
-                "intellectboonsbanesselect": false,
-                "willboonsbanesselect": false,
-                "perceptionboonsbanesselect": false,
-                "extraeffect": ""
+                "action": {
+                    "active": true,
+                    "attack": "",
+                    "against": "",
+                    "damageactive": true,
+                    "damage": "",
+                    "damagetype": "",
+                    "boonsbanesactive": true,
+                    "boonsbanes": "",
+                    "plus20active": true,
+                    "plus20": "",
+                    "plus20damage": "",
+                    "defense": "",
+                    "defenseboonsbanes": "",
+                    "damagetypes": [],
+                    "strengthboonsbanesselect": false,
+                    "agilityboonsbanesselect": false,
+                    "intellectboonsbanesselect": false,
+                    "willboonsbanesselect": false,
+                    "perceptionboonsbanesselect": false,
+                    "extraeffect": ""
+                }
             }
         },
         "item": {

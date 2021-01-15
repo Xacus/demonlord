@@ -790,31 +790,24 @@ export class DemonlordActor extends Actor {
       }
 
       // Add buffs from Talents
-      if (buffs?.attackbonus > 0) {
-        if (attackAttribute === 'Strength' && buffs.attackstrengthbonus != 0) {
-          boonsbanes =
-            parseInt(boonsbanes) + parseInt(buffs.attackstrengthbonus)
-        }
-        if (attackAttribute === 'Agility' && buffs.attackagilitybonus != 0) {
-          boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackagilitybonus)
-        }
-        if (
-          attackAttribute === 'Intellect' &&
-          buffs.attackintellectbonus != 0
-        ) {
-          boonsbanes =
-            parseInt(boonsbanes) + parseInt(buffs.attackintellectbonus)
-        }
-        if (attackAttribute === 'Will' && buffs.attackwillbonus != 0) {
-          boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackwillbonus)
-        }
-        if (
-          attackAttribute === 'Perception' &&
-          buffs.attackperceptionbonus != 0
-        ) {
-          boonsbanes =
-            parseInt(boonsbanes) + parseInt(buffs.attackperceptionbonus)
-        }
+      if (attackAttribute === 'Strength' && buffs.attackstrengthbonus != 0) {
+        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackstrengthbonus)
+      }
+      if (attackAttribute === 'Agility' && buffs.attackagilitybonus != 0) {
+        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackagilitybonus)
+      }
+      if (attackAttribute === 'Intellect' && buffs.attackintellectbonus != 0) {
+        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackintellectbonus)
+      }
+      if (attackAttribute === 'Will' && buffs.attackwillbonus != 0) {
+        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackwillbonus)
+      }
+      if (
+        attackAttribute === 'Perception' &&
+        buffs.attackperceptionbonus != 0
+      ) {
+        boonsbanes =
+          parseInt(boonsbanes) + parseInt(buffs.attackperceptionbonus)
       }
 
       // If you wear a weapon and do not meet or exceed its requirements: -1 Bane
@@ -931,7 +924,7 @@ export class DemonlordActor extends Actor {
           value: weapon.data.data.action.damagetype
         },
         damageTypes: {
-          value: weapon.data.data.damagetypes
+          value: weapon.data.data.action.damagetypes
         },
         damageExtra20plusFormular: {
           value:
@@ -1240,7 +1233,7 @@ export class DemonlordActor extends Actor {
           value:
             talent.data.vs.damageactive && talent.data.vs.damage
               ? talent.data?.vs?.damagetype
-              : talent.data?.damagetype
+              : talent.data?.action.damagetype
         },
         damageTypes: {
           value: talent.data?.vs.damagetypes
@@ -1273,7 +1266,7 @@ export class DemonlordActor extends Actor {
           value: talent.data?.damage
         },
         pureDamageType: {
-          value: talent.data?.damagetype
+          value: talent.data?.action.damagetype
         }
       },
       diceData
@@ -1429,26 +1422,20 @@ export class DemonlordActor extends Actor {
     }
 
     // Add buffs from Talents
-    if (buffs?.attackbonus > 0) {
-      if (attackAttribute === 'Strength' && buffs.attackstrengthbonus != 0) {
-        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackstrengthbonus)
-      }
-      if (attackAttribute === 'Agility' && buffs.attackagilitybonus != 0) {
-        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackagilitybonus)
-      }
-      if (attackAttribute === 'Intellect' && buffs.attackintellectbonus != 0) {
-        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackintellectbonus)
-      }
-      if (attackAttribute === 'Will' && buffs.attackwillbonus != 0) {
-        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackwillbonus)
-      }
-      if (
-        attackAttribute === 'Perception' &&
-        buffs.attackperceptionbonus != 0
-      ) {
-        boonsbanes =
-          parseInt(boonsbanes) + parseInt(buffs.attackperceptionbonus)
-      }
+    if (attackAttribute === 'Strength' && buffs.attackstrengthbonus != 0) {
+      boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackstrengthbonus)
+    }
+    if (attackAttribute === 'Agility' && buffs.attackagilitybonus != 0) {
+      boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackagilitybonus)
+    }
+    if (attackAttribute === 'Intellect' && buffs.attackintellectbonus != 0) {
+      boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackintellectbonus)
+    }
+    if (attackAttribute === 'Will' && buffs.attackwillbonus != 0) {
+      boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackwillbonus)
+    }
+    if (attackAttribute === 'Perception' && buffs.attackperceptionbonus != 0) {
+      boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackperceptionbonus)
     }
 
     if (boonsbanes == undefined || isNaN(boonsbanes) || boonsbanes == 0) {
@@ -1577,7 +1564,7 @@ export class DemonlordActor extends Actor {
           value: spell.data.action?.damagetype
         },
         damageTypes: {
-          value: spell.data?.damagetypes
+          value: spell.data?.action?.damagetypes
         },
         damageExtra20plusFormular: {
           value: spell.data.action?.plus20damage
@@ -1850,7 +1837,7 @@ export class DemonlordActor extends Actor {
 
     for (const talent of talents) {
       if (talent.data.addtonextroll) {
-        if (talent.data?.boonsbanesactive) {
+        if (talent.data.action?.boonsbanesactive) {
           characterbuffs.attackbonus =
             parseInt(characterbuffs.attackbonus) +
             parseInt(talent.data.action?.boonsbanes)
@@ -1881,10 +1868,16 @@ export class DemonlordActor extends Actor {
             )
           }
         }
-        if (talent.data?.damageactive && talent.data.action?.damage != '') {
+        if (
+          talent.data.action?.damageactive &&
+          talent.data.action?.damage != ''
+        ) {
           characterbuffs.attackdamagebonus += '+' + talent.data.action?.damage
         }
-        if (talent.data?.plus20active && talent.data.action?.plus20 != '') {
+        if (
+          talent.data.action?.plus20active &&
+          talent.data.action?.plus20 != ''
+        ) {
           characterbuffs.attack20plusdamagebonus +=
             '+' + talent.data.action?.plus20
         }
@@ -2111,8 +2104,11 @@ export class DemonlordActor extends Actor {
       effects = talent.name + ':<br>'
     }
 
-    if (talent.data?.boonsbanesactive && talent.data?.action?.boonsbanes) {
-      if (talent.data.action.strengthboonsbanesselect) {
+    if (
+      talent.data.action?.boonsbanesactive &&
+      talent.data?.action?.boonsbanes
+    ) {
+      if (talent.data.action?.strengthboonsbanesselect) {
         effects +=
           '&nbsp;&nbsp;&nbsp;• ' +
           game.i18n.localize('DL.TalentAttackBoonsBanes') +
@@ -2163,7 +2159,7 @@ export class DemonlordActor extends Actor {
           '<br>'
       }
     }
-    if (talent.data?.damageactive && talent.data?.action?.damage) {
+    if (talent.data?.action.damageactive && talent.data?.action?.damage) {
       effects +=
         '&nbsp;&nbsp;&nbsp;• ' +
         game.i18n.localize('DL.TalentExtraDamage') +
@@ -2171,7 +2167,7 @@ export class DemonlordActor extends Actor {
         talent.data.action?.damage +
         '<br>'
     }
-    if (talent.data?.plus20active && talent.data?.action?.plus20) {
+    if (talent.data?.action.plus20active && talent.data?.action?.plus20) {
       effects +=
         '&nbsp;&nbsp;&nbsp;• ' +
         game.i18n.localize('DL.TalentExtraDamage20plus') +
