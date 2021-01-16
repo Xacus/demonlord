@@ -233,6 +233,10 @@ export class DLActorModifiers extends FormApplication {
         await this.object.update({
           'data.afflictions.frightened': v
         })
+      } else if (k.includes('afflictions.horrified')) {
+        await this.object.update({
+          'data.afflictions.horrified': v
+        })
       } else if (k.includes('afflictions.grabbed')) {
         await this.object.update({
           'data.afflictions.grabbed': v

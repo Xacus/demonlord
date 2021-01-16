@@ -258,6 +258,18 @@
                         </div>
                     </div>
                     <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.horrified" id="data.afflictions.horrified"
+                            {{checked actor.data.afflictions.horrified}} />
+                        <div>
+                            <label for="data.afflictions.horrified">
+                                {{localize "DL.horrified"}}
+                            </label>
+                            <div class="fas fa-question tooltip">
+                                <span class="tooltiptext">{{localize "DL.AfflictionsHorrified"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="affliction">
                         <input type="checkbox" name="actor.data.afflictions.grabbed" id="data.afflictions.grabbed"
                             {{checked actor.data.afflictions.grabbed}} />
                         <div>

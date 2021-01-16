@@ -467,7 +467,7 @@
     "DL.AfflictionsDefenseless": "A defenseless creature cannot defend itself. Its Defense is 5, it cannot use actions, and its challenge rolls using attributes result in failure. The creature can still perceive its surroundings, however, and can make Perception challenge rolls as normal.",
     "DL.AfflictionsDiseased": "A diseased creature makes all attack rolls and challenge rolls with 1 bane.",
     "DL.AfflictionsFatigued": "A fatigued creature makes all attack rolls and challenge rolls with 1 bane.",
-    "DL.AfflictionsFrightened": "A frightened creature makes attack rolls and challenge rolls with 1 bane or 3 banes when it can see the source of the frightened affliction.",
+    "DL.AfflictionsFrightened": "A frightened creature makes attack rolls and challenge rolls with 1 bane.",
     "DL.AfflictionsHorrified": "A horrified creature makes attack rolls and challenge rolls with 3 banes when it can see the source of the frightened affliction.",
     "DL.AfflictionsGrabbed": "The effects of the affliction depend on the creature’s Size. If the grabbed creature’s Size is equal to or smaller than that of the creature grabbing it, the grabbed creature cannot move away from the creature that grabbed it until it removes the affliction. If the grabbed creature’s Size is larger than that of the creature grabbing it, whenever the grabbed creature moves, the creature grabbing it can choose to move with it (by clinging to the grabbed creature’s body) or end the grab. (See Grab for more information on how to grab, and Escape for how to escape a grab.)",
     "DL.AfflictionsImmobilized": "An immobilized creature has Speed 0 and cannot benefit from bonuses to Speed. Other creatures make all attack rolls against the immobilized creature with 1 boon.",
@@ -532,5 +532,6 @@
     "DL.EffectDelete": "Delete",
     "DL.TalentExtraEffect": "Extra Effect",
     "DL.AncestryNotTransferred": "Not transferred to character sheet",
-    "DL.DialogWarningCreatureArmor": "You can't add armor to a creature. Change the Defense value manually."
+    "DL.DialogWarningCreatureArmor": "You can't add armor to a creature. Change the Defense value manually.",
+    "DL.horrified": "Horrified"
 }

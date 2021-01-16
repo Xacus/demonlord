@@ -2153,7 +2153,7 @@ export class DemonlordActor extends Actor {
     characterbuffs.speedbonus += modSpeedBonus
 
     // Afflictions
-    if (this.data.data.afflictions?.fatigued) {
+    if (this.data.data.afflictions?.diseased) {
       characterbuffs.attackbonus += -1
       characterbuffs.attackstrengthbonus += -1
       characterbuffs.attackagilitybonus += -1
@@ -2168,7 +2168,37 @@ export class DemonlordActor extends Actor {
       characterbuffs.challengewillbonus += -1
       characterbuffs.challengeperceptionbonus += -1
     }
-    if (this.data.data.afflictions?.diseased) {
+    if (this.data.data.afflictions?.frightened) {
+      characterbuffs.attackbonus += -1
+      characterbuffs.attackstrengthbonus += -1
+      characterbuffs.attackagilitybonus += -1
+      characterbuffs.attackintellectbonus += -1
+      characterbuffs.attackwillbonus += -1
+      characterbuffs.attackperceptionbonus += -1
+
+      characterbuffs.challengebonus += -1
+      characterbuffs.challengestrengthbonus += -1
+      characterbuffs.challengeagilitybonus += -1
+      characterbuffs.challengeintellectbonus += -1
+      characterbuffs.challengewillbonus += -1
+      characterbuffs.challengeperceptionbonus += -1
+    }
+    if (this.data.data.afflictions?.frightenedsource) {
+      characterbuffs.attackbonus += -3
+      characterbuffs.attackstrengthbonus += -3
+      characterbuffs.attackagilitybonus += -3
+      characterbuffs.attackintellectbonus += -3
+      characterbuffs.attackwillbonus += -3
+      characterbuffs.attackperceptionbonus += -3
+
+      characterbuffs.challengebonus += -3
+      characterbuffs.challengestrengthbonus += -3
+      characterbuffs.challengeagilitybonus += -3
+      characterbuffs.challengeintellectbonus += -3
+      characterbuffs.challengewillbonus += -3
+      characterbuffs.challengeperceptionbonus += -3
+    }
+    if (this.data.data.afflictions?.fatigued) {
       characterbuffs.attackbonus += -1
       characterbuffs.attackstrengthbonus += -1
       characterbuffs.attackagilitybonus += -1
