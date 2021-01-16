@@ -599,7 +599,6 @@ export class DemonlordActorSheet extends ActorSheet {
   }
 
   async _onDropItemCreate (itemData) {
-    console.log(itemData)
     switch (itemData.type) {
       case 'armor':
         if (this.actor.data.type === 'creature') {
