@@ -2252,6 +2252,7 @@ export class DemonlordActor extends Actor {
     console.log('attackwillbonus = ' + characterbuffs.attackwillbonus)
     console.log(
       'attackperceptionbonus = ' + characterbuffs.attackperceptionbonus
+    )
     console.log(
       'challengestrengthbonus = ' + characterbuffs.challengestrengthbonus
     )
