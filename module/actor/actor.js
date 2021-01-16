@@ -1907,6 +1907,7 @@ export class DemonlordActor extends Actor {
 
     for (const talent of talents) {
       if (talent.data.addtonextroll) {
+        // console.log(talent.name)
         if (talent.data.action?.boonsbanesactive) {
           characterbuffs.attackbonus =
             parseInt(characterbuffs.attackbonus) +
@@ -2183,7 +2184,7 @@ export class DemonlordActor extends Actor {
       characterbuffs.challengewillbonus += -1
       characterbuffs.challengeperceptionbonus += -1
     }
-    if (this.data.data.afflictions?.frightenedsource) {
+    if (this.data.data.afflictions?.horrified) {
       characterbuffs.attackbonus += -3
       characterbuffs.attackstrengthbonus += -3
       characterbuffs.attackagilitybonus += -3
@@ -2244,6 +2245,27 @@ export class DemonlordActor extends Actor {
       characterbuffs.challengeperceptionbonus += -1
     }
 
+    /*
+    console.log('attackstrengthbonus = ' + characterbuffs.attackstrengthbonus)
+    console.log('attackagilitybonus = ' + characterbuffs.attackagilitybonus)
+    console.log('attackintellectbonus = ' + characterbuffs.attackintellectbonus)
+    console.log('attackwillbonus = ' + characterbuffs.attackwillbonus)
+    console.log(
+      'attackperceptionbonus = ' + characterbuffs.attackperceptionbonus
+    console.log(
+      'challengestrengthbonus = ' + characterbuffs.challengestrengthbonus
+    )
+    console.log(
+      'challengeagilitybonus = ' + characterbuffs.challengeagilitybonus
+    )
+    console.log(
+      'challengeintellectbonus = ' + characterbuffs.challengeintellectbonus
+    )
+    console.log('challengewillbonus = ' + characterbuffs.challengewillbonus)
+    console.log(
+      'challengeperceptionbonus = ' + characterbuffs.challengeperceptionbonus
+    )
+    */
     return characterbuffs
   }
 
