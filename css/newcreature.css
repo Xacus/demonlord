@@ -3158,23 +3158,6 @@
   margin-top: 0;
 }
 
-.newcreature .form-block .form-header {
-  height: 20px;
-  padding-top: 2px;
-  padding-right: 5px;
-  font-weight: bold;
-  font-size: 12px;
-}
-
-.newcreature .form-block .form-headermods {
-  float: left;
-  height: 20px;
-  padding-top: 2px;
-  padding-right: 5px;
-  font-weight: bold;
-  font-size: 12px;
-}
-
 .newcreature .form-block .form-line {
   width: 100%;
   height: 22px;
