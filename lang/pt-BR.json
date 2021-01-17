@@ -1,4 +1,25 @@
 {
+  "ACTOR": {
+        "TypeCharacter": "PC/NPC",
+        "TypeCreature": "Criatura"
+    },
+    "ITEM": {
+        "TypeAmmo": "Ammo",
+        "TypeAncestry": "Ancestralidade",
+        "TypeArmor": "Armor",
+        "TypeCreaturerole": "Creature Role",
+        "TypeEndoftheround": "End of the Round efffect",
+        "TypeFeature": "Feature",
+        "TypeItem": "Inventory Item",
+        "TypeLanguage": "Language",
+        "TypeMod": "Modifier",
+        "TypePath": "Path",
+        "TypeProfession": "Profession",
+        "TypeSpecialaction": "Special action",
+        "TypeSpell": "Spell",
+        "TypeTalent": "Talent",
+        "TypeWeapon": "Weapon"
+    },
   "DL.Attributes": "Atributos",
   "DL.AttributeStrength": "Força",
   "DL.AttributeAgility": "Agilidade",

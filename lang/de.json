@@ -1,4 +1,25 @@
 {
+    "ACTOR": {
+        "TypeCharacter": "PC/NPC",
+        "TypeCreature": "Kreatur"
+    },
+    "ITEM": {
+        "TypeAmmo": "Ammo",
+        "TypeAncestry": "Abstammung",
+        "TypeArmor": "Rüstung",
+        "TypeCreaturerole": "Kreatur Role",
+        "TypeEndoftheround": "Ende der Runde efffect",
+        "TypeFeature": "Zug",
+        "TypeItem": "Inventar Gegenstände",
+        "TypeLanguage": "Sprache",
+        "TypeMod": "Modifier",
+        "TypePath": "Pfade",
+        "TypeProfession": "Berufe",
+        "TypeSpecialaction": "Besondere Anfriffe",
+        "TypeSpell": "Zauber",
+        "TypeTalent": "Talent",
+        "TypeWeapon": "Waffen"
+    },
     "DL.Attributes": "Attribute",
     "DL.AttributeStrength": "Stärke",
     "DL.AttributeAgility": "Gewandheit",

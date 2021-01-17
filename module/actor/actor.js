@@ -504,7 +504,7 @@ export class DemonlordActor extends Actor {
             callback: (html) =>
               this.rollAttribute(
                 attribute,
-                html.find('[id="boonsbanes"]')[0].value
+                html.find('[id="boonsbanes"]').val()
               )
           },
           cancel: {
@@ -687,7 +687,7 @@ export class DemonlordActor extends Actor {
               callback: (html) =>
                 this.rollAttack(
                   item,
-                  html.find('[id="boonsbanes"]')[0].value,
+                  html.find('[id="boonsbanes"]').val(),
                   characterbuffs
                 )
             },
@@ -747,7 +747,7 @@ export class DemonlordActor extends Actor {
               callback: (html) =>
                 this.rollAttack(
                   item,
-                  html.find('[id="boonsbanes"]')[0].value,
+                  html.find('[id="boonsbanes"]').val(),
                   characterbuffs
                 )
             },
@@ -1053,7 +1053,7 @@ export class DemonlordActor extends Actor {
                 icon: '<i class="fas fa-check"></i>',
                 label: game.i18n.localize('DL.DialogRoll'),
                 callback: (html) =>
-                  this.useTalent(item, html.find('[id="boonsbanes"]')[0].value)
+                  this.useTalent(item, html.find('[id="boonsbanes"]').val())
               },
               cancel: {
                 icon: '<i class="fas fa-times"></i>',
@@ -1405,7 +1405,7 @@ export class DemonlordActor extends Actor {
                   callback: (html) =>
                     this.useSpell(
                       item,
-                      html.find('[id="boonsbanes"]')[0].value,
+                      html.find('[id="boonsbanes"]').val(),
                       characterbuffs
                     )
                 },

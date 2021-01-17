@@ -170,21 +170,21 @@
     },
     "Item": {
         "types": [
-            "item",
+            "ammo",
+            "ancestry",
+            "armor",
+            "creaturerole",
+            "endoftheround",
             "feature",
+            "item",
+            "language",
+            "mod",
+            "path",
+            "profession",
+            "specialaction",
             "spell",
             "talent",
-            "weapon",
-            "armor",
-            "ammo",
-            "specialaction",
-            "endoftheround",
-            "mod",
-            "ancestry",
-            "language",
-            "profession",
-            "path",
-            "creaturerole"
+            "weapon"
         ],
         "templates": {
             "base": {
