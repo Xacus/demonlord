@@ -17,19 +17,24 @@ import {
 } from './init/init.js'
 import combattracker from './combattracker.js'
 import { CharacterBuff } from './buff.js'
+import { preloadHandlebarsTemplates } from './templates.js'
 import * as migrations from './migration.js'
+import * as macros from './macros.js'
 
 Hooks.once('init', async function () {
   game.demonlord = {
-    DemonlordActor,
-    DemonlordItem,
-    rollWeaponMacro,
-    rollTalentMacro,
-    rollSpellMacro,
-    rollAttributeMacro,
-    rollInitMacro,
-    healingPotionMacro,
-    migrations
+    entities: {
+      DemonlordActor,
+      DemonlordItem
+    },
+    migrations: migrations,
+    macros: macros,
+    rollWeaponMacro: macros.rollWeaponMacro,
+    rollTalentMacro: macros.rollTalentMacro,
+    rollSpellMacro: macros.rollSpellMacro,
+    rollAttributeMacro: macros.rollAttributeMacro,
+    rollInitMacro: macros.rollInitMacro,
+    healingPotionMacro: macros.healingPotionMacro
   }
 
   // Define custom Entity classes
@@ -46,6 +51,7 @@ Hooks.once('init', async function () {
   CONFIG.Actor.entityClass = DemonlordActor
   CONFIG.Item.entityClass = DemonlordItem
   CONFIG.ui.combat = combattracker
+  CONFIG.time.roundTime = 10
 
   registerSettings()
 
@@ -115,51 +121,11 @@ Hooks.once('init', async function () {
   preloadHandlebarsTemplates()
 })
 
-async function preloadHandlebarsTemplates () {
-  const templatePaths = [
-    'systems/demonlord/templates/tabs/character.html',
-    'systems/demonlord/templates/tabs/combat.html',
-    'systems/demonlord/templates/tabs/talents.html',
-    'systems/demonlord/templates/tabs/magic.html',
-    'systems/demonlord/templates/tabs/item.html',
-    'systems/demonlord/templates/tabs/background.html',
-    'systems/demonlord/templates/tabs/effects.html',
-    'systems/demonlord/templates/tabs/neweffects.html',
-    'systems/demonlord/templates/chat/challenge.html',
-    'systems/demonlord/templates/chat/combat.html',
-    'systems/demonlord/templates/chat/corruption.html',
-    'systems/demonlord/templates/chat/damage.html',
-    'systems/demonlord/templates/chat/description.html',
-    'systems/demonlord/templates/chat/heal.html',
-    'systems/demonlord/templates/chat/init.html',
-    'systems/demonlord/templates/chat/makechallengeroll.html',
-    'systems/demonlord/templates/chat/makeinitroll.html',
-    'systems/demonlord/templates/chat/rest.html',
-    'systems/demonlord/templates/chat/showtalent.html',
-    'systems/demonlord/templates/chat/spell.html',
-    'systems/demonlord/templates/chat/talent.html',
-    'systems/demonlord/templates/chat/useitem.html',
-    'systems/demonlord/templates/actor/actor-sheet.html',
-    'systems/demonlord/templates/actor/actor-sheet2.html',
-    'systems/demonlord/templates/actor/limited-sheet.html',
-    'systems/demonlord/templates/actor/sidemenu.html',
-    'systems/demonlord/templates/actor/limited-sidemenu.html',
-    'systems/demonlord/templates/actor/header.html',
-    'systems/demonlord/templates/actor/limited-header.html',
-    'systems/demonlord/templates/actor/creature-sheet.html',
-    'systems/demonlord/templates/dialogs/actor-modifiers-dialog.html',
-    'systems/demonlord/templates/dialogs/choose-turn-dialog.html',
-    'systems/demonlord/templates/dialogs/endofround-dialog.html',
-    'systems/demonlord/templates/actor/new-creature-sheet.html',
-    'systems/demonlord/templates/actor/new-creature-header.html',
-    'systems/demonlord/templates/actor/new-creature-sidemenu.html'
-  ]
-  return loadTemplates(templatePaths)
-}
-
 Hooks.once('ready', async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
-  Hooks.on('hotbarDrop', (bar, data, slot) => createDemonlordMacro(data, slot))
+  Hooks.on('hotbarDrop', (bar, data, slot) =>
+    macros.createDemonlordMacro(data, slot)
+  )
 
   // Determine whether a system migration is required and feasible
   if (!game.user.isGM) return
@@ -707,246 +673,6 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
     default: true
   })
 })
-
-/* -------------------------------------------- */
-/*  Hotbar Macros                               */
-/* -------------------------------------------- */
-
-/**
- * Create a Macro from an Item drop.
- * Get an existing item macro if one exists, otherwise create a new one.
- * @param {Object} data     The dropped data
- * @param {number} slot     The hotbar slot to use
- * @returns {Promise}
- */
-async function createDemonlordMacro (data, slot) {
-  if (data.type !== 'Item') return
-  if (!('data' in data)) {
-    return ui.notifications.warn(
-      'You can only create macro buttons for owned Items'
-    )
-  }
-  const item = data.data
-  // DL.WeaponName, WeaponBoonsBanes, WeaponDamageBonus
-
-  // Create the macro command
-  let command
-  switch (item.type) {
-    case 'weapon':
-      command =
-        '// ' +
-        game.i18n.localize('DL.WeaponName') +
-        ', ' +
-        game.i18n.localize('DL.WeaponBoonsBanes') +
-        ', ' +
-        game.i18n.localize('DL.WeaponDamageBonus') +
-        `\ngame.demonlord.rollWeaponMacro("${item.name}", "0", "");`
-      break
-    case 'talent':
-      command = `// Active = [true/false/], blank = toggle true/false.\ngame.demonlord.rollTalentMacro("${item.name}", "true");`
-      break
-    case 'spell':
-      command = `game.demonlord.rollSpellMacro("${item.name}");`
-      break
-    default:
-      break
-  }
-
-  let macro = game.macros.entities.find(
-    (m) => m.name === item.name && m.command === command
-  )
-  if (!macro) {
-    macro = await Macro.create({
-      name: item.name,
-      type: 'script',
-      img: item.img,
-      command: command,
-      flags: {
-        'demonlord.itemMacro': true
-      }
-    })
-  }
-  game.user.assignHotbarMacro(macro, slot)
-  return false
-}
-
-/**
- * Roll Macro from a Weapon.
- * @param {string} itemName
- * @return {Promise}
- */
-function rollWeaponMacro (itemName, boonsbanes, damagebonus) {
-  const speaker = ChatMessage.getSpeaker()
-  let actor
-  if (speaker.token) actor = game.actors.tokens[speaker.token]
-  if (!actor) actor = game.actors.get(speaker.actor)
-  const item = actor ? actor.items.find((i) => i.name === itemName) : null
-  if (!item) {
-    return ui.notifications.warn(
-      `Your controlled Actor does not have an item named ${itemName}`
-    )
-  }
-
-  return actor.rollWeaponAttackMacro(item.id, boonsbanes, damagebonus)
-}
-
-/**
- * Roll Macro from a Talent.
- * @param {string} itemName
- * @return {Promise}
- */
-function rollTalentMacro (itemName, state) {
-  const speaker = ChatMessage.getSpeaker()
-  let actor
-  if (speaker.token) actor = game.actors.tokens[speaker.token]
-  if (!actor) actor = game.actors.get(speaker.actor)
-  const item = actor ? actor.items.find((i) => i.name === itemName) : null
-  if (!item) {
-    return ui.notifications.warn(
-      `Your controlled Actor does not have an item named ${itemName}`
-    )
-  }
-
-  switch (state) {
-    case 'true':
-      actor.rollTalent(item._id)
-      break
-
-    case 'false':
-      item.data.data.uses.value = 0
-      item.data.data.addtonextroll = false
-      actor.updateEmbeddedEntity('OwnedItem', item.data)
-      break
-
-    case '':
-      item.data.data.addtonextroll = !item.data.data.addtonextroll
-      actor.updateEmbeddedEntity('OwnedItem', item.data)
-
-      if (item.data.data.addtonextroll) actor.rollTalent(item._id)
-      break
-
-    default:
-      actor.rollTalent(item.id)
-      break
-  }
-}
-
-/**
- * Roll Macro from a Spell.
- * @param {string} itemName
- * @return {Promise}
- */
-function rollSpellMacro (itemName) {
-  const speaker = ChatMessage.getSpeaker()
-  let actor
-  if (speaker.token) actor = game.actors.tokens[speaker.token]
-  if (!actor) actor = game.actors.get(speaker.actor)
-  const item = actor ? actor.items.find((i) => i.name === itemName) : null
-  if (!item) {
-    return ui.notifications.warn(
-      `Your controlled Actor does not have an item named ${itemName}`
-    )
-  }
-
-  return actor.rollSpell(item.id)
-}
-
-/**
- * Create a Macro from an Attribute.
- * @param {string} attributeName
- * @return {Promise}
- */
-function rollAttributeMacro (attributeName) {
-  var selected = canvas.tokens.controlled
-  if (selected.length == 0) {
-    ui.notifications.info(
-      game.i18n.localize('DL.DialogWarningActorsNotSelected')
-    )
-  } else {
-    const speaker = ChatMessage.getSpeaker()
-    let actor
-    if (speaker.token) actor = game.actors.tokens[speaker.token]
-    if (!actor) actor = game.actors.get(speaker.actor)
-    const attribute = actor ? actor.data.data.attributes[attributeName] : null
-
-    return actor.rollChallenge(attribute)
-  }
-}
-
-/**
- * Create a Macro from an Attribute.
- */
-function rollInitMacro () {
-  const speaker = ChatMessage.getSpeaker()
-  let combatantFound = null
-  let actor
-  if (speaker.token) actor = game.actors.tokens[speaker.token]
-  if (!actor) actor = game.actors.get(speaker.actor)
-
-  for (const combatant of game.combat.combatants) {
-    const init = 0
-
-    if (combatant.actor == actor) {
-      combatantFound = combatant
-    }
-  }
-
-  if (combatantFound) game.combat.rollInitiative(combatantFound._id)
-}
-
-/**
- * Create a Macro for using a Healing Potion.
- */
-function healingPotionMacro () {
-  const speaker = ChatMessage.getSpeaker()
-  let actor
-  if (speaker.token) actor = game.actors.tokens[speaker.token]
-  if (!actor) actor = game.actors.get(speaker.actor)
-
-  if (actor) {
-    const currentDamage = parseInt(actor.data.data.characteristics.health.value)
-    const healingRate = parseInt(
-      actor.data.data.characteristics.health.healingrate
-    )
-
-    let newdamage = currentDamage - healingRate
-    if (newdamage < 0) newdamage = 0
-
-    actor.update({
-      'data.characteristics.health.value': newdamage
-    })
-
-    var templateData = {
-      actor: this.actor,
-      token: canvas.tokens.controlled[0]?.data,
-      data: {
-        itemname: {
-          value: game.i18n.localize('DL.DialogUseItemHealingPotion')
-        },
-        description: {
-          value: game.i18n
-            .localize('DL.DialogUseItemHealingPotionText')
-            .replace('#', healingRate)
-        }
-      }
-    }
-
-    const chatData = {
-      user: game.user._id,
-      speaker: {
-        actor: actor._id,
-        token: actor.token,
-        alias: actor.name
-      }
-    }
-
-    const template = 'systems/demonlord/templates/chat/useitem.html'
-    renderTemplate(template, templateData).then((content) => {
-      chatData.content = content
-      ChatMessage.create(chatData)
-    })
-  }
-}
 
 function loadActorForChatMessage (speaker) {
   var actor

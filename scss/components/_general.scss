@@ -8,11 +8,19 @@ form {
         margin: 1px 0;
         color: #fff;
         border: 1px solid transparent;
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
     }
     input[type=text]:hover,
     input[type=text]:focus {
         border: 0;
         box-shadow: none;
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
     }
     input:disabled,
     select:disabled,

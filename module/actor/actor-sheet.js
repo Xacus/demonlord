@@ -214,6 +214,11 @@ export class DemonlordActorSheet extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
 
+    if (this.isEditable) {
+      const inputs = html.find('input')
+      inputs.focus((ev) => ev.currentTarget.select())
+    }
+
     // Toggle Accordion
     html.find('.toggleAccordion').click((ev) => {
       const div = ev.currentTarget

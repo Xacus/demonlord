@@ -15,29 +15,11 @@ form input[type=text] {
   border: 1px solid transparent;
 }
 
-form input[type=text]:hover,
-form input[type=text]:focus {
-  border: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
 form input:disabled,
 form select:disabled,
 form textarea:disabled {
   color: #444;
   border: none;
-}
-
-form input:disabled:hover,
-form select:disabled:hover,
-form textarea:disabled:hover,
-form input:disabled:focus,
-form select:disabled:focus,
-form textarea:disabled:focus {
-  border: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
 }
 
 form select {

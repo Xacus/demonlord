@@ -4009,29 +4009,11 @@
   border: 1px solid transparent;
 }
 
-.demonlord2 form input[type=text]:hover,
-.demonlord2 form input[type=text]:focus {
-  border: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
 .demonlord2 form input:disabled,
 .demonlord2 form select:disabled,
 .demonlord2 form textarea:disabled {
   color: #444;
   border: none;
-}
-
-.demonlord2 form input:disabled:hover,
-.demonlord2 form select:disabled:hover,
-.demonlord2 form textarea:disabled:hover,
-.demonlord2 form input:disabled:focus,
-.demonlord2 form select:disabled:focus,
-.demonlord2 form textarea:disabled:focus {
-  border: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
 }
 
 .demonlord2 form select {

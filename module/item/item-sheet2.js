@@ -134,6 +134,9 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       html
         .find('.effect-control')
         .click((ev) => onManageActiveEffect(ev, this.entity))
+
+      const inputs = html.find('input')
+      inputs.focus((ev) => ev.currentTarget.select())
     }
 
     html.find('.radiotrue').click((ev) => {

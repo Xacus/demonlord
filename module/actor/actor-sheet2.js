@@ -486,6 +486,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
       html
         .find('.effect-control')
         .click((ev) => onManageActiveEffect(ev, this.entity))
+
+      const inputs = html.find('input')
+      inputs.focus((ev) => ev.currentTarget.select())
     }
 
     // Corruption Roll

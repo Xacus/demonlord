@@ -4376,6 +4376,10 @@
   margin: 1px 0;
   color: #fff;
   border: 1px solid transparent;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 .demonlord2 form input[type=text]:hover,
@@ -4383,6 +4387,10 @@
   border: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 .demonlord2 form input:disabled,
