@@ -4,19 +4,28 @@
  */
 import { FormatDice, FormatDiceOld } from '../dice.js'
 export class DemonlordActor extends Actor {
-  /** @override */
-  prepareBaseData () {
-    switch (this.data.type) {
-      case ('character', 'creature'):
-        return this._prepareCharacterData(this.data)
+  /**
+   * Augment the basic actor data with additional dynamic data.
+   */
+  prepareData () {
+    super.prepareData()
+
+    const actorData = this.data
+    const data = actorData.data
+    const flags = actorData.flags
+
+    // Make separate methods for each Actor type (character, npc, etc.) to keep
+    // things organized.
+    if (actorData.type === 'character' || actorData.type === 'creature') {
+      this._prepareCharacterData(actorData)
     }
   }
 
-  /** @override */
-  prepareDerivedData () {
-    const actorData = this.data
+  /**
+   * Prepare Character type specific data
+   */
+  _prepareCharacterData (actorData) {
     const data = actorData.data
-
     let will
     let savedAncestry = null
     let pathHealthBonus = 0
@@ -25,7 +34,6 @@ export class DemonlordActor extends Actor {
     data.characteristics.insanity.max = data.attributes.will.value
 
     const characterbuffs = this.generateCharacterBuffs()
-
     const ancestries = this.getEmbeddedCollection('OwnedItem').filter(
       (e) => e.type === 'ancestry'
     )
@@ -374,14 +382,8 @@ export class DemonlordActor extends Actor {
     data.characteristics.power += parseInt(characterbuffs.powerbonus)
 
     if (data.afflictions.immobilized) data.characteristics.speed = 0
-    if (data.afflictions.unconscious) data.characteristics.defense = 5
-  }
 
-  /**
-   * Prepare Character type specific data
-   */
-  _prepareCharacterData (actorData) {
-    const data = actorData.data
+    if (data.afflictions.unconscious) data.characteristics.defense = 5
   }
 
   async createItemCreate (event) {
