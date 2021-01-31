@@ -517,6 +517,7 @@
   position: relative;
   min-width: 65px;
   padding-left: 5px;
+  font-size: 13px;
 }
 
 .playertracker .donslide .item a.entity-link {
