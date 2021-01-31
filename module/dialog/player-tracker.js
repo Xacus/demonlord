@@ -20,6 +20,31 @@ export class PlayerTracker extends FormApplication {
   /* -------------------------------------------- */
 
   /**
+   * Extend and override the sheet header buttons
+   * @override
+   */
+  _getHeaderButtons () {
+    let buttons = super._getHeaderButtons()
+    const canConfigure = game.user.isGM
+    if (this.options.editable && canConfigure) {
+      buttons = [
+        {
+          label: game.i18n.localize('DL.UpdatePlayerTracker'),
+          class: 'update-playertracker',
+          icon: 'fas fa-sync-alt',
+          onclick: (ev) => this._updateWindow(ev)
+        }
+      ].concat(buttons)
+    }
+    return buttons
+  }
+
+  _updateWindow (event) {
+    event.preventDefault()
+    this.render(true)
+  }
+
+  /**
    * Construct and return the data object used to render the HTML template for this form application.
    * @return {Object}
    */

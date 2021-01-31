@@ -552,5 +552,9 @@
     "DL.TalentExtraEffect": "Extra Effect",
     "DL.AncestryNotTransferred": "Not transferred to character sheet",
     "DL.DialogWarningCreatureArmor": "You can't add armor to a creature. Change the Defense value manually.",
-    "DL.horrified": "Horrified"
+    "DL.horrified": "Horrified",
+    "DL.GMnote": "GM Note",
+    "DL.GMnoteEdit": "Edit GM Note",
+    "DL.GMnoteSave": "Save GM Note",
+    "DL.UpdatePlayerTracker": "Update"
 }
