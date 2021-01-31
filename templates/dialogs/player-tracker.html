@@ -1,0 +1,30 @@
+<form autocomplete="off">
+    <div class="donslide">
+        {{#each persons as |person id|}}
+        <div class="item">
+            <div class="player">{{person.playername}}</div>
+            <div><b>Name:</b> <a class="entity-link" data-entity="Actor" data-id="{{person.playerid}}">{{person.charactername}}</a></div>
+            <div><b>Ancestry: </b>{{person.ancestry}}</div><br/>
+            <div><b>Novice: </b>{{person.paths.novice}}</div>
+            <div><b>Expert: </b>{{person.paths.expert}}</div>
+            <div><b>Master: </b>{{person.paths.master}}</div><br/>
+            <div><b>Professions: </b><br/>
+            {{#each person.professions as |profession id|}}
+            &#9679; {{profession.name}}<br/>
+            {{/each}}
+            </div>
+            <br/>
+            <div><b>Defense: </b>{{person.defense}}</div>
+            <div><b>Damage: </b>{{person.damage}}</div><br/>
+            <div><b>GM Note: {{#if person.gmnoteedit}}<a class="gmnote-control" data-action="save" data-id="{{person.playerid}}" title="{{localize 'DL.GMnoteSave'}}"><i class="fas fa-save"></i></a>{{else}}<a class="gmnote-control" data-action="edit" data-id="{{person.playerid}}" title="{{localize 'DL.GMnoteEdit'}}"><i class="fas fa-edit"></i></a>{{/if}}</b></div>
+            <div class="gmnote"> 
+                {{#if person.gmnoteedit}}
+                <textarea id="person.{{person.playerid}}" name="person.gmnote">{{person.gmnote}}</textarea>
+                {{else}}
+                {{person.gmnote}}
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</form>

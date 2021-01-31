@@ -110,6 +110,8 @@
                 "base"
             ],
             "isPC": true,
+            "gmnote": "",
+            "gmnoteedit": false,
             "level": 0,
             "ancestry": "",
             "religion": {

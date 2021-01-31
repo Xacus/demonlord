@@ -1,0 +1,55 @@
+.donslide {
+  display: table;
+  width: 100%;
+}
+.donslide .item {
+  display: table-cell;
+  width: 1%;
+  height: 470px;
+  transition: 0.6s ease-in-out all;
+  overflow: hidden;
+  position: relative;
+  min-width: 65px;
+  padding-left: 5px;
+
+  a.entity-link {
+    background: none;
+    border: none;
+    padding: 0;
+    white-space: normal;
+    text-shadow: 0 0 8px red;
+  } 
+}
+.donslide .item + .item {
+  border-left: 1px solid #000;
+}
+.donslide:hover .item:hover {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  color: #000;
+}
+.donslide .player {
+  font-family: $font-header;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--demonlord-red);
+  text-align: center;
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.donslide .gmnote {
+  margin-right: 5px;
+  font-size: 12px;
+
+  .gmnote-control {
+    float: left;
+    margin-top: -16px;
+  }
+
+  textarea {
+    font-family: 'Gelasio', 'Signika', Georgia, serif;
+    font-size: 12px;
+    height: 100px;
+  }
+}

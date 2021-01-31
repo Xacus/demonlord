@@ -20,6 +20,7 @@ import { CharacterBuff } from './buff.js'
 import { preloadHandlebarsTemplates } from './templates.js'
 import * as migrations from './migration.js'
 import * as macros from './macros.js'
+import * as playertracker from './playertrackercontrol.js'
 
 Hooks.once('init', async function () {
   game.demonlord = {
