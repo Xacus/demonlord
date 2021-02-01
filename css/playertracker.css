@@ -501,6 +501,47 @@
 }
 
 /* Styles limited to demonlord sheets */
+.playertracker .sheet-tabs {
+  position: absolute;
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  top: 90px;
+  right: -95px;
+  border-top: none;
+  height: 18px;
+  z-index: -1;
+}
+
+.playertracker .sheet-tabs .tabitem.active {
+  -webkit-filter: none;
+  filter: none;
+  z-index: 1;
+  font-weight: bold;
+  text-shadow: none;
+  margin-bottom: -1px;
+}
+
+.playertracker .sheet-tabs .tabitem {
+  line-height: 20px;
+  white-space: nowrap;
+  padding: 8px 15px;
+  background: url(/ui/parchment.jpg);
+  -webkit-box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.9);
+  font-size: 12px;
+  -webkit-filter: brightness(0.9);
+  filter: brightness(0.9);
+}
+
+.playertracker .sheet-body .sheet-content .tab {
+  height: 100%;
+  padding: 2px 5px;
+  font-size: 12px;
+  margin-top: 0px;
+  overflow-y: auto;
+}
+
 .playertracker .donslide {
   display: table;
   width: 100%;
@@ -532,12 +573,6 @@
   border-left: 1px solid #000;
 }
 
-.playertracker .donslide:hover .item:hover {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.05);
-  color: #000;
-}
-
 .playertracker .donslide .player {
   font-family: "IM Fell English SC", serif;
   font-size: 18px;
@@ -561,5 +596,11 @@
 .playertracker .donslide .gmnote textarea {
   font-family: 'Gelasio', 'Signika', Georgia, serif;
   font-size: 12px;
-  height: 100px;
+  height: 200px;
+}
+
+.playertracker .donslide:hover .item:hover {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  color: #000;
 }

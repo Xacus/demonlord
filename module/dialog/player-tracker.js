@@ -1,12 +1,20 @@
 export class PlayerTracker extends FormApplication {
   static get defaultOptions () {
-    const options = super.defaultOptions
-    options.id = 'sheet-modifiers'
-    options.classes = ['playertracker', 'sheet', 'actor']
-    options.template = 'systems/demonlord/templates/dialogs/player-tracker.html'
-    options.width = game.users.players.length * 150
-    options.height = 'auto'
-    return options
+    return mergeObject(super.defaultOptions, {
+      id: 'sheet-modifiers',
+      classes: ['playertracker', 'sheet', 'actor'],
+      template: 'systems/demonlord/templates/dialogs/player-tracker.html',
+      width: game.users.players.length * 150,
+      height: 'auto',
+      tabs: [
+        {
+          navSelector: '.sheet-tabs',
+          contentSelector: '.sheet-body',
+          initial: 'character'
+        }
+      ],
+      scrollY: ['.tab.active']
+    })
   }
 
   /* -------------------------------------------- */
@@ -79,7 +87,14 @@ export class PlayerTracker extends FormApplication {
           player.character?.data.data.characteristics.health.value +
           '/' +
           player.character?.data.data.characteristics.health.max,
+        insanity:
+          player.character?.data.data.characteristics.insanity.value +
+          '/' +
+          player.character?.data.data.characteristics.insanity.max,
+        corruption: player.character?.data.data.characteristics.corruption,
         power: player.character?.data.data.characteristics.power,
+        speed: player.character?.data.data.characteristics.speed,
+        fortune: player.character?.data.data.characteristics.fortune,
         gmnote: player.character?.data.data.gmnote,
         gmnoteedit: player.character?.data.data.gmnoteedit
       }
