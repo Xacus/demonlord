@@ -15,7 +15,8 @@
             </div>
             <br/>
             <div><b>{{localize "DL.CharDefense"}}: </b>{{person.defense}}</div>
-            <div><b>{{localize "DL.CharHealthDamage"}}: </b>{{person.damage}}</div><br/>
+            <div><b>{{localize "DL.CharHealthDamage"}}: </b>{{person.damage}}</div>
+            <div><b>{{localize "DL.CharPower"}}: </b>{{person.power}}</div><br/>
             <div><b>{{localize "DL.GMnote"}}: {{#if person.gmnoteedit}}<a class="gmnote-control" data-action="save" data-id="{{person.playerid}}" title="{{localize 'DL.GMnoteSave'}}"><i class="fas fa-save"></i></a>{{else}}<a class="gmnote-control" data-action="edit" data-id="{{person.playerid}}" title="{{localize 'DL.GMnoteEdit'}}"><i class="fas fa-edit"></i></a>{{/if}}</b></div>
             <div class="gmnote"> 
                 {{#if person.gmnoteedit}}

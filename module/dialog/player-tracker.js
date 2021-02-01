@@ -79,6 +79,7 @@ export class PlayerTracker extends FormApplication {
           player.character?.data.data.characteristics.health.value +
           '/' +
           player.character?.data.data.characteristics.health.max,
+        power: player.character?.data.data.characteristics.power,
         gmnote: player.character?.data.data.gmnote,
         gmnoteedit: player.character?.data.data.gmnoteedit
       }
