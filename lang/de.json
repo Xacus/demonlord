@@ -398,6 +398,8 @@
     "DL.SettingAttackShowEnemyAttributeHint": "Werte der Gegner anzeigen, gegen die gewürfelt wird.",
     "DL.SettingAttackShowEnemyAttributeAtt": "Angriffswerte des Gegners anzeigen",
     "DL.SettingAttackShowEnemyAttributeAttHint": "Werte des Gegners anziegen die man würfelt.",
+    "DL.SettingRollCreaturesToGM": "Show Creature Challenge rolls only to GM",
+    "DL.SettingRollCreaturesToGMHint": "When you make a Challenge roll for a creature it's only shown to the GM in the chat.",
     "DL.SettingAttackReverseDamage": "Schaden/Lebenspunkte umkehren",
     "DL.SettingAttackReverseDamageHint": "Schaden von Lebenspunkten abziehen, als als Schaden aufzuaddieren.",
 	"DL.SettingUsingChatPortraitModule": "Chat Portrait Modul benutzen",

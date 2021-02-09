@@ -398,6 +398,8 @@
     "DL.SettingAttackShowEnemyAttributeHint": "Muestra estadísticas del enemigo contra el que estás jugando.",
     "DL.SettingAttackShowEnemyAttributeAtt": "Mostrar las estadísticas del enemigo Attack",
     "DL.SettingAttackShowEnemyAttributeAttHint": "Muestra estadísticas del enemigo contra el que estás jugando.",
+    "DL.SettingRollCreaturesToGM": "Show Creature Challenge rolls only to GM",
+    "DL.SettingRollCreaturesToGMHint": "When you make a Challenge roll for a creature it's only shown to the GM in the chat.",
     "DL.SettingAttackReverseDamage": "Invertir Daño/Salud",
     "DL.SettingAttackReverseDamageHint": "Restar el daño de la Salud en lugar de añadir el daño.",
     "DL.SettingUsingChatPortraitModule": "Usando el módulo de retrato del chat",
