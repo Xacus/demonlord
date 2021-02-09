@@ -257,7 +257,7 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
     const unconscious = CONFIG.DL.statusIcons.unconscious
 
     for (const t of actor.getActiveTokens()) {
-      if (t.data.actorLink && t.scene.id === game.scenes.active.id) {
+      if (t.scene.id === game.scenes.active.id) {
         toggleEffect(t, actorData.data.characteristics.health.injured, injured)
         toggleEffect(t, actorData.data.afflictions.asleep, asleep)
         toggleEffect(t, actorData.data.afflictions.blinded, blinded)
@@ -547,7 +547,7 @@ Hooks.on('createToken', async (scene, token) => {
   const injured = CONFIG.DL.statusIcons.injured
 
   for (const t of actor.getActiveTokens()) {
-    if (t.data.actorLink && t.scene.id === game.scenes.active.id) {
+    if (t.scene.id === game.scenes.active.id) {
       toggleEffect(t, actorData.data.characteristics.health.injured, injured)
       toggleEffect(t, actorData.data.afflictions.asleep, asleep)
       toggleEffect(t, actorData.data.afflictions.blinded, blinded)
