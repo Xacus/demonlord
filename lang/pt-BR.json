@@ -552,5 +552,19 @@
   "DL.GMnote": "GM Note",
   "DL.GMnoteEdit": "Edit GM Note",
   "DL.GMnoteSave": "Save GM Note",
-  "DL.UpdatePlayerTracker": "Update"
+  "DL.UpdatePlayerTracker": "Update",
+  "DL.MacroWealthManager": {
+      "DialogTitle": "Wealth Manager",
+      "Choose": "Choose",
+      "Character": "Character:",
+      "Everyone": "Everyone",
+      "AddSubtract": "Add/Subtract wealth:",
+      "CoinsGC": "GC",
+      "CoinsSS": "SS",
+      "CoinsCP": "CP",
+      "CoinsBits": "Bits",
+      "CurrentWealth": "Current Wealth",
+      "ButtonApply": "Apply",
+      "ButtonCancel": "Cancel"
+  }
 }
