@@ -1,5 +1,6 @@
 import { DLActorModifiers } from '../dialog/actor-modifiers.js'
 import { DLCharacterGenerater } from '../dialog/actor-generator.js'
+import { DL } from '../config.js'
 import { CharacterBuff } from '../buff.js'
 import {
   onManageActiveEffect,
@@ -7,6 +8,10 @@ import {
 } from '../effects.js'
 
 export class DemonlordActorSheet2 extends ActorSheet {
+  constructor (...args) {
+    super(...args)
+  }
+
   /** @override */
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
@@ -163,16 +168,34 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
   /** @override */
   getData () {
-    const data = super.getData()
-    data.isGM = game.user.isGM
+    const data = {
+      isGM: game.user.isGM,
+      isOwner: this.entity.owner,
+      isCharacter: this.entity.data.type === 'character',
+      isNPC: this.entity.data.type === 'character' && !this.entity.data.isPC,
+      limited: this.entity.limited,
+      options: this.options,
+      editable: this.isEditable,
+      config: CONFIG.DL
+    }
+
     data.useDemonlordMode = !game.settings.get('demonlord', 'useHomebrewMode')
-    data.effects = prepareActiveEffectCategories(this.entity.effects)
-    data.dtypes = ['String', 'Number', 'Boolean']
+
+    data.actor = duplicate(this.actor.data)
+    data.data = data.actor.data
+    data.items = this.actor.items.map((i) => {
+      i.data.labels = i.labels
+      return i.data
+    })
+    data.items.sort((a, b) => (a.sort || 0) - (b.sort || 0))
+
     for (const attr of Object.values(data.data.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean'
     }
 
-    // Prepare items.
+    data.effects = prepareActiveEffectCategories(this.entity.effects)
+
+    // Prepare items
     if (this.actor.data.type == 'character') {
       this._prepareCharacterItems(data)
     }

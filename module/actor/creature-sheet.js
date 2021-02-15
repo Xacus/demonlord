@@ -27,8 +27,22 @@ export class DemonlordCreatureSheet extends DemonlordActorSheet {
 
   /** @override */
   getData () {
-    const data = super.getData()
-    data.dtypes = ['String', 'Number', 'Boolean']
+    const data = {
+      isGM: game.user.isGM,
+      limited: this.entity.limited,
+      options: this.options,
+      editable: this.isEditable,
+      config: CONFIG.DL
+    }
+
+    data.actor = duplicate(this.actor.data)
+    data.data = data.actor.data
+    data.items = this.actor.items.map((i) => {
+      i.data.labels = i.labels
+      return i.data
+    })
+    data.items.sort((a, b) => (a.sort || 0) - (b.sort || 0))
+
     for (const attr of Object.values(data.data.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean'
     }

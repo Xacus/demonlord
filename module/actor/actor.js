@@ -4,20 +4,13 @@
  */
 import { FormatDice, FormatDiceOld } from '../dice.js'
 export class DemonlordActor extends Actor {
-  /**
-   * Augment the basic actor data with additional dynamic data.
-   */
-  prepareData () {
-    super.prepareData()
-
-    const actorData = this.data
-    const data = actorData.data
-    const flags = actorData.flags
-
-    // Make separate methods for each Actor type (character, npc, etc.) to keep
-    // things organized.
-    if (actorData.type === 'character' || actorData.type === 'creature') {
-      this._prepareCharacterData(actorData)
+  /** @override */
+  prepareBaseData () {
+    switch (this.data.type) {
+      case 'character':
+        return this._prepareCharacterData(this.data)
+      case 'creature':
+        return this._prepareCharacterData(this.data)
     }
   }
 
