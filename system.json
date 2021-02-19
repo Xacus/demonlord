@@ -2,7 +2,7 @@
     "name": "demonlord",
     "title": "Shadow of the Demon Lord",
     "description": "The Shadow of the Demonlord system for FoundryVTT",
-    "version": "1.7.3",
+    "version": "1.7.4",
     "author": "Xacus",
     "minimumCoreVersion": "0.6.6",
     "compatibleCoreVersion": "0.7.9",
@@ -70,6 +70,13 @@
             "system": "demonlord",
             "path": "packs/demonlord-macros-player.db",
             "entity": "Macro"
+        },
+        {
+            "name": "sotdl system guide",
+            "label": "SotDL System Guide",
+            "system": "demonlord",
+            "path": "packs/sotdl-system-guide.db",
+            "entity": "JournalEntry"
         }
     ],
     "languages": [
