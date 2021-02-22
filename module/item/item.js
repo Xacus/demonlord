@@ -335,7 +335,8 @@ export class DemonlordItem extends Item {
 
     actor.rollAttribute(
       attribute,
-      parseInt(boonsbanes) + parseInt(boonsbanesEntered)
+      parseInt(boonsbanes) + parseInt(boonsbanesEntered),
+      0
     )
   }
 

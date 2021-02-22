@@ -486,9 +486,13 @@ export class DemonlordActor extends Actor {
           game.i18n.localize('DL.DialogChallengeRoll') +
           '</b>' +
           game.i18n.localize(attLabel) +
-          "<br/></div><div class='challengedialog'><b>" +
+          "<br/></div><br/><div class='challengedialog'><b>" +
           game.i18n.localize('DL.DialogAddBonesAndBanes') +
-          "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/></div>",
+          "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/></div>" +
+          '<br/><div class="challengedialog"><b>' +
+          game.i18n.localize('DL.ModsAdd') +
+          "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
+          '</b></div><br/>',
         buttons: {
           roll: {
             icon: '<i class="fas fa-check"></i>',
@@ -496,7 +500,8 @@ export class DemonlordActor extends Actor {
             callback: (html) =>
               this.rollAttribute(
                 attribute,
-                html.find('[id="boonsbanes"]').val()
+                html.find('[id="boonsbanes"]').val(),
+                html.find('[id="modifier"]').val()
               )
           },
           cancel: {
@@ -512,7 +517,8 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  rollAttribute (attribute, boonsbanes) {
+  rollAttribute (attribute, boonsbanes, modifier) {
+    console.log(modifier)
     const buffs = this.generateCharacterBuffs('')
     let attribueName =
       attribute.label?.charAt(0).toUpperCase() +
@@ -570,6 +576,11 @@ export class DemonlordActor extends Actor {
     if (boonsbanes != undefined && !isNaN(boonsbanes) && boonsbanes != 0) {
       diceformular = diceformular + '+' + boonsbanes + 'd6kh'
     }
+
+    if (modifier != 0) {
+      diceformular = diceformular + '+' + parseInt(modifier)
+    }
+
     const r = new Roll(diceformular, {})
     r.roll()
 
@@ -669,9 +680,13 @@ export class DemonlordActor extends Actor {
             game.i18n.localize('DL.DialogAttackRoll') +
             game.i18n.localize(item.name),
           content:
-            '<b>' +
+            '<div class="challengedialog"><b>' +
             game.i18n.localize('DL.DialogAddBonesAndBanes') +
-            "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+            "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
+            '</div><br/><br/><b>' +
+            game.i18n.localize('DL.ModsAdd') +
+            "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
+            '</b><br/><br/>',
           buttons: {
             roll: {
               icon: '<i class="fas fa-check"></i>',
@@ -680,7 +695,8 @@ export class DemonlordActor extends Actor {
                 this.rollAttack(
                   item,
                   html.find('[id="boonsbanes"]').val(),
-                  characterbuffs
+                  characterbuffs,
+                  html.find('[id="modifier"]').val()
                 )
             },
             cancel: {
@@ -694,7 +710,7 @@ export class DemonlordActor extends Actor {
         })
         d.render(true)
       } else {
-        this.rollAttack(item, 0, characterbuffs)
+        this.rollAttack(item, 0, characterbuffs, 0)
       }
     }
   }
@@ -729,9 +745,13 @@ export class DemonlordActor extends Actor {
             game.i18n.localize('DL.DialogAttackRoll') +
             game.i18n.localize(item.name),
           content:
-            '<b>' +
+            '<div class="challengedialog"><b>' +
             game.i18n.localize('DL.DialogAddBonesAndBanes') +
-            "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+            "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
+            '</div><br/><div class="challengedialog"><b>' +
+            game.i18n.localize('DL.ModsAdd') +
+            "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
+            '</b></div><br/>',
           buttons: {
             roll: {
               icon: '<i class="fas fa-check"></i>',
@@ -740,7 +760,8 @@ export class DemonlordActor extends Actor {
                 this.rollAttack(
                   item,
                   html.find('[id="boonsbanes"]').val(),
-                  characterbuffs
+                  characterbuffs,
+                  html.find('[id="modifier"]').val()
                 )
             },
             cancel: {
@@ -754,12 +775,12 @@ export class DemonlordActor extends Actor {
         })
         d.render(true)
       } else {
-        this.rollAttack(item, 0, characterbuffs)
+        this.rollAttack(item, 0, characterbuffs, 0)
       }
     }
   }
 
-  rollAttack (weapon, boonsbanes, buffs) {
+  rollAttack (weapon, boonsbanes, buffs, modifier) {
     const target = this.getTarget()
     let diceformular = '1d20'
     let attackRoll = null
@@ -823,6 +844,10 @@ export class DemonlordActor extends Actor {
         boonsbanes = 0
       } else {
         diceformular += '+' + boonsbanes + 'd6kh'
+      }
+
+      if (modifier != 0) {
+        diceformular = diceformular + '+' + parseInt(modifier)
       }
 
       attackRoll = new Roll(diceformular, {})
@@ -1037,15 +1062,23 @@ export class DemonlordActor extends Actor {
               game.i18n.localize('DL.TalentVSRoll') +
               game.i18n.localize(item.name),
             content:
-              '<b>' +
+              '<div class="challengedialog"><b>' +
               game.i18n.localize('DL.DialogAddBonesAndBanes') +
-              "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+              "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
+              '</div><br/><div class="challengedialog"><b>' +
+              game.i18n.localize('DL.ModsAdd') +
+              "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
+              '</b></div><br/>',
             buttons: {
               roll: {
                 icon: '<i class="fas fa-check"></i>',
                 label: game.i18n.localize('DL.DialogRoll'),
                 callback: (html) =>
-                  this.useTalent(item, html.find('[id="boonsbanes"]').val())
+                  this.useTalent(
+                    item,
+                    html.find('[id="boonsbanes"]').val(),
+                    html.find('[id="modifier"]').val()
+                  )
               },
               cancel: {
                 icon: '<i class="fas fa-times"></i>',
@@ -1058,7 +1091,7 @@ export class DemonlordActor extends Actor {
           })
           d.render(true)
         } else {
-          this.useTalent(item, null)
+          this.useTalent(item, null, 0)
         }
       } else {
         ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
@@ -1066,7 +1099,7 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  useTalent (talent, boonsbanes) {
+  useTalent (talent, boonsbanes, modifier) {
     const target = this.getTarget()
     let diceformular = '1d20'
     let roll = false
@@ -1142,6 +1175,10 @@ export class DemonlordActor extends Actor {
           boonsbanes = 0
         } else {
           diceformular += '+' + boonsbanes + 'd6kh'
+        }
+
+        if (modifier != 0) {
+          diceformular = diceformular + '+' + parseInt(modifier)
         }
 
         attackRoll = new Roll(diceformular, {})
@@ -1378,7 +1415,7 @@ export class DemonlordActor extends Actor {
       const uses = parseInt(item.data?.castings?.value)
       const usesmax = parseInt(item.data?.castings?.max)
       const characterbuffs = this.generateCharacterBuffs('SPELL')
-
+      console.log(attackAttribute)
       if ((uses == 0 && usesmax == 0) || uses != usesmax) {
         if (attackAttribute) {
           if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
@@ -1387,9 +1424,13 @@ export class DemonlordActor extends Actor {
                 game.i18n.localize('DL.DialogSpellRoll') +
                 game.i18n.localize(item.name),
               content:
-                '<b>' +
+                '<div class="challengedialog"><b>' +
                 game.i18n.localize('DL.DialogAddBonesAndBanes') +
-                "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>",
+                "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
+                '</div><br/><div class="challengedialog"><b>' +
+                game.i18n.localize('DL.ModsAdd') +
+                "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
+                '</b></div><br/>',
               buttons: {
                 roll: {
                   icon: '<i class="fas fa-check"></i>',
@@ -1398,7 +1439,8 @@ export class DemonlordActor extends Actor {
                     this.useSpell(
                       item,
                       html.find('[id="boonsbanes"]').val(),
-                      characterbuffs
+                      characterbuffs,
+                      html.find('[id="modifier"]').val()
                     )
                 },
                 cancel: {
@@ -1412,10 +1454,10 @@ export class DemonlordActor extends Actor {
             })
             d.render(true)
           } else {
-            this.useSpell(item, 0, characterbuffs)
+            this.useSpell(item, 0, characterbuffs, 0)
           }
         } else {
-          this.useSpell(item, 0, characterbuffs)
+          this.useSpell(item, 0, characterbuffs, 0)
         }
       } else {
         ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
@@ -1423,7 +1465,7 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  useSpell (spell, boonsbanes, buffs) {
+  useSpell (spell, boonsbanes, buffs, modifier) {
     const target = this.getTarget()
     let diceformular = '1d20'
     let usesText = ''
@@ -1498,6 +1540,10 @@ export class DemonlordActor extends Actor {
       boonsbanes = 0
     } else {
       diceformular += '+' + boonsbanes + 'd6kh'
+    }
+
+    if (modifier != 0) {
+      diceformular = diceformular + '+' + parseInt(modifier)
     }
 
     const attackRoll = new Roll(diceformular, {})
