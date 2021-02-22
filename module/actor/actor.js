@@ -518,7 +518,6 @@ export class DemonlordActor extends Actor {
   }
 
   rollAttribute (attribute, boonsbanes, modifier) {
-    console.log(modifier)
     const buffs = this.generateCharacterBuffs('')
     let attribueName =
       attribute.label?.charAt(0).toUpperCase() +

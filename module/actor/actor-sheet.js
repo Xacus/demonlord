@@ -298,6 +298,16 @@ export class DemonlordActorSheet extends ActorSheet {
       )
     })
 
+    // CLone Inventory Item
+    html.find('.item-clone').click((ev) => {
+      const li = $(ev.currentTarget).parents('.item')
+      const item = duplicate(
+        this.actor.getEmbeddedEntity('OwnedItem', li.data('itemId'))
+      )
+
+      this.actor.createOwnedItem(item)
+    })
+
     // Update Inventory Item
     html.find('.item-wear').click((ev) => {
       const li = $(ev.currentTarget).parents('.item')

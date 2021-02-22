@@ -572,5 +572,8 @@
         "CurrentWealth": "Current Wealth",
         "ButtonApply": "Apply",
         "ButtonCancel": "Cancel"
-    }
+    },
+    "DL.AttackEdit": "Edit attack",
+    "DL.AttackDelete": "Delete attack",
+    "DL.AttackClone": "Clone attack"
 }
