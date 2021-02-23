@@ -1,10 +1,12 @@
 .sheet-body .sheet-content .descriptionblock {
     margin: 40px 5px 0px 5px;
     height: 100%;
+    font-size: 13px;
 
     .editor, .editor-content {
         height: 100%;
         min-height: 200px;
+        font-size: 13px;
     }
 }
 
@@ -276,6 +278,7 @@
             .editor, .editor-content {
                 height: 100%;
                 min-height: 200px;
+                font-size: 13px;
             }
         }
 
@@ -342,6 +345,7 @@
 .credescription .editor, .credescription .editor-content {
   height: 100%;
   min-height: 200px;
+  font-size: 13px;
 }
 
 .items-list {

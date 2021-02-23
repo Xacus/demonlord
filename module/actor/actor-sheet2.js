@@ -101,16 +101,28 @@ export class DemonlordActorSheet2 extends ActorSheet {
               level.level <= updateData.data.level
             ) {
               for (const talent of level.talents) {
-                await this.actor.createEmbeddedEntity(
-                  'OwnedItem',
-                  game.items.get(talent.id)
-                )
+                let item
+                if (talent.pack) {
+                  const pack = game.packs.get(talent.pack)
+                  if (pack.metadata.entity !== 'Item') return
+                  item = await pack.getEntity(talent.id)
+                } else {
+                  item = game.items.get(talent.id)
+                }
+
+                await this.actor.createEmbeddedEntity('OwnedItem', item)
               }
               for (const spell of level.spells) {
-                await this.actor.createEmbeddedEntity(
-                  'OwnedItem',
-                  game.items.get(spell.id)
-                )
+                let item
+                if (spell.pack) {
+                  const pack = game.packs.get(spell.pack)
+                  if (pack.metadata.entity !== 'Item') return
+                  item = await pack.getEntity(spell.id)
+                } else {
+                  item = game.items.get(spell.id)
+                }
+
+                await this.actor.createEmbeddedEntity('OwnedItem', item)
               }
             }
           }
@@ -295,6 +307,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
   }
 
   async _onDropItemCreate (itemData) {
+    console.log(itemData)
+
     switch (itemData.type) {
       case 'ancestry':
         // Delete existing Talents
@@ -331,10 +345,16 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
         // Create Talents
         for (const talent of itemData.data.talents) {
-          await this.actor.createEmbeddedEntity(
-            'OwnedItem',
-            game.items.get(talent.id)
-          )
+          let item
+          if (talent.pack) {
+            const pack = game.packs.get(talent.pack)
+            if (pack.metadata.entity !== 'Item') return
+            item = await pack.getEntity(talent.id)
+          } else {
+            item = game.items.get(talent.id)
+          }
+
+          await this.actor.createEmbeddedEntity('OwnedItem', item)
         }
         // Create Languages
         for (const language of itemData.data.languagelist) {
@@ -383,10 +403,16 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
             if (level[0]) {
               for (const talent of level[0].talents) {
-                await this.actor.createEmbeddedEntity(
-                  'OwnedItem',
-                  game.items.get(talent.id)
-                )
+                let item
+                if (talent.pack) {
+                  const pack = game.packs.get(talent.pack)
+                  if (pack.metadata.entity !== 'Item') return
+                  item = await pack.getEntity(talent.id)
+                } else {
+                  item = game.items.get(talent.id)
+                }
+
+                await this.actor.createEmbeddedEntity('OwnedItem', item)
               }
             }
           }
@@ -420,10 +446,16 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
             if (level[0]) {
               for (const spell of level[0].spells) {
-                await this.actor.createEmbeddedEntity(
-                  'OwnedItem',
-                  game.items.get(spell.id)
-                )
+                let item
+                if (spell.pack) {
+                  const pack = game.packs.get(spell.pack)
+                  if (pack.metadata.entity !== 'Item') return
+                  item = await pack.getEntity(spell.id)
+                } else {
+                  item = game.items.get(spell.id)
+                }
+
+                await this.actor.createEmbeddedEntity('OwnedItem', item)
               }
             }
           }

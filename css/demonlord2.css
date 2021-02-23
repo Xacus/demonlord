@@ -1534,11 +1534,13 @@
 .demonlord2.item .sheet-body .sheet-content .descriptionblock {
   margin: 40px 5px 0px 5px;
   height: 100%;
+  font-size: 13px;
 }
 
 .demonlord2.item .sheet-body .sheet-content .descriptionblock .editor, .demonlord2.item .sheet-body .sheet-content .descriptionblock .editor-content {
   height: 100%;
   min-height: 200px;
+  font-size: 13px;
 }
 
 .demonlord2.item .creature .header {
@@ -1850,6 +1852,7 @@
 .demonlord2.item .creature .actions .description .editor, .demonlord2.item .creature .actions .description .editor-content {
   height: 100%;
   min-height: 200px;
+  font-size: 13px;
 }
 
 .demonlord2.item .creature .actions .body {
@@ -1914,6 +1917,7 @@
 .demonlord2.item .credescription .editor, .demonlord2.item .credescription .editor-content {
   height: 100%;
   min-height: 200px;
+  font-size: 13px;
 }
 
 .demonlord2.item .items-list {
@@ -3915,6 +3919,7 @@
 .demonlord2 .sheet-body .sheet-content .tab .editor .descriptionblock {
   margin: 10px 5px 0px 5px;
   height: 100%;
+  font-size: 13px;
 }
 
 .demonlord2 .sheet-body .sheet-content .tab .descriptionblock .editor,
@@ -3923,6 +3928,7 @@
 .demonlord2 .sheet-body .sheet-content .tab .editor .descriptionblock .editor-content {
   height: 100%;
   min-height: 200px;
+  font-size: 13px;
 }
 
 .demonlord2 .sheet-body .sheet-content .tab .descriptionblock textarea,

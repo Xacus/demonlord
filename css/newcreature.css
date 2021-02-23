@@ -3483,6 +3483,7 @@
 .newcreature .sheet-body .sheet-content .tab .editor .descriptionblock {
   margin: 10px 5px 0px 5px;
   height: 100%;
+  font-size: 13px;
 }
 
 .newcreature .sheet-body .sheet-content .tab .descriptionblock .editor,
@@ -3491,6 +3492,7 @@
 .newcreature .sheet-body .sheet-content .tab .editor .descriptionblock .editor-content {
   height: 100%;
   min-height: 200px;
+  font-size: 13px;
 }
 
 .newcreature .sheet-body .sheet-content .tab .descriptionblock textarea,
@@ -4354,11 +4356,13 @@
 .newcreature .sheet-body .sheet-content .descriptionblock {
   margin: 40px 5px 0px 5px;
   height: 100%;
+  font-size: 13px;
 }
 
 .newcreature .sheet-body .sheet-content .descriptionblock .editor, .newcreature .sheet-body .sheet-content .descriptionblock .editor-content {
   height: 100%;
   min-height: 200px;
+  font-size: 13px;
 }
 
 .newcreature .creature .header {
@@ -4670,6 +4674,7 @@
 .newcreature .creature .actions .description .editor, .newcreature .creature .actions .description .editor-content {
   height: 100%;
   min-height: 200px;
+  font-size: 13px;
 }
 
 .newcreature .creature .actions .body {
@@ -4734,6 +4739,7 @@
 .newcreature .credescription .editor, .newcreature .credescription .editor-content {
   height: 100%;
   min-height: 200px;
+  font-size: 13px;
 }
 
 .newcreature .items-list {
