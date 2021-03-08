@@ -274,11 +274,15 @@ export class DemonlordItem extends Item {
     }
     if (boonsbanes == -1) {
       boonsbanestext =
-        boonsbanes.replace('-', '') + ' ' + game.i18n.localize('DL.DialogBane')
+        boonsbanes.toString().replace('-', '') +
+        ' ' +
+        game.i18n.localize('DL.DialogBane')
     }
     if (boonsbanes < -1) {
       boonsbanestext =
-        boonsbanes.replace('-', '') + ' ' + game.i18n.localize('DL.DialogBanes')
+        boonsbanes.toString().replace('-', '') +
+        ' ' +
+        game.i18n.localize('DL.DialogBanes')
     }
 
     selected.forEach((token) => {
