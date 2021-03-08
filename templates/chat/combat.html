@@ -71,6 +71,21 @@
             {{/if}}
         </div>
         {{/if}}
+        {{#if data.actionEffects.value}}
+        {{#if data.isCreature.value}}
+        <div class="gmonly">
+            <div class="description">
+                <div class="header">{{localize "DL.TalentRollActions"}}</div>
+                <div class="body">{{{data.actionEffects.value}}}</div>
+            </div>
+        </div>
+        {{else}}
+        <div class="description">
+            <div class="header">{{localize "DL.TalentRollActions"}}</div>
+            <div class="body">{{{data.actionEffects.value}}}</div>
+        </div>
+        {{/if}}
+        {{/if}}
         {{#if data.effects.value}}
         {{#if data.isCreature.value}}
         <div class="gmonly">

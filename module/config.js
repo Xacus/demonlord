@@ -30,6 +30,9 @@ DL.statusIcons = {
   stunned: 'icons/svg/stoned.svg',
   surprised: 'systems/demonlord/icons/effects/surprised.svg',
   unconscious: 'icons/svg/unconscious.svg',
+  prepare: 'systems/demonlord/icons/effects/prepare.svg',
+  retreat: 'systems/demonlord/icons/effects/retreat.svg',
+  rush: 'systems/demonlord/icons/effects/rush.svg',
   injured: 'icons/svg/blood.svg'
 }
 

@@ -374,6 +374,14 @@ export class DemonlordActor extends Actor {
 
     data.characteristics.power += parseInt(characterbuffs.powerbonus)
 
+    if (data.afflictions.rush) {
+      data.characteristics.speed = data.characteristics.speed * 2
+    }
+
+    if (data.afflictions.retreat) {
+      data.characteristics.speed = Math.floor(data.characteristics.speed / 2)
+    }
+
     if (data.afflictions.immobilized) data.characteristics.speed = 0
 
     if (data.afflictions.unconscious) data.characteristics.defense = 5
@@ -608,7 +616,8 @@ export class DemonlordActor extends Actor {
         },
         afflictionEffects: {
           value: this.buildAfflictionsEffects('CHALLENGE')
-        }
+        },
+        actionEffects: { value: this.buildActionEffects('CHALLENGE') }
       },
       diceData
     }
@@ -977,7 +986,8 @@ export class DemonlordActor extends Actor {
         },
         hasTarget: {
           value: targetNumber != undefined
-        }
+        },
+        actionEffects: { value: this.buildActionEffects('ATTACK') }
       },
       diceData
     }
@@ -1480,12 +1490,6 @@ export class DemonlordActor extends Actor {
     const challWill = defenseAttribute == 'Will'
     const challPerception = defenseAttribute == 'Perception'
 
-    // Add spell attack boonsbanes
-    if (spell.data?.action?.defenseboonsbanes != 0) {
-      boonsbanes =
-        parseInt(boonsbanes) + parseInt(spell.data?.action?.defenseboonsbanes)
-    }
-
     // Challenge: Add buffs from Talents
     if (challStrength && buffs.challengestrengthbonus != 0) {
       boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengestrengthbonus)
@@ -1719,7 +1723,7 @@ export class DemonlordActor extends Actor {
           value: spell.data?.action?.defense
         },
         defenseboonsbanes: {
-          value: parseInt(boonsbanes)
+          value: parseInt(spell.data?.action?.defenseboonsbanes)
         },
         challStrength: {
           value: challStrength
@@ -1937,6 +1941,19 @@ export class DemonlordActor extends Actor {
     characterbuffs.attackintellectbonus = 0
     characterbuffs.attackwillbonus = 0
     characterbuffs.attackperceptionbonus = 0
+
+    if (this.data.data.afflictions.prepare) {
+      characterbuffs.challengestrengthbonus++
+      characterbuffs.challengeagilitybonus++
+      characterbuffs.challengeintellectbonus++
+      characterbuffs.challengewillbonus++
+      characterbuffs.challengeperceptionbonus++
+      characterbuffs.attackstrengthbonus++
+      characterbuffs.attackagilitybonus++
+      characterbuffs.attackintellectbonus++
+      characterbuffs.attackwillbonus++
+      characterbuffs.attackperceptionbonus++
+    }
 
     const talents = this.getEmbeddedCollection('OwnedItem').filter(
       (e) => e.type === 'talent'
@@ -2536,6 +2553,36 @@ export class DemonlordActor extends Actor {
         '&nbsp;&nbsp;&nbsp;• ' +
         game.i18n.localize('DL.TalentAttackBoonsBanes') +
         ': -1 <br>'
+    }
+
+    return effects
+  }
+
+  buildActionEffects (type) {
+    let effects
+    switch (type) {
+      case 'ATTACK':
+        if (this.data.data.afflictions?.prepare) {
+          effects =
+            game.i18n.localize('DL.prepare') +
+            ':<br>' +
+            '&nbsp;&nbsp;&nbsp;• ' +
+            game.i18n.localize('DL.TalentAttackBoonsBanes') +
+            ': 1 <br>'
+        }
+        break
+
+      case 'CHALLENGE':
+        if (this.data.data.afflictions?.prepare) {
+          effects =
+            game.i18n.localize('DL.prepare') +
+            ':<br>' +
+            '&nbsp;&nbsp;&nbsp;• ' +
+            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
+            ': 1 <br>'
+        }
+
+        break
     }
 
     return effects

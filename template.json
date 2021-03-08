@@ -85,7 +85,8 @@
                     "slowed": false,
                     "stunned": false,
                     "surprised": false,
-                    "unconscious": false
+                    "unconscious": false,
+                    "prepare": false
                 },
                 "damageeffects": {
                     "incapacitated": false,

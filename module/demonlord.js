@@ -255,6 +255,9 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
     const stunned = CONFIG.DL.statusIcons.stunned
     const surprised = CONFIG.DL.statusIcons.surprised
     const unconscious = CONFIG.DL.statusIcons.unconscious
+    const prepare = CONFIG.DL.statusIcons.prepare
+    const retreat = CONFIG.DL.statusIcons.retreat
+    const rush = CONFIG.DL.statusIcons.rush
 
     for (const t of actor.getActiveTokens()) {
       if (t.scene.id === game.scenes.active.id) {
@@ -279,6 +282,9 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
         toggleEffect(t, actorData.data.afflictions.stunned, stunned)
         toggleEffect(t, actorData.data.afflictions.surprised, surprised)
         toggleEffect(t, actorData.data.afflictions.unconscious, unconscious)
+        toggleEffect(t, actorData.data.afflictions.prepare, prepare)
+        toggleEffect(t, actorData.data.afflictions.retreat, retreat)
+        toggleEffect(t, actorData.data.afflictions.rush, rush)
       }
     }
   }
@@ -393,6 +399,21 @@ Hooks.on('createActiveEffect', async (actor, effect) => {
       case 'Unconscious':
         await actor.update({
           'data.afflictions.unconscious': true
+        })
+        break
+      case 'Prepare':
+        await actor.update({
+          'data.afflictions.prepare': true
+        })
+        break
+      case 'Retreat':
+        await actor.update({
+          'data.afflictions.retreat': true
+        })
+        break
+      case 'Rush':
+        await actor.update({
+          'data.afflictions.rush': true
         })
         break
       default:
@@ -512,6 +533,21 @@ Hooks.on('deleteActiveEffect', async (actor, effect) => {
           'data.afflictions.unconscious': false
         })
         break
+      case 'Prepare':
+        await actor.update({
+          'data.afflictions.prepare': false
+        })
+        break
+      case 'Retreat':
+        await actor.update({
+          'data.afflictions.retreat': false
+        })
+        break
+      case 'Rush':
+        await actor.update({
+          'data.afflictions.rush': false
+        })
+        break
       default:
         break
     }
@@ -544,6 +580,9 @@ Hooks.on('createToken', async (scene, token) => {
   const stunned = CONFIG.DL.statusIcons.stunned
   const surprised = CONFIG.DL.statusIcons.surprised
   const unconscious = CONFIG.DL.statusIcons.unconscious
+  const prepare = CONFIG.DL.statusIcons.prepare
+  const rush = CONFIG.DL.statusIcons.rush
+  const retreat = CONFIG.DL.statusIcons.retreat
   const injured = CONFIG.DL.statusIcons.injured
 
   for (const t of actor.getActiveTokens()) {
@@ -569,6 +608,9 @@ Hooks.on('createToken', async (scene, token) => {
       toggleEffect(t, actorData.data.afflictions.stunned, stunned)
       toggleEffect(t, actorData.data.afflictions.surprised, surprised)
       toggleEffect(t, actorData.data.afflictions.unconscious, unconscious)
+      toggleEffect(t, actorData.data.afflictions.prepare, prepare)
+      toggleEffect(t, actorData.data.afflictions.retreat, retreat)
+      toggleEffect(t, actorData.data.afflictions.rush, rush)
     }
   }
 })

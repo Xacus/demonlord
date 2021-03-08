@@ -129,6 +129,53 @@
     <div class=form-block>
         <ol class="items-list">
             <li class="form-line">
+                <div class="form-fieldheader bold">{{localize "DL.Actions"}}</div>
+            </li>
+            <li>
+                <div class="grid grid-3col">
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.prepare"
+                            id="data.afflictions.prepare" {{checked actor.data.afflictions.prepare}} />
+                        <div>
+                            <label for="data.afflictions.prepare">
+                                {{localize "DL.prepare"}}
+                            </label>
+                            <div class="fas fa-question tooltip">
+                                <span class="tooltiptext">{{localize "DL.AfflictionsPrepare"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.retreat"
+                            id="data.afflictions.retreat" {{checked actor.data.afflictions.retreat}} />
+                        <div>
+                            <label for="data.afflictions.retreat">
+                                {{localize "DL.retreat"}}
+                            </label>
+                            <div class="fas fa-question tooltip">
+                                <span class="tooltiptext">{{localize "DL.AfflictionsRetreat"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="actor.data.afflictions.rush"
+                            id="data.afflictions.rush" {{checked actor.data.afflictions.rush}} />
+                        <div>
+                            <label for="data.afflictions.rush">
+                                {{localize "DL.rush"}}
+                            </label>
+                            <div class="fas fa-question tooltip">
+                                <span class="tooltiptext">{{localize "DL.AfflictionsRush"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+    <div class=form-block>
+        <ol class="items-list">
+            <li class="form-line">
                 <div class="form-fieldheader bold">{{localize "DL.ModsAfflictions"}}</div>
             </li>
             <li class="form-line">
