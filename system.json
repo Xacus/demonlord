@@ -77,6 +77,13 @@
             "system": "demonlord",
             "path": "packs/sotdl-system-guide.db",
             "entity": "JournalEntry"
+        },
+        {
+            "name": "spells items",
+            "label": "Spells - Core Rules",
+            "system": "demonlord",
+            "path": "packs/spells-items.db",
+            "entity": "Item"
         }
     ],
     "languages": [
@@ -99,6 +106,11 @@
             "lang": "es",
             "name": "Spanish",
             "path": "lang/es.json"
+        },
+        {
+            "lang": "fr",
+            "name": "French",
+            "path": "lang/fr.json"
         }
     ],
     "gridDistance": 1,

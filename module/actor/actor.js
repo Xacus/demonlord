@@ -682,10 +682,10 @@ export class DemonlordActor extends Actor {
             '<div class="challengedialog"><b>' +
             game.i18n.localize('DL.DialogAddBonesAndBanes') +
             "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-            '</div><br/><br/><b>' +
+            '</div><br/><div class="challengedialog"><b>' +
             game.i18n.localize('DL.ModsAdd') +
             "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-            '</b><br/><br/>',
+            '</b></div><br/>',
           buttons: {
             roll: {
               icon: '<i class="fas fa-check"></i>',
@@ -1414,7 +1414,7 @@ export class DemonlordActor extends Actor {
       const uses = parseInt(item.data?.castings?.value)
       const usesmax = parseInt(item.data?.castings?.max)
       const characterbuffs = this.generateCharacterBuffs('SPELL')
-      console.log(attackAttribute)
+
       if ((uses == 0 && usesmax == 0) || uses != usesmax) {
         if (attackAttribute) {
           if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
