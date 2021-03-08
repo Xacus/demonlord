@@ -227,6 +227,7 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
 
     const actorData = actor.data
     const injured = CONFIG.DL.statusIcons.injured
+
     const asleep = CONFIG.DL.statusIcons.asleep
     const blinded = CONFIG.DL.statusIcons.blinded
     const charmed = CONFIG.DL.statusIcons.charmed
@@ -247,13 +248,20 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
     const stunned = CONFIG.DL.statusIcons.stunned
     const surprised = CONFIG.DL.statusIcons.surprised
     const unconscious = CONFIG.DL.statusIcons.unconscious
+
+    const concentrate = CONFIG.DL.statusIcons.concentrate
+    const defend = CONFIG.DL.statusIcons.defend
+    const help = CONFIG.DL.statusIcons.help
     const prepare = CONFIG.DL.statusIcons.prepare
+    const reload = CONFIG.DL.statusIcons.reload
     const retreat = CONFIG.DL.statusIcons.retreat
     const rush = CONFIG.DL.statusIcons.rush
+    const stabilize = CONFIG.DL.statusIcons.stabilize
 
     for (const t of actor.getActiveTokens()) {
       if (t.scene.id === game.scenes.active.id) {
         toggleEffect(t, actorData.data.characteristics.health.injured, injured)
+
         toggleEffect(t, actorData.data.afflictions.asleep, asleep)
         toggleEffect(t, actorData.data.afflictions.blinded, blinded)
         toggleEffect(t, actorData.data.afflictions.charmed, charmed)
@@ -274,9 +282,15 @@ Hooks.on('updateActor', async (actor, updateData, options, userId) => {
         toggleEffect(t, actorData.data.afflictions.stunned, stunned)
         toggleEffect(t, actorData.data.afflictions.surprised, surprised)
         toggleEffect(t, actorData.data.afflictions.unconscious, unconscious)
-        toggleEffect(t, actorData.data.afflictions.prepare, prepare)
-        toggleEffect(t, actorData.data.afflictions.retreat, retreat)
-        toggleEffect(t, actorData.data.afflictions.rush, rush)
+
+        toggleEffect(t, actorData.data.actions.concentrate, concentrate)
+        toggleEffect(t, actorData.data.actions.defend, defend)
+        toggleEffect(t, actorData.data.actions.help, help)
+        toggleEffect(t, actorData.data.actions.prepare, prepare)
+        toggleEffect(t, actorData.data.actions.reload, reload)
+        toggleEffect(t, actorData.data.actions.retreat, retreat)
+        toggleEffect(t, actorData.data.actions.rush, rush)
+        toggleEffect(t, actorData.data.actions.stabilize, stabilize)
       }
     }
   }
@@ -393,19 +407,44 @@ Hooks.on('createActiveEffect', async (actor, effect) => {
           'data.afflictions.unconscious': true
         })
         break
+      case 'Concentrate':
+        await actor.update({
+          'data.actions.concentrate': true
+        })
+        break
+      case 'Defend':
+        await actor.update({
+          'data.actions.defend': true
+        })
+        break
+      case 'Help':
+        await actor.update({
+          'data.actions.help': true
+        })
+        break
       case 'Prepare':
         await actor.update({
-          'data.afflictions.prepare': true
+          'data.actions.prepare': true
+        })
+        break
+      case 'Reload':
+        await actor.update({
+          'data.actions.reload': true
         })
         break
       case 'Retreat':
         await actor.update({
-          'data.afflictions.retreat': true
+          'data.actions.retreat': true
         })
         break
       case 'Rush':
         await actor.update({
-          'data.afflictions.rush': true
+          'data.actions.rush': true
+        })
+        break
+      case 'Stabilize':
+        await actor.update({
+          'data.actions.stabilize': true
         })
         break
       default:
@@ -525,19 +564,44 @@ Hooks.on('deleteActiveEffect', async (actor, effect) => {
           'data.afflictions.unconscious': false
         })
         break
+      case 'Concentrate':
+        await actor.update({
+          'data.actions.concentrate': false
+        })
+        break
+      case 'Defend':
+        await actor.update({
+          'data.actions.defend': false
+        })
+        break
+      case 'Help':
+        await actor.update({
+          'data.actions.help': false
+        })
+        break
       case 'Prepare':
         await actor.update({
-          'data.afflictions.prepare': false
+          'data.actions.prepare': false
+        })
+        break
+      case 'Reload':
+        await actor.update({
+          'data.actions.reload': false
         })
         break
       case 'Retreat':
         await actor.update({
-          'data.afflictions.retreat': false
+          'data.actions.retreat': false
         })
         break
       case 'Rush':
         await actor.update({
-          'data.afflictions.rush': false
+          'data.actions.rush': false
+        })
+        break
+      case 'Stabilize':
+        await actor.update({
+          'data.actions.stabilize': false
         })
         break
       default:
@@ -552,6 +616,8 @@ Hooks.on('createToken', async (scene, token) => {
   if (!actor) return
 
   const actorData = actor.data
+  const injured = CONFIG.DL.statusIcons.injured
+
   const asleep = CONFIG.DL.statusIcons.asleep
   const blinded = CONFIG.DL.statusIcons.blinded
   const charmed = CONFIG.DL.statusIcons.charmed
@@ -572,14 +638,20 @@ Hooks.on('createToken', async (scene, token) => {
   const stunned = CONFIG.DL.statusIcons.stunned
   const surprised = CONFIG.DL.statusIcons.surprised
   const unconscious = CONFIG.DL.statusIcons.unconscious
+
+  const concentrate = CONFIG.DL.statusIcons.concentrate
+  const defend = CONFIG.DL.statusIcons.defend
+  const help = CONFIG.DL.statusIcons.help
   const prepare = CONFIG.DL.statusIcons.prepare
-  const rush = CONFIG.DL.statusIcons.rush
+  const reload = CONFIG.DL.statusIcons.reload
   const retreat = CONFIG.DL.statusIcons.retreat
-  const injured = CONFIG.DL.statusIcons.injured
+  const rush = CONFIG.DL.statusIcons.rush
+  const stabilize = CONFIG.DL.statusIcons.stabilize
 
   for (const t of actor.getActiveTokens()) {
     if (t.scene.id === game.scenes.active.id) {
       toggleEffect(t, actorData.data.characteristics.health.injured, injured)
+
       toggleEffect(t, actorData.data.afflictions.asleep, asleep)
       toggleEffect(t, actorData.data.afflictions.blinded, blinded)
       toggleEffect(t, actorData.data.afflictions.charmed, charmed)
@@ -600,9 +672,15 @@ Hooks.on('createToken', async (scene, token) => {
       toggleEffect(t, actorData.data.afflictions.stunned, stunned)
       toggleEffect(t, actorData.data.afflictions.surprised, surprised)
       toggleEffect(t, actorData.data.afflictions.unconscious, unconscious)
-      toggleEffect(t, actorData.data.afflictions.prepare, prepare)
-      toggleEffect(t, actorData.data.afflictions.retreat, retreat)
-      toggleEffect(t, actorData.data.afflictions.rush, rush)
+
+      toggleEffect(t, actorData.data.actions.concentrate, concentrate)
+      toggleEffect(t, actorData.data.actions.defend, defend)
+      toggleEffect(t, actorData.data.actions.help, help)
+      toggleEffect(t, actorData.data.actions.prepare, prepare)
+      toggleEffect(t, actorData.data.actions.reload, reload)
+      toggleEffect(t, actorData.data.actions.retreat, retreat)
+      toggleEffect(t, actorData.data.actions.rush, rush)
+      toggleEffect(t, actorData.data.actions.stabilize, stabilize)
     }
   }
 })

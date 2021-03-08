@@ -85,13 +85,22 @@
                     "slowed": false,
                     "stunned": false,
                     "surprised": false,
-                    "unconscious": false,
-                    "prepare": false
+                    "unconscious": false
                 },
                 "afflictionsTab": {
                     "hideAction": false,
                     "hideAfflictions": false,
                     "hideDamageEffects": false
+                },
+                "actions": {
+                    "concentrate": false,
+                    "defend": false,
+                    "help": false,
+                    "prepare": false,
+                    "reload": false,
+                    "retreat": false,
+                    "rush": false,
+                    "stabilize": false
                 },
                 "damageeffects": {
                     "incapacitated": false,

@@ -374,11 +374,11 @@ export class DemonlordActor extends Actor {
 
     data.characteristics.power += parseInt(characterbuffs.powerbonus)
 
-    if (data.afflictions.rush) {
+    if (data.actions.rush) {
       data.characteristics.speed = data.characteristics.speed * 2
     }
 
-    if (data.afflictions.retreat) {
+    if (data.actions.retreat) {
       data.characteristics.speed = Math.floor(data.characteristics.speed / 2)
     }
 
@@ -1942,7 +1942,7 @@ export class DemonlordActor extends Actor {
     characterbuffs.attackwillbonus = 0
     characterbuffs.attackperceptionbonus = 0
 
-    if (this.data.data.afflictions.prepare) {
+    if (this.data.data.actions.prepare) {
       characterbuffs.challengestrengthbonus++
       characterbuffs.challengeagilitybonus++
       characterbuffs.challengeintellectbonus++

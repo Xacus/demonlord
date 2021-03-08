@@ -11,10 +11,46 @@
             <li class="form-line">
                 <div class="grid grid-3col">
                     <div class="affliction">
-                        <input type="checkbox" name="data.afflictions.prepare"
-                            id="data.afflictions.prepare" {{checked data.afflictions.prepare}} />
+                        <input type="checkbox" name="data.actions.concentrate"
+                            id="data.actions.concentrate" {{checked data.actions.concentrate}} />
                         <div>
-                            <label for="data.afflictions.prepare">
+                            <label for="data.actions.concentrate">
+                                {{localize "DL.concentrate"}}
+                            </label>
+                            <div class="fas fa-question tooltip">
+                                <span class="tooltiptext">{{localize "DL.AfflictionsConcentrate"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="data.actions.defend"
+                            id="data.actions.defend" {{checked data.actions.defend}} />
+                        <div>
+                            <label for="data.actions.defend">
+                                {{localize "DL.defend"}}
+                            </label>
+                            <div class="fas fa-question tooltip">
+                                <span class="tooltiptext">{{localize "DL.AfflictionsDefend"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="data.actions.help"
+                            id="data.actions.help" {{checked data.actions.help}} />
+                        <div>
+                            <label for="data.actions.help">
+                                {{localize "DL.help"}}
+                            </label>
+                            <div class="fas fa-question tooltip">
+                                <span class="tooltiptext">{{localize "DL.AfflictionsHelp"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="data.actions.prepare"
+                            id="data.actions.prepare" {{checked data.actions.prepare}} />
+                        <div>
+                            <label for="data.actions.prepare">
                                 {{localize "DL.prepare"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -23,10 +59,22 @@
                         </div>
                     </div>
                     <div class="affliction">
-                        <input type="checkbox" name="data.afflictions.retreat"
-                            id="data.afflictions.retreat" {{checked data.afflictions.retreat}} />
+                        <input type="checkbox" name="data.actions.reload"
+                            id="data.actions.reload" {{checked data.actions.reload}} />
                         <div>
-                            <label for="data.afflictions.retreat">
+                            <label for="data.actions.reload">
+                                {{localize "DL.reload"}}
+                            </label>
+                            <div class="fas fa-question tooltip">
+                                <span class="tooltiptext">{{localize "DL.AfflictionsReload"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="data.actions.retreat"
+                            id="data.actions.retreat" {{checked data.actions.retreat}} />
+                        <div>
+                            <label for="data.actions.retreat">
                                 {{localize "DL.retreat"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -35,14 +83,26 @@
                         </div>
                     </div>
                     <div class="affliction">
-                        <input type="checkbox" name="data.afflictions.rush"
-                            id="data.afflictions.rush" {{checked data.afflictions.rush}} />
+                        <input type="checkbox" name="data.actions.rush"
+                            id="data.actions.rush" {{checked data.actions.rush}} />
                         <div>
-                            <label for="data.afflictions.rush">
+                            <label for="data.actions.rush">
                                 {{localize "DL.rush"}}
                             </label>
                             <div class="fas fa-question tooltip">
                                 <span class="tooltiptext">{{localize "DL.AfflictionsRush"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="affliction">
+                        <input type="checkbox" name="data.actions.stabilize"
+                            id="data.actions.stabilize" {{checked data.actions.stabilize}} />
+                        <div>
+                            <label for="data.actions.stabilize">
+                                {{localize "DL.stabilize"}}
+                            </label>
+                            <div class="fas fa-question tooltip">
+                                <span class="tooltiptext">{{localize "DL.AfflictionsStabilize"}}</span>
                             </div>
                         </div>
                     </div>
