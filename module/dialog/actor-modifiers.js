@@ -280,18 +280,6 @@ export class DLActorModifiers extends FormApplication {
         await this.object.update({
           'data.afflictions.unconscious': v
         })
-      } else if (k.includes('afflictions.prepare')) {
-        await this.object.update({
-          'data.afflictions.prepare': v
-        })
-      } else if (k.includes('afflictions.retreat')) {
-        await this.object.update({
-          'data.afflictions.retreat': v
-        })
-      } else if (k.includes('afflictions.rush')) {
-        await this.object.update({
-          'data.afflictions.rush': v
-        })
       } else if (k.includes('damageeffects.incapacitated')) {
         await this.object.update({
           'data.damageeffects.incapacitated': v
