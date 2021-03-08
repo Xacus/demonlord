@@ -4759,9 +4759,42 @@
   margin-bottom: -5px;
 }
 
+.newcreature .itemnamefull {
+  font-weight: bold;
+}
+
+.newcreature .itemtext {
+  margin: -5px 10px 5px 10px;
+}
+
+.newcreature .turnmode {
+  margin-top: 5px;
+  margin-left: 48px;
+}
+
+.newcreature .hidesection {
+  float: right;
+  margin-left: 10px;
+  margin-top: 1px;
+  font-family: 'Font Awesome 5 Free';
+}
+
+.newcreature .hidesection input.checkbox {
+  display: none;
+}
+
+.newcreature .hidesection input.checkbox + label:before {
+  content: '\f070';
+}
+
+.newcreature .hidesection input.checkbox:checked + label:before {
+  content: '\f06e';
+}
+
 .newcreature .accordion {
   margin-right: 10px;
   overflow-y: auto;
+  height: 100%;
 }
 
 .newcreature .accordion .toggleAccordion {
@@ -4798,16 +4831,27 @@
   top: 0px;
 }
 
-.newcreature .accordion ol, .newcreature .accordion li {
+.newcreature .accordion ol,
+.newcreature .accordion li {
   list-style: none;
   padding: 0;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.newcreature .accordion .items-line li .grid {
+  gap: 0px;
+  margin: 0 0 5px 0;
+}
+
+.newcreature .accordion .items-line .disableafflictions {
+  margin-bottom: 5px;
 }
 
 .newcreature .accordion .content {
   position: relative;
   width: 100%;
   padding: 5px;
-  z-index: 1;
   font-size: 12px;
 }
 
@@ -4867,40 +4911,18 @@
   font-weight: bold;
 }
 
+.newcreature .accordion .contentMain {
+  padding-top: 0px;
+  margin-top: -10px;
+}
+
 .newcreature .accordion .change::after {
   content: '\f078';
 }
 
-.newcreature .itemnamefull {
-  font-weight: bold;
-}
-
-.newcreature .itemtext {
-  margin: -5px 10px 5px 10px;
-}
-
-.newcreature .turnmode {
-  margin-top: 5px;
-  margin-left: 48px;
-}
-
-.newcreature .hidesection {
-  float: right;
-  margin-left: 10px;
-  margin-top: 1px;
-  font-family: 'Font Awesome 5 Free';
-}
-
-.newcreature .hidesection input.checkbox {
-  display: none;
-}
-
-.newcreature .hidesection input.checkbox + label:before {
-  content: '\f070';
-}
-
-.newcreature .hidesection input.checkbox:checked + label:before {
-  content: '\f06e';
+.newcreature .accordionMain {
+  overflow-y: unset;
+  margin: 0 10px 0 0;
 }
 
 .newcreature.actor form {

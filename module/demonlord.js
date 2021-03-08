@@ -58,19 +58,11 @@ Hooks.once('init', async function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet)
-  Actors.registerSheet('demonlord', DemonlordActorSheet, {
-    types: ['character'],
-    makeDefault: false
-  })
   Actors.registerSheet('demonlord', DemonlordActorSheet2, {
     types: ['character'],
     makeDefault: true
   })
 
-  Actors.registerSheet('demonlord', DemonlordCreatureSheet, {
-    types: ['creature'],
-    makeDefault: true
-  })
   Actors.registerSheet('demonlord', DemonlordNewCreatureSheet, {
     types: ['creature'],
     makeDefault: false
@@ -135,7 +127,7 @@ Hooks.once('ready', async function () {
     'systemMigrationVersion'
   )
 
-  const NEEDS_MIGRATION_VERSION = '1.6.5'
+  const NEEDS_MIGRATION_VERSION = '1.7.7'
   const COMPATIBLE_MIGRATION_VERSION = 0.8
 
   const needsMigration =

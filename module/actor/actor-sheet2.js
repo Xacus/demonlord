@@ -544,6 +544,50 @@ export class DemonlordActorSheet2 extends ActorSheet {
       inputs.focus((ev) => ev.currentTarget.select())
     }
 
+    // Toggle Accordion
+    html.find('.toggleAccordion').click((ev) => {
+      const div = ev.currentTarget
+
+      if (div.nextElementSibling.style.display === 'none') {
+        div.nextElementSibling.style.display = 'block'
+        div.className = 'toggleAccordion change'
+      } else {
+        div.nextElementSibling.style.display = 'none'
+        div.className = 'toggleAccordion'
+      }
+
+      switch (div.dataset.type) {
+        case 'action':
+          this.actor.update({
+            'data.afflictionsTab.hideAction': !this.actor.data.data
+              .afflictionsTab.hideAction
+          })
+
+          break
+
+        case 'afflictions':
+          this.actor.update({
+            'data.afflictionsTab.hideAfflictions': !this.actor.data.data
+              .afflictionsTab.hideAfflictions
+          })
+
+          break
+
+        case 'damage':
+          this.actor.update({
+            'data.afflictionsTab.hideDamageEffects': !this.actor.data.data
+              .afflictionsTab.hideDamageEffects
+          })
+
+          break
+      }
+    })
+
+    // Disbale Afflictions
+    html.find('.disableafflictions').click((ev) => {
+      this.clearAfflictions()
+    })
+
     // Corruption Roll
     html.find('.corruption-roll').click((ev) => {
       this.actor.rollCorruption()
@@ -1433,5 +1477,30 @@ export class DemonlordActorSheet2 extends ActorSheet {
       data
     )
     await this.actor.update(talentToCreate)
+  }
+
+  async clearAfflictions () {
+    await this.actor.update({
+      'data.afflictions.asleep': false,
+      'data.afflictions.blinded': false,
+      'data.afflictions.charmed': false,
+      'data.afflictions.compelled': false,
+      'data.afflictions.dazed': false,
+      'data.afflictions.deafened': false,
+      'data.afflictions.defenseless': false,
+      'data.afflictions.diseased': false,
+      'data.afflictions.fatigued': false,
+      'data.afflictions.frightened': false,
+      'data.afflictions.horrified': false,
+      'data.afflictions.grabbed': false,
+      'data.afflictions.immobilized': false,
+      'data.afflictions.impaired': false,
+      'data.afflictions.poisoned': false,
+      'data.afflictions.prone': false,
+      'data.afflictions.slowed': false,
+      'data.afflictions.stunned': false,
+      'data.afflictions.surprised': false,
+      'data.afflictions.unconscious': false
+    })
   }
 }

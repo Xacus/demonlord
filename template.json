@@ -88,6 +88,11 @@
                     "unconscious": false,
                     "prepare": false
                 },
+                "afflictionsTab": {
+                    "hideAction": false,
+                    "hideAfflictions": false,
+                    "hideDamageEffects": false
+                },
                 "damageeffects": {
                     "incapacitated": false,
                     "disabled": false,
