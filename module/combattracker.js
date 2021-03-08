@@ -46,6 +46,8 @@ export default class extends CombatTracker {
             '<div class="tooltipEffect">' +
             effects[i].outerHTML +
             '<span class="tooltiptextEffect">' +
+            game.i18n.localize('DL.' + found) +
+            ': ' +
             game.i18n.localize(
               'DL.Afflictions' + found.charAt(0).toUpperCase() + found.slice(1)
             ) +
