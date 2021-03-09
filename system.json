@@ -2,7 +2,7 @@
     "name": "demonlord",
     "title": "Shadow of the Demon Lord",
     "description": "The Shadow of the Demonlord system for FoundryVTT",
-    "version": "1.7.7",
+    "version": "1.7.8",
     "author": "Xacus",
     "minimumCoreVersion": "0.6.6",
     "compatibleCoreVersion": "0.7.9",
@@ -77,6 +77,13 @@
             "system": "demonlord",
             "path": "packs/sotdl-system-guide.db",
             "entity": "JournalEntry"
+        },
+        {
+            "name": "sotdl roll tabels",
+            "label": "Demonlord - Roll Tables",
+            "system": "demonlord",
+            "path": "packs/roll-tables.db",
+            "entity": "RollTable"
         }
     ],
     "languages": [

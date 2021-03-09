@@ -1869,7 +1869,40 @@ export class DemonlordActor extends Actor {
             chatData.whisper,
             chatData.blind
           )
-          .then((displayed) => ChatMessage.create(chatData))
+          .then((displayed) =>
+            ChatMessage.create(chatData).then((msg) => {
+              if (
+                corruptionRoll._total <
+                this.data.data.characteristics.corruption
+              ) {
+                ;(async () => {
+                  const compRollTabels = await game.packs
+                    .get('demonlord.sotdl roll tabels')
+                    .getContent()
+                  const tableMarkOfDarkness = compRollTabels.find(
+                    (i) => i.name === 'Mark of Darkness'
+                  )
+
+                  const result = tableMarkOfDarkness.draw()
+                  let resultText = ''
+                  const actor = this
+
+                  result.then(function (result) {
+                    resultText = result.results[0].text
+
+                    actor.createOwnedItem({
+                      name: 'Mark of Darkness',
+                      type: 'feature',
+                      data: {
+                        description: resultText
+                      }
+                    })
+                  })
+                  // tableMarkOfDarkness.roll().results[0].text
+                })()
+              }
+            })
+          )
       } else {
         chatData.sound = CONFIG.sounds.dice
         ChatMessage.create(chatData)
