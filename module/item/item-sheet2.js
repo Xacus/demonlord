@@ -468,6 +468,25 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       })
     }
 
+    // Update Spell uses when power changes
+    if (updateData.data?.characteristics?.power) {
+      var newPower = parseInt(updateData.data.characteristics.power)
+
+      const paths = this.actor
+        .getEmbeddedCollection('OwnedItem')
+        .filter((e) => e.type === 'path')
+      for (const path of paths) {
+        for (const level of path.data.levels) {
+          if (level.level <= this.actor.data.data.level) {
+            newPower += parseInt(level.characteristicsPower)
+          }
+        }
+      }
+
+      this.actor.data.data.characteristics.power = newPower
+      this.actor.setUsesOnSpells(this.actor.data)
+    }
+
     return this.entity.update(updateData)
   }
 

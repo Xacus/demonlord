@@ -3414,15 +3414,6 @@
   font-size: 12px;
 }
 
-.demonlord2 .showinfo {
-  position: relative;
-  top: -20px;
-  left: 40px;
-  float: left;
-  height: 0px;
-  font-size: 12px;
-}
-
 .demonlord2 .showlessinfo {
   font-size: 12px;
   margin-top: -3px;
@@ -4722,7 +4713,6 @@
   list-style: none;
   padding: 0;
   height: 100%;
-  overflow-y: auto;
 }
 
 .demonlord2 .accordion .items-line li .grid {

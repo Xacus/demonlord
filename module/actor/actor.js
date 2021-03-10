@@ -2972,4 +2972,26 @@ export class DemonlordActor extends Actor {
       }
     }
   }
+
+  async setUsesOnSpells (data) {
+    const power = data.data.characteristics.power
+
+    for (let rank = 0; rank <= power; rank++) {
+      const spells = this.getEmbeddedCollection('OwnedItem').filter(
+        (e) => e.type === 'spell' && parseInt(e.data.rank) === rank
+      )
+      spells.forEach((spell) => {
+        spell = duplicate(spell)
+        const rank = spell.data.rank
+        const usesMax = CONFIG.DL.spelluses[power].split(',')[rank]
+
+        if (spell.data.castings.value === '') {
+          spell.data.castings.value = '0'
+        }
+        spell.data.castings.max = usesMax
+
+        this.updateEmbeddedEntity('OwnedItem', spell)
+      })
+    }
+  }
 }

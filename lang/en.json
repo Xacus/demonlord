@@ -403,8 +403,6 @@
     "DL.SettingRollCreaturesToGMHint": "When you make a Challenge roll for a creature it's only shown to the GM in the chat.",
     "DL.SettingAttackReverseDamage": "Reverse Damage/Health",
     "DL.SettingAttackReverseDamageHint": "Substract damage from Health insted of adding damage.",
-    "DL.SettingUsingChatPortraitModule": "Using Chat Portrait Module",
-    "DL.SettingUsingChatPortraitModuleHint": "Use the space below actor name for additional info.",
     "DL.SettingUsingHomebrewMode": "Use Homebrew mode",
     "DL.SettingUsingHomebrewModeHint": "Attributes are not calculated based on Ancestry or Path choices; they must be manually entered on the character sheets. Characteristics are still calculated as normal.",
     "DL.SettingLockAncestry": "Lock fields on Ancestry",

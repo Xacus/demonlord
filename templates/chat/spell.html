@@ -1,6 +1,5 @@
 <div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
     {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
-    <div class="showinfo"></div>
     <div class="showlessinfo"></div>
     {{#if data.attack.value}}
     <header class="card-header">
@@ -103,86 +102,92 @@
     </div>
     {{/if}}
     {{/if}}
-    {{#if data.defense.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellTypeDefense"}}</div>
-        <div class="body">{{localize "DL.ChallengeRoll"}}: {{data.defense.value}}
-            {{#if data.defenseboonsbanes.value}}({{data.defenseboonsbanes.value}}){{/if}}
+    {{#if data.isCreature.value}}
+    <div class="gmonly">
+    {{/if}}
+        {{#if data.defense.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellTypeDefense"}}</div>
+            <div class="body">{{localize "DL.ChallengeRoll"}}: {{data.defense.value}}
+                {{#if data.defenseboonsbanes.value}}({{data.defenseboonsbanes.value}}){{/if}}
+            </div>
         </div>
-    </div>
-    {{/if}}
-    {{#if data.healing.value}}
-    <div class="talentactions roll-healing">
-        <div class="header" data-item-id="{{data.id.value}}" data-healing="1">
-            <img src=" systems/demonlord/css/icons/health.png" width="15" height="15" />
-            <div>{{localize "DL.DialogTalentApplyHealing"}}</div>
+        {{/if}}
+        {{#if data.healing.value}}
+        <div class="talentactions roll-healing">
+            <div class="header" data-item-id="{{data.id.value}}" data-healing="1">
+                <img src=" systems/demonlord/css/icons/health.png" width="15" height="15" />
+                <div>{{localize "DL.DialogTalentApplyHealing"}}</div>
+            </div>
         </div>
-    </div>
-    <div class="talentactions roll-healing">
-        <div class="header" data-item-id="{{data.id.value}}" data-healing="2">
-            <img src=" systems/demonlord/css/icons/health.png" width="15" height="15" />
-            <div>{{localize "DL.DialogTalentApplyHalfHealing"}}</div>
+        <div class="talentactions roll-healing">
+            <div class="header" data-item-id="{{data.id.value}}" data-healing="2">
+                <img src=" systems/demonlord/css/icons/health.png" width="15" height="15" />
+                <div>{{localize "DL.DialogTalentApplyHalfHealing"}}</div>
+            </div>
         </div>
-    </div>
-    {{/if}}
-    {{#if data.effectdice.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellEffectDice"}}</div>
-        <div class="body">{{localize "DL.SpellEffectDiceResult"}} {{data.effectdice.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.plus20text.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollPlus20"}}</div>
-        <div class="body">{{data.plus20text.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spelltarget.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollTarget"}}</div>
-        <div class="body">{{data.spelltarget.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellarea.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollArea"}}</div>
-        <div class="body">{{data.spellarea.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellduration.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollDuration"}}</div>
-        <div class="body">{{data.spellduration.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellrequirements.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollRequirements"}}</div>
-        <div class="body">{{data.spellrequirements.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellsacrifice.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollSacrifice"}}</div>
-        <div class="body">{{data.spellsacrifice.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellpermanence.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollPermanence"}}</div>
-        <div class="body">{{data.spellpermanence.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spellspecial.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollSpecial"}}</div>
-        <div class="body">{{data.spellspecial.value}}</div>
-    </div>
-    {{/if}}
-    {{#if data.spelltriggered.value}}
-    <div class="roll20">
-        <div class="header">{{localize "DL.SpellRollTriggered"}}</div>
-        <div class="body">{{data.spelltriggered.value}}</div>
+        {{/if}}
+        {{#if data.effectdice.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellEffectDice"}}</div>
+            <div class="body">{{localize "DL.SpellEffectDiceResult"}} {{data.effectdice.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.plus20text.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollPlus20"}}</div>
+            <div class="body">{{data.plus20text.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spelltarget.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollTarget"}}</div>
+            <div class="body">{{data.spelltarget.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellarea.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollArea"}}</div>
+            <div class="body">{{data.spellarea.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellduration.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollDuration"}}</div>
+            <div class="body">{{data.spellduration.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellrequirements.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollRequirements"}}</div>
+            <div class="body">{{data.spellrequirements.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellsacrifice.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollSacrifice"}}</div>
+            <div class="body">{{data.spellsacrifice.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellpermanence.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollPermanence"}}</div>
+            <div class="body">{{data.spellpermanence.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spellspecial.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollSpecial"}}</div>
+            <div class="body">{{data.spellspecial.value}}</div>
+        </div>
+        {{/if}}
+        {{#if data.spelltriggered.value}}
+        <div class="roll20">
+            <div class="header">{{localize "DL.SpellRollTriggered"}}</div>
+            <div class="body">{{data.spelltriggered.value}}</div>
+        </div>
+        {{/if}}
+    {{#if data.isCreature.value}}
     </div>
     {{/if}}
     {{#if data.afflictionEffects.value}}

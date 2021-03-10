@@ -708,11 +708,7 @@ Hooks.on('renderChatMessage', async (app, html, msg) => {
       actor.data.data.paths.expert != '' ? actor.data.data.paths.expert : ''
     path = actor.data.data.paths.novice
 
-    if (game.settings.get('demonlord', 'usingChatPortraitModule')) {
-      html.find('.showinfo').prepend(actor.data.data.ancestry + ', ' + path)
-    } else {
-      html.find('.showlessinfo').prepend(actor.data.data.ancestry + ', ' + path)
-    }
+    html.find('.showlessinfo').prepend(actor.data.data.ancestry + ', ' + path)
   }
 
   if (!game.user.isGM) {
@@ -734,9 +730,7 @@ Hooks.on('renderChatMessage', async (app, html, msg) => {
         status += ', ' + game.i18n.localize('DL.CreatureHorrifying')
       }
 
-      if (game.settings.get('demonlord', 'usingChatPortraitModule')) {
-        html.find('.showinfo').prepend(status)
-      } else html.find('.showlessinfo').prepend(status)
+      html.find('.showlessinfo').prepend(status)
     }
   }
 })

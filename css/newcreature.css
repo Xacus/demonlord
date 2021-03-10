@@ -3090,15 +3090,6 @@
   font-size: 12px;
 }
 
-.newcreature .showinfo {
-  position: relative;
-  top: -20px;
-  left: 40px;
-  float: left;
-  height: 0px;
-  font-size: 12px;
-}
-
 .newcreature .showlessinfo {
   font-size: 12px;
   margin-top: -3px;
@@ -4836,7 +4827,6 @@
   list-style: none;
   padding: 0;
   height: 100%;
-  overflow-y: auto;
 }
 
 .newcreature .accordion .items-line li .grid {

@@ -93,9 +93,15 @@ export class DemonlordActorSheet2 extends ActorSheet {
         .getEmbeddedCollection('OwnedItem')
         .filter((e) => e.type === 'path')
 
+      var newPower = 0
+
       if (updateData.data.level > actor.data.data.level) {
         for (const path of paths) {
           for (const level of path.data.levels) {
+            if (level.level <= updateData.data.level) {
+              newPower += parseInt(level.characteristicsPower)
+            }
+
             if (
               level.level > actor.data.data.level &&
               level.level <= updateData.data.level
@@ -130,6 +136,10 @@ export class DemonlordActorSheet2 extends ActorSheet {
       } else if (updateData.data.level < actor.data.data.level) {
         for (const path of paths) {
           for (const level of path.data.levels) {
+            if (level.level <= updateData.data.level) {
+              newPower += parseInt(level.characteristicsPower)
+            }
+
             if (
               level.level <= actor.data.data.level &&
               level.level > updateData.data.level
@@ -174,7 +184,16 @@ export class DemonlordActorSheet2 extends ActorSheet {
           }
         }
       }
+
+      actor.data.data.characteristics.power = newPower
+      this.actor.setUsesOnSpells(actor.data)
     }
+
+    // Update Spell uses when power changes
+    if (updateData.data.characteristics.power) {
+      this.actor.setUsesOnSpells(actor.data)
+    }
+
     return this.entity.update(formData)
   }
 
