@@ -509,6 +509,9 @@
   margin-bottom: 10px;
   background: rgba(0, 0, 0, 0.1);
   font-size: 13px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .demonlord .card-header .attack-img {
@@ -520,7 +523,6 @@
 }
 
 .demonlord .card-header .token-img {
-  float: left;
   height: 40px;
   width: 40px;
 }
@@ -530,14 +532,12 @@
 }
 
 .demonlord .card-header .challenge-img {
-  float: left;
   height: 22px;
   width: 22px;
   background: url("icons/back-forth2.png") no-repeat;
 }
 
 .demonlord .card-header .talent-img {
-  float: left;
   height: 22px;
   width: 22px;
   margin-top: 8px;
@@ -545,7 +545,6 @@
 }
 
 .demonlord .card-header .spell-img {
-  float: left;
   height: 22px;
   width: 22px;
   margin-top: 8px;
@@ -570,9 +569,11 @@
   padding-right: 5px;
 }
 
-.demonlord .card-header .attackbox {
-  float: left;
-  width: 220px;
+.demonlord .card-header .attackbox .boxline {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
 }
 
 .demonlord .card-header .targetbox {

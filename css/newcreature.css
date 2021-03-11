@@ -2792,6 +2792,9 @@
   margin-bottom: 10px;
   background: rgba(0, 0, 0, 0.1);
   font-size: 13px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .newcreature .card-header .attack-img {
@@ -2803,7 +2806,6 @@
 }
 
 .newcreature .card-header .token-img {
-  float: left;
   height: 40px;
   width: 40px;
 }
@@ -2813,14 +2815,12 @@
 }
 
 .newcreature .card-header .challenge-img {
-  float: left;
   height: 22px;
   width: 22px;
   background: url("icons/back-forth2.png") no-repeat;
 }
 
 .newcreature .card-header .talent-img {
-  float: left;
   height: 22px;
   width: 22px;
   margin-top: 8px;
@@ -2828,7 +2828,6 @@
 }
 
 .newcreature .card-header .spell-img {
-  float: left;
   height: 22px;
   width: 22px;
   margin-top: 8px;
@@ -2853,9 +2852,11 @@
   padding-right: 5px;
 }
 
-.newcreature .card-header .attackbox {
-  float: left;
-  width: 220px;
+.newcreature .card-header .attackbox .boxline {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
 }
 
 .newcreature .card-header .targetbox {

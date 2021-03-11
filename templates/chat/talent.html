@@ -6,18 +6,20 @@
         <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img"
                 title="{{item.name}}" height="40" width="40" /></div>
         <div class="attackbox">
-            <div class="header">
-                {{#if data.isCreature.value}}
-                {{localize "DL.AttackSpecialRollText"}}
-                {{else}}
-                {{localize "DL.TalentRollTitle"}}
-                {{/if}}
+            <div class="boxline">
+                <div class="header">
+                    {{#if data.isCreature.value}}
+                    {{localize "DL.AttackSpecialRollText"}}
+                    {{else}}
+                    {{localize "DL.TalentRollTitle"}}
+                    {{/if}}
+                </div>
+                <div class="headertext">{{item.name}}</div>
             </div>
-            <div class="headertext">{{item.name}}</div>
-        </div>
-        <div class="targetbox">
-            <div class="header">{{localize "DL.TargetRollText"}}</div>
-            <div class="targetname">{{data.targetname.value}}</div>
+            <div class="boxline">
+                <div class="header">{{localize "DL.TargetRollText"}}</div>
+                <div class="targetname">{{data.targetname.value}}</div>
+            </div>
         </div>
     </header>
     {{else}}

@@ -378,13 +378,13 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     const item = this.object
     const updateData = expandObject(formData)
 
-    if (item.type == 'talent') {
+    if (item.type === 'talent') {
       // If a Talent has no uses it's always active
       if (
         (updateData.data?.uses?.value == null &&
           updateData.data?.uses?.max == null) ||
-        (updateData.data?.uses?.value == '0' &&
-          updateData.data?.uses?.max == '0')
+        (updateData.data?.uses?.value === '0' &&
+          updateData.data?.uses?.max === '0')
       ) {
         await this.object.update({
           'data.addtonextroll': true
@@ -407,7 +407,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       }
 
       for (const [k, v] of Object.entries(formData)) {
-        if (k == 'altdamagevs') {
+        if (k === 'altdamagevs') {
           let index = 0
 
           if (Array.isArray(v)) {
@@ -418,7 +418,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           } else {
             item.data.data.vs.damagetypes[index].damage = v
           }
-        } else if (k == 'altdamagetypevs') {
+        } else if (k === 'altdamagetypevs') {
           let index = 0
 
           if (Array.isArray(v)) {
@@ -435,9 +435,9 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       await this.object.update({
         'data.vs.damagetypes': duplicate(this.item.data.data?.vs?.damagetypes)
       })
-    } else if (item.type == 'weapon' || item.type == 'spell') {
+    } else if (item.type === 'weapon' || item.type === 'spell') {
       for (const [k, v] of Object.entries(formData)) {
-        if (k == 'altdamage') {
+        if (k === 'altdamage') {
           let index = 0
 
           if (Array.isArray(v)) {
@@ -448,7 +448,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           } else {
             item.data.data.action.damagetypes[index].damage = v
           }
-        } else if (k == 'altdamagetype') {
+        } else if (k === 'altdamagetype') {
           let index = 0
 
           if (Array.isArray(v)) {
@@ -466,25 +466,25 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           this.item.data.data.action.damagetypes
         )
       })
-    }
+    } else if (item.type === 'ancestry' && this.actor) {
+      // Update Spell uses when power changes
+      if (updateData.data?.characteristics?.power) {
+        var newPower = parseInt(updateData.data.characteristics.power)
 
-    // Update Spell uses when power changes
-    if (updateData.data?.characteristics?.power) {
-      var newPower = parseInt(updateData.data.characteristics.power)
-
-      const paths = this.actor
-        .getEmbeddedCollection('OwnedItem')
-        .filter((e) => e.type === 'path')
-      for (const path of paths) {
-        for (const level of path.data.levels) {
-          if (level.level <= this.actor.data.data.level) {
-            newPower += parseInt(level.characteristicsPower)
+        const paths = this.actor
+          .getEmbeddedCollection('OwnedItem')
+          .filter((e) => e.type === 'path')
+        for (const path of paths) {
+          for (const level of path.data.levels) {
+            if (level.level <= this.actor.data.data.level) {
+              newPower += parseInt(level.characteristicsPower)
+            }
           }
         }
-      }
 
-      this.actor.data.data.characteristics.power = newPower
-      this.actor.setUsesOnSpells(this.actor.data)
+        this.actor.data.data.characteristics.power = newPower
+        this.actor.setUsesOnSpells(this.actor.data)
+      }
     }
 
     return this.entity.update(updateData)

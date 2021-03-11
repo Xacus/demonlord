@@ -24,8 +24,6 @@ export class DemonlordActor extends Actor {
     let pathHealthBonus = 0
     let ancestryFixedArmor = false
 
-    data.characteristics.insanity.max = data.attributes.will.value
-
     const characterbuffs = this.generateCharacterBuffs()
     const ancestries = this.getEmbeddedCollection('OwnedItem').filter(
       (e) => e.type === 'ancestry'
@@ -371,6 +369,9 @@ export class DemonlordActor extends Actor {
           ? parseInt(data.characteristics.speed)
           : 2
     }
+
+    // Calculate Insanity
+    data.characteristics.insanity.max = data.attributes.will.value
 
     data.characteristics.power += parseInt(characterbuffs.powerbonus)
 

@@ -6,6 +6,7 @@
   margin-bottom: 10px;
   background: rgba(0, 0, 0, 0.1);
   font-size: 13px;
+  display: flex;
 
   .attack-img {
     float: left;
@@ -16,7 +17,6 @@
   }
 
   .token-img {
-    float: left;
     height: 40px;
     width: 40px;
 
@@ -26,14 +26,12 @@
   }
 
   .challenge-img {
-    float: left;
     height: 22px;
     width: 22px;
     background: url("icons/back-forth2.png") no-repeat;
   }
 
   .talent-img {
-    float: left;
     height: 22px;
     width: 22px;
     margin-top: 8px;
@@ -41,7 +39,6 @@
   }
 
   .spell-img {
-    float: left;
     height: 22px;
     width: 22px;
     margin-top: 8px;
@@ -67,10 +64,11 @@
   }
 
   .attackbox {
-    float: left;
-    width: 220px;
+    .boxline {
+      flex-direction: row;
 
-    .header {
+      .header {
+      }
     }
   }
 

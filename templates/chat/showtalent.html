@@ -6,10 +6,12 @@
                 height="40" width="40" /></div>
         {{/if}}
         <div class="attackbox">
-            <div class="header">
-                {{localize "DL.TalentRollTitle"}}
+            <div class="boxline">
+                <div class="header">
+                    {{localize "DL.TalentRollTitle"}}
+                </div>
+                <div class="headertext">{{item.name}}</div>
             </div>
-            <div class="headertext">{{item.name}}</div>
         </div>
     </header>
     {{#if data.uses.value}}
