@@ -16,10 +16,12 @@
         "css/demonlord2.css",
         "css/demonlorddialog.css",
         "css/charactergenerator.css",
-        "css/playertracker.css"
+        "css/playertracker.css",
+        "css/tipfy.css"
     ],
     "scripts": [
-        "scripts/lib/tagify.min.js"
+        "scripts/lib/tagify.min.js",
+        "scripts/lib/tipfy.js"
     ],
     "packs": [
         {

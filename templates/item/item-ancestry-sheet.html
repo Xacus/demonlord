@@ -260,9 +260,11 @@
                                             <div class="item-container select-area" data-level="{{id}}">
                                                 <ul class="tags">
                                                     {{#each data.languagelist as |language id|}}
-                                                    <li class="tagcleantooltip" data-item-id="{{id}}">{{language.name}}
+                                                    <li class="tagcleantooltip" data-item-id="{{id}}">
                                                         {{#if language.description}} 
-                                                        <span class="tooltiptext">{{{language.description}}}</span>
+                                                        <span data-tipfy="{{{language.description}}}">{{language.name}}</span>
+                                                        {{else}}
+                                                        {{language.name}}
                                                         {{/if}}
                                                     </li>
                                                     {{/each}}
@@ -278,9 +280,11 @@
                                             <div class="item-container select-area" data-level="{{id}}">
                                                 <ul class="tags">
                                                     {{#each data.talents as |talent id|}}
-                                                    <li class="tagcleantooltip" data-item-id="{{id}}">{{talent.name}}
+                                                    <li class="tagcleantooltip" data-item-id="{{id}}">
                                                         {{#if talent.description}} 
-                                                        <span class="tooltiptext">{{{talent.description}}}</span>
+                                                        <span data-tipfy="{{{talent.description}}}">{{talent.name}}</span>
+                                                        {{else}}
+                                                        {{talent.name}}
                                                         {{/if}}
                                                     </li>
                                                     {{/each}}
@@ -348,9 +352,11 @@
                                                 <div class="item-container select-area" data-level="{{id}}">
                                                     <ul class="tags">
                                                         {{#each data.level4.talent as |talent id|}}
-                                                        <li class="tagcleantooltip" data-item-id="{{id}}">{{talent.name}}
+                                                        <li class="tagcleantooltip" data-item-id="{{id}}">
                                                             {{#if talent.description}} 
-                                                            <span class="tooltiptext">{{{talent.description}}}</span>
+                                                            <span data-tipfy="{{{talent.description}}}">{{talent.name}}</span>
+                                                            {{else}}
+                                                            {{talent.name}}
                                                             {{/if}}
                                                         </li>
                                                         {{/each}}
@@ -365,7 +371,6 @@
                         </div>
                     </div>
                 </div>
-
                 {{!-- Description Tab --}}
                 <div class="tab" data-group="primary" data-tab="description">
                     <div class="descriptionblock">
@@ -375,4 +380,7 @@
             </section>
         </section>
     </div>
+    <script>
+    new Tipfy('[data-tipfy]');
+    </script>
 </form>

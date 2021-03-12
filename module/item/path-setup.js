@@ -7,7 +7,7 @@ export class DemonlordPathSetup extends ItemSheet {
   /** @override */
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
-      classes: ['demonlord2', 'sheet', 'item'],
+      classes: ['demonlord2', 'sheet', 'item', 'tooltip'],
       template: 'systems/demonlord/templates/item/path-setup.html',
       width: 620,
       height: 550,

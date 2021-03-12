@@ -616,9 +616,11 @@
                                     <div class="item-container select-area">
                                         <ul class="tags">
                                             {{#each level.talents as |talent id|}}
-                                            <li class="tagcleantooltip" data-item-id="{{id}}">{{talent.name}}
-                                                {{#if talent.description}} 
-                                                <span class="tooltiptext">{{{talent.description}}}</span>
+                                            <li class="tagcleantooltip" data-item-id="{{id}}">
+                                                {{#if talent.description}}
+                                                <span data-tipfy="{{{talent.description}}}">{{talent.name}}</span>
+                                                {{else}}
+                                                {{talent.name}}
                                                 {{/if}}
                                             </li>
                                             {{/each}}
@@ -635,9 +637,11 @@
                                     <div class="item-container select-area" data-group="talent" data-level="{{id}}">
                                         <ul class="tags">
                                             {{#each level.talentspick as |talent id|}}
-                                            <li class="tagcleantooltip select-item transfer-talentpick" data-item-id="{{id}}">{{talent.name}}
-                                                {{#if talent.description}} 
-                                                <span class="tooltiptext">{{{talent.description}}}</span>
+                                            <li class="tagcleantooltip select-item transfer-talentpick" data-item-id="{{id}}">
+                                                {{#if talent.description}}
+                                                <span data-tipfy="{{{talent.description}}}">{{talent.name}}</span>
+                                                {{else}}
+                                                {{talent.name}}
                                                 {{/if}}
                                             </li>
                                             {{/each}}
@@ -653,9 +657,11 @@
                                     <div class="item-container select-area" data-group="spell" data-level="{{id}}">
                                         <ul class="tags">
                                             {{#each level.spells as |spell id|}}
-                                            <li class="tagcleantooltip" data-item-id="{{id}}">{{spell.name}}
+                                            <li class="tagcleantooltip" data-item-id="{{id}}">
                                                 {{#if spell.description}} 
-                                                <span class="tooltiptext">{{{spell.description}}}</span>
+                                                <span data-tipfy="{{{spell.description}}}">{{spell.name}}</span>
+                                                {{else}}
+                                                {{spell.name}}
                                                 {{/if}}
                                             </li>
                                             {{/each}}
@@ -678,4 +684,7 @@
         </section>
     </section>
     {{/if}}
+    <script>
+    new Tipfy('[data-tipfy]');
+    </script>
 </form>
