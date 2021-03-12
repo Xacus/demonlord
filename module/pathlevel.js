@@ -46,6 +46,7 @@ export class PathLevel {
     this.characteristicsSpeed = obj.characteristicsSpeed || 0
     this.characteristicsHealth = obj.characteristicsHealth || 0
     this.characteristicsCorruption = obj.characteristicsCorruption || 0
+    this.characteristicsInsanity = obj.characteristicsInsanity || 0
 
     this.languagesText = obj.languagesText || ''
     this.equipmentText = obj.equipmentText || ''

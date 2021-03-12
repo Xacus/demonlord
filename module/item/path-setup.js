@@ -580,6 +580,19 @@ export class DemonlordPathSetup extends ItemSheet {
             } else {
               item.data.data.levels[index].characteristicsDefense = parseInt(v)
             }
+          } else if (k == 'level.characteristicsInsanity') {
+            let index = 0
+
+            if (Array.isArray(v)) {
+              for (const id of v) {
+                item.data.data.levels[index].characteristicsInsanity = parseInt(
+                  id
+                )
+                index++
+              }
+            } else {
+              item.data.data.levels[index].characteristicsInsanity = parseInt(v)
+            }
           } else if (k == 'level.characteristicsCorruption') {
             let index = 0
 
