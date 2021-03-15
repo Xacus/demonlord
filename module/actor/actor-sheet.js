@@ -28,7 +28,7 @@ export class DemonlordActorSheet extends ActorSheet {
     if (this.options.editable && canConfigure) {
       buttons = [
         {
-          label: 'Actor Mods',
+          label: game.i18n.localize('DL.ActorMods'),
           class: 'configure-actor',
           icon: 'fas fa-dice',
           onclick: (ev) => this._onConfigureActor(ev)

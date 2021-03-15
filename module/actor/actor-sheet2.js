@@ -53,7 +53,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
           onclick: (ev) => this._onGenerateActor(ev)
         }, */
         {
-          label: 'Actor Mods',
+          label: game.i18n.localize('DL.ActorMods'),
           class: 'configure-actor',
           icon: 'fas fa-dice',
           onclick: (ev) => this._onConfigureActor(ev)

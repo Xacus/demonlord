@@ -40,7 +40,7 @@
     border-bottom: 1px solid #333;
   }
   .col-1 {
-    flex-basis: 63%;
+    flex-basis: 60%;
 
     .item-image {
       float: left;
@@ -61,7 +61,7 @@
     padding-right: 10px;
   }
   .col-4 {
-    flex-basis: 10%;
+    flex-basis: 13%;
     text-align: right;
     font-size: 12px;
 
@@ -337,7 +337,6 @@
         margin-right: 5px;
       }
 
-      
       h4 {
         margin: 0;
         white-space: nowrap;
@@ -526,7 +525,8 @@
       font-family: "Gelasio", "Signika", Georgia, serif;
       font-size: 11px;
 
-      &:focus, &:hover {
+      &:focus,
+      &:hover {
         background: rgba(0, 0, 0, 0.3);
       }
     }
@@ -550,7 +550,9 @@
   top: 52px;
 }
 
-.switch, .switchBig, .switchTurn {
+.switch,
+.switchBig,
+.switchTurn {
   position: relative;
   display: inline-block;
   width: 48px;
@@ -567,7 +569,9 @@
   height: 14px;
 }
 
-.switch input, .switchBig input, .switchTurn input {
+.switch input,
+.switchBig input,
+.switchTurn input {
   display: none;
 }
 
@@ -589,7 +593,6 @@
 .switchTurn .slider {
   background: none;
 }
-
 
 .slider:before {
   position: absolute;
@@ -641,7 +644,6 @@ input:checked + .slider:before {
   -ms-transform: translateX(78px);
   transform: translateX(78px);
 }
-
 
 .on {
   display: none;

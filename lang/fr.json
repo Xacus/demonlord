@@ -128,6 +128,8 @@
   "DL.WeaponEdit": "Editer une Arme",
   "DL.WeaponDelete": "Effacer une arme",
   "DL.WeaponWear": "Equiper une arme",
+  "DL.ItemEnchanted": "Enchanted item",
+  "DL.ItemEnchantedEffect": "Effect",
   "DL.WeaponDamageBonus": "Bonus dégât",
   "DL.DamageType": "Type de dégât",
   "DL.DamageAddType": "Ajouter un type de dégât",
@@ -416,6 +418,8 @@
   "DL.DialogTurnSlow": "Lent",
   "DL.TurnFast": "RAPIDE",
   "DL.TurnSlow": "LENT",
+  "DL.TurnFastButton": "Rapide tourné",
+  "DL.TurnSlowButton": "Lent tourné",
   "DL.TurnChooseTurn": "Choisissez votre ordre de passage",
   "DL.TurnChangeTurn": "Modifier votre ordre de passage",
   "DL.TurnTurnOrder": "Ordre de passage:",
@@ -594,5 +598,7 @@
   },
   "DL.AttackEdit": "Editer l'attaque",
   "DL.AttackDelete": "Effacer l'attaque",
-  "DL.AttackClone": "Dupliquer l'attaque"
+  "DL.AttackClone": "Dupliquer l'attaque",
+  "DL.ActorMods": "Actor Mods",
+  "DL.ActorModfiers": "Actor Modifiers"
 }

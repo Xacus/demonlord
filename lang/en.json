@@ -128,6 +128,8 @@
   "DL.WeaponEdit": "Edit weapon",
   "DL.WeaponDelete": "Delete weapon",
   "DL.WeaponWear": "Equip weapon",
+  "DL.ItemEnchanted": "Enchanted item",
+  "DL.ItemEnchantedEffect": "Effect",
   "DL.WeaponDamageBonus": "Damage bonus",
   "DL.DamageType": "Damage type",
   "DL.DamageAddType": "Add damage type",
@@ -416,6 +418,8 @@
   "DL.DialogTurnSlow": "Slow",
   "DL.TurnFast": "FAST",
   "DL.TurnSlow": "SLOW",
+  "DL.TurnFastButton": "Fast turn",
+  "DL.TurnSlowButton": "Slow turn",
   "DL.TurnChooseTurn": "Choose your turn order",
   "DL.TurnChangeTurn": "Change your turn order",
   "DL.TurnTurnOrder": "Turn order:",
@@ -595,5 +599,7 @@
   },
   "DL.AttackEdit": "Edit attack",
   "DL.AttackDelete": "Delete attack",
-  "DL.AttackClone": "Clone attack"
+  "DL.AttackClone": "Clone attack",
+  "DL.ActorMods": "Actor Mods",
+  "DL.ActorModfiers": "Actor Modifiers"
 }

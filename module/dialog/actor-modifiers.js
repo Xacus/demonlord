@@ -16,7 +16,7 @@ export class DLActorModifiers extends FormApplication {
    * @type {String}
    */
   get title () {
-    return `${this.object.name}: Actor Modifiers`
+    return `${this.object.name}: ` + game.i18n.localize('DL.ActorModfiers')
   }
   /* -------------------------------------------- */
 
