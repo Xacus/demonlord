@@ -230,24 +230,32 @@
                     "perceptionboonsbanesselect": false,
                     "extraeffect": ""
                 }
+            },
+            "enchantment": {
+                "enchantment": {
+                    "attackbonus": 0,
+                    "challengebonus": 0,
+                    "damage": "",
+                    "defense": 0,
+                    "speed": 0,
+                    "perception": 0,
+                    "effect": "",
+                    "uses": {
+                        "value": 0,
+                        "max": 0
+                    }
+                }
             }
         },
         "item": {
             "templates": [
-                "base"
+                "base",
+                "enchantment"
             ],
             "quantity": 1,
             "availability": "",
             "value": "",
-            "wear": true,
-            "enchantment": {
-                "attackbonus": 0,
-                "challengebonus": 0,
-                "damage": "",
-                "defense": 0,
-                "speed": 0,
-                "perception": 0
-            }
+            "wear": true
         },
         "feature": {
             "templates": [
@@ -343,7 +351,8 @@
         "weapon": {
             "templates": [
                 "base",
-                "action"
+                "action",
+                "enchantment"
             ],
             "hands": "",
             "properties": "",
@@ -355,7 +364,8 @@
         },
         "armor": {
             "templates": [
-                "base"
+                "base",
+                "enchantment"
             ],
             "properties": "",
             "defense": "",

@@ -55,6 +55,18 @@
                     <div class="resource">
                         <label class="resource-label">{{localize "DL.ItemEnchantment"}}</label>
                         <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.ModsEffects"}}</label>
+                            <textarea name="data.enchantment.effect">{{data.enchantment.effect}}</textarea>
+                            <div class="grid grid-2col">
+                                <div>
+                                    <label class="resource-label">{{localize "DL.SpellCastingsUses"}}</label>
+                                    <input type="text" name="data.enchantment.uses.value" value="{{data.enchantment.uses.value}}" />
+                                </div>
+                                <div>
+                                    <label class="resource-label">{{localize "DL.SpellCastingsMax"}}</label>
+                                    <input type="text" name="data.enchantment.uses.max" value="{{data.enchantment.uses.max}}" />
+                                </div>
+                            </div>
                             <label class="resource-label">{{localize "DL.TalentAttackBoonsBanes"}}</label>
                             <input type="text" name="data.enchantment.attackbonus"
                                 value="{{data.enchantment.attackbonus}}" data-dtype="Number" />

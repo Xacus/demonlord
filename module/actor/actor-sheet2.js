@@ -184,7 +184,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
           }
         }
       }
-
       actor.data.data.characteristics.power = newPower
       this.actor.setUsesOnSpells(actor.data)
     }
