@@ -70,4 +70,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true
   })
+  game.settings.register('demonlord', 'statusIcons', {
+    name: game.i18n.localize('DL.SettingStatusIcons'),
+    hint: game.i18n.localize('DL.SettingStatusIconsHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true
+  })
 }

@@ -53,6 +53,7 @@ Hooks.once('init', async function () {
   CONFIG.Item.entityClass = DemonlordItem
   CONFIG.ui.combat = combattracker
   CONFIG.time.roundTime = 10
+  // CONFIG.debug.hooks = true
 
   registerSettings()
 
@@ -169,12 +170,14 @@ Hooks.once('setup', function () {
       icon: attribute
     })
   }
-  for (const effect of CONFIG.statusEffects) {
-    effects.push({
-      id: effect.id,
-      label: effect.label,
-      icon: effect.icon
-    })
+  if (!game.settings.get('demonlord', 'statusIcons')) {
+    for (const effect of CONFIG.statusEffects) {
+      effects.push({
+        id: effect.id,
+        label: effect.label,
+        icon: effect.icon
+      })
+    }
   }
 
   CONFIG.statusEffects = effects
