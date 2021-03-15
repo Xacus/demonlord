@@ -1,126 +1,121 @@
 {
-    "name": "demonlord",
-    "title": "Shadow of the Demon Lord",
-    "description": "The Shadow of the Demonlord system for FoundryVTT",
-    "version": "1.7.10",
-    "author": "Xacus",
-    "minimumCoreVersion": "0.6.6",
-    "compatibleCoreVersion": "0.7.9",
-    "esmodules": [
-        "module/demonlord.js"
-    ],
-    "styles": [
-        "css/lib/tagify.css",
-        "css/newcreature.css",
-        "css/demonlord.css",
-        "css/demonlord2.css",
-        "css/demonlorddialog.css",
-        "css/charactergenerator.css",
-        "css/playertracker.css",
-        "css/tipfy.css"
-    ],
-    "scripts": [
-        "scripts/lib/tagify.min.js",
-        "scripts/lib/tipfy.js"
-    ],
-    "packs": [
-        {
-            "name": "weapons",
-            "label": "Weapons",
-            "system": "demonlord",
-            "path": "packs/weapons.db",
-            "entity": "Item"
-        },
-        {
-            "name": "armor",
-            "label": "Armor",
-            "system": "demonlord",
-            "path": "packs/armor.db",
-            "entity": "Item"
-        },
-        {
-            "name": "ammunition",
-            "label": "Ammunition",
-            "system": "demonlord",
-            "path": "packs/ammunition.db",
-            "entity": "Item"
-        },
-        {
-            "name": "weapons creature",
-            "label": "Weapons Creature",
-            "system": "demonlord",
-            "path": "packs/weapons-creatures.db",
-            "entity": "Item"
-        },
-        {
-            "name": "languages",
-            "label": "Languages",
-            "system": "demonlord",
-            "path": "packs/languages.db",
-            "entity": "Item"
-        },
-        {
-            "name": "demonlord macros gm",
-            "label": "Demonlord Macros - GM",
-            "system": "demonlord",
-            "path": "packs/demonlord-macros-gm.db",
-            "entity": "Macro"
-        },
-        {
-            "name": "demonlord macros player",
-            "label": "Demonlord Macros - Player",
-            "system": "demonlord",
-            "path": "packs/demonlord-macros-player.db",
-            "entity": "Macro"
-        },
-        {
-            "name": "sotdl system guide",
-            "label": "SotDL System Guide",
-            "system": "demonlord",
-            "path": "packs/sotdl-system-guide.db",
-            "entity": "JournalEntry"
-        },
-        {
-            "name": "sotdl roll tabels",
-            "label": "Demonlord - Roll Tables",
-            "system": "demonlord",
-            "path": "packs/roll-tables.db",
-            "entity": "RollTable"
-        }
-    ],
-    "languages": [
-        {
-            "lang": "en",
-            "name": "English",
-            "path": "lang/en.json"
-        },
-        {
-            "lang": "pt-BR",
-            "name": "Portuguese (Brazilian)",
-            "path": "lang/pt-BR.json"
-        },
-        {
-            "lang": "de",
-            "name": "Deutsch",
-            "path": "lang/de.json"
-        },
-        {
-            "lang": "es",
-            "name": "Spanish",
-            "path": "lang/es.json"
-        },
-        {
-            "lang": "fr",
-            "name": "French",
-            "path": "lang/fr.json"
-        }
-    ],
-    "gridDistance": 1,
-    "gridUnits": "yd",
-    "primaryTokenAttribute": "characteristics.health",
-    "secondaryTokenAttribute": "",
-    "socket": true,
-    "url": "https://github.com/Xacus/demonlord",
-    "manifest": "https://raw.githubusercontent.com/Xacus/demonlord/master/system.json",
-    "download": "https://github.com/Xacus/demonlord/archive/master.zip"
+  "name": "demonlord",
+  "title": "Shadow of the Demon Lord",
+  "description": "The Shadow of the Demonlord system for FoundryVTT",
+  "version": "1.7.11",
+  "author": "Xacus",
+  "minimumCoreVersion": "0.6.6",
+  "compatibleCoreVersion": "0.7.9",
+  "esmodules": ["module/demonlord.js"],
+  "styles": [
+    "css/lib/tagify.css",
+    "css/newcreature.css",
+    "css/demonlord.css",
+    "css/demonlord2.css",
+    "css/demonlorddialog.css",
+    "css/charactergenerator.css",
+    "css/playertracker.css",
+    "css/tipfy.css"
+  ],
+  "scripts": ["scripts/lib/tagify.min.js", "scripts/lib/tipfy.js"],
+  "packs": [
+    {
+      "name": "weapons",
+      "label": "Weapons",
+      "system": "demonlord",
+      "path": "packs/weapons.db",
+      "entity": "Item"
+    },
+    {
+      "name": "armor",
+      "label": "Armor",
+      "system": "demonlord",
+      "path": "packs/armor.db",
+      "entity": "Item"
+    },
+    {
+      "name": "ammunition",
+      "label": "Ammunition",
+      "system": "demonlord",
+      "path": "packs/ammunition.db",
+      "entity": "Item"
+    },
+    {
+      "name": "weapons creature",
+      "label": "Weapons Creature",
+      "system": "demonlord",
+      "path": "packs/weapons-creatures.db",
+      "entity": "Item"
+    },
+    {
+      "name": "languages",
+      "label": "Languages",
+      "system": "demonlord",
+      "path": "packs/languages.db",
+      "entity": "Item"
+    },
+    {
+      "name": "demonlord macros gm",
+      "label": "Demonlord Macros - GM",
+      "system": "demonlord",
+      "path": "packs/demonlord-macros-gm.db",
+      "entity": "Macro"
+    },
+    {
+      "name": "demonlord macros player",
+      "label": "Demonlord Macros - Player",
+      "system": "demonlord",
+      "path": "packs/demonlord-macros-player.db",
+      "entity": "Macro"
+    },
+    {
+      "name": "sotdl system guide",
+      "label": "SotDL System Guide",
+      "system": "demonlord",
+      "path": "packs/sotdl-system-guide.db",
+      "entity": "JournalEntry"
+    },
+    {
+      "name": "sotdl roll tabels",
+      "label": "Demonlord - Roll Tables",
+      "system": "demonlord",
+      "path": "packs/roll-tables.db",
+      "entity": "RollTable"
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "pt-BR",
+      "name": "Portuguese (Brazilian)",
+      "path": "lang/pt-BR.json"
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json"
+    },
+    {
+      "lang": "es",
+      "name": "Spanish",
+      "path": "lang/es.json"
+    },
+    {
+      "lang": "fr",
+      "name": "French",
+      "path": "lang/fr.json"
+    }
+  ],
+  "gridDistance": 1,
+  "gridUnits": "yd",
+  "primaryTokenAttribute": "characteristics.health",
+  "secondaryTokenAttribute": "",
+  "socket": true,
+  "url": "https://github.com/Xacus/demonlord",
+  "manifest": "https://raw.githubusercontent.com/Xacus/demonlord/master/system.json",
+  "download": "https://github.com/Xacus/demonlord/archive/master.zip"
 }
