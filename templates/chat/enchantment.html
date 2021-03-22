@@ -48,10 +48,10 @@
         <div class="body">{{item.data.data.data.enchantment.perception}}</div>
     </div>
     {{/if}}
-    {{#if item.data.data.data.description}}
+    {{#if item.data.data.data.enchantment.effect}}
     <div class="description">
         <div class="header">{{localize "DL.SpellRollDescription"}}</div>
-        <div class="body">{{{item.data.data.data.description}}}</div>
+        <div class="body">{{{item.data.data.data.enchantment.effect}}}</div>
     </div>
     {{/if}}
     {{#if data.healing.value}}
