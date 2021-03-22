@@ -261,6 +261,7 @@
   "DL.ItemPerceptionModifier": "Perception Modifier",
   "DL.ItemWear": "Wear item",
   "DL.ItemShowInfo": "Item Info",
+  "DL.ItemRollText": "Item:",
   "DL.WealthTitle": "Wealth",
   "DL.WealthLifestyle": "Lifestyle: ",
   "DL.WealthCoinsGC": "GC: ",

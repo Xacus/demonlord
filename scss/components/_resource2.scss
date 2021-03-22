@@ -6,7 +6,8 @@
     font-size: 12px;
   }
 
-  .modifierblock, .modifierblockH {
+  .modifierblock,
+  .modifierblockH {
     padding: 5px;
     border: 1px solid #333;
     border-radius: 2px;
@@ -131,5 +132,22 @@
   .item-controls-line {
     float: right;
     margin-top: -21px;
+  }
+}
+
+.enchantment {
+  .enchatmentBox {
+    input[type="checkbox"] {
+      float: left;
+      height: 15px;
+      margin-left: -3px;
+      margin-right: 5px;
+    }
+
+    label {
+      float: left;
+      width: auto;
+      margin-top: 4px;
+    }
   }
 }

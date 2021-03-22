@@ -60,7 +60,9 @@
 .ancestry-create:hover,
 .ancestry-create:focus,
 .edit-ancestrytalents:hover,
-.edit-ancestrytalents:focus {
+.edit-ancestrytalents:focus,
+.show-iteminfo:hover,
+.show-iteminfo:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;
@@ -2395,8 +2397,8 @@
 }
 
 .demonlord2 .responsive-table .col-1 {
-  -ms-flex-preferred-size: 63%;
-  flex-basis: 63%;
+  -ms-flex-preferred-size: 60%;
+  flex-basis: 60%;
 }
 
 .demonlord2 .responsive-table .col-1 .item-image {
@@ -2422,8 +2424,8 @@
 }
 
 .demonlord2 .responsive-table .col-4 {
-  -ms-flex-preferred-size: 10%;
-  flex-basis: 10%;
+  -ms-flex-preferred-size: 13%;
+  flex-basis: 13%;
   text-align: right;
   font-size: 12px;
 }
@@ -2957,7 +2959,9 @@
   top: 52px;
 }
 
-.demonlord2 .switch, .demonlord2 .switchBig, .demonlord2 .switchTurn {
+.demonlord2 .switch,
+.demonlord2 .switchBig,
+.demonlord2 .switchTurn {
   position: relative;
   display: inline-block;
   width: 48px;
@@ -2974,7 +2978,9 @@
   height: 14px;
 }
 
-.demonlord2 .switch input, .demonlord2 .switchBig input, .demonlord2 .switchTurn input {
+.demonlord2 .switch input,
+.demonlord2 .switchBig input,
+.demonlord2 .switchTurn input {
   display: none;
 }
 
@@ -4329,14 +4335,16 @@
   font-size: 12px;
 }
 
-.demonlord2 .resource .modifierblock, .demonlord2 .resource .modifierblockH {
+.demonlord2 .resource .modifierblock,
+.demonlord2 .resource .modifierblockH {
   padding: 5px;
   border: 1px solid #333;
   border-radius: 2px;
 }
 
 .demonlord2 .resource .modifierblock input[type="text"],
-.demonlord2 .resource .modifierblock select, .demonlord2 .resource .modifierblockH input[type="text"],
+.demonlord2 .resource .modifierblock select,
+.demonlord2 .resource .modifierblockH input[type="text"],
 .demonlord2 .resource .modifierblockH select {
   margin-bottom: 5px;
   font-size: 11px;
@@ -4347,18 +4355,21 @@
   padding-left: 5px;
 }
 
-.demonlord2 .resource .modifierblock .grid, .demonlord2 .resource .modifierblockH .grid {
+.demonlord2 .resource .modifierblock .grid,
+.demonlord2 .resource .modifierblockH .grid {
   margin: 0;
 }
 
-.demonlord2 .resource .modifierblock label, .demonlord2 .resource .modifierblockH label {
+.demonlord2 .resource .modifierblock label,
+.demonlord2 .resource .modifierblockH label {
   font-size: 11px;
   width: 100px;
   height: 20px;
   color: #000;
 }
 
-.demonlord2 .resource .modifierblock .resource-label, .demonlord2 .resource .modifierblockH .resource-label {
+.demonlord2 .resource .modifierblock .resource-label,
+.demonlord2 .resource .modifierblockH .resource-label {
   float: left;
   width: 100%;
   height: 20px;
@@ -4366,39 +4377,46 @@
   color: #000;
 }
 
-.demonlord2 .resource .modifierblock .damagevalue, .demonlord2 .resource .modifierblockH .damagevalue {
+.demonlord2 .resource .modifierblock .damagevalue,
+.demonlord2 .resource .modifierblockH .damagevalue {
   width: 78%;
 }
 
-.demonlord2 .resource .modifierblock .damagetype, .demonlord2 .resource .modifierblockH .damagetype {
+.demonlord2 .resource .modifierblock .damagetype,
+.demonlord2 .resource .modifierblockH .damagetype {
   float: right;
   width: 20%;
 }
 
-.demonlord2 .resource .modifierblock .boonbaneselect, .demonlord2 .resource .modifierblockH .boonbaneselect {
+.demonlord2 .resource .modifierblock .boonbaneselect,
+.demonlord2 .resource .modifierblockH .boonbaneselect {
   float: left;
 }
 
-.demonlord2 .resource .modifierblock .boonbanetype, .demonlord2 .resource .modifierblockH .boonbanetype {
+.demonlord2 .resource .modifierblock .boonbanetype,
+.demonlord2 .resource .modifierblockH .boonbanetype {
   float: left;
   margin-top: 0;
   margin-left: 10px;
   width: 20%;
 }
 
-.demonlord2 .resource .modifierblock .check, .demonlord2 .resource .modifierblockH .check {
+.demonlord2 .resource .modifierblock .check,
+.demonlord2 .resource .modifierblockH .check {
   margin-top: 16px;
   margin-bottom: 4px;
 }
 
-.demonlord2 .resource .modifierblock .check input[type="checkbox"], .demonlord2 .resource .modifierblockH .check input[type="checkbox"] {
+.demonlord2 .resource .modifierblock .check input[type="checkbox"],
+.demonlord2 .resource .modifierblockH .check input[type="checkbox"] {
   float: left;
   margin: 0px 0 2px -3px;
   height: 12px;
   color: #000;
 }
 
-.demonlord2 .resource .modifierblock .check label, .demonlord2 .resource .modifierblockH .check label {
+.demonlord2 .resource .modifierblock .check label,
+.demonlord2 .resource .modifierblockH .check label {
   float: none;
 }
 
@@ -4460,6 +4478,19 @@
 .demonlord2 .resource .item-controls-line {
   float: right;
   margin-top: -21px;
+}
+
+.demonlord2 .enchantment .enchatmentBox input[type="checkbox"] {
+  float: left;
+  height: 15px;
+  margin-left: -3px;
+  margin-right: 5px;
+}
+
+.demonlord2 .enchantment .enchatmentBox label {
+  float: left;
+  width: auto;
+  margin-top: 4px;
 }
 
 .demonlord2 .tabs {

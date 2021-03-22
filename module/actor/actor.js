@@ -1911,6 +1911,50 @@ export class DemonlordActor extends Actor {
     })
   }
 
+  showItemInfo (item) {
+    const uses = parseInt(item.data?.data?.enchantment?.uses?.value)
+    const usesmax = parseInt(item.data?.data?.enchantment?.uses?.max)
+
+    const usesText =
+      game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesmax
+
+    var templateData = {
+      actor: this,
+      item: {
+        data: item,
+        name: item.name
+      },
+      data: {
+        uses: {
+          value: usesText
+        },
+        healing: {
+          value: item.data?.data?.healingoption
+        }
+      }
+    }
+
+    const chatData = {
+      user: game.user._id,
+      speaker: {
+        actor: this._id,
+        token: this.token,
+        alias: this.name
+      }
+    }
+
+    const rollMode = game.settings.get('core', 'rollMode')
+    if (['gmroll', 'blindroll'].includes(rollMode)) {
+      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
+    }
+
+    const template = 'systems/demonlord/templates/chat/enchantment.html'
+    renderTemplate(template, templateData).then((content) => {
+      chatData.content = content
+      ChatMessage.create(chatData)
+    })
+  }
+
   getTarget () {
     let selectedTarget = null
     game.user.targets.forEach(async (target) => {

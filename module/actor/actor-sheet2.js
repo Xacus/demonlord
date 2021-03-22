@@ -611,6 +611,14 @@ export class DemonlordActorSheet2 extends ActorSheet {
       this.actor.rollCorruption()
     })
 
+    // Inventory Item - ShowInfo
+    html.find('.show-iteminfo').click((ev) => {
+      const li = $(ev.currentTarget).parents('.item')
+      const item = this.actor.getOwnedItem(li.data('itemId'))
+
+      this.actor.showItemInfo(item)
+    })
+
     // Edit HealthBar, Insanity and Corruption
     html.find('.bar-edit').click((ev) => {
       const actor = this.actor

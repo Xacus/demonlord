@@ -71,17 +71,11 @@
               </div>
             </div>
           </div>
-          <div class="resource">
+          <div class="resource enchantment">
             <label class="resource-label"
               >{{localize "DL.ItemEnchantment"}}</label
             >
             <div class="modifierblock">
-              <label class="resource-label"
-                >{{localize "DL.ItemEnchantedEffect"}}</label
-              >
-              <textarea name="data.enchantment.effect">
-{{data.enchantment.effect}}</textarea
-              >
               <div class="grid grid-2col">
                 <div>
                   <label class="resource-label"
@@ -103,6 +97,18 @@
                     value="{{data.enchantment.uses.max}}"
                   />
                 </div>
+              </div>
+              <div class="enchatmentBox">
+                <input
+                  type="checkbox"
+                  name="data.healingoption"
+                  id="healingoptions"
+                  {{checked
+                  data.healingoption}}
+                />
+                <label for="data.healingoption"
+                  >{{localize "DL.TalentHealingOptions"}}</label
+                >
               </div>
               <label class="resource-label"
                 >{{localize "DL.TalentAttackBoonsBanes"}}</label

@@ -60,7 +60,9 @@
 .ancestry-create:hover,
 .ancestry-create:focus,
 .edit-ancestrytalents:hover,
-.edit-ancestrytalents:focus {
+.edit-ancestrytalents:focus,
+.show-iteminfo:hover,
+.show-iteminfo:focus {
   color: #000;
   text-shadow: 0 0 10px #fa200b;
   cursor: pointer;

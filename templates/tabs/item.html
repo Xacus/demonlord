@@ -97,7 +97,9 @@
       <div class="item-image">
         <img src="{{item.img}}" title="{{item.name}}" width="30" height="30" />
       </div>
-      <div class="itemtile">{{item.name}}</div>
+      <div class="itemtile {{#if data.healingoption}}show-iteminfo{{/if}}">
+        {{item.name}}
+      </div>
       <div class="toggleItemInfo">
         <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
       </div>
