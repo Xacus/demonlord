@@ -406,7 +406,7 @@
   "DL.SettingUsingHomebrewMode": "Usar modo Homebrew",
   "DL.SettingUsingHomebrewModeHint": "Atributos não são calculados baseados em escolhas de Ancestralidade ou Trilhas; eles precisam ser inseridos manualmente na ficha de personagem. Características ainda são calculadas normalmente.",
   "DL.SettingLockAncestry": "Travar campos de Ancestralidade",
-  "DL.SettingLockAncestrHint": "Remover acesso de jogadores a modificações em modificadores, Deslocamento, Insanidade, Corrupção e Dano.",
+  "DL.SettingLockAncestrHint": "Remover acesso de jogadores a modificações em modificadores, Deslocamento, Insanidade, Corrupção e Saúde.",
   "DL.SettingStatusIcons": "Inativar Ícones de Status",
   "DL.SettingStatusIconsHint": "Inativa a lista padrão de ícones de status de efeito do Foundry. (Requer at)",
   "DL.DialogInitiative": "Iniciativa",
