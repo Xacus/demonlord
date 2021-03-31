@@ -227,7 +227,7 @@
   "DL.SpellRollSpecial": "Especial",
   "DL.SpellRollTriggered": "Desencadeada",
   "DL.SpellEffectDice": "Dado de Efeito",
-  "DL.SpellEffectDiceResult": "Result:",
+  "DL.SpellEffectDiceResult": "Resultado:",
   "DL.SpellMaxUsesReached": "Uso máximo da magia alcançado",
   "DL.ChallengeRollText": "Jogada de desafio:",
   "DL.ChallengeRequestRollText": "Requisitar Jogada de Desafio:",
@@ -342,7 +342,7 @@
   "DL.DialogBanes": "Perdições",
   "DL.DialogHealedFor": "Curado(s) ",
   "DL.DialogHealedForPoints": " pontos(s) de dano.",
-  "DL.DialogRest": "Taking a rest.",
+  "DL.DialogRest": "Realizando um descanso.",
   "DL.DialogShoeEffects": "Mostrar efeitos",
   "DL.CreatureEdit": "Editar Criatura",
   "DL.CreatureSave": "Salvar Criatura",
@@ -507,7 +507,7 @@
   "DL.AfflictionsProne": "Uma criatura prostrada fica junto ao chão. Outras criaturas podem passar por seu espaço. Enquanto estiver prostrada, a criatura pode se mover apenas rastejando ou utilizar seu movimento para se levantar. A criatura prostrada faz suas jogadas de Força e Agilidade com 1 perdição. Criaturas que possam alcançar a criatura prostrada fazem todas as jogadas de ataque contra aquela criatura com 1 dádiva, enquanto criaturas que não podem alcançá-la fazem jogadas de ataque contra sua Defesa com 1 perdição.",
   "DL.AfflictionsSlowed": "Uma criatura lenta apenas pode fazer um turno lento (consulte Combate), seu Deslocamento é reduzido pela metade e ela não pode se beneficiar de incrementos a seu Deslocamento.",
   "DL.AfflictionsStunned": "Uma criatura atordoada não pode se mover ou utilizar ações. A criatura automaticamente fracassa em todos os testes que poderia fazer. Outras criaturas fazem jogadas de ataque contra a criatura atordoada com 1 dádiva."
-  "DL.AfflictionsSurprised": "Uma criatura surpreendida não pode utilizar ações, não pode se mover e automaticamente fracassa em todas as jogadas de desafio que poderia fazer."
+  "DL.AfflictionsSurprised": "Uma criatura surpreendida não pode utilizar ações, não pode se mover e automaticamente fracassa em todas as jogadas de desafio que poderia fazer.",
   "DL.AfflictionsUnconscious": "Uma criatura inconsciente não é capaz de agir, se mover ou perceber seus arredores. A Defesa da criatura é 5. Ela não pode utilizar ações ou se mover, todas as suas jogadas de desafio resultam em fracasso.",
   "DL.AfflictionsConcentrate": "Alguns efeitos de talentos e magias exigem que você se concentre para garantir sua continuidade. Caso se concentre em um efeito, ele permanece até o fim da próxima rodada, até a duração máxima de tempo permitida pela magia.",
   "DL.AfflictionsDefend": "Quando você se defende, até o fim da rodada, todas as jogadas de ataque contra você são feitas com 1 perdição e você adiciona 1 dádiva em todas as jogadas de desafio para resistir a ataques. Estes benefícios terminam se você é impedido de utilizar ações, tal como acontece quando fica pasmo, atordoado ou inconsciente.",
