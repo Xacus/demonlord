@@ -527,6 +527,7 @@ export class DemonlordActor extends Actor {
   }
 
   rollAttribute (attribute, boonsbanes, modifier) {
+    const rollMode = game.settings.get('core', 'rollMode')
     const buffs = this.generateCharacterBuffs('')
     let attribueName =
       attribute.label?.charAt(0).toUpperCase() +
@@ -592,6 +593,17 @@ export class DemonlordActor extends Actor {
     const r = new Roll(diceformular, {})
     r.roll()
 
+    let diceTotal = r != null ? r._total : ''
+    let resultText =
+      r._total >= 10
+        ? game.i18n.localize('DL.DiceResultSuccess')
+        : game.i18n.localize('DL.DiceResultFailure')
+
+    if (['blindroll'].includes(rollMode)) {
+      diceTotal = '?'
+      resultText = ''
+    }
+
     // Format Dice
     const diceData = isNewerVersion(game.data.version, '0.6.9')
       ? FormatDice(r)
@@ -604,9 +616,15 @@ export class DemonlordActor extends Actor {
       },
       data: {
         diceTotal: {
+          value: diceTotal
+        },
+        diceTotalGM: {
           value: r._total
         },
         resultText: {
+          value: resultText
+        },
+        resultTextGM: {
           value:
             r._total >= 10
               ? game.i18n.localize('DL.DiceResultSuccess')
@@ -618,7 +636,8 @@ export class DemonlordActor extends Actor {
         afflictionEffects: {
           value: this.buildAfflictionsEffects('CHALLENGE')
         },
-        actionEffects: { value: this.buildActionEffects('CHALLENGE') }
+        actionEffects: { value: this.buildActionEffects('CHALLENGE') },
+        ifBlindedRoll: ['blindroll'].includes(rollMode)
       },
       diceData
     }
@@ -632,7 +651,6 @@ export class DemonlordActor extends Actor {
       }
     }
 
-    const rollMode = game.settings.get('core', 'rollMode')
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
@@ -793,6 +811,7 @@ export class DemonlordActor extends Actor {
   }
 
   rollAttack (weapon, boonsbanes, buffs, modifier) {
+    const rollMode = game.settings.get('core', 'rollMode')
     const target = this.getTarget()
     let diceformular = '1d20'
     let attackRoll = null
@@ -898,6 +917,10 @@ export class DemonlordActor extends Actor {
       diceTotal = '?'
       resultText = ''
     }
+    if (['blindroll'].includes(rollMode)) {
+      diceTotal = '?'
+      resultText = ''
+    }
 
     const againstNumber =
       (target != null && target.actor.data.type == 'character') ||
@@ -991,7 +1014,8 @@ export class DemonlordActor extends Actor {
         hasTarget: {
           value: targetNumber != undefined
         },
-        actionEffects: { value: this.buildActionEffects('ATTACK') }
+        actionEffects: { value: this.buildActionEffects('ATTACK') },
+        ifBlindedRoll: ['blindroll'].includes(rollMode)
       },
       diceData
     }
@@ -1005,7 +1029,6 @@ export class DemonlordActor extends Actor {
       }
     }
 
-    const rollMode = game.settings.get('core', 'rollMode')
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
@@ -1115,6 +1138,7 @@ export class DemonlordActor extends Actor {
   }
 
   useTalent (talent, boonsbanes, modifier) {
+    const rollMode = game.settings.get('core', 'rollMode')
     const target = this.getTarget()
     let diceformular = '1d20'
     let roll = false
@@ -1250,6 +1274,10 @@ export class DemonlordActor extends Actor {
       diceTotal = '?'
       resultText = ''
     }
+    if (['blindroll'].includes(rollMode)) {
+      diceTotal = '?'
+      resultText = ''
+    }
 
     const againstNumber =
       (target != null && target.actor?.data.type == 'character') ||
@@ -1350,7 +1378,8 @@ export class DemonlordActor extends Actor {
         },
         afflictionEffects: {
           value: this.buildAfflictionsEffects('SPELL')
-        }
+        },
+        ifBlindedRoll: ['blindroll'].includes(rollMode)
       },
       diceData
     }
@@ -1364,7 +1393,6 @@ export class DemonlordActor extends Actor {
       }
     }
 
-    const rollMode = game.settings.get('core', 'rollMode')
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
@@ -1483,6 +1511,7 @@ export class DemonlordActor extends Actor {
   }
 
   useSpell (spell, boonsbanes, buffs, modifier) {
+    const rollMode = game.settings.get('core', 'rollMode')
     const target = this.getTarget()
     let diceformular = '1d20'
     let usesText = ''
@@ -1613,6 +1642,10 @@ export class DemonlordActor extends Actor {
       this.data.type === 'creature' &&
       !game.settings.get('demonlord', 'attackShowAttack')
     ) {
+      diceTotal = '?'
+      resultText = ''
+    }
+    if (['blindroll'].includes(rollMode)) {
       diceTotal = '?'
       resultText = ''
     }
@@ -1765,7 +1798,8 @@ export class DemonlordActor extends Actor {
         },
         afflictionEffects: {
           value: this.buildAfflictionsEffects('SPELL')
-        }
+        },
+        ifBlindedRoll: ['blindroll'].includes(rollMode)
       },
       diceData
     }
@@ -1779,7 +1813,6 @@ export class DemonlordActor extends Actor {
       }
     }
 
-    const rollMode = game.settings.get('core', 'rollMode')
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }

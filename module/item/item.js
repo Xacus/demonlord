@@ -111,12 +111,15 @@ export class DemonlordItem extends Item {
 
   static async _onChatRollDamage (event) {
     event.preventDefault()
+    const rollMode = game.settings.get('core', 'rollMode')
     const li = event.currentTarget
     const token = li.closest('.demonlord')
     const actor = this._getChatCardActor(token)
     const item = li.children[0]
     const damageformular = item.dataset.damage
     const damagetype = item.dataset.damagetype
+    let totalDamage = ''
+    let totalDamageGM = ''
 
     const damageRoll = new Roll(damageformular, {})
     damageRoll.roll()
@@ -125,11 +128,21 @@ export class DemonlordItem extends Item {
       ? FormatDice(damageRoll)
       : FormatDiceOld(damageRoll)
 
+    if (['blindroll'].includes(rollMode)) {
+      totalDamage = '?'
+      totalDamageGM = damageRoll._total
+    } else {
+      totalDamage = damageRoll._total
+    }
+
     var templateData = {
       actor: this.actor,
       data: {
         damageTotal: {
-          value: damageRoll._total
+          value: totalDamage
+        },
+        damageTotalGM: {
+          value: totalDamageGM
         },
         damageDouble: {
           value: parseInt(damageRoll._total) * 2
@@ -156,7 +169,6 @@ export class DemonlordItem extends Item {
       }
     }
 
-    const rollMode = game.settings.get('core', 'rollMode')
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }

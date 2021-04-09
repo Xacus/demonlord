@@ -3,14 +3,18 @@
     <div class="showlessinfo"></div>
     <header class="card-headersmall">
         <div class="header">{{localize "DL.ChallengeRollText"}}</div>
-        <div class="headertext {{data.resultText.value}}">{{data.resultText.value}}</div>
+        <div class="gmremove headertext {{data.resultText.value}}">{{data.resultText.value}}</div>
+        <div class="gmonlyzero headertext {{data.resultTextGM.value}}">{{data.resultTextGM.value}}</div>
     </header>
 
     <div class="result">
         <div class="box {{data.resultText.value}}">
             <div class="valuetext">{{item.name}}</div>
             <div class="boxborder tooltip">
-                <div class="value">{{data.diceTotal.value}}</div>
+                <div class="value">
+                    <div class="gmremove">{{data.diceTotal.value}}</div>
+                    <div class="gmonlyzero">{{data.diceTotalGM.value}}</div>
+                </div>
                 {{#if data.isCreature.value}}
                 <div class="gmonly">
                     <span class="tooltiptext">
@@ -27,6 +31,9 @@
                     </span>
                 </div>
                 {{else}}
+                    {{#if data.ifBlindedRoll }}
+                    <div class="gmonly">
+                    {{/if}}
                 <span class="tooltiptext">
                     {{#each diceData.dice}}
                     <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
@@ -39,6 +46,9 @@
                     </div>
                     {{/each}}
                 </span>
+                    {{#if data.ifBlindedRoll }}
+                    </div>
+                    {{/if}}
                 {{/if}}
             </div>
         </div>

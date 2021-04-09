@@ -41,6 +41,9 @@
                         </span>
                     </div>
                     {{else}}
+                        {{#if data.ifBlindedRoll }}
+                        <div class="gmonly">
+                        {{/if}}
                     <span class="tooltiptext">
                         {{#each diceData.dice}}
                         <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
@@ -53,6 +56,9 @@
                         </div>
                         {{/each}}
                     </span>
+                        {{#if data.ifBlindedRoll }}
+                        </div>
+                        {{/if}}
                     {{/if}}
                 </div>
             </div>
@@ -168,6 +174,9 @@
             {{/if}}
         </div>
         {{else}}
+        {{#if data.ifBlindedRoll }}
+        <div class="gmonly">
+        {{/if}}
         {{#if data.damageFormular.value}}
         <div class="combatactions roll-damage">
             <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageFormular.value}}" data-damagetype="{{data.damageType.value}}">
@@ -206,6 +215,10 @@
             </div>
         </div>
         {{/if}}
+        {{/if}}
+
+        {{#if data.ifBlindedRoll }}
+        </div>
         {{/if}}
 
         {{/if}}
