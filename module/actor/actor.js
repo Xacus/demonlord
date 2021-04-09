@@ -636,6 +636,9 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
+    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'blindroll') chatData.blind = true
+
     if (
       this.data.type == 'creature' &&
       game.settings.get('demonlord', 'rollCreaturesToGM')
@@ -1006,6 +1009,8 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
+    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'blindroll') chatData.blind = true
 
     const template = 'systems/demonlord/templates/chat/combat.html'
     renderTemplate(template, templateData).then((content) => {
@@ -1363,6 +1368,8 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
+    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'blindroll') chatData.blind = true
 
     if (
       talent.data?.damage ||
@@ -1776,6 +1783,8 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
+    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'blindroll') chatData.blind = true
 
     const template = 'systems/demonlord/templates/chat/spell.html'
     renderTemplate(template, templateData).then((content) => {
@@ -1857,6 +1866,8 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
+    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'blindroll') chatData.blind = true
 
     const template = 'systems/demonlord/templates/chat/corruption.html'
     renderTemplate(template, templateData).then((content) => {
@@ -1947,6 +1958,8 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
+    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'blindroll') chatData.blind = true
 
     const template = 'systems/demonlord/templates/chat/enchantment.html'
     renderTemplate(template, templateData).then((content) => {

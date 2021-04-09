@@ -160,6 +160,8 @@ export class DemonlordItem extends Item {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
+    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'blindroll') chatData.blind = true
 
     const template = 'systems/demonlord/templates/chat/damage.html'
     renderTemplate(template, templateData).then((content) => {
