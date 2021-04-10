@@ -361,7 +361,7 @@ export class DemonlordActor extends Actor {
         parseInt(characterbuffs.speedbonus)
     }
 
-    if (data.afflictions.defenseless) data.characteristics.speed = 5
+    if (data.afflictions.defenseless) data.characteristics.defense = 5
 
     if (data.afflictions.blinded) {
       data.characteristics.speed =

@@ -134,7 +134,7 @@ form {
           }
 
           input.checkbox:checked + label {
-            background-image: url('/systems/demonlord/icons/effects/terror.svg');
+            background-image: url("/systems/demonlord/icons/effects/terror.svg");
           }
         }
         .horrifying {
@@ -147,7 +147,7 @@ form {
           }
 
           input.checkbox:checked + label {
-            background-image: url('/systems/demonlord/icons/effects/horrified.svg');
+            background-image: url("/systems/demonlord/icons/effects/horrified.svg");
           }
         }
 
@@ -204,7 +204,7 @@ form {
               margin-top: -4px;
               margin-left: -2px;
 
-              &:focus  {
+              &:focus {
                 border-radius: 16px;
                 background: #555;
               }
@@ -255,8 +255,12 @@ form {
             padding-top: 2px;
 
             input {
-              margin-top: -4px;
+              margin-top: -6px;
               margin-left: -2px;
+              height: 16px;
+              border: 0;
+              color: #ffffff;
+              box-shadow: none;
 
               &:focus {
                 border-radius: 16px;
@@ -349,12 +353,14 @@ form {
         }
       }
 
-      .armor, .speedtraits {
+      .armor,
+      .speedtraits {
         padding: 10px;
 
-        input[type='text'] {
+        input[type="text"],
+        input[type="number"] {
           width: 174px;
-          font-family: 'Roboto', system, -apple-system, sans-serif;
+          font-family: "Roboto", system, -apple-system, sans-serif;
           font-size: 11px;
           color: #fff;
           line-height: calc(1em + 1px);
@@ -368,7 +374,7 @@ form {
             padding-left: 5px;
             margin-left: 1px;
             margin-top: 1px;
-            background:#000;
+            background: #000;
           }
         }
       }

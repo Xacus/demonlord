@@ -1867,8 +1867,13 @@
 .newcreature form aside .sidebar .chars .powerbox .defense input,
 .newcreature form aside .sidebar .chars .powerbox .speed input,
 .newcreature form aside .sidebar .chars .powerbox .power input {
-  margin-top: -4px;
+  margin-top: -6px;
   margin-left: -2px;
+  height: 16px;
+  border: 0;
+  color: #ffffff;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .newcreature form aside .sidebar .chars .defensebox .defense input:focus,
@@ -1997,13 +2002,17 @@
   background-color: darkmagenta;
 }
 
-.newcreature form aside .sidebar .armor, .newcreature form aside .sidebar .speedtraits {
+.newcreature form aside .sidebar .armor,
+.newcreature form aside .sidebar .speedtraits {
   padding: 10px;
 }
 
-.newcreature form aside .sidebar .armor input[type='text'], .newcreature form aside .sidebar .speedtraits input[type='text'] {
+.newcreature form aside .sidebar .armor input[type="text"],
+.newcreature form aside .sidebar .armor input[type="number"],
+.newcreature form aside .sidebar .speedtraits input[type="text"],
+.newcreature form aside .sidebar .speedtraits input[type="number"] {
   width: 174px;
-  font-family: 'Roboto', system, -apple-system, sans-serif;
+  font-family: "Roboto", system, -apple-system, sans-serif;
   font-size: 11px;
   color: #fff;
   line-height: calc(1em + 1px);
@@ -2013,7 +2022,13 @@
   background: black;
 }
 
-.newcreature form aside .sidebar .armor input[type='text']:focus, .newcreature form aside .sidebar .armor input[type='text']:hover, .newcreature form aside .sidebar .speedtraits input[type='text']:focus, .newcreature form aside .sidebar .speedtraits input[type='text']:hover {
+.newcreature form aside .sidebar .armor input[type="text"]:focus, .newcreature form aside .sidebar .armor input[type="text"]:hover,
+.newcreature form aside .sidebar .armor input[type="number"]:focus,
+.newcreature form aside .sidebar .armor input[type="number"]:hover,
+.newcreature form aside .sidebar .speedtraits input[type="text"]:focus,
+.newcreature form aside .sidebar .speedtraits input[type="text"]:hover,
+.newcreature form aside .sidebar .speedtraits input[type="number"]:focus,
+.newcreature form aside .sidebar .speedtraits input[type="number"]:hover {
   padding-left: 5px;
   margin-left: 1px;
   margin-top: 1px;
@@ -4987,7 +5002,8 @@
   width: 365px;
 }
 
-.newcreature.actor .sheet-header .header-fields h1.char-name input[type="text"] {
+.newcreature.actor .sheet-header .header-fields h1.char-name input[type="text"],
+.newcreature.actor .sheet-header .header-fields h1.char-name input[type="number"] {
   width: 365px;
   font-family: "IM Fell English SC", serif;
   font-weight: 500;
@@ -5000,13 +5016,15 @@
   margin-left: -5px;
 }
 
-.newcreature.actor .sheet-header .header-fields h1.char-name input[type="text"]:focus {
+.newcreature.actor .sheet-header .header-fields h1.char-name input[type="text"]:focus,
+.newcreature.actor .sheet-header .header-fields h1.char-name input[type="number"]:focus {
   padding-left: 5px;
   margin-left: -5px;
   background: rgba(0, 0, 0, 0.5);
 }
 
-.newcreature.actor .sheet-header .header-fields .descriptor, .newcreature.actor .sheet-header .header-fields .senses {
+.newcreature.actor .sheet-header .header-fields .descriptor,
+.newcreature.actor .sheet-header .header-fields .senses {
   float: left;
   font-size: 12px;
   width: 245px;
@@ -5014,7 +5032,10 @@
   margin-left: -1px;
 }
 
-.newcreature.actor .sheet-header .header-fields .descriptor input[type="text"], .newcreature.actor .sheet-header .header-fields .senses input[type="text"] {
+.newcreature.actor .sheet-header .header-fields .descriptor input[type="text"],
+.newcreature.actor .sheet-header .header-fields .descriptor input[type="number"],
+.newcreature.actor .sheet-header .header-fields .senses input[type="text"],
+.newcreature.actor .sheet-header .header-fields .senses input[type="number"] {
   height: 20px;
   padding-left: 5px;
   margin-left: -2px;
@@ -5022,7 +5043,13 @@
   line-height: calc(1em + 1px);
 }
 
-.newcreature.actor .sheet-header .header-fields .descriptor input[type="text"]:focus, .newcreature.actor .sheet-header .header-fields .descriptor input[type="text"]:hover, .newcreature.actor .sheet-header .header-fields .senses input[type="text"]:focus, .newcreature.actor .sheet-header .header-fields .senses input[type="text"]:hover {
+.newcreature.actor .sheet-header .header-fields .descriptor input[type="text"]:focus, .newcreature.actor .sheet-header .header-fields .descriptor input[type="text"]:hover,
+.newcreature.actor .sheet-header .header-fields .descriptor input[type="number"]:focus,
+.newcreature.actor .sheet-header .header-fields .descriptor input[type="number"]:hover,
+.newcreature.actor .sheet-header .header-fields .senses input[type="text"]:focus,
+.newcreature.actor .sheet-header .header-fields .senses input[type="text"]:hover,
+.newcreature.actor .sheet-header .header-fields .senses input[type="number"]:focus,
+.newcreature.actor .sheet-header .header-fields .senses input[type="number"]:hover {
   padding-left: 5px;
   margin-left: -4px;
   margin-top: 1px;
@@ -5034,8 +5061,9 @@
   text-align: right;
 }
 
-.newcreature.actor .sheet-header .header-fields .senses input[type='text']:focus,
-.newcreature.actor .sheet-header .header-fields .senses input[type='text']:hover {
+.newcreature.actor .sheet-header .header-fields .senses input[type="text"]:focus, .newcreature.actor .sheet-header .header-fields .senses input[type="text"]:hover,
+.newcreature.actor .sheet-header .header-fields .senses input[type="number"]:focus,
+.newcreature.actor .sheet-header .header-fields .senses input[type="number"]:hover {
   padding-right: 5px;
   margin-right: -2px;
   margin-top: 1px;
@@ -5066,12 +5094,15 @@
 
 .newcreature.actor .sheet-header .header-fields .level input {
   margin-left: 1px;
-  margin-top: 1px;
+  margin-top: 0px;
   text-align: center;
   color: white;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
-.newcreature.actor .sheet-header .header-fields .level input[type="text"]:focus {
+.newcreature.actor .sheet-header .header-fields .level input:focus {
   border-radius: 16px;
   background: #555;
 }
@@ -5117,9 +5148,11 @@
   font-size: 15px;
   text-align: center;
   color: #fff;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
-.newcreature.actor .sheet-header .attributes .attributebox .attribute input[type="text"]:focus {
+.newcreature.actor .sheet-header .attributes .attributebox .attribute input:focus {
   border-radius: 16px;
   background: #555;
 }

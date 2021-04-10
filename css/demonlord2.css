@@ -4919,7 +4919,7 @@
   color: white;
 }
 
-.demonlord2.actor .sheet-header .header-fields .level input[type="text"]:focus {
+.demonlord2.actor .sheet-header .header-fields .level input:focus {
   border-radius: 16px;
   background: #555;
 }
@@ -4967,7 +4967,7 @@
   color: #fff;
 }
 
-.demonlord2.actor .sheet-header .attributes .attributebox .attribute input[type="text"]:focus {
+.demonlord2.actor .sheet-header .attributes .attributebox .attribute input:focus {
   border-radius: 16px;
   background: #555;
 }

@@ -40,12 +40,13 @@ form {
         height: 26px;
         padding-left: 5px;
         margin-left: -5px;
+
+        &:focus {
+          padding-left: 5px;
+          margin-left: -5px;
+          background: rgba(0, 0, 0, 0.5);
+        }
       }
-    }
-    h1.char-name input[type="text"]:focus {
-      padding-left: 5px;
-      margin-left: -5px;
-      background: rgba(0, 0, 0, 0.5);
     }
 
     .leveltext {
@@ -74,11 +75,11 @@ form {
         margin-top: 1px;
         text-align: center;
         color: white;
-      }
 
-      input[type="text"]:focus {
-        border-radius: 16px;
-        background: #555;
+        &:focus {
+          border-radius: 16px;
+          background: #555;
+        }
       }
     }
 
@@ -121,11 +122,11 @@ form {
           font-size: 15px;
           text-align: center;
           color: #fff;
-        }
 
-        input[type="text"]:focus {
-          border-radius: 16px;
-          background: #555;
+          &:focus {
+            border-radius: 16px;
+            background: #555;
+          }
         }
       }
 

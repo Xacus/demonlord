@@ -29,7 +29,8 @@ form {
       border: none;
       width: 365px;
 
-      input[type="text"] {
+      input[type="text"],
+      input[type="number"] {
         width: 365px;
         font-family: $font-header;
         font-weight: 500;
@@ -42,45 +43,52 @@ form {
         margin-left: -5px;
       }
     }
-    h1.char-name input[type="text"]:focus {
+    h1.char-name input[type="text"]:focus,
+    h1.char-name input[type="number"]:focus {
       padding-left: 5px;
       margin-left: -5px;
       background: rgba(0, 0, 0, 0.5);
     }
 
-    .descriptor, .senses {
+    .descriptor,
+    .senses {
       float: left;
       font-size: 12px;
       width: 245px;
       margin-top: -3px;
       margin-left: -1px;
 
-      input[type="text"] {
+      input[type="text"],
+      input[type="number"] {
         height: 20px;
         padding-left: 5px;
         margin-left: -2px;
         padding: 2px;
         line-height: calc(1em + 1px);
-      }
 
-      input[type="text"]:focus, input[type="text"]:hover {
-        padding-left: 5px;
-        margin-left: -4px;
-        margin-top: 1px;
-        background: rgba(0, 0, 0, 0.5);
-       }
+        &:focus,
+        &:hover {
+          padding-left: 5px;
+          margin-left: -4px;
+          margin-top: 1px;
+          background: rgba(0, 0, 0, 0.5);
+        }
+      }
     }
 
     .senses {
       float: right;
       text-align: right;
 
-      input[type='text']:focus,
-      input[type='text']:hover {
-        padding-right: 5px;
-        margin-right: -2px;
-        margin-top: 1px;
-        background: rgba(0, 0, 0, 0.5);
+      input[type="text"],
+      input[type="number"] {
+        &:focus,
+        &:hover {
+          padding-right: 5px;
+          margin-right: -2px;
+          margin-top: 1px;
+          background: rgba(0, 0, 0, 0.5);
+        }
       }
     }
 
@@ -109,14 +117,16 @@ form {
 
       input {
         margin-left: 1px;
-        margin-top: 1px;
+        margin-top: 0px;
         text-align: center;
         color: white;
-      }
+        border: 0;
+        box-shadow: none;
 
-      input[type="text"]:focus {
-        border-radius: 16px;
-        background: #555;
+        &:focus {
+          border-radius: 16px;
+          background: #555;
+        }
       }
     }
 
@@ -159,11 +169,12 @@ form {
           font-size: 15px;
           text-align: center;
           color: #fff;
-        }
+          box-shadow: none;
 
-        input[type="text"]:focus {
-          border-radius: 16px;
-          background: #555;
+          &:focus {
+            border-radius: 16px;
+            background: #555;
+          }
         }
       }
 
