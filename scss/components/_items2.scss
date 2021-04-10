@@ -105,6 +105,28 @@ form {
   text-transform: capitalize;
 }
 
+.path-descriptor {
+  position: absolute;
+  left: 75px;
+  top: 48px;
+  width: 400px;
+  color: #fff;
+  text-transform: capitalize;
+
+  input {
+    line-height: calc(1em + 1px);
+    border-bottom: 1px solid transparent;
+    height: 26px;
+    padding: 5px;
+
+    &:focus,
+    &:hover {
+      background: rgba(0, 0, 0, 0.5);
+      padding-left: 6px;
+    }
+  }
+}
+
 .itemsheet-header {
   position: relative;
   padding: 5px;
@@ -130,7 +152,7 @@ form {
       font-weight: normal;
       text-transform: none;
       margin-top: 5px;
-      margin-left: 5px
+      margin-left: 5px;
     }
   }
 }

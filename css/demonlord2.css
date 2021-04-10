@@ -615,6 +615,27 @@
   text-transform: capitalize;
 }
 
+.demonlord2.item .path-descriptor {
+  position: absolute;
+  left: 75px;
+  top: 48px;
+  width: 400px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.demonlord2.item .path-descriptor input {
+  line-height: calc(1em + 1px);
+  border-bottom: 1px solid transparent;
+  height: 26px;
+  padding: 5px;
+}
+
+.demonlord2.item .path-descriptor input:focus, .demonlord2.item .path-descriptor input:hover {
+  background: rgba(0, 0, 0, 0.5);
+  padding-left: 6px;
+}
+
 .demonlord2.item .itemsheet-header {
   position: relative;
   padding: 5px;

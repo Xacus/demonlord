@@ -10,31 +10,31 @@
           "strength": {
             "value": 10,
             "modifier": 0,
-            "min": 0,
+            "min": 1,
             "max": 20
           },
           "agility": {
             "value": 10,
             "modifier": 0,
-            "min": 0,
+            "min": 1,
             "max": 20
           },
           "intellect": {
             "value": 10,
             "modifier": 0,
-            "min": 0,
+            "min": 1,
             "max": 20
           },
           "will": {
             "value": 10,
             "modifier": 0,
-            "min": 0,
+            "min": 1,
             "max": 20
           },
           "perception": {
             "value": 10,
             "modifier": 0,
-            "min": 0,
+            "min": 1,
             "max": 20
           }
         },
@@ -410,7 +410,9 @@
         "healthbonus": 0,
         "option1": true,
         "option1text": "",
-        "talent": []
+        "talent": [],
+        "pickedTalents": [],
+        "picks": 1
       },
       "languages": "",
       "talents": [],
@@ -425,7 +427,8 @@
       "templates": ["base"],
       "type": "novice",
       "levels": [],
-      "editPath": true
+      "editPath": true,
+      "descriptor": ""
     },
     "creaturerole": {
       "templates": ["base"],
