@@ -853,7 +853,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
             parseInt(this.actor.data.data.attributes.strength.value)
         ) {
           const controls = el.getElementsByClassName('item-control')
-          controls[0].className += ' itemred'
+          controls[1].className += ' itemred'
         }
       }
     })
