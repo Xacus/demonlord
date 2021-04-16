@@ -1,0 +1,33 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header itemsheet-header">
+        <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <div class="header-fields">
+            <div class="gridrow">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+            </div>
+        </div>
+        <div class="template-type">{{item.type}}</div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+        <a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        <section class="sheet-content">
+            {{!-- Description Tab --}}
+            <div class=" tab" data-group="primary" data-tab="description">
+                <div class="descriptionblock">
+                    {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+                </div>
+            </div>
+            {{!-- Effects Tab --}}
+            <div class="tab effects" data-group="primary" data-tab="effects">
+                {{> systems/demonlord/templates/tabs/effects.html}}
+            </div>
+        </section>
+    </section>
+</form>

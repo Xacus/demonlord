@@ -1,0 +1,231 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header itemsheet-header">
+        <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <div class="header-fields">
+            <div class="gridrow"><input name="name" type="text" value="{{item.name}}" placeholder="Talent Name" /></div>
+        </div>
+        <div class="template-type">{{item.type}}</div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
+        <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        <section class="sheet-content">
+            {{!-- Attributes Tab --}}
+            <div class="tab weapons" data-group="primary" data-tab="attributes">
+                <div class="gridrow">
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentGroupname"}}</label>
+                        <div class="modifierblock">
+                            <input type="text" name="data.groupname" value="{{data.groupname}}" />
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentUsesTitle"}}</label>
+                        <div class="modifierblock">
+                            <div class="grid grid-2col">
+                                <div>
+                                    <label class="resource-label">{{localize "DL.TalentUses"}}</label>
+                                    <input type="text" name="data.uses.value" value="{{data.uses.value}}" data-dtype="Number" placeholder="0"/>
+                                </div>
+                                <div>
+                                    <label class="resource-label">{{localize "DL.TalentUsesMax"}}</label>
+                                    <input type="text" name="data.uses.max" value="{{data.uses.max}}" data-dtype="Number" placeholder="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.AttackRollBonuses"}}</label>
+                        <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
+                            <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}" data-dtype="Number" placeholder="{{localize 'DL.TalentAddBoonsBanesBonus'}}"/>
+                            
+                            <label class="resource-label">{{localize "DL.TalentAddBoonsBanesToAttribute"}}</label><br/>
+                            <div class="grid grid-5col check">
+                                <div>
+                                    <input type="checkbox" name="data.action.strengthboonsbanesselect" id="data.action.strengthboonsbanesselect"
+                                        {{checked data.action.strengthboonsbanesselect}} />
+                                    <label for="data.action.strengthboonsbanesselect"
+                                        class="resource-label">{{localize "DL.AttributeStrength"}}</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="data.action.agilityboonsbanesselect" id="data.action.agilityboonsbanesselect"
+                                        {{checked data.action.agilityboonsbanesselect}} />
+                                    <label for="data.action.agilityboonsbanesselect"
+                                        class="resource-label">{{localize "DL.AttributeAgility"}}</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="data.action.intellectboonsbanesselect" id="data.action.intellectboonsbanesselect"
+                                        {{checked data.action.intellectboonsbanesselect}} />
+                                    <label for="data.action.intellectboonsbanesselect"
+                                        class="resource-label">{{localize "DL.AttributeIntellect"}}</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="data.action.willboonsbanesselect" id="data.action.willboonsbanesselect"
+                                        {{checked data.action.willboonsbanesselect}} />
+                                    <label for="data.action.willboonsbanesselect"
+                                        class="resource-label">{{localize "DL.AttributeWill"}}</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="data.action.perceptionboonsbanesselect" id="data.action.perceptionboonsbanesselect"
+                                        {{checked data.action.perceptionboonsbanesselect}} />
+                                    <label for="data.action.perceptionboonsbanesselect"
+                                        class="resource-label">{{localize "DL.CharPerception"}}</label>
+                                </div>
+                            </div>
+                            <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
+                            <input type="text" name="data.action.damage" value="{{data.action.damage}}"
+                                placeholder="{{localize 'DL.TalentAddDamageToYourAttackRoll'}}" />
+                            <label class="resource-label">{{localize "DL.WeaponAttack20"}}</label>
+                            <input type="text" name="data.action.plus20" value="{{data.action.plus20}}" placeholder="{{localize 'DL.TalentAddExtraDamageToYourAttackRoll'}}"/>
+                            <label class="resource-label">{{localize "DL.TalentExtraEffect"}}</label>
+                            <textarea id="data.action.extraeffect" name="data.action.extraeffect" rows="3"
+                                cols="50">{{data.action.extraeffect}}</textarea>
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentChallengeRollBonus"}}</label>
+                        <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
+                            <input type="text" name="data.challenge.boonsbanes" value="{{data.challenge.boonsbanes}}" data-dtype="Number" placeholder="{{localize 'DL.TalentAddBoonsBanesBonus'}}"/>
+                            
+                            <label class="resource-label">{{localize "DL.TalentAddBoonsBanesToAttribute"}}</label><br/>
+                            <div class="grid grid-5col check">
+                                <div>
+                                    <input type="checkbox" name="data.challenge.strengthboonsbanesselect" id="data.challenge.strengthboonsbanesselect"
+                                        {{checked data.challenge.strengthboonsbanesselect}} />
+                                    <label for="data.challenge.strengthboonsbanesselect"
+                                        class="resource-label">{{localize "DL.AttributeStrength"}}</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="data.challenge.agilityboonsbanesselect" id="data.challenge.agilityboonsbanesselect"
+                                        {{checked data.challenge.agilityboonsbanesselect}} />
+                                    <label for="data.challenge.agilityboonsbanesselect"
+                                        class="resource-label">{{localize "DL.AttributeAgility"}}</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="data.challenge.intellectboonsbanesselect" id="data.challenge.intellectboonsbanesselect"
+                                        {{checked data.challenge.intellectboonsbanesselect}} />
+                                    <label for="data.challenge.intellectboonsbanesselect"
+                                        class="resource-label">{{localize "DL.AttributeIntellect"}}</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="data.challenge.willboonsbanesselect" id="data.challenge.willboonsbanesselect"
+                                        {{checked data.challenge.willboonsbanesselect}} />
+                                    <label for="data.challenge.willboonsbanesselect"
+                                        class="resource-label">{{localize "DL.AttributeWill"}}</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="data.challenge.perceptionboonsbanesselect" id="data.challenge.perceptionboonsbanesselect"
+                                        {{checked data.challenge.perceptionboonsbanesselect}} />
+                                    <label for="data.challenge.perceptionboonsbanesselect"
+                                        class="resource-label">{{localize "DL.CharPerception"}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.VSRoll"}}</label>
+                        <div class="modifierblock">
+                            <div class="grid grid-3col">
+                                <div class="weaponalign">
+                                    <label class="resource-label">{{localize "DL.WeaponAttackModifier"}}</label>
+                                    <select name="data.vs.attribute" data-dtype="String">
+                                        {{#select data.vs.attribute}}
+                                        <option value="">—</option>
+                                        <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
+                                        <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
+                                        <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+                                        <option value="Will">{{localize "DL.AttributeWill"}}</option>
+                                        <option value="Perception">{{localize "DL.CharPerception"}}</option>
+                                        {{/select}}
+                                    </select>
+                                </div>
+                                <div class="weaponalign">
+                                    <label>VS</label>
+                                </div>
+                                <div class="weaponalign">
+                                    <label class="resource-label">{{localize "DL.WeaponDefenseModifier"}}</label>
+                                    <select name="data.vs.against" data-dtype="String">
+                                        {{#select data.vs.against}}
+                                        <option value="">—</option>
+                                        <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
+                                        <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
+                                        <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+                                        <option value="Will">{{localize "DL.AttributeWill"}}</option>
+                                        <option value="Perception">{{localize "DL.CharPerception"}}</option>
+                                        <option value="Defense">{{localize "DL.CharDefense"}}</option>
+                                        {{/select}}
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
+                            <input type="text" name="data.vs.boonsbanes" value="{{data.vs.boonsbanes}}" data-dtype="Number" placeholder="{{localize 'DL.TalentAddBoonsBanesBonus'}}"/>
+                            <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
+                            <div class="item-controls">
+                                <a class="item-control vsdamagetype-control" title="{{localize 'DL.DamageAddType'}}" data-action="create"><i
+                                        class="fas fa-plus"></i></a>
+                            </div>
+                            <input class="damagevalue" type="text" name="data.vs.damage" value="{{data.vs.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}" />
+                            <input class="damagetype" type="text" name="data.vs.damagetype" value="{{data.vs.damagetype}}"
+                                placeholder="{{localize 'DL.DamageType'}}" />
+                            {{#each item.vsdamagetypes as |damagetype id|}}
+                            <input class="damagevalue" type="text" name="altdamagevs" value="{{damagetype.damage}}"
+                                placeholder="{{localize 'DL.WeaponDamage'}}" />
+                            <input class="damagetype" type="text" name="altdamagetypevs" value="{{damagetype.damagetype}}"
+                                placeholder="{{localize 'DL.DamageType'}}" />
+                            <div class="item-controls-line">
+                                <a class="item-control vsdamagetype-control" title="{{localize 'DL.DamageAddType'}}" data-action="delete"
+                                    data-id="{{id}}"><i class="fas fa-trash"></i></a>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentHealing"}}</label>
+                        <div class="modifierblockcheck">
+                            <input type="checkbox" name="data.healing.healing" id="healingoptions"
+                                {{checked data.healing.healing}} />
+                            <label for="data.healing.healing"
+                                class="resource-label">{{localize "DL.TalentHealingOptions"}}</label>
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentMakeADamageRoll"}}</label>
+                        <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.TalentRollDamage"}}</label>
+                            <input class="damagevalue" type="text" name="data.damage" value="{{data.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}" />
+                            <input class="damagetype" type="text" name="data.damagetype" value="{{data.damagetype}}"
+                                placeholder="{{localize 'DL.DamageType'}}" />
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.TalentAddBonusesToYourCharacteristics"}}</label>
+                        <div class="modifierblock">
+                            <label class="resource-label">{{localize "DL.TalentBonusesDefense"}}</label>
+                            <input type="text" name="data.bonuses.defense" value="{{data.bonuses.defense}}" data-dtype="Number" placeholder="0"/>
+                            <label class="resource-label">{{localize "DL.TalentBonusesHealth"}}</label>
+                            <input type="text" name="data.bonuses.health" value="{{data.bonuses.health}}" data-dtype="Number" placeholder="0"/>
+                            <label class="resource-label">{{localize "DL.TalentBonusesSpeed"}}</label>
+                            <input type="text" name="data.bonuses.speed" value="{{data.bonuses.speed}}" data-dtype="Number" placeholder="0"/>
+                            <label class="resource-label">{{localize "DL.TalentBonusesPower"}}</label>
+                            <input type="text" name="data.bonuses.power" value="{{data.bonuses.power}}" data-dtype="Number" placeholder="0"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- Description Tab --}}
+            <div class=" tab" data-group="primary" data-tab="description">
+                <div class="descriptionblock">
+                    {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+                </div>
+            </div>
+        </section>
+    </section>
+</form>

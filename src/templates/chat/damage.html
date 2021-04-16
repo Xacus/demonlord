@@ -1,0 +1,58 @@
+<div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <div class="showlessinfo"></div>
+    <header class="card-headersmall tooltip">
+        <div class="attackbox">
+            <div class="header">{{data.damagetype.value}} {{localize "DL.DamageRollText"}}: {{data.damageTotal.value}}</div>
+            {{#if data.isCreature.value}}
+                <div class="gmonly">
+                    <span class="tooltiptext">
+                        {{#each diceData.dice}}
+                        <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                            <label style="color:{{this.color}};">
+                                {{this.result}}
+                            </label>
+                            {{#if this.img}}
+                            <img src='{{this.img}}' />
+                            {{/if}}
+                        </div>
+                        {{/each}}
+                    </span>
+                </div>
+                {{else}}
+                <span class="tooltiptext">
+                    {{#each diceData.dice}}
+                    <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                        <label style="color:{{this.color}};">
+                            {{this.result}}
+                        </label>
+                        {{#if this.img}}
+                        <img src='{{this.img}}' />
+                        {{/if}}
+                    </div>
+                    {{/each}}
+                </span>
+                {{/if}}
+        </div>
+    </header>
+    <div class="gmonly">
+        <div class="damageaction apply-damage">
+            <div class="header" data-damage="{{data.damageTotal.value}}">
+                <div class="fas fa-tint blood"></div>
+                <div>{{localize "DL.DialogTalentApplyDamage"}} ({{data.damageTotal.value}})</div>
+            </div>
+        </div>
+        <div class="damageaction apply-damage">
+            <div class="header" data-damage="{{data.damageDouble.value}}">
+                <div class="fas fa-tint blood"></div>
+                <div>{{localize "DL.DialogTalentApplyDoubleDamage"}} ({{data.damageDouble.value}})</div>
+            </div>
+        </div>
+        <div class="damageaction apply-damage">
+            <div class="header" data-damage="{{data.damageHalf.value}}">
+                <div class="fas fa-tint blood"></div>
+                <div>{{localize "DL.DialogTalentApplyHalfDamage"}} ({{data.damageHalf.value}})</div>
+            </div>
+        </div>
+    </div>
+</div>

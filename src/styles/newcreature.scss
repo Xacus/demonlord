@@ -1,0 +1,34 @@
+// Import utilities.
+@import 'utils/typography';
+@import 'utils/colors';
+@import 'utils/mixins';
+@import 'utils/variables';
+
+/* Global styles */
+@import 'global/window';
+@import 'global/grid';
+@import 'global/flex';
+@import 'global/ui';
+
+/* Styles limited to demonlord sheets */
+.newcreature.item {
+  @import 'components/items2';
+}
+
+.newcreature {
+  @import 'components/aside-creature';
+  @import 'components/body';
+  @import 'components/chat';
+  @import 'components/dialog';
+  @import 'components/forms2';
+  @import 'components/general';
+  @import 'components/resource2';
+  @import 'components/tabs2';
+  @import 'components/tags';
+  @import 'components/creature';
+  @import 'components/accordion';
+}
+
+.newcreature.actor {
+  @import 'components/header-creture';
+}

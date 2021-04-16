@@ -1,0 +1,400 @@
+.sheet-body .sheet-content .descriptionblock {
+  margin: 40px 5px 0px 5px;
+  height: 100%;
+  font-size: 13px;
+
+  .editor,
+  .editor-content {
+    height: 100%;
+    min-height: 200px;
+    font-size: 13px;
+  }
+}
+
+.creature {
+  .header {
+    height: 20px;
+    line-height: 20px;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 1px;
+
+    .charname {
+      float: left;
+      padding-left: 5px;
+
+      input {
+        float: left;
+        width: 170px;
+        height: 15px;
+        margin-top: 2px;
+        color: #fff;
+      }
+    }
+
+    .diff {
+      float: right;
+      width: 100px;
+      padding: 1px 5px 0 0;
+      text-align: right;
+      font-size: 11px;
+
+      input {
+        float: right;
+        width: 30px;
+        height: 15px;
+        margin: 2px 0 0 2px;
+        color: #fff;
+        text-align: center;
+      }
+    }
+  }
+
+  .subheader {
+    height: 16px;
+    background: #9c0719;
+    color: #fff;
+    font-size: 10px;
+    line-height: 16px;
+    padding-left: 5px;
+
+    .size {
+      float: left;
+      width: 200px;
+      padding-right: 5px;
+
+      input {
+        width: 70px;
+        height: 12px;
+        margin-top: 2px;
+        color: #fff;
+      }
+
+      ::placeholder {
+        color: #fff;
+        opacity: 0.5;
+      }
+    }
+
+    .descriptor {
+      float: left;
+      width: 130px;
+      padding-right: 5px;
+
+      input {
+        width: 120px;
+        height: 12px;
+        margin-top: 2px;
+        color: #fff;
+      }
+
+      ::placeholder {
+        color: #fff;
+        opacity: 0.5;
+      }
+    }
+
+    .trait {
+      float: right;
+      font-size: 10px;
+
+      input {
+        float: left;
+        width: 12px;
+        margin-top: -2px;
+        padding-right: 5px;
+      }
+
+      label {
+        float: left;
+        padding-right: 5px;
+      }
+
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 260px;
+        background-color: rgba(0, 0, 0, 0.9);
+        color: #fff;
+        text-align: left;
+        border-radius: 3px;
+        padding: 5px;
+        top: 77px;
+        right: 20px;
+        position: absolute;
+        z-index: 1;
+      }
+
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+      }
+    }
+  }
+
+  .left {
+    float: left;
+    width: 353px;
+    margin-right: 20px;
+
+    .body {
+      float: left;
+      width: 100%;
+      margin-top: 5px;
+
+      .stat {
+        float: left;
+        width: 100%;
+        text-align: left;
+        font-size: 11px;
+        font-weight: bold;
+        margin-bottom: 2px;
+
+        label {
+          font-weight: normal;
+        }
+
+        input {
+          float: left;
+          width: 30px;
+          height: 13px;
+          margin: 0 0 0 2px;
+          text-align: center;
+        }
+
+        .stattitle {
+          float: left;
+          padding-right: 2px;
+        }
+
+        .value {
+          float: left;
+        }
+
+        .senses,
+        .speedtraits,
+        .armor {
+          float: left;
+          padding-left: 5px;
+          width: 150px;
+
+          input {
+            width: 140px;
+          }
+        }
+
+        .armor {
+          padding-right: 5px;
+          width: auto;
+        }
+
+        .health,
+        .insanity,
+        .corruption,
+        .damage {
+          float: left;
+          padding-left: 10px;
+        }
+      }
+
+      .grid,
+      .grid-2col {
+        margin: 0 0 2px 0;
+      }
+
+      .traits {
+        float: left;
+        width: 100%;
+        font-size: 10px;
+        margin-top: -5px;
+
+        .traitnameheader {
+          float: left;
+          width: 50px;
+          font-size: 11px;
+        }
+
+        .items-list {
+          .item-header {
+            height: 18px;
+          }
+
+          .item-controls {
+            float: right;
+            margin-top: 0px;
+          }
+        }
+      }
+    }
+  }
+
+  .right {
+    float: left;
+    width: 130px;
+    padding-top: 8px;
+
+    .edit {
+      width: 130px;
+      font-size: 11px;
+    }
+
+    img {
+      height: auto;
+      border: 0;
+    }
+  }
+
+  .actions {
+    float: left;
+    width: 100%;
+
+    .header {
+      float: none;
+      background: #a7a9ac;
+      border-bottom: 0;
+      line-height: 20px;
+      padding-left: 5px;
+      color: #000;
+
+      .itemname {
+        float: left;
+        font-size: 12px;
+      }
+
+      .item-controls {
+        float: right;
+        margin-right: 5px;
+      }
+
+      input {
+        width: 30px;
+        height: 13px;
+        margin: 0 0 0 2px;
+        text-align: center;
+      }
+    }
+
+    .description {
+      font-size: 12px;
+
+      .editor,
+      .editor-content {
+        height: 100%;
+        min-height: 200px;
+        font-size: 13px;
+      }
+    }
+
+    .body {
+      margin: 5px 0 10px 0;
+      padding: 0;
+      font-size: 11px;
+      list-style: none;
+
+      .item {
+        margin: 0 0 10px 0;
+        padding: 0;
+        height: auto;
+        overflow-y: auto;
+
+        .itemname {
+          float: left;
+          height: 14px;
+          font-weight: bold;
+
+          input {
+            width: 150px;
+            height: 13px;
+            margin: 0 0 0 2px;
+          }
+        }
+
+        .itemnamefull {
+          float: left;
+          width: 100%;
+          height: 14px;
+          font-weight: bold;
+        }
+
+        .item-controls {
+          float: right;
+          width: 25px;
+          margin-right: 5px;
+        }
+
+        .spellcastings,
+        .spelltype,
+        .bonesbanes {
+          float: left;
+          padding-left: 5px;
+        }
+      }
+
+      .traditionitem {
+        margin-top: 10px;
+        margin-bottom: 2px;
+      }
+
+      .spell {
+        margin: 0 0 0 10px;
+      }
+    }
+  }
+}
+
+.credescription {
+  margin: -10px 0 0 0;
+}
+.credescription .editor,
+.credescription .editor-content {
+  height: 100%;
+  min-height: 200px;
+  font-size: 13px;
+}
+
+.items-list {
+  margin: -15px 0 0 0;
+
+  .item-header {
+    border: 0;
+    margin-top: 5px;
+  }
+  .feature {
+    font-size: 12px;
+
+    .featurename {
+      margin-bottom: -5px;
+    }
+  }
+}
+
+.itemnamefull {
+  font-weight: bold;
+}
+
+.itemtext {
+  margin: -5px 10px 5px 10px;
+}
+
+.turnmode {
+  margin-top: 5px;
+  margin-left: 48px;
+}
+
+.hidesection {
+  float: right;
+  margin-left: 10px;
+  margin-top: 1px;
+  font-family: 'Font Awesome 5 Free';
+
+  input.checkbox {
+    display: none;
+  }
+
+  input.checkbox + label:before {
+    content: '\f070';
+  }
+
+  input.checkbox:checked + label:before {
+    content: '\f06e';
+  }
+}

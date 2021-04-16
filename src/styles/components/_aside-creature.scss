@@ -1,0 +1,391 @@
+.window-content {
+  padding: 5px;
+  font-size: 13px;
+  overflow-y: hidden;
+}
+
+section.window-content {
+  padding: 0;
+  overflow: hidden;
+}
+
+.window-content {
+  background: url('../assets/ui/sidebar_background.jpg'), url('../assets/ui/paper.jpg');
+  background-repeat: repeat-x, no-repeat;
+  background-size: auto 130px, cover;
+  background-attachment: local;
+}
+
+form {
+  aside {
+    display: block;
+    grid-area: sidebar;
+    color: #fff;
+    font-family: $font-primary;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    height: 720px;
+    width: 247px;
+    position: fixed;
+    overflow: hidden;
+    background: url('../assets/ui/sidebar_creature.png') no-repeat top center;
+
+    .sidebar {
+      margin: 0px 23px 0 30px;
+      overflow: auto;
+      overflow-x: hidden;
+      height: 650px;
+      overflow: hidden scroll;
+      scrollbar-width: thin;
+      scrollbar-color: var(--demonlord-red) transparent;
+
+      .frame {
+        background: url(../assets/ui/image-circle.png) no-repeat top left;
+        background-size: 171px 171px, cover;
+        height: 170px;
+        margin-left: 9px;
+        margin-top: 0px;
+      }
+
+      .framenpc {
+        background: url(../assets/ui/image-circle-npc.png) no-repeat top left;
+        background-size: 171px 171px, cover;
+        height: 170px;
+        margin-left: 9px;
+        margin-top: 0px;
+      }
+
+      .framecreature {
+        background: url(../assets/ui/image-circle-creature.png) no-repeat top left;
+        background-size: 171px 171px, cover;
+        height: 170px;
+        margin-left: 9px;
+        margin-top: 0px;
+      }
+
+      .profile-img {
+        position: relative;
+        top: 28px;
+        right: -28px;
+        height: 115px;
+        width: 115px;
+        border-radius: 60px;
+        object-fit: cover;
+        object-position: top;
+        cursor: pointer;
+      }
+
+      .img-cre {
+        top: 23px;
+        right: -24px;
+        height: 124px;
+        width: 124px;
+      }
+
+      .injuredbox,
+      .injuredboxright,
+      .healingratebox {
+        position: absolute;
+        top: 143px;
+        left: 35px;
+        .injured,
+        .healingrate,
+        .frightening,
+        .horrifying {
+          height: 26px;
+          width: 26px;
+          border-radius: 16px;
+          border: none;
+          box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
+            0 0 8px #a22223;
+          font-weight: 500;
+          font-size: 14px;
+          padding-left: 2px;
+          padding-top: 4px;
+
+          input.checkbox {
+            display: none;
+          }
+
+          input.checkbox + label {
+            position: relative;
+            top: -7px;
+            left: -9px;
+            display: inline-block;
+            width: 35px;
+            height: 38px;
+            cursor: pointer;
+            text-align: center;
+          }
+
+          input.checkbox:checked + label {
+            background-image: url('../assets/ui/bloodstain.png');
+          }
+        }
+
+        .frightening {
+          input.checkbox + label {
+            top: -4px;
+            left: -2px;
+            width: 26px;
+            height: 26px;
+            border-radius: 16px;
+          }
+
+          input.checkbox:checked + label {
+            background-image: url('/systems/demonlord/icons/effects/terror.svg');
+          }
+        }
+        .horrifying {
+          input.checkbox + label {
+            top: -3px;
+            left: -2px;
+            width: 26px;
+            height: 26px;
+            border-radius: 16px;
+          }
+
+          input.checkbox:checked + label {
+            background-image: url('/systems/demonlord/icons/effects/horrified.svg');
+          }
+        }
+
+        .injuredtext,
+        .healingratetext {
+          position: absolute;
+          text-align: center;
+          left: 0px;
+          top: 30px;
+        }
+      }
+
+      .injuredboxright {
+        top: 143px;
+        left: 188px;
+
+        .injuredtext {
+          left: -30px;
+          top: 30px;
+        }
+      }
+
+      .editBars {
+        position: relative;
+        left: 174px;
+        top: 25px;
+      }
+
+      .barboxes {
+        margin-bottom: 20px;
+
+        .barbox {
+          height: 45px;
+          text-align: center;
+          padding-left: 5px;
+          padding-top: 15px;
+          width: 100%;
+
+          .healthedit,
+          .insanityedit,
+          .corruptionedit {
+            height: 19px;
+            width: 40px;
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
+              0 0 8px #a22223;
+            font-weight: 500;
+            font-size: 13px;
+            padding-left: 2px;
+            padding-top: 2px;
+
+            input {
+              margin-top: -4px;
+              margin-left: -2px;
+
+              &:focus {
+                border-radius: 16px;
+                background: #555;
+              }
+            }
+          }
+
+          .healthtext,
+          .insanitytext,
+          .corruptiontext {
+            width: 150px;
+            text-align: left;
+            padding-bottom: 4px;
+          }
+        }
+      }
+
+      .charsstat {
+        margin-top: 25px;
+      }
+      .chars.grid {
+        gap: 0;
+      }
+      .chars {
+        margin-bottom: -19px;
+
+        .defensebox,
+        .speedbox,
+        .powerbox {
+          float: left;
+          position: relative;
+          height: 54px;
+          text-align: center;
+          padding-left: 27px;
+          padding-top: 15px;
+
+          .defense,
+          .speed,
+          .power {
+            height: 19px;
+            width: 40px;
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
+              0 0 8px #a22223;
+            font-weight: 500;
+            font-size: 13px;
+            padding-left: 2px;
+            padding-top: 2px;
+
+            input {
+              margin-top: -6px;
+              margin-left: -2px;
+              height: 16px;
+              border: 0;
+              color: #ffffff;
+              box-shadow: none;
+
+              &:focus {
+                border-radius: 16px;
+                background: #555;
+              }
+            }
+          }
+
+          .defensetext,
+          .speedtext,
+          .powertext {
+            position: absolute;
+            text-align: center;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+          }
+        }
+      }
+
+      .healingratebox {
+        left: 186px;
+        margin-bottom: 10px;
+        .healingrate {
+          padding-top: 5px;
+          text-align: center;
+        }
+        .healingratetext {
+          left: -43px;
+        }
+      }
+
+      .health,
+      .insanity,
+      .corruption {
+        margin-top: 10px;
+        padding: 5px;
+        .healthbar {
+          width: 178px;
+          background-color: #e0e0e0;
+          padding: 1px;
+          margin-top: 3px;
+          border-radius: 3px;
+          box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
+            0 0 8px #a22223;
+        }
+
+        .healthbar-fill,
+        .insanity-fill,
+        .corruption-fill {
+          display: block;
+          height: 12px;
+          background-color: var(--demonlord-red);
+          border-radius: 3px;
+          transition: width 500ms ease-in-out;
+        }
+
+        .healtmax,
+        .insanitymax,
+        .corruptionmax {
+          float: right;
+          margin-top: -13px;
+          padding-right: 5px;
+          color: #000;
+        }
+
+        .damage,
+        .insanityvalue,
+        .corruptionvalue {
+          float: left;
+          margin-top: -13px;
+          padding-left: 5px;
+          color: #000;
+        }
+      }
+
+      .insanity {
+        margin: 4px 0 0 0;
+
+        .insanity-fill {
+          background-color: darkgreen;
+        }
+      }
+
+      .corruption {
+        margin: 4px 0 0 0;
+
+        .corruption-fill {
+          background-color: darkmagenta;
+        }
+      }
+
+      .armor,
+      .speedtraits {
+        padding: 10px;
+
+        input[type='text'],
+        input[type='number'] {
+          width: 174px;
+          font-family: 'Roboto', system, -apple-system, sans-serif;
+          font-size: 11px;
+          color: #fff;
+          line-height: calc(1em + 1px);
+          height: 26px;
+          padding: 10px;
+          margin-left: -5px;
+          background: rgba(0, 0, 0, 1);
+
+          &:focus,
+          &:hover {
+            padding-left: 5px;
+            margin-left: 1px;
+            margin-top: 1px;
+            background: #000;
+          }
+        }
+      }
+
+      .speedtraits {
+        margin-top: -10px;
+      }
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+      box-shadow: none;
+    }
+  }
+}

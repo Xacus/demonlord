@@ -1,0 +1,20 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header itemsheet-header">
+        <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <div class="header-fields">
+            <div class="gridrow">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+            </div>
+        </div>
+        <div class="template-type">{{item.type}}</div>
+    </header>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        <section class="sheet-content">
+            <div class="descriptionblock">
+                {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+            </div>
+        </section>
+    </section>
+</form>

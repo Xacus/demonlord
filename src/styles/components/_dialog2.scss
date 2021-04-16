@@ -1,0 +1,282 @@
+.window-content {
+  background: url(../assets/ui/paper.jpg);
+
+  .form-block {
+    font-size: 11px;
+
+    .items-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .creature-list {
+      margin: 0 0 0px 0;
+      padding: 0;
+
+      .creature-entry {
+        list-style: none;
+        overflow-y: auto;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+        background: rgba(0, 0, 0, 0.1);
+
+        .header {
+          width: 100%;
+          padding: 5px;
+
+          h4 {
+            font-family: 'IM Fell English SC', serif;
+            font-size: 14px;
+          }
+
+          .headerbody {
+            margin-top: -10px;
+          }
+        }
+
+        .toggleEffectInfo {
+          height: 13px;
+          width: 200px;
+        }
+
+        .effectInfo {
+          float: left;
+          margin-top: -20px;
+          margin-bottom: 10px;
+        }
+
+        .effects {
+          list-style: none;
+          margin: 5px 0px -15px 5px;
+          padding: 0;
+          overflow-y: auto;
+          padding-top: 20px;
+
+          .effect {
+            .effectname {
+              font-weight: bold;
+            }
+            .effectsescription {
+              margin-top: -5px;
+            }
+          }
+        }
+      }
+
+      .token-image {
+        float: left;
+        border: none;
+        height: 48px;
+        width: 48px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.challengedialog {
+  padding: 2px 0 5px 0;
+
+  input {
+    margin-top: -5px;
+    width: 40px;
+    margin-left: 5px;
+    text-align: center;
+    height: 20px;
+    border-radius: 0px;
+    background: #edf2f7;
+    font-size: 12px;
+  }
+}
+
+.affliction {
+  height: 18px;
+
+  input {
+    float: left;
+    height: 16px;
+    width: 16px;
+  }
+
+  label {
+    float: left;
+    margin-top: 5px;
+  }
+
+  .fas {
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 260px;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    text-align: left;
+    border-radius: 3px;
+    padding: 5px;
+    top: 40px;
+    right: 20px;
+    position: absolute;
+    z-index: 1;
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+}
+
+.form-line {
+  width: 100%;
+  height: 22px;
+
+  .form-fieldheader {
+    float: left;
+    padding-top: 2px;
+    padding-right: 5px;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .enablemod {
+    float: left;
+    width: 20px;
+    height: 16px;
+    margin: -2px 5px 0 -5px;
+
+    input {
+      height: 16px;
+      width: 16px;
+    }
+  }
+
+  .disable {
+    float: left;
+    width: 150px;
+    height: 16px;
+    margin: -2px 0 0 0;
+  }
+
+  .form-fields {
+    float: left;
+    margin-top: -3px;
+    padding-top: 2px;
+
+    div {
+      float: left;
+      margin-left: 5px;
+    }
+
+    select,
+    input {
+      margin-top: 2px;
+      font-size: 11px;
+      height: 16px;
+    }
+
+    input[type='checkbox'] {
+      width: 15px;
+      margin-top: -1px;
+    }
+
+    .number {
+      input {
+        width: 30px;
+        text-align: right;
+      }
+    }
+
+    .numberLabel {
+      margin-top: 4px;
+      margin-left: 19px;
+    }
+
+    .numbermid {
+      input {
+        width: 50px;
+        text-align: right;
+      }
+    }
+
+    .radioblock,
+    .radioblockfast {
+      padding-right: 15px;
+      margin-left: 0px;
+
+      input[type='radio'] {
+        width: 15px;
+        margin-top: -1px;
+      }
+    }
+  }
+
+  .item-controls {
+    float: right;
+    width: 15px;
+    margin-top: 2px;
+  }
+}
+
+.form-modline {
+  width: 100%;
+  height: 12px;
+
+  .form-fields {
+    float: left;
+    margin-top: -3px;
+    padding-top: 2px;
+
+    .modname {
+      width: 133px;
+      padding-left: 20px;
+    }
+
+    .modeffects {
+      width: 152px;
+    }
+
+    .modmodifier {
+      width: 35px;
+    }
+
+    .modrounds {
+      width: 43px;
+    }
+
+    .modleft {
+      width: 22px;
+    }
+  }
+}
+
+.tooltipEffect {
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  cursor: help;
+}
+
+.tooltipEffect .tooltiptextEffect {
+  visibility: hidden;
+  width: 270px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  border-radius: 3px;
+  padding: 5px;
+  margin-top: 20px;
+  position: absolute;
+  left: 10px;
+  z-index: 1;
+  font-size: 11px;
+}
+
+.tooltipEffect:hover .tooltiptextEffect {
+  visibility: visible;
+}

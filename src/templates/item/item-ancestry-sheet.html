@@ -1,0 +1,386 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="itemclass">
+        <header class="sheet-header itemsheet-header">
+            <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+            <div class="header-fields">
+                <div class="gridrow"><input name="name" type="text" value="{{item.name}}" placeholder="Armor Name" />
+                </div>
+            </div>
+            <div class="template-type">{{item.type}}</div>
+            {{#if isGM}}
+            <div class="togglegm">
+                <label class="switchBig">
+                    <input type="checkbox" id="data.editAncestry" name="data.editAncestry" {{checked data.editAncestry}}>
+                    <div class="slider round">
+                        <span class="on">Edit</span><span class="off">View</span>
+                    </div>
+                </label>
+            </div>
+            {{else}}
+                {{#if useDemonlordMode}}
+                <div class="togglegm">
+                    <label class="switchBig">
+                        <input type="checkbox" id="data.editAncestry" name="data.editAncestry" {{checked data.editAncestry}}>
+                        <div class="slider round">
+                            <span class="on">Edit</span><span class="off">View</span>
+                        </div>
+                    </label>
+                </div>
+                {{/if}}
+            {{/if}}
+        </header>
+
+        {{!-- Sheet Tab Navigation --}}
+        <nav class="sheet-tabs tabs" data-group="primary">
+            <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
+            <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+        </nav>
+
+        {{!-- Sheet Body --}}
+        <section class="sheet-body">
+            <section class="sheet-content">
+                {{!-- Attributes Tab --}}
+                <div class="tab paths" data-group="primary" data-tab="attributes">
+                    <div class="gridrow">
+                        <div class="resource">
+                            <ol class="items-list">
+                                {{#if useDemonlordMode}}
+                                {{else}}
+                                <li class="level">
+                                    <div class="levelheader">
+                                        <label>{{localize 'DL.AncestryStartingAttributes'}}</label>
+                                    </div>
+                                    <div class="attributes">
+                                        <div class="grid grid-4col">
+                                            <div>
+                                                <label class="bold">{{localize 'DL.AttributeStrength'}}</label>
+                                                <input type="text" name="data.attributes.strength.value" value="{{data.attributes.strength.value}}" data-dtype="Number" placeholder="10" />
+                                            </div>
+                                            <div>
+                                                <label class="bold">{{localize 'DL.AttributeAgility'}}</label>
+                                                <input type="text" name="data.attributes.agility.value" value="{{data.attributes.agility.value}}" data-dtype="Number" placeholder="10" />
+                                            </div>
+                                            <div>
+                                                <label class="bold">{{localize 'DL.AttributeIntellect'}}</label>
+                                                <input type="text" name="data.attributes.intellect.value" value="{{data.attributes.intellect.value}}" data-dtype="Number" placeholder="10" />
+                                            </div>
+                                            <div>
+                                                <label class="bold">{{localize 'DL.AttributeWill'}}</label>
+                                                <input type="text" name="data.attributes.will.value" value="{{data.attributes.will.value}}" data-dtype="Number" placeholder="10" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/if}}
+                                <li class="level">
+                                    <div class="levelheader">
+                                        <label>{{localize 'DL.Characteristics'}}</label>
+                                    </div>
+                                    <div class="attributes">
+                                        {{#if data.editAncestry}}
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryPerceptionModifier"}}</label>
+                                                <input type="text" name="data.characteristics.perceptionmodifier"
+                                                    value="{{data.characteristics.perceptionmodifier}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryDefenseModifier"}}</label>
+                                                <input type="text" name="data.characteristics.defensemodifier"
+                                                    value="{{data.characteristics.defensemodifier}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryHealthModifier"}}</label>
+                                                <input type="text" name="data.characteristics.healthmodifier"
+                                                    value="{{data.characteristics.healthmodifier}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryHealingRateModifier"}}</label>
+                                                <input type="text" name="data.characteristics.healingratemodifier"
+                                                value="{{data.characteristics.healingratemodifier}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharPower"}}</label>
+                                                <input type="text" name="data.characteristics.power"
+                                                value="{{data.characteristics.power}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharSize"}}</label>
+                                                <input type="text" name="data.characteristics.size"
+                                                value="{{data.characteristics.size}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharSpeed"}}</label>
+                                                <input type="text" name="data.characteristics.speed"
+                                                value="{{data.characteristics.speed}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharInsanity"}}</label>
+                                                <input type="text" name="data.characteristics.insanity" value="{{data.characteristics.insanity}}" />
+                                                <div class="infotext">{{localize 'DL.AncestryNotTransferred'}}</div>
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharCorruption"}}</label>
+                                                <input type="text" name="data.characteristics.corruption" value="{{data.characteristics.corruption}}" />
+                                                <div class="infotext">{{localize 'DL.AncestryNotTransferred'}}</div>
+                                            </div>
+                                        {{else}}
+                                            {{#if lockAncestry}}
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryPerceptionModifier"}}</label>
+                                                <div>{{data.characteristics.perceptionmodifier}}</div>
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryDefenseModifier"}}</label>
+                                                <div>{{data.characteristics.defensemodifier}}</div>
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryHealthModifier"}}</label>
+                                                <div>{{data.characteristics.healthmodifier}}</div>
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryHealingRateModifier"}}</label>
+                                                <div>{{data.characteristics.healingratemodifier}}</div>
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharPower"}}</label>
+                                                <input type="text" name="data.characteristics.power" value="{{data.characteristics.power}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharSize"}}</label>
+                                                <input type="text" name="data.characteristics.size" value="{{data.characteristics.size}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharSpeed"}}</label>
+                                                <div>{{data.characteristics.speed}}</div>
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharInsanity"}}</label>
+                                                <div>{{data.characteristics.insanity}}</div>
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharCorruption"}}</label>
+                                                <div>{{data.characteristics.corruption}}</div>
+                                            </div>
+                                            {{else}}
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryPerceptionModifier"}}</label>
+                                                <input type="text" name="data.characteristics.perceptionmodifier"
+                                                    value="{{data.characteristics.perceptionmodifier}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryDefenseModifier"}}</label>
+                                                <input type="text" name="data.characteristics.defensemodifier"
+                                                    value="{{data.characteristics.defensemodifier}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryHealthModifier"}}</label>
+                                                <input type="text" name="data.characteristics.healthmodifier"
+                                                    value="{{data.characteristics.healthmodifier}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.AncestryHealingRateModifier"}}</label>
+                                                <input type="text" name="data.characteristics.healingratemodifier"
+                                                value="{{data.characteristics.healingratemodifier}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharPower"}}</label>
+                                                <input type="text" name="data.characteristics.power" value="{{data.characteristics.power}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharSize"}}</label>
+                                                <input type="text" name="data.characteristics.size" value="{{data.characteristics.size}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharSpeed"}}</label>
+                                                <input type="text" name="data.characteristics.speed" value="{{data.characteristics.speed}}" />
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharInsanity"}}</label>
+                                                <input type="text" name="data.characteristics.insanity" value="{{data.characteristics.insanity}}" />
+                                                <div class="infotext">{{localize 'DL.AncestryNotTransferred'}}</div>
+                                            </div>
+                                            <div class="leftbox">
+                                                <label class="resource-label">{{localize "DL.CharCorruption"}}</label>
+                                                <input type="text" name="data.characteristics.corruption" value="{{data.characteristics.corruption}}" />
+                                                <div class="infotext">{{localize 'DL.AncestryNotTransferred'}}</div>
+                                            </div>
+                                            {{/if}}
+                                        {{/if}}
+                                    </div>
+                                    <div class="language">
+                                        {{#if data.editAncestry}}
+                                        <div class="option">
+                                            <label>{{localize 'DL.PathsLevelLanguages'}}</label>
+                                            <textarea name="data.languages">{{data.languages}}</textarea>
+                                        </div>
+                                        {{else}}
+                                            {{#if data.languages}}
+                                            <div class="option">
+                                                <label>{{localize 'DL.PathsLevelLanguages'}}</label>
+                                            </div>
+                                            <div>{{data.languages}}</div>
+                                            {{/if}}
+                                        {{/if}}
+                                    </div>
+                                    {{#if data.editAncestry}}
+                                    <div class="talents">
+                                        <div class="option">
+                                            <label>{{localize 'DL.LanguagesTitle'}}</label>
+                                        </div>
+                                        <div class=" item-container drop-area" data-group="language" data-level="{{id}}">
+                                            <ul class="tags">
+                                                {{#each data.languagelist as |language id|}}
+                                                <li class="tag" data-item-id="{{id}}">{{language.name}}<span class="remove-tag delete-ancestryitem" role="button"
+                                                        data-action="delete"></span>
+                                                </li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="talents">
+                                        <div class="option">
+                                            <label>{{localize 'DL.CreatureTraits'}}</label>
+                                        </div>
+                                        <div class=" item-container drop-area" data-group="talent" data-level="{{id}}">
+                                            <ul class="tags">
+                                                {{#each data.talents as |talent id|}}
+                                                <li class="tag" data-item-id="{{id}}">{{talent.name}}<span class="remove-tag delete-ancestryitem" role="button"
+                                                        data-action="delete"></span>
+                                                </li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {{else}}
+                                        {{#if data.languagelist}}
+                                        <div class="talents">
+                                            <div class="option">
+                                                <label>{{localize 'DL.LanguagesTitle'}}</label>
+                                            </div>
+                                            <div class="item-container select-area" data-level="{{id}}">
+                                                <ul class="tags">
+                                                    {{#each data.languagelist as |language id|}}
+                                                    <li class="tagcleantooltip" data-item-id="{{id}}">
+                                                        {{#if language.description}} 
+                                                        <span data-tipfy="{{{language.description}}}">{{language.name}}</span>
+                                                        {{else}}
+                                                        {{language.name}}
+                                                        {{/if}}
+                                                    </li>
+                                                    {{/each}}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                        {{#if data.talents}}
+                                        <div class="talents">
+                                            <div class="option">
+                                                <label>{{localize 'DL.CreatureTraits'}}</label>
+                                            </div>
+                                            <div class="item-container select-area" data-level="{{id}}">
+                                                <ul class="tags">
+                                                    {{#each data.talents as |talent id|}}
+                                                    <li class="tagcleantooltip" data-item-id="{{id}}">
+                                                        {{#if talent.description}} 
+                                                        <span data-tipfy="{{{talent.description}}}">{{talent.name}}</span>
+                                                        {{else}}
+                                                        {{talent.name}}
+                                                        {{/if}}
+                                                    </li>
+                                                    {{/each}}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    {{/if}}
+                                </li>
+                                <li class="level">
+                                    <div class="levelheader">
+                                        <label>{{localize 'DL.AncestryLevel4'}}</label>
+                                    </div>
+                                    <div class="attributes">
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.CharHealth"}}</label>
+                                            <input type="text" name="data.level4.healthbonus" value="{{data.level4.healthbonus}}" />
+                                        </div>
+                                        <div class="leftbox">
+                                            <label class="resource-label">{{localize "DL.AncestryOptionTitle"}}</label>
+                                        </div>
+                                        {{#if data.level4.option1}}
+                                        <div class="radiotrue">
+                                            <input type="radio" name="data.level4.options" id="data.level4.option.true"
+                                                {{checked}} />
+                                            <label for="data.level4.option1">{{localize "DL.AncestryLearnSpell"}}</label>
+                                        </div>
+                                        <div class="radiofalse">
+                                            <input type="radio" name="data.level4.options" id="data.level4.option.false" />
+                                            <label for="data.level4.option1">{{localize "DL.AncestryLearnTalent"}}</label>
+                                        </div>
+                                        {{else}}
+                                        <div class="radiotrue">
+                                            <input type="radio" name="data.level4.options" id="data.level4.option.true" />
+                                            <label for="data.level4.option1">{{localize "DL.AncestryLearnSpell"}}</label>
+                                        </div>
+                                        <div class="radiofalse">
+                                            <input type="radio" name="data.level4.options" id="data.level4.option.false"
+                                                {{checked}} />
+                                            <label for="data.level4.option1">{{localize "DL.AncestryLearnTalent"}}</label>
+                                        </div>
+                                        {{/if}}
+                                        {{#if data.editAncestry}}
+                                        <div class="talents">
+                                            <div class="option">
+                                                <label>{{localize 'DL.CreatureTraits'}}</label>
+                                            </div>
+                                            <div class=" item-container drop-area" data-group="talent4" data-level="{{id}}">
+                                                <ul class="tags">
+                                                    {{#each data.level4.talent as |talent id|}}
+                                                    <li class="tag" data-item-id="{{id}}">{{talent.name}}<span class="remove-tag delete-ancestryitem"
+                                                            role="button" data-action="delete"></span>
+                                                    </li>
+                                                    {{/each}}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {{else}}
+                                            {{#if data.level4.talent}}
+                                            <div class="talents">
+                                                <div class="option">
+                                                    <label>{{localize 'DL.CreatureTraits'}}</label>
+                                                </div>
+                                                <div class="info"><a class="item-control transfer-talents" data-group="talent4" title="{{localize 'DL.PathsTraitTransfers'}}">{{localize 'DL.PathsTraitTransfers'}}</a></div>
+                                                <div class="item-container select-area" data-level="{{id}}">
+                                                    <ul class="tags">
+                                                        {{#each data.level4.talent as |talent id|}}
+                                                        <li class="tagcleantooltip" data-item-id="{{id}}">
+                                                            {{#if talent.description}} 
+                                                            <span data-tipfy="{{{talent.description}}}">{{talent.name}}</span>
+                                                            {{else}}
+                                                            {{talent.name}}
+                                                            {{/if}}
+                                                        </li>
+                                                        {{/each}}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            {{/if}}
+                                        {{/if}}
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                {{!-- Description Tab --}}
+                <div class="tab" data-group="primary" data-tab="description">
+                    <div class="descriptionblock">
+                        {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+    <script>
+    new Tipfy('[data-tipfy]');
+    </script>
+</form>

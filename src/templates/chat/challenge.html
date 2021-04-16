@@ -1,0 +1,95 @@
+<div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <div class="showlessinfo"></div>
+    <header class="card-headersmall">
+        <div class="header">{{localize "DL.ChallengeRollText"}}</div>
+        <div class="gmremove headertext {{data.resultText.value}}">{{data.resultText.value}}</div>
+        <div class="gmonlyzero headertext {{data.resultTextGM.value}}">{{data.resultTextGM.value}}</div>
+    </header>
+
+    <div class="result">
+        <div class="box {{data.resultText.value}}">
+            <div class="valuetext">{{item.name}}</div>
+            <div class="boxborder tooltip">
+                <div class="value">
+                    <div class="gmremove">{{data.diceTotal.value}}</div>
+                    <div class="gmonlyzero">{{data.diceTotalGM.value}}</div>
+                </div>
+                {{#if data.isCreature.value}}
+                <div class="gmonly">
+                    <span class="tooltiptext">
+                        {{#each diceData.dice}}
+                        <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                            <label style="color:{{this.color}};">
+                                {{this.result}}
+                            </label>
+                            {{#if this.img}}
+                            <img src='{{this.img}}' />
+                            {{/if}}
+                        </div>
+                        {{/each}}
+                    </span>
+                </div>
+                {{else}}
+                    {{#if data.ifBlindedRoll }}
+                    <div class="gmonly">
+                    {{/if}}
+                <span class="tooltiptext">
+                    {{#each diceData.dice}}
+                    <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                        <label style="color:{{this.color}};">
+                            {{this.result}}
+                        </label>
+                        {{#if this.img}}
+                        <img src='{{this.img}}' />
+                        {{/if}}
+                    </div>
+                    {{/each}}
+                </span>
+                    {{#if data.ifBlindedRoll }}
+                    </div>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </div>
+        <div class="boxvs">
+            <div class="vs">{{localize "DL.ChallengeVS"}}</div>
+        </div>
+        <div class="box {{data.resultText.value}}">
+            <div class="valuetext">{{localize "DL.TalentRollTarget"}}</div>
+            <div class="boxborderTarget">
+                <div class="value">10</div>
+            </div>
+        </div>
+    </div>
+    {{#if data.actionEffects.value}}
+    {{#if data.isCreature.value}}
+    <div class="gmonly">
+        <div class="description">
+            <div class="header">{{localize "DL.TalentRollActions"}}</div>
+            <div class="body">{{{data.actionEffects.value}}}</div>
+        </div>
+    </div>
+    {{else}}
+    <div class="description">
+        <div class="header">{{localize "DL.TalentRollActions"}}</div>
+        <div class="body">{{{data.actionEffects.value}}}</div>
+    </div>
+    {{/if}}
+    {{/if}}
+    {{#if data.afflictionEffects.value}}
+    {{#if data.isCreature.value}}
+    <div class="gmonly">
+        <div class="description">
+            <div class="header">{{localize "DL.Afflictions"}}:</div>
+            <div class="body">{{{data.afflictionEffects.value}}}</div>
+        </div>
+    </div>
+    {{else}}
+    <div class="description">
+        <div class="header">{{localize "DL.Afflictions"}}:</div>
+        <div class="body">{{{data.afflictionEffects.value}}}</div>
+    </div>
+    {{/if}}
+    {{/if}}
+</div>

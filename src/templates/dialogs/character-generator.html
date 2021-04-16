@@ -1,0 +1,57 @@
+<form autocomplete="off">
+    <div class="form-block">
+        <label>{{localize "DL.PathsLevelsSubTitle"}}</label>
+        <input type="text" name="actor.data.level" value="{{actor.data.level}}" placeholder="{{localize 'DL.PathsLevelsSubTitle'}}"/>
+
+        <label>{{localize "DL.CharAncestry"}}</label>
+        <select name="actor.data.ancestry" data-dtype="String">
+            {{#select actor.data.ancestry}}
+            {{#each ancestries as |ancestry id|}}
+            <option value="{{ancestry.name}}">{{ancestry.name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+
+        <div class="gridrow">
+            <label>{{localize "DL.PathsTitle"}}</label>
+            <div class="resource grid grid-3col">
+                <div>
+                    <label>{{paths.novice.label}}</label>
+                    <select name="actor.data.paths.novice" data-dtype="String">
+                        {{#select actor.data.paths.novice}}
+                        <option value="">—</option>
+                        {{#each paths.novice.paths as |path id|}}
+                        <option value="{{path.name}}">{{path.name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div>
+                    <label>{{paths.expert.label}}</label>
+                    <select name="actor.data.paths.expert" data-dtype="String">
+                        {{#select actor.data.paths.expert}}
+                        <option value="">—</option>
+                        {{#each paths.expert.paths as |path id|}}
+                        <option value="{{path.name}}">{{path.name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div>
+                    <label>{{paths.master.label}}</master>
+                    <select name="actor.data.paths.master" data-dtype="String">
+                        {{#select actor.data.paths.master}}
+                        <option value="">—</option>
+                        {{#each paths.master.paths as |path id|}}
+                        <option value="{{path.name}}">{{path.name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="sheet-footer">
+        <button type="submit"><i class="fas fa-save"></i>{{localize "DL.ModsSaveChanges"}}</button>
+    </footer>
+</form>

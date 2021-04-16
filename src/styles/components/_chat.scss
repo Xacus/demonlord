@@ -1,0 +1,320 @@
+.card-header {
+  height: 50px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 4px 5px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  font-size: 13px;
+  display: flex;
+
+  .attack-img {
+    float: left;
+    height: 22px;
+    width: 22px;
+    margin-top: 8px;
+    background: url('../assets/ui/icons/crossed-swords2.png') no-repeat;
+  }
+
+  .token-img {
+    height: 40px;
+    width: 40px;
+
+    img {
+      border: 0;
+    }
+  }
+
+  .challenge-img {
+    height: 22px;
+    width: 22px;
+    background: url('../assets/ui/icons/back-forth2.png') no-repeat;
+  }
+
+  .talent-img {
+    height: 22px;
+    width: 22px;
+    margin-top: 8px;
+    background: url('../assets/ui/icons/barbed-sun2.png') no-repeat;
+  }
+
+  .spell-img {
+    height: 22px;
+    width: 22px;
+    margin-top: 8px;
+    background: url('assets/ui/icons/magic-palm2.png') no-repeat;
+  }
+
+  .header {
+    float: left;
+    font-weight: bold;
+    padding: 2px 5px 0px 5px;
+  }
+
+  .headertext {
+    float: left;
+    padding-top: 2px;
+    padding-right: 5px;
+  }
+
+  .targetname {
+    float: left;
+    padding-top: 2px;
+    padding-right: 5px;
+  }
+
+  .attackbox {
+    .boxline {
+      flex-direction: row;
+
+      .header {
+      }
+    }
+  }
+
+  .targetbox {
+    float: left;
+    width: 220px;
+
+    .header {
+    }
+  }
+
+  .FAILURE {
+    float: left;
+    color: var(--demonlord-red);
+    font-weight: bold;
+  }
+
+  .SUCCESS {
+    float: left;
+    color: green;
+    font-weight: bold;
+  }
+}
+
+.card-headersmall {
+  position: relative;
+  height: 30px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 4px 5px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.1);
+
+  .damage-img {
+    float: left;
+    height: 22px;
+    width: 22px;
+    background: url('icons/damage.png') no-repeat;
+  }
+
+  .spell-img {
+    float: left;
+    height: 22px;
+    width: 22px;
+    background: url('icons/magic-palm2.png') no-repeat;
+  }
+
+  .challenge-img {
+    float: left;
+    height: 22px;
+    width: 22px;
+    background: url('icons/back-forth2.png') no-repeat;
+  }
+
+  .talent-img {
+    float: left;
+    height: 22px;
+    width: 22px;
+    background: url('icons/barbed-sun2.png') no-repeat;
+  }
+
+  .init-img {
+    float: left;
+    height: 22px;
+    width: 22px;
+    background: url('icons/pentagram.png') no-repeat;
+  }
+
+  .header {
+    float: left;
+    font-weight: bold;
+    padding: 2px 5px 0px 5px;
+  }
+
+  .headertext {
+    float: left;
+    padding-top: 2px;
+    padding-right: 5px;
+  }
+
+  .FAILURE {
+    float: left;
+    color: var(--demonlord-red);
+    font-weight: bold;
+  }
+
+  .SUCCESS {
+    float: left;
+    color: green;
+    font-weight: bold;
+  }
+}
+
+.tooltip {
+  &:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .tooltiptext {
+    visibility: hidden;
+    width: 260px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    text-align: left;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    left: 7px;
+    top: 24px;
+  }
+}
+
+.init-header {
+  height: 30px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 4px 5px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.1);
+
+  .init-img {
+    float: left;
+    height: 22px;
+    width: 22px;
+    background: url('icons/pentagram.png') no-repeat;
+  }
+
+  .inittext {
+    float: left;
+    padding: 2px 0 0 5px;
+  }
+}
+
+.result {
+  height: 52px;
+
+  .box {
+    float: left;
+    width: 80px;
+    height: 60px;
+    text-align: center;
+
+    .boxborder,
+    .boxborderTarget {
+      position: relative;
+      left: 20px;
+      border: 1px solid #7a7971;
+      border-radius: 3px;
+      width: 40px;
+      height: 40px;
+
+      .value {
+        position: relative;
+        text-align: center;
+        top: 8px;
+        font-size: 17px;
+      }
+    }
+
+    .tooltip {
+      &:hover .tooltiptext {
+        visibility: visible;
+      }
+
+      .tooltiptext {
+        visibility: hidden;
+        width: 260px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        text-align: left;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        border-radius: 3px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        left: -17px;
+        top: 27px;
+      }
+    }
+
+    .valuetext {
+      position: relative;
+      top: 0px;
+      width: 80px;
+      font-size: 10px;
+      font-weight: bold;
+    }
+  }
+
+  .SUCCESS {
+    .boxborder {
+      border: 3px solid darkgreen;
+
+      .value {
+        top: 6px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .FAILURE {
+    .boxborder {
+      border: 3px solid var(--demonlord-red);
+
+      .value {
+        top: 6px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .boxvs {
+    float: left;
+    width: 30px;
+    height: 60px;
+
+    .vs {
+      position: relative;
+      top: 23px;
+      left: 8px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.roll20,
+.description {
+  display: block;
+  font-size: 12px;
+  margin-top: 10px;
+
+  .header {
+    font-weight: bold;
+  }
+}
+
+.chat-uses {
+  float: right;
+  margin-top: -10px;
+  font-size: 12px;
+}
+
+.showlessinfo {
+  font-size: 12px;
+  margin-top: -3px;
+}
