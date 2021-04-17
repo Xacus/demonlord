@@ -4,6 +4,7 @@
  */
 import {FormatDice} from '../dice.js'
 import {ActorRolls} from "./actor-rolls";
+import {ActorAfflictionsEffects} from "./actor-afflictions-effects";
 
 export class DemonlordActor extends Actor {
   /** @override */
@@ -464,72 +465,7 @@ export class DemonlordActor extends Actor {
   }
 
   rollWeaponAttackMacro(itemId, boonsbanes, damagebonus) {
-    if (this.data.data.afflictions.dazed) {
-      ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
-    } else if (this.data.data.afflictions.defenseless) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (this.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
-    } else if (this.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (this.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else {
-      const item = this.getEmbeddedDocument('Item', itemId)
-      const attackAttribute = item.data.data.action?.attack
-      const characterbuffs = this.generateCharacterBuffs('ATTACK')
-      characterbuffs.attackbonus += boonsbanes ? parseInt(boonsbanes) : 0
-      characterbuffs.attackdamagebonus += damagebonus ? '+' + damagebonus : ''
-
-      if (attackAttribute) {
-        const d = new Dialog({
-          title:
-            game.i18n.localize('DL.DialogAttackRoll') +
-            game.i18n.localize(item.name),
-          content:
-            '<div class="challengedialog"><b>' +
-            game.i18n.localize('DL.DialogAddBonesAndBanes') +
-            "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-            '</div><br/><div class="challengedialog"><b>' +
-            game.i18n.localize('DL.ModsAdd') +
-            "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-            '</b></div><br/>',
-          buttons: {
-            roll: {
-              icon: '<i class="fas fa-check"></i>',
-              label: game.i18n.localize('DL.DialogRoll'),
-              callback: (html) =>
-                this.rollAttack(
-                  item,
-                  html.find('[id="boonsbanes"]').val(),
-                  characterbuffs,
-                  html.find('[id="modifier"]').val()
-                )
-            },
-            cancel: {
-              icon: '<i class="fas fa-times"></i>',
-              label: game.i18n.localize('DL.DialogCancel'),
-              callback: () => {
-              }
-            }
-          },
-          default: 'roll',
-          close: () => {
-          }
-        })
-        d.render(true)
-      } else {
-        this.rollAttack(item, 0, characterbuffs, 0)
-      }
-    }
+    ActorRolls.rollWeaponAttackMacro(this, itemId, boonsbanes, damagebonus)
   }
 
   rollWeaponAttack(itemId, options = {event: null}) {
@@ -1911,152 +1847,14 @@ export class DemonlordActor extends Actor {
   }
 
   buildActionEffects(type) {
-    let effects
-    switch (type) {
-      case 'ATTACK':
-        if (this.data.data.afflictions?.prepare) {
-          effects =
-            game.i18n.localize('DL.prepare') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentAttackBoonsBanes') +
-            ': 1 <br>'
-        }
-        break
-
-      case 'CHALLENGE':
-        if (this.data.data.afflictions?.prepare) {
-          effects =
-            game.i18n.localize('DL.prepare') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-            ': 1 <br>'
-        }
-
-        break
-    }
-
-    return effects
+    return ActorAfflictionsEffects.buildAfflictionsEffects(this, type, ['prepare'], 1)
   }
 
   buildAfflictionsEffects(type) {
-    let effects
-
-    switch (type) {
-      case 'ATTACK':
-        if (this.data.data.afflictions?.diseased) {
-          effects =
-            game.i18n.localize('DL.diseased') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentAttackBoonsBanes') +
-            ': -1 <br>'
-        }
-        if (this.data.data.afflictions?.fatigued) {
-          effects =
-            game.i18n.localize('DL.fatigued') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentAttackBoonsBanes') +
-            ': -1 <br>'
-        }
-        if (this.data.data.afflictions?.impaired) {
-          effects =
-            game.i18n.localize('DL.impaired') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentAttackBoonsBanes') +
-            ': -1 <br>'
-        }
-        if (this.data.data.afflictions?.poisoned) {
-          effects =
-            game.i18n.localize('DL.poisoned') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentAttackBoonsBanes') +
-            ': -1 <br>'
-        }
-
-        break
-
-      case 'CHALLENGE':
-        if (this.data.data.afflictions?.diseased) {
-          effects =
-            game.i18n.localize('DL.diseased') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-            ': -1 <br>'
-        }
-        if (this.data.data.afflictions?.fatigued) {
-          effects =
-            game.i18n.localize('DL.fatigued') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-            ': -1 <br>'
-        }
-        if (this.data.data.afflictions?.impaired) {
-          effects =
-            game.i18n.localize('DL.impaired') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-            ': -1 <br>'
-        }
-        if (this.data.data.afflictions?.poisoned) {
-          effects =
-            game.i18n.localize('DL.poisoned') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-            ': -1 <br>'
-        }
-
-        break
-
-      case 'SPELL':
-        if (this.data.data.afflictions?.diseased) {
-          effects =
-            game.i18n.localize('DL.diseased') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-            ': -1 <br>'
-        }
-        if (this.data.data.afflictions?.fatigued) {
-          effects =
-            game.i18n.localize('DL.fatigued') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-            ': -1 <br>'
-        }
-        if (this.data.data.afflictions?.impaired) {
-          effects =
-            game.i18n.localize('DL.impaired') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-            ': -1 <br>'
-        }
-        if (this.data.data.afflictions?.poisoned) {
-          effects =
-            game.i18n.localize('DL.poisoned') +
-            ':<br>' +
-            '&nbsp;&nbsp;&nbsp;• ' +
-            game.i18n.localize('DL.TalentChallengeBoonsBanes') +
-            ': -1 <br>'
-        }
-
-        break
-
-      default:
-        break
-    }
-
-    return effects
+    return ActorAfflictionsEffects.buildAfflictionsEffects(this, type,
+      ['diseased', 'fatigued', 'impaired', 'poisoned'],
+      -1
+    )
   }
 
   async activateTalent(talent, setActive) {

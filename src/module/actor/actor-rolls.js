@@ -1,5 +1,5 @@
 import {FormatDice} from "../dice";
-import {ActorAfflictions} from "./actor-afflictions";
+import {ActorAfflictionsEffects} from "./actor-afflictions-effects";
 import {capitalize} from "../utils/utils"
 
 export class ActorRolls {
@@ -181,7 +181,7 @@ export class ActorRolls {
 
   static rollWeaponAttack = (actor, itemId, options = {event: null}) => {
 
-    if (ActorAfflictions.checkRollBlockingAfflictions(actor,
+    if (ActorAfflictionsEffects.checkRollBlockingAfflictions(actor,
       ['dazed', 'surprised', 'stunned', 'unconscious'])
     ) return
 
@@ -213,10 +213,10 @@ export class ActorRolls {
       attLabel = capitalize(attribute)
     }
 
-    if (ActorAfflictions.checkRollBlockingAfflictions(actor,
+    if (ActorAfflictionsEffects.checkRollBlockingAfflictions(actor,
       ['unconscious', 'stunned', 'surprised']) ||
-      ActorAfflictions.checkConditionalRollBlockingAffliction('defenseless', attLabel !== 'Perception') ||
-      ActorAfflictions.checkConditionalRollBlockingAffliction('blinded', attLabel === 'Perception')
+      ActorAfflictionsEffects.checkConditionalRollBlockingAffliction('defenseless', attLabel !== 'Perception') ||
+      ActorAfflictionsEffects.checkConditionalRollBlockingAffliction('blinded', attLabel === 'Perception')
     ) return
 
     ActorRolls.launchRollDialog(
@@ -230,7 +230,7 @@ export class ActorRolls {
   }
 
   static rollTalent = (actor, itemId, options = { event: null }) => {
-    if (ActorAfflictions.checkRollBlockingAfflictions(
+    if (ActorAfflictionsEffects.checkRollBlockingAfflictions(
       actor,
       ['dazed', 'surprised', 'stunned', 'unconscious']
     )) return
@@ -258,7 +258,7 @@ export class ActorRolls {
 
   static rollSpell = (actor, itemId, options = {event: null}) => {
 
-    if (ActorAfflictions.checkRollBlockingAfflictions(
+    if (ActorAfflictionsEffects.checkRollBlockingAfflictions(
       actor,
       ['dazed', 'defenseless', 'surprised', 'stunned', 'unconscious'])
     ) return
@@ -394,6 +394,32 @@ export class ActorRolls {
         ChatMessage.create(chatData)
       }
     })
+  }
+
+  static rollWeaponAttackMacro = (actor, itemId, boonsbanes, damagebonus) => {
+    if (ActorAfflictionsEffects.checkRollBlockingAfflictions(actor,
+      ['dazed', 'surprised', 'stunned', 'unconscious'])
+    ) return
+
+    const item = this.getEmbeddedDocument('Item', itemId)
+    const attackAttribute = item.data.data.action?.attack
+    const characterbuffs = this.generateCharacterBuffs('ATTACK')
+    characterbuffs.attackbonus += boonsbanes ? parseInt(boonsbanes) : 0
+    characterbuffs.attackdamagebonus += damagebonus ? '+' + damagebonus : ''
+
+    if (attackAttribute) {
+      ActorRolls.launchRollDialog(
+        game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name),
+        (html) =>
+          actor.rollAttack(
+            item,
+            html.find('[id="boonsbanes"]').val(),
+            characterbuffs,
+            html.find('[id="modifier"]').val()
+          )
+      )
+    } else
+      this.rollAttack(item, 0, characterbuffs, 0)
   }
 
   static rollAttack = (actor, weapon, boonsbanes, buffs, modifier) => {
