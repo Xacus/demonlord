@@ -1,4 +1,5 @@
 import {FormatDice} from "../dice";
+import {ActorAfflictions} from "./actor-afflictions";
 
 export class ActorRolls {
 
@@ -177,6 +178,30 @@ export class ActorRolls {
     });
   }
 
+  static rollWeaponAttack = (actor, itemId, options = {event: null}) => {
+
+    if (ActorAfflictions.checkRollBlockingAfflictions(actor,
+      ['dazed', 'surprised', 'stunned', 'unconscious'])
+    ) return
+
+    const item = actor.getEmbeddedDocument('Item', itemId)
+    const attackAttribute = item.data.data.action?.attack
+    const characterbuffs = actor.generateCharacterBuffs('ATTACK')
+
+    if (attackAttribute) {
+      ActorRolls.launchRollDialog(
+        game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name),
+        (html) => actor.rollAttack(
+          item,
+          html.find('[id="boonsbanes"]').val(),
+          characterbuffs,
+          html.find('[id="modifier"]').val())
+      )
+    } else {
+      actor.rollAttack(item, 0, characterbuffs, 0)
+    }
+  }
+
   static rollChallenge = (actor, attribute) => {
     if (typeof attribute === 'string' || attribute instanceof String) {
       attribute = actor.data.data.attributes[attribute]
@@ -187,119 +212,187 @@ export class ActorRolls {
       attLabel = capitalize(attribute)
     }
 
-    if (actor.data.data.afflictions.defenseless && attLabel != 'Perception') {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (actor.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else if (actor.data.data.afflictions.blinded && attLabel == 'Perception') {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningBlindedChallengeFailer')
-      )
-    } else if (actor.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (actor.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
+    if (ActorAfflictions.checkRollBlockingAfflictions(actor,
+      ['unconscious', 'stunned', 'surprised']) ||
+      ActorAfflictions.checkConditionalRollBlockingAffliction('defenseless', attLabel !== 'Perception') ||
+      ActorAfflictions.checkConditionalRollBlockingAffliction('blinded', attLabel === 'Perception')
+    ) return
+
+    ActorRolls.launchRollDialog(
+      actor.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2),
+      (html) =>
+        actor.rollAttribute(
+          attribute,
+          html.find('[id="boonsbanes"]').val(),
+          html.find('[id="modifier"]').val()
+        ))
+  }
+
+  static rollTalent = (actor, itemId, options = { event: null }) => {
+    if (ActorAfflictions.checkRollBlockingAfflictions(
+      actor,
+      ['dazed', 'surprised', 'stunned', 'unconscious']
+    )) return
+
+    const item = duplicate(actor.items.get(itemId))
+    const uses = parseInt(item.data?.uses?.value)
+    const usesmax = parseInt(item.data?.uses?.max)
+
+    if ((uses == 0 && usesmax == 0) || uses != usesmax) {
+      if (item.data?.vs?.attribute) {
+        ActorRolls.launchRollDialog(
+          game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
+          (html) =>
+            actor.useTalent(
+              item,
+              html.find('[id="boonsbanes"]').val(),
+              html.find('[id="modifier"]').val()
+            ))
+      } else {
+        actor.useTalent(item, null, 0)
+      }
+    } else
+      ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
+  }
+
+  static rollSpell = (actor, itemId, options = {event: null}) => {
+
+    if (ActorAfflictions.checkRollBlockingAfflictions(
+      actor,
+      ['dazed', 'defenseless', 'surprised', 'stunned', 'unconscious'])
+    ) return
+
+    const item = duplicate(actor.items.get(itemId))
+    const attackAttribute = item.data?.action?.attack
+    const uses = parseInt(item.data?.castings?.value)
+    const usesmax = parseInt(item.data?.castings?.max)
+    const characterbuffs = actor.generateCharacterBuffs('SPELL')
+
+    if ((uses == 0 && usesmax == 0) || uses != usesmax) {
+      if (attackAttribute) {
+        if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
+          ActorRolls.launchRollDialog(
+            game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
+            (html) =>
+              actor.useSpell(
+                item,
+                html.find('[id="boonsbanes"]').val(),
+                characterbuffs,
+                html.find('[id="modifier"]').val()
+              ))
+        } else {
+          actor.useSpell(item, 0, characterbuffs, 0)
+        }
+      } else {
+        actor.useSpell(item, 0, characterbuffs, 0)
+      }
     } else {
-      ActorRolls.launchRollDialog(
-        actor.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2),
-        (html) =>
-          actor.rollAttribute(
-            attribute,
-            html.find('[id="boonsbanes"]').val(),
-            html.find('[id="modifier"]').val()
-          )
-      )
+      ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
     }
   }
 
-  static rollWeaponAttack = (actor, itemId, options = {event: null}) => {
-    console.log(actor)
-    if (actor.data.data.afflictions.dazed) {
-      ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
-    } else if (actor.data.data.afflictions.defenseless) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (actor.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
-    } else if (actor.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (actor.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else {
-      const item = actor.getEmbeddedDocument('Item', itemId)
-      const attackAttribute = item.data.data.action?.attack
-      const characterbuffs = actor.generateCharacterBuffs('ATTACK')
+  static rollCorruption = (actor) => {
+    const corruptionRoll = new Roll('1d20 - @corruption', {corruption: actor.data.data.characteristics.corruption})
+    corruptionRoll.evaluate()
 
-      if (attackAttribute) {
-        ActorRolls.launchRollDialog(
-          game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name),
-          (html) => actor.rollAttack(
-            item,
-            html.find('[id="boonsbanes"]').val(),
-            characterbuffs,
-            html.find('[id="modifier"]').val())
-        )
-      } else {
-        actor.rollAttack(item, 0, characterbuffs, 0)
+    // Format Dice
+    const diceData = FormatDice(corruptionRoll)
+
+    var templateData = {
+      actor: actor,
+      data: {
+        diceTotal: {
+          value: corruptionRoll.total
+        },
+        tagetValueText: {
+          value: game.i18n.localize('DL.CharCorruption').toUpperCase()
+        },
+        targetValue: {
+          value: actor.data.data.characteristics.corruption
+        },
+        resultText: {
+          value:
+            corruptionRoll.total >= actor.data.data.characteristics.corruption
+              ? game.i18n.localize('DL.DiceResultSuccess')
+              : game.i18n.localize('DL.DiceResultFailure')
+        },
+        failureText: {
+          value:
+            corruptionRoll.total >= actor.data.data.characteristics.corruption
+              ? ''
+              : game.i18n.localize('DL.CharRolCorruptionResult')
+        }
+      },
+      diceData
+    }
+
+    const chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: actor.id,
+        token: actor.token,
+        alias: actor.name
       }
     }
-  }
 
-  static rollChallenge = (actor, attribute) => {
-    if (typeof attribute === 'string' || attribute instanceof String) {
-      attribute = actor.data.data.attributes[attribute]
+    const rollMode = game.settings.get('core', 'rollMode')
+    if (['gmroll', 'blindroll'].includes(rollMode)) {
+      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
+    if (rollMode === 'selfroll') chatData.whisper = [game.user.id]
+    if (rollMode === 'blindroll') chatData.blind = true
 
-    let attLabel = capitalize(attribute.label)
-    if (!attribute.label && isNaN(attLabel)) {
-      attLabel = capitalize(attribute)
-    }
+    const template = 'systems/demonlord08/templates/chat/corruption.html'
+    renderTemplate(template, templateData).then((content) => {
+      chatData.content = content
+      if (game.dice3d) {
+        game.dice3d
+          .showForRoll(
+            corruptionRoll,
+            game.user,
+            true,
+            chatData.whisper,
+            chatData.blind
+          )
+          .then((displayed) =>
+            ChatMessage.create(chatData).then((msg) => {
+              if (
+                corruptionRoll.total <
+                actor.data.data.characteristics.corruption
+              ) {
+                ;(async () => {
+                  const compRollTabels = await game.packs
+                    .get('demonlord.sotdl roll tabels')
+                    .getContent()
+                  const tableMarkOfDarkness = compRollTabels.find(
+                    (i) => i.name === 'Mark of Darkness'
+                  )
 
-    if (actor.data.data.afflictions.defenseless && attLabel != 'Perception') {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (actor.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else if (actor.data.data.afflictions.blinded && attLabel == 'Perception') {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningBlindedChallengeFailer')
-      )
-    } else if (actor.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (actor.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
-    } else {
-      ActorRolls.launchRollDialog(
-        actor.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2),
-        (html) =>
-          actor.rollAttribute(
-            attribute,
-            html.find('[id="boonsbanes"]').val(),
-            html.find('[id="modifier"]').val()
-          ))
-    }
+                  const result = tableMarkOfDarkness.draw()
+                  let resultText = ''
+                  const actor = actor
+
+                  result.then(function (result) {
+                    resultText = result.results[0].text
+
+                    actor.createItem({
+                      name: 'Mark of Darkness',
+                      type: 'feature',
+                      data: {
+                        description: resultText
+                      }
+                    })
+                  })
+                  // tableMarkOfDarkness.roll().results[0].text
+                })()
+              }
+            })
+          )
+      } else {
+        chatData.sound = CONFIG.sounds.dice
+        ChatMessage.create(chatData)
+      }
+    })
   }
 
   static rollAttack = (actor, weapon, boonsbanes, buffs, modifier) => {
@@ -554,200 +647,4 @@ export class ActorRolls {
     })
   }
 
-  static rollTalent = (actor, itemId, options = { event: null }) => {
-    if (actor.data.data.afflictions.dazed) {
-      ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
-    } else if (actor.data.data.afflictions.defenseless) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (actor.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
-    } else if (actor.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (actor.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else {
-      const item = duplicate(actor.items.get(itemId))
-      const uses = parseInt(item.data?.uses?.value)
-      const usesmax = parseInt(item.data?.uses?.max)
-
-      if ((uses == 0 && usesmax == 0) || uses != usesmax) {
-        if (item.data?.vs?.attribute) {
-          ActorRolls.launchRollDialog(
-            game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
-            (html) =>
-              actor.useTalent(
-                item,
-                html.find('[id="boonsbanes"]').val(),
-                html.find('[id="modifier"]').val()
-              ))
-        } else {
-          actor.useTalent(item, null, 0)
-        }
-      } else {
-        ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
-      }
-    }
-  }
-
-  static rollSpell = (actor, itemId, options = {event: null}) => {
-    if (actor.data.data.afflictions.dazed) {
-      ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
-    } else if (actor.data.data.afflictions.defenseless) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (actor.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
-    } else if (actor.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (actor.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else {
-      const item = duplicate(actor.items.get(itemId))
-      const attackAttribute = item.data?.action?.attack
-      const uses = parseInt(item.data?.castings?.value)
-      const usesmax = parseInt(item.data?.castings?.max)
-      const characterbuffs = actor.generateCharacterBuffs('SPELL')
-
-      if ((uses == 0 && usesmax == 0) || uses != usesmax) {
-        if (attackAttribute) {
-          if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
-            ActorRolls.launchRollDialog(
-              game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
-              (html) =>
-                actor.useSpell(
-                  item,
-                  html.find('[id="boonsbanes"]').val(),
-                  characterbuffs,
-                  html.find('[id="modifier"]').val()
-                ))
-          } else {
-            actor.useSpell(item, 0, characterbuffs, 0)
-          }
-        } else {
-          actor.useSpell(item, 0, characterbuffs, 0)
-        }
-      } else {
-        ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
-      }
-    }
-  }
-
-  static rollCorruption = (actor) => {
-    const corruptionRoll = new Roll('1d20 - @corruption', {corruption: actor.data.data.characteristics.corruption})
-    corruptionRoll.evaluate()
-
-    // Format Dice
-    const diceData = FormatDice(corruptionRoll)
-
-    var templateData = {
-      actor: actor,
-      data: {
-        diceTotal: {
-          value: corruptionRoll.total
-        },
-        tagetValueText: {
-          value: game.i18n.localize('DL.CharCorruption').toUpperCase()
-        },
-        targetValue: {
-          value: actor.data.data.characteristics.corruption
-        },
-        resultText: {
-          value:
-            corruptionRoll.total >= actor.data.data.characteristics.corruption
-              ? game.i18n.localize('DL.DiceResultSuccess')
-              : game.i18n.localize('DL.DiceResultFailure')
-        },
-        failureText: {
-          value:
-            corruptionRoll.total >= actor.data.data.characteristics.corruption
-              ? ''
-              : game.i18n.localize('DL.CharRolCorruptionResult')
-        }
-      },
-      diceData
-    }
-
-    const chatData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor.id,
-        token: actor.token,
-        alias: actor.name
-      }
-    }
-
-    const rollMode = game.settings.get('core', 'rollMode')
-    if (['gmroll', 'blindroll'].includes(rollMode)) {
-      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
-    }
-    if (rollMode === 'selfroll') chatData.whisper = [game.user.id]
-    if (rollMode === 'blindroll') chatData.blind = true
-
-    const template = 'systems/demonlord08/templates/chat/corruption.html'
-    renderTemplate(template, templateData).then((content) => {
-      chatData.content = content
-      if (game.dice3d) {
-        game.dice3d
-          .showForRoll(
-            corruptionRoll,
-            game.user,
-            true,
-            chatData.whisper,
-            chatData.blind
-          )
-          .then((displayed) =>
-            ChatMessage.create(chatData).then((msg) => {
-              if (
-                corruptionRoll.total <
-                actor.data.data.characteristics.corruption
-              ) {
-                ;(async () => {
-                  const compRollTabels = await game.packs
-                    .get('demonlord.sotdl roll tabels')
-                    .getContent()
-                  const tableMarkOfDarkness = compRollTabels.find(
-                    (i) => i.name === 'Mark of Darkness'
-                  )
-
-                  const result = tableMarkOfDarkness.draw()
-                  let resultText = ''
-                  const actor = actor
-
-                  result.then(function (result) {
-                    resultText = result.results[0].text
-
-                    actor.createItem({
-                      name: 'Mark of Darkness',
-                      type: 'feature',
-                      data: {
-                        description: resultText
-                      }
-                    })
-                  })
-                  // tableMarkOfDarkness.roll().results[0].text
-                })()
-              }
-            })
-          )
-      } else {
-        chatData.sound = CONFIG.sounds.dice
-        ChatMessage.create(chatData)
-      }
-    })
-  }
 }
