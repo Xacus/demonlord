@@ -23,7 +23,7 @@ import * as macros from './macros.js'
 import * as playertracker from './playertrackercontrol.js'
 
 Hooks.once('init', async function () {
-  game.demonlord08 = {
+  game.demonlord = {
     content: {
       DemonlordActor,
       DemonlordItem

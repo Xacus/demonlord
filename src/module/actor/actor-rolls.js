@@ -1,5 +1,6 @@
 import {FormatDice} from "../dice";
 import {ActorAfflictions} from "./actor-afflictions";
+import {capitalize} from "../utils/utils"
 
 export class ActorRolls {
 

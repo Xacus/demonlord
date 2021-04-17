@@ -456,7 +456,7 @@ export class DemonlordActor extends Actor {
   }
 
   rollChallenge(attribute) {
-    ActorRolls.rollChallenge(actor, attribute)
+    ActorRolls.rollChallenge(this, attribute)
   }
 
   rollAttribute(attribute, boonsbanes, modifier) {
