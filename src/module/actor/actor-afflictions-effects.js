@@ -84,4 +84,75 @@ export class ActorAfflictionsEffects {
     return effectsString
   }
 
+  static characteristicsBoonsBaneLocalizationMap = {
+    'strengthboonsbanesselect' : game.i18n.localize('DL.AttributeStrength'),
+    'agilityboonsbanesselect' : game.i18n.localize('DL.AttributeAgility'),
+    'intellectboonsbanesselect' : game.i18n.localize('DL.AttributeIntellect'),
+    'willboonsbanesselect' : game.i18n.localize('DL.AttributeWill'),
+    'perceptionboonsbanesselect' : game.i18n.localize('DL.AttributePerception'),
+  }
+
+  static buildTalentEffects = (actor, talent, showTalentName, type) => {
+    let effects = showTalentName ? `${talent.name}:<br>` : ""
+    const talentBOBAString = game.i18n.localize('DL.TalentAttackBoonsBanes')
+    const action = talent.data?.action
+
+    // Boons and Banes
+    if (action?.boonsbanesactive && action?.boonsbanes) {
+      for (const [attributeboonsbanesselect, localizationString]
+        of ActorAfflictionsEffects.characteristicsBoonsBaneLocalizationMap) {
+        effects += !action[attributeboonsbanesselect] ? "" :
+          `&nbsp;&nbsp;&nbsp;• ${talentBOBAString} (${localizationString}): ${action?.boonsbanes} <br>`
+      }}
+
+    const toMessageEffect = (locale, value) =>
+      `&nbsp;&nbsp;&nbsp;• ${game.i18n.localize(locale)}: ${value} <br>`
+
+    // Damage and Plus20
+    if (action?.damageactive && action?.damage)
+      effects += toMessageEffect('DL.TalentExtraDamage', action.damage)
+    if (action?.plus20active && action?.plus20)
+      effects += toMessageEffect('DL.TalentExtraDamage20plus', action.plus20)
+    // If talent, return
+    if (type !== 'TALENT') {
+      return effects === `${talent.name}:<br>` ? "" : effects
+    }
+
+
+    //// Below, type === 'TALENT'
+    const challenge = talent.data?.challenge
+    const data = talent.data
+
+    // Boons and Banes
+    if (challenge?.boonsbanesactive && challenge?.boonsbanes) {
+      for (const [attributeboonsbanesselect, localizationString]
+        of ActorAfflictionsEffects.characteristicsBoonsBaneLocalizationMap) {
+        effects += !challenge[attributeboonsbanesselect] ? "" :
+          `&nbsp;&nbsp;&nbsp;• ${talentBOBAString} (${localizationString}): ${challenge?.boonsbanes} <br>`
+      }}
+
+    if (data?.vs?.boonsbanesactive && data?.vs?.boonsbanes)
+      effects += toMessageEffect('DL.TalentVSBoonsBanes', data.vs.boonsbanes)
+    if (data?.vs?.damageactive && data?.vs?.damage)
+      effects += toMessageEffect('DL.TalentVSDamage', data.vs.damage)
+    if (data?.healing?.healactive && data?.healing?.rate)
+      effects += toMessageEffect('DL.TalentHealing', data.healing.rate)
+    if (data?.damage)
+      effects += toMessageEffect('DL.TalentDamage', data.damage)
+
+    const bonuses = talent.data?.bonuses
+    if (!showTalentName && bonuses) {
+      if (bonuses?.defenseactive && bonuses?.defense)
+        effects += toMessageEffect('DL.TalentBonusesDefense', bonuses.defense)
+      if (bonuses?.healthactive && bonuses?.health)
+        effects += toMessageEffect('DL.TalentBonusesHealth', bonuses.health)
+      if (bonuses?.speedactive && bonuses?.speed)
+        effects += toMessageEffect('DL.TalentBonusesSpeed', bonuses.speed)
+      if (bonuses?.poweractive && bonuses?.power)
+        effects += toMessageEffect('DL.TalentBonusesPower', bonuses.power)
+    }
+
+    return effects === `${talent.name}:<br>` ? "" : effects
+  }
+
 }
