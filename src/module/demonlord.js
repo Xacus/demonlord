@@ -1,12 +1,12 @@
 // Import Modules
 import { DL } from './config.js'
 import { DemonlordActor } from './actor/actor.js'
-import { DemonlordActorSheet } from './actor/actor-sheet.js'
-import { DemonlordActorSheet2 } from './actor/actor-sheet2.js'
-import { DemonlordCreatureSheet } from './actor/creature-sheet.js'
-import { DemonlordNewCreatureSheet } from './actor/new-creature-sheet.js'
+import { DemonlordActorSheet } from './actor/sheets/actor-sheet.js'
+import { DemonlordActorSheet2 } from './actor/sheets/actor-sheet2.js'
+import { DemonlordCreatureSheet } from './actor/sheets/creature-sheet.js'
+import { DemonlordNewCreatureSheet } from './actor/sheets/new-creature-sheet.js'
 import { DemonlordItem } from './item/item.js'
-import { DemonlordItemSheetDefault } from './item/item-sheet2.js'
+import { DemonlordItemSheetDefault } from './item/sheets/item-sheet2.js'
 import { DemonlordPathSetup } from './item/path-setup.js'
 import { registerSettings } from './settings.js'
 import {

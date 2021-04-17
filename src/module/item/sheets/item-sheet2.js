@@ -2,11 +2,11 @@
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-import { PathLevelItem, DamageType } from '../pathlevel.js'
+import { PathLevelItem, DamageType } from '../../pathlevel.js'
 import {
   onManageActiveEffect,
   prepareActiveEffectCategories
-} from '../effects.js'
+} from '../../effects.js'
 
 export class DemonlordItemSheetDefault extends ItemSheet {
   /** @override */
@@ -58,7 +58,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       }
     }
 
-    
+
     data.item = itemData;
     data.data = itemData.data;
     return data
