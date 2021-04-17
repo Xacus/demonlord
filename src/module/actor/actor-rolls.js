@@ -646,4 +646,108 @@ export class ActorRolls {
       }
     }
   }
+
+  static rollCorruption = (actor) => {
+    const corruptionRoll = new Roll('1d20 - @corruption', {corruption: actor.data.data.characteristics.corruption})
+    corruptionRoll.evaluate()
+
+    // Format Dice
+    const diceData = FormatDice(corruptionRoll)
+
+    var templateData = {
+      actor: actor,
+      data: {
+        diceTotal: {
+          value: corruptionRoll.total
+        },
+        tagetValueText: {
+          value: game.i18n.localize('DL.CharCorruption').toUpperCase()
+        },
+        targetValue: {
+          value: actor.data.data.characteristics.corruption
+        },
+        resultText: {
+          value:
+            corruptionRoll.total >= actor.data.data.characteristics.corruption
+              ? game.i18n.localize('DL.DiceResultSuccess')
+              : game.i18n.localize('DL.DiceResultFailure')
+        },
+        failureText: {
+          value:
+            corruptionRoll.total >= actor.data.data.characteristics.corruption
+              ? ''
+              : game.i18n.localize('DL.CharRolCorruptionResult')
+        }
+      },
+      diceData
+    }
+
+    const chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: actor.id,
+        token: actor.token,
+        alias: actor.name
+      }
+    }
+
+    const rollMode = game.settings.get('core', 'rollMode')
+    if (['gmroll', 'blindroll'].includes(rollMode)) {
+      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
+    }
+    if (rollMode === 'selfroll') chatData.whisper = [game.user.id]
+    if (rollMode === 'blindroll') chatData.blind = true
+
+    const template = 'systems/demonlord08/templates/chat/corruption.html'
+    renderTemplate(template, templateData).then((content) => {
+      chatData.content = content
+      if (game.dice3d) {
+        game.dice3d
+          .showForRoll(
+            corruptionRoll,
+            game.user,
+            true,
+            chatData.whisper,
+            chatData.blind
+          )
+          .then((displayed) =>
+            ChatMessage.create(chatData).then((msg) => {
+              if (
+                corruptionRoll.total <
+                actor.data.data.characteristics.corruption
+              ) {
+                ;(async () => {
+                  const compRollTabels = await game.packs
+                    .get('demonlord.sotdl roll tabels')
+                    .getContent()
+                  const tableMarkOfDarkness = compRollTabels.find(
+                    (i) => i.name === 'Mark of Darkness'
+                  )
+
+                  const result = tableMarkOfDarkness.draw()
+                  let resultText = ''
+                  const actor = actor
+
+                  result.then(function (result) {
+                    resultText = result.results[0].text
+
+                    actor.createItem({
+                      name: 'Mark of Darkness',
+                      type: 'feature',
+                      data: {
+                        description: resultText
+                      }
+                    })
+                  })
+                  // tableMarkOfDarkness.roll().results[0].text
+                })()
+              }
+            })
+          )
+      } else {
+        chatData.sound = CONFIG.sounds.dice
+        ChatMessage.create(chatData)
+      }
+    })
+  }
 }
