@@ -1,11 +1,11 @@
 {
-  "name": "demonlord",
-  "title": "Shadow of the Demon Lord",
+  "name": "demonlord08",
+  "title": "Shadow of the Demon Lord 0.8.x",
   "description": "The Shadow of the Demonlord system for FoundryVTT",
-  "version": "1.7.14",
+  "version": "1.7.13",
   "author": "Xacus",
-  "minimumCoreVersion": "0.6.6",
-  "compatibleCoreVersion": "0.7.9",
+  "minimumCoreVersion": "0.8.0",
+  "compatibleCoreVersion": "0.8.0",
   "esmodules": ["module/demonlord.js"],
   "styles": ["styles/demonlord.css"],
   "scripts": ["lib/tagify.min.js", "lib/tipfy.js"],
@@ -13,63 +13,63 @@
     {
       "name": "weapons",
       "label": "Weapons",
-      "system": "demonlord",
+      "system": "demonlord08",
       "path": "packs/weapons.db",
       "entity": "Item"
     },
     {
       "name": "armor",
       "label": "Armor",
-      "system": "demonlord",
+      "system": "demonlord08",
       "path": "packs/armor.db",
       "entity": "Item"
     },
     {
       "name": "ammunition",
       "label": "Ammunition",
-      "system": "demonlord",
+      "system": "demonlord08",
       "path": "packs/ammunition.db",
       "entity": "Item"
     },
     {
       "name": "weapons creature",
       "label": "Weapons Creature",
-      "system": "demonlord",
+      "system": "demonlord08",
       "path": "packs/weapons-creatures.db",
       "entity": "Item"
     },
     {
       "name": "languages",
       "label": "Languages",
-      "system": "demonlord",
+      "system": "demonlord08",
       "path": "packs/languages.db",
       "entity": "Item"
     },
     {
       "name": "demonlord macros gm",
       "label": "Demonlord Macros - GM",
-      "system": "demonlord",
+      "system": "demonlord08",
       "path": "packs/demonlord-macros-gm.db",
       "entity": "Macro"
     },
     {
       "name": "demonlord macros player",
       "label": "Demonlord Macros - Player",
-      "system": "demonlord",
+      "system": "demonlord08",
       "path": "packs/demonlord-macros-player.db",
       "entity": "Macro"
     },
     {
       "name": "sotdl system guide",
       "label": "SotDL System Guide",
-      "system": "demonlord",
+      "system": "demonlord08",
       "path": "packs/sotdl-system-guide.db",
       "entity": "JournalEntry"
     },
     {
       "name": "sotdl roll tabels",
       "label": "Demonlord - Roll Tables",
-      "system": "demonlord",
+      "system": "demonlord08",
       "path": "packs/roll-tables.db",
       "entity": "RollTable"
     }
@@ -106,7 +106,7 @@
   "primaryTokenAttribute": "characteristics.health",
   "secondaryTokenAttribute": "",
   "socket": true,
-  "url": "https://github.com/Xacus/demonlord",
-  "manifest": "https://raw.githubusercontent.com/Xacus/demonlord/master/system.json",
-  "download": "https://github.com/Xacus/demonlord/archive/master.zip"
+  "url": "https://github.com/Xacus/demonlord-0.8.x",
+  "manifest": "https://raw.githubusercontent.com/Xacus/demonlord-0.8.x/master/system.json",
+  "download": "https://github.com/Xacus/demonlord-0.8.x/archive/master.zip"
 }

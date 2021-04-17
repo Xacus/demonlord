@@ -13,12 +13,10 @@ export default class extends CombatTracker {
     let init
     let hasEndOfRoundEffects = false
     html.find('.combatant').each((i, el) => {
-      const currentCombat = isNewerVersion(game.data.version, '0.6.9')
-        ? this.getCurrentCombat()
-        : this.getCurrentCombatOld()
+      const currentCombat = this.getCurrentCombat()
 
       const combId = el.getAttribute('data-combatant-id')
-      const combatant = currentCombat.combatants.find((c) => c._id == combId)
+      const combatant = currentCombat.combatants.find((c) => c.id == combId)
 
       init = combatant.actor?.data?.data?.fastturn
         ? game.i18n.localize('DL.TurnFast')
@@ -60,7 +58,7 @@ export default class extends CombatTracker {
       const endofrounds =
         combatant.actor != null
           ? combatant?.actor
-              .getEmbeddedCollection('OwnedItem')
+              .getEmbeddedCollection('Item')
               .filter((e) => e.type === 'endoftheround')
           : ''
       if (endofrounds.length > 0) hasEndOfRoundEffects = true
@@ -71,13 +69,11 @@ export default class extends CombatTracker {
     html.find('.dlturnorder').click((ev) => {
       const li = ev.currentTarget.closest('li')
       const combId = li.dataset.combatantId
-      const currentCombat = isNewerVersion(game.data.version, '0.6.9')
-        ? this.getCurrentCombat()
-        : this.getCurrentCombatOld()
-      const combatant = currentCombat.combatants.find((c) => c._id == combId)
+      const currentCombat = this.getCurrentCombat()
+      const combatant = currentCombat.combatants.find((c) => c.id == combId)
       const initMessages = []
 
-      if (game.user.isGM || combatant.actor.owner) {
+      if (game.user.isGM || combatant.actor.isOwner) {
         if (game.settings.get('demonlord', 'initMessage')) {
           var templateData = {
             actor: combatant.actor,
@@ -94,15 +90,15 @@ export default class extends CombatTracker {
           }
 
           const chatData = {
-            user: game.user._id,
+            user: game.user.id,
             speaker: {
-              actor: combatant.actor._id,
+              actor: combatant.actor.id,
               token: combatant.actor.token,
               alias: combatant.actor.name
             }
           }
 
-          const template = 'systems/demonlord/templates/chat/init.html'
+          const template = 'systems/demonlord08/templates/chat/init.html'
           renderTemplate(template, templateData).then((content) => {
             chatData.content = content
             ChatMessage.create(chatData)
@@ -124,9 +120,7 @@ export default class extends CombatTracker {
 
     html.find('#combat-endofround').click((ev) => {
       new DLEndOfRound(
-        isNewerVersion(game.data.version, '0.6.9')
-          ? this.getCurrentCombat()
-          : this.getCurrentCombatOld(),
+        this.getCurrentCombat(),
         {
           top: 50,
           right: 700
@@ -135,26 +129,16 @@ export default class extends CombatTracker {
     })
   }
 
-  getCurrentCombat () {
-    const combat = this.combat
+  getCurrentCombat() {
+    const combat = this.viewed
     const combats = combat.scene
-      ? game.combats.entities.filter((c) => c.data.scene === combat.scene._id)
+      ? game.combats.contents.filter((c) => c.data.scene === combat.scene.id)
       : []
-    const currentIdx = combats.findIndex((c) => c === this.combat)
+    const currentIdx = combats.findIndex((c) => c === this.viewed)
     return combats[currentIdx]
   }
 
-  getCurrentCombatOld () {
-    const combat = this.combat
-    const view = canvas.scene
-    const combats = view
-      ? game.combats.entities.filter((c) => c.data.scene === view._id)
-      : []
-    const currentIdx = combats.findIndex((c) => c === this.combat)
-    return combats[currentIdx]
-  }
-
-  async updateActorsFastturn (actor) {
+  async updateActorsFastturn(actor) {
     await actor.update({
       'data.fastturn': !actor.data?.data?.fastturn
     })
@@ -170,7 +154,7 @@ export default class extends CombatTracker {
             init = actor.data?.data.fastturn ? 50 : 10
           }
 
-          game.combat.setInitiative(combatant._id, init)
+          game.combat.setInitiative(combatant.id, init)
         }
       }
     }

@@ -99,20 +99,20 @@ export function rollTalentMacro (itemName, state) {
 
   switch (state) {
     case 'true':
-      actor.rollTalent(item._id)
+      actor.rollTalent(item.id)
       break
 
     case 'false':
       item.data.data.uses.value = 0
       item.data.data.addtonextroll = false
-      actor.updateEmbeddedEntity('OwnedItem', item.data)
+      actor.updateEmbeddedDocuments('Item', item.data)
       break
 
     case '':
       item.data.data.addtonextroll = !item.data.data.addtonextroll
-      actor.updateEmbeddedEntity('OwnedItem', item.data)
+      actor.updateEmbeddedDocuments('Item', item.data)
 
-      if (item.data.data.addtonextroll) actor.rollTalent(item._id)
+      if (item.data.data.addtonextroll) actor.rollTalent(item.id)
       break
 
     default:
@@ -181,7 +181,7 @@ export function rollInitMacro () {
     }
   }
 
-  if (combatantFound) game.combat.rollInitiative(combatantFound._id)
+  if (combatantFound) game.combat.rollInitiative(combatantFound.id)
 }
 
 /**
@@ -202,7 +202,7 @@ export function healingPotionMacro () {
     let newdamage = currentDamage - healingRate
     if (newdamage < 0) newdamage = 0
 
-    actor.update({
+    Actor.updateDocuments({
       'data.characteristics.health.value': newdamage
     })
 
@@ -222,15 +222,15 @@ export function healingPotionMacro () {
     }
 
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: actor._id,
+        actor: actor.id,
         token: actor.token,
         alias: actor.name
       }
     }
 
-    const template = 'systems/demonlord/templates/chat/useitem.html'
+    const template = 'systems/demonlord08/templates/chat/useitem.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
       ChatMessage.create(chatData)

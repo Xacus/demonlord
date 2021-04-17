@@ -32,9 +32,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
   /** @override */
   get template () {
     if (!game.user.isGM && this.actor.limited) {
-      return 'systems/demonlord/templates/actor/limited-sheet.html'
+      return 'systems/demonlord08/templates/actor/limited-sheet.html'
     }
-    return 'systems/demonlord/templates/actor/actor-sheet2.html'
+    return 'systems/demonlord08/templates/actor/actor-sheet2.html'
   }
 
   /**
@@ -43,7 +43,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
    */
   _getHeaderButtons () {
     let buttons = super._getHeaderButtons()
-    const canConfigure = game.user.isGM || this.actor.owner
+    const canConfigure = game.user.isGM || this.actor.isOwner
     if (this.options.editable && canConfigure) {
       buttons = [
         /* {
@@ -90,14 +90,14 @@ export class DemonlordActorSheet2 extends ActorSheet {
     ) {
       // Create Talents for new level
       const paths = this.actor
-        .getEmbeddedCollection('OwnedItem')
+        .getEmbeddedCollection('Item')
         .filter((e) => e.type === 'path')
 
       var newPower = 0
 
       if (updateData.data.level > actor.data.data.level) {
         for (const path of paths) {
-          for (const level of path.data.levels) {
+          for (const level of path.data.data.levels) {
             if (level.level <= updateData.data.level) {
               newPower += parseInt(level.characteristicsPower)
             }
@@ -116,7 +116,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
                   item = game.items.get(talent.id)
                 }
 
-                await this.actor.createEmbeddedEntity('OwnedItem', item)
+                await this.actor.createEmbeddedDocuments('Item', item.data)
               }
               for (const spell of level.spells) {
                 let item
@@ -128,7 +128,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
                   item = game.items.get(spell.id)
                 }
 
-                await this.actor.createEmbeddedEntity('OwnedItem', item)
+                await this.actor.createEmbeddedDocuments('Item', item.data)
               }
             }
           }
@@ -146,37 +146,37 @@ export class DemonlordActorSheet2 extends ActorSheet {
             ) {
               for (const talent of level.talents) {
                 const actorTalent = this.actor
-                  .getEmbeddedCollection('OwnedItem')
+                  .getEmbeddedCollection('Item')
                   .filter((e) => e.type === 'talent' && e.name === talent.name)
 
                 if (actorTalent.length > 0) {
-                  await this.actor.deleteEmbeddedEntity(
-                    'OwnedItem',
-                    actorTalent[0]._id
+                  await this.actor.deleteEmbeddedDocuments(
+                    'Item',
+                    [actorTalent[0].id]
                   )
                 }
               }
               for (const talent of level.talentspick) {
                 const actorTalent = this.actor
-                  .getEmbeddedCollection('OwnedItem')
+                  .getEmbeddedCollection('Item')
                   .filter((e) => e.type === 'talent' && e.name === talent.name)
 
                 if (actorTalent.length > 0) {
-                  await this.actor.deleteEmbeddedEntity(
-                    'OwnedItem',
-                    actorTalent[0]._id
+                  await this.actor.deleteEmbeddedDocuments(
+                    'Item',
+                    [actorTalent[0].id]
                   )
                 }
               }
               for (const spell of level.spells) {
                 const actorSpell = this.actor
-                  .getEmbeddedCollection('OwnedItem')
+                  .getEmbeddedCollection('Item')
                   .filter((e) => e.type === 'spell' && e.name === spell.name)
 
                 if (actorSpell.length > 0) {
-                  await this.actor.deleteEmbeddedEntity(
-                    'OwnedItem',
-                    actorSpell[0]._id
+                  await this.actor.deleteEmbeddedDocuments(
+                    'Item',
+                    [actorSpell[0].id]
                   )
                 }
               }
@@ -193,17 +193,17 @@ export class DemonlordActorSheet2 extends ActorSheet {
       this.actor.setUsesOnSpells(actor.data)
     }
 
-    return this.entity.update(formData)
+    return this.document.update(formData)
   }
 
   /** @override */
   getData () {
     const data = {
       isGM: game.user.isGM,
-      isOwner: this.entity.owner,
-      isCharacter: this.entity.data.type === 'character',
-      isNPC: this.entity.data.type === 'character' && !this.entity.data.isPC,
-      limited: this.entity.limited,
+      isOwner: this.actor.isOwner,
+      isCharacter: this.actor.type === 'character',
+      isNPC: this.actor.type === 'character' && !this.actor.data.isPC,
+      limited: this.document.limited,
       options: this.options,
       editable: this.isEditable,
       config: CONFIG.DL
@@ -211,7 +211,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     data.useDemonlordMode = !game.settings.get('demonlord', 'useHomebrewMode')
 
-    data.actor = duplicate(this.actor.data)
+    data.actor = foundry.utils.deepClone(this.actor.data)
     data.data = data.actor.data
     data.items = this.actor.items.map((i) => {
       i.data.labels = i.labels
@@ -219,11 +219,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
     })
     data.items.sort((a, b) => (a.sort || 0) - (b.sort || 0))
 
-    for (const attr of Object.values(data.data.attributes)) {
+    for (const attr of Object.entries(data.actor.data.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean'
     }
 
-    data.effects = prepareActiveEffectCategories(this.entity.effects)
+    data.effects = prepareActiveEffectCategories(this.actor.effects)
 
     // Prepare items
     if (this.actor.data.type == 'character') {
@@ -329,34 +329,34 @@ export class DemonlordActorSheet2 extends ActorSheet {
       case 'ancestry':
         // Delete existing Talents
         const ancestries = this.actor
-          .getEmbeddedCollection('OwnedItem')
+          .data.items
           .filter((e) => e.type === 'ancestry')
 
         for (const ancestry of ancestries) {
-          for (let index = 0; index < ancestry.data.talents.length; index++) {
-            const talent = ancestry.data.talents[index]
+          for (let index = 0; index < ancestry.data.data.talents.length; index++) {
+            const talent = ancestry.data.data.talents[index]
             const actorTalent = this.actor
-              .getEmbeddedCollection('OwnedItem')
+              .data.items
               .filter((e) => e.type === 'talent' && e.name === talent.name)
 
             if (actorTalent.length > 0) {
-              await this.actor.deleteEmbeddedEntity(
-                'OwnedItem',
-                actorTalent[0]._id
+              await this.actor.deleteEmbeddedDocuments(
+                'Item',
+                [actorTalent[0].id]
               )
             }
           }
-          for (const language of ancestry.data.languagelist) {
+          for (const language of ancestry.data.data.languagelist) {
             const actorLanguage = this.actor
-              .getEmbeddedCollection('OwnedItem')
+              .data.items
               .filter((e) => e.type === 'language' && e.name === language.name)
 
             if (actorLanguage.length > 0) {
-              this.actor.deleteEmbeddedEntity('OwnedItem', actorLanguage[0]._id)
+              this.actor.deleteEmbeddedDocuments('Item', [actorLanguage[0].id])
             }
           }
 
-          await this.actor.deleteEmbeddedEntity('OwnedItem', ancestry._id)
+          await this.actor.deleteEmbeddedDocuments('Item', [ancestry.id])
         }
 
         // Create Talents
@@ -370,7 +370,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
             item = game.items.get(talent.id)
           }
 
-          await this.actor.createEmbeddedEntity('OwnedItem', item)
+          await this.actor.createEmbeddedDocuments('Item', [item.data])
         }
         // Create Languages
         for (const language of itemData.data.languagelist) {
@@ -380,14 +380,14 @@ export class DemonlordActorSheet2 extends ActorSheet {
             item = await pack.getEntity(language.id)
           } else item = game.items.get(language.id)
 
-          await this.actor.createEmbeddedEntity('OwnedItem', item)
+          await this.actor.createEmbeddedDocuments('Item', [item.data])
         }
 
         break
       case 'path':
         // Delete existing Talenst
         const paths = this.actor
-          .getEmbeddedCollection('OwnedItem')
+          .getEmbeddedCollection('Item')
           .filter(
             (e) => e.type === 'path' && itemData.data.type === e.data.type
           )
@@ -396,18 +396,18 @@ export class DemonlordActorSheet2 extends ActorSheet {
           for (const level of path.data.levels) {
             for (const talent of level.talents) {
               const actorTalent = this.actor
-                .getEmbeddedCollection('OwnedItem')
+                .getEmbeddedCollection('Item')
                 .filter((e) => e.type === 'talent' && e.name === talent.name)
 
               if (actorTalent.length > 0) {
-                await this.actor.deleteEmbeddedEntity(
-                  'OwnedItem',
-                  actorTalent[0]._id
+                await this.actor.deleteEmbeddedDocuments(
+                  'Item',
+                  [actorTalent[0].id]
                 )
               }
             }
           }
-          await this.actor.deleteEmbeddedEntity('OwnedItem', path._id)
+          await this.actor.deleteEmbeddedDocuments('Item', [path.id])
         }
 
         // Create Talents
@@ -428,7 +428,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
                   item = game.items.get(talent.id)
                 }
 
-                await this.actor.createEmbeddedEntity('OwnedItem', item)
+                await this.actor.createEmbeddedDocuments('Item', [item.data])
               }
             }
           }
@@ -439,18 +439,18 @@ export class DemonlordActorSheet2 extends ActorSheet {
           for (const level of path.data.levels) {
             for (const spell of level.spells) {
               const actorSpell = this.actor
-                .getEmbeddedCollection('OwnedItem')
+                .getEmbeddedCollection('Item')
                 .filter((e) => e.type === 'spell' && e.name === spell.name)
 
               if (actorSpell.length > 0) {
-                await this.actor.deleteEmbeddedEntity(
-                  'OwnedItem',
-                  actorSpell[0]._id
+                await this.actor.deleteEmbeddedDocuments(
+                  'Item',
+                  [actorSpell[0].id]
                 )
               }
             }
           }
-          await this.actor.deleteEmbeddedEntity('OwnedItem', path._id)
+          await this.actor.deleteEmbeddedDocuments('Item', [path.id])
         }
 
         // Create Spells
@@ -471,7 +471,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
                   item = game.items.get(spell.id)
                 }
 
-                await this.actor.createEmbeddedEntity('OwnedItem', item)
+                await this.actor.createEmbeddedDocuments('Item', [item.data])
               }
             }
           }
@@ -483,7 +483,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     }
     return super._onDropItemCreate(itemData)
 
-    // return this.actor.createEmbeddedEntity('OwnedItem', itemData)
+    // return this.actor.createEmbeddedEntity('Item', itemData)
   }
 
   /* -------------------------------------------- */
@@ -556,7 +556,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     if (this.isEditable) {
       html
         .find('.effect-control')
-        .click((ev) => onManageActiveEffect(ev, this.entity))
+        .click((ev) => onManageActiveEffect(ev, this.document))
 
       const inputs = html.find('input')
       inputs.focus((ev) => ev.currentTarget.select())
@@ -576,7 +576,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
       switch (div.dataset.type) {
         case 'action':
-          this.actor.update({
+          Actor.updateDocuments({
             'data.afflictionsTab.hideAction': !this.actor.data.data
               .afflictionsTab.hideAction
           })
@@ -584,7 +584,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
           break
 
         case 'afflictions':
-          this.actor.update({
+          Actor.updateDocuments({
             'data.afflictionsTab.hideAfflictions': !this.actor.data.data
               .afflictionsTab.hideAfflictions
           })
@@ -592,7 +592,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
           break
 
         case 'damage':
-          this.actor.update({
+          Actor.updateDocuments({
             'data.afflictionsTab.hideDamageEffects': !this.actor.data.data
               .afflictionsTab.hideDamageEffects
           })
@@ -614,7 +614,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     // Inventory Item - ShowInfo
     html.find('.show-iteminfo').click((ev) => {
       const li = $(ev.currentTarget).parents('.item')
-      const item = this.actor.getOwnedItem(li.data('itemId'))
+      const item = this.actor.getEmbeddedDocument('Item', li.data('itemId'))
 
       this.actor.showItemInfo(item)
     })
@@ -739,8 +739,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
       }
 
       const that = this
-      this.actor
-        .update({
+      this.actor.update({
           'data.characteristics.insanity.value': value
         })
         .then((item) => {
@@ -807,7 +806,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     // Update Inventory Item
     html.find('.item-edit').click((ev) => {
       const li = $(ev.currentTarget).parents('.item')
-      const item = this.actor.getOwnedItem(li.data('itemId'))
+      const item = this.actor.items.get(li.data('itemId'))
 
       item.sheet.render(true)
     })
@@ -827,33 +826,33 @@ export class DemonlordActorSheet2 extends ActorSheet {
     html.find('.item-wear').click((ev) => {
       const li = $(ev.currentTarget).parents('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.data('itemId'))
+        this.actor.items.get(li.data('itemId'))
       )
 
       item.data.wear = false
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
     html.find('.item-wearoff').click((ev) => {
       const li = $(ev.currentTarget).parents('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.data('itemId'))
+        this.actor.items.get(li.data('itemId'))
       )
       item.data.wear = true
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
 
     html.find('.wearitem').each((i, el) => {
       const itemId = el.getAttribute('data-item-id')
-      const item = this.actor.getEmbeddedEntity('OwnedItem', itemId)
+      const item = this.actor.items.get(itemId)
 
-      if (item.data.wear) {
+      if (item.data.data.wear) {
         if (
-          item.data.strengthmin != '' &&
-          parseInt(item.data.strengthmin) >
+          item.data.data.strengthmin != '' &&
+          parseInt(item.data.data.strengthmin) >
             parseInt(this.actor.data.data.attributes.strength.value)
         ) {
           const controls = el.getElementsByClassName('item-control')
-          controls[1].className += ' itemred'
+          controls[0].className += ' itemred'
         }
       }
     })
@@ -895,7 +894,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
       const namevalue = ev.currentTarget.children[1].value
       const descriptionvalue = ev.currentTarget.children[2].value
 
-      const item = this.actor.getOwnedItem(id)
+      const item = this.actor.getEmbeddedDocument('Item', id)
       item.update({
         name: namevalue,
         'data.description': descriptionvalue
@@ -905,46 +904,46 @@ export class DemonlordActorSheet2 extends ActorSheet {
     // Ancestry
     html.on('mousedown', '.ancestry-edit', (ev) => {
       const div = $(ev.currentTarget).parents('.item')
-      const item = this.actor.getOwnedItem(div.data('itemId'))
+      const item = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
 
       if (ev.button == 0) {
         item.sheet.render(true)
       } else if (ev.button == 2) {
         const ancestries = this.actor
-          .getEmbeddedCollection('OwnedItem')
+          .getEmbeddedCollection('Item')
           .filter((e) => e.type === 'ancestry')
 
         for (const ancestry of ancestries) {
-          for (const talent of ancestry.data.talents) {
+          for (const talent of ancestry.data.data.talents) {
             const actorTalent = this.actor
-              .getEmbeddedCollection('OwnedItem')
+              .getEmbeddedCollection('Item')
               .filter((e) => e.type === 'talent' && e.name === talent.name)
 
             if (actorTalent.length > 0) {
-              this.actor.deleteEmbeddedEntity('OwnedItem', actorTalent[0]._id)
+              this.actor.deleteEmbeddedDocuments('Item', [actorTalent[0].id])
             }
           }
-          for (const talent of ancestry.data.level4.talent) {
+          for (const talent of ancestry.data.data.level4.talent) {
             const actorTalent = this.actor
-              .getEmbeddedCollection('OwnedItem')
+              .getEmbeddedCollection('Item')
               .filter((e) => e.type === 'talent' && e.name === talent.name)
 
             if (actorTalent.length > 0) {
-              this.actor.deleteEmbeddedEntity('OwnedItem', actorTalent[0]._id)
+              this.actor.deleteEmbeddedDocuments('Item', [actorTalent[0].id])
             }
           }
-          for (const language of ancestry.data.languagelist) {
+          for (const language of ancestry.data.data.languagelist) {
             const actorLanguage = this.actor
-              .getEmbeddedCollection('OwnedItem')
+              .getEmbeddedCollection('Item')
               .filter((e) => e.type === 'language' && e.name === language.name)
 
             if (actorLanguage.length > 0) {
-              this.actor.deleteEmbeddedEntity('OwnedItem', actorLanguage[0]._id)
+              this.actor.deleteEmbeddedDocuments('Item', [actorLanguage[0].id])
             }
           }
         }
 
-        this.actor.deleteEmbeddedEntity('OwnedItem', item._id)
+        this.actor.deleteEmbeddedDocuments('Item', [item.id])
       }
     })
 
@@ -955,48 +954,48 @@ export class DemonlordActorSheet2 extends ActorSheet {
     // Paths
     html.on('mousedown', '.path-edit', (ev) => {
       const div = $(ev.currentTarget).parents('.path')
-      const item = this.actor.getOwnedItem(div.data('itemId'))
+      const item = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
 
       if (ev.button == 0) {
         item.sheet.render(true)
       } else if (ev.button == 2) {
         const paths = this.actor
-          .getEmbeddedCollection('OwnedItem')
+          .getEmbeddedCollection('Item')
           .filter((e) => e.type === 'path')
 
         for (const path of paths) {
-          for (const level of path.data.levels) {
+          for (const level of path.data.data.levels) {
             for (const talent of level.talents) {
               const actorTalent = this.actor
-                .getEmbeddedCollection('OwnedItem')
+                .getEmbeddedCollection('Item')
                 .filter((e) => e.type === 'talent' && e.name === talent.name)
 
               if (actorTalent.length > 0) {
-                this.actor.deleteEmbeddedEntity('OwnedItem', actorTalent[0]._id)
+                this.actor.deleteEmbeddedDocuments('Item', [actorTalent[0].id])
               }
             }
             for (const talent of level.talentspick) {
               const actorTalent = this.actor
-                .getEmbeddedCollection('OwnedItem')
+                .getEmbeddedCollection('Item')
                 .filter((e) => e.type === 'talent' && e.name === talent.name)
 
               if (actorTalent.length > 0) {
-                this.actor.deleteEmbeddedEntity('OwnedItem', actorTalent[0]._id)
+                this.actor.deleteEmbeddedDocuments('Item', [actorTalent[0].id])
               }
             }
             for (const spell of level.spells) {
               const actorSpell = this.actor
-                .getEmbeddedCollection('OwnedItem')
+                .getEmbeddedCollection('Item')
                 .filter((e) => e.type === 'spell' && e.name === spell.name)
 
               if (actorSpell.length > 0) {
-                this.actor.deleteEmbeddedEntity('OwnedItem', actorSpell[0]._id)
+                this.actor.deleteEmbeddedDocuments('Item', [actorSpell[0].id])
               }
             }
           }
         }
 
-        this.actor.deleteEmbeddedEntity('OwnedItem', item._id)
+        this.actor.deleteEmbeddedDocuments('Item', [item.id])
       }
     })
 
@@ -1062,31 +1061,31 @@ export class DemonlordActorSheet2 extends ActorSheet {
     html.find('.language-toggle-r').click((ev) => {
       const dev = ev.currentTarget.closest('.language')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', dev.dataset.itemId)
+        this.actor.items.get(dev.dataset.itemId)
       )
 
       item.data.read = !item.data.read
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
     // Language - Toogle Write
     html.find('.language-toggle-w').click((ev) => {
       const dev = ev.currentTarget.closest('.language')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', dev.dataset.itemId)
+        this.actor.items.get(dev.dataset.itemId)
       )
 
       item.data.write = !item.data.write
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
     // Language - Toogle Speak
     html.find('.language-toggle-s').click((ev) => {
       const dev = ev.currentTarget.closest('.language')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', dev.dataset.itemId)
+        this.actor.items.get(dev.dataset.itemId)
       )
 
       item.data.speak = !item.data.speak
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
 
     // Profession
@@ -1110,7 +1109,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
       const namevalue = ev.currentTarget.children[1].value
       const descriptionvalue = ev.currentTarget.children[2].value
 
-      const item = this.actor.getOwnedItem(id)
+      const item = this.actor.items.get(id)
       item.update({
         name: namevalue,
         'data.description': descriptionvalue
@@ -1138,7 +1137,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     html.find('.spell-edit').click((ev) => {
       const liSpell = $(ev.currentTarget).parents('.item')
-      const item = this.actor.getOwnedItem(liSpell.data('itemId'))
+      const item = this.actor.items.get(liSpell.data('itemId'))
 
       item.sheet.render(true)
     })
@@ -1165,7 +1164,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     html.on('mousedown', '.ammo-amount', (ev) => {
       const li = ev.currentTarget.closest('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+        this.actor.items.get(li.dataset.itemId)
       )
       const amount = item.data.quantity
 
@@ -1179,13 +1178,13 @@ export class DemonlordActorSheet2 extends ActorSheet {
         }
       }
 
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
 
     html.on('mousedown', '.talent-uses', (ev) => {
       const li = ev.currentTarget.closest('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+        this.actor.items.get(li.dataset.itemId)
       )
       const uses = item.data.uses.value
       const usesmax = item.data.uses.max
@@ -1215,14 +1214,14 @@ export class DemonlordActorSheet2 extends ActorSheet {
         }
       }
 
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
 
     // Talent Activate Manual
     html.find('.talent-activate').click((ev) => {
       const li = event.currentTarget.closest('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+        this.actor.items.get(li.dataset.itemId)
       )
       const uses = item.data.uses.value
       const usesmax = item.data.uses.max
@@ -1230,26 +1229,26 @@ export class DemonlordActorSheet2 extends ActorSheet {
       if (usesmax > 0) item.data.uses.value = 1
 
       item.data.addtonextroll = true
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments(item, {parent: this.actor})
     })
 
     html.find('.talent-deactivate').click((ev) => {
       const li = event.currentTarget.closest('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+        this.actor.items.get(li.dataset.itemId)
       )
 
       item.data.uses.value = 0
       item.data.addtonextroll = false
       this.actor.removeCharacterBonuses(item)
 
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
 
     html.on('mousedown', '.spell-uses', (ev) => {
       const li = ev.currentTarget.closest('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+        this.actor.items.get(li.dataset.itemId)
       )
       const uses = item.data.castings.value
       const usesmax = item.data.castings.max
@@ -1270,13 +1269,13 @@ export class DemonlordActorSheet2 extends ActorSheet {
         }
       }
 
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
 
     html.on('mousedown', '.item-uses', (ev) => {
       const li = ev.currentTarget.closest('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+        this.actor.items.get(li.dataset.itemId)
       )
 
       if (ev.button == 0) {
@@ -1285,7 +1284,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
         if (item.data.quantity > 0) item.data.quantity--
       }
 
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      Item.updateDocuments([item], {parent: this.actor})
     })
 
     // Rollable Attributes
@@ -1323,31 +1322,31 @@ export class DemonlordActorSheet2 extends ActorSheet {
     html.find('.rest-char').click((ev) => {
       // Talents
       const talents = this.actor
-        .getEmbeddedCollection('OwnedItem')
+        .getEmbeddedCollection('Item')
         .filter((e) => e.type === 'talent')
 
       for (const talent of talents) {
         const item = duplicate(
-          this.actor.getEmbeddedEntity('OwnedItem', talent._id)
+          this.actor.items.get(talent.id)
         )
         item.data.uses.value = 0
 
-        this.actor.updateEmbeddedEntity('OwnedItem', item)
+        Item.updateDocuments([item], {parent: this.actor})
       }
 
       // Spells
       const spells = this.actor
-        .getEmbeddedCollection('OwnedItem')
+        .getEmbeddedCollection('Item')
         .filter((e) => e.type === 'spell')
 
       for (const spell of spells) {
         const item = duplicate(
-          this.actor.getEmbeddedEntity('OwnedItem', spell._id)
+          this.actor.items.get(spell.id)
         )
 
         item.data.castings.value = 0
 
-        this.actor.updateEmbeddedEntity('OwnedItem', item)
+        Item.updateDocuments([item], {parent: this.actor})
       }
     })
 
@@ -1356,15 +1355,15 @@ export class DemonlordActorSheet2 extends ActorSheet {
       const div = ev.currentTarget.closest('.option')
       const field = ev.currentTarget.name
       const update = {
-        _id: div.dataset.itemId,
+        id: div.dataset.itemId,
         [field]: ev.currentTarget.checked
       }
 
-      this.actor.updateEmbeddedEntity('OwnedItem', update)
+      Item.updateDocuments(update, {parent: this.actor});
     })
 
     // Drag events for macros.
-    if (this.actor.owner) {
+    if (this.actor.isOwner) {
       const handler = (ev) => this._onDragStart(ev)
 
       html.find('li.dropitem').each((i, li) => {
@@ -1400,7 +1399,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     delete itemData.data.type
 
     // Finally, create the item!
-    return this.actor.createOwnedItem(itemData)
+    return Item.create(itemData, {parent: this.actor})
   }
 
   _onTraditionCreate (event) {
@@ -1421,7 +1420,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data.type
-    return this.actor.createOwnedItem(itemData)
+    return Item.create(itemData, {parent: this.actor})
   }
 
   _onSpellCreate (event) {
@@ -1444,11 +1443,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data.type
 
-    return this.actor.createOwnedItem(itemData)
+    return Item.create(itemData, {parent: this.actor})
   }
 
-  deleteItem (item) {
-    this.actor.deleteOwnedItem(item.data('itemId'))
+  deleteItem(item) {
+    Item.deleteDocuments([item.data('itemId')], {parent: this.actor})
     item.slideUp(200, () => this.render(false))
   }
 
@@ -1498,15 +1497,15 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
   async createAncestry (ev) {
     const data = { name: 'New ancestry', type: 'ancestry' }
-    const talentToCreate = await this.actor.createEmbeddedEntity(
-      'OwnedItem',
+    const talentToCreate = await this.actor.createEmbeddedDocument(
+      'Item',
       data
     )
-    await this.actor.update(talentToCreate)
+    await Actor.updateDocuments(talentToCreate)
   }
 
   async clearAfflictions () {
-    await this.actor.update({
+    await Actor.updateDocuments({
       'data.afflictions.asleep': false,
       'data.afflictions.blinded': false,
       'data.afflictions.charmed': false,

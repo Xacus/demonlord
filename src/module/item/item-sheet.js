@@ -21,7 +21,7 @@ export class DemonlordItemSheet extends ItemSheet {
 
   /** @override */
   get template () {
-    const path = 'systems/demonlord/templates/item'
+    const path = 'systems/demonlord08/templates/item'
     return `${path}/item-${this.item.data.type}-sheet.html`
   }
 
@@ -30,6 +30,10 @@ export class DemonlordItemSheet extends ItemSheet {
   /** @override */
   getData () {
     const data = super.getData()
+    const itemData = data.data;
+
+    data.item = itemData;
+    data.data = itemData.data;
     return data
   }
 
@@ -85,7 +89,7 @@ export class DemonlordItemSheet extends ItemSheet {
         })
 
         const characterbuffs = this.generateCharacterBuffs()
-        await this.actor.update({
+        await Actor.updateDocuments({
           'data.characteristics.defensebonus': parseInt(
             characterbuffs.defensebonus
           ),
@@ -95,13 +99,13 @@ export class DemonlordItemSheet extends ItemSheet {
           'data.characteristics.speedbonus': parseInt(characterbuffs.speedbonus)
         })
       } else {
-        await this.entity.update({
+        await this.document.update({
           'data.addtonextroll': false
         })
       }
     }
 
-    return this.entity.update(updateData)
+    return this.document.update(updateData)
   }
 
   generateCharacterBuffs () {
@@ -113,7 +117,7 @@ export class DemonlordItemSheet extends ItemSheet {
     characterbuffs.challengeperceptionbonus = 0
 
     const talents = this.actor
-      .getEmbeddedCollection('OwnedItem')
+      .getEmbeddedCollection('Item')
       .filter((e) => e.type === 'talent')
 
     for (const talent of talents) {

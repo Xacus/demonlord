@@ -5,7 +5,7 @@ export class DemonlordActorSheet extends ActorSheet {
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord', 'sheet', 'actor'],
-      template: 'systems/demonlord/templates/actor/actor-sheet.html',
+      template: 'systems/demonlord08/templates/actor/actor-sheet.html',
       width: 610,
       height: 700,
       tabs: [
@@ -24,7 +24,7 @@ export class DemonlordActorSheet extends ActorSheet {
    */
   _getHeaderButtons () {
     let buttons = super._getHeaderButtons()
-    const canConfigure = game.user.isGM || this.actor.owner
+    const canConfigure = game.user.isGM || this.actor.isOwner
     if (this.options.editable && canConfigure) {
       buttons = [
         {
@@ -51,7 +51,7 @@ export class DemonlordActorSheet extends ActorSheet {
     const actor = this.object
     const updateData = expandObject(formData)
 
-    await actor.update(updateData, { diff: false })
+    await Actor.updateDocuments(updateData)
   }
 
   /** @override */
@@ -138,9 +138,9 @@ export class DemonlordActorSheet extends ActorSheet {
         data: null
       }
 
-      ancestry.push(this.actor.createOwnedItem(itemData))
+      ancestry.push(Item.create(itemData, {parent: this.actor}))
     } else if (ancestry.length > 1) {
-      this.actor.deleteEmbeddedEntity('OwnedItem', ancestry[0]._id)
+      this.actor.deleteEmbeddedDocuments('Item', [ancestry[0].id])
       this.actor.render(false)
     }
 
@@ -283,7 +283,7 @@ export class DemonlordActorSheet extends ActorSheet {
     // Update Inventory Item
     html.find('.item-edit').click((ev) => {
       const li = $(ev.currentTarget).parents('.item')
-      const item = this.actor.getOwnedItem(li.data('itemId'))
+      const item = this.actor.getEmbeddedDocument('Item', li.data('itemId'))
       item.sheet.render(true)
     })
 
@@ -302,36 +302,36 @@ export class DemonlordActorSheet extends ActorSheet {
     html.find('.item-clone').click((ev) => {
       const li = $(ev.currentTarget).parents('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.data('itemId'))
+        this.actor.items.get(li.data('itemId'))
       )
 
-      this.actor.createOwnedItem(item)
+      Item.create(item, {parent: this.actor})
     })
 
     // Update Inventory Item
     html.find('.item-wear').click((ev) => {
       const li = $(ev.currentTarget).parents('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.data('itemId'))
+        this.actor.items.get(li.data('itemId'))
       )
 
       item.data.wear = false
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      this.actor.updateEmbeddedDocument('Item', item.data)
     })
     html.find('.item-wearoff').click((ev) => {
       const li = $(ev.currentTarget).parents('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.data('itemId'))
+        this.actor.items.get(li.data('itemId'))
       )
 
       item.data.wear = true
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      this.actor.updateEmbeddedDocument('Item', item.data)
     })
 
     // Update Feature Item
     html.find('.feature-edit').click((ev) => {
       const li = $(ev.currentTarget).parents('.feature')
-      const item = this.actor.getOwnedItem(li.data('itemId'))
+      const item = this.actor.getEmbeddedDocument('Item', li.data('itemId'))
       item.sheet.render(true)
     })
 
@@ -456,7 +456,7 @@ export class DemonlordActorSheet extends ActorSheet {
 
     html.find('.spell-edit').click((ev) => {
       const liSpell = $(ev.currentTarget).parents('.item')
-      const item = this.actor.getOwnedItem(liSpell.data('itemId'))
+      const item = this.actor.get(liSpell.data('itemId'))
 
       item.sheet.render(true)
     })
@@ -483,7 +483,7 @@ export class DemonlordActorSheet extends ActorSheet {
     html.find('.ammo-amount').click((ev) => {
       const li = event.currentTarget.closest('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+        this.actor.items.get(li.dataset.itemId)
       )
       const amount = item.data.quantity
 
@@ -491,13 +491,13 @@ export class DemonlordActorSheet extends ActorSheet {
         item.data.quantity = Number(amount) - 1
       }
 
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      this.actor.updateEmbeddedDocument('Item', item.data)
     })
 
     html.find('.talent-uses').click((ev) => {
       const li = event.currentTarget.closest('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+        this.actor.items.get(li.dataset.itemId)
       )
       const uses = item.data.uses.value
       const usesmax = item.data.uses.max
@@ -513,13 +513,13 @@ export class DemonlordActorSheet extends ActorSheet {
         this.actor.removeCharacterBonuses(item)
       }
 
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      this.actor.updateEmbeddedDocument('Item', item.data)
     })
 
     html.find('.spell-uses').click((ev) => {
       const li = event.currentTarget.closest('.item')
       const item = duplicate(
-        this.actor.getEmbeddedEntity('OwnedItem', li.dataset.itemId)
+        this.actor.items.get(li.dataset.itemId)
       )
       const uses = item.data.castings.value
       const usesmax = item.data.castings.max
@@ -530,7 +530,7 @@ export class DemonlordActorSheet extends ActorSheet {
         item.data.castings.value = 0
       }
 
-      this.actor.updateEmbeddedEntity('OwnedItem', item)
+      this.actor.updateEmbeddedDocument('Item', item.data)
     })
 
     // Rollable Attributes
@@ -562,31 +562,31 @@ export class DemonlordActorSheet extends ActorSheet {
     html.find('.rest-char').click((ev) => {
       // Talents
       const talents = this.actor
-        .getEmbeddedCollection('OwnedItem')
+        .getEmbeddedCollection('')
         .filter((e) => e.type === 'talent')
 
       for (const talent of talents) {
         const item = duplicate(
-          this.actor.getEmbeddedEntity('OwnedItem', talent._id)
+          this.actor.items.get(talent.id)
         )
         item.data.uses.value = 0
 
-        this.actor.updateEmbeddedEntity('OwnedItem', item)
+        this.actor.updateEmbeddedDocument('Item', item.data)
       }
 
       // Spells
       const spells = this.actor
-        .getEmbeddedCollection('OwnedItem')
+        .getEmbeddedCollection('Item')
         .filter((e) => e.type === 'spell')
 
       for (const spell of spells) {
         const item = duplicate(
-          this.actor.getEmbeddedEntity('OwnedItem', spell._id)
+          this.actor.items.get(spell._id)
         )
 
         item.data.castings.value = 0
 
-        this.actor.updateEmbeddedEntity('OwnedItem', item)
+        this.actor.updateEmbeddedDocument('Item', item.data)
       }
     })
 
@@ -599,11 +599,11 @@ export class DemonlordActorSheet extends ActorSheet {
         [field]: ev.currentTarget.checked
       }
 
-      this.actor.updateEmbeddedEntity('OwnedItem', update)
+      this.actor.updateEmbeddedDocument('Item', update)
     })
 
     // Drag events for macros.
-    if (this.actor.owner) {
+    if (this.actor.isOwner) {
       const handler = (ev) => this._onDragStart(ev)
       html.find('li.dropitem').each((i, li) => {
         if (li.classList.contains('inventory-header')) return
@@ -657,7 +657,7 @@ export class DemonlordActorSheet extends ActorSheet {
     delete itemData.data.type
 
     // Finally, create the item!
-    return this.actor.createOwnedItem(itemData)
+    return Item.create(itemData, {parent: this.actor})
   }
 
   _onTraditionCreate (event) {
@@ -678,7 +678,7 @@ export class DemonlordActorSheet extends ActorSheet {
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data.type
-    return this.actor.createOwnedItem(itemData)
+    return Item.create(itemData, {parent: this.actor})
   }
 
   _onSpellCreate (event) {
@@ -701,11 +701,11 @@ export class DemonlordActorSheet extends ActorSheet {
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data.type
 
-    return this.actor.createOwnedItem(itemData)
+    return Item.create(itemData, {parent: this.actor})
   }
 
-  deleteItem (item) {
-    this.actor.deleteOwnedItem(item.data('itemId'))
+  deleteItem(item) {
+    Item.deleteDocuments([item.data('itemId')], {parent: this.actor});
     item.slideUp(200, () => this.render(false))
   }
 
@@ -739,7 +739,7 @@ export class DemonlordActorSheet extends ActorSheet {
         yes: {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize('DL.DialogYes'),
-          callback: (html) => this.deleteItem(item)
+          callback: (html) => Item.deleteDocuments(item, {parent: this.actor})
         },
         no: {
           icon: '<i class="fas fa-times"></i>',

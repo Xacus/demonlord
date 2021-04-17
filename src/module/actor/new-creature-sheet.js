@@ -9,7 +9,7 @@ export class DemonlordNewCreatureSheet extends DemonlordActorSheet {
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['newcreature', 'sheet', 'actor'],
-      template: 'systems/demonlord/templates/actor/new-creature-sheet.html',
+      template: 'systems/demonlord08/templates/actor/new-creature-sheet.html',
       width: 742,
       height: 700,
       tabs: [
@@ -117,7 +117,7 @@ export class DemonlordNewCreatureSheet extends DemonlordActorSheet {
 
     for (let rank = 0; rank <= power; rank++) {
       const spells = this.actor
-        .getEmbeddedCollection('OwnedItem')
+        .getEmbeddedCollection('Owned')
         .filter((e) => e.type === 'spell' && parseInt(e.data.rank) === rank)
       spells.forEach((spell) => {
         spell = duplicate(spell)
@@ -129,7 +129,7 @@ export class DemonlordNewCreatureSheet extends DemonlordActorSheet {
         }
         spell.data.castings.max = usesMax
 
-        this.actor.updateEmbeddedEntity('OwnedItem', spell)
+        Item.updateDocuments([spell], {parent: this.actor})
       })
     }
   }

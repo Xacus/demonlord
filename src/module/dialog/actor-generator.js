@@ -18,7 +18,7 @@ export class DLCharacterGenerater extends FormApplication {
 
   /** @override */
   get template () {
-    return 'systems/demonlord/templates/dialogs/character-generator.html'
+    return 'systems/demonlord08/templates/dialogs/character-generator.html'
   }
 
   /* -------------------------------------------- */
@@ -44,7 +44,7 @@ export class DLCharacterGenerater extends FormApplication {
 
     /*
     const pathNovice = actor
-      .getEmbeddedCollection('OwnedItem')
+      .getEmbeddedCollection('Item')
       .filter((e) => e.type === 'path' && e.data.type === 'novice')
 
     console.log(pathNovice)

@@ -9,7 +9,7 @@ export class DemonlordCreatureSheet extends DemonlordActorSheet {
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord', 'sheet', 'actor', 'creature'],
-      template: 'systems/demonlord/templates/actor/creature-sheet.html',
+      template: 'systems/demonlord08/templates/actor/creature-sheet.html',
       width: 525,
       height: 550,
       tabs: [
@@ -29,7 +29,7 @@ export class DemonlordCreatureSheet extends DemonlordActorSheet {
   getData () {
     const data = {
       isGM: game.user.isGM,
-      limited: this.entity.limited,
+      limited: this.document.limited,
       options: this.options,
       editable: this.isEditable,
       config: CONFIG.DL

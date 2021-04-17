@@ -188,7 +188,7 @@
                 value="{{data.action.damagetype}}"
                 placeholder="{{localize 'DL.DamageType'}}"
               />
-              {{#each item.damagetypes as |damagetype id|}}
+              {{#each data.action.damagetypes as |damagetype id|}}
               <input
                 class="damagevalue"
                 type="text"

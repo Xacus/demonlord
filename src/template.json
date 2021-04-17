@@ -127,7 +127,7 @@
       "religion": {
         "edit": false,
         "value": "",
-        "image": "systems/demonlord/assets/icons/bird.png"
+        "image": "systems/demonlord08/assets/icons/bird.png"
       },
       "languages": {
         "edit": false,
@@ -427,8 +427,7 @@
       "templates": ["base"],
       "type": "novice",
       "levels": [],
-      "editPath": true,
-      "descriptor": ""
+      "editPath": true
     },
     "creaturerole": {
       "templates": ["base"],

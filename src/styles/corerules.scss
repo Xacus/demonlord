@@ -1,0 +1,207 @@
+@font-face {
+  font-family: 'First TV2';
+  src: url('../fonts/firstv2.ttf');
+}
+
+@font-face {
+  font-family: 'Poison Hope';
+  src: url('../fonts/PoisonHope-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Athelas';
+  src: url('../fonts/Athelas_0.ttc');
+}
+
+@font-face {
+  font-family: 'Gotham-Book';
+  src: url('../fonts/Gotham-Book.otf');
+}
+
+.dl-core {
+  font-family: 'Athelas', sans-serif;
+  font-size: 1.1em;
+}
+
+.dl-core hr {
+  border: none;
+  border-top: 2px solid #000000;
+}
+
+.dl-core {
+  .darkmagic {
+    position: relative;
+    float: left;
+    background-image: url('../assets/ui/demonlord-logo-black.png');
+    background-size: 100% 100%;
+    width: 70px;
+    height: 42px;
+  }
+
+  .sotdl-logo {
+    background-image: url(../assets/ui/demonlord-logo-black.png);
+    background-size: 150px 100px;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 50px;
+  }
+
+  .dl-box {
+    font-style: normal;
+    font-size: 0.9em;
+    line-height: 1;
+  }
+
+  .dl-infobox {
+    float: right;
+    margin: 0 2% 2% 2%;
+    width: 300px;
+  }
+}
+
+.dl-core h1,
+.dl-core h2,
+.dl-core h3,
+.dl-core h4,
+.dl-core h5,
+.dl-core h6 {
+  font-family: 'Poison Hope', sans-serif;
+  font-weight: normal;
+  text-transform: uppercase;
+  text-indent: 0px;
+  border: none;
+  color: #9c0719;
+}
+
+.dl-core h1 {
+  font-size: 3em;
+}
+
+.dl-core h2 {
+  font-size: 2.4em;
+}
+
+.dl-core h3 {
+  font-size: 1.7em;
+}
+
+.dl-core h4 {
+  font-size: 1.2em;
+}
+
+.dl-core h5 {
+  font-size: 1.1em;
+  border-bottom: 2px solid #000000;
+  margin: 0.8em 0;
+}
+
+.dl-core h6 {
+  font-size: 0.9em;
+  color: #000000;
+  border-bottom: 2px solid #9c0719;
+  margin: 0.2em 0;
+}
+
+.dl-core table {
+  font-family: 'Gotham-Book';
+  font-size: 0.75em;
+  border: none;
+  border-collapse: collapse;
+
+  tr:nth-child(odd) {
+    background: #fff;
+  }
+
+  th {
+    text-align: left;
+    font-weight: bold;
+    padding: 4px;
+  }
+
+  td {
+    padding: 4px;
+  }
+}
+
+.journal-sheet .window-content {
+  background-image: url('../assets/ui/core-page.webp');
+  background-size: 100% 100%;
+
+  button[name='submit'] {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-color: #000;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    input,
+    select {
+      background-color: rgba(0, 0, 0, 0.4);
+      border-color: #000;
+    }
+
+    .editor {
+      height: 100%;
+    }
+
+    input[name='name'] {
+      font-family: 'First TV2';
+      font-size: 3rem;
+      text-transform: uppercase;
+      text-align: center;
+      text-shadow: 3px 3px 5px #000;
+      color: #c9c4ca;
+      background-color: transparent;
+      border-image: url('../assets/ui/chapter-header.png');
+      border-image-slice: 50%;
+      border-image-width: 100%;
+      height: 100px;
+      -webkit-text-stroke: 1px black;
+      -webkit-text-fill-color: #c9c4ca;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    input[name='title'] {
+      color: #ffffff;
+    }
+  }
+
+  form > select[name='folder'] {
+    display: none;
+  }
+}
+
+#navigation {
+  left: 170px;
+}
+
+#logo {
+  content: url('../assets/ui/demonlord-logo.png');
+  width: 150px;
+}
+
+#pause {
+  background: none;
+}
+
+#pause > img {
+  content: url('../assets/ui/pentagram-pause.png');
+  width: 200px;
+  height: 200px;
+  top: -50px;
+  left: calc(50% - 100px);
+  opacity: 0.7;
+  -webkit-animation: rotation 10s infinite linear;
+  animation: rotation 10s infinite linear;
+}
+
+#pause h3 {
+  font-family: 'Poison Hope';
+  font-size: 32px;
+  text-shadow: 0px 3px 5px rgba(0, 0, 0, 1);
+}

@@ -1,5 +1,5 @@
 .window-content {
-  background: url('../assets/ui/sidebar_background.jpg'), url('../assets/ui/paper.jpg');
+  background: url(../assets/ui/sidebar_background.jpg), url(../assets/ui/paper.jpg);
   background-repeat: repeat-x, no-repeat;
   background-size: auto 96px, cover;
   background-attachment: local;
@@ -103,28 +103,6 @@ form {
   top: 27px;
   color: #fff;
   text-transform: capitalize;
-}
-
-.path-descriptor {
-  position: absolute;
-  left: 75px;
-  top: 48px;
-  width: 400px;
-  color: #fff;
-  text-transform: capitalize;
-
-  input {
-    line-height: calc(1em + 1px);
-    border-bottom: 1px solid transparent;
-    height: 26px;
-    padding: 5px;
-
-    &:focus,
-    &:hover {
-      background: rgba(0, 0, 0, 0.5);
-      padding-left: 6px;
-    }
-  }
 }
 
 .itemsheet-header {

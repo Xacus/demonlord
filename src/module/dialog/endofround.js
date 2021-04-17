@@ -3,7 +3,7 @@ export class DLEndOfRound extends FormApplication {
         const options = super.defaultOptions;
         options.id = 'sheet-modifiers';
         options.classes = ["demonlorddialog", "dialog"];
-        options.template = 'systems/demonlord/templates/dialogs/endofround-dialog.html';
+        options.template = 'systems/demonlord08/templates/dialogs/endofround-dialog.html';
         options.width = 430;
         options.height = 430;
         return options;
@@ -46,7 +46,7 @@ export class DLEndOfRound extends FormApplication {
             const actor = combatant.actor;
             registerCreature(s, actor, combatant.token, combatant.initiative);
 
-            const endofrounds = combatant.actor.getEmbeddedCollection("OwnedItem").filter(e => "endoftheround" === e.type);
+            const endofrounds = combatant.actor.getEmbeddedCollection("Item").filter(e => "endoftheround" === e.type);
             for (let endofround of endofrounds) {
                 creatures[s].endOfRoundEffects.push(endofround);
             }
@@ -60,7 +60,7 @@ export class DLEndOfRound extends FormApplication {
                  const actor = combatant.actor;
                  registerCreature(s, actor, combatant.token);
  
-                 const endofrounds = combatant.actor.getEmbeddedCollection("OwnedItem").filter(e => "endoftheround" === e.type);
+                 const endofrounds = combatant.actor.getEmbeddedCollection("Item").filter(e => "endoftheround" === e.type);
                  for (let endofround of endofrounds) {
                      creatures[s].endOfRoundEffects.push(endofround);
                  }

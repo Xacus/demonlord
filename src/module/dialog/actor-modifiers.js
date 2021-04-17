@@ -4,7 +4,7 @@ export class DLActorModifiers extends FormApplication {
     options.id = 'sheet-modifiers'
     options.classes = ['demonlord', 'sheet', 'actor']
     options.template =
-      'systems/demonlord/templates/dialogs/actor-modifiers-dialog.html'
+      'systems/demonlord08/templates/dialogs/actor-modifiers-dialog.html'
     options.width = 430
     options.height = 500
     return options
@@ -27,7 +27,7 @@ export class DLActorModifiers extends FormApplication {
   getData () {
     const actor = this.object.data
     const mods = this.object
-      .getEmbeddedCollection('OwnedItem')
+      .getEmbeddedCollection('Item')
       .filter((e) => e.type === 'mod')
 
     return {
@@ -133,7 +133,7 @@ export class DLActorModifiers extends FormApplication {
    */
   async _updateObject (event, formData) {
     const mods = this.object
-      .getEmbeddedCollection('OwnedItem')
+      .getEmbeddedCollection('Item')
       .filter((e) => e.type === 'mod')
     const ids = []
     const names = []
@@ -327,7 +327,7 @@ export class DLActorModifiers extends FormApplication {
 
       if (parseInt(mod.data.roundsleft) == 0) {
         update = {
-          _id: mod._id,
+          id: mod.id,
           name: names[i],
           'data.active': active[i],
           'data.modtype': modtype[i],
@@ -337,7 +337,7 @@ export class DLActorModifiers extends FormApplication {
         }
       } else if (parseInt(mod.data.roundsleft) > 0) {
         update = {
-          _id: mod._id,
+          id: mod.id,
           name: names[i],
           'data.active': active[i],
           'data.modtype': modtype[i],
@@ -348,7 +348,7 @@ export class DLActorModifiers extends FormApplication {
 
       if (!active[i]) {
         update = {
-          _id: mod._id,
+          id: mod.id,
           name: names[i],
           'data.active': active[i],
           'data.modtype': modtype[i],
@@ -358,7 +358,7 @@ export class DLActorModifiers extends FormApplication {
         }
       }
 
-      await this.object.updateEmbeddedEntity('OwnedItem', update)
+      await this.object.updateEmbeddedDocument('Item', update)
 
       i++
     }
@@ -385,12 +385,12 @@ export class DLActorModifiers extends FormApplication {
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data.type
 
-    await this.object.createOwnedItem(itemData)
+    await this.object.createItem(itemData)
     this.render(false)
   }
 
-  deleteItem (li, liObject) {
-    this.object.deleteOwnedItem(liObject.dataset.itemId)
+  deleteItem(li, liObject) {
+    Item.deleteDocuments([iObject.dataset.itemId], {parent: this.actor});
     li.slideUp(200, () => this.render(false))
   }
 

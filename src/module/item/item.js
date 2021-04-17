@@ -3,7 +3,7 @@
  * @extends {Item}
  */
 import { PathLevel } from '../pathlevel.js'
-import { FormatDice, FormatDiceOld } from '../dice.js'
+import { FormatDice } from '../dice.js'
 export class DemonlordItem extends Item {
   /**
    * Augment the basic Item data model with additional dynamic data.
@@ -62,7 +62,7 @@ export class DemonlordItem extends Item {
 
     selected.forEach((token) => {
       if (token.data.actorData.data?.characteristics != undefined) {
-        const tokenData = duplicate(token.data)
+        const tokenData = token.document.data
         const hp = tokenData.actorData.data.characteristics.health
         const rate = tokenData.actorData.data.characteristics.health.healingrate
 
@@ -84,9 +84,10 @@ export class DemonlordItem extends Item {
 
         token.update(tokenData)
       } else {
-        const actorData = duplicate(token.actor.data)
+        const actorData = token.actor.data
         const hp = actorData.data.characteristics.health
         const rate = actorData.data.characteristics.health.healingrate
+        let updates = ''
 
         if (game.settings.get('demonlord', 'reverseDamage')) {
           let newdamage =
@@ -94,17 +95,21 @@ export class DemonlordItem extends Item {
             (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2))
           if (newdamage > hp.max) newdamage = parseInt(hp.max)
 
-          hp.value = newdamage
+          updates = {
+            "data.characteristics.health.value": newdamage
+          }
         } else {
           let newdamage =
             parseInt(hp.value) -
             (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2))
           if (newdamage < 0) newdamage = 0
 
-          hp.value = newdamage
+          updates = {
+            "data.characteristics.health.value": newdamage
+          }
         }
 
-        token.actor.update(actorData)
+        token.actor.update(updates)
       }
     })
   }
@@ -122,17 +127,15 @@ export class DemonlordItem extends Item {
     let totalDamageGM = ''
 
     const damageRoll = new Roll(damageformular, {})
-    damageRoll.roll()
+    damageRoll.evaluate()
 
-    const diceData = isNewerVersion(game.data.version, '0.6.9')
-      ? FormatDice(damageRoll)
-      : FormatDiceOld(damageRoll)
+    const diceData = FormatDice(damageRoll)
 
     if (['blindroll'].includes(rollMode)) {
       totalDamage = '?'
-      totalDamageGM = damageRoll._total
+      totalDamageGM = damageRoll.total
     } else {
-      totalDamage = damageRoll._total
+      totalDamage = damageRoll.total
     }
 
     var templateData = {
@@ -145,10 +148,10 @@ export class DemonlordItem extends Item {
           value: totalDamageGM
         },
         damageDouble: {
-          value: parseInt(damageRoll._total) * 2
+          value: parseInt(damageRoll.total) * 2
         },
         damageHalf: {
-          value: Math.floor(parseInt(damageRoll._total) / 2)
+          value: Math.floor(parseInt(damageRoll.total) / 2)
         },
         isCreature: {
           value: actor.data.type == 'creature'
@@ -161,9 +164,9 @@ export class DemonlordItem extends Item {
     }
 
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: actor._id,
+        actor: actor.id,
         token: actor.token,
         alias: actor.name
       }
@@ -175,7 +178,7 @@ export class DemonlordItem extends Item {
     if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
     if (rollMode === 'blindroll') chatData.blind = true
 
-    const template = 'systems/demonlord/templates/chat/damage.html'
+    const template = 'systems/demonlord08/templates/chat/damage.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
       if (game.dice3d) {
@@ -210,7 +213,7 @@ export class DemonlordItem extends Item {
 
     selected.forEach((token) => {
       if (token.data.actorData.data?.characteristics != undefined) {
-        const tokenData = duplicate(token.data)
+        const tokenData = token.document.data
         const hp = tokenData.actorData.data.characteristics.health
         const health = parseInt(
           token.actor.data.data.characteristics.health.max
@@ -230,23 +233,28 @@ export class DemonlordItem extends Item {
 
         token.update(tokenData)
       } else {
-        const actorData = duplicate(token.actor.data)
+        const actorData = token.actor.data
         const hp = actorData.data.characteristics.health
         const health = parseInt(actorData.data.characteristics.health.max)
-
+        let updates = ''
+        
         if (game.settings.get('demonlord', 'reverseDamage')) {
           let newdamage = parseInt(hp.value) - damage
           if (newdamage < 0) newdamage = 0
 
-          hp.value = newdamage
+          updates = {
+            "data.characteristics.health.value": newdamage
+          }
         } else {
           let newdamage = parseInt(hp.value) + damage
           if (newdamage > health) newdamage = health
 
-          hp.value = newdamage
+          updates = {
+            "data.characteristics.health.value": newdamage
+          }
         }
 
-        token.actor.update(actorData)
+        token.actor.update(updates)
       }
     })
   }
@@ -320,9 +328,9 @@ export class DemonlordItem extends Item {
       }
 
       const chatData = {
-        user: game.user._id,
+        user: game.user.id,
         speaker: {
-          actor: actor._id,
+          actor: actor.id,
           token: actor.token,
           alias: actor.name
         }
@@ -330,7 +338,7 @@ export class DemonlordItem extends Item {
 
       chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
 
-      const template = 'systems/demonlord/templates/chat/makechallengeroll.html'
+      const template = 'systems/demonlord08/templates/chat/makechallengeroll.html'
       renderTemplate(template, templateData).then((content) => {
         chatData.content = content
         ChatMessage.create(chatData)
@@ -382,9 +390,9 @@ export class DemonlordItem extends Item {
       }
 
       const chatData = {
-        user: game.user._id,
+        user: game.user.id,
         speaker: {
-          actor: actor._id,
+          actor: actor.id,
           token: actor.token,
           alias: actor.name
         }
@@ -392,7 +400,7 @@ export class DemonlordItem extends Item {
 
       chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
 
-      const template = 'systems/demonlord/templates/chat/makeinitroll.html'
+      const template = 'systems/demonlord08/templates/chat/makeinitroll.html'
       renderTemplate(template, templateData).then((content) => {
         chatData.content = content
         ChatMessage.create(chatData)
@@ -432,7 +440,7 @@ export class DemonlordItem extends Item {
       const [sceneId, tokenId] = tokenKey.split('.')
       const scene = game.scenes.get(sceneId)
       if (!scene) return null
-      const tokenData = scene.getEmbeddedEntity('Token', tokenId)
+      const tokenData = scene.items.get(tokenId)
       if (!tokenData) return null
       const token = new Token(tokenData)
       return token.actor

@@ -40,16 +40,16 @@
       {{/if}}{{localize 'DL.ArmorStrengthMin'}} {{data.strengthmin}}{{/if}}
     </div>
     <div class="item-controls">
-      {{#if weapon.data.enchantment.effect}}
-      <a class="item-control" title="{{localize 'DL.ItemEnchanted'}}"
-        ><i class="fas fa-magic"></i
-      ></a>
-      {{/if}}
       <a
         class="item-control {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}"
         title="{{localize 'DL.WeaponWear'}}"
         ><i class="fas fa-tshirt"></i
       ></a>
+      {{#if weapon.data.enchantment.effect}}
+      <a class="item-control" title="{{localize 'DL.ItemEnchanted'}}"
+        ><i class="fas fa-magic"></i
+      ></a>
+      {{/if}}
       <a class="item-control item-edit" title="{{localize 'DL.WeaponEdit'}}"
         ><i class="fas fa-edit"></i
       ></a>

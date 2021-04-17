@@ -2,10 +2,10 @@
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-import { FormatDice, FormatDiceOld } from '../dice.js'
+import { FormatDice } from '../dice.js'
 export class DemonlordActor extends Actor {
   /** @override */
-  prepareBaseData () {
+  prepareBaseData() {
     switch (this.data.type) {
       case 'character':
         return this._prepareCharacterData(this.data)
@@ -17,7 +17,7 @@ export class DemonlordActor extends Actor {
   /**
    * Prepare Character type specific data
    */
-  _prepareCharacterData (actorData) {
+  _prepareCharacterData(actorData) {
     const data = actorData.data
     let will
     let savedAncestry = null
@@ -25,37 +25,39 @@ export class DemonlordActor extends Actor {
     let ancestryFixedArmor = false
 
     const characterbuffs = this.generateCharacterBuffs()
-    const ancestries = this.getEmbeddedCollection('OwnedItem').filter(
+    const ancestries = actorData.items.filter(
       (e) => e.type === 'ancestry'
     )
 
     for (const ancestry of ancestries) {
       savedAncestry = ancestry
 
+      data.ancestry = ancestry.data.name
+      
       if (!game.settings.get('demonlord', 'useHomebrewMode')) {
         data.attributes.strength.value = parseInt(
-          ancestry.data.attributes?.strength.value
+          ancestry.data.data.attributes?.strength.value
         )
         data.attributes.agility.value = parseInt(
-          ancestry.data.attributes?.agility.value
+          ancestry.data.data.attributes?.agility.value
         )
         data.attributes.intellect.value = parseInt(
-          ancestry.data.attributes?.intellect.value
+          ancestry.data.data.attributes?.intellect.value
         )
         data.attributes.will.value = parseInt(
-          ancestry.data.attributes?.will.value
+          ancestry.data.data.attributes?.will.value
         )
 
-        data.characteristics.insanity.max = ancestry.data.attributes?.will.value
+        data.characteristics.insanity.max = ancestry.data.data.attributes?.will.value
 
         // Paths
         if (data.level > 0) {
           for (let i = 1; i <= data.level; i++) {
-            const paths = this.getEmbeddedCollection('OwnedItem').filter(
+            const paths = actorData.items.filter(
               (e) => e.type === 'path'
             )
             paths.forEach((path) => {
-              path.data.levels
+              path.data.data.levels
                 .filter(function ($level) {
                   return $level.level == i
                 })
@@ -126,7 +128,7 @@ export class DemonlordActor extends Actor {
         // Paths
         if (data.level > 0) {
           for (let i = 1; i <= data.level; i++) {
-            const paths = this.getEmbeddedCollection('OwnedItem').filter(
+            const paths = actorData.items.filter(
               (e) => e.type === 'path'
             )
             paths.forEach((path) => {
@@ -161,19 +163,19 @@ export class DemonlordActor extends Actor {
         if (data.characteristics.health.value < 0) {
           data.characteristics.health.value =
             parseInt(data.attributes.strength.value) +
-            parseInt(ancestry.data.characteristics?.healthmodifier) +
+            parseInt(ancestry.data.data.characteristics?.healthmodifier) +
             characterbuffs.healthbonus +
             pathHealthBonus
         }
         data.characteristics.health.max =
           parseInt(data.attributes.strength.value) +
-          parseInt(ancestry.data.characteristics?.healthmodifier) +
+          parseInt(ancestry.data.data.characteristics?.healthmodifier) +
           characterbuffs.healthbonus +
           pathHealthBonus
       } else {
         data.characteristics.health.max =
           parseInt(data.attributes.strength.value) +
-          parseInt(ancestry.data.characteristics?.healthmodifier) +
+          parseInt(ancestry.data.data.characteristics?.healthmodifier) +
           characterbuffs.healthbonus +
           pathHealthBonus
       }
@@ -181,45 +183,45 @@ export class DemonlordActor extends Actor {
         if (game.settings.get('demonlord', 'reverseDamage')) {
           if (data.characteristics.health.value == 0) {
             data.characteristics.health.value += parseInt(
-              ancestry.data.level4?.healthbonus
+              ancestry.data.data.level4?.healthbonus
             )
           }
           data.characteristics.health.max += parseInt(
-            ancestry.data.level4?.healthbonus
+            ancestry.data.data.level4?.healthbonus
           )
         } else {
           data.characteristics.health.max += parseInt(
-            ancestry.data.level4?.healthbonus
+            ancestry.data.data.level4?.healthbonus
           )
         }
       }
       data.characteristics.health.healingrate =
         Math.floor(parseInt(data.characteristics.health.max) / 4) +
-        parseInt(ancestry.data.characteristics?.healingratemodifier)
+        parseInt(ancestry.data.data.characteristics?.healingratemodifier)
       // ******************
 
       data.attributes.perception.value =
         parseInt(data.attributes.intellect.value) +
-        parseInt(ancestry.data.characteristics.perceptionmodifier)
-
-      if (parseInt(ancestry.data.characteristics?.defensemodifier) > 10) {
+        parseInt(ancestry.data.data.characteristics.perceptionmodifier)
+      
+      if (parseInt(ancestry.data.data.characteristics?.defensemodifier) > 10) {
         data.characteristics.defense = parseInt(
-          ancestry.data.characteristics?.defensemodifier
+          ancestry.data.data.characteristics?.defensemodifier
         )
         ancestryFixedArmor = true
       } else {
         data.characteristics.defense =
           parseInt(data.attributes.agility.value) +
-          parseInt(ancestry.data.characteristics.defensemodifier)
+          parseInt(ancestry.data.data.characteristics.defensemodifier)
       }
 
       data.characteristics.power = parseInt(
-        ancestry.data.characteristics?.power
+        ancestry.data.data.characteristics?.power
       )
       data.characteristics.speed = parseInt(
-        ancestry.data.characteristics?.speed
+        ancestry.data.data.characteristics?.speed
       )
-      data.characteristics.size = ancestry.data.characteristics.size
+      data.characteristics.size = ancestry.data.data.characteristics.size
 
       // These were still breaking the sanity/corruption fields..
       // data.characteristics.insanity.value += parseInt(
@@ -256,11 +258,11 @@ export class DemonlordActor extends Actor {
       const actor = this
 
       for (let i = 1; i <= data.level; i++) {
-        const paths = this.getEmbeddedCollection('OwnedItem').filter(
+        const paths = actorData.items.filter(
           (e) => e.type === 'path'
         )
         paths.forEach((path) => {
-          path.data.levels
+          path.data.data.levels
             .filter(function ($level) {
               return $level.level == i
             })
@@ -291,7 +293,7 @@ export class DemonlordActor extends Actor {
       attribute.label = CONFIG.DL.attributes[key].toUpperCase()
     }
 
-    const armors = this.getEmbeddedCollection('OwnedItem').filter(
+    const armors = actorData.items.filter(
       (e) => e.type === 'armor'
     )
     let armorpoint = 0
@@ -299,23 +301,23 @@ export class DemonlordActor extends Actor {
     let defenseBonus = 0
     let speedPenalty = 0
     for (const armor of armors) {
-      if (armor.data.wear) {
+      if (armor.data.data.wear) {
         // If you wear armor and do not meet or exceed its requirements: -2 speed
         if (
-          !armor.data.isShield &&
-          armor.data.strengthmin != '' &&
+          !armor.data.data.isShield &&
+          armor.data.data.strengthmin != '' &&
           !ancestryFixedArmor &&
-          parseInt(armor.data.strengthmin) >
+          parseInt(armor.data.data.strengthmin) >
             parseInt(data.attributes.strength.value)
         ) {
           speedPenalty = -2
         }
 
-        if (armor.data.agility && agilitypoint == 0) {
+        if (armor.data.data.agility && agilitypoint == 0) {
           agilitypoint = parseInt(armor.data.agility)
         }
-        if (armor.data.fixed) armorpoint = parseInt(armor.data.fixed)
-        if (armor.data.defense) defenseBonus = parseInt(armor.data.defense)
+        if (armor.data.data.fixed) armorpoint = parseInt(armor.data.data.fixed)
+        if (armor.data.data.defense) defenseBonus = parseInt(armor.data.data.defense)
       }
     }
 
@@ -409,7 +411,7 @@ export class DemonlordActor extends Actor {
     delete itemData.data.type
 
     // Finally, create the item!
-    return await this.createOwnedItem(itemData)
+    return await this.createItem(itemData)
   }
 
   async _onDeleteEmbeddedEntity (embeddedName, child, options, userId) {
@@ -526,7 +528,7 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  rollAttribute (attribute, boonsbanes, modifier) {
+  rollAttribute(attribute, boonsbanes, modifier) {
     const rollMode = game.settings.get('core', 'rollMode')
     const buffs = this.generateCharacterBuffs('')
     let attribueName =
@@ -591,11 +593,11 @@ export class DemonlordActor extends Actor {
     }
 
     const r = new Roll(diceformular, {})
-    r.roll()
+    r.evaluate()
 
-    let diceTotal = r != null ? r._total : ''
+    let diceTotal = r != null ? r.total : ''
     let resultText =
-      r._total >= 10
+      r.total >= 10
         ? game.i18n.localize('DL.DiceResultSuccess')
         : game.i18n.localize('DL.DiceResultFailure')
 
@@ -605,9 +607,7 @@ export class DemonlordActor extends Actor {
     }
 
     // Format Dice
-    const diceData = isNewerVersion(game.data.version, '0.6.9')
-      ? FormatDice(r)
-      : FormatDiceOld(r)
+    const diceData = FormatDice(r)
 
     var templateData = {
       actor: this,
@@ -619,14 +619,14 @@ export class DemonlordActor extends Actor {
           value: diceTotal
         },
         diceTotalGM: {
-          value: r._total
+          value: r.total
         },
         resultText: {
           value: resultText
         },
         resultTextGM: {
           value:
-            r._total >= 10
+            r.total >= 10
               ? game.i18n.localize('DL.DiceResultSuccess')
               : game.i18n.localize('DL.DiceResultFailure')
         },
@@ -643,9 +643,9 @@ export class DemonlordActor extends Actor {
     }
 
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: this._id,
+        actor: document.id,
         token: this.token,
         alias: this.name
       }
@@ -654,9 +654,6 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
-    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
-    if (rollMode === 'blindroll') chatData.blind = true
-
     if (
       this.data.type == 'creature' &&
       game.settings.get('demonlord', 'rollCreaturesToGM')
@@ -664,7 +661,7 @@ export class DemonlordActor extends Actor {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
 
-    const template = 'systems/demonlord/templates/chat/challenge.html'
+    const template = 'systems/demonlord08/templates/chat/challenge.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
       if (game.dice3d) {
@@ -698,7 +695,7 @@ export class DemonlordActor extends Actor {
         game.i18n.localize('DL.DialogWarningUnconsciousFailer')
       )
     } else {
-      const item = this.getOwnedItem(itemId)
+      const item = this.getEmbeddedDocument('Item', itemId)
       const attackAttribute = item.data.data.action?.attack
       const characterbuffs = this.generateCharacterBuffs('ATTACK')
       characterbuffs.attackbonus += boonsbanes ? parseInt(boonsbanes) : 0
@@ -765,7 +762,7 @@ export class DemonlordActor extends Actor {
         game.i18n.localize('DL.DialogWarningUnconsciousFailer')
       )
     } else {
-      const item = this.getOwnedItem(itemId)
+      const item = this.getEmbeddedDocument('Item', itemId)
       const attackAttribute = item.data.data.action?.attack
       const characterbuffs = this.generateCharacterBuffs('ATTACK')
 
@@ -810,7 +807,7 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  rollAttack (weapon, boonsbanes, buffs, modifier) {
+  rollAttack(weapon, boonsbanes, buffs, modifier) {
     const rollMode = game.settings.get('core', 'rollMode')
     const target = this.getTarget()
     let diceformular = '1d20'
@@ -882,7 +879,7 @@ export class DemonlordActor extends Actor {
       }
 
       attackRoll = new Roll(diceformular, {})
-      attackRoll.roll()
+      attackRoll.evaluate()
     } else {
       ui.notifications.error(
         game.i18n.localize('DL.DialogWarningWeaponAttackModifier')
@@ -890,26 +887,24 @@ export class DemonlordActor extends Actor {
     }
 
     // Format Dice
-    const diceData = isNewerVersion(game.data.version, '0.6.9')
-      ? FormatDice(attackRoll)
-      : FormatDiceOld(attackRoll)
+    const diceData = FormatDice(attackRoll)
 
     // Plus20 roll
     let plus20 = false
     if (targetNumber != undefined && attackRoll != null) {
       plus20 = !!(
-        attackRoll._total >= 20 &&
-        attackRoll._total >= parseInt(targetNumber) + 5
+        attackRoll.total >= 20 &&
+        attackRoll.total >= parseInt(targetNumber) + 5
       )
     }
 
     let resultText =
       attackRoll != null &&
       targetNumber != undefined &&
-      attackRoll._total >= parseInt(targetNumber)
+      attackRoll.total >= parseInt(targetNumber)
         ? game.i18n.localize('DL.DiceResultSuccess')
         : game.i18n.localize('DL.DiceResultFailure')
-    let diceTotal = attackRoll != null ? attackRoll._total : ''
+    let diceTotal = attackRoll != null ? attackRoll.total : ''
     if (
       this.data.type === 'creature' &&
       !game.settings.get('demonlord', 'attackShowAttack')
@@ -918,10 +913,10 @@ export class DemonlordActor extends Actor {
       resultText = ''
     }
     if (['blindroll'].includes(rollMode)) {
-      diceTotal = '?'
-      resultText = ''
+          diceTotal = '?'
+          resultText = ''
     }
-
+    
     const againstNumber =
       (target != null && target.actor.data.type == 'character') ||
       (game.settings.get('demonlord', 'attackShowDefense') &&
@@ -940,7 +935,7 @@ export class DemonlordActor extends Actor {
           value: diceTotal
         },
         diceTotalGM: {
-          value: attackRoll != null ? attackRoll._total : ''
+          value: attackRoll != null ? attackRoll.total : ''
         },
         resultText: {
           value: resultText
@@ -948,7 +943,7 @@ export class DemonlordActor extends Actor {
         didHit: {
           value: !!(
             targetNumber == undefined ||
-            (attackRoll != null && attackRoll._total >= targetNumber)
+            (attackRoll != null && attackRoll.total >= targetNumber)
           )
         },
         attack: {
@@ -1021,9 +1016,9 @@ export class DemonlordActor extends Actor {
     }
 
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: this._id,
+        actor: this.id,
         token: this.token,
         alias: this.name
       }
@@ -1032,10 +1027,10 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
-    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'selfroll') chatData.whisper = [game.user.id]
     if (rollMode === 'blindroll') chatData.blind = true
 
-    const template = 'systems/demonlord/templates/chat/combat.html'
+    const template = 'systems/demonlord08/templates/chat/combat.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
 
@@ -1089,7 +1084,7 @@ export class DemonlordActor extends Actor {
         game.i18n.localize('DL.DialogWarningUnconsciousFailer')
       )
     } else {
-      const item = duplicate(this.getEmbeddedEntity('OwnedItem', itemId))
+      const item = duplicate(this.items.get(itemId))
       const uses = parseInt(item.data?.uses?.value)
       const usesmax = parseInt(item.data?.uses?.max)
 
@@ -1137,7 +1132,7 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  useTalent (talent, boonsbanes, modifier) {
+  useTalent(talent, boonsbanes, modifier) {
     const rollMode = game.settings.get('core', 'rollMode')
     const target = this.getTarget()
     let diceformular = '1d20'
@@ -1221,12 +1216,10 @@ export class DemonlordActor extends Actor {
         }
 
         attackRoll = new Roll(diceformular, {})
-        attackRoll.roll()
+        attackRoll.evaluate()
 
         // Format Dice
-        diceData = isNewerVersion(game.data.version, '0.6.9')
-          ? FormatDice(attackRoll)
-          : FormatDiceOld(attackRoll)
+        diceData = FormatDice(attackRoll)
 
         // Roll Against Target
         targetNumber = this.getVSTargetNumber(talent)
@@ -1263,10 +1256,10 @@ export class DemonlordActor extends Actor {
     let resultText =
       attackRoll != null &&
       targetNumber != undefined &&
-      attackRoll._total >= parseInt(targetNumber)
+      attackRoll.total >= parseInt(targetNumber)
         ? game.i18n.localize('DL.DiceResultSuccess')
         : game.i18n.localize('DL.DiceResultFailure')
-    let diceTotal = attackRoll != null ? attackRoll._total : ''
+    let diceTotal = attackRoll != null ? attackRoll.total : ''
     if (
       this.data.type === 'creature' &&
       !game.settings.get('demonlord', 'attackShowAttack')
@@ -1278,7 +1271,7 @@ export class DemonlordActor extends Actor {
       diceTotal = '?'
       resultText = ''
     }
-
+    
     const againstNumber =
       (target != null && target.actor?.data.type == 'character') ||
       (game.settings.get('demonlord', 'attackShowDefense') &&
@@ -1291,7 +1284,7 @@ export class DemonlordActor extends Actor {
       item: talent,
       data: {
         id: {
-          value: talent._id
+          value: talent.id
         },
         roll: {
           value: roll
@@ -1300,14 +1293,14 @@ export class DemonlordActor extends Actor {
           value: diceTotal
         },
         diceTotalGM: {
-          value: attackRoll != null ? attackRoll._total : ''
+          value: attackRoll != null ? attackRoll.total : ''
         },
         resultText: {
           value: resultText
         },
         didHit: {
           value: !!(
-            targetNumber != undefined || attackRoll._total >= targetNumber
+            targetNumber != undefined || attackRoll.total >= targetNumber
           )
         },
         attack: {
@@ -1385,9 +1378,9 @@ export class DemonlordActor extends Actor {
     }
 
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: this._id,
+        actor: this.id,
         token: this.token,
         alias: this.name
       }
@@ -1396,7 +1389,7 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
-    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'selfroll') chatData.whisper = [game.user.id]
     if (rollMode === 'blindroll') chatData.blind = true
 
     if (
@@ -1404,7 +1397,7 @@ export class DemonlordActor extends Actor {
       talent.data?.vs?.attribute ||
       (!talent.data?.vs?.attribute && !talent.data?.damage)
     ) {
-      const template = 'systems/demonlord/templates/chat/talent.html'
+      const template = 'systems/demonlord08/templates/chat/talent.html'
       renderTemplate(template, templateData).then((content) => {
         chatData.content = content
         if (game.dice3d && attackRoll != null) {
@@ -1455,7 +1448,7 @@ export class DemonlordActor extends Actor {
         game.i18n.localize('DL.DialogWarningUnconsciousFailer')
       )
     } else {
-      const item = duplicate(this.getEmbeddedEntity('OwnedItem', itemId))
+      const item = duplicate(this.items.get(itemId))
       const attackAttribute = item.data?.action?.attack
       const uses = parseInt(item.data?.castings?.value)
       const usesmax = parseInt(item.data?.castings?.max)
@@ -1510,7 +1503,7 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  useSpell (spell, boonsbanes, buffs, modifier) {
+  useSpell(spell, boonsbanes, buffs, modifier) {
     const rollMode = game.settings.get('core', 'rollMode')
     const target = this.getTarget()
     let diceformular = '1d20'
@@ -1587,25 +1580,23 @@ export class DemonlordActor extends Actor {
     }
 
     const attackRoll = new Roll(diceformular, {})
-    attackRoll.roll()
+    attackRoll.evaluate()
 
     // Format Dice
-    const diceData = isNewerVersion(game.data.version, '0.6.9')
-      ? FormatDice(attackRoll)
-      : FormatDiceOld(attackRoll)
+    const diceData = FormatDice(attackRoll)
 
     // Roll Against Target
     const targetNumber = this.getTargetNumber(spell)
 
     // Plus20 roll
-    const plus20 = attackRoll._total >= 20
+    const plus20 = attackRoll.total >= 20
 
     // Effect Dice roll
     let effectdice = ''
     if (spell.data.effectdice != '' && spell.data.effectdice != undefined) {
       const effectRoll = new Roll(spell.data.effectdice, {})
-      effectRoll.roll()
-      effectdice = effectRoll._total
+      effectRoll.evaluate()
+      effectdice = effectRoll.total
     }
 
     if (
@@ -1616,12 +1607,12 @@ export class DemonlordActor extends Actor {
       const usesmax = parseInt(spell.data?.castings?.max)
 
       if (uses < usesmax) {
-        spell.data.castings.value = Number(uses) + 1
+        spell.data.castings.value = "" + (Number(uses) + 1)
         uses++
       } else {
-        spell.data.castings.value = 0
+        spell.data.castings.value = "0"
       }
-      this.updateEmbeddedEntity('OwnedItem', spell)
+      Item.updateDocuments([spell], { parent: this })
 
       usesText =
         game.i18n.localize('DL.SpellCastingsUses') +
@@ -1634,10 +1625,10 @@ export class DemonlordActor extends Actor {
     let resultText =
       attackRoll != null &&
       targetNumber != undefined &&
-      attackRoll._total >= parseInt(targetNumber)
+      attackRoll.total >= parseInt(targetNumber)
         ? game.i18n.localize('DL.DiceResultSuccess')
         : game.i18n.localize('DL.DiceResultFailure')
-    let diceTotal = attackRoll != null ? attackRoll._total : ''
+    let diceTotal = attackRoll != null ? attackRoll.total : ''
     if (
       this.data.type === 'creature' &&
       !game.settings.get('demonlord', 'attackShowAttack')
@@ -1665,19 +1656,19 @@ export class DemonlordActor extends Actor {
       },
       data: {
         id: {
-          value: spell._id
+          value: spell.id
         },
         diceTotal: {
           value: diceTotal
         },
         diceTotalGM: {
-          value: attackRoll != null ? attackRoll._total : ''
+          value: attackRoll != null ? attackRoll.total : ''
         },
         resultText: {
           value: resultText
         },
         didHit: {
-          value: attackRoll._total >= targetNumber
+          value: attackRoll.total >= targetNumber
         },
         attack: {
           value: attackAttribute
@@ -1805,9 +1796,9 @@ export class DemonlordActor extends Actor {
     }
 
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: this._id,
+        actor: this.id,
         token: this.token,
         alias: this.name
       }
@@ -1816,10 +1807,10 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
-    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'selfroll') chatData.whisper = [game.user.id]
     if (rollMode === 'blindroll') chatData.blind = true
 
-    const template = 'systems/demonlord/templates/chat/spell.html'
+    const template = 'systems/demonlord08/templates/chat/spell.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
       if (game.dice3d && attackRoll != null && attackAttribute) {
@@ -1849,20 +1840,18 @@ export class DemonlordActor extends Actor {
     })
   }
 
-  rollCorruption () {
-    const corruptionRoll = new Roll('1d20-', {})
-    corruptionRoll.roll()
+  rollCorruption() {
+    const corruptionRoll = new Roll('1d20 - @corruption', {corruption: this.data.data.characteristics.corruption})
+    corruptionRoll.evaluate()
 
     // Format Dice
-    const diceData = isNewerVersion(game.data.version, '0.6.9')
-      ? FormatDice(corruptionRoll)
-      : FormatDiceOld(corruptionRoll)
+    const diceData = FormatDice(corruptionRoll)
 
     var templateData = {
       actor: this,
       data: {
         diceTotal: {
-          value: corruptionRoll._total
+          value: corruptionRoll.total
         },
         tagetValueText: {
           value: game.i18n.localize('DL.CharCorruption').toUpperCase()
@@ -1872,13 +1861,13 @@ export class DemonlordActor extends Actor {
         },
         resultText: {
           value:
-            corruptionRoll._total >= this.data.data.characteristics.corruption
+            corruptionRoll.total >= this.data.data.characteristics.corruption
               ? game.i18n.localize('DL.DiceResultSuccess')
               : game.i18n.localize('DL.DiceResultFailure')
         },
         failureText: {
           value:
-            corruptionRoll._total >= this.data.data.characteristics.corruption
+            corruptionRoll.total >= this.data.data.characteristics.corruption
               ? ''
               : game.i18n.localize('DL.CharRolCorruptionResult')
         }
@@ -1887,9 +1876,9 @@ export class DemonlordActor extends Actor {
     }
 
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: this._id,
+        actor: this.id,
         token: this.token,
         alias: this.name
       }
@@ -1899,10 +1888,10 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
-    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
+    if (rollMode === 'selfroll') chatData.whisper = [game.user.id]
     if (rollMode === 'blindroll') chatData.blind = true
 
-    const template = 'systems/demonlord/templates/chat/corruption.html'
+    const template = 'systems/demonlord08/templates/chat/corruption.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
       if (game.dice3d) {
@@ -1917,7 +1906,7 @@ export class DemonlordActor extends Actor {
           .then((displayed) =>
             ChatMessage.create(chatData).then((msg) => {
               if (
-                corruptionRoll._total <
+                corruptionRoll.total <
                 this.data.data.characteristics.corruption
               ) {
                 ;(async () => {
@@ -1935,7 +1924,7 @@ export class DemonlordActor extends Actor {
                   result.then(function (result) {
                     resultText = result.results[0].text
 
-                    actor.createOwnedItem({
+                    actor.createItem({
                       name: 'Mark of Darkness',
                       type: 'feature',
                       data: {
@@ -1979,9 +1968,9 @@ export class DemonlordActor extends Actor {
     }
 
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: this._id,
+        actor: this.id,
         token: this.token,
         alias: this.name
       }
@@ -1991,10 +1980,8 @@ export class DemonlordActor extends Actor {
     if (['gmroll', 'blindroll'].includes(rollMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
-    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
-    if (rollMode === 'blindroll') chatData.blind = true
 
-    const template = 'systems/demonlord/templates/chat/enchantment.html'
+    const template = 'systems/demonlord08/templates/chat/enchantment.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
       ChatMessage.create(chatData)
@@ -2079,7 +2066,7 @@ export class DemonlordActor extends Actor {
       characterbuffs.attackperceptionbonus++
     }
 
-    const talents = this.getEmbeddedCollection('OwnedItem').filter(
+    const talents = this.getEmbeddedCollection('Item').filter(
       (e) => e.type === 'talent'
     )
 
@@ -2231,7 +2218,7 @@ export class DemonlordActor extends Actor {
       }
     }
 
-    const items = this.getEmbeddedCollection('OwnedItem').filter(
+    const items = this.getEmbeddedCollection('Item').filter(
       (e) => e.type === 'item'
     )
     let itemAttackbonus = 0
@@ -2271,7 +2258,7 @@ export class DemonlordActor extends Actor {
     characterbuffs.perception += itemPerceptionBonus
 
     // If you wear armor and do not meet or exceed its requirements: -1 Bane
-    const armors = this.getEmbeddedCollection('OwnedItem').filter(
+    const armors = this.getEmbeddedCollection('Item').filter(
       (e) => e.type === 'armor'
     )
     let armorAttackbonus = 0
@@ -2289,7 +2276,7 @@ export class DemonlordActor extends Actor {
     }
     characterbuffs.attackbonus += armorAttackbonus
 
-    const mods = this.getEmbeddedCollection('OwnedItem').filter(
+    const mods = this.getEmbeddedCollection('Item').filter(
       (e) => e.type === 'mod'
     )
     let modAttackbonus = 0
@@ -2852,12 +2839,12 @@ export class DemonlordActor extends Actor {
         this.addCharacterBonuses(talent)
       }
 
-      await this.updateEmbeddedEntity('OwnedItem', talent)
+      await Item.updateDocuments([talent], { parent: this })
     }
   }
 
   async deactivateTalent (talent) {
-    const item = this.getOwnedItem(talent._id)
+    const item = this.getEmbeddedDocument('Item', talent.id)
     const that = this
     await item
       .update({
@@ -2962,33 +2949,33 @@ export class DemonlordActor extends Actor {
         mod.data.roundsleft = mod.data.rounds
         mod.data.active = false
       }
-      await this.updateEmbeddedEntity('OwnedItem', mod)
+      await this.updateEmbeddedDocuments('Item', mod.data)
     }
   }
 
   async restActor (token) {
     // Talents
-    const talents = this.getEmbeddedCollection('OwnedItem').filter(
+    const talents = this.getEmbeddedCollection('Item').filter(
       (e) => e.type === 'talent'
     )
     for (const talent of talents) {
-      const item = duplicate(this.getEmbeddedEntity('OwnedItem', talent._id))
+      const item = duplicate(this.items.get(talent.id))
       item.data.uses.value = 0
 
-      await this.updateEmbeddedEntity('OwnedItem', item)
+      await this.updateEmbeddedDocuments('Item', item.data)
     }
 
     // Spells
-    const spells = this.getEmbeddedCollection('OwnedItem').filter(
+    const spells = this.getEmbeddedCollection('Item').filter(
       (e) => e.type === 'spell'
     )
 
     for (const spell of spells) {
-      const item = duplicate(this.getEmbeddedEntity('OwnedItem', spell._id))
+      const item = duplicate(this.items.get(spell.id))
 
       item.data.castings.value = 0
 
-      await this.updateEmbeddedEntity('OwnedItem', item)
+      await this.updateEmbeddedDocuments('Item', item.data)
     }
 
     this.applyHealing(token, true)
@@ -2998,15 +2985,15 @@ export class DemonlordActor extends Actor {
     }
 
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: this._id,
+        actor: this.id,
         token: this.token,
         alias: this.name
       }
     }
 
-    const template = 'systems/demonlord/templates/chat/rest.html'
+    const template = 'systems/demonlord08/templates/chat/rest.html'
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content
       ChatMessage.create(chatData)
@@ -3064,11 +3051,11 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  async setUsesOnSpells (data) {
+  async setUsesOnSpells(data) {
     const power = data.data.characteristics.power
 
     for (let rank = 0; rank <= power; rank++) {
-      const spells = this.getEmbeddedCollection('OwnedItem').filter(
+      const spells = this.getEmbeddedCollection('Item').filter(
         (e) => e.type === 'spell' && parseInt(e.data.rank) === rank
       )
       spells.forEach((spell) => {
@@ -3081,7 +3068,7 @@ export class DemonlordActor extends Actor {
         }
         spell.data.castings.max = usesMax
 
-        this.updateEmbeddedEntity('OwnedItem', spell)
+        this.updateEmbeddedDocuments('Item', spell.data)
       })
     }
   }

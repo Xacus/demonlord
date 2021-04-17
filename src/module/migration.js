@@ -100,7 +100,7 @@ export const migrateItemData = function (item) {
   }
 
   if (!isObjectEmpty(updateData)) {
-    updateData._id = item._id
+    updateData.id = item.id
   }
 
   return updateData

@@ -50,7 +50,7 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
     }
 
     combatantUpdates.push({
-      _id: c._id,
+      id: c.id,
       initiative: init
     })
 
@@ -69,14 +69,14 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
     }
 
     if (game.settings.get('demonlord', 'initMessage')) {
-      const template = 'systems/demonlord/templates/chat/init.html'
+      const template = 'systems/demonlord08/templates/chat/init.html'
       renderTemplate(template, templateData).then((content) => {
         const messageData = mergeObject(
           {
             speaker: {
-              scene: canvas.scene._id,
-              actor: c.actor ? c.actor._id : null,
-              token: c.token._id,
+              scene: canvas.scene.id,
+              actor: c.actor ? c.actor.id : null,
+              token: c.token.id,
               alias: c.token.name
             },
             whisper:
@@ -95,7 +95,7 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
   if (!combatantUpdates.length) return this
 
   // Update multiple combatants
-  await this.updateEmbeddedEntity('Combatant', combatantUpdates)
+  await this.updateEmbeddedDocument('Combatant', combatantUpdates)
   await ChatMessage.create(initMessages)
 
   return this
@@ -116,7 +116,7 @@ export const startCombat = async function () {
             init = 1;
         }
         */
-    game.combat.setInitiative(combatant._id, init)
+    game.combat.setInitiative(combatant.id, init)
   }
 
   return this.update({
@@ -175,7 +175,7 @@ export const setupTurns = function () {
 
   let turns = this.data.combatants
     .map((c) => {
-      c.token = scene.getEmbeddedEntity('Token', c.tokenId, {
+      c.token = scene.items.get(c.tokenId, {
         strict: false
       })
       if (!c.token) return c
@@ -183,8 +183,8 @@ export const setupTurns = function () {
       c.players = c.actor
         ? players.filter((u) => c.actor.hasPerm(u, 'OWNER'))
         : []
-      c.owner = game.user.isGM || (c.actor ? c.actor.owner : false)
-      c.visible = c.owner || !c.hidden
+      c.isOwner = game.user.isGM || (c.actor ? c.actor.isOwner : false)
+      c.visible = c.isOwner || !c.hidden
       return c
     })
     .filter((c) => c.token)
@@ -201,7 +201,7 @@ export const setupTurns = function () {
 
 const selectTurnType = async function (actor, fastturn) {
   let turn = ''
-  const template = 'systems/demonlord/templates/dialogs/choose-turn-dialog.html'
+  const template = 'systems/demonlord08/templates/dialogs/choose-turn-dialog.html'
   const html = await renderTemplate(template, {
     data: {
       fastturn: fastturn
@@ -257,7 +257,7 @@ const postEndOfRound = async function () {
   for (const combatant of game.combat.combatants) {
     if (combatant.actor?.data?.type != 'character') {
       const endofrounds = combatant.actor
-        .getEmbeddedCollection('OwnedItem')
+        .getEmbeddedCollection('Item')
         .filter((e) => e.type === 'endoftheround')
       for (const endofround of endofrounds) {
         console.log(endofround.name)
@@ -269,7 +269,7 @@ const postEndOfRound = async function () {
 const handleCharacterMods = async function () {
   for (const combatant of game.combat.combatants) {
     const mods = combatant.actor
-      ?.getEmbeddedCollection('OwnedItem')
+      ?.getEmbeddedCollection('Item')
       .filter((e) => e.type === 'mod')
     if (mods) {
       for (const mod of mods) {

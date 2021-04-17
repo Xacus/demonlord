@@ -28,34 +28,39 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
   /** @override */
   get template () {
-    const path = 'systems/demonlord/templates/item'
+    const path = 'systems/demonlord08/templates/item'
     return `${path}/item-${this.item.data.type}-sheet.html`
   }
 
   /* -------------------------------------------- */
 
   /** @override */
-  getData () {
-    const data = super.getData()
+  async getData (options) {
+    const data = super.getData(options)
+    const itemData = data.data;
+
     data.isGM = game.user.isGM
     data.useDemonlordMode = game.settings.get('demonlord', 'useHomebrewMode')
     data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
-    data.effects = prepareActiveEffectCategories(this.entity.effects)
+    data.effects = prepareActiveEffectCategories(this.document.effects)
 
-    if (this.item.data.type == 'path') {
+    if (data.item.type == 'path') {
       this._prepareLevels(data)
     } else if (
-      this.item.data.type == 'weapon' ||
-      this.item.data.type == 'spell'
+      data.item.type == 'weapon' ||
+      data.item.type == 'spell'
     ) {
       this._prepareDamageTypes(data)
-    } else if (this.item.data.type == 'talent') this._prepareVSDamageTypes(data)
-    else if (this.item.data.type == 'ancestry') {
+    } else if (data.item.type == 'talent') this._prepareVSDamageTypes(data)
+    else if (data.item.type == 'ancestry') {
       if (!game.user.isGM && !data.useDemonlordMode) {
-        data.item.data.editAncestry = false
+        data.item.editAncestry = false
       }
     }
 
+    
+    data.item = itemData;
+    data.data = itemData.data;
     return data
   }
 
@@ -66,15 +71,15 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     const talents = []
     const talents4 = []
 
-    for (const level of itemData.data.levels) {
+    for (const level of itemData.data?.data.levels) {
       levels.push(level)
     }
 
-    for (const talent of itemData.data.talents) {
+    for (const talent of itemData.data?.data.talents) {
       talents.push(talent)
     }
 
-    for (const talent of itemData.data.level4.talent) {
+    for (const talent of itemData.data?.data.level4.talent) {
       talents4.push(talent)
     }
 
@@ -87,7 +92,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     const itemData = data.item
     const damagetypes = []
 
-    for (const damagetype of itemData.data?.action?.damagetypes) {
+    for (const damagetype of itemData.data?.data?.action?.damagetypes) {
       damagetypes.push(damagetype)
     }
 
@@ -99,11 +104,11 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     const damagetypes = []
     const vsdamagetypes = []
 
-    for (const damagetype of itemData.data?.action?.damagetypes) {
+    for (const damagetype of itemData.data?.data?.action?.damagetypes) {
       damagetypes.push(damagetype)
     }
 
-    for (const vsdamagetype of itemData.data?.vs?.damagetypes) {
+    for (const vsdamagetype of itemData.data?.data?.vs?.damagetypes) {
       vsdamagetypes.push(vsdamagetype)
     }
 
@@ -133,7 +138,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     if (this.isEditable) {
       html
         .find('.effect-control')
-        .click((ev) => onManageActiveEffect(ev, this.entity))
+        .click((ev) => onManageActiveEffect(ev, this.document))
 
       const inputs = html.find('input')
       inputs.focus((ev) => ev.currentTarget.select())
@@ -259,7 +264,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
     switch (type) {
       case 'talent':
-        levelItem.id = item._id
+        levelItem.id = item.id
         levelItem.name = item.name
         levelItem.description = item.data.data.description
         levelItem.pack = data.pack ? data.pack : ''
@@ -269,7 +274,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
         break
       case 'language':
-        levelItem.id = item._id
+        levelItem.id = item.id
         levelItem.name = item.name
         levelItem.description = item.data.data.description
         levelItem.pack = data.pack ? data.pack : ''
@@ -302,7 +307,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         break
     }
 
-    await this.item.update(itemData, { diff: false })
+    await Item.updateDocuments([itemData], {parent: this.actor});
     this.render(true)
   }
 
@@ -338,13 +343,13 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         for (const talent of this.object.data.data.talents) {
           const item = game.items.get(talent.id)
 
-          if (item != null) await this.actor.createOwnedItem(item)
+          if (item != null) await (item)
         }
       } else if (itemGroup === 'talent4') {
         for (const talent of this.object.data.data.level4.talent) {
           const item = game.items.get(talent.id)
 
-          if (item != null) await this.actor.createOwnedItem(item)
+          if (item != null) await this.actor.createEmbeddedDocuments('Item', [item.data])
         }
       }
     } else {
@@ -358,12 +363,12 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         const selectedLevelItem = this.object.data.data.talents[itemIndex]
         const item = game.items.get(selectedLevelItem.id)
 
-        if (item != null) await this.actor.createOwnedItem(item)
+        if (item != null) await this.actor.createEmbeddedDocuments('Item', [item.data])
       } else if (itemGroup === 'talent4') {
         const selectedLevelItem = this.object.data.data.level4.talent[itemIndex]
         const item = game.items.get(selectedLevelItem.id)
 
-        if (item != null) await this.actor.createOwnedItem(item)
+        if (item != null) await this.actor.createEmbeddedDocuments('Item', [item.data])
       }
     }
   }
@@ -401,7 +406,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           'data.characteristics.speedbonus': parseInt(characterbuffs.speedbonus)
         })
       } else {
-        await this.entity.update({
+        await this.document.update({
           'data.addtonextroll': false
         })
       }
@@ -472,7 +477,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         var newPower = parseInt(updateData.data.characteristics.power)
 
         const paths = this.actor
-          .getEmbeddedCollection('OwnedItem')
+          .getEmbeddedCollection('Item')
           .filter((e) => e.type === 'path')
         for (const path of paths) {
           for (const level of path.data.levels) {
@@ -487,7 +492,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       }
     }
 
-    return this.entity.update(updateData)
+    return this.object.update(updateData);
   }
 
   generateCharacterBuffs () {
@@ -499,7 +504,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     characterbuffs.challengeperceptionbonus = 0
 
     const talents = this.actor
-      ?.getEmbeddedCollection('OwnedItem')
+      ?.getEmbeddedCollection('Item')
       .filter((e) => e.type === 'talent')
 
     if (talents) {
@@ -557,13 +562,15 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       case 'create':
         itemData.data.action.damagetypes.push(new DamageType())
 
-        await this.item.update(itemData, { diff: false })
+        await Item.updateDocuments([itemData], {parent: this.actor})
+        //await this.item.update(itemData, { diff: false })
         this.render(true)
         break
       case 'delete':
         itemData.data.action.damagetypes.splice(a.dataset.id, 1)
 
-        await this.item.update(itemData, { diff: false })
+        await Item.updateDocuments([itemData], {parent: this.actor})
+        //await this.item.update(itemData, { diff: false })
         this.render(true)
         break
     }

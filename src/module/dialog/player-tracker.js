@@ -3,7 +3,7 @@ export class PlayerTracker extends FormApplication {
     return mergeObject(super.defaultOptions, {
       id: 'sheet-modifiers',
       classes: ['playertracker', 'sheet', 'actor'],
-      template: 'systems/demonlord/templates/dialogs/player-tracker.html',
+      template: 'systems/demonlord08/templates/dialogs/player-tracker.html',
       width: game.users.players.length * 150,
       height: 'auto',
       tabs: [
@@ -62,7 +62,7 @@ export class PlayerTracker extends FormApplication {
 
     for (const player of players) {
       var person = {
-        playerid: player.character?._id,
+        playerid: player.character?.id,
         playername: player.name,
         charactername: player.character?.name,
         ancestry: player.character?.items
@@ -129,7 +129,7 @@ export class PlayerTracker extends FormApplication {
               })
           case 'save':
             const textarea = html.find(
-              'textarea[id="person.' + actor._id + '"]'
+              'textarea[id="person.' + actor.id + '"]'
             )
 
             return actor
@@ -153,8 +153,8 @@ export class PlayerTracker extends FormApplication {
    */
   /** @override */
   async _updateObject (event, formData) {
-    formData._id = this.object._id
-    return this.entity.update(formData)
+    formData.id = this.object.id
+    return this.document.update(formData)
   }
 
   async _onItemCreate (event) {
@@ -173,7 +173,7 @@ export class PlayerTracker extends FormApplication {
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data.type
 
-    await this.object.createOwnedItem(itemData)
+    await this.object.createItem(itemData)
     this.render(false)
   }
 }

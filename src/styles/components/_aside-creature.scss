@@ -10,7 +10,7 @@ section.window-content {
 }
 
 .window-content {
-  background: url('../assets/ui/sidebar_background.jpg'), url('../assets/ui/paper.jpg');
+  background: url(../assets/ui/sidebar_background.jpg), url(../assets/ui/paper.jpg);
   background-repeat: repeat-x, no-repeat;
   background-size: auto 130px, cover;
   background-attachment: local;
@@ -134,7 +134,7 @@ form {
           }
 
           input.checkbox:checked + label {
-            background-image: url('/systems/demonlord/icons/effects/terror.svg');
+            background-image: url('/systems/demonlord/assets/icons/effects/terror.svg');
           }
         }
         .horrifying {
@@ -147,7 +147,7 @@ form {
           }
 
           input.checkbox:checked + label {
-            background-image: url('/systems/demonlord/icons/effects/horrified.svg');
+            background-image: url('/systems/demonlord/assets/icons/effects/horrified.svg');
           }
         }
 

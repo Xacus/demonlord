@@ -8,7 +8,7 @@ export class DemonlordPathSetup extends ItemSheet {
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord2', 'sheet', 'item', 'tooltip'],
-      template: 'systems/demonlord/templates/item/path-setup.html',
+      template: 'systems/demonlord08/templates/item/path-setup.html',
       width: 620,
       height: 550,
       tabs: [
@@ -25,13 +25,15 @@ export class DemonlordPathSetup extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData () {
-    const data = super.getData()
+  async getData (options) {
+    const data = super.getData(options)
+    const itemData = data.data;
+
     data.isGM = game.user.isGM
 
-    if (this.item.data.type == 'path' && data.item.data.editPath) {
+    if (data.item.type == 'path' && data.item.data.data.editPath) {
       this._prepareLevels(data)
-    } else if (this.item.data.type == 'path' && !data.item.data.editPath) {
+    } else if (data.item.type == 'path' && !data.item.data.data.editPath) {
       this._prepareLevelsView(data)
     }
 
@@ -39,6 +41,8 @@ export class DemonlordPathSetup extends ItemSheet {
       data.item.data.editPath = false
     }
 
+    data.item = itemData;
+    data.data = itemData.data;
     return data
   }
 
@@ -46,18 +50,18 @@ export class DemonlordPathSetup extends ItemSheet {
     const itemData = data.item
     const levels = []
 
-    for (const level of itemData.data.levels) {
+    for (const level of itemData.data.data.levels) {
       levels.push(level)
     }
 
-    itemData.levels = levels
+    data.levels = levels
   }
 
   _prepareLevelsView (data) {
     const itemData = data.item
     let levels = []
 
-    for (const level of itemData.data.levels) {
+    for (const level of itemData.data.data.levels) {
       level.attributeSelectTwoSet1Label = game.i18n.localize(
         CONFIG.DL.attributes[level.attributeSelectTwoSet1]
       )
@@ -76,7 +80,7 @@ export class DemonlordPathSetup extends ItemSheet {
 
     levels = levels.sort((a, b) => (a.level > b.level ? 1 : -1))
 
-    itemData.levels = levels
+    data.levels = levels
   }
 
   /* -------------------------------------------- */
@@ -234,7 +238,7 @@ export class DemonlordPathSetup extends ItemSheet {
 
     switch (group) {
       case 'talent':
-        levelItem.id = item._id
+        levelItem.id = item.id
         levelItem.name = item.name
         levelItem.description = item.data.data.description
         levelItem.pack = data.pack ? data.pack : ''
@@ -243,7 +247,7 @@ export class DemonlordPathSetup extends ItemSheet {
         talents.push(levelItem)
         break
       case 'talentpick':
-        levelItem.id = item._id
+        levelItem.id = item.id
         levelItem.name = item.name
         levelItem.description = item.data.data.description
         levelItem.pack = data.pack ? data.pack : ''
@@ -252,7 +256,7 @@ export class DemonlordPathSetup extends ItemSheet {
         talentspick.push(levelItem)
         break
       case 'spell':
-        levelItem.id = item._id
+        levelItem.id = item.id
         levelItem.name = item.name
         levelItem.description = item.data.data.description
         levelItem.pack = data.pack ? data.pack : ''
@@ -276,7 +280,6 @@ export class DemonlordPathSetup extends ItemSheet {
    */
   async _updateObject (event, formData) {
     const item = this.object
-    const updateData = expandObject(formData)
 
     if (item.type == 'path') {
       const maxAttChoicesPrLevel = {}
@@ -999,11 +1002,13 @@ export class DemonlordPathSetup extends ItemSheet {
           }
         }
       }
+
       await this.object.update({
-        'data.levels': duplicate(this.item.data.data.levels)
+        'data.levels': item.data.data.levels
       })
     }
 
+    delete formData.level
     return this.object.update(formData)
   }
 
@@ -1013,7 +1018,9 @@ export class DemonlordPathSetup extends ItemSheet {
     const itemData = duplicate(this.item.data)
     itemData.data.levels.push(new PathLevel())
 
-    await this.item.update(itemData, { diff: false })
+    this.item.update(itemData);
+    
+    //await this.item.update(itemData)
     this.render(true)
   }
 
@@ -1021,7 +1028,7 @@ export class DemonlordPathSetup extends ItemSheet {
     const itemData = duplicate(this.item.data)
     itemData.data.levels.splice(index, 1)
 
-    await this.item.update(itemData, { diff: false })
+    await this.item.update(itemData)
     this.render(true)
   }
 
@@ -1045,7 +1052,7 @@ export class DemonlordPathSetup extends ItemSheet {
         break
     }
 
-    await this.item.update(itemData, { diff: false })
+    this.item.update(itemData);
     this.render(true)
   }
 
@@ -1079,7 +1086,7 @@ export class DemonlordPathSetup extends ItemSheet {
 
       for (const talent of this.object.data.data.levels[levelIndex].talents) {
         const item = game.items.get(talent.id)
-        if (item != null) await this.actor.createOwnedItem(item)
+        if (item != null) await Item.create(item, {parent: this.actor})
       }
     } else {
       const levelIndex = event.currentTarget
@@ -1092,19 +1099,19 @@ export class DemonlordPathSetup extends ItemSheet {
           .talents[itemIndex]
         const item = game.items.get(selectedLevelItem.id)
 
-        await this.actor.createOwnedItem(item)
+        await Item.create(item, {parent: this.actor})
       } else if (type === 'TALENTPICKS') {
         const selectedLevelItem = this.object.data.data.levels[levelIndex]
           .talentspick[itemIndex]
         const item = game.items.get(selectedLevelItem.id)
 
-        await this.actor.createOwnedItem(item)
+        await Item.create(item, {parent: this.actor})
       } else {
         const selectedLevelItem = this.object.data.data.levels[levelIndex]
           .spells[itemIndex]
         const item = game.items.get(selectedLevelItem.id)
 
-        await this.actor.createOwnedItem(item)
+        await Item.create(item, {parent: this.actor})
       }
     }
   }
