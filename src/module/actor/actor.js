@@ -2,7 +2,9 @@
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-import { FormatDice } from '../dice.js'
+import {FormatDice} from '../dice.js'
+import {ActorRolls} from "./actor-rolls";
+
 export class DemonlordActor extends Actor {
   /** @override */
   prepareBaseData() {
@@ -33,7 +35,7 @@ export class DemonlordActor extends Actor {
       savedAncestry = ancestry
 
       data.ancestry = ancestry.data.name
-      
+
       if (!game.settings.get('demonlord', 'useHomebrewMode')) {
         data.attributes.strength.value = parseInt(
           ancestry.data.data.attributes?.strength.value
@@ -203,7 +205,7 @@ export class DemonlordActor extends Actor {
       data.attributes.perception.value =
         parseInt(data.attributes.intellect.value) +
         parseInt(ancestry.data.data.characteristics.perceptionmodifier)
-      
+
       if (parseInt(ancestry.data.data.characteristics?.defensemodifier) > 10) {
         data.characteristics.defense = parseInt(
           ancestry.data.data.characteristics?.defensemodifier
@@ -308,7 +310,7 @@ export class DemonlordActor extends Actor {
           armor.data.data.strengthmin != '' &&
           !ancestryFixedArmor &&
           parseInt(armor.data.data.strengthmin) >
-            parseInt(data.attributes.strength.value)
+          parseInt(data.attributes.strength.value)
         ) {
           speedPenalty = -2
         }
@@ -390,7 +392,7 @@ export class DemonlordActor extends Actor {
     if (data.afflictions.unconscious) data.characteristics.defense = 5
   }
 
-  async createItemCreate (event) {
+  async createItemCreate(event) {
     event.preventDefault()
 
     const header = event.currentTarget
@@ -414,7 +416,7 @@ export class DemonlordActor extends Actor {
     return await this.createItem(itemData)
   }
 
-  async _onDeleteEmbeddedEntity (embeddedName, child, options, userId) {
+  async _onDeleteEmbeddedEntity(embeddedName, child, options, userId) {
     const characterbuffs = this.generateCharacterBuffs()
 
     if (child.data?.addtonextroll) {
@@ -453,229 +455,15 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  rollChallenge (attribute) {
-    if (typeof attribute === 'string' || attribute instanceof String) {
-      attribute = this.data.data.attributes[attribute]
-    }
-
-    let attLabel =
-      attribute.label?.charAt(0).toUpperCase() +
-      attribute.label?.toLowerCase().slice(1)
-    if (!attribute.label && isNaN(attLabel)) {
-      attLabel =
-        attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1)
-    }
-
-    if (this.data.data.afflictions.defenseless && attLabel != 'Perception') {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (this.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else if (this.data.data.afflictions.blinded && attLabel == 'Perception') {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningBlindedChallengeFailer')
-      )
-    } else if (this.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (this.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
-    } else {
-      const d = new Dialog({
-        title:
-          this.name +
-          ': ' +
-          game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2),
-        content:
-          "<div class='challengedialog'><b>" +
-          game.i18n.localize('DL.DialogChallengeRoll') +
-          '</b>' +
-          game.i18n.localize(attLabel) +
-          "<br/></div><br/><div class='challengedialog'><b>" +
-          game.i18n.localize('DL.DialogAddBonesAndBanes') +
-          "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/></div>" +
-          '<br/><div class="challengedialog"><b>' +
-          game.i18n.localize('DL.ModsAdd') +
-          "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-          '</b></div><br/>',
-        buttons: {
-          roll: {
-            icon: '<i class="fas fa-check"></i>',
-            label: game.i18n.localize('DL.DialogRoll'),
-            callback: (html) =>
-              this.rollAttribute(
-                attribute,
-                html.find('[id="boonsbanes"]').val(),
-                html.find('[id="modifier"]').val()
-              )
-          },
-          cancel: {
-            icon: '<i class="fas fa-times"></i>',
-            label: game.i18n.localize('DL.DialogCancel'),
-            callback: () => {}
-          }
-        },
-        default: 'roll',
-        close: () => {}
-      })
-      d.render(true)
-    }
+  rollChallenge(attribute) {
+    ActorRolls.rollChallenge(actor, attribute)
   }
 
   rollAttribute(attribute, boonsbanes, modifier) {
-    const rollMode = game.settings.get('core', 'rollMode')
-    const buffs = this.generateCharacterBuffs('')
-    let attribueName =
-      attribute.label?.charAt(0).toUpperCase() +
-      attribute.label?.toLowerCase().slice(1)
-    if (!attribute.label && isNaN(attribueName)) {
-      attribueName =
-        attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1)
-    }
-
-    // Roll
-    let diceformular = '1d20'
-    if (attribute && attribute.modifier != 0) {
-      diceformular =
-        diceformular +
-        (attribute.modifier > 0 ? '+' + attribute.modifier : attribute.modifier)
-    }
-    // Add boonsbanes to Strength rolls
-    if (
-      attribute.label === 'STRENGTH' &&
-      parseInt(buffs?.challengestrengthbonus) != 0
-    ) {
-      boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengestrengthbonus)
-    }
-    // Add boonsbanes to Agility rolls
-    if (
-      attribute.label === 'AGILITY' &&
-      parseInt(buffs?.challengeagilitybonus) != 0
-    ) {
-      boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengeagilitybonus)
-    }
-    // Add boonsbanes to Intellect rolls
-    if (
-      attribute.label === 'INTELLECT' &&
-      parseInt(buffs?.challengeintellectbonus) != 0
-    ) {
-      boonsbanes =
-        parseInt(boonsbanes) + parseInt(buffs.challengeintellectbonus)
-    }
-    // Add boonsbanes to Will rolls
-    if (
-      attribute.label === 'WILL' &&
-      parseInt(buffs?.challengewillbonus) != 0
-    ) {
-      boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengewillbonus)
-    }
-    // Add boonsbanes to Perception rolls
-    if (
-      attribute.label === 'PERCEPTION' &&
-      parseInt(buffs?.challengeperceptionbonus) != 0
-    ) {
-      boonsbanes =
-        parseInt(boonsbanes) + parseInt(buffs.challengeperceptionbonus)
-    }
-
-    if (boonsbanes != undefined && !isNaN(boonsbanes) && boonsbanes != 0) {
-      diceformular = diceformular + '+' + boonsbanes + 'd6kh'
-    }
-
-    if (modifier != 0) {
-      diceformular = diceformular + '+' + parseInt(modifier)
-    }
-
-    const r = new Roll(diceformular, {})
-    r.evaluate()
-
-    let diceTotal = r != null ? r.total : ''
-    let resultText =
-      r.total >= 10
-        ? game.i18n.localize('DL.DiceResultSuccess')
-        : game.i18n.localize('DL.DiceResultFailure')
-
-    if (['blindroll'].includes(rollMode)) {
-      diceTotal = '?'
-      resultText = ''
-    }
-
-    // Format Dice
-    const diceData = FormatDice(r)
-
-    var templateData = {
-      actor: this,
-      item: {
-        name: attribueName.toUpperCase()
-      },
-      data: {
-        diceTotal: {
-          value: diceTotal
-        },
-        diceTotalGM: {
-          value: r.total
-        },
-        resultText: {
-          value: resultText
-        },
-        resultTextGM: {
-          value:
-            r.total >= 10
-              ? game.i18n.localize('DL.DiceResultSuccess')
-              : game.i18n.localize('DL.DiceResultFailure')
-        },
-        isCreature: {
-          value: this.data.type == 'creature'
-        },
-        afflictionEffects: {
-          value: this.buildAfflictionsEffects('CHALLENGE')
-        },
-        actionEffects: { value: this.buildActionEffects('CHALLENGE') },
-        ifBlindedRoll: ['blindroll'].includes(rollMode)
-      },
-      diceData
-    }
-
-    const chatData = {
-      user: game.user.id,
-      speaker: {
-        actor: document.id,
-        token: this.token,
-        alias: this.name
-      }
-    }
-
-    if (['gmroll', 'blindroll'].includes(rollMode)) {
-      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
-    }
-    if (
-      this.data.type == 'creature' &&
-      game.settings.get('demonlord', 'rollCreaturesToGM')
-    ) {
-      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
-    }
-
-    const template = 'systems/demonlord08/templates/chat/challenge.html'
-    renderTemplate(template, templateData).then((content) => {
-      chatData.content = content
-      if (game.dice3d) {
-        game.dice3d
-          .showForRoll(r, game.user, true, chatData.whisper, chatData.blind)
-          .then((displayed) => ChatMessage.create(chatData))
-      } else {
-        chatData.sound = CONFIG.sounds.dice
-        ChatMessage.create(chatData)
-      }
-    })
+    ActorRolls.rollAttribute(this, attribute, boonsbanes, modifier)
   }
 
-  rollWeaponAttackMacro (itemId, boonsbanes, damagebonus) {
+  rollWeaponAttackMacro(itemId, boonsbanes, damagebonus) {
     if (this.data.data.afflictions.dazed) {
       ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
     } else if (this.data.data.afflictions.defenseless) {
@@ -729,11 +517,13 @@ export class DemonlordActor extends Actor {
             cancel: {
               icon: '<i class="fas fa-times"></i>',
               label: game.i18n.localize('DL.DialogCancel'),
-              callback: () => {}
+              callback: () => {
+              }
             }
           },
           default: 'roll',
-          close: () => {}
+          close: () => {
+          }
         })
         d.render(true)
       } else {
@@ -742,394 +532,16 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  rollWeaponAttack (itemId, options = { event: null }) {
-    if (this.data.data.afflictions.dazed) {
-      ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
-    } else if (this.data.data.afflictions.defenseless) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (this.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
-    } else if (this.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (this.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else {
-      const item = this.getEmbeddedDocument('Item', itemId)
-      const attackAttribute = item.data.data.action?.attack
-      const characterbuffs = this.generateCharacterBuffs('ATTACK')
-
-      if (attackAttribute) {
-        const d = new Dialog({
-          title:
-            game.i18n.localize('DL.DialogAttackRoll') +
-            game.i18n.localize(item.name),
-          content:
-            '<div class="challengedialog"><b>' +
-            game.i18n.localize('DL.DialogAddBonesAndBanes') +
-            "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-            '</div><br/><div class="challengedialog"><b>' +
-            game.i18n.localize('DL.ModsAdd') +
-            "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-            '</b></div><br/>',
-          buttons: {
-            roll: {
-              icon: '<i class="fas fa-check"></i>',
-              label: game.i18n.localize('DL.DialogRoll'),
-              callback: (html) =>
-                this.rollAttack(
-                  item,
-                  html.find('[id="boonsbanes"]').val(),
-                  characterbuffs,
-                  html.find('[id="modifier"]').val()
-                )
-            },
-            cancel: {
-              icon: '<i class="fas fa-times"></i>',
-              label: game.i18n.localize('DL.DialogCancel'),
-              callback: () => {}
-            }
-          },
-          default: 'roll',
-          close: () => {}
-        })
-        d.render(true)
-      } else {
-        this.rollAttack(item, 0, characterbuffs, 0)
-      }
-    }
+  rollWeaponAttack(itemId, options = {event: null}) {
+    ActorRolls.rollWeaponAttack(this, itemId, options)
   }
 
   rollAttack(weapon, boonsbanes, buffs, modifier) {
-    const rollMode = game.settings.get('core', 'rollMode')
-    const target = this.getTarget()
-    let diceformular = '1d20'
-    let attackRoll = null
-
-    // Roll Against Target
-    const targetNumber = this.getTargetNumber(weapon)
-
-    // Add Attribute modifer to roll
-    const attackAttribute = weapon.data.data.action?.attack
-    const attribute = this.data.data?.attributes[attackAttribute.toLowerCase()]
-
-    if (attackAttribute) {
-      // Roll for Attack
-      if (attribute && attribute.modifier != 0) {
-        diceformular =
-          diceformular +
-          (attribute.modifier > 0
-            ? '+' + attribute.modifier
-            : attribute.modifier)
-      }
-
-      // Add weapon boonsbanes
-      if (weapon.data.data.action.boonsbanes != 0) {
-        boonsbanes =
-          parseInt(boonsbanes) + parseInt(weapon.data.data.action.boonsbanes)
-      }
-
-      // Add buffs from Talents
-      if (attackAttribute === 'Strength' && buffs.attackstrengthbonus != 0) {
-        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackstrengthbonus)
-      }
-      if (attackAttribute === 'Agility' && buffs.attackagilitybonus != 0) {
-        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackagilitybonus)
-      }
-      if (attackAttribute === 'Intellect' && buffs.attackintellectbonus != 0) {
-        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackintellectbonus)
-      }
-      if (attackAttribute === 'Will' && buffs.attackwillbonus != 0) {
-        boonsbanes = parseInt(boonsbanes) + parseInt(buffs.attackwillbonus)
-      }
-      if (
-        attackAttribute === 'Perception' &&
-        buffs.attackperceptionbonus != 0
-      ) {
-        boonsbanes =
-          parseInt(boonsbanes) + parseInt(buffs.attackperceptionbonus)
-      }
-
-      // If you wear a weapon and do not meet or exceed its requirements: -1 Bane
-      if (weapon.data.data.wear) {
-        if (
-          weapon.data.data.strengthmin != '' &&
-          parseInt(weapon.data.data.strengthmin) >
-            parseInt(this.data.data?.attributes?.strength?.value)
-        ) {
-          boonsbanes--
-        }
-      }
-
-      if (boonsbanes == undefined || isNaN(boonsbanes) || boonsbanes == 0) {
-        boonsbanes = 0
-      } else {
-        diceformular += '+' + boonsbanes + 'd6kh'
-      }
-
-      if (modifier != 0) {
-        diceformular = diceformular + '+' + parseInt(modifier)
-      }
-
-      attackRoll = new Roll(diceformular, {})
-      attackRoll.evaluate()
-    } else {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningWeaponAttackModifier')
-      )
-    }
-
-    // Format Dice
-    const diceData = FormatDice(attackRoll)
-
-    // Plus20 roll
-    let plus20 = false
-    if (targetNumber != undefined && attackRoll != null) {
-      plus20 = !!(
-        attackRoll.total >= 20 &&
-        attackRoll.total >= parseInt(targetNumber) + 5
-      )
-    }
-
-    let resultText =
-      attackRoll != null &&
-      targetNumber != undefined &&
-      attackRoll.total >= parseInt(targetNumber)
-        ? game.i18n.localize('DL.DiceResultSuccess')
-        : game.i18n.localize('DL.DiceResultFailure')
-    let diceTotal = attackRoll != null ? attackRoll.total : ''
-    if (
-      this.data.type === 'creature' &&
-      !game.settings.get('demonlord', 'attackShowAttack')
-    ) {
-      diceTotal = '?'
-      resultText = ''
-    }
-    if (['blindroll'].includes(rollMode)) {
-          diceTotal = '?'
-          resultText = ''
-    }
-    
-    const againstNumber =
-      (target != null && target.actor.data.type == 'character') ||
-      (game.settings.get('demonlord', 'attackShowDefense') &&
-        targetNumber != undefined)
-        ? targetNumber
-        : '?'
-
-    var templateData = {
-      actor: this,
-      item: {
-        data: weapon,
-        name: weapon.name
-      },
-      data: {
-        diceTotal: {
-          value: diceTotal
-        },
-        diceTotalGM: {
-          value: attackRoll != null ? attackRoll.total : ''
-        },
-        resultText: {
-          value: resultText
-        },
-        didHit: {
-          value: !!(
-            targetNumber == undefined ||
-            (attackRoll != null && attackRoll.total >= targetNumber)
-          )
-        },
-        attack: {
-          value: attackAttribute
-            ? game.i18n.localize(
-                CONFIG.DL.attributes[
-                  attackAttribute.toLowerCase()
-                ].toUpperCase()
-              )
-            : ''
-        },
-        against: {
-          value: weapon.data?.data?.action?.against
-            ? game.i18n.localize(
-                CONFIG.DL.attributes[
-                  weapon.data?.data?.action?.against.toLowerCase()
-                ].toUpperCase()
-              )
-            : ''
-        },
-        againstNumber: {
-          value: againstNumber
-        },
-        againstNumberGM: {
-          value: againstNumber == '?' ? targetNumber : againstNumber
-        },
-        damageFormular: {
-          value: weapon.data.data.action.damage + buffs.attackdamagebonus
-        },
-        damageType: {
-          value: weapon.data.data.action.damagetype
-        },
-        damageTypes: {
-          value: weapon.data.data.action.damagetypes
-        },
-        damageExtra20plusFormular: {
-          value:
-            buffs.attack20plusdamagebonus.charAt(0) == '+'
-              ? buffs.attack20plusdamagebonus.substr(1)
-              : buffs.attack20plusdamagebonus
-        },
-        description: {
-          value: weapon.data.data.description
-        },
-        targetname: {
-          value: target != null ? target.name : ''
-        },
-        effects: {
-          value: buffs.attackeffects
-        },
-        armorEffects: {
-          value: this.buildArmorEffects(!buffs.armorRequirementMeet)
-        },
-        afflictionEffects: {
-          value: this.buildAfflictionsEffects('ATTACK')
-        },
-        isCreature: {
-          value: this.data.type == 'creature'
-        },
-        isPlus20Roll: {
-          value: plus20
-        },
-        hasTarget: {
-          value: targetNumber != undefined
-        },
-        actionEffects: { value: this.buildActionEffects('ATTACK') },
-        ifBlindedRoll: ['blindroll'].includes(rollMode)
-      },
-      diceData
-    }
-
-    const chatData = {
-      user: game.user.id,
-      speaker: {
-        actor: this.id,
-        token: this.token,
-        alias: this.name
-      }
-    }
-
-    if (['gmroll', 'blindroll'].includes(rollMode)) {
-      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
-    }
-    if (rollMode === 'selfroll') chatData.whisper = [game.user.id]
-    if (rollMode === 'blindroll') chatData.blind = true
-
-    const template = 'systems/demonlord08/templates/chat/combat.html'
-    renderTemplate(template, templateData).then((content) => {
-      chatData.content = content
-
-      if (game.dice3d && attackRoll != null) {
-        if (
-          this.data.type === 'creature' &&
-          !game.settings.get('demonlord', 'attackShowAttack')
-        ) {
-          if (attackRoll != null) chatData.sound = CONFIG.sounds.dice
-          ChatMessage.create(chatData)
-        } else {
-          game.dice3d
-            .showForRoll(
-              attackRoll,
-              game.user,
-              true,
-              chatData.whisper,
-              chatData.blind
-            )
-            .then((displayed) => ChatMessage.create(chatData))
-        }
-      } else {
-        if (attackRoll != null) chatData.sound = CONFIG.sounds.dice
-        ChatMessage.create(chatData)
-      }
-    })
-    /*
-        } else {
-            ui.notifications.info(game.i18n.localize('DL.DialogWarningTargetNotSelected'));
-        }
-        */
+    ActorRolls.rollAttack(this, weapon, boonsbanes, buffs, modifier)
   }
 
-  rollTalent (itemId, options = { event: null }) {
-    if (this.data.data.afflictions.dazed) {
-      ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
-    } else if (this.data.data.afflictions.defenseless) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (this.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
-    } else if (this.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (this.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else {
-      const item = duplicate(this.items.get(itemId))
-      const uses = parseInt(item.data?.uses?.value)
-      const usesmax = parseInt(item.data?.uses?.max)
-
-      if ((uses == 0 && usesmax == 0) || uses != usesmax) {
-        if (item.data?.vs?.attribute) {
-          const d = new Dialog({
-            title:
-              game.i18n.localize('DL.TalentVSRoll') +
-              game.i18n.localize(item.name),
-            content:
-              '<div class="challengedialog"><b>' +
-              game.i18n.localize('DL.DialogAddBonesAndBanes') +
-              "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-              '</div><br/><div class="challengedialog"><b>' +
-              game.i18n.localize('DL.ModsAdd') +
-              "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-              '</b></div><br/>',
-            buttons: {
-              roll: {
-                icon: '<i class="fas fa-check"></i>',
-                label: game.i18n.localize('DL.DialogRoll'),
-                callback: (html) =>
-                  this.useTalent(
-                    item,
-                    html.find('[id="boonsbanes"]').val(),
-                    html.find('[id="modifier"]').val()
-                  )
-              },
-              cancel: {
-                icon: '<i class="fas fa-times"></i>',
-                label: game.i18n.localize('DL.DialogCancel'),
-                callback: () => {}
-              }
-            },
-            default: 'roll',
-            close: () => {}
-          })
-          d.render(true)
-        } else {
-          this.useTalent(item, null, 0)
-        }
-      } else {
-        ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
-      }
-    }
+  rollTalent(itemId, options = {event: null}) {
+    ActorRolls.rollTalent(this, itemId, options)
   }
 
   useTalent(talent, boonsbanes, modifier) {
@@ -1271,7 +683,7 @@ export class DemonlordActor extends Actor {
       diceTotal = '?'
       resultText = ''
     }
-    
+
     const againstNumber =
       (target != null && target.actor?.data.type == 'character') ||
       (game.settings.get('demonlord', 'attackShowDefense') &&
@@ -1306,19 +718,19 @@ export class DemonlordActor extends Actor {
         attack: {
           value: attackAttribute
             ? game.i18n.localize(
-                CONFIG.DL.attributes[
-                  attackAttribute.toLowerCase()
+              CONFIG.DL.attributes[
+                attackAttribute.toLowerCase()
                 ].toUpperCase()
-              )
+            )
             : ''
         },
         against: {
           value: talent.data?.vs?.against
             ? game.i18n.localize(
-                CONFIG.DL.attributes[
-                  talent.data?.vs?.against.toLowerCase()
+              CONFIG.DL.attributes[
+                talent.data?.vs?.against.toLowerCase()
                 ].toUpperCase()
-              )
+            )
             : ''
         },
         againstNumber: {
@@ -1428,79 +840,8 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  rollSpell (itemId, options = { event: null }) {
-    if (this.data.data.afflictions.dazed) {
-      ui.notifications.error(game.i18n.localize('DL.DialogWarningDazedFailer'))
-    } else if (this.data.data.afflictions.defenseless) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningDefenselessFailer')
-      )
-    } else if (this.data.data.afflictions.surprised) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningSurprisedFailer')
-      )
-    } else if (this.data.data.afflictions.stunned) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningStunnedFailer')
-      )
-    } else if (this.data.data.afflictions.unconscious) {
-      ui.notifications.error(
-        game.i18n.localize('DL.DialogWarningUnconsciousFailer')
-      )
-    } else {
-      const item = duplicate(this.items.get(itemId))
-      const attackAttribute = item.data?.action?.attack
-      const uses = parseInt(item.data?.castings?.value)
-      const usesmax = parseInt(item.data?.castings?.max)
-      const characterbuffs = this.generateCharacterBuffs('SPELL')
-
-      if ((uses == 0 && usesmax == 0) || uses != usesmax) {
-        if (attackAttribute) {
-          if (item.data.spelltype == game.i18n.localize('DL.SpellTypeAttack')) {
-            const d = new Dialog({
-              title:
-                game.i18n.localize('DL.DialogSpellRoll') +
-                game.i18n.localize(item.name),
-              content:
-                '<div class="challengedialog"><b>' +
-                game.i18n.localize('DL.DialogAddBonesAndBanes') +
-                "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-                '</div><br/><div class="challengedialog"><b>' +
-                game.i18n.localize('DL.ModsAdd') +
-                "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='text' value=0 data-dtype='Number'/>" +
-                '</b></div><br/>',
-              buttons: {
-                roll: {
-                  icon: '<i class="fas fa-check"></i>',
-                  label: game.i18n.localize('DL.DialogRoll'),
-                  callback: (html) =>
-                    this.useSpell(
-                      item,
-                      html.find('[id="boonsbanes"]').val(),
-                      characterbuffs,
-                      html.find('[id="modifier"]').val()
-                    )
-                },
-                cancel: {
-                  icon: '<i class="fas fa-times"></i>',
-                  label: game.i18n.localize('DL.DialogCancel'),
-                  callback: () => {}
-                }
-              },
-              default: 'roll',
-              close: () => {}
-            })
-            d.render(true)
-          } else {
-            this.useSpell(item, 0, characterbuffs, 0)
-          }
-        } else {
-          this.useSpell(item, 0, characterbuffs, 0)
-        }
-      } else {
-        ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
-      }
-    }
+  rollSpell(itemId, options = {event: null}) {
+    ActorRolls.rollSpell(this, itemId, options)
   }
 
   useSpell(spell, boonsbanes, buffs, modifier) {
@@ -1612,7 +953,7 @@ export class DemonlordActor extends Actor {
       } else {
         spell.data.castings.value = "0"
       }
-      Item.updateDocuments([spell], { parent: this })
+      Item.updateDocuments([spell], {parent: this})
 
       usesText =
         game.i18n.localize('DL.SpellCastingsUses') +
@@ -1673,19 +1014,19 @@ export class DemonlordActor extends Actor {
         attack: {
           value: attackAttribute
             ? game.i18n.localize(
-                CONFIG.DL.attributes[
-                  attackAttribute.toLowerCase()
+              CONFIG.DL.attributes[
+                attackAttribute.toLowerCase()
                 ].toUpperCase()
-              )
+            )
             : ''
         },
         against: {
           value: spell.data.action?.against
             ? game.i18n.localize(
-                CONFIG.DL.attributes[
-                  spell.data.action?.against.toLowerCase()
+              CONFIG.DL.attributes[
+                spell.data.action?.against.toLowerCase()
                 ].toUpperCase()
-              )
+            )
             : ''
         },
         againstNumber: {
@@ -1944,7 +1285,7 @@ export class DemonlordActor extends Actor {
     })
   }
 
-  showItemInfo (item) {
+  showItemInfo(item) {
     const uses = parseInt(item.data?.data?.enchantment?.uses?.value)
     const usesmax = parseInt(item.data?.data?.enchantment?.uses?.max)
 
@@ -1988,7 +1329,7 @@ export class DemonlordActor extends Actor {
     })
   }
 
-  getTarget () {
+  getTarget() {
     let selectedTarget = null
     game.user.targets.forEach(async (target) => {
       selectedTarget = target
@@ -1997,7 +1338,7 @@ export class DemonlordActor extends Actor {
     return selectedTarget
   }
 
-  getTargetNumber (item) {
+  getTargetNumber(item) {
     let tagetNumber
     game.user.targets.forEach(async (target) => {
       const targetActor = target.actor
@@ -2020,7 +1361,7 @@ export class DemonlordActor extends Actor {
     return tagetNumber
   }
 
-  getVSTargetNumber (talent) {
+  getVSTargetNumber(talent) {
     let tagetNumber
 
     game.user.targets.forEach(async (target) => {
@@ -2040,7 +1381,7 @@ export class DemonlordActor extends Actor {
     return tagetNumber
   }
 
-  generateCharacterBuffs (type) {
+  generateCharacterBuffs(type) {
     const characterbuffs = new CharacterBuff()
     characterbuffs.challengestrengthbonus = 0
     characterbuffs.challengeagilitybonus = 0
@@ -2267,7 +1608,7 @@ export class DemonlordActor extends Actor {
         if (
           armor.data.strengthmin != '' &&
           parseInt(armor.data.strengthmin) >
-            parseInt(this.data.data?.attributes?.strength?.value)
+          parseInt(this.data.data?.attributes?.strength?.value)
         ) {
           armorAttackbonus = -1
           characterbuffs.armorRequirementMeet = false
@@ -2435,7 +1776,7 @@ export class DemonlordActor extends Actor {
     return characterbuffs
   }
 
-  buildTalentEffects (talent, showTalentName, type) {
+  buildTalentEffects(talent, showTalentName, type) {
     let effects = ''
 
     if (showTalentName) {
@@ -2656,7 +1997,7 @@ export class DemonlordActor extends Actor {
     return effects
   }
 
-  buildArmorEffects (armorRequirementsNotMeet) {
+  buildArmorEffects(armorRequirementsNotMeet) {
     let effects
 
     if (armorRequirementsNotMeet) {
@@ -2669,7 +2010,7 @@ export class DemonlordActor extends Actor {
     return effects
   }
 
-  buildActionEffects (type) {
+  buildActionEffects(type) {
     let effects
     switch (type) {
       case 'ATTACK':
@@ -2699,7 +2040,7 @@ export class DemonlordActor extends Actor {
     return effects
   }
 
-  buildAfflictionsEffects (type) {
+  buildAfflictionsEffects(type) {
     let effects
 
     switch (type) {
@@ -2818,7 +2159,7 @@ export class DemonlordActor extends Actor {
     return effects
   }
 
-  async activateTalent (talent, setActive) {
+  async activateTalent(talent, setActive) {
     const uses = talent.data.uses?.value
     const usesmax = talent.data.uses?.max
 
@@ -2839,11 +2180,11 @@ export class DemonlordActor extends Actor {
         this.addCharacterBonuses(talent)
       }
 
-      await Item.updateDocuments([talent], { parent: this })
+      await Item.updateDocuments([talent], {parent: this})
     }
   }
 
-  async deactivateTalent (talent) {
+  async deactivateTalent(talent) {
     const item = this.getEmbeddedDocument('Item', talent.id)
     const that = this
     await item
@@ -2855,7 +2196,7 @@ export class DemonlordActor extends Actor {
       })
   }
 
-  async addCharacterBonuses (talent) {
+  async addCharacterBonuses(talent) {
     const healthbonus =
       talent.data.bonuses?.defenseactive && talent.data.bonuses?.health > 0
         ? parseInt(talent.data.bonuses?.health)
@@ -2883,7 +2224,7 @@ export class DemonlordActor extends Actor {
                 */
   }
 
-  async removeCharacterBonuses (talent) {
+  async removeCharacterBonuses(talent) {
     const healthbonus =
       talent.data.bonuses?.defenseactive && talent.data.bonuses?.health > 0
         ? parseInt(talent.data.bonuses?.health)
@@ -2914,7 +2255,7 @@ export class DemonlordActor extends Actor {
     })
   }
 
-  async addDamageToTarget (damage) {
+  async addDamageToTarget(damage) {
     game.user.targets.forEach(async (target) => {
       const targetActor = target.actor
       const currentDamage = parseInt(
@@ -2938,7 +2279,7 @@ export class DemonlordActor extends Actor {
     })
   }
 
-  async updateCharacterMods (modItem) {
+  async updateCharacterMods(modItem) {
     const mod = duplicate(modItem)
 
     let roundsleft = parseInt(mod.data.roundsleft)
@@ -2953,7 +2294,7 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  async restActor (token) {
+  async restActor(token) {
     // Talents
     const talents = this.getEmbeddedCollection('Item').filter(
       (e) => e.type === 'talent'
@@ -3000,7 +2341,7 @@ export class DemonlordActor extends Actor {
     })
   }
 
-  async applyHealing (token, fullHealingRate) {
+  async applyHealing(token, fullHealingRate) {
     if (token.actor.data.type === 'character') {
       if (token.data.actorData.data?.characteristics != undefined) {
         const tokenData = duplicate(token.data)
