@@ -85,11 +85,11 @@ export class ActorAfflictionsEffects {
   }
 
   static characteristicsBoonsBaneLocalizationMap = {
-    'strengthboonsbanesselect' : game.i18n.localize('DL.AttributeStrength'),
-    'agilityboonsbanesselect' : game.i18n.localize('DL.AttributeAgility'),
-    'intellectboonsbanesselect' : game.i18n.localize('DL.AttributeIntellect'),
-    'willboonsbanesselect' : game.i18n.localize('DL.AttributeWill'),
-    'perceptionboonsbanesselect' : game.i18n.localize('DL.AttributePerception'),
+    'strengthboonsbanesselect' : 'DL.AttributeStrength',
+    'agilityboonsbanesselect' : 'DL.AttributeAgility',
+    'intellectboonsbanesselect' : 'DL.AttributeIntellect',
+    'willboonsbanesselect' : 'DL.AttributeWill',
+    'perceptionboonsbanesselect' : 'DL.AttributePerception',
   }
 
   static buildTalentEffects = (actor, talent, showTalentName, type) => {
@@ -102,7 +102,7 @@ export class ActorAfflictionsEffects {
       for (const [attributeboonsbanesselect, localizationString]
         of ActorAfflictionsEffects.characteristicsBoonsBaneLocalizationMap) {
         effects += !action[attributeboonsbanesselect] ? "" :
-          `&nbsp;&nbsp;&nbsp;• ${talentBOBAString} (${localizationString}): ${action?.boonsbanes} <br>`
+          `&nbsp;&nbsp;&nbsp;• ${talentBOBAString} (${game.i18n.localize(localizationString)}): ${action?.boonsbanes} <br>`
       }}
 
     const toMessageEffect = (locale, value) =>
@@ -128,7 +128,7 @@ export class ActorAfflictionsEffects {
       for (const [attributeboonsbanesselect, localizationString]
         of ActorAfflictionsEffects.characteristicsBoonsBaneLocalizationMap) {
         effects += !challenge[attributeboonsbanesselect] ? "" :
-          `&nbsp;&nbsp;&nbsp;• ${talentBOBAString} (${localizationString}): ${challenge?.boonsbanes} <br>`
+          `&nbsp;&nbsp;&nbsp;• ${talentBOBAString} (${game.i18n.localize(localizationString)}): ${challenge?.boonsbanes} <br>`
       }}
 
     if (data?.vs?.boonsbanesactive && data?.vs?.boonsbanes)
