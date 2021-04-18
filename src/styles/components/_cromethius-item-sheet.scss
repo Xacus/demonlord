@@ -1,0 +1,78 @@
+.cromethius-item-content {
+  font-family: 'IM Fell English SC', serif;
+
+  .item-tab-header {
+    margin: 8px 0px 0px;
+    img {
+      width: 90%;
+      left: 5%;
+      border: none;
+      position: relative;
+    }
+    div {
+      margin-top: -12px;
+      font-size: 28px;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  .item-table {
+    margin: 16px 16px;
+    .row {
+      padding: 8px 0px;
+    }
+    select,
+    input {
+      height: 24px;
+      width: 100%;
+      appearance: none;
+      font-size: 16px;
+      font-weight: normal;
+      text-align: center;
+      text-align-last: center;
+      text-overflow: ellipsis;
+      white-space: normal;
+      padding: 0;
+      border-radius: 0px;
+      border: none;
+      border-bottom: 1px #8d3b3c solid !important;
+      background: rgba(111, 108, 102, 0.13) !important;
+      color: black !important;
+    }
+    select {
+      cursor: pointer;
+      font-family: 'IM Fell English SC', serif !important;
+    }
+    input {
+      height: 24px !important;
+      width: 100% !important;
+    }
+    .vs {
+      top: 20px;
+      position: relative;
+      font-size: 16px;
+    }
+    a.damage-delete {
+      margin-left: -37px;
+      margin-top: 6px;
+    }
+    label {
+      display: block;
+      width: 100%;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    /*
+    >div{
+      border: 1px solid black;
+    }
+    >div:nth-child(even) {
+      background: rgba(128, 128, 128, 0.13);
+    }
+    >div:nth-child(odd) {
+      background: rgba(172, 172, 172, 0.13);
+    }
+    */
+  }
+}
