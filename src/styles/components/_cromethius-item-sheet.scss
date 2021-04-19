@@ -17,7 +17,7 @@
 }
 .cromethius-item-content {
   font-family: 'IM Fell English SC', serif;
-  padding: 0px !important;
+  margin-bottom: 16px !important;
 
   .item-general {
     .row {
@@ -89,6 +89,7 @@
     .row {
       padding: 8px 0px;
     }
+    textarea,
     select,
     input {
       height: 24px;
@@ -114,6 +115,10 @@
     input {
       height: 24px !important;
       width: 100% !important;
+    }
+    textarea {
+      min-width: 100%;
+      max-width: 100%;
     }
     .vs {
       top: 20px;
