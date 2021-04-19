@@ -1,5 +1,72 @@
+.window-app .window-content {
+  background-size: cover !important;
+  background: url(../assets/ui/paper.jpg) repeat !important;
+  background-image: url(../assets/ui/paper.jpg) !important;
+  background-position-x: initial !important;
+  background-position-y: initial !important;
+  background-size: cover !important;
+  background-repeat-x: repeat !important;
+  background-repeat-y: repeat !important;
+  background-attachment: initial !important;
+  background-origin: initial !important;
+  background-clip: initial !important;
+  background-color: initial !important;
+}
+.cromethius-item-form .sheet-body {
+  height: 100% !important;
+}
 .cromethius-item-content {
   font-family: 'IM Fell English SC', serif;
+  padding: 0px !important;
+
+  .item-general {
+    .row {
+      padding: 8px 0px;
+      margin: 0;
+      height: 150px;
+    }
+
+    input[name='name'] {
+      color: black;
+      font-size: 24px;
+      font-weight: bold;
+      height: 28px !important;
+      width: 100% !important;
+    }
+    div.template-type {
+      position: relative;
+      left: 0px;
+      top: 0px;
+      color: #b5b5b5;
+      font-size: 16px;
+      text-transform: capitalize;
+      text-align: center;
+    }
+    .item-banner {
+      // must be set in the html element for some reason
+      // background: url(systems/demonlord08/assets/ui/sidebar_creature.png);
+      background-size: cover !important;
+      margin-top: -10px;
+      background-position: right 0 bottom 40% !important;
+      padding-top: 10px;
+    }
+    .editor-content {
+      font-size: 15px;
+      padding-top: 4px;
+    }
+    .tox-editor-header {
+      //display: none !important; // FIXME: Here i removed the editor controls
+    }
+    .tox-edit-area {
+      background: #b0ab9f;
+      height: 85%;
+    }
+  }
+
+  .tab,
+  .sheet-content {
+    padding: 0 !important;
+  }
 
   .item-tab-header {
     margin: 8px 0px 0px;
@@ -18,7 +85,7 @@
   }
 
   .item-table {
-    margin: 16px 16px;
+    margin: 4px 16px;
     .row {
       padding: 8px 0px;
     }
@@ -52,6 +119,8 @@
       top: 20px;
       position: relative;
       font-size: 16px;
+      width: 0;
+      left: -6px;
     }
     a.damage-delete {
       margin-left: -37px;

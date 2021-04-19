@@ -1,4 +1,5 @@
-<form class="{{cssClass}}" autocomplete="off">
+<form class="{{cssClass}} cromethius-item-form" autocomplete="off">
+  <!--
   <header class="sheet-header itemsheet-header">
     <img
       class="weapon-img"
@@ -18,10 +19,10 @@
     </div>
     <div class="template-type">{{item.type}}</div>
   </header>
-
+  -->
   {{!-- Sheet Tab Navigation --}}
 
-  <nav class="sheet-tabs tabs" data-group="primary" style="visibility:hidden">
+  <nav class="sheet-tabs tabs" data-group="primary" style="display:none">
     <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
     <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
   </nav>
@@ -30,8 +31,26 @@
   <section class="sheet-body">
     <section class="sheet-content cromethius-item-content">
 
+
       {{!-- Attributes Tab --}}
       <div class="tab weapons" data-group="primary" data-tab="attributes">
+
+        {{!-- General (Icon, Name, Description, Type) --}}
+        <div class="item-general">
+          <div class="row">
+            <div class="col-xs-2 item-banner"
+                 style="background: url(systems/demonlord08/assets/ui/sidebar_creature.png)">
+              <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+              <div class="template-type">{{item.type}}</div>
+            </div>
+            <div class="col-xs-10">
+              <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'DL.WeaponName'}}"/>
+              {{editor content=data.description target="data.description"
+              button=true owner=owner editable=editable}}
+            </div>
+          </div>
+        </div>
+
         <div class="item-tab-header">
           <img src="systems/demonlord08/assets/ui/text_divider.png"/>
           <div>{{localize "DL.TabsAttributes"}}</div>
@@ -64,9 +83,7 @@
                 {{/select}}
               </select>
             </div>
-            <div class="col-xs-1">
-              <div class="vs">vs</div>
-            </div>
+            <div class="vs">vs</div>
             <div class="col-xs-4">
               <label>{{localize "DL.WeaponDefenseModifier"}}</label>
               <select name="data.action.against" data-dtype="String">
@@ -93,7 +110,7 @@
                 {{/select}}
               </select>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-4">
               <label>{{localize "DL.WeaponBoonsBanes"}}</label>
               <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}"/>
             </div>
@@ -180,7 +197,6 @@
             </div>
           </div>
         </div>
-
 
 
         <div class="gridrow">
@@ -272,6 +288,7 @@
           </div>
         </div>
       </div>
+      <!--
       {{!-- Description Tab --}}
       <div class="tab" data-group="primary" data-tab="description">
         <div class="descriptionblock">
@@ -279,6 +296,7 @@
           button=true owner=owner editable=editable}}
         </div>
       </div>
+      -->
     </section>
   </section>
 </form>
