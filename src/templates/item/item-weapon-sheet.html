@@ -136,11 +136,11 @@
             </div>
 
             {{#each data.action.damagetypes as |damagetype id|}}
-            <div class="col-xs-4">
+            <div class="col-xs-4" style="margin-top: 2px">
               <input class="damagevalue" type="text" name="altdamage"
                      value="{{damagetype.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}"/>
             </div>
-            <div class="col-xs-8">
+            <div class="col-xs-8" style="margin-top: 2px">
               <input class="damagetype" type="text" name="altdamagetype"
                      value="{{damagetype.damagetype}}" placeholder="{{localize 'DL.DamageType'}}"/>
             </div>
@@ -200,7 +200,7 @@
 
 
         {{!-- Enchantment --}}
-        <div class="item-tab-header" style="margin-top:48px">
+        <div class="item-tab-header" style="margin-top:16px">
           <img src="systems/demonlord08/assets/ui/text_divider.png"/>
           <div>{{localize "DL.ItemEnchantment"}}</div>
         </div>

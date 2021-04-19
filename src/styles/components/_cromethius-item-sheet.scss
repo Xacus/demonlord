@@ -1,4 +1,7 @@
 .window-app .window-content {
+}
+.cromethius-item-form .sheet-body {
+  height: 100% !important;
   background-size: cover !important;
   background: url(../assets/ui/paper.jpg) repeat !important;
   background-image: url(../assets/ui/paper.jpg) !important;
@@ -12,18 +15,16 @@
   background-clip: initial !important;
   background-color: initial !important;
 }
-.cromethius-item-form .sheet-body {
-  height: 100% !important;
-}
 .cromethius-item-content {
   font-family: 'IM Fell English SC', serif;
   margin-bottom: 16px !important;
+  padding-top: 0px !important;
 
   .item-general {
     .row {
       padding: 8px 0px;
       margin: 0;
-      height: 150px;
+      height: 106px;
     }
 
     input[name='name'] {
@@ -49,13 +50,14 @@
       margin-top: -10px;
       background-position: right 0 bottom 40% !important;
       padding-top: 10px;
+      height: 120px;
     }
     .editor-content {
       font-size: 15px;
       padding-top: 4px;
     }
     .tox-editor-header {
-      //display: none !important; // FIXME: Here i removed the editor controls
+      display: none !important; // FIXME: Here i removed the editor controls
     }
     .tox-edit-area {
       background: #b0ab9f;
@@ -65,27 +67,28 @@
 
   .tab,
   .sheet-content {
-    padding: 0 !important;
+    padding-top: 0 !important;
   }
 
   .item-tab-header {
-    margin: 8px 0px 0px;
+    margin: 0px 0px 0px;
+    height: 36px;
     img {
-      width: 90%;
-      left: 5%;
+      width: 60%;
+      left: 20%;
       border: none;
       position: relative;
     }
     div {
       margin-top: -12px;
-      font-size: 28px;
+      font-size: 26px;
       text-align: center;
       font-weight: bold;
     }
   }
 
   .item-table {
-    margin: 4px 16px;
+    margin: 0px 16px;
     .row {
       padding: 8px 0px;
     }
@@ -107,6 +110,7 @@
       border-bottom: 1px #8d3b3c solid !important;
       background: rgba(111, 108, 102, 0.13) !important;
       color: black !important;
+      margin-top: 0px !important;
     }
     select {
       cursor: pointer;
