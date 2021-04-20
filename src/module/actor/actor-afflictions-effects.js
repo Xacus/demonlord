@@ -3,23 +3,22 @@ export class ActorAfflictionsEffects {
   /**
    * Map of <afflictionName> : <localizationWarningMessage>
    */
-  static afflictionsWarningMessagesMap = {
-    "blinded": "DL.DialogWarningBlindedChallengeFailer",
-    "dazed": "DL.DialogWarningDazedFailer",
-    "defenseless": "DL.DialogWarningDefenselessFailer",
-    "stunned": "DL.DialogWarningStunnedFailer",
-    "surprised": "DL.DialogWarningSurprisedFailer",
-    "unconscious": "DL.DialogWarningUnconsciousFailer"
-  }
+  static afflictionsWarningMessagesMap = new Map([
+    ['blinded', 'DL.DialogWarningBlindedChallengeFailer'],
+    ['dazed', 'DL.DialogWarningDazedFailer'],
+    ['defenseless', 'DL.DialogWarningDefenselessFailer'],
+    ['stunned', 'DL.DialogWarningStunnedFailer'],
+    ['surprised', 'DL.DialogWarningSurprisedFailer'],
+    ['unconscious', 'DL.DialogWarningUnconsciousFailer']
+  ])
 
-  /**
+  /**s
    * Checks if an actor is afflicted. Return true and shows an error message if one of the actor afflictions is in
    * blockingAfflictionsList
    * @param actor The actor to check
    * @param blockingAfflictionsList: List[string], the afflictions to check. Example ['stunned', 'dazed']
    */
   static checkRollBlockingAfflictions(actor, blockingAfflictionsList) {
-
     for (let affliction of blockingAfflictionsList) {
       let isAfflicted = actor.data.data.afflictions[affliction]
       if (isAfflicted) {
@@ -84,13 +83,13 @@ export class ActorAfflictionsEffects {
     return effectsString
   }
 
-  static characteristicsBoonsBaneLocalizationMap = {
-    'strengthboonsbanesselect' : 'DL.AttributeStrength',
-    'agilityboonsbanesselect' : 'DL.AttributeAgility',
-    'intellectboonsbanesselect' : 'DL.AttributeIntellect',
-    'willboonsbanesselect' : 'DL.AttributeWill',
-    'perceptionboonsbanesselect' : 'DL.AttributePerception',
-  }
+  static characteristicsBoonsBaneLocalizationMap = new Map([
+    ['strengthboonsbanesselect', 'DL.AttributeStrength'],
+    ['agilityboonsbanesselect', 'DL.AttributeAgility'],
+    ['intellectboonsbanesselect', 'DL.AttributeIntellect'],
+    ['willboonsbanesselect', 'DL.AttributeWill'],
+    ['perceptionboonsbanesselect', 'DL.AttributePerception']
+  ])
 
   static buildTalentEffects = (actor, talent, showTalentName, type) => {
     let effects = showTalentName ? `${talent.name}:<br>` : ""

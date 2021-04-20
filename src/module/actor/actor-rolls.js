@@ -38,6 +38,7 @@ export class ActorRolls {
   static rollAttribute = (actor, attribute, boonsbanes, modifier) => {
     const rollMode = game.settings.get('core', 'rollMode')
     const buffs = actor.generateCharacterBuffs('')
+    console.log(buffs)
     let attributeName = capitalize(attribute.label)
     if (!attribute.label && isNaN(attributeName)) {
       attributeName = capitalize(attribute)
@@ -361,7 +362,7 @@ export class ActorRolls {
                 corruptionRoll.total <
                 actor.data.data.characteristics.corruption
               ) {
-                ;(async () => {
+                ; (async () => {
                   const compRollTabels = await game.packs
                     .get('demonlord.sotdl roll tabels')
                     .getContent()
