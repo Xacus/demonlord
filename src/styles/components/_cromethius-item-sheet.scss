@@ -128,6 +128,25 @@
       height: 24px !important;
       width: 100% !important;
     }
+    input[type='checkbox'] {
+      width: 24px !important;
+      margin: 0px 42%;
+      border: 1px solid #8d3b3c !important;
+      border-radius: 13px;
+    }
+    input[type='checkbox']:checked {
+      border: 1px solid #8d3b3c !important;
+      -webkit-filter: none !important;
+      filter: none !important;
+      box-shadow: inset 0 0 0 6px #afaba0;
+      background: #8d3b3c !important;
+      // background: url(../assets/ui/icons/pentragram.png) !important;
+      // background: url(../assets/ui/icons/logo.png) !important;
+      // background-position: center;
+      // background-size: 40px !important;
+      // background-position-x: -9px !important;
+      // background-position-y: -9px !important;
+    }
     textarea {
       min-width: 100%;
       max-width: 100%;
