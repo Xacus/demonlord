@@ -13,7 +13,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord2', 'sheet', 'item'],
-      width: 520,
+      width: 600,
       height: 520,
       tabs: [
         {

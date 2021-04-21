@@ -24,7 +24,7 @@
     .row {
       padding: 8px 0px;
       margin: 0;
-      height: 106px;
+      min-height: 106px;
     }
 
     input[name='name'] {
@@ -52,16 +52,24 @@
       padding-top: 10px;
       height: 120px;
     }
+    .description-label {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .tox-tinymce {
+      min-height: 204px;
+      padding-bottom: 20px;
+    }
     .editor-content {
       font-size: 15px;
       padding-top: 4px;
     }
     .tox-editor-header {
-      display: none !important; // FIXME: Here i removed the editor controls
+      //display: none !important; // FIXME: Here i removed the editor controls
     }
     .tox-edit-area {
       background: #b0ab9f;
-      height: 85%;
+      height: 100%;
     }
   }
 
