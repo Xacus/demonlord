@@ -321,7 +321,7 @@
   "DL.DialogTalentApplyDoubleDamage": "Aplicar dobro de dano ao token selecionado",
   "DL.DialogTalentApplyHalfDamage": "Aplicar metade de dano ao token selecionado",
   "DL.DialogWarningTargetNotSelected": "Alvo não selecionado",
-  "DL.DialogWarningActorsNotSelected": "Personagem(s) não selecionado(s)",
+  "DL.DialogWarningActorsNotSelected": "Ator(es) não selecionado(s)",
   "DL.DialogWarningDazedFailer": "Você está Pasmo e não pode usar ações.",
   "DL.DialogWarningDefenselessFailer": "Você está Indefeso e não pode usar ações e jogadas de desafio que usam atributos resultam em falhas.",
   "DL.DialogWarningBlindedChallengeFailer": "Você está Cego e jogadas de desafio de Percepção resultam em falhas.",
@@ -559,11 +559,11 @@
   "DL.PathsLevelDeleteDialogDeleteLevel": "Excluir Nível",
   "DL.PathsLevelDeleteDialogDeleteLevelText": "Tem certeza que deseja excluir o nível?",
   "DL.PathsDialogTransferTalent": "Transferir Talento",
-  "DL.PathsDialogTransferTalentText": "Tem certeza que quer transferir o Talento para o Personagem?",
+  "DL.PathsDialogTransferTalentText": "Tem certeza que quer transferir o Talento para o Ator?",
   "DL.PathsDialogTransferTalents": "Transferir Talentos",
-  "DL.PathsDialogTransferTalentsText": "Tem certeza que quer transferir todos os Talentos para o Personagem?",
+  "DL.PathsDialogTransferTalentsText": "Tem certeza que quer transferir todos os Talentos para o Ator?",
   "DL.PathsDialogTransferSpell": "Transferir Magia",
-  "DL.PathsDialogTransferSpellText": "Tem certeza que quer transferir a Magia para o Personagem?",
+  "DL.PathsDialogTransferSpellText": "Tem certeza que quer transferir a Magia para o Ator?",
   "DL.PathsTransfer": "Clique nos itens para transferir",
   "DL.PathsTraitTransfers": "Transferir todas as Propriedades",
   "DL.PathsTalentTransfers": "Transferir todos os Talentos",
@@ -601,6 +601,6 @@
   "DL.AttackEdit": "Editar ataque",
   "DL.AttackDelete": "Excluir ataque",
   "DL.AttackClone": "Clonar ataque",
-  "DL.ActorMods": "Mods de Personagem",
-  "DL.ActorModfiers": "Modificadores de Personagem"
+  "DL.ActorMods": "Mods de Ator",
+  "DL.ActorModfiers": "Modificadores de Ator"
 }
