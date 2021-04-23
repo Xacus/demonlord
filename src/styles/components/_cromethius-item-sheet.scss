@@ -109,6 +109,13 @@
       padding-bottom: 20px;
     }
 
+    .editor {
+      height: 80% !important;
+      padding-left: 8px !important;
+      border-left: 2px solid #333333;
+      border-bottom-left-radius: 8px;
+      border-top-left-radius: 2px;
+    }
     .editor-content {
       font-size: 15px;
       padding-top: 4px;

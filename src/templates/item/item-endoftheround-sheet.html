@@ -1,17 +1,27 @@
-<form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header itemsheet-header">
-        <div class="header-fields">
-            <input name="name" type="text" value="{{item.name}}" placeholder="Name" />
-        </div>
-        <div class="template-type">{{item.type}}</div>
-    </header>
+<form class="{{cssClass}} cromethius-item-form" autocomplete="off">
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <section class="sheet-content cromethius-item-content">
+      {{!-- General (Icon, Name, Description, Type) --}}
+      <div class="item-general">
+        <div class="row">
+          <div class="col-xs-2 item-banner"
+               style="background: url(systems/demonlord08/assets/ui/sidebar_creature.png)">
+            <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+            <div class="template-type">{{item.type}}</div>
+          </div>
+          <div class="col-xs-10">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Ammo Name"/>
+            {{#unless data.description}}
+            <label class="description-label">{{localize 'DL.TabsDescription'}}</label>
+            {{/unless}}
+            {{editor content=data.description target="data.description"
+            button=true owner=owner editable=editable
+            }}
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
-        <section class="sheet-content">
-            <div class="descriptionblock">
-                {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
-            </div>
-        </section>
+          </div>
+        </div>
+      </div>
     </section>
+  </section>
 </form>
