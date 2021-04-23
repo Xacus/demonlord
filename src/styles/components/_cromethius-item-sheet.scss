@@ -67,6 +67,11 @@
       padding: 8px 0px;
       margin: 0;
       min-height: 106px;
+
+      .col-xs-10 {
+        margin-bottom: 26px;
+        min-height: 86px;
+      }
     }
 
     input[name='name'] {
@@ -105,11 +110,11 @@
     }
 
     .tox-tinymce {
-      min-height: 204px;
-      padding-bottom: 20px;
+      min-height: 200px;
     }
 
     .editor {
+      min-height: 40% !important;
       height: 80% !important;
       padding-left: 8px !important;
       border-left: 2px solid #333333;
@@ -274,12 +279,16 @@
         width: auto;
         margin-left: 8px;
       }
+      &.fix label {
+        vertical-align: super;
+      }
 
       input {
         display: inline-block;
         font-size: 18px;
         /* font-weight: 600; */
         border: 1px solid #333333 !important;
+        margin: 0 !important;
       }
 
       input[type='text'],

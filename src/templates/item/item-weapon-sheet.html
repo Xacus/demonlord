@@ -45,9 +45,7 @@
             </div>
             <div class="col-xs-10">
               <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'DL.WeaponName'}}"/>
-              {{#unless data.description}}
               <label class="description-label">{{localize 'DL.TabsDescription'}}</label>
-              {{/unless}}
               {{editor content=data.description target="data.description"
               button=true owner=owner editable=editable}}
             </div>
