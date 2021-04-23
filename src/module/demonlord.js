@@ -112,6 +112,8 @@ Hooks.once('init', async function () {
 
   Handlebars.registerHelper('json', JSON.stringify)
 
+  Handlebars.registerHelper('readonly', (val) => val ? 'readonly' : '')
+  Handlebars.registerHelper('notreadonly', (val) => val ? '' : 'readonly')
   preloadHandlebarsTemplates()
 })
 

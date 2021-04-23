@@ -1,7 +1,8 @@
 .window-app .window-content {
 }
+
 .cromethius-item-form .sheet-body {
-  height: 100% !important;
+  min-height: 100% !important;
   background-size: cover !important;
   background: url(../assets/ui/paper.jpg) repeat !important;
   background-image: url(../assets/ui/paper.jpg) !important;
@@ -14,7 +15,48 @@
   background-origin: initial !important;
   background-clip: initial !important;
   background-color: initial !important;
+
+  .tab.paths {
+    margin-bottom: 0;
+  }
+
+  .togglegm {
+    .slider.round {
+      border: 1px solid #ffffff7d;
+      //background: #00000069;
+      .on,
+      .off {
+        color: white;
+      }
+    }
+
+    .switchBig input + .slider {
+      background: #00000069;
+    }
+
+    .switchBig input + .slider:before {
+      -webkit-transform: translate(0px, 1px);
+      -ms-transform: translate(0px, 1px);
+      transform: translate(0px, 1px);
+      background: #ffffff7d;
+    }
+
+    .switchBig input:checked + .slider:before {
+      -webkit-transform: translate(39px, 1px);
+      -ms-transform: translate(39px, 1px);
+      transform: translate(39px, 1px);
+    }
+  }
+
+  .tagcleantooltip {
+    background-color: #b0ab9f;
+    border: 1px solid #343434;
+  }
+  .tagcleantooltip:hover {
+    background-color: #8d3b3c;
+  }
 }
+
 .cromethius-item-content {
   font-family: 'IM Fell English SC', serif;
   margin-bottom: 16px !important;
@@ -34,6 +76,7 @@
       height: 28px !important;
       width: 100% !important;
     }
+
     div.template-type {
       position: relative;
       left: 0px;
@@ -43,6 +86,7 @@
       text-transform: capitalize;
       text-align: center;
     }
+
     .item-banner {
       // must be set in the html element for some reason
       // background: url(systems/demonlord08/assets/ui/sidebar_creature.png);
@@ -54,24 +98,35 @@
       min-width: 90px;
       max-width: 90px;
     }
+
     .description-label {
       font-size: 16px;
       font-weight: bold;
     }
+
     .tox-tinymce {
       min-height: 204px;
       padding-bottom: 20px;
     }
+
     .editor-content {
       font-size: 15px;
       padding-top: 4px;
     }
+
     .tox-editor-header {
       //display: none !important; // FIXME: Here i removed the editor controls
     }
+
     .tox-edit-area {
       background: #b0ab9f;
       height: 100%;
+    }
+
+    .togglegm {
+      position: relative;
+      top: 0;
+      right: 0;
     }
   }
 
@@ -81,14 +136,17 @@
   }
 
   .item-tab-header {
-    margin: 0px 0px 0px;
-    height: 42px;
+    margin: 0 0 8px 0;
+    //height: 42px;
+
     img {
       width: 440px;
       border: none;
-      margin: auto;
       display: block;
+      margin: auto;
+      margin-bottom: 6px;
     }
+
     div {
       margin-top: -8px;
       font-size: 26px;
@@ -99,9 +157,12 @@
 
   .item-table {
     margin: 0px 16px;
+    font-size: 15px;
+
     .row {
       padding: 8px 0px;
     }
+
     textarea,
     select,
     input {
@@ -122,20 +183,41 @@
       color: black !important;
       margin-top: 0px !important;
     }
+
     select {
       cursor: pointer;
       font-family: 'IM Fell English SC', serif !important;
     }
+
     input {
       height: 24px !important;
       width: 100% !important;
     }
+
+    input:hover,
+    input:focus {
+      padding-left: 0 !important;
+    }
+
+    input[readonly] {
+      cursor: default;
+    }
+
+    input[type='radio'],
     input[type='checkbox'] {
       width: 24px !important;
-      margin: 0px 42%;
+      height: 24px !important;
+      cursor: pointer;
       border: 1px solid #8d3b3c !important;
       border-radius: 13px;
     }
+    .single-checkbox {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    input[type='radio']:checked,
     input[type='checkbox']:checked {
       border: 1px solid #8d3b3c !important;
       -webkit-filter: none !important;
@@ -149,10 +231,16 @@
       // background-position-x: -9px !important;
       // background-position-y: -9px !important;
     }
+
     textarea {
       min-width: 100%;
       max-width: 100%;
+      font-family: inherit;
+      text-align: left;
+      text-align-last: left;
+      padding: 4px 8px;
     }
+
     .vs {
       top: 20px;
       position: relative;
@@ -160,15 +248,69 @@
       width: 0;
       left: -6px;
     }
+
     a.damage-delete {
       margin-left: -37px;
       margin-top: 6px;
     }
+
     label {
       display: block;
       width: 100%;
       font-size: 16px;
       font-weight: bold;
+    }
+
+    .inline-input {
+      label {
+        display: inline-block;
+        width: auto;
+        margin-left: 8px;
+      }
+
+      input {
+        display: inline-block;
+        font-size: 18px;
+        /* font-weight: 600; */
+        border: 1px solid #333333 !important;
+      }
+
+      input[type='text'],
+      input[type='number'] {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 19px !important;
+      }
+
+      input[type='radio'] {
+        margin: 0;
+        top: 0;
+      }
+    }
+
+    .drop-area {
+      position: relative;
+      margin-top: 2px;
+      padding: 10px;
+      border: 4px dashed rgba(0, 0, 0, 0.25);
+      text-align: center;
+      width: 100%;
+      min-height: 50px;
+    }
+    a.item-control.transfer-talents-alt {
+      border: 1px solid #8d3b3c;
+      padding: 4px 6px;
+      color: #8d3b3c;
+      border-radius: 4px;
+      font-weight: bold;
+      background: #aea99e;
+    }
+    a.item-control.transfer-talents {
+      border: 1px solid #343434;
+      padding: 4px 6px;
+      color: white;
+      border-radius: 4px;
+      background-color: #8d3b3c;
     }
     /*
     >div{
