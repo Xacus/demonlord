@@ -99,7 +99,7 @@
       margin-top: -10px;
       background-position: right 0 bottom 40% !important;
       padding-top: 10px;
-      height: 120px;
+      height: 155px;
       min-width: 90px;
       max-width: 90px;
     }
@@ -165,6 +165,28 @@
       text-align: center;
       font-weight: bold;
     }
+    input {
+      color: #191813 !important;
+      font-weight: bold;
+      width: auto !important;
+      height: auto !important;
+      padding-left: 2px;
+      max-width: 30px;
+      border: none;
+      background: #aea99ba3;
+      border-bottom: 1px solid #8d3b3c;
+      border-radius: 0;
+      &:hover,
+      &:focus {
+        padding-left: 2px !important;
+        color: #191813 !important;
+        height: auto !important;
+        box-shadow: 0 0 5px #8d3b3c;
+      }
+    }
+    span {
+      display: inline-block !important;
+    }
   }
 
   .item-table {
@@ -173,6 +195,10 @@
 
     .row {
       padding: 8px 0px;
+
+      span {
+        display: inline-block !important;
+      }
     }
 
     textarea,
@@ -199,6 +225,9 @@
     select {
       cursor: pointer;
       font-family: 'IM Fell English SC', serif !important;
+      &:hover {
+        //box-shadow: 0 0 5px #8d3b3c !important;
+      }
     }
 
     input {
@@ -209,6 +238,7 @@
     input:hover,
     input:focus {
       padding-left: 0 !important;
+      //box-shadow: 0 0 5px #8d3b3c !important;
     }
 
     input[readonly] {
