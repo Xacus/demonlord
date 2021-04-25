@@ -595,7 +595,7 @@ export class DemonlordActor extends Actor {
           value: talent.data?.damage,
         },
         pureDamageType: {
-          value: talent.data?.action.damagetype,
+          value: talent.data?.damagetype,
         },
         afflictionEffects: {
           value: this.buildAfflictionsEffects('SPELL'),
