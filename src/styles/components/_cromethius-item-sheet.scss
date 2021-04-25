@@ -52,6 +52,7 @@
     background-color: #b0ab9f;
     border: 1px solid #343434;
   }
+
   .tagcleantooltip:hover {
     background-color: #8d3b3c;
   }
@@ -121,6 +122,7 @@
       border-bottom-left-radius: 8px;
       border-top-left-radius: 2px;
     }
+
     .editor-content {
       font-size: 15px;
       padding-top: 4px;
@@ -165,6 +167,7 @@
       text-align: center;
       font-weight: bold;
     }
+
     input {
       color: #191813 !important;
       font-weight: bold;
@@ -176,6 +179,7 @@
       background: #aea99ba3;
       border-bottom: 1px solid #8d3b3c;
       border-radius: 0;
+
       &:hover,
       &:focus {
         padding-left: 2px !important;
@@ -184,14 +188,32 @@
         box-shadow: 0 0 5px #8d3b3c;
       }
     }
+
     span {
       display: inline-block !important;
     }
   }
 
+  .item-tab-sub-header {
+    margin-left: 16px;
+    font-weight: bold;
+    font-size: 19px;
+  }
+
   .item-table {
     margin: 0px 16px;
     font-size: 15px;
+
+    &.indent {
+      padding-left: 8px;
+      padding-right: 8px;
+      margin-bottom: 10px;
+      border-left: 2px solid #404040;
+      border-bottom-left-radius: 8px;
+      border-top-left-radius: 2px;
+      border-bottom: 1px solid #5f5f5f;
+      border-bottom-right-radius: 4px;
+    }
 
     .row {
       padding: 8px 0px;
@@ -214,17 +236,23 @@
       text-overflow: ellipsis;
       white-space: normal;
       padding: 0;
-      border-radius: 0px;
+      border-radius: 3px;
       border: none;
-      border-bottom: 1px #8d3b3c solid !important;
-      background: rgba(111, 108, 102, 0.13) !important;
+      border-bottom: 1px rgba(#8d3b3c, 0.5) solid !important;
+      //border-bottom: 1px #4f4f4f solid !important;
+      background: rgb(111 108 102 / 8%) !important;
       color: black !important;
       margin-top: 0px !important;
+
+      &:placeholder-shown {
+        border-bottom: 1px #7a797159 solid !important;
+      }
     }
 
     select {
       cursor: pointer;
       font-family: 'IM Fell English SC', serif !important;
+
       &:hover {
         //box-shadow: 0 0 5px #8d3b3c !important;
       }
@@ -250,9 +278,13 @@
       width: 24px !important;
       height: 24px !important;
       cursor: pointer;
-      border: 1px solid #8d3b3c !important;
+      //border: 1px solid #8d3b3c !important;
+      border: 1px solid #404040 !important;
       border-radius: 13px;
+      margin: auto;
+      display: block;
     }
+
     .single-checkbox {
       margin-left: auto;
       margin-right: auto;
@@ -309,6 +341,7 @@
         width: auto;
         margin-left: 8px;
       }
+
       &.fix label {
         vertical-align: super;
       }
@@ -343,6 +376,7 @@
       width: 100%;
       min-height: 50px;
     }
+
     a.item-control.transfer-talents-alt {
       border: 1px solid #8d3b3c;
       padding: 4px 6px;
@@ -351,6 +385,7 @@
       font-weight: bold;
       background: #aea99e;
     }
+
     a.item-control.transfer-talents {
       border: 1px solid #343434;
       padding: 4px 6px;
@@ -358,6 +393,11 @@
       border-radius: 4px;
       background-color: #8d3b3c;
     }
+
+    .center {
+      text-align: center;
+    }
+
     /*
     >div{
       border: 1px solid black;
