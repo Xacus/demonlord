@@ -94,7 +94,7 @@ export class ActorAfflictionsEffects {
   static buildTalentEffects = (actor, talent, showTalentName, type) => {
     let effects = showTalentName ? `${talent.name}:<br>` : ""
     const talentBOBAString = game.i18n.localize('DL.TalentAttackBoonsBanes')
-    const action = talent.data?.action
+    const action = talent.data.data?.action
 
     // Boons and Banes
     if (action?.boonsbanesactive && action?.boonsbanes) {
@@ -112,12 +112,7 @@ export class ActorAfflictionsEffects {
       effects += toMessageEffect('DL.TalentExtraDamage', action.damage)
     if (action?.plus20active && action?.plus20)
       effects += toMessageEffect('DL.TalentExtraDamage20plus', action.plus20)
-    // If talent, return
-    if (type !== 'TALENT') {
-      return effects === `${talent.name}:<br>` ? "" : effects
-    }
-
-
+    
     //// Below, type === 'TALENT'
     const challenge = talent.data?.challenge
     const data = talent.data
