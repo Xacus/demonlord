@@ -1411,7 +1411,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
   }
 
   async clearAfflictions() {
-    await Actor.updateDocuments({
+    await Actor.update({
       'data.afflictions.asleep': false,
       'data.afflictions.blinded': false,
       'data.afflictions.charmed': false,
