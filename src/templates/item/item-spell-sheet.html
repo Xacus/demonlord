@@ -1,258 +1,276 @@
-<form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header itemsheet-header">
-        <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-        <div class="header-fields">
-            <div class="gridrow">
-                <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'DL.SpellName'}}" />
-            </div>
+<form class="{{cssClass}} cromethius-item-form" autocomplete="off">
+  {{!-- Sheet Body --}}
+  <section class="sheet-body" style="overflow: scroll">
+    <section class="sheet-content cromethius-item-content">
+      {{!-- General (Icon, Name, Description, Type) --}}
+      <div class="item-general">
+        <div class="row">
+          <div class="col-xs-2 item-banner"
+               style="background: url(systems/demonlord08/assets/ui/sidebar_creature.png)">
+            <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+            <div class="template-type">{{item.type}}</div>
+          </div>
+          <div class="col-xs-10">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Spell Name"/>
+            <label class="description-label">{{localize 'DL.TabsDescription'}}</label>
+            {{editor content=data.description target="data.description"
+            button=true owner=owner editable=editable
+            }}
+
+          </div>
         </div>
-        <div class="template-type">{{item.type}}</div>
-    </header>
+      </div>
 
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
-        <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
-    </nav>
+      <div class="item-tab-header">
+        <img src="systems/demonlord08/assets/ui/text_divider.png"/>
+        <div>{{localize "DL.TabsAttributes"}}</div>
+      </div>
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
-        <section class="sheet-content">
-            {{!-- Attributes Tab --}}
-            <div class="tab attributes" data-group="primary" data-tab="attributes">
-                <div class="gridrow">
-                    <div class="resource grid grid-4col">
-                        <div>
-                            <label class="resource-label">{{localize "DL.MagicTradition"}}</label>
-                            <div class="modifierblock">
-                                <input type="text" name="data.tradition" value="{{data.tradition}}" />
-                            </div>
-                        </div>
-                        <div>
-                            <label class="resource-label">{{localize "DL.SpellRank"}}</label>
-                            <div class="modifierblock">
-                                <input type="text" name="data.rank" value="{{data.rank}}" />
-                            </div>
-                        </div>
-                        <div>
-                            <label class="resource-label">{{localize "DL.SpellType"}}</label>
-                            <div class="modifierblock">
-                                <select name="data.spelltype" data-dtype="String">
-                                    {{#select data.spelltype}}
-                                    <option value="">—</option>
-                                    <option value="Attack">{{localize "DL.SpellTypeAttack"}}
-                                    </option>
-                                    <option value="Utility">
-                                        {{localize "DL.SpellTypeUtility"}}
-                                    </option>
-                                    {{/select}}
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="resource-label">{{localize "DL.SpellAttribute"}}</label>
-                            <div class="modifierblock">
-                                <select name="data.attribute" data-dtype="String">
-                                    {{#select data.attribute}}
-                                    <option value="">—</option>
-                                    <option value="Intellect">
-                                        {{localize "DL.AttributeIntellect"}}
-                                    </option>
-                                    <option value="Will">{{localize "DL.AttributeWill"}}
-                                    </option>
-                                    {{/select}}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellCastings"}}</label>
-                        <div class="modifierblock">
-                            <div class="grid grid-2col">
-                                <div>
-                                    <label class="resource-label">{{localize "DL.SpellCastingsUses"}}</label>
-                                    <input type="text" name="data.castings.value" value="{{data.castings.value}}" />
-                                </div>
-                                <div>
-                                    <label class="resource-label">{{localize "DL.SpellCastingsMax"}}</label>
-                                    <input type="text" name="data.castings.max" value="{{data.castings.max}}" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellTypeAttack"}}</label>
-                        <div class="modifierblock">
-                            <div class="grid grid-3col">
-                                <div class="weaponalign">
-                                    <label class="resource-label">{{localize "DL.WeaponAttackModifier"}}</label>
-                                    <select name="data.action.attack" data-dtype="String">
-                                        {{#select data.action.attack}}
-                                        <option value="">—</option>
-                                        <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
-                                        <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
-                                        <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
-                                        <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                                        <option value="Perception">{{localize "DL.CharPerception"}}</option>
-                                        {{/select}}
-                                    </select>
-                                </div>
-                                <div class="weaponalign">
-                                    <label>VS</label>
-                                </div>
-                                <div class="weaponalign">
-                                    <label class="resource-label">{{localize "DL.WeaponDefenseModifier"}}</label>
-                                    <select name="data.action.against" data-dtype="String">
-                                        {{#select data.action.against}}
-                                        <option value="">—</option>
-                                        <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
-                                        <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
-                                        <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
-                                        <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                                        <option value="Perception">{{localize "DL.CharPerception"}}</option>
-                                        <option value="Defense">{{localize "DL.CharDefense"}}</option>
-                                        {{/select}}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="resource">
-                                <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-                                <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}" />
-                            </div>
-                            <div class="resource">
-                                <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
-                                <div class="item-controls">
-                                    <a class="item-control damagetype-control" title="{{localize 'DL.DamageAddType'}}" data-action="create"><i
-                                            class="fas fa-plus"></i></a>
-                                </div>
-                                <input class="damagevalue" type="text" name="data.action.damage" value="{{data.action.damage}}"
-                                    placeholder="{{localize 'DL.WeaponDamage'}}" />
-                                <input class="damagetype" type="text" name="data.action.damagetype" value="{{data.action.damagetype}}"
-                                    placeholder="{{localize 'DL.DamageType'}}" />
-                                {{#each item.damagetypes as |damagetype id|}}
-                                <input class="damagevalue" type="text" name="altdamage" value="{{damagetype.damage}}"
-                                    placeholder="{{localize 'DL.WeaponDamage'}}" />
-                                <input class="damagetype" type="text" name="altdamagetype" value="{{damagetype.damagetype}}"
-                                    placeholder="{{localize 'DL.DamageType'}}" />
-                                <div class="item-controls-line">
-                                    <a class="item-control damagetype-control" title="{{localize 'DL.DamageAddType'}}" data-action="delete"
-                                        data-id="{{id}}"><i class="fas fa-trash"></i></a>
-                                </div>
-                                {{/each}}
-                            </div>
-                            <div class="resource">
-                                <label class="resource-label">{{localize "DL.WeaponAttack20"}}</label>
-                                <input type="text" name="data.action.plus20damage"
-                                    value="{{data.action.plus20damage}}" />
-                            </div>
-                            <div class="resource">
-                                <label class="resource-label">{{localize "DL.WeaponAttack20Text"}}</label>
-                                <textarea id="data.action.plus20" name="data.action.plus20" rows="4"
-                                    cols="50">{{data.action.plus20}}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellTypeDefense"}}</label>
-                        <div class="modifierblock">
-                            <div class="resource">
-                                <label class="resource-label">{{localize "DL.ChallengeRoll"}}</label>
-                                <select name="data.action.defense" data-dtype="String">
-                                    {{#select data.action.defense}}
-                                    <option value="">—</option>
-                                    <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
-                                    <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
-                                    <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
-                                    <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                                    <option value="Perception">{{localize "DL.CharPerception"}}</option>
-                                    {{/select}}
-                                </select>
-                            </div>
-                            <div class="resource">
-                                <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-                                <input type="text" name="data.action.defenseboonsbanes"
-                                    value="{{data.action.defenseboonsbanes}}" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.TalentHealing"}}</label>
-                        <div class="modifierblockcheck">
-                            <input type="checkbox" name="data.healing.healing" id="healingoptions"
-                                {{checked data.healing.healing}} />
-                            <label for="data.healing.healing"
-                                class="resource-label">{{localize "DL.TalentHealingOptions"}}</label>
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellEffectDice"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.effectdice" value="{{data.effectdice}}" />
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellDuration"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.duration" value="{{data.duration}}" />
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellTarget"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.target" value="{{data.target}}" />
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellArea"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.area" value="{{data.area}}" />
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellRequirements"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.requirements" value="{{data.requirements}}" />
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellSacrifice"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.sacrifice" value="{{data.sacrifice}}" />
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellPermanence"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.permanence" value="{{data.permanence}}" />
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellAftereffect"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.aftereffect" value="{{data.aftereffect}}" />
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellSpecial"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.special" value="{{data.special}}" />
-                        </div>
-                    </div>
-                    <div class="resource">
-                        <label class="resource-label">{{localize "DL.SpellTriggered"}}</label>
-                        <div class="modifierblock">
-                            <input type="text" name="data.triggered" value="{{data.triggered}}" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="item-table">
+        <div class="row">
+          <div class="col-xs-3">
+            <label class="resource-label">{{localize "DL.MagicTradition"}}</label>
+            <input type="text" name="data.tradition" value="{{data.tradition}}" />
+          </div>
+          <div class="col-xs-3">
+            <label class="resource-label">{{localize "DL.SpellRank"}}</label>
+            <input type="text" name="data.rank" value="{{data.rank}}" />
+          </div>
+          <div class="col-xs-3">
+            <label class="resource-label">{{localize "DL.SpellType"}}</label>
+            <select name="data.spelltype" data-dtype="String">
+              {{#select data.spelltype}}
+              <option value="">—</option>
+              <option value="Attack">{{localize "DL.SpellTypeAttack"}}
+              </option>
+              <option value="Utility">
+                {{localize "DL.SpellTypeUtility"}}
+              </option>
+              {{/select}}
+            </select>
+          </div>
+          <div class="col-xs-3">
+            <label class="resource-label">{{localize "DL.SpellAttribute"}}</label>
+            <select name="data.attribute" data-dtype="String">
+              {{#select data.attribute}}
+              <option value="">—</option>
+              <option value="Intellect">
+                {{localize "DL.AttributeIntellect"}}
+              </option>
+              <option value="Will">{{localize "DL.AttributeWill"}}
+              </option>
+              {{/select}}
+            </select>
+          </div>
+        </div>
 
-            {{!-- Description Tab --}}
-            <div class="tab" data-group="primary" data-tab="description">
-                <div class="descriptionblock">
-                    {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
-                </div>
-            </div>
-        </section>
+        <div class="row">
+          <div class="col-xs-12">
+            <label class="resource-label">{{localize "DL.SpellCastings"}}</label>
+          </div>
+          <div class="col-xs-3">
+            <label class="resource-label">{{localize "DL.SpellCastingsUses"}}</label>
+            <input type="text" name="data.castings.value" value="{{data.castings.value}}" />
+          </div>
+          <div class="col-xs-3">
+            <label class="resource-label">{{localize "DL.SpellCastingsMax"}}</label>
+            <input type="text" name="data.castings.max" value="{{data.castings.max}}" />
+          </div>
+        </div>
+      </div>
+
+      <div class="item-tab-sub-header">
+        <div>{{localize "DL.SpellTypeAttack"}}</div>
+      </div>
+
+      <div class="item-table indent">
+        <div class="row">
+          <div class="col-xs-5">
+            <label class="resource-label">{{localize "DL.WeaponAttackModifier"}}</label>
+            <select name="data.action.attack" data-dtype="String">
+              {{#select data.action.attack}}
+              <option value="">—</option>
+              <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
+              <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
+              <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+              <option value="Will">{{localize "DL.AttributeWill"}}</option>
+              <option value="Perception">{{localize "DL.CharPerception"}}</option>
+              {{/select}}
+            </select>
+          </div>
+          <div class="col-xs-2 vs">
+            <label  style="margin: auto;width: 21px;">VS</label>
+          </div>
+          <div class="col-xs-5">
+            <label class="resource-label">{{localize "DL.WeaponDefenseModifier"}}</label>
+            <select name="data.action.against" data-dtype="String">
+              {{#select data.action.against}}
+              <option value="">—</option>
+              <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
+              <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
+              <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+              <option value="Will">{{localize "DL.AttributeWill"}}</option>
+              <option value="Perception">{{localize "DL.CharPerception"}}</option>
+              <option value="Defense">{{localize "DL.CharDefense"}}</option>
+              {{/select}}
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
+            <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-11">
+            <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
+          </div>
+          <div class="col-xs-1 item-controls">
+            <a class="item-control damagetype-control" title="{{localize 'DL.DamageAddType'}}"
+               data-action="create" style="margin-left: -11px"><i class="fas fa-plus"></i>
+            </a>
+          </div>
+
+          <div class="col-xs-4">
+            <input class="damagevalue" type="text" name="data.action.damage"
+                   value="{{data.action.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}"/>
+          </div>
+          <div class="col-xs-8">
+            <input class="damagetype" type="text" name="data.action.damagetype"
+                   value="{{data.action.damagetype}}" placeholder="Damage Type"/>
+          </div>
+
+          {{#each data.action.damagetypes as |damagetype id|}}
+          <div class="col-xs-4" style="margin-top: 2px">
+            <input class="damagevalue" type="text" name="altdamage"
+                   value="{{damagetype.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}"/>
+          </div>
+          <div class="col-xs-8" style="margin-top: 2px">
+            <input class="damagetype" type="text" name="altdamagetype"
+                   value="{{damagetype.damagetype}}" placeholder="{{localize 'DL.DamageType'}}"/>
+          </div>
+          <a class="item-control damagetype-control damage-delete" title="{{localize 'DL.DamageAddType'}}"
+             data-action="delete" data-id="{{id}}"><i class="fas fa-trash"></i></a>
+          {{/each}}
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <label class="resource-label">{{localize "DL.WeaponAttack20"}}</label>
+            <input type="text" name="data.action.plus20damage"
+                   value="{{data.action.plus20damage}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <label class="resource-label">{{localize "DL.WeaponAttack20Text"}}</label>
+            <textarea id="data.action.plus20" name="data.action.plus20" rows="4"
+                      cols="50">{{data.action.plus20}}</textarea>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="item-tab-sub-header">
+        <div>{{localize "DL.SpellTypeDefense"}}</div>
+      </div>
+
+      <div class="item-table indent">
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.ChallengeRoll"}}</label>
+            <select name="data.action.defense" data-dtype="String">
+              {{#select data.action.defense}}
+              <option value="">—</option>
+              <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
+              <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
+              <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+              <option value="Will">{{localize "DL.AttributeWill"}}</option>
+              <option value="Perception">{{localize "DL.CharPerception"}}</option>
+              {{/select}}
+            </select>
+          </div>
+          <div class="col-xs-8">
+            <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
+            <input type="text" name="data.action.defenseboonsbanes"
+                   value="{{data.action.defenseboonsbanes}}" />
+          </div>
+        </div>
+      </div>
+
+      <div class="item-tab-sub-header">
+        <div>{{localize "DL.TalentHealing"}}</div>
+      </div>
+
+      <div class="item-table indent">
+        <div class="row">
+          <div class="col-xs-12 inline-input fix">
+            <input type="checkbox" name="data.healing.healing" id="healingoptions"
+                   {{checked data.healing.healing}} />
+            <label for="healingoptions"
+                   class="resource-label">{{localize "DL.TalentHealingOptions"}}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-tab-sub-header">
+        <div>{{localize "DL.Characteristics"}}</div>
+      </div>
+
+      <div class="item-table indent">
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellEffectDice"}}</label>
+            <input type="text" name="data.effectdice" value="{{data.effectdice}}" />
+          </div>
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellDuration"}}</label>
+            <input type="text" name="data.duration" value="{{data.duration}}" />
+          </div>
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellTarget"}}</label>
+            <input type="text" name="data.target" value="{{data.target}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellArea"}}</label>
+            <input type="text" name="data.area" value="{{data.area}}" />
+          </div>
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellRequirements"}}</label>
+            <input type="text" name="data.requirements" value="{{data.requirements}}" />
+          </div>
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellSacrifice"}}</label>
+            <input type="text" name="data.sacrifice" value="{{data.sacrifice}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellPermanence"}}</label>
+            <input type="text" name="data.permanence" value="{{data.permanence}}" />
+          </div>
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellAftereffect"}}</label>
+            <input type="text" name="data.aftereffect" value="{{data.aftereffect}}" />
+          </div>
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellSpecial"}}</label>
+            <input type="text" name="data.special" value="{{data.special}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="resource-label">{{localize "DL.SpellTriggered"}}</label>
+            <input type="text" name="data.triggered" value="{{data.triggered}}" />
+          </div>
+          <div class="col-xs-4"></div>
+          <div class="col-xs-4"></div>
+        </div>
+      </div>
     </section>
+  </section>
 </form>
