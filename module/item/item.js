@@ -136,7 +136,7 @@ export class DemonlordItem extends Item {
     }
 
     var templateData = {
-      actor: this.actor,
+      actor: actor,
       data: {
         damageTotal: {
           value: totalDamage
