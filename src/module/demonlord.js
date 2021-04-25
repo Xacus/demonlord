@@ -116,7 +116,7 @@ Hooks.once('ready', async function () {
 
   // Determine whether a system migration is required and feasible
   if (!game.user.isGM) return;
-  const currentVersion = game.settings.get('demonlord', 'systemMigrationVersion');
+  const currentVersion = game.settings.get('demonlord08', 'systemMigrationVersion');
 
   const NEEDS_MIGRATION_VERSION = '1.7.7';
   const COMPATIBLE_MIGRATION_VERSION = 0.8;
@@ -156,7 +156,7 @@ Hooks.once('setup', function () {
       icon: attribute,
     });
   }
-  if (!game.settings.get('demonlord', 'statusIcons')) {
+  if (!game.settings.get('demonlord08', 'statusIcons')) {
     for (const effect of CONFIG.statusEffects) {
       effects.push({
         id: effect.id,
@@ -234,39 +234,37 @@ Hooks.on('createToken', async (tokenDocument) => {
   const stabilize = CONFIG.DL.statusIcons.stabilize;
 
   for (const token of actor.getActiveTokens()) {
-    if (token.scene.id === game.scenes.active.id) {
-      toggleEffect(token, actorData.data.characteristics.health.injured, injured);
+    toggleEffect(token, actorData.data.characteristics.health.injured, injured);
 
-      toggleEffect(token, actorData.data.afflictions.asleep, asleep);
-      toggleEffect(token, actorData.data.afflictions.blinded, blinded);
-      toggleEffect(token, actorData.data.afflictions.charmed, charmed);
-      toggleEffect(token, actorData.data.afflictions.compelled, compelled);
-      toggleEffect(token, actorData.data.afflictions.dazed, dazed);
-      toggleEffect(token, actorData.data.afflictions.deafened, deafened);
-      toggleEffect(token, actorData.data.afflictions.defenseless, defenseless);
-      toggleEffect(token, actorData.data.afflictions.diseased, diseased);
-      toggleEffect(token, actorData.data.afflictions.fatigued, fatigued);
-      toggleEffect(token, actorData.data.afflictions.frightened, frightened);
-      toggleEffect(token, actorData.data.afflictions.horrified, horrified);
-      toggleEffect(token, actorData.data.afflictions.grabbed, grabbed);
-      toggleEffect(token, actorData.data.afflictions.immobilized, immobilized);
-      toggleEffect(token, actorData.data.afflictions.impaired, impaired);
-      toggleEffect(token, actorData.data.afflictions.poisoned, poisoned);
-      toggleEffect(token, actorData.data.afflictions.prone, prone);
-      toggleEffect(token, actorData.data.afflictions.slowed, slowed);
-      toggleEffect(token, actorData.data.afflictions.stunned, stunned);
-      toggleEffect(token, actorData.data.afflictions.surprised, surprised);
-      toggleEffect(token, actorData.data.afflictions.unconscious, unconscious);
+    toggleEffect(token, actorData.data.afflictions.asleep, asleep);
+    toggleEffect(token, actorData.data.afflictions.blinded, blinded);
+    toggleEffect(token, actorData.data.afflictions.charmed, charmed);
+    toggleEffect(token, actorData.data.afflictions.compelled, compelled);
+    toggleEffect(token, actorData.data.afflictions.dazed, dazed);
+    toggleEffect(token, actorData.data.afflictions.deafened, deafened);
+    toggleEffect(token, actorData.data.afflictions.defenseless, defenseless);
+    toggleEffect(token, actorData.data.afflictions.diseased, diseased);
+    toggleEffect(token, actorData.data.afflictions.fatigued, fatigued);
+    toggleEffect(token, actorData.data.afflictions.frightened, frightened);
+    toggleEffect(token, actorData.data.afflictions.horrified, horrified);
+    toggleEffect(token, actorData.data.afflictions.grabbed, grabbed);
+    toggleEffect(token, actorData.data.afflictions.immobilized, immobilized);
+    toggleEffect(token, actorData.data.afflictions.impaired, impaired);
+    toggleEffect(token, actorData.data.afflictions.poisoned, poisoned);
+    toggleEffect(token, actorData.data.afflictions.prone, prone);
+    toggleEffect(token, actorData.data.afflictions.slowed, slowed);
+    toggleEffect(token, actorData.data.afflictions.stunned, stunned);
+    toggleEffect(token, actorData.data.afflictions.surprised, surprised);
+    toggleEffect(token, actorData.data.afflictions.unconscious, unconscious);
 
-      toggleEffect(token, actorData.data.actions.concentrate, concentrate);
-      toggleEffect(token, actorData.data.actions.defend, defend);
-      toggleEffect(token, actorData.data.actions.help, help);
-      toggleEffect(token, actorData.data.actions.prepare, prepare);
-      toggleEffect(token, actorData.data.actions.reload, reload);
-      toggleEffect(token, actorData.data.actions.retreat, retreat);
-      toggleEffect(token, actorData.data.actions.rush, rush);
-      toggleEffect(token, actorData.data.actions.stabilize, stabilize);
-    }
+    toggleEffect(token, actorData.data.actions.concentrate, concentrate);
+    toggleEffect(token, actorData.data.actions.defend, defend);
+    toggleEffect(token, actorData.data.actions.help, help);
+    toggleEffect(token, actorData.data.actions.prepare, prepare);
+    toggleEffect(token, actorData.data.actions.reload, reload);
+    toggleEffect(token, actorData.data.actions.retreat, retreat);
+    toggleEffect(token, actorData.data.actions.rush, rush);
+    toggleEffect(token, actorData.data.actions.stabilize, stabilize);
   }
 });
 
@@ -322,39 +320,37 @@ Hooks.on('updateActor', async (actor, updateData) => {
     const stabilize = CONFIG.DL.statusIcons.stabilize;
 
     for (const token of actor.getActiveTokens()) {
-      if (token.scene.id === game.scenes.active.id) {
-        toggleEffect(token, actorData.data.characteristics.health.injured, injured);
+      toggleEffect(token, actorData.data.characteristics.health.injured, injured);
 
-        toggleEffect(token, actorData.data.afflictions.asleep, asleep);
-        toggleEffect(token, actorData.data.afflictions.blinded, blinded);
-        toggleEffect(token, actorData.data.afflictions.charmed, charmed);
-        toggleEffect(token, actorData.data.afflictions.compelled, compelled);
-        toggleEffect(token, actorData.data.afflictions.dazed, dazed);
-        toggleEffect(token, actorData.data.afflictions.deafened, deafened);
-        toggleEffect(token, actorData.data.afflictions.defenseless, defenseless);
-        toggleEffect(token, actorData.data.afflictions.diseased, diseased);
-        toggleEffect(token, actorData.data.afflictions.fatigued, fatigued);
-        toggleEffect(token, actorData.data.afflictions.frightened, frightened);
-        toggleEffect(token, actorData.data.afflictions.horrified, horrified);
-        toggleEffect(token, actorData.data.afflictions.grabbed, grabbed);
-        toggleEffect(token, actorData.data.afflictions.immobilized, immobilized);
-        toggleEffect(token, actorData.data.afflictions.impaired, impaired);
-        toggleEffect(token, actorData.data.afflictions.poisoned, poisoned);
-        toggleEffect(token, actorData.data.afflictions.prone, prone);
-        toggleEffect(token, actorData.data.afflictions.slowed, slowed);
-        toggleEffect(token, actorData.data.afflictions.stunned, stunned);
-        toggleEffect(token, actorData.data.afflictions.surprised, surprised);
-        toggleEffect(token, actorData.data.afflictions.unconscious, unconscious);
+      toggleEffect(token, actorData.data.afflictions.asleep, asleep);
+      toggleEffect(token, actorData.data.afflictions.blinded, blinded);
+      toggleEffect(token, actorData.data.afflictions.charmed, charmed);
+      toggleEffect(token, actorData.data.afflictions.compelled, compelled);
+      toggleEffect(token, actorData.data.afflictions.dazed, dazed);
+      toggleEffect(token, actorData.data.afflictions.deafened, deafened);
+      toggleEffect(token, actorData.data.afflictions.defenseless, defenseless);
+      toggleEffect(token, actorData.data.afflictions.diseased, diseased);
+      toggleEffect(token, actorData.data.afflictions.fatigued, fatigued);
+      toggleEffect(token, actorData.data.afflictions.frightened, frightened);
+      toggleEffect(token, actorData.data.afflictions.horrified, horrified);
+      toggleEffect(token, actorData.data.afflictions.grabbed, grabbed);
+      toggleEffect(token, actorData.data.afflictions.immobilized, immobilized);
+      toggleEffect(token, actorData.data.afflictions.impaired, impaired);
+      toggleEffect(token, actorData.data.afflictions.poisoned, poisoned);
+      toggleEffect(token, actorData.data.afflictions.prone, prone);
+      toggleEffect(token, actorData.data.afflictions.slowed, slowed);
+      toggleEffect(token, actorData.data.afflictions.stunned, stunned);
+      toggleEffect(token, actorData.data.afflictions.surprised, surprised);
+      toggleEffect(token, actorData.data.afflictions.unconscious, unconscious);
 
-        toggleEffect(token, actorData.data.actions.concentrate, concentrate);
-        toggleEffect(token, actorData.data.actions.defend, defend);
-        toggleEffect(token, actorData.data.actions.help, help);
-        toggleEffect(token, actorData.data.actions.prepare, prepare);
-        toggleEffect(token, actorData.data.actions.reload, reload);
-        toggleEffect(token, actorData.data.actions.retreat, retreat);
-        toggleEffect(token, actorData.data.actions.rush, rush);
-        toggleEffect(token, actorData.data.actions.stabilize, stabilize);
-      }
+      toggleEffect(token, actorData.data.actions.concentrate, concentrate);
+      toggleEffect(token, actorData.data.actions.defend, defend);
+      toggleEffect(token, actorData.data.actions.help, help);
+      toggleEffect(token, actorData.data.actions.prepare, prepare);
+      toggleEffect(token, actorData.data.actions.reload, reload);
+      toggleEffect(token, actorData.data.actions.retreat, retreat);
+      toggleEffect(token, actorData.data.actions.rush, rush);
+      toggleEffect(token, actorData.data.actions.stabilize, stabilize);
     }
   }
 });

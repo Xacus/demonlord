@@ -186,7 +186,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
       config: CONFIG.DL,
     };
 
-    data.useDemonlordMode = !game.settings.get('demonlord', 'useHomebrewMode');
+    data.useDemonlordMode = !game.settings.get('demonlord08', 'useHomebrewMode');
 
     data.actor = foundry.utils.deepClone(this.actor.data);
     data.data = data.actor.data;
@@ -637,7 +637,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
       const max = parseInt(this.actor.data.data.characteristics.health.max);
 
       if (event.button == 0) {
-        if (game.settings.get('demonlord', 'reverseDamage')) {
+        if (game.settings.get('demonlord08', 'reverseDamage')) {
           if (value <= 0) value = max;
           else value--;
         } else {
@@ -645,7 +645,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
           else value++;
         }
       } else if (event.button == 2) {
-        if (game.settings.get('demonlord', 'reverseDamage')) {
+        if (game.settings.get('demonlord08', 'reverseDamage')) {
           if (value <= 0 || value >= max) value = max;
           else value++;
         } else {

@@ -35,7 +35,7 @@ export class DemonlordActor extends Actor {
 
       data.ancestry = ancestry.data.name;
 
-      if (!game.settings.get('demonlord', 'useHomebrewMode')) {
+      if (!game.settings.get('demonlord08', 'useHomebrewMode')) {
         data.attributes.strength.value = parseInt(ancestry.data.data.attributes?.strength.value);
         data.attributes.agility.value = parseInt(ancestry.data.data.attributes?.agility.value);
         data.attributes.intellect.value = parseInt(ancestry.data.data.attributes?.intellect.value);
@@ -134,7 +134,7 @@ export class DemonlordActor extends Actor {
       }
 
       // Calculate Health and Healing Rate
-      if (game.settings.get('demonlord', 'reverseDamage')) {
+      if (game.settings.get('demonlord08', 'reverseDamage')) {
         if (data.characteristics.health.value < 0) {
           data.characteristics.health.value =
             parseInt(data.attributes.strength.value) +
@@ -155,7 +155,7 @@ export class DemonlordActor extends Actor {
           pathHealthBonus;
       }
       if (data.level >= 4) {
-        if (game.settings.get('demonlord', 'reverseDamage')) {
+        if (game.settings.get('demonlord08', 'reverseDamage')) {
           if (data.characteristics.health.value == 0) {
             data.characteristics.health.value += parseInt(ancestry.data.data.level4?.healthbonus);
           }
@@ -197,7 +197,7 @@ export class DemonlordActor extends Actor {
       data.attributes.perception.value = parseInt(data.attributes.intellect.value);
       data.characteristics.defense = parseInt(data.attributes.agility.value);
 
-      if (game.settings.get('demonlord', 'reverseDamage')) {
+      if (game.settings.get('demonlord08', 'reverseDamage')) {
         if (data.characteristics.health.value == 0) {
           data.characteristics.health.value = parseInt(data.attributes.strength.value) + characterbuffs.healthbonus;
         }
@@ -289,7 +289,7 @@ export class DemonlordActor extends Actor {
 
     characterbuffs.speedbonus += speedPenalty;
 
-    if (game.settings.get('demonlord', 'useHomebrewMode')) {
+    if (game.settings.get('demonlord08', 'useHomebrewMode')) {
       data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4);
     }
 
@@ -387,11 +387,11 @@ export class DemonlordActor extends Actor {
     ActorRolls.rollWeaponAttackMacro(this, itemId, boonsbanes, damagebonus);
   }
 
-  rollWeaponAttack(itemId, options = { event: null }) {
+  async rollWeaponAttack(itemId, options = { event: null }) {
     ActorRolls.rollWeaponAttack(this, itemId, options);
   }
 
-  rollAttack(weapon, boonsbanes, buffs, modifier) {
+  async rollAttack(weapon, boonsbanes, buffs, modifier) {
     ActorRolls.rollAttack(this, weapon, boonsbanes, buffs, modifier);
   }
 
@@ -504,7 +504,7 @@ export class DemonlordActor extends Actor {
         ? game.i18n.localize('DL.DiceResultSuccess')
         : game.i18n.localize('DL.DiceResultFailure');
     let diceTotal = attackRoll != null ? attackRoll.total : '';
-    if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+    if (this.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) {
       diceTotal = '?';
       resultText = '';
     }
@@ -515,7 +515,7 @@ export class DemonlordActor extends Actor {
 
     const againstNumber =
       (target != null && target.actor?.data.type == 'character') ||
-      (game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined)
+      (game.settings.get('demonlord08', 'attackShowDefense') && targetNumber != undefined)
         ? targetNumber
         : '?';
 
@@ -625,7 +625,7 @@ export class DemonlordActor extends Actor {
       renderTemplate(template, templateData).then((content) => {
         chatData.content = content;
         if (game.dice3d && attackRoll != null) {
-          if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+          if (this.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) {
             if (attackRoll != null) chatData.sound = CONFIG.sounds.dice;
             ChatMessage.create(chatData);
           } else {
@@ -758,7 +758,7 @@ export class DemonlordActor extends Actor {
         ? game.i18n.localize('DL.DiceResultSuccess')
         : game.i18n.localize('DL.DiceResultFailure');
     let diceTotal = attackRoll != null ? attackRoll.total : '';
-    if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+    if (this.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) {
       diceTotal = '?';
       resultText = '';
     }
@@ -769,7 +769,7 @@ export class DemonlordActor extends Actor {
 
     const againstNumber =
       (target != null && target.actor?.data.type == 'character') ||
-      (game.settings.get('demonlord', 'attackShowDefense') && targetNumber != undefined)
+      (game.settings.get('demonlord08', 'attackShowDefense') && targetNumber != undefined)
         ? targetNumber
         : '?';
 
@@ -928,7 +928,7 @@ export class DemonlordActor extends Actor {
     renderTemplate(template, templateData).then((content) => {
       chatData.content = content;
       if (game.dice3d && attackRoll != null && attackAttribute) {
-        if (this.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+        if (this.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) {
           if (attackRoll != null) chatData.sound = CONFIG.sounds.dice;
           ChatMessage.create(chatData);
         } else {
@@ -1452,7 +1452,7 @@ export class DemonlordActor extends Actor {
     game.user.targets.forEach(async (target) => {
       const targetActor = target.actor;
       const currentDamage = parseInt(targetActor.data.data.characteristics.health.value);
-      if (game.settings.get('demonlord', 'reverseDamage')) {
+      if (game.settings.get('demonlord08', 'reverseDamage')) {
         if (currentDamage - damage <= 0) {
           await targetActor.update({
             'data.characteristics.health.value': 0,
@@ -1535,7 +1535,7 @@ export class DemonlordActor extends Actor {
         const hp = tokenData.actorData?.data?.characteristics?.health;
         const rate = tokenData.actorData?.data?.characteristics?.health?.healingrate;
 
-        if (game.settings.get('demonlord', 'reverseDamage')) {
+        if (game.settings.get('demonlord08', 'reverseDamage')) {
           let newdamage = parseInt(hp.value) + (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
           if (newdamage > hp.max) newdamage = parseInt(hp.max);
 
@@ -1553,7 +1553,7 @@ export class DemonlordActor extends Actor {
         const hp = actorData.data.characteristics.health;
         const rate = actorData.data.characteristics.health.healingrate;
 
-        if (game.settings.get('demonlord', 'reverseDamage')) {
+        if (game.settings.get('demonlord08', 'reverseDamage')) {
           let newdamage = parseInt(hp.value) + (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
           if (newdamage > hp.max) newdamage = parseInt(hp.max);
 

@@ -2,19 +2,19 @@
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
-import { PathLevel } from '../pathlevel.js'
-import { FormatDice } from '../dice.js'
+import { PathLevel } from '../pathlevel.js';
+import { FormatDice } from '../dice.js';
 export class DemonlordItem extends Item {
   /**
    * Augment the basic Item data model with additional dynamic data.
    */
-  prepareData () {
-    super.prepareData()
+  prepareData() {
+    super.prepareData();
 
     // Get the Item's data
-    const itemData = this.data
-    const actorData = this.actor ? this.actor.data : {}
-    const data = itemData.data
+    const itemData = this.data;
+    const actorData = this.actor ? this.actor.data : {};
+    const data = itemData.data;
   }
 
   /**
@@ -22,408 +22,359 @@ export class DemonlordItem extends Item {
    * @param {Event} event   The originating click event
    * @private
    */
-  async roll () {}
+  async roll() {}
 
-  static chatListeners (html) {
-    html.on('click', '.roll-healing', this._onChatApplyHealing.bind(this))
-    html.on('click', '.roll-damage', this._onChatRollDamage.bind(this))
-    html.on('click', '.apply-damage', this._onChatApplyDamage.bind(this))
-    html.on('click', '.use-talent', this._onChatUseTalent.bind(this))
-    html.on(
-      'click',
-      '.request-challengeroll',
-      this._onChatRequestChallengeRoll.bind(this)
-    )
-    html.on(
-      'click',
-      '.make-challengeroll',
-      this._onChatMakeChallengeRoll.bind(this)
-    )
-    html.on(
-      'click',
-      '.request-initroll',
-      this._onChatRequestInitRoll.bind(this)
-    )
-    html.on('click', '.make-initroll', this._onChatMakeInitRoll.bind(this))
+  static chatListeners(html) {
+    html.on('click', '.roll-healing', this._onChatApplyHealing.bind(this));
+    html.on('click', '.roll-damage', this._onChatRollDamage.bind(this));
+    html.on('click', '.apply-damage', this._onChatApplyDamage.bind(this));
+    html.on('click', '.use-talent', this._onChatUseTalent.bind(this));
+    html.on('click', '.request-challengeroll', this._onChatRequestChallengeRoll.bind(this));
+    html.on('click', '.make-challengeroll', this._onChatMakeChallengeRoll.bind(this));
+    html.on('click', '.request-initroll', this._onChatRequestInitRoll.bind(this));
+    html.on('click', '.make-initroll', this._onChatMakeInitRoll.bind(this));
   }
 
-  static async _onChatApplyHealing (event) {
-    event.preventDefault()
-    const li = event.currentTarget
-    const item = li.children[0]
-    const healing = parseInt(item.dataset.healing)
+  static async _onChatApplyHealing(event) {
+    event.preventDefault();
+    const li = event.currentTarget;
+    const item = li.children[0];
+    const healing = parseInt(item.dataset.healing);
 
-    var selected = canvas.tokens.controlled
+    var selected = canvas.tokens.controlled;
     if (selected.length == 0) {
-      ui.notifications.info(
-        game.i18n.localize('DL.DialogWarningActorsNotSelected')
-      )
+      ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
     }
 
     selected.forEach((token) => {
       if (token.data.actorData.data?.characteristics != undefined) {
-        const tokenData = token.document.data
-        const hp = tokenData.actorData.data.characteristics.health
-        const rate = tokenData.actorData.data.characteristics.health.healingrate
+        const tokenData = token.document.data;
+        const hp = tokenData.actorData.data.characteristics.health;
+        const rate = tokenData.actorData.data.characteristics.health.healingrate;
 
-        if (game.settings.get('demonlord', 'reverseDamage')) {
-          let newdamage =
-            parseInt(hp.value) +
-            (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2))
-          if (newdamage > hp.max) newdamage = parseInt(hp.max)
+        if (game.settings.get('demonlord08', 'reverseDamage')) {
+          let newdamage = parseInt(hp.value) + (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
+          if (newdamage > hp.max) newdamage = parseInt(hp.max);
 
-          hp.value = newdamage
+          hp.value = newdamage;
         } else {
-          let newdamage =
-            parseInt(hp.value) -
-            (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2))
-          if (newdamage < 0) newdamage = 0
+          let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
+          if (newdamage < 0) newdamage = 0;
 
-          hp.value = newdamage
+          hp.value = newdamage;
         }
 
-        token.update(tokenData)
+        token.update(tokenData);
       } else {
-        const actorData = token.actor.data
-        const hp = actorData.data.characteristics.health
-        const rate = actorData.data.characteristics.health.healingrate
-        let updates = ''
+        const actorData = token.actor.data;
+        const hp = actorData.data.characteristics.health;
+        const rate = actorData.data.characteristics.health.healingrate;
+        let updates = '';
 
-        if (game.settings.get('demonlord', 'reverseDamage')) {
-          let newdamage =
-            parseInt(hp.value) +
-            (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2))
-          if (newdamage > hp.max) newdamage = parseInt(hp.max)
+        if (game.settings.get('demonlord08', 'reverseDamage')) {
+          let newdamage = parseInt(hp.value) + (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
+          if (newdamage > hp.max) newdamage = parseInt(hp.max);
 
           updates = {
-            "data.characteristics.health.value": newdamage
-          }
+            'data.characteristics.health.value': newdamage,
+          };
         } else {
-          let newdamage =
-            parseInt(hp.value) -
-            (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2))
-          if (newdamage < 0) newdamage = 0
+          let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
+          if (newdamage < 0) newdamage = 0;
 
           updates = {
-            "data.characteristics.health.value": newdamage
-          }
+            'data.characteristics.health.value': newdamage,
+          };
         }
 
-        token.actor.update(updates)
+        token.actor.update(updates);
       }
-    })
+    });
   }
 
-  static async _onChatRollDamage (event) {
-    event.preventDefault()
-    const rollMode = game.settings.get('core', 'rollMode')
-    const li = event.currentTarget
-    const token = li.closest('.demonlord')
-    const actor = this._getChatCardActor(token)
-    const item = li.children[0]
-    const damageformular = item.dataset.damage
-    const damagetype = item.dataset.damagetype
-    let totalDamage = ''
-    let totalDamageGM = ''
+  static async _onChatRollDamage(event) {
+    event.preventDefault();
+    const rollMode = game.settings.get('core', 'rollMode');
+    const li = event.currentTarget;
+    const token = li.closest('.demonlord');
+    const actor = this._getChatCardActor(token);
+    const item = li.children[0];
+    const damageformular = item.dataset.damage;
+    const damagetype = item.dataset.damagetype;
+    let totalDamage = '';
+    let totalDamageGM = '';
 
-    const damageRoll = new Roll(damageformular, {})
-    damageRoll.evaluate()
+    const damageRoll = new Roll(damageformular, {});
+    damageRoll.evaluate();
 
-    const diceData = FormatDice(damageRoll)
+    const diceData = FormatDice(damageRoll);
 
     if (['blindroll'].includes(rollMode)) {
-      totalDamage = '?'
-      totalDamageGM = damageRoll.total
+      totalDamage = '?';
+      totalDamageGM = damageRoll.total;
     } else {
-      totalDamage = damageRoll.total
+      totalDamage = damageRoll.total;
     }
 
     var templateData = {
       actor: this.actor,
       data: {
         damageTotal: {
-          value: totalDamage
+          value: totalDamage,
         },
         damageTotalGM: {
-          value: totalDamageGM
+          value: totalDamageGM,
         },
         damageDouble: {
-          value: parseInt(damageRoll.total) * 2
+          value: parseInt(damageRoll.total) * 2,
         },
         damageHalf: {
-          value: Math.floor(parseInt(damageRoll.total) / 2)
+          value: Math.floor(parseInt(damageRoll.total) / 2),
         },
         isCreature: {
-          value: actor.data.type == 'creature'
+          value: actor.data.type == 'creature',
         },
         damagetype: {
-          value: damagetype
-        }
+          value: damagetype,
+        },
       },
-      diceData
-    }
+      diceData,
+    };
 
     const chatData = {
       user: game.user.id,
       speaker: {
         actor: actor.id,
         token: actor.token,
-        alias: actor.name
-      }
-    }
+        alias: actor.name,
+      },
+    };
 
     if (['gmroll', 'blindroll'].includes(rollMode)) {
-      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
+      chatData.whisper = ChatMessage.getWhisperRecipients('GM');
     }
-    if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
-    if (rollMode === 'blindroll') chatData.blind = true
+    if (rollMode === 'selfroll') chatData.whisper = [game.user._id];
+    if (rollMode === 'blindroll') chatData.blind = true;
 
-    const template = 'systems/demonlord08/templates/chat/damage.html'
+    const template = 'systems/demonlord08/templates/chat/damage.html';
     renderTemplate(template, templateData).then((content) => {
-      chatData.content = content
+      chatData.content = content;
       if (game.dice3d) {
         game.dice3d
-          .showForRoll(
-            damageRoll,
-            game.user,
-            true,
-            chatData.whisper,
-            chatData.blind
-          )
-          .then((displayed) => ChatMessage.create(chatData))
+          .showForRoll(damageRoll, game.user, true, chatData.whisper, chatData.blind)
+          .then((displayed) => ChatMessage.create(chatData));
       } else {
-        chatData.sound = CONFIG.sounds.dice
-        ChatMessage.create(chatData)
+        chatData.sound = CONFIG.sounds.dice;
+        ChatMessage.create(chatData);
       }
-    })
+    });
   }
 
-  static async _onChatApplyDamage (event) {
-    event.preventDefault()
-    const li = event.currentTarget
-    const item = li.children[0]
-    const damage = parseInt(item.dataset.damage)
+  static async _onChatApplyDamage(event) {
+    event.preventDefault();
+    const li = event.currentTarget;
+    const item = li.children[0];
+    const damage = parseInt(item.dataset.damage);
 
-    var selected = canvas.tokens.controlled
+    var selected = canvas.tokens.controlled;
     if (selected.length == 0) {
-      ui.notifications.info(
-        game.i18n.localize('DL.DialogWarningActorsNotSelected')
-      )
+      ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
     }
 
     selected.forEach((token) => {
       if (token.data.actorData.data?.characteristics != undefined) {
-        const tokenData = token.document.data
-        const hp = tokenData.actorData.data.characteristics.health
-        const health = parseInt(
-          token.actor.data.data.characteristics.health.max
-        )
+        const tokenData = token.document.data;
+        const hp = tokenData.actorData.data.characteristics.health;
+        const health = parseInt(token.actor.data.data.characteristics.health.max);
 
-        if (game.settings.get('demonlord', 'reverseDamage')) {
-          let newdamage = parseInt(hp.value) - damage
-          if (newdamage < 0) newdamage = 0
+        if (game.settings.get('demonlord08', 'reverseDamage')) {
+          let newdamage = parseInt(hp.value) - damage;
+          if (newdamage < 0) newdamage = 0;
 
-          hp.value = newdamage
+          hp.value = newdamage;
         } else {
-          let newdamage = parseInt(hp.value) + damage
-          if (newdamage > health) newdamage = health
+          let newdamage = parseInt(hp.value) + damage;
+          if (newdamage > health) newdamage = health;
 
-          hp.value = newdamage
+          hp.value = newdamage;
         }
 
-        token.update(tokenData)
+        token.update(tokenData);
       } else {
-        const actorData = token.actor.data
-        const hp = actorData.data.characteristics.health
-        const health = parseInt(actorData.data.characteristics.health.max)
-        let updates = ''
-        
-        if (game.settings.get('demonlord', 'reverseDamage')) {
-          let newdamage = parseInt(hp.value) - damage
-          if (newdamage < 0) newdamage = 0
+        const actorData = token.actor.data;
+        const hp = actorData.data.characteristics.health;
+        const health = parseInt(actorData.data.characteristics.health.max);
+        let updates = '';
+
+        if (game.settings.get('demonlord08', 'reverseDamage')) {
+          let newdamage = parseInt(hp.value) - damage;
+          if (newdamage < 0) newdamage = 0;
 
           updates = {
-            "data.characteristics.health.value": newdamage
-          }
+            'data.characteristics.health.value': newdamage,
+          };
         } else {
-          let newdamage = parseInt(hp.value) + damage
-          if (newdamage > health) newdamage = health
+          let newdamage = parseInt(hp.value) + damage;
+          if (newdamage > health) newdamage = health;
 
           updates = {
-            "data.characteristics.health.value": newdamage
-          }
+            'data.characteristics.health.value': newdamage,
+          };
         }
 
-        token.actor.update(updates)
+        token.actor.update(updates);
       }
-    })
+    });
   }
 
-  static async _onChatUseTalent (event) {
-    const token = event.currentTarget.closest('.demonlord')
-    const actor = this._getChatCardActor(token)
-    if (!actor) return
+  static async _onChatUseTalent(event) {
+    const token = event.currentTarget.closest('.demonlord');
+    const actor = this._getChatCardActor(token);
+    if (!actor) return;
 
-    const div = event.currentTarget.children[0]
-    const talentId = div.dataset.itemId
-    actor.rollTalent(talentId)
+    const div = event.currentTarget.children[0];
+    const talentId = div.dataset.itemId;
+    actor.rollTalent(talentId);
   }
 
-  static async _onChatRequestChallengeRoll (event) {
-    event.preventDefault()
-    const li = event.currentTarget
-    const item = li.children[0]
-    const attribute = item.dataset.attribute
+  static async _onChatRequestChallengeRoll(event) {
+    event.preventDefault();
+    const li = event.currentTarget;
+    const item = li.children[0];
+    const attribute = item.dataset.attribute;
 
-    const start = li.closest('.request-challengeroll')
-    let boonsbanes = start.children[0].value
-    if (boonsbanes == undefined) boonsbanes = parseInt(item.dataset.boba)
-    if (isNaN(boonsbanes)) boonsbanes = 0
+    const start = li.closest('.request-challengeroll');
+    let boonsbanes = start.children[0].value;
+    if (boonsbanes == undefined) boonsbanes = parseInt(item.dataset.boba);
+    if (isNaN(boonsbanes)) boonsbanes = 0;
 
-    var selected = canvas.tokens.controlled
+    var selected = canvas.tokens.controlled;
     if (selected.length == 0) {
-      ui.notifications.info(
-        game.i18n.localize('DL.DialogWarningActorsNotSelected')
-      )
+      ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
     }
 
-    let boonsbanestext = ''
+    let boonsbanestext = '';
     if (boonsbanes == 1) {
-      boonsbanestext = boonsbanes + ' ' + game.i18n.localize('DL.DialogBoon')
+      boonsbanestext = boonsbanes + ' ' + game.i18n.localize('DL.DialogBoon');
     }
     if (boonsbanes > 1) {
-      boonsbanestext = boonsbanes + ' ' + game.i18n.localize('DL.DialogBoons')
+      boonsbanestext = boonsbanes + ' ' + game.i18n.localize('DL.DialogBoons');
     }
     if (boonsbanes == -1) {
-      boonsbanestext =
-        boonsbanes.toString().replace('-', '') +
-        ' ' +
-        game.i18n.localize('DL.DialogBane')
+      boonsbanestext = boonsbanes.toString().replace('-', '') + ' ' + game.i18n.localize('DL.DialogBane');
     }
     if (boonsbanes < -1) {
-      boonsbanestext =
-        boonsbanes.toString().replace('-', '') +
-        ' ' +
-        game.i18n.localize('DL.DialogBanes')
+      boonsbanestext = boonsbanes.toString().replace('-', '') + ' ' + game.i18n.localize('DL.DialogBanes');
     }
 
     selected.forEach((token) => {
-      const actor = token.actor
+      const actor = token.actor;
 
       var templateData = {
         actor: actor,
         data: {
           attribute: {
-            value: game.i18n.localize(
-              CONFIG.DL.attributes[attribute.toLowerCase()]
-            )
+            value: game.i18n.localize(CONFIG.DL.attributes[attribute.toLowerCase()]),
           },
           boonsbanes: {
-            value: boonsbanes
+            value: boonsbanes,
           },
           boonsbanestext: {
-            value: boonsbanestext
-          }
-        }
-      }
+            value: boonsbanestext,
+          },
+        },
+      };
 
       const chatData = {
         user: game.user.id,
         speaker: {
           actor: actor.id,
           token: actor.token,
-          alias: actor.name
-        }
-      }
+          alias: actor.name,
+        },
+      };
 
-      chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
+      chatData.whisper = ChatMessage.getWhisperRecipients(actor.name);
 
-      const template = 'systems/demonlord08/templates/chat/makechallengeroll.html'
+      const template = 'systems/demonlord08/templates/chat/makechallengeroll.html';
       renderTemplate(template, templateData).then((content) => {
-        chatData.content = content
-        ChatMessage.create(chatData)
-      })
-    })
+        chatData.content = content;
+        ChatMessage.create(chatData);
+      });
+    });
   }
 
-  static async _onChatMakeChallengeRoll (event) {
-    event.preventDefault()
-    const li = event.currentTarget
-    const item = li.children[0]
-    const attributeName = item.dataset.attribute
-    const boonsbanes = item.dataset.boonsbanes
-    const actorId = item.dataset.actorid
-    const actor = game.actors.get(actorId)
-    const attribute = actor.data.data.attributes[attributeName.toLowerCase()]
-    const start = li.closest('.demonlord')
-    const boonsbanesEntered =
-      start.children[1].children[0].children[0].children[1]?.value
+  static async _onChatMakeChallengeRoll(event) {
+    event.preventDefault();
+    const li = event.currentTarget;
+    const item = li.children[0];
+    const attributeName = item.dataset.attribute;
+    const boonsbanes = item.dataset.boonsbanes;
+    const actorId = item.dataset.actorid;
+    const actor = game.actors.get(actorId);
+    const attribute = actor.data.data.attributes[attributeName.toLowerCase()];
+    const start = li.closest('.demonlord');
+    const boonsbanesEntered = start.children[1].children[0].children[0].children[1]?.value;
 
-    actor.rollAttribute(
-      attribute,
-      parseInt(boonsbanes) + parseInt(boonsbanesEntered),
-      0
-    )
+    actor.rollAttribute(attribute, parseInt(boonsbanes) + parseInt(boonsbanesEntered), 0);
   }
 
-  static async _onChatRequestInitRoll (event) {
-    event.preventDefault()
-    const li = event.currentTarget
-    const item = li.children[0]
-    const attribute = item.dataset.attribute
-    const start = li.closest('.demonlord')
+  static async _onChatRequestInitRoll(event) {
+    event.preventDefault();
+    const li = event.currentTarget;
+    const item = li.children[0];
+    const attribute = item.dataset.attribute;
+    const start = li.closest('.demonlord');
 
-    var selected = canvas.tokens.controlled
+    var selected = canvas.tokens.controlled;
     if (selected.length == 0) {
-      ui.notifications.info(
-        game.i18n.localize('DL.DialogWarningActorsNotSelected')
-      )
+      ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
     }
 
     selected.forEach((token) => {
-      const actor = token.actor
+      const actor = token.actor;
 
       var templateData = {
         actor: this.actor,
         token: canvas.tokens.controlled[0]?.data,
-        data: {}
-      }
+        data: {},
+      };
 
       const chatData = {
         user: game.user.id,
         speaker: {
           actor: actor.id,
           token: actor.token,
-          alias: actor.name
-        }
-      }
+          alias: actor.name,
+        },
+      };
 
-      chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
+      chatData.whisper = ChatMessage.getWhisperRecipients(actor.name);
 
-      const template = 'systems/demonlord08/templates/chat/makeinitroll.html'
+      const template = 'systems/demonlord08/templates/chat/makeinitroll.html';
       renderTemplate(template, templateData).then((content) => {
-        chatData.content = content
-        ChatMessage.create(chatData)
-      })
-    })
+        chatData.content = content;
+        ChatMessage.create(chatData);
+      });
+    });
   }
 
-  static async _onChatMakeInitRoll (event) {
-    event.preventDefault()
-    const li = event.currentTarget
-    const item = li.children[0]
-    const actorId = item.dataset.actorid
-    const actor = game.actors.get(actorId)
-    let combatantFound = null
+  static async _onChatMakeInitRoll(event) {
+    event.preventDefault();
+    const li = event.currentTarget;
+    const item = li.children[0];
+    const actorId = item.dataset.actorid;
+    const actor = game.actors.get(actorId);
+    let combatantFound = null;
 
     for (const combatant of game.combat.combatants) {
       if (combatant.actor?._id == actor._id) {
-        combatantFound = combatant
+        combatantFound = combatant;
       }
     }
 
     if (combatantFound) {
-      game.combat.rollInitiative(combatantFound._id)
+      game.combat.rollInitiative(combatantFound._id);
     }
   }
 
@@ -433,22 +384,22 @@ export class DemonlordItem extends Item {
    * @return {Actor|null}         The Actor entity or null
    * @private
    */
-  static _getChatCardActor (card) {
+  static _getChatCardActor(card) {
     // Case 1 - a synthetic actor from a Token
-    const tokenKey = card.dataset.tokenId
+    const tokenKey = card.dataset.tokenId;
     if (tokenKey) {
-      const [sceneId, tokenId] = tokenKey.split('.')
-      const scene = game.scenes.get(sceneId)
-      if (!scene) return null
-      const tokenData = scene.items.get(tokenId)
-      if (!tokenData) return null
-      const token = new Token(tokenData)
-      return token.actor
+      const [sceneId, tokenId] = tokenKey.split('.');
+      const scene = game.scenes.get(sceneId);
+      if (!scene) return null;
+      const tokenData = scene.items.get(tokenId);
+      if (!tokenData) return null;
+      const token = new Token(tokenData);
+      return token.actor;
     }
 
     // Case 2 - use Actor ID directory
-    const actorId = card.dataset.actorId
-    return game.actors.get(actorId) || null
+    const actorId = card.dataset.actorId;
+    return game.actors.get(actorId) || null;
   }
 
   /**
@@ -457,14 +408,11 @@ export class DemonlordItem extends Item {
    * @return {Array.<Actor>}      An Array of Actor entities, if any
    * @private
    */
-  static _getChatCardTargets (card) {
-    const character = game.user.character
-    const controlled = canvas.tokens.controlled
-    const targets = controlled.reduce(
-      (arr, t) => (t.actor ? arr.concat([t.actor]) : arr),
-      []
-    )
-    if (character && controlled.length === 0) targets.push(character)
-    return targets
+  static _getChatCardTargets(card) {
+    const character = game.user.character;
+    const controlled = canvas.tokens.controlled;
+    const targets = controlled.reduce((arr, t) => (t.actor ? arr.concat([t.actor]) : arr), []);
+    if (character && controlled.length === 0) targets.push(character);
+    return targets;
   }
 }

@@ -161,7 +161,7 @@ export class ActorRolls {
     }
     if (
       actor.data.type === 'creature' &&
-      game.settings.get('demonlord', 'rollCreaturesToGM')
+      game.settings.get('demonlord08', 'rollCreaturesToGM')
     ) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
@@ -523,7 +523,7 @@ export class ActorRolls {
     let diceTotal = attackRoll != null ? attackRoll.total : ''
     if (
       actor.data.type === 'creature' &&
-      !game.settings.get('demonlord', 'attackShowAttack')
+      !game.settings.get('demonlord08', 'attackShowAttack')
     ) {
       diceTotal = '?'
       resultText = ''
@@ -535,7 +535,7 @@ export class ActorRolls {
 
     const againstNumber =
       (target != null && target.actor.data.type == 'character') ||
-      (game.settings.get('demonlord', 'attackShowDefense') &&
+      (game.settings.get('demonlord08', 'attackShowDefense') &&
         targetNumber != undefined)
         ? targetNumber
         : '?'
@@ -653,7 +653,7 @@ export class ActorRolls {
       if (game.dice3d && attackRoll != null) {
         if (
           actor.data.type === 'creature' &&
-          !game.settings.get('demonlord', 'attackShowAttack')
+          !game.settings.get('demonlord08', 'attackShowAttack')
         ) {
           if (attackRoll != null) chatData.sound = CONFIG.sounds.dice
           ChatMessage.create(chatData)

@@ -37,8 +37,8 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     const itemData = data.data;
 
     data.isGM = game.user.isGM;
-    data.useDemonlordMode = game.settings.get('demonlord', 'useHomebrewMode');
-    data.lockAncestry = game.settings.get('demonlord', 'lockAncestry');
+    data.useDemonlordMode = game.settings.get('demonlord08', 'useHomebrewMode');
+    data.lockAncestry = game.settings.get('demonlord08', 'lockAncestry');
     data.effects = prepareActiveEffectCategories(this.document.effects);
 
     if (data.item.type == 'path') {
