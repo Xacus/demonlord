@@ -137,6 +137,7 @@ export class DemonlordItem extends Item {
 
     var templateData = {
       actor: actor,
+      item: {_id: item.dataset.itemId},
       data: {
         damageTotal: {
           value: totalDamage
@@ -248,6 +249,15 @@ export class DemonlordItem extends Item {
 
         token.actor.update(actorData)
       }
+    })
+
+    const actor = this._getChatCardActor(li.closest('.demonlord'))
+    const itemId = li.closest('.demonlord').dataset.itemId
+    Hooks.call("DL.ApplyDamage", {
+      sourceToken: canvas.tokens.placeables.find(token => token.actor.id === actor.id),
+      targets: selected,
+      itemId,
+      event: event,
     })
   }
 
