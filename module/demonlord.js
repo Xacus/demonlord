@@ -128,7 +128,7 @@ Hooks.once('ready', async function () {
     'systemMigrationVersion'
   )
 
-  const NEEDS_MIGRATION_VERSION = '1.7.7'
+  const NEEDS_MIGRATION_VERSION = '1.7.10'
   const COMPATIBLE_MIGRATION_VERSION = 0.8
 
   const needsMigration =
@@ -813,25 +813,24 @@ async function toggleEffect (token, affliction, tokenIcon) {
   }
 }
 
-
-Hooks.once("dragRuler.ready", (SpeedProvider) => {
+Hooks.once('dragRuler.ready', (SpeedProvider) => {
   class DemonLordSpeedProvider extends SpeedProvider {
-      get colors() {
-          return [
-              {id: "walk", default: 0x00FF00, name: "demonlord.speeds.walk"},
-              {id: "rush", default: 0xFFFF00, name: "demonlord.speeds.rush"},
-          ]
-      }
+    get colors () {
+      return [
+        { id: 'walk', default: 0x00ff00, name: 'demonlord.speeds.walk' },
+        { id: 'rush', default: 0xffff00, name: 'demonlord.speeds.rush' }
+      ]
+    }
 
-      getRanges(token) {
-        const baseSpeed = token.actor.data.data.characteristics.speed
-        const ranges = [
-          {range: baseSpeed, color: "walk"},
-          {range: baseSpeed * 2, color: "rush"}
-        ]
-        return ranges
-      }
+    getRanges (token) {
+      const baseSpeed = token.actor.data.data.characteristics.speed
+      const ranges = [
+        { range: baseSpeed, color: 'walk' },
+        { range: baseSpeed * 2, color: 'rush' }
+      ]
+      return ranges
+    }
   }
 
-  dragRuler.registerSystem("demonlord", DemonLordSpeedProvider)
+  dragRuler.registerSystem('demonlord', DemonLordSpeedProvider)
 })
