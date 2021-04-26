@@ -148,7 +148,7 @@ export class DemonlordItem extends Item {
 
     var templateData = {
       actor: actor,
-      item: {_id: item.dataset.itemId},
+      item: {_id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId},
       data: {
         damageTotal: {
           value: totalDamage
