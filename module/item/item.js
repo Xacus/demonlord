@@ -252,12 +252,14 @@ export class DemonlordItem extends Item {
     })
 
     const actor = this._getChatCardActor(li.closest('.demonlord'))
+    const sourceToken = canvas.tokens.placeables.find(token => token.actor.id === actor.id)
     const itemId = li.closest('.demonlord').dataset.itemId
     Hooks.call("DL.ApplyDamage", {
-      sourceToken: canvas.tokens.placeables.find(token => token.actor.id === actor.id),
+      sourceToken,
       targets: selected,
       itemId,
-      event: event,
+      event,
+      damage,
     })
   }
 
