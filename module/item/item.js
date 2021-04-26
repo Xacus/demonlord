@@ -107,6 +107,17 @@ export class DemonlordItem extends Item {
         token.actor.update(actorData)
       }
     })
+
+    const actor = this._getChatCardActor(li.closest('.demonlord'))
+    const sourceToken = canvas.tokens.placeables.find(token => token.actor.id === actor.id)
+    const itemId = li.children[0].dataset.itemId
+    Hooks.call("DL.ApplyHealing", {
+      sourceToken,
+      targets: selected,
+      itemId,
+      event,
+      healing,
+    })
   }
 
   static async _onChatRollDamage (event) {
