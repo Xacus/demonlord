@@ -757,6 +757,28 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
   });
 });
 
+Hooks.once('dragRuler.ready', (SpeedProvider) => {
+  class DemonLordSpeedProvider extends SpeedProvider {
+    get colors() {
+      return [
+        { id: 'walk', default: 0x00ff00, name: 'demonlord.speeds.walk' },
+        { id: 'rush', default: 0xffff00, name: 'demonlord.speeds.rush' },
+      ];
+    }
+
+    getRanges(token) {
+      const baseSpeed = token.actor.data.data.characteristics.speed;
+      const ranges = [
+        { range: baseSpeed, color: 'walk' },
+        { range: baseSpeed * 2, color: 'rush' },
+      ];
+      return ranges;
+    }
+  }
+
+  dragRuler.registerSystem('demonlord', DemonLordSpeedProvider);
+});
+
 function loadActorForChatMessage(speaker) {
   var actor;
   if (speaker.token) {
