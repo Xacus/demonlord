@@ -543,6 +543,7 @@ export class ActorRolls {
     var templateData = {
       actor: actor,
       item: {
+        _id: weapon.id,
         data: weapon,
         name: weapon.name
       },
