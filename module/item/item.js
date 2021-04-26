@@ -107,6 +107,17 @@ export class DemonlordItem extends Item {
         token.actor.update(actorData)
       }
     })
+
+    const actor = this._getChatCardActor(li.closest('.demonlord'))
+    const sourceToken = canvas.tokens.placeables.find(token => token.actor.id === actor.id)
+    const itemId = li.children[0].dataset.itemId
+    Hooks.call("DL.ApplyHealing", {
+      sourceToken,
+      targets: selected,
+      itemId,
+      event,
+      healing,
+    })
   }
 
   static async _onChatRollDamage (event) {
@@ -136,7 +147,8 @@ export class DemonlordItem extends Item {
     }
 
     var templateData = {
-      actor: this.actor,
+      actor: actor,
+      item: {_id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId},
       data: {
         damageTotal: {
           value: totalDamage
@@ -248,6 +260,17 @@ export class DemonlordItem extends Item {
 
         token.actor.update(actorData)
       }
+    })
+
+    const actor = this._getChatCardActor(li.closest('.demonlord'))
+    const sourceToken = canvas.tokens.placeables.find(token => token.actor.id === actor.id)
+    const itemId = li.closest('.demonlord').dataset.itemId
+    Hooks.call("DL.ApplyDamage", {
+      sourceToken,
+      targets: selected,
+      itemId,
+      event,
+      damage,
     })
   }
 

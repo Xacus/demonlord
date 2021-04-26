@@ -932,6 +932,7 @@ export class DemonlordActor extends Actor {
     var templateData = {
       actor: this,
       item: {
+        _id: weapon.id,
         data: weapon,
         name: weapon.name
       },
