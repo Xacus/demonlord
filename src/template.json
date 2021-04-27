@@ -433,7 +433,7 @@
       "templates": ["base"],
       "type": "",
       "difficultystep": 0,
-      "size": 0,
+      "size": "1",
       "bonuses": {
         "strength": 0,
         "agility": 0,
