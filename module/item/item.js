@@ -53,7 +53,7 @@ export class DemonlordItem extends Item {
     const item = li.children[0]
     const healing = parseInt(item.dataset.healing)
 
-    var selected = canvas.tokens.controlled
+    var selected = Array.from(game.user.targets)
     if (selected.length == 0) {
       ui.notifications.info(
         game.i18n.localize('DL.DialogWarningActorsNotSelected')
@@ -213,7 +213,7 @@ export class DemonlordItem extends Item {
     const item = li.children[0]
     const damage = parseInt(item.dataset.damage)
 
-    var selected = canvas.tokens.controlled
+    var selected = Array.from(game.user.targets)
     if (selected.length == 0) {
       ui.notifications.info(
         game.i18n.localize('DL.DialogWarningActorsNotSelected')
@@ -295,7 +295,7 @@ export class DemonlordItem extends Item {
     if (boonsbanes == undefined) boonsbanes = parseInt(item.dataset.boba)
     if (isNaN(boonsbanes)) boonsbanes = 0
 
-    var selected = canvas.tokens.controlled
+    var selected = Array.from(game.user.targets)
     if (selected.length == 0) {
       ui.notifications.info(
         game.i18n.localize('DL.DialogWarningActorsNotSelected')
