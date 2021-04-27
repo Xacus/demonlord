@@ -766,8 +766,17 @@ Hooks.once('dragRuler.ready', (SpeedProvider) => {
       ];
     }
 
+    getSpeedModifier(token) {
+      const itemsHeavy = token.actor.items.filter(item => Number(item.data.data.strengthmin) > token.actor.data.data.attributes.strength.value)
+      if (itemsHeavy.length > 0) {
+        return -2
+      }
+      return 0
+    }
+
+
     getRanges(token) {
-      const baseSpeed = token.actor.data.data.characteristics.speed;
+      const baseSpeed = token.actor.data.data.characteristics.speed + this.getSpeedModifier(token);
       const ranges = [
         { range: baseSpeed, color: 'walk' },
         { range: baseSpeed * 2, color: 'rush' },
