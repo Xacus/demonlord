@@ -8,6 +8,7 @@ import { DemonlordNewCreatureSheet } from './actor/new-creature-sheet.js'
 import { DemonlordItem } from './item/item.js'
 import { DemonlordItemSheetDefault } from './item/item-sheet2.js'
 import { DemonlordPathSetup } from './item/path-setup.js'
+import { ActionTemplate } from "./item/action-template.js"
 import { registerSettings } from './settings.js'
 import {
   rollInitiative,
@@ -27,6 +28,9 @@ Hooks.once('init', async function () {
     entities: {
       DemonlordActor,
       DemonlordItem
+    },
+    canvas: {
+      ActionTemplate
     },
     migrations: migrations,
     macros: macros,

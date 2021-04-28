@@ -230,6 +230,7 @@
   "DL.SpellEffectDice": "Effect Dice",
   "DL.SpellEffectDiceResult": "Result:",
   "DL.SpellMaxUsesReached": "Maximum uses of the spell reached",
+  "DL.ActionPlaceTemplate": "Place Measured Template",
   "DL.ActionActivationCost": "Activation Cost",
   "DL.ActionActivationCostAmount": "Amount",
   "DL.ActionActivationCostType": "Type",
