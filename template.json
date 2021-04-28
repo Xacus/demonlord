@@ -221,6 +221,26 @@
           "willboonsbanesselect": false,
           "perceptionboonsbanesselect": false,
           "extraeffect": ""
+        },
+        "activatedEffect": {
+          "activation": {
+            "type": "",
+            "cost": 0
+          },
+          "duration": {
+            "value": 0,
+            "type": ""
+          },
+          "target": {
+            "value": "",
+            "type": ""
+          },
+          "range": "",
+          "uses": {
+            "value": 0,
+            "max": 0,
+            "per": null
+          }
         }
       },
       "enchantment": {
