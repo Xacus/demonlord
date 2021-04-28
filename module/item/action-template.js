@@ -110,6 +110,8 @@ export class ActionTemplate extends MeasuredTemplate {
       this.data.x = destination.x;
       this.data.y = destination.y;
 
+      this.getTargets();
+
       // Create the template
       canvas.scene.createEmbeddedEntity("MeasuredTemplate", this.data);
     };
@@ -130,4 +132,43 @@ export class ActionTemplate extends MeasuredTemplate {
     canvas.app.view.oncontextmenu = handlers.rc;
     canvas.app.view.onwheel = handlers.mw;
   }
+
+    isTokenInside(token) {
+        const grid = canvas.scene.data.grid,
+            templatePos = { x: this.data.x, y: this.data.y };
+        // Check for center of  each square the token uses.
+        // e.g. for large tokens all 4 squares
+        const startX = token.width >= 1 ? 0.5 : token.width / 2;
+        const startY = token.height >= 1 ? 0.5 : token.height / 2;
+        for (let x = startX; x < token.width; x++) {
+            for (let y = startY; y < token.height; y++) {
+                const currGrid = {
+                    x: token.x + x * grid - templatePos.x,
+                    y: token.y + y * grid - templatePos.y,
+                };
+                const contains = this.shape.contains(currGrid.x, currGrid.y);
+                if (contains) return true;
+            }
+        }
+        return false;
+    }
+
+    getTargets() {
+        const tokens = canvas.scene.getEmbeddedCollection('Token');
+        let targets = [];
+
+        for (const token of tokens)
+            if (this.isTokenInside(token)) {
+                targets.push(token._id);
+            }
+        game.user.updateTokenTargets(targets);
+    }
+
+    _onDragLeftMove(ev) {
+        const ret = super._onDragLeftMove(ev);
+
+        for (let c of ev.data.clones) this.getTargets(c);
+
+        return ret;
+    };
 }
