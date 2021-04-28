@@ -1,6 +1,7 @@
 import {FormatDice} from "../dice";
 import {ActorAfflictionsEffects} from "./actor-afflictions-effects";
 import {capitalize} from "../utils/utils"
+import ActorActions from "./actor-actions";
 
 export class ActorRolls {
 
@@ -245,13 +246,14 @@ export class ActorRolls {
         ActorRolls.launchRollDialog(
           game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
           (html) =>
-            actor.useTalent(
+            ActorActions.useTalent(
+              actor,
               item,
               html.find('[id="boonsbanes"]').val(),
               html.find('[id="modifier"]').val()
             ))
       } else {
-        actor.useTalent(item, null, 0)
+        ActorActions.useTalent(actor, item, null, 0)
       }
     } else
       ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
@@ -276,17 +278,18 @@ export class ActorRolls {
           ActorRolls.launchRollDialog(
             game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
             (html) =>
-              actor.useSpell(
+              ActorActions.useSpell(
+                actor,
                 item,
                 html.find('[id="boonsbanes"]').val(),
                 characterbuffs,
                 html.find('[id="modifier"]').val()
               ))
         } else {
-          actor.useSpell(item, 0, characterbuffs, 0)
+          ActorActions.useSpell(actor,item, 0, characterbuffs, 0)
         }
       } else {
-        actor.useSpell(item, 0, characterbuffs, 0)
+        ActorActions.useSpell(actor, item, 0, characterbuffs, 0)
       }
     } else {
       ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
