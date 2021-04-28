@@ -42,6 +42,8 @@ Hooks.once('init', async function () {
     healingPotionMacro: macros.healingPotionMacro
   }
 
+  CONFIG.MeasuredTemplate.defaults.angle = 53.13;
+
   // Define custom Entity classes
   CONFIG.DL = DL
 
