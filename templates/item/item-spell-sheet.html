@@ -382,6 +382,19 @@
                             </div>
                         </div>
                     </div>
+                    
+                    {{!-- Action Texture --}}
+                    <div class="resource">
+                        <label class="resource-label">{{localize "DL.ActionTexture"}}</label>
+                        <div class="modifierblock">
+                            <div style="display: flex;flex-direction: row;flex-wrap: nowrap;justify-content: flex-end;align-items: center;">
+                                <input class="image" type="text" name="data.activatedEffect.texture" placeholder="path/image.png" value="{{data.activatedEffect.texture}}" data-dtype="String">
+                                <button type="button" class="file-picker" data-type="imagevideo" data-target="data.activatedEffect.texture" title="Explorar Arquivos" tabindex="-1">
+                                    <i class="fas fa-file-import fa-fw"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
