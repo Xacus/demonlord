@@ -7,6 +7,7 @@ import {
   onManageActiveEffect,
   prepareActiveEffectCategories
 } from '../effects.js'
+import { DL } from '../config.js'
 
 export class DemonlordItemSheetDefault extends ItemSheet {
   /** @override */
@@ -41,6 +42,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     data.useDemonlordMode = game.settings.get('demonlord', 'useHomebrewMode')
     data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
     data.effects = prepareActiveEffectCategories(this.entity.effects)
+    data.config = DL
 
     if (this.item.data.type == 'path') {
       this._prepareLevels(data)
