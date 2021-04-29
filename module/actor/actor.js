@@ -1371,6 +1371,7 @@ export class DemonlordActor extends Actor {
         isCreature: {
           value: this.data.type == 'creature'
         },
+        hasAreaTarget: talent.data.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape,
         pureDamage: {
           value: talent.data?.damage
         },
