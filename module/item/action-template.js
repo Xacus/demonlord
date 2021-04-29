@@ -110,7 +110,9 @@ export class ActionTemplate extends MeasuredTemplate {
       this.data.x = destination.x;
       this.data.y = destination.y;
 
-      this.getTargets();
+      if (game.settings.get('demonlord', 'templateAutoTargeting')) {
+        this.autoTargeting();
+      }
 
       // Create the template
       canvas.scene.createEmbeddedEntity("MeasuredTemplate", this.data);
@@ -153,7 +155,7 @@ export class ActionTemplate extends MeasuredTemplate {
         return false;
     }
 
-    getTargets() {
+    autoTargeting() {
         const tokens = canvas.scene.getEmbeddedCollection('Token');
         let targets = [];
 
