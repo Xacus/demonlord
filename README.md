@@ -32,10 +32,13 @@ Uses the standard Combat Tracker but with a few changes. It still uses the stand
 
 ### **Module Support:**
 
-- Dice So Nice!
-- Material Deck. Integration with Elgato Stream Deck.
-- Token Action HUD
-- Token Hotbar
+- [Dice So Nice!](https://foundryvtt.com/packages/dice-so-nice/)
+- [Material Deck. Integration with Elgato Stream Deck.](https://foundryvtt.com/packages/MaterialDeck)
+- [Token Action HUD](https://foundryvtt.com/packages/token-action-hud/)
+- [Token Hotbar](https://foundryvtt.com/packages/foundry-token-hotbar)
+- [Automated Animations](https://foundryvtt.com/packages/automated-jb2a-animations)
+- [Polyglot](https://foundryvtt.com/packages/polyglot)
+- [Arbron's Improved HP Bar](https://foundryvtt.com/packages/arbron-hp-bar)
 
 ### **Tracking:**
 
