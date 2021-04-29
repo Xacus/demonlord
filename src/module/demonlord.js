@@ -16,6 +16,7 @@ import { preloadHandlebarsTemplates } from './templates.js';
 import * as migrations from './migration.js';
 import * as macros from './macros.js';
 import * as playertracker from './playertrackercontrol.js';
+import {capitalize} from "./utils/utils";
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -104,6 +105,10 @@ Hooks.once('init', async function () {
   Handlebars.registerHelper('toLowerCase', function (str) {
     return str.toLowerCase();
   });
+
+  Handlebars.registerHelper('toUpperCase', (str) => str.toUpperCase())
+
+  Handlebars.registerHelper('capitalize', (str) => capitalize(str))
 
   Handlebars.registerHelper('json', JSON.stringify);
 

@@ -2,21 +2,112 @@
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-import { FormatDice } from '../dice.js';
-import { ActorRolls } from './actor-rolls';
-import { ActorAfflictionsEffects } from './actor-afflictions-effects';
+import {FormatDice} from '../dice.js';
+import {ActorRolls} from './actor-rolls';
+import {ActorAfflictionsEffects} from './actor-afflictions-effects';
+import {DLActiveEffects} from "../active-effects/active-effect";
 
 export class DemonlordActor extends Actor {
+
   /** @override */
-  prepareBaseData() {
-    switch (this.data.type) {
-      case 'character':
-        return this._prepareCharacterData(this.data);
-      case 'creature':
-        return this._prepareCharacterData(this.data);
-    }
+  prepareData() {
+    if (!this.data.img) this.data.img = CONST.DEFAULT_TOKEN;
+    if (!this.data.name) this.data.name = "New " + this.entity;
+    this.prepareBaseData();
+    DLActiveEffects.toggleEffectsByActorRequirements(this)
+    this.prepareEmbeddedEntities()
+    // this.applyActiveEffects()
+    this.prepareDerivedData()
+
   }
 
+
+  /**
+   * Prepare actor data that doesn't depend on effects or derived from items
+   * @override
+   * */
+  prepareBaseData() {
+    const data = this.data.data
+
+    // Set all attributes and characteristics to the default
+    // Note: probably can be skipped
+    data.attributes.strength.value = 10
+    data.attributes.agility.value = 10
+    data.attributes.intellect.value = 10
+    data.attributes.will.value = 10
+    data.attributes.perception.value = 10
+    data.characteristics.health.max = 0
+    data.characteristics.health.healingrate = 0
+    data.characteristics.defense = 0
+    data.characteristics.insanity.max = 0
+  }
+
+
+  /**
+   * Prepare actor data that depends on items and effects
+   * @override
+   * */
+  prepareDerivedData() {
+    const data = this.data.data
+    console.log(data)
+    const safeSum = (x, y) => parseInt(x) + parseInt(y)
+
+    // Bound attribute value and calculate modifiers
+    for (const [key, attribute] of Object.entries(data.attributes)) {
+      attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
+      attribute.modifier = safeSum(attribute.modifier, attribute.value - 10)
+    }
+
+    // Health and Healing Rate
+    data.characteristics.health.max =
+      safeSum(data.characteristics.health.max, data.attributes.strength.value)
+    data.characteristics.health.healingrate =
+      safeSum(data.characteristics.health.healingrate, Math.floor(data.characteristics.health.max / 4))
+
+    // Defense
+    data.characteristics.defense += data.attributes.agility.value
+    console.log(data.characteristics.defense, data.attributes.agility.value)
+    // Insanity
+    data.characteristics.insanity.max += data.attributes.will.value
+
+    console.log(this)
+  }
+
+  async _onUpdateEmbeddedEntity(embeddedName, child, options, userId) {
+    super._onUpdateEmbeddedEntity(embeddedName, child, options, userId)
+    //this.prepareData()
+  }
+
+  /** @override */
+  async _onDeleteEmbeddedEntity(embeddedName, child, options, userId) {
+    await super._onDeleteEmbeddedEntity(embeddedName, child, options, userId)
+    //this.prepareData()
+    return
+    const characterbuffs = this.generateCharacterBuffs();
+
+    if (child.data?.addtonextroll) {
+      await this.update({
+        'data.characteristics.defensebonus':
+          parseInt(characterbuffs.defensebonus) -
+          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
+        'data.characteristics.healthbonus':
+          parseInt(characterbuffs.healthbonus) -
+          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
+        'data.characteristics.speedbonus':
+          parseInt(characterbuffs.speedbonus) -
+          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
+        'data.characteristics.defense':
+          parseInt(this.data.data.characteristics.defense) -
+          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
+        'data.characteristics.health.max':
+          parseInt(this.data.data.characteristics.health.max) -
+          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
+        'data.characteristics.speed.value':
+          parseInt(this.data.data.characteristics.speed.value) -
+          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
+      });
+    }
+  }
   /**
    * Prepare Character type specific data
    */
@@ -26,7 +117,6 @@ export class DemonlordActor extends Actor {
     let savedAncestry = null;
     let pathHealthBonus = 0;
     let ancestryFixedArmor = false;
-
     const characterbuffs = this.generateCharacterBuffs();
     const ancestries = actorData.items.filter((e) => e.type === 'ancestry');
 
@@ -36,12 +126,13 @@ export class DemonlordActor extends Actor {
       data.ancestry = ancestry.data.name;
 
       if (!game.settings.get('demonlord08', 'useHomebrewMode')) {
-        data.attributes.strength.value = parseInt(ancestry.data.data.attributes?.strength.value);
-        data.attributes.agility.value = parseInt(ancestry.data.data.attributes?.agility.value);
-        data.attributes.intellect.value = parseInt(ancestry.data.data.attributes?.intellect.value);
-        data.attributes.will.value = parseInt(ancestry.data.data.attributes?.will.value);
 
-        data.characteristics.insanity.max = ancestry.data.data.attributes?.will.value;
+        // data.attributes.strength.value = parseInt(ancestry.data.data.attributes?.strength.value);
+        // data.attributes.agility.value = parseInt(ancestry.data.data.attributes?.agility.value);
+        // data.attributes.intellect.value = parseInt(ancestry.data.data.attributes?.intellect.value);
+        // data.attributes.will.value = parseInt(ancestry.data.data.attributes?.will.value);
+
+        data.characteristics.insanity.max = data.attributes.will.value
 
         // Paths
         if (data.level > 0) {
@@ -348,33 +439,6 @@ export class DemonlordActor extends Actor {
     return await this.createItem(itemData);
   }
 
-  async _onDeleteEmbeddedEntity(embeddedName, child, options, userId) {
-    const characterbuffs = this.generateCharacterBuffs();
-
-    if (child.data?.addtonextroll) {
-      await this.update({
-        'data.characteristics.defensebonus':
-          parseInt(characterbuffs.defensebonus) -
-          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
-        'data.characteristics.healthbonus':
-          parseInt(characterbuffs.healthbonus) -
-          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
-        'data.characteristics.speedbonus':
-          parseInt(characterbuffs.speedbonus) -
-          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
-        'data.characteristics.defense':
-          parseInt(this.data.data.characteristics.defense) -
-          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
-        'data.characteristics.health.max':
-          parseInt(this.data.data.characteristics.health.max) -
-          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
-        'data.characteristics.speed.value':
-          parseInt(this.data.data.characteristics.speed.value) -
-          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
-      });
-    }
-  }
-
   rollChallenge(attribute) {
     ActorRolls.rollChallenge(this, attribute);
   }
@@ -387,7 +451,7 @@ export class DemonlordActor extends Actor {
     ActorRolls.rollWeaponAttackMacro(this, itemId, boonsbanes, damagebonus);
   }
 
-  async rollWeaponAttack(itemId, options = { event: null }) {
+  async rollWeaponAttack(itemId, options = {event: null}) {
     ActorRolls.rollWeaponAttack(this, itemId, options);
   }
 
@@ -395,11 +459,11 @@ export class DemonlordActor extends Actor {
     ActorRolls.rollAttack(this, weapon, boonsbanes, buffs, modifier);
   }
 
-  rollTalent(itemId, options = { event: null }) {
+  rollTalent(itemId, options = {event: null}) {
     ActorRolls.rollTalent(this, itemId, options);
   }
 
-  rollSpell(itemId, options = { event: null }) {
+  rollSpell(itemId, options = {event: null}) {
     ActorRolls.rollSpell(this, itemId, options);
   }
 
@@ -847,7 +911,7 @@ export class DemonlordActor extends Actor {
         this.addCharacterBonuses(talent);
       }
 
-      await Item.updateDocuments([talent], { parent: this });
+      await Item.updateDocuments([talent], {parent: this});
     }
   }
 

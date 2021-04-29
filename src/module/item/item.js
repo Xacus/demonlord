@@ -1,9 +1,8 @@
-/**
- * Extend the basic Item with some very simple modifications.
- * @extends {Item}
- */
 import { PathLevel } from '../pathlevel.js';
 import { FormatDice } from '../dice.js';
+import {DLActiveEffects} from "../active-effects/active-effect";
+
+
 export class DemonlordItem extends Item {
   /**
    * Augment the basic Item data model with additional dynamic data.
@@ -17,6 +16,40 @@ export class DemonlordItem extends Item {
     const data = itemData.data;
   }
 
+  /** @override */
+  async update(updateData) {
+    await super.update(updateData)
+    this.embedActiveEffects()
+  }
+
+  /** @override */
+  _onCreate(data, options, user) {
+    super._onCreate(data, options, user)
+    this.embedActiveEffects()
+  }
+
+  embedActiveEffects() {
+    if (this.parent)
+      this._embedActiveEffectsOwned()
+    else
+      this._embedActiveEffectsUnowned()
+
+    console.log(this)
+  }
+
+  _embedActiveEffectsOwned(){}
+  _embedActiveEffectsUnowned() {
+    const data = this.data.data
+    DLActiveEffects.removeEffects(this)
+    let effectDataList = []
+    switch (this.data.type) {
+      case 'ancestry':
+        effectDataList = DLActiveEffects.generateEffectDataFromAncestry(this)
+        break
+    }
+    console.log(effectDataList)
+    this.createEmbeddedDocuments('ActiveEffect', effectDataList)
+  }
   /**
    * Handle clickable rolls.
    * @param {Event} event   The originating click event

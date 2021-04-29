@@ -13,6 +13,7 @@
         <a class="item" data-tab="items">{{localize "DL.TabsInventory"}}</a>
         <a class="item" data-tab="background">{{localize "DL.TabsBackground"}}</a>
         <a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>
+        <a class="item" data-tab="neweffects">{{localize "DL.TabsEffects"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -50,6 +51,10 @@
             {{!-- Effects Tab --}}
             <div class="tab effects" data-group="primary" data-tab="effects">
                 {{> systems/demonlord08/templates/tabs/effects.html}}
+            </div>
+
+            <div class="tab neweffects" data-group="primary" data-tab="neweffects">
+              {{> systems/demonlord08/templates/tabs/neweffects.html}}
             </div>
         </section>
     </section>
