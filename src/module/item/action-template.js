@@ -164,12 +164,4 @@ export class ActionTemplate extends MeasuredTemplate {
     }
     game.user.updateTokenTargets(targets);
   }
-
-  _onDragLeftMove(ev) {
-    const ret = super._onDragLeftMove(ev);
-
-    for (let c of ev.data.clones) this.getTargets(c);
-
-    return ret;
-  }
 }
