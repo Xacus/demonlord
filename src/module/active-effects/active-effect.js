@@ -15,10 +15,19 @@ const overrideEffect = (key, value) => ({
 
 const falsyChangeFilter = (change) => Boolean(change.value)
 
+
 export class DLActiveEffects {
 
-  static removeEffects(document) {
+  static removeAllEffects(document) {
     const ids = document.effects.map((effect) => effect._id)
+    return document.deleteEmbeddedDocuments('ActiveEffect', ids)
+  }
+
+  static removeEffectsByOrigin(document, effectOrigin) {
+    const originID = effectOrigin.uuid
+    const ids = document.getEmbeddedCollection('ActiveEffect')
+      .filter((effect) => effect.data.origin.includes(originID))
+      .map((effect) => effect._id)
     return document.deleteEmbeddedDocuments('ActiveEffect', ids)
   }
 

@@ -35,7 +35,7 @@ export class DemonlordActor extends Actor {
     data.attributes.agility.value = 10
     data.attributes.intellect.value = 10
     data.attributes.will.value = 10
-    data.attributes.perception.value = 10
+    data.attributes.perception.value = 0 //
     data.characteristics.health.max = 0
     data.characteristics.health.healingrate = 0
     data.characteristics.defense = 0
@@ -49,13 +49,16 @@ export class DemonlordActor extends Actor {
    * */
   prepareDerivedData() {
     const data = this.data.data
-    console.log(data)
     const safeSum = (x, y) => parseInt(x) + parseInt(y)
+
+    // Perception value
+    data.attributes.perception.value += data.attributes.will.value
 
     // Bound attribute value and calculate modifiers
     for (const [key, attribute] of Object.entries(data.attributes)) {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.modifier = safeSum(attribute.modifier, attribute.value - 10)
+      attribute.label = key.toUpperCase()
     }
 
     // Health and Healing Rate
@@ -65,12 +68,10 @@ export class DemonlordActor extends Actor {
       safeSum(data.characteristics.health.healingrate, Math.floor(data.characteristics.health.max / 4))
 
     // Defense
-    data.characteristics.defense += data.attributes.agility.value
-    console.log(data.characteristics.defense, data.attributes.agility.value)
-    // Insanity
-    data.characteristics.insanity.max += data.attributes.will.value
+    data.characteristics.defense = safeSum(data.characteristics.defense, data.attributes.agility.value)
+     // Insanity
+    data.characteristics.insanity.max = safeSum(data.characteristics.insanity.max, data.attributes.will.value)
 
-    console.log(this)
   }
 
   async _onUpdateEmbeddedEntity(embeddedName, child, options, userId) {
