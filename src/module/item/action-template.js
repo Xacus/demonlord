@@ -159,9 +159,8 @@ export class ActionTemplate extends MeasuredTemplate {
 
     for (const token of tokens) {
       if (this.isTokenInside(token)) {
-        targets.push(token.id);
+        token.setTarget(true, game.user, false, true);
       }
     }
-    game.user.updateTokenTargets(targets);
   }
 }
