@@ -444,8 +444,7 @@ export class DemonlordItem extends Item {
     event.preventDefault();
     const li = event.currentTarget;
     const metadata = li.closest('.demonlord').dataset;
-    const data = li.children[0].dataset;
-    const itemId = data.itemId;
+    const itemId = metadata.itemId;
     const actor = game.actors.get(metadata.actorId);
     const item = actor.items.get(itemId);
 

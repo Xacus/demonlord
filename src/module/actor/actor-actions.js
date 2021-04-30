@@ -375,6 +375,7 @@ export default class ActorActions {
     var templateData = {
       actor: actor,
       item: {
+        _id: spell._id,
         data: spell,
         name: spell.name,
       },

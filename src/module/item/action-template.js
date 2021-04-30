@@ -40,10 +40,12 @@ export class ActionTemplate extends MeasuredTemplate {
     }
 
     // Return the template constructed from the item data
-    const template = new this(templateData);
-    template.item = item;
-    template.actorSheet = item.actor?.sheet || null;
-    return template;
+    const cls = CONFIG.MeasuredTemplate.documentClass;
+    const template = new cls(templateData, { parent: canvas.scene });
+    const object = new this(template);
+    object.item = item;
+    object.actorSheet = item.actor?.sheet || null;
+    return object;
   }
 
   /* -------------------------------------------- */
@@ -103,18 +105,15 @@ export class ActionTemplate extends MeasuredTemplate {
     // Confirm the workflow (left-click)
     handlers.lc = (event) => {
       handlers.rc(event);
+      const destination = canvas.grid.getSnappedPosition(this.data.x, this.data.y, 2);
+      this.data.update(destination);
 
-      // Confirm final snapped position
-      const destination = canvas.grid.getSnappedPosition(this.x, this.y, 2);
-      this.data.x = destination.x;
-      this.data.y = destination.y;
-
-      if (game.settings.get('demonlord', 'templateAutoTargeting')) {
+      if (game.settings.get('demonlord08', 'templateAutoTargeting')) {
         this.autoTargeting();
       }
 
       // Create the template
-      canvas.scene.createEmbeddedEntity('MeasuredTemplate', this.data);
+      canvas.scene.createEmbeddedDocuments('MeasuredTemplate', [this.data]);
     };
 
     // Rotate the template by 3 degree increments (mouse-wheel)
@@ -123,7 +122,7 @@ export class ActionTemplate extends MeasuredTemplate {
       event.stopPropagation();
       let delta = canvas.grid.type > CONST.GRID_TYPES.SQUARE ? 30 : 15;
       let snap = event.shiftKey ? delta : 5;
-      this.data.direction += snap * Math.sign(event.deltaY);
+      this.data.update({ direction: this.data.direction + snap * Math.sign(event.deltaY) });
       this.refresh();
     };
 
@@ -155,13 +154,14 @@ export class ActionTemplate extends MeasuredTemplate {
   }
 
   autoTargeting() {
-    const tokens = canvas.scene.getEmbeddedCollection('Token');
+    const tokens = canvas.tokens.placeables;
     let targets = [];
 
-    for (const token of tokens)
+    for (const token of tokens) {
       if (this.isTokenInside(token)) {
-        targets.push(token._id);
+        targets.push(token.id);
       }
+    }
     game.user.updateTokenTargets(targets);
   }
 
