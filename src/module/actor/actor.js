@@ -13,29 +13,28 @@ export class DemonlordActor extends Actor {
   prepareData() {
     if (!this.data.img) this.data.img = CONST.DEFAULT_TOKEN;
     if (!this.data.name) this.data.name = "New " + this.entity;
-    this.prepareBaseData();
     DLActiveEffects.toggleEffectsByActorRequirements(this)
+    this.prepareBaseData()
     this.prepareEmbeddedEntities()
-    // this.applyActiveEffects()
+    // this.applyActiveEffects()  call already present in prepareEmbeddedEntities as of 0.8.1
     this.prepareDerivedData()
 
   }
 
-
   /**
    * Prepare actor data that doesn't depend on effects or derived from items
    * @override
-   * */
+   */
   prepareBaseData() {
     const data = this.data.data
 
-    // Set all attributes and characteristics to the default
-    // Note: probably can be skipped
-    data.attributes.strength.value = 10
-    data.attributes.agility.value = 10
-    data.attributes.intellect.value = 10
-    data.attributes.will.value = 10
-    data.attributes.perception.value = 0 //
+    // Set all attributes and characteristics to the baseline value
+    for (const [key, attribute] of Object.entries(data.attributes)) {
+      attribute.value = 10
+      attribute.modifier = 0
+    }
+    data.attributes.perception.value = 0 // override perception value, since it's derived from will
+    data.attributes.perception.modifier = 0
     data.characteristics.health.max = 0
     data.characteristics.health.healingrate = 0
     data.characteristics.defense = 0
@@ -46,13 +45,13 @@ export class DemonlordActor extends Actor {
   /**
    * Prepare actor data that depends on items and effects
    * @override
-   * */
+   */
   prepareDerivedData() {
     const data = this.data.data
     const safeSum = (x, y) => parseInt(x) + parseInt(y)
 
-    // Perception value
-    data.attributes.perception.value += data.attributes.will.value
+    // Override Perception initial value
+    data.attributes.perception.value = safeSum(data.attributes.perception.value, data.attributes.will.value)
 
     // Bound attribute value and calculate modifiers
     for (const [key, attribute] of Object.entries(data.attributes)) {
@@ -69,14 +68,20 @@ export class DemonlordActor extends Actor {
 
     // Defense
     data.characteristics.defense = safeSum(data.characteristics.defense, data.attributes.agility.value)
-     // Insanity
+    // Insanity
     data.characteristics.insanity.max = safeSum(data.characteristics.insanity.max, data.attributes.will.value)
 
   }
 
-  async _onUpdateEmbeddedEntity(embeddedName, child, options, userId) {
-    super._onUpdateEmbeddedEntity(embeddedName, child, options, userId)
-    //this.prepareData()
+  /**
+   * TODO: Remove in 0.8.2 (in theory)
+   * When an embedded document is updated, force the regeneration of the data and the actor sheet
+   * @override
+   */
+  _onUpdateEmbeddedDocuments(embeddedName, ...args) {
+    super._onUpdateEmbeddedDocuments(embeddedName, ...args)
+    this.prepareData()
+    this.sheet.render()
   }
 
   /** @override */
@@ -109,6 +114,7 @@ export class DemonlordActor extends Actor {
       });
     }
   }
+
   /**
    * Prepare Character type specific data
    */

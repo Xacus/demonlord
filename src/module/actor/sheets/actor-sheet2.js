@@ -188,7 +188,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     data.useDemonlordMode = !game.settings.get('demonlord08', 'useHomebrewMode');
 
-    data.actor = foundry.utils.deepClone(this.actor.data);
+    //data.actor = foundry.utils.deepClone(this.actor.data);
+    data.actor = this.actor.data
     data.data = data.actor.data;
     data.items = this.actor.items.map((i) => {
       i.data.labels = i.labels;

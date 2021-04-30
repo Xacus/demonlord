@@ -31,6 +31,26 @@ export class DLActiveEffects {
     return document.deleteEmbeddedDocuments('ActiveEffect', ids)
   }
 
+  static addUpdateEffectsToDocument(document, effectDataList) {
+    const effectsToAdd = []
+    const effectsToUpd = []
+    // Inject the _id of already present effects (that have the same name and source)
+    // into the effectDataList for updating the document's effect list with the new values
+    effectDataList.forEach((effectData) => {
+      for (let embeddedEffect of document.effects)
+        if (embeddedEffect.data.label === effectData.label && embeddedEffect.data.origin === effectData.origin) {
+          effectData._id = embeddedEffect.data._id
+          effectsToUpd.push(effectData)
+          return
+        }
+      effectsToAdd.push(effectData)
+    })
+
+    // Update or add the effects
+    document.updateEmbeddedDocuments('ActiveEffect', effectsToUpd, {diff: false})
+    document.createEmbeddedDocuments('ActiveEffect', effectsToAdd)
+  }
+
   static generateEffectDataFromAncestry(demonlordItem) {
     const dataL0 = demonlordItem.data.data
     console.log("Demonlord | fromAncestry | ancestryItemData", demonlordItem)
@@ -50,7 +70,7 @@ export class DLActiveEffects {
         addEffect('data.attributes.agility.value', dataL0.attributes.agility.value - 10),
         addEffect('data.attributes.intellect.value', dataL0.attributes.intellect.value - 10),
         addEffect('data.attributes.will.value', dataL0.attributes.will.value - 10),
-        addEffect('data.attributes.perception.value', dataL0.characteristics.perception),
+        addEffect('data.attributes.perception.value', dataL0.characteristics.perceptionmodifier),
         addEffect('data.characteristics.defense', dataL0.characteristics.defensemodifier),
         addEffect('data.characteristics.health.max', dataL0.characteristics.healthmodifier),
         addEffect('data.characteristics.health.healingrate', dataL0.characteristics.healingratemodifier),
@@ -76,14 +96,13 @@ export class DLActiveEffects {
       ].filter(falsyChangeFilter)
     }
     return [effectDataL0, effectDataL4]
-    // demonlordItem.createEmbeddedDocuments('ActiveEffect', [effectDataL0, effectDataL4])
   }
 
   /**
    * Toggles the activation of an active effect based on its level requirements and current activation
    * @param actor
    */
-  static async toggleEffectsByActorRequirements(actor) {
+  static toggleEffectsByActorRequirements(actor) {
     const notMetEffectsData = actor.effects
       .filter((effect) =>
         effect.data.flags?.levelRequired > actor.data.data.level && !effect.data.disabled ||
@@ -94,6 +113,6 @@ export class DLActiveEffects {
           disabled: !effect.data.disabled
         })
       )
-    return await actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
+    return actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
   }
 }
