@@ -29,6 +29,7 @@ export class DemonlordItem extends Item {
     html.on('click', '.roll-damage', this._onChatRollDamage.bind(this));
     html.on('click', '.apply-damage', this._onChatApplyDamage.bind(this));
     html.on('click', '.use-talent', this._onChatUseTalent.bind(this));
+    html.on('click', '.place-template', this._onChatPlaceTemplate.bind(this));
     html.on('click', '.request-challengeroll', this._onChatRequestChallengeRoll.bind(this));
     html.on('click', '.make-challengeroll', this._onChatMakeChallengeRoll.bind(this));
     html.on('click', '.request-initroll', this._onChatRequestInitRoll.bind(this));
@@ -437,5 +438,20 @@ export class DemonlordItem extends Item {
     const targets = controlled.reduce((arr, t) => (t.actor ? arr.concat([t.actor]) : arr), []);
     if (character && controlled.length === 0) targets.push(character);
     return targets;
+  }
+
+  static async _onChatPlaceTemplate(event) {
+    event.preventDefault();
+    const li = event.currentTarget;
+    const metadata = li.closest('.demonlord').dataset;
+    const data = li.children[0].dataset;
+    const itemId = data.itemId;
+    const actor = game.actors.get(metadata.actorId);
+    const item = actor.items.get(itemId);
+
+    const template = game.demonlord.canvas.ActionTemplate.fromItem(item);
+    if (template) {
+      template.drawPreview();
+    }
   }
 }

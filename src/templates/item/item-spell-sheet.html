@@ -13,6 +13,7 @@
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
         <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+        <a class="item" data-tab="activated-effect">{{localize "DL.TabsActivatedEffect"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -253,6 +254,9 @@
                     {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
                 </div>
             </div>
+
+            {{!-- Activated Effect Tab --}}
+            {{> "systems/demonlord08/templates/item/partial/item-activation.html"}}
         </section>
     </section>
 </form>
