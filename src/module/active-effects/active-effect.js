@@ -1,6 +1,6 @@
 const addEffect = (key, value) => ({
   key: key,
-  value: parseInt(value),
+  value: parseInt(value),  // for some strange reason, with parseInt(value) values get concatenated as strings
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
   priority: 0
 })
@@ -53,7 +53,7 @@ export class DLActiveEffects {
 
   static generateEffectDataFromAncestry(demonlordItem) {
     const dataL0 = demonlordItem.data.data
-    console.log("Demonlord | fromAncestry | ancestryItemData", demonlordItem)
+    //console.log("Demonlord | fromAncestry | ancestryItemData", demonlordItem)
 
     const effectDataL0 = {
       label: demonlordItem.name + " level 0",
@@ -76,7 +76,7 @@ export class DLActiveEffects {
         addEffect('data.characteristics.health.healingrate', dataL0.characteristics.healingratemodifier),
         addEffect('data.characteristics.power', dataL0.characteristics.power),
         overrideEffect('data.characteristics.size', dataL0.characteristics.size),
-        overrideEffect('data.characteristics.speed', dataL0.characteristics.speed),
+        addEffect('data.characteristics.speed', dataL0.characteristics.speed - 10),
       ].filter(falsyChangeFilter)
     }
 
@@ -96,6 +96,65 @@ export class DLActiveEffects {
       ].filter(falsyChangeFilter)
     }
     return [effectDataL0, effectDataL4]
+  }
+
+  static generateEffectDataFromPath(demonlordItem) {
+    const pathdata = demonlordItem.data.data
+    const effectDataList = []
+
+    pathdata.levels.forEach(pathLevel => {
+      const levelEffectData = {
+        label: demonlordItem.name + " level " + pathLevel.level,
+        icon: demonlordItem.img,
+        origin: demonlordItem.uuid,
+        transfer: true,
+        flags: {
+          sourceType: 'path',
+          levelRequired: parseInt(pathLevel.level),
+          permanent: true
+        },
+        changes: [
+          // Characteristics
+          addEffect('data.characteristics.health.max', pathLevel.characteristicsHealth),
+          addEffect('data.characteristics.power', pathLevel.characteristicsPower),
+          addEffect('data.attributes.perception.value', pathLevel.characteristicsPerception),
+          addEffect('data.characteristics.speed', pathLevel.characteristicsSpeed),
+          addEffect('data.characteristics.defense', pathLevel.characteristicsDefense),
+          addEffect('data.characteristics.insanity.value', pathLevel.characteristicsInsanity),
+          addEffect('data.characteristics.corruption', pathLevel.characteristicsCorruption),
+
+          // Selected checkbox (select two, three, fixed)
+          addEffect('data.attributes.strength.value',
+            pathLevel.attributeStrength * (pathLevel.attributeStrengthSelected || pathLevel.attributeSelectIsFixed)),
+          addEffect('data.attributes.agility.value',
+            pathLevel.attributeAgility * (pathLevel.attributeAgilitySelected || pathLevel.attributeSelectIsFixed)),
+          addEffect('data.attributes.intellect.value',
+            pathLevel.attributeIntellect * (pathLevel.attributeIntellectSelected || pathLevel.attributeSelectIsFixed)),
+          addEffect('data.attributes.will.value',
+            pathLevel.attributeWill * (pathLevel.attributeWillSelected || pathLevel.attributeSelectIsFixed)),
+        ].filter(falsyChangeFilter)
+      }
+
+      // Two set attributes
+      if (pathLevel.attributeSelectIsTwoSet) {
+
+        const attributeOne = pathLevel.attributeSelectTwoSetSelectedValue1 ?
+          pathLevel.attributeSelectTwoSet1 : pathLevel.attributeSelectTwoSet2
+        const attributeTwo = pathLevel.attributeSelectTwoSetSelectedValue2 ?
+          pathLevel.attributeSelectTwoSet3 : pathLevel.attributeSelectTwoSet4
+
+        levelEffectData.changes.concat([
+          addEffect(`data.attributes.${attributeOne}.value`, pathLevel.attributeSelectTwoSetValue1),
+          addEffect(`data.attributes.${attributeTwo}.value`, pathLevel.attributeSelectTwoSetValue2),
+          ].filter(falsyChangeFilter)
+        )
+      }
+
+      effectDataList.push(levelEffectData)
+    })
+
+    console.log("Demonlord | fromAncestry | pathItemData", demonlordItem)
+    return effectDataList
   }
 
   /**

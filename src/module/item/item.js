@@ -40,6 +40,9 @@ export class DemonlordItem extends Item {
       case 'ancestry':
         effectDataList = DLActiveEffects.generateEffectDataFromAncestry(this)
         break
+      case 'path':
+        effectDataList = DLActiveEffects.generateEffectDataFromPath(this)
+        break
     }
     // If the item is owned, add effects directly to the actor
     const document = this.parent || this

@@ -28,19 +28,29 @@ export class DemonlordActor extends Actor {
   prepareBaseData() {
     const data = this.data.data
 
-    // Set all attributes and characteristics to the baseline value
-    for (const [key, attribute] of Object.entries(data.attributes)) {
-      attribute.value = 10
-      attribute.modifier = 0
-    }
-    data.attributes.perception.value = 0 // override perception value, since it's derived from will
-    data.attributes.perception.modifier = 0
-    data.characteristics.health.max = 0
-    data.characteristics.health.healingrate = 0
-    data.characteristics.defense = 0
-    data.characteristics.insanity.max = 0
-  }
+    data.attributes.strength.value = 10
+    data.attributes.agility.value = 10
+    data.attributes.intellect.value = 10
+    data.attributes.will.value = 10
+    data.characteristics.speed = 10
 
+    // FIXME:
+    //  Currently in foundry 0.8.1 values that are 0 get wrongly mistaken as strings so AE concatenate changes
+    //  instead of summing, so to fix this -100 is used instead then at the start of prepareDerivedData +100 is added again
+    // Zero-values
+    data.attributes.strength.modifier = -100
+    data.attributes.agility.modifier = -100
+    data.attributes.intellect.modifier = -100
+    data.attributes.will.modifier = -100
+    data.attributes.perception.value = -100 // override perception value, since it's derived from will
+    data.attributes.perception.modifier = -100
+    data.characteristics.health.max = -100
+    data.characteristics.health.healingrate = -100
+    data.characteristics.defense = -100
+    data.characteristics.insanity.max = -100
+    data.characteristics.power = -100
+
+  }
 
   /**
    * Prepare actor data that depends on items and effects
@@ -49,6 +59,19 @@ export class DemonlordActor extends Actor {
   prepareDerivedData() {
     const data = this.data.data
     const safeSum = (x, y) => parseInt(x) + parseInt(y)
+
+    // FIXME: Zero-values
+    data.attributes.strength.modifier += 100
+    data.attributes.agility.modifier += 100
+    data.attributes.intellect.modifier += 100
+    data.attributes.will.modifier += 100
+    data.attributes.perception.value += 100 // override perception value, since it's derived from will
+    data.attributes.perception.modifier += 100
+    data.characteristics.health.max += 100
+    data.characteristics.health.healingrate += 100
+    data.characteristics.defense += 100
+    data.characteristics.insanity.max += 100
+    data.characteristics.power += 100
 
     // Override Perception initial value
     data.attributes.perception.value = safeSum(data.attributes.perception.value, data.attributes.will.value)
@@ -75,13 +98,19 @@ export class DemonlordActor extends Actor {
 
   /**
    * TODO: Remove in 0.8.2 (in theory)
+   * FIXME: When updating an embedded document
    * When an embedded document is updated, force the regeneration of the data and the actor sheet
    * @override
    */
-  _onUpdateEmbeddedDocuments(embeddedName, ...args) {
-    super._onUpdateEmbeddedDocuments(embeddedName, ...args)
-    this.prepareData()
-    this.sheet.render()
+  _onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
+    //super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId)
+    // Force regeneration only if the updated documents contain an active effect
+    for (let doc of documents)
+      if (doc.entity === 'ActiveEffect'){
+        this.prepareData()
+        this.sheet.render()
+        return
+      }
   }
 
   /** @override */
