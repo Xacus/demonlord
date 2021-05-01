@@ -120,8 +120,10 @@ export class DLActiveEffects {
           addEffect('data.attributes.perception.value', pathLevel.characteristicsPerception),
           addEffect('data.characteristics.speed', pathLevel.characteristicsSpeed),
           addEffect('data.characteristics.defense', pathLevel.characteristicsDefense),
-          addEffect('data.characteristics.insanity.value', pathLevel.characteristicsInsanity),
-          addEffect('data.characteristics.corruption', pathLevel.characteristicsCorruption),
+
+          // FIXME
+          // addEffect('data.characteristics.insanityModifier', pathLevel.characteristicsInsanity),
+          // addEffect('data.characteristics.corruptionModifier', pathLevel.characteristicsCorruption),
 
           // Selected checkbox (select two, three, fixed)
           addEffect('data.attributes.strength.value',

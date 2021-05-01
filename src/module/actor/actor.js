@@ -34,9 +34,6 @@ export class DemonlordActor extends Actor {
     data.attributes.will.value = 10
     data.characteristics.speed = 10
 
-    // FIXME:
-    //  Currently in foundry 0.8.1 values that are 0 get wrongly mistaken as strings so AE concatenate changes
-    //  instead of summing, so to fix this -100 is used instead then at the start of prepareDerivedData +100 is added again
     // Zero-values
     data.attributes.strength.modifier = 0
     data.attributes.agility.modifier = 0
