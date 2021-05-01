@@ -1,6 +1,20 @@
 const addEffect = (key, value) => ({
   key: key,
-  value: parseInt(value),  // for some strange reason, with parseInt(value) values get concatenated as strings
+  value: parseInt(value),
+  mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+  priority: 0
+})
+
+const concatDiceEffect = (key, value) => ({
+  key: key,
+  value: value ? "+" + String(value) : null,
+  mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+  priority: 0
+})
+
+const concatString = (key, value, separator = '') => ({
+  key: key,
+  value: value ? value + separator : null,
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
   priority: 0
 })
@@ -13,8 +27,16 @@ const overrideEffect = (key, value) => ({
   priority: 0
 })
 
+const addObject = (key, value) => ({
+  key: key,
+  value: value,
+  mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+  priority: 0
+})
+
 const falsyChangeFilter = (change) => Boolean(change.value)
 
+/* -------------------------------------------- */
 
 export class DLActiveEffects {
 
@@ -60,6 +82,7 @@ export class DLActiveEffects {
       icon: demonlordItem.img,
       origin: demonlordItem.uuid,
       transfer: true,
+      duration: {},
       flags: {
         sourceType: 'ancestry',
         levelRequired: 0,
@@ -86,6 +109,7 @@ export class DLActiveEffects {
       icon: demonlordItem.img,
       origin: demonlordItem.uuid,
       transfer: true,
+      duration: {},
       flags: {
         sourceType: 'ancestry',
         levelRequired: 4,
@@ -108,6 +132,7 @@ export class DLActiveEffects {
         icon: demonlordItem.img,
         origin: demonlordItem.uuid,
         transfer: true,
+        duration: {},
         flags: {
           sourceType: 'path',
           levelRequired: parseInt(pathLevel.level),
@@ -146,8 +171,8 @@ export class DLActiveEffects {
           pathLevel.attributeSelectTwoSet3 : pathLevel.attributeSelectTwoSet4
 
         levelEffectData.changes.concat([
-          addEffect(`data.attributes.${attributeOne}.value`, pathLevel.attributeSelectTwoSetValue1),
-          addEffect(`data.attributes.${attributeTwo}.value`, pathLevel.attributeSelectTwoSetValue2),
+            addEffect(`data.attributes.${attributeOne}.value`, pathLevel.attributeSelectTwoSetValue1),
+            addEffect(`data.attributes.${attributeTwo}.value`, pathLevel.attributeSelectTwoSetValue2),
           ].filter(falsyChangeFilter)
         )
       }
@@ -157,6 +182,84 @@ export class DLActiveEffects {
 
     console.log("Demonlord | fromAncestry | pathItemData", demonlordItem)
     return effectDataList
+  }
+
+  static generateEffectDataFromTalent(talentItem, pathLevelItem = {}) {
+    const talentData = talentItem.data.data
+    const effectData = {
+      label: talentItem.name,
+      icon: talentItem.img,
+      origin: talentItem.uuid,
+      disabled: ! (talentData.addtonextroll || talentData.isActive), //TODO: better enabled detection
+      transfer: true,
+      duration: {},
+      flags: {
+        sourceType: 'talent',
+        // levelRequired: parseInt(pathLevelItem.level), TODO
+        permanent: false
+      },
+      changes: [
+        // Bonuses - Characteristics
+        addEffect('data.characteristics.defense', talentData.bonuses.defense),
+        addEffect('data.characteristics.health.max', talentData.bonuses.health),
+        addEffect('data.characteristics.power', talentData.bonuses.power),
+        addEffect('data.characteristics.speed', talentData.bonuses.speed),
+      ].filter(falsyChangeFilter)
+    }
+
+    // --- Attack
+    const action = talentData.action
+    const attackChanges = [
+      addEffect('data.bonuses.attack.boons.strength', action.boonsbanes * action.strengthboonsbanesselect),
+      addEffect('data.bonuses.attack.boons.agility', action.boonsbanes * action.agilityboonsbanesselect),
+      addEffect('data.bonuses.attack.boons.intellect', action.boonsbanes * action.intellectboonsbanesselect),
+      addEffect('data.bonuses.attack.boons.will', action.boonsbanes * action.willboonsbanesselect),
+      concatDiceEffect('data.bonuses.attack.damage', action.damage),
+      concatDiceEffect('data.bonuses.attack.plus20Damage', action.plus20damage),
+      concatString('data.bonuses.attack.extraEffect', action.extraEffect, '\n'),
+    ].filter(falsyChangeFilter)
+
+    if (attackChanges.length > 0) {
+      attackChanges.push(addObject('data.bonuses.attack.sources', talentItem.uuid))
+      effectData.changes = effectData.changes.concat(attackChanges)
+    }
+
+    // --- Challenge
+    const challenge = talentData.challenge
+    const challengeChanges = [
+      addEffect('data.bonuses.challenge.boons.strength', challenge.boonsbanes * challenge.strengthboonsbanesselect),
+      addEffect('data.bonuses.challenge.boons.agility', challenge.boonsbanes * challenge.agilityboonsbanesselect),
+      addEffect('data.bonuses.challenge.boons.intellect', challenge.boonsbanes * challenge.intellectboonsbanesselect),
+      addEffect('data.bonuses.challenge.boons.will', challenge.boonsbanes * challenge.willboonsbanesselect),
+      addEffect('data.bonuses.challenge.boons.perception', challenge.boonsbanes * challenge.perceptionboonsbanesselect),
+    ].filter(falsyChangeFilter)
+
+    if (challengeChanges.length > 0) {
+      challengeChanges.push(addObject('data.bonuses.challenge.sources', talentItem.uuid))
+      effectData.changes = effectData.changes.concat(challengeChanges)
+    }
+
+    // -- VS Roll
+    const vsRoll = talentData.vs
+    const vsRollData = {
+      attackModifier: vsRoll.attribute,
+      defenseModifier: vsRoll.against,
+      boons: vsRoll.boonsbanes,
+      damages:
+        [{damage: vsRoll.damage, type: vsRoll.damagetype}]
+        .concat(vsRoll.damagetypes
+          .filter(d => Boolean(d.damage))
+          .map(d => ({damage: d.damage, type: d.damagetype}))
+        )
+    }
+    if (Object.values(vsRollData).filter(val => Boolean(val)).length > 0){
+      vsRollData.source = talentItem.uuid
+      const vsRollChanges = addObject('data.bonuses.vsRoll', JSON.stringify(vsRollData))
+      effectData.changes.push(vsRollChanges)
+    }
+
+    console.log(talentData)
+    return [effectData]
   }
 
   /**

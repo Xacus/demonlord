@@ -481,6 +481,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
   generateCharacterBuffs() {
     const characterbuffs = new CharacterBuff();
+    return characterbuffs //FIXME: remove
     characterbuffs.challengestrengthbonus = 0;
     characterbuffs.challengeagilitybonus = 0;
     characterbuffs.challengeintellectbonus = 0;
