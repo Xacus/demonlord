@@ -38,17 +38,17 @@ export class DemonlordActor extends Actor {
     //  Currently in foundry 0.8.1 values that are 0 get wrongly mistaken as strings so AE concatenate changes
     //  instead of summing, so to fix this -100 is used instead then at the start of prepareDerivedData +100 is added again
     // Zero-values
-    data.attributes.strength.modifier = -100
-    data.attributes.agility.modifier = -100
-    data.attributes.intellect.modifier = -100
-    data.attributes.will.modifier = -100
-    data.attributes.perception.value = -100 // override perception value, since it's derived from will
-    data.attributes.perception.modifier = -100
-    data.characteristics.health.max = -100
-    data.characteristics.health.healingrate = -100
-    data.characteristics.defense = -100
-    data.characteristics.insanity.max = -100
-    data.characteristics.power = -100
+    data.attributes.strength.modifier = 0
+    data.attributes.agility.modifier = 0
+    data.attributes.intellect.modifier = 0
+    data.attributes.will.modifier = 0
+    data.attributes.perception.value = 0 // override perception value, since it's derived from will
+    data.attributes.perception.modifier = 0
+    data.characteristics.health.max = 0
+    data.characteristics.health.healingrate = 0
+    data.characteristics.defense = 0
+    data.characteristics.insanity.max = 0
+    data.characteristics.power = 0
 
   }
 
@@ -58,59 +58,26 @@ export class DemonlordActor extends Actor {
    */
   prepareDerivedData() {
     const data = this.data.data
-    const safeSum = (x, y) => parseInt(x) + parseInt(y)
-
-    // FIXME: Zero-values
-    data.attributes.strength.modifier += 100
-    data.attributes.agility.modifier += 100
-    data.attributes.intellect.modifier += 100
-    data.attributes.will.modifier += 100
-    data.attributes.perception.value += 100 // override perception value, since it's derived from will
-    data.attributes.perception.modifier += 100
-    data.characteristics.health.max += 100
-    data.characteristics.health.healingrate += 100
-    data.characteristics.defense += 100
-    data.characteristics.insanity.max += 100
-    data.characteristics.power += 100
 
     // Override Perception initial value
-    data.attributes.perception.value = safeSum(data.attributes.perception.value, data.attributes.will.value)
+    data.attributes.perception.value += data.attributes.will.value
 
     // Bound attribute value and calculate modifiers
     for (const [key, attribute] of Object.entries(data.attributes)) {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
-      attribute.modifier = safeSum(attribute.modifier, attribute.value - 10)
+      attribute.modifier += attribute.value - 10
       attribute.label = key.toUpperCase()
     }
 
     // Health and Healing Rate
-    data.characteristics.health.max =
-      safeSum(data.characteristics.health.max, data.attributes.strength.value)
-    data.characteristics.health.healingrate =
-      safeSum(data.characteristics.health.healingrate, Math.floor(data.characteristics.health.max / 4))
+    data.characteristics.health.max += data.attributes.strength.value
+    data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)
 
     // Defense
-    data.characteristics.defense = safeSum(data.characteristics.defense, data.attributes.agility.value)
+    data.characteristics.defense += data.attributes.agility.value
     // Insanity
-    data.characteristics.insanity.max = safeSum(data.characteristics.insanity.max, data.attributes.will.value)
+    data.characteristics.insanity.max += data.attributes.will.value
 
-  }
-
-  /**
-   * TODO: Remove in 0.8.2 (in theory)
-   * FIXME: When updating an embedded document
-   * When an embedded document is updated, force the regeneration of the data and the actor sheet
-   * @override
-   */
-  _onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
-    //super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId)
-    // Force regeneration only if the updated documents contain an active effect
-    for (let doc of documents)
-      if (doc.entity === 'ActiveEffect'){
-        this.prepareData()
-        this.sheet.render()
-        return
-      }
   }
 
   /** @override */
