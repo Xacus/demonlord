@@ -46,6 +46,9 @@ export class DemonlordItem extends Item {
       case 'talent':
         effectDataList = DLActiveEffects.generateEffectDataFromTalent(this)
         break
+      case 'armor':
+        effectDataList = DLActiveEffects.generateEffectDataFromArmor(this)
+        break
     }
     // If the item is owned, add effects directly to the actor
     const document = this.parent || this

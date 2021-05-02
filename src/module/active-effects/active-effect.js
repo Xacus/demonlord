@@ -27,6 +27,13 @@ const overrideEffect = (key, value) => ({
   priority: 0
 })
 
+const upgradeEffect = (key, value) => ({
+  key: key,
+  value: parseInt(value),
+  mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE,
+  priority: 0
+})
+
 const addObject = (key, value) => ({
   key: key,
   value: value,
@@ -259,6 +266,30 @@ export class DLActiveEffects {
     }
 
     console.log(talentData)
+    return [effectData]
+  }
+
+  static generateEffectDataFromArmor(armorItem) {
+    const armorData = armorItem.data.data
+    console.log(armorData)
+    const effectData = {
+      label: armorItem.name,
+      icon: armorItem.img,
+      origin: armorItem.uuid,
+      transfer: true,
+      duration: {},
+      flags: {
+        sourceType: 'armor',
+        levelRequired: 0,
+        permanent: false
+      },
+      changes: [
+        addEffect('data.bonuses.armor.agility', armorData.agility),
+        addEffect('data.bonuses.armor.defense', armorData.defense),
+        upgradeEffect('data.bonuses.armor.fixed', armorData.fixed),
+      ].filter(falsyChangeFilter)
+    }
+    // TODO FIXME: Armor requirements not met (-1 banes to rolls)
     return [effectData]
   }
 

@@ -60,7 +60,8 @@ export class DemonlordActor extends Actor {
         sources: [],
         boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
       },
-      vsRoll: [] // Data description in DLActiveEffects.generateEffectDataFromTalent
+      vsRoll: [], // Data description in DLActiveEffects.generateEffectDataFromTalent
+      armor: {fixed: 0, agility: 0, defense: 0}
     })
   }
 
@@ -85,8 +86,6 @@ export class DemonlordActor extends Actor {
     data.characteristics.health.max += data.attributes.strength.value
     data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)
 
-    // Defense
-    data.characteristics.defense += data.attributes.agility.value
     // Insanity
     data.characteristics.insanity.max += data.attributes.will.value
 
@@ -99,6 +98,9 @@ export class DemonlordActor extends Actor {
         } catch (e) {console.warn("Demonlord | Deserialization error | Talent vsRoll", v,)}
       })
 
+    // Armor
+    data.characteristics.defense += data.bonuses.armor.fixed || (data.attributes.agility.value + data.bonuses.armor.agility)
+    data.characteristics.defense += data.bonuses.armor.defense
   }
 
   /** @override */
