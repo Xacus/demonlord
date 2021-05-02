@@ -17,6 +17,7 @@ import * as migrations from './migration.js';
 import * as macros from './macros.js';
 import * as playertracker from './playertrackercontrol.js';
 import {capitalize} from "./utils/utils";
+import {DLAfflictions} from "./active-effects/afflictions";
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -153,14 +154,17 @@ Hooks.once('setup', function () {
   }
 
   // Status Effects Icons
-  const effects = [];
-  for (const [key, attribute] of Object.entries(CONFIG.DL.statusIcons)) {
-    effects.push({
-      id: key,
-      label: key.charAt(0).toUpperCase() + key.slice(1),
-      icon: attribute,
-    });
-  }
+  // const effects = [];
+  // for (const [key, attribute] of Object.entries(CONFIG.DL.statusIcons)) {
+  //   effects.push({
+  //     id: key,
+  //     label: key.charAt(0).toUpperCase() + key.slice(1),
+  //     icon: attribute,
+  //   });
+  // }
+
+  const effects = DLAfflictions.buildAll()
+
   if (!game.settings.get('demonlord08', 'statusIcons')) {
     for (const effect of CONFIG.statusEffects) {
       effects.push({
@@ -361,6 +365,7 @@ Hooks.on('updateActor', async (actor, updateData) => {
 });
 
 Hooks.on('createActiveEffect', async (activeEffect) => {
+  console.log('--------------------------------------------------------CREATE ACTIVE EFFECT HOOK CALLED ------------------------------------')
   // When you add a Status Effects directly on the token
   if (activeEffect) {
     switch (activeEffect.data.label) {

@@ -18,7 +18,7 @@ export class DemonlordActor extends Actor {
     this.prepareEmbeddedEntities()
     // this.applyActiveEffects()  call already present in prepareEmbeddedEntities as of 0.8.1
     this.prepareDerivedData()
-
+    this.applyOverrides()
   }
 
   /**
@@ -51,7 +51,7 @@ export class DemonlordActor extends Actor {
     setProperty(data, 'bonuses', {
       attack: {
         sources: [],
-        boons: {strength: 0, agility: 0, intellect: 0, will: 0},
+        boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
         damage: "",
         plus20Damage: "",
         extraEffect: "",
@@ -61,7 +61,19 @@ export class DemonlordActor extends Actor {
         boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
       },
       vsRoll: [], // Data description in DLActiveEffects.generateEffectDataFromTalent
-      armor: {fixed: 0, agility: 0, defense: 0}
+      armor: {fixed: 0, agility: 0, defense: 0},
+      defense: {
+        sources: [],
+        boons: {strength: 0, agility: 0, intellect: 0, will: 0, defense:0, perception: 0},
+        noFastTurn: 0
+      }
+    })
+
+    setProperty(data, 'maluses', {
+      autoFail: {
+        challenge:  {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+        action:  {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+      }
     })
   }
 
@@ -95,12 +107,28 @@ export class DemonlordActor extends Actor {
       .map(v => {
         try {
           return JSON.parse(v)
-        } catch (e) {console.warn("Demonlord | Deserialization error | Talent vsRoll", v,)}
+        } catch (e) {
+          console.warn("Demonlord | Deserialization error | Talent vsRoll", v,)
+        }
       })
 
     // Armor
     data.characteristics.defense += data.bonuses.armor.fixed || (data.attributes.agility.value + data.bonuses.armor.agility)
     data.characteristics.defense += data.bonuses.armor.defense
+  }
+
+  /**
+   * Ensures that overridden data gets applied
+   */
+  applyOverrides() {
+    const overridesData = this.overrides.data
+    const actorData = this.data.data
+    if (!overridesData) return
+
+    // Defense
+    actorData.characteristics.defense = overridesData.characteristics.defense ?? actorData.characteristics.defense
+    // Speed
+    actorData.characteristics.speed = overridesData.characteristics.speed ?? actorData.characteristics.speed
   }
 
   /** @override */

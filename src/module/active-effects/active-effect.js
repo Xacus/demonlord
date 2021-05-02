@@ -1,18 +1,18 @@
-const addEffect = (key, value) => ({
+export const addEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
   priority: 0
 })
 
-const concatDiceEffect = (key, value) => ({
+export const concatDiceEffect = (key, value) => ({
   key: key,
   value: value ? "+" + String(value) : null,
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
   priority: 0
 })
 
-const concatString = (key, value, separator = '') => ({
+export const concatString = (key, value, separator = '') => ({
   key: key,
   value: value ? value + separator : null,
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
@@ -20,23 +20,30 @@ const concatString = (key, value, separator = '') => ({
 })
 
 
-const overrideEffect = (key, value) => ({
+export const overrideEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
   priority: 0
 })
 
-const upgradeEffect = (key, value) => ({
+export const upgradeEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE,
   priority: 0
 })
 
-const addObject = (key, value) => ({
+export const downgradeEffect = (key, value) => ({
   key: key,
-  value: value,
+  value: parseInt(value),
+  mode: CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,
+  priority: 0
+})
+
+export const addObject = (key, value) => ({
+  key: key,
+  value: JSON.stringify(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
   priority: 0
 })
@@ -261,7 +268,7 @@ export class DLActiveEffects {
     }
     if (Object.values(vsRollData).filter(val => Boolean(val)).length > 0){
       vsRollData.source = talentItem.uuid
-      const vsRollChanges = addObject('data.bonuses.vsRoll', JSON.stringify(vsRollData))
+      const vsRollChanges = addObject('data.bonuses.vsRoll', vsRollData)
       effectData.changes.push(vsRollChanges)
     }
 
