@@ -19,18 +19,6 @@ export class DemonlordItem extends Item {
   /** @override */
   async update(updateData) {
     await super.update(updateData)
-    // this.embedActiveEffects()
-  }
-
-  /** @override */
-  _onCreate(data, options, user) {
-    super._onCreate(data, options, user)
-    //this.embedActiveEffects()
-  }
-
-  /** @override */
-  _onUpdate(data, options, user) {
-    super._onUpdate(data, options, user)
     this.embedActiveEffects()
   }
 
@@ -51,9 +39,12 @@ export class DemonlordItem extends Item {
         break
     }
     // If the item is owned, add effects directly to the actor
-    const document = this.parent || this
-    DLActiveEffects.addUpdateEffectsToDocument(document, effectDataList)
-
+    if (this.parent)
+      DLActiveEffects.addUpdateEffectsToDocument(this.parent, effectDataList)
+    else {
+      DLActiveEffects.removeAllEffects(this)
+      this.createEmbeddedDocuments('ActiveEffect', effectDataList, {parent: this})
+    }
   }
 
   /**
