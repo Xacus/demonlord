@@ -22,7 +22,7 @@ export class DemonlordItem extends Item {
     this.embedActiveEffects()
   }
 
-  embedActiveEffects() {
+  async embedActiveEffects() {
     let effectDataList = []
     switch (this.data.type) {
       case 'ancestry':
@@ -37,14 +37,17 @@ export class DemonlordItem extends Item {
       case 'armor':
         effectDataList = DLActiveEffects.generateEffectDataFromArmor(this)
         break
+      default:
+        return
     }
     // If the item is owned, add effects directly to the actor
     if (this.parent)
-      DLActiveEffects.addUpdateEffectsToDocument(this.parent, effectDataList)
+      await DLActiveEffects.addUpdateEffectsToDocument(this.parent, effectDataList)
     else {
-      DLActiveEffects.removeAllEffects(this)
-      this.createEmbeddedDocuments('ActiveEffect', effectDataList, {parent: this})
+      await DLActiveEffects.removeAllEffects(this)
+      await this.createEmbeddedDocuments('ActiveEffect', effectDataList, {parent: this})
     }
+
   }
 
   /**

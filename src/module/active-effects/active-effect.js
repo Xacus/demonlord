@@ -47,8 +47,8 @@ const falsyChangeFilter = (change) => Boolean(change.value)
 
 export class DLActiveEffects {
 
-  static removeAllEffects(document) {
-    const ids = document.effects.map((effect) => effect._id)
+  async static removeAllEffects(document) {
+    const ids = document.getEmbeddedCollection('ActiveEffect').map((effect) => effect._id)
     return document.deleteEmbeddedDocuments('ActiveEffect', ids)
   }
 
@@ -66,7 +66,7 @@ export class DLActiveEffects {
     // Inject the _id of already present effects (that have the same name and source)
     // into the effectDataList for updating the document's effect list with the new values
     effectDataList.forEach((effectData) => {
-      for (let embeddedEffect of document.effects)
+      for (let embeddedEffect of document.getEmbeddedCollection('ActiveEffect'))
         if (embeddedEffect.data.label === effectData.label && embeddedEffect.data.origin === effectData.origin) {
           effectData._id = embeddedEffect.data._id
           effectsToUpd.push(effectData)
