@@ -83,8 +83,8 @@ export class DLActiveEffects {
     })
 
     // Update or add the effects
-    document.updateEmbeddedDocuments('ActiveEffect', effectsToUpd, {diff: false})
-    document.createEmbeddedDocuments('ActiveEffect', effectsToAdd)
+    document.updateEmbeddedDocuments('ActiveEffect', effectsToUpd, { parent:document, diff: false})
+    document.createEmbeddedDocuments('ActiveEffect', effectsToAdd, {parent: document})
   }
 
   static generateEffectDataFromAncestry(demonlordItem) {
