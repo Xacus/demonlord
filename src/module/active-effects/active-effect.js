@@ -47,8 +47,8 @@ const falsyChangeFilter = (change) => Boolean(change.value)
 
 export class DLActiveEffects {
 
-  async static removeAllEffects(document) {
-    const ids = document.getEmbeddedCollection('ActiveEffect').map((effect) => effect._id)
+  static async removeAllEffects(document) {
+    const ids = document.getEmbeddedCollection('ActiveEffect').map((effect) => effect.data._id)
     return document.deleteEmbeddedDocuments('ActiveEffect', ids)
   }
 
@@ -60,7 +60,7 @@ export class DLActiveEffects {
     return document.deleteEmbeddedDocuments('ActiveEffect', ids)
   }
 
-  static addUpdateEffectsToDocument(document, effectDataList) {
+  static async addUpdateEffectsToDocument(document, effectDataList) {
     const effectsToAdd = []
     const effectsToUpd = []
     // Inject the _id of already present effects (that have the same name and source)
@@ -76,13 +76,13 @@ export class DLActiveEffects {
     })
 
     // Update or add the effects
-    document.updateEmbeddedDocuments('ActiveEffect', effectsToUpd, { parent:document, diff: false})
-    document.createEmbeddedDocuments('ActiveEffect', effectsToAdd, {parent: document})
+    await document.updateEmbeddedDocuments('ActiveEffect', effectsToUpd, { parent:document, diff: false})
+    await document.createEmbeddedDocuments('ActiveEffect', effectsToAdd, {parent: document})
+    return 1
   }
 
   static generateEffectDataFromAncestry(demonlordItem) {
     const dataL0 = demonlordItem.data.data
-    //console.log("Demonlord | fromAncestry | ancestryItemData", demonlordItem)
 
     const effectDataL0 = {
       label: demonlordItem.name + " level 0",
@@ -187,7 +187,6 @@ export class DLActiveEffects {
       effectDataList.push(levelEffectData)
     })
 
-    console.log("Demonlord | fromAncestry | pathItemData", demonlordItem)
     return effectDataList
   }
 
@@ -265,13 +264,12 @@ export class DLActiveEffects {
       effectData.changes.push(vsRollChanges)
     }
 
-    console.log(talentData)
     return [effectData]
   }
 
   static generateEffectDataFromArmor(armorItem) {
     const armorData = armorItem.data.data
-    console.log(armorData)
+
     const effectData = {
       label: armorItem.name,
       icon: armorItem.img,

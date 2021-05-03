@@ -18,8 +18,10 @@ export class DemonlordItem extends Item {
 
   /** @override */
   async update(updateData) {
+    console.log('Demonlord | DemonlordItem.update | Called with updateData:', updateData)
     await super.update(updateData)
-    this.embedActiveEffects()
+    await this.embedActiveEffects()
+    return 1
   }
 
   async embedActiveEffects() {
@@ -38,16 +40,16 @@ export class DemonlordItem extends Item {
         effectDataList = DLActiveEffects.generateEffectDataFromArmor(this)
         break
       default:
-        return
+        return 0
     }
     // If the item is owned, add effects directly to the actor
     if (this.parent)
       await DLActiveEffects.addUpdateEffectsToDocument(this.parent, effectDataList)
     else {
-      await DLActiveEffects.removeAllEffects(this)
-      await this.createEmbeddedDocuments('ActiveEffect', effectDataList, {parent: this})
+      DLActiveEffects.removeAllEffects(this)
+      this.createEmbeddedDocuments('ActiveEffect', effectDataList, {parent: this})
     }
-
+    return 1
   }
 
   /**

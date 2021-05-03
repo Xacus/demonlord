@@ -365,7 +365,7 @@ Hooks.on('updateActor', async (actor, updateData) => {
 });
 
 Hooks.on('createActiveEffect', async (activeEffect) => {
-  console.log('--------------------------------------------------------CREATE ACTIVE EFFECT HOOK CALLED ------------------------------------')
+  //console.log('--------------------------------------------------------CREATE ACTIVE EFFECT HOOK CALLED ------------------------------------')
   // When you add a Status Effects directly on the token
   if (activeEffect) {
     switch (activeEffect.data.label) {
