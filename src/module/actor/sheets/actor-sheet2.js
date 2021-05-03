@@ -2,7 +2,7 @@ import { DLActorModifiers } from '../../dialog/actor-modifiers.js';
 import { DLCharacterGenerater } from '../../dialog/actor-generator.js';
 import { DL } from '../../config.js';
 import { CharacterBuff } from '../../buff.js';
-import { onManageActiveEffect, prepareActiveEffectCategories } from '../../effects.js';
+import { onManageActiveEffect, prepareActiveEffectCategories } from '../../active-effects/effects.js';
 
 export class DemonlordActorSheet2 extends ActorSheet {
   constructor(...args) {

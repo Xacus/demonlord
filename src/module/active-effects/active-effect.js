@@ -2,21 +2,18 @@ export const addEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-  priority: 0
 })
 
 export const concatDiceEffect = (key, value) => ({
   key: key,
   value: value ? "+" + String(value) : null,
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-  priority: 0
 })
 
 export const concatString = (key, value, separator = '') => ({
   key: key,
   value: value ? value + separator : null,
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-  priority: 0
 })
 
 
@@ -24,28 +21,24 @@ export const overrideEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-  priority: 0
 })
 
 export const upgradeEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE,
-  priority: 0
 })
 
 export const downgradeEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,
-  priority: 0
 })
 
 export const addObject = (key, value) => ({
   key: key,
   value: JSON.stringify(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-  priority: 0
 })
 
 const falsyChangeFilter = (change) => Boolean(change.value)

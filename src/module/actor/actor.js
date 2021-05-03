@@ -18,7 +18,6 @@ export class DemonlordActor extends Actor {
     this.prepareEmbeddedEntities()
     // this.applyActiveEffects()  call already present in prepareEmbeddedEntities as of 0.8.1
     this.prepareDerivedData()
-    this.applyOverrides()
   }
 
   /**
@@ -46,7 +45,7 @@ export class DemonlordActor extends Actor {
     data.characteristics.defense = 0
     data.characteristics.insanity.max = 0
     data.characteristics.power = 0
-    data.characteristics.size = ""
+    data.characteristics.size = "1"
 
     // Custom properties
     setProperty(data, 'bonuses', {
@@ -62,7 +61,7 @@ export class DemonlordActor extends Actor {
         boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
       },
       vsRoll: [], // Data description in DLActiveEffects.generateEffectDataFromTalent
-      armor: {fixed: 0, agility: 0, defense: 0},
+      armor: {fixed: 0, agility: 0, defense: 0, override: 0},
       defense: {
         sources: [],
         boons: {strength: 0, agility: 0, intellect: 0, will: 0, defense:0, perception: 0},
@@ -74,6 +73,7 @@ export class DemonlordActor extends Actor {
       autoFail: {
         challenge:  {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
         action:  {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+        halfSpeed: 0,
       }
     })
   }
@@ -116,358 +116,12 @@ export class DemonlordActor extends Actor {
     // Armor
     data.characteristics.defense += data.bonuses.armor.fixed || (data.attributes.agility.value + data.bonuses.armor.agility)
     data.characteristics.defense += data.bonuses.armor.defense
-  }
+    data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense
 
-  /**
-   * Ensures that overridden data gets applied
-   */
-  applyOverrides() {
-    const overridesData = this.overrides.data
-    const actorData = this.data.data
-    if (!overridesData) return
-
-    // Defense
-    actorData.characteristics.defense = overridesData.characteristics.defense ?? actorData.characteristics.defense
     // Speed
-    actorData.characteristics.speed = overridesData.characteristics.speed ?? actorData.characteristics.speed
-  }
-
-  /** @override */
-  async _onDeleteEmbeddedEntity(embeddedName, child, options, userId) {
-    await super._onDeleteEmbeddedEntity(embeddedName, child, options, userId)
-    //this.prepareData()
-    return
-    const characterbuffs = this.generateCharacterBuffs();
-
-    if (child.data?.addtonextroll) {
-      await this.update({
-        'data.characteristics.defensebonus':
-          parseInt(characterbuffs.defensebonus) -
-          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
-        'data.characteristics.healthbonus':
-          parseInt(characterbuffs.healthbonus) -
-          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
-        'data.characteristics.speedbonus':
-          parseInt(characterbuffs.speedbonus) -
-          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
-        'data.characteristics.defense':
-          parseInt(this.data.data.characteristics.defense) -
-          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
-        'data.characteristics.health.max':
-          parseInt(this.data.data.characteristics.health.max) -
-          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
-        'data.characteristics.speed.value':
-          parseInt(this.data.data.characteristics.speed.value) -
-          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
-      });
-    }
-  }
-
-  /**
-   * Prepare Character type specific data
-   */
-  _prepareCharacterData(actorData) {
-    const data = actorData.data;
-    let will;
-    let savedAncestry = null;
-    let pathHealthBonus = 0;
-    let ancestryFixedArmor = false;
-    const characterbuffs = this.generateCharacterBuffs();
-    const ancestries = actorData.items.filter((e) => e.type === 'ancestry');
-
-    for (const ancestry of ancestries) {
-      savedAncestry = ancestry;
-
-      data.ancestry = ancestry.data.name;
-
-      if (!game.settings.get('demonlord08', 'useHomebrewMode')) {
-
-        // data.attributes.strength.value = parseInt(ancestry.data.data.attributes?.strength.value);
-        // data.attributes.agility.value = parseInt(ancestry.data.data.attributes?.agility.value);
-        // data.attributes.intellect.value = parseInt(ancestry.data.data.attributes?.intellect.value);
-        // data.attributes.will.value = parseInt(ancestry.data.data.attributes?.will.value);
-
-        data.characteristics.insanity.max = data.attributes.will.value
-
-        // Paths
-        if (data.level > 0) {
-          for (let i = 1; i <= data.level; i++) {
-            const paths = actorData.items.filter((e) => e.type === 'path');
-            paths.forEach((path) => {
-              path.data.data.levels
-                .filter(function ($level) {
-                  return $level.level == i;
-                })
-                .forEach(function ($level) {
-                  // Attributes
-                  if ($level.attributeStrengthSelected) {
-                    data.attributes.strength.value += parseInt($level.attributeStrength);
-                  }
-                  if ($level.attributeAgilitySelected) {
-                    data.attributes.agility.value += parseInt($level.attributeAgility);
-                  }
-                  if ($level.attributeIntellectSelected) {
-                    data.attributes.intellect.value += parseInt($level.attributeIntellect);
-                  }
-                  if ($level.attributeWillSelected) {
-                    data.attributes.will.value += parseInt($level.attributeWill);
-                  }
-
-                  if ($level.attributeSelectIsFixed) {
-                    if ($level.attributeStrength > 0) {
-                      data.attributes.strength.value += parseInt($level.attributeStrength);
-                    }
-                    if ($level.attributeAgility > 0) {
-                      data.attributes.agility.value += parseInt($level.attributeAgility);
-                    }
-                    if ($level.attributeIntellect > 0) {
-                      data.attributes.intellect.value += parseInt($level.attributeIntellect);
-                    }
-                    if ($level.attributeWill > 0) {
-                      data.attributes.will.value += parseInt($level.attributeWill);
-                    }
-                  }
-
-                  pathHealthBonus += $level.characteristicsHealth;
-
-                  switch (path.data.type) {
-                    case 'novice':
-                      data.paths.novice = path.name;
-                      break;
-                    case 'expert':
-                      data.paths.expert = path.name;
-                      break;
-                    case 'master':
-                      data.paths.master = path.name;
-                      break;
-                    default:
-                      break;
-                  }
-                });
-            });
-          }
-        }
-      } else {
-        // Paths
-        if (data.level > 0) {
-          for (let i = 1; i <= data.level; i++) {
-            const paths = actorData.items.filter((e) => e.type === 'path');
-            paths.forEach((path) => {
-              path.data.levels
-                .filter(function ($level) {
-                  return $level.level == i;
-                })
-                .forEach(function ($level) {
-                  pathHealthBonus += $level.characteristicsHealth;
-
-                  switch (path.data.type) {
-                    case 'novice':
-                      data.paths.novice = path.name;
-                      break;
-                    case 'expert':
-                      data.paths.expert = path.name;
-                      break;
-                    case 'master':
-                      data.paths.master = path.name;
-                      break;
-                    default:
-                      break;
-                  }
-                });
-            });
-          }
-        }
-      }
-
-      // Calculate Health and Healing Rate
-      if (game.settings.get('demonlord08', 'reverseDamage')) {
-        if (data.characteristics.health.value < 0) {
-          data.characteristics.health.value =
-            parseInt(data.attributes.strength.value) +
-            parseInt(ancestry.data.data.characteristics?.healthmodifier) +
-            characterbuffs.healthbonus +
-            pathHealthBonus;
-        }
-        data.characteristics.health.max =
-          parseInt(data.attributes.strength.value) +
-          parseInt(ancestry.data.data.characteristics?.healthmodifier) +
-          characterbuffs.healthbonus +
-          pathHealthBonus;
-      } else {
-        data.characteristics.health.max =
-          parseInt(data.attributes.strength.value) +
-          parseInt(ancestry.data.data.characteristics?.healthmodifier) +
-          characterbuffs.healthbonus +
-          pathHealthBonus;
-      }
-      if (data.level >= 4) {
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          if (data.characteristics.health.value == 0) {
-            data.characteristics.health.value += parseInt(ancestry.data.data.level4?.healthbonus);
-          }
-          data.characteristics.health.max += parseInt(ancestry.data.data.level4?.healthbonus);
-        } else {
-          data.characteristics.health.max += parseInt(ancestry.data.data.level4?.healthbonus);
-        }
-      }
-      data.characteristics.health.healingrate =
-        Math.floor(parseInt(data.characteristics.health.max) / 4) +
-        parseInt(ancestry.data.data.characteristics?.healingratemodifier);
-      // ******************
-
-      data.attributes.perception.value =
-        parseInt(data.attributes.intellect.value) + parseInt(ancestry.data.data.characteristics.perceptionmodifier);
-
-      if (parseInt(ancestry.data.data.characteristics?.defensemodifier) > 10) {
-        data.characteristics.defense = parseInt(ancestry.data.data.characteristics?.defensemodifier);
-        ancestryFixedArmor = true;
-      } else {
-        data.characteristics.defense =
-          parseInt(data.attributes.agility.value) + parseInt(ancestry.data.data.characteristics.defensemodifier);
-      }
-
-      data.characteristics.power = parseInt(ancestry.data.data.characteristics?.power);
-      data.characteristics.speed = parseInt(ancestry.data.data.characteristics?.speed);
-      data.characteristics.size = ancestry.data.data.characteristics.size;
-
-      // These were still breaking the sanity/corruption fields..
-      // data.characteristics.insanity.value += parseInt(
-      //   ancestry.data.characteristics.insanity
-      // )
-      // data.characteristics.corruption += parseInt(
-      //   ancestry.data.characteristics.corruption
-      // )
-    }
-
-    if (savedAncestry == null && this.data.type != 'creature') {
-      data.attributes.perception.value = parseInt(data.attributes.intellect.value);
-      data.characteristics.defense = parseInt(data.attributes.agility.value);
-
-      if (game.settings.get('demonlord08', 'reverseDamage')) {
-        if (data.characteristics.health.value == 0) {
-          data.characteristics.health.value = parseInt(data.attributes.strength.value) + characterbuffs.healthbonus;
-        }
-        data.characteristics.health.max = parseInt(data.attributes.strength.value) + characterbuffs.healthbonus;
-      } else {
-        data.characteristics.health.max = parseInt(data.attributes.strength.value) + characterbuffs.healthbonus;
-      }
-    }
-
-    // Paths
-    let pathDefenseBonus = 0;
-    if (data.level > 0) {
-      const actor = this;
-
-      for (let i = 1; i <= data.level; i++) {
-        const paths = actorData.items.filter((e) => e.type === 'path');
-        paths.forEach((path) => {
-          path.data.data.levels
-            .filter(function ($level) {
-              return $level.level == i;
-            })
-            .forEach(function ($level) {
-              // Characteristics
-              data.characteristics.power = parseInt(data.characteristics.power) + parseInt($level.characteristicsPower);
-              pathDefenseBonus = $level.characteristicsDefense;
-              data.characteristics.speed += $level.characteristicsSpeed;
-              data.attributes.perception.value += $level.characteristicsPerception;
-            });
-        });
-      }
-    }
-
-    // Loop through ability scores, and add their modifiers to our sheet output.
-    for (const [key, attribute] of Object.entries(data.attributes)) {
-      if (attribute.value > attribute.max) {
-        attribute.value = attribute.max;
-      }
-      if (attribute.value < attribute.min) {
-        attribute.value = attribute.min;
-      }
-
-      attribute.modifier = attribute.value - 10;
-      attribute.label = CONFIG.DL.attributes[key].toUpperCase();
-    }
-
-    const armors = actorData.items.filter((e) => e.type === 'armor');
-    let armorpoint = 0;
-    let agilitypoint = 0;
-    let defenseBonus = 0;
-    let speedPenalty = 0;
-    for (const armor of armors) {
-      if (armor.data.data.wear) {
-        // If you wear armor and do not meet or exceed its requirements: -2 speed
-        if (
-          !armor.data.data.isShield &&
-          armor.data.data.strengthmin != '' &&
-          !ancestryFixedArmor &&
-          parseInt(armor.data.data.strengthmin) > parseInt(data.attributes.strength.value)
-        ) {
-          speedPenalty = -2;
-        }
-
-        if (armor.data.data.agility && agilitypoint == 0) {
-          agilitypoint = parseInt(armor.data.agility);
-        }
-        if (armor.data.data.fixed) armorpoint = parseInt(armor.data.data.fixed);
-        if (armor.data.data.defense) defenseBonus = parseInt(armor.data.data.defense);
-      }
-    }
-
-    if (ancestryFixedArmor) {
-      if (armorpoint > data.characteristics.defense) {
-        data.characteristics.defense = armorpoint;
-      }
-      data.characteristics.defense += pathDefenseBonus + defenseBonus + characterbuffs.defensebonus;
-    } else if (armorpoint >= 11) {
-      data.characteristics.defense =
-        parseInt(armorpoint) + parseInt(defenseBonus) + pathDefenseBonus + characterbuffs.defensebonus;
-    } else {
-      data.characteristics.defense =
-        parseInt(data.characteristics.defense) +
-        parseInt(defenseBonus) +
-        parseInt(agilitypoint) +
-        pathDefenseBonus +
-        characterbuffs.defensebonus;
-    }
-
-    if (data.characteristics.defense > 25) data.characteristics.defense = 25;
-
-    characterbuffs.speedbonus += speedPenalty;
-
-    if (game.settings.get('demonlord08', 'useHomebrewMode')) {
-      data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4);
-    }
-
-    // Afflictions
-    if (data.afflictions.slowed) {
-      data.characteristics.speed = Math.floor(parseInt(data.characteristics.speed + speedPenalty) / 2);
-    } else {
-      data.characteristics.speed = parseInt(data.characteristics.speed) + parseInt(characterbuffs.speedbonus);
-    }
-
-    if (data.afflictions.defenseless) data.characteristics.defense = 5;
-
-    if (data.afflictions.blinded) {
-      data.characteristics.speed = parseInt(data.characteristics.speed) < 2 ? parseInt(data.characteristics.speed) : 2;
-    }
-
-    // Calculate Insanity
-    data.characteristics.insanity.max = data.attributes.will.value;
-
-    data.characteristics.power += parseInt(characterbuffs.powerbonus);
-
-    if (data.actions.rush) {
-      data.characteristics.speed = data.characteristics.speed * 2;
-    }
-
-    if (data.actions.retreat) {
-      data.characteristics.speed = Math.floor(data.characteristics.speed / 2);
-    }
-
-    if (data.afflictions.immobilized) data.characteristics.speed = 0;
-
-    if (data.afflictions.unconscious) data.characteristics.defense = 5;
+    data.characteristics.speed = Math.max(0, data.characteristics.speed)
+    if (data.maluses.halfSpeed)
+      data.characteristics.speed = Math.floor(data.characteristics.speed / 2)
   }
 
   async createItemCreate(event) {
@@ -980,49 +634,6 @@ export class DemonlordActor extends Actor {
       .then((item) => {
         that.render();
       });
-  }
-
-  async addCharacterBonuses(talent) {
-    const healthbonus =
-      talent.data.bonuses?.defenseactive && talent.data.bonuses?.health > 0 ? parseInt(talent.data.bonuses?.health) : 0;
-    const defensebonus =
-      talent.data.bonuses?.healthactive && talent.data.bonuses?.defense > 0
-        ? parseInt(talent.data.bonuses?.defense)
-        : 0;
-    const speedbonus =
-      talent.data.bonuses?.speedactive && talent.data.bonuses?.speed > 0 ? parseInt(talent.data.bonuses?.speed) : 0;
-    const powerbonus =
-      talent.data.bonuses?.poweractive && talent.data.bonuses?.power > 0 ? parseInt(talent.data.bonuses?.power) : 0;
-
-    /*
-                await this.update({
-                    "data.characteristics.health.max": parseInt(this.data.data.characteristics.health.max) + healthbonus,
-                    "data.characteristics.defense": parseInt(this.data.data.characteristics.defense) + defensebonus,
-                    "data.characteristics.speed.value": parseInt(this.data.data.characteristics.speed.value) + speedbonus,
-                    "data.activebonuses": true
-                });
-                */
-  }
-
-  async removeCharacterBonuses(talent) {
-    const healthbonus =
-      talent.data.bonuses?.defenseactive && talent.data.bonuses?.health > 0 ? parseInt(talent.data.bonuses?.health) : 0;
-    const defensebonus =
-      talent.data.bonuses?.healthactive && talent.data.bonuses?.defense > 0
-        ? parseInt(talent.data.bonuses?.defense)
-        : 0;
-    const speedbonus =
-      talent.data.bonuses?.speedactive && talent.data.bonuses?.speed > 0 ? parseInt(talent.data.bonuses?.speed) : 0;
-    const powerbonus =
-      talent.data.bonuses?.poweractive && talent.data.bonuses?.power > 0 ? parseInt(talent.data.bonuses?.power) : 0;
-
-    await this.update({
-      'data.characteristics.health.max': parseInt(this.data.data.characteristics.health.max) - healthbonus,
-      'data.characteristics.defense': parseInt(this.data.data.characteristics.defense) - defensebonus,
-      'data.characteristics.speed.value': parseInt(this.data.data.characteristics.speed.value) - speedbonus,
-      'data.characteristics.power.value': parseInt(this.data.data.characteristics.power.value) - powerbonus,
-      'data.activebonuses': false,
-    });
   }
 
   async addDamageToTarget(damage) {

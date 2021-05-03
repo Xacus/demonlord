@@ -80,7 +80,7 @@ export class DLAfflictions {
       'Defenseless',
       'systems/demonlord08/assets/icons/effects/defenseless.svg',
       [
-        overrideEffect('data.characteristics.defense', 5),
+        overrideEffect('data.bonuses.armor.override', 5),
         overrideEffect('data.maluses.autoFail.challenge.strength', 1),
         overrideEffect('data.maluses.autoFail.challenge.agility', 1),
         overrideEffect('data.maluses.autoFail.challenge.intellect', 1),
@@ -142,7 +142,7 @@ export class DLAfflictions {
       'Immobilized',
       'systems/demonlord08/assets/icons/effects/immobilized.svg',
       [
-        overrideEffect('data.characteristics.speed', 0),
+        downgradeEffect('data.characteristics.speed', -1),
         addEffect('data.bonuses.defense.boons.defense', -1),
         addEffect('data.bonuses.defense.boons.strength', -1),
         addEffect('data.bonuses.defense.boons.agility', -1),
@@ -191,7 +191,7 @@ export class DLAfflictions {
       'systems/demonlord08/assets/icons/effects/slowed.svg',
       [
         overrideEffect('data.maluses.noFastTurn', 1),
-        overrideEffect('data.maluses.halfSpeed', 1) //FIXME: implement half speed after all effects have been calulated
+        overrideEffect('data.maluses.halfSpeed', 1)
       ]
     ))
 
@@ -234,7 +234,7 @@ export class DLAfflictions {
         overrideEffect('data.maluses.autoFail.action.intellect', 1),
         overrideEffect('data.maluses.autoFail.action.will', 1),
         overrideEffect('data.maluses.autoFail.action.perception', 1),
-        overrideEffect('data.characteristics.speed', "000")
+        downgradeEffect('data.characteristics.speed', -1)
       ]
     ))
 
@@ -253,8 +253,8 @@ export class DLAfflictions {
         overrideEffect('data.maluses.autoFail.action.intellect', 1),
         overrideEffect('data.maluses.autoFail.action.will', 1),
         overrideEffect('data.maluses.autoFail.action.perception', 1),
-        overrideEffect('data.characteristics.speed', "000"),
-        overrideEffect('data.characteristics.defense', 5)
+        downgradeEffect('data.characteristics.speed', -1),
+        overrideEffect('data.bonuses.armor.override', 5)
       ]
     ))
 
