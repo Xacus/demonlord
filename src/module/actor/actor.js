@@ -18,7 +18,6 @@ export class DemonlordActor extends Actor {
     this.prepareEmbeddedEntities()
     // this.applyActiveEffects()  call already present in prepareEmbeddedEntities as of 0.8.1
     this.prepareDerivedData()
-    this.applyOverrides()
   }
 
   /**
@@ -46,7 +45,7 @@ export class DemonlordActor extends Actor {
     data.characteristics.defense = 0
     data.characteristics.insanity.max = 0
     data.characteristics.power = 0
-    data.characteristics.size = ""
+    data.characteristics.size = "1"
 
     // Custom properties
     setProperty(data, 'bonuses', {
@@ -62,7 +61,7 @@ export class DemonlordActor extends Actor {
         boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
       },
       vsRoll: [], // Data description in DLActiveEffects.generateEffectDataFromTalent
-      armor: {fixed: 0, agility: 0, defense: 0},
+      armor: {fixed: 0, agility: 0, defense: 0, override: 0},
       defense: {
         sources: [],
         boons: {strength: 0, agility: 0, intellect: 0, will: 0, defense:0, perception: 0},
@@ -74,6 +73,7 @@ export class DemonlordActor extends Actor {
       autoFail: {
         challenge:  {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
         action:  {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+        halfSpeed: 0,
       }
     })
   }
@@ -116,51 +116,12 @@ export class DemonlordActor extends Actor {
     // Armor
     data.characteristics.defense += data.bonuses.armor.fixed || (data.attributes.agility.value + data.bonuses.armor.agility)
     data.characteristics.defense += data.bonuses.armor.defense
-  }
+    data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense
 
-  /**
-   * Ensures that overridden data gets applied
-   */
-  applyOverrides() {
-    const overridesData = this.overrides.data
-    const actorData = this.data.data
-    if (!overridesData) return
-
-    // Defense
-    actorData.characteristics.defense = overridesData.characteristics.defense ?? actorData.characteristics.defense
     // Speed
-    actorData.characteristics.speed = overridesData.characteristics.speed ?? actorData.characteristics.speed
-  }
-
-  /** @override */
-  async _onDeleteEmbeddedEntity(embeddedName, child, options, userId) {
-    await super._onDeleteEmbeddedEntity(embeddedName, child, options, userId)
-    //this.prepareData()
-    return
-    const characterbuffs = this.generateCharacterBuffs();
-
-    if (child.data?.addtonextroll) {
-      await this.update({
-        'data.characteristics.defensebonus':
-          parseInt(characterbuffs.defensebonus) -
-          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
-        'data.characteristics.healthbonus':
-          parseInt(characterbuffs.healthbonus) -
-          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
-        'data.characteristics.speedbonus':
-          parseInt(characterbuffs.speedbonus) -
-          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
-        'data.characteristics.defense':
-          parseInt(this.data.data.characteristics.defense) -
-          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
-        'data.characteristics.health.max':
-          parseInt(this.data.data.characteristics.health.max) -
-          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
-        'data.characteristics.speed.value':
-          parseInt(this.data.data.characteristics.speed.value) -
-          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
-      });
-    }
+    data.characteristics.speed = Math.max(0, data.characteristics.speed)
+    if (data.maluses.halfSpeed)
+      data.characteristics.speed = Math.floor(data.characteristics.speed / 2)
   }
 
   /**

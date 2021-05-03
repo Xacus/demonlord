@@ -3,7 +3,7 @@
  * @extends {ItemSheet}
  */
 import {PathLevelItem, DamageType} from '../../pathlevel.js';
-import {onManageActiveEffect, prepareActiveEffectCategories} from '../../effects.js';
+import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects.js';
 import {DemonlordItem} from "../item";
 import {DLActiveEffects} from "../../active-effects/active-effect";
 
