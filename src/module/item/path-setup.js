@@ -1003,13 +1003,15 @@ export class DemonlordPathSetup extends ItemSheet {
         }
       }
 
-      await this.object.update({
-        'data.levels': item.data.data.levels
-      })
+      // await this.object.update({
+      //   'data.levels': item.data.data.levels
+      // })
+      formData['data.levels'] = item.data.data.levels
     }
 
     delete formData.level
-    return this.object.update(formData)
+    const upd = await this.object.update(formData)
+    return upd
   }
 
   async addLevel (event) {
@@ -1019,7 +1021,7 @@ export class DemonlordPathSetup extends ItemSheet {
     itemData.data.levels.push(new PathLevel())
 
     this.item.update(itemData);
-    
+
     //await this.item.update(itemData)
     this.render(true)
   }

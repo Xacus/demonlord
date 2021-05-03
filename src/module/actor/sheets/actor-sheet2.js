@@ -1127,7 +1127,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
         } else {
           item.data.uses.value = 0;
           item.data.addtonextroll = false;
-          this.actor.removeCharacterBonuses(item);
         }
       } else if (ev.button == 2) {
         if (uses == 0 && usesmax == 0) {
@@ -1139,7 +1138,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
         } else {
           item.data.uses.value = 0;
           item.data.addtonextroll = false;
-          this.actor.removeCharacterBonuses(item);
         }
       }
 
@@ -1164,7 +1162,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
       item.data.uses.value = 0;
       item.data.addtonextroll = false;
-      this.actor.removeCharacterBonuses(item);
 
       Item.updateDocuments([item], { parent: this.actor });
     });

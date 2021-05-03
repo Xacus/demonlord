@@ -8,8 +8,6 @@ export class DemonlordItem extends Item {
    * Augment the basic Item data model with additional dynamic data.
    */
   prepareData() {
-    super.prepareData();
-
     // Get the Item's data
     const itemData = this.data;
     const actorData = this.actor ? this.actor.data : {};
@@ -20,7 +18,7 @@ export class DemonlordItem extends Item {
   async update(updateData) {
     console.log('Demonlord | DemonlordItem.update | Called with updateData:', updateData)
     await super.update(updateData)
-    await this.embedActiveEffects()
+    this.embedActiveEffects()
     return 1
   }
 

@@ -371,6 +371,8 @@ export class DemonlordItemSheetDefault extends ItemSheet {
   async _updateObject(event, formData) {
     const item = this.object;
     const updateData = expandObject(formData);
+    // const updateResult = await this.object.update(updateData)
+    // return updateResult
 
     switch (item.type) {
       case 'talent':
@@ -379,9 +381,10 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           (updateData.data?.uses?.value == null && updateData.data?.uses?.max == null) ||
           (updateData.data?.uses?.value === '0' && updateData.data?.uses?.max === '0')
         ) {
-          await this.object.update({
-            'data.addtonextroll': true,
-          });
+          // await this.object.update({
+          //   'data.addtonextroll': true,
+          // });
+          updateData['data.addtonextroll'] = true
 
           const characterbuffs = this.generateCharacterBuffs();
           await this.actor?.update({
@@ -390,9 +393,10 @@ export class DemonlordItemSheetDefault extends ItemSheet {
             'data.characteristics.speedbonus': parseInt(characterbuffs.speedbonus),
           });
         } else {
-          await this.document.update({
-            'data.addtonextroll': false,
-          });
+          // await this.document.update({
+          //   'data.addtonextroll': false,
+          // });
+          updateData['data.addtonextroll'] = false
         }
 
         for (const [k, v] of Object.entries(formData)) {
@@ -421,9 +425,10 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           }
         }
 
-        await this.object.update({
-          'data.vs.damagetypes': duplicate(this.item.data.data?.vs?.damagetypes),
-        });
+        // await this.object.update({
+        //   'data.vs.damagetypes': duplicate(this.item.data.data?.vs?.damagetypes),
+        // });
+        updateData['data.vs.damagetypes'] = duplicate(this.item.data.data?.vs?.damagetypes)
         break
       case 'weapon':
       case 'spell':

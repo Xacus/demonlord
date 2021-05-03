@@ -26,6 +26,12 @@ export class DemonlordActor extends Actor {
   prepareBaseData() {
     const data = this.data.data;
 
+    data.attributes.strength.value = 10;
+    data.attributes.agility.value = 10;
+    data.attributes.intellect.value = 10;
+    data.attributes.will.value = 10;
+    data.characteristics.speed = 10;
+
     // Zero-values
     data.attributes.strength.modifier = 0;
     data.attributes.agility.modifier = 0;
@@ -603,16 +609,7 @@ export class DemonlordActor extends Actor {
       } else {
         talent.data.uses.value = 0;
         talent.data.addtonextroll = false;
-
-        if (this.data.data.activebonuses) {
-          this.removeCharacterBonuses(talent);
-        }
       }
-
-      if (!this.data.data.activebonuses) {
-        this.addCharacterBonuses(talent);
-      }
-
       await Item.updateDocuments([talent], { parent: this });
     }
   }
