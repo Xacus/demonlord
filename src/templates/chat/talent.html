@@ -229,6 +229,14 @@
         {{#if data.ifBlindedRoll }}
         <div class="gmonly">
         {{/if}}
+        {{#if data.hasAreaTarget }}
+        <div class="combatactions place-template">
+            <div class="header" data-item-id="{{data.id.value}}">
+                <img src="systems/demonlord/css/icons/pentagram.png" width="15" height="15" />
+                <div>{{localize "DL.ActionPlaceTemplate"}}</div>
+            </div>
+        </div>
+        {{/if}}
     {{#if data.damageFormular.value}}
     <div class="combatactions roll-damage">
         <div class="header" data-item-id="{{data.id.value}}" data-damage="{{data.damageFormular.value}}" data-damagetype="{{data.damageType.value}}">

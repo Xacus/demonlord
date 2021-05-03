@@ -40,6 +40,9 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord08/templates/dialogs/endofround-dialog.html',
     'systems/demonlord08/templates/actor/new-creature-sheet.html',
     'systems/demonlord08/templates/actor/new-creature-header.html',
-    'systems/demonlord08/templates/actor/new-creature-sidemenu.html'
-  ])
-}
+    'systems/demonlord08/templates/actor/new-creature-sidemenu.html',
+
+    // Item Sheet Partials
+    'systems/demonlord08/templates/item/partial/item-activation.html',
+  ]);
+};

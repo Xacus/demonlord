@@ -1,8 +1,7 @@
-import {FormatDice} from "../dice";
+import { FormatDice } from '../dice';
 
 export default class ActorActions {
-
-  static useTalent (actor, talent, boonsbanes, modifier) {
+  static useTalent(actor, talent, boonsbanes, modifier) {
     const rollMode = game.settings.get('core', 'rollMode');
     const target = actor.getTarget();
     let diceformular = '1d20';
@@ -194,6 +193,7 @@ export default class ActorActions {
         isCreature: {
           value: actor.data.type == 'creature',
         },
+        hasAreaTarget: talent.data?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape,
         pureDamage: {
           value: talent.data?.damage,
         },
@@ -245,7 +245,6 @@ export default class ActorActions {
       });
     }
   }
-
 
   static useSpell(actor, spell, boonsbanes, buffs, modifier) {
     const rollMode = game.settings.get('core', 'rollMode');
@@ -376,6 +375,7 @@ export default class ActorActions {
     var templateData = {
       actor: actor,
       item: {
+        _id: spell._id,
         data: spell,
         name: spell.name,
       },
@@ -495,6 +495,7 @@ export default class ActorActions {
         isCreature: {
           value: actor.data.type == 'creature',
         },
+        hasAreaTarget: spell.data?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape,
         healing: {
           value: spell.data?.healing?.healactive && spell.data?.healing?.healing ? spell.data?.healing?.healing : false,
         },

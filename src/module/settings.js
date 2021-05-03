@@ -78,4 +78,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   });
+  game.settings.register('demonlord08', 'templateAutoTargeting', {
+    name: game.i18n.localize('DL.SettingTemplateAutoTargeting'),
+    hint: game.i18n.localize('DL.SettingTemplateAutoTargetingHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  });
 };

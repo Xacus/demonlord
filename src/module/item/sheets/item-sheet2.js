@@ -4,6 +4,7 @@
  */
 import { PathLevelItem, DamageType } from '../../pathlevel.js';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../../effects.js';
+import { DL } from '../../config.js';
 
 export class DemonlordItemSheetDefault extends ItemSheet {
   /** @override */
@@ -40,6 +41,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     data.useDemonlordMode = game.settings.get('demonlord08', 'useHomebrewMode');
     data.lockAncestry = game.settings.get('demonlord08', 'lockAncestry');
     data.effects = prepareActiveEffectCategories(this.document.effects);
+    data.config = DL;
 
     if (data.item.type == 'path') {
       this._prepareLevels(data);

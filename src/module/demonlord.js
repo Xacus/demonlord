@@ -8,6 +8,7 @@ import { DemonlordNewCreatureSheet } from './actor/sheets/new-creature-sheet.js'
 import { DemonlordItem } from './item/item.js';
 import { DemonlordItemSheetDefault } from './item/sheets/item-sheet2.js';
 import { DemonlordPathSetup } from './item/path-setup.js';
+import { ActionTemplate } from './item/action-template.js';
 import { registerSettings } from './settings.js';
 import { rollInitiative, startCombat, nextTurn, setupTurns } from './init/init.js';
 import combattracker from './combattracker.js';
@@ -23,6 +24,9 @@ Hooks.once('init', async function () {
       DemonlordActor,
       DemonlordItem,
     },
+    canvas: {
+      ActionTemplate,
+    },
     migrations: migrations,
     macros: macros,
     rollWeaponMacro: macros.rollWeaponMacro,
@@ -32,6 +36,8 @@ Hooks.once('init', async function () {
     rollInitMacro: macros.rollInitMacro,
     healingPotionMacro: macros.healingPotionMacro,
   };
+
+  CONFIG.MeasuredTemplate.defaults.angle = 53.13;
 
   // Define custom Entity classes
   CONFIG.DL = DL;
