@@ -2,22 +2,21 @@
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-import {FormatDice} from '../dice.js';
-import {ActorRolls} from './actor-rolls';
-import {ActorAfflictionsEffects} from './actor-afflictions-effects';
-import {DLActiveEffects} from "../active-effects/active-effect";
+import { FormatDice } from '../dice.js';
+import { ActorRolls } from './actor-rolls';
+import { ActorAfflictionsEffects } from './actor-afflictions-effects';
+import { DLActiveEffects } from '../active-effects/active-effect';
 
 export class DemonlordActor extends Actor {
-
   /** @override */
   prepareData() {
     if (!this.data.img) this.data.img = CONST.DEFAULT_TOKEN;
-    if (!this.data.name) this.data.name = "New " + this.entity;
-    DLActiveEffects.toggleEffectsByActorRequirements(this)
-    this.prepareBaseData()
-    this.prepareEmbeddedEntities()
+    if (!this.data.name) this.data.name = 'New ' + this.entity;
+    DLActiveEffects.toggleEffectsByActorRequirements(this);
+    this.prepareBaseData();
+    this.prepareEmbeddedEntities();
     // this.applyActiveEffects()  call already present in prepareEmbeddedEntities as of 0.8.1
-    this.prepareDerivedData()
+    this.prepareDerivedData();
   }
 
   /**
@@ -25,57 +24,51 @@ export class DemonlordActor extends Actor {
    * @override
    */
   prepareBaseData() {
-    const data = this.data.data
-
-    data.attributes.strength.value = 10
-    data.attributes.agility.value = 10
-    data.attributes.intellect.value = 10
-    data.attributes.will.value = 10
-    data.characteristics.speed = 10
+    const data = this.data.data;
 
     // Zero-values
-    data.attributes.strength.modifier = 0
-    data.attributes.agility.modifier = 0
-    data.attributes.intellect.modifier = 0
-    data.attributes.will.modifier = 0
-    data.attributes.perception.value = 0 // override perception value, since it's derived from will
-    data.attributes.perception.modifier = 0
-    data.characteristics.health.max = 0
-    data.characteristics.health.healingrate = 0
-    data.characteristics.defense = 0
-    data.characteristics.insanity.max = 0
-    data.characteristics.power = 0
-    data.characteristics.size = "1"
+    data.attributes.strength.modifier = 0;
+    data.attributes.agility.modifier = 0;
+    data.attributes.intellect.modifier = 0;
+    data.attributes.will.modifier = 0;
+    data.attributes.perception.value = 0; // override perception value, since it's derived from will
+    data.attributes.perception.modifier = 0;
+    data.characteristics.health.max = 0;
+    data.characteristics.health.healingrate = 0;
+    data.characteristics.defense = 0;
+    data.characteristics.insanity.max = 0;
+    data.characteristics.power = 0;
+    data.characteristics.size = '1';
 
     // Custom properties
     setProperty(data, 'bonuses', {
       attack: {
         sources: [],
-        boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
-        damage: "",
-        plus20Damage: "",
-        extraEffect: "",
+        boons: { strength: 0, agility: 0, intellect: 0, will: 0, perception: 0 },
+        damage: '',
+        plus20Damage: '',
+        extraEffect: '',
       },
       challenge: {
         sources: [],
-        boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+        boons: { strength: 0, agility: 0, intellect: 0, will: 0, perception: 0 },
       },
       vsRoll: [], // Data description in DLActiveEffects.generateEffectDataFromTalent
-      armor: {fixed: 0, agility: 0, defense: 0, override: 0},
+      armor: { fixed: 0, agility: 0, defense: 0, override: 0 },
       defense: {
         sources: [],
-        boons: {strength: 0, agility: 0, intellect: 0, will: 0, defense:0, perception: 0},
-        noFastTurn: 0
-      }
-    })
+        boons: { strength: 0, agility: 0, intellect: 0, will: 0, defense: 0, perception: 0 },
+        noFastTurn: 0,
+      },
+    });
 
     setProperty(data, 'maluses', {
       autoFail: {
-        challenge:  {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
-        action:  {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+        challenge: { strength: 0, agility: 0, intellect: 0, will: 0, perception: 0 },
+        action: { strength: 0, agility: 0, intellect: 0, will: 0, perception: 0 },
         halfSpeed: 0,
-      }
-    })
+      },
+    });
   }
 
   /**
@@ -83,45 +76,45 @@ export class DemonlordActor extends Actor {
    * @override
    */
   prepareDerivedData() {
-    const data = this.data.data
+    const data = this.data.data;
 
     // Override Perception initial value
-    data.attributes.perception.value += data.attributes.will.value
+    data.attributes.perception.value += data.attributes.will.value;
 
     // Bound attribute value and calculate modifiers
     for (const [key, attribute] of Object.entries(data.attributes)) {
-      attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
-      attribute.modifier += attribute.value - 10
-      attribute.label = key.toUpperCase()
+      attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value));
+      attribute.modifier += attribute.value - 10;
+      attribute.label = key.toUpperCase();
     }
 
     // Health and Healing Rate
-    data.characteristics.health.max += data.attributes.strength.value
-    data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)
+    data.characteristics.health.max += data.attributes.strength.value;
+    data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4);
 
     // Insanity
-    data.characteristics.insanity.max += data.attributes.will.value
+    data.characteristics.insanity.max += data.attributes.will.value;
 
     // De-serialize vsRoll
     data.bonuses.vsRoll = data.bonuses.vsRoll
-      .filter(v => Boolean(v))
-      .map(v => {
+      .filter((v) => Boolean(v))
+      .map((v) => {
         try {
-          return JSON.parse(v)
+          return JSON.parse(v);
         } catch (e) {
-          console.warn("Demonlord | Deserialization error | Talent vsRoll", v,)
+          console.warn('Demonlord | Deserialization error | Talent vsRoll', v);
         }
-      })
+      });
 
     // Armor
-    data.characteristics.defense += data.bonuses.armor.fixed || (data.attributes.agility.value + data.bonuses.armor.agility)
-    data.characteristics.defense += data.bonuses.armor.defense
-    data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense
+    data.characteristics.defense +=
+      data.bonuses.armor.fixed || data.attributes.agility.value + data.bonuses.armor.agility;
+    data.characteristics.defense += data.bonuses.armor.defense;
+    data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense;
 
     // Speed
-    data.characteristics.speed = Math.max(0, data.characteristics.speed)
-    if (data.maluses.halfSpeed)
-      data.characteristics.speed = Math.floor(data.characteristics.speed / 2)
+    data.characteristics.speed = Math.max(0, data.characteristics.speed);
+    if (data.maluses.halfSpeed) data.characteristics.speed = Math.floor(data.characteristics.speed / 2);
   }
 
   async createItemCreate(event) {
@@ -160,7 +153,7 @@ export class DemonlordActor extends Actor {
     ActorRolls.rollWeaponAttackMacro(this, itemId, boonsbanes, damagebonus);
   }
 
-  async rollWeaponAttack(itemId, options = {event: null}) {
+  async rollWeaponAttack(itemId, options = { event: null }) {
     ActorRolls.rollWeaponAttack(this, itemId, options);
   }
 
@@ -168,11 +161,11 @@ export class DemonlordActor extends Actor {
     ActorRolls.rollAttack(this, weapon, boonsbanes, buffs, modifier);
   }
 
-  rollTalent(itemId, options = {event: null}) {
+  rollTalent(itemId, options = { event: null }) {
     ActorRolls.rollTalent(this, itemId, options);
   }
 
-  rollSpell(itemId, options = {event: null}) {
+  rollSpell(itemId, options = { event: null }) {
     ActorRolls.rollSpell(this, itemId, options);
   }
 
@@ -620,7 +613,7 @@ export class DemonlordActor extends Actor {
         this.addCharacterBonuses(talent);
       }
 
-      await Item.updateDocuments([talent], {parent: this});
+      await Item.updateDocuments([talent], { parent: this });
     }
   }
 
