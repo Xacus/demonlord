@@ -112,8 +112,8 @@ export class DLActiveEffects {
         addEffect('data.characteristics.health.max', dataL0.characteristics.healthmodifier),
         addEffect('data.characteristics.health.healingrate', dataL0.characteristics.healingratemodifier),
         addEffect('data.characteristics.power', dataL0.characteristics.power),
-        overrideEffect('data.characteristics.size', dataL0.characteristics.size),
         addEffect('data.characteristics.speed', dataL0.characteristics.speed - 10),
+        {key:'data.characteristics.size', value: dataL0.characteristics.size, mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE, priority: 0 },
       ].filter(falsyChangeFilter)
     }
 

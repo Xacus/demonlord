@@ -46,6 +46,7 @@ export class DemonlordActor extends Actor {
     data.characteristics.defense = 0
     data.characteristics.insanity.max = 0
     data.characteristics.power = 0
+    data.characteristics.size = ""
 
     // Custom properties
     setProperty(data, 'bonuses', {
