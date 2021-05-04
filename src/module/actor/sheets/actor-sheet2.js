@@ -1147,23 +1147,26 @@ export class DemonlordActorSheet2 extends ActorSheet {
     // Talent Activate Manual
     html.find('.talent-activate').click((ev) => {
       const li = ev.currentTarget.closest('.item');
-      const item = duplicate(this.actor.items.get(li.dataset.itemId));
-      const usesmax = item.data.uses.max;
+      const item = this.actor.items.get(li.dataset.itemId);
+      const usesmax = item.data.data.uses.max;
 
-      if (usesmax > 0) item.data.uses.value = 1;
+      const upd = {data : {}}
+      if (usesmax > 0) upd.data.uses.value = 1;
+      upd.data.addtonextroll = true;
 
-      item.data.addtonextroll = true;
-      Item.updateDocuments([item], { parent: this.actor });
+      item.update(upd)//.updateDocuments([item], { parent: this.actor });
     });
 
     html.find('.talent-deactivate').click((ev) => {
       const li = ev.currentTarget.closest('.item');
-      const item = duplicate(this.actor.items.get(li.dataset.itemId));
+      const item = this.actor.items.get(li.dataset.itemId);
 
-      item.data.uses.value = 0;
-      item.data.addtonextroll = false;
+      const upd = {data: {
+        uses: {value: 0},
+        addtonextroll: false
+        }}
 
-      Item.updateDocuments([item], { parent: this.actor });
+      item.update(upd)
     });
 
     html.on('mousedown', '.spell-uses', (ev) => {
