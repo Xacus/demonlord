@@ -1,6 +1,6 @@
 import {addEffect, downgradeEffect, overrideEffect} from "./active-effect";
 
-const _buildBaseAffliction = (label, icon, changes = []) => ({
+const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
   id: label, // TODO: Check corrections here?
   label: label,
   icon: icon,
@@ -9,12 +9,36 @@ const _buildBaseAffliction = (label, icon, changes = []) => ({
   duration: {},
   flags: {
     sourceType: 'affliction',
-    permanent: false
+    permanent: false,
+    ...flags
   },
   changes: changes
 })
 
 export class DLAfflictions {
+
+  /**
+   * Checks if the actor can do the action he is trying to perform, with the relative attribute
+   * @param actor                 The actor
+   * @param actionType            The type of action: [action / challenge]
+   * @param actionAttribute       The attribute name, lowercase
+   * @returns {boolean}           True if the actor is blocked
+   */
+  static isActorBlocked(actor, actionType, actionAttribute) {
+    actionAttribute = actionAttribute.toLowerCase()
+    const isBlocked = actor.data.data.maluses.autoFail[actionType]?.[actionAttribute] > 0
+    if (isBlocked){
+      const msg = actor.getEmbeddedCollection('ActiveEffect')
+        .find((effect) => Boolean(effect.data.flags?.warningMessage))?.data.flags.warningMessage
+      ui.notifications.error(msg)
+    }
+    return isBlocked
+  }
+
+  /**
+   * Builds the Afflictions Active Effects for the token quick menu
+   * @returns list of active effect data
+   */
   static buildAll() {
     const effectsDataList = []
 
@@ -33,7 +57,10 @@ export class DLAfflictions {
         addEffect('data.bonuses.defense.boons.agility', -1),
         downgradeEffect('data.characteristics.speed', 2),
         // overrideEffect('data.maluses.autoFail.challenge.perception', 1)  fails only perc challenges based on SIGHT
-      ]
+      ],
+      {
+        warningMessage: game.i18n.localize('DL.DialogWarningBlindedChallengeFailer')
+      }
     ))
 
     // Charmed
@@ -63,7 +90,10 @@ export class DLAfflictions {
         overrideEffect('data.maluses.autoFail.action.intellect', 1),
         overrideEffect('data.maluses.autoFail.action.will', 1),
         overrideEffect('data.maluses.autoFail.action.perception', 1),
-      ]
+      ],
+      {
+        warningMessage: game.i18n.localize('DL.DialogWarningDazedFailer')
+      }
     ))
 
     // Deafened
@@ -91,7 +121,10 @@ export class DLAfflictions {
         overrideEffect('data.maluses.autoFail.action.intellect', 1),
         overrideEffect('data.maluses.autoFail.action.will', 1),
         overrideEffect('data.maluses.autoFail.action.perception', 1),
-      ]
+      ],
+      {
+        warningMessage: game.i18n.localize('DL.DialogWarningDefenselessFailer')
+      }
     ))
 
     const challengeBane = [
@@ -216,7 +249,10 @@ export class DLAfflictions {
         addEffect('data.bonuses.defense.boons.will', -1),
         addEffect('data.bonuses.defense.boons.intellect', -1),
         addEffect('data.bonuses.defense.boons.perception', -1),
-      ]
+      ],
+      {
+        warningMessage: game.i18n.localize('DL.DialogWarningStunnedFailer')
+      }
     ))
 
     // Suprised
@@ -235,7 +271,10 @@ export class DLAfflictions {
         overrideEffect('data.maluses.autoFail.action.will', 1),
         overrideEffect('data.maluses.autoFail.action.perception', 1),
         downgradeEffect('data.characteristics.speed', -1)
-      ]
+      ],
+      {
+        warningMessage: game.i18n.localize('DL.DialogWarningSurprisedFailer')
+      }
     ))
 
     // Unconscious
@@ -255,7 +294,10 @@ export class DLAfflictions {
         overrideEffect('data.maluses.autoFail.action.perception', 1),
         downgradeEffect('data.characteristics.speed', -1),
         overrideEffect('data.bonuses.armor.override', 5)
-      ]
+      ],
+      {
+        warningMessage: game.i18n.localize('DL.DialogWarningUnconsciousFailer')
+      }
     ))
 
     // ----------------------- ACTIONS -------------------------- //

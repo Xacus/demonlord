@@ -7,6 +7,7 @@ import { ActorRolls } from './actor-rolls';
 import { ActorAfflictionsEffects } from './actor-afflictions-effects';
 import { DLActiveEffects } from '../active-effects/active-effect';
 import {postAttackToChat} from "../utils/chat-messages";
+import {DLAfflictions} from "../active-effects/afflictions";
 
 export class DemonlordActor extends Actor {
 
@@ -176,15 +177,23 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   /**
-   * Roll an attack using a weapon
+   * Roll an attack using a weapon, calling a dialog for the user to input boons and modifiers
    * @param itemId          The id of the item
    * @param options         Additional options
    */
   rollWeaponAttack(itemId, options={event:null}) {
+    console.log(this)
     const item = this.getEmbeddedDocument('Item', itemId)
-    if (!item.data.data.action?.attack)
+
+    // If no attribute to roll, roll without modifiers and boons
+    const attribute = item.data.data.action?.attack
+    if (!attribute) {
       this.rollAttack(item, 0, 0)
-    else
+      return
+    }
+
+    // Check if actor is blocked by an affliction
+    if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
       ActorRolls.launchRollDialog(
         game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), (html) =>
           this.rollAttack(
