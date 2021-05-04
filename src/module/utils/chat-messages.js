@@ -13,9 +13,43 @@ function _getChatBaseData(actor, rollMode) {
       rollMode === 'selfroll'
         ? [game.user.id]
         : rollMode === 'gmroll' || rollMode === 'blindroll'
-          ? Chatmessage.getWhisperRecipients('GM')
-          : []
+        ? Chatmessage.getWhisperRecipients('GM')
+        : []
   }
+}
+
+const toMessageEffect = (locale, value) =>
+  `&nbsp;&nbsp;&nbsp;• ${game.i18n.localize(locale)}: ${value} <br>`
+
+function _buildEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, action) {
+  const attackerEffects = attacker?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+  const defenderEffects = defender?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+  // TODO: add the "defense banes" from the defended (example: spell resistance)
+
+  let m = new Map()
+  attackerEffects.forEach(effect => effect.data.changes.forEach((change) => {
+    const obj = {label: effect.data.label, type: effect.data.flags?.sourceType, value: change.value}
+    if (!m.has(change.key))
+      m.set(change.key, [obj])
+    else
+      m.get(change.key).push(obj)
+  }))
+  //console.log(m)
+
+  let result = ""
+  const toMsg = (key, title) => {
+    if (m.has(key))
+      result += m.get(key).reduce(
+        (acc, change) => acc + `&nbsp;&nbsp;&nbsp;• ${change.label} (${change.value})<br>`,
+        `<b>${game.i18n.localize(title)}</b><br>`
+      )
+  }
+
+  toMsg(`data.bonuses.attack.boons.${attackAttribute}`, 'DL.TalentAttackBoonsBanes')
+  toMsg('data.bonuses.attack.damage', 'DL.TalentExtraDamage')
+  toMsg('data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+
+  return result
 }
 
 export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute) {
@@ -34,7 +68,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
     : game.i18n.localize('DL.DiceResultFailure')
 
   const attackShow = game.settings.get('demonlord08', 'attackShowAttack')
-  if (attacker.data.type === 'creature' && !attackShow || rollMode === 'blindroll'){
+  if (attacker.data.type === 'creature' && !attackShow || rollMode === 'blindroll') {
     diceTotal = '?'
     resultText = ''
   }
@@ -50,6 +84,8 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
     diceData: FormatDice(attackRoll),
     data: {}
   }
+
+  const actionEffects = _buildEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, 'action')
 
   const data = templateData.data
   data['diceTotal'] = diceTotal
@@ -71,7 +107,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['ifBlindedRoll'] = rollMode === 'blindroll'
-  data['actionEffects'] = '' // TODO
+  data['actionEffects'] = actionEffects
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
 
