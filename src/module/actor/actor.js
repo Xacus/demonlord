@@ -59,7 +59,6 @@ export class DemonlordActor extends Actor {
         sources: [],
         boons: { strength: 0, agility: 0, intellect: 0, will: 0, perception: 0 },
       },
-      vsRoll: [], // Data description in DLActiveEffects.generateEffectDataFromTalent
       armor: { fixed: 0, agility: 0, defense: 0, override: 0 },
       defense: {
         sources: [],
@@ -100,17 +99,6 @@ export class DemonlordActor extends Actor {
 
     // Insanity
     data.characteristics.insanity.max += data.attributes.will.value;
-
-    // De-serialize vsRoll
-    data.bonuses.vsRoll = data.bonuses.vsRoll
-      .filter((v) => Boolean(v))
-      .map((v) => {
-        try {
-          return JSON.parse(v);
-        } catch (e) {
-          console.warn('Demonlord | Deserialization error | Talent vsRoll', v);
-        }
-      });
 
     // Armor
     data.characteristics.defense +=

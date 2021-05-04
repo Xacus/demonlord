@@ -245,25 +245,6 @@ export class DLActiveEffects {
       effectData.changes = effectData.changes.concat(challengeChanges)
     }
 
-    // -- VS Roll
-    const vsRoll = talentData.vs
-    const vsRollData = {
-      attackModifier: vsRoll.attribute,
-      defenseModifier: vsRoll.against,
-      boons: vsRoll.boonsbanes,
-      damages:
-        [{damage: vsRoll.damage, type: vsRoll.damagetype}]
-        .concat(vsRoll.damagetypes
-          .filter(d => Boolean(d.damage))
-          .map(d => ({damage: d.damage, type: d.damagetype}))
-        )
-    }
-    if (Object.values(vsRollData).filter(val => Boolean(val)).length > 0){
-      vsRollData.source = talentItem.uuid
-      const vsRollChanges = addObject('data.bonuses.vsRoll', vsRollData)
-      effectData.changes.push(vsRollChanges)
-    }
-
     return [effectData]
   }
 
