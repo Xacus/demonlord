@@ -170,6 +170,24 @@ export class DLAfflictions {
       'systems/demonlord08/assets/icons/effects/grabbed.svg'
     ))
 
+    // Horrified
+    effectsDataList.push(_buildBaseAffliction(
+      'Horrified',
+       'systems/demonlord08/assets/icons/effects/horrified.svg',
+      [
+        addEffect('data.bonuses.challenge.boons.strength', -3),
+        addEffect('data.bonuses.challenge.boons.agility', -3),
+        addEffect('data.bonuses.challenge.boons.intellect', -3),
+        addEffect('data.bonuses.challenge.boons.will', -3),
+        addEffect('data.bonuses.challenge.boons.perception', -3),
+        addEffect('data.bonuses.attack.boons.strength', -3),
+        addEffect('data.bonuses.attack.boons.agility', -3),
+        addEffect('data.bonuses.attack.boons.intellect', -3),
+        addEffect('data.bonuses.attack.boons.will', -3),
+        addEffect('data.bonuses.attack.boons.perception', -3),
+      ]
+    ))
+
     // Immobilized
     effectsDataList.push(_buildBaseAffliction(
       'Immobilized',
