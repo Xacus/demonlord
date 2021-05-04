@@ -6,8 +6,14 @@ import { FormatDice } from '../dice.js';
 import { ActorRolls } from './actor-rolls';
 import { ActorAfflictionsEffects } from './actor-afflictions-effects';
 import { DLActiveEffects } from '../active-effects/active-effect';
+import {postAttackToChat} from "../utils/chat-messages";
 
 export class DemonlordActor extends Actor {
+
+  /* -------------------------------------------- */
+  /*  Data preparation                            */
+  /* -------------------------------------------- */
+
   /** @override */
   prepareData() {
     if (!this.data.img) this.data.img = CONST.DEFAULT_TOKEN;
@@ -18,6 +24,8 @@ export class DemonlordActor extends Actor {
     // this.applyActiveEffects()  call already present in prepareEmbeddedEntities as of 0.8.1
     this.prepareDerivedData();
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Prepare actor data that doesn't depend on effects or derived from items
@@ -76,6 +84,8 @@ export class DemonlordActor extends Actor {
     });
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Prepare actor data that depends on items and effects
    * @override
@@ -111,6 +121,80 @@ export class DemonlordActor extends Actor {
     if (data.maluses.halfSpeed) data.characteristics.speed = Math.floor(data.characteristics.speed / 2);
   }
 
+  /* -------------------------------------------- */
+  /*  Rolls and Actions                           */
+  /* -------------------------------------------- */
+
+  /**
+   * Rolls an attack using an Item
+   * @param item                    Weapon / Spell / Talent used for attacking
+   * @param inputBoons              Number of boons/banes from the user dialog
+   * @param inputModifier           Attack modifier from the user dialog
+   */
+  rollAttack(item, inputBoons=0, inputModifier=0) {
+    const attacker = this
+    const defender = attacker.getTarget()
+
+    // Get attacker attribute and defender attribute name
+    const attackAttribute = item.data.data.action?.attack?.toLowerCase()
+    const defenseAttribute = item.data.data?.action?.against?.toLowerCase() || item.data.action?.against?.toLowerCase()
+
+    // If no attack mod selected, warn user
+    if (!attackAttribute) {
+      ui.notifications.error(game.i18n.localize('DL.DialogWarningWeaponAttackModifier'))
+      return
+    }
+    // if !target -> ui.notifications.warn(Please select target) ??
+
+    // Attack modifier and Boons/Banes
+    const attackModifier =
+      (attacker.data.data?.attributes[attackAttribute]?.modifier || 0) +
+      (parseInt(inputModifier) || 0)
+    let attackBOBA =
+      (parseInt(item.data.data.action.boonsbanes) || 0 ) +
+      (parseInt(inputBoons) || 0) +
+      (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0) -
+      (defender?.data.data.bonuses.defense.boons[attackAttribute] || 0)
+
+    // Check if requirements met
+    if (item.data.data.wear &&
+      parseInt(item.data.data.strengthmin) > attacker.data.data.attributes.strength.value)
+      attackBOBA--
+
+    // Roll the attack
+    const plusify = (x) => x > 0 ? "+"+x : x
+    let diceFormula = '1d20' + (plusify(attackModifier) || '')
+    if (attackBOBA)
+      diceFormula += plusify(attackBOBA) + 'd6kh'
+
+    const attackRoll = new Roll(diceFormula, {})
+    attackRoll.evaluate()
+
+    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Roll an attack using a weapon
+   * @param itemId          The id of the item
+   * @param options         Additional options
+   */
+  rollWeaponAttack(itemId, options={event:null}) {
+    const item = this.getEmbeddedDocument('Item', itemId)
+    if (!item.data.data.action?.attack)
+      this.rollAttack(item, 0, 0)
+    else
+      ActorRolls.launchRollDialog(
+        game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), (html) =>
+          this.rollAttack(
+            item,
+            html.find('[id="boonsbanes"]').val(),
+            html.find('[id="modifier"]').val()))
+  }
+
+  /* -------------------------------------------- */
+
   async createItemCreate(event) {
     event.preventDefault();
 
@@ -143,15 +227,15 @@ export class DemonlordActor extends Actor {
     ActorRolls.rollAttribute(this, attribute, boonsbanes, modifier);
   }
 
-  rollWeaponAttackMacro(itemId, boonsbanes, damagebonus) {
+  __OLD__rollWeaponAttackMacro(itemId, boonsbanes, damagebonus) {
     ActorRolls.rollWeaponAttackMacro(this, itemId, boonsbanes, damagebonus);
   }
 
-  async rollWeaponAttack(itemId, options = { event: null }) {
+  async __OLD__rollWeaponAttack(itemId, options = { event: null }) {
     ActorRolls.rollWeaponAttack(this, itemId, options);
   }
 
-  async rollAttack(weapon, boonsbanes, buffs, modifier) {
+  async __OLD__rollAttack(weapon, boonsbanes, buffs, modifier) {
     ActorRolls.rollAttack(this, weapon, boonsbanes, buffs, modifier);
   }
 
