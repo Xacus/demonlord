@@ -79,7 +79,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
   async _updateObject(event, formData) {
     //console.log("FORMDATA", formData)
-    return this.document.update(formData)
+    return this.document.update(formData);
     const actor = this.object;
     const updateData = expandObject(formData);
 
@@ -191,7 +191,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     data.useDemonlordMode = !game.settings.get('demonlord08', 'useHomebrewMode');
 
     //data.actor = foundry.utils.deepClone(this.actor.data);
-    data.actor = this.actor.data
+    data.actor = this.actor.data;
     data.data = data.actor.data;
     data.items = this.actor.items.map((i) => {
       i.data.labels = i.labels;
@@ -1142,31 +1142,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
       }
 
       Item.updateDocuments([item], { parent: this.actor });
-    });
-
-    // Talent Activate Manual
-    html.find('.talent-activate').click((ev) => {
-      const li = ev.currentTarget.closest('.item');
-      const item = this.actor.items.get(li.dataset.itemId);
-      const usesmax = item.data.data.uses.max;
-
-      const upd = {data : {}}
-      if (usesmax > 0) upd.data.uses.value = 1;
-      upd.data.addtonextroll = true;
-
-      item.update(upd)//.updateDocuments([item], { parent: this.actor });
-    });
-
-    html.find('.talent-deactivate').click((ev) => {
-      const li = ev.currentTarget.closest('.item');
-      const item = this.actor.items.get(li.dataset.itemId);
-
-      const upd = {data: {
-        uses: {value: 0},
-        addtonextroll: false
-        }}
-
-      item.update(upd)
     });
 
     html.on('mousedown', '.spell-uses', (ev) => {
