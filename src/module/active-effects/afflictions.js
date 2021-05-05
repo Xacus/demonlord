@@ -1,4 +1,4 @@
-import {addEffect, downgradeEffect, overrideEffect} from "./active-effect";
+import {addEffect, downgradeEffect, overrideEffect} from "./item-effects";
 
 const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
   id: label, // TODO: Check corrections here?

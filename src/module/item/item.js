@@ -1,6 +1,6 @@
 import {PathLevel} from '../pathlevel.js';
 import {FormatDice} from '../dice.js';
-import {DLActiveEffects} from "../active-effects/active-effect";
+import {DLActiveEffects} from "../active-effects/item-effects";
 
 
 export class DemonlordItem extends Item {
@@ -40,13 +40,7 @@ export class DemonlordItem extends Item {
       default:
         return 0
     }
-    // If the item is owned, add effects directly to the actor
-    if (this.parent)
-      await DLActiveEffects.addUpdateEffectsToDocument(this.parent, effectDataList)
-    else {
-      DLActiveEffects.removeAllEffects(this)
-      this.createEmbeddedDocuments('ActiveEffect', effectDataList, {parent: this})
-    }
+    await DLActiveEffects.addUpdateEffectsToDocument(this, effectDataList)
     return 1
   }
 

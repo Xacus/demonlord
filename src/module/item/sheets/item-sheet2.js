@@ -5,7 +5,7 @@
 import {PathLevelItem, DamageType} from '../../pathlevel.js';
 import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects.js';
 import {DemonlordItem} from "../item";
-import {DLActiveEffects} from "../../active-effects/active-effect";
+import {DLActiveEffects} from "../../active-effects/item-effects";
 
 export class DemonlordItemSheetDefault extends ItemSheet {
   /** @override */
