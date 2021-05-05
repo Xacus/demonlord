@@ -23,6 +23,9 @@
       </div>
       <div class="effect-duration">{{effect.duration.label}}</div>
       <div class="effect-controls flexrow">
+        <a class="effect-control" data-action="toggle" title="{{localize 'DL.EffectToggle'}}">
+          <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+        </a>
         <a class="effect-control" data-action="edit" title="{{localize 'DL.EffectEdit'}}">
           <i class="fas fa-edit"></i>
         </a>
