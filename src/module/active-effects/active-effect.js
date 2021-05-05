@@ -231,8 +231,8 @@ export class DLActiveEffects {
       addEffect('data.bonuses.attack.boons.intellect', action.boonsbanes * action.intellectboonsbanesselect),
       addEffect('data.bonuses.attack.boons.will', action.boonsbanes * action.willboonsbanesselect),
       concatDiceEffect('data.bonuses.attack.damage', action.damage),
-      concatDiceEffect('data.bonuses.attack.plus20Damage', action.plus20damage),
-      concatString('data.bonuses.attack.extraEffect', action.extraEffect, '\n'),
+      concatDiceEffect('data.bonuses.attack.plus20Damage', action.plus20),
+      concatString('data.bonuses.attack.extraEffect', action.extraeffect, '\n'),
     ].filter(falsyChangeFilter)
 
     if (attackChanges.length > 0) {

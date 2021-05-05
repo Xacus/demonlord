@@ -57,6 +57,7 @@ function _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, d
 
   result += changeToMsg(m, 'data.bonuses.attack.damage', 'DL.TalentExtraDamage')
   result += changeToMsg(m, 'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+  //result += changeToMsg(m, 'data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
   return result
 }
 
@@ -79,16 +80,43 @@ function _buildTalentEffectsMessage(attacker, talent, defender) {
   let result = ""
 
   let m = _remapEffects(attackerEffects.filter(effect => effect.data.origin === talent.uuid))
-  const get = (key, strLocalization) => m.has(key) ? toMsg(game.i18n.localize(strLocalization), m.get(key).value) : ''
 
-  const attackBoons = get(`data.bonuses.attack.boons.strength`, 'DL.AttributeStrength')
+  const get = (key, strLocalization) => {
+    const str = strLocalization ? game.i18n.localize(strLocalization) : ''
+    const value = m.get(key)?.[0].value
+    if (!value) return ''
+    if (!str) return `&nbsp;&nbsp;&nbsp;• ${value}<br>`
+    return `&nbsp;&nbsp;&nbsp;• ${str} (${value})<br>`
+  }
+
+  const attackBoons
+    = get(`data.bonuses.attack.boons.strength`, 'DL.AttributeStrength')
     + get(`data.bonuses.attack.boons.agility`, 'DL.AttributeAgility')
     + get(`data.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect')
     + get(`data.bonuses.attack.boons.will`, 'DL.AttributeWill')
     + get(`data.bonuses.attack.boons.perception`, 'DL.CharPerception')
 
+  if (attackBoons.length > 0)
+    result += `<b>${game.i18n.localize('DL.TalentAttackBoonsBanes')}</b><br>` + attackBoons
 
-  result += changeToMsg(m, `data.bonuses.attack.boons.strength`, 'DL.TalentChallengeBoonsBanes')
+  const challengeBoons
+    = get(`data.bonuses.challenge.boons.strength`, 'DL.AttributeStrength')
+    + get(`data.bonuses.challenge.boons.agility`, 'DL.AttributeAgility')
+    + get(`data.bonuses.challenge.boons.intellect`, 'DL.AttributeIntellect')
+    + get(`data.bonuses.challenge.boons.will`, 'DL.AttributeWill')
+    + get(`data.bonuses.challenge.boons.perception`, 'DL.CharPerception')
+  if (challengeBoons.length > 0)
+    result += `<b>${game.i18n.localize('DL.TalentChallengeBoonsBanes')}</b><br>` + challengeBoons
+
+  const extraDamage = get(`data.bonuses.attack.damage`, '')
+  if (extraDamage)
+    result += `<b>${game.i18n.localize('DL.TalentExtraDamage')}</b><br>` + extraDamage
+
+  const plus20 = get(`data.bonuses.attack.plus20Damage`, '')
+  if (plus20)
+    result += `<b>${game.i18n.localize('DL.TalentExtraDamage20plus')}</b><br>` + plus20
+
+
   return result
 }
 
