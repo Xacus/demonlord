@@ -30,10 +30,10 @@ function _remapEffects(effects) {
   return m
 }
 
-const toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;• ${label} (${value})<br>`
+const toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;&nbsp;• <i>${label}</i> (${value})<br>`
 
 const changeToMsg = (m, key, title) => {
-  title = title ? `<b>${game.i18n.localize(title)}</b><br>` : ''
+  title = title ? `&nbsp;&nbsp;${game.i18n.localize(title)}<br>` : ''
   if (m.has(key))
     return m.get(key).reduce(
       (acc, change) => acc + toMsg(change.label, change.value),
@@ -42,7 +42,7 @@ const changeToMsg = (m, key, title) => {
   return ''
 }
 
-function _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, action) {
+function _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, action='attack') {
   const attackerEffects = attacker?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
   const defenderEffects = defender?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
   // TODO: add the "defense banes" from the defended (example: spell resistance)
@@ -53,7 +53,7 @@ function _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, d
   const effectBoons = changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, '')
   const itemBoons = item?.data.data.action.boonsbanes != 0 ? toMsg(item.name, item?.data.data.action.boonsbanes) : ''
   if (effectBoons.length > 0 || itemBoons.length > 0)
-    result += `<b>${game.i18n.localize('DL.TalentAttackBoonsBanes')}</b><br>` + itemBoons + effectBoons
+    result += `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + itemBoons + effectBoons
 
   result += changeToMsg(m, 'data.bonuses.attack.damage', 'DL.TalentExtraDamage')
   result += changeToMsg(m, 'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
@@ -69,53 +69,39 @@ function _buildAttributeEffectsMessage(actor, attribute) {
   return result
 }
 
-function _buildTalentEffectsMessage(attacker, talent, defender) {
-  const talentData = talent.data.data
-  const attackerEffects = attacker?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
-  const defenderEffects = defender?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+function _buildTalentEffectsMessage(actor, talent) {
+  const effects = actor.getEmbeddedCollection('ActiveEffect')
+    .filter(effect => effect.data.origin === talent.uuid && !effect.data.disabled)
 
-  const attackAttribute = attacker?.data.data.attributes[talentData.vs?.attribute] || null
-  const defenseAttribute = defender?.data.data.attributes[talentData.vs?.against] || null
-
-  let result = ""
-
-  let m = _remapEffects(attackerEffects.filter(effect => effect.data.origin === talent.uuid))
-
-  const get = (key, strLocalization) => {
-    const str = strLocalization ? game.i18n.localize(strLocalization) : ''
+  let m = _remapEffects(effects)
+  const get = (key, strLocalization, prefix = '') => {
     const value = m.get(key)?.[0].value
     if (!value) return ''
+    const str = strLocalization ? prefix + game.i18n.localize(strLocalization) : prefix
     if (!str) return `&nbsp;&nbsp;&nbsp;• ${value}<br>`
     return `&nbsp;&nbsp;&nbsp;• ${str} (${value})<br>`
   }
 
-  const attackBoons
-    = get(`data.bonuses.attack.boons.strength`, 'DL.AttributeStrength')
-    + get(`data.bonuses.attack.boons.agility`, 'DL.AttributeAgility')
-    + get(`data.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect')
-    + get(`data.bonuses.attack.boons.will`, 'DL.AttributeWill')
-    + get(`data.bonuses.attack.boons.perception`, 'DL.CharPerception')
-
-  if (attackBoons.length > 0)
-    result += `<b>${game.i18n.localize('DL.TalentAttackBoonsBanes')}</b><br>` + attackBoons
-
-  const challengeBoons
-    = get(`data.bonuses.challenge.boons.strength`, 'DL.AttributeStrength')
-    + get(`data.bonuses.challenge.boons.agility`, 'DL.AttributeAgility')
-    + get(`data.bonuses.challenge.boons.intellect`, 'DL.AttributeIntellect')
-    + get(`data.bonuses.challenge.boons.will`, 'DL.AttributeWill')
-    + get(`data.bonuses.challenge.boons.perception`, 'DL.CharPerception')
-  if (challengeBoons.length > 0)
-    result += `<b>${game.i18n.localize('DL.TalentChallengeBoonsBanes')}</b><br>` + challengeBoons
-
-  const extraDamage = get(`data.bonuses.attack.damage`, '')
-  if (extraDamage)
-    result += `<b>${game.i18n.localize('DL.TalentExtraDamage')}</b><br>` + extraDamage
-
-  const plus20 = get(`data.bonuses.attack.plus20Damage`, '')
-  if (plus20)
-    result += `<b>${game.i18n.localize('DL.TalentExtraDamage20plus')}</b><br>` + plus20
-
+  const attackBoonsPrefix = game.i18n.localize('DL.TalentAttackBoonsBanes') + " "
+  const challengeBoonsPrefix = game.i18n.localize('DL.TalentChallengeBoonsBanes') + " "
+  let result
+    = get(`data.bonuses.attack.boons.strength`, 'DL.AttributeStrength', attackBoonsPrefix)
+    + get(`data.bonuses.attack.boons.agility`, 'DL.AttributeAgility', attackBoonsPrefix)
+    + get(`data.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect', attackBoonsPrefix)
+    + get(`data.bonuses.attack.boons.will`, 'DL.AttributeWill', attackBoonsPrefix)
+    + get(`data.bonuses.attack.boons.perception`, 'DL.CharPerception', attackBoonsPrefix)
+    + get(`data.bonuses.challenge.boons.strength`, 'DL.AttributeStrength', challengeBoonsPrefix)
+    + get(`data.bonuses.challenge.boons.agility`, 'DL.AttributeAgility', challengeBoonsPrefix)
+    + get(`data.bonuses.challenge.boons.intellect`, 'DL.AttributeIntellect', challengeBoonsPrefix)
+    + get(`data.bonuses.challenge.boons.will`, 'DL.AttributeWill', challengeBoonsPrefix)
+    + get(`data.bonuses.challenge.boons.perception`, 'DL.CharPerception', challengeBoonsPrefix)
+    + get(`data.bonuses.attack.damage`, 'DL.TalentExtraDamage')
+    + get(`data.bonuses.attack.plus20Damage`, 'DL.TalentExtraDamage20plus')
+    + get('data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
+    + get('data.characteristics.defense', 'DL.TalentBonusesDefense')
+    + get('data.characteristics.health.max', 'DL.TalentBonusesHealth')
+    + get('data.characteristics.speed', 'DL.TalentBonusesSpeed')
+    + get('data.characteristics.power', 'DL.TalentBonusesPower')
 
   return result
 }
@@ -157,7 +143,6 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
     data: {}
   }
 
-  const actionEffects = _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, 'action')
   const data = templateData.data
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = attackRoll?.total ?? ''
@@ -178,7 +163,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['ifBlindedRoll'] = rollMode === 'blindroll'
-  data['actionEffects'] = actionEffects
+  data['attackEffects'] = _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute)
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
 
@@ -275,7 +260,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
       ? targetNumber
       : '?';
 
-  const attackAttribute = talentData.vs?.attribute || ''
+  const attackAttribute = talentData.vs?.attribute?.toLowerCase() || ''
+  const defenseAttribute = talentData.vs?.against?.toLowerCase() || ''
   //
   const templateData = {
     actor: actor,
@@ -285,16 +271,16 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   }
   const data = templateData.data
   data['id'] = talent.id
-  data['roll'] = attackRoll
+  data['roll'] = Boolean(attackRoll)
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = diceTotalGM
   data['resultText'] = resultText
   data['didHit'] = attackRoll?.total >= targetNumber
   data['attack'] = attackAttribute
-    ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute.toLowerCase()].toUpperCase())
+    ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase())
     : ''
-  data['against'] = talentData?.vs?.against
-    ? game.i18n.localize(CONFIG.DL.attributes[talentData?.vs?.against.toLowerCase()].toUpperCase())
+  data['against'] = defenseAttribute
+    ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) || ''
     : ''
   data['againstNumber'] = againstNumber
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
@@ -312,8 +298,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['isCreature'] = actor.data.type === 'creature'
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
-  data['effects'] = _buildTalentEffectsMessage(actor, talent, target)
-  data['afflictionEffects'] = '' // TODO
+  data['attackEffects'] = _buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute)
+  data['talentEffects'] = _buildTalentEffectsMessage(actor, talent)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
 
   const chatData = _getChatBaseData(actor, rollMode)
