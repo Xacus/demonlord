@@ -3,19 +3,19 @@
     <div class="showlessinfo"></div>
     <header class="card-headersmall">
         <div class="header">{{localize "DL.ChallengeRollText"}}</div>
-        <div class="gmremove headertext {{data.resultText.value}}">{{data.resultText.value}}</div>
-        <div class="gmonlyzero headertext {{data.resultTextGM.value}}">{{data.resultTextGM.value}}</div>
+        <div class="gmremove headertext {{data.resultText}}">{{data.resultText}}</div>
+        <div class="gmonlyzero headertext {{data.resultTextGM}}">{{data.resultTextGM}}</div>
     </header>
 
     <div class="result">
-        <div class="box {{data.resultText.value}}">
+        <div class="box {{data.resultText}}">
             <div class="valuetext">{{item.name}}</div>
             <div class="boxborder tooltip">
                 <div class="value">
-                    <div class="gmremove">{{data.diceTotal.value}}</div>
-                    <div class="gmonlyzero">{{data.diceTotalGM.value}}</div>
+                    <div class="gmremove">{{data.diceTotal}}</div>
+                    <div class="gmonlyzero">{{data.diceTotalGM}}</div>
                 </div>
-                {{#if data.isCreature.value}}
+                {{#if data.isCreature}}
                 <div class="gmonly">
                     <span class="tooltiptext">
                         {{#each diceData.dice}}
@@ -55,40 +55,40 @@
         <div class="boxvs">
             <div class="vs">{{localize "DL.ChallengeVS"}}</div>
         </div>
-        <div class="box {{data.resultText.value}}">
+        <div class="box {{data.resultText}}">
             <div class="valuetext">{{localize "DL.TalentRollTarget"}}</div>
             <div class="boxborderTarget">
                 <div class="value">10</div>
             </div>
         </div>
     </div>
-    {{#if data.actionEffects.value}}
-    {{#if data.isCreature.value}}
+    {{#if data.actionEffects}}
+    {{#if data.isCreature}}
     <div class="gmonly">
         <div class="description">
             <div class="header">{{localize "DL.TalentRollActions"}}</div>
-            <div class="body">{{{data.actionEffects.value}}}</div>
+            <div class="body">{{{data.actionEffects}}}</div>
         </div>
     </div>
     {{else}}
     <div class="description">
         <div class="header">{{localize "DL.TalentRollActions"}}</div>
-        <div class="body">{{{data.actionEffects.value}}}</div>
+        <div class="body">{{{data.actionEffects}}}</div>
     </div>
     {{/if}}
     {{/if}}
-    {{#if data.afflictionEffects.value}}
-    {{#if data.isCreature.value}}
+    {{#if data.afflictionEffects}}
+    {{#if data.isCreature}}
     <div class="gmonly">
         <div class="description">
             <div class="header">{{localize "DL.Afflictions"}}:</div>
-            <div class="body">{{{data.afflictionEffects.value}}}</div>
+            <div class="body">{{{data.afflictionEffects}}}</div>
         </div>
     </div>
     {{else}}
     <div class="description">
         <div class="header">{{localize "DL.Afflictions"}}:</div>
-        <div class="body">{{{data.afflictionEffects.value}}}</div>
+        <div class="body">{{{data.afflictionEffects}}}</div>
     </div>
     {{/if}}
     {{/if}}

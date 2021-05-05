@@ -18,37 +18,46 @@ function _getChatBaseData(actor, rollMode) {
   }
 }
 
-const toMessageEffect = (locale, value) =>
-  `&nbsp;&nbsp;&nbsp;• ${game.i18n.localize(locale)}: ${value} <br>`
-
-function _buildEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, action) {
-  const attackerEffects = attacker?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
-  const defenderEffects = defender?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
-  // TODO: add the "defense banes" from the defended (example: spell resistance)
-
+function _remapEffects(effects) {
   let m = new Map()
-  attackerEffects.forEach(effect => effect.data.changes.forEach((change) => {
+  effects.forEach(effect => effect.data.changes.forEach((change) => {
     const obj = {label: effect.data.label, type: effect.data.flags?.sourceType, value: change.value}
     if (!m.has(change.key))
       m.set(change.key, [obj])
     else
       m.get(change.key).push(obj)
   }))
-  //console.log(m)
+  return m
+}
 
+const toMsg = (m, key, title) => {
+  if (m.has(key))
+    return  m.get(key).reduce(
+      (acc, change) => acc + `&nbsp;&nbsp;&nbsp;• ${change.label} (${change.value})<br>`,
+      `<b>${game.i18n.localize(title)}</b><br>`
+    )
+  return ''
+}
+
+function _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, action) {
+  const attackerEffects = attacker?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+  const defenderEffects = defender?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+  // TODO: add the "defense banes" from the defended (example: spell resistance)
+
+  let m = _remapEffects(attackerEffects)
   let result = ""
-  const toMsg = (key, title) => {
-    if (m.has(key))
-      result += m.get(key).reduce(
-        (acc, change) => acc + `&nbsp;&nbsp;&nbsp;• ${change.label} (${change.value})<br>`,
-        `<b>${game.i18n.localize(title)}</b><br>`
-      )
-  }
+  result += toMsg(m,`data.bonuses.attack.boons.${attackAttribute}`, 'DL.TalentAttackBoonsBanes')
+  result += toMsg(m,'data.bonuses.attack.damage', 'DL.TalentExtraDamage')
+  result += toMsg(m,'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+  return result
+}
 
-  toMsg(`data.bonuses.attack.boons.${attackAttribute}`, 'DL.TalentAttackBoonsBanes')
-  toMsg('data.bonuses.attack.damage', 'DL.TalentExtraDamage')
-  toMsg('data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
-
+function _buildAttributeEffectsMessage(actor, attribute) {
+  const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+  let m = _remapEffects(actorEffects)
+  let result = ""
+  result += toMsg(m, `data.bonuses.challenge.boons.${attribute}`, 'DL.TalentChallengeBoonsBanes')
+  console.log(result)
   return result
 }
 
@@ -85,8 +94,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
     data: {}
   }
 
-  const actionEffects = _buildEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, 'action')
-
+  const actionEffects = _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, 'action')
   const data = templateData.data
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = attackRoll?.total || ''
@@ -122,5 +130,52 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
       game.dice3d.showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind)
         .then(() => ChatMessage.create(chatData))
     else ChatMessage.create(chatData)
+  })
+}
+
+/* -------------------------------------------- */
+
+export function postAttributeToChat (actor, attribute, challengeRoll) {
+  const rollMode = game.settings.get('core', 'rollMode')
+
+  let diceTotal = challengeRoll?.total || ''
+  let resultTextGM = challengeRoll.total > 10
+    ? game.i18n.localize('DL.DiceResultSuccess')
+    : game.i18n.localize('DL.DiceResultFailure')
+
+  let resultText = resultTextGM
+  if (rollMode === 'blindroll') {
+    diceTotal = '?'
+    resultText = ''
+  }
+
+  const templateData = {
+    actor: actor,
+    item: {name: attribute.toUpperCase()},
+    diceData: FormatDice(challengeRoll),
+    data : {}
+  }
+  const effects = _buildAttributeEffectsMessage(actor, attribute)
+  const data = templateData.data
+  data['diceTotal'] = diceTotal
+  data['diceTotalGM'] = challengeRoll.total
+  data['resultText'] = resultText
+  data['resultTextGM'] = resultTextGM
+  data['isCreature'] = actor.data.type === 'creature'
+  data['afflictionEffects'] = '' // TODO
+  data['actionEffects'] = effects
+  data['ifBlindedRoll'] = rollMode === 'blindroll'
+
+  const chatData = _getChatBaseData(actor, rollMode)
+  const template = 'systems/demonlord08/templates/chat/challenge.html'
+  renderTemplate(template, templateData).then((content) => {
+    chatData.content = content
+    if (game.dice3d) {
+      game.dice3d.showForRoll(challengeRoll, game.user, true, chatData.whisper, chatData.blind)
+        .then((displayed) => ChatMessage.create(chatData))
+    } else {
+      chatData.sound = CONFIG.sounds.dice
+      ChatMessage.create(chatData)
+    }
   })
 }

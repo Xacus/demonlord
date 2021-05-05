@@ -6,8 +6,9 @@ import { FormatDice } from '../dice.js';
 import { ActorRolls } from './actor-rolls';
 import { ActorAfflictionsEffects } from './actor-afflictions-effects';
 import { DLActiveEffects } from '../active-effects/active-effect';
-import {postAttackToChat} from "../utils/chat-messages";
+import {postAttackToChat, postAttributeToChat} from "../utils/chat-messages";
 import {DLAfflictions} from "../active-effects/afflictions";
+import {plusify} from "../utils/utils";
 
 export class DemonlordActor extends Actor {
 
@@ -163,7 +164,6 @@ export class DemonlordActor extends Actor {
       attackBOBA--
 
     // Roll the attack
-    const plusify = (x) => x > 0 ? "+"+x : x
     let diceFormula = '1d20' + (plusify(attackModifier) || '')
     if (attackBOBA)
       diceFormula += plusify(attackBOBA) + 'd6kh'
@@ -174,7 +174,6 @@ export class DemonlordActor extends Actor {
     postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
   }
 
-  /* -------------------------------------------- */
 
   /**
    * Roll an attack using a weapon, calling a dialog for the user to input boons and modifiers
@@ -204,6 +203,34 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
+  rollAttribute(attribute, inputBoons, inputModifier) {
+    attribute = attribute.label.toLowerCase()
+    const modifier = parseInt(inputModifier) + (this.data.data.attributes[attribute]?.modifier || 0)
+    const boons = parseInt(inputBoons) + (this.data.data.bonuses.challenge.boons[attribute] || 0)
+
+    let diceFormula = '1d20' + (plusify(modifier) || '')
+    if (boons)
+      diceFormula += plusify(boons) + 'd6kh'
+
+    const challengeRoll = new Roll(diceFormula, {})
+    challengeRoll.evaluate()
+    postAttributeToChat(this, attribute, challengeRoll)
+  }
+
+  rollChallenge(attribute) {
+    if (typeof attribute === 'string' || attribute instanceof String)
+      attribute = this.data.data.attributes[attribute]
+
+    if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.label))
+      ActorRolls.launchRollDialog(
+        this.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2),
+        (html) =>
+          this.rollAttribute(
+            attribute,
+            html.find('[id="boonsbanes"]').val(),
+            html.find('[id="modifier"]').val()
+          ))
+  }
   async createItemCreate(event) {
     event.preventDefault();
 
@@ -228,15 +255,15 @@ export class DemonlordActor extends Actor {
     return await this.createItem(itemData);
   }
 
-  rollChallenge(attribute) {
+  __OLD__rollChallenge(attribute) {
     ActorRolls.rollChallenge(this, attribute);
   }
 
-  rollAttribute(attribute, boonsbanes, modifier) {
+  __OLD__rollAttribute(attribute, boonsbanes, modifier) {
     ActorRolls.rollAttribute(this, attribute, boonsbanes, modifier);
   }
 
-  __OLD__rollWeaponAttackMacro(itemId, boonsbanes, damagebonus) {
+  rollWeaponAttackMacro(itemId, boonsbanes, damagebonus) {
     ActorRolls.rollWeaponAttackMacro(this, itemId, boonsbanes, damagebonus);
   }
 
