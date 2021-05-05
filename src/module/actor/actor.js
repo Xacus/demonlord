@@ -137,7 +137,7 @@ export class DemonlordActor extends Actor {
   rollAttack(item, inputBoons = 0, inputModifier = 0) {
     const attacker = this
     const defender = attacker.getTarget()
-
+    console.log(defender)
     // Get attacker attribute and defender attribute name
     const attackAttribute = item.data.data.action?.attack?.toLowerCase()
     const defenseAttribute = item.data.data?.action?.against?.toLowerCase() || item.data.action?.against?.toLowerCase()
@@ -150,14 +150,14 @@ export class DemonlordActor extends Actor {
     // if !target -> ui.notifications.warn(Please select target) ??
 
     // Attack modifier and Boons/Banes
-    const attackModifier =
-      (attacker.data.data?.attributes[attackAttribute]?.modifier || 0) +
-      (parseInt(inputModifier) || 0)
-    let attackBOBA =
-      (parseInt(item.data.data.action.boonsbanes) || 0) +
-      (parseInt(inputBoons) || 0) +
-      (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0) -
-      (defender?.data.data.bonuses.defense.boons[attackAttribute] || 0)
+    const attackModifier
+      = (attacker.data.data?.attributes[attackAttribute]?.modifier || 0)
+      + (parseInt(inputModifier) || 0)
+    let attackBOBA
+      = (parseInt(item.data.data.action.boonsbanes) || 0)
+      + (parseInt(inputBoons) || 0)
+      + (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0)
+      - (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0)
 
     // Check if requirements met
     if (item.data.data.wear &&
@@ -388,7 +388,7 @@ export class DemonlordActor extends Actor {
   getTarget() {
     let selectedTarget = null;
     game.user.targets.forEach(async (target) => {
-      selectedTarget = target;
+      selectedTarget = target.actor;
     });
 
     return selectedTarget;

@@ -331,12 +331,12 @@ export class DLAfflictions {
       'Defend',
       'systems/demonlord08/assets/icons/effects/defend.svg',
       [
-        addEffect('data.bonuses.defense.boons.defense', -1),
-        addEffect('data.bonuses.defense.boons.strength', -1),
-        addEffect('data.bonuses.defense.boons.agility', -1),
-        addEffect('data.bonuses.defense.boons.will', -1),
-        addEffect('data.bonuses.defense.boons.intellect', -1),
-        addEffect('data.bonuses.defense.boons.perception', -1),
+        addEffect('data.bonuses.defense.boons.defense', 1),
+        addEffect('data.bonuses.defense.boons.strength', 1),
+        addEffect('data.bonuses.defense.boons.agility', 1),
+        addEffect('data.bonuses.defense.boons.will', 1),
+        addEffect('data.bonuses.defense.boons.intellect', 1),
+        addEffect('data.bonuses.defense.boons.perception', 1),
         // TODO: Auto disable when Dazed, Stunned or Unconscious
       ]))
 
