@@ -98,7 +98,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  overflow-y: auto;
   margin: 5px 10px 20px 0;
 
   .tradition-header {
@@ -363,6 +362,13 @@
         height: 14px;
       }
     }
+  }
+
+  .weapon-controls,
+  .armor-controls,
+  .ammo-controls {
+    height: 37px;
+    overflow-y: unset;
   }
 
   .feature {

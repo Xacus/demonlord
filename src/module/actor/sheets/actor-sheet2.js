@@ -517,6 +517,21 @@ export class DemonlordActorSheet2 extends ActorSheet {
       inputs.focus((ev) => ev.currentTarget.select());
     }
 
+    let weaponContextMenu = [];
+    weaponContextMenu.push(this.addEditContextMenu(game.i18n.localize('DL.WeaponEdit')));
+    weaponContextMenu.push(this.addDeleteContextMenu(game.i18n.localize('DL.WeaponDelete')));
+    new ContextMenu(html, '.weapon-controls', weaponContextMenu);
+
+    let armorContextMenu = [];
+    armorContextMenu.push(this.addEditContextMenu(game.i18n.localize('DL.ArmorEdit')));
+    armorContextMenu.push(this.addDeleteContextMenu(game.i18n.localize('DL.ArmorDelete')));
+    new ContextMenu(html, '.armor-controls', armorContextMenu);
+
+    let ammoContextMenu = [];
+    ammoContextMenu.push(this.addEditContextMenu(game.i18n.localize('DL.AmmoEdit')));
+    ammoContextMenu.push(this.addDeleteContextMenu(game.i18n.localize('DL.AmmoDelete')));
+    new ContextMenu(html, '.ammo-controls', ammoContextMenu);
+
     // Toggle Accordion
     html.find('.toggleAccordion').click((ev) => {
       const div = ev.currentTarget;
@@ -1411,5 +1426,26 @@ export class DemonlordActorSheet2 extends ActorSheet {
       'data.afflictions.surprised': false,
       'data.afflictions.unconscious': false,
     });
+  }
+
+  addEditContextMenu(menutitle) {
+    return {
+      name: menutitle,
+      icon: '<i class="fas fa-edit"></i>',
+      callback: (element) => {
+        const item = this.actor.items.get(element.data('item-id'));
+        item.sheet.render(true);
+      },
+    };
+  }
+
+  addDeleteContextMenu(menutitle) {
+    return {
+      name: menutitle,
+      icon: '<i class="fas fa-trash"></i>',
+      callback: (element) => {
+        Item.deleteDocuments([element.data('item-id')], { parent: this.actor });
+      },
+    };
   }
 }
