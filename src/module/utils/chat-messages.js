@@ -29,12 +29,14 @@ function _remapEffects(effects) {
   }))
   return m
 }
+const toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;• ${label} (${value})<br>`
 
-const toMsg = (m, key, title) => {
+const changeToMsg = (m, key, title) => {
+  title = title ? `<b>${game.i18n.localize(title)}</b><br>` : ''
   if (m.has(key))
     return  m.get(key).reduce(
-      (acc, change) => acc + `&nbsp;&nbsp;&nbsp;• ${change.label} (${change.value})<br>`,
-      `<b>${game.i18n.localize(title)}</b><br>`
+      (acc, change) => acc + toMsg(change.label, change.value),
+      title
     )
   return ''
 }
@@ -46,9 +48,14 @@ function _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, d
 
   let m = _remapEffects(attackerEffects)
   let result = ""
-  result += toMsg(m,`data.bonuses.attack.boons.${attackAttribute}`, 'DL.TalentAttackBoonsBanes')
-  result += toMsg(m,'data.bonuses.attack.damage', 'DL.TalentExtraDamage')
-  result += toMsg(m,'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+  return result
+  const effectBoons = changeToMsg(m,`data.bonuses.attack.boons.${attackAttribute}`, '')
+  const itemBoons = item?.data.data.action.boonsbanes != 0 ? toMsg(item.name, item?.data.data.action.boonsbanes) : ''
+  if (effectBoons.length > 0 || itemBoons.length > 0)
+    result += `<b>${game.i18n.localize('DL.TalentAttackBoonsBanes')}</b><br>` + itemBoons + effectBoons
+
+  result += changeToMsg(m,'data.bonuses.attack.damage', 'DL.TalentExtraDamage')
+  result += changeToMsg(m,'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
   return result
 }
 
@@ -56,10 +63,27 @@ function _buildAttributeEffectsMessage(actor, attribute) {
   const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
   let m = _remapEffects(actorEffects)
   let result = ""
-  result += toMsg(m, `data.bonuses.challenge.boons.${attribute}`, 'DL.TalentChallengeBoonsBanes')
-  console.log(result)
+  result += changeToMsg(m, `data.bonuses.challenge.boons.${attribute}`, 'DL.TalentChallengeBoonsBanes')
   return result
 }
+
+function _buildTalentEffectsMessage(attacker, talent, defender) {
+  const talentData = talent.data.data
+  const attackerEffects = attacker?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+  const defenderEffects = defender?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+
+  const attackAttribute = attacker?.data.data.attributes[talentData.vs?.attribute] || null
+  const defenseAttribute = defender?.data.data.attributes[talentData.vs?.against] || null
+
+  let m = _remapEffects(attackerEffects)
+  let result = ""
+
+  result += changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, 'DL.TalentChallengeBoonsBanes')
+  return result
+}
+
+/* -------------------------------------------- */
+/* -------------------------------------------- */
 
 export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute) {
   const rollMode = game.settings.get('core', 'rollMode')
@@ -97,7 +121,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   const actionEffects = _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, 'action')
   const data = templateData.data
   data['diceTotal'] = diceTotal
-  data['diceTotalGM'] = attackRoll?.total || ''
+  data['diceTotalGM'] = attackRoll?.total ?? ''
   data['resultText'] = resultText
   data['didHit'] = didHit
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
@@ -138,7 +162,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 export function postAttributeToChat (actor, attribute, challengeRoll) {
   const rollMode = game.settings.get('core', 'rollMode')
 
-  let diceTotal = challengeRoll?.total || ''
+  let diceTotal = challengeRoll?.total ?? ''
   let resultTextGM = challengeRoll.total > 10
     ? game.i18n.localize('DL.DiceResultSuccess')
     : game.i18n.localize('DL.DiceResultFailure')
@@ -178,4 +202,101 @@ export function postAttributeToChat (actor, attribute, challengeRoll) {
       ChatMessage.create(chatData)
     }
   })
+}
+
+/* -------------------------------------------- */
+
+export function postTalentToChat(actor, talent, attackRoll, target) {
+  const talentData = talent.data.data
+  const rollMode = game.settings.get('core', 'rollMode')
+
+  let usesText = ''
+  if (parseInt(talentData?.uses?.value) >= 0 && parseInt(talentData?.uses?.max) > 0) {
+    const uses = parseInt(talentData.uses?.value);
+    const usesmax = parseInt(talentData.uses?.max);
+    usesText = game.i18n.localize('DL.TalentUses') + ': ' + uses + ' / ' + usesmax;
+  }
+
+  const targetNumber = talentData?.vs?.attribute ? actor.getVSTargetNumber(talent) : ''
+  let resultText =
+    attackRoll != null && targetNumber != undefined && attackRoll.total >= parseInt(targetNumber)
+      ? game.i18n.localize('DL.DiceResultSuccess')
+      : game.i18n.localize('DL.DiceResultFailure');
+
+  let diceTotalGM = attackRoll?.total ?? '';
+  let diceTotal = diceTotalGM
+  if (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack') || rollMode === 'blindroll') {
+    diceTotal = '?'
+    resultText = ''
+  }
+
+  const againstNumber =
+    (target?.actor?.data.type === 'character') ||
+    (game.settings.get('demonlord08', 'attackShowDefense') && targetNumber)
+      ? targetNumber
+      : '?';
+
+  const attackAttribute = talentData.vs?.attribute || ''
+  //
+  const templateData = {
+    actor: actor,
+    item: talent,
+    data: {},
+    diceData: FormatDice(attackRoll || null)
+  }
+  const data = templateData.data
+  data['id'] = talent.id
+  data['roll'] = attackRoll
+  data['diceTotal'] = diceTotal
+  data['diceTotalGM'] = diceTotalGM
+  data['resultText'] = resultText
+  data['didHit'] = attackRoll?.total >= targetNumber
+  data['attack'] = attackAttribute
+    ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute.toLowerCase()].toUpperCase())
+    : ''
+  data['against'] = talentData?.vs?.against
+    ? game.i18n.localize(CONFIG.DL.attributes[talentData?.vs?.against.toLowerCase()].toUpperCase())
+    : ''
+  data['againstNumber'] = againstNumber
+  data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
+  data['damageFormular'] = talentData?.vs?.damage || ''
+  data['damageType'] = talentData?.vs?.damageactive && talentData?.vs?.damage
+    ? talentData?.vs?.damagetype
+    : talentData?.action?.damagetype
+  data['damageTypes'] = talentData?.vs?.damagetypes
+  data['damageExtra20plusFormular'] = talentData?.action?.plus20
+  data['description'] = talentData?.description
+  data['uses'] = usesText
+  data['healing'] = talentData?.healing?.healactive && talentData?.healing?.healing
+    ? talentData?.healing?.healing : false
+  data['targetname'] = target?.name || ''
+  data['isCreature'] = actor.data.type === 'creature'
+  data['pureDamage'] = talentData?.damage
+  data['pureDamageType'] = talentData?.damagetype
+  data['effects'] = _buildTalentEffectsMessage(actor, talent, target)
+  data['afflictionEffects'] = '' // TODO
+  data['ifBlindedRoll'] = rollMode === 'blindroll'
+
+  const chatData = _getChatBaseData(actor, rollMode)
+  if (talentData?.damage || talentData?.vs?.attribute || (!talentData?.vs?.attribute && !talentData?.damage)) {
+    const template = 'systems/demonlord08/templates/chat/talent.html';
+    renderTemplate(template, templateData).then((content) => {
+      chatData.content = content;
+      if (game.dice3d && attackRoll != null) {
+        if (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) {
+          if (attackRoll != null) chatData.sound = CONFIG.sounds.dice;
+          ChatMessage.create(chatData);
+        } else {
+          game.dice3d
+            .showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind)
+            .then((displayed) => ChatMessage.create(chatData));
+        }
+      } else {
+        if (attackRoll != null) {
+          chatData.sound = CONFIG.sounds.dice;
+        }
+        ChatMessage.create(chatData);
+      }
+    });
+  }
 }

@@ -2,13 +2,14 @@
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-import { FormatDice } from '../dice.js';
-import { ActorRolls } from './actor-rolls';
-import { ActorAfflictionsEffects } from './actor-afflictions-effects';
-import { DLActiveEffects } from '../active-effects/active-effect';
-import {postAttackToChat, postAttributeToChat} from "../utils/chat-messages";
+import {FormatDice} from '../dice.js';
+import {ActorRolls} from './actor-rolls';
+import {ActorAfflictionsEffects} from './actor-afflictions-effects';
+import {DLActiveEffects} from '../active-effects/active-effect';
+import {postAttackToChat, postAttributeToChat, postTalentToChat} from "../utils/chat-messages";
 import {DLAfflictions} from "../active-effects/afflictions";
 import {plusify} from "../utils/utils";
+import ActorActions from "./actor-actions";
 
 export class DemonlordActor extends Actor {
 
@@ -60,27 +61,27 @@ export class DemonlordActor extends Actor {
     setProperty(data, 'bonuses', {
       attack: {
         sources: [],
-        boons: { strength: 0, agility: 0, intellect: 0, will: 0, perception: 0 },
+        boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
         damage: '',
         plus20Damage: '',
         extraEffect: '',
       },
       challenge: {
         sources: [],
-        boons: { strength: 0, agility: 0, intellect: 0, will: 0, perception: 0 },
+        boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
       },
-      armor: { fixed: 0, agility: 0, defense: 0, override: 0 },
+      armor: {fixed: 0, agility: 0, defense: 0, override: 0},
       defense: {
         sources: [],
-        boons: { strength: 0, agility: 0, intellect: 0, will: 0, defense: 0, perception: 0 },
+        boons: {strength: 0, agility: 0, intellect: 0, will: 0, defense: 0, perception: 0},
         noFastTurn: 0,
       },
     });
 
     setProperty(data, 'maluses', {
       autoFail: {
-        challenge: { strength: 0, agility: 0, intellect: 0, will: 0, perception: 0 },
-        action: { strength: 0, agility: 0, intellect: 0, will: 0, perception: 0 },
+        challenge: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+        action: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
         halfSpeed: 0,
       },
     });
@@ -133,7 +134,7 @@ export class DemonlordActor extends Actor {
    * @param inputBoons              Number of boons/banes from the user dialog
    * @param inputModifier           Attack modifier from the user dialog
    */
-  rollAttack(item, inputBoons=0, inputModifier=0) {
+  rollAttack(item, inputBoons = 0, inputModifier = 0) {
     const attacker = this
     const defender = attacker.getTarget()
 
@@ -153,7 +154,7 @@ export class DemonlordActor extends Actor {
       (attacker.data.data?.attributes[attackAttribute]?.modifier || 0) +
       (parseInt(inputModifier) || 0)
     let attackBOBA =
-      (parseInt(item.data.data.action.boonsbanes) || 0 ) +
+      (parseInt(item.data.data.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
       (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0) -
       (defender?.data.data.bonuses.defense.boons[attackAttribute] || 0)
@@ -177,12 +178,11 @@ export class DemonlordActor extends Actor {
 
   /**
    * Roll an attack using a weapon, calling a dialog for the user to input boons and modifiers
-   * @param itemId          The id of the item
+   * @param itemID          The id of the item
    * @param options         Additional options
    */
-  rollWeaponAttack(itemId, options={event:null}) {
-    console.log(this)
-    const item = this.getEmbeddedDocument('Item', itemId)
+  rollWeaponAttack(itemID, options = {event: null}) {
+    const item = this.getEmbeddedDocument('Item', itemID)
 
     // If no attribute to roll, roll without modifiers and boons
     const attribute = item.data.data.action?.attack
@@ -231,6 +231,61 @@ export class DemonlordActor extends Actor {
             html.find('[id="modifier"]').val()
           ))
   }
+
+  /* -------------------------------------------- */
+
+  rollTalent(itemID, options = {event: null}) {
+    if (DLAfflictions.isActorBlocked(this, 'challenge', 'strength'))  //FIXME
+      return
+
+    const item = this.items.get(itemID)
+    const uses = parseInt(item.data?.uses?.value) || 0
+    const usesMax = parseInt(item.data?.uses?.max) || 0
+    if (usesMax !== 0 && uses >= usesMax) {
+      ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
+      return;
+    }
+
+    if (item.data?.vs?.attribute)
+      ActorRolls.launchRollDialog(
+        game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
+        (html) =>
+          this.useTalent(
+            item,
+            html.find('[id="boonsbanes"]').val(),
+            html.find('[id="modifier"]').val()
+          ))
+    else
+      this.useTalent(item, 0, 0)
+  }
+
+  useTalent(talent, inputBoons, inputModifier) {
+    const talentData = talent.data.data
+    const target = this.getTarget()
+    let attackRoll = null;
+
+    if (!talentData?.vs?.attribute)
+      this.activateTalent(talent, true)
+    else {
+      this.activateTalent(talent, Boolean(talentData.vs?.damageActive));
+
+      const attackAttribute = talentData.vs.attribute.toLowerCase()
+      const defenseAttribute = talentData.vs?.against?.toLowerCase()
+
+      let modifier = parseInt(inputModifier)
+        + (this.data.data.attributes[attackAttribute]?.modifier || 0)
+      let boons = parseInt(inputBoons)
+        + (this.data.data.bonuses.attack[attackAttribute] || 0) // FIXME: is it a challenge or an attack?
+        + parseInt(talentData.vs?.boonsbanes || 0)
+        - (target?.data.data.bonuses.defense[defenseAttribute] || 0)
+
+      let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
+      attackRoll = new Roll(attackRollFormula, {})
+      attackRoll.evaluate()
+    }
+    postTalentToChat(this, talent, attackRoll, target)
+  }
+
   async createItemCreate(event) {
     event.preventDefault();
 
@@ -267,7 +322,7 @@ export class DemonlordActor extends Actor {
     ActorRolls.rollWeaponAttackMacro(this, itemId, boonsbanes, damagebonus);
   }
 
-  async __OLD__rollWeaponAttack(itemId, options = { event: null }) {
+  async __OLD__rollWeaponAttack(itemId, options = {event: null}) {
     ActorRolls.rollWeaponAttack(this, itemId, options);
   }
 
@@ -275,11 +330,11 @@ export class DemonlordActor extends Actor {
     ActorRolls.rollAttack(this, weapon, boonsbanes, buffs, modifier);
   }
 
-  rollTalent(itemId, options = { event: null }) {
+  __OLD__rollTalent(itemId, options = {event: null}) {
     ActorRolls.rollTalent(this, itemId, options);
   }
 
-  rollSpell(itemId, options = { event: null }) {
+  rollSpell(itemId, options = {event: null}) {
     ActorRolls.rollSpell(this, itemId, options);
   }
 
@@ -367,7 +422,7 @@ export class DemonlordActor extends Actor {
     game.user.targets.forEach(async (target) => {
       const targetActor = target.actor;
       if (targetActor) {
-        const againstSelectedAttribute = talent.data.vs.against.toLowerCase();
+        const againstSelectedAttribute = talent.data.data.vs.against.toLowerCase();
 
         if (againstSelectedAttribute == 'defense') {
           tagetNumber = targetActor.data.data.characteristics.defense;
@@ -718,7 +773,7 @@ export class DemonlordActor extends Actor {
         talent.data.uses.value = 0;
         talent.data.addtonextroll = false;
       }
-      await Item.updateDocuments([talent], { parent: this });
+      await Item.updateDocuments([talent], {parent: this});
     }
   }
 
