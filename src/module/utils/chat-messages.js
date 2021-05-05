@@ -68,18 +68,7 @@ function _buildAttributeEffectsMessage(actor, attribute) {
 }
 
 function _buildTalentEffectsMessage(attacker, talent, defender) {
-  const talentData = talent.data.data
-  const attackerEffects = attacker?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
-  const defenderEffects = defender?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
-
-  const attackAttribute = attacker?.data.data.attributes[talentData.vs?.attribute] || null
-  const defenseAttribute = defender?.data.data.attributes[talentData.vs?.against] || null
-
-  let m = _remapEffects(attackerEffects)
-  let result = ""
-
-  result += changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, 'DL.TalentChallengeBoonsBanes')
-  return result
+  return ""
 }
 
 /* -------------------------------------------- */
