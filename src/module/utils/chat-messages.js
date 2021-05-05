@@ -29,12 +29,13 @@ function _remapEffects(effects) {
   }))
   return m
 }
+
 const toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;• ${label} (${value})<br>`
 
 const changeToMsg = (m, key, title) => {
   title = title ? `<b>${game.i18n.localize(title)}</b><br>` : ''
   if (m.has(key))
-    return  m.get(key).reduce(
+    return m.get(key).reduce(
       (acc, change) => acc + toMsg(change.label, change.value),
       title
     )
@@ -47,15 +48,15 @@ function _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, d
   // TODO: add the "defense banes" from the defended (example: spell resistance)
 
   let m = _remapEffects(attackerEffects)
+
   let result = ""
-  return result
-  const effectBoons = changeToMsg(m,`data.bonuses.attack.boons.${attackAttribute}`, '')
+  const effectBoons = changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, '')
   const itemBoons = item?.data.data.action.boonsbanes != 0 ? toMsg(item.name, item?.data.data.action.boonsbanes) : ''
   if (effectBoons.length > 0 || itemBoons.length > 0)
     result += `<b>${game.i18n.localize('DL.TalentAttackBoonsBanes')}</b><br>` + itemBoons + effectBoons
 
-  result += changeToMsg(m,'data.bonuses.attack.damage', 'DL.TalentExtraDamage')
-  result += changeToMsg(m,'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+  result += changeToMsg(m, 'data.bonuses.attack.damage', 'DL.TalentExtraDamage')
+  result += changeToMsg(m, 'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
   return result
 }
 
@@ -68,10 +69,31 @@ function _buildAttributeEffectsMessage(actor, attribute) {
 }
 
 function _buildTalentEffectsMessage(attacker, talent, defender) {
-  return ""
+  const talentData = talent.data.data
+  const attackerEffects = attacker?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+  const defenderEffects = defender?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+
+  const attackAttribute = attacker?.data.data.attributes[talentData.vs?.attribute] || null
+  const defenseAttribute = defender?.data.data.attributes[talentData.vs?.against] || null
+
+  let result = ""
+
+  let m = _remapEffects(attackerEffects.filter(effect => effect.data.origin === talent.uuid))
+  const get = (key, strLocalization) => m.has(key) ? toMsg(game.i18n.localize(strLocalization), m.get(key).value) : ''
+
+  const attackBoons = get(`data.bonuses.attack.boons.strength`, 'DL.AttributeStrength')
+    + get(`data.bonuses.attack.boons.agility`, 'DL.AttributeAgility')
+    + get(`data.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect')
+    + get(`data.bonuses.attack.boons.will`, 'DL.AttributeWill')
+    + get(`data.bonuses.attack.boons.perception`, 'DL.CharPerception')
+
+
+  result += changeToMsg(m, `data.bonuses.attack.boons.strength`, 'DL.TalentChallengeBoonsBanes')
+  return result
 }
 
 /* -------------------------------------------- */
+
 /* -------------------------------------------- */
 
 export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute) {
@@ -148,7 +170,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
 /* -------------------------------------------- */
 
-export function postAttributeToChat (actor, attribute, challengeRoll) {
+export function postAttributeToChat(actor, attribute, challengeRoll) {
   const rollMode = game.settings.get('core', 'rollMode')
 
   let diceTotal = challengeRoll?.total ?? ''
@@ -166,7 +188,7 @@ export function postAttributeToChat (actor, attribute, challengeRoll) {
     actor: actor,
     item: {name: attribute.toUpperCase()},
     diceData: FormatDice(challengeRoll),
-    data : {}
+    data: {}
   }
   const effects = _buildAttributeEffectsMessage(actor, attribute)
   const data = templateData.data
