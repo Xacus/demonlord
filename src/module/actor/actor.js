@@ -6,7 +6,7 @@ import {FormatDice} from '../dice.js';
 import {ActorRolls} from './actor-rolls';
 import {ActorAfflictionsEffects} from './actor-afflictions-effects';
 import {DLActiveEffects} from '../active-effects/item-effects';
-import {postAttackToChat, postAttributeToChat, postTalentToChat} from "../utils/chat-messages";
+import {postAttackToChat, postAttributeToChat, postTalentToChat} from "../chat/roll-messages";
 import {DLAfflictions} from "../active-effects/afflictions";
 import {plusify} from "../utils/utils";
 import ActorActions from "./actor-actions";

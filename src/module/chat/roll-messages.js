@@ -1,5 +1,13 @@
 import {FormatDice} from "../dice";
+import {buildAttackEffectsMessage, buildAttributeEffectsMessage, buildTalentEffectsMessage} from "./effect-messages";
 
+/**
+ * Builds the base chat data based on settings, actor and user
+ * @param actor
+ * @param rollMode
+ * @returns ChatData
+ * @private
+ */
 function _getChatBaseData(actor, rollMode) {
   return {
     user: game.user.id,
@@ -18,112 +26,15 @@ function _getChatBaseData(actor, rollMode) {
   }
 }
 
-function _remapEffects(effects) {
-  let m = new Map()
-  effects.forEach(effect => effect.data.changes.forEach((change) => {
-    const obj = {label: effect.data.label, type: effect.data.flags?.sourceType, value: change.value}
-    if (!m.has(change.key))
-      m.set(change.key, [obj])
-    else
-      m.get(change.key).push(obj)
-  }))
-  return m
-}
-
-const toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;&nbsp;• <i>${label}</i> (${value})<br>`
-
-const changeToMsg = (m, key, title) => {
-  title = title ? `&nbsp;&nbsp;${game.i18n.localize(title)}<br>` : ''
-  if (m.has(key))
-    return m.get(key).reduce(
-      (acc, change) => acc + toMsg(change.label, change.value),
-      title
-    )
-  return ''
-}
-
-function _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, action='attack') {
-  const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
-  let m = _remapEffects(attackerEffects)
-
-  let itemBoons
-  switch (item.data.type) {
-    case 'weapon':
-      itemBoons = item.data.data.action.boonsbanes
-      break
-    case 'talent':
-      console.log(item)
-      if (!attackAttribute) return
-      itemBoons = item.data.data.vs.boonsbanes
-      break
-  }
-
-  const defenderBoons = defender?.data.data.bonuses.defense.boons[defenseAttribute]
-  const defenderString = defender?.name + '  ['+game.i18n.localize('DL.SpellTarget') + ']'
-
-  let boonsMsg
-    = changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, '')
-    + (itemBoons != 0 ? toMsg(item.name, itemBoons) : '')
-    + (defenderBoons ? toMsg(defenderString, -parseInt(defenderBoons)) : '')
-  boonsMsg = boonsMsg
-    ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg
-    : ''
-
-  return boonsMsg
-    + changeToMsg(m, 'data.bonuses.attack.damage', 'DL.TalentExtraDamage')
-    + changeToMsg(m, 'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
-    // + changeToMsg(m, 'data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
-}
-
-function _buildAttributeEffectsMessage(actor, attribute) {
-  const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
-  let m = _remapEffects(actorEffects)
-  let result = ""
-  result += changeToMsg(m, `data.bonuses.challenge.boons.${attribute}`, 'DL.TalentChallengeBoonsBanes')
-  return result
-}
-
-function _buildTalentEffectsMessage(actor, talent) {
-  const effects = actor.getEmbeddedCollection('ActiveEffect')
-    .filter(effect => effect.data.origin === talent.uuid && !effect.data.disabled)
-
-  let m = _remapEffects(effects)
-  const get = (key, strLocalization, prefix = '') => {
-    const value = m.get(key)?.[0].value
-    if (!value) return ''
-    const str = strLocalization ? prefix + game.i18n.localize(strLocalization) : prefix
-    if (!str) return `&nbsp;&nbsp;&nbsp;• ${value}<br>`
-    return `&nbsp;&nbsp;&nbsp;• ${str} (${value})<br>`
-  }
-
-  const attackBoonsPrefix = game.i18n.localize('DL.TalentAttackBoonsBanes') + " "
-  const challengeBoonsPrefix = game.i18n.localize('DL.TalentChallengeBoonsBanes') + " "
-  let result
-    = get(`data.bonuses.attack.boons.strength`, 'DL.AttributeStrength', attackBoonsPrefix)
-    + get(`data.bonuses.attack.boons.agility`, 'DL.AttributeAgility', attackBoonsPrefix)
-    + get(`data.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect', attackBoonsPrefix)
-    + get(`data.bonuses.attack.boons.will`, 'DL.AttributeWill', attackBoonsPrefix)
-    + get(`data.bonuses.attack.boons.perception`, 'DL.CharPerception', attackBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.strength`, 'DL.AttributeStrength', challengeBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.agility`, 'DL.AttributeAgility', challengeBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.intellect`, 'DL.AttributeIntellect', challengeBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.will`, 'DL.AttributeWill', challengeBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.perception`, 'DL.CharPerception', challengeBoonsPrefix)
-    + get(`data.bonuses.attack.damage`, 'DL.TalentExtraDamage')
-    + get(`data.bonuses.attack.plus20Damage`, 'DL.TalentExtraDamage20plus')
-    + get('data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
-    + get('data.characteristics.defense', 'DL.TalentBonusesDefense')
-    + get('data.characteristics.health.max', 'DL.TalentBonusesHealth')
-    + get('data.characteristics.speed', 'DL.TalentBonusesSpeed')
-    + get('data.characteristics.power', 'DL.TalentBonusesPower')
-
-  return result
-}
-
-/* -------------------------------------------- */
-
-/* -------------------------------------------- */
-
+/**
+ * Generates and sends the chat message for an ATTACK
+ * @param attacker              DemonlordActor
+ * @param defender              DemonlordActor
+ * @param item                  DemonlordItem
+ * @param attackRoll            Roll
+ * @param attackAttribute       string (lowercase)
+ * @param defenseAttribute      stromg (lowercase)
+ */
 export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute) {
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -177,7 +88,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['ifBlindedRoll'] = rollMode === 'blindroll'
-  data['attackEffects'] = _buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute)
+  data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute)
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
 
@@ -197,6 +108,12 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
 /* -------------------------------------------- */
 
+/**
+ * Generates and sends the chat message for an ATTRIBUTE (roll)
+ * @param actor             DemonlordActor
+ * @param attribute         string (lowercase)
+ * @param challengeRoll     Roll
+ */
 export function postAttributeToChat(actor, attribute, challengeRoll) {
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -217,7 +134,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
     diceData: FormatDice(challengeRoll),
     data: {}
   }
-  const effects = _buildAttributeEffectsMessage(actor, attribute)
+  const effects = buildAttributeEffectsMessage(actor, attribute)
   const data = templateData.data
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = challengeRoll.total
@@ -244,6 +161,13 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
 
 /* -------------------------------------------- */
 
+/**
+ * Generates and sends the chat message for a TALENT
+ * @param actor         DemonlordActor
+ * @param talent        DemonlordItem
+ * @param attackRoll    Roll
+ * @param target        DemonlordActor
+ */
 export function postTalentToChat(actor, talent, attackRoll, target) {
   const talentData = talent.data.data
   const rollMode = game.settings.get('core', 'rollMode')
@@ -313,8 +237,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['isCreature'] = actor.data.type === 'creature'
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
-  data['attackEffects'] = _buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute)
-  data['talentEffects'] = _buildTalentEffectsMessage(actor, talent)
+  data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute)
+  data['talentEffects'] = buildTalentEffectsMessage(actor, talent)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
 
   const chatData = _getChatBaseData(actor, rollMode)
