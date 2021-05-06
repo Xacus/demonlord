@@ -21,6 +21,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
           contentSelector: '.sheet-body',
           initial: 'character',
         },
+        {
+          navSelector: '.sheet-subnavigation',
+          contentSelector: '.sheet-subbody',
+          initial: 'effects',
+        },
       ],
       scrollY: ['.tab.active'],
     });
