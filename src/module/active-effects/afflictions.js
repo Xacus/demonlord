@@ -49,7 +49,7 @@ export class DLAfflictions {
    */
   static buildAll() {
     const effectsDataList = []
-    // FIXME: add dying, incapacitated, disabled
+
     // Asleep
     effectsDataList.push(_buildBaseAffliction(
       'asleep',
@@ -395,6 +395,26 @@ export class DLAfflictions {
     effectsDataList.push(_buildBaseAffliction(
       'stabilize',
       'systems/demonlord08/assets/icons/effects/stabilize.svg',
+    ))
+
+    // ----------------------- DAMAGE EFFECTS -------------------------- //
+
+    // Incapacitated
+    effectsDataList.push(_buildBaseAffliction(
+      'incapacitated',
+      'systems/demonlord08/assets/icons/effects/incapacitated.svg'
+    ))
+
+    // Disabled
+    effectsDataList.push(_buildBaseAffliction(
+      'disabled',
+      'systems/demonlord08/assets/icons/effects/disabled.svg'
+    ))
+
+    // Dying
+    effectsDataList.push(_buildBaseAffliction(
+      'dying',
+      'systems/demonlord08/assets/icons/effects/dying.svg'
     ))
 
     return effectsDataList
