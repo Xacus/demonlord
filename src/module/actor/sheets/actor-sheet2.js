@@ -1,6 +1,8 @@
 import { DLCharacterGenerater } from '../../dialog/actor-generator.js';
 import { DL } from '../../config.js';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../../active-effects/effects.js';
+import {DLAfflictions} from "../../active-effects/afflictions";
+import {DLActiveEffects} from "../../active-effects/item-effects";
 
 export class DemonlordActorSheet2 extends ActorSheet {
   constructor(...args) {
@@ -31,7 +33,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     }
     return 'systems/demonlord08/templates/actor/actor-sheet2.html';
   }
-  
+
   /* -------------------------------------------- */
 
   _onGenerateActor(event) {
@@ -533,10 +535,30 @@ export class DemonlordActorSheet2 extends ActorSheet {
       }
     });
 
-    // Disbale Afflictions
+    // Disable Afflictions
     html.find('.disableafflictions').click((ev) => {
-      this.clearAfflictions();
+      DLAfflictions.clearAfflictions(this.actor);
     });
+
+    // Afflictions checkboxes
+    html.find('.affliction > input').click((ev) => {
+      const input = ev.currentTarget
+      const checked = input.checked
+      const name = input.labels[0].innerText
+
+      if (checked){
+        const affliction = CONFIG.statusEffects.find(e => e.label === name)
+        if (!affliction) return false
+        affliction["flags.core.statusId"] = affliction.id
+        ActiveEffect.create(affliction, {parent: this.actor})
+        return true
+      }
+      else {
+        const affliction = this.actor.effects.find(e => e.data.label === name)
+        if (!affliction) return false
+        affliction.delete()
+      }
+    })
 
     // Corruption Roll
     html.find('.corruption-roll').click((ev) => {
@@ -1366,31 +1388,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
     const data = { name: 'New ancestry', type: 'ancestry' };
     const talentToCreate = await this.actor.createEmbeddedDocument('Item', data);
     await Actor.updateDocuments(talentToCreate);
-  }
-
-  async clearAfflictions() {
-    await Actor.update({
-      'data.afflictions.asleep': false,
-      'data.afflictions.blinded': false,
-      'data.afflictions.charmed': false,
-      'data.afflictions.compelled': false,
-      'data.afflictions.dazed': false,
-      'data.afflictions.deafened': false,
-      'data.afflictions.defenseless': false,
-      'data.afflictions.diseased': false,
-      'data.afflictions.fatigued': false,
-      'data.afflictions.frightened': false,
-      'data.afflictions.horrified': false,
-      'data.afflictions.grabbed': false,
-      'data.afflictions.immobilized': false,
-      'data.afflictions.impaired': false,
-      'data.afflictions.poisoned': false,
-      'data.afflictions.prone': false,
-      'data.afflictions.slowed': false,
-      'data.afflictions.stunned': false,
-      'data.afflictions.surprised': false,
-      'data.afflictions.unconscious': false,
-    });
   }
 
   addEditContextMenu(menutitle) {

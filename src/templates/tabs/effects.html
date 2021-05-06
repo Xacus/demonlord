@@ -11,10 +11,9 @@
             <li class="form-line">
                 <div class="grid grid-3col">
                     <div class="affliction">
-                        <input type="checkbox" name="data.actions.concentrate"
-                            id="data.actions.concentrate" {{checked data.actions.concentrate}} />
+                        <input type="checkbox" id="data.afflictions.concentrate" {{checked data.afflictions.concentrate}} />
                         <div>
-                            <label for="data.actions.concentrate">
+                            <label for="data.afflictions.concentrate">
                                 {{localize "DL.concentrate"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -23,10 +22,9 @@
                         </div>
                     </div>
                     <div class="affliction">
-                        <input type="checkbox" name="data.actions.defend"
-                            id="data.actions.defend" {{checked data.actions.defend}} />
+                        <input type="checkbox" id="data.afflictions.defend" {{checked data.afflictions.defend}} />
                         <div>
-                            <label for="data.actions.defend">
+                            <label for="data.afflictions.defend">
                                 {{localize "DL.defend"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -35,10 +33,9 @@
                         </div>
                     </div>
                     <div class="affliction">
-                        <input type="checkbox" name="data.actions.help"
-                            id="data.actions.help" {{checked data.actions.help}} />
+                        <input type="checkbox" id="data.afflictions.help" {{checked data.afflictions.help}} />
                         <div>
-                            <label for="data.actions.help">
+                            <label for="data.afflictions.help">
                                 {{localize "DL.help"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -47,10 +44,9 @@
                         </div>
                     </div>
                     <div class="affliction">
-                        <input type="checkbox" name="data.actions.prepare"
-                            id="data.actions.prepare" {{checked data.actions.prepare}} />
+                        <input type="checkbox" id="data.afflictions.prepare" {{checked data.afflictions.prepare}} />
                         <div>
-                            <label for="data.actions.prepare">
+                            <label for="data.afflictions.prepare">
                                 {{localize "DL.prepare"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -59,10 +55,9 @@
                         </div>
                     </div>
                     <div class="affliction">
-                        <input type="checkbox" name="data.actions.reload"
-                            id="data.actions.reload" {{checked data.actions.reload}} />
+                        <input type="checkbox" id="data.afflictions.reload" {{checked data.afflictions.reload}} />
                         <div>
-                            <label for="data.actions.reload">
+                            <label for="data.afflictions.reload">
                                 {{localize "DL.reload"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -71,10 +66,9 @@
                         </div>
                     </div>
                     <div class="affliction">
-                        <input type="checkbox" name="data.actions.retreat"
-                            id="data.actions.retreat" {{checked data.actions.retreat}} />
+                        <input type="checkbox" id="data.afflictions.retreat" {{checked data.afflictions.retreat}} />
                         <div>
-                            <label for="data.actions.retreat">
+                            <label for="data.afflictions.retreat">
                                 {{localize "DL.retreat"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -83,10 +77,9 @@
                         </div>
                     </div>
                     <div class="affliction">
-                        <input type="checkbox" name="data.actions.rush"
-                            id="data.actions.rush" {{checked data.actions.rush}} />
+                        <input type="checkbox" id="data.afflictions.rush" {{checked data.afflictions.rush}} />
                         <div>
-                            <label for="data.actions.rush">
+                            <label for="data.afflictions.rush">
                                 {{localize "DL.rush"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -95,10 +88,9 @@
                         </div>
                     </div>
                     <div class="affliction">
-                        <input type="checkbox" name="data.actions.stabilize"
-                            id="data.actions.stabilize" {{checked data.actions.stabilize}} />
+                        <input type="checkbox" id="data.afflictions.stabilize" {{checked data.afflictions.stabilize}} />
                         <div>
-                            <label for="data.actions.stabilize">
+                            <label for="data.afflictions.stabilize">
                                 {{localize "DL.stabilize"}}
                             </label>
                             <div class="fas fa-question tooltip">
@@ -120,13 +112,14 @@
         <div>
             <ol class="items-line">
                 <li class="form-line">
-                    <div class="disableafflictions"><a name="disableafflictions"
-                            id="disableafflictions">{{localize "DL.ModsDisableAfflictions"}}</a></div>
+                    <div class="disableafflictions">
+                      <aid="disableafflictions">{{localize "DL.ModsDisableAfflictions"}}</a>
+                    </div>
                 </li>
                 <li>
                     <div class="grid grid-3col">
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.asleep" id="data.afflictions.asleep"
+                            <input type="checkbox" id="data.afflictions.asleep"
                                 {{checked data.afflictions.asleep}} />
                             <div>
                                 <label for="data.afflictions.asleep">
@@ -138,7 +131,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.blinded" id="data.afflictions.blinded"
+                            <input type="checkbox" id="data.afflictions.blinded"
                                 {{checked data.afflictions.blinded}} />
                             <div>
                                 <label for="data.afflictions.blinded">
@@ -150,7 +143,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.charmed" id="data.afflictions.charmed"
+                            <input type="checkbox" id="data.afflictions.charmed"
                                 {{checked data.afflictions.charmed}} />
                             <div>
                                 <label for="data.afflictions.charmed">
@@ -162,7 +155,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.compelled"
+                            <input type="checkbox"
                                 id="data.afflictions.compelled" {{checked data.afflictions.compelled}} />
                             <div>
                                 <label for="data.afflictions.compelled">
@@ -174,7 +167,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.dazed" id="data.afflictions.dazed"
+                            <input type="checkbox" id="data.afflictions.dazed"
                                 {{checked data.afflictions.dazed}} />
                             <div>
                                 <label for="data.afflictions.dazed">
@@ -186,7 +179,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.deafened" id="data.afflictions.deafened"
+                            <input type="checkbox" id="data.afflictions.deafened"
                                 {{checked data.afflictions.deafened}} />
                             <div>
                                 <label for="data.afflictions.deafened">
@@ -198,8 +191,8 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.defenseless"
-                                id="data.afflictions.defenseless" {{checked data.afflictions.defenseless}} />
+                            <input type="checkbox"
+                                   id="data.afflictions.defenseless" {{checked data.afflictions.defenseless}} />
                             <div>
                                 <label for="data.afflictions.defenseless">
                                     {{localize "DL.defenseless"}}
@@ -210,7 +203,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.diseased" id="data.afflictions.diseased"
+                            <input type="checkbox" id="data.afflictions.diseased"
                                 {{checked data.afflictions.diseased}} />
                             <div>
                                 <label for="data.afflictions.diseased">
@@ -222,7 +215,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.fatigued" id="data.afflictions.fatigued"
+                            <input type="checkbox" id="data.afflictions.fatigued"
                                 {{checked data.afflictions.fatigued}} />
                             <div>
                                 <label for="data.afflictions.fatigued">
@@ -234,7 +227,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.frightened" id="data.afflictions.frightened"
+                            <input type="checkbox" id="data.afflictions.frightened"
                                 {{checked data.afflictions.frightened}} />
                             <div>
                                 <label for="data.afflictions.frightened">
@@ -246,7 +239,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.horrified" id="data.afflictions.horrified"
+                            <input type="checkbox" id="data.afflictions.horrified"
                                 {{checked data.afflictions.horrified}} />
                             <div>
                                 <label for="data.afflictions.horrified">
@@ -258,7 +251,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.grabbed" id="data.afflictions.grabbed"
+                            <input type="checkbox" id="data.afflictions.grabbed"
                                 {{checked data.afflictions.grabbed}} />
                             <div>
                                 <label for="data.afflictions.grabbed">
@@ -270,7 +263,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.immobilized"
+                            <input type="checkbox"
                                 id="data.afflictions.immobilized" {{checked data.afflictions.immobilized}} />
                             <div>
                                 <label for="data.afflictions.immobilized">
@@ -282,7 +275,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.impaired" id="data.afflictions.impaired"
+                            <input type="checkbox" id="data.afflictions.impaired"
                                 {{checked data.afflictions.impaired}} />
                             <div>
                                 <label for="data.afflictions.impaired">
@@ -294,7 +287,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.poisoned" id="data.afflictions.poisoned"
+                            <input type="checkbox" id="data.afflictions.poisoned"
                                 {{checked data.afflictions.poisoned}} />
                             <div>
                                 <label for="data.afflictions.poisoned">
@@ -306,7 +299,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.prone" id="data.afflictions.prone"
+                            <input type="checkbox" id="data.afflictions.prone"
                                 {{checked data.afflictions.prone}} />
                             <div>
                                 <label for="data.afflictions.prone">
@@ -318,7 +311,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.slowed" id="data.afflictions.slowed"
+                            <input type="checkbox" id="data.afflictions.slowed"
                                 {{checked data.afflictions.slowed}} />
                             <div>
                                 <label for="data.afflictions.slowed">
@@ -330,7 +323,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.stunned" id="data.afflictions.stunned"
+                            <input type="checkbox" id="data.afflictions.stunned"
                                 {{checked data.afflictions.stunned}} />
                             <div class="tooltip">
                                 <label for="data.afflictions.stunned">
@@ -342,7 +335,7 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.surprised" id="data.afflictions.surprised"
+                            <input type="checkbox" id="data.afflictions.surprised"
                                 {{checked data.afflictions.surprised}} />
                             <div>
                                 <label for="data.afflictions.surprised">
@@ -354,8 +347,8 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.afflictions.unconscious"
-                                id="data.afflictions.unconscious" {{checked data.afflictions.unconscious}} />
+                            <input type="checkbox"
+                                   id="data.afflictions.unconscious" {{checked data.afflictions.unconscious}} />
                             <div>
                                 <label for="data.afflictions.unconscious">
                                     {{localize "DL.unconscious"}}
@@ -382,10 +375,10 @@
                 <li>
                     <div class="grid grid-3col">
                         <div class="affliction">
-                            <input type="checkbox" name="data.damageeffects.incapacitated"
-                                id="data.damageeffects.incapacitated" {{checked data.damageeffects.incapacitated}} />
+                            <input type="checkbox"
+                                id="data.afflictions.incapacitated" {{checked data.afflictions.incapacitated}} />
                             <div>
-                                <label for="data.damageeffects.incapacitated">
+                                <label for="data.afflictions.incapacitated">
                                     {{localize "DL.ModsDamageIncapacitated"}}
                                 </label>
                                 <div class="fas fa-question tooltip">
@@ -394,10 +387,10 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.damageeffects.disabled" id="data.damageeffects.disabled"
-                                {{checked data.damageeffects.disabled}} />
+                            <input type="checkbox" id="data.afflictions.disabled"
+                                {{checked data.afflictions.disabled}} />
                             <div>
-                                <label for="data.damageeffects.disabled">
+                                <label for="data.afflictions.disabled">
                                     {{localize "DL.ModsDamageDisabled"}}
                                 </label>
                                 <div class="fas fa-question tooltip">
@@ -406,10 +399,10 @@
                             </div>
                         </div>
                         <div class="affliction">
-                            <input type="checkbox" name="data.damageeffects.dying" id="data.damageeffects.dying"
-                                {{checked data.damageeffects.dying}} />
+                            <input type="checkbox" id="data.afflictions.dying"
+                                {{checked data.afflictions.dying}} />
                             <div>
-                                <label for="data.damageeffects.dying">
+                                <label for="data.afflictions.dying">
                                     {{localize "DL.ModsDamageDying"}}
                                 </label>
                                 <div class="fas fa-question tooltip">
