@@ -16,7 +16,6 @@ export class DemonlordItem extends Item {
 
   /** @override */
   async update(updateData) {
-    console.log('Demonlord | DemonlordItem.update | Called with updateData:', updateData)
     await super.update(updateData)
     this.embedActiveEffects()
     return 1

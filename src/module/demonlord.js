@@ -219,7 +219,6 @@ Hooks.on('createActiveEffect', async (activeEffect) => {
   const statusId = activeEffect.data.flags?.core?.statusId
   const parent = activeEffect?.parent
   if (statusId && parent){
-    console.log(parent)
     parent.data.data.afflictions[statusId] = true
 
     // If asleep, also add prone and uncoscious
@@ -265,7 +264,6 @@ Hooks.on('renderChatMessage', async (app, html, msg) => {
     const regex = /(\d+)?d(\d+)([\+\-]\d+)?/ig;
     const text = html.find(".message-content")[0].innerHTML;
     const found = text.match(regex);
-    console.log(found);
     var rrr = text.replace(found[1], "<a href=''>" + found[1] + "</a>");
     html.find(".message-content").replaceWith(rrr);
     */

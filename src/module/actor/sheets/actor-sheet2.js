@@ -50,7 +50,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
   }
 
   async _updateObject(event, formData) {
-    //console.log("FORMDATA", formData)
     return this.document.update(formData);
     const actor = this.object;
     const updateData = expandObject(formData);

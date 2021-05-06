@@ -141,7 +141,6 @@ export class DemonlordActor extends Actor {
   rollAttack(item, inputBoons = 0, inputModifier = 0) {
     const attacker = this
     const defender = attacker.getTarget()
-    console.log(defender)
     // Get attacker attribute and defender attribute name
     const attackAttribute = item.data.data.action?.attack?.toLowerCase()
     const defenseAttribute = item.data.data?.action?.against?.toLowerCase() || item.data.action?.against?.toLowerCase()
@@ -294,7 +293,6 @@ export class DemonlordActor extends Actor {
 
   rollSpell(itemID, options = {event: null}) {
     const item = this.items.get(itemID)
-    console.log(item)
     const isAttack = item.data.spelltype === game.i18n.localize('DL.SpellTypeAttack')
     const attackAttribute = item.data.data?.action?.attack?.toLowerCase()
     const challengeAttribute = item.data.data?.attribute?.toLowerCase()

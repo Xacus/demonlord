@@ -1,5 +1,5 @@
-<div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
-    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
+    {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     <div class="showlessinfo"></div>
     {{#if data.attack}}
     <header class="card-header">
@@ -138,13 +138,13 @@
         {{/if}}
         {{#if data.healing}}
         <div class="talentactions roll-healing">
-            <div class="header" data-item-id="{{data.id}}" data-healing="1">
+            <div class="header" data-item-id="{{data._id}}" data-healing="1">
                 <img src=" systems/demonlord08/assets/ui/icons/health.png" width="15" height="15" />
                 <div>{{localize "DL.DialogTalentApplyHealing"}}</div>
             </div>
         </div>
         <div class="talentactions roll-healing">
-            <div class="header" data-item-id="{{data.id}}" data-healing="2">
+            <div class="header" data-item-id="{{data._id}}" data-healing="2">
                 <img src=" systems/demonlord08/assets/ui/icons/health.png" width="15" height="15" />
                 <div>{{localize "DL.DialogTalentApplyHalfHealing"}}</div>
             </div>
@@ -275,7 +275,7 @@
     {{/if}}
     {{#if data.damageFormular}}
     <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageFormular}}"
+        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageFormular}}"
             data-damagetype="{{data.damageType}}">
             <img src="systems/demonlord08/assets/ui/items/damage.png" width="15" height="15" />
             <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormular}})</div>
@@ -284,7 +284,7 @@
     {{/if}}
     {{#each data.damageTypes as |damagetype id|}}
     <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data.id}}" data-damage="{{damagetype.damage}}"
+        <div class="header" data-item-id="{{data._id}}" data-damage="{{damagetype.damage}}"
             data-damagetype="{{damagetype.damagetype}}">
             <img src="systems/demonlord08/assets/ui/items/damage.png" width="15" height="15" />
             <div>{{damagetype.damagetype}} {{localize "DL.WeaponDamage"}} ({{damagetype.damage}})</div>
@@ -293,7 +293,7 @@
     {{/each}}
     {{#if data.damageExtra20plusFormular}}
     <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageExtra20plusFormular}}">
+        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageExtra20plusFormular}}">
             <img src="systems/demonlord08/assets/ui/items/damage.png" width="15" height="15" />
             <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular}})</div>
         </div>

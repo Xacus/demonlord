@@ -288,7 +288,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   let usesText = ''
   if (uses >= 0 && usesMax > 0) {
     spell.data.data.castings.value = uses < usesMax ? '' + Number(++uses) : '' + usesMax
-    Item.updateDocuments([spell], {parent: actor}) //FIXME
+    //Item.updateDocuments([spell], {parent: actor}) //FIXME
     usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesMax
   }
 
@@ -296,7 +296,6 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   let resultText = targetNumber && attackRoll?.total >= parseInt(targetNumber)
       ? game.i18n.localize('DL.DiceResultSuccess')
       : game.i18n.localize('DL.DiceResultFailure');
-  console.log("ROLL", attackRoll)
   let diceTotalGM = attackRoll?.total || ''
   let diceTotal = diceTotalGM
   if (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack') || rollMode === 'blindroll') {
@@ -359,7 +358,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['challPerception'] = defenseAttribute === 'perception'
   data['uses'] = usesText
   data['isCreature'] = actor.data.type === 'creature'
-  data['healing'] = spell.data?.healing?.healactive && spell.data?.healing?.healing
+  data['healing'] = spellData?.healing?.healactive && spellData?.healing?.healing
   data['effects'] = '' // FIXME: what to put in here??
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute)
   data['ifBlindedRoll'] = rollMode === 'blindroll'

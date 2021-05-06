@@ -27,7 +27,7 @@
                             </div>
                         </li>
                         {{#each actor.features as |feature id|}}
-                        <li class="feature dropitem" data-item-id="{{feature._id}}">
+                        <li class="feature dropitem" data-item-id="{{feature.id}}">
                             <div class="item-controls">
                                 <a class="item-control feature-edit" title="{{localize 'DL.FeatureEdit'}}"><i
                                         class="fas fa-edit"></i></a>
@@ -52,7 +52,7 @@
                         {{/if}}
                             <ol class="items-list">
                                 {{#each actor.features as |feature id|}}
-                                <li class="feature dropitem" data-item-id="{{feature._id}}">
+                                <li class="feature dropitem" data-item-id="{{feature.id}}">
                                     <div class="featurename">
                                         {{feature.name}}
                                     </div>
@@ -64,7 +64,7 @@
                         </div>
                     {{/if}}
                 {{/if}}
-                
+
                 {{#if data.edit}}
                 <div class="toggleAccordion change">{{localize "DL.CreatureAttackOptions"}}
                     <div class="hidesection">
@@ -75,7 +75,7 @@
                             for="data.sections.showattackoptions" />
                     </div>
                 </div>
-                <div class="content" style="display: block;">                    
+                <div class="content" style="display: block;">
                     <div class="header">
                         <div class="item-controls">
                             <a class="item-control item-create" title="{{localize 'DL.CreatureAddAttackOptions'}}"
@@ -84,7 +84,7 @@
                     </div>
                     <ol class="body">
                         {{#each actor.weapons as |weapon id|}}
-                        <li class="item dropitem" data-item-id="{{weapon._id}}">
+                        <li class="item dropitem" data-item-id="{{weapon.id}}">
                             <div class="itemname">
                                 {{weapon.name}}
                                 {{#if data.properties}}
@@ -115,7 +115,7 @@
                     {{/if}}
                         <ol class="body">
                             {{#each actor.weapons as |weapon id|}}
-                            <li class="item dropitem" data-item-id="{{weapon._id}}">
+                            <li class="item dropitem" data-item-id="{{weapon.id}}">
                                 <div class="itemnamefull dropitem attack-roll" data-key="{{id}}"><i class="fas fa-dice-d20"></i> {{weapon.name}}
                                     {{#if data.properties}}
                                     ({{data.properties}}) {{/if}}{{#if data.action.boonsbanes}}{{localize "DL.CreatureWeaponWith"}}
@@ -131,7 +131,7 @@
                     </div>
                     {{/if}}
                 {{/if}}
-                
+
                 {{#if data.edit}}
                 <div class="toggleAccordion change">{{localize "DL.CreatureSpecialAttacks"}}
                     <div class="hidesection">
@@ -151,7 +151,7 @@
                     </div>
                     <ol class="body">
                     {{#each actor.talents as |item id|}}
-                        <li class="item" data-item-id="{{item._id}}">
+                        <li class="item" data-item-id="{{item.id}}">
                             <div class="itemname">{{item.name}}</div>
                             <div class="item-controls">
                                 <a class="item-control item-edit" title="{{localize 'DL.CreatureEditSpecialAttacks'}}"><i
@@ -174,7 +174,7 @@
                     {{/if}}
                         <ol class="body">
                             {{#each actor.talents as |item id|}}
-                            <li class="item dropitem" data-item-id="{{item._id}}">
+                            <li class="item dropitem" data-item-id="{{item.id}}">
                                 <div class="itemnamefull talent-roll"><i class="fas fa-dice-d20"></i> {{item.name}}</div>
                                 <div class="itemtext">{{{data.description}}}</div>
                             </li>
@@ -199,11 +199,11 @@
                         <div class="item-controls">
                             <a class="item-control item-create" title="{{localize 'DL.CreatureAddSpecialActions'}}"
                                 data-type="specialaction"><i class="fas fa-plus"></i></a>
-                        </div> 
+                        </div>
                     </div>
                     <ol class="body">
                         {{#each actor.specialactions as |item id|}}
-                        <li class="item" data-item-id="{{item._id}}">
+                        <li class="item" data-item-id="{{item.id}}">
                             <div class="itemname">{{item.name}}</div>
                             <div class="item-controls">
                                 <a class="item-control item-edit" title="{{localize 'DL.CreatureEditSpecialActions'}}"><i
@@ -226,7 +226,7 @@
                     {{/if}}
                         <ol class="body">
                             {{#each actor.specialactions as |item id|}}
-                            <li class="item" data-item-id="{{item._id}}">
+                            <li class="item" data-item-id="{{item.id}}">
                                 <div class="itemnamefull">{{item.name}}</div>
                                 <div class="itemtext">{{{data.description}}}</div>
                             </li>
@@ -259,7 +259,7 @@
                             <div class="spellnameheader">{{spellbook.tradition}}</div>
                         </li>
                         {{#each spellbook.spells as |spell id|}}
-                        <li class="item spell dropitem" data-item-id="{{spell._id}}">
+                        <li class="item spell dropitem" data-item-id="{{spell.id}}">
                             <div class="spellinfo">
                                 <div class="itemname">{{spell.name}}</div>
                                 <div class="spellcastings">({{data.castings.value}} / {{data.castings.max}}), </div>
@@ -296,7 +296,7 @@
                             </li>
                             {{/if}}
                             {{#each spellbook.spells as |spell id|}}
-                            <li class="item spell dropitem creaturetooltip" data-item-id="{{spell._id}}">
+                            <li class="item spell dropitem creaturetooltip" data-item-id="{{spell.id}}">
                                 <div class="spellinfo">
                                     <div class="itemname magic-roll"><i class="fas fa-dice-d20"></i> {{spell.name}}</div>
                                     <div class="spellcastings spell-uses">({{data.castings.value}} / {{data.castings.max}}), </div>
@@ -305,7 +305,7 @@
                                         {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}
                                     </div>
                                 </div>
-                                {{#if data.description}} 
+                                {{#if data.description}}
                                 <span class="tooltiptext">{{{data.description}}}</span>
                                 {{/if}}
                             </li>
@@ -335,7 +335,7 @@
                     </div>
                     <ol class="body">
                         {{#each actor.endoftheround as |item id|}}
-                        <li class="item" data-item-id="{{item._id}}">
+                        <li class="item" data-item-id="{{item.id}}">
                             <div class="itemname">{{item.name}}</div>
                             <div class="item-controls">
                                 <a class="item-control item-edit" title="{{localize 'DL.CreatureEditEndRound'}}"><i
@@ -358,7 +358,7 @@
                     {{/if}}
                         <ol class="body">
                             {{#each actor.endoftheround as |item id|}}
-                            <li class="item" data-item-id="{{item._id}}">
+                            <li class="item" data-item-id="{{item.id}}">
                                 <div class="itemnamefull">{{item.name}}</div>
                                 <div class="itemtext">{{{data.description}}}</div>
                             </li>

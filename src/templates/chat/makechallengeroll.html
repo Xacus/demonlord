@@ -1,5 +1,5 @@
-<div class="demonlord" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
-    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
+    {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     <header class="card-headersmall">
         <div class="challenge-img"></div>
         <div class="attackbox">
@@ -17,7 +17,7 @@
         </div>
         <div class="damageaction make-challengeroll">
             <div class="header" data-attribute="{{data.attribute.value}}" data-boonsbanes="{{data.boonsbanes.value}}"
-                data-actorid="{{actor._id}}">
+                data-actorid="{{actor.id}}">
                 <div class="challenge-img"></div>
                 <div>{{data.attribute.value}} ({{data.boonsbanestext.value}})</div>
             </div>

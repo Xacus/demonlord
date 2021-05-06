@@ -10,7 +10,7 @@
                         placeholder="{{localize 'DL.CharName'}}" /></div>
                 <div class="charancestry">
                     {{#each actor.ancestry as |item id|}}
-                    <div class="item" data-item-id="{{item._id}}">
+                    <div class="item" data-item-id="{{item.id}}">
                         <input class="item-edit ancestry" name="data.ancestry" type="text" value="{{item.name}}"
                             placeholder="Ancestry" />
                     </div>
