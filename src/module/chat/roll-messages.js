@@ -264,3 +264,124 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
     });
   }
 }
+
+/* -------------------------------------------- */
+
+/**
+ * Generates and sends the chat message for a SPELL
+ * @param actor
+ * @param spell
+ * @param attackRoll
+ * @param target
+ */
+export function postSpellToChat(actor, spell, attackRoll, target) {
+  const spellData = spell.data.data
+  const rollMode = game.settings.get('core', 'rollMode')
+
+  const attackAttribute = spellData?.action?.attack?.toLowerCase()
+  const defenseAttribute = spellData?.action?.against?.toLowerCase()
+  const challengeAttribute = spellData?.attribute?.toLowerCase() // FIXME
+  const targetNumber = actor.getTargetNumber(spell)
+
+  let uses = parseInt(spellData?.castings?.value)
+  let usesMax = parseInt(spellData?.castings?.max);
+  let usesText = ''
+  if (uses >= 0 && usesMax > 0) {
+    spell.data.data.castings.value = uses < usesMax ? '' + Number(++uses) : '' + usesMax
+    Item.updateDocuments([spell], {parent: actor}) //FIXME
+    usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesMax
+  }
+
+
+  let resultText = targetNumber && attackRoll?.total >= parseInt(targetNumber)
+      ? game.i18n.localize('DL.DiceResultSuccess')
+      : game.i18n.localize('DL.DiceResultFailure');
+  console.log("ROLL", attackRoll)
+  let diceTotalGM = attackRoll?.total || ''
+  let diceTotal = diceTotalGM
+  if (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack') || rollMode === 'blindroll') {
+    diceTotal = '?';
+    resultText = '';
+  }
+
+  let againstNumber =
+    target?.actor?.data.type === 'character' || (game.settings.get('demonlord08', 'attackShowDefense') && targetNumber)
+    ? targetNumber
+    : '?';
+
+  let effectdice = '';
+  if (spellData?.effectdice && spellData?.effectdice !== '') {
+    const effectRoll = new Roll(spellData.effectdice, {});
+    effectRoll.evaluate();
+    effectdice = effectRoll.total;
+  }
+
+  const templateData = {
+    actor: actor,
+    item: spell,
+    data: {},
+    diceData: FormatDice(attackRoll)
+  }
+  const data = templateData.data
+  data['id'] = spell.id
+  data['diceTotal'] = diceTotal
+  data['diceTotalGM'] = diceTotalGM
+  data['resultText'] = resultText
+  data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
+  data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute].toUpperCase()) : ''
+  data['againstNumber'] = againstNumber
+  data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
+  data['damageFormular'] = spellData.action?.damage
+  data['damageType'] = spellData.action?.damagetype
+  data['damageTypes'] = spellData.action?.damagetypes
+  data['damageExtra20plusFormular'] = spellData.action?.plus20damage
+  data['attribute'] = spellData.attribute
+  data['plus20'] = attackRoll?.total >= 20
+  data['plus20text'] = spellData.action?.plus20
+  data['description'] = spellData.description
+  data['spellcastings'] = usesMax
+  data['spellduration'] = spellData?.duration
+  data['spelltarget'] = spellData?.target
+  data['spellarea'] = spellData?.area
+  data['spellrequirements'] = spellData?.requirements
+  data['spellsacrifice'] = spellData?.sacrifice
+  data['spellpermanence'] = spellData?.permanence
+  data['spellspecial'] = spellData?.special
+  data['spelltriggered'] = spellData?.triggered
+  data['tagetname'] = target?.name || ''
+  data['effectdice'] = effectdice
+  data['defense'] = spellData?.action?.defense
+  data['defenseboonsbanes'] = parseInt(spellData?.action?.defenseboonsbanes)
+  data['challStrength'] = defenseAttribute === 'strength'
+  data['challAgility'] = defenseAttribute === 'agility'
+  data['challIntellect'] = defenseAttribute === 'intellect'
+  data['challWill'] = defenseAttribute === 'will'
+  data['challPerception'] = defenseAttribute === 'perception'
+  data['uses'] = usesText
+  data['isCreature'] = actor.data.type === 'creature'
+  data['healing'] = spell.data?.healing?.healactive && spell.data?.healing?.healing
+  data['effects'] = '' // FIXME: what to put in here??
+  data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute)
+  data['ifBlindedRoll'] = rollMode === 'blindroll'
+
+  const chatData = _getChatBaseData(actor, rollMode)
+  const template = 'systems/demonlord08/templates/chat/spell.html';
+  renderTemplate(template, templateData).then((content) => {
+    chatData.content = content;
+    if (game.dice3d && attackRoll != null && attackAttribute) {
+      if (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) {
+        if (attackRoll != null) chatData.sound = CONFIG.sounds.dice;
+        ChatMessage.create(chatData);
+      } else {
+        game.dice3d
+          .showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind)
+          .then((displayed) => ChatMessage.create(chatData));
+      }
+    } else {
+      if (attackRoll != null && attackAttribute) {
+        chatData.sound = CONFIG.sounds.dice;
+      }
+      ChatMessage.create(chatData);
+    }
+  });
+}

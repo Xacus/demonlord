@@ -56,14 +56,16 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
 
   let itemBoons
   switch (item.data.type) {
+    case 'spell':
     case 'weapon':
       itemBoons = item.data.data.action.boonsbanes
       break
     case 'talent':
-      console.log(item)
       if (!attackAttribute) return
       itemBoons = item.data.data.vs.boonsbanes
       break
+    default:
+      return
   }
 
   const defenderBoons = defender?.data.data.bonuses.defense.boons[defenseAttribute]

@@ -6,7 +6,7 @@ import {FormatDice} from '../dice.js';
 import {ActorRolls} from './actor-rolls';
 import {ActorAfflictionsEffects} from './actor-afflictions-effects';
 import {DLActiveEffects} from '../active-effects/item-effects';
-import {postAttackToChat, postAttributeToChat, postTalentToChat} from "../chat/roll-messages";
+import {postAttackToChat, postAttributeToChat, postSpellToChat, postTalentToChat} from "../chat/roll-messages";
 import {DLAfflictions} from "../active-effects/afflictions";
 import {plusify} from "../utils/utils";
 import ActorActions from "./actor-actions";
@@ -15,6 +15,7 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
   /*  Data preparation                            */
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -73,7 +74,7 @@ export class DemonlordActor extends Actor {
       armor: {fixed: 0, agility: 0, defense: 0, override: 0},
       defense: {
         sources: [],
-        boons: {strength: 0, agility: 0, intellect: 0, will: 0, defense: 0, perception: 0},
+        boons: {spell: 0, strength: 0, agility: 0, intellect: 0, will: 0, defense: 0, perception: 0},
         noFastTurn: 0,
       },
     });
@@ -126,6 +127,7 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
   /*  Rolls and Actions                           */
+
   /* -------------------------------------------- */
 
   /**
@@ -286,6 +288,74 @@ export class DemonlordActor extends Actor {
     postTalentToChat(this, talent, attackRoll, target)
   }
 
+  /* -------------------------------------------- */
+
+  rollSpell(itemID, options = {event: null}) {
+    const item = this.items.get(itemID)
+    console.log(item)
+    const isAttack = item.data.spelltype === game.i18n.localize('DL.SpellTypeAttack')
+    const attackAttribute = item.data.data?.action?.attack?.toLowerCase()
+    const challengeAttribute = item.data.data?.attribute?.toLowerCase()
+
+    // Check if actor is blocked
+    // If it has an attack attribute, check action attack else if it has a challenge attribute, check action challenge
+    if (isAttack && attackAttribute && DLAfflictions.isActorBlocked(this, 'attack', attackAttribute))
+      return
+    else if (challengeAttribute && DLAfflictions.isActorBlocked(this, 'challenge', challengeAttribute))
+      return
+
+    // Check uses
+    const uses = parseInt(item.data?.castings?.value)
+    const usesMax = parseInt(item.data?.castings?.max)
+    // TODO: if usesmax == 0 -> auto generate max uses?
+
+    if (usesMax !== 0 && uses >= usesMax) {
+      ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
+      return;
+    }
+
+    if (isAttack && attackAttribute)
+      ActorRolls.launchRollDialog(
+        game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
+        (html) =>
+          this.useSpell(
+            item,
+            html.find('[id="boonsbanes"]').val(),
+            html.find('[id="modifier"]').val()
+          ))
+    else
+      this.useSpell(item, 0, 0)
+  }
+
+  useSpell(spell, inputBoons, inputModifier) {
+    const target = this.getTarget()
+    const spellData = spell.data.data
+
+    const attackAttribute = spellData?.action?.attack?.toLowerCase()
+    const defenseAttribute = spellData?.action?.against?.toLowerCase()
+    const challengeAttribute = spellData?.attribute?.toLowerCase()
+
+    let attackRoll
+    if (attackAttribute) {
+      const attackBoons
+        = (parseInt(inputBoons) || 0)
+        + (parseInt(spellData.action.boonsbanes) || 0)
+        + (this.data.data.bonuses.attack.boons[attackAttribute] || 0)
+        - (target?.data.data.bonuses.defense.boons[defenseAttribute] || 0)
+        - (target?.data.data.bonuses.defense.boons.spell || 0)
+      const attackModifier
+        = (parseInt(inputModifier) || 0)
+        + this.data.data.attributes[attackAttribute].modifier || 0
+
+      const attackFormula =
+        '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
+      attackRoll = new Roll(attackFormula, {})
+      attackRoll.evaluate()
+    }
+
+    postSpellToChat(this, spell, attackRoll, target)
+  }
+
   async createItemCreate(event) {
     event.preventDefault();
 
@@ -334,7 +404,7 @@ export class DemonlordActor extends Actor {
     ActorRolls.rollTalent(this, itemId, options);
   }
 
-  rollSpell(itemId, options = {event: null}) {
+  __OLD__rollSpell(itemId, options = {event: null}) {
     ActorRolls.rollSpell(this, itemId, options);
   }
 
