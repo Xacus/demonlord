@@ -1,4 +1,3 @@
-import { DLActorModifiers } from '../../dialog/actor-modifiers.js';
 import { DLCharacterGenerater } from '../../dialog/actor-generator.js';
 import { DL } from '../../config.js';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../../active-effects/effects.js';
@@ -32,41 +31,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
     }
     return 'systems/demonlord08/templates/actor/actor-sheet2.html';
   }
-
-  /**
-   * Extend and override the sheet header buttons
-   * @override
-   */
-  _getHeaderButtons() {
-    let buttons = super._getHeaderButtons();
-    const canConfigure = game.user.isGM || this.actor.isOwner;
-    if (this.options.editable && canConfigure) {
-      buttons = [
-        /* {
-          label: game.i18n.localize('DL.CharacterGenerator'),
-          class: 'generate-actor',
-          icon: 'fas fa-user',
-          onclick: (ev) => this._onGenerateActor(ev)
-        }, */
-        {
-          label: game.i18n.localize('DL.ActorMods'),
-          class: 'configure-actor',
-          icon: 'fas fa-dice',
-          onclick: (ev) => this._onConfigureActor(ev),
-        },
-      ].concat(buttons);
-    }
-    return buttons;
-  }
+  
   /* -------------------------------------------- */
-
-  _onConfigureActor(event) {
-    event.preventDefault();
-    new DLActorModifiers(this.actor, {
-      top: this.position.top + 40,
-      left: this.position.left + (this.position.width - 400) / 2,
-    }).render(true);
-  }
 
   _onGenerateActor(event) {
     event.preventDefault();
