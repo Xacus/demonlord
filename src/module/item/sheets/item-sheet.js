@@ -87,17 +87,6 @@ export class DemonlordItemSheet extends ItemSheet {
         await this.object.update({
           'data.addtonextroll': true
         })
-
-        const characterbuffs = this.generateCharacterBuffs()
-        await Actor.updateDocuments({
-          'data.characteristics.defensebonus': parseInt(
-            characterbuffs.defensebonus
-          ),
-          'data.characteristics.healthbonus': parseInt(
-            characterbuffs.healthbonus
-          ),
-          'data.characteristics.speedbonus': parseInt(characterbuffs.speedbonus)
-        })
       } else {
         await this.document.update({
           'data.addtonextroll': false
@@ -106,54 +95,6 @@ export class DemonlordItemSheet extends ItemSheet {
     }
 
     return this.document.update(updateData)
-  }
-
-  generateCharacterBuffs () {
-    const characterbuffs = new CharacterBuff()
-    characterbuffs.challengestrengthbonus = 0
-    characterbuffs.challengeagilitybonus = 0
-    characterbuffs.challengeintellectbonus = 0
-    characterbuffs.challengewillbonus = 0
-    characterbuffs.challengeperceptionbonus = 0
-
-    const talents = this.actor
-      .getEmbeddedCollection('Item')
-      .filter((e) => e.type === 'talent')
-
-    for (const talent of talents) {
-      if (talent.data.addtonextroll) {
-        if (
-          this.actor.data.data.activebonuses ||
-          (talent.data.uses.value > 0 && talent.data.uses.max > 0)
-        ) {
-          if (
-            talent.data.bonuses?.defenseactive &&
-            talent.data.bonuses?.defense > 0
-          ) {
-            characterbuffs.defensebonus += parseInt(talent.data.bonuses.defense)
-          }
-          if (
-            talent.data.bonuses?.healthactive &&
-            talent.data.bonuses?.health > 0
-          ) {
-            characterbuffs.healthbonus += parseInt(talent.data.bonuses.health)
-          }
-          if (
-            talent.data.bonuses?.speedactive &&
-            talent.data.bonuses?.speed > 0
-          ) {
-            characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed)
-          }
-          if (
-            talent.data.bonuses?.poweractive &&
-            talent.data.bonuses?.power > 0
-          ) {
-            characterbuffs.powerbonus += parseInt(talent.data.bonuses.power)
-          }
-        }
-      }
-    }
-    return characterbuffs
   }
 
   async updateOption (selected) {

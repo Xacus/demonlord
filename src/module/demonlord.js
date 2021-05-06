@@ -11,7 +11,6 @@ import { DemonlordPathSetup } from './item/path-setup.js';
 import { registerSettings } from './settings.js';
 import { rollInitiative, startCombat, nextTurn, setupTurns } from './init/init.js';
 import combattracker from './combattracker.js';
-import { CharacterBuff } from './buff.js';
 import { preloadHandlebarsTemplates } from './templates.js';
 import * as migrations from './migration.js';
 import * as macros from './macros.js';
@@ -90,8 +89,6 @@ Hooks.once('init', async function () {
     makeDefault: true,
   });
 
-  window.CharacterBuff = CharacterBuff;
-
   // If you need to add Handlebars helpers, here are a few useful examples:
   Handlebars.registerHelper('concat', function () {
     var outStr = '';
@@ -152,16 +149,6 @@ Hooks.once('setup', function () {
       return obj;
     }, {});
   }
-
-  // Status Effects Icons
-  // const effects = [];
-  // for (const [key, attribute] of Object.entries(CONFIG.DL.statusIcons)) {
-  //   effects.push({
-  //     id: key,
-  //     label: key.charAt(0).toUpperCase() + key.slice(1),
-  //     icon: attribute,
-  //   });
-  // }
 
   const effects = DLAfflictions.buildAll()
 

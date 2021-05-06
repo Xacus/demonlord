@@ -1,4 +1,4 @@
-import {PathLevel} from '../pathlevel.js';
+import {PathLevel} from './pathlevel.js';
 import {FormatDice} from '../dice.js';
 import {DLActiveEffects} from "../active-effects/item-effects";
 

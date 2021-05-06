@@ -2,7 +2,7 @@
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-import { PathLevel, PathLevelItem } from '../pathlevel.js'
+import { PathLevel, PathLevelItem } from './pathlevel.js'
 export class DemonlordPathSetup extends ItemSheet {
   /** @override */
   static get defaultOptions () {

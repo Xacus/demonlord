@@ -1,5 +1,5 @@
 import { DLActorModifiers } from '../../dialog/actor-modifiers.js';
-import { CharacterBuff } from '../../buff.js';
+
 export class DemonlordActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
