@@ -19,6 +19,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
           contentSelector: '.sheet-body',
           initial: 'character',
         },
+        {
+          navSelector: '.sheet-subnavigation',
+          contentSelector: '.sheet-subbody',
+          initial: 'effects',
+        },
       ],
       scrollY: ['.tab.active'],
     });
@@ -31,7 +36,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     }
     return 'systems/demonlord08/templates/actor/actor-sheet2.html';
   }
-  
+
   /* -------------------------------------------- */
 
   _onGenerateActor(event) {
