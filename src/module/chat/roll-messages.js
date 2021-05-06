@@ -385,3 +385,79 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
     }
   });
 }
+
+/* -------------------------------------------- */
+
+export function postCorruptionToChat(actor, corruptionRoll) {
+  const templateData = {
+    actor: actor,
+    data: {},
+    diceData: FormatDice(corruptionRoll)
+  }
+  const data = templateData.data
+  data['diceTotal'] = corruptionRoll.total
+  data['tagetValueText'] = game.i18n.localize('DL.CharCorruption').toUpperCase()
+  data['targetValue'] = actor.data.data.characteristics.corruption
+  data['resultText'] = corruptionRoll.total >= actor.data.data.characteristics.corruption
+    ? game.i18n.localize('DL.DiceResultSuccess')
+    : game.i18n.localize('DL.DiceResultFailure')
+  data['failureText'] = corruptionRoll.total >= actor.data.data.characteristics.corruption
+    ? ''
+    : game.i18n.localize('DL.CharRolCorruptionResult')
+
+  const rollMode = game.settings.get('core', 'rollMode')
+  const chatData = _getChatBaseData(actor, rollMode)
+  const template = 'systems/demonlord08/templates/chat/corruption.html'
+
+  renderTemplate(template, templateData).then((content) => {
+    chatData.content = content
+    if (game.dice3d) {
+      game.dice3d
+        .showForRoll(
+          corruptionRoll,
+          game.user,
+          true,
+          chatData.whisper,
+          chatData.blind
+        )
+        .then((displayed) =>
+          ChatMessage.create(chatData).then((msg) => {
+            if (
+              corruptionRoll.total <
+              actor.data.data.characteristics.corruption
+            ) {
+              ; (async () => {
+                // FIXME: get data from table
+                const compRollTabels = await game.packs
+                  .get('demonlord08.sotdl roll tabels')
+                  .getContent()
+                const tableMarkOfDarkness = compRollTabels.find(
+                  (i) => i.name === 'Mark of Darkness'
+                )
+
+                const result = tableMarkOfDarkness.draw()
+                let resultText = ''
+                const actor = actor
+
+                result.then(function (result) {
+                  resultText = result.results[0].text
+
+                  actor.createItem({
+                    name: 'Mark of Darkness',
+                    type: 'feature',
+                    data: {
+                      description: resultText
+                    }
+                  })
+                })
+                // tableMarkOfDarkness.roll().results[0].text
+              })()
+            }
+          })
+        )
+    } else {
+      chatData.sound = CONFIG.sounds.dice
+      ChatMessage.create(chatData)
+    }
+  })
+}

@@ -6,9 +6,16 @@ import {FormatDice} from '../dice.js';
 import {ActorRolls} from './actor-rolls';
 import {ActorAfflictionsEffects} from './actor-afflictions-effects';
 import {DLActiveEffects} from '../active-effects/item-effects';
-import {postAttackToChat, postAttributeToChat, postSpellToChat, postTalentToChat} from "../chat/roll-messages";
+import {
+  postAttackToChat,
+  postAttributeToChat,
+  postCorruptionToChat,
+  postSpellToChat,
+  postTalentToChat
+} from "../chat/roll-messages";
 import {DLAfflictions} from "../active-effects/afflictions";
 import {plusify} from "../utils/utils";
+import launchRollDialog from "../dialog/roll-dialog"
 import ActorActions from "./actor-actions";
 
 export class DemonlordActor extends Actor {
@@ -195,7 +202,7 @@ export class DemonlordActor extends Actor {
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
-      ActorRolls.launchRollDialog(
+      launchRollDialog(
         game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), (html) =>
           this.rollAttack(
             item,
@@ -224,7 +231,7 @@ export class DemonlordActor extends Actor {
       attribute = this.data.data.attributes[attribute]
 
     if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.label))
-      ActorRolls.launchRollDialog(
+      launchRollDialog(
         this.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2),
         (html) =>
           this.rollAttribute(
@@ -249,7 +256,7 @@ export class DemonlordActor extends Actor {
     }
 
     if (item.data?.vs?.attribute)
-      ActorRolls.launchRollDialog(
+      launchRollDialog(
         game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
         (html) =>
           this.useTalent(
@@ -315,7 +322,7 @@ export class DemonlordActor extends Actor {
     }
 
     if (isAttack && attackAttribute)
-      ActorRolls.launchRollDialog(
+      launchRollDialog(
         game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
         (html) =>
           this.useSpell(
@@ -356,6 +363,16 @@ export class DemonlordActor extends Actor {
     postSpellToChat(this, spell, attackRoll, target)
   }
 
+  /* -------------------------------------------- */
+
+  rollCorruption() {
+    const corruptionRoll = new Roll('1d20 - @corruption', {corruption: this.data.data.characteristics.corruption})
+    corruptionRoll.evaluate()
+    postCorruptionToChat(this, corruptionRoll)
+  }
+
+  /* -------------------------------------------- */
+
   async createItemCreate(event) {
     event.preventDefault();
 
@@ -380,37 +397,6 @@ export class DemonlordActor extends Actor {
     return await this.createItem(itemData);
   }
 
-  __OLD__rollChallenge(attribute) {
-    ActorRolls.rollChallenge(this, attribute);
-  }
-
-  __OLD__rollAttribute(attribute, boonsbanes, modifier) {
-    ActorRolls.rollAttribute(this, attribute, boonsbanes, modifier);
-  }
-
-  rollWeaponAttackMacro(itemId, boonsbanes, damagebonus) {
-    ActorRolls.rollWeaponAttackMacro(this, itemId, boonsbanes, damagebonus);
-  }
-
-  async __OLD__rollWeaponAttack(itemId, options = {event: null}) {
-    ActorRolls.rollWeaponAttack(this, itemId, options);
-  }
-
-  async __OLD__rollAttack(weapon, boonsbanes, buffs, modifier) {
-    ActorRolls.rollAttack(this, weapon, boonsbanes, buffs, modifier);
-  }
-
-  __OLD__rollTalent(itemId, options = {event: null}) {
-    ActorRolls.rollTalent(this, itemId, options);
-  }
-
-  __OLD__rollSpell(itemId, options = {event: null}) {
-    ActorRolls.rollSpell(this, itemId, options);
-  }
-
-  rollCorruption() {
-    ActorRolls.rollCorruption(this);
-  }
 
   showItemInfo(item) {
     const uses = parseInt(item.data?.data?.enchantment?.uses?.value);

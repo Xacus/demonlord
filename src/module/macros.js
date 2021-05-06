@@ -77,7 +77,7 @@ export function rollWeaponMacro (itemName, boonsbanes, damagebonus) {
     )
   }
 
-  return actor.rollWeaponAttackMacro(item.id, boonsbanes, damagebonus)
+  return actor.rollWeaponAttack(item.id)  //FIXME: boons banes damage bonus ignored?
 }
 
 /**
