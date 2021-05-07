@@ -1,8 +1,8 @@
 import { DLCharacterGenerater } from '../../dialog/actor-generator.js';
 import { DL } from '../../config.js';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../../active-effects/effects.js';
-import {DLAfflictions} from "../../active-effects/afflictions";
-import {DLActiveEffects} from "../../active-effects/item-effects";
+import { DLAfflictions } from '../../active-effects/afflictions';
+import { DLActiveEffects } from '../../active-effects/item-effects';
 
 export class DemonlordActorSheet2 extends ActorSheet {
   constructor(...args) {
@@ -13,7 +13,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord2', 'sheet', 'actor'],
-      width: 742,
+      width: 780,
       height: 700,
       tabs: [
         {
@@ -546,23 +546,22 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     // Afflictions checkboxes
     html.find('.affliction > input').click((ev) => {
-      const input = ev.currentTarget
-      const checked = input.checked
-      const name = input.labels[0].innerText
+      const input = ev.currentTarget;
+      const checked = input.checked;
+      const name = input.labels[0].innerText;
 
-      if (checked){
-        const affliction = CONFIG.statusEffects.find(e => e.label === name)
-        if (!affliction) return false
-        affliction["flags.core.statusId"] = affliction.id
-        ActiveEffect.create(affliction, {parent: this.actor})
-        return true
+      if (checked) {
+        const affliction = CONFIG.statusEffects.find((e) => e.label === name);
+        if (!affliction) return false;
+        affliction['flags.core.statusId'] = affliction.id;
+        ActiveEffect.create(affliction, { parent: this.actor });
+        return true;
+      } else {
+        const affliction = this.actor.effects.find((e) => e.data.label === name);
+        if (!affliction) return false;
+        affliction.delete();
       }
-      else {
-        const affliction = this.actor.effects.find(e => e.data.label === name)
-        if (!affliction) return false
-        affliction.delete()
-      }
-    })
+    });
 
     // Corruption Roll
     html.find('.corruption-roll').click((ev) => {

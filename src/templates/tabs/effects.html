@@ -1,28 +1,32 @@
 <nav class="sheet-subnavigation" data-group="subpage">
-  <a class="item" data-tab="afflictions">{{localize "DL.ModsAfflictions"}}</a>
-  <a class="item" data-tab="ancestry">Ancestry</a>
-  <a class="item" data-tab="talents">{{localize "DL.TabsTalents"}}</a>
-  <a class="item" data-tab="spells">Spells</a>
+  <a class="item" data-tab="general">General</a>
+  <a class="item" data-tab="ancestry">{{localize "DL.CharAncestry"}}</a>
+  <a class="item" data-tab="talent">{{localize "DL.TabsTalents"}}</a>
+  <a class="item" data-tab="spell">{{localize "DL.MagicSpellsTitle"}}</a>
   <a class="item" data-tab="enchantments">Enchantments</a>
+  <a class="item" data-tab="overview">Overview</a>
 </nav>
 
 <section class="sheet-subbody">
   <section class="sheet-tabs">
     {{!-- Effects Tab --}}
-    <div class="tab afflictions" data-group="subpage" data-tab="afflictions">
-      {{> systems/demonlord08/templates/tabs/afflictions.html}}
+    <div class="tab afflictions" data-group="subpage" data-tab="general">
+      {{> systems/demonlord08/templates/tabs/activeeffects.html}}
     </div>
     <div class="tab ancestry" data-group="subpage" data-tab="ancestry">
       {{> systems/demonlord08/templates/tabs/activeeffects.html}}
     </div>
-    <div class="tab talents" data-group="subpage" data-tab="talents">
+    <div class="tab talents" data-group="subpage" data-tab="talent">
       {{> systems/demonlord08/templates/tabs/activeeffects.html}}
     </div>
-    <div class="tab spells" data-group="subpage" data-tab="spells">
+    <div class="tab spells" data-group="subpage" data-tab="spell">
       {{> systems/demonlord08/templates/tabs/activeeffects.html}}
     </div>
     <div class="tab enchantments" data-group="subpage" data-tab="enchantments">
       {{> systems/demonlord08/templates/tabs/activeeffects.html}}
+    </div>
+    <div class="tab enchantments" data-group="subpage" data-tab="overview">
+      {{> systems/demonlord08/templates/tabs/effectsoverview.html}}
     </div>
   </section>
 </section>
