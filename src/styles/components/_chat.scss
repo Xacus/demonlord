@@ -234,7 +234,7 @@
       }
 
       .tooltiptext {
-        visibility: hidden;
+        display: block;
         width: 260px;
         background-color: rgba(0, 0, 0, 0.5);
         color: #fff;
@@ -242,10 +242,10 @@
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 3px;
         padding: 5px 0;
-        position: absolute;
+        position: relative;
         z-index: 1;
-        left: -17px;
-        top: 27px;
+        left: -30px;
+        top: 10px;
       }
     }
 
