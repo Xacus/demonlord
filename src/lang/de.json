@@ -55,6 +55,8 @@
   "DL.AncestryCreate": "Abstammung erstellen",
   "DL.AncestryEdit": "Abstammung bearbeiten",
   "DL.Afflictions": "Zustände",
+  "DL.TabsGeneral": "General",
+  "DL.TabsOverview": "Overview",
   "DL.TabsCharacter": "Charakter",
   "DL.TabsCombat": "Kampf",
   "DL.TabsTalents": "Talente",

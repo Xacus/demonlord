@@ -76,6 +76,8 @@
   "DL.AncestryCreate": "Create Ancestry",
   "DL.AncestryEdit": "Edit Ancestry",
   "DL.Afflictions": "Aflicción",
+  "DL.TabsGeneral": "General",
+  "DL.TabsOverview": "Overview",
   "DL.TabsCharacter": "Personaje",
   "DL.TabsCombat": "Combate",
   "DL.TabsTalents": "Talentos",

@@ -174,6 +174,26 @@ export class DemonlordActorSheet2 extends ActorSheet {
       attr.isCheckbox = attr.dtype === 'Boolean';
     }
 
+    data.afflictionEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'affliction'),
+    );
+    data.ancestryEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'ancestry'),
+    );
+    data.talentEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'talent'),
+    );
+    data.spellEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'spell'),
+    );
+    data.itemEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter(
+        (effect) =>
+          effect.data.flags?.sourceType === 'armor' ||
+          effect.data.flags?.sourceType === 'weapon' ||
+          effect.data.flags?.sourceType === 'item',
+      ),
+    );
     data.effects = prepareActiveEffectCategories(this.actor.effects);
 
     // Prepare items
