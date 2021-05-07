@@ -29,25 +29,25 @@ export default class extends CombatTracker {
         '</a>';
 
       // Tooltip on Status Effects
-      const effects = el.getElementsByClassName('token-effects')[0].children;
-      for (var i = 0; i < effects.length; i++) {
-        const effect = effects[i].src.substring(effects[i].src.lastIndexOf('/') + 1);
-
-        const found = Object.keys(CONFIG.DL.statusIcons).find((key) => CONFIG.DL.statusIcons[key].indexOf(effect) > 0);
-
-        if (found && found.length > 0) {
-          const tooltip =
-            '<div class="tooltipEffect">' +
-            effects[i].outerHTML +
-            '<span class="tooltiptextEffect">' +
-            game.i18n.localize('DL.' + found) +
-            ': ' +
-            game.i18n.localize('DL.Afflictions' + found.charAt(0).toUpperCase() + found.slice(1)) +
-            '</span>';
-
-          effects[i].outerHTML = tooltip;
-        }
-      }
+      // const effects = el.getElementsByClassName('token-effects')[0].children;
+      // for (var i = 0; i < effects.length; i++) {
+      //   const effect = effects[i].src.substring(effects[i].src.lastIndexOf('/') + 1);
+      //
+      //   const found = Object.keys(CONFIG.DL.statusIcons).find((key) => CONFIG.DL.statusIcons[key].indexOf(effect) > 0);
+      //
+      //   if (found && found.length > 0) {
+      //     const tooltip =
+      //       '<div class="tooltipEffect">' +
+      //       effects[i].outerHTML +
+      //       '<span class="tooltiptextEffect">' +
+      //       game.i18n.localize('DL.' + found) +
+      //       ': ' +
+      //       game.i18n.localize('DL.Afflictions' + found.charAt(0).toUpperCase() + found.slice(1)) +
+      //       '</span>';
+      //
+      //     effects[i].outerHTML = tooltip;
+      //   }
+      // }
 
       const endofrounds =
         combatant.actor != null
