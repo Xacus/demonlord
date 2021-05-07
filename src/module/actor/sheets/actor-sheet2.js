@@ -78,7 +78,10 @@ export class DemonlordActorSheet2 extends ActorSheet {
                   item = game.items.get(talent.id);
                 }
 
-                await this.actor.createEmbeddedDocuments('Item', item.data);
+
+                item = await this.actor.createEmbeddedDocuments('Item', item);
+                console.log(item)
+                item.setflag('demonlord08', 'origin', path.id)
               }
               for (const spell of level.spells) {
                 let item;
@@ -90,7 +93,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
                   item = game.items.get(spell.id);
                 }
 
-                await this.actor.createEmbeddedDocuments('Item', item.data);
+
+                item = await this.actor.createEmbeddedDocuments('Item', item);
+                item.setflag('demonlord08', 'origin', path.id)
               }
             }
           }
@@ -202,7 +207,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
     const armor = [];
     const ammo = [];
     const talents = [];
-    const mods = [];
     const ancestry = [];
     const professions = [];
     const pathNovice = [];
@@ -230,8 +234,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
         ammo.push(i);
       } else if (i.type === 'talent') {
         talents.push(i);
-      } else if (i.type === 'mod') {
-        mods.push(i);
       } else if (i.type === 'ancestry') {
         ancestry.push(i);
       } else if (i.type === 'profession') {
@@ -263,7 +265,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
     actorData.armor = armor;
     actorData.ammo = ammo;
     actorData.talents = talents;
-    actorData.mods = mods;
     actorData.ancestry = ancestry;
     actorData.professions = professions;
     actorData.pathNovice = pathNovice;
@@ -366,6 +367,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
                 }
 
                 await this.actor.createEmbeddedDocuments('Item', [item.data]);
+                // await item.setFlag('demonlord08', 'origin', path.id)
+                // console.log(item)
               }
             }
           }
@@ -899,48 +902,26 @@ export class DemonlordActorSheet2 extends ActorSheet {
     });
 
     // Paths
-    html.on('mousedown', '.path-edit', (ev) => {
+    html.on('mousedown', '.path-edit', async (ev) => {
       const div = $(ev.currentTarget).parents('.path');
-      const item = this.actor.getEmbeddedDocument('Item', div.data('itemId'));
+      const path = this.actor.getEmbeddedDocument('Item', div.data('itemId'));
 
-      if (ev.button == 0) {
-        item.sheet.render(true);
-      } else if (ev.button == 2) {
-        const paths = this.actor.getEmbeddedCollection('Item').filter((e) => e.type === 'path');
+      if (!path)
+        console.log("Demonlord | path-edit | Path not found with id:", div.data('itemId'))
 
-        for (const path of paths) {
-          for (const level of path.data.data.levels) {
-            for (const talent of level.talents) {
-              const actorTalent = this.actor
-                .getEmbeddedCollection('Item')
-                .filter((e) => e.type === 'talent' && e.name === talent.name);
+      else if (ev.button == 0)
+        path.sheet.render(true);
 
-              if (actorTalent.length > 0) {
-                this.actor.deleteEmbeddedDocuments('Item', [actorTalent[0].id]);
-              }
-            }
-            for (const talent of level.talentspick) {
-              const actorTalent = this.actor
-                .getEmbeddedCollection('Item')
-                .filter((e) => e.type === 'talent' && e.name === talent.name);
-
-              if (actorTalent.length > 0) {
-                this.actor.deleteEmbeddedDocuments('Item', [actorTalent[0].id]);
-              }
-            }
-            for (const spell of level.spells) {
-              const actorSpell = this.actor
-                .getEmbeddedCollection('Item')
-                .filter((e) => e.type === 'spell' && e.name === spell.name);
-
-              if (actorSpell.length > 0) {
-                this.actor.deleteEmbeddedDocuments('Item', [actorSpell[0].id]);
-              }
-            }
-          }
-        }
-
-        this.actor.deleteEmbeddedDocuments('Item', [item.id]);
+      else if (ev.button == 2) {
+        const removeIDS = this.actor.getEmbeddedCollection('Item')
+          .filter(item => item.data.flags?.origin === path.id)
+        removeIDS.push(path)
+        removeIDS.forEach(i => i.delete())
+        return
+        console.log(removeIDS)
+        console.log(this.actor)
+        await this.actor.deleteEmbeddedDocuments('Item', removeIDS, {render:true})
+        console.log(this.actor)
       }
     });
 

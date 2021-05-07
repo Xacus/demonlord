@@ -63,7 +63,6 @@ export class DemonlordActorSheet extends ActorSheet {
     const armor = [];
     const ammo = [];
     const talents = [];
-    const mods = [];
     const ancestry = [];
     const spellbook = {};
     const talentbook = {};
@@ -88,8 +87,6 @@ export class DemonlordActorSheet extends ActorSheet {
         ammo.push(i);
       } else if (i.type === 'talent') {
         talents.push(i);
-      } else if (i.type === 'mod') {
-        mods.push(i);
       } else if (i.type === 'ancestry') {
         ancestry.push(i);
       }
@@ -103,7 +100,6 @@ export class DemonlordActorSheet extends ActorSheet {
     actorData.armor = armor;
     actorData.ammo = ammo;
     actorData.talents = talents;
-    actorData.mods = mods;
     actorData.ancestry = ancestry;
 
     if (ancestry.length == 0) {
