@@ -83,3 +83,10 @@ DL.actionTargetTypes = {
   sphere: 'DL.ActionTargetTypesSphere',
   square: 'DL.ActionTargetTypesSquare',
 };
+
+DL.ActiveEffectsMenuTypes = {
+  NONE: 0,
+  TOGGLE: 1,
+  EDIT: 2,
+  ALL: 3,
+};

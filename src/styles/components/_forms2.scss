@@ -7,6 +7,20 @@
   position: relative;
   grid-area: content;
 }
+
+nav.sheet-subnavigation {
+  font-family: $font-header;
+  font-size: 10px;
+  color: #000000;
+  text-transform: uppercase;
+  text-align: center;
+
+  a.item.active {
+    border-bottom: 1px solid var(--demonlord-red);
+    text-shadow: 0 0 8px red;
+  }
+}
+
 .sheet-body .sheet-content,
 .sheet-body .sheet-content .inventory,
 .sheet-subbody .sheet-tabs {
@@ -21,7 +35,7 @@
 }
 
 .sheet-subbody .sheet-tabs {
-  top: 30px;
+  top: 35px;
   height: 100%;
 }
 

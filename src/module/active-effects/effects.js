@@ -8,6 +8,7 @@ export function onManageActiveEffect(event, owner) {
   const a = event.currentTarget;
   const li = a.closest('li');
   const effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
+
   switch (a.dataset.action) {
     case 'create':
       return owner.createEmbeddedDocuments('ActiveEffect', [
@@ -31,25 +32,32 @@ export function onManageActiveEffect(event, owner) {
 /**
  * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
  * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
- * @param {String} effecttype         The name of the selected subtab on Effects page. Filtering on that type.
+ * @param {Boolean} showCreateButtons Show create buttons on page
+ * @param {Integer} showControls      What controls to show
  * @return {object}                   Data for rendering
  */
-export function prepareActiveEffectCategories(effects) {
+export function prepareActiveEffectCategories(effects, showCreateButtons, showControls) {
   // Define effect header categories
   let categories = {
     temporary: {
       type: 'temporary',
       label: 'Temporary Effects',
+      showCreateButtons: showCreateButtons,
+      showControls: showControls,
       effects: [],
     },
     passive: {
       type: 'passive',
       label: 'Passive Effects',
+      showCreateButtons: showCreateButtons,
+      showControls: showControls,
       effects: [],
     },
     inactive: {
       type: 'inactive',
       label: 'Inactive Effects',
+      showCreateButtons: showCreateButtons,
+      showControls: showControls,
       effects: [],
     },
   };

@@ -24,7 +24,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
         {
           navSelector: '.sheet-subnavigation',
           contentSelector: '.sheet-subbody',
-          initial: 'effects',
+          initial: 'general',
         },
       ],
       scrollY: ['.tab.active'],
@@ -78,10 +78,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
                   item = game.items.get(talent.id);
                 }
 
-
                 item = await this.actor.createEmbeddedDocuments('Item', item);
-                console.log(item)
-                item.setflag('demonlord08', 'origin', path.id)
+                console.log(item);
+                item.setflag('demonlord08', 'origin', path.id);
               }
               for (const spell of level.spells) {
                 let item;
@@ -93,9 +92,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
                   item = game.items.get(spell.id);
                 }
 
-
                 item = await this.actor.createEmbeddedDocuments('Item', item);
-                item.setflag('demonlord08', 'origin', path.id)
+                item.setflag('demonlord08', 'origin', path.id);
               }
             }
           }
@@ -179,17 +177,34 @@ export class DemonlordActorSheet2 extends ActorSheet {
       attr.isCheckbox = attr.dtype === 'Boolean';
     }
 
-    data.afflictionEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'affliction'),
+    data.generalEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter(
+        (effect) =>
+          ['ancestry', 'path', 'talent', 'spell', 'armor', 'weapon', 'item'].indexOf(effect.data.flags?.sourceType) ==
+          -1,
+      ),
+      true,
+      CONFIG.DL.ActiveEffectsMenuTypes.ALL,
     );
     data.ancestryEffects = prepareActiveEffectCategories(
       this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'ancestry'),
+      false,
+      CONFIG.DL.ActiveEffectsMenuTypes.NONE,
+    );
+    data.pathEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'path'),
+      false,
+      CONFIG.DL.ActiveEffectsMenuTypes.NONE,
     );
     data.talentEffects = prepareActiveEffectCategories(
       this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'talent'),
+      false,
+      CONFIG.DL.ActiveEffectsMenuTypes.TOGGLE,
     );
     data.spellEffects = prepareActiveEffectCategories(
       this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'spell'),
+      false,
+      CONFIG.DL.ActiveEffectsMenuTypes.EDIT,
     );
     data.itemEffects = prepareActiveEffectCategories(
       this.actor.effects.filter(
@@ -198,6 +213,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
           effect.data.flags?.sourceType === 'weapon' ||
           effect.data.flags?.sourceType === 'item',
       ),
+      false,
+      CONFIG.DL.ActiveEffectsMenuTypes.EDIT,
     );
     data.effects = prepareActiveEffectCategories(this.actor.effects);
 
@@ -219,13 +236,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
   _prepareCharacterItems(sheetData) {
     const actorData = sheetData.actor;
 
-    const m = new Map()
-    sheetData.items.map(item => {
-      const type = item.type
-      m.has(type)
-        ? m.get(type).push(item)
-        : m.set(type, [item])
-    })
+    const m = new Map();
+    sheetData.items.map((item) => {
+      const type = item.type;
+      m.has(type) ? m.get(type).push(item) : m.set(type, [item]);
+    });
 
     // Assign and return
     actorData.gear = m.get('item') || [];
@@ -238,9 +253,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
     actorData.ancestry = m.get('ancestry' || []);
     actorData.professions = m.get('profession' || []);
     actorData.languages = m.get('language') || '';
-    actorData.pathNovice = m.get('path')?.filter(p => p.data.type === 'novice') || [];
-    actorData.pathExpert = m.get('path')?.filter(p => p.data.type === 'expert') || [];
-    actorData.pathMaster = m.get('path')?.filter(p => p.data.type === 'master') || [];
+    actorData.pathNovice = m.get('path')?.filter((p) => p.data.type === 'novice') || [];
+    actorData.pathExpert = m.get('path')?.filter((p) => p.data.type === 'expert') || [];
+    actorData.pathMaster = m.get('path')?.filter((p) => p.data.type === 'master') || [];
 
     actorData.spellbook = this._prepareSpellBook(actorData);
     actorData.talentbook = this._prepareTalentBook(actorData);
@@ -875,22 +890,19 @@ export class DemonlordActorSheet2 extends ActorSheet {
       const div = $(ev.currentTarget).parents('.path');
       const path = this.actor.getEmbeddedDocument('Item', div.data('itemId'));
 
-      if (!path)
-        console.log("Demonlord | path-edit | Path not found with id:", div.data('itemId'))
-
-      else if (ev.button == 0)
-        path.sheet.render(true);
-
+      if (!path) console.log('Demonlord | path-edit | Path not found with id:', div.data('itemId'));
+      else if (ev.button == 0) path.sheet.render(true);
       else if (ev.button == 2) {
-        const removeIDS = this.actor.getEmbeddedCollection('Item')
-          .filter(item => item.data.flags?.origin === path.id)
-        removeIDS.push(path)
-        removeIDS.forEach(i => i.delete())
-        return
-        console.log(removeIDS)
-        console.log(this.actor)
-        await this.actor.deleteEmbeddedDocuments('Item', removeIDS, {render:true})
-        console.log(this.actor)
+        const removeIDS = this.actor
+          .getEmbeddedCollection('Item')
+          .filter((item) => item.data.flags?.origin === path.id);
+        removeIDS.push(path);
+        removeIDS.forEach((i) => i.delete());
+        return;
+        console.log(removeIDS);
+        console.log(this.actor);
+        await this.actor.deleteEmbeddedDocuments('Item', removeIDS, { render: true });
+        console.log(this.actor);
       }
     });
 
