@@ -240,6 +240,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute)
   data['talentEffects'] = buildTalentEffectsMessage(actor, talent)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
+  data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
 
   const chatData = _getChatBaseData(actor, rollMode)
   if (talentData?.damage || talentData?.vs?.attribute || (!talentData?.vs?.attribute && !talentData?.damage)) {
@@ -362,6 +363,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['effects'] = '' // FIXME: what to put in here??
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
+  data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
 
   const chatData = _getChatBaseData(actor, rollMode)
   const template = 'systems/demonlord08/templates/chat/spell.html';
