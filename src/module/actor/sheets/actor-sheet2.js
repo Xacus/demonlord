@@ -219,78 +219,28 @@ export class DemonlordActorSheet2 extends ActorSheet {
   _prepareCharacterItems(sheetData) {
     const actorData = sheetData.actor;
 
-    // Initialize containers.
-    const gear = [];
-    const features = [];
-    const spells = [];
-    const weapons = [];
-    const armor = [];
-    const ammo = [];
-    const talents = [];
-    const ancestry = [];
-    const professions = [];
-    const pathNovice = [];
-    const pathExpert = [];
-    const pathMaster = [];
-    const languages = [];
-
-    // Iterate through items, allocating to containers
-    // let totalWeight = 0;
-    for (const i of sheetData.items) {
-      const item = i.data;
-      i.img = i.img || DEFAULT_TOKEN;
-
-      if (i.type === 'item') {
-        gear.push(i);
-      } else if (i.type === 'feature') {
-        features.push(i);
-      } else if (i.type === 'spell') {
-        spells.push(i);
-      } else if (i.type === 'weapon') {
-        weapons.push(i);
-      } else if (i.type === 'armor') {
-        armor.push(i);
-      } else if (i.type === 'ammo') {
-        ammo.push(i);
-      } else if (i.type === 'talent') {
-        talents.push(i);
-      } else if (i.type === 'ancestry') {
-        ancestry.push(i);
-      } else if (i.type === 'profession') {
-        professions.push(i);
-      } else if (i.type === 'path') {
-        switch (i.data.type) {
-          case 'novice':
-            pathNovice.push(i);
-            break;
-          case 'expert':
-            pathExpert.push(i);
-            break;
-          case 'master':
-            pathMaster.push(i);
-            break;
-          default:
-            break;
-        }
-      } else if (i.type === 'language') {
-        languages.push(i);
-      }
-    }
+    const m = new Map()
+    sheetData.items.map(item => {
+      const type = item.type
+      m.has(type)
+        ? m.get(type).push(item)
+        : m.set(type, [item])
+    })
 
     // Assign and return
-    actorData.gear = gear;
-    actorData.features = features;
-    actorData.spells = spells;
-    actorData.weapons = weapons;
-    actorData.armor = armor;
-    actorData.ammo = ammo;
-    actorData.talents = talents;
-    actorData.ancestry = ancestry;
-    actorData.professions = professions;
-    actorData.pathNovice = pathNovice;
-    actorData.pathExpert = pathExpert;
-    actorData.pathMaster = pathMaster;
-    actorData.languages = languages;
+    actorData.gear = m.get('item') || [];
+    actorData.features = m.get('feature') || [];
+    actorData.spells = m.get('spell') || [];
+    actorData.weapons = m.get('weapon') || [];
+    actorData.armor = m.get('armor') || [];
+    actorData.ammo = m.get('ammo') || [];
+    actorData.talents = m.get('talent') || [];
+    actorData.ancestry = m.get('ancestry' || []);
+    actorData.professions = m.get('profession' || []);
+    actorData.languages = m.get('language') || '';
+    actorData.pathNovice = m.get('path')?.filter(p => p.data.type === 'novice') || [];
+    actorData.pathExpert = m.get('path')?.filter(p => p.data.type === 'expert') || [];
+    actorData.pathMaster = m.get('path')?.filter(p => p.data.type === 'master') || [];
 
     actorData.spellbook = this._prepareSpellBook(actorData);
     actorData.talentbook = this._prepareTalentBook(actorData);
