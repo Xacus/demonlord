@@ -54,18 +54,22 @@ export class DLActiveEffects {
 
   static async removeEffectsByOrigin(document, originID) {
     const ids = document.getEmbeddedCollection('ActiveEffect')
-      .filter((effect) => effect.data.origin.includes(originID))
+      .filter((effect) => effect.data?.origin?.includes(originID))
       .map((effect) => effect.data._id)
     return document.deleteEmbeddedDocuments('ActiveEffect', ids)
   }
 
-  static async addUpdateEffectsToDocument(document, effectDataList) {
+  static async addUpdateEffectsToActor(document, effectDataList) {
     // Traverse parents
     let depth = 0
     while (document.parent && depth < 20) {
       document = document.parent
       depth++
     }
+
+    // If the item is not embedded, do not add effects
+    if (depth === 0)
+      return
 
     const effectsToAdd = []
     const effectsToUpd = []
@@ -81,13 +85,6 @@ export class DLActiveEffects {
         }
       effectsToAdd.push(effectData)
     })
-
-    // Fix for foundry non-embedded items update bug
-    if (depth === 0) {
-      await this.removeAllEffects(document)
-      await document.createEmbeddedDocuments('ActiveEffect', effectDataList.filter(e => e.changes.length > 0))
-      return 1
-    }
 
     if (effectsToAdd.length > 0) {
       await this.removeEffectsByOrigin(document, effectsToAdd[0].origin)

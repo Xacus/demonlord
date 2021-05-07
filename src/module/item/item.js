@@ -21,6 +21,12 @@ export class DemonlordItem extends Item {
     return 1
   }
 
+  /** @override */
+  _onCreate(data, options, user) {
+    if (this.parent)
+      this.embedActiveEffects()
+  }
+
   async embedActiveEffects() {
     let effectDataList = []
     switch (this.data.type) {
@@ -39,7 +45,7 @@ export class DemonlordItem extends Item {
       default:
         return 0
     }
-    await DLActiveEffects.addUpdateEffectsToDocument(this, effectDataList)
+    await DLActiveEffects.addUpdateEffectsToActor(this, effectDataList)
     return 1
   }
 
