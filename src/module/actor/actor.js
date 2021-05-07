@@ -2,327 +2,369 @@
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-import { FormatDice } from '../dice.js';
-import { ActorRolls } from './actor-rolls';
-import { ActorAfflictionsEffects } from './actor-afflictions-effects';
+import {DLActiveEffects} from '../active-effects/item-effects';
+import {DLAfflictions} from "../active-effects/afflictions";
+import {plusify} from "../utils/utils";
+import launchRollDialog from "../dialog/roll-dialog"
+import {
+  postAttackToChat,
+  postAttributeToChat,
+  postCorruptionToChat,
+  postSpellToChat,
+  postTalentToChat
+} from "../chat/roll-messages";
 
 export class DemonlordActor extends Actor {
+
+  /* -------------------------------------------- */
+  /*  Data preparation                            */
+
+  /* -------------------------------------------- */
+
   /** @override */
-  prepareBaseData() {
-    switch (this.data.type) {
-      case 'character':
-        return this._prepareCharacterData(this.data);
-      case 'creature':
-        return this._prepareCharacterData(this.data);
-    }
+  prepareData() {
+    if (!this.data.img) this.data.img = CONST.DEFAULT_TOKEN;
+    if (!this.data.name) this.data.name = 'New ' + this.entity;
+    DLActiveEffects.toggleEffectsByActorRequirements(this);
+    this.prepareBaseData();
+    this.prepareEmbeddedEntities();
+    // this.applyActiveEffects()  call already present in prepareEmbeddedEntities as of 0.8.1
+    this.prepareDerivedData();
   }
+
+  /* -------------------------------------------- */
 
   /**
-   * Prepare Character type specific data
+   * Prepare actor data that doesn't depend on effects or derived from items
+   * @override
    */
-  _prepareCharacterData(actorData) {
-    const data = actorData.data;
-    let will;
-    let savedAncestry = null;
-    let pathHealthBonus = 0;
-    let ancestryFixedArmor = false;
+  prepareBaseData() {
+    const data = this.data.data;
 
-    const characterbuffs = this.generateCharacterBuffs();
-    const ancestries = actorData.items.filter((e) => e.type === 'ancestry');
+    data.attributes.strength.value = 10;
+    data.attributes.agility.value = 10;
+    data.attributes.intellect.value = 10;
+    data.attributes.will.value = 10;
+    data.characteristics.speed = 10;
 
-    for (const ancestry of ancestries) {
-      savedAncestry = ancestry;
+    // Zero-values
+    data.attributes.strength.modifier = 0;
+    data.attributes.agility.modifier = 0;
+    data.attributes.intellect.modifier = 0;
+    data.attributes.will.modifier = 0;
+    data.attributes.perception.value = 0; // override perception value, since it's derived from will
+    data.attributes.perception.modifier = 0;
+    data.characteristics.health.max = 0;
+    data.characteristics.health.healingrate = 0;
+    data.characteristics.defense = 0;
+    data.characteristics.insanity.max = 0;
+    data.characteristics.power = 0;
+    data.characteristics.size = '1';
 
-      data.ancestry = ancestry.data.name;
+    // Custom properties
+    setProperty(data, 'bonuses', {
+      attack: {
+        sources: [],
+        boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+        damage: '',
+        plus20Damage: '',
+        extraEffect: '',
+      },
+      challenge: {
+        sources: [],
+        boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+      },
+      armor: {fixed: 0, agility: 0, defense: 0, override: 0},
+      defense: {
+        sources: [],
+        boons: {spell: 0, strength: 0, agility: 0, intellect: 0, will: 0, defense: 0, perception: 0},
+        noFastTurn: 0,
+      },
+    });
 
-      if (!game.settings.get('demonlord08', 'useHomebrewMode')) {
-        data.attributes.strength.value = parseInt(ancestry.data.data.attributes?.strength.value);
-        data.attributes.agility.value = parseInt(ancestry.data.data.attributes?.agility.value);
-        data.attributes.intellect.value = parseInt(ancestry.data.data.attributes?.intellect.value);
-        data.attributes.will.value = parseInt(ancestry.data.data.attributes?.will.value);
-
-        data.characteristics.insanity.max = ancestry.data.data.attributes?.will.value;
-
-        // Paths
-        if (data.level > 0) {
-          for (let i = 1; i <= data.level; i++) {
-            const paths = actorData.items.filter((e) => e.type === 'path');
-            paths.forEach((path) => {
-              path.data.data.levels
-                .filter(function ($level) {
-                  return $level.level == i;
-                })
-                .forEach(function ($level) {
-                  // Attributes
-                  if ($level.attributeStrengthSelected) {
-                    data.attributes.strength.value += parseInt($level.attributeStrength);
-                  }
-                  if ($level.attributeAgilitySelected) {
-                    data.attributes.agility.value += parseInt($level.attributeAgility);
-                  }
-                  if ($level.attributeIntellectSelected) {
-                    data.attributes.intellect.value += parseInt($level.attributeIntellect);
-                  }
-                  if ($level.attributeWillSelected) {
-                    data.attributes.will.value += parseInt($level.attributeWill);
-                  }
-
-                  if ($level.attributeSelectIsFixed) {
-                    if ($level.attributeStrength > 0) {
-                      data.attributes.strength.value += parseInt($level.attributeStrength);
-                    }
-                    if ($level.attributeAgility > 0) {
-                      data.attributes.agility.value += parseInt($level.attributeAgility);
-                    }
-                    if ($level.attributeIntellect > 0) {
-                      data.attributes.intellect.value += parseInt($level.attributeIntellect);
-                    }
-                    if ($level.attributeWill > 0) {
-                      data.attributes.will.value += parseInt($level.attributeWill);
-                    }
-                  }
-
-                  pathHealthBonus += $level.characteristicsHealth;
-
-                  switch (path.data.type) {
-                    case 'novice':
-                      data.paths.novice = path.name;
-                      break;
-                    case 'expert':
-                      data.paths.expert = path.name;
-                      break;
-                    case 'master':
-                      data.paths.master = path.name;
-                      break;
-                    default:
-                      break;
-                  }
-                });
-            });
-          }
-        }
-      } else {
-        // Paths
-        if (data.level > 0) {
-          for (let i = 1; i <= data.level; i++) {
-            const paths = actorData.items.filter((e) => e.type === 'path');
-            paths.forEach((path) => {
-              path.data.levels
-                .filter(function ($level) {
-                  return $level.level == i;
-                })
-                .forEach(function ($level) {
-                  pathHealthBonus += $level.characteristicsHealth;
-
-                  switch (path.data.type) {
-                    case 'novice':
-                      data.paths.novice = path.name;
-                      break;
-                    case 'expert':
-                      data.paths.expert = path.name;
-                      break;
-                    case 'master':
-                      data.paths.master = path.name;
-                      break;
-                    default:
-                      break;
-                  }
-                });
-            });
-          }
-        }
-      }
-
-      // Calculate Health and Healing Rate
-      if (game.settings.get('demonlord08', 'reverseDamage')) {
-        if (data.characteristics.health.value < 0) {
-          data.characteristics.health.value =
-            parseInt(data.attributes.strength.value) +
-            parseInt(ancestry.data.data.characteristics?.healthmodifier) +
-            characterbuffs.healthbonus +
-            pathHealthBonus;
-        }
-        data.characteristics.health.max =
-          parseInt(data.attributes.strength.value) +
-          parseInt(ancestry.data.data.characteristics?.healthmodifier) +
-          characterbuffs.healthbonus +
-          pathHealthBonus;
-      } else {
-        data.characteristics.health.max =
-          parseInt(data.attributes.strength.value) +
-          parseInt(ancestry.data.data.characteristics?.healthmodifier) +
-          characterbuffs.healthbonus +
-          pathHealthBonus;
-      }
-      if (data.level >= 4) {
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          if (data.characteristics.health.value == 0) {
-            data.characteristics.health.value += parseInt(ancestry.data.data.level4?.healthbonus);
-          }
-          data.characteristics.health.max += parseInt(ancestry.data.data.level4?.healthbonus);
-        } else {
-          data.characteristics.health.max += parseInt(ancestry.data.data.level4?.healthbonus);
-        }
-      }
-      data.characteristics.health.healingrate =
-        Math.floor(parseInt(data.characteristics.health.max) / 4) +
-        parseInt(ancestry.data.data.characteristics?.healingratemodifier);
-      // ******************
-
-      data.attributes.perception.value =
-        parseInt(data.attributes.intellect.value) + parseInt(ancestry.data.data.characteristics.perceptionmodifier);
-
-      if (parseInt(ancestry.data.data.characteristics?.defensemodifier) > 10) {
-        data.characteristics.defense = parseInt(ancestry.data.data.characteristics?.defensemodifier);
-        ancestryFixedArmor = true;
-      } else {
-        data.characteristics.defense =
-          parseInt(data.attributes.agility.value) + parseInt(ancestry.data.data.characteristics.defensemodifier);
-      }
-
-      data.characteristics.power = parseInt(ancestry.data.data.characteristics?.power);
-      data.characteristics.speed = parseInt(ancestry.data.data.characteristics?.speed);
-      data.characteristics.size = ancestry.data.data.characteristics.size;
-
-      // These were still breaking the sanity/corruption fields..
-      // data.characteristics.insanity.value += parseInt(
-      //   ancestry.data.characteristics.insanity
-      // )
-      // data.characteristics.corruption += parseInt(
-      //   ancestry.data.characteristics.corruption
-      // )
-    }
-
-    if (savedAncestry == null && this.data.type != 'creature') {
-      data.attributes.perception.value = parseInt(data.attributes.intellect.value);
-      data.characteristics.defense = parseInt(data.attributes.agility.value);
-
-      if (game.settings.get('demonlord08', 'reverseDamage')) {
-        if (data.characteristics.health.value == 0) {
-          data.characteristics.health.value = parseInt(data.attributes.strength.value) + characterbuffs.healthbonus;
-        }
-        data.characteristics.health.max = parseInt(data.attributes.strength.value) + characterbuffs.healthbonus;
-      } else {
-        data.characteristics.health.max = parseInt(data.attributes.strength.value) + characterbuffs.healthbonus;
-      }
-    }
-
-    // Paths
-    let pathDefenseBonus = 0;
-    if (data.level > 0) {
-      const actor = this;
-
-      for (let i = 1; i <= data.level; i++) {
-        const paths = actorData.items.filter((e) => e.type === 'path');
-        paths.forEach((path) => {
-          path.data.data.levels
-            .filter(function ($level) {
-              return $level.level == i;
-            })
-            .forEach(function ($level) {
-              // Characteristics
-              data.characteristics.power = parseInt(data.characteristics.power) + parseInt($level.characteristicsPower);
-              pathDefenseBonus = $level.characteristicsDefense;
-              data.characteristics.speed += $level.characteristicsSpeed;
-              data.attributes.perception.value += $level.characteristicsPerception;
-            });
-        });
-      }
-    }
-
-    // Loop through ability scores, and add their modifiers to our sheet output.
-    for (const [key, attribute] of Object.entries(data.attributes)) {
-      if (attribute.value > attribute.max) {
-        attribute.value = attribute.max;
-      }
-      if (attribute.value < attribute.min) {
-        attribute.value = attribute.min;
-      }
-
-      attribute.modifier = attribute.value - 10;
-      attribute.label = CONFIG.DL.attributes[key].toUpperCase();
-    }
-
-    const armors = actorData.items.filter((e) => e.type === 'armor');
-    let armorpoint = 0;
-    let agilitypoint = 0;
-    let defenseBonus = 0;
-    let speedPenalty = 0;
-    for (const armor of armors) {
-      if (armor.data.data.wear) {
-        // If you wear armor and do not meet or exceed its requirements: -2 speed
-        if (
-          !armor.data.data.isShield &&
-          armor.data.data.strengthmin != '' &&
-          !ancestryFixedArmor &&
-          parseInt(armor.data.data.strengthmin) > parseInt(data.attributes.strength.value)
-        ) {
-          speedPenalty = -2;
-        }
-
-        if (armor.data.data.agility && agilitypoint == 0) {
-          agilitypoint = parseInt(armor.data.agility);
-        }
-        if (armor.data.data.fixed) armorpoint = parseInt(armor.data.data.fixed);
-        if (armor.data.data.defense) defenseBonus = parseInt(armor.data.data.defense);
-      }
-    }
-
-    if (ancestryFixedArmor) {
-      if (armorpoint > data.characteristics.defense) {
-        data.characteristics.defense = armorpoint;
-      }
-      data.characteristics.defense += pathDefenseBonus + defenseBonus + characterbuffs.defensebonus;
-    } else if (armorpoint >= 11) {
-      data.characteristics.defense =
-        parseInt(armorpoint) + parseInt(defenseBonus) + pathDefenseBonus + characterbuffs.defensebonus;
-    } else {
-      data.characteristics.defense =
-        parseInt(data.characteristics.defense) +
-        parseInt(defenseBonus) +
-        parseInt(agilitypoint) +
-        pathDefenseBonus +
-        characterbuffs.defensebonus;
-    }
-
-    if (data.characteristics.defense > 25) data.characteristics.defense = 25;
-
-    characterbuffs.speedbonus += speedPenalty;
-
-    if (game.settings.get('demonlord08', 'useHomebrewMode')) {
-      data.characteristics.health.healingrate = Math.floor(parseInt(data.characteristics.health.max) / 4);
-    }
-
-    // Afflictions
-    if (data.afflictions.slowed) {
-      data.characteristics.speed = Math.floor(parseInt(data.characteristics.speed + speedPenalty) / 2);
-    } else {
-      data.characteristics.speed = parseInt(data.characteristics.speed) + parseInt(characterbuffs.speedbonus);
-    }
-
-    if (data.afflictions.defenseless) data.characteristics.defense = 5;
-
-    if (data.afflictions.blinded) {
-      data.characteristics.speed = parseInt(data.characteristics.speed) < 2 ? parseInt(data.characteristics.speed) : 2;
-    }
-
-    // Calculate Insanity
-    data.characteristics.insanity.max = data.attributes.will.value;
-
-    data.characteristics.power += parseInt(characterbuffs.powerbonus);
-
-    if (data.actions.rush) {
-      data.characteristics.speed = data.characteristics.speed * 2;
-    }
-
-    if (data.actions.retreat) {
-      data.characteristics.speed = Math.floor(data.characteristics.speed / 2);
-    }
-
-    if (data.afflictions.immobilized) data.characteristics.speed = 0;
-
-    if (data.afflictions.unconscious) data.characteristics.defense = 5;
+    setProperty(data, 'maluses', {
+      autoFail: {
+        challenge: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+        action: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
+        halfSpeed: 0,
+      },
+    });
   }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Prepare actor data that depends on items and effects
+   * @override
+   */
+  prepareDerivedData() {
+    const data = this.data.data;
+
+    // Override Perception initial value
+    data.attributes.perception.value += data.attributes.will.value;
+
+    // Bound attribute value and calculate modifiers
+    for (const [key, attribute] of Object.entries(data.attributes)) {
+      attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value));
+      attribute.modifier += attribute.value - 10;
+      attribute.label = key.toUpperCase();
+    }
+
+    // Health and Healing Rate
+    data.characteristics.health.max += data.attributes.strength.value;
+    data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4);
+
+    // Insanity
+    data.characteristics.insanity.max += data.attributes.will.value;
+
+    // Armor
+    data.characteristics.defense +=
+      data.bonuses.armor.fixed || data.attributes.agility.value + data.bonuses.armor.agility;
+    data.characteristics.defense += data.bonuses.armor.defense;
+    data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense;
+
+    // Speed
+    data.characteristics.speed = Math.max(0, data.characteristics.speed);
+    if (data.maluses.halfSpeed) data.characteristics.speed = Math.floor(data.characteristics.speed / 2);
+  }
+
+  /* -------------------------------------------- */
+  /*  Rolls and Actions                           */
+  /* -------------------------------------------- */
+
+  /**
+   * Rolls an attack using an Item
+   * @param item                    Weapon / Spell / Talent used for attacking
+   * @param inputBoons              Number of boons/banes from the user dialog
+   * @param inputModifier           Attack modifier from the user dialog
+   */
+  rollAttack(item, inputBoons = 0, inputModifier = 0) {
+    const attacker = this
+    const defender = attacker.getTarget()
+    // Get attacker attribute and defender attribute name
+    const attackAttribute = item.data.data.action?.attack?.toLowerCase()
+    const defenseAttribute = item.data.data?.action?.against?.toLowerCase() || item.data.action?.against?.toLowerCase()
+
+    // If no attack mod selected, warn user
+    if (!attackAttribute) {
+      ui.notifications.error(game.i18n.localize('DL.DialogWarningWeaponAttackModifier'))
+      return
+    }
+    // if !target -> ui.notifications.warn(Please select target) ??
+
+    // Attack modifier and Boons/Banes
+    const attackModifier
+      = (attacker.data.data?.attributes[attackAttribute]?.modifier || 0)
+      + (parseInt(inputModifier) || 0)
+    let attackBOBA
+      = (parseInt(item.data.data.action.boonsbanes) || 0)
+      + (parseInt(inputBoons) || 0)
+      + (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0)
+      - (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0)
+
+    // Check if requirements met
+    if (item.data.data.wear &&
+      parseInt(item.data.data.strengthmin) > attacker.data.data.attributes.strength.value)
+      attackBOBA--
+
+    // Roll the attack
+    let diceFormula = '1d20' + (plusify(attackModifier) || '')
+    if (attackBOBA)
+      diceFormula += plusify(attackBOBA) + 'd6kh'
+
+    const attackRoll = new Roll(diceFormula, {})
+    attackRoll.evaluate()
+
+    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
+  }
+
+
+  /**
+   * Roll an attack using a weapon, calling a dialog for the user to input boons and modifiers
+   * @param itemID          The id of the item
+   * @param options         Additional options
+   */
+  rollWeaponAttack(itemID, options = {event: null}) {
+    const item = this.getEmbeddedDocument('Item', itemID)
+
+    // If no attribute to roll, roll without modifiers and boons
+    const attribute = item.data.data.action?.attack
+    if (!attribute) {
+      this.rollAttack(item, 0, 0)
+      return
+    }
+
+    // Check if actor is blocked by an affliction
+    if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
+      launchRollDialog(
+        game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), (html) =>
+          this.rollAttack(
+            item,
+            html.find('[id="boonsbanes"]').val(),
+            html.find('[id="modifier"]').val()))
+  }
+
+  /* -------------------------------------------- */
+
+  rollAttribute(attribute, inputBoons, inputModifier) {
+    attribute = attribute.label.toLowerCase()
+    const modifier = parseInt(inputModifier) + (this.data.data.attributes[attribute]?.modifier || 0)
+    const boons = parseInt(inputBoons) + (this.data.data.bonuses.challenge.boons[attribute] || 0)
+
+    let diceFormula = '1d20' + (plusify(modifier) || '')
+    if (boons)
+      diceFormula += plusify(boons) + 'd6kh'
+
+    const challengeRoll = new Roll(diceFormula, {})
+    challengeRoll.evaluate()
+    postAttributeToChat(this, attribute, challengeRoll)
+  }
+
+  rollChallenge(attribute) {
+    if (typeof attribute === 'string' || attribute instanceof String)
+      attribute = this.data.data.attributes[attribute]
+
+    if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.label))
+      launchRollDialog(
+        this.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2),
+        (html) =>
+          this.rollAttribute(
+            attribute,
+            html.find('[id="boonsbanes"]').val(),
+            html.find('[id="modifier"]').val()
+          ))
+  }
+
+  /* -------------------------------------------- */
+
+  rollTalent(itemID, options = {event: null}) {
+    if (DLAfflictions.isActorBlocked(this, 'challenge', 'strength'))  //FIXME
+      return
+
+    const item = this.items.get(itemID)
+    const uses = parseInt(item.data?.uses?.value) || 0
+    const usesMax = parseInt(item.data?.uses?.max) || 0
+    if (usesMax !== 0 && uses >= usesMax) {
+      ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
+      return;
+    }
+
+    if (item.data?.vs?.attribute)
+      launchRollDialog(
+        game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name),
+        (html) =>
+          this.useTalent(
+            item,
+            html.find('[id="boonsbanes"]').val(),
+            html.find('[id="modifier"]').val()
+          ))
+    else
+      this.useTalent(item, 0, 0)
+  }
+
+  useTalent(talent, inputBoons, inputModifier) {
+    const talentData = talent.data.data
+    const target = this.getTarget()
+    let attackRoll = null;
+
+    if (!talentData?.vs?.attribute)
+      this.activateTalent(talent, true)
+    else {
+      this.activateTalent(talent, Boolean(talentData.vs?.damageActive));
+
+      const attackAttribute = talentData.vs.attribute.toLowerCase()
+      const defenseAttribute = talentData.vs?.against?.toLowerCase()
+
+      let modifier = parseInt(inputModifier)
+        + (this.data.data.attributes[attackAttribute]?.modifier || 0)
+      let boons = parseInt(inputBoons)
+        + (this.data.data.bonuses.attack[attackAttribute] || 0) // FIXME: is it a challenge or an attack?
+        + parseInt(talentData.vs?.boonsbanes || 0)
+        - (target?.data.data.bonuses.defense[defenseAttribute] || 0)
+
+      let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
+      attackRoll = new Roll(attackRollFormula, {})
+      attackRoll.evaluate()
+    }
+    postTalentToChat(this, talent, attackRoll, target)
+  }
+
+  /* -------------------------------------------- */
+
+  rollSpell(itemID, options = {event: null}) {
+    const item = this.items.get(itemID)
+    const isAttack = item.data.spelltype === game.i18n.localize('DL.SpellTypeAttack')
+    const attackAttribute = item.data.data?.action?.attack?.toLowerCase()
+    const challengeAttribute = item.data.data?.attribute?.toLowerCase()
+
+    // Check if actor is blocked
+    // If it has an attack attribute, check action attack else if it has a challenge attribute, check action challenge
+    if (isAttack && attackAttribute && DLAfflictions.isActorBlocked(this, 'attack', attackAttribute))
+      return
+    else if (challengeAttribute && DLAfflictions.isActorBlocked(this, 'challenge', challengeAttribute))
+      return
+
+    // Check uses
+    const uses = parseInt(item.data?.castings?.value)
+    const usesMax = parseInt(item.data?.castings?.max)
+    // TODO: if usesmax == 0 -> auto generate max uses?
+
+    if (usesMax !== 0 && uses >= usesMax) {
+      ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
+      return;
+    }
+
+    if (isAttack && attackAttribute)
+      launchRollDialog(
+        game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name),
+        (html) =>
+          this.useSpell(
+            item,
+            html.find('[id="boonsbanes"]').val(),
+            html.find('[id="modifier"]').val()
+          ))
+    else
+      this.useSpell(item, 0, 0)
+  }
+
+  useSpell(spell, inputBoons, inputModifier) {
+    const target = this.getTarget()
+    const spellData = spell.data.data
+
+    const attackAttribute = spellData?.action?.attack?.toLowerCase()
+    const defenseAttribute = spellData?.action?.against?.toLowerCase()
+    const challengeAttribute = spellData?.attribute?.toLowerCase()
+
+    let attackRoll
+    if (attackAttribute) {
+      const attackBoons
+        = (parseInt(inputBoons) || 0)
+        + (parseInt(spellData.action.boonsbanes) || 0)
+        + (this.data.data.bonuses.attack.boons[attackAttribute] || 0)
+        - (target?.data.data.bonuses.defense.boons[defenseAttribute] || 0)
+        - (target?.data.data.bonuses.defense.boons.spell || 0)
+      const attackModifier
+        = (parseInt(inputModifier) || 0)
+        + this.data.data.attributes[attackAttribute].modifier || 0
+
+      const attackFormula =
+        '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
+      attackRoll = new Roll(attackFormula, {})
+      attackRoll.evaluate()
+    }
+
+    postSpellToChat(this, spell, attackRoll, target)
+  }
+
+  /* -------------------------------------------- */
+
+  rollCorruption() {
+    const corruptionRoll = new Roll('1d20 - @corruption', {corruption: this.data.data.characteristics.corruption})
+    corruptionRoll.evaluate()
+    postCorruptionToChat(this, corruptionRoll)
+  }
+
+  /* -------------------------------------------- */
 
   async createItemCreate(event) {
     event.preventDefault();
@@ -348,64 +390,6 @@ export class DemonlordActor extends Actor {
     return await this.createItem(itemData);
   }
 
-  async _onDeleteEmbeddedEntity(embeddedName, child, options, userId) {
-    const characterbuffs = this.generateCharacterBuffs();
-
-    if (child.data?.addtonextroll) {
-      await this.update({
-        'data.characteristics.defensebonus':
-          parseInt(characterbuffs.defensebonus) -
-          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
-        'data.characteristics.healthbonus':
-          parseInt(characterbuffs.healthbonus) -
-          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
-        'data.characteristics.speedbonus':
-          parseInt(characterbuffs.speedbonus) -
-          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
-        'data.characteristics.defense':
-          parseInt(this.data.data.characteristics.defense) -
-          (parseInt(child.data.bonuses.defense) ? parseInt(child.data.bonuses.defense) : 0),
-        'data.characteristics.health.max':
-          parseInt(this.data.data.characteristics.health.max) -
-          (parseInt(child.data.bonuses.health) ? parseInt(child.data.bonuses.health) : 0),
-        'data.characteristics.speed.value':
-          parseInt(this.data.data.characteristics.speed.value) -
-          (parseInt(child.data.bonuses.speed) ? parseInt(child.data.bonuses.speed) : 0),
-      });
-    }
-  }
-
-  rollChallenge(attribute) {
-    ActorRolls.rollChallenge(this, attribute);
-  }
-
-  rollAttribute(attribute, boonsbanes, modifier) {
-    ActorRolls.rollAttribute(this, attribute, boonsbanes, modifier);
-  }
-
-  rollWeaponAttackMacro(itemId, boonsbanes, damagebonus) {
-    ActorRolls.rollWeaponAttackMacro(this, itemId, boonsbanes, damagebonus);
-  }
-
-  async rollWeaponAttack(itemId, options = { event: null }) {
-    ActorRolls.rollWeaponAttack(this, itemId, options);
-  }
-
-  async rollAttack(weapon, boonsbanes, buffs, modifier) {
-    ActorRolls.rollAttack(this, weapon, boonsbanes, buffs, modifier);
-  }
-
-  rollTalent(itemId, options = { event: null }) {
-    ActorRolls.rollTalent(this, itemId, options);
-  }
-
-  rollSpell(itemId, options = { event: null }) {
-    ActorRolls.rollSpell(this, itemId, options);
-  }
-
-  rollCorruption() {
-    ActorRolls.rollCorruption(this);
-  }
 
   showItemInfo(item) {
     const uses = parseInt(item.data?.data?.enchantment?.uses?.value);
@@ -453,7 +437,7 @@ export class DemonlordActor extends Actor {
   getTarget() {
     let selectedTarget = null;
     game.user.targets.forEach(async (target) => {
-      selectedTarget = target;
+      selectedTarget = target.actor;
     });
 
     return selectedTarget;
@@ -487,7 +471,7 @@ export class DemonlordActor extends Actor {
     game.user.targets.forEach(async (target) => {
       const targetActor = target.actor;
       if (targetActor) {
-        const againstSelectedAttribute = talent.data.vs.against.toLowerCase();
+        const againstSelectedAttribute = talent.data.data.vs.against.toLowerCase();
 
         if (againstSelectedAttribute == 'defense') {
           tagetNumber = targetActor.data.data.characteristics.defense;
@@ -498,332 +482,6 @@ export class DemonlordActor extends Actor {
     });
 
     return tagetNumber;
-  }
-
-  generateCharacterBuffs(type) {
-    const characterbuffs = new CharacterBuff();
-    characterbuffs.challengestrengthbonus = 0;
-    characterbuffs.challengeagilitybonus = 0;
-    characterbuffs.challengeintellectbonus = 0;
-    characterbuffs.challengewillbonus = 0;
-    characterbuffs.challengeperceptionbonus = 0;
-    characterbuffs.attackstrengthbonus = 0;
-    characterbuffs.attackagilitybonus = 0;
-    characterbuffs.attackintellectbonus = 0;
-    characterbuffs.attackwillbonus = 0;
-    characterbuffs.attackperceptionbonus = 0;
-
-    if (this.data.data.actions.prepare) {
-      characterbuffs.challengestrengthbonus++;
-      characterbuffs.challengeagilitybonus++;
-      characterbuffs.challengeintellectbonus++;
-      characterbuffs.challengewillbonus++;
-      characterbuffs.challengeperceptionbonus++;
-      characterbuffs.attackstrengthbonus++;
-      characterbuffs.attackagilitybonus++;
-      characterbuffs.attackintellectbonus++;
-      characterbuffs.attackwillbonus++;
-      characterbuffs.attackperceptionbonus++;
-    }
-
-    const talents = this.items.filter((e) => e.type === 'talent');
-    for (const talent of talents) {
-      if (talent.data.data.addtonextroll) {
-        // console.log(talent.name)
-        if (talent.data.data.action?.boonsbanesactive) {
-          characterbuffs.attackbonus =
-            parseInt(characterbuffs.attackbonus) + parseInt(talent.data.data.action?.boonsbanes);
-
-          if (talent.data.data.action.strengthboonsbanesselect) {
-            characterbuffs.attackstrengthbonus += parseInt(talent.data.data.action?.boonsbanes);
-          }
-          if (talent.data.data.action.agilityboonsbanesselect) {
-            characterbuffs.attackagilitybonus += parseInt(talent.data.data.action?.boonsbanes);
-          }
-          if (talent.data.data.action.intellectboonsbanesselect) {
-            characterbuffs.attackintellectbonus += parseInt(talent.data.data.action?.boonsbanes);
-          }
-          if (talent.data.data.action.willboonsbanesselect) {
-            characterbuffs.attackwillbonus += parseInt(talent.data.data.action?.boonsbanes);
-          }
-          if (talent.data.data.action.perceptionboonsbanesselect) {
-            characterbuffs.attackperceptionbonus += parseInt(talent.data.data.action?.boonsbanes);
-          }
-        }
-        if (talent.data.action?.damageactive && talent.data.action?.damage != '') {
-          characterbuffs.attackdamagebonus += '+' + talent.data.action?.damage;
-        }
-        if (talent.data.action?.plus20active && talent.data.action?.plus20 != '') {
-          characterbuffs.attack20plusdamagebonus += '+' + talent.data.action?.plus20;
-        }
-
-        if (type === 'ATTACK') {
-          characterbuffs.attackeffects += this.buildTalentEffects(talent, true, type);
-        } else if (type === 'SPELL') {
-          characterbuffs.attackeffects += this.buildTalentEffects(talent, true, type);
-        }
-
-        if (talent.data.data?.challenge?.boonsbanesactive) {
-          characterbuffs.challengebonus =
-            parseInt(characterbuffs.challengebonus) + parseInt(talent.data.data.challenge?.boonsbanes);
-
-          if (talent.data.data.challenge?.strengthboonsbanesselect) {
-            characterbuffs.challengestrengthbonus += parseInt(talent.data.data.challenge?.boonsbanes);
-            characterbuffs.challengeeffects += this.buildTalentEffects(talent, true, type);
-          }
-          if (talent.data.data.challenge?.agilityboonsbanesselect) {
-            characterbuffs.challengeagilitybonus += parseInt(talent.data.data.challenge?.boonsbanes);
-            characterbuffs.challengeeffects += this.buildTalentEffects(talent, true, type);
-          }
-          if (talent.data.data.challenge?.intellectboonsbanesselect) {
-            characterbuffs.challengeintellectbonus += parseInt(talent.data.data.challenge?.boonsbanes);
-            characterbuffs.challengeeffects += this.buildTalentEffects(talent, true, type);
-          }
-          if (talent.data.data.challenge?.willboonsbanesselect) {
-            characterbuffs.challengewillbonus += parseInt(talent.data.data.challenge?.boonsbanes);
-            characterbuffs.challengeeffects += this.buildTalentEffects(talent, true, type);
-          }
-          if (talent.data.data.challenge?.perceptionboonsbanesselect) {
-            characterbuffs.challengeperceptionbonus += parseInt(talent.data.data.challenge?.boonsbanes);
-            characterbuffs.challengeeffects += this.buildTalentEffects(talent, true, type);
-          }
-        }
-        if (talent.data.data.bonuses?.defenseactive && talent.data.data.bonuses?.defense > 0) {
-          characterbuffs.defensebonus += parseInt(talent.data.data.bonuses.defense);
-        }
-        if (talent.data.data.bonuses?.healthactive && talent.data.data.bonuses?.health > 0) {
-          characterbuffs.healthbonus += parseInt(talent.data.data.bonuses.health);
-        }
-        if (talent.data.data.bonuses?.speedactive && talent.data.data.bonuses?.speed > 0) {
-          characterbuffs.speedbonus += parseInt(talent.data.data.bonuses.speed);
-        }
-        if (talent.data.data.bonuses?.poweractive && talent.data.data.bonuses?.power > 0) {
-          characterbuffs.powerbonus += parseInt(talent.data.data.bonuses.power);
-        }
-        if (talent.data.data.healing?.healactive && talent.data.data.healing?.rate > 0) {
-          characterbuffs.healing += parseInt(talent.data.data.healing.rate);
-        }
-      }
-    }
-
-    const items = this.items.filter((e) => e.type === 'item');
-    let itemAttackbonus = 0;
-    let itemChallengebonus = 0;
-    let itemDamageBonus = '';
-    let itemDefenseBonus = 0;
-    let itemSpeedBonus = 0;
-    let itemPerceptionBonus = 0;
-
-    for (const item of items) {
-      if (item.data.data.wear) {
-        if (item.data.data.enchantment?.attackbonus != null) {
-          itemAttackbonus += parseInt(item.data.data.enchantment?.attackbonus);
-        }
-        if (item.data.data.enchantment?.challengebonus != null) {
-          itemChallengebonus += parseInt(item.data.data.enchantment?.challengebonus);
-        }
-        if (item.data.data.enchantment?.damage != '') {
-          itemDamageBonus += '+' + item.data.data.enchantment?.damage;
-        }
-        if (item.data.data.enchantment?.defense != null) {
-          itemDefenseBonus += parseInt(item.data.data.enchantment?.defense);
-        }
-        if (item.data.data.enchantment?.speed != null) {
-          itemSpeedBonus += parseInt(item.data.data.enchantment?.speed);
-        }
-        if (item.data.data.enchantment?.perception != null) {
-          itemPerceptionBonus += parseInt(item.data.data.enchantment?.perception);
-        }
-      }
-    }
-    characterbuffs.attackbonus += itemAttackbonus;
-    characterbuffs.challengebonus += itemChallengebonus;
-    characterbuffs.attackdamagebonus += itemDamageBonus;
-    characterbuffs.defensebonus += itemDefenseBonus;
-    characterbuffs.speedbonus += itemSpeedBonus;
-    characterbuffs.perception += itemPerceptionBonus;
-
-    // If you wear armor and do not meet or exceed its requirements: -1 Bane
-    const armors = this.items.filter((e) => e.type === 'armor');
-    let armorAttackbonus = 0;
-    for (const armor of armors) {
-      if (armor.data.data?.wear && !armor.data.data?.isShield) {
-        if (
-          armor.data.data?.strengthmin != '' &&
-          parseInt(armor.data.data.strengthmin) > parseInt(this.data.data?.attributes?.strength?.value)
-        ) {
-          armorAttackbonus = -1;
-          characterbuffs.armorRequirementMeet = false;
-        }
-      }
-    }
-    characterbuffs.attackbonus += armorAttackbonus;
-
-    const mods = this.items.filter((e) => e.type === 'mod');
-    let modAttackbonus = 0;
-    let modChallengebonus = 0;
-    let modDamageBonus = '';
-    let modDefenseBonus = 0;
-    let modHealingBonus = 0;
-    let modSpeedBonus = 0;
-    for (const mod of mods) {
-      if (mod.data.data.active) {
-        if (mod.data.data.modtype == game.i18n.localize('DL.TalentAttackBoonsBanes')) {
-          modAttackbonus += parseInt(mod.data.data.modifier);
-        }
-        if (mod.data.data.modtype == game.i18n.localize('DL.TalentChallengeBoonsBanes')) {
-          modChallengebonus += parseInt(mod.data.data.modifier);
-        }
-        if (mod.data.data.modtype == game.i18n.localize('DL.ModsListDamage')) {
-          modDamageBonus += '+' + mod.data.data.modifier;
-        }
-        if (mod.data.data.modtype == game.i18n.localize('DL.ItemDefenseModifier')) {
-          modDefenseBonus += parseInt(mod.data.data.modifier);
-        }
-        if (mod.data.data.modtype == game.i18n.localize('DL.ModsListHealth')) {
-          modHealingBonus += parseInt(mod.data.data.modifier);
-        }
-        if (mod.data.data.modtype == game.i18n.localize('DL.ModsListSpeed')) {
-          modSpeedBonus += parseInt(mod.data.data.modifier);
-        }
-      }
-    }
-    characterbuffs.attackbonus += modAttackbonus;
-    characterbuffs.challengebonus += modChallengebonus;
-    characterbuffs.attackdamagebonus += modDamageBonus;
-    characterbuffs.defensebonus += modDefenseBonus;
-    characterbuffs.healthbonus += modHealingBonus;
-    characterbuffs.speedbonus += modSpeedBonus;
-
-    // Afflictions
-    if (this.data.data.afflictions?.diseased) {
-      characterbuffs.attackbonus += -1;
-      characterbuffs.attackstrengthbonus += -1;
-      characterbuffs.attackagilitybonus += -1;
-      characterbuffs.attackintellectbonus += -1;
-      characterbuffs.attackwillbonus += -1;
-      characterbuffs.attackperceptionbonus += -1;
-
-      characterbuffs.challengebonus += -1;
-      characterbuffs.challengestrengthbonus += -1;
-      characterbuffs.challengeagilitybonus += -1;
-      characterbuffs.challengeintellectbonus += -1;
-      characterbuffs.challengewillbonus += -1;
-      characterbuffs.challengeperceptionbonus += -1;
-    }
-    if (this.data.data.afflictions?.frightened) {
-      characterbuffs.attackbonus += -1;
-      characterbuffs.attackstrengthbonus += -1;
-      characterbuffs.attackagilitybonus += -1;
-      characterbuffs.attackintellectbonus += -1;
-      characterbuffs.attackwillbonus += -1;
-      characterbuffs.attackperceptionbonus += -1;
-
-      characterbuffs.challengebonus += -1;
-      characterbuffs.challengestrengthbonus += -1;
-      characterbuffs.challengeagilitybonus += -1;
-      characterbuffs.challengeintellectbonus += -1;
-      characterbuffs.challengewillbonus += -1;
-      characterbuffs.challengeperceptionbonus += -1;
-    }
-    if (this.data.data.afflictions?.horrified) {
-      characterbuffs.attackbonus += -3;
-      characterbuffs.attackstrengthbonus += -3;
-      characterbuffs.attackagilitybonus += -3;
-      characterbuffs.attackintellectbonus += -3;
-      characterbuffs.attackwillbonus += -3;
-      characterbuffs.attackperceptionbonus += -3;
-
-      characterbuffs.challengebonus += -3;
-      characterbuffs.challengestrengthbonus += -3;
-      characterbuffs.challengeagilitybonus += -3;
-      characterbuffs.challengeintellectbonus += -3;
-      characterbuffs.challengewillbonus += -3;
-      characterbuffs.challengeperceptionbonus += -3;
-    }
-    if (this.data.data.afflictions?.fatigued) {
-      characterbuffs.attackbonus += -1;
-      characterbuffs.attackstrengthbonus += -1;
-      characterbuffs.attackagilitybonus += -1;
-      characterbuffs.attackintellectbonus += -1;
-      characterbuffs.attackwillbonus += -1;
-      characterbuffs.attackperceptionbonus += -1;
-
-      characterbuffs.challengebonus += -1;
-      characterbuffs.challengestrengthbonus += -1;
-      characterbuffs.challengeagilitybonus += -1;
-      characterbuffs.challengeintellectbonus += -1;
-      characterbuffs.challengewillbonus += -1;
-      characterbuffs.challengeperceptionbonus += -1;
-    }
-    if (this.data.data.afflictions?.impaired) {
-      characterbuffs.attackbonus += -1;
-      characterbuffs.attackstrengthbonus += -1;
-      characterbuffs.attackagilitybonus += -1;
-      characterbuffs.attackintellectbonus += -1;
-      characterbuffs.attackwillbonus += -1;
-      characterbuffs.attackperceptionbonus += -1;
-
-      characterbuffs.challengebonus += -1;
-      characterbuffs.challengestrengthbonus += -1;
-      characterbuffs.challengeagilitybonus += -1;
-      characterbuffs.challengeintellectbonus += -1;
-      characterbuffs.challengewillbonus += -1;
-      characterbuffs.challengeperceptionbonus += -1;
-    }
-    if (this.data.data.afflictions?.poisoned) {
-      characterbuffs.attackbonus += -1;
-      characterbuffs.attackstrengthbonus += -1;
-      characterbuffs.attackagilitybonus += -1;
-      characterbuffs.attackintellectbonus += -1;
-      characterbuffs.attackwillbonus += -1;
-      characterbuffs.attackperceptionbonus += -1;
-
-      characterbuffs.challengebonus += -1;
-      characterbuffs.challengestrengthbonus += -1;
-      characterbuffs.challengeagilitybonus += -1;
-      characterbuffs.challengeintellectbonus += -1;
-      characterbuffs.challengewillbonus += -1;
-      characterbuffs.challengeperceptionbonus += -1;
-    }
-
-    /*
-    console.log('attackstrengthbonus = ' + characterbuffs.attackstrengthbonus);
-    console.log('attackagilitybonus = ' + characterbuffs.attackagilitybonus);
-    console.log('attackintellectbonus = ' + characterbuffs.attackintellectbonus);
-    console.log('attackwillbonus = ' + characterbuffs.attackwillbonus);
-    console.log('attackperceptionbonus = ' + characterbuffs.attackperceptionbonus);
-    console.log('challengestrengthbonus = ' + characterbuffs.challengestrengthbonus);
-    console.log('challengeagilitybonus = ' + characterbuffs.challengeagilitybonus);
-    console.log('challengeintellectbonus = ' + characterbuffs.challengeintellectbonus);
-    console.log('challengewillbonus = ' + characterbuffs.challengewillbonus);
-    console.log('challengeperceptionbonus = ' + characterbuffs.challengeperceptionbonus);
-    */
-
-    return characterbuffs;
-  }
-
-  buildTalentEffects(talent, showTalentName, type) {
-    return ActorAfflictionsEffects.buildTalentEffects(this, talent, showTalentName, type);
-  }
-
-  buildArmorEffects(armorRequirementsNotMeet) {
-    return armorRequirementsNotMeet
-      ? `&nbsp;&nbsp;&nbsp;• ${game.i18n.localize(DL.TalentAttackBoonsBanes)}: -1 <br>`
-      : '';
-  }
-
-  buildActionEffects(type) {
-    return ActorAfflictionsEffects.buildAfflictionsEffects(this, type, ['prepare'], 1);
-  }
-
-  buildAfflictionsEffects(type) {
-    return ActorAfflictionsEffects.buildAfflictionsEffects(
-      this,
-      type,
-      ['diseased', 'fatigued', 'impaired', 'poisoned'],
-      -1,
-    );
   }
 
   async activateTalent(talent, setActive) {
@@ -837,17 +495,8 @@ export class DemonlordActor extends Actor {
       } else {
         talent.data.uses.value = 0;
         talent.data.addtonextroll = false;
-
-        if (this.data.data.activebonuses) {
-          this.removeCharacterBonuses(talent);
-        }
       }
-
-      if (!this.data.data.activebonuses) {
-        this.addCharacterBonuses(talent);
-      }
-
-      await Item.updateDocuments([talent], { parent: this });
+      await Item.updateDocuments([talent], {parent: this});
     }
   }
 
@@ -861,49 +510,6 @@ export class DemonlordActor extends Actor {
       .then((item) => {
         that.render();
       });
-  }
-
-  async addCharacterBonuses(talent) {
-    const healthbonus =
-      talent.data.bonuses?.defenseactive && talent.data.bonuses?.health > 0 ? parseInt(talent.data.bonuses?.health) : 0;
-    const defensebonus =
-      talent.data.bonuses?.healthactive && talent.data.bonuses?.defense > 0
-        ? parseInt(talent.data.bonuses?.defense)
-        : 0;
-    const speedbonus =
-      talent.data.bonuses?.speedactive && talent.data.bonuses?.speed > 0 ? parseInt(talent.data.bonuses?.speed) : 0;
-    const powerbonus =
-      talent.data.bonuses?.poweractive && talent.data.bonuses?.power > 0 ? parseInt(talent.data.bonuses?.power) : 0;
-
-    /*
-                await this.update({
-                    "data.characteristics.health.max": parseInt(this.data.data.characteristics.health.max) + healthbonus,
-                    "data.characteristics.defense": parseInt(this.data.data.characteristics.defense) + defensebonus,
-                    "data.characteristics.speed.value": parseInt(this.data.data.characteristics.speed.value) + speedbonus,
-                    "data.activebonuses": true
-                });
-                */
-  }
-
-  async removeCharacterBonuses(talent) {
-    const healthbonus =
-      talent.data.bonuses?.defenseactive && talent.data.bonuses?.health > 0 ? parseInt(talent.data.bonuses?.health) : 0;
-    const defensebonus =
-      talent.data.bonuses?.healthactive && talent.data.bonuses?.defense > 0
-        ? parseInt(talent.data.bonuses?.defense)
-        : 0;
-    const speedbonus =
-      talent.data.bonuses?.speedactive && talent.data.bonuses?.speed > 0 ? parseInt(talent.data.bonuses?.speed) : 0;
-    const powerbonus =
-      talent.data.bonuses?.poweractive && talent.data.bonuses?.power > 0 ? parseInt(talent.data.bonuses?.power) : 0;
-
-    await this.update({
-      'data.characteristics.health.max': parseInt(this.data.data.characteristics.health.max) - healthbonus,
-      'data.characteristics.defense': parseInt(this.data.data.characteristics.defense) - defensebonus,
-      'data.characteristics.speed.value': parseInt(this.data.data.characteristics.speed.value) - speedbonus,
-      'data.characteristics.power.value': parseInt(this.data.data.characteristics.power.value) - powerbonus,
-      'data.activebonuses': false,
-    });
   }
 
   async addDamageToTarget(damage) {

@@ -1,20 +1,46 @@
-/**
- * Extend the basic Item with some very simple modifications.
- * @extends {Item}
- */
-import { PathLevel } from '../pathlevel.js';
-import { FormatDice } from '../dice.js';
+import {PathLevel} from './pathlevel.js';
+import {FormatDice} from '../dice.js';
+import {DLActiveEffects} from "../active-effects/item-effects";
+
+
 export class DemonlordItem extends Item {
   /**
    * Augment the basic Item data model with additional dynamic data.
    */
   prepareData() {
-    super.prepareData();
-
     // Get the Item's data
     const itemData = this.data;
     const actorData = this.actor ? this.actor.data : {};
     const data = itemData.data;
+  }
+
+  /** @override */
+  async update(updateData) {
+    await super.update(updateData)
+    this.embedActiveEffects()
+    return 1
+  }
+
+  async embedActiveEffects() {
+    let effectDataList = []
+    switch (this.data.type) {
+      case 'ancestry':
+        effectDataList = DLActiveEffects.generateEffectDataFromAncestry(this)
+        break
+      case 'path':
+        effectDataList = DLActiveEffects.generateEffectDataFromPath(this)
+        break
+      case 'talent':
+        effectDataList = DLActiveEffects.generateEffectDataFromTalent(this)
+        break
+      case 'armor':
+        effectDataList = DLActiveEffects.generateEffectDataFromArmor(this)
+        break
+      default:
+        return 0
+    }
+    await DLActiveEffects.addUpdateEffectsToDocument(this, effectDataList)
+    return 1
   }
 
   /**
@@ -22,7 +48,8 @@ export class DemonlordItem extends Item {
    * @param {Event} event   The originating click event
    * @private
    */
-  async roll() {}
+  async roll() {
+  }
 
   static chatListeners(html) {
     html.on('click', '.roll-healing', this._onChatApplyHealing.bind(this));
@@ -130,7 +157,7 @@ export class DemonlordItem extends Item {
 
     var templateData = {
       actor: actor,
-      item: { _id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId },
+      item: {_id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId},
       data: {
         damageTotal: {
           value: totalDamage,

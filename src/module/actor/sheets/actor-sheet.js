@@ -1,5 +1,3 @@
-import { DLActorModifiers } from '../../dialog/actor-modifiers.js';
-import { CharacterBuff } from '../../buff.js';
 export class DemonlordActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
@@ -18,34 +16,7 @@ export class DemonlordActorSheet extends ActorSheet {
     });
   }
 
-  /**
-   * Extend and override the sheet header buttons
-   * @override
-   */
-  _getHeaderButtons() {
-    let buttons = super._getHeaderButtons();
-    const canConfigure = game.user.isGM || this.actor.isOwner;
-    if (this.options.editable && canConfigure) {
-      buttons = [
-        {
-          label: game.i18n.localize('DL.ActorMods'),
-          class: 'configure-actor',
-          icon: 'fas fa-dice',
-          onclick: (ev) => this._onConfigureActor(ev),
-        },
-      ].concat(buttons);
-    }
-    return buttons;
-  }
   /* -------------------------------------------- */
-
-  _onConfigureActor(event) {
-    event.preventDefault();
-    new DLActorModifiers(this.actor, {
-      top: this.position.top + 40,
-      left: this.position.left + (this.position.width - 400) / 2,
-    }).render(true);
-  }
 
   /** @override */
   getData() {

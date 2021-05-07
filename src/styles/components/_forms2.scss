@@ -8,7 +8,8 @@
   grid-area: content;
 }
 .sheet-body .sheet-content,
-.sheet-body .sheet-content .inventory {
+.sheet-body .sheet-content .inventory,
+.sheet-subbody .sheet-tabs {
   position: absolute;
   top: 0;
   left: 0;
@@ -17,6 +18,11 @@
   flex-direction: column;
   width: 100%;
   padding-top: 12px;
+}
+
+.sheet-subbody .sheet-tabs {
+  top: 30px;
+  height: 100%;
 }
 
 .character .character-details {

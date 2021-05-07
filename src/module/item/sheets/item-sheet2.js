@@ -2,8 +2,10 @@
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-import { PathLevelItem, DamageType } from '../../pathlevel.js';
-import { onManageActiveEffect, prepareActiveEffectCategories } from '../../effects.js';
+import {PathLevelItem, DamageType} from '../pathlevel.js';
+import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects.js';
+import {DemonlordItem} from "../item";
+import {DLActiveEffects} from "../../active-effects/item-effects";
 import { DL } from '../../config.js';
 
 export class DemonlordItemSheetDefault extends ItemSheet {
@@ -275,7 +277,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         break;
     }
 
-    await this.item.update(itemData, { diff: false });
+    await this.item.update(itemData, {diff: false});
     this.render(true);
   }
 
@@ -296,7 +298,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         break;
     }
 
-    await Item.updateDocuments([itemData], { parent: this.actor });
+    await Item.updateDocuments([itemData], {parent: this.actor});
     this.render(true);
   }
 
@@ -313,11 +315,13 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         no: {
           icon: '<i class="fas fa-times"></i>',
           label: game.i18n.localize('DL.DialogNo'),
-          callback: () => {},
+          callback: () => {
+          },
         },
       },
       default: 'no',
-      close: () => {},
+      close: () => {
+      },
     });
     d.render(true);
   }
@@ -369,140 +373,116 @@ export class DemonlordItemSheetDefault extends ItemSheet {
   async _updateObject(event, formData) {
     const item = this.object;
     const updateData = expandObject(formData);
+    // const updateResult = await this.object.update(updateData)
+    // return updateResult
 
-    if (item.type === 'talent') {
-      // If a Talent has no uses it's always active
-      if (
-        (updateData.data?.uses?.value == null && updateData.data?.uses?.max == null) ||
-        (updateData.data?.uses?.value === '0' && updateData.data?.uses?.max === '0')
-      ) {
+    switch (item.type) {
+      case 'talent':
+        // If a Talent has no uses it's always active
+        if (
+          (updateData.data?.uses?.value == null && updateData.data?.uses?.max == null) ||
+          (updateData.data?.uses?.value === '0' && updateData.data?.uses?.max === '0')
+        ) {
+          // await this.object.update({
+          //   'data.addtonextroll': true,
+          // });
+          updateData['data.addtonextroll'] = true
+
+          await this.actor?.update({
+            'data.characteristics.defensebonus': parseInt(characterbuffs.defensebonus),
+            'data.characteristics.healthbonus': parseInt(characterbuffs.healthbonus),
+            'data.characteristics.speedbonus': parseInt(characterbuffs.speedbonus),
+          });
+        } else {
+          // await this.document.update({
+          //   'data.addtonextroll': false,
+          // });
+          updateData['data.addtonextroll'] = false
+        }
+
+        for (const [k, v] of Object.entries(formData)) {
+          if (k === 'altdamagevs') {
+            let index = 0;
+
+            if (Array.isArray(v)) {
+              for (const id of v) {
+                item.data.data.vs.damagetypes[index].damage = id;
+                index++;
+              }
+            } else {
+              item.data.data.vs.damagetypes[index].damage = v;
+            }
+          } else if (k === 'altdamagetypevs') {
+            let index = 0;
+
+            if (Array.isArray(v)) {
+              for (const id of v) {
+                item.data.data.vs.damagetypes[index].damagetype = id;
+                index++;
+              }
+            } else {
+              item.data.data.vs.damagetypes[index].damagetype = v;
+            }
+          }
+        }
+
+        // await this.object.update({
+        //   'data.vs.damagetypes': duplicate(this.item.data.data?.vs?.damagetypes),
+        // });
+        updateData['data.vs.damagetypes'] = duplicate(this.item.data.data?.vs?.damagetypes)
+        break
+      case 'weapon':
+      case 'spell':
+        for (const [k, v] of Object.entries(formData)) {
+          if (k === 'altdamage') {
+            let index = 0;
+
+            if (Array.isArray(v)) {
+              for (const id of v) {
+                item.data.data.action.damagetypes[index].damage = id;
+                index++;
+              }
+            } else {
+              item.data.data.action.damagetypes[index].damage = v;
+            }
+          } else if (k === 'altdamagetype') {
+            let index = 0;
+
+            if (Array.isArray(v)) {
+              for (const id of v) {
+                item.data.data.action.damagetypes[index].damagetype = id;
+                index++;
+              }
+            } else {
+              item.data.data.action.damagetypes[index].damagetype = v;
+            }
+          }
+        }
         await this.object.update({
-          'data.addtonextroll': true,
+          'data.action.damagetypes': duplicate(this.item.data.data.action.damagetypes),
         });
+        break
+      case 'ancestry':
+        // Update Spell uses when power changes
+        if (item.actor && updateData.data?.characteristics?.power) {
+          var newPower = parseInt(updateData.data.characteristics.power);
 
-        const characterbuffs = this.generateCharacterBuffs();
-        await this.actor?.update({
-          'data.characteristics.defensebonus': parseInt(characterbuffs.defensebonus),
-          'data.characteristics.healthbonus': parseInt(characterbuffs.healthbonus),
-          'data.characteristics.speedbonus': parseInt(characterbuffs.speedbonus),
-        });
-      } else {
-        await this.document.update({
-          'data.addtonextroll': false,
-        });
-      }
-
-      for (const [k, v] of Object.entries(formData)) {
-        if (k === 'altdamagevs') {
-          let index = 0;
-
-          if (Array.isArray(v)) {
-            for (const id of v) {
-              item.data.data.vs.damagetypes[index].damage = id;
-              index++;
+          const paths = this.actor.items.filter((e) => e.type === 'path');
+          for (const path of paths) {
+            for (const level of path.data.data.levels) {
+              if (level.level <= this.actor.data.data.level) {
+                newPower += parseInt(level.characteristicsPower);
+              }
             }
-          } else {
-            item.data.data.vs.damagetypes[index].damage = v;
           }
-        } else if (k === 'altdamagetypevs') {
-          let index = 0;
 
-          if (Array.isArray(v)) {
-            for (const id of v) {
-              item.data.data.vs.damagetypes[index].damagetype = id;
-              index++;
-            }
-          } else {
-            item.data.data.vs.damagetypes[index].damagetype = v;
-          }
+          this.actor.data.data.characteristics.power = newPower;
+          this.actor.setUsesOnSpells(this.actor.data);
         }
-      }
-
-      await this.object.update({
-        'data.vs.damagetypes': duplicate(this.item.data.data?.vs?.damagetypes),
-      });
-    } else if (item.type === 'weapon' || item.type === 'spell') {
-      for (const [k, v] of Object.entries(formData)) {
-        if (k === 'altdamage') {
-          let index = 0;
-
-          if (Array.isArray(v)) {
-            for (const id of v) {
-              item.data.data.action.damagetypes[index].damage = id;
-              index++;
-            }
-          } else {
-            item.data.data.action.damagetypes[index].damage = v;
-          }
-        } else if (k === 'altdamagetype') {
-          let index = 0;
-
-          if (Array.isArray(v)) {
-            for (const id of v) {
-              item.data.data.action.damagetypes[index].damagetype = id;
-              index++;
-            }
-          } else {
-            item.data.data.action.damagetypes[index].damagetype = v;
-          }
-        }
-      }
-      await this.object.update({
-        'data.action.damagetypes': duplicate(this.item.data.data.action.damagetypes),
-      });
-    } else if (item.type === 'ancestry' && this.actor) {
-      // Update Spell uses when power changes
-      if (updateData.data?.characteristics?.power) {
-        var newPower = parseInt(updateData.data.characteristics.power);
-
-        const paths = this.actor.items.filter((e) => e.type === 'path');
-        for (const path of paths) {
-          for (const level of path.data.data.levels) {
-            if (level.level <= this.actor.data.data.level) {
-              newPower += parseInt(level.characteristicsPower);
-            }
-          }
-        }
-
-        this.actor.data.data.characteristics.power = newPower;
-        this.actor.setUsesOnSpells(this.actor.data);
-      }
+        break
     }
 
     return this.object.update(updateData);
-  }
-
-  generateCharacterBuffs() {
-    const characterbuffs = new CharacterBuff();
-    characterbuffs.challengestrengthbonus = 0;
-    characterbuffs.challengeagilitybonus = 0;
-    characterbuffs.challengeintellectbonus = 0;
-    characterbuffs.challengewillbonus = 0;
-    characterbuffs.challengeperceptionbonus = 0;
-
-    const talents = this.actor.items.filter((e) => e.type === 'talent');
-
-    if (talents) {
-      for (const talent of talents) {
-        if (talent.data.addtonextroll) {
-          if (this.actor.data.data.activebonuses || (talent.data.uses.value > 0 && talent.data.uses.max > 0)) {
-            if (talent.data.bonuses.defenseactive && talent.data.bonuses.defense > 0) {
-              characterbuffs.defensebonus += parseInt(talent.data.bonuses.defense);
-            }
-            if (talent.data.bonuses.healthactive && talent.data.bonuses.health > 0) {
-              characterbuffs.healthbonus += parseInt(talent.data.bonuses.health);
-            }
-            if (talent.data.bonuses.speedactive && talent.data.bonuses.speed > 0) {
-              characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed);
-            }
-            if (talent.data.bonuses.poweractive && talent.data.bonuses.power > 0) {
-              characterbuffs.powerbonus += parseInt(talent.data.bonuses.power);
-            }
-          }
-        }
-      }
-    }
-    return characterbuffs;
   }
 
   async updateOption(selected) {
@@ -520,14 +500,14 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       case 'create':
         itemData.data.action.damagetypes.push(new DamageType());
 
-        await Item.updateDocuments([itemData], { parent: this.actor });
+        await Item.updateDocuments([itemData], {parent: this.actor});
         //await this.item.update(itemData, { diff: false })
         this.render(true);
         break;
       case 'delete':
         itemData.data.action.damagetypes.splice(a.dataset.id, 1);
 
-        await Item.updateDocuments([itemData], { parent: this.actor });
+        await Item.updateDocuments([itemData], {parent: this.actor});
         //await this.item.update(itemData, { diff: false })
         this.render(true);
         break;
@@ -543,13 +523,13 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       case 'create':
         itemData.data.vs.damagetypes.push(new DamageType());
 
-        await this.item.update(itemData, { diff: false });
+        await this.item.update(itemData, {diff: false});
         this.render(true);
         break;
       case 'delete':
         itemData.data.vs.damagetypes.splice(a.dataset.id, 1);
 
-        await this.item.update(itemData, { diff: false });
+        await this.item.update(itemData, {diff: false});
         this.render(true);
         break;
     }

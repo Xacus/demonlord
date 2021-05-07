@@ -1,8 +1,8 @@
-import { DLActorModifiers } from '../../dialog/actor-modifiers.js';
 import { DLCharacterGenerater } from '../../dialog/actor-generator.js';
 import { DL } from '../../config.js';
-import { CharacterBuff } from '../../buff.js';
-import { onManageActiveEffect, prepareActiveEffectCategories } from '../../effects.js';
+import { onManageActiveEffect, prepareActiveEffectCategories } from '../../active-effects/effects.js';
+import {DLAfflictions} from "../../active-effects/afflictions";
+import {DLActiveEffects} from "../../active-effects/item-effects";
 
 export class DemonlordActorSheet2 extends ActorSheet {
   constructor(...args) {
@@ -21,6 +21,11 @@ export class DemonlordActorSheet2 extends ActorSheet {
           contentSelector: '.sheet-body',
           initial: 'character',
         },
+        {
+          navSelector: '.sheet-subnavigation',
+          contentSelector: '.sheet-subbody',
+          initial: 'effects',
+        },
       ],
       scrollY: ['.tab.active'],
     });
@@ -34,40 +39,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     return 'systems/demonlord08/templates/actor/actor-sheet2.html';
   }
 
-  /**
-   * Extend and override the sheet header buttons
-   * @override
-   */
-  _getHeaderButtons() {
-    let buttons = super._getHeaderButtons();
-    const canConfigure = game.user.isGM || this.actor.isOwner;
-    if (this.options.editable && canConfigure) {
-      buttons = [
-        /* {
-          label: game.i18n.localize('DL.CharacterGenerator'),
-          class: 'generate-actor',
-          icon: 'fas fa-user',
-          onclick: (ev) => this._onGenerateActor(ev)
-        }, */
-        {
-          label: game.i18n.localize('DL.ActorMods'),
-          class: 'configure-actor',
-          icon: 'fas fa-dice',
-          onclick: (ev) => this._onConfigureActor(ev),
-        },
-      ].concat(buttons);
-    }
-    return buttons;
-  }
   /* -------------------------------------------- */
-
-  _onConfigureActor(event) {
-    event.preventDefault();
-    new DLActorModifiers(this.actor, {
-      top: this.position.top + 40,
-      left: this.position.left + (this.position.width - 400) / 2,
-    }).render(true);
-  }
 
   _onGenerateActor(event) {
     event.preventDefault();
@@ -78,6 +50,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
   }
 
   async _updateObject(event, formData) {
+    return this.document.update(formData);
     const actor = this.object;
     const updateData = expandObject(formData);
 
@@ -188,7 +161,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     data.useDemonlordMode = !game.settings.get('demonlord08', 'useHomebrewMode');
 
-    data.actor = foundry.utils.deepClone(this.actor.data);
+    //data.actor = foundry.utils.deepClone(this.actor.data);
+    data.actor = this.actor.data;
     data.data = data.actor.data;
     data.items = this.actor.items.map((i) => {
       i.data.labels = i.labels;
@@ -514,6 +488,21 @@ export class DemonlordActorSheet2 extends ActorSheet {
       inputs.focus((ev) => ev.currentTarget.select());
     }
 
+    let weaponContextMenu = [];
+    weaponContextMenu.push(this.addEditContextMenu(game.i18n.localize('DL.WeaponEdit')));
+    weaponContextMenu.push(this.addDeleteContextMenu(game.i18n.localize('DL.WeaponDelete')));
+    new ContextMenu(html, '.weapon-controls', weaponContextMenu);
+
+    let armorContextMenu = [];
+    armorContextMenu.push(this.addEditContextMenu(game.i18n.localize('DL.ArmorEdit')));
+    armorContextMenu.push(this.addDeleteContextMenu(game.i18n.localize('DL.ArmorDelete')));
+    new ContextMenu(html, '.armor-controls', armorContextMenu);
+
+    let ammoContextMenu = [];
+    ammoContextMenu.push(this.addEditContextMenu(game.i18n.localize('DL.AmmoEdit')));
+    ammoContextMenu.push(this.addDeleteContextMenu(game.i18n.localize('DL.AmmoDelete')));
+    new ContextMenu(html, '.ammo-controls', ammoContextMenu);
+
     // Toggle Accordion
     html.find('.toggleAccordion').click((ev) => {
       const div = ev.currentTarget;
@@ -550,10 +539,30 @@ export class DemonlordActorSheet2 extends ActorSheet {
       }
     });
 
-    // Disbale Afflictions
+    // Disable Afflictions
     html.find('.disableafflictions').click((ev) => {
-      this.clearAfflictions();
+      DLAfflictions.clearAfflictions(this.actor);
     });
+
+    // Afflictions checkboxes
+    html.find('.affliction > input').click((ev) => {
+      const input = ev.currentTarget
+      const checked = input.checked
+      const name = input.labels[0].innerText
+
+      if (checked){
+        const affliction = CONFIG.statusEffects.find(e => e.label === name)
+        if (!affliction) return false
+        affliction["flags.core.statusId"] = affliction.id
+        ActiveEffect.create(affliction, {parent: this.actor})
+        return true
+      }
+      else {
+        const affliction = this.actor.effects.find(e => e.data.label === name)
+        if (!affliction) return false
+        affliction.delete()
+      }
+    })
 
     // Corruption Roll
     html.find('.corruption-roll').click((ev) => {
@@ -1124,7 +1133,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
         } else {
           item.data.uses.value = 0;
           item.data.addtonextroll = false;
-          this.actor.removeCharacterBonuses(item);
         }
       } else if (ev.button == 2) {
         if (uses == 0 && usesmax == 0) {
@@ -1136,32 +1144,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
         } else {
           item.data.uses.value = 0;
           item.data.addtonextroll = false;
-          this.actor.removeCharacterBonuses(item);
         }
       }
-
-      Item.updateDocuments([item], { parent: this.actor });
-    });
-
-    // Talent Activate Manual
-    html.find('.talent-activate').click((ev) => {
-      const li = ev.currentTarget.closest('.item');
-      const item = duplicate(this.actor.items.get(li.dataset.itemId));
-      const usesmax = item.data.uses.max;
-
-      if (usesmax > 0) item.data.uses.value = 1;
-
-      item.data.addtonextroll = true;
-      Item.updateDocuments([item], { parent: this.actor });
-    });
-
-    html.find('.talent-deactivate').click((ev) => {
-      const li = ev.currentTarget.closest('.item');
-      const item = duplicate(this.actor.items.get(li.dataset.itemId));
-
-      item.data.uses.value = 0;
-      item.data.addtonextroll = false;
-      this.actor.removeCharacterBonuses(item);
 
       Item.updateDocuments([item], { parent: this.actor });
     });
@@ -1410,28 +1394,24 @@ export class DemonlordActorSheet2 extends ActorSheet {
     await Actor.updateDocuments(talentToCreate);
   }
 
-  async clearAfflictions() {
-    await Actor.update({
-      'data.afflictions.asleep': false,
-      'data.afflictions.blinded': false,
-      'data.afflictions.charmed': false,
-      'data.afflictions.compelled': false,
-      'data.afflictions.dazed': false,
-      'data.afflictions.deafened': false,
-      'data.afflictions.defenseless': false,
-      'data.afflictions.diseased': false,
-      'data.afflictions.fatigued': false,
-      'data.afflictions.frightened': false,
-      'data.afflictions.horrified': false,
-      'data.afflictions.grabbed': false,
-      'data.afflictions.immobilized': false,
-      'data.afflictions.impaired': false,
-      'data.afflictions.poisoned': false,
-      'data.afflictions.prone': false,
-      'data.afflictions.slowed': false,
-      'data.afflictions.stunned': false,
-      'data.afflictions.surprised': false,
-      'data.afflictions.unconscious': false,
-    });
+  addEditContextMenu(menutitle) {
+    return {
+      name: menutitle,
+      icon: '<i class="fas fa-edit"></i>',
+      callback: (element) => {
+        const item = this.actor.items.get(element.data('item-id'));
+        item.sheet.render(true);
+      },
+    };
+  }
+
+  addDeleteContextMenu(menutitle) {
+    return {
+      name: menutitle,
+      icon: '<i class="fas fa-trash"></i>',
+      callback: (element) => {
+        Item.deleteDocuments([element.data('item-id')], { parent: this.actor });
+      },
+    };
   }
 }

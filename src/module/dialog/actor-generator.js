@@ -46,8 +46,6 @@ export class DLCharacterGenerater extends FormApplication {
     const pathNovice = actor
       .getEmbeddedCollection('Item')
       .filter((e) => e.type === 'path' && e.data.type === 'novice')
-
-    console.log(pathNovice)
     */
     const pathExpert = []
     const pathMaster = []

@@ -12,11 +12,12 @@ import { ActionTemplate } from './item/action-template.js';
 import { registerSettings } from './settings.js';
 import { rollInitiative, startCombat, nextTurn, setupTurns } from './init/init.js';
 import combattracker from './combattracker.js';
-import { CharacterBuff } from './buff.js';
 import { preloadHandlebarsTemplates } from './templates.js';
 import * as migrations from './migration.js';
 import * as macros from './macros.js';
 import * as playertracker from './playertrackercontrol.js';
+import {capitalize} from "./utils/utils";
+import {DLAfflictions} from "./active-effects/afflictions";
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -94,8 +95,6 @@ Hooks.once('init', async function () {
     makeDefault: true,
   });
 
-  window.CharacterBuff = CharacterBuff;
-
   // If you need to add Handlebars helpers, here are a few useful examples:
   Handlebars.registerHelper('concat', function () {
     var outStr = '';
@@ -110,6 +109,10 @@ Hooks.once('init', async function () {
   Handlebars.registerHelper('toLowerCase', function (str) {
     return str.toLowerCase();
   });
+
+  Handlebars.registerHelper('toUpperCase', (str) => str.toUpperCase())
+
+  Handlebars.registerHelper('capitalize', (str) => capitalize(str))
 
   Handlebars.registerHelper('json', JSON.stringify);
 
@@ -153,15 +156,8 @@ Hooks.once('setup', function () {
     }, {});
   }
 
-  // Status Effects Icons
-  const effects = [];
-  for (const [key, attribute] of Object.entries(CONFIG.DL.statusIcons)) {
-    effects.push({
-      id: key,
-      label: key.charAt(0).toUpperCase() + key.slice(1),
-      icon: attribute,
-    });
-  }
+  const effects = DLAfflictions.buildAll()
+
   if (!game.settings.get('demonlord08', 'statusIcons')) {
     for (const effect of CONFIG.statusEffects) {
       effects.push({
@@ -202,76 +198,7 @@ Hooks.on('preCreateActor', (createData, changes) => {
 });
 
 Hooks.on('createToken', async (tokenDocument) => {
-  // When Status Effects exists on the Actor but the token is just created
-  const actor = game.actors.get(tokenDocument.data.actorId);
-  if (!actor) return;
-
-  const actorData = actor.data;
-  const injured = CONFIG.DL.statusIcons.injured;
-
-  const asleep = CONFIG.DL.statusIcons.asleep;
-  const blinded = CONFIG.DL.statusIcons.blinded;
-  const charmed = CONFIG.DL.statusIcons.charmed;
-  const compelled = CONFIG.DL.statusIcons.compelled;
-  const dazed = CONFIG.DL.statusIcons.dazed;
-  const deafened = CONFIG.DL.statusIcons.deafened;
-  const defenseless = CONFIG.DL.statusIcons.defenseless;
-  const diseased = CONFIG.DL.statusIcons.diseased;
-  const fatigued = CONFIG.DL.statusIcons.fatigued;
-  const frightened = CONFIG.DL.statusIcons.frightened;
-  const horrified = CONFIG.DL.statusIcons.horrified;
-  const grabbed = CONFIG.DL.statusIcons.grabbed;
-  const immobilized = CONFIG.DL.statusIcons.immobilized;
-  const impaired = CONFIG.DL.statusIcons.impaired;
-  const poisoned = CONFIG.DL.statusIcons.poisoned;
-  const prone = CONFIG.DL.statusIcons.prone;
-  const slowed = CONFIG.DL.statusIcons.slowed;
-  const stunned = CONFIG.DL.statusIcons.stunned;
-  const surprised = CONFIG.DL.statusIcons.surprised;
-  const unconscious = CONFIG.DL.statusIcons.unconscious;
-
-  const concentrate = CONFIG.DL.statusIcons.concentrate;
-  const defend = CONFIG.DL.statusIcons.defend;
-  const help = CONFIG.DL.statusIcons.help;
-  const prepare = CONFIG.DL.statusIcons.prepare;
-  const reload = CONFIG.DL.statusIcons.reload;
-  const retreat = CONFIG.DL.statusIcons.retreat;
-  const rush = CONFIG.DL.statusIcons.rush;
-  const stabilize = CONFIG.DL.statusIcons.stabilize;
-
-  for (const token of actor.getActiveTokens()) {
-    toggleEffect(token, actorData.data.characteristics.health.injured, injured);
-
-    toggleEffect(token, actorData.data.afflictions.asleep, asleep);
-    toggleEffect(token, actorData.data.afflictions.blinded, blinded);
-    toggleEffect(token, actorData.data.afflictions.charmed, charmed);
-    toggleEffect(token, actorData.data.afflictions.compelled, compelled);
-    toggleEffect(token, actorData.data.afflictions.dazed, dazed);
-    toggleEffect(token, actorData.data.afflictions.deafened, deafened);
-    toggleEffect(token, actorData.data.afflictions.defenseless, defenseless);
-    toggleEffect(token, actorData.data.afflictions.diseased, diseased);
-    toggleEffect(token, actorData.data.afflictions.fatigued, fatigued);
-    toggleEffect(token, actorData.data.afflictions.frightened, frightened);
-    toggleEffect(token, actorData.data.afflictions.horrified, horrified);
-    toggleEffect(token, actorData.data.afflictions.grabbed, grabbed);
-    toggleEffect(token, actorData.data.afflictions.immobilized, immobilized);
-    toggleEffect(token, actorData.data.afflictions.impaired, impaired);
-    toggleEffect(token, actorData.data.afflictions.poisoned, poisoned);
-    toggleEffect(token, actorData.data.afflictions.prone, prone);
-    toggleEffect(token, actorData.data.afflictions.slowed, slowed);
-    toggleEffect(token, actorData.data.afflictions.stunned, stunned);
-    toggleEffect(token, actorData.data.afflictions.surprised, surprised);
-    toggleEffect(token, actorData.data.afflictions.unconscious, unconscious);
-
-    toggleEffect(token, actorData.data.actions.concentrate, concentrate);
-    toggleEffect(token, actorData.data.actions.defend, defend);
-    toggleEffect(token, actorData.data.actions.help, help);
-    toggleEffect(token, actorData.data.actions.prepare, prepare);
-    toggleEffect(token, actorData.data.actions.reload, reload);
-    toggleEffect(token, actorData.data.actions.retreat, retreat);
-    toggleEffect(token, actorData.data.actions.rush, rush);
-    toggleEffect(token, actorData.data.actions.stabilize, stabilize);
-  }
+  return 0
 });
 
 Hooks.on('updateActor', async (actor, updateData) => {
@@ -291,386 +218,45 @@ Hooks.on('updateActor', async (actor, updateData) => {
         }
       }
     }
-
-    const actorData = actor.data;
-    const injured = CONFIG.DL.statusIcons.injured;
-
-    const asleep = CONFIG.DL.statusIcons.asleep;
-    const blinded = CONFIG.DL.statusIcons.blinded;
-    const charmed = CONFIG.DL.statusIcons.charmed;
-    const compelled = CONFIG.DL.statusIcons.compelled;
-    const dazed = CONFIG.DL.statusIcons.dazed;
-    const deafened = CONFIG.DL.statusIcons.deafened;
-    const defenseless = CONFIG.DL.statusIcons.defenseless;
-    const diseased = CONFIG.DL.statusIcons.diseased;
-    const fatigued = CONFIG.DL.statusIcons.fatigued;
-    const frightened = CONFIG.DL.statusIcons.frightened;
-    const horrified = CONFIG.DL.statusIcons.horrified;
-    const grabbed = CONFIG.DL.statusIcons.grabbed;
-    const immobilized = CONFIG.DL.statusIcons.immobilized;
-    const impaired = CONFIG.DL.statusIcons.impaired;
-    const poisoned = CONFIG.DL.statusIcons.poisoned;
-    const prone = CONFIG.DL.statusIcons.prone;
-    const slowed = CONFIG.DL.statusIcons.slowed;
-    const stunned = CONFIG.DL.statusIcons.stunned;
-    const surprised = CONFIG.DL.statusIcons.surprised;
-    const unconscious = CONFIG.DL.statusIcons.unconscious;
-
-    const concentrate = CONFIG.DL.statusIcons.concentrate;
-    const defend = CONFIG.DL.statusIcons.defend;
-    const help = CONFIG.DL.statusIcons.help;
-    const prepare = CONFIG.DL.statusIcons.prepare;
-    const reload = CONFIG.DL.statusIcons.reload;
-    const retreat = CONFIG.DL.statusIcons.retreat;
-    const rush = CONFIG.DL.statusIcons.rush;
-    const stabilize = CONFIG.DL.statusIcons.stabilize;
-
-    for (const token of actor.getActiveTokens()) {
-      toggleEffect(token, actorData.data.characteristics.health.injured, injured);
-
-      toggleEffect(token, actorData.data.afflictions.asleep, asleep);
-      toggleEffect(token, actorData.data.afflictions.blinded, blinded);
-      toggleEffect(token, actorData.data.afflictions.charmed, charmed);
-      toggleEffect(token, actorData.data.afflictions.compelled, compelled);
-      toggleEffect(token, actorData.data.afflictions.dazed, dazed);
-      toggleEffect(token, actorData.data.afflictions.deafened, deafened);
-      toggleEffect(token, actorData.data.afflictions.defenseless, defenseless);
-      toggleEffect(token, actorData.data.afflictions.diseased, diseased);
-      toggleEffect(token, actorData.data.afflictions.fatigued, fatigued);
-      toggleEffect(token, actorData.data.afflictions.frightened, frightened);
-      toggleEffect(token, actorData.data.afflictions.horrified, horrified);
-      toggleEffect(token, actorData.data.afflictions.grabbed, grabbed);
-      toggleEffect(token, actorData.data.afflictions.immobilized, immobilized);
-      toggleEffect(token, actorData.data.afflictions.impaired, impaired);
-      toggleEffect(token, actorData.data.afflictions.poisoned, poisoned);
-      toggleEffect(token, actorData.data.afflictions.prone, prone);
-      toggleEffect(token, actorData.data.afflictions.slowed, slowed);
-      toggleEffect(token, actorData.data.afflictions.stunned, stunned);
-      toggleEffect(token, actorData.data.afflictions.surprised, surprised);
-      toggleEffect(token, actorData.data.afflictions.unconscious, unconscious);
-
-      toggleEffect(token, actorData.data.actions.concentrate, concentrate);
-      toggleEffect(token, actorData.data.actions.defend, defend);
-      toggleEffect(token, actorData.data.actions.help, help);
-      toggleEffect(token, actorData.data.actions.prepare, prepare);
-      toggleEffect(token, actorData.data.actions.reload, reload);
-      toggleEffect(token, actorData.data.actions.retreat, retreat);
-      toggleEffect(token, actorData.data.actions.rush, rush);
-      toggleEffect(token, actorData.data.actions.stabilize, stabilize);
-    }
   }
 });
 
 Hooks.on('createActiveEffect', async (activeEffect) => {
-  // When you add a Status Effects directly on the token
-  if (activeEffect) {
-    switch (activeEffect.data.label) {
-      case 'Injured':
-        await activeEffect.parent.update({
-          'data.characteristics.health.injured': true,
-        });
-        break;
-      case 'Asleep':
-        await activeEffect.parent.update({
-          'data.afflictions.asleep': true,
-          'data.afflictions.prone': true,
-          'data.afflictions.unconscious': true,
-        });
-        break;
-      case 'Blinded':
-        await activeEffect.parent.update({
-          'data.afflictions.blinded': true,
-        });
-        break;
-      case 'Charmed':
-        await activeEffect.parent.update({
-          'data.afflictions.charmed': true,
-        });
-        break;
-      case 'Compelled':
-        await activeEffect.parent.update({
-          'data.afflictions.compelled': true,
-        });
-        break;
-      case 'Dazed':
-        await activeEffect.parent.update({
-          'data.afflictions.dazed': true,
-        });
-        break;
-      case 'Deafened':
-        await activeEffect.parent.update({
-          'data.afflictions.deafened': true,
-        });
-        break;
-      case 'Defenseless':
-        await activeEffect.parent.update({
-          'data.afflictions.defenseless': true,
-        });
-        break;
-      case 'Diseased':
-        await activeEffect.parent.update({
-          'data.afflictions.diseased': true,
-        });
-        break;
-      case 'Fatigued':
-        await activeEffect.parent.update({
-          'data.afflictions.fatigued': true,
-        });
-        break;
-      case 'Frightened':
-        await activeEffect.parent.update({
-          'data.afflictions.frightened': true,
-        });
-        break;
-      case 'Horrified':
-        await activeEffect.parent.update({
-          'data.afflictions.horrified': true,
-        });
-        break;
-      case 'Grabbed':
-        await activeEffect.parent.update({
-          'data.afflictions.grabbed': true,
-        });
-        break;
-      case 'Immobilized':
-        await activeEffect.parent.update({
-          'data.afflictions.immobilized': true,
-        });
-        break;
-      case 'Impaired':
-        await activeEffect.parent.update({
-          'data.afflictions.impaired': true,
-        });
-        break;
-      case 'Poisoned':
-        await activeEffect.parent.update({
-          'data.afflictions.poisoned': true,
-        });
-        break;
-      case 'Prone':
-        await activeEffect.parent.update({
-          'data.afflictions.prone': true,
-        });
-        break;
-      case 'Slowed':
-        await activeEffect.parent.update({
-          'data.afflictions.slowed': true,
-        });
-        break;
-      case 'Stunned':
-        await activeEffect.parent.update({
-          'data.afflictions.stunned': true,
-        });
-        break;
-      case 'Surprised':
-        await activeEffect.parent.update({
-          'data.afflictions.surprised': true,
-        });
-        break;
-      case 'Unconscious':
-        await activeEffect.parent.update({
-          'data.afflictions.unconscious': true,
-        });
-        break;
-      case 'Concentrate':
-        await activeEffect.parent.update({
-          'data.actions.concentrate': true,
-        });
-        break;
-      case 'Defend':
-        await activeEffect.parent.update({
-          'data.actions.defend': true,
-        });
-        break;
-      case 'Help':
-        await activeEffect.parent.update({
-          'data.actions.help': true,
-        });
-        break;
-      case 'Prepare':
-        await activeEffect.parent.update({
-          'data.actions.prepare': true,
-        });
-        break;
-      case 'Reload':
-        await activeEffect.parent.update({
-          'data.actions.reload': true,
-        });
-        break;
-      case 'Retreat':
-        await activeEffect.parent.update({
-          'data.actions.retreat': true,
-        });
-        break;
-      case 'Rush':
-        await activeEffect.parent.update({
-          'data.actions.rush': true,
-        });
-        break;
-      case 'Stabilize':
-        await activeEffect.parent.update({
-          'data.actions.stabilize': true,
-        });
-        break;
-      default:
-        break;
+  const statusId = activeEffect.data.flags?.core?.statusId
+  const parent = activeEffect?.parent
+  if (statusId && parent){
+    parent.data.data.afflictions[statusId] = true
+
+    // If asleep, also add prone and uncoscious
+    if (statusId === 'asleep') {
+      if (!parent.effects.find(e => e.data.flags?.core?.statusId === 'prone')) {
+        const prone = CONFIG.statusEffects.find(e => e.id === 'prone')
+        prone["flags.core.statusId"] = 'prone'
+        await ActiveEffect.create(prone, {parent: parent})
+      }
+
+      if (!parent.effects.find(e => e.data.flags?.core?.statusId === 'unconscious')) {
+        const unconscious = CONFIG.statusEffects.find(e => e.id === 'unconscious')
+        unconscious["flags.core.statusId"] = 'unconscious'
+        await ActiveEffect.create(unconscious, {parent: parent})
+      }
     }
   }
 });
 
 Hooks.on('deleteActiveEffect', async (activeEffect) => {
-  // When you add a Status Effects directly on the token
-  if (activeEffect) {
-    switch (activeEffect.data.label) {
-      case 'Injured':
-        await activeEffect.parent.update({
-          'data.characteristics.health.injured': false,
-        });
-        break;
-      case 'Asleep':
-        await activeEffect.parent.update({
-          'data.afflictions.asleep': false,
-          'data.afflictions.prone': false,
-          'data.afflictions.unconscious': false,
-        });
-        break;
-      case 'Blinded':
-        await activeEffect.parent.update({
-          'data.afflictions.blinded': false,
-        });
-        break;
-      case 'Charmed':
-        await activeEffect.parent.update({
-          'data.afflictions.charmed': false,
-        });
-        break;
-      case 'Compelled':
-        await activeEffect.parent.update({
-          'data.afflictions.compelled': false,
-        });
-        break;
-      case 'Dazed':
-        await activeEffect.parent.update({
-          'data.afflictions.dazed': false,
-        });
-        break;
-      case 'Deafened':
-        await activeEffect.parent.update({
-          'data.afflictions.deafened': false,
-        });
-        break;
-      case 'Defenseless':
-        await activeEffect.parent.update({
-          'data.afflictions.defenseless': false,
-        });
-        break;
-      case 'Diseased':
-        await activeEffect.parent.update({
-          'data.afflictions.diseased': false,
-        });
-        break;
-      case 'Fatigued':
-        await activeEffect.parent.update({
-          'data.afflictions.fatigued': false,
-        });
-        break;
-      case 'Frightened':
-        await activeEffect.parent.update({
-          'data.afflictions.frightened': false,
-        });
-        break;
-      case 'Horrified':
-        await activeEffect.parent.update({
-          'data.afflictions.horrified': false,
-        });
-        break;
-      case 'Grabbed':
-        await activeEffect.parent.update({
-          'data.afflictions.grabbed': false,
-        });
-        break;
-      case 'Immobilized':
-        await activeEffect.parent.update({
-          'data.afflictions.immobilized': false,
-        });
-        break;
-      case 'Impaired':
-        await activeEffect.parent.update({
-          'data.afflictions.impaired': false,
-        });
-        break;
-      case 'Poisoned':
-        await activeEffect.parent.update({
-          'data.afflictions.poisoned': false,
-        });
-        break;
-      case 'Prone':
-        await activeEffect.parent.update({
-          'data.afflictions.prone': false,
-        });
-        break;
-      case 'Slowed':
-        await activeEffect.parent.update({
-          'data.afflictions.slowed': false,
-        });
-        break;
-      case 'Stunned':
-        await activeEffect.parent.update({
-          'data.afflictions.stunned': false,
-        });
-        break;
-      case 'Surprised':
-        await activeEffect.parent.update({
-          'data.afflictions.surprised': false,
-        });
-        break;
-      case 'Unconscious':
-        await activeEffect.parent.update({
-          'data.afflictions.unconscious': false,
-        });
-        break;
-      case 'Concentrate':
-        await activeEffect.parent.update({
-          'data.actions.concentrate': false,
-        });
-        break;
-      case 'Defend':
-        await activeEffect.parent.update({
-          'data.actions.defend': false,
-        });
-        break;
-      case 'Help':
-        await activeEffect.parent.update({
-          'data.actions.help': false,
-        });
-        break;
-      case 'Prepare':
-        await activeEffect.parent.update({
-          'data.actions.prepare': false,
-        });
-        break;
-      case 'Reload':
-        await activeEffect.parent.update({
-          'data.actions.reload': false,
-        });
-        break;
-      case 'Retreat':
-        await activeEffect.parent.update({
-          'data.actions.retreat': false,
-        });
-        break;
-      case 'Rush':
-        await activeEffect.parent.update({
-          'data.actions.rush': false,
-        });
-        break;
-      case 'Stabilize':
-        await activeEffect.parent.update({
-          'data.actions.stabilize': false,
-        });
-        break;
-      default:
-        break;
+  const statusId = activeEffect.data.flags?.core?.statusId
+  const parent = activeEffect?.parent
+  if (statusId && parent){
+    delete parent.data.data.afflictions[statusId]
+
+    // If asleep, also remove prone and uncoscious
+    if (statusId === 'asleep') {
+      const prone = parent.effects.find(e => e.data.flags?.core?.statusId === 'prone')
+      prone?.delete()
+
+      const unconscious =  parent.effects.find(e => e.data.flags?.core?.statusId === 'unconscious')
+      unconscious?.delete()
     }
   }
 });
@@ -684,7 +270,6 @@ Hooks.on('renderChatMessage', async (app, html, msg) => {
     const regex = /(\d+)?d(\d+)([\+\-]\d+)?/ig;
     const text = html.find(".message-content")[0].innerHTML;
     const found = text.match(regex);
-    console.log(found);
     var rrr = text.replace(found[1], "<a href=''>" + found[1] + "</a>");
     html.find(".message-content").replaceWith(rrr);
     */
@@ -810,13 +395,4 @@ function loadActorForChatMessage(speaker) {
     });
   }
   return actor;
-}
-
-async function toggleEffect(token, affliction, tokenIcon) {
-  const actorEffectFound = token.actor.effects.find((e) => e.data.icon === tokenIcon);
-
-  if ((affliction && !actorEffectFound) || (!affliction && actorEffectFound)) {
-    const effect = CONFIG.statusEffects.find((e) => e.icon === tokenIcon);
-    await token.toggleEffect(effect);
-  }
 }
