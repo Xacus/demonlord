@@ -31,11 +31,12 @@ export function onManageActiveEffect(event, owner) {
 /**
  * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
  * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
+ * @param {String} effecttype         The name of the selected subtab on Effects page. Filtering on that type.
  * @return {object}                   Data for rendering
  */
 export function prepareActiveEffectCategories(effects) {
   // Define effect header categories
-  const categories = {
+  let categories = {
     temporary: {
       type: 'temporary',
       label: 'Temporary Effects',
@@ -56,6 +57,15 @@ export function prepareActiveEffectCategories(effects) {
   // Iterate over active effects, classifying them into categories
   for (let e of effects) {
     e._getSourceName();
+
+    const source = e.data.origin ? fromUuid(e.data.origin) : null;
+    if (source != null) {
+      source.then(function (result) {
+        const itemtype = result != null ? result.type : e.sourceName;
+        if (itemtype === 'ancestry') delete categories.temporary;
+      });
+    }
+
     if (e.data.disabled) categories.inactive.effects.push(e);
     else if (e.isTemporary) categories.temporary.effects.push(e);
     else categories.passive.effects.push(e);

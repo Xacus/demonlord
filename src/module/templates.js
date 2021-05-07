@@ -11,6 +11,7 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord08/templates/tabs/character.html',
     'systems/demonlord08/templates/tabs/combat.html',
     'systems/demonlord08/templates/tabs/effects.html',
+    'systems/demonlord08/templates/tabs/effectsoverview.html',
     'systems/demonlord08/templates/tabs/item.html',
     'systems/demonlord08/templates/tabs/magic.html',
     'systems/demonlord08/templates/tabs/talents.html',
