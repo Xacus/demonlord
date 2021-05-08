@@ -1,33 +1,36 @@
 <form class="{{cssClass}} cromethius-item-form" autocomplete="off">
+  <header class="sheet-header itemsheet-header">
+    <img
+      class="weapon-img"
+      src="{{item.img}}"
+      data-edit="img"
+      title="{{item.name}}"
+    />
+    <div class="header-fields">
+      <div class="gridrow">
+        <input
+          name="name"
+          type="text"
+          value="{{item.name}}"
+          placeholder="Armor Name"
+        />
+      </div>
+    </div>
+    <div class="template-type">{{item.type}}</div>
+  </header>
 
   {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary" style="display:none">
+  <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
     <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+    <a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>
   </nav>
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     <section class="sheet-content cromethius-item-content">
+
       <div class="tab weapons" data-group="primary" data-tab="attributes">
-
-        {{!-- General (Icon, Name, Description, Type) --}}
-        <div class="item-general">
-          <div class="row">
-            <div class="col-xs-2 item-banner"
-                 style="background: url(systems/demonlord08/assets/ui/sidebar_creature.png)">
-              <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-              <div class="template-type">{{item.type}}</div>
-            </div>
-            <div class="col-xs-10">
-              <input name="name" type="text" value="{{item.name}}" placeholder="Armor Name"/>
-              <label class="description-label">{{localize 'DL.TabsDescription'}}</label>
-              {{editor content=data.description target="data.description"
-              button=true owner=owner editable=editable}}
-            </div>
-          </div>
-        </div>
-
         <div class="item-tab-header">
           <img src="systems/demonlord08/assets/ui/text_divider.png"/>
           <div>{{localize "DL.TabsAttributes"}}</div>
@@ -41,15 +44,15 @@
             </div>
             <div class="col-xs-4">
               <label>{{localize "DL.ArmorDefense"}}</label>
-              <input type="text" name="data.defense" value="{{data.defense}}" />
+              <input type="text" name="data.defense" value="{{data.defense}}"/>
             </div>
             <div class="col-xs-4">
               <label>{{localize "DL.ArmorAgility"}}</label>
-              <input type="text" name="data.agility" value="{{data.agility}}" />
+              <input type="text" name="data.agility" value="{{data.agility}}"/>
             </div>
             <div class="col-xs-4">
               <label>{{localize "DL.ArmorFixed"}}</label>
-              <input type="text" name="data.fixed" value="{{data.fixed}}" />
+              <input type="text" name="data.fixed" value="{{data.fixed}}"/>
             </div>
           </div>
 
@@ -62,11 +65,11 @@
             <div class="col-xs-4">
               <label class="resource-label">{{localize "DL.ArmorIsShield"}}</label>
               <input type="checkbox" name="data.isShield" id="multipleoptions" class="single-checkbox"
-                     {{checked data.isShield}} />
+                     {{checked data.isShield}}/>
             </div>
           </div>
 
-          {{!--  Str min - Availability - Price --}}
+          {{!-- Str min - Availability - Price --}}
           <div class="row">
             <div class="col-xs-4">
               <label>{{localize "DL.ArmorStrengthMin"}}</label>
@@ -91,76 +94,15 @@
             </div>
             <div class="col-xs-4">
               <label class="resource-label">{{localize "DL.ItemValue"}}</label>
-              <input type="text" name="data.value" value="{{data.value}}" />
+              <input type="text" name="data.value" value="{{data.value}}"/>
             </div>
           </div>
         </div>
-
-
-
-        {{!-- Enchantment --}}
-        <div class="item-tab-header" style="margin-top:16px">
-          <img src="systems/demonlord08/assets/ui/text_divider.png"/>
-          <div>{{localize "DL.ItemEnchantment"}}</div>
-        </div>
-
-        <div class="item-table">
-          {{!-- Effect --}}
-          <div class="row">
-            <div class="col-xs-12">
-              <label class="resource-label">{{localize "DL.ItemEnchantedEffect"}}</label>
-              <textarea name="data.enchantment.effect">{{data.enchantment.effect}}</textarea>
-            </div>
-          </div>
-
-          {{!-- Attack Challenge BO/BA --}}
-          <div class="row">
-            <div class="col-xs-6">
-              <label class="resource-label">{{localize "DL.TalentAttackBoonsBanes"}}</label>
-              <input type="text" name="data.enchantment.attackbonus" value="{{data.enchantment.attackbonus}}"
-                     data-dtype="Number"/>
-            </div>
-            <div class="col-xs-6">
-              <label class="resource-label">{{localize "DL.TalentChallengeBoonsBanes"}}</label>
-              <input type="text" name="data.enchantment.challengebonus" value="{{data.enchantment.challengebonus}}"
-                     data-dtype="Number"/>
-            </div>
-          </div>
-          {{!-- Damage - Uses - Max --}}
-          <div class="row">
-            <div class="col-xs-6">
-              <label class="resource-label">{{localize "DL.ItemDamage"}}</label>
-              <input type="text" name="data.enchantment.damage" value="{{data.enchantment.damage}}"/>
-            </div>
-            <div class="col-xs-3">
-              <label class="resource-label">{{localize "DL.SpellCastingsUses"}}</label>
-              <input type="text" name="data.enchantment.uses.value" value="{{data.enchantment.uses.value}}" />
-            </div>
-            <div class="col-xs-3">
-              <label class="resource-label">{{localize "DL.SpellCastingsMax"}}</label>
-              <input type="text" name="data.enchantment.uses.max" value="{{data.enchantment.uses.max}}"/>
-            </div>
-          </div>
-          {{!-- MOD Defense - Speed - Perception --}}
-          <div class="row">
-            <div class="col-xs-12">
-              <label class="resource-label">{{localize "DL.ItemDefenseModifier"}}</label>
-              <input type="text" name="data.enchantment.defense" value="{{data.enchantment.defense}}"
-                     data-dtype="Number"/>
-            </div>
-            <div class="col-xs-12">
-              <label class="resource-label">{{localize "DL.ItemSpeedModifier"}}</label>
-              <input type="text" name="data.enchantment.speed" value="{{data.enchantment.speed}}"
-                     data-dtype="Number"/>
-            </div>
-            <div class="col-xs-12">
-              <label class="resource-label">{{localize "DL.ItemPerceptionModifier"}}</label>
-              <input type="text" name="data.enchantment.perception"value="{{data.enchantment.perception}}"
-                     data-dtype="Number"/>
-            </div>
-          </div>
       </div>
 
+      {{> "systems/demonlord08/templates/item/partial/item-description.html"}}
+      {{> "systems/demonlord08/templates/item/partial/item-effects.html"}}
     </section>
+
   </section>
 </form>

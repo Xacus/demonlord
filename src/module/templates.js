@@ -48,5 +48,7 @@ export const preloadHandlebarsTemplates = async function () {
 
     // Item Sheet Partials
     'systems/demonlord08/templates/item/partial/item-activation.html',
+    'systems/demonlord08/templates/item/partial/item-description.html',
+    'systems/demonlord08/templates/item/partial/item-effects.html',
   ]);
 };
