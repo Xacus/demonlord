@@ -201,7 +201,6 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   const attackAttribute = talentData.vs?.attribute?.toLowerCase() || ''
   const defenseAttribute = talentData.vs?.against?.toLowerCase() || ''
   const talentEffects = buildTalentEffectsMessage(actor, talent)
-  console.log("AAAAAAAAAAAA", talentEffects)
   //
   const templateData = {
     actor: actor,

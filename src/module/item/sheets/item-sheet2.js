@@ -42,7 +42,15 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     data.isGM = game.user.isGM;
     data.useDemonlordMode = game.settings.get('demonlord08', 'useHomebrewMode');
     data.lockAncestry = game.settings.get('demonlord08', 'lockAncestry');
-    data.effects = prepareActiveEffectCategories(this.document.effects);
+
+    console.log(data)
+    const aeMenuType = data.document.isEmbedded
+      ? CONFIG.DL.ActiveEffectsMenuTypes.NONE
+      : CONFIG.DL.ActiveEffectsMenuTypes.ALL
+    data.effects = this.document.effects.size > 0 || !data.document.isEmbedded
+      ? prepareActiveEffectCategories(this.document.effects, !data.document.isEmbedded, aeMenuType)
+      : null
+
     data.config = DL;
 
     if (data.item.type == 'path') {
