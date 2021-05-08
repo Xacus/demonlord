@@ -216,7 +216,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
       false,
       CONFIG.DL.ActiveEffectsMenuTypes.EDIT,
     );
-    data.effects = prepareActiveEffectCategories(this.actor.effects);
+    data.effects = prepareActiveEffectCategories(this.actor.effects, true, CONFIG.DL.ActiveEffectsMenuTypes.ALL);
 
     // Prepare items
     if (this.actor.data.type == 'character') {
