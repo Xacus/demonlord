@@ -21,7 +21,7 @@ function _getChatBaseData(actor, rollMode) {
       rollMode === 'selfroll'
         ? [game.user.id]
         : rollMode === 'gmroll' || rollMode === 'blindroll'
-        ? Chatmessage.getWhisperRecipients('GM')
+        ? ChatMessage.getWhisperRecipients('GM')
         : []
   }
 }
@@ -200,6 +200,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
 
   const attackAttribute = talentData.vs?.attribute?.toLowerCase() || ''
   const defenseAttribute = talentData.vs?.against?.toLowerCase() || ''
+  const talentEffects = buildTalentEffectsMessage(actor, talent)
+  console.log("AAAAAAAAAAAA", talentEffects)
   //
   const templateData = {
     actor: actor,
@@ -238,7 +240,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute)
-  data['talentEffects'] = buildTalentEffectsMessage(actor, talent)
+  data['talentEffects'] = talentEffects
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
 

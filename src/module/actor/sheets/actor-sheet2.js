@@ -178,11 +178,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     }
 
     data.generalEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(
-        (effect) =>
-          ['ancestry', 'path', 'talent', 'spell', 'armor', 'weapon', 'item'].indexOf(effect.data.flags?.sourceType) ==
-          -1,
-      ),
+     this.actor.effects,
       true,
       CONFIG.DL.ActiveEffectsMenuTypes.ALL,
     );

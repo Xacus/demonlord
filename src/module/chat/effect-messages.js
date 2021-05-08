@@ -111,7 +111,7 @@ export function buildAttributeEffectsMessage(actor, attribute) {
  */
 export function buildTalentEffectsMessage(actor, talent) {
   const effects = actor.getEmbeddedCollection('ActiveEffect')
-    .filter(effect => effect.data.origin === talent.uuid && !effect.data.disabled)
+    .filter(effect => effect.data.origin === talent.uuid)
 
   let m = _remapEffects(effects)
   const get = (key, strLocalization, prefix = '') => {
