@@ -2,15 +2,15 @@
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-import { PathLevelItem, DamageType } from '../../pathlevel.js'
-import {
-  onManageActiveEffect,
-  prepareActiveEffectCategories
-} from '../../effects.js'
+import {PathLevelItem, DamageType} from '../pathlevel.js';
+import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects.js';
+import {DemonlordItem} from "../item";
+import {DLActiveEffects} from "../../active-effects/item-effects";
+import { DL } from '../../config.js';
 
 export class DemonlordItemSheetDefault extends ItemSheet {
   /** @override */
-  static get defaultOptions () {
+  static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord2', 'sheet', 'item'],
       width: 600,
@@ -19,299 +19,290 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         {
           navSelector: '.sheet-tabs',
           contentSelector: '.sheet-body',
-          initial: 'attributes'
-        }
+          initial: 'attributes',
+        },
       ],
-      scrollY: ['.tab.paths', '.tab.active']
-    })
+      scrollY: ['.tab.paths', '.tab.active'],
+    });
   }
 
   /** @override */
-  get template () {
-    const path = 'systems/demonlord08/templates/item'
-    return `${path}/item-${this.item.data.type}-sheet.html`
+  get template() {
+    const path = 'systems/demonlord08/templates/item';
+    return `${path}/item-${this.item.data.type}-sheet.html`;
   }
 
   /* -------------------------------------------- */
 
   /** @override */
-  async getData (options) {
-    const data = super.getData(options)
+  async getData(options) {
+    const data = super.getData(options);
     const itemData = data.data;
 
-    data.isGM = game.user.isGM
-    data.useDemonlordMode = game.settings.get('demonlord', 'useHomebrewMode')
-    data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
-    data.effects = prepareActiveEffectCategories(this.document.effects)
+    data.isGM = game.user.isGM;
+    data.useDemonlordMode = game.settings.get('demonlord08', 'useHomebrewMode');
+    data.lockAncestry = game.settings.get('demonlord08', 'lockAncestry');
+    data.effects = prepareActiveEffectCategories(this.document.effects);
+    data.config = DL;
 
     if (data.item.type == 'path') {
-      this._prepareLevels(data)
-    } else if (
-      data.item.type == 'weapon' ||
-      data.item.type == 'spell'
-    ) {
-      this._prepareDamageTypes(data)
-    } else if (data.item.type == 'talent') this._prepareVSDamageTypes(data)
+      this._prepareLevels(data);
+    } else if (data.item.type == 'weapon' || data.item.type == 'spell') {
+      this._prepareDamageTypes(data);
+    } else if (data.item.type == 'talent') this._prepareVSDamageTypes(data);
     else if (data.item.type == 'ancestry') {
       if (!game.user.isGM && !data.useDemonlordMode) {
-        data.item.editAncestry = false
+        data.item.editAncestry = false;
       }
     }
 
-
     data.item = itemData;
     data.data = itemData.data;
-    return data
+    return data;
   }
 
-  _prepareLevels (data) {
-    const itemData = data.item
+  _prepareLevels(data) {
+    const itemData = data.item;
 
-    const levels = []
-    const talents = []
-    const talents4 = []
+    const levels = [];
+    const talents = [];
+    const talents4 = [];
 
     for (const level of itemData.data?.data.levels) {
-      levels.push(level)
+      levels.push(level);
     }
 
     for (const talent of itemData.data?.data.talents) {
-      talents.push(talent)
+      talents.push(talent);
     }
 
     for (const talent of itemData.data?.data.level4.talent) {
-      talents4.push(talent)
+      talents4.push(talent);
     }
 
-    itemData.levels = levels
-    itemData.talents = talents
-    itemData.talents4 = talents4
+    itemData.levels = levels;
+    itemData.talents = talents;
+    itemData.talents4 = talents4;
   }
 
-  _prepareDamageTypes (data) {
-    const itemData = data.item
-    const damagetypes = []
+  _prepareDamageTypes(data) {
+    const itemData = data.item;
+    const damagetypes = [];
 
     for (const damagetype of itemData.data?.data?.action?.damagetypes) {
-      damagetypes.push(damagetype)
+      damagetypes.push(damagetype);
     }
 
-    itemData.damagetypes = damagetypes
+    itemData.damagetypes = damagetypes;
   }
 
-  _prepareVSDamageTypes (data) {
-    const itemData = data.item
-    const damagetypes = []
-    const vsdamagetypes = []
+  _prepareVSDamageTypes(data) {
+    const itemData = data.item;
+    const damagetypes = [];
+    const vsdamagetypes = [];
 
     for (const damagetype of itemData.data?.data?.action?.damagetypes) {
-      damagetypes.push(damagetype)
+      damagetypes.push(damagetype);
     }
 
     for (const vsdamagetype of itemData.data?.data?.vs?.damagetypes) {
-      vsdamagetypes.push(vsdamagetype)
+      vsdamagetypes.push(vsdamagetype);
     }
 
-    itemData.damagetypes = damagetypes
-    itemData.vsdamagetypes = vsdamagetypes
+    itemData.damagetypes = damagetypes;
+    itemData.vsdamagetypes = vsdamagetypes;
   }
 
   /* -------------------------------------------- */
 
   /** @override */
-  setPosition (options = {}) {
-    const position = super.setPosition(options)
-    const sheetBody = this.element.find('.sheet-body')
-    const bodyHeight = position.height - 125
-    sheetBody.css('height', bodyHeight)
-    return position
+  setPosition(options = {}) {
+    const position = super.setPosition(options);
+    const sheetBody = this.element.find('.sheet-body');
+    const bodyHeight = position.height - 125;
+    sheetBody.css('height', bodyHeight);
+    return position;
   }
 
   /* -------------------------------------------- */
 
   /** @override */
-  activateListeners (html) {
-    super.activateListeners(html)
+  activateListeners(html) {
+    super.activateListeners(html);
     // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return
+    if (!this.options.editable) return;
 
     if (this.isEditable) {
-      html
-        .find('.effect-control')
-        .click((ev) => onManageActiveEffect(ev, this.document))
+      html.find('.effect-control').click((ev) => onManageActiveEffect(ev, this.document));
 
-      const inputs = html.find('input')
-      inputs.focus((ev) => ev.currentTarget.select())
+      const inputs = html.find('input');
+      inputs.focus((ev) => ev.currentTarget.select());
     }
 
     html.find('.radiotrue').click((ev) => {
-      this.updateOption(true)
-    })
+      this.updateOption(true);
+    });
 
     html.find('.radiofalse').click((ev) => {
-      this.updateOption(false)
-    })
+      this.updateOption(false);
+    });
 
     html.find('.damagetype-control').click((ev) => {
-      this.onManageDamageType(ev, this.item)
-    })
+      this.onManageDamageType(ev, this.item);
+    });
 
     html.find('.vsdamagetype-control').click((ev) => {
-      this.onManageVSDamageType(ev, this.item)
-    })
+      this.onManageVSDamageType(ev, this.item);
+    });
 
     // Add drag events.
     html
       .find('.drop-area')
       .on('dragover', this._onDragOver.bind(this))
       .on('dragleave', this._onDragLeave.bind(this))
-      .on('drop', this._onDrop.bind(this))
+      .on('drop', this._onDrop.bind(this));
 
     html.find('.delete-ancestryitem').click((ev) => {
-      const itemGroup = ev.currentTarget.parentElement.parentElement.parentElement.getAttribute(
-        'data-group'
-      )
-      const itemIndex = ev.currentTarget.parentElement.getAttribute(
-        'data-item-id'
-      )
+      const itemGroup = ev.currentTarget.parentElement.parentElement.parentElement.getAttribute('data-group');
+      const itemIndex = ev.currentTarget.parentElement.getAttribute('data-item-id');
 
-      this.deleteItem(itemIndex, itemGroup)
-    })
+      this.deleteItem(itemIndex, itemGroup);
+    });
 
     html.find('.transfer-talent').click((ev) => {
       this.showTransferDialog(
         game.i18n.localize('DL.PathsDialogTransferTalent'),
         game.i18n.localize('DL.PathsDialogTransferTalentText'),
-        ev
-      )
-    })
+        ev,
+      );
+    });
 
     html.find('.transfer-talents').click((ev) => {
       this.showTransferDialog(
         game.i18n.localize('DL.PathsDialogTransferTalents'),
         game.i18n.localize('DL.PathsDialogTransferTalentsText'),
-        ev
-      )
-    })
+        ev,
+      );
+    });
 
     html.find('.edit-ancestrytalents').click((ev) => {
-      const that = this
+      const that = this;
       this.item
         .update({
-          'data.editTalents': !this.item.data.data.editTalents
+          'data.editTalents': !this.item.data.data.editTalents,
         })
         .then((item) => {
-          that.render()
-        })
-    })
+          that.render();
+        });
+    });
   }
 
-  async _onDragOver (ev) {
-    const $self = $(ev.originalEvent.target)
-    const $dropTarget = $self
-    $dropTarget.addClass('drop-hover')
-    return false
+  async _onDragOver(ev) {
+    const $self = $(ev.originalEvent.target);
+    const $dropTarget = $self;
+    $dropTarget.addClass('drop-hover');
+    return false;
   }
 
-  async _onDragLeave (ev) {
-    const $self = $(ev.originalEvent.target)
-    const $dropTarget = $self
-    $dropTarget.removeClass('drop-hover')
-    return false
+  async _onDragLeave(ev) {
+    const $self = $(ev.originalEvent.target);
+    const $dropTarget = $self;
+    $dropTarget.removeClass('drop-hover');
+    return false;
   }
 
-  async _onDrop (ev) {
-    const $self = $(ev.originalEvent.target)
-    const $dropTarget = $self
+  async _onDrop(ev) {
+    const $self = $(ev.originalEvent.target);
+    const $dropTarget = $self;
 
     // Get data.
-    let data
+    let data;
     try {
-      data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'))
-      if (data.type !== 'Item') return
+      data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'));
+      if (data.type !== 'Item') return;
     } catch (err) {
-      return false
+      return false;
     }
 
-    const group = $dropTarget.data('group')
-    this._addItem(data, group)
+    const group = $dropTarget.data('group');
+    this._addItem(data, group);
 
-    $dropTarget.removeClass('drop-hover')
+    $dropTarget.removeClass('drop-hover');
 
-    return false
+    return false;
   }
 
-  async _addItem (data, group) {
-    const itemId = data.id
-    const levelItem = new PathLevelItem()
-    const itemData = duplicate(this.item.data)
-    let item
-    let type
+  async _addItem(data, group) {
+    const itemId = data.id;
+    const levelItem = new PathLevelItem();
+    const itemData = duplicate(this.item.data);
+    let item;
+    let type;
 
     if (data.pack) {
-      const pack = game.packs.get(data.pack)
-      if (pack.metadata.entity !== 'Item') return
-      item = await pack.getEntity(data.id)
-      type = item._data.type
+      const pack = game.packs.get(data.pack);
+      if (pack.metadata.entity !== 'Item') return;
+      item = await pack.getEntity(data.id);
+      type = item._data.type;
     } else if (data.data) {
-      item = data
-      type = item.type
+      item = data;
+      type = item.type;
     } else {
-      item = game.items.get(data.id)
-      type = item.type
+      item = game.items.get(data.id);
+      type = item.type;
     }
-    if (!item || !(type === item.data.type)) return
+    if (!item || !(type === item.data.type)) return;
 
     switch (type) {
       case 'talent':
-        levelItem.id = item.id
-        levelItem.name = item.name
-        levelItem.description = item.data.data.description
-        levelItem.pack = data.pack ? data.pack : ''
+        levelItem.id = item.id;
+        levelItem.name = item.name;
+        levelItem.description = item.data.data.description;
+        levelItem.pack = data.pack ? data.pack : '';
 
-        if (group === 'talent') itemData.data.talents.push(levelItem)
-        else itemData.data.level4.talent.push(levelItem)
+        if (group === 'talent') itemData.data.talents.push(levelItem);
+        else itemData.data.level4.talent.push(levelItem);
 
-        break
+        break;
       case 'language':
-        levelItem.id = item.id
-        levelItem.name = item.name
-        levelItem.description = item.data.data.description
-        levelItem.pack = data.pack ? data.pack : ''
+        levelItem.id = item.id;
+        levelItem.name = item.name;
+        levelItem.description = item.data.data.description;
+        levelItem.pack = data.pack ? data.pack : '';
 
-        itemData.data.languagelist.push(levelItem)
+        itemData.data.languagelist.push(levelItem);
 
-        break
+        break;
       default:
-        break
+        break;
     }
 
-    await this.item.update(itemData, { diff: false })
-    this.render(true)
+    await this.item.update(itemData, {diff: false});
+    this.render(true);
   }
 
-  async deleteItem (itemIndex, itemGroup) {
-    const itemData = duplicate(this.item.data)
+  async deleteItem(itemIndex, itemGroup) {
+    const itemData = duplicate(this.item.data);
 
     switch (itemGroup) {
       case 'talent':
-        itemData.data.talents.splice(itemIndex, 1)
-        break
+        itemData.data.talents.splice(itemIndex, 1);
+        break;
       case 'talent4':
-        itemData.data.level4.talent.splice(itemIndex, 1)
-        break
+        itemData.data.level4.talent.splice(itemIndex, 1);
+        break;
       case 'language':
-        itemData.data.languagelist.splice(itemIndex, 1)
-        break
+        itemData.data.languagelist.splice(itemIndex, 1);
+        break;
       default:
-        break
+        break;
     }
 
     await Item.updateDocuments([itemData], {parent: this.actor});
-    this.render(true)
+    this.render(true);
   }
 
-  showTransferDialog (title, content, event) {
+  showTransferDialog(title, content, event) {
     const d = new Dialog({
       title: title,
       content: content,
@@ -319,56 +310,56 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         yes: {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize('DL.DialogYes'),
-          callback: (html) => this.transferItem(event)
+          callback: (html) => this.transferItem(event),
         },
         no: {
           icon: '<i class="fas fa-times"></i>',
           label: game.i18n.localize('DL.DialogNo'),
-          callback: () => {}
-        }
+          callback: () => {
+          },
+        },
       },
       default: 'no',
-      close: () => {}
-    })
-    d.render(true)
+      close: () => {
+      },
+    });
+    d.render(true);
   }
 
-  async transferItem (event) {
-    event.preventDefault()
+  async transferItem(event) {
+    event.preventDefault();
 
     if (event.currentTarget.className.indexOf('transfer-talents')) {
-      const itemGroup = event.currentTarget.getAttribute('data-group')
+      const itemGroup = event.currentTarget.getAttribute('data-group');
 
       if (itemGroup === 'talent') {
         for (const talent of this.object.data.data.talents) {
-          const item = game.items.get(talent.id)
+          const item = game.items.get(talent.id);
 
-          if (item != null) await (item)
+          if (item != null) await item;
         }
       } else if (itemGroup === 'talent4') {
         for (const talent of this.object.data.data.level4.talent) {
-          const item = game.items.get(talent.id)
+          const item = game.items.get(talent.id);
 
-          if (item != null) await this.actor.createEmbeddedDocuments('Item', [item.data])
+          if (item != null) await this.actor.createEmbeddedDocuments('Item', [item.data]);
         }
       }
     } else {
       // Transfer single Item
-      const itemIndex = event.currentTarget.getAttribute('data-item-id')
-      const itemGroup = event.currentTarget.parentElement.parentElement.getAttribute(
-        'data-group'
-      )
+      const itemIndex = event.currentTarget.getAttribute('data-item-id');
+      const itemGroup = event.currentTarget.parentElement.parentElement.getAttribute('data-group');
 
       if (itemGroup === 'talent') {
-        const selectedLevelItem = this.object.data.data.talents[itemIndex]
-        const item = game.items.get(selectedLevelItem.id)
+        const selectedLevelItem = this.object.data.data.talents[itemIndex];
+        const item = game.items.get(selectedLevelItem.id);
 
-        if (item != null) await this.actor.createEmbeddedDocuments('Item', [item.data])
+        if (item != null) await this.actor.createEmbeddedDocuments('Item', [item.data]);
       } else if (itemGroup === 'talent4') {
-        const selectedLevelItem = this.object.data.data.level4.talent[itemIndex]
-        const item = game.items.get(selectedLevelItem.id)
+        const selectedLevelItem = this.object.data.data.level4.talent[itemIndex];
+        const item = game.items.get(selectedLevelItem.id);
 
-        if (item != null) await this.actor.createEmbeddedDocuments('Item', [item.data])
+        if (item != null) await this.actor.createEmbeddedDocuments('Item', [item.data]);
       }
     }
   }
@@ -379,221 +370,168 @@ export class DemonlordItemSheetDefault extends ItemSheet {
    * @param formData {Object}   The object of validated form data with which to update the object
    * @private
    */
-  async _updateObject (event, formData) {
-    const item = this.object
-    const updateData = expandObject(formData)
+  async _updateObject(event, formData) {
+    const item = this.object;
+    const updateData = expandObject(formData);
+    // const updateResult = await this.object.update(updateData)
+    // return updateResult
 
-    if (item.type === 'talent') {
-      // If a Talent has no uses it's always active
-      if (
-        (updateData.data?.uses?.value == null &&
-          updateData.data?.uses?.max == null) ||
-        (updateData.data?.uses?.value === '0' &&
-          updateData.data?.uses?.max === '0')
-      ) {
+    switch (item.type) {
+      case 'talent':
+        // If a Talent has no uses it's always active
+        if (
+          (updateData.data?.uses?.value == null && updateData.data?.uses?.max == null) ||
+          (updateData.data?.uses?.value === '0' && updateData.data?.uses?.max === '0')
+        ) {
+          // await this.object.update({
+          //   'data.addtonextroll': true,
+          // });
+          updateData['data.addtonextroll'] = true
+
+          await this.actor?.update({
+            'data.characteristics.defensebonus': parseInt(characterbuffs.defensebonus),
+            'data.characteristics.healthbonus': parseInt(characterbuffs.healthbonus),
+            'data.characteristics.speedbonus': parseInt(characterbuffs.speedbonus),
+          });
+        } else {
+          // await this.document.update({
+          //   'data.addtonextroll': false,
+          // });
+          updateData['data.addtonextroll'] = false
+        }
+
+        for (const [k, v] of Object.entries(formData)) {
+          if (k === 'altdamagevs') {
+            let index = 0;
+
+            if (Array.isArray(v)) {
+              for (const id of v) {
+                item.data.data.vs.damagetypes[index].damage = id;
+                index++;
+              }
+            } else {
+              item.data.data.vs.damagetypes[index].damage = v;
+            }
+          } else if (k === 'altdamagetypevs') {
+            let index = 0;
+
+            if (Array.isArray(v)) {
+              for (const id of v) {
+                item.data.data.vs.damagetypes[index].damagetype = id;
+                index++;
+              }
+            } else {
+              item.data.data.vs.damagetypes[index].damagetype = v;
+            }
+          }
+        }
+
+        // await this.object.update({
+        //   'data.vs.damagetypes': duplicate(this.item.data.data?.vs?.damagetypes),
+        // });
+        updateData['data.vs.damagetypes'] = duplicate(this.item.data.data?.vs?.damagetypes)
+        break
+      case 'weapon':
+      case 'spell':
+        for (const [k, v] of Object.entries(formData)) {
+          if (k === 'altdamage') {
+            let index = 0;
+
+            if (Array.isArray(v)) {
+              for (const id of v) {
+                item.data.data.action.damagetypes[index].damage = id;
+                index++;
+              }
+            } else {
+              item.data.data.action.damagetypes[index].damage = v;
+            }
+          } else if (k === 'altdamagetype') {
+            let index = 0;
+
+            if (Array.isArray(v)) {
+              for (const id of v) {
+                item.data.data.action.damagetypes[index].damagetype = id;
+                index++;
+              }
+            } else {
+              item.data.data.action.damagetypes[index].damagetype = v;
+            }
+          }
+        }
         await this.object.update({
-          'data.addtonextroll': true
-        })
+          'data.action.damagetypes': duplicate(this.item.data.data.action.damagetypes),
+        });
+        break
+      case 'ancestry':
+        // Update Spell uses when power changes
+        if (item.actor && updateData.data?.characteristics?.power) {
+          var newPower = parseInt(updateData.data.characteristics.power);
 
-        const characterbuffs = this.generateCharacterBuffs()
-        await this.actor?.update({
-          'data.characteristics.defensebonus': parseInt(
-            characterbuffs.defensebonus
-          ),
-          'data.characteristics.healthbonus': parseInt(
-            characterbuffs.healthbonus
-          ),
-          'data.characteristics.speedbonus': parseInt(characterbuffs.speedbonus)
-        })
-      } else {
-        await this.document.update({
-          'data.addtonextroll': false
-        })
-      }
-
-      for (const [k, v] of Object.entries(formData)) {
-        if (k === 'altdamagevs') {
-          let index = 0
-
-          if (Array.isArray(v)) {
-            for (const id of v) {
-              item.data.data.vs.damagetypes[index].damage = id
-              index++
+          const paths = this.actor.items.filter((e) => e.type === 'path');
+          for (const path of paths) {
+            for (const level of path.data.data.levels) {
+              if (level.level <= this.actor.data.data.level) {
+                newPower += parseInt(level.characteristicsPower);
+              }
             }
-          } else {
-            item.data.data.vs.damagetypes[index].damage = v
           }
-        } else if (k === 'altdamagetypevs') {
-          let index = 0
 
-          if (Array.isArray(v)) {
-            for (const id of v) {
-              item.data.data.vs.damagetypes[index].damagetype = id
-              index++
-            }
-          } else {
-            item.data.data.vs.damagetypes[index].damagetype = v
-          }
+          this.actor.data.data.characteristics.power = newPower;
+          this.actor.setUsesOnSpells(this.actor.data);
         }
-      }
-
-      await this.object.update({
-        'data.vs.damagetypes': duplicate(this.item.data.data?.vs?.damagetypes)
-      })
-    } else if (item.type === 'weapon' || item.type === 'spell') {
-      for (const [k, v] of Object.entries(formData)) {
-        if (k === 'altdamage') {
-          let index = 0
-
-          if (Array.isArray(v)) {
-            for (const id of v) {
-              item.data.data.action.damagetypes[index].damage = id
-              index++
-            }
-          } else {
-            item.data.data.action.damagetypes[index].damage = v
-          }
-        } else if (k === 'altdamagetype') {
-          let index = 0
-
-          if (Array.isArray(v)) {
-            for (const id of v) {
-              item.data.data.action.damagetypes[index].damagetype = id
-              index++
-            }
-          } else {
-            item.data.data.action.damagetypes[index].damagetype = v
-          }
-        }
-      }
-      await this.object.update({
-        'data.action.damagetypes': duplicate(
-          this.item.data.data.action.damagetypes
-        )
-      })
-    } else if (item.type === 'ancestry' && this.actor) {
-      // Update Spell uses when power changes
-      if (updateData.data?.characteristics?.power) {
-        var newPower = parseInt(updateData.data.characteristics.power)
-
-        const paths = this.actor
-          .getEmbeddedCollection('Item')
-          .filter((e) => e.type === 'path')
-        for (const path of paths) {
-          for (const level of path.data.levels) {
-            if (level.level <= this.actor.data.data.level) {
-              newPower += parseInt(level.characteristicsPower)
-            }
-          }
-        }
-
-        this.actor.data.data.characteristics.power = newPower
-        this.actor.setUsesOnSpells(this.actor.data)
-      }
+        break
     }
 
     return this.object.update(updateData);
   }
 
-  generateCharacterBuffs () {
-    const characterbuffs = new CharacterBuff()
-    characterbuffs.challengestrengthbonus = 0
-    characterbuffs.challengeagilitybonus = 0
-    characterbuffs.challengeintellectbonus = 0
-    characterbuffs.challengewillbonus = 0
-    characterbuffs.challengeperceptionbonus = 0
-
-    const talents = this.actor
-      ?.getEmbeddedCollection('Item')
-      .filter((e) => e.type === 'talent')
-
-    if (talents) {
-      for (const talent of talents) {
-        if (talent.data.addtonextroll) {
-          if (
-            this.actor.data.data.activebonuses ||
-            (talent.data.uses.value > 0 && talent.data.uses.max > 0)
-          ) {
-            if (
-              talent.data.bonuses.defenseactive &&
-              talent.data.bonuses.defense > 0
-            ) {
-              characterbuffs.defensebonus += parseInt(
-                talent.data.bonuses.defense
-              )
-            }
-            if (
-              talent.data.bonuses.healthactive &&
-              talent.data.bonuses.health > 0
-            ) {
-              characterbuffs.healthbonus += parseInt(talent.data.bonuses.health)
-            }
-            if (
-              talent.data.bonuses.speedactive &&
-              talent.data.bonuses.speed > 0
-            ) {
-              characterbuffs.speedbonus += parseInt(talent.data.bonuses.speed)
-            }
-            if (
-              talent.data.bonuses.poweractive &&
-              talent.data.bonuses.power > 0
-            ) {
-              characterbuffs.powerbonus += parseInt(talent.data.bonuses.power)
-            }
-          }
-        }
-      }
-    }
-    return characterbuffs
-  }
-
-  async updateOption (selected) {
+  async updateOption(selected) {
     await this.object.update({
-      'data.level4.option1': selected
-    })
+      'data.level4.option1': selected,
+    });
   }
 
-  async onManageDamageType (event, item) {
-    event.preventDefault()
-    const a = event.currentTarget
-    const itemData = duplicate(item)
+  async onManageDamageType(event, item) {
+    event.preventDefault();
+    const a = event.currentTarget;
+    const itemData = duplicate(item);
 
     switch (a.dataset.action) {
       case 'create':
-        itemData.data.action.damagetypes.push(new DamageType())
+        itemData.data.action.damagetypes.push(new DamageType());
 
-        await Item.updateDocuments([itemData], {parent: this.actor})
+        await Item.updateDocuments([itemData], {parent: this.actor});
         //await this.item.update(itemData, { diff: false })
-        this.render(true)
-        break
+        this.render(true);
+        break;
       case 'delete':
-        itemData.data.action.damagetypes.splice(a.dataset.id, 1)
+        itemData.data.action.damagetypes.splice(a.dataset.id, 1);
 
-        await Item.updateDocuments([itemData], {parent: this.actor})
+        await Item.updateDocuments([itemData], {parent: this.actor});
         //await this.item.update(itemData, { diff: false })
-        this.render(true)
-        break
+        this.render(true);
+        break;
     }
   }
 
-  async onManageVSDamageType (event, item) {
-    event.preventDefault()
-    const a = event.currentTarget
-    const itemData = duplicate(item)
+  async onManageVSDamageType(event, item) {
+    event.preventDefault();
+    const a = event.currentTarget;
+    const itemData = duplicate(item);
 
     switch (a.dataset.action) {
       case 'create':
-        itemData.data.vs.damagetypes.push(new DamageType())
+        itemData.data.vs.damagetypes.push(new DamageType());
 
-        await this.item.update(itemData, { diff: false })
-        this.render(true)
-        break
+        await this.item.update(itemData, {diff: false});
+        this.render(true);
+        break;
       case 'delete':
-        itemData.data.vs.damagetypes.splice(a.dataset.id, 1)
+        itemData.data.vs.damagetypes.splice(a.dataset.id, 1);
 
-        await this.item.update(itemData, { diff: false })
-        this.render(true)
-        break
+        await this.item.update(itemData, {diff: false});
+        this.render(true);
+        break;
     }
   }
 }

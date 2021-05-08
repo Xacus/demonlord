@@ -61,48 +61,10 @@
           "speedbonus": 0,
           "editbar": false
         },
-        "afflictions": {
-          "asleep": false,
-          "blinded": false,
-          "charmed": false,
-          "compelled": false,
-          "dazed": false,
-          "deafened": false,
-          "defenseless": false,
-          "diseased": false,
-          "fatigued": false,
-          "frightened": false,
-          "frightenedsource": false,
-          "horrified": false,
-          "grabbed": false,
-          "immobilized": false,
-          "impaired": false,
-          "poisoned": false,
-          "prone": false,
-          "slowed": false,
-          "stunned": false,
-          "surprised": false,
-          "unconscious": false
-        },
         "afflictionsTab": {
           "hideAction": false,
           "hideAfflictions": false,
           "hideDamageEffects": false
-        },
-        "actions": {
-          "concentrate": false,
-          "defend": false,
-          "help": false,
-          "prepare": false,
-          "reload": false,
-          "retreat": false,
-          "rush": false,
-          "stabilize": false
-        },
-        "damageeffects": {
-          "incapacitated": false,
-          "disabled": false,
-          "dying": false
         }
       },
       "section": {
@@ -221,6 +183,27 @@
           "willboonsbanesselect": false,
           "perceptionboonsbanesselect": false,
           "extraeffect": ""
+        },
+        "activatedEffect": {
+          "activation": {
+            "type": "",
+            "cost": 0
+          },
+          "duration": {
+            "value": 0,
+            "type": ""
+          },
+          "target": {
+            "value": "",
+            "type": ""
+          },
+          "texture": "",
+          "range": "",
+          "uses": {
+            "value": 0,
+            "max": 0,
+            "per": null
+          }
         }
       },
       "enchantment": {
@@ -433,7 +416,7 @@
       "templates": ["base"],
       "type": "",
       "difficultystep": 0,
-      "size": 0,
+      "size": "1",
       "bonuses": {
         "strength": 0,
         "agility": 0,

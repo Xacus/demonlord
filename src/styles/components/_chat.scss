@@ -205,21 +205,19 @@
 }
 
 .result {
+  display: flex;
   height: 52px;
 
   .box {
-    float: left;
-    width: 80px;
-    height: 60px;
     text-align: center;
+    flex-basis: 40%;
 
     .boxborder,
     .boxborderTarget {
-      position: relative;
-      left: 20px;
       border: 1px solid #7a7971;
       border-radius: 3px;
       width: 40px;
+      margin: auto;
       height: 40px;
 
       .value {
@@ -236,7 +234,7 @@
       }
 
       .tooltiptext {
-        visibility: hidden;
+        display: block;
         width: 260px;
         background-color: rgba(0, 0, 0, 0.5);
         color: #fff;
@@ -244,17 +242,14 @@
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 3px;
         padding: 5px 0;
-        position: absolute;
+        position: relative;
         z-index: 1;
-        left: -17px;
-        top: 27px;
+        left: -30px;
+        top: 10px;
       }
     }
 
     .valuetext {
-      position: relative;
-      top: 0px;
-      width: 80px;
       font-size: 10px;
       font-weight: bold;
     }
@@ -283,16 +278,13 @@
   }
 
   .boxvs {
-    float: left;
-    width: 30px;
-    height: 60px;
+    text-align: center;
+    flex-basis: 20%;
 
     .vs {
       position: relative;
       top: 23px;
-      left: 8px;
-      width: 20px;
-      height: 20px;
+      text-align: center;
     }
   }
 }

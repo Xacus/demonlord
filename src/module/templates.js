@@ -5,14 +5,18 @@
  */
 export const preloadHandlebarsTemplates = async function () {
   return loadTemplates([
+    'systems/demonlord08/templates/tabs/activeeffects.html',
+    'systems/demonlord08/templates/tabs/afflictions.html',
+    'systems/demonlord08/templates/tabs/background.html',
     'systems/demonlord08/templates/tabs/character.html',
     'systems/demonlord08/templates/tabs/combat.html',
-    'systems/demonlord08/templates/tabs/talents.html',
-    'systems/demonlord08/templates/tabs/magic.html',
-    'systems/demonlord08/templates/tabs/item.html',
-    'systems/demonlord08/templates/tabs/background.html',
+    'systems/demonlord08/templates/tabs/creature.html',
+    'systems/demonlord08/templates/tabs/creatureeffects.html',
     'systems/demonlord08/templates/tabs/effects.html',
-    'systems/demonlord08/templates/tabs/neweffects.html',
+    'systems/demonlord08/templates/tabs/effectsoverview.html',
+    'systems/demonlord08/templates/tabs/item.html',
+    'systems/demonlord08/templates/tabs/magic.html',
+    'systems/demonlord08/templates/tabs/talents.html',
     'systems/demonlord08/templates/chat/challenge.html',
     'systems/demonlord08/templates/chat/combat.html',
     'systems/demonlord08/templates/chat/corruption.html',
@@ -40,6 +44,9 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord08/templates/dialogs/endofround-dialog.html',
     'systems/demonlord08/templates/actor/new-creature-sheet.html',
     'systems/demonlord08/templates/actor/new-creature-header.html',
-    'systems/demonlord08/templates/actor/new-creature-sidemenu.html'
-  ])
-}
+    'systems/demonlord08/templates/actor/new-creature-sidemenu.html',
+
+    // Item Sheet Partials
+    'systems/demonlord08/templates/item/partial/item-activation.html',
+  ]);
+};

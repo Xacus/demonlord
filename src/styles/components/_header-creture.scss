@@ -287,3 +287,14 @@ nav.sheet-navigation {
     text-shadow: 0 0 8px red;
   }
 }
+nav.creature {
+  z-index: 2;
+  margin-top: -20px;
+  width: 80%;
+}
+
+.sheet-content .creatureeffects {
+  .items-list {
+    margin: 0;
+  }
+}

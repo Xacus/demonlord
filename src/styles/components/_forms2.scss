@@ -7,8 +7,23 @@
   position: relative;
   grid-area: content;
 }
+
+nav.sheet-subnavigation {
+  font-family: $font-header;
+  font-size: 10px;
+  color: #000000;
+  text-transform: uppercase;
+  text-align: center;
+
+  a.item.active {
+    border-bottom: 1px solid var(--demonlord-red);
+    text-shadow: 0 0 8px red;
+  }
+}
+
 .sheet-body .sheet-content,
-.sheet-body .sheet-content .inventory {
+.sheet-body .sheet-content .inventory,
+.sheet-subbody .sheet-tabs {
   position: absolute;
   top: 0;
   left: 0;
@@ -17,6 +32,11 @@
   flex-direction: column;
   width: 100%;
   padding-top: 12px;
+}
+
+.sheet-subbody .sheet-tabs {
+  top: 35px;
+  height: 100%;
 }
 
 .character .character-details {
