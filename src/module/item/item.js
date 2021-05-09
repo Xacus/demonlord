@@ -61,6 +61,7 @@ export class DemonlordItem extends Item {
     html.on('click', '.roll-healing', this._onChatApplyHealing.bind(this));
     html.on('click', '.roll-damage', this._onChatRollDamage.bind(this));
     html.on('click', '.apply-damage', this._onChatApplyDamage.bind(this));
+    html.on('click', '.apply-effect', this._onChatApplyEffect.bind(this));
     html.on('click', '.use-talent', this._onChatUseTalent.bind(this));
     html.on('click', '.place-template', this._onChatPlaceTemplate.bind(this));
     html.on('click', '.request-challengeroll', this._onChatRequestChallengeRoll.bind(this));
@@ -282,6 +283,34 @@ export class DemonlordItem extends Item {
       event,
       damage,
     });
+  }
+
+  static async _onChatApplyEffect(event) {
+    event.preventDefault()
+    const htmlTarget = event.currentTarget
+    const htmlParent = htmlTarget.parentElement
+
+    const actorId = htmlParent.attributes.getNamedItem('data-actor-id').value
+    const itemId = htmlParent.attributes.getNamedItem('data-item-id').value
+    const effectId = htmlTarget.attributes.getNamedItem('data-effect-id').value
+
+
+    const activeEffect = game
+      .actors.get(actorId)
+      .items.get(itemId)
+      .effects.get(effectId)
+
+    if (!activeEffect) {
+      console.warn("Demonlord | _onChatApplyEffect | Effect not found!")
+      return
+    }
+
+    game.user.targets.forEach(target => {
+      ActiveEffect.create(activeEffect.data, {parent: target.actor})
+        .then(e => ui.notifications.info(`Added "${e.data.label}" to "${target.actor.name}"`))
+      //TODO: localization
+    })
+
   }
 
   static async _onChatUseTalent(event) {

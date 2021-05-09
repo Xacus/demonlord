@@ -63,7 +63,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   const templateData = {
     actor: attacker,
-    item: {_id: item.id, data: item, name: item.name},
+    item: {id: item.id, data: item, name: item.name},
     diceData: FormatDice(attackRoll),
     data: {}
   }
@@ -91,6 +91,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute)
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
+  data['itemEffects'] = item.effects
 
 
   const chatData = _getChatBaseData(attacker, rollMode)
@@ -242,6 +243,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['talentEffects'] = talentEffects
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
+  data['itemEffects'] = talent.effects
 
   const chatData = _getChatBaseData(actor, rollMode)
   if (talentData?.damage || talentData?.vs?.attribute || (!talentData?.vs?.attribute && !talentData?.damage)) {
@@ -365,6 +367,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
+  data['itemEffects'] = spell.effects
 
   const chatData = _getChatBaseData(actor, rollMode)
   const template = 'systems/demonlord08/templates/chat/spell.html';

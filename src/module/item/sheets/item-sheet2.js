@@ -43,7 +43,6 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     data.useDemonlordMode = game.settings.get('demonlord08', 'useHomebrewMode');
     data.lockAncestry = game.settings.get('demonlord08', 'lockAncestry');
 
-    console.log(data)
     const aeMenuType = data.document.isEmbedded
       ? CONFIG.DL.ActiveEffectsMenuTypes.NONE
       : CONFIG.DL.ActiveEffectsMenuTypes.ALL

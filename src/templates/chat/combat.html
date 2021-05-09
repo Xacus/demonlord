@@ -216,7 +216,14 @@
         </div>
         {{/if}}
         {{/if}}
-
+        {{#each data.itemEffects as |effect|}}
+        <div class="combatactions apply-effect" data-effect-id="{{effect.id}}">
+          <div class="header">
+            <img src="{{effect.data.icon}}" width="15" height="15" />
+            <div>{{effect.data.label}}</div>
+          </div>
+        </div>
+        {{/each}}
         {{#if data.ifBlindedRoll }}
         </div>
         {{/if}}
