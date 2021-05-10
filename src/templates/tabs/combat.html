@@ -30,6 +30,8 @@
       {{#if weapon.data.enchantment.effect}}
       <a class="item-control" title="{{localize 'DL.ItemEnchanted'}}"><i class="fas fa-magic"></i></a>
       {{/if}}
+      <a class="item-control item-edit" title="{{localize 'DL.WeaponEdit'}}"><i class="fas fa-edit"></i></a>
+      <a class="item-control item-delete" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-trash"></i></a>
     </div>
   </li>
   {{/each}}
@@ -44,7 +46,7 @@
     </div>
   </li>
   {{#each actor.armor as |armor id|}}
-  <li class="item item-align wearitem dropitem armor-controls" data-item-id="{{armor._id}}">
+  <li class="item item-align wearitem dropitem" data-item-id="{{armor._id}}">
     <div class="item-image">
       <img src="{{armor.img}}" title="{{armor.name}}" width="30" height="30" />
     </div>
@@ -62,6 +64,8 @@
       <a class="item-control {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}" title="{{localize 'DL.ArmorWear'}}"
         ><i class="fas fa-tshirt"></i
       ></a>
+      <a class="item-control item-edit" title="{{localize 'DL.ArmorEdit'}}"><i class="fas fa-edit"></i></a>
+      <a class="item-control item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-trash"></i></a>
     </div>
   </li>
   {{/each}}
@@ -83,6 +87,10 @@
     </div>
     <div class="weaponname">{{ammo.name}}</div>
     <div class="defense ammo-amount">{{data.quantity}} <i class="fas fa-arrows-alt-v"></i></div>
+    <div class="item-controls">
+      <a class="item-control item-edit" title="{{localize 'DL.AmmoEdit'}}"><i class="fas fa-edit"></i></a>
+      <a class="item-control item-delete" title="{{localize 'DL.AmmoDelete'}}"><i class="fas fa-trash"></i></a>
+    </div>
   </li>
   {{/each}}
 </ol>

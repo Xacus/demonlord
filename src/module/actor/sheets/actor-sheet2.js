@@ -177,11 +177,18 @@ export class DemonlordActorSheet2 extends ActorSheet {
       attr.isCheckbox = attr.dtype === 'Boolean';
     }
 
+    /*
     data.generalEffects = prepareActiveEffectCategories(
-     this.actor.effects,
+      this.actor.effects.filter(
+        (effect) =>
+          ['ancestry', 'path', 'talent', 'spell', 'armor', 'weapon', 'item'].indexOf(effect.data.flags?.sourceType) ==
+          -1,
+      ),
       true,
       CONFIG.DL.ActiveEffectsMenuTypes.ALL,
     );
+    */
+    data.generalEffects = prepareActiveEffectCategories(this.actor.effects, true, CONFIG.DL.ActiveEffectsMenuTypes.ALL);
     data.ancestryEffects = prepareActiveEffectCategories(
       this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'ancestry'),
       false,
@@ -200,15 +207,10 @@ export class DemonlordActorSheet2 extends ActorSheet {
     data.spellEffects = prepareActiveEffectCategories(
       this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'spell'),
       false,
-      CONFIG.DL.ActiveEffectsMenuTypes.ALL,
+      CONFIG.DL.ActiveEffectsMenuTypes.EDIT,
     );
     data.itemEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(
-        (effect) =>
-          effect.data.flags?.sourceType === 'armor' ||
-          effect.data.flags?.sourceType === 'weapon' ||
-          effect.data.flags?.sourceType === 'item',
-      ),
+      this.actor.effects.filter((effect) => ['armor', 'weapon', 'item'].indexOf(effect.data.flags?.sourceType) >= 0),
       false,
       CONFIG.DL.ActiveEffectsMenuTypes.EDIT,
     );
@@ -471,21 +473,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
       const inputs = html.find('input');
       inputs.focus((ev) => ev.currentTarget.select());
     }
-
-    let weaponContextMenu = [];
-    weaponContextMenu.push(this.addEditContextMenu(game.i18n.localize('DL.WeaponEdit')));
-    weaponContextMenu.push(this.addDeleteContextMenu(game.i18n.localize('DL.WeaponDelete')));
-    new ContextMenu(html, '.weapon-controls', weaponContextMenu);
-
-    let armorContextMenu = [];
-    armorContextMenu.push(this.addEditContextMenu(game.i18n.localize('DL.ArmorEdit')));
-    armorContextMenu.push(this.addDeleteContextMenu(game.i18n.localize('DL.ArmorDelete')));
-    new ContextMenu(html, '.armor-controls', armorContextMenu);
-
-    let ammoContextMenu = [];
-    ammoContextMenu.push(this.addEditContextMenu(game.i18n.localize('DL.AmmoEdit')));
-    ammoContextMenu.push(this.addDeleteContextMenu(game.i18n.localize('DL.AmmoDelete')));
-    new ContextMenu(html, '.ammo-controls', ammoContextMenu);
 
     // Toggle Accordion
     html.find('.toggleAccordion').click((ev) => {
