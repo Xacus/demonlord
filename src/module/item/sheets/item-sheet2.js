@@ -2,10 +2,10 @@
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-import {PathLevelItem, DamageType} from '../pathlevel.js';
-import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects.js';
-import {DemonlordItem} from "../item";
-import {DLActiveEffects} from "../../active-effects/item-effects";
+import { PathLevelItem, DamageType } from '../pathlevel.js';
+import { onManageActiveEffect, prepareActiveEffectCategories } from '../../active-effects/effects.js';
+import { DemonlordItem } from '../item';
+import { DLActiveEffects } from '../../active-effects/item-effects';
 import { DL } from '../../config.js';
 
 export class DemonlordItemSheetDefault extends ItemSheet {
@@ -45,10 +45,11 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
     const aeMenuType = data.document.isEmbedded
       ? CONFIG.DL.ActiveEffectsMenuTypes.NONE
-      : CONFIG.DL.ActiveEffectsMenuTypes.ALL
-    data.effects = this.document.effects.size > 0 || !data.document.isEmbedded
-      ? prepareActiveEffectCategories(this.document.effects, !data.document.isEmbedded, aeMenuType)
-      : null
+      : CONFIG.DL.ActiveEffectsMenuTypes.ALL;
+    data.effects =
+      this.document.effects.size > 0 || !data.document.isEmbedded
+        ? prepareActiveEffectCategories(this.document.effects, !data.document.isEmbedded, aeMenuType)
+        : null;
 
     data.config = DL;
 
@@ -284,7 +285,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         break;
     }
 
-    await this.item.update(itemData, {diff: false});
+    await this.item.update(itemData, { diff: false });
     this.render(true);
   }
 
@@ -305,7 +306,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         break;
     }
 
-    await Item.updateDocuments([itemData], {parent: this.actor});
+    await Item.updateDocuments([itemData], { parent: this.actor });
     this.render(true);
   }
 
@@ -322,13 +323,11 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         no: {
           icon: '<i class="fas fa-times"></i>',
           label: game.i18n.localize('DL.DialogNo'),
-          callback: () => {
-          },
+          callback: () => {},
         },
       },
       default: 'no',
-      close: () => {
-      },
+      close: () => {},
     });
     d.render(true);
   }
@@ -393,7 +392,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           // await this.object.update({
           //   'data.addtonextroll': true,
           // });
-          updateData['data.addtonextroll'] = true
+          updateData['data.addtonextroll'] = true;
 
           await this.actor?.update({
             'data.characteristics.defensebonus': parseInt(characterbuffs.defensebonus),
@@ -404,7 +403,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           // await this.document.update({
           //   'data.addtonextroll': false,
           // });
-          updateData['data.addtonextroll'] = false
+          updateData['data.addtonextroll'] = false;
         }
 
         for (const [k, v] of Object.entries(formData)) {
@@ -436,8 +435,8 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         // await this.object.update({
         //   'data.vs.damagetypes': duplicate(this.item.data.data?.vs?.damagetypes),
         // });
-        updateData['data.vs.damagetypes'] = duplicate(this.item.data.data?.vs?.damagetypes)
-        break
+        updateData['data.vs.damagetypes'] = duplicate(this.item.data.data?.vs?.damagetypes);
+        break;
       case 'weapon':
       case 'spell':
         for (const [k, v] of Object.entries(formData)) {
@@ -468,7 +467,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
         await this.object.update({
           'data.action.damagetypes': duplicate(this.item.data.data.action.damagetypes),
         });
-        break
+        break;
       case 'ancestry':
         // Update Spell uses when power changes
         if (item.actor && updateData.data?.characteristics?.power) {
@@ -486,7 +485,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           this.actor.data.data.characteristics.power = newPower;
           this.actor.setUsesOnSpells(this.actor.data);
         }
-        break
+        break;
     }
 
     return this.object.update(updateData);
@@ -507,14 +506,14 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       case 'create':
         itemData.data.action.damagetypes.push(new DamageType());
 
-        await Item.updateDocuments([itemData], {parent: this.actor});
+        await Item.updateDocuments([itemData], { parent: this.actor });
         //await this.item.update(itemData, { diff: false })
         this.render(true);
         break;
       case 'delete':
         itemData.data.action.damagetypes.splice(a.dataset.id, 1);
 
-        await Item.updateDocuments([itemData], {parent: this.actor});
+        await Item.updateDocuments([itemData], { parent: this.actor });
         //await this.item.update(itemData, { diff: false })
         this.render(true);
         break;
@@ -530,13 +529,13 @@ export class DemonlordItemSheetDefault extends ItemSheet {
       case 'create':
         itemData.data.vs.damagetypes.push(new DamageType());
 
-        await this.item.update(itemData, {diff: false});
+        await this.item.update(itemData, { diff: false });
         this.render(true);
         break;
       case 'delete':
         itemData.data.vs.damagetypes.splice(a.dataset.id, 1);
 
-        await this.item.update(itemData, {diff: false});
+        await this.item.update(itemData, { diff: false });
         this.render(true);
         break;
     }
