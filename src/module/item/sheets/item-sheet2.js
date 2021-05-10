@@ -389,20 +389,8 @@ export class DemonlordItemSheetDefault extends ItemSheet {
           (updateData.data?.uses?.value == null && updateData.data?.uses?.max == null) ||
           (updateData.data?.uses?.value === '0' && updateData.data?.uses?.max === '0')
         ) {
-          // await this.object.update({
-          //   'data.addtonextroll': true,
-          // });
           updateData['data.addtonextroll'] = true;
-
-          await this.actor?.update({
-            'data.characteristics.defensebonus': parseInt(characterbuffs.defensebonus),
-            'data.characteristics.healthbonus': parseInt(characterbuffs.healthbonus),
-            'data.characteristics.speedbonus': parseInt(characterbuffs.speedbonus),
-          });
         } else {
-          // await this.document.update({
-          //   'data.addtonextroll': false,
-          // });
           updateData['data.addtonextroll'] = false;
         }
 
