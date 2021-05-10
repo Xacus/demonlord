@@ -229,6 +229,7 @@ Hooks.on('createActiveEffect', async (activeEffect) => {
   const statusId = activeEffect.data.flags?.core?.statusId
   const parent = activeEffect?.parent
   if (statusId && parent){
+    parent.data.data.afflictions = parent.data.data.afflictions || {}
     parent.data.data.afflictions[statusId] = true
 
     // If asleep, also add prone and uncoscious
