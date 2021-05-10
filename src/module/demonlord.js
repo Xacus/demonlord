@@ -18,6 +18,7 @@ import * as macros from './macros.js';
 import * as playertracker from './playertrackercontrol.js';
 import {capitalize} from "./utils/utils";
 import {DLAfflictions} from "./active-effects/afflictions";
+import {DLActiveEffectConfig} from "./active-effects/sheets/active-effect-config";
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -53,6 +54,7 @@ Hooks.once('init', async function () {
 
   CONFIG.Actor.documentClass = DemonlordActor;
   CONFIG.Item.documentClass = DemonlordItem;
+  CONFIG.ActiveEffect.sheetClass = DLActiveEffectConfig
   CONFIG.ui.combat = combattracker;
   CONFIG.time.roundTime = 10;
   // CONFIG.debug.hooks = true

@@ -16,6 +16,7 @@ export function onManageActiveEffect(event, owner) {
           label: 'New Effect',
           icon: 'icons/svg/aura.svg',
           origin: owner.uuid,
+          transfer: false,
           'duration.rounds': li.dataset.effectType === 'temporary' ? 1 : undefined,
           disabled: li.dataset.effectType === 'inactive',
         },
