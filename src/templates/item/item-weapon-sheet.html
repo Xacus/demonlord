@@ -30,15 +30,8 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     <section class="sheet-content">
-
-
       {{!-- Attributes Tab --}}
-      <div class="tab weapons" data-group="primary" data-tab="attributes">
-        <div class="item-tab-header">
-          <img src="systems/demonlord08/assets/ui/text_divider.png"/>
-          <div>{{localize "DL.TabsAttributes"}}</div>
-        </div>
-
+      <div class="tab" data-group="primary" data-tab="attributes">
         <div class="item-table">
 
           {{!-- Modifier - BO/BA --}}
@@ -181,7 +174,6 @@
           </div>
         </div>
       </div>
-
       {{> "systems/demonlord08/templates/item/partial/item-description.html"}}
       {{#if effects}}{{> "systems/demonlord08/templates/item/partial/item-effects.html"}}{{/if}}
     </section>
