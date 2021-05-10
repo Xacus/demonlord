@@ -22,16 +22,18 @@ export class DemonlordItem extends Item {
   }
 
   /** @override */
+  static async create(data, options={}) {
+    // Add default image
+    if (!data?.img && game.settings.get('demonlord08', 'replaceIcons'))
+      data.img = CONFIG.DL.defaultItemIcons[data.type] || 'icons/svg/item-bag.svg'
+
+    return super.create(data, options);
+  }
+
+  /** @override */
   _onCreate(data, options, user) {
     if (this.parent)
       this.embedActiveEffects()
-    // Add default image and render if item is not embedded
-    if (data.img === 'icons/svg/item-bag.svg' && game.settings.get('demonlord08', 'replaceIcons')) {
-      this.update({'img': CONFIG.DL.defaultItemIcons[data.type] || 'icons/svg/item-bag.svg'})
-        .then(_ => this.sheet.render(!!!this.parent))
-    }
-    else
-      this.sheet.render(!!!this.parent)
   }
 
   async embedActiveEffects() {

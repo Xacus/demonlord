@@ -3,6 +3,7 @@ import { DL } from '../../config.js';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../../active-effects/effects.js';
 import { DLAfflictions } from '../../active-effects/afflictions';
 import { DLActiveEffects } from '../../active-effects/item-effects';
+import {DemonlordItem} from "../../item/item";
 
 export class DemonlordActorSheet2 extends ActorSheet {
   constructor(...args) {
@@ -1358,10 +1359,9 @@ export class DemonlordActorSheet2 extends ActorSheet {
     d.render(true);
   }
 
-  async createAncestry(ev) {
+  createAncestry(ev) {
     const data = { name: 'New ancestry', type: 'ancestry' };
-    const talentToCreate = await this.actor.createEmbeddedDocument('Item', data);
-    await Actor.updateDocuments(talentToCreate);
+    Item.create(data, {parent: this.document})
   }
 
   addEditContextMenu(menutitle) {
