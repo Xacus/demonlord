@@ -18,6 +18,7 @@
       font-family: 'IM Fell English SC', serif;
       padding: 0;
     }
+
     .item.active {
       text-decoration: none;
       border-bottom: 3px solid #a22223;
@@ -87,8 +88,7 @@
       }
 
       .editor {
-        min-height: 40% !important;
-        height: 80% !important;
+        min-height: 80% !important;
         padding-left: 8px !important;
         border-left: 2px solid #333333;
         border-bottom-left-radius: 8px;
@@ -143,20 +143,18 @@
       input {
         color: #191813 !important;
         font-weight: bold;
-        width: auto !important;
-        height: auto !important;
+        height: 28px !important;
+        width: 28px !important;
         padding-left: 2px;
         max-width: 30px;
+        background: rgba(111, 108, 102, 0.08);
         border: none;
-        background: #aea99ba3;
-        border-bottom: 1px solid #8d3b3c;
-        border-radius: 0;
+        border-bottom: 1px solid #191813;
 
         &:hover,
         &:focus {
           padding-left: 2px !important;
           color: #191813 !important;
-          height: auto !important;
           box-shadow: 0 0 5px #8d3b3c;
         }
       }
@@ -338,6 +336,12 @@
           margin: 0;
           top: 0;
         }
+
+        select {
+          width: auto;
+          margin-left: 8px;
+          margin-right: 8px;
+        }
       }
 
       .drop-area {
@@ -348,6 +352,7 @@
         text-align: center;
         width: 100%;
         min-height: 50px;
+        padding-bottom: 30px;
       }
 
       a.item-control.transfer-talents-alt {
@@ -370,18 +375,24 @@
       .center {
         text-align: center;
       }
+    }
 
-      /*
-      >div{
-        border: 1px solid black;
+    .fixed-path {
+      margin-bottom: 12px;
+      border-bottom: 1px solid #181818;
+      border-top: 1px solid #181818;
+      border-left: 2px solid #181818;
+      border-right: 2px solid #181818;
+      border-radius: 5px;
+      margin-top: 12px;
+
+      .row {
+        label,
+        select {
+          font-size: 18px !important;
+          height: 24px;
+        }
       }
-      >div:nth-child(even) {
-        background: rgba(128, 128, 128, 0.13);
-      }
-      >div:nth-child(odd) {
-        background: rgba(172, 172, 172, 0.13);
-      }
-      */
     }
   }
 }
