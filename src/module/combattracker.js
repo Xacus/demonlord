@@ -1,4 +1,5 @@
-import { DLEndOfRound } from './dialog/endofround.js';
+import {DLEndOfRound} from './dialog/endofround.js';
+
 export default class extends CombatTracker {
   constructor(options) {
     super(options);
@@ -29,25 +30,29 @@ export default class extends CombatTracker {
         '</a>';
 
       // Tooltip on Status Effects
-      // const effects = el.getElementsByClassName('token-effects')[0].children;
-      // for (var i = 0; i < effects.length; i++) {
-      //   const effect = effects[i].src.substring(effects[i].src.lastIndexOf('/') + 1);
-      //
-      //   const found = Object.keys(CONFIG.DL.statusIcons).find((key) => CONFIG.DL.statusIcons[key].indexOf(effect) > 0);
-      //
-      //   if (found && found.length > 0) {
-      //     const tooltip =
-      //       '<div class="tooltipEffect">' +
-      //       effects[i].outerHTML +
-      //       '<span class="tooltiptextEffect">' +
-      //       game.i18n.localize('DL.' + found) +
-      //       ': ' +
-      //       game.i18n.localize('DL.Afflictions' + found.charAt(0).toUpperCase() + found.slice(1)) +
-      //       '</span>';
-      //
-      //     effects[i].outerHTML = tooltip;
-      //   }
-      // }
+      // Group actor effects by image
+      const imgEffectMap = new Map()
+      combatant.actor.effects.filter(e => e.isTemporary && !e.data.disabled).forEach(e => {
+        if (imgEffectMap.has(e.data.icon))
+          imgEffectMap.get(e.data.icon).push(e)
+        else
+          imgEffectMap.set(e.data.icon, [e])
+      })
+
+      // Get effects displayed in the combat tracker and add the relevant data to the html,
+      const htmlEffectsCollection = el.getElementsByClassName('token-effects')[0].children
+
+      for (let i = 0; i < htmlEffectsCollection.length; i++) {
+        const htmlEffect = htmlEffectsCollection[i]
+        const img = htmlEffect.attributes.getNamedItem('src').value
+        const match = imgEffectMap.get(img)?.pop()
+        if (!match) continue
+
+        const tooltip = `<div class="tooltipEffect">${htmlEffect.outerHTML}<span class="tooltiptextEffect">${match.data.label}</span></div>`
+        htmlEffect.outerHTML = tooltip
+        // htmlEffect.addEventListener('click', ev => (ev.button == "2") ? match.delete() : null)
+        // ^ does not work, probably the event gets intercepted
+      }
 
       const endofrounds =
         combatant.actor != null
@@ -56,7 +61,7 @@ export default class extends CombatTracker {
       if (endofrounds.length > 0) hasEndOfRoundEffects = true;
     });
 
-    super.activateListeners(html);
+    //super.activateListeners(html);
 
     html.find('.dlturnorder').click((ev) => {
       const li = ev.currentTarget.closest('li');
