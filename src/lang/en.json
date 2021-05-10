@@ -466,6 +466,8 @@
   "DL.SettingStatusIconsHint": "Disable Foundry's default list of Status Effect Icons. (Require refresh)",
   "DL.SettingTemplateAutoTargeting": "Auto targeting with Measured Templates",
   "DL.SettingTemplateAutoTargetingHint": "Automatically targets the tokens inside of your placed Measured Template.",
+  "DL.SettingReplaceIcons": "Replace default icons",
+  "DL.SettingReplaceIconsHint": "Replace the default icon when creating an Item",
   "DL.DialogInitiative": "Initiative",
   "DL.DialogInitiativeTurn": "Has chosen to make a ",
   "DL.DialogInitiativeTurnEnd": " turn.",

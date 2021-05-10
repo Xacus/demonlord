@@ -86,4 +86,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   });
+  game.settings.register('demonlord08', 'replaceIcons', {
+    name: game.i18n.localize('DL.SettingReplaceIcons'),
+    hint: game.i18n.localize('DL.SettingReplaceIconsHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  });
 };

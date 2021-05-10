@@ -90,3 +90,19 @@ DL.ActiveEffectsMenuTypes = {
   EDIT: 2,
   ALL: 3,
 };
+
+DL.defaultItemIcons = {
+  ammo: 'systems/demonlord08/assets/icons/ammunition/arrows/arrows7.png',
+  item: 'icons/containers/bags/sack-cloth-tan.webp',
+  armor: 'systems/demonlord08/assets/icons/armor/soft%20leather.png',
+  feature: 'icons/containers/bags/sack-cloth-tan.webp', // TODO: find better
+  spell: 'systems/demonlord08/assets/icons/skills/spellbook.png',
+  talent: 'systems/demonlord08/assets/icons/skills/fist.png',
+  weapon: 'systems/demonlord08/assets/icons/weapons/swords/sword11.png',
+  specialaction: 'systems/demonlord08/assets/icons/skills/fist.png',
+  endoftheround: 'icons/skills/targeting/crosshair-pointed-orange.webp',
+  mod: 'icons/containers/bags/sack-cloth-tan.webp', // TODO: find better
+  ancestry: 'systems/demonlord08/assets/icons/avatars/changeling.png', // TODO: find better
+  profession: 'icons/tools/hand/hammer-and-nail.webp',
+  path: 'systems/demonlord08/assets/icons/avatars/magician.png',
+}
