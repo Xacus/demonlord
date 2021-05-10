@@ -200,7 +200,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     data.spellEffects = prepareActiveEffectCategories(
       this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'spell'),
       false,
-      CONFIG.DL.ActiveEffectsMenuTypes.EDIT,
+      CONFIG.DL.ActiveEffectsMenuTypes.ALL,
     );
     data.itemEffects = prepareActiveEffectCategories(
       this.actor.effects.filter(

@@ -8,25 +8,27 @@ export function onManageActiveEffect(event, owner) {
   const a = event.currentTarget;
   const li = a.closest('li');
   const effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
+  const isCharacter = owner.type === 'character'
 
   switch (a.dataset.action) {
     case 'create':
       return owner.createEmbeddedDocuments('ActiveEffect', [
         {
-          label: 'New Effect',
-          icon: 'icons/svg/aura.svg',
+          label: isCharacter ? 'New Effect' : owner.name,
+          icon: isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' : owner.img,
           origin: owner.uuid,
           transfer: false,
+          flags: {sourceType: owner.data?.type},
           'duration.rounds': li.dataset.effectType === 'temporary' ? 1 : undefined,
           disabled: li.dataset.effectType === 'inactive',
         },
-      ]);
+      ]).then(effects => effects[0].sheet.render(true));
     case 'edit':
       return effect.sheet.render(true);
     case 'delete':
       return effect.delete();
     case 'toggle':
-      return effect.update({ disabled: !effect.data.disabled });
+      return effect.update({ disabled: !effect.data.disabled});
   }
 }
 
