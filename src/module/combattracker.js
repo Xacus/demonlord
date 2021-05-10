@@ -48,7 +48,7 @@ export default class extends CombatTracker {
         const match = imgEffectMap.get(img)?.pop()
         if (!match) continue
 
-        const tooltip = `<div class="tooltipEffect">${htmlEffect.outerHTML}<span class="tooltiptextEffect">${match.data.label}</span></div>`
+        const tooltip = `<div class="tooltipEffect tracker-effect" data-effect-uuid="${match.uuid}">${htmlEffect.outerHTML}<span class="tooltiptextEffect">${match.data.label}</span></div>`
         htmlEffect.outerHTML = tooltip
         // htmlEffect.addEventListener('click', ev => (ev.button == "2") ? match.delete() : null)
         // ^ does not work, probably the event gets intercepted
@@ -61,7 +61,15 @@ export default class extends CombatTracker {
       if (endofrounds.length > 0) hasEndOfRoundEffects = true;
     });
 
-    //super.activateListeners(html);
+    html.find('.tracker-effect').click( ev => {
+      if (!game.user.isGM) return
+      const effectUUID = ev.currentTarget.attributes.getNamedItem('data-effect-uuid').value
+      fromUuid(effectUUID).then(effect =>
+        effect.getFlag('core', 'statusId') ? effect.delete() : effect.update({disabled: true})
+      )
+    })
+
+    super.activateListeners(html);
 
     html.find('.dlturnorder').click((ev) => {
       const li = ev.currentTarget.closest('li');
