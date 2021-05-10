@@ -34,6 +34,8 @@ export class DemonlordItem extends Item {
   _onCreate(data, options, user) {
     if (this.parent)
       this.embedActiveEffects()
+    else if (!this.folder)
+      this.sheet.render(true)
   }
 
   async embedActiveEffects() {

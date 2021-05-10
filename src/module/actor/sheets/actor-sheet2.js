@@ -826,9 +826,10 @@ export class DemonlordActorSheet2 extends ActorSheet {
       const div = $(ev.currentTarget).parents('.item');
       const item = this.actor.getEmbeddedDocument('Item', div.data('itemId'));
 
-      if (ev.button == 0) {
+      if (ev.button == 0)
         item.sheet.render(true);
-      } else if (ev.button == 2) {
+
+      else if (ev.button == 2) {
         const ancestries = this.actor.getEmbeddedCollection('Item').filter((e) => e.type === 'ancestry');
 
         for (const ancestry of ancestries) {
@@ -1263,7 +1264,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     delete itemData.data.type;
 
     // Finally, create the item!
-    return Item.create(itemData, { parent: this.actor });
+    DemonlordItem.create(itemData, { parent: this.actor }).then(i => i.sheet.render(true));
   }
 
   _onTraditionCreate(event) {
@@ -1284,7 +1285,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data.type;
-    return Item.create(itemData, { parent: this.actor });
+    return DemonlordItem.create(itemData, { parent: this.actor });
   }
 
   _onSpellCreate(event) {
@@ -1307,7 +1308,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data.type;
 
-    return Item.create(itemData, { parent: this.actor });
+    DemonlordItem.create(itemData, { parent: this.actor }).then(i => i.sheet.render(true));
   }
 
   deleteItem(item) {
@@ -1361,7 +1362,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
   createAncestry(ev) {
     const data = { name: 'New ancestry', type: 'ancestry' };
-    Item.create(data, {parent: this.document})
+    DemonlordItem.create(data, {parent: this.document}).then(i => i.sheet.render(true))
   }
 
   addEditContextMenu(menutitle) {
