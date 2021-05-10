@@ -249,10 +249,8 @@ export class DLActiveEffects {
       concatString('data.bonuses.attack.extraEffect', action.extraeffect, '\n'),
     ].filter(falsyChangeFilter)
 
-    if (attackChanges.length > 0) {
-      attackChanges.push(addObject('data.bonuses.attack.sources', talentItem.uuid))
+    if (attackChanges.length > 0)
       effectData.changes = effectData.changes.concat(attackChanges)
-    }
 
     // --- Challenge
     const challenge = talentData.challenge
@@ -264,10 +262,8 @@ export class DLActiveEffects {
       addEffect('data.bonuses.challenge.boons.perception', challenge.boonsbanes * challenge.perceptionboonsbanesselect),
     ].filter(falsyChangeFilter)
 
-    if (challengeChanges.length > 0) {
-      challengeChanges.push(addObject('data.bonuses.challenge.sources', talentItem.uuid))
+    if (challengeChanges.length > 0)
       effectData.changes = effectData.changes.concat(challengeChanges)
-    }
 
     return [effectData]
   }

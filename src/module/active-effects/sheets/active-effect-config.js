@@ -67,13 +67,14 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
     'data.bonuses.armor.defense': 'data.bonuses.armor.defense',
     'data.bonuses.armor.override': 'data.bonuses.armor.override',
     // Defense
-    'data.bonuses.defense.spell': 'data.bonuses.defense.spell',
-    'data.bonuses.defense.defense': 'data.bonuses.defense.defense',
-    'data.bonuses.defense.strength': 'data.bonuses.defense.strength',
-    'data.bonuses.defense.agility': 'data.bonuses.defense.agility',
-    'data.bonuses.defense.intellect': 'data.bonuses.defense.intellect',
-    'data.bonuses.defense.will': 'data.bonuses.defense.will',
-    'data.bonuses.defense.perception': 'data.bonuses.defense.perception',
+    'data.bonuses.defense.boons.spell': 'data.bonuses.defense.boons.spell',
+    'data.bonuses.defense.boons.defense': 'data.bonuses.defense.boons.defense',
+    'data.bonuses.defense.boons.weapon': 'data.bonuses.defense.boons.weapon',
+    'data.bonuses.defense.boons.strength': 'data.bonuses.defense.boons.strength',
+    'data.bonuses.defense.boons.agility': 'data.bonuses.defense.boons.agility',
+    'data.bonuses.defense.boons.intellect': 'data.bonuses.defense.boons.intellect',
+    'data.bonuses.defense.boons.will': 'data.bonuses.defense.boons.will',
+    'data.bonuses.defense.boons.perception': 'data.bonuses.defense.boons.perception',
     // AutoFail challenge malus
     'data.maluses.autoFail.challenge.strength': 'data.maluses.autoFail.challenge.strength',
     'data.maluses.autoFail.challenge.agility': 'data.maluses.autoFail.challenge.agility',
@@ -86,5 +87,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
     'data.maluses.autoFail.action.intellect': 'data.maluses.autoFail.action.intellect',
     'data.maluses.autoFail.action.will': 'data.maluses.autoFail.action.will',
     'data.maluses.autoFail.action.perception': 'data.maluses.autoFail.action.perception',
+    // Other maluses
+    'data.maluses.noFastTurn': 'data.maluses.noFastTurn',
   }
 }

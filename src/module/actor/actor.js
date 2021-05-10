@@ -64,21 +64,17 @@ export class DemonlordActor extends Actor {
     // Custom properties
     setProperty(data, 'bonuses', {
       attack: {
-        sources: [],
         boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
         damage: '',
         plus20Damage: '',
         extraEffect: '',
       },
       challenge: {
-        sources: [],
         boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
       },
       armor: {fixed: 0, agility: 0, defense: 0, override: 0},
       defense: {
-        sources: [],
-        boons: {spell: 0, strength: 0, agility: 0, intellect: 0, will: 0, defense: 0, perception: 0},
-        noFastTurn: 0,
+        boons: {spell: 0, weapon: 0, strength: 0, agility: 0, intellect: 0, will: 0, defense: 0, perception: 0},
       },
     });
 
@@ -88,6 +84,7 @@ export class DemonlordActor extends Actor {
         action: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
         halfSpeed: 0,
       },
+      noFastTurn: 0,
     });
   }
 
