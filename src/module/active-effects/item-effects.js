@@ -52,12 +52,16 @@ export class DLActiveEffects {
     return document.deleteEmbeddedDocuments('ActiveEffect', ids)
   }
 
+  /* -------------------------------------------- */
+
   static async removeEffectsByOrigin(document, originID) {
     const ids = document.getEmbeddedCollection('ActiveEffect')
       .filter((effect) => effect.data?.origin?.includes(originID))
       .map((effect) => effect.data._id)
     return document.deleteEmbeddedDocuments('ActiveEffect', ids)
   }
+
+  /* -------------------------------------------- */
 
   static async addUpdateEffectsToActor(document, effectDataList) {
     // Traverse parents
@@ -99,6 +103,8 @@ export class DLActiveEffects {
 
     return 1
   }
+
+  /* -------------------------------------------- */
 
   static generateEffectDataFromAncestry(demonlordItem) {
     const dataL0 = demonlordItem.data.data
@@ -152,6 +158,8 @@ export class DLActiveEffects {
     }
     return [effectDataL0, effectDataL4]
   }
+
+  /* -------------------------------------------- */
 
   static generateEffectDataFromPath(demonlordItem) {
     const pathdata = demonlordItem.data.data
@@ -214,6 +222,8 @@ export class DLActiveEffects {
     return effectDataList
   }
 
+  /* -------------------------------------------- */
+
   static generateEffectDataFromTalent(talentItem, pathLevelItem = {}) {
     const talentData = talentItem.data.data
     const effectData = {
@@ -268,18 +278,20 @@ export class DLActiveEffects {
     return [effectData]
   }
 
+  /* -------------------------------------------- */
+
   static generateEffectDataFromArmor(armorItem) {
     const armorData = armorItem.data.data
-
     const effectData = {
       label: armorItem.name,
       icon: armorItem.img,
       origin: armorItem.uuid,
       transfer: true,
+      disabled: !armorData.wear,
       duration: {},
       flags: {
         sourceType: 'armor',
-        levelRequired: 0,
+        //levelRequired: 0,
         permanent: false
       },
       changes: [
@@ -291,6 +303,8 @@ export class DLActiveEffects {
     // TODO FIXME: Armor requirements not met (-1 banes to rolls)
     return [effectData]
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Toggles the activation of an active effect based on its level requirements and current activation

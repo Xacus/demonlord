@@ -750,16 +750,13 @@ export class DemonlordActorSheet2 extends ActorSheet {
     // Update Inventory Item
     html.find('.item-wear').click((ev) => {
       const li = $(ev.currentTarget).parents('.item');
-      const item = duplicate(this.actor.items.get(li.data('itemId')));
-
-      item.data.wear = false;
-      Item.updateDocuments([item], { parent: this.actor });
+      const item = this.actor.items.get(li.data('itemId'));
+      item.update({'data.wear': false}, {parent: this.actor})
     });
     html.find('.item-wearoff').click((ev) => {
       const li = $(ev.currentTarget).parents('.item');
-      const item = duplicate(this.actor.items.get(li.data('itemId')));
-      item.data.wear = true;
-      Item.updateDocuments([item], { parent: this.actor });
+      const item = this.actor.items.get(li.data('itemId'));
+      item.update({'data.wear': true}, {parent: this.actor})
     });
 
     html.find('.wearitem').each((i, el) => {
