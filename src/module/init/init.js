@@ -157,8 +157,6 @@ export const nextTurn = async function () {
         next = 0;
       }
     }
-
-    handleCharacterMods();
   }
   // Update the encounter
   return this.update({ round: round, turn: next });
@@ -254,19 +252,6 @@ const postEndOfRound = async function () {
       const endofrounds = combatant.actor.getEmbeddedCollection('Item').filter((e) => e.type === 'endoftheround');
       for (const endofround of endofrounds) {
         console.log(endofround.name);
-      }
-    }
-  }
-};
-
-const handleCharacterMods = async function () {
-  for (const combatant of game.combat.combatants) {
-    const mods = combatant.actor?.getEmbeddedCollection('Item').filter((e) => e.type === 'mod');
-    if (mods) {
-      for (const mod of mods) {
-        if (mod.data.active) {
-          combatant.actor.updateCharacterMods(mod);
-        }
       }
     }
   }

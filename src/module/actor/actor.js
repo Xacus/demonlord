@@ -521,21 +521,6 @@ export class DemonlordActor extends Actor {
     });
   }
 
-  async updateCharacterMods(modItem) {
-    const mod = duplicate(modItem);
-
-    let roundsleft = parseInt(mod.data.roundsleft);
-    if (roundsleft > 0) {
-      roundsleft--;
-      mod.data.roundsleft = roundsleft;
-      if (roundsleft == 0) {
-        mod.data.roundsleft = mod.data.rounds;
-        mod.data.active = false;
-      }
-      await this.updateEmbeddedDocuments('Item', mod.data);
-    }
-  }
-
   async restActor(token) {
     // Talents
     const talents = this.getEmbeddedCollection('Item').filter((e) => e.type === 'talent');
