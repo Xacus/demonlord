@@ -110,14 +110,16 @@ export class DemonlordItem extends Item {
     })
 
     const actor = this._getChatCardActor(li.closest('.demonlord'))
-    const sourceToken = canvas.tokens.placeables.find(token => token.actor.id === actor.id)
+    const sourceToken = canvas.tokens.placeables.find(
+      (token) => token.actor.id === actor.id
+    )
     const itemId = li.children[0].dataset.itemId
-    Hooks.call("DL.ApplyHealing", {
+    Hooks.call('DL.ApplyHealing', {
       sourceToken,
       targets: selected,
       itemId,
       event,
-      healing,
+      healing
     })
   }
 
@@ -149,7 +151,9 @@ export class DemonlordItem extends Item {
 
     var templateData = {
       actor: actor,
-      item: {_id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId},
+      item: {
+        _id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId
+      },
       data: {
         damageTotal: {
           value: totalDamage
@@ -264,14 +268,16 @@ export class DemonlordItem extends Item {
     })
 
     const actor = this._getChatCardActor(li.closest('.demonlord'))
-    const sourceToken = canvas.tokens.placeables.find(token => token.actor.id === actor.id)
+    const sourceToken = canvas.tokens.placeables.find(
+      (token) => token.actor.id === actor.id
+    )
     const itemId = li.closest('.demonlord').dataset.itemId
-    Hooks.call("DL.ApplyDamage", {
+    Hooks.call('DL.ApplyDamage', {
       sourceToken,
       targets: selected,
       itemId,
       event,
-      damage,
+      damage
     })
   }
 
@@ -377,6 +383,7 @@ export class DemonlordItem extends Item {
 
     actor.rollAttribute(
       attribute,
+      attributeName,
       parseInt(boonsbanes) + parseInt(boonsbanesEntered),
       0
     )
@@ -484,7 +491,7 @@ export class DemonlordItem extends Item {
     return targets
   }
 
-  static async _onChatPlaceTemplate(event) {
+  static async _onChatPlaceTemplate (event) {
     event.preventDefault()
     const li = event.currentTarget
     const metadata = li.closest('.demonlord').dataset
@@ -493,9 +500,9 @@ export class DemonlordItem extends Item {
     const actor = game.actors.get(metadata.actorId)
     const item = actor.items.get(itemId)
 
-    const template = game.demonlord.canvas.ActionTemplate.fromItem(item);
-    if (template){
-      template.drawPreview();
+    const template = game.demonlord.canvas.ActionTemplate.fromItem(item)
+    if (template) {
+      template.drawPreview()
     }
   }
 }

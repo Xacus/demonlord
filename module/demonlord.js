@@ -8,7 +8,7 @@ import { DemonlordNewCreatureSheet } from './actor/new-creature-sheet.js'
 import { DemonlordItem } from './item/item.js'
 import { DemonlordItemSheetDefault } from './item/item-sheet2.js'
 import { DemonlordPathSetup } from './item/path-setup.js'
-import { ActionTemplate } from "./item/action-template.js"
+import { ActionTemplate } from './item/action-template.js'
 import { registerSettings } from './settings.js'
 import {
   rollInitiative,
@@ -42,7 +42,7 @@ Hooks.once('init', async function () {
     healingPotionMacro: macros.healingPotionMacro
   }
 
-  CONFIG.MeasuredTemplate.defaults.angle = 53.13;
+  CONFIG.MeasuredTemplate.defaults.angle = 53.13
 
   // Define custom Entity classes
   CONFIG.DL = DL
@@ -828,16 +828,22 @@ Hooks.once('dragRuler.ready', (SpeedProvider) => {
       ]
     }
 
-    getSpeedModifier(token) {
-      const itemsHeavy = token.actor.items.filter(item => Number(item.data.data.strengthmin) > token.actor.data.data.attributes.strength.value)
+    getSpeedModifier (token) {
+      const itemsHeavy = token.actor.items.filter(
+        (item) =>
+          Number(item.data.data.strengthmin) >
+          token.actor.data.data.attributes.strength.value
+      )
       if (itemsHeavy.length > 0) {
         return -2
       }
       return 0
     }
 
-    getRanges(token) {
-      let baseSpeed = token.actor.data.data.characteristics.speed + this.getSpeedModifier(token)
+    getRanges (token) {
+      const baseSpeed =
+        token.actor.data.data.characteristics.speed +
+        this.getSpeedModifier(token)
       const ranges = [
         { range: baseSpeed, color: 'walk' },
         { range: baseSpeed * 2, color: 'rush' }

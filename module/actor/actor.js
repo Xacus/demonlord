@@ -451,18 +451,10 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  rollChallenge (attribute) {
-    if (typeof attribute === 'string' || attribute instanceof String) {
-      attribute = this.data.data.attributes[attribute]
-    }
-
-    let attLabel =
-      attribute.label?.charAt(0).toUpperCase() +
-      attribute.label?.toLowerCase().slice(1)
-    if (!attribute.label && isNaN(attLabel)) {
-      attLabel =
-        attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1)
-    }
+  rollChallenge (attribute, attributeName) {
+    const attLabel =
+      attributeName.charAt(0).toUpperCase() +
+      attributeName.toLowerCase().slice(1)
 
     if (this.data.data.afflictions.defenseless && attLabel != 'Perception') {
       ui.notifications.error(
@@ -509,6 +501,7 @@ export class DemonlordActor extends Actor {
             callback: (html) =>
               this.rollAttribute(
                 attribute,
+                attributeName,
                 html.find('[id="boonsbanes"]').val(),
                 html.find('[id="modifier"]').val()
               )
@@ -526,7 +519,7 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  rollAttribute (attribute, boonsbanes, modifier) {
+  rollAttribute (attribute, attributeName, boonsbanes, modifier) {
     const rollMode = game.settings.get('core', 'rollMode')
     const buffs = this.generateCharacterBuffs('')
     let attribueName =
@@ -546,21 +539,22 @@ export class DemonlordActor extends Actor {
     }
     // Add boonsbanes to Strength rolls
     if (
-      attribute.label === 'STRENGTH' &&
+      attributeName.toUpperCase() === 'STRENGTH' &&
       parseInt(buffs?.challengestrengthbonus) != 0
     ) {
       boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengestrengthbonus)
+      console.log('HER')
     }
     // Add boonsbanes to Agility rolls
     if (
-      attribute.label === 'AGILITY' &&
+      attributeName.toUpperCase() === 'AGILITY' &&
       parseInt(buffs?.challengeagilitybonus) != 0
     ) {
       boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengeagilitybonus)
     }
     // Add boonsbanes to Intellect rolls
     if (
-      attribute.label === 'INTELLECT' &&
+      attributeName.toUpperCase() === 'INTELLECT' &&
       parseInt(buffs?.challengeintellectbonus) != 0
     ) {
       boonsbanes =
@@ -568,14 +562,14 @@ export class DemonlordActor extends Actor {
     }
     // Add boonsbanes to Will rolls
     if (
-      attribute.label === 'WILL' &&
+      attributeName.toUpperCase() === 'WILL' &&
       parseInt(buffs?.challengewillbonus) != 0
     ) {
       boonsbanes = parseInt(boonsbanes) + parseInt(buffs.challengewillbonus)
     }
     // Add boonsbanes to Perception rolls
     if (
-      attribute.label === 'PERCEPTION' &&
+      attributeName.toUpperCase() === 'PERCEPTION' &&
       parseInt(buffs?.challengeperceptionbonus) != 0
     ) {
       boonsbanes =
@@ -1371,7 +1365,9 @@ export class DemonlordActor extends Actor {
         isCreature: {
           value: this.data.type == 'creature'
         },
-        hasAreaTarget: talent.data.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape,
+        hasAreaTarget:
+          talent.data.activatedEffect?.target?.type in
+          CONFIG.DL.actionAreaShape,
         pureDamage: {
           value: talent.data?.damage
         },
@@ -1789,7 +1785,8 @@ export class DemonlordActor extends Actor {
         isCreature: {
           value: this.data.type == 'creature'
         },
-        hasAreaTarget: spell.data.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape,
+        hasAreaTarget:
+          spell.data.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape,
         healing: {
           value:
             spell.data?.healing?.healactive && spell.data?.healing?.healing

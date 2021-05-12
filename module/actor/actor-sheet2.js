@@ -1293,7 +1293,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
       const div = $(ev.currentTarget)
       const attributeName = div.data('key')
       const attribute = this.actor.data.data.attributes[attributeName]
-      this.actor.rollChallenge(attribute)
+      this.actor.rollChallenge(attribute, attributeName)
     })
 
     // Rollable Attack

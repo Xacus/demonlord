@@ -159,7 +159,7 @@ export function rollAttributeMacro (attributeName) {
     if (!actor) actor = game.actors.get(speaker.actor)
     const attribute = actor ? actor.data.data.attributes[attributeName] : null
 
-    return actor.rollChallenge(attribute)
+    return actor.rollChallenge(attribute, attributeName)
   }
 }
 
