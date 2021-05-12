@@ -239,8 +239,8 @@ export class DemonlordActor extends Actor {
       return
 
     const item = this.items.get(itemID)
-    const uses = parseInt(item.data?.uses?.value) || 0
-    const usesMax = parseInt(item.data?.uses?.max) || 0
+    const uses = parseInt(item.data.data?.uses?.value) || 0
+    const usesMax = parseInt(item.data.data?.uses?.max) || 0
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
       return;
@@ -259,15 +259,15 @@ export class DemonlordActor extends Actor {
       this.useTalent(item, 0, 0)
   }
 
-  useTalent(talent, inputBoons, inputModifier) {
+  async useTalent(talent, inputBoons, inputModifier) {
     const talentData = talent.data.data
     const target = this.getTarget()
     let attackRoll = null;
 
     if (!talentData?.vs?.attribute)
-      this.activateTalent(talent, true)
+      await this.activateTalent(talent, true)
     else {
-      this.activateTalent(talent, Boolean(talentData.vs?.damageActive));
+      await this.activateTalent(talent, Boolean(talentData.vs?.damageActive));
 
       const attackAttribute = talentData.vs.attribute.toLowerCase()
       const defenseAttribute = talentData.vs?.against?.toLowerCase()
@@ -481,33 +481,23 @@ export class DemonlordActor extends Actor {
     return tagetNumber;
   }
 
+  /* -------------------------------------------- */
+
   async activateTalent(talent, setActive) {
-    const uses = talent.data.uses?.value;
-    const usesmax = talent.data.uses?.max;
-
-    if (parseInt(uses) >= 0) {
-      if (uses < usesmax) {
-        talent.data.uses.value = Number(uses) + 1;
-        talent.data.addtonextroll = setActive;
-      } else {
-        talent.data.uses.value = 0;
-        talent.data.addtonextroll = false;
-      }
-      await Item.updateDocuments([talent], {parent: this});
-    }
+    let uses = talent.data.data.uses?.value || 0;
+    const usesmax = talent.data.data.uses?.max || 0;
+    if (usesmax > 0 && uses < usesmax)
+      return talent.update({'data.uses.value': ++uses, 'data.addtonextroll': setActive}, {parent: this})
   }
 
-  async deactivateTalent(talent) {
-    const item = this.getEmbeddedDocument('Item', talent.id);
-    const that = this;
-    await item
-      .update({
-        'data.addtonextroll': false,
-      })
-      .then((item) => {
-        that.render();
-      });
+  async deactivateTalent(talent, decrement = 0, onlyTemporary= false) {
+    if (onlyTemporary && !talent.data.data.uses?.max) return
+    let uses = talent.data.data.uses?.value || 0;
+    uses = Math.max(0, uses - decrement)
+    talent.update({'data.uses.value': uses, 'data.addtonextroll': false}, {parent: this})
   }
+
+  /* -------------------------------------------- */
 
   async addDamageToTarget(damage) {
     game.user.targets.forEach(async (target) => {

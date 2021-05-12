@@ -230,9 +230,9 @@ export class DLActiveEffects {
       label: talentItem.name,
       icon: talentItem.img,
       origin: talentItem.uuid,
-      disabled: !(talentData.addtonextroll || talentData.isActive), //TODO: better enabled detection
+      disabled: !talentData.addtonextroll,
       transfer: true,
-      duration: {},
+      duration: {rounds: 1 * !!talentData.uses.max},
       flags: {
         sourceType: 'talent',
         // levelRequired: parseInt(pathLevelItem.level), TODO
@@ -246,7 +246,6 @@ export class DLActiveEffects {
         addEffect('data.characteristics.speed', talentData.bonuses.speed),
       ].filter(falsyChangeFilter)
     }
-
     // --- Attack
     const action = talentData.action
     const attackChanges = [

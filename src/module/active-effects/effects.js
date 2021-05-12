@@ -67,15 +67,6 @@ export function prepareActiveEffectCategories(effects, showCreateButtons, showCo
 
   // Iterate over active effects, classifying them into categories
   for (let e of effects) {
-    e._getSourceName();
-
-    const source = e.data.origin ? fromUuid(e.data.origin) : null;
-    if (source != null) {
-      source.then(function (result) {
-        const itemtype = result != null ? result.type : e.sourceName;
-        if (itemtype === 'ancestry') delete categories.temporary;
-      });
-    }
 
     if (e.data.disabled) categories.inactive.effects.push(e);
     else if (e.isTemporary) categories.temporary.effects.push(e);

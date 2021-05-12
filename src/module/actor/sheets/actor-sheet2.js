@@ -190,16 +190,21 @@ export class DemonlordActorSheet2 extends ActorSheet {
     );
     */
     data.generalEffects = prepareActiveEffectCategories(this.actor.effects, true, CONFIG.DL.ActiveEffectsMenuTypes.ALL);
+
     data.ancestryEffects = prepareActiveEffectCategories(
       this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'ancestry'),
       false,
       CONFIG.DL.ActiveEffectsMenuTypes.NONE,
     );
+    delete data.ancestryEffects.temporary
+
     data.pathEffects = prepareActiveEffectCategories(
       this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'path'),
       false,
       CONFIG.DL.ActiveEffectsMenuTypes.NONE,
     );
+    delete data.pathEffects.temporary
+
     data.talentEffects = prepareActiveEffectCategories(
       this.actor.effects.filter((effect) => effect.data.flags?.sourceType === 'talent'),
       false,
@@ -1088,35 +1093,12 @@ export class DemonlordActorSheet2 extends ActorSheet {
     });
 
     html.on('mousedown', '.talent-uses', (ev) => {
-      const li = ev.currentTarget.closest('.item');
-      const item = duplicate(this.actor.items.get(li.dataset.itemId));
-      const uses = item.data.uses.value;
-      const usesmax = item.data.uses.max;
-
-      if (ev.button == 0) {
-        if (uses == 0 && usesmax == 0) {
-          item.data.addtonextroll = true;
-        } else if (uses < usesmax) {
-          item.data.uses.value = Number(uses) + 1;
-          item.data.addtonextroll = true;
-        } else {
-          item.data.uses.value = 0;
-          item.data.addtonextroll = false;
-        }
-      } else if (ev.button == 2) {
-        if (uses == 0 && usesmax == 0) {
-          item.data.addtonextroll = true;
-        } else if (uses > 0 && uses <= usesmax) {
-          item.data.uses.value = Number(uses) - 1;
-          if (Number(uses) - 1 == 0) item.data.addtonextroll = false;
-          else item.data.addtonextroll = true;
-        } else {
-          item.data.uses.value = 0;
-          item.data.addtonextroll = false;
-        }
-      }
-
-      Item.updateDocuments([item], { parent: this.actor });
+      const li = ev.currentTarget.closest('.item')
+      const talent = this.actor.items.get(li.dataset.itemId)
+      if (ev.button == 0)
+        this.actor.activateTalent(talent, true)
+       else if (ev.button == 2)
+        this.actor.deactivateTalent(talent, 1)
     });
 
     html.on('mousedown', '.spell-uses', (ev) => {
@@ -1175,11 +1157,10 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     // Rollable Talent
     html.find('.talent-roll').click((ev) => {
-      const li = event.currentTarget.closest('.item');
-      this.actor.rollTalent(li.dataset.itemId, {
-        event: event,
-      });
-    });
+      const li = ev.currentTarget.closest('.item');
+      if (ev.button == 0)
+        this.actor.rollTalent(li.dataset.itemId, {event:ev})
+    })
 
     // Rollable Attack Spell
     html.find('.magic-roll').click((ev) => {

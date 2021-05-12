@@ -160,3 +160,17 @@ export default class extends CombatTracker {
     }
   }
 }
+
+
+export function _onUpdateCombat(combatData) {
+  const isRoundAdvanced = (combatData?.current?.round - combatData?.previous?.round) > 0
+  if (isRoundAdvanced){
+    const actors = combatData.data.combatants.map(c => c.actor)
+
+    // Deactivate temporary talents
+    actors.forEach(a => a.items
+      .filter(i => i.data.type === 'talent')
+      .forEach(t => a.deactivateTalent(t, 0, true))
+    )
+  }
+}

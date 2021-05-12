@@ -385,14 +385,7 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     switch (item.type) {
       case 'talent':
         // If a Talent has no uses it's always active
-        if (
-          (updateData.data?.uses?.value == null && updateData.data?.uses?.max == null) ||
-          (updateData.data?.uses?.value === '0' && updateData.data?.uses?.max === '0')
-        ) {
-          updateData['data.addtonextroll'] = true;
-        } else {
-          updateData['data.addtonextroll'] = false;
-        }
+        updateData['data.addtonextroll'] = !updateData.data?.uses?.max;
 
         for (const [k, v] of Object.entries(formData)) {
           if (k === 'altdamagevs') {

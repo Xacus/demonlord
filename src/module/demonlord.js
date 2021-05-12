@@ -11,7 +11,7 @@ import { DemonlordPathSetup } from './item/path-setup.js';
 import { ActionTemplate } from './item/action-template.js';
 import { registerSettings } from './settings.js';
 import { rollInitiative, startCombat, nextTurn, setupTurns } from './init/init.js';
-import combattracker from './combattracker.js';
+import combattracker, {_onUpdateCombat} from './combattracker.js';
 import { preloadHandlebarsTemplates } from './templates.js';
 import * as migrations from './migration.js';
 import * as macros from './macros.js';
@@ -267,6 +267,8 @@ Hooks.on('deleteActiveEffect', async (activeEffect) => {
     }
   }
 });
+
+Hooks.on('updateCombat', _onUpdateCombat)
 
 Hooks.on('renderChatLog', (app, html, data) => DemonlordItem.chatListeners(html));
 

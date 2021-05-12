@@ -248,7 +248,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   const chatData = _getChatBaseData(actor, rollMode)
   if (talentData?.damage || talentData?.vs?.attribute || (!talentData?.vs?.attribute && !talentData?.damage)) {
     const template = 'systems/demonlord08/templates/chat/talent.html';
-    renderTemplate(template, templateData).then((content) => {
+    return renderTemplate(template, templateData).then((content) => {
       chatData.content = content;
       if (game.dice3d && attackRoll != null) {
         if (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) {
