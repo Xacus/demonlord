@@ -60,6 +60,7 @@ export class DLActiveEffects {
       .map((effect) => effect.data._id)
     if (ids.length > 0)
       return document.deleteEmbeddedDocuments('ActiveEffect', ids)
+    return Promise.resolve(1)
   }
 
   /* -------------------------------------------- */
@@ -71,10 +72,6 @@ export class DLActiveEffects {
       document = document.parent
       depth++
     }
-
-    // If the item is not embedded, do not add effects
-    if (depth === 0)
-      return
 
     const effectsToAdd = []
     const effectsToUpd = []
@@ -91,29 +88,29 @@ export class DLActiveEffects {
       effectsToAdd.push(effectData)
     })
 
-    if (effectsToAdd.length > 0) {
-      await this.removeEffectsByOrigin(document, effectsToAdd[0].origin)
-      await document.createEmbeddedDocuments('ActiveEffect', effectDataList.filter(e => e.changes.length > 0))
-    }
+    if (effectsToAdd.length > 0) return Promise.all([
+      this.removeEffectsByOrigin(document, effectsToAdd[0].origin),
+      document.createEmbeddedDocuments('ActiveEffect', effectDataList.filter(e => e.changes.length > 0))
+    ])
 
-    else {
-      const effectsToRem = effectsToUpd.filter(e => e.changes.length === 0).map(e => e._id)
-      await document.deleteEmbeddedDocuments('ActiveEffect', effectsToRem)
-      await document.updateEmbeddedDocuments('ActiveEffect', effectsToUpd, {diff: false})
-    }
+    if (effectsToUpd.length > 0) return Promise.all([
+      document.deleteEmbeddedDocuments('ActiveEffect', effectsToUpd.filter(e => e.changes.length === 0).map(e => e._id)),
+      document.updateEmbeddedDocuments('ActiveEffect', effectsToUpd, {diff: false})
+    ])
 
-    return 1
+    return Promise.resolve(1)
   }
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromAncestry(demonlordItem) {
+  static generateEffectDataFromAncestry(demonlordItem, actor = null) {
     const dataL0 = demonlordItem.data.data
 
     const effectDataL0 = {
       label: demonlordItem.name + " level 0",
       icon: demonlordItem.img,
       origin: demonlordItem.uuid,
+      disabled: false,
       transfer: true,
       duration: {},
       flags: {
@@ -146,6 +143,7 @@ export class DLActiveEffects {
       label: demonlordItem.name + " level 4",
       icon: demonlordItem.img,
       origin: demonlordItem.uuid,
+      disabled: actor.data.data.level < 4,
       transfer: true,
       duration: {},
       flags: {
@@ -162,7 +160,7 @@ export class DLActiveEffects {
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromPath(demonlordItem) {
+  static generateEffectDataFromPath(demonlordItem, actor = null) {
     const pathdata = demonlordItem.data.data
     const effectDataList = []
 
@@ -171,6 +169,7 @@ export class DLActiveEffects {
         label: demonlordItem.name + " level " + pathLevel.level,
         icon: demonlordItem.img,
         origin: demonlordItem.uuid,
+        disabled: actor.data.data.level < pathLevel.level,
         transfer: true,
         duration: {},
         flags: {
@@ -225,7 +224,7 @@ export class DLActiveEffects {
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromTalent(talentItem, pathLevelItem = {}) {
+  static generateEffectDataFromTalent(talentItem, actor = null) {
     const talentData = talentItem.data.data
     const effectData = {
       label: talentItem.name,
@@ -280,7 +279,7 @@ export class DLActiveEffects {
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromArmor(armorItem) {
+  static generateEffectDataFromArmor(armorItem, actor = null) {
     const armorData = armorItem.data.data
     const effectData = {
       label: armorItem.name,

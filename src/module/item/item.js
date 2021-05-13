@@ -17,8 +17,8 @@ export class DemonlordItem extends Item {
   /** @override */
   async update(updateData) {
     await super.update(updateData)
-    this.embedActiveEffects()
-    return 1
+    await this.embedActiveEffects()
+    return this
   }
 
   /** @override */
@@ -26,38 +26,38 @@ export class DemonlordItem extends Item {
     // Add default image
     if (!data?.img && game.settings.get('demonlord08', 'replaceIcons'))
       data.img = CONFIG.DL.defaultItemIcons[data.type] || 'icons/svg/item-bag.svg'
-
     return super.create(data, options);
   }
 
   /** @override */
   _onCreate(data, options, user) {
-    if (this.parent)
-      this.embedActiveEffects()
-    else if (!this.folder)
+    this.embedActiveEffects()
+    if (!this.parent && !this.folder)
       this.sheet.render(true)
   }
 
   async embedActiveEffects() {
+    if (!this.parent)
+      return 0
     let effectDataList = []
+    const actor = this.parent
     switch (this.data.type) {
       case 'ancestry':
-        effectDataList = DLActiveEffects.generateEffectDataFromAncestry(this)
+        effectDataList = DLActiveEffects.generateEffectDataFromAncestry(this, actor)
         break
       case 'path':
-        effectDataList = DLActiveEffects.generateEffectDataFromPath(this)
+        effectDataList = DLActiveEffects.generateEffectDataFromPath(this, actor)
         break
       case 'talent':
-        effectDataList = DLActiveEffects.generateEffectDataFromTalent(this)
+        effectDataList = DLActiveEffects.generateEffectDataFromTalent(this, actor)
         break
       case 'armor':
-        effectDataList = DLActiveEffects.generateEffectDataFromArmor(this)
+        effectDataList = DLActiveEffects.generateEffectDataFromArmor(this, actor)
         break
       default:
         return 0
     }
-    await DLActiveEffects.addUpdateEffectsToActor(this, effectDataList)
-    return 1
+    return  DLActiveEffects.addUpdateEffectsToActor(actor, effectDataList)
   }
 
   /**
