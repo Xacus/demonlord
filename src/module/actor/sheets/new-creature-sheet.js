@@ -28,7 +28,7 @@ export class DemonlordNewCreatureSheet extends DemonlordActorSheet {
   }
 
   /* -------------------------------------------- */
-  // TODO !! listen for afflictions click
+
   /** @override */
   getData() {
     const data = super.getData();
@@ -136,5 +136,38 @@ export class DemonlordNewCreatureSheet extends DemonlordActorSheet {
         Item.updateDocuments([spell], { parent: this.actor });
       });
     }
+  }
+
+  /** @override */
+  activateListeners(html){
+    super.activateListeners(html)
+
+    // Effect
+    html.find('.effect-control').click((ev) => onManageActiveEffect(ev, this.document));
+
+    // Disable Afflictions
+    html.find('.disableafflictions').click((ev) => {
+      DLAfflictions.clearAfflictions(this.actor);
+    });
+
+    // Afflictions checkboxes
+    html.find('.affliction > input').click((ev) => {
+      ev.preventDefault()
+      const input = ev.currentTarget;
+      const checked = input.checked;
+      const name = input.labels[0].innerText;
+
+      if (checked) {
+        const affliction = CONFIG.statusEffects.find((e) => e.label === name);
+        if (!affliction) return false;
+        affliction['flags.core.statusId'] = affliction.id;
+        ActiveEffect.create(affliction, { parent: this.actor });
+        return true;
+      } else {
+        const affliction = this.actor.effects.find((e) => e.data.label === name);
+        if (!affliction) return false;
+        affliction.delete();
+      }
+    });
   }
 }

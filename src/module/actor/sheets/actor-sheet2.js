@@ -524,6 +524,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
 
     // Afflictions checkboxes
     html.find('.affliction > input').click((ev) => {
+      ev.preventDefault()
       const input = ev.currentTarget;
       const checked = input.checked;
       const name = input.labels[0].innerText;
