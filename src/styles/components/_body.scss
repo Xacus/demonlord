@@ -564,7 +564,7 @@
 }
 
 .switchTurn {
-  width: 92px;
+  width: 130px;
   height: 14px;
 }
 
@@ -639,9 +639,9 @@ input:checked + .slider:before {
   transform: translateX(41px);
 }
 .switchTurn input:checked + .slider:before {
-  -webkit-transform: translateX(78px);
-  -ms-transform: translateX(78px);
-  transform: translateX(78px);
+  -webkit-transform: translateX(116px);
+  -ms-transform: translateX(116px);
+  transform: translateX(116px);
 }
 
 .on {
@@ -666,7 +666,7 @@ input:checked + .slider:before {
 .switchTurn .on,
 .switchTurn .off {
   text-align: center;
-  width: 65px;
+  width: 130px;
 }
 
 input:checked + .slider .on {
