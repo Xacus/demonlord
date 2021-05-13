@@ -149,7 +149,6 @@
       "feature",
       "item",
       "language",
-      "mod",
       "path",
       "profession",
       "specialaction",
@@ -346,13 +345,6 @@
     },
     "endoftheround": {
       "templates": ["base"]
-    },
-    "mod": {
-      "active": true,
-      "modtype": "",
-      "modifier": 0,
-      "rounds": 0,
-      "roundsleft": 0
     },
     "ancestry": {
       "description": "",

@@ -11,14 +11,14 @@ import { DemonlordPathSetup } from './item/path-setup.js';
 import { ActionTemplate } from './item/action-template.js';
 import { registerSettings } from './settings.js';
 import { rollInitiative, startCombat, nextTurn, setupTurns } from './init/init.js';
-import combattracker, {_onUpdateCombat} from './combattracker.js';
+import combattracker, { _onUpdateCombat } from './combattracker.js';
 import { preloadHandlebarsTemplates } from './templates.js';
 import * as migrations from './migration.js';
 import * as macros from './macros.js';
 import * as playertracker from './playertrackercontrol.js';
-import {capitalize} from "./utils/utils";
-import {DLAfflictions} from "./active-effects/afflictions";
-import {DLActiveEffectConfig} from "./active-effects/sheets/active-effect-config";
+import { capitalize } from './utils/utils';
+import { DLAfflictions } from './active-effects/afflictions';
+import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config';
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -54,7 +54,7 @@ Hooks.once('init', async function () {
 
   CONFIG.Actor.documentClass = DemonlordActor;
   CONFIG.Item.documentClass = DemonlordItem;
-  CONFIG.ActiveEffect.sheetClass = DLActiveEffectConfig
+  CONFIG.ActiveEffect.sheetClass = DLActiveEffectConfig;
   CONFIG.ui.combat = combattracker;
   CONFIG.time.roundTime = 10;
   // CONFIG.debug.hooks = true
@@ -85,7 +85,6 @@ Hooks.once('init', async function () {
       'ammo',
       'specialaction',
       'endoftheround',
-      'mod',
       'ancestry',
       'profession',
       'language',
@@ -112,13 +111,13 @@ Hooks.once('init', async function () {
     return str.toLowerCase();
   });
 
-  Handlebars.registerHelper('toUpperCase', (str) => str.toUpperCase())
+  Handlebars.registerHelper('toUpperCase', (str) => str.toUpperCase());
 
-  Handlebars.registerHelper('capitalize', (str) => capitalize(str))
+  Handlebars.registerHelper('capitalize', (str) => capitalize(str));
 
-  Handlebars.registerHelper('readonly', (val) => val ? 'readonly' : '')
+  Handlebars.registerHelper('readonly', (val) => (val ? 'readonly' : ''));
 
-  Handlebars.registerHelper('notreadonly', (val) => val ? '' : 'readonly')
+  Handlebars.registerHelper('notreadonly', (val) => (val ? '' : 'readonly'));
 
   Handlebars.registerHelper('json', JSON.stringify);
 
@@ -162,7 +161,7 @@ Hooks.once('setup', function () {
     }, {});
   }
 
-  const effects = DLAfflictions.buildAll()
+  const effects = DLAfflictions.buildAll();
 
   if (!game.settings.get('demonlord08', 'statusIcons')) {
     for (const effect of CONFIG.statusEffects) {
@@ -204,7 +203,7 @@ Hooks.on('preCreateActor', (createData, changes) => {
 });
 
 Hooks.on('createToken', async (tokenDocument) => {
-  return 0
+  return 0;
 });
 
 Hooks.on('updateActor', async (actor, updateData) => {
@@ -228,47 +227,47 @@ Hooks.on('updateActor', async (actor, updateData) => {
 });
 
 Hooks.on('createActiveEffect', async (activeEffect) => {
-  const statusId = activeEffect.data.flags?.core?.statusId
-  const parent = activeEffect?.parent
-  if (statusId && parent){
-    parent.data.data.afflictions = parent.data.data.afflictions || {}
-    parent.data.data.afflictions[statusId] = true
+  const statusId = activeEffect.data.flags?.core?.statusId;
+  const parent = activeEffect?.parent;
+  if (statusId && parent) {
+    parent.data.data.afflictions = parent.data.data.afflictions || {};
+    parent.data.data.afflictions[statusId] = true;
 
     // If asleep, also add prone and uncoscious
     if (statusId === 'asleep') {
-      if (!parent.effects.find(e => e.data.flags?.core?.statusId === 'prone')) {
-        const prone = CONFIG.statusEffects.find(e => e.id === 'prone')
-        prone["flags.core.statusId"] = 'prone'
-        await ActiveEffect.create(prone, {parent: parent})
+      if (!parent.effects.find((e) => e.data.flags?.core?.statusId === 'prone')) {
+        const prone = CONFIG.statusEffects.find((e) => e.id === 'prone');
+        prone['flags.core.statusId'] = 'prone';
+        await ActiveEffect.create(prone, { parent: parent });
       }
 
-      if (!parent.effects.find(e => e.data.flags?.core?.statusId === 'unconscious')) {
-        const unconscious = CONFIG.statusEffects.find(e => e.id === 'unconscious')
-        unconscious["flags.core.statusId"] = 'unconscious'
-        await ActiveEffect.create(unconscious, {parent: parent})
+      if (!parent.effects.find((e) => e.data.flags?.core?.statusId === 'unconscious')) {
+        const unconscious = CONFIG.statusEffects.find((e) => e.id === 'unconscious');
+        unconscious['flags.core.statusId'] = 'unconscious';
+        await ActiveEffect.create(unconscious, { parent: parent });
       }
     }
   }
 });
 
 Hooks.on('deleteActiveEffect', async (activeEffect) => {
-  const statusId = activeEffect.data.flags?.core?.statusId
-  const parent = activeEffect?.parent
-  if (statusId && parent){
-    delete parent.data.data.afflictions[statusId]
+  const statusId = activeEffect.data.flags?.core?.statusId;
+  const parent = activeEffect?.parent;
+  if (statusId && parent) {
+    delete parent.data.data.afflictions[statusId];
 
     // If asleep, also remove prone and uncoscious
     if (statusId === 'asleep') {
-      const prone = parent.effects.find(e => e.data.flags?.core?.statusId === 'prone')
-      prone?.delete()
+      const prone = parent.effects.find((e) => e.data.flags?.core?.statusId === 'prone');
+      prone?.delete();
 
-      const unconscious =  parent.effects.find(e => e.data.flags?.core?.statusId === 'unconscious')
-      unconscious?.delete()
+      const unconscious = parent.effects.find((e) => e.data.flags?.core?.statusId === 'unconscious');
+      unconscious?.delete();
     }
   }
 });
 
-Hooks.on('updateCombat', _onUpdateCombat)
+Hooks.on('updateCombat', _onUpdateCombat);
 
 Hooks.on('renderChatLog', (app, html, data) => DemonlordItem.chatListeners(html));
 
@@ -367,13 +366,14 @@ Hooks.once('dragRuler.ready', (SpeedProvider) => {
     }
 
     getSpeedModifier(token) {
-      const itemsHeavy = token.actor.items.filter(item => Number(item.data.data.strengthmin) > token.actor.data.data.attributes.strength.value)
+      const itemsHeavy = token.actor.items.filter(
+        (item) => Number(item.data.data.strengthmin) > token.actor.data.data.attributes.strength.value,
+      );
       if (itemsHeavy.length > 0) {
-        return -2
+        return -2;
       }
-      return 0
+      return 0;
     }
-
 
     getRanges(token) {
       const baseSpeed = token.actor.data.data.characteristics.speed + this.getSpeedModifier(token);
