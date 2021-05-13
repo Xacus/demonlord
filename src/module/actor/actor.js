@@ -99,6 +99,11 @@ export class DemonlordActor extends Actor {
     }
   }
 
+  /** @override */
+  _onUpdate(changed, options, user) {
+    super._onUpdate(changed, options, user)
+    this.setUsesOnSpells()
+  }
   /* -------------------------------------------- */
   /*  Rolls and Actions                           */
   /* -------------------------------------------- */
@@ -262,7 +267,7 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  rollSpell(itemID, options = {event: null}) {
+  async rollSpell(itemID, options = {event: null}) {
     const item = this.items.get(itemID)
     const isAttack = item.data.spelltype === game.i18n.localize('DL.SpellTypeAttack')
     const attackAttribute = item.data.data?.action?.attack?.toLowerCase()
@@ -276,14 +281,14 @@ export class DemonlordActor extends Actor {
       return
 
     // Check uses
-    const uses = parseInt(item.data?.castings?.value)
-    const usesMax = parseInt(item.data?.castings?.max)
-    // TODO: if usesmax == 0 -> auto generate max uses?
+    const uses = parseInt(item.data.data?.castings?.value) || 0
+    const usesMax = parseInt(item.data.data?.castings?.max) || 0
 
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
       return;
     }
+    else await item.update({'data.castings.value': uses+1}, {parent: this})
 
     if (isAttack && attackAttribute)
       launchRollDialog(
@@ -298,7 +303,7 @@ export class DemonlordActor extends Actor {
       this.useSpell(item, 0, 0)
   }
 
-  useSpell(spell, inputBoons, inputModifier) {
+  async useSpell(spell, inputBoons, inputModifier) {
     const target = this.getTarget()
     const spellData = spell.data.data
 
@@ -580,25 +585,19 @@ export class DemonlordActor extends Actor {
     }
   }
 
-  async setUsesOnSpells(data) {
-    const power = data.data.characteristics.power;
-
-    for (let rank = 0; rank <= power; rank++) {
-      const spells = this.getEmbeddedCollection('Item').filter(
-        (e) => e.type === 'spell' && parseInt(e.data.rank) === rank,
-      );
-      spells.forEach((spell) => {
-        spell = duplicate(spell);
-        const rank = spell.data.rank;
-        const usesMax = CONFIG.DL.spelluses[power].split(',')[rank];
-
-        if (spell.data.castings.value === '') {
-          spell.data.castings.value = '0';
-        }
-        spell.data.castings.max = usesMax;
-
-        this.updateEmbeddedDocuments('Item', spell.data);
-      });
-    }
+  setUsesOnSpells() {
+    const power = this.data.data.characteristics.power;
+    const diff = []
+    this.data.items
+      .filter(i => i.type === 'spell')
+      .map(s => {
+        const rank = s.data.data.rank
+        const currentMax = s.data.data.castings.max
+        const newMax = CONFIG.DL.spelluses[power]?.[rank] ?? 0
+        if (currentMax !== newMax)
+          diff.push({_id: s.id, 'data.castings.max': newMax})
+      })
+    if (diff.length > 0)
+      return this.updateEmbeddedDocuments('Item', diff)
   }
 }

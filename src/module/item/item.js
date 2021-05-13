@@ -16,6 +16,13 @@ export class DemonlordItem extends Item {
 
   /** @override */
   async update(updateData) {
+    // Set spell uses
+    if (this.type === 'spell' && this.parent) {
+      const power = +this.parent.data?.data?.characteristics.power || 0
+      const rank = updateData?.data?.rank ?? +this.data.data.rank
+      updateData['data.castings.max'] = CONFIG.DL.spelluses[power]?.[rank] ?? updateData?.data?.castings?.max ?? 0
+    }
+
     await super.update(updateData)
     await this.embedActiveEffects()
     return this
@@ -67,6 +74,10 @@ export class DemonlordItem extends Item {
    */
   async roll() {
   }
+
+  /* -------------------------------------------- */
+  /*  Chat methods                                */
+  /* -------------------------------------------- */
 
   static chatListeners(html) {
     html.on('click', '.roll-healing', this._onChatApplyHealing.bind(this));

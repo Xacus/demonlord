@@ -290,12 +290,8 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   let uses = parseInt(spellData?.castings?.value)
   let usesMax = parseInt(spellData?.castings?.max);
   let usesText = ''
-  if (uses >= 0 && usesMax > 0) {
-    spell.data.data.castings.value = uses < usesMax ? '' + Number(++uses) : '' + usesMax
-    //Item.updateDocuments([spell], {parent: actor}) //FIXME
+  if (uses >= 0 && usesMax > 0)
     usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesMax
-  }
-
 
   let resultText = targetNumber && attackRoll?.total >= parseInt(targetNumber)
       ? game.i18n.localize('DL.DiceResultSuccess')

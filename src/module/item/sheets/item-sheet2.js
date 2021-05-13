@@ -445,9 +445,10 @@ export class DemonlordItemSheetDefault extends ItemSheet {
             }
           }
         }
-        await this.object.update({
-          'data.action.damagetypes': duplicate(this.item.data.data.action.damagetypes),
-        });
+        updateData['data.action.damagetypes'] = duplicate(this.item.data.data.action.damagetypes)
+        // await this.object.update({
+        //   'data.action.damagetypes': duplicate(this.item.data.data.action.damagetypes),
+        // });
         break;
       case 'ancestry':
         // Update Spell uses when power changes
