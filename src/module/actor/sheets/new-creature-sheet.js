@@ -28,7 +28,7 @@ export class DemonlordNewCreatureSheet extends DemonlordActorSheet {
   }
 
   /* -------------------------------------------- */
-
+  // TODO !! listen for afflictions click
   /** @override */
   getData() {
     const data = super.getData();
@@ -42,7 +42,7 @@ export class DemonlordNewCreatureSheet extends DemonlordActorSheet {
     }
 
     data.effects = prepareActiveEffectCategories(this.actor.effects, true, CONFIG.DL.ActiveEffectsMenuTypes.ALL);
-
+    data.flags = this.actor.data.flags
     return data;
   }
 

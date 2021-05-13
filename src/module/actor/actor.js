@@ -18,18 +18,12 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
   /*  Data preparation                            */
-
   /* -------------------------------------------- */
 
   /** @override */
   prepareData() {
-    if (!this.data.img) this.data.img = CONST.DEFAULT_TOKEN;
-    if (!this.data.name) this.data.name = 'New ' + this.entity;
-    DLActiveEffects.toggleEffectsByActorRequirements(this);
-    this.prepareBaseData();
-    this.prepareEmbeddedEntities();
-    // this.applyActiveEffects()  call already present in prepareEmbeddedEntities as of 0.8.1
-    this.prepareDerivedData();
+    DLActiveEffects.toggleEffectsByActorRequirements(this)
+    super.prepareData()
   }
 
   /* -------------------------------------------- */

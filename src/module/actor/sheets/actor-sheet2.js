@@ -226,6 +226,7 @@ export class DemonlordActorSheet2 extends ActorSheet {
     if (this.actor.data.type == 'character') {
       this._prepareCharacterItems(data);
     }
+    data.flags = this.actor.data.flags
 
     return data;
   }

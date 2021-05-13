@@ -58,15 +58,16 @@ export class DLActiveEffects {
     const ids = document.getEmbeddedCollection('ActiveEffect')
       .filter((effect) => effect.data?.origin?.includes(originID))
       .map((effect) => effect.data._id)
-    return document.deleteEmbeddedDocuments('ActiveEffect', ids)
+    if (ids.length > 0)
+      return document.deleteEmbeddedDocuments('ActiveEffect', ids)
   }
 
   /* -------------------------------------------- */
 
   static async addUpdateEffectsToActor(document, effectDataList) {
-    // Traverse parents
+    // Traverse to parent actor
     let depth = 0
-    while (document.parent && depth < 20) {
+    while (document.documentName !== 'Actor' && document.parent && depth < 20) {
       document = document.parent
       depth++
     }
@@ -320,6 +321,7 @@ export class DLActiveEffects {
           disabled: !effect.data.disabled
         })
       )
-    return actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
+    if (notMetEffectsData.length > 0)
+      return actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
   }
 }

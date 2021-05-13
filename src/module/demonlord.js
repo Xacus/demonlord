@@ -230,8 +230,7 @@ Hooks.on('createActiveEffect', async (activeEffect) => {
   const statusId = activeEffect.data.flags?.core?.statusId;
   const parent = activeEffect?.parent;
   if (statusId && parent) {
-    parent.data.data.afflictions = parent.data.data.afflictions || {};
-    parent.data.data.afflictions[statusId] = true;
+    await parent.setFlag('demonlord08', statusId, true)
 
     // If asleep, also add prone and uncoscious
     if (statusId === 'asleep') {
@@ -254,15 +253,15 @@ Hooks.on('deleteActiveEffect', async (activeEffect) => {
   const statusId = activeEffect.data.flags?.core?.statusId;
   const parent = activeEffect?.parent;
   if (statusId && parent) {
-    delete parent.data.data.afflictions[statusId];
+    await parent.unsetFlag('demonlord08', statusId)
 
     // If asleep, also remove prone and uncoscious
     if (statusId === 'asleep') {
       const prone = parent.effects.find((e) => e.data.flags?.core?.statusId === 'prone');
-      prone?.delete();
+      await prone?.delete();
 
       const unconscious = parent.effects.find((e) => e.data.flags?.core?.statusId === 'unconscious');
-      unconscious?.delete();
+      await unconscious?.delete();
     }
   }
 });
