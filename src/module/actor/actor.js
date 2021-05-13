@@ -34,28 +34,6 @@ export class DemonlordActor extends Actor {
    */
   prepareBaseData() {
     const data = this.data.data;
-
-    data.attributes.strength.value = 10;
-    data.attributes.agility.value = 10;
-    data.attributes.intellect.value = 10;
-    data.attributes.will.value = 10;
-    data.characteristics.speed = 10;
-
-    // Zero-values
-    data.attributes.strength.modifier = 0;
-    data.attributes.agility.modifier = 0;
-    data.attributes.intellect.modifier = 0;
-    data.attributes.will.modifier = 0;
-    data.attributes.perception.value = 0; // override perception value, since it's derived from will
-    data.attributes.perception.modifier = 0;
-    data.characteristics.health.max = 0;
-    data.characteristics.health.healingrate = 0;
-    data.characteristics.defense = 0;
-    data.characteristics.insanity.max = 0;
-    data.characteristics.power = 0;
-    data.characteristics.size = '1';
-
-    // Custom properties
     setProperty(data, 'bonuses', {
       attack: {
         boons: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
@@ -92,31 +70,33 @@ export class DemonlordActor extends Actor {
     const data = this.data.data;
 
     // Override Perception initial value
-    data.attributes.perception.value += data.attributes.will.value;
+    data.attributes.perception.value += data.attributes.will.value - 10;
 
     // Bound attribute value and calculate modifiers
     for (const [key, attribute] of Object.entries(data.attributes)) {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value));
-      attribute.modifier += attribute.value - 10;
+      attribute.modifier = attribute.value - 10;
       attribute.label = key.toUpperCase();
     }
-
-    // Health and Healing Rate
-    data.characteristics.health.max += data.attributes.strength.value;
-    data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4);
-
-    // Insanity
-    data.characteristics.insanity.max += data.attributes.will.value;
-
-    // Armor
-    data.characteristics.defense +=
-      data.bonuses.armor.fixed || data.attributes.agility.value + data.bonuses.armor.agility;
-    data.characteristics.defense += data.bonuses.armor.defense;
-    data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense;
-
     // Speed
     data.characteristics.speed = Math.max(0, data.characteristics.speed);
+
+    // Maluses
     if (data.maluses.halfSpeed) data.characteristics.speed = Math.floor(data.characteristics.speed / 2);
+
+    // --- Character specific data ---
+    if (this.data.type === 'character') {
+      // Health and Healing Rate
+      data.characteristics.health.max += data.attributes.strength.value;
+      data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4);
+      // Insanity
+      data.characteristics.insanity.max += data.attributes.will.value;
+      // Armor
+      data.characteristics.defense += data.bonuses.armor.fixed
+        || data.attributes.agility.value + data.bonuses.armor.agility;
+      data.characteristics.defense += data.bonuses.armor.defense;
+      data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense;
+    }
   }
 
   /* -------------------------------------------- */
