@@ -139,12 +139,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
         }
       }
       actor.data.data.characteristics.power = newPower;
-      this.actor.setUsesOnSpells(actor.data);
-    }
-
-    // Update Spell uses when power changes
-    if (updateData.data.characteristics.power) {
-      this.actor.setUsesOnSpells(actor.data);
     }
 
     return this.document.update(formData);

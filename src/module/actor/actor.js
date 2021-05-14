@@ -22,7 +22,6 @@ export class DemonlordActor extends Actor {
 
   /** @override */
   prepareData() {
-    DLActiveEffects.toggleEffectsByActorRequirements(this)
     super.prepareData()
   }
 
@@ -99,11 +98,39 @@ export class DemonlordActor extends Actor {
     }
   }
 
+  /* -------------------------------------------- */
+  /*  _onOperation                                */
+  /* -------------------------------------------- */
+
   /** @override */
   _onUpdate(changed, options, user) {
     super._onUpdate(changed, options, user)
-    this.setUsesOnSpells()
+    this._handleEmbeddedDocuments()
   }
+
+  async _onCreateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
+    await super._onCreateEmbeddedDocuments(embeddedName, documents, result, options, userId)
+    await this._handleEmbeddedDocuments()
+  }
+
+  async _onDeleteEmbeddedDocuments(embeddedName, documents, result, options, userId) {
+    await super._onDeleteEmbeddedDocuments(embeddedName, documents, result, options, userId)
+    await this._handleEmbeddedDocuments()
+  }
+
+  async _onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
+    await super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId)
+    await this._handleEmbeddedDocuments()
+  }
+
+  async _handleEmbeddedDocuments() {
+    return Promise.all([
+      await DLActiveEffects.toggleEffectsByActorRequirements(this),
+      await this.setUsesOnSpells(),
+      await this.setEncumbrance(),
+    ])
+  }
+
   /* -------------------------------------------- */
   /*  Rolls and Actions                           */
   /* -------------------------------------------- */
@@ -599,5 +626,20 @@ export class DemonlordActor extends Actor {
       })
     if (diff.length > 0)
       return this.updateEmbeddedDocuments('Item', diff)
+  }
+
+  setEncumbrance() {
+    const diff = []
+    const notMetItemNames = this.data.items
+      .filter(i => i.data?.data?.strengthmin > this.data.data.attributes.strength.value)
+      .filter(i => i.data?.data?.wear)
+      .map(i => i.data.name)
+    const currentItemNames = this.effects.find(e => e.data.origin === 'encumbrance')?.data.flags?.sourceItemNames || []
+
+    if (currentItemNames.length === notMetItemNames.length) return 0
+    if (notMetItemNames.length === 0)
+      return DLActiveEffects.removeEffectsByOrigin(this, 'encumbrance')
+    else
+      return DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }
 }

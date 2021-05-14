@@ -54,12 +54,12 @@ export class DLActiveEffects {
 
   /* -------------------------------------------- */
 
-  static async removeEffectsByOrigin(document, originID) {
+  static async removeEffectsByOrigin(document, originID, options = {}) {
     const ids = document.getEmbeddedCollection('ActiveEffect')
       .filter((effect) => effect.data?.origin?.includes(originID))
       .map((effect) => effect.data._id)
     if (ids.length > 0)
-      return document.deleteEmbeddedDocuments('ActiveEffect', ids)
+      return document.deleteEmbeddedDocuments('ActiveEffect', ids, options)
     return Promise.resolve(1)
   }
 
@@ -89,13 +89,13 @@ export class DLActiveEffects {
     })
 
     if (effectsToAdd.length > 0) return Promise.all([
-      this.removeEffectsByOrigin(document, effectsToAdd[0].origin),
-      document.createEmbeddedDocuments('ActiveEffect', effectDataList.filter(e => e.changes.length > 0))
+      await this.removeEffectsByOrigin(document, effectsToAdd[0].origin, {render: false}),
+      await document.createEmbeddedDocuments('ActiveEffect', effectDataList.filter(e => e.changes.length > 0), {render:false})
     ])
 
     if (effectsToUpd.length > 0) return Promise.all([
-      document.deleteEmbeddedDocuments('ActiveEffect', effectsToUpd.filter(e => e.changes.length === 0).map(e => e._id)),
-      document.updateEmbeddedDocuments('ActiveEffect', effectsToUpd, {diff: false})
+      await document.deleteEmbeddedDocuments('ActiveEffect', effectsToUpd.filter(e => e.changes.length === 0).map(e => e._id), {render:false}),
+      await document.updateEmbeddedDocuments('ActiveEffect', effectsToUpd, {diff: false, render:false})
     ])
 
     return Promise.resolve(1)
@@ -322,5 +322,34 @@ export class DLActiveEffects {
       )
     if (notMetEffectsData.length > 0)
       return actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
+  }
+
+  /* -------------------------------------------- */
+
+  static addEncumbrance(actor, itemNames) {
+    let effectLabel = game.i18n.localize('DL.encumbered')
+      + ' (' + (itemNames[0] || '')
+      + itemNames.splice(1).reduce((acc, name) => acc + ' ,' + name, '')
+      + ')'
+
+    const n = -itemNames.length
+    return DLActiveEffects.addUpdateEffectsToActor(actor, [{
+        label: effectLabel,
+        icon: 'systems/demonlord08/assets/icons/effects/fatigued.svg',
+        transfer: false,
+        origin: 'encumbrance',
+        flags: {
+          sourceItemNames: itemNames,
+          sourceType: 'encumbrance',
+          permanent: true
+        },
+        changes: [
+          addEffect('data.bonuses.attack.boons.strength', n),
+          addEffect('data.bonuses.attack.boons.agility', n),
+          addEffect('data.bonuses.challenge.boons.strength', n),
+          addEffect('data.bonuses.challenge.boons.strength', n),
+          addEffect('data.characteristics.speed', n * 2),
+        ].filter(falsyChangeFilter)
+      }])
   }
 }

@@ -547,6 +547,7 @@
   "DL.retreat": "Retreat",
   "DL.rush": "Rush",
   "DL.stabilize": "Stabilize",
+  "DL.encumbered": "Encumbered",
   "DL.GMTools": "GM Tools",
   "DL.ToogleBarView": "Toogle Barview",
   "DL.AfflictionsAsleep": "A sleeping creature is prone and unconscious. Another creature that can reach it can use an action to wake it up. Unless otherwise noted, taking damage removes this affliction.",
