@@ -329,17 +329,21 @@ export class DLActiveEffects {
   static addEncumbrance(actor, itemNames) {
     let effectLabel = game.i18n.localize('DL.encumbered')
       + ' (' + (itemNames[0] || '')
-      + itemNames.splice(1).reduce((acc, name) => acc + ' ,' + name, '')
+      + itemNames.slice(1).reduce((acc, name) => acc + ', ' + name, '')
       + ')'
 
     const n = -itemNames.length
-    return DLActiveEffects.addUpdateEffectsToActor(actor, [{
+    const oldEffect = actor.effects.find(e => e.data.origin === 'encumbrance')
+    if (!oldEffect && !n)
+      return
+
+    const effectData = {
         label: effectLabel,
         icon: 'systems/demonlord08/assets/icons/effects/fatigued.svg',
         transfer: false,
         origin: 'encumbrance',
         flags: {
-          sourceItemNames: itemNames,
+          sourceItemsLength: itemNames.length,
           sourceType: 'encumbrance',
           permanent: true
         },
@@ -349,7 +353,12 @@ export class DLActiveEffects {
           addEffect('data.bonuses.challenge.boons.strength', n),
           addEffect('data.bonuses.challenge.boons.strength', n),
           addEffect('data.characteristics.speed', n * 2),
-        ].filter(falsyChangeFilter)
-      }])
+        ]
+    }
+
+    if (!oldEffect)
+      return ActiveEffect.create(effectData, {parent: actor})
+    else
+      oldEffect.update(effectData, {parent: actor})
   }
 }

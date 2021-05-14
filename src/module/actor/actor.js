@@ -108,27 +108,10 @@ export class DemonlordActor extends Actor {
     this._handleEmbeddedDocuments()
   }
 
-  async _onCreateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
-    await super._onCreateEmbeddedDocuments(embeddedName, documents, result, options, userId)
-    await this._handleEmbeddedDocuments()
-  }
-
-  async _onDeleteEmbeddedDocuments(embeddedName, documents, result, options, userId) {
-    await super._onDeleteEmbeddedDocuments(embeddedName, documents, result, options, userId)
-    await this._handleEmbeddedDocuments()
-  }
-
-  async _onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
-    await super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId)
-    await this._handleEmbeddedDocuments()
-  }
-
   async _handleEmbeddedDocuments() {
-    return Promise.all([
-      await DLActiveEffects.toggleEffectsByActorRequirements(this),
-      await this.setUsesOnSpells(),
-      await this.setEncumbrance(),
-    ])
+    await DLActiveEffects.toggleEffectsByActorRequirements(this)
+    await this.setUsesOnSpells()
+    await this.setEncumbrance()
   }
 
   /* -------------------------------------------- */
@@ -629,17 +612,10 @@ export class DemonlordActor extends Actor {
   }
 
   setEncumbrance() {
-    const diff = []
-    const notMetItemNames = this.data.items
+    const notMetItemNames = this.getEmbeddedCollection('Item')
       .filter(i => i.data?.data?.strengthmin > this.data.data.attributes.strength.value)
       .filter(i => i.data?.data?.wear)
       .map(i => i.data.name)
-    const currentItemNames = this.effects.find(e => e.data.origin === 'encumbrance')?.data.flags?.sourceItemNames || []
-
-    if (currentItemNames.length === notMetItemNames.length) return 0
-    if (notMetItemNames.length === 0)
-      return DLActiveEffects.removeEffectsByOrigin(this, 'encumbrance')
-    else
-      return DLActiveEffects.addEncumbrance(this, notMetItemNames)
+    return DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }
 }
