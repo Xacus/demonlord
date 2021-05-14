@@ -358,7 +358,9 @@ export class DLActiveEffects {
 
     if (!oldEffect)
       return ActiveEffect.create(effectData, {parent: actor})
-    else
+    else if (n !== 0)
       oldEffect.update(effectData, {parent: actor})
+    else
+      oldEffect.delete({parent: actor})
   }
 }

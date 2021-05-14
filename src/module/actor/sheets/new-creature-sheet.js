@@ -4,6 +4,7 @@ import { DL } from '../../config.js';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../../active-effects/effects.js';
 import { DLAfflictions } from '../../active-effects/afflictions';
 import { DLActiveEffects } from '../../active-effects/item-effects';
+import {buildOverview} from "../../chat/effect-messages";
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -42,7 +43,9 @@ export class DemonlordNewCreatureSheet extends DemonlordActorSheet {
     }
 
     data.effects = prepareActiveEffectCategories(this.actor.effects, true, CONFIG.DL.ActiveEffectsMenuTypes.ALL);
+    data.effectsOverview = buildOverview(this.actor)
     data.flags = this.actor.data.flags
+
     return data;
   }
 

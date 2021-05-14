@@ -27,67 +27,72 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
     };
   }
 
-  static _availableChangeKeys = {
+  static _availableChangeKeys = {}
+
+  static initializeChangeKeys = () => DLActiveEffectConfig._availableChangeKeys = {
     // <key> : <label>
     // TODO: localization
     // No change
     '': '-',
     // Attributes
-    'data.attributes.strength.value': 'data.attributes.strength.value',
-    'data.attributes.agility.value': 'data.attributes.agility.value',
-    'data.attributes.intellect.value': 'data.attributes.intellect.value',
-    'data.attributes.will.value': 'data.attributes.will.value',
-    'data.attributes.perception.value': 'data.attributes.perception.value',
+    'data.attributes.strength.value':    i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeStrength'),
+    'data.attributes.agility.value':     i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeAgility'),
+    'data.attributes.intellect.value':   i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeIntellect'),
+    'data.attributes.will.value':        i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeWill'),
+    'data.attributes.perception.value':  i18n('DL.SpellAttribute') + ' - ' + i18n('DL.CharPerception'),
     // Characteristics
-    'data.characteristics.speed': 'data.characteristics.speed',
-    'data.characteristics.defense': 'data.characteristics.defense',
-    'data.characteristics.power': 'data.characteristics.power',
-    'data.characteristics.size': 'data.characteristics.size',
-    'data.characteristics.health.max': 'data.characteristics.health.max',
-    'data.characteristics.health.healingrate': 'data.characteristics.health.healingrate',
-    'data.characteristics.health.insanity.max': 'data.characteristics.health.insanity.max',
+    'data.characteristics.speed':   i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSpeed'),
+    'data.characteristics.defense': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharDefense'),
+    'data.characteristics.power':   i18n('DL.Characteristics') + ' - ' + i18n('DL.CharPower'),
+    'data.characteristics.size':    i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSize'),
+    'data.characteristics.health.max':          i18n('DL.Characteristics') + ' - ' + i18n('DL.CharHealth'),
+    'data.characteristics.health.healingrate':  i18n('DL.Characteristics') + ' - ' + i18n('DL.CharHealthHealingRating'),
+    'data.characteristics.health.insanity.max': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharInsanity'),
     // Attack bonuses
-    'data.bonuses.attack.boons.strength': 'data.bonuses.attack.boons.strength',
-    'data.bonuses.attack.boons.agility': 'data.bonuses.attack.boons.agility',
-    'data.bonuses.attack.boons.intellect': 'data.bonuses.attack.boons.intellect',
-    'data.bonuses.attack.boons.will': 'data.bonuses.attack.boons.will',
-    'data.bonuses.attack.boons.perception': 'data.bonuses.attack.boons.perception',
-    'data.bonuses.attack.damage': 'data.bonuses.attack.damage',
-    'data.bonuses.attack.plus20Damage': 'data.bonuses.attack.plus20Damage',
-    'data.bonuses.attack.extraEffect': 'data.bonuses.attack.extraEffect',
+    'data.bonuses.attack.boons.strength':   i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
+    'data.bonuses.attack.boons.agility':    i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
+    'data.bonuses.attack.boons.intellect':  i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
+    'data.bonuses.attack.boons.will':       i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
+    'data.bonuses.attack.boons.perception': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.CharPerception'),
+    'data.bonuses.attack.damage':       i18n('DL.TalentExtraDamage'),
+    'data.bonuses.attack.plus20Damage': i18n('DL.TalentExtraDamage20plus'),
+    'data.bonuses.attack.extraEffect':  i18n('DL.TalentExtraEffect'),
     // Challenge bonuses
-    'data.bonuses.challenge.boons.strength': 'data.bonuses.challenge.boons.strength',
-    'data.bonuses.challenge.boons.agility': 'data.bonuses.challenge.boons.agility',
-    'data.bonuses.challenge.boons.intellect': 'data.bonuses.challenge.boons.intellect',
-    'data.bonuses.challenge.boons.will': 'data.bonuses.challenge.boons.will',
-    'data.bonuses.challenge.boons.perception': 'data.bonuses.challenge.boons.perception',
+    'data.bonuses.challenge.boons.strength':   i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
+    'data.bonuses.challenge.boons.agility':    i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
+    'data.bonuses.challenge.boons.intellect':  i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
+    'data.bonuses.challenge.boons.will':       i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
+    'data.bonuses.challenge.boons.perception': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.CharPerception'),
     // Armor bonuses
-    'data.bonuses.armor.fixed': 'data.bonuses.armor.fixed',
-    'data.bonuses.armor.agility': 'data.bonuses.armor.agility',
-    'data.bonuses.armor.defense': 'data.bonuses.armor.defense',
-    'data.bonuses.armor.override': 'data.bonuses.armor.override',
+    'data.bonuses.armor.fixed':    i18n('DL.ArmorTitle') + ' - ' + i18n('DL.ArmorFixed'),
+    'data.bonuses.armor.agility':  i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Agility'),
+    'data.bonuses.armor.defense':  i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Defense'),
+    'data.bonuses.armor.override': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.override'),
     // Defense
-    'data.bonuses.defense.boons.spell': 'data.bonuses.defense.boons.spell',
-    'data.bonuses.defense.boons.defense': 'data.bonuses.defense.boons.defense',
-    'data.bonuses.defense.boons.weapon': 'data.bonuses.defense.boons.weapon',
-    'data.bonuses.defense.boons.strength': 'data.bonuses.defense.boons.strength',
-    'data.bonuses.defense.boons.agility': 'data.bonuses.defense.boons.agility',
-    'data.bonuses.defense.boons.intellect': 'data.bonuses.defense.boons.intellect',
-    'data.bonuses.defense.boons.will': 'data.bonuses.defense.boons.will',
-    'data.bonuses.defense.boons.perception': 'data.bonuses.defense.boons.perception',
+    'data.bonuses.defense.boons.spell':      i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.MagicSpellsTitle'),
+    'data.bonuses.defense.boons.weapon':     i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.WeaponTitle'),
+    'data.bonuses.defense.boons.defense':    i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.SpellTypeDefense'),
+    'data.bonuses.defense.boons.strength':   i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
+    'data.bonuses.defense.boons.agility':    i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
+    'data.bonuses.defense.boons.intellect':  i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
+    'data.bonuses.defense.boons.will':       i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
+    'data.bonuses.defense.boons.perception': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.CharPerception'),
     // AutoFail challenge malus
-    'data.maluses.autoFail.challenge.strength': 'data.maluses.autoFail.challenge.strength',
-    'data.maluses.autoFail.challenge.agility': 'data.maluses.autoFail.challenge.agility',
-    'data.maluses.autoFail.challenge.intellect': 'data.maluses.autoFail.challenge.intellect',
-    'data.maluses.autoFail.challenge.will': 'data.maluses.autoFail.challenge.will',
-    'data.maluses.autoFail.challenge.perception': 'data.maluses.autoFail.challenge.perception',
+    'data.maluses.autoFail.challenge.strength':   i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeStrength'),
+    'data.maluses.autoFail.challenge.agility':    i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeAgility'),
+    'data.maluses.autoFail.challenge.intellect':  i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeIntellect'),
+    'data.maluses.autoFail.challenge.will':       i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeWill'),
+    'data.maluses.autoFail.challenge.perception': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.CharPerception'),
     // AutoFail action malus
-    'data.maluses.autoFail.action.strength': 'data.maluses.autoFail.action.strength',
-    'data.maluses.autoFail.action.agility': 'data.maluses.autoFail.action.agility',
-    'data.maluses.autoFail.action.intellect': 'data.maluses.autoFail.action.intellect',
-    'data.maluses.autoFail.action.will': 'data.maluses.autoFail.action.will',
-    'data.maluses.autoFail.action.perception': 'data.maluses.autoFail.action.perception',
+    'data.maluses.autoFail.action.strength':   i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeStrength'),
+    'data.maluses.autoFail.action.agility':    i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeAgility'),
+    'data.maluses.autoFail.action.intellect':  i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeIntellect'),
+    'data.maluses.autoFail.action.will':       i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeWill'),
+    'data.maluses.autoFail.action.perception': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.CharPerception'),
     // Other maluses
-    'data.maluses.noFastTurn': 'data.maluses.noFastTurn',
+    'data.maluses.halfSpeed':  i18n('DL.Malus') + ' - ' + i18n('DL.HalfSpeed'),
+    'data.maluses.noFastTurn': i18n('DL.Malus') + ' - ' + i18n('DL.NoFastTurns'),
   }
 }
+
+const i18n = (s) => game.i18n.localize(s)

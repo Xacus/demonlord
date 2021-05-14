@@ -4,6 +4,7 @@ import { onManageActiveEffect, prepareActiveEffectCategories } from '../../activ
 import { DLAfflictions } from '../../active-effects/afflictions';
 import { DLActiveEffects } from '../../active-effects/item-effects';
 import {DemonlordItem} from "../../item/item";
+import {buildOverview} from "../../chat/effect-messages";
 
 export class DemonlordActorSheet2 extends ActorSheet {
   constructor(...args) {
@@ -215,6 +216,8 @@ export class DemonlordActorSheet2 extends ActorSheet {
       CONFIG.DL.ActiveEffectsMenuTypes.EDIT,
     );
     data.effects = prepareActiveEffectCategories(this.actor.effects, true, CONFIG.DL.ActiveEffectsMenuTypes.ALL);
+
+    data.effectsOverview = buildOverview(this.actor)
 
     // Prepare items
     if (this.actor.data.type == 'character') {

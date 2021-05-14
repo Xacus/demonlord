@@ -165,6 +165,7 @@
   "DL.TalentUsesMax": "Max",
   "DL.TalentAttackBoonsBanes": "Attack Boons/Banes",
   "DL.TalentChallengeBoonsBanes": "Challenge Boons/Banes",
+  "DL.TalentDefenseBoonsBanes": "Defense Boons/Banes",
   "DL.TalentExtraDamage": "Extra Damage",
   "DL.TalentExtraDamage20plus": "Extra Damage 20+",
   "DL.TalentVSRoll": "VS Roll",
@@ -658,5 +659,11 @@
   "DL.AttackDelete": "Delete attack",
   "DL.AttackClone": "Clone attack",
   "DL.ActorMods": "Actor Mods",
-  "DL.ActorModfiers": "Actor Modifiers"
+  "DL.ActorModfiers": "Actor Modifiers",
+  "DL.Malus": "Malus",
+  "DL.AutoFailActions": "Auto fail actions",
+  "DL.AutoFailChallenges": "Auto fail challenges",
+  "DL.NoFastTurns": "No fast turns",
+  "DL.HalfSpeed": "Half Speed",
+  "DL.Override": "Override"
 }

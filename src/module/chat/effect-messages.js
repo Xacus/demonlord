@@ -3,6 +3,8 @@
 /* Utils                                        */
 /* -------------------------------------------- */
 
+import {DLActiveEffectConfig} from "../active-effects/sheets/active-effect-config";
+
 /**
  * Groups the effects by change key
  * @param effects
@@ -144,4 +146,17 @@ export function buildTalentEffectsMessage(actor, talent) {
     + get('data.characteristics.power', 'DL.TalentBonusesPower')
 
   return result
+}
+/* -------------------------------------------- */
+
+export function buildOverview(actor) {
+  let m = _remapEffects(actor.effects.filter(e => !e.data.disabled)) // <changeKey> : [{label, type, value}, ]
+  m.delete('')
+  const sections = []
+
+  for (const [changeKey, label] of Object.entries(DLActiveEffectConfig._availableChangeKeys)) {
+    if (m.has(changeKey))
+      sections.push({changeLabel: label, sources: m.get(changeKey)})
+  }
+  return sections // [{changeLabel, sources}]    sources = {label, type, value}
 }

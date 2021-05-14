@@ -53,8 +53,8 @@ export class DemonlordActor extends Actor {
       autoFail: {
         challenge: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
         action: {strength: 0, agility: 0, intellect: 0, will: 0, perception: 0},
-        halfSpeed: 0,
       },
+      halfSpeed: 0,
       noFastTurn: 0,
     });
   }

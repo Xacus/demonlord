@@ -174,6 +174,9 @@ Hooks.once('setup', function () {
   }
 
   CONFIG.statusEffects = effects;
+
+  // Set active effect keys-labels
+  DLActiveEffectConfig.initializeChangeKeys()
 });
 
 /**
