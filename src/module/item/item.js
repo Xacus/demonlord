@@ -96,57 +96,15 @@ export class DemonlordItem extends Item {
     event.preventDefault();
     const li = event.currentTarget;
     const item = li.children[0];
-    const healing = parseInt(item.dataset.healing);
+    const isFullRate = +item.dataset.healing === 1;
 
     var selected = Array.from(game.user.targets);
-    if (selected.length == 0) {
+    if (selected.length === 0) {
       ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
+      return
     }
 
-    selected.forEach((token) => {
-      if (token.data.actorData.data?.characteristics != undefined) {
-        const tokenData = token.document.data;
-        const hp = tokenData.actorData.data.characteristics.health;
-        const rate = tokenData.actorData.data.characteristics.health.healingrate;
-
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          let newdamage = parseInt(hp.value) + (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
-          if (newdamage > hp.max) newdamage = parseInt(hp.max);
-
-          hp.value = newdamage;
-        } else {
-          let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
-          if (newdamage < 0) newdamage = 0;
-
-          hp.value = newdamage;
-        }
-
-        token.update(tokenData);
-      } else {
-        const actorData = token.actor.data;
-        const hp = actorData.data.characteristics.health;
-        const rate = actorData.data.characteristics.health.healingrate;
-        let updates = '';
-
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          let newdamage = parseInt(hp.value) + (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
-          if (newdamage > hp.max) newdamage = parseInt(hp.max);
-
-          updates = {
-            'data.characteristics.health.value': newdamage,
-          };
-        } else {
-          let newdamage = parseInt(hp.value) - (healing == parseInt(1) ? parseInt(rate) : parseInt(rate / 2));
-          if (newdamage < 0) newdamage = 0;
-
-          updates = {
-            'data.characteristics.health.value': newdamage,
-          };
-        }
-
-        token.actor.update(updates);
-      }
-    });
+    selected.forEach(token => token.actor.applyHealing(isFullRate));
 
     const actor = this._getChatCardActor(li.closest('.demonlord'));
     const sourceToken = canvas.tokens.placeables.find((token) => token.actor.id === actor.id);
@@ -156,7 +114,7 @@ export class DemonlordItem extends Item {
       targets: selected,
       itemId,
       event,
-      healing,
+      healing: isFullRate,
     });
   }
 
@@ -248,52 +206,10 @@ export class DemonlordItem extends Item {
     var selected = Array.from(game.user.targets);
     if (selected.length == 0) {
       ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
+      return
     }
 
-    selected.forEach((token) => {
-      if (token.data.actorData.data?.characteristics != undefined) {
-        const tokenData = token.document.data;
-        const hp = tokenData.actorData.data.characteristics.health;
-        const health = parseInt(token.actor.data.data.characteristics.health.max);
-
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          let newdamage = parseInt(hp.value) - damage;
-          if (newdamage < 0) newdamage = 0;
-
-          hp.value = newdamage;
-        } else {
-          let newdamage = parseInt(hp.value) + damage;
-          if (newdamage > health) newdamage = health;
-
-          hp.value = newdamage;
-        }
-
-        token.update(tokenData);
-      } else {
-        const actorData = token.actor.data;
-        const hp = actorData.data.characteristics.health;
-        const health = parseInt(actorData.data.characteristics.health.max);
-        let updates = '';
-
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          let newdamage = parseInt(hp.value) - damage;
-          if (newdamage < 0) newdamage = 0;
-
-          updates = {
-            'data.characteristics.health.value': newdamage,
-          };
-        } else {
-          let newdamage = parseInt(hp.value) + damage;
-          if (newdamage > health) newdamage = health;
-
-          updates = {
-            'data.characteristics.health.value': newdamage,
-          };
-        }
-
-        token.actor.update(updates);
-      }
-    });
+    selected.forEach(token => token.actor.increaseDamage(+damage))
 
     const actor = this._getChatCardActor(li.closest('.demonlord'));
     const sourceToken = canvas.tokens.placeables.find((token) => token.actor.id === actor.id);

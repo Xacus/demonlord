@@ -617,35 +617,10 @@ export class DemonlordActorSheet2 extends ActorSheet {
     }
 
     html.on('mousedown', '.addDamage', (ev) => {
-      let value = parseInt(this.actor.data.data.characteristics.health.value);
-      const max = parseInt(this.actor.data.data.characteristics.health.max);
-
-      if (event.button == 0) {
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          if (value <= 0) value = max;
-          else value--;
-        } else {
-          if (value >= max) value = 0;
-          else value++;
-        }
-      } else if (event.button == 2) {
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          if (value <= 0 || value >= max) value = max;
-          else value++;
-        } else {
-          if (value <= 0) value = 0;
-          else value--;
-        }
-      }
-
-      const that = this;
-      this.actor
-        .update({
-          'data.characteristics.health.value': value,
-        })
-        .then((item) => {
-          that.render();
-        });
+      if (ev.button == 0)
+        this.actor.increaseDamage(+1) // Increase damage
+      else if (ev.button == 2)
+        this.actor.increaseDamage(-1) // Decrease damage
     });
 
     const insanitybar = html.find('.insanity-fill');

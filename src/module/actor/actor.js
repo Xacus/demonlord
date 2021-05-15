@@ -489,61 +489,29 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   async addDamageToTarget(damage) {
-    game.user.targets.forEach(async (target) => {
-      const targetActor = target.actor;
+    game.user.targets.forEach((target) => {
       const currentDamage = parseInt(targetActor.data.data.characteristics.health.value);
-      if (game.settings.get('demonlord08', 'reverseDamage')) {
-        if (currentDamage - damage <= 0) {
-          await targetActor.update({
-            'data.characteristics.health.value': 0,
-          });
-        } else {
-          await targetActor.update({
-            'data.characteristics.health.value': currentDamage - damage,
-          });
-        }
-      } else {
-        await targetActor.update({
-          'data.characteristics.health.value': currentDamage + damage,
-        });
-      }
-    });
+      target?.actor.update({'data.characteristics.health.value': currentDamage + damage})
+    })
   }
 
-  async restActor(token) {
-    // Talents
-    const talents = this.getEmbeddedCollection('Item').filter((e) => e.type === 'talent');
-    for (const talent of talents) {
-      const item = duplicate(this.items.get(talent.id));
-      item.data.uses.value = 0;
+  async restActor() {
+    // Reset talent and spell uses
+    const talentData = this.items
+      .filter(i => i.type === 'talent')
+      .map(t => ({'_id': t.id, 'data.uses.value': 0}))
+    const spellData = this.items
+      .filter(i => i.type === 'spell')
+      .map(s => ({'_id': s.id, 'data.castings.value' : 0}))
 
-      await this.updateEmbeddedDocuments('Item', item.data);
-    }
+    await this.updateEmbeddedDocuments('Item', [...talentData, ...spellData])
+    await this.applyHealing(true);
 
-    // Spells
-    const spells = this.getEmbeddedCollection('Item').filter((e) => e.type === 'spell');
-
-    for (const spell of spells) {
-      const item = duplicate(this.items.get(spell.id));
-
-      item.data.castings.value = 0;
-
-      await this.updateEmbeddedDocuments('Item', item.data);
-    }
-
-    this.applyHealing(token, true);
-
-    var templateData = {
-      actor: this,
-    };
+    var templateData = {actor: this};
 
     const chatData = {
       user: game.user.id,
-      speaker: {
-        actor: this.id,
-        token: this.token,
-        alias: this.name,
-      },
+      speaker: {actor: this.id, token: this.token, alias: this.name},
     };
 
     const template = 'systems/demonlord08/templates/chat/rest.html';
@@ -553,46 +521,16 @@ export class DemonlordActor extends Actor {
     });
   }
 
-  async applyHealing(token, fullHealingRate) {
-    if (token.actor.data.type === 'character') {
-      if (token.data.actorData.data?.characteristics != undefined) {
-        const tokenData = duplicate(token.data);
-        const hp = tokenData.actorData?.data?.characteristics?.health;
-        const rate = tokenData.actorData?.data?.characteristics?.health?.healingrate;
+  async applyHealing(fullHealingRate) {
+    let rate = this.data.data.characteristics.health?.healingrate || 0
+    rate = fullHealingRate ? rate : rate / 2
+    return this.increaseDamage(-rate)
+  }
 
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          let newdamage = parseInt(hp.value) + (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
-          if (newdamage > hp.max) newdamage = parseInt(hp.max);
-
-          hp.value = newdamage;
-        } else {
-          let newdamage = parseInt(hp.value) - (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
-          if (newdamage < 0) newdamage = 0;
-
-          hp.value = newdamage;
-        }
-
-        await token.update(tokenData);
-      } else {
-        const actorData = duplicate(token.actor.data);
-        const hp = actorData.data.characteristics.health;
-        const rate = actorData.data.characteristics.health.healingrate;
-
-        if (game.settings.get('demonlord08', 'reverseDamage')) {
-          let newdamage = parseInt(hp.value) + (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
-          if (newdamage > hp.max) newdamage = parseInt(hp.max);
-
-          hp.value = newdamage;
-        } else {
-          let newdamage = parseInt(hp.value) - (fullHealingRate ? parseInt(rate) : parseInt(rate / 2));
-          if (newdamage < 0) newdamage = 0;
-
-          hp.value = newdamage;
-        }
-
-        await token.actor.update(actorData);
-      }
-    }
+  async increaseDamage(increment) {
+    const health = this.data.data.characteristics.health
+    const newHp = Math.max(0, Math.min(+health.max, Math.floor(+health.value + +increment)))
+    return this.update({'data.characteristics.health.value': newHp})
   }
 
   setUsesOnSpells() {

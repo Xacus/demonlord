@@ -62,14 +62,6 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   });
-  game.settings.register('demonlord08', 'reverseDamage', {
-    name: game.i18n.localize('DL.SettingAttackReverseDamage'),
-    hint: game.i18n.localize('DL.SettingAttackReverseDamageHint'),
-    default: false,
-    scope: 'world',
-    type: Boolean,
-    config: true,
-  });
   game.settings.register('demonlord08', 'statusIcons', {
     name: game.i18n.localize('DL.SettingStatusIcons'),
     hint: game.i18n.localize('DL.SettingStatusIconsHint'),
