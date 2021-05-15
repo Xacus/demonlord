@@ -158,8 +158,6 @@ export class DemonlordActorSheet2 extends ActorSheet {
       config: CONFIG.DL,
     };
 
-    data.useDemonlordMode = !game.settings.get('demonlord08', 'useHomebrewMode');
-
     //data.actor = foundry.utils.deepClone(this.actor.data);
     data.actor = this.actor.data;
     data.data = data.actor.data;

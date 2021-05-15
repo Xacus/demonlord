@@ -40,7 +40,6 @@ export class DemonlordItemSheetDefault extends ItemSheet {
     const itemData = data.data;
 
     data.isGM = game.user.isGM;
-    data.useDemonlordMode = game.settings.get('demonlord08', 'useHomebrewMode');
     data.lockAncestry = game.settings.get('demonlord08', 'lockAncestry');
 
     const aeMenuType = data.document.isEmbedded
@@ -53,16 +52,15 @@ export class DemonlordItemSheetDefault extends ItemSheet {
 
     data.config = DL;
 
-    if (data.item.type == 'path') {
+    if (data.item.type == 'path')
       this._prepareLevels(data);
-    } else if (data.item.type == 'weapon' || data.item.type == 'spell') {
+    else if (data.item.type == 'weapon' || data.item.type == 'spell')
       this._prepareDamageTypes(data);
-    } else if (data.item.type == 'talent') this._prepareVSDamageTypes(data);
-    else if (data.item.type == 'ancestry') {
-      if (!game.user.isGM && !data.useDemonlordMode) {
-        data.item.editAncestry = false;
-      }
-    }
+    else if (data.item.type == 'talent')
+      this._prepareVSDamageTypes(data);
+    else if (data.item.type == 'ancestry' && !game.user.isGM)
+      data.item.editAncestry = false;
+
 
     data.item = itemData;
     data.data = itemData.data;

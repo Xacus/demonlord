@@ -6,14 +6,6 @@ export const registerSettings = function () {
     type: String,
     default: '',
   });
-  game.settings.register('demonlord08', 'useHomebrewMode', {
-    name: game.i18n.localize('DL.SettingUsingHomebrewMode'),
-    hint: game.i18n.localize('DL.SettingUsingHomebrewModeHint'),
-    default: false,
-    scope: 'world',
-    type: Boolean,
-    config: true,
-  });
   game.settings.register('demonlord08', 'lockAncestry', {
     name: game.i18n.localize('DL.SettingLockAncestry'),
     hint: game.i18n.localize('DL.SettingLockAncestrHint'),
