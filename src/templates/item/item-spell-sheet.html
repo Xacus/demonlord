@@ -58,18 +58,20 @@
               </select>
             </div>
           </div>
+        </div>
 
+        <div class="item-tab-sub-header">
+          <div>{{localize "DL.SpellCastings"}}</div>
+        </div>
+        <div class="item-table indent">
           <div class="row">
-            <div class="col-xs-12">
-              <label class="resource-label">{{localize "DL.SpellCastings"}}</label>
-            </div>
-            <div class="col-xs-3">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellCastingsUses"}}</label>
-              <input type="text" name="data.castings.value" value="{{data.castings.value}}"/>
+              <input type="number" name="data.castings.value" value="{{data.castings.value}}"/>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellCastingsMax"}}</label>
-              <input type="text" name="data.castings.max" value="{{data.castings.max}}"/>
+              <input type="number" name="data.castings.max" value="{{data.castings.max}}"/>
             </div>
           </div>
         </div>
@@ -216,54 +218,54 @@
 
         <div class="item-table indent">
           <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellEffectDice"}}</label>
               <input type="text" name="data.effectdice" value="{{data.effectdice}}"/>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellDuration"}}</label>
               <input type="text" name="data.duration" value="{{data.duration}}"/>
             </div>
-            <div class="col-xs-4">
+          </div>
+          <div class="row">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellTarget"}}</label>
               <input type="text" name="data.target" value="{{data.target}}"/>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellArea"}}</label>
               <input type="text" name="data.area" value="{{data.area}}"/>
             </div>
-            <div class="col-xs-4">
+          </div>
+          <div class="row">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellRequirements"}}</label>
               <input type="text" name="data.requirements" value="{{data.requirements}}"/>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellSacrifice"}}</label>
               <input type="text" name="data.sacrifice" value="{{data.sacrifice}}"/>
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellPermanence"}}</label>
               <input type="text" name="data.permanence" value="{{data.permanence}}"/>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellAftereffect"}}</label>
               <input type="text" name="data.aftereffect" value="{{data.aftereffect}}"/>
             </div>
-            <div class="col-xs-4">
+          </div>
+          <div class="row">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellSpecial"}}</label>
               <input type="text" name="data.special" value="{{data.special}}"/>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellTriggered"}}</label>
               <input type="text" name="data.triggered" value="{{data.triggered}}"/>
             </div>
-            <div class="col-xs-4"></div>
-            <div class="col-xs-4"></div>
           </div>
         </div>
       </div>
