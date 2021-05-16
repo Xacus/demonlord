@@ -464,6 +464,8 @@
   "DL.SettingLockAncestrHint": "Remove players access to change modifers, Speed, Insanity, Corruption and Health.",
   "DL.SettingStatusIcons": "Disable Status Icons",
   "DL.SettingStatusIconsHint": "Disable Foundry's default list of Status Effect Icons. (Require refresh)",
+  "DL.SettingGMEffectsControls": "GM Effects Controls",
+  "DL.SettingGMEffectsControlsHint": "Always show the active effects controls in the character sheets (toggle, edit and delete) to the Game Master, regardless of the effect type.",
   "DL.SettingTemplateAutoTargeting": "Auto targeting with Measured Templates",
   "DL.SettingTemplateAutoTargetingHint": "Automatically targets the tokens inside of your placed Measured Template.",
   "DL.SettingReplaceIcons": "Replace default icons",

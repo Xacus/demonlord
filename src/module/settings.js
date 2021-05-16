@@ -78,4 +78,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   });
+  game.settings.register('demonlord08', 'gmEffectsControls', {
+    name: game.i18n.localize('DL.SettingGMEffectsControls'),
+    hint: game.i18n.localize('DL.SettingGMEffectsControlsHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  });
 };

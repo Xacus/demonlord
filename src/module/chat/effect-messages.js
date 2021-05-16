@@ -4,6 +4,7 @@
 /* -------------------------------------------- */
 
 import {DLActiveEffectConfig} from "../active-effects/sheets/active-effect-config";
+import {plusify} from "../utils/utils";
 
 /**
  * Groups the effects by change key
@@ -25,7 +26,7 @@ function _remapEffects(effects) {
 
 /* -------------------------------------------- */
 
-const _toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;&nbsp;• <i>${label}</i> (${value})<br>`
+const _toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;&nbsp;• ${value} <i>(${label})</i><br>`
 
 const changeToMsg = (m, key, title) => {
   title = title ? `&nbsp;&nbsp;${game.i18n.localize(title)}<br>` : ''
@@ -75,8 +76,8 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
 
   let boonsMsg
     = changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, '')
-    + (itemBoons != 0 ? _toMsg(item.name, itemBoons) : '')
-    + (defenderBoons ? _toMsg(defenderString, -parseInt(defenderBoons)) : '')
+    + (itemBoons != 0 ? _toMsg(item.name, plusify(itemBoons)) : '')
+    + (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '')
   boonsMsg = boonsMsg
     ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg
     : ''

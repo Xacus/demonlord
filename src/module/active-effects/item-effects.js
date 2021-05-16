@@ -1,6 +1,8 @@
+import {plusify} from "../utils/utils";
+
 export const addEffect = (key, value) => ({
   key: key,
-  value: parseInt(value),
+  value: plusify(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
 })
 
@@ -116,6 +118,9 @@ export class DLActiveEffects {
       flags: {
         sourceType: 'ancestry',
         levelRequired: 0,
+        notDeletable: true,
+        notEditable: true,
+        notToggleable: true,
         permanent: true
       },
       changes: [
@@ -149,7 +154,10 @@ export class DLActiveEffects {
       flags: {
         sourceType: 'ancestry',
         levelRequired: 4,
-        permanent: true
+        permanent: true,
+        notDeletable: true,
+        notEditable: true,
+        notToggleable: true,
       },
       changes: [
         addEffect('data.characteristics.health.max', dataL4.healthbonus),
@@ -175,7 +183,10 @@ export class DLActiveEffects {
         flags: {
           sourceType: 'path',
           levelRequired: parseInt(pathLevel.level),
-          permanent: true
+          permanent: true,
+          notDeletable: true,
+          notEditable: true,
+          notToggleable: true,
         },
         changes: [
           // Characteristics
@@ -236,7 +247,10 @@ export class DLActiveEffects {
       flags: {
         sourceType: 'talent',
         // levelRequired: parseInt(pathLevelItem.level), TODO
-        permanent: false
+        permanent: false,
+        notDeletable: true,
+        notEditable: true,
+        notToggleable: false,
       },
       changes: [
         // Bonuses - Characteristics
@@ -291,7 +305,10 @@ export class DLActiveEffects {
       flags: {
         sourceType: 'armor',
         //levelRequired: 0,
-        permanent: false
+        permanent: false,
+        notDeletable: true,
+        notEditable: true,
+        notToggleable: true,
       },
       changes: [
         addEffect('data.bonuses.armor.agility', armorData.agility),
@@ -345,7 +362,10 @@ export class DLActiveEffects {
         flags: {
           sourceItemsLength: itemNames.length,
           sourceType: 'encumbrance',
-          permanent: true
+          permanent: true,
+          notDeletable: true,
+          notEditable: true,
+          notToggleable: false,
         },
         changes: [
           addEffect('data.bonuses.attack.boons.strength', n),

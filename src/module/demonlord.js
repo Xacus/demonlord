@@ -121,6 +121,12 @@ Hooks.once('init', async function () {
 
   Handlebars.registerHelper('json', JSON.stringify);
 
+  Handlebars.registerHelper('hiddenEffect', (val) =>
+    val && game.user.isGM && ! game.settings.get('demonlord08', 'gmEffectsControls')
+      ? 'visibility: hidden;'
+      : ''
+  )
+
   preloadHandlebarsTemplates();
 });
 
