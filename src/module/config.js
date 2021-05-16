@@ -106,4 +106,5 @@ DL.defaultItemIcons = {
   ancestry: 'systems/demonlord08/assets/icons/avatars/changeling.png', // TODO: find better
   profession: 'icons/tools/hand/hammer-and-nail.webp',
   path: 'systems/demonlord08/assets/icons/avatars/magician.png',
+  language: 'systems/demonlord08/assets/icons/other/books/book2.png',
 }

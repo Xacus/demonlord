@@ -1,5 +1,5 @@
 <form class="{{cssClass}} item-form" autocomplete="off">
-  <!--
+
   <header class="sheet-header itemsheet-header">
     <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
@@ -7,9 +7,9 @@
     </div>
     <div class="template-type">{{item.type}}</div>
   </header>
-  -->
+
   {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary" style="display:none">
+  <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
     <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
   </nav>
@@ -18,24 +18,6 @@
   <section class="sheet-body">
     <section class="sheet-content ">
       <div class="tab weapons" data-group="primary" data-tab="attributes">
-
-        {{!-- General (Icon, Name, Description, Type) --}}
-        <div class="item-general">
-          <div class="row">
-            <div class="col-xs-2 item-banner"
-                 style="background: url(systems/demonlord08/assets/ui/sidebar_creature.png)">
-              <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-              <div class="template-type">{{item.type}}</div>
-            </div>
-            <div class="col-xs-10">
-              <input name="name" type="text" value="{{item.name}}" placeholder="Ammo Name"/>
-              <label class="description-label">{{localize 'DL.TabsDescription'}}</label>
-              {{editor content=data.description target="data.description"
-              button=true owner=owner editable=editable}}
-            </div>
-          </div>
-        </div>
-
         <div class="item-table">
           <div class="row">
             <div class="col-xs-6">
@@ -48,7 +30,9 @@
             </div>
           </div>
         </div>
+      </div>
 
+      {{> "systems/demonlord08/templates/item/partial/item-description.html"}}
     </section>
   </section>
 </form>
