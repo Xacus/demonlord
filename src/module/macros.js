@@ -167,6 +167,7 @@ export function rollAttributeMacro (attributeName) {
  * Create a Macro from an Attribute.
  */
 export function rollInitMacro () {
+  if (!game.combat) return
   const speaker = ChatMessage.getSpeaker()
   let combatantFound = null
   let actor
