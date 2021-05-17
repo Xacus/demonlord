@@ -1,249 +1,58 @@
 <form class="{{cssClass}} flexcol" autocomplete="off">
+  {{> systems/demonlord08/templates/actor/sidemenu.html}} {{!-- Sheet Header --}}
+  <header class="sheet-header">{{> systems/demonlord08/templates/actor/header.html}}</header>
+  <nav class="sheet-navigation" data-group="primary">
+    <a class="item" data-tab="character">{{localize "DL.TabsCharacter"}}</a>
+    <a class="item" data-tab="combat">{{localize "DL.TabsCombat"}}</a>
+    <a class="item" data-tab="talents">{{localize "DL.TabsTalents"}}</a>
+    <a class="item" data-tab="magic">{{localize "DL.TabsMagic"}}</a>
+    <a class="item" data-tab="items">{{localize "DL.TabsInventory"}}</a>
+    <a class="item" data-tab="background">{{localize "DL.TabsBackground"}}</a>
+    <a class="item" data-tab="afflictions">{{localize "DL.ModsAfflictions"}}</a>
+    {{#if effects}}<a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>{{/if}}
+  </nav>
 
-    {{!-- Sheet Header --}}
-    <header class="sheet-header">
-        <div class="header-fields">
-            <div class="topline gridrow">
-                <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100"
-                    width="100" />
-                <div class="charname"><input name="name" type="text" value="{{actor.name}}"
-                        placeholder="{{localize 'DL.CharName'}}" /></div>
-                <div class="charancestry">
-                    {{#each actor.ancestry as |item id|}}
-                    <div class="item" data-item-id="{{item.id}}">
-                        <input class="item-edit ancestry" name="data.ancestry" type="text" value="{{item.name}}"
-                            placeholder="Ancestry" />
-                    </div>
-                    {{/each}}
-                </div>
-                <div class="charsex"><input name="data.appearance.sex" type="text" value="{{data.appearance.sex}}"
-                        placeholder="Sex" /></div>
-            </div>
-            <div class="attributes grid grid-5col">
-                <div class="attributebox">
-                    <div class="attribute">
-                        <input name="data.attributes.strength.value" type="text"
-                            value="{{data.attributes.strength.value}}" data-dtype="Number"
-                            placeholder="" />
-                    </div>
-                    <div class="attributemod">
-                        <label for="data.attributes.strength.modifier"
-                            class="mod">{{numberFormat data.attributes.strength.modifier decimals=0 sign=true}}</label>
-                    </div>
-                    <div class="attributetext attribute-roll" data-key="strength"><label
-                            for="data.attributes.strength.value">{{data.attributes.strength.label}}</label></div>
-                </div>
-                <div class="attributebox">
-                    <div class="attribute">
-                        <input name="data.attributes.agility.value" type="text"
-                            value="{{data.attributes.agility.value}}" data-dtype="Number"
-                            placeholder="" />
-                    </div>
-                    <div class="attributemod">
-                        <label for="data.attributes.agility.modifier"
-                            class="mod">{{numberFormat data.attributes.agility.modifier decimals=0 sign=true}}</label>
-                    </div>
-                    <div class="attributetext attribute-roll" data-key="agility"><label
-                            for="data.attributes.agility.value">{{data.attributes.agility.label}}</label></div>
-                </div>
-                <div class="attributebox">
-                    <div class="attribute">
-                        <input name="data.attributes.intellect.value" type="text"
-                            value="{{data.attributes.intellect.value}}" data-dtype="Number"
-                            placeholder="" />
-                    </div>
-                    <div class="attributemod">
-                        <label for="data.attributes.intellect.modifier"
-                            class="mod">{{numberFormat data.attributes.intellect.modifier decimals=0 sign=true}}</label>
-                    </div>
-                    <div class="attributetext attribute-roll" data-key="intellect"><label
-                            for="data.attributes.intellect.value">{{data.attributes.intellect.label}}</label></div>
-                </div>
-                <div class="attributebox">
-                    <div class="attribute">
-                        <input name="data.attributes.will.value" type="text" value="{{data.attributes.will.value}}"
-                            data-dtype="Number" placeholder="" />
-                    </div>
-                    <div class="attributemod">
-                        <label for="data.attributes.will.modifier"
-                            class="mod">{{numberFormat data.attributes.will.modifier decimals=0 sign=true}}</label>
-                    </div>
-                    <div class="attributetext attribute-roll" data-key="will"><label
-                            for="data.attributes.will.value">{{data.attributes.will.label}}</label></div>
-                </div>
-                <div class="attributebox">
-                    <div class="attributeper">
-                        <label for="data.attributes.perception.value">{{data.attributes.perception.value}}</label>
-                    </div>
-                    <div class="attributemodper">
-                        <label for="data.attributes.perception.modifier"
-                            class="mod">{{numberFormat data.attributes.perception.modifier decimals=0 sign=true}}</label>
-                    </div>
-                    <div class="attributetextper attribute-roll" data-key="perception"><label
-                            for="data.attributes.perception.value">{{data.attributes.perception.label}}</label></div>
-                </div>
-            </div>
-            <div class="characteristics grid grid-6col">
-                <div class="characteristic">
-                    <div class="charbox">
-                        <div class="char">
-                            <input name="data.level" type="text" value="{{data.level}}" data-dtype="Number"
-                                placeholder="" />
-                        </div>
-                        <div class="chartext">
-                            <label for="data.level">{{localize "DL.CharLevel"}}</label>
-                        </div>
-                    </div>
-                    <div class="charbox">
-                        <div class="charlabel">
-                            <div>{{data.characteristics.size}}</div>
-                        </div>
-                        <div class="chartextlabel">
-                            <label for="data.characteristics.size">{{localize "DL.CharSize"}}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="characteristic">
-                    <div class="charbox">
-                        <div class="charlabel">
-                            <div>{{data.characteristics.speed}}</div>
-                        </div>
-                        <div class="chartextlabel">
-                            <label for="data.characteristics.speed">{{localize "DL.CharSpeed"}}</label>
-                        </div>
-                    </div>
-                    <div class="charbox">
-                        <div class="char">
-                            <input name="data.characteristics.power" type="text" value="{{data.characteristics.power}}"
-                                data-dtype="{{attribute.dtype}}" placeholder="" />
-                        </div>
-                        <div class="chartext">
-                            <label for="data.characteristics.power">{{localize "DL.CharPower"}}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="characteristic">
-                    <div class="charbox">
-                        <div class="char">
-                            <input name="data.characteristics.insanity.value" type="text"
-                                value="{{data.characteristics.insanity.value}}" data-dtype="Number"
-                                placeholder="" />
-                        </div>
-                        <div class="chartext">
-                            <label for="data.characteristics.insanity.value">{{localize "DL.CharInsanity"}}</label>
-                        </div>
-                    </div>
-                    <div class="charbox">
-                        <div class="char">
-                            <input name="data.characteristics.corruption" type="text"
-                                value="{{data.characteristics.corruption}}" data-dtype="Number"
-                                placeholder="" />
-                        </div>
-                        <div class="chartext">
-                            <label for="data.characteristics.corruption">{{localize "DL.CharCorruption"}}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="characteristic">
-                    <div class="charbox">
-                        <div class="charlabel">
-                            <div>{{data.characteristics.health.max}}</div>
-                        </div>
-                        <div class="chartextlabel">
-                            <label for="data.characteristics.health.max">{{localize "DL.CharHealth"}}</label>
-                        </div>
-                    </div>
-                    <div class="charbox">
-                        <div class="charlabel">
-                            <div>{{data.characteristics.health.healingrate}}</div>
-                        </div>
-                        <div class="chartextlabel">
-                            <label
-                                for="data.characteristics.health.healingrate">{{localize "DL.CharHealthHealingRating"}}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="characteristic">
-                    <div class="charbox">
-                        <div class="char">
-                            <input name="data.characteristics.health.value" type="text"
-                                value="{{data.characteristics.health.value}}" data-dtype="Number"
-                                placeholder="" />
-                        </div>
-                        <div class="chartext">
-                            <label for="data.characteristics.health.value">{{localize "DL.CharHealthDamage"}}</label>
-                        </div>
-                    </div>
-                    <div class="charbox">
-                        <div class="char">
-                            <input type="checkbox" name="data.characteristics.health.injured"
-                                id="data.characteristics.health.injured" class="checkbox"
-                                {{checked data.characteristics.health.injured}} /><label
-                                for="data.characteristics.health.injured" />
-                        </div>
-                        <div class="chartextinjured">
-                            <label for="data.characteristics.health.injured">{{localize "DL.CharHealthInjured"}}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="characteristic">
-                    <div class="charbox">
-                        <div class="char">
-                            <input name="data.characteristics.fortune" type="text"
-                                value="{{data.characteristics.fortune}}" data-dtype="Number"
-                                placeholder="" />
-                        </div>
-                        <div class="chartext">
-                            <label for="data.characteristics.fortune">{{localize "DL.CharFortune"}}</label>
-                        </div>
-                    </div>
-                    <div class="charbox">
-                        <div class="charlabel">
-                            <div>{{data.characteristics.defense}}</div>
-                        </div>
-                        <div class="chartextlabel">
-                            <label for="data.characteristics.defense">{{localize "DL.CharDefense"}}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="combat">{{localize "DL.TabsCombat"}}</a>
-        <a class="item" data-tab="talents">{{localize "DL.TabsTalents"}}</a>
-        <a class="item" data-tab="magic">{{localize "DL.TabsMagic"}}</a>
-        <a class="item" data-tab="items">{{localize "DL.TabsInventory"}}</a>
-        <a class="item" data-tab="background">{{localize "DL.TabsBackground"}}
-        </a>
-    </nav>
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{!-- Character Tab --}}
+      <div class="tab character" data-group="primary" data-tab="character">
+        {{> systems/demonlord08/templates/tabs/character.html}}
+      </div>
+      {{!-- Combat Tab --}}
+      <div class="tab combat" data-group="primary" data-tab="combat">
+        {{> systems/demonlord08/templates/tabs/combat.html}}
+      </div>
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
-        {{!-- Combat Tab --}}
-        <div class="tab combat" data-group="primary" data-tab="combat">
-            {{> systems/demonlord08/templates/tabs/combat.html}}
-        </div>
+      {{!-- Talents Tab --}}
+      <div class="tab talents" data-group="primary" data-tab="talents">
+        {{> systems/demonlord08/templates/tabs/talents.html}}
+      </div>
 
-        {{!-- Talents Tab --}}
-        <div class="tab talents" data-group="primary" data-tab="talents">
-            {{> systems/demonlord08/templates/tabs/talents.html}}
-        </div>
+      {{!-- Magic Tab --}}
+      <div class="tab spells" data-group="primary" data-tab="magic">
+        {{> systems/demonlord08/templates/tabs/magic.html}}
+      </div>
 
-        {{!-- Magic Tab --}}
-        <div class="tab spells" data-group="primary" data-tab="magic">
-            {{> systems/demonlord08/templates/tabs/magic.html}}
-        </div>
+      {{!-- Items Tab --}}
+      <div class="tab items" data-group="primary" data-tab="items">
+        {{> systems/demonlord08/templates/tabs/item.html}}
+      </div>
 
-        {{!-- Items Tab --}}
-        <div class="tab items" data-group="primary" data-tab="items">
-            {{> systems/demonlord08/templates/tabs/item.html}}
-        </div>
+      {{!-- Background Tab --}}
+      <div class="tab biography" data-group="primary" data-tab="background">
+        {{> systems/demonlord08/templates/tabs/background.html}}
+      </div>
 
-        {{!-- Background Tab --}}
-        <div class="tab biography" data-group="primary" data-tab="background">
-            {{> systems/demonlord08/templates/tabs/background.html}}
-        </div>
+      {{!-- Active Affliction Tab --}}
+      <div class="tab effects" data-group="primary" data-tab="afflictions">
+        {{> systems/demonlord08/templates/tabs/afflictions.html}}
+      </div>
+
+      {{!-- Active Effects Tab --}}
+      <div class="tab effects" data-group="primary" data-tab="effects">
+        {{> systems/demonlord08/templates/tabs/effects.html}}
+      </div>
     </section>
+  </section>
 </form>

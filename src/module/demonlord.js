@@ -1,10 +1,6 @@
 // Import Modules
 import { DL } from './config.js';
 import { DemonlordActor } from './actor/actor.js';
-import { DemonlordActorSheet } from './actor/sheets/actor-sheet.js';
-import { DemonlordActorSheet2 } from './actor/sheets/actor-sheet2.js';
-import { DemonlordCreatureSheet } from './actor/sheets/creature-sheet.js';
-import { DemonlordNewCreatureSheet } from './actor/sheets/new-creature-sheet.js';
 import { DemonlordItem } from './item/item.js';
 import { DemonlordItemSheetDefault } from './item/sheets/item-sheet2.js';
 import { DemonlordPathSetup } from './item/path-setup.js';
@@ -19,6 +15,8 @@ import * as playertracker from './playertrackercontrol.js';
 import { capitalize } from './utils/utils';
 import { DLAfflictions } from './active-effects/afflictions';
 import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config';
+import DLCharacterSheet from "./actor/sheets/character-sheet";
+import DLCreatureSheet from "./actor/sheets/creature-sheet";
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -63,12 +61,12 @@ Hooks.once('init', async function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet('demonlord08', DemonlordActorSheet2, {
+  Actors.registerSheet('demonlord08', DLCharacterSheet, {
     types: ['character'],
     makeDefault: true,
   });
 
-  Actors.registerSheet('demonlord08', DemonlordNewCreatureSheet, {
+  Actors.registerSheet('demonlord08', DLCreatureSheet, {
     types: ['creature'],
     makeDefault: false,
   });
