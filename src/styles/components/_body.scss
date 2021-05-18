@@ -587,7 +587,8 @@
 }
 
 .switchBig .slider {
-  background-color: #666;
+  background-color: transparent;
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 0px rgb(0 0 0 / 50%), 0 0 5px #a22223;
 }
 .switchTurn .slider {
   background: none;
@@ -614,12 +615,6 @@
   width: 10px;
 }
 
-input:checked + .slider {
-  background-color: #333;
-}
-.switchBig input:checked + .slider {
-  background-color: #666;
-}
 .switchTurn input:checked + .slider {
   background: none;
 }

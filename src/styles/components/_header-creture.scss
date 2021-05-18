@@ -247,8 +247,20 @@ form {
 
   .editmode {
     position: absolute;
-    right: 5px;
-    top: 115px;
+    left: -187px;
+    top: 485px;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    .switchBig {
+      width: 130px;
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(116px);
+        -ms-transform: translateX(116px);
+        transform: translateX(116px);
+      }
+    }
   }
 }
 .sheet-header > * {
