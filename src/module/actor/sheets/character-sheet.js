@@ -386,7 +386,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     const _toggleLang = (ev, key) => {
       const dev = ev.currentTarget.closest('.language');
       const item = this.actor.items.get(dev.dataset.itemId);
-      item.update({[key]: !item.data[key]}, {parent: this.actor})
+      item.update({['data.'+key]: !item.data.data[key]}, {parent: this.actor})
     }
     html.find('.language-delete').click(ev => this._onItemDelete(ev, '.language'));
     html.find('.language-toggle-r').click((ev) => _toggleLang(ev, 'read'))

@@ -39,22 +39,25 @@ export function onManageActiveEffect(event, owner) {
  * @param {Integer} showControls      What controls to show
  * @return {object}                   Data for rendering
  */
-export function prepareActiveEffectCategories(effects) {
+export function prepareActiveEffectCategories(effects, showCreateButtons= false) {
   // Define effect header categories
   let categories = {
     temporary: {
       type: 'temporary',
       label: 'Temporary Effects',
+      showCreateButtons: showCreateButtons,
       effects: [],
     },
     passive: {
       type: 'passive',
       label: 'Passive Effects',
+      showCreateButtons: showCreateButtons,
       effects: [],
     },
     inactive: {
       type: 'inactive',
       label: 'Inactive Effects',
+      showCreateButtons: showCreateButtons,
       effects: [],
     },
   };

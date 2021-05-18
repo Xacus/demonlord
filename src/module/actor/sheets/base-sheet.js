@@ -26,7 +26,7 @@ export default class DLBaseActorSheet extends ActorSheet{
       actor: this.actor.data,
       data: this.actor.data.data,
       effects: true,
-      generalEffects: prepareActiveEffectCategories(this.actor.effects),
+      generalEffects: prepareActiveEffectCategories(this.actor.effects, true),
       effectsOverview: buildOverview(this.actor),
       flags: this.actor.data.flags
     }
