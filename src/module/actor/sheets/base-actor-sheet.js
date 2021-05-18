@@ -97,9 +97,7 @@ export default class DLBaseActorSheet extends ActorSheet{
   _onItemEdit(event, cls = '.item') {
     const li = $(event.currentTarget).parents(cls);
     const id = li.data('itemId') || li.data('item-id')
-    console.log(li, id)
     const item = this.actor.items.get(id);
-    console.log(item)
     item.sheet.render(true);
   }
 

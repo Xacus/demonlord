@@ -1,4 +1,4 @@
-import DLBaseActorSheet from "./base-sheet";
+import DLBaseActorSheet from "./base-actor-sheet";
 import {prepareActiveEffectCategories} from "../../active-effects/effects";
 import {DemonlordItem} from "../../item/item";
 

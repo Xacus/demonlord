@@ -2,7 +2,6 @@
 import { DL } from './config.js';
 import { DemonlordActor } from './actor/actor.js';
 import { DemonlordItem } from './item/item.js';
-import { DemonlordItemSheetDefault } from './item/sheets/item-sheet2.js';
 import { DemonlordPathSetup } from './item/path-setup.js';
 import { ActionTemplate } from './item/action-template.js';
 import { registerSettings } from './settings.js';
@@ -17,6 +16,8 @@ import { DLAfflictions } from './active-effects/afflictions';
 import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config';
 import DLCharacterSheet from "./actor/sheets/character-sheet";
 import DLCreatureSheet from "./actor/sheets/creature-sheet";
+import DLBaseItemSheet from "./item/sheets/base-item-sheet";
+import DLAncestrySheet from "./item/sheets/ancestry-sheet";
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -72,7 +73,7 @@ Hooks.once('init', async function () {
   });
 
   Items.unregisterSheet('core', ItemSheet);
-  Items.registerSheet('demonlord08', DemonlordItemSheetDefault, {
+  Items.registerSheet('demonlord08', DLBaseItemSheet, {
     types: [
       'item',
       'feature',
@@ -83,10 +84,13 @@ Hooks.once('init', async function () {
       'ammo',
       'specialaction',
       'endoftheround',
-      'ancestry',
       'profession',
       'language',
     ],
+    makeDefault: true,
+  });
+  Items.registerSheet('demonlord08', DLAncestrySheet, {
+    types: ['ancestry'],
     makeDefault: true,
   });
   Items.registerSheet('demonlord08', DemonlordPathSetup, {

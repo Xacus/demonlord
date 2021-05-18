@@ -1,4 +1,4 @@
-import DLBaseActorSheet from "./base-sheet";
+import DLBaseActorSheet from "./base-actor-sheet";
 
 export default class DLCreatureSheet extends DLBaseActorSheet {
 
