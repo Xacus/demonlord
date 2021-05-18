@@ -1,27 +1,41 @@
 .accordion {
-  margin-right: 10px;
+  /* margin-right: 10px; */
+  padding-right: 10px;
+  margin-right: -5px;
+  padding-top: 12px;
   overflow-y: auto;
   height: 100%;
 
   .toggleAccordion {
     display: block;
-    padding: 8px 10px;
+    padding: 6px 4px 0;
     margin: 0 0 10px 0;
     cursor: pointer;
     color: #000;
-    transition: ease 0.5s;
+    //transition: ease 0.5s;
     position: relative;
-    overflow-y: auto;
+    overflow-y: hidden;
     border-bottom: 1px solid var(--demonlord-red);
     font-weight: bold;
     font-family: 'IM Fell English SC', serif;
     font-size: 10px;
     text-transform: uppercase;
-    background: rgba(0, 0, 0, 0.1);
+    /* background: rgba(0, 0, 0, 0.1); */
+    height: 20px;
+    line-height: 1;
+    vertical-align: middle;
+
+    & > div {
+      & > label,
+      & > span {
+        display: inline-block;
+        margin: 0 2px;
+      }
+    }
   }
 
   .toggleAccordion:hover {
-    background: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 0 4px var(--demonlord-red);
   }
 
   .toggleAccordion::after {

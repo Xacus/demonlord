@@ -82,7 +82,7 @@ export default class DLBaseActorSheet extends ActorSheet{
 
   _onItemCreate(event) {
     event.preventDefault();
-
+    event.stopPropagation();
     const header = event.currentTarget;         // Get the type of item to create.
     const type = header.dataset.type;           // Grab any data associated with this control.
     const data = duplicate(header.dataset);     // Initialize a default name.

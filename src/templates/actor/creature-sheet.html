@@ -10,8 +10,12 @@
   <section class="sheet-body">
     <section class="sheet-content">
       {{!-- Creature Tab --}}
-      <div class="tab creature" data-group="primary" data-tab="creature">
-        {{> systems/demonlord08/templates/tabs/creature.html}}
+      <div class="tab creature" data-group="primary" data-tab="creature" style="position: relative; top:-12px;">
+        {{#if data.edit}}
+          {{> systems/demonlord08/templates/tabs/creature-edit.html}}
+        {{else}}
+          {{> systems/demonlord08/templates/tabs/creature-view.html}}
+        {{/if}}
       </div>
       {{!-- Active Affliction Tab --}}
       <div class="tab afflictions" data-group="primary" data-tab="afflictions">
