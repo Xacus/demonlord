@@ -1,8 +1,8 @@
 .sheet-tabs {
   position: absolute;
   transform: rotate(90deg);
-  top: 90px;
-  right: -95px;
+  top: 96px;
+  right: -107px;
   border-top: none;
   height: 18px;
   z-index: -1;
@@ -19,7 +19,7 @@
     line-height: 20px;
     white-space: nowrap;
     padding: 8px 15px;
-    background: url(../assets/ui/parchment.jpg);
+    background: url(../../../ui/parchment.jpg) repeat;
     box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.9);
     font-size: 12px;
     filter: brightness(0.9);
