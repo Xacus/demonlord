@@ -220,7 +220,7 @@ export class DLActiveEffects {
         const attributeTwo = pathLevel.attributeSelectTwoSetSelectedValue2 ?
           pathLevel.attributeSelectTwoSet3 : pathLevel.attributeSelectTwoSet4
 
-        levelEffectData.changes.concat([
+        levelEffectData.changes = levelEffectData.changes.concat([
             addEffect(`data.attributes.${attributeOne}.value`, pathLevel.attributeSelectTwoSetValue1),
             addEffect(`data.attributes.${attributeTwo}.value`, pathLevel.attributeSelectTwoSetValue2),
           ].filter(falsyChangeFilter)

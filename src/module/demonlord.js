@@ -2,7 +2,6 @@
 import { DL } from './config.js';
 import { DemonlordActor } from './actor/actor.js';
 import { DemonlordItem } from './item/item.js';
-import { DemonlordPathSetup } from './item/path-setup.js';
 import { ActionTemplate } from './item/action-template.js';
 import { registerSettings } from './settings.js';
 import { rollInitiative, startCombat, nextTurn, setupTurns } from './init/init.js';
@@ -18,6 +17,7 @@ import DLCharacterSheet from "./actor/sheets/character-sheet";
 import DLCreatureSheet from "./actor/sheets/creature-sheet";
 import DLBaseItemSheet from "./item/sheets/base-item-sheet";
 import DLAncestrySheet from "./item/sheets/ancestry-sheet";
+import DLPathSheet from "./item/sheets/path-sheet";
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -93,7 +93,7 @@ Hooks.once('init', async function () {
     types: ['ancestry'],
     makeDefault: true,
   });
-  Items.registerSheet('demonlord08', DemonlordPathSetup, {
+  Items.registerSheet('demonlord08', DLPathSheet, {
     types: ['path'],
     makeDefault: true,
   });
@@ -122,6 +122,10 @@ Hooks.once('init', async function () {
   Handlebars.registerHelper('notreadonly', (val) => (val ? '' : 'readonly'));
 
   Handlebars.registerHelper('json', JSON.stringify);
+
+  Handlebars.registerHelper('not', (val) => !Boolean(val));
+
+  Handlebars.registerHelper('hideIf', (val) => (Boolean(val) ? 'style="display:none";' : ''))
 
   Handlebars.registerHelper('hiddenEffect', (val) =>
     val && game.user.isGM && ! game.settings.get('demonlord08', 'gmEffectsControls')
