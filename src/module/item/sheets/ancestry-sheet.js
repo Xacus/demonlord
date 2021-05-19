@@ -1,5 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet';
-import { PathLevelItem } from '../nested-objects';
+import {getNestedItem, PathLevelItem} from '../nested-objects';
 
 export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
@@ -77,7 +77,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const itemId = data.id;
     const levelItem = new PathLevelItem();
     const itemData = duplicate(this.item.data);
-    let item = await this._getIncorporatedItem(data);
+    let item = await getNestedItem(data);
     let type = item.type;
 
     if (!item || !(type === item.data.type)) return;

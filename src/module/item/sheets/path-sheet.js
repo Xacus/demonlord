@@ -1,5 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet';
-import { PathLevel, PathLevelItem } from '../nested-objects';
+import {getNestedItem, PathLevel, PathLevelItem} from '../nested-objects';
 
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
@@ -175,7 +175,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
   async _addItem(data, level, group) {
     const levelItem = new PathLevelItem();
     const itemData = duplicate(this.item.data);
-    const item = await this._getIncorporatedItem(data);
+    const item = await getNestedItem(data);
     const type = item?.type;
     if (!item || !(type === item.data.type)) return;
 

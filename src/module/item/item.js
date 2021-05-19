@@ -1,4 +1,4 @@
-import {PathLevel} from './nested-objects.js';
+import {handleCreateAncestry, handleLevelChange, PathLevel} from './nested-objects.js';
 import {FormatDice} from '../dice.js';
 import {DLActiveEffects} from "../active-effects/item-effects";
 
@@ -41,6 +41,12 @@ export class DemonlordItem extends Item {
     this.embedActiveEffects()
     if (!this.parent && !this.folder)
       this.sheet.render(true)
+
+    // If item is created into an actor, embed the nested documents
+    if (this.parent) {
+      if (this.data.type === 'ancestry') handleCreateAncestry(this.parent, this.data.data)
+      else if (this.data.type === 'path') handleLevelChange(this.parent, this.parent.data.data.level, -1)
+    }
   }
 
   async embedActiveEffects() {

@@ -1,5 +1,9 @@
 import { capitalize } from '../utils/utils';
 
+/* -------------------------------------------- */
+/*  Class Models                                */
+/* -------------------------------------------- */
+
 export class PathLevel {
   constructor(obj) {
     if (obj === undefined) obj = {};
@@ -81,4 +85,89 @@ export class DamageType {
     this.damage = obj.damage || '';
     this.damagetype = obj.damagetype || '';
   }
+}
+
+/* -------------------------------------------- */
+/*  Transfer functions                          */
+/* -------------------------------------------- */
+
+export async function getNestedItem(nestedData) {
+  if (nestedData.pack) {
+    const pack = game.packs.get(nestedData.pack);
+    if (pack.metadata.entity !== 'Item') return;
+    return await pack.getEntity(nestedData.id);
+  } else if (nestedData.data) return nestedData;
+  return game.items.get(nestedData.id);
+}
+
+export async function getNestedItemsList(nestedDataList) {
+  const p = [];
+  for (const nd of nestedDataList) p.push(await getNestedItem(nd));
+  return p;
+}
+
+/* -------------------------------------------- */
+
+export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
+  curLevel = curLevel ?? actor.data.data.level;
+  const paths = actor.items.filter((i) => i.type === 'path');
+
+  const start = Math.min(curLevel, newLevel);
+  const end = Math.max(curLevel, newLevel);
+  const levels = [];
+  for (const p of paths) {
+    p.data.data.levels.filter((l) => l.level > start && l.level <= end).forEach((l) => levels.push(l));
+  }
+
+  let nestedItems = [];
+  if (newLevel > curLevel) {
+    // Get spells, talents and languages and add them to the actor
+    levels.forEach((l) => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]));
+    const itemsData = (await getNestedItemsList(nestedItems)).map((ni) => duplicate(ni));
+    return actor.createEmbeddedDocuments('Item', itemsData);
+  } else {
+    // Delete ALL items from the difference of levels
+    const idsToDel = getPathItemsToDel(actor, levels);
+    return actor.deleteEmbeddedDocuments('Item', idsToDel);
+    // return deletePathItems(actor, levels)
+  }
+}
+
+/* -------------------------------------------- */
+
+export function getPathItemsToDel(actor, pathLevels) {
+  let nestedItems = [];
+  pathLevels.forEach((l) => {
+    nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages, ...l.talentspick];
+  });
+  return nestedItems.map((ni) => actor.items.find((i) => i.name === ni.name)?.id).filter((id) => Boolean(id));
+}
+
+// Alternative (tentative to fix error)
+export async function deletePathItems(actor, pathLevels) {
+  let nestedItems = [];
+  pathLevels.forEach((l) => {
+    nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages, ...l.talentspick];
+  });
+  let actorItems = nestedItems.map((ni) => actor.items.find((i) => i.name === ni.name)).filter((i) => Boolean(i));
+  for (const item of actorItems) {
+    await item.delete({parent: actor})
+  }
+  return Promise.resolve()
+}
+
+export function getAncestryItemsToDel(actor, ancestryData) {
+  let nestedItems = [...ancestryData.talents, ...ancestryData.languagelist, ...ancestryData.level4.talent];
+  return nestedItems.map((ni) => actor.items.find((i) => i.name === ni.name)?.id).filter((id) => Boolean(id));
+}
+
+/* -------------------------------------------- */
+
+export async function handleCreateAncestry(actor, ancestryData) {
+  let nestedItems = [...ancestryData.talents, ...ancestryData.languagelist];
+  // Do not add level 4, user has to pick it
+  // if (actor.data.data.level >= 4)
+  //   nestedItems = [...nestedItems, ...ancestryData.level4.talent]
+  const itemsData = (await getNestedItemsList(nestedItems)).map((ni) => duplicate(ni));
+  return actor.createEmbeddedDocuments('Item', itemsData);
 }
