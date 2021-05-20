@@ -4,6 +4,14 @@ import {DemonlordItem} from "../item";
 
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      width: 475,
+      height: 700,
+    })
+  }
+
+  /** @override */
   getData(options) {
     const data = super.getData(options);
     data.levels = this.item.data.data.levels || [];
@@ -20,6 +28,14 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
     //data.item.data.editPath = !game.user.isGM;
     return data;
+  }
+
+  get _width() {
+    return 475;
+  }
+
+  get _height() {
+    return 700;
   }
 
   /* -------------------------------------------- */

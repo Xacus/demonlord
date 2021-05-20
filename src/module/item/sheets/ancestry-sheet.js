@@ -7,6 +7,14 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      width: 575,
+      height: 700,
+    })
+  }
+
+  /** @override */
   getData(options) {
     const data = super.getData(options);
     data.item.editAncestry = false;

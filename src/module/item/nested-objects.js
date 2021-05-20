@@ -29,27 +29,27 @@ export class PathLevel {
     this.attributeSelectTwoSet3Label = obj.attributeSelectTwoSet3Label || locAtt(this.attributeSelectTwoSet3) || '';
     this.attributeSelectTwoSet4Label = obj.attributeSelectTwoSet4Label || locAtt(this.attributeSelectTwoSet4) || '';
 
-    this.attributeSelectTwoSetValue1 = obj.attributeSelectTwoSetValue1 || 0;
-    this.attributeSelectTwoSetValue2 = obj.attributeSelectTwoSetValue2 || 0;
-    this.attributeSelectTwoSetSelectedValue1 = obj.attributeSelectTwoSetSelectedValue1 || true;
-    this.attributeSelectTwoSetSelectedValue2 = obj.attributeSelectTwoSetSelectedValue2 || true;
+    this.attributeSelectTwoSetValue1 = +obj.attributeSelectTwoSetValue1 || 0;
+    this.attributeSelectTwoSetValue2 = +obj.attributeSelectTwoSetValue2 || 0;
+    this.attributeSelectTwoSetSelectedValue1 = +obj.attributeSelectTwoSetSelectedValue1 || true;
+    this.attributeSelectTwoSetSelectedValue2 = +obj.attributeSelectTwoSetSelectedValue2 || true;
 
-    this.attributeStrength = obj.attributeStrength || 0;
-    this.attributeAgility = obj.attributeAgility || 0;
-    this.attributeIntellect = obj.attributeIntellect || 0;
-    this.attributeWill = obj.attributeWill || 0;
-    this.attributeStrengthSelected = obj.attributeStrengthSelected || false;
-    this.attributeAgilitySelected = obj.attributeAgilitySelected || false;
-    this.attributeIntellectSelected = obj.attributeIntellectSelected || false;
-    this.attributeWillSelected = obj.attributeWillSelected || false;
+    this.attributeStrength = +obj.attributeStrength || 0;
+    this.attributeAgility = +obj.attributeAgility || 0;
+    this.attributeIntellect = +obj.attributeIntellect || 0;
+    this.attributeWill = +obj.attributeWill || 0;
+    this.attributeStrengthSelected = +obj.attributeStrengthSelected || false;
+    this.attributeAgilitySelected = +obj.attributeAgilitySelected || false;
+    this.attributeIntellectSelected = +obj.attributeIntellectSelected || false;
+    this.attributeWillSelected = +obj.attributeWillSelected || false;
 
-    this.characteristicsPerception = obj.characteristicsPerception || 0;
-    this.characteristicsDefense = obj.characteristicsDefense || 0;
-    this.characteristicsPower = obj.characteristicsPower || 0;
-    this.characteristicsSpeed = obj.characteristicsSpeed || 0;
-    this.characteristicsHealth = obj.characteristicsHealth || 0;
-    this.characteristicsCorruption = obj.characteristicsCorruption || 0;
-    this.characteristicsInsanity = obj.characteristicsInsanity || 0;
+    this.characteristicsPerception = +obj.characteristicsPerception || 0;
+    this.characteristicsDefense = +obj.characteristicsDefense || 0;
+    this.characteristicsPower = +obj.characteristicsPower || 0;
+    this.characteristicsSpeed = +obj.characteristicsSpeed || 0;
+    this.characteristicsHealth = +obj.characteristicsHealth || 0;
+    this.characteristicsCorruption = +obj.characteristicsCorruption || 0;
+    this.characteristicsInsanity = +obj.characteristicsInsanity || 0;
 
     this.languagesText = obj.languagesText || '';
     this.equipmentText = obj.equipmentText || '';
@@ -64,6 +64,16 @@ export class PathLevel {
     this.languages = obj.languages || [];
   }
 }
+
+Handlebars.registerHelper('hasCharacteristics', (level) => {
+  return level.characteristicsPerception
+   || level.characteristicsDefense
+   || level.characteristicsPower
+   || level.characteristicsSpeed
+   || level.characteristicsHealth
+   || level.characteristicsCorruption
+   || level.characteristicsInsanity
+})
 
 export class PathLevelItem {
   constructor(obj) {
