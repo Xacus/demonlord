@@ -118,7 +118,7 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   _onCreateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
-    super._preCreateEmbeddedDocuments(embeddedName, result, options, userId)
+    super._onCreateEmbeddedDocuments(embeddedName, documents, result, options, userId)
     if (embeddedName === 'Item' && userId === game.userId)
       this._handleOnCreateEmbedded(documents).then(_ => this.sheet.render())
   }

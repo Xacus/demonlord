@@ -1,14 +1,16 @@
 export  default function launchRollDialog (dialogTitle, callback) {
   const d = new Dialog({
     title: dialogTitle,
-    content:
-      '<div class="challengedialog"><b>' +
-      game.i18n.localize('DL.DialogAddBonesAndBanes') +
-      "</b><input id='boonsbanes' style='width: 50px;margin-left: 5px;text-align: center' type='number' value=0 data-dtype='Number'/>" +
-      '</div><br/><div class="challengedialog"><b>' +
-      game.i18n.localize('DL.ModsAdd') +
-      "<input id='modifier' style='width: 50px;margin-left: 5px;text-align: center' type='number' value=0 data-dtype='Number'/>" +
-      '</b></div><br/>',
+    content: `
+<div class="challengedialog">
+<input id='boonsbanes' style='width: 50px;margin: 5px;text-align: center' type='number' value=0 data-dtype='Number'/>
+<b>${game.i18n.localize('DL.DialogAddBonesAndBanes')}</b>
+</div>
+<div class="challengedialog">
+<input id='modifier' style='width: 50px;margin: 5px;text-align: center' type='number' value=0 data-dtype='Number'/>
+<b>${game.i18n.localize('DL.ModsAdd')}</b>
+</div>
+`,
     buttons: {
       roll: {
         icon: '<i class="fas fa-check"></i>',
@@ -28,3 +30,4 @@ export  default function launchRollDialog (dialogTitle, callback) {
   })
   d.render(true)
 }
+
