@@ -126,21 +126,19 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     d.render(true);
   }
 
-  transferItem(event) {
+  async transferItem(event) {
     event.preventDefault();
+    const toAdd = []
     // Transfer all talents
     if (event.currentTarget.className.indexOf('transfer-talents')) {
       const itemGroup = event.currentTarget.getAttribute('data-group');
       let obj = itemGroup === 'talent' ? this.object.data.data.talents : this.object.data.data.level4.talent;
-      // FIXME: why does it only look at game.items and not also packs?
       if (!obj) return;
-      this.actor.createEmbeddedDocuments(
-        'Item',
-        obj
-          .map((t) => game.items.get(t.id))
-          .filter((i) => !!i)
-          .map((i) => i.data),
-      );
+      for (const o of obj) {
+        const item = await getNestedItem(o)
+        if (item) toAdd.push(duplicate(item.data))
+      }
+      this.actor.createEmbeddedDocuments('Item', toAdd );
     }
     // Transfer single Item
     else {
@@ -151,9 +149,9 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
           ? this.object.data.data.talents[itemIndex]
           : this.object.data.data.level4.talent[itemIndex];
       if (!selectedLevelItem) return;
-      let item = game.items.get(selectedLevelItem.id); // FIXME also here it looks at game.items
+      let item = await game.items.get(selectedLevelItem.id);
       if (!item) return;
-      this.actor.createEmbeddedDocuments('Item', [item.data]);
+      this.actor.createEmbeddedDocuments('Item', [duplicate(item.data)]);
     }
   }
 }

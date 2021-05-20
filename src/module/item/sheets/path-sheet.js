@@ -1,5 +1,6 @@
 import DLBaseItemSheet from './base-item-sheet';
 import {getNestedItem, PathLevel, PathLevelItem} from '../nested-objects';
+import {DemonlordItem} from "../item";
 
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
@@ -140,18 +141,22 @@ export default class DLPathSheet extends DLBaseItemSheet {
     d.render(true);
   }
 
-  transferItem(event, type) {
+  async transferItem(event, type) {
     event.preventDefault();
-    const levelIndex = event.currentTarget.getAttribute('data-level');
-    const itemIndex = event.currentTarget.getAttribute('data-item-id');
+    const levelIndex = event.currentTarget.parentElement.parentElement.getAttribute('data-level');
     if (type === 'transfer-talents') {
+      const toAdd = []
       for (const talent of this.object.data.data.levels[levelIndex].talents) {
-        const item = game.items.get(talent.id);
-        if (item != null) Item.create(item, { parent: this.actor });
+        const i = await getNestedItem(talent)
+        if (i) toAdd.push(duplicate(i.data))
       }
+      if (toAdd.length > 0) await this.actor.createEmbeddedDocuments('Item', toAdd)
+
     } else {
-      const itemId = this.object.data.data.levels[levelIndex][type][itemIndex].id;
-      Item.create(game.items.get(itemId), { parent: this.actor });
+      const itemIndex = event.currentTarget.getAttribute('data-item-id');
+      const nestedItemData = this.object.data.data.levels[levelIndex][type][itemIndex]
+      const item = await getNestedItem(nestedItemData)
+      await DemonlordItem.create(duplicate(item.data), {parent: this.actor})
     }
   }
 
