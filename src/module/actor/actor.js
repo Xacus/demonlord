@@ -13,6 +13,7 @@ import {
   postSpellToChat,
   postTalentToChat
 } from "../chat/roll-messages";
+import {handleCreateAncestry, handleLevelChange} from "../item/nested-objects";
 
 export class DemonlordActor extends Actor {
 
@@ -99,7 +100,7 @@ export class DemonlordActor extends Actor {
   }
 
   /* -------------------------------------------- */
-  /*  _onOperation                                */
+  /*  _onOperations                                */
   /* -------------------------------------------- */
 
   /** @override */
@@ -112,6 +113,42 @@ export class DemonlordActor extends Actor {
     await DLActiveEffects.toggleEffectsByActorRequirements(this)
     await this.setUsesOnSpells()
     await this.setEncumbrance()
+  }
+
+  /* -------------------------------------------- */
+
+  _onCreateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
+    super._preCreateEmbeddedDocuments(embeddedName, result, options, userId)
+    if (embeddedName === 'Item' && userId === game.userId)
+      this._handleOnCreateEmbedded(documents).then(_ => this.sheet.render())
+  }
+
+  async _handleOnCreateEmbedded(documents) {
+    for (const doc of documents) {
+      await DLActiveEffects.embedActiveEffects(this, doc, 'create');
+
+      // Ancestry an path creations
+      if (doc.type === 'ancestry') {
+        await handleCreateAncestry(this, doc.data.data)
+      } else if (doc.type === 'path') {
+        await handleLevelChange(this, this.data.data.level, -1)
+      }
+    }
+    return  Promise.resolve()
+  }
+
+  /* -------------------------------------------- */
+
+  _onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
+    super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId)
+    if (embeddedName === 'Item' && userId === game.userId)
+      this._handleOnUpdateEmbedded(documents).then(_ => this.sheet.render())
+  }
+
+  async _handleOnUpdateEmbedded(documents) {
+    for (const doc of documents)
+      await DLActiveEffects.embedActiveEffects(this, doc, 'update');
+    return Promise.resolve()
   }
 
   /* -------------------------------------------- */

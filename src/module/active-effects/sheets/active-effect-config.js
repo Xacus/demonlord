@@ -16,8 +16,8 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
     return {
       effect: effect, // Backwards compatibility
       data: foundry.utils.deepClone(this.object.data),
-      isActorEffect: this.object.parent.entity === "Actor",
-      isItemEffect: this.object.parent.entity === "Item",
+      isActorEffect: this.object.parent.documentName === "Actor",
+      isItemEffect: this.object.parent.documentName === "Item",
       submitText: "EFFECT.Submit",
       availableChangeKeys: DLActiveEffectConfig._availableChangeKeys,
       modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {

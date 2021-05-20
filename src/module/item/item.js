@@ -22,10 +22,7 @@ export class DemonlordItem extends Item {
       const rank = updateData?.data?.rank ?? +this.data.data.rank
       updateData['data.castings.max'] = CONFIG.DL.spelluses[power]?.[rank] ?? updateData?.data?.castings?.max ?? 0
     }
-
-    await super.update(updateData)
-    await this.embedActiveEffects()
-    return this
+    return super.update(updateData)
   }
 
   /** @override */
@@ -34,43 +31,6 @@ export class DemonlordItem extends Item {
     if (!data?.img && game.settings.get('demonlord08', 'replaceIcons'))
       data.img = CONFIG.DL.defaultItemIcons[data.type] || 'icons/svg/item-bag.svg'
     return super.create(data, options);
-  }
-
-  /** @override */
-  _onCreate(data, options, user) {
-    this.embedActiveEffects()
-    if (!this.parent && !this.folder)
-      this.sheet.render(true)
-
-    // If item is created into an actor, embed the nested documents
-    if (this.parent) {
-      if (this.data.type === 'ancestry') handleCreateAncestry(this.parent, this.data.data)
-      else if (this.data.type === 'path') handleLevelChange(this.parent, this.parent.data.data.level, -1)
-    }
-  }
-
-  async embedActiveEffects() {
-    if (!this.parent)
-      return 0
-    let effectDataList = []
-    const actor = this.parent
-    switch (this.data.type) {
-      case 'ancestry':
-        effectDataList = DLActiveEffects.generateEffectDataFromAncestry(this, actor)
-        break
-      case 'path':
-        effectDataList = DLActiveEffects.generateEffectDataFromPath(this, actor)
-        break
-      case 'talent':
-        effectDataList = DLActiveEffects.generateEffectDataFromTalent(this, actor)
-        break
-      case 'armor':
-        effectDataList = DLActiveEffects.generateEffectDataFromArmor(this, actor)
-        break
-      default:
-        return 0
-    }
-    return  DLActiveEffects.addUpdateEffectsToActor(actor, effectDataList)
   }
 
   /**

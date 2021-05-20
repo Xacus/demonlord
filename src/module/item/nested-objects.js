@@ -169,5 +169,5 @@ export async function handleCreateAncestry(actor, ancestryData) {
   // if (actor.data.data.level >= 4)
   //   nestedItems = [...nestedItems, ...ancestryData.level4.talent]
   const itemsData = (await getNestedItemsList(nestedItems)).map((ni) => duplicate(ni));
-  return actor.createEmbeddedDocuments('Item', itemsData);
+  return await actor.createEmbeddedDocuments('Item', itemsData);
 }
