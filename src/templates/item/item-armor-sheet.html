@@ -34,18 +34,18 @@
         <div class="item-table">
           {{!-- Bonuses --}}
           <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
               <label>{{localize "DL.ArmorBonuses"}}</label>
             </div>
-            <div class="col-xs-4">
+            <div class="col-4">
               <label>{{localize "DL.ArmorDefense"}}</label>
               <input type="text" name="data.defense" value="{{data.defense}}"/>
             </div>
-            <div class="col-xs-4">
+            <div class="col-4">
               <label>{{localize "DL.ArmorAgility"}}</label>
               <input type="text" name="data.agility" value="{{data.agility}}"/>
             </div>
-            <div class="col-xs-4">
+            <div class="col-4">
               <label>{{localize "DL.ArmorFixed"}}</label>
               <input type="text" name="data.fixed" value="{{data.fixed}}"/>
             </div>
@@ -53,11 +53,11 @@
 
           {{!-- Properties is Shield --}}
           <div class="row">
-            <div class="col-xs-8">
+            <div class="col-8">
               <label>{{localize "DL.ArmorProperties"}}</label>
               <input type="text" name="data.properties" value="{{data.properties}}"/>
             </div>
-            <div class="col-xs-4">
+            <div class="col-4">
               <label class="resource-label">{{localize "DL.ArmorIsShield"}}</label>
               <input type="checkbox" name="data.isShield" id="multipleoptions" class="single-checkbox"
                      {{checked data.isShield}}/>
@@ -66,11 +66,11 @@
 
           {{!-- Str min - Availability - Price --}}
           <div class="row">
-            <div class="col-xs-4">
+            <div class="col-4">
               <label>{{localize "DL.ArmorStrengthMin"}}</label>
               <input type="text" name="data.strengthmin" value="{{data.strengthmin}}"/>
             </div>
-            <div class="col-xs-4">
+            <div class="col-4">
               <label>{{localize "DL.Availability"}}</label>
               <select name="data.availability" data-dtype="String">
                 {{#select data.availability}}
@@ -87,7 +87,7 @@
                 {{/select}}
               </select>
             </div>
-            <div class="col-xs-4">
+            <div class="col-4">
               <label class="resource-label">{{localize "DL.ItemValue"}}</label>
               <input type="text" name="data.value" value="{{data.value}}"/>
             </div>

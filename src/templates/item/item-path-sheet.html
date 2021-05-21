@@ -37,7 +37,7 @@
 
           <div class="item-table fixed-path">
             <div class="row">
-              <div class="col-xs-8 inline-input">
+              <div class="col-8 inline-input">
                 <label>{{localize "DL.PathsPathType"}}</label>
                 <select name="data.type" data-dtype="String">
                   {{#select data.type}}
@@ -51,7 +51,7 @@
                   {{/select}}
                 </select>
               </div>
-              <div class="col-xs-4 inline-input">
+              <div class="col-4 inline-input">
                 <label>{{localize "DL.PathsLevelsTitle"}}</label>
                 <span class="item-controls" style="margin-left: 5px;top: 1px;position: relative;">
                 <a class="item-control add-level" title="{{localize 'DL.PathsAddLevel'}}"
@@ -84,7 +84,7 @@
 
               <div class="item-table indent">
                 <div class="row">
-                  <div class="col-xs-12">
+                  <div class="col-12">
                     <select name="level.attributeSelect" data-dtype="String">
                       {{#select level.attributeSelect}}
                         <option value="-">{{localize "DL.PathsLevelAttributesNone"}}</option>
@@ -103,24 +103,24 @@
                 </div>
                 {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree level.attributeSelectIsFixed) }}
                   <div class="row">
-                    <div class="col-xs-6 inline-input">
+                    <div class="col-6 inline-input">
                       <input type="number" name="level.attributeStrength"
                              value="{{level.attributeStrength}}" data-dtype="Number"/>
                       <label>{{localize 'DL.AttributeStrength'}}</label>
                     </div>
-                    <div class="col-xs-6 inline-input">
+                    <div class="col-6 inline-input">
                       <input type="number" name="level.attributeAgility"
                              value="{{level.attributeAgility}}" data-dtype="Number"/>
                       <label>{{localize 'DL.AttributeAgility'}}</label>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-xs-6 inline-input">
+                    <div class="col-6 inline-input">
                       <input type="number" name="level.attributeIntellect"
                              value="{{level.attributeIntellect}}" data-dtype="Number"/>
                       <label>{{localize 'DL.AttributeIntellect'}}</label>
                     </div>
-                    <div class="col-xs-6 inline-input">
+                    <div class="col-6 inline-input">
                       <input type="number" name="level.attributeWill"
                              value="{{level.attributeWill}}" data-dtype="Number"/>
                       <label>{{localize 'DL.AttributeWill'}}</label>
@@ -129,7 +129,7 @@
                 {{/if}}
                 {{#if level.attributeSelectIsTwoSet}}
                   <div class="row">
-                    <div class="col-xs-5">
+                    <div class="col-5">
                       <select name="level.attributeSelectTwoSet1" data-dtype="String">
                         {{#select level.attributeSelectTwoSet1}}
                           <option value="strength">
@@ -150,7 +150,7 @@
                     <div>
                       <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
                     </div>
-                    <div class="col-xs-5">
+                    <div class="col-5">
                       <select name="level.attributeSelectTwoSet2" data-dtype="String">
                         {{#select level.attributeSelectTwoSet2}}
                           <option value="strength">
@@ -168,14 +168,14 @@
                         {{/select}}
                       </select>
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-1">
                       <input type="number" name="level.attributeSelectTwoSetValue1"
                              value="{{level.attributeSelectTwoSetValue1}}"
                              data-dtype="Number"/>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-xs-5">
+                    <div class="col-5">
                       <select name="level.attributeSelectTwoSet3" data-dtype="String">
                         {{#select level.attributeSelectTwoSet3}}
                           <option value="strength">
@@ -196,7 +196,7 @@
                     <div>
                       <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
                     </div>
-                    <div class="col-xs-5">
+                    <div class="col-5">
                       <select name="level.attributeSelectTwoSet4" data-dtype="String">
                         {{#select level.attributeSelectTwoSet4}}
                           <option value="strength">
@@ -214,7 +214,7 @@
                         {{/select}}
                       </select>
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-1">
                       <input type="number" name="level.attributeSelectTwoSetValue2"
                              value="{{level.attributeSelectTwoSetValue2}}"
                              data-dtype="Number"/>
@@ -229,67 +229,67 @@
               </div>
               <div class="item-table indent">
                 <div class="row">
-                  <div class="col-xs-4 inline-input">
+                  <div class="col-4 inline-input">
                     <input type="number" name="level.characteristicsHealth"
                            value="{{level.characteristicsHealth}}" data-dtype="Number"/>
                     <label>{{localize 'DL.CharHealth'}}</label>
                   </div>
-                  <div class="col-xs-4 inline-input">
+                  <div class="col-4 inline-input">
                     <input type="number" name="level.characteristicsPower"
                            value="{{level.characteristicsPower}}" data-dtype="Number"/>
                     <label>{{localize 'DL.CharPower'}}</label>
                   </div>
-                  <div class="col-xs-4 inline-input">
+                  <div class="col-4 inline-input">
                     <input type="number" name="level.characteristicsPerception"
                            value="{{level.characteristicsPerception}}" data-dtype="Number"/>
                     <label>{{localize 'DL.CharPerception'}}</label>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-xs-4 inline-input">
+                  <div class="col-4 inline-input">
                     <input type="number" name="level.characteristicsSpeed"
                            value="{{level.characteristicsSpeed}}" data-dtype="Number"/>
                     <label>{{localize 'DL.CharSpeed'}}</label>
                   </div>
-                  <div class="col-xs-4 inline-input">
+                  <div class="col-4 inline-input">
                     <input type="number" name="level.characteristicsDefense"
                            value="{{level.characteristicsDefense}}" data-dtype="Number"/>
                     <label>{{localize 'DL.CharDefense'}}</label>
                   </div>
-                  <div class="col-xs-4 inline-input">
+                  <div class="col-4 inline-input">
                     <input type="number" name="level.characteristicsInsanity"
                            value="{{level.characteristicsInsanity}}" data-dtype="Number"/>
                     <label>{{localize 'DL.CharInsanity'}}</label>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-xs-4 inline-input">
+                  <div class="col-4 inline-input">
                     <input type="number" name="level.characteristicsCorruption"
                            value="{{level.characteristicsCorruption}}" data-dtype="Number"/>
                     <label>{{localize 'DL.CharCorruption'}}</label>
                   </div>
-                  <div class="col-xs-4 inline-input"></div>
-                  <div class="col-xs-4 inline-input"></div>
+                  <div class="col-4 inline-input"></div>
+                  <div class="col-4 inline-input"></div>
                 </div>
               </div>
 
               <div class="item-table">
                 <div class="row">
-                  <div class="col-xs-12">
+                  <div class="col-12">
                     <label>{{localize 'DL.PathsLevelLanguages'}}</label>
                     <textarea name="level.languagesText">{{level.languagesText}}</textarea>
                   </div>
-                  <div class="col-xs-6">
+                  <div class="col-6">
                     <label>{{localize 'DL.PathsLevelEquipment'}}</label>
                     <textarea name="level.equipmentText">{{level.equipmentText}}</textarea>
                   </div>
-                  <div class="col-xs-6">
+                  <div class="col-6">
                     <label>{{localize 'DL.TabsMagic'}}</label>
                     <textarea name="level.magicText">{{level.magicText}}</textarea>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-xs-6">
+                  <div class="col-6">
                     <label>{{localize 'DL.TabsTalents'}}</label>
                     <div class=" item-container drop-area" data-group="talent" data-level="{{id}}">
                       <ul class="tags">
@@ -301,7 +301,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="col-xs-6">
+                  <div class="col-6">
                     <label>{{localize 'DL.TabsTalents'}}: ({{localize 'DL.PathsLevelTalentChooseOne'}})</label>
                     <div class=" item-container drop-area" data-group="talentpick" data-level="{{id}}">
                       <ul class="tags">
@@ -315,7 +315,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-xs-12">
+                  <div class="col-12">
                     <label>{{localize 'DL.MagicSpellsTitle'}}</label>
                     <div class=" item-container drop-area" data-group="spell" data-level="{{id}}">
                       <ul class="tags">
@@ -373,25 +373,25 @@
               {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree)}}
               <div class="item-table indent">
                 <div class="row">
-                  <div class="col-xs-3">
+                  <div class="col-3">
                     <label for="level.attributeStrengthSelected{{id}}">
                       {{localize 'DL.AttributeStrength'}} +{{level.attributeStrength}}</label>
                     <input type="checkbox" name="level.attributeStrengthSelected" class="single-checkbox"
                            id="level.attributeStrengthSelected{{id}}" {{checked level.attributeStrengthSelected}}/>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-3">
                     <label for="level.attributeAgilitySelected{{id}}">
                       {{localize 'DL.AttributeAgility'}} +{{level.attributeAgility}}</label>
                     <input type="checkbox" name="level.attributeAgilitySelected" class="single-checkbox"
                            id="level.attributeAgilitySelected{{id}}" {{checked level.attributeAgilitySelected}}/>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-3">
                     <label for="level.attributeIntellectSelected{{id}}">
                       {{localize 'DL.AttributeIntellect'}} +{{level.attributeIntellect}}</label>
                     <input type="checkbox" name="level.attributeIntellectSelected" class="single-checkbox"
                            id="level.attributeIntellectSelected{{id}}" {{checked level.attributeIntellectSelected}}/>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-3">
                     <label for="level.attributeWillSelected{{id}}">
                       {{localize 'DL.AttributeWill'}} +{{level.attributeWill}}</label>
                     <input type="checkbox" name="level.attributeWillSelected" class="single-checkbox"
@@ -441,42 +441,42 @@
                   <div class="row">
 
                     {{#if level.attributeSelectTwoSetSelectedValue1}}
-                      <div class="col-xs-4" style="text-align: right">
+                      <div class="col-4" style="text-align: right">
                         <label for="level.attributeSelectTwoSetSelectedValue1.true{{id}}">
                           {{level.attributeSelectTwoSet1Label}} +{{level.attributeSelectTwoSetValue1}}</label>
                       </div>
-                      <div class="col-xs-1">
+                      <div class="col-1">
                         <input type="radio" name="level.attributeSelectTwoSetSelectedValue1"
                                id="level.attributeSelectTwoSetSelectedValue1.true{{id}}" value="true" {{checked}}/>
                       </div>
-                      <div class="col-xs-2" style="text-align: center;">
+                      <div class="col-2" style="text-align: center;">
                         <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
                       </div>
-                      <div class="col-xs-1">
+                      <div class="col-1">
                         <input type="radio" name="level.attributeSelectTwoSetSelectedValue1"
                                id="level.attributeSelectTwoSetSelectedValue1.false{{id}}" value="false"/>
                       </div>
-                      <div class="col-xs-4">
+                      <div class="col-4">
                         <label for="level.attributeSelectTwoSetSelectedValue1.false{{id}}">
                           {{level.attributeSelectTwoSet2Label}} +{{level.attributeSelectTwoSetValue1}}</label>
                       </div>
                     {{else}}
-                      <div class="col-xs-4" style="text-align: right">
+                      <div class="col-4" style="text-align: right">
                         <label for="level.attributeSelectTwoSetSelectedValue1.true{{id}}">
                           {{level.attributeSelectTwoSet1Label}} +{{level.attributeSelectTwoSetValue1}}</label>
                       </div>
-                      <div class="col-xs-1">
+                      <div class="col-1">
                         <input type="radio" name="level.attributeSelectTwoSetSelectedValue1"
                                id="level.attributeSelectTwoSetSelectedValue1.true{{id}}" value="true"/>
                       </div>
-                      <div class="col-xs-2" style="text-align: center;">
+                      <div class="col-2" style="text-align: center;">
                         <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
                       </div>
-                      <div class="col-xs-1">
+                      <div class="col-1">
                         <input type="radio" name="level.attributeSelectTwoSetSelectedValue1"
                                id="level.attributeSelectTwoSetSelectedValue1.false{{id}}" value="false" {{checked}}/>
                       </div>
-                      <div class="col-xs-4">
+                      <div class="col-4">
                         <label for="level.attributeSelectTwoSetSelectedValue1.false{{id}}">
                           {{level.attributeSelectTwoSet2Label}} +{{level.attributeSelectTwoSetValue1}}</label>
                       </div>
@@ -485,42 +485,42 @@
 
                   <div class="row">
                     {{#if level.attributeSelectTwoSetSelectedValue2}}
-                      <div class="col-xs-4" style="text-align: right">
+                      <div class="col-4" style="text-align: right">
                         <label for="level.attributeSelectTwoSetSelectedValue2.true{{id}}">
                           {{level.attributeSelectTwoSet3Label}} +{{level.attributeSelectTwoSetValue2}}</label>
                       </div>
-                      <div class="col-xs-1">
+                      <div class="col-1">
                         <input type="radio" name="level.attributeSelectTwoSetSelectedValue2"
                                id="level.attributeSelectTwoSetSelectedValue2.true{{id}}" value="true" {{checked}}/>
                       </div>
-                      <div class="col-xs-2" style="text-align: center;">
+                      <div class="col-2" style="text-align: center;">
                         <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
                       </div>
-                      <div class="col-xs-1">
+                      <div class="col-1">
                         <input type="radio" name="level.attributeSelectTwoSetSelectedValue2"
                                id="level.attributeSelectTwoSetSelectedValue2.false{{id}}" value="false"/>
                       </div>
-                      <div class="col-xs-4">
+                      <div class="col-4">
                         <label for="level.attributeSelectTwoSetSelectedValue2.false{{id}}">
                           {{level.attributeSelectTwoSet4Label}} +{{level.attributeSelectTwoSetValue2}}</label>
                       </div>
                     {{else}}
-                      <div class="col-xs-4" style="text-align: right">
+                      <div class="col-4" style="text-align: right">
                         <label for="level.attributeSelectTwoSetSelectedValue2.true">
                           {{level.attributeSelectTwoSet3Label}} +{{level.attributeSelectTwoSetValue2}}</label>
                       </div>
-                      <div class="col-xs-1">
+                      <div class="col-1">
                         <input type="radio" name="level.attributeSelectTwoSetSelectedValue2"
                                id="level.attributeSelectTwoSetSelectedValue2.true" value="true"/>
                       </div>
-                      <div class="col-xs-2" style="text-align: center;">
+                      <div class="col-2" style="text-align: center;">
                         <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
                       </div>
-                      <div class="col-xs-1">
+                      <div class="col-1">
                         <input type="radio" name="level.attributeSelectTwoSetSelectedValue2"
                                id="level.attributeSelectTwoSetSelectedValue2.false{{id}}" value="false" {{checked}}/>
                       </div>
-                      <div class="col-xs-4">
+                      <div class="col-4">
                         <label for="level.attributeSelectTwoSetSelectedValue2.false{{id}}">
                           {{level.attributeSelectTwoSet4Label}} +{{level.attributeSelectTwoSetValue2}}</label>
                       </div>
@@ -538,38 +538,38 @@
                 <div class="item-table indent">
                   <div class="row">
                     {{#if (ne level.characteristicsHealth 0)}}
-                      <div class="col-xs-6 inline-input">
+                      <div class="col-6 inline-input">
                         <label>{{localize 'DL.CharHealth'}}</label>
                         <span>+{{level.characteristicsHealth}}</span>
                       </div>
                     {{/if}}
                     {{#if (ne level.characteristicsPower 0)}}
-                      <div class="col-xs-6 inline-input">
+                      <div class="col-6 inline-input">
                         <label>{{localize 'DL.CharPower'}}</label>
                         <span>+{{level.characteristicsPower}}</span>
                       </div>
                     {{/if}}
                     {{#if (ne level.characteristicsPerception 0)}}
-                      <div class="col-xs-6 inline-input">
+                      <div class="col-6 inline-input">
                         <label>{{localize 'DL.CharPerception'}}</label>
                         <span>+{{level.characteristicsPerception}}</span>
                       </div>
                     {{/if}}
                     {{#if (ne level.characteristicsSpeed 0)}}
-                      <div class="col-xs-6 inline-input">
+                      <div class="col-6 inline-input">
                         <label>{{localize 'DL.CharSpeed'}}</label>
                         <span>+{{level.characteristicsSpeed}}</span>
                       </div>
                     {{/if}}
                     {{#if (ne level.characteristicsDefense 0)}}
-                      <div class="col-xs-6 inline-input">
+                      <div class="col-6 inline-input">
                         <label>{{localize 'DL.CharDefense'}}</label>
                         <span>+{{level.characteristicsDefense}}</span>
                       </div>
                     {{/if}}
                     {{log level.characteristicsCorruption}}
                     {{#if (ne level.characteristicsCorruption 0)}}
-                      <div class="col-xs-6 inline-input">
+                      <div class="col-6 inline-input">
                         <label>{{localize 'DL.CharCorruption'}}</label>
                         <span>+{{level.characteristicsCorruption}}</span>
                       </div>
@@ -581,7 +581,7 @@
               <div class="item-table">
                 {{#if level.languagesText}}
                   <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                       <label>{{localize 'DL.PathsLevelLanguages'}}</label>
                       <div>{{level.languagesText}}</div>
                     </div>
@@ -589,7 +589,7 @@
                 {{/if}}
                 {{#if level.equipmentText}}
                   <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                       <label>{{localize 'DL.PathsLevelEquipment'}}</label>
                       <div>{{level.equipmentText}}</div>
                     </div>
@@ -597,7 +597,7 @@
                 {{/if}}
                 {{#if level.magicText}}
                   <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                       <label>{{localize 'DL.TabsMagic'}}</label>
                       <div>{{level.magicText}}</div>
                     </div>
@@ -605,7 +605,7 @@
                 {{/if}}
                 {{#if level.talents}}
                   <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                       <label>{{localize 'DL.TabsTalents'}}</label>
                       <div class="item-container select-area">
                         <ul class="tags">
@@ -625,7 +625,7 @@
                 {{/if}}
                 {{#if level.talentspick}}
                   <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                       <label>{{localize 'DL.TabsTalents'}}: ({{localize 'DL.PathsLevelTalentChooseOne'}})</label>
                       <div class="info">{{localize 'DL.PathsTransfer'}}</div>
                       <div class="item-container select-area" data-group="talent" data-level="{{id}}">
@@ -646,7 +646,7 @@
                 {{/if}}
                 {{#if level.spells}}
                   <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                       <label>{{localize 'DL.MagicSpellsTitle'}}</label>
                       <div class="item-container select-area" data-group="spell" data-level="{{id}}">
                         <ul class="tags">

@@ -52,7 +52,5 @@
     "*.(js)": "eslint --fix",
     "*.(json|scss)": "prettier --write"
   },
-  "dependencies": {
-    "flexboxgrid": "^6.3.1"
-  }
+  "dependencies": {}
 }

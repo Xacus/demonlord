@@ -42,7 +42,7 @@
         margin: 0;
         min-height: 106px;
 
-        .col-xs-10 {
+        .col-10 {
           margin-bottom: 26px;
           min-height: 86px;
         }
@@ -188,8 +188,6 @@
 
       .row {
         padding: 4px 0px;
-        margin-left: -1rem !important;
-        margin-right: -1rem !important;
 
         span {
           display: inline-block !important;
@@ -290,16 +288,22 @@
       }
 
       .vs {
-        top: 20px;
+        position: absolute;
+        font-size: 10px;
+        left: 31.6%;
+        top: 26px;
+      }
+
+      .damage-row {
         position: relative;
-        font-size: 14px;
-        width: 0;
-        left: -6px;
+        padding: 0;
       }
 
       a.damage-delete {
-        margin-left: -35px;
-        margin-top: 4px;
+        // Note: must be inside position: relative; parent
+        position: absolute;
+        right: 4px;
+        top: 4px;
       }
 
       label {
@@ -373,6 +377,10 @@
         color: white;
         border-radius: 4px;
         background-color: #8d3b3c;
+      }
+
+      .item-controls {
+        text-align: right;
       }
 
       .center {

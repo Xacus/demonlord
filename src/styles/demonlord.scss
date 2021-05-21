@@ -9,6 +9,7 @@
 @import 'global/grid';
 @import 'global/flex';
 @import 'global/ui';
+@import 'global/grid2';
 
 /* Styles limited to demonlord sheets */
 .demonlord {
@@ -79,5 +80,5 @@
 }
 
 @import 'tipfy';
-@import 'node_modules/flexboxgrid/css/flexboxgrid';
+//@import 'node_modules/flexboxgrid/css/flexboxgrid';
 @import 'src/styles/components/item-sheet';
