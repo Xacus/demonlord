@@ -65,7 +65,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
     'data.bonuses.challenge.boons.perception': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.CharPerception'),
     // Armor bonuses
     'data.bonuses.armor.fixed':    i18n('DL.ArmorTitle') + ' - ' + i18n('DL.ArmorFixed'),
-    'data.bonuses.armor.agility':  i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Agility'),
+    'data.bonuses.armor.agility':  i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeAgility'),
     'data.bonuses.armor.defense':  i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Defense'),
     'data.bonuses.armor.override': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.override'),
     // Defense

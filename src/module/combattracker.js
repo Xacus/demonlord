@@ -1,4 +1,4 @@
-import {DLEndOfRound} from './dialog/endofround.js';
+import { DLEndOfRound } from './dialog/endofround.js';
 
 export default class extends CombatTracker {
   constructor(options) {
@@ -31,25 +31,28 @@ export default class extends CombatTracker {
 
       // Tooltip on Status Effects
       // Group actor effects by image
-      const imgEffectMap = new Map()
-      combatant.actor.effects.filter(e => e.isTemporary && !e.data.disabled).forEach(e => {
-        if (imgEffectMap.has(e.data.icon))
-          imgEffectMap.get(e.data.icon).push(e)
-        else
-          imgEffectMap.set(e.data.icon, [e])
-      })
+      const imgEffectMap = new Map();
+      combatant.actor.effects
+        .filter((e) => e.isTemporary && !e.data.disabled)
+        .forEach((e) => {
+          if (imgEffectMap.has(e.data.icon)) imgEffectMap.get(e.data.icon).push(e);
+          else imgEffectMap.set(e.data.icon, [e]);
+        });
 
       // Get effects displayed in the combat tracker and add the relevant data to the html,
-      const htmlEffectsCollection = el.getElementsByClassName('token-effects')[0].children
+      const htmlEffectsCollection = el.getElementsByClassName('token-effects')[0].children;
 
       for (let i = 0; i < htmlEffectsCollection.length; i++) {
-        const htmlEffect = htmlEffectsCollection[i]
-        const img = htmlEffect.attributes.getNamedItem('src').value
-        const match = imgEffectMap.get(img)?.pop()
-        if (!match) continue
+        const htmlEffect = htmlEffectsCollection[i];
+        const img = htmlEffect.attributes.getNamedItem('src').value;
+        const match = imgEffectMap.get(img)?.pop();
+        if (!match) continue;
 
-        const tooltip = `<div class="tooltipEffect tracker-effect" data-effect-uuid="${match.uuid}">${htmlEffect.outerHTML}<span class="tooltiptextEffect">${match.data.label}</span></div>`
-        htmlEffect.outerHTML = tooltip
+        let tooltiptext = ': ' + game.i18n.localize('DL.Afflictions' + match.data.label);
+        tooltiptext = tooltiptext.indexOf('DL.Afflictions') === -1 ? tooltiptext : '';
+
+        const tooltip = `<div class="tooltipEffect tracker-effect" data-effect-uuid="${match.uuid}">${htmlEffect.outerHTML}<span class="tooltiptextEffect">${match.data.label}${tooltiptext}</span></div>`;
+        htmlEffect.outerHTML = tooltip;
         // htmlEffect.addEventListener('click', ev => (ev.button == "2") ? match.delete() : null)
         // ^ does not work, probably the event gets intercepted
       }
@@ -61,13 +64,13 @@ export default class extends CombatTracker {
       if (endofrounds.length > 0) hasEndOfRoundEffects = true;
     });
 
-    html.find('.tracker-effect').click( ev => {
-      if (!game.user.isGM) return
-      const effectUUID = ev.currentTarget.attributes.getNamedItem('data-effect-uuid').value
-      fromUuid(effectUUID).then(effect =>
-        effect.getFlag('core', 'statusId') ? effect.delete() : effect.update({disabled: true})
-      )
-    })
+    html.find('.tracker-effect').click((ev) => {
+      if (!game.user.isGM) return;
+      const effectUUID = ev.currentTarget.attributes.getNamedItem('data-effect-uuid').value;
+      fromUuid(effectUUID).then((effect) =>
+        effect.getFlag('core', 'statusId') ? effect.delete() : effect.update({ disabled: true }),
+      );
+    });
 
     super.activateListeners(html);
 
@@ -161,16 +164,14 @@ export default class extends CombatTracker {
   }
 }
 
-
 export function _onUpdateCombat(combatData) {
-  const isRoundAdvanced = (combatData?.current?.round - combatData?.previous?.round) > 0
-  if (isRoundAdvanced){
-    const actors = combatData.data.combatants.map(c => c.actor)
+  const isRoundAdvanced = combatData?.current?.round - combatData?.previous?.round > 0;
+  if (isRoundAdvanced) {
+    const actors = combatData.data.combatants.map((c) => c.actor);
 
     // Deactivate temporary talents
-    actors.forEach(a => a.items
-      .filter(i => i.data.type === 'talent')
-      .forEach(t => a.deactivateTalent(t, 0, true))
-    )
+    actors.forEach((a) =>
+      a.items.filter((i) => i.data.type === 'talent').forEach((t) => a.deactivateTalent(t, 0, true)),
+    );
   }
 }
