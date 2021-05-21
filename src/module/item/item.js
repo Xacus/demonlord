@@ -194,15 +194,8 @@ export class DemonlordItem extends Item {
     const htmlTarget = event.currentTarget
     const htmlParent = htmlTarget.parentElement
 
-    const actorId = htmlParent.attributes.getNamedItem('data-actor-id').value
-    const itemId = htmlParent.attributes.getNamedItem('data-item-id').value
-    const effectId = htmlTarget.attributes.getNamedItem('data-effect-id').value
-
-
-    const activeEffect = game
-      .actors.get(actorId)
-      .items.get(itemId)
-      .effects.get(effectId)
+    const effectUuid = htmlTarget.attributes.getNamedItem('data-effect-uuid').value
+    const activeEffect = await fromUuid(effectUuid)
 
     if (!activeEffect) {
       console.warn("Demonlord | _onChatApplyEffect | Effect not found!")

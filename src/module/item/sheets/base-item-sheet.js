@@ -48,9 +48,11 @@ export default class DLBaseItemSheet extends ItemSheet {
     data.config = DL;
     data.item = itemData;
     data.data = itemData.data;
+
+    const effControls = data.document.isEmbedded ? -1 : 3
     data.effects =
       this.document.effects.size > 0 || !data.document.isEmbedded
-        ? prepareActiveEffectCategories(this.document.effects, !data.document.isEmbedded)
+        ? prepareActiveEffectCategories(this.document.effects, !data.document.isEmbedded, effControls)
         : null;
 
     if (data.item.type === 'weapon' || data.item.type === 'spell') this._prepareDamageTypes(data);

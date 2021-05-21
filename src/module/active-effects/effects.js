@@ -9,7 +9,7 @@ export function onManageActiveEffect(event, owner) {
   const li = a.closest('li');
   const effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
   const isCharacter = owner.type === 'character'
-
+  console.log(owner)
   switch (a.dataset.action) {
     case 'create':
       return owner.createEmbeddedDocuments('ActiveEffect', [
@@ -18,7 +18,7 @@ export function onManageActiveEffect(event, owner) {
           icon: isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' : owner.img,
           origin: owner.uuid,
           transfer: false,
-          flags: {sourceType: owner.data?.type},
+          flags: {sourceType: owner.type},
           'duration.rounds': li.dataset.effectType === 'temporary' ? 1 : undefined,
           disabled: li.dataset.effectType === 'inactive',
         },
@@ -39,25 +39,28 @@ export function onManageActiveEffect(event, owner) {
  * @param {Integer} showControls      What controls to show
  * @return {object}                   Data for rendering
  */
-export function prepareActiveEffectCategories(effects, showCreateButtons= false) {
+export function prepareActiveEffectCategories(effects, showCreateButtons= false, showControls=3) {
   // Define effect header categories
   let categories = {
     temporary: {
       type: 'temporary',
       label: 'Temporary Effects',
       showCreateButtons: showCreateButtons,
+      showControls: showControls,
       effects: [],
     },
     passive: {
       type: 'passive',
       label: 'Passive Effects',
       showCreateButtons: showCreateButtons,
+      showControls: showControls,
       effects: [],
     },
     inactive: {
       type: 'inactive',
       label: 'Inactive Effects',
       showCreateButtons: showCreateButtons,
+      showControls: showControls,
       effects: [],
     },
   };
