@@ -119,7 +119,7 @@ export default class extends CombatTracker {
       html
         .find('#combat-tracker')
         .append(
-          '<li id="combat-endofround" class="combatant actor directory-item flexrow"><img class="token-image" title="Hag" src="systems/demonlord/ui/icons/pentragram.png"/><div class="token-name flexcol"><h4>End of the Round</h4></div></li>',
+          '<li id="combat-endofround" class="combatant actor directory-item flexrow"><img class="token-image" title="Hag" src="systems/demonlord/ui/icons/pentragram.webp"/><div class="token-name flexcol"><h4>End of the Round</h4></div></li>',
         );
     }
 

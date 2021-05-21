@@ -32,14 +32,14 @@
   .darkmagic {
     position: relative;
     float: left;
-    background-image: url('../assets/ui/demonlord-logo-black.png');
+    background-image: url('../assets/ui/demonlord-logo-black.webp');
     background-size: 100% 100%;
     width: 70px;
     height: 42px;
   }
 
   .sotdl-logo {
-    background-image: url(../assets/ui/demonlord-logo-black.png);
+    background-image: url(../assets/ui/demonlord-logo-black.webp);
     background-size: 150px 100px;
     background-position: center;
     background-repeat: no-repeat;
@@ -154,7 +154,7 @@
       text-shadow: 3px 3px 5px #000;
       color: #c9c4ca;
       background-color: transparent;
-      border-image: url('../assets/ui/chapter-header.png');
+      border-image: url('../assets/ui/chapter-header.webp');
       border-image-slice: 50%;
       border-image-width: 100%;
       height: 100px;
@@ -181,7 +181,7 @@
 }
 
 #logo {
-  content: url('../assets/ui/demonlord-logo.png');
+  content: url('../assets/ui/demonlord-logo.webp');
   width: 150px;
 }
 
@@ -190,7 +190,7 @@
 }
 
 #pause > img {
-  content: url('../assets/ui/pentagram-pause.png');
+  content: url('../assets/ui/pentagram-pause.webp');
   width: 200px;
   height: 200px;
   top: -50px;

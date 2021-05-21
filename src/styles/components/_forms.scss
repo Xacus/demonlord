@@ -1,5 +1,5 @@
 .window-content {
-  background: #e3e3e3 url('../assets/ui/backgroundN2.png') no-repeat;
+  background: #e3e3e3 url('../assets/ui/backgroundN2.webp') no-repeat;
 }
 
 .item-form {
@@ -102,7 +102,7 @@
     height: 72px;
 
     .attributebox {
-      background: url(../assets/ui/attbox.png) no-repeat;
+      background: url(../assets/ui/attbox.webp) no-repeat;
       width: 82px;
 
       .attribute {
@@ -180,7 +180,7 @@
   .characteristics {
     .characteristic {
       .charbox {
-        background: url('../assets/ui/charbox.png') no-repeat;
+        background: url('../assets/ui/charbox.webp') no-repeat;
         width: 82px;
         height: 68px;
 
@@ -216,7 +216,7 @@
           }
 
           input.checkbox:checked + label {
-            background-image: url('../assets/ui/bloodstain.png');
+            background-image: url('../assets/ui/bloodstain.webp');
           }
         }
 

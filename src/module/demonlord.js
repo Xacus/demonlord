@@ -328,7 +328,7 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
   dice3d.addSystem({ id: 'demonlord08', name: 'Demonlord' }, true);
   dice3d.addDicePreset({
     type: 'd6',
-    labels: ['1', '2', '3', '4', '5', 'systems/demonlord08/ui/icons/logo.png'],
+    labels: ['1', '2', '3', '4', '5', 'systems/demonlord08/ui/icons/logo.webp'],
     system: 'demonlord08',
   });
   dice3d.addDicePreset({
@@ -353,7 +353,7 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       '17',
       '18',
       '19',
-      'systems/demonlord08/ui/icons/logo.png',
+      'systems/demonlord08/ui/icons/logo.webp',
     ],
     system: 'demonlord08',
   });

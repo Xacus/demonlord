@@ -10,7 +10,7 @@ section.window-content {
 }
 
 .window-content {
-  background: url(../assets/ui/sidebar_background.jpg), url(../assets/ui/paper.jpg);
+  background: url(../assets/ui/sidebar_background.webp), url(../assets/ui/paper.webp);
   background-repeat: repeat-x, no-repeat;
   background-size: auto 130px, cover;
   background-attachment: local;
@@ -29,7 +29,7 @@ form {
     width: 247px;
     position: fixed;
     overflow: hidden;
-    background: url('../assets/ui/sidebar.png') no-repeat top center;
+    background: url('../assets/ui/sidebar.webp') no-repeat top center;
 
     .sidebar {
       margin: 0px 23px 0 30px;
@@ -41,7 +41,7 @@ form {
       scrollbar-color: var(--demonlord-red) transparent;
 
       .frame {
-        background: url(../assets/ui/image-circle.png) no-repeat top left;
+        background: url(../assets/ui/image-circle.webp) no-repeat top left;
         background-size: 171px 171px, cover;
         height: 170px;
         margin-left: 9px;
@@ -49,7 +49,7 @@ form {
       }
 
       .framenpc {
-        background: url(../assets/ui/image-circle-npc.png) no-repeat top left;
+        background: url(../assets/ui/image-circle-npc.webp) no-repeat top left;
         background-size: 171px 171px, cover;
         height: 170px;
         margin-left: 9px;
@@ -57,7 +57,7 @@ form {
       }
 
       .framecreature {
-        background: url(../assets/ui/image-circle-creature.png) no-repeat top left;
+        background: url(../assets/ui/image-circle-creature.webp) no-repeat top left;
         background-size: 171px 171px, cover;
         height: 170px;
         margin-left: 9px;
@@ -117,7 +117,7 @@ form {
           }
 
           input.checkbox:checked + label {
-            background-image: url('../assets/ui/bloodstain.png');
+            background-image: url('../assets/ui/bloodstain.webp');
           }
         }
         .injuredtext,
@@ -310,6 +310,6 @@ form {
   }
 
   aside.npc {
-    background: url('../assets/ui/sidebar_npc.png') no-repeat top center;
+    background: url('../assets/ui/sidebar_npc.webp') no-repeat top center;
   }
 }

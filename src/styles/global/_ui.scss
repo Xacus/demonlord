@@ -16,7 +16,7 @@
 
 /* Sidebar */
 #sidebar {
-  background: url(../assets/ui/sidebar_background.jpg);
+  background: url(../assets/ui/sidebar_background.webp);
   border-radius: 0px;
 }
 
@@ -122,7 +122,7 @@
   width: 25px;
   height: 25px;
   color: #f0f8ff00;
-  background: url(../assets/ui/icons/pentragram.png);
+  background: url(../assets/ui/icons/pentragram.webp);
 }
 
 #chat-controls div.roll-type-select select {
@@ -159,7 +159,7 @@
 }
 
 #hotbar #macro-list {
-  background: url(../assets/ui/sidebar_background.jpg);
+  background: url(../assets/ui/sidebar_background.webp);
   border: 1px solid black;
 }
 
@@ -233,7 +233,7 @@
 
 /* Players */
 #players {
-  background: url(../assets/ui/sidebar_background.jpg);
+  background: url(../assets/ui/sidebar_background.webp);
   font-family: $font-header;
   font-size: 11px;
   text-transform: uppercase;
