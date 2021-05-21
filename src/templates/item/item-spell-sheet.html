@@ -21,19 +21,19 @@
   <section class="sheet-body">
     <section class="sheet-content ">
       <div class="tab attributes" data-group="primary" data-tab="attributes">
-        <div class="item-table">
+        <div class="item-table fixed-path">
           <div class="row">
             <div class="col-xs-3">
-              <label class="resource-label">{{localize "DL.MagicTradition"}}</label>
-              <input type="text" name="data.tradition" value="{{data.tradition}}"/>
+              <label class="resource-label" style="font-size: 16px;">{{localize "DL.MagicTradition"}}</label>
+              <input type="text" name="data.tradition" value="{{data.tradition}}" style="font-size: 16px;"/>
             </div>
             <div class="col-xs-3">
-              <label class="resource-label">{{localize "DL.SpellRank"}}</label>
-              <input type="text" name="data.rank" value="{{data.rank}}"/>
+              <label class="resource-label" style="font-size: 16px;">{{localize "DL.SpellRank"}}</label>
+              <input type="text" name="data.rank" value="{{data.rank}}" style="font-size: 16px;"/>
             </div>
             <div class="col-xs-3">
-              <label class="resource-label">{{localize "DL.SpellType"}}</label>
-              <select name="data.spelltype" data-dtype="String">
+              <label class="resource-label" style="font-size: 16px;">{{localize "DL.SpellType"}}</label>
+              <select name="data.spelltype" data-dtype="String" style="font-size: 16px;">
                 {{#select data.spelltype}}
                 <option value="">—</option>
                 <option value="Attack">{{localize "DL.SpellTypeAttack"}}
@@ -45,8 +45,8 @@
               </select>
             </div>
             <div class="col-xs-3">
-              <label class="resource-label">{{localize "DL.SpellAttribute"}}</label>
-              <select name="data.attribute" data-dtype="String">
+              <label class="resource-label" style="font-size: 16px;">{{localize "DL.SpellAttribute"}}</label>
+              <select name="data.attribute" data-dtype="String" style="font-size: 16px;">
                 {{#select data.attribute}}
                 <option value="">—</option>
                 <option value="Intellect">
@@ -60,10 +60,10 @@
           </div>
         </div>
 
-        <div class="item-tab-sub-header">
+        <div class="item-tab-sub-header collapse-title">
           <div>{{localize "DL.SpellCastings"}}</div>
         </div>
-        <div class="item-table indent">
+        <div class="item-table indent collapse-content">
           <div class="row">
             <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellCastingsUses"}}</label>
@@ -76,11 +76,11 @@
           </div>
         </div>
 
-        <div class="item-tab-sub-header">
+        <div class="item-tab-sub-header collapse-title">
           <div>{{localize "DL.SpellTypeAttack"}}</div>
         </div>
 
-        <div class="item-table indent">
+        <div class="item-table indent collapse-content">
           <div class="row">
             <div class="col-xs-5">
               <label class="resource-label">{{localize "DL.WeaponAttackModifier"}}</label>
@@ -170,11 +170,11 @@
         </div>
 
 
-        <div class="item-tab-sub-header">
+        <div class="item-tab-sub-header collapse-title">
           <div>{{localize "DL.SpellTypeDefense"}}</div>
         </div>
 
-        <div class="item-table indent">
+        <div class="item-table indent collapse-content">
           <div class="row">
             <div class="col-xs-4">
               <label class="resource-label">{{localize "DL.ChallengeRoll"}}</label>
@@ -197,11 +197,11 @@
           </div>
         </div>
 
-        <div class="item-tab-sub-header">
+        <div class="item-tab-sub-header collapse-title">
           <div>{{localize "DL.TalentHealing"}}</div>
         </div>
 
-        <div class="item-table indent">
+        <div class="item-table indent collapse-content">
           <div class="row">
             <div class="col-xs-12 inline-input fix">
               <input type="checkbox" name="data.healing.healing" id="healingoptions"
@@ -212,11 +212,11 @@
           </div>
         </div>
 
-        <div class="item-tab-sub-header">
+        <div class="item-tab-sub-header collapse-title">
           <div>{{localize "DL.Characteristics"}}</div>
         </div>
 
-        <div class="item-table indent">
+        <div class="item-table indent collapse-content">
           <div class="row">
             <div class="col-xs-6">
               <label class="resource-label">{{localize "DL.SpellEffectDice"}}</label>

@@ -8,7 +8,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord2', 'sheet', 'item'],
       width: 600,
-      height: 520,
+      height: 620,
       tabs: [
         {
           navSelector: '.sheet-tabs',
@@ -56,8 +56,12 @@ export default class DLBaseItemSheet extends ItemSheet {
     if (data.item.type === 'weapon' || data.item.type === 'spell') this._prepareDamageTypes(data);
     else if (data.item.type === 'talent') this._prepareDamageTypes(data, true);
 
+    this.sectionStates = this.sectionStates || new Map();
+
     return data;
   }
+
+  sectionStates;
 
   /* -------------------------------------------- */
 
@@ -108,6 +112,43 @@ export default class DLBaseItemSheet extends ItemSheet {
     // Damage types
     html.find('.damagetype-control').click((ev) => this._onManageDamageType(ev, 'action'));
     html.find('.vsdamagetype-control').click((ev) => this._onManageDamageType(ev, 'vs', { diff: false }));
+
+    // Collapsable tables
+    const collapsableContents = html.find('.collapse-content');
+    const collapsableTitles = html.find('.collapse-title');
+
+    // Sections init
+    if (this.sectionStates.size === 0) {
+      // If the state of the sections are not defined, set it all to true and hide the sections
+      for (let i = 0; i < collapsableContents.length; i++) this.sectionStates.set(i, true);
+      collapsableContents.hide();
+    } else {
+      // Else if the state is defined, set the visibility of the content and the class of the title
+      this.sectionStates.forEach((val, key) => {
+        if (val) $(collapsableContents[key]).hide();
+        else $(collapsableTitles[key]).addClass('active');
+      });
+    }
+
+    collapsableTitles.click((ev) => {
+      const title = $(ev.currentTarget);
+      const content = title.next('.collapse-content');
+      // Get the index of the current clicked section title
+      const index = collapsableTitles
+        .map((i, ct) => ct.innerText)
+        .toArray()
+        .indexOf(title[0].innerText);
+      // Hide all contents and set their state to true (meaning hid)
+      collapsableContents.slideUp();
+      this.sectionStates.forEach((v, k) => this.sectionStates.set(k, true));
+
+      if (!title.is('.active')) {
+        this.sectionStates.set(index, false);   // Save the state of the current section
+        collapsableTitles.removeClass('active');
+        title.addClass('active');
+        content.slideDown();
+      } else collapsableTitles.removeClass('active');
+    });
 
     // Add drag events.
     html

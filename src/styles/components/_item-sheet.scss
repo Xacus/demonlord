@@ -166,8 +166,9 @@
 
     .item-tab-sub-header {
       margin-left: 16px;
+      margin-right: 16px;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 18px;
     }
 
     .item-table {
@@ -186,7 +187,9 @@
       }
 
       .row {
-        padding: 8px 0px;
+        padding: 4px 0px;
+        margin-left: -1rem !important;
+        margin-right: -1rem !important;
 
         span {
           display: inline-block !important;
@@ -379,18 +382,20 @@
 
     .fixed-path {
       margin-bottom: 12px;
-      border-bottom: 1px solid #181818;
-      border-top: 1px solid #181818;
-      border-left: 2px solid #181818;
-      border-right: 2px solid #181818;
+      border-bottom: 1px solid #404040;
+      border-top: 1px solid #404040;
+      border-left: 2px solid #404040;
+      border-right: 2px solid #404040;
       border-radius: 5px;
       margin-top: 12px;
+      padding: 2px 8px;
 
       .row {
         label,
+        input,
         select {
-          font-size: 18px !important;
-          height: 24px;
+          font-size: 18px;
+          height: 24px !important;
         }
       }
     }
