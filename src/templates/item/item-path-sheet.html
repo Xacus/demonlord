@@ -68,7 +68,7 @@
                 <img src="systems/demonlord08/assets/ui/text_divider.webp"/>
                 <div>
                   <span>{{localize 'DL.PathsLevelsSubTitle'}}</span>
-                  <span><input type="number" name="level.level" value="{{level.level}}" data-dtype="Number"/></span>
+                  <span><input type="number" name="level.level" value="{{level.level}}" data-dtype="Number" style="font-family: 'IM Fell English SC', serif !important;"/></span>
                   <span style="font-size: 14px;bottom: 3px;margin-left: 4px;">
                     <a class="item-control delete-level" title="{{localize 'DL.PathsDeleteLevel'}}">
                       <i class="fas fa-trash"></i>
@@ -147,7 +147,7 @@
                         {{/select}}
                       </select>
                     </div>
-                    <div>
+                    <div style="text-align: center;">
                       <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
                     </div>
                     <div class="col-5">
@@ -193,7 +193,7 @@
                         {{/select}}
                       </select>
                     </div>
-                    <div>
+                    <div style="text-align:center;">
                       <label>{{localize 'DL.PathsLevelAttributesSelectOr'}}</label>
                     </div>
                     <div class="col-5">
@@ -374,25 +374,25 @@
               <div class="item-table indent">
                 <div class="row">
                   <div class="col-3">
-                    <label for="level.attributeStrengthSelected{{id}}">
+                    <label for="level.attributeStrengthSelected{{id}}" style="text-align:center;">
                       {{localize 'DL.AttributeStrength'}} +{{level.attributeStrength}}</label>
                     <input type="checkbox" name="level.attributeStrengthSelected" class="single-checkbox"
                            id="level.attributeStrengthSelected{{id}}" {{checked level.attributeStrengthSelected}}/>
                   </div>
                   <div class="col-3">
-                    <label for="level.attributeAgilitySelected{{id}}">
+                    <label for="level.attributeAgilitySelected{{id}}" style="text-align:center;">
                       {{localize 'DL.AttributeAgility'}} +{{level.attributeAgility}}</label>
                     <input type="checkbox" name="level.attributeAgilitySelected" class="single-checkbox"
                            id="level.attributeAgilitySelected{{id}}" {{checked level.attributeAgilitySelected}}/>
                   </div>
                   <div class="col-3">
-                    <label for="level.attributeIntellectSelected{{id}}">
+                    <label for="level.attributeIntellectSelected{{id}}" style="text-align:center;">
                       {{localize 'DL.AttributeIntellect'}} +{{level.attributeIntellect}}</label>
                     <input type="checkbox" name="level.attributeIntellectSelected" class="single-checkbox"
                            id="level.attributeIntellectSelected{{id}}" {{checked level.attributeIntellectSelected}}/>
                   </div>
                   <div class="col-3">
-                    <label for="level.attributeWillSelected{{id}}">
+                    <label for="level.attributeWillSelected{{id}}" style="text-align:center;">
                       {{localize 'DL.AttributeWill'}} +{{level.attributeWill}}</label>
                     <input type="checkbox" name="level.attributeWillSelected" class="single-checkbox"
                            id="level.attributeWillSelected{{id}}" {{checked level.attributeWillSelected}}/>
@@ -538,40 +538,45 @@
                 <div class="item-table indent">
                   <div class="row">
                     {{#if (ne level.characteristicsHealth 0)}}
-                      <div class="col-6 inline-input">
+                      <div class="col-6 inline-input input-round">
+                        <input type="text" value="+{{level.characteristicsHealth}}" readonly/>
                         <label>{{localize 'DL.CharHealth'}}</label>
-                        <span>+{{level.characteristicsHealth}}</span>
                       </div>
                     {{/if}}
                     {{#if (ne level.characteristicsPower 0)}}
                       <div class="col-6 inline-input">
+                        <input type="text" value="+{{level.characteristicsPower}}" readonly/>
                         <label>{{localize 'DL.CharPower'}}</label>
-                        <span>+{{level.characteristicsPower}}</span>
                       </div>
                     {{/if}}
                     {{#if (ne level.characteristicsPerception 0)}}
                       <div class="col-6 inline-input">
+                        <input type="text" value="+{{level.characteristicsPerception}}" readonly/>
                         <label>{{localize 'DL.CharPerception'}}</label>
-                        <span>+{{level.characteristicsPerception}}</span>
                       </div>
                     {{/if}}
                     {{#if (ne level.characteristicsSpeed 0)}}
                       <div class="col-6 inline-input">
+                        <input type="text" value="+{{level.characteristicsSpeed}}" readonly/>
                         <label>{{localize 'DL.CharSpeed'}}</label>
-                        <span>+{{level.characteristicsSpeed}}</span>
                       </div>
                     {{/if}}
                     {{#if (ne level.characteristicsDefense 0)}}
                       <div class="col-6 inline-input">
+                        <input type="text" value="+{{level.characteristicsDefense}}" readonly/>
                         <label>{{localize 'DL.CharDefense'}}</label>
-                        <span>+{{level.characteristicsDefense}}</span>
                       </div>
                     {{/if}}
-                    {{log level.characteristicsCorruption}}
+                    {{#if (ne level.characteristicsInsanity 0)}}
+                      <div class="col-6 inline-input">
+                        <input type="text" value="+{{level.characteristicsInsanity}}" readonly/>
+                        <label>{{localize 'DL.CharInsanity'}}</label>
+                      </div>
+                    {{/if}}
                     {{#if (ne level.characteristicsCorruption 0)}}
                       <div class="col-6 inline-input">
+                        <input type="text" value="+{{level.characteristicsCorruption}}" readonly/>
                         <label>{{localize 'DL.CharCorruption'}}</label>
-                        <span>+{{level.characteristicsCorruption}}</span>
                       </div>
                     {{/if}}
                   </div>

@@ -5,3 +5,8 @@
 $font-primary: 'Roboto', sans-serif;
 $font-secondary: 'Shadows Into Light', sans-serif;
 $font-header: 'IM Fell English SC', serif;
+
+@font-face {
+  font-family: 'Gotham Book';
+  src: url('../fonts/GothamBook Regular.otf') format('opentype');
+}

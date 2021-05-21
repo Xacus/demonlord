@@ -604,7 +604,7 @@
   "DL.PathsAddLevel": "Add level",
   "DL.PathsDeleteLevel": "Delete level",
   "DL.PathsLevelAttributesSubtitle": "Attributes",
-  "DL.PathsLevelAttributesNone": "none",
+  "DL.PathsLevelAttributesNone": "None",
   "DL.PathsLevelAttributesChooseTwo": "Choose Two",
   "DL.PathsLevelAttributesChooseThree": "Choose Three",
   "DL.PathsLevelAttributesFixed": "Fixed",

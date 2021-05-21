@@ -36,6 +36,14 @@
     padding-bottom: 8px !important;
     height: inherit;
 
+    // Typography
+    input,
+    select,
+    textarea,
+    .editor {
+      font-family: 'Gotham Book', 'IM Fell English SC', serif !important;
+    }
+
     .item-general {
       .row {
         padding: 8px 0px;
@@ -200,7 +208,7 @@
         height: 20px;
         width: 100%;
         //appearance: none;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: normal;
         text-align: center;
         text-align-last: center;
@@ -222,7 +230,6 @@
 
       select {
         cursor: pointer;
-        font-family: 'IM Fell English SC', serif !important;
 
         &:hover {
           //box-shadow: 0 0 5px #8d3b3c !important;
