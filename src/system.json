@@ -2,7 +2,7 @@
   "name": "demonlord08",
   "title": "Shadow of the Demon Lord 0.8.x",
   "description": "The Shadow of the Demonlord system for FoundryVTT",
-  "version": "1.8.0",
+  "version": "2.0.0",
   "author": "Xacus",
   "minimumCoreVersion": "0.8.0",
   "compatibleCoreVersion": "0.8.4",

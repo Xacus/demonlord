@@ -99,7 +99,7 @@ export class DLActiveEffects {
           effectData._id = u.data._id;
           if (effectData.changes.length > 0) effectsToUpd.push(effectData);
           else effectsToDel.push(effectData._id);
-        } else effectsToAdd.push(effectData)
+        } else if (effectData.changes.length > 0) effectsToAdd.push(effectData)
       }
 
       if (effectsToAdd.length > 0) await actor.createEmbeddedDocuments('ActiveEffect', effectsToAdd)

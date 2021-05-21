@@ -141,7 +141,7 @@ export class DemonlordActor extends Actor {
 
   _onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
     super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId)
-    if (embeddedName === 'Item' && userId === game.userId)
+    if (embeddedName === 'Item' && userId === game.userId && !!!options.noEmbedEffects)
       this._handleOnUpdateEmbedded(documents).then(_ => this.sheet.render())
   }
 
