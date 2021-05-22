@@ -5,7 +5,7 @@
   "version": "2.0.0",
   "author": "Xacus",
   "minimumCoreVersion": "0.8.0",
-  "compatibleCoreVersion": "0.8.4",
+  "compatibleCoreVersion": "0.8.5",
   "esmodules": ["module/demonlord.js"],
   "styles": ["styles/demonlord.css"],
   "scripts": ["lib/tagify.min.js", "lib/tipfy.js"],
