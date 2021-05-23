@@ -346,7 +346,7 @@
   "DL.DialogHealedFor": "Curado(s) ",
   "DL.DialogHealedForPoints": " ponto(s) de dano.",
   "DL.DialogRest": "Descansando.",
-  "DL.DialogShoeEffects": "Mostrar efeitos",
+  "DL.DialogShowEffects": "Mostrar efeitos",
   "DL.CreatureEdit": "Editar Criatura",
   "DL.CreatureSave": "Salvar Criatura",
   "DL.CreatureName": "Nome",

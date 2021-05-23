@@ -23,54 +23,24 @@ export class DLEndOfRound extends FormApplication {
    * @return {Object}
    */
   getData() {
-    const currentCombat = this.object.data
     let creatures = {}
-    const registerCreature = (i, actor, token, init) => {
-      creatures[i] = {
-        tokenActorId: token.actorId,
-        initiative: init,
-        actor: actor,
-        token: token,
-        endOfRoundEffects: [],
-      }
-    }
+    const currentCombat = game.combat
+    const combatants = Array.from(currentCombat.combatants?.values()) || []
 
-    var dictCombatants = new Map()
-    for (const combatant of currentCombat.combatants.sort((a, b) => (a.initiative > b.initiative ? -1 : 1))) {
-      if (!combatant.defeated && combatant.actor?.data?.type !== 'character')
-        dictCombatants.set(combatant.token.actorId, combatant)
-    }
+    combatants
+      .filter(combatant => !combatant.data.defeated && combatant.actor.data.type === 'creature')
+      .sort((a, b) => (a.initiative > b.initiative ? -1 : 1))
+      .forEach((combatant, index) => {
+        creatures[index] = {
+          tokenActorId: combatant.token.actorId,
+          initiative: combatant.initiative,
+          actor: combatant.actor,
+          token: combatant.token,
+          endOfRoundEffects: combatant.actor.items.filter(i => i.type === 'endoftheround'),
+        }
+      })
 
-    let s = 0
-    dictCombatants.values().forEach(combatant => {
-      const actor = combatant.actor
-      registerCreature(s, actor, combatant.token, combatant.initiative)
-
-      const endofrounds = combatant.actor.getEmbeddedCollection('Item').filter(e => 'endoftheround' === e.type)
-      for (let endofround of endofrounds) {
-        creatures[s].endOfRoundEffects.push(endofround)
-      }
-      s++
-    })
-    /*
-         let s = 0;
-         for (const combatant of currentCombat.combatants) {
-             if (!combatant.defeated && combatant.actor?.data?.type != "character") {
-                 const actor = combatant.actor;
-                 registerCreature(s, actor, combatant.token);
-
-                 const endofrounds = combatant.actor.getEmbeddedCollection("Item").filter(e => "endoftheround" === e.type);
-                 for (let endofround of endofrounds) {
-                     creatures[s].endOfRoundEffects.push(endofround);
-                 }
-                 s++
-             }
-         }
-         */
-
-    return {
-      creatures,
-    }
+    return { creatures }
   }
   /* -------------------------------------------- */
 

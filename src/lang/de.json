@@ -344,7 +344,7 @@
   "DL.DialogHealedFor": "Geheilt: ",
   "DL.DialogHealedForPoints": " Punkte Schaden.",
   "DL.DialogRest": "Rast einlegen",
-  "DL.DialogShoeEffects": "Effekte Anzeigen",
+  "DL.DialogShowEffects": "Effekte Anzeigen",
   "DL.CreatureEdit": "Kreatur bearbeiten",
   "DL.CreatureSave": "Kreatur speichern",
   "DL.CreatureName": "Name",

@@ -345,7 +345,7 @@
   "DL.DialogHealedFor": "Guéri ",
   "DL.DialogHealedForPoints": " points de dégât.",
   "DL.DialogRest": "Se reposer.",
-  "DL.DialogShoeEffects": "Afficher les effets",
+  "DL.DialogShowEffects": "Afficher les effets",
   "DL.CreatureEdit": "Editer la Créature",
   "DL.CreatureSave": "Sauve la Creature",
   "DL.CreatureName": "Nom",
