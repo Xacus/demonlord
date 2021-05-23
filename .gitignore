@@ -11,9 +11,13 @@ foundryconfig.json
 
 # Distribution files
 dist
+system.zip
 
 # ESLint
 .eslintcache
 
 # Junit results
 junit.xml
+
+# Environment variables
+.env
