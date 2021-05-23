@@ -1,7 +1,6 @@
-import DLBaseActorSheet from "./base-actor-sheet";
+import DLBaseActorSheet from './base-actor-sheet'
 
 export default class DLCreatureSheet extends DLBaseActorSheet {
-
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
@@ -17,7 +16,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
         },
       ],
       scrollY: ['.tab.active'],
-    });
+    })
   }
 
   /* -------------------------------------------- */
@@ -26,19 +25,18 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
 
   /** @override */
   getData() {
-    const data = super.getData();
-    data.dtypes = ['String', 'Number', 'Boolean'];
+    const data = super.getData()
+    data.dtypes = ['String', 'Number', 'Boolean']
     this.prepareItems(data)
     return data
   }
 
   prepareItems(sheetData) {
-    super.prepareItems(sheetData);
+    super.prepareItems(sheetData)
     const m = sheetData._itemsByType
     const actorData = sheetData.actor
-    actorData.specialactions = m.get('specialaction') || [];
-    actorData.endoftheround = m.get('endoftheround') || [];
-    actorData.magic = m.get('magic') || [];
+    actorData.specialactions = m.get('specialaction') || []
+    actorData.endoftheround = m.get('endoftheround') || []
+    actorData.magic = m.get('magic') || []
   }
-
 }

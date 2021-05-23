@@ -1,5 +1,7 @@
+import { capitalize } from '../utils/utils'
+
 export class PlayerTracker extends FormApplication {
-  static get defaultOptions () {
+  static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       id: 'sheet-modifiers',
       classes: ['playertracker', 'sheet', 'actor'],
@@ -10,10 +12,10 @@ export class PlayerTracker extends FormApplication {
         {
           navSelector: '.sheet-tabs',
           contentSelector: '.sheet-body',
-          initial: 'character'
-        }
+          initial: 'character',
+        },
       ],
-      scrollY: ['.tab.active']
+      scrollY: ['.tab.active'],
     })
   }
 
@@ -22,7 +24,7 @@ export class PlayerTracker extends FormApplication {
    * Add the Entity name into the window title
    * @type {String}
    */
-  get title () {
+  get title() {
     return `Player Tracker`
   }
   /* -------------------------------------------- */
@@ -31,7 +33,7 @@ export class PlayerTracker extends FormApplication {
    * Extend and override the sheet header buttons
    * @override
    */
-  _getHeaderButtons () {
+  _getHeaderButtons() {
     let buttons = super._getHeaderButtons()
     const canConfigure = game.user.isGM
     if (this.options.editable && canConfigure) {
@@ -40,14 +42,14 @@ export class PlayerTracker extends FormApplication {
           label: game.i18n.localize('DL.UpdatePlayerTracker'),
           class: 'update-playertracker',
           icon: 'fas fa-sync-alt',
-          onclick: (ev) => this._updateWindow(ev)
-        }
+          onclick: ev => this._updateWindow(ev),
+        },
       ].concat(buttons)
     }
     return buttons
   }
 
-  _updateWindow (event) {
+  _updateWindow(event) {
     event.preventDefault()
     this.render(true)
   }
@@ -56,7 +58,7 @@ export class PlayerTracker extends FormApplication {
    * Construct and return the data object used to render the HTML template for this form application.
    * @return {Object}
    */
-  getData () {
+  getData() {
     const players = game.users.players
     const persons = []
 
@@ -65,23 +67,19 @@ export class PlayerTracker extends FormApplication {
         playerid: player.character?.id,
         playername: player.name,
         charactername: player.character?.name,
-        ancestry: player.character?.items
-          .filter((e) => e.type === 'ancestry')
-          .map((e) => e.name),
+        ancestry: player.character?.items.filter(e => e.type === 'ancestry').map(e => e.name),
         paths: {
           novice: player.character?.items
-            .filter((e) => e.type === 'path' && e.data.data.type === 'novice')
-            .map((e) => e.name),
+            .filter(e => e.type === 'path' && e.data.data.type === 'novice')
+            .map(e => e.name),
           expert: player.character?.items
-            .filter((e) => e.type === 'path' && e.data.data.type === 'expert')
-            .map((e) => e.name),
+            .filter(e => e.type === 'path' && e.data.data.type === 'expert')
+            .map(e => e.name),
           master: player.character?.items
-            .filter((e) => e.type === 'path' && e.data.data.type === 'master')
-            .map((e) => e.name)
+            .filter(e => e.type === 'path' && e.data.data.type === 'master')
+            .map(e => e.name),
         },
-        professions: player.character?.items.filter(
-          (e) => e.type === 'profession'
-        ),
+        professions: player.character?.items.filter(e => e.type === 'profession'),
         defense: player.character?.data.data.characteristics.defense,
         damage:
           player.character?.data.data.characteristics.health.value +
@@ -96,24 +94,24 @@ export class PlayerTracker extends FormApplication {
         speed: player.character?.data.data.characteristics.speed,
         fortune: player.character?.data.data.characteristics.fortune,
         gmnote: player.character?.data.data.gmnote,
-        gmnoteedit: player.character?.data.data.gmnoteedit
+        gmnoteedit: player.character?.data.data.gmnoteedit,
       }
       persons.push(person)
     }
 
     return {
-      persons
+      persons,
     }
   }
   /* -------------------------------------------- */
 
   /** @override */
-  activateListeners (html) {
+  activateListeners(html) {
     super.activateListeners(html)
 
     if (!this.options.editable) return
 
-    html.find('.gmnote-control').click((ev) => {
+    html.find('.gmnote-control').click(ev => {
       const a = ev.currentTarget
       const actor = game.actors.get(a.dataset.id)
 
@@ -122,24 +120,18 @@ export class PlayerTracker extends FormApplication {
           case 'edit':
             return actor
               .update({
-                'data.gmnoteedit': !actor.data.data.gmnoteedit
+                'data.gmnoteedit': !actor.data.data.gmnoteedit,
               })
-              .then((item) => {
-                this.render()
-              })
-          case 'save':
-            const textarea = html.find(
-              'textarea[id="person.' + actor.id + '"]'
-            )
-
+              .then(() => this.render())
+          case 'save': {
+            const textarea = html.find('textarea[id="person.' + actor.id + '"]')
             return actor
               .update({
                 'data.gmnote': textarea[0].value,
-                'data.gmnoteedit': !actor.data.data.gmnoteedit
+                'data.gmnoteedit': !actor.data.data.gmnoteedit,
               })
-              .then((item) => {
-                this.render()
-              })
+              .then(() => this.render())
+          }
         }
       }
     })
@@ -152,22 +144,21 @@ export class PlayerTracker extends FormApplication {
    * @private
    */
   /** @override */
-  async _updateObject (event, formData) {
+  async _updateObject(event, formData) {
     formData.id = this.object.id
     return this.document.update(formData)
   }
 
-  async _onItemCreate (event) {
+  async _onItemCreate(event) {
     event.preventDefault()
     const header = event.currentTarget
     const type = header.dataset.type
     const data = duplicate(header.dataset)
-    const name = `New ${type.capitalize()}`
 
     const itemData = {
-      name: name,
+      name: `New ${capitalize(type)}`,
       type: type,
-      data: data
+      data: data,
     }
 
     // Remove the type from the dataset since it's in the itemData.type prop.

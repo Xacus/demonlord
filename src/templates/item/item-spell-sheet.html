@@ -19,41 +19,35 @@
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-    <section class="sheet-content ">
+    <section class="sheet-content">
       <div class="tab attributes" data-group="primary" data-tab="attributes">
         <div class="item-table fixed-path">
           <div class="row">
             <div class="col-3">
-              <label class="resource-label" style="font-size: 16px;">{{localize "DL.MagicTradition"}}</label>
-              <input type="text" name="data.tradition" value="{{data.tradition}}" style="font-size: 14px;"/>
+              <label class="resource-label" style="font-size: 16px">{{localize "DL.MagicTradition"}}</label>
+              <input type="text" name="data.tradition" value="{{data.tradition}}" style="font-size: 14px"/>
             </div>
             <div class="col-3">
-              <label class="resource-label" style="font-size: 16px;">{{localize "DL.SpellRank"}}</label>
-              <input type="text" name="data.rank" value="{{data.rank}}" style="font-size: 14px;"/>
+              <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellRank"}}</label>
+              <input type="text" name="data.rank" value="{{data.rank}}" style="font-size: 14px"/>
             </div>
             <div class="col-3">
-              <label class="resource-label" style="font-size: 16px;">{{localize "DL.SpellType"}}</label>
-              <select name="data.spelltype" data-dtype="String" style="font-size: 14px;">
+              <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellType"}}</label>
+              <select name="data.spelltype" data-dtype="String" style="font-size: 14px">
                 {{#select data.spelltype}}
                   <option value="">—</option>
-                  <option value="Attack">{{localize "DL.SpellTypeAttack"}}
-                  </option>
-                  <option value="Utility">
-                    {{localize "DL.SpellTypeUtility"}}
-                  </option>
+                  <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>
+                  <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>
                 {{/select}}
               </select>
             </div>
             <div class="col-3">
-              <label class="resource-label" style="font-size: 16px;">{{localize "DL.SpellAttribute"}}</label>
-              <select name="data.attribute" data-dtype="String" style="font-size: 14px;">
+              <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellAttribute"}}</label>
+              <select name="data.attribute" data-dtype="String" style="font-size: 14px">
                 {{#select data.attribute}}
                   <option value="">—</option>
-                  <option value="Intellect">
-                    {{localize "DL.AttributeIntellect"}}
-                  </option>
-                  <option value="Will">{{localize "DL.AttributeWill"}}
-                  </option>
+                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+                  <option value="Will">{{localize "DL.AttributeWill"}}</option>
                 {{/select}}
               </select>
             </div>
@@ -122,53 +116,81 @@
               <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
             </div>
             <div class="col-1 item-controls">
-              <a class="item-control damagetype-control" title="{{localize 'DL.DamageAddType'}}"
-                 data-action="create" style="margin-left: -11px"><i class="fas fa-plus"></i>
+              <a
+                      class="item-control damagetype-control"
+                      title="{{localize 'DL.DamageAddType'}}"
+                      data-action="create"
+                      style="margin-left: -11px"
+              ><i class="fas fa-plus"></i>
               </a>
             </div>
           </div>
           <div class="row damage-row">
             <div class="col-4">
-              <input class="damagevalue" type="text" name="data.action.damage"
-                     value="{{data.action.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}"/>
+              <input
+                      class="damagevalue"
+                      type="text"
+                      name="data.action.damage"
+                      value="{{data.action.damage}}"
+                      placeholder="{{localize 'DL.WeaponDamage'}}"
+              />
             </div>
             <div class="col-8">
-              <input class="damagetype" type="text" name="data.action.damagetype"
-                     value="{{data.action.damagetype}}" placeholder="Damage Type"/>
+              <input
+                      class="damagetype"
+                      type="text"
+                      name="data.action.damagetype"
+                      value="{{data.action.damagetype}}"
+                      placeholder="Damage Type"
+              />
             </div>
           </div>
 
           {{#each data.action.damagetypes as |damagetype id|}}
             <div class="row damage-row">
               <div class="col-4" style="margin-top: 2px">
-                <input class="damagevalue" type="text" name="altdamage"
-                       value="{{damagetype.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}"/>
+                <input
+                        class="damagevalue"
+                        type="text"
+                        name="altdamage"
+                        value="{{damagetype.damage}}"
+                        placeholder="{{localize 'DL.WeaponDamage'}}"
+                />
               </div>
               <div class="col-8" style="margin-top: 2px">
-                <input class="damagetype" type="text" name="altdamagetype"
-                       value="{{damagetype.damagetype}}" placeholder="{{localize 'DL.DamageType'}}"/>
+                <input
+                        class="damagetype"
+                        type="text"
+                        name="altdamagetype"
+                        value="{{damagetype.damagetype}}"
+                        placeholder="{{localize 'DL.DamageType'}}"
+                />
               </div>
-              <a class="item-control damagetype-control damage-delete" title="{{localize 'DL.DamageAddType'}}"
-                 data-action="delete" data-id="{{id}}"><i class="fas fa-trash"></i></a>
+              <a
+                      class="item-control damagetype-control damage-delete"
+                      title="{{localize 'DL.DamageAddType'}}"
+                      data-action="delete"
+                      data-id="{{id}}"
+              ><i class="fas fa-trash"></i
+              ></a>
             </div>
           {{/each}}
 
           <div class="row">
             <div class="col-12">
               <label class="resource-label">{{localize "DL.WeaponAttack20"}}</label>
-              <input type="text" name="data.action.plus20damage"
-                     value="{{data.action.plus20damage}}"/>
+              <input type="text" name="data.action.plus20damage" value="{{data.action.plus20damage}}"/>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <label class="resource-label">{{localize "DL.WeaponAttack20Text"}}</label>
-              <textarea id="data.action.plus20" name="data.action.plus20" rows="4"
-                        cols="50">{{data.action.plus20}}</textarea>
+              <textarea id="data.action.plus20" name="data.action.plus20" rows="4" cols="50">
+                {{data.action.plus20}}</textarea
+              >
             </div>
           </div>
         </div>
-
 
         <div class="item-tab-sub-header collapse-title">
           <div>{{localize "DL.SpellTypeDefense"}}</div>
@@ -191,8 +213,7 @@
             </div>
             <div class="col-8">
               <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-              <input type="text" name="data.action.defenseboonsbanes"
-                     value="{{data.action.defenseboonsbanes}}"/>
+              <input type="text" name="data.action.defenseboonsbanes" value="{{data.action.defenseboonsbanes}}"/>
             </div>
           </div>
         </div>
@@ -204,10 +225,8 @@
         <div class="item-table indent collapse-content">
           <div class="row">
             <div class="col-12 inline-input fix">
-              <input type="checkbox" name="data.healing.healing" id="healingoptions"
-                {{checked data.healing.healing}}/>
-              <label for="healingoptions"
-                     class="resource-label">{{localize "DL.TalentHealingOptions"}}</label>
+              <input type="checkbox" name="data.healing.healing" id="healingoptions" {{checked data.healing.healing}} />
+              <label for="healingoptions" class="resource-label">{{localize "DL.TalentHealingOptions"}}</label>
             </div>
           </div>
         </div>
@@ -270,9 +289,9 @@
         </div>
       </div>
 
-      {{> "systems/demonlord08/templates/item/partial/item-description.html"}}
-      {{#if effects}}{{> "systems/demonlord08/templates/item/partial/item-effects.html"}}{{/if}}
-      {{> "systems/demonlord08/templates/item/partial/item-activation.html"}}
+      {{> "systems/demonlord08/templates/item/partial/item-description.html"}} {{#if effects}}{{>
+    "systems/demonlord08/templates/item/partial/item-effects.html"}}{{/if}} {{>
+    "systems/demonlord08/templates/item/partial/item-activation.html"}}
     </section>
   </section>
 </form>

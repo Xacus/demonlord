@@ -1,4 +1,4 @@
-export const DL = {};
+export const DL = {}
 
 DL.attributes = {
   strength: 'DL.AttributeStrength',
@@ -7,34 +7,34 @@ DL.attributes = {
   will: 'DL.AttributeWill',
   perception: 'DL.CharPerception',
   defense: 'DL.CharDefense',
-};
+}
 
 DL.pathtype = {
   novice: 'DL.CharPathNovice',
   expert: 'DL.CharPathExpert',
   master: 'DL.CharPathMaster',
-};
+}
 
 // [powerLevel][spellLevel] -> maxCastings
 DL.spelluses = {
-  0:  { 0: 1,  1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
-  1:  { 0: 2,  1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
-  2:  { 0: 3,  1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
-  3:  { 0: 4,  1: 2, 2: 1, 3: 1, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
-  4:  { 0: 5,  1: 2, 2: 2, 3: 1, 4: 1, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
-  5:  { 0: 6,  1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
-  6:  { 0: 7,  1: 3, 2: 2, 3: 2, 4: 2, 5: 1, 6: 1, 7: 0, 8: 0, 9: 0, 10: 0 },
-  7:  { 0: 8,  1: 3, 2: 2, 3: 2, 4: 2, 5: 1, 6: 1, 7: 1, 8: 0, 9: 0, 10: 0 },
-  8:  { 0: 9,  1: 3, 2: 3, 3: 2, 4: 2, 5: 2, 6: 1, 7: 1, 8: 1, 9: 0, 10: 0 },
-  9:  { 0: 10, 1: 3, 2: 3, 3: 3, 4: 2, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1, 10: 0 },
-  10: { 0: 11, 1: 3, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1, 10: 1 }
-};
+  0: { 0: 1, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+  1: { 0: 2, 1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+  2: { 0: 3, 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+  3: { 0: 4, 1: 2, 2: 1, 3: 1, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+  4: { 0: 5, 1: 2, 2: 2, 3: 1, 4: 1, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+  5: { 0: 6, 1: 3, 2: 2, 3: 2, 4: 1, 5: 1, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+  6: { 0: 7, 1: 3, 2: 2, 3: 2, 4: 2, 5: 1, 6: 1, 7: 0, 8: 0, 9: 0, 10: 0 },
+  7: { 0: 8, 1: 3, 2: 2, 3: 2, 4: 2, 5: 1, 6: 1, 7: 1, 8: 0, 9: 0, 10: 0 },
+  8: { 0: 9, 1: 3, 2: 3, 3: 2, 4: 2, 5: 2, 6: 1, 7: 1, 8: 1, 9: 0, 10: 0 },
+  9: { 0: 10, 1: 3, 2: 3, 3: 3, 4: 2, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1, 10: 0 },
+  10: { 0: 11, 1: 3, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1, 10: 1 },
+}
 
 DL.actionActivationTypes = {
   action: 'DL.Action',
   triggeredaction: 'DL.TriggeredAction',
   actiontriggeredaction: 'DL.ActionTriggeredAction',
-};
+}
 
 DL.actionRange = {
   reach: 'DL.ActionRangeReach',
@@ -43,7 +43,7 @@ DL.actionRange = {
   long: 'DL.ActionRangeLong',
   extreme: 'DL.ActionRangeExtreme',
   sight: 'DL.ActionRangeSight',
-};
+}
 
 DL.actionAreaShape = {
   circle: 'circle',
@@ -54,7 +54,7 @@ DL.actionAreaShape = {
   line: 'ray',
   sphere: 'circle',
   square: 'react',
-};
+}
 
 DL.actionDuration = {
   rounds: 'DL.ActionDurationRounds',
@@ -63,12 +63,12 @@ DL.actionDuration = {
   days: 'DL.ActionDurationDays',
   months: 'DL.ActionDurationMonths',
   years: 'DL.ActionDurationYears',
-};
+}
 
 DL.actionLimitedUsePeriods = {
   rest: 'DL.ActionLimitedUseRest',
   uses: 'DL.ActionLimitedUseUses',
-};
+}
 
 DL.actionTargetTypes = {
   self: 'DL.ActionTargetTypesSelf',
@@ -83,14 +83,14 @@ DL.actionTargetTypes = {
   line: 'DL.ActionTargetTypesLine',
   sphere: 'DL.ActionTargetTypesSphere',
   square: 'DL.ActionTargetTypesSquare',
-};
+}
 
 DL.ActiveEffectsMenuTypes = {
   NONE: 0,
   TOGGLE: 1,
   EDIT: 2,
   ALL: 3,
-};
+}
 
 DL.defaultItemIcons = {
   ammo: 'systems/demonlord08/assets/icons/ammunition/arrows/arrows7.webp',

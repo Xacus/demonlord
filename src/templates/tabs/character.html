@@ -1,240 +1,296 @@
 <ol class="items-list">
-    <li class="item-header">
-        <div class="spellnameheader">{{localize "DL.CharacterTitle"}}</div>
-    </li>
+  <li class="item-header">
+    <div class="spellnameheader">{{localize "DL.CharacterTitle"}}</div>
+  </li>
 </ol>
 <div class="body">
-    <div class="charinfo">
-        <div class="ancestry">
-            {{#if actor.ancestry}}
-                {{#each actor.ancestry as |item id|}}
-                <div class="item" data-item-id="{{item._id}}">
-                    <label class="resource-label" for="data.ancestry">{{localize 'DL.CharAncestry'}}</label>
-                    <input class="ancestry-edit ancestry" name="data.ancestry" type="text" value="{{item.name}}"
-                        placeholder="{{localize 'DL.CharAncestry'}}" />
-                    <div class="editAncestry ancestry-edit">
-                        <i class="fas fa-edit"></i>
-                    </div>
-                </div>
-                {{/each}}
-            {{else}}
-                <div class="item">
-                    <label class="resource-label" for="data.ancestry">{{localize 'DL.CharAncestry'}}</label>
-                    <input class="ancestry" name="data.ancestry" type="text" value="{{data.ancestry}}"
-                        placeholder="{{localize 'DL.CharAncestry'}}" />
-                    <a class="editAncestry ancestry-create" title="{{localize 'DL.AncestryCreate'}}">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                </div>
-            {{/if}}
+  <div class="charinfo">
+    <div class="ancestry">
+      {{#if actor.ancestry}} {{#each actor.ancestry as |item id|}}
+        <div class="item" data-item-id="{{item._id}}">
+          <label class="resource-label" for="data.ancestry">{{localize 'DL.CharAncestry'}}</label>
+          <input
+                  class="ancestry-edit ancestry"
+                  name="data.ancestry"
+                  type="text"
+                  value="{{item.name}}"
+                  placeholder="{{localize 'DL.CharAncestry'}}"
+          />
+          <div class="editAncestry ancestry-edit">
+            <i class="fas fa-edit"></i>
+          </div>
         </div>
-        <div class="gender">
-            <label class="resource-label" for="data.appearance.sex">{{localize 'DL.CharGender'}}</label>
-            <input name="data.appearance.sex" type="text" value="{{data.appearance.sex}}"
-                placeholder="{{localize 'DL.CharGender'}}" />
+      {{/each}} {{else}}
+        <div class="item">
+          <label class="resource-label" for="data.ancestry">{{localize 'DL.CharAncestry'}}</label>
+          <input
+                  class="ancestry"
+                  name="data.ancestry"
+                  type="text"
+                  value="{{data.ancestry}}"
+                  placeholder="{{localize 'DL.CharAncestry'}}"
+          />
+          <a class="editAncestry ancestry-create" title="{{localize 'DL.AncestryCreate'}}">
+            <i class="fas fa-plus"></i>
+          </a>
         </div>
-        <div class="age">
-            <label class="resource-label" for="data.appearance.age">{{localize 'DL.CharAge'}}</label>
-            <input name="data.appearance.age" type="text" value="{{data.appearance.age}}"
-                placeholder="{{localize 'DL.CharAge'}}" />
-        </div>
-        <div class="religion">
-            <label class="resource-label" for="data.religion.value">{{localize 'DL.CharReligion'}}</label>
-            <input name="data.religion.value" type="text" value="{{data.religion.value}}"
-                placeholder="{{localize 'DL.CharReligion'}}" />
-            <img src="{{data.religion.image}}" alt="{{data.religion.value}}" title="{{localize 'DL.CharReligion'}}"
-                data-edit="data.religion.image" height="30" width="30" />
-        </div>
+      {{/if}}
     </div>
-    <div class="charinfo2">
-        <div class="eyes">
-            <label class="resource-label" for="data.appearance.eyes">{{localize 'DL.CharEyes'}}</label>
-            <input name="data.appearance.eyes" type="text" value="{{data.appearance.eyes}}"
-                placeholder="{{localize 'DL.CharEyes'}}" />
-        </div>
-        <div class="hair">
-            <label class="resource-label" for="data.appearance.hair">{{localize 'DL.CharHair'}}</label>
-            <input name="data.appearance.hair" type="text" value="{{data.appearance.hair}}"
-                placeholder="{{localize 'DL.CharHair'}}" />
-        </div>
-        <div class="height">
-            <label class="resource-label" for="data.appearance.height">{{localize 'DL.CharHeight'}}</label>
-            <input name="data.appearance.height" type="text" value="{{data.appearance.height}}"
-                placeholder="{{localize 'DL.CharHeight'}}" />
-        </div>
-        <div class="weight">
-            <label class="resource-label" for="data.appearance.weight">{{localize 'DL.CharWeight'}}</label>
-            <input name="data.appearance.weight" type="text" value="{{data.appearance.weight}}"
-                placeholder="{{localize 'DL.CharWeight'}}" />
-        </div>
+    <div class="gender">
+      <label class="resource-label" for="data.appearance.sex">{{localize 'DL.CharGender'}}</label>
+      <input
+              name="data.appearance.sex"
+              type="text"
+              value="{{data.appearance.sex}}"
+              placeholder="{{localize 'DL.CharGender'}}"
+      />
     </div>
-    <div class="languages">
-        <label class="resource-label" for="data.appearance.age">{{localize 'DL.LanguagesTitle'}}</label>
-        {{#if actor.languages}}
-        <div class="edit">
-            <a class="languages-edit" title="{{localize 'DL.LanguagesEdit'}}"><i class="fas fa-edit"></i></a>
+    <div class="age">
+      <label class="resource-label" for="data.appearance.age">{{localize 'DL.CharAge'}}</label>
+      <input
+              name="data.appearance.age"
+              type="text"
+              value="{{data.appearance.age}}"
+              placeholder="{{localize 'DL.CharAge'}}"
+      />
+    </div>
+    <div class="religion">
+      <label class="resource-label" for="data.religion.value">{{localize 'DL.CharReligion'}}</label>
+      <input
+              name="data.religion.value"
+              type="text"
+              value="{{data.religion.value}}"
+              placeholder="{{localize 'DL.CharReligion'}}"
+      />
+      <img
+              src="{{data.religion.image}}"
+              alt="{{data.religion.value}}"
+              title="{{localize 'DL.CharReligion'}}"
+              data-edit="data.religion.image"
+              height="30"
+              width="30"
+      />
+    </div>
+  </div>
+  <div class="charinfo2">
+    <div class="eyes">
+      <label class="resource-label" for="data.appearance.eyes">{{localize 'DL.CharEyes'}}</label>
+      <input
+              name="data.appearance.eyes"
+              type="text"
+              value="{{data.appearance.eyes}}"
+              placeholder="{{localize 'DL.CharEyes'}}"
+      />
+    </div>
+    <div class="hair">
+      <label class="resource-label" for="data.appearance.hair">{{localize 'DL.CharHair'}}</label>
+      <input
+              name="data.appearance.hair"
+              type="text"
+              value="{{data.appearance.hair}}"
+              placeholder="{{localize 'DL.CharHair'}}"
+      />
+    </div>
+    <div class="height">
+      <label class="resource-label" for="data.appearance.height">{{localize 'DL.CharHeight'}}</label>
+      <input
+              name="data.appearance.height"
+              type="text"
+              value="{{data.appearance.height}}"
+              placeholder="{{localize 'DL.CharHeight'}}"
+      />
+    </div>
+    <div class="weight">
+      <label class="resource-label" for="data.appearance.weight">{{localize 'DL.CharWeight'}}</label>
+      <input
+              name="data.appearance.weight"
+              type="text"
+              value="{{data.appearance.weight}}"
+              placeholder="{{localize 'DL.CharWeight'}}"
+      />
+    </div>
+  </div>
+  <div class="languages">
+    <label class="resource-label" for="data.appearance.age">{{localize 'DL.LanguagesTitle'}}</label>
+    {{#if actor.languages}}
+      <div class="edit">
+        <a class="languages-edit" title="{{localize 'DL.LanguagesEdit'}}"><i class="fas fa-edit"></i></a>
+      </div>
+      {{#if actor.data.languages.edit}} {{#each actor.languages as |language id|}}
+        <div class="language" data-item-id="{{language._id}}">
+          <div class="languagetitle">{{language.name}} (</div>
+          <a class="language-toggle-r"
+          >{{#if language.data.read}}
+            <div class="charhighlight">{{localize "DL.LanguagesKnowledeReadShort"}}</div>
+          {{else}}
+            <div class="chardim">{{localize "DL.LanguagesKnowledeReadShort"}}</div>
+          {{/if}}</a
+          >
+          <div class="delimiter">/</div>
+          <a class="language-toggle-w"
+          >{{#if language.data.write}}
+            <div class="charhighlight">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>
+          {{else}}
+            <div class="chardim">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>
+          {{/if}}</a
+          >
+          <div class="delimiter">/</div>
+          <a class="language-toggle-s"
+          >{{#if language.data.speak}}
+            <div class="charhighlight">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>
+          {{else}}
+            <div class="chardim">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>
+          {{/if}}</a
+          >)
+          <div class="item-controls">
+            <a class="item-control language-delete" title="{{localize 'DL.LanguageDelete'}}"
+            ><i class="fas fa-trash"></i
+            ></a>
+          </div>
         </div>
-        {{#if actor.data.languages.edit}}
-            {{#each actor.languages as |language id|}}
-            <div class="language" data-item-id="{{language._id}}">
-                <div class="languagetitle">
-            {{language.name}} (</div><a class="language-toggle-r">{{#if language.data.read}}<div class="charhighlight">{{localize "DL.LanguagesKnowledeReadShort"}}</div>{{else}}<div class="chardim">{{localize "DL.LanguagesKnowledeReadShort"}}</div>{{/if}}</a><div class="delimiter">/</div><a class="language-toggle-w">{{#if language.data.write}}<div class="charhighlight">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>{{else}}<div class="chardim">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>{{/if}}</a><div class="delimiter">/</div><a class="language-toggle-s">{{#if language.data.speak}}<div class="charhighlight">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>{{else}}<div class="chardim">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>{{/if}}</a>)
+      {{/each}} {{else}} {{#each actor.languages as |language id|}}
+        <div class="language">
+          <div class="languagetitle">{{language.name}} (</div>
+          {{#if language.data.read}}
+            <div class="charhighlight">{{localize "DL.LanguagesKnowledeReadShort"}}</div>
+          {{else}}
+            <div class="chardim">{{localize "DL.LanguagesKnowledeReadShort"}}</div>
+          {{/if}}
+          <div class="delimiter">/</div>
+          {{#if language.data.write}}
+            <div class="charhighlight">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>
+          {{else}}
+            <div class="chardim">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>
+          {{/if}}
+          <div class="delimiter">/</div>
+          {{#if language.data.speak}}
+            <div class="charhighlight">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>
+          {{else}}
+            <div class="chardim">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>
+          {{/if}})
+        </div>
+      {{/each}} {{/if}} {{else}}
+      <input
+              name="data.languages.value"
+              type="text"
+              value="{{data.languages.value}}"
+              placeholder="{{localize 'DL.LanguagesTitle'}}"
+      />
+    {{/if}}
+  </div>
+  <div class="grid grid-2col chardetail">
+    <div class="colleft">
+      <div class="paths">
+        <div class="header">{{localize "DL.PathsTitle"}}</div>
+        <div class="body">
+          {{#if actor.pathNovice}} {{#each actor.pathNovice as |path id|}}
+            <div class="path" data-item-id="{{path._id}}">
+              <div class="pathtitle">{{localize "DL.CharPathNovice"}}</div>
+              <label class="path-label path-edit" for="path.name">{{path.name}}</label>
+              <div class="editPath path-edit">
+                <i class="fas fa-edit"></i>
+              </div>
+            </div>
+          {{/each}} {{else}}
+            <div class="path">
+              <div class="pathtitle">{{localize "DL.CharPathNovice"}}</div>
+              <input type="text" name="data.paths.novice" value="{{data.paths.novice}}"/>
+            </div>
+          {{/if}} {{#if actor.pathExpert}} {{#each actor.pathExpert as |path id|}}
+          <div class="path" data-item-id="{{path._id}}">
+            <div class="pathtitle">{{localize "DL.CharPathExpert"}}</div>
+            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
+            <div class="editPath path-edit">
+              <i class="fas fa-edit"></i>
+            </div>
+          </div>
+        {{/each}} {{else}}
+          <div class="path">
+            <div class="pathtitle">{{localize "DL.CharPathExpert"}}</div>
+            <input type="text" name="data.paths.expert" value="{{data.paths.expert}}"/>
+          </div>
+        {{/if}} {{#if actor.pathMaster}} {{#each actor.pathMaster as |path id|}}
+          <div class="path" data-item-id="{{path._id}}">
+            <div class="pathtitle">{{localize "DL.CharPathMaster"}}</div>
+            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
+            <div class="editPath path-edit">
+              <i class="fas fa-edit"></i>
+            </div>
+          </div>
+        {{/each}} {{else}}
+          <div class="path">
+            <div class="pathtitle">{{localize "DL.CharPathMaster"}}</div>
+            <input type="text" name="data.paths.master" value="{{data.paths.master}}"/>
+          </div>
+        {{/if}}
+        </div>
+      </div>
+      <div class="professions">
+        <div class="header">
+          {{localize "DL.ProfessionsTitle"}}
+          <div class="edit">
+            <a class="item-control item-create" title="{{localize 'DL.ProfessionsAdd'}}" data-type="profession"
+            ><i class="fas fa-plus"></i
+            ></a>
+            <a class="profession-edit" title="{{localize 'DL.ProfessionsEdit'}}"><i class="fas fa-edit"></i></a>
+          </div>
+        </div>
+        <div class="body">
+          <ol class="professionslist">
+            {{#if data.professions.edit}} {{#each actor.professions as |profession id|}}
+              <li class="item editprofession" data-item-id="{{profession._id}}">
                 <div class="item-controls">
-                    <a class="item-control language-delete" title="{{localize 'DL.LanguageDelete'}}"><i
-                            class="fas fa-trash"></i></a>
+                  <a class="item-control item-delete" title="{{localize 'DL.ProfessionsDelete'}}"
+                  ><i class="fas fa-trash"></i
+                  ></a>
                 </div>
-            </div> 
-            {{/each}}
-        {{else}}
-            {{#each actor.languages as |language id|}}
-            <div class="language">
-                <div class="languagetitle">
-            {{language.name}} (</div>{{#if language.data.read}}<div class="charhighlight">{{localize "DL.LanguagesKnowledeReadShort"}}</div>{{else}}<div class="chardim">{{localize "DL.LanguagesKnowledeReadShort"}}</div>{{/if}}<div class="delimiter">/</div>{{#if language.data.write}}<div class="charhighlight">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>{{else}}<div class="chardim">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>{{/if}}<div class="delimiter">/</div>{{#if language.data.speak}}<div class="charhighlight">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>{{else}}<div class="chardim">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>{{/if}})
-            </div> 
-            {{/each}}
-        {{/if}}
-        {{else}}
-        <input name="data.languages.value" type="text" value="{{data.languages.value}}"
-            placeholder="{{localize 'DL.LanguagesTitle'}}" />
-        {{/if}}
-    </div>
-    <div class="grid grid-2col chardetail">
-        <div class="colleft">
-            <div class="paths">
-                <div class="header">
-                    {{localize "DL.PathsTitle"}}
-                </div>
-                <div class="body">
-                    {{#if actor.pathNovice}}
-                        {{#each actor.pathNovice as |path id|}}
-                        <div class="path" data-item-id="{{path._id}}">
-                            <div class="pathtitle">
-                                {{localize "DL.CharPathNovice"}}
-                            </div>
-                            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
-                            <div class="editPath path-edit">
-                                <i class="fas fa-edit"></i>
-                            </div>
-                        </div>
-                        {{/each}}
-                    {{else}}
-                        <div class="path">
-                            <div class="pathtitle">
-                                {{localize "DL.CharPathNovice"}}
-                            </div>
-                            <input type="text" name="data.paths.novice" value="{{data.paths.novice}}" />
-                        </div>
-                    {{/if}}
-                    {{#if actor.pathExpert}}
-                        {{#each actor.pathExpert as |path id|}}
-                        <div class="path" data-item-id="{{path._id}}">
-                            <div class="pathtitle">
-                                {{localize "DL.CharPathExpert"}}
-                            </div>
-                            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
-                            <div class="editPath path-edit">
-                                <i class="fas fa-edit"></i>
-                            </div>
-                        </div>
-                        {{/each}}
-                    {{else}}
-                        <div class="path">
-                            <div class="pathtitle">
-                                {{localize "DL.CharPathExpert"}}
-                            </div>
-                            <input type="text" name="data.paths.expert" value="{{data.paths.expert}}" />
-                        </div>
-                    {{/if}}
-                    {{#if actor.pathMaster}}
-                        {{#each actor.pathMaster as |path id|}}
-                        <div class="path" data-item-id="{{path._id}}">
-                            <div class="pathtitle">
-                                {{localize "DL.CharPathMaster"}}
-                            </div>
-                            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
-                            <div class="editPath path-edit">
-                                <i class="fas fa-edit"></i>
-                            </div>
-                        </div>
-                        {{/each}}
-                    {{else}}
-                        <div class="path">
-                            <div class="pathtitle">
-                                {{localize "DL.CharPathMaster"}}
-                            </div>
-                            <input type="text" name="data.paths.master" value="{{data.paths.master}}" />
-                        </div>
-                    {{/if}}
-                </div>
-            </div>
-            <div class="professions">
-                <div class="header">
-                    {{localize "DL.ProfessionsTitle"}}
-                    <div class="edit">
-                        <a class="item-control item-create" title="{{localize 'DL.ProfessionsAdd'}}"
-                            data-type="profession"><i class="fas fa-plus"></i></a>
-                        <a class="profession-edit" title="{{localize 'DL.ProfessionsEdit'}}"><i
-                                class="fas fa-edit"></i></a>
-                    </div>
-                </div>
-                <div class="body">
-                    <ol class="professionslist">
-                        {{#if data.professions.edit}}
-                        {{#each actor.professions as |profession id|}}
-                        <li class="item editprofession" data-item-id="{{profession._id}}">
-                            <div class="item-controls">
-                                <a class="item-control item-delete" title="{{localize 'DL.ProfessionsDelete'}}"><i
-                                        class="fas fa-trash"></i></a>
-                            </div>
-                            <input type="text" name="profession.name" data-target="name" value="{{profession.name}}" />
-                            <textarea name="profession.data.description"
-                                data-target="profession.data.description">{{profession.data.description}}</textarea>
-                        </li>
-                        {{/each}}
-                        {{else}}
-                        {{#each actor.professions as |profession id|}}
-                        <li class="item dropitem" data-item-id="{{profession._id}}">
-                            <label class="resource-label" for="profession.name">{{profession.name}}</label>
-                            <div>{{{profession.data.description}}}</div>
-                        </li>
-                        {{/each}}
-                        {{/if}}
-                    </ol>
-                </div>
-            </div>
+                <input type="text" name="profession.name" data-target="name" value="{{profession.name}}"/>
+                <textarea name="profession.data.description" data-target="profession.data.description">
+                  {{profession.data.description}}</textarea
+                >
+              </li>
+            {{/each}} {{else}} {{#each actor.professions as |profession id|}}
+              <li class="item dropitem" data-item-id="{{profession._id}}">
+                <label class="resource-label" for="profession.name">{{profession.name}}</label>
+                <div>{{{profession.data.description}}}</div>
+              </li>
+            {{/each}} {{/if}}
+          </ol>
         </div>
-        <div class="colright features">
-            <div class="header">
-                {{localize "DL.FeaturesTitle"}}
-                <div class="edit">
-                    <a class="item-control item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"><i
-                            class="fas fa-plus"></i></a>
-                    <a class="feature-edit" title="{{localize 'DL.FeatureEdit'}}"><i class="fas fa-edit"></i></a>
-                </div>
-            </div>
-            <div class="body">
-                <ol class="featureslist">
-                    {{#if data.features.edit}}
-                    {{#each actor.features as |feature id|}}
-                    <li class="feature editfeature" data-item-id="{{feature._id}}">
-                        <div class="item-controls">
-                            <a class="item-control feature-delete" title="{{localize 'DL.FeatureDelete'}}"><i
-                                    class="fas fa-trash"></i></a>
-                        </div>
-                        <input type="text" name="feature.name" data-target="name" value="{{feature.name}}" />
-                        <textarea name="feature.data.description" data-target="feature.data.description">{{feature.data.description}}</textarea>
-                    </li>
-                    {{/each}}
-                    {{else}}
-                    {{#each actor.features as |feature id|}}
-                    <li class="feature dropitem" data-item-id="{{feature._id}}">
-                        <label class="resource-label" for="feature.name">{{feature.name}}</label>
-                        <div class="featurediscription">{{{feature.data.description}}}</div>
-                    </li>
-                    {{/each}}
-                    {{/if}}
-                </ol>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="colright features">
+      <div class="header">
+        {{localize "DL.FeaturesTitle"}}
+        <div class="edit">
+          <a class="item-control item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"
+          ><i class="fas fa-plus"></i
+          ></a>
+          <a class="feature-edit" title="{{localize 'DL.FeatureEdit'}}"><i class="fas fa-edit"></i></a>
+        </div>
+      </div>
+      <div class="body">
+        <ol class="featureslist">
+          {{#if data.features.edit}} {{#each actor.features as |feature id|}}
+            <li class="feature editfeature" data-item-id="{{feature._id}}">
+              <div class="item-controls">
+                <a class="item-control feature-delete" title="{{localize 'DL.FeatureDelete'}}"
+                ><i class="fas fa-trash"></i
+                ></a>
+              </div>
+              <input type="text" name="feature.name" data-target="name" value="{{feature.name}}"/>
+              <textarea name="feature.data.description" data-target="feature.data.description">
+                {{feature.data.description}}</textarea
+              >
+            </li>
+          {{/each}} {{else}} {{#each actor.features as |feature id|}}
+            <li class="feature dropitem" data-item-id="{{feature._id}}">
+              <label class="resource-label" for="feature.name">{{feature.name}}</label>
+              <div class="featurediscription">{{{feature.data.description}}}</div>
+            </li>
+          {{/each}} {{/if}}
+        </ol>
+      </div>
+    </div>
+  </div>
 </div>

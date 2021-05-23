@@ -1,104 +1,102 @@
-import { plusify } from '../utils/utils';
+import { plusify } from '../utils/utils'
 
 export const addEffect = (key, value) => ({
   key: key,
   value: plusify(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-});
+})
 
 export const concatDiceEffect = (key, value) => ({
   key: key,
   value: value ? '+' + String(value) : null,
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-});
+})
 
 export const concatString = (key, value, separator = '') => ({
   key: key,
   value: value ? value + separator : null,
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-});
+})
 
 export const overrideEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-});
+})
 
 export const upgradeEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE,
-});
+})
 
 export const downgradeEffect = (key, value) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,
-});
+})
 
 export const addObject = (key, value) => ({
   key: key,
   value: JSON.stringify(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-});
+})
 
-const falsyChangeFilter = (change) => Boolean(change.value);
+const falsyChangeFilter = change => Boolean(change.value)
 
 /* -------------------------------------------- */
 
 export class DLActiveEffects {
-  static async removeEffectsByOrigin(document, originID, options = {}) {
-    const toDel = document
-      .getEmbeddedCollection('ActiveEffect')
-      .filter((effect) => effect.data?.origin?.includes(originID));
+  static async removeEffectsByOrigin(doc, originID) {
+    const toDel = doc.getEmbeddedCollection('ActiveEffect').filter(effect => effect.data?.origin?.includes(originID))
 
-    const promises = [];
+    const promises = []
     for (const e of toDel) {
-      promises.push(await e.delete({ parent: document }));
+      promises.push(await e.delete({ parent: doc }))
     }
-    return Promise.all(promises);
+    return Promise.all(promises)
   }
 
   /* -------------------------------------------- */
 
-  static async embedActiveEffects(actor, document, operation = 'create') {
-    let effectDataList = [];
-    switch (document.data.type) {
+  static async embedActiveEffects(actor, doc, operation = 'create') {
+    let effectDataList = []
+    switch (doc.data.type) {
       case 'ancestry':
-        effectDataList = DLActiveEffects.generateEffectDataFromAncestry(document, actor);
-        break;
+        effectDataList = DLActiveEffects.generateEffectDataFromAncestry(doc, actor)
+        break
       case 'path':
-        effectDataList = DLActiveEffects.generateEffectDataFromPath(document, actor);
-        break;
+        effectDataList = DLActiveEffects.generateEffectDataFromPath(doc, actor)
+        break
       case 'talent':
-        effectDataList = DLActiveEffects.generateEffectDataFromTalent(document, actor);
-        break;
+        effectDataList = DLActiveEffects.generateEffectDataFromTalent(doc, actor)
+        break
       case 'armor':
-        effectDataList = DLActiveEffects.generateEffectDataFromArmor(document, actor);
-        break;
+        effectDataList = DLActiveEffects.generateEffectDataFromArmor(doc, actor)
+        break
       default:
-        return Promise.resolve(0);
+        return Promise.resolve(0)
     }
 
-    return await DLActiveEffects.addUpdateEffectsToActor(actor, effectDataList, operation);
+    return await DLActiveEffects.addUpdateEffectsToActor(actor, effectDataList, operation)
   }
 
   static async addUpdateEffectsToActor(actor, effectDataList, operation) {
     if (operation === 'create') {
-      effectDataList = effectDataList.filter((effectData) => effectData.changes.length > 0);
-      await actor.createEmbeddedDocuments('ActiveEffect', effectDataList);
+      effectDataList = effectDataList.filter(effectData => effectData.changes.length > 0)
+      await actor.createEmbeddedDocuments('ActiveEffect', effectDataList)
     } else if (operation === 'update') {
-      const currentEffects = actor.effects.filter((e) => e.data.origin === effectDataList[0].origin);
-      const effectsToAdd = [];
-      const effectsToUpd = [];
-      const effectsToDel = [];
+      const currentEffects = actor.effects.filter(e => e.data.origin === effectDataList[0].origin)
+      const effectsToAdd = []
+      const effectsToUpd = []
+      const effectsToDel = []
 
       for (const effectData of effectDataList) {
-        const u = currentEffects.find((ce) => ce.data.label === effectData.label);
+        const u = currentEffects.find(ce => ce.data.label === effectData.label)
         if (u) {
-          effectData._id = u.data._id;
-          if (effectData.changes.length > 0) effectsToUpd.push(effectData);
-          else effectsToDel.push(effectData._id);
+          effectData._id = u.data._id
+          if (effectData.changes.length > 0) effectsToUpd.push(effectData)
+          else effectsToDel.push(effectData._id)
         } else if (effectData.changes.length > 0) effectsToAdd.push(effectData)
       }
 
@@ -112,7 +110,7 @@ export class DLActiveEffects {
   /* -------------------------------------------- */
 
   static generateEffectDataFromAncestry(item, actor = null) {
-    const dataL0 = item.data.data;
+    const dataL0 = item.data.data
 
     const effectDataL0 = {
       label: `${item.name} (${game.i18n.localize('DL.CharLevel')} 0)`,
@@ -147,9 +145,9 @@ export class DLActiveEffects {
           priority: 0,
         },
       ].filter(falsyChangeFilter),
-    };
+    }
 
-    const dataL4 = item.data.data.level4;
+    const dataL4 = item.data.data.level4
     const effectDataL4 = {
       label: `${item.name} (${game.i18n.localize('DL.CharLevel')} 4)`,
       icon: item.img,
@@ -166,17 +164,17 @@ export class DLActiveEffects {
         notToggleable: true,
       },
       changes: [addEffect('data.characteristics.health.max', dataL4.healthbonus)].filter(falsyChangeFilter),
-    };
-    return [effectDataL0, effectDataL4];
+    }
+    return [effectDataL0, effectDataL4]
   }
 
   /* -------------------------------------------- */
 
   static generateEffectDataFromPath(item, actor = null) {
-    const pathdata = item.data.data;
-    const effectDataList = [];
+    const pathdata = item.data.data
+    const effectDataList = []
 
-    pathdata.levels.forEach((pathLevel) => {
+    pathdata.levels.forEach(pathLevel => {
       const levelEffectData = {
         label: `${item.name} (${game.i18n.localize('DL.CharLevel')} ${pathLevel.level})`,
         icon: item.img,
@@ -222,35 +220,35 @@ export class DLActiveEffects {
             pathLevel.attributeWill * (pathLevel.attributeWillSelected || pathLevel.attributeSelectIsFixed),
           ),
         ].filter(falsyChangeFilter),
-      };
+      }
 
       // Two set attributes
       if (pathLevel.attributeSelectIsTwoSet) {
         const attributeOne = pathLevel.attributeSelectTwoSetSelectedValue1
           ? pathLevel.attributeSelectTwoSet1
-          : pathLevel.attributeSelectTwoSet2;
+          : pathLevel.attributeSelectTwoSet2
         const attributeTwo = pathLevel.attributeSelectTwoSetSelectedValue2
           ? pathLevel.attributeSelectTwoSet3
-          : pathLevel.attributeSelectTwoSet4;
+          : pathLevel.attributeSelectTwoSet4
 
         levelEffectData.changes = levelEffectData.changes.concat(
           [
             addEffect(`data.attributes.${attributeOne}.value`, pathLevel.attributeSelectTwoSetValue1),
             addEffect(`data.attributes.${attributeTwo}.value`, pathLevel.attributeSelectTwoSetValue2),
           ].filter(falsyChangeFilter),
-        );
+        )
       }
 
-      effectDataList.push(levelEffectData);
-    });
+      effectDataList.push(levelEffectData)
+    })
 
-    return effectDataList;
+    return effectDataList
   }
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromTalent(item, actor = null) {
-    const talentData = item.data.data;
+  static generateEffectDataFromTalent(item) {
+    const talentData = item.data.data
     const effectData = {
       label: item.name,
       icon: item.img,
@@ -273,9 +271,9 @@ export class DLActiveEffects {
         addEffect('data.characteristics.power', talentData.bonuses.power),
         addEffect('data.characteristics.speed', talentData.bonuses.speed),
       ].filter(falsyChangeFilter),
-    };
+    }
     // --- Attack
-    const action = talentData.action;
+    const action = talentData.action
     const attackChanges = [
       addEffect('data.bonuses.attack.boons.strength', action.boonsbanes * action.strengthboonsbanesselect),
       addEffect('data.bonuses.attack.boons.agility', action.boonsbanes * action.agilityboonsbanesselect),
@@ -284,29 +282,29 @@ export class DLActiveEffects {
       concatDiceEffect('data.bonuses.attack.damage', action.damage),
       concatDiceEffect('data.bonuses.attack.plus20Damage', action.plus20),
       concatString('data.bonuses.attack.extraEffect', action.extraeffect, '\n'),
-    ].filter(falsyChangeFilter);
+    ].filter(falsyChangeFilter)
 
-    if (attackChanges.length > 0) effectData.changes = effectData.changes.concat(attackChanges);
+    if (attackChanges.length > 0) effectData.changes = effectData.changes.concat(attackChanges)
 
     // --- Challenge
-    const challenge = talentData.challenge;
+    const challenge = talentData.challenge
     const challengeChanges = [
       addEffect('data.bonuses.challenge.boons.strength', challenge.boonsbanes * challenge.strengthboonsbanesselect),
       addEffect('data.bonuses.challenge.boons.agility', challenge.boonsbanes * challenge.agilityboonsbanesselect),
       addEffect('data.bonuses.challenge.boons.intellect', challenge.boonsbanes * challenge.intellectboonsbanesselect),
       addEffect('data.bonuses.challenge.boons.will', challenge.boonsbanes * challenge.willboonsbanesselect),
       addEffect('data.bonuses.challenge.boons.perception', challenge.boonsbanes * challenge.perceptionboonsbanesselect),
-    ].filter(falsyChangeFilter);
+    ].filter(falsyChangeFilter)
 
-    if (challengeChanges.length > 0) effectData.changes = effectData.changes.concat(challengeChanges);
+    if (challengeChanges.length > 0) effectData.changes = effectData.changes.concat(challengeChanges)
 
-    return [effectData];
+    return [effectData]
   }
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromArmor(item, actor = null) {
-    const armorData = item.data.data;
+  static generateEffectDataFromArmor(item) {
+    const armorData = item.data.data
     const effectData = {
       label: item.name,
       icon: item.img,
@@ -327,8 +325,8 @@ export class DLActiveEffects {
         addEffect('data.bonuses.armor.defense', armorData.defense),
         upgradeEffect('data.bonuses.armor.fixed', armorData.fixed),
       ].filter(falsyChangeFilter),
-    };
-    return [effectData];
+    }
+    return [effectData]
   }
 
   /* -------------------------------------------- */
@@ -340,15 +338,15 @@ export class DLActiveEffects {
   static toggleEffectsByActorRequirements(actor) {
     const notMetEffectsData = actor.effects
       .filter(
-        (effect) =>
+        effect =>
           (effect.data.flags?.levelRequired > actor.data.data.level && !effect.data.disabled) ||
           (effect.data.flags?.levelRequired <= actor.data.data.level && effect.data.disabled),
       )
-      .map((effect) => ({
+      .map(effect => ({
         _id: effect.data._id,
         disabled: !effect.data.disabled,
-      }));
-    if (notMetEffectsData.length > 0) return actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData);
+      }))
+    if (notMetEffectsData.length > 0) return actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
   }
 
   /* -------------------------------------------- */
@@ -358,12 +356,12 @@ export class DLActiveEffects {
       game.i18n.localize('DL.encumbered') +
       ' (' +
       (itemNames[0] || '') +
-      itemNames.slice(1).reduce((acc, name) => acc + ', ' + name, '') +
-      ')';
+      itemNames.slice(1).reduce((acc, itemName) => acc + ', ' + itemName, '') +
+      ')'
 
-    const n = -itemNames.length;
-    const oldEffect = actor.effects.find((e) => e.data.origin === 'encumbrance');
-    if (!oldEffect && !n) return;
+    const n = -itemNames.length
+    const oldEffect = actor.effects.find(e => e.data.origin === 'encumbrance')
+    if (!oldEffect && !n) return
 
     const effectData = {
       label: effectLabel,
@@ -386,10 +384,10 @@ export class DLActiveEffects {
         addEffect('data.bonuses.challenge.boons.strength', n),
         addEffect('data.characteristics.speed', n * 2),
       ],
-    };
+    }
 
-    if (!oldEffect) return ActiveEffect.create(effectData, { parent: actor });
-    else if (n !== 0) oldEffect.update(effectData, { parent: actor });
-    else oldEffect.delete({ parent: actor });
+    if (!oldEffect) return ActiveEffect.create(effectData, { parent: actor })
+    else if (n !== 0) oldEffect.update(effectData, { parent: actor })
+    else oldEffect.delete({ parent: actor })
   }
 }

@@ -6,53 +6,53 @@
  * @return {Promise.<Combat>}       A promise which resolves to the updated Combat entity once updates are complete.
  */
 export const rollInitiative = async function (ids, formula, messageOptions) {
-  const combatantUpdates = [];
-  const initMessages = [];
-  let init = 0;
-  let turn = '';
+  const combatantUpdates = []
+  const initMessages = []
+  let init = 0
+  let turn = ''
 
   // Structure input data
-  ids = typeof ids === 'string' ? [ids] : ids;
+  ids = typeof ids === 'string' ? [ids] : ids
 
   // Iterate over Combatants, performing an initiative draw for each
   for (let i = 0; i < ids.length; i++) {
-    const id = ids[i];
+    const id = ids[i]
     // Get Combatant data
-    const c = await this.getCombatant(id);
+    const c = await this.getCombatant(id)
 
     // Do not roll defeated combatants
-    if (c.defeated) continue;
+    if (c.defeated) continue
 
     // FAST/SLOW Turn select
-    turn = await selectTurnType(c.actor, c.actor.data.data.fastturn);
+    turn = await selectTurnType(c.actor, c.actor.data.data.fastturn)
 
     if (turn != '') {
-      const fastslow = turn == 'fast';
+      const fastslow = turn == 'fast'
       if (c.actor.data.type == 'character') {
-        init = fastslow ? 70 : 30;
+        init = fastslow ? 70 : 30
       } else {
-        init = fastslow ? 50 : 10;
+        init = fastslow ? 50 : 10
       }
 
       await c.actor.update({
         'data.fastturn': fastslow,
-      });
+      })
     } else {
       if (c.actor.data.type == 'character') {
-        init = c.actor.data.data.fastturn ? 70 : 30;
+        init = c.actor.data.data.fastturn ? 70 : 30
       } else {
-        init = c.actor.data.data.fastturn ? 50 : 10;
+        init = c.actor.data.data.fastturn ? 50 : 10
       }
     }
 
     if (game.settings.get('demonlord08', 'initRandomize')) {
-      init = init + Math.round(Math.random() * 6);
+      init = init + Math.round(Math.random() * 6)
     }
 
     combatantUpdates.push({
       id: c.id,
       initiative: init,
-    });
+    })
 
     var templateData = {
       actor: this.actor,
@@ -66,11 +66,11 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
             : game.i18n.localize('DL.DialogTurnSlow'),
         },
       },
-    };
+    }
 
     if (game.settings.get('demonlord08', 'initMessage')) {
-      const template = 'systems/demonlord08/templates/chat/init.html';
-      renderTemplate(template, templateData).then((content) => {
+      const template = 'systems/demonlord08/templates/chat/init.html'
+      renderTemplate(template, templateData).then(content => {
         const messageData = mergeObject(
           {
             speaker: {
@@ -79,129 +79,129 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
               token: c.token.id,
               alias: c.token.name,
             },
-            whisper: c.token.hidden || c.hidden ? game.users.entities.filter((u) => u.isGM) : '',
+            whisper: c.token.hidden || c.hidden ? game.users.entities.filter(u => u.isGM) : '',
             content: content,
           },
           messageOptions,
-        );
-        initMessages.push(messageData);
-      });
+        )
+        initMessages.push(messageData)
+      })
     }
   }
 
-  if (!combatantUpdates.length) return this;
+  if (!combatantUpdates.length) return this
 
   // Update multiple combatants
-  await this.updateEmbeddedDocument('Combatant', combatantUpdates);
-  await ChatMessage.create(initMessages);
+  await this.updateEmbeddedDocument('Combatant', combatantUpdates)
+  await ChatMessage.create(initMessages)
 
-  return this;
-};
+  return this
+}
 
 export const startCombat = async function () {
   for (const combatant of game.combat.combatants) {
-    let init = 0;
+    let init = 0
 
     // if (combatant.name != "End of Round") {
     if (combatant.actor?.data?.type == 'character') {
-      init = combatant.actor?.data?.data.fastturn ? 70 : 30;
+      init = combatant.actor?.data?.data.fastturn ? 70 : 30
     } else {
-      init = combatant.actor?.data?.data.fastturn ? 50 : 10;
+      init = combatant.actor?.data?.data.fastturn ? 50 : 10
     }
     /*
         } else {
             init = 1;
         }
         */
-    game.combat.setInitiative(combatant.id, init);
+    game.combat.setInitiative(combatant.id, init)
   }
 
   return this.update({
     round: 1,
     turn: 0,
-  });
-};
+  })
+}
 
 /**
  * Advance the combat to the next turn
  * @return {Promise}
  */
 export const nextTurn = async function () {
-  const turn = this.turn;
-  const skip = this.settings.skipDefeated;
+  const turn = this.turn
+  const skip = this.settings.skipDefeated
   // Determine the next turn number
-  let next = null;
+  let next = null
   if (skip) {
     for (const [i, t] of this.turns.entries()) {
       if (t.name == 'End of Round') {
-        postEndOfRound();
+        postEndOfRound()
       }
 
-      if (i <= turn) continue;
+      if (i <= turn) continue
       if (!t.defeated) {
-        next = i;
-        break;
+        next = i
+        break
       }
     }
-  } else next = turn + 1;
+  } else next = turn + 1
 
   // Maybe advance to the next round
-  let round = this.round;
+  let round = this.round
   if (this.round === 0 || next === null || next >= this.turns.length) {
-    round = round + 1;
-    next = 0;
+    round = round + 1
+    next = 0
     if (skip) {
-      next = this.turns.findIndex((t) => !t.defeated);
+      next = this.turns.findIndex(t => !t.defeated)
       if (next === -1) {
-        ui.notifications.warn(game.i18n.localize('COMBAT.NoneRemaining'));
-        next = 0;
+        ui.notifications.warn(game.i18n.localize('COMBAT.NoneRemaining'))
+        next = 0
       }
     }
   }
   // Update the encounter
-  return this.update({ round: round, turn: next });
-};
+  return this.update({ round: round, turn: next })
+}
 
 export const setupTurns = function () {
   const scene = game.scenes.get(this.data.scene, {
     strict: true,
-  });
-  const players = game.users.players;
+  })
+  const players = game.users.players
 
   let turns = this.data.combatants
-    .map((c) => {
+    .map(c => {
       c.token = scene.items.get(c.tokenId, {
         strict: false,
-      });
-      if (!c.token) return c;
-      c.actor = Actor.fromToken(new Token(c.token, scene));
-      c.players = c.actor ? players.filter((u) => c.actor.hasPerm(u, 'OWNER')) : [];
-      c.isOwner = game.user.isGM || (c.actor ? c.actor.isOwner : false);
-      c.visible = c.isOwner || !c.hidden;
-      return c;
+      })
+      if (!c.token) return c
+      c.actor = Actor.fromToken(new Token(c.token, scene))
+      c.players = c.actor ? players.filter(u => c.actor.hasPerm(u, 'OWNER')) : []
+      c.isOwner = game.user.isGM || (c.actor ? c.actor.isOwner : false)
+      c.visible = c.isOwner || !c.hidden
+      return c
     })
-    .filter((c) => c.token);
+    .filter(c => c.token)
 
-  turns = turns.sort((a, b) => (a.initiative > b.initiative ? -1 : 1));
+  turns = turns.sort((a, b) => (a.initiative > b.initiative ? -1 : 1))
 
   // Ensure the current turn is bounded
-  this.data.turn = Math.min(turns.length - 1, Math.max(this.data.turn, 0));
-  this.turns = turns;
+  this.data.turn = Math.min(turns.length - 1, Math.max(this.data.turn, 0))
+  this.turns = turns
   // When turns change, tracked resources also change
-  if (ui.combat) ui.combat.updateTrackedResources();
-  return this.turns;
-};
+  if (ui.combat) ui.combat.updateTrackedResources()
+  return this.turns
+}
 
 const selectTurnType = async function (actor, fastturn) {
-  let turn = '';
-  const template = 'systems/demonlord08/templates/dialogs/choose-turn-dialog.html';
+  let turn = ''
+  const template = 'systems/demonlord08/templates/dialogs/choose-turn-dialog.html'
   const html = await renderTemplate(template, {
     data: {
       fastturn: fastturn,
     },
-  });
+  })
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const dialogData = {
       title: `${actor.name}: ${game.i18n.localize('DL.TurnChooseTurn')}`,
       content: html,
@@ -209,29 +209,29 @@ const selectTurnType = async function (actor, fastturn) {
         cancel: {
           icon: '<i class="fas"></i>',
           label: game.i18n.localize('DL.TurnSlow'),
-          callback: _ => turn = 'slow'
-        }
+          callback: _ => (turn = 'slow'),
+        },
       },
-      close: () => resolve(turn)
+      close: () => resolve(turn),
     }
 
     if (!actor.data.data.maluses.noFastTurn)
       dialogData.buttons['ok'] = {
         icon: '<i class="fas"></i>',
         label: game.i18n.localize('DL.TurnFast'),
-        callback: _ => turn = 'fast'
+        callback: _ => (turn = 'fast'),
       }
     new Dialog(dialogData).render(true)
   })
-};
+}
 
 const postEndOfRound = async function () {
   for (const combatant of game.combat.combatants) {
     if (combatant.actor?.data?.type != 'character') {
-      const endofrounds = combatant.actor.getEmbeddedCollection('Item').filter((e) => e.type === 'endoftheround');
+      const endofrounds = combatant.actor.getEmbeddedCollection('Item').filter(e => e.type === 'endoftheround')
       for (const endofround of endofrounds) {
-        console.log(endofround.name);
+        console.log(endofround.name)
       }
     }
   }
-};
+}

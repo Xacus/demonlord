@@ -1,19 +1,9 @@
 <form class="{{cssClass}} item-form" autocomplete="off">
   <header class="sheet-header itemsheet-header">
-    <img
-      class="weapon-img"
-      src="{{item.img}}"
-      data-edit="img"
-      title="{{item.name}}"
-    />
+    <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
       <div class="gridrow">
-        <input
-          name="name"
-          type="text"
-          value="{{item.name}}"
-          placeholder="Armor Name"
-        />
+        <input name="name" type="text" value="{{item.name}}" placeholder="Armor Name"/>
       </div>
     </div>
     <div class="template-type">{{item.type}}</div>
@@ -28,8 +18,7 @@
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-    <section class="sheet-content ">
-
+    <section class="sheet-content">
       <div class="tab weapons" data-group="primary" data-tab="attributes">
         <div class="item-table">
           {{!-- Bonuses --}}
@@ -59,8 +48,14 @@
             </div>
             <div class="col-4">
               <label class="resource-label">{{localize "DL.ArmorIsShield"}}</label>
-              <input type="checkbox" name="data.isShield" id="multipleoptions" class="single-checkbox"
-                     {{checked data.isShield}}/>
+              <input
+                      type="checkbox"
+                      name="data.isShield"
+                      id="multipleoptions"
+                      class="single-checkbox"
+                {{checked
+                        data.isShield}}
+              />
             </div>
           </div>
 
@@ -74,16 +69,10 @@
               <label>{{localize "DL.Availability"}}</label>
               <select name="data.availability" data-dtype="String">
                 {{#select data.availability}}
-                <option value="C">
-                  {{localize "DL.AvailabilityCommon"}}
-                </option>
-                <option value="U">
-                  {{localize "DL.AvailabilityUncommon"}}
-                </option>
-                <option value="R">{{localize "DL.AvailabilityRare"}}</option>
-                <option value="E">
-                  {{localize "DL.AvailabilityExotic"}}
-                </option>
+                  <option value="C">{{localize "DL.AvailabilityCommon"}}</option>
+                  <option value="U">{{localize "DL.AvailabilityUncommon"}}</option>
+                  <option value="R">{{localize "DL.AvailabilityRare"}}</option>
+                  <option value="E">{{localize "DL.AvailabilityExotic"}}</option>
                 {{/select}}
               </select>
             </div>
@@ -95,9 +84,8 @@
         </div>
       </div>
 
-      {{> "systems/demonlord08/templates/item/partial/item-description.html"}}
-      {{#if effects}}{{> "systems/demonlord08/templates/item/partial/item-effects.html"}}{{/if}}
+      {{> "systems/demonlord08/templates/item/partial/item-description.html"}} {{#if effects}}{{>
+    "systems/demonlord08/templates/item/partial/item-effects.html"}}{{/if}}
     </section>
-
   </section>
 </form>

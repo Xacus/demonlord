@@ -5,7 +5,7 @@ export const registerSettings = function () {
     config: false,
     type: String,
     default: '',
-  });
+  })
   game.settings.register('demonlord08', 'lockAncestry', {
     name: game.i18n.localize('DL.SettingLockAncestry'),
     hint: game.i18n.localize('DL.SettingLockAncestrHint'),
@@ -13,7 +13,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
+  })
   game.settings.register('demonlord08', 'initMessage', {
     name: game.i18n.localize('DL.SettingInitMessage'),
     hint: game.i18n.localize('DL.SettingInitMessageHint'),
@@ -21,7 +21,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
+  })
   game.settings.register('demonlord08', 'initRandomize', {
     name: game.i18n.localize('DL.SettingInitRandomize'),
     hint: game.i18n.localize('DL.SettingInitRandomizeHint'),
@@ -29,7 +29,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
+  })
   game.settings.register('demonlord08', 'attackShowAttack', {
     name: game.i18n.localize('DL.SettingAttackShowEnemyAttributeAtt'),
     hint: game.i18n.localize('DL.SettingAttackShowEnemyAttributeAttHint'),
@@ -37,7 +37,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
+  })
   game.settings.register('demonlord08', 'attackShowDefense', {
     name: game.i18n.localize('DL.SettingAttackShowEnemyAttribute'),
     hint: game.i18n.localize('DL.SettingAttackShowEnemyAttributeHint'),
@@ -45,7 +45,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
+  })
   game.settings.register('demonlord08', 'rollCreaturesToGM', {
     name: game.i18n.localize('DL.SettingRollCreaturesToGM'),
     hint: game.i18n.localize('DL.SettingRollCreaturesToGMHint'),
@@ -53,7 +53,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
+  })
   game.settings.register('demonlord08', 'statusIcons', {
     name: game.i18n.localize('DL.SettingStatusIcons'),
     hint: game.i18n.localize('DL.SettingStatusIconsHint'),
@@ -61,7 +61,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
+  })
   game.settings.register('demonlord08', 'templateAutoTargeting', {
     name: game.i18n.localize('DL.SettingTemplateAutoTargeting'),
     hint: game.i18n.localize('DL.SettingTemplateAutoTargetingHint'),
@@ -69,7 +69,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
+  })
   game.settings.register('demonlord08', 'replaceIcons', {
     name: game.i18n.localize('DL.SettingReplaceIcons'),
     hint: game.i18n.localize('DL.SettingReplaceIconsHint'),
@@ -77,7 +77,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
+  })
   game.settings.register('demonlord08', 'gmEffectsControls', {
     name: game.i18n.localize('DL.SettingGMEffectsControls'),
     hint: game.i18n.localize('DL.SettingGMEffectsControlsHint'),
@@ -85,5 +85,5 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  });
-};
+  })
+}

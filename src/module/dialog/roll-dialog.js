@@ -1,4 +1,4 @@
-export  default function launchRollDialog (dialogTitle, callback) {
+export default function launchRollDialog(dialogTitle, callback) {
   const d = new Dialog({
     title: dialogTitle,
     content: `
@@ -15,19 +15,16 @@ export  default function launchRollDialog (dialogTitle, callback) {
       roll: {
         icon: '<i class="fas fa-check"></i>',
         label: game.i18n.localize('DL.DialogRoll'),
-        callback: callback
+        callback: callback,
       },
       cancel: {
         icon: '<i class="fas fa-times"></i>',
         label: game.i18n.localize('DL.DialogCancel'),
-        callback: () => {
-        }
-      }
+        callback: () => {},
+      },
     },
     default: 'roll',
-    close: () => {
-    }
+    close: () => {},
   })
   d.render(true)
 }
-

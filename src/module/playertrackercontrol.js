@@ -1,4 +1,4 @@
-import {PlayerTracker} from './dialog/player-tracker.js'
+import { PlayerTracker } from './dialog/player-tracker.js'
 
 class PlayerTrackerLayer extends CanvasLayer {
   constructor() {
@@ -9,7 +9,7 @@ class PlayerTrackerLayer extends CanvasLayer {
     sptLayer.newButtons = {
       name: 'dl-gm-tools',
       title: 'SotDL GM Tools',
-      layer: 'grid',            // TODO: different layer to allow token clicks
+      layer: 'grid', // TODO: different layer to allow token clicks
       icon: 'fas fa-book-dead', // More demonic themed :) [old: fa-wrench]
       visible: true,
       tools: [
@@ -17,14 +17,14 @@ class PlayerTrackerLayer extends CanvasLayer {
           icon: 'fas fas fa-users',
           name: 'Users',
           title: 'Player Tracker',
-          onClick: sptLayer.renderPlayerTracker
-        }
-      ]
+          onClick: sptLayer.renderPlayerTracker,
+        },
+      ],
     }
   }
 
   initialize() {
-    Hooks.on('getSceneControlButtons', (controls) => {
+    Hooks.on('getSceneControlButtons', controls => {
       if (game.user.data.role == 4) {
         controls.push(sptLayer.newButtons)
       }
@@ -34,7 +34,7 @@ class PlayerTrackerLayer extends CanvasLayer {
   async renderPlayerTracker() {
     new PlayerTracker(this.actor, {
       top: 60,
-      left: 120
+      left: 120,
     }).render(true)
   }
 }

@@ -9,12 +9,10 @@
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
-export async function createDemonlordMacro (data, slot) {
+export async function createDemonlordMacro(data, slot) {
   if (data.type !== 'Item') return
   if (!('data' in data)) {
-    return ui.notifications.warn(
-      'You can only create macro buttons for owned Items'
-    )
+    return ui.notifications.warn('You can only create macro buttons for owned Items')
   }
   const item = data.data
   // DL.WeaponName, WeaponBoonsBanes, WeaponDamageBonus
@@ -42,9 +40,7 @@ export async function createDemonlordMacro (data, slot) {
       break
   }
 
-  let macro = game.macros.entities.find(
-    (m) => m.name === item.name && m.command === command
-  )
+  let macro = game.macros.entities.find(m => m.name === item.name && m.command === command)
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
@@ -52,8 +48,8 @@ export async function createDemonlordMacro (data, slot) {
       img: item.img,
       command: command,
       flags: {
-        'demonlord.itemMacro': true
-      }
+        'demonlord.itemMacro': true,
+      },
     })
   }
   game.user.assignHotbarMacro(macro, slot)
@@ -65,19 +61,17 @@ export async function createDemonlordMacro (data, slot) {
  * @param {string} itemName
  * @return {Promise}
  */
-export function rollWeaponMacro (itemName, boonsbanes, damagebonus) {
+export function rollWeaponMacro(itemName) {
   const speaker = ChatMessage.getSpeaker()
   let actor
   if (speaker.token) actor = game.actors.tokens[speaker.token]
   if (!actor) actor = game.actors.get(speaker.actor)
-  const item = actor ? actor.items.find((i) => i.name === itemName) : null
+  const item = actor ? actor.items.find(i => i.name === itemName) : null
   if (!item) {
-    return ui.notifications.warn(
-      `Your controlled Actor does not have an item named ${itemName}`
-    )
+    return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`)
   }
 
-  return actor.rollWeaponAttack(item.id)  //FIXME: boons banes damage bonus ignored?
+  return actor.rollWeaponAttack(item.id) //FIXME: boons banes damage bonus ignored?
 }
 
 /**
@@ -85,16 +79,14 @@ export function rollWeaponMacro (itemName, boonsbanes, damagebonus) {
  * @param {string} itemName
  * @return {Promise}
  */
-export function rollTalentMacro (itemName, state) {
+export function rollTalentMacro(itemName, state) {
   const speaker = ChatMessage.getSpeaker()
   let actor
   if (speaker.token) actor = game.actors.tokens[speaker.token]
   if (!actor) actor = game.actors.get(speaker.actor)
-  const item = actor ? actor.items.find((i) => i.name === itemName) : null
+  const item = actor ? actor.items.find(i => i.name === itemName) : null
   if (!item) {
-    return ui.notifications.warn(
-      `Your controlled Actor does not have an item named ${itemName}`
-    )
+    return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`)
   }
 
   switch (state) {
@@ -126,16 +118,14 @@ export function rollTalentMacro (itemName, state) {
  * @param {string} itemName
  * @return {Promise}
  */
-export function rollSpellMacro (itemName) {
+export function rollSpellMacro(itemName) {
   const speaker = ChatMessage.getSpeaker()
   let actor
   if (speaker.token) actor = game.actors.tokens[speaker.token]
   if (!actor) actor = game.actors.get(speaker.actor)
-  const item = actor ? actor.items.find((i) => i.name === itemName) : null
+  const item = actor ? actor.items.find(i => i.name === itemName) : null
   if (!item) {
-    return ui.notifications.warn(
-      `Your controlled Actor does not have an item named ${itemName}`
-    )
+    return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`)
   }
 
   return actor.rollSpell(item.id)
@@ -146,12 +136,10 @@ export function rollSpellMacro (itemName) {
  * @param {string} attributeName
  * @return {Promise}
  */
-export function rollAttributeMacro (attributeName) {
+export function rollAttributeMacro(attributeName) {
   var selected = canvas.tokens.controlled
   if (selected.length == 0) {
-    ui.notifications.info(
-      game.i18n.localize('DL.DialogWarningActorsNotSelected')
-    )
+    ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
   } else {
     const speaker = ChatMessage.getSpeaker()
     let actor
@@ -166,7 +154,7 @@ export function rollAttributeMacro (attributeName) {
 /**
  * Create a Macro from an Attribute.
  */
-export function rollInitMacro () {
+export function rollInitMacro() {
   if (!game.combat) return
   const speaker = ChatMessage.getSpeaker()
   let combatantFound = null
@@ -175,8 +163,6 @@ export function rollInitMacro () {
   if (!actor) actor = game.actors.get(speaker.actor)
 
   for (const combatant of game.combat.combatants) {
-    const init = 0
-
     if (combatant.actor == actor) {
       combatantFound = combatant
     }
@@ -188,7 +174,7 @@ export function rollInitMacro () {
 /**
  * Create a Macro for using a Healing Potion.
  */
-export function healingPotionMacro () {
+export function healingPotionMacro() {
   const speaker = ChatMessage.getSpeaker()
   let actor
   if (speaker.token) actor = game.actors.tokens[speaker.token]
@@ -196,15 +182,13 @@ export function healingPotionMacro () {
 
   if (actor) {
     const currentDamage = parseInt(actor.data.data.characteristics.health.value)
-    const healingRate = parseInt(
-      actor.data.data.characteristics.health.healingrate
-    )
+    const healingRate = parseInt(actor.data.data.characteristics.health.healingrate)
 
     let newdamage = currentDamage - healingRate
     if (newdamage < 0) newdamage = 0
 
     Actor.updateDocuments({
-      'data.characteristics.health.value': newdamage
+      'data.characteristics.health.value': newdamage,
     })
 
     var templateData = {
@@ -212,14 +196,12 @@ export function healingPotionMacro () {
       token: canvas.tokens.controlled[0]?.data,
       data: {
         itemname: {
-          value: game.i18n.localize('DL.DialogUseItemHealingPotion')
+          value: game.i18n.localize('DL.DialogUseItemHealingPotion'),
         },
         description: {
-          value: game.i18n
-            .localize('DL.DialogUseItemHealingPotionText')
-            .replace('#', healingRate)
-        }
-      }
+          value: game.i18n.localize('DL.DialogUseItemHealingPotionText').replace('#', healingRate),
+        },
+      },
     }
 
     const chatData = {
@@ -227,12 +209,12 @@ export function healingPotionMacro () {
       speaker: {
         actor: actor.id,
         token: actor.token,
-        alias: actor.name
-      }
+        alias: actor.name,
+      },
     }
 
     const template = 'systems/demonlord08/templates/chat/useitem.html'
-    renderTemplate(template, templateData).then((content) => {
+    renderTemplate(template, templateData).then(content => {
       chatData.content = content
       ChatMessage.create(chatData)
     })

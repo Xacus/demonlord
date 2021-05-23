@@ -1,6 +1,6 @@
 export class DLCharacterGenerater extends FormApplication {
   /** @override */
-  static get defaultOptions () {
+  static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ['charactergenerator', 'sheet', 'actor'],
       width: 600,
@@ -9,15 +9,15 @@ export class DLCharacterGenerater extends FormApplication {
         {
           navSelector: '.sheet-navigation',
           contentSelector: '.sheet-body',
-          initial: 'character'
-        }
+          initial: 'character',
+        },
       ],
-      scrollY: ['.tab.active']
+      scrollY: ['.tab.active'],
     })
   }
 
   /** @override */
-  get template () {
+  get template() {
     return 'systems/demonlord08/templates/dialogs/character-generator.html'
   }
 
@@ -26,7 +26,7 @@ export class DLCharacterGenerater extends FormApplication {
    * Add the Entity name into the window title
    * @type {String}
    */
-  get title () {
+  get title() {
     return `${this.object.name}: ` + game.i18n.localize('DL.CharacterGenerator')
   }
   /* -------------------------------------------- */
@@ -35,35 +35,31 @@ export class DLCharacterGenerater extends FormApplication {
    * Construct and return the data object used to render the HTML template for this form application.
    * @return {Object}
    */
-  getData () {
+  getData() {
     const actor = this.object.data
 
-    const ancestries = game.items.entities.filter(
-      (item) => item.type === 'ancestry'
-    )
+    const ancestries = game.items.entities.filter(item => item.type === 'ancestry')
 
     /*
     const pathNovice = actor
       .getEmbeddedCollection('Item')
       .filter((e) => e.type === 'path' && e.data.type === 'novice')
     */
-    const pathExpert = []
-    const pathMaster = []
+    // const pathExpert = []
+    // const pathMaster = []
 
-    const paths = this.preparePaths(
-      game.items.entities.filter((item) => item.type === 'path')
-    )
+    const paths = this.preparePaths(game.items.entities.filter(item => item.type === 'path'))
 
     return {
       actor,
       ancestries,
-      paths
+      paths,
     }
   }
   /* -------------------------------------------- */
 
   /** @override */
-  activateListeners (html) {
+  activateListeners(html) {
     super.activateListeners(html)
 
     if (!this.options.editable) return
@@ -75,30 +71,30 @@ export class DLCharacterGenerater extends FormApplication {
    * @param formData {Object}   The object of validated form data with which to update the object
    * @private
    */
-  async _updateObject (event, formData) {
+  async _updateObject(event, formData) {
     this.object.update({
-      formData
+      formData,
     })
     this.object.sheet.render(true)
   }
 
-  preparePaths (paths) {
+  preparePaths(paths) {
     const categories = {
       novice: {
         type: 'novice',
         label: game.i18n.localize('DL.CharPathNovice'),
-        paths: []
+        paths: [],
       },
       expert: {
         type: 'expert',
         label: game.i18n.localize('DL.CharPathExpert'),
-        paths: []
+        paths: [],
       },
       master: {
         type: 'master',
         label: game.i18n.localize('DL.CharPathMaster'),
-        paths: []
-      }
+        paths: [],
+      },
     }
 
     for (const path of paths) {
@@ -111,7 +107,7 @@ export class DLCharacterGenerater extends FormApplication {
     return categories
   }
 
-  showDeleteDialog (title, content, item, liObject) {
+  showDeleteDialog(title, content, item, liObject) {
     const d = new Dialog({
       title: title,
       content: content,
@@ -119,16 +115,16 @@ export class DLCharacterGenerater extends FormApplication {
         yes: {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize('DL.DialogYes'),
-          callback: (html) => this.deleteItem(item, liObject)
+          callback: () => this.deleteItem(item, liObject),
         },
         no: {
           icon: '<i class="fas fa-times"></i>',
           label: game.i18n.localize('DL.DialogNo'),
-          callback: () => {}
-        }
+          callback: () => {},
+        },
       },
       default: 'no',
-      close: () => {}
+      close: () => {},
     })
     d.render(true)
   }

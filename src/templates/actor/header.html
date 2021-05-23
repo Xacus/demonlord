@@ -1,26 +1,26 @@
 <div class="header-fields gridrow">
   <h1 class="char-name">
-    <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CharName'}}" />
+    <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CharName'}}"/>
   </h1>
   <div class="leveltext">{{localize "DL.CharLevel"}}</div>
   <div class="level">
-    <input name="data.level" type="text" value="{{data.level}}" data-dtype="{{attribute.dtype}}" placeholder="" />
+    <input name="data.level" type="text" value="{{data.level}}" data-dtype="{{attribute.dtype}}" placeholder=""/>
   </div>
 </div>
 <div class="attributes grid grid-5col">
   <div class="attributebox">
     <div class="attribute">
       <input
-        name="data.attributes.strength.value"
-        type="text"
-        value="{{data.attributes.strength.value}}"
-        data-dtype="Number"
-        placeholder=""
+              name="data.attributes.strength.value"
+              type="text"
+              value="{{data.attributes.strength.value}}"
+              data-dtype="Number"
+              placeholder=""
       />
     </div>
     <div class="attributemod">
       <label for="data.attributes.strength.modifier" class="mod"
-        >{{numberFormat data.attributes.strength.modifier decimals=0 sign=true}}</label
+      >{{numberFormat data.attributes.strength.modifier decimals=0 sign=true}}</label
       >
     </div>
     <div class="attributetext attribute-roll" data-key="strength">
@@ -30,16 +30,16 @@
   <div class="attributebox">
     <div class="attribute">
       <input
-        name="data.attributes.agility.value"
-        type="text"
-        value="{{data.attributes.agility.value}}"
-        data-dtype="Number"
-        placeholder=""
+              name="data.attributes.agility.value"
+              type="text"
+              value="{{data.attributes.agility.value}}"
+              data-dtype="Number"
+              placeholder=""
       />
     </div>
     <div class="attributemod">
       <label for="data.attributes.agility.modifier" class="mod"
-        >{{numberFormat data.attributes.agility.modifier decimals=0 sign=true}}</label
+      >{{numberFormat data.attributes.agility.modifier decimals=0 sign=true}}</label
       >
     </div>
     <div class="attributetext attribute-roll" data-key="agility">
@@ -49,16 +49,16 @@
   <div class="attributebox">
     <div class="attribute">
       <input
-        name="data.attributes.intellect.value"
-        type="text"
-        value="{{data.attributes.intellect.value}}"
-        data-dtype="Number"
-        placeholder=""
+              name="data.attributes.intellect.value"
+              type="text"
+              value="{{data.attributes.intellect.value}}"
+              data-dtype="Number"
+              placeholder=""
       />
     </div>
     <div class="attributemod">
       <label for="data.attributes.intellect.modifier" class="mod"
-        >{{numberFormat data.attributes.intellect.modifier decimals=0 sign=true}}</label
+      >{{numberFormat data.attributes.intellect.modifier decimals=0 sign=true}}</label
       >
     </div>
     <div class="attributetext attribute-roll" data-key="intellect">
@@ -68,16 +68,16 @@
   <div class="attributebox">
     <div class="attribute">
       <input
-        name="data.attributes.will.value"
-        type="text"
-        value="{{data.attributes.will.value}}"
-        data-dtype="Number"
-        placeholder=""
+              name="data.attributes.will.value"
+              type="text"
+              value="{{data.attributes.will.value}}"
+              data-dtype="Number"
+              placeholder=""
       />
     </div>
     <div class="attributemod">
       <label for="data.attributes.will.modifier" class="mod"
-        >{{numberFormat data.attributes.will.modifier decimals=0 sign=true}}</label
+      >{{numberFormat data.attributes.will.modifier decimals=0 sign=true}}</label
       >
     </div>
     <div class="attributetext attribute-roll" data-key="will">
@@ -90,7 +90,7 @@
     </div>
     <div class="attributemodper">
       <label for="data.attributes.perception.modifier" class="mod"
-        >{{numberFormat data.attributes.perception.modifier decimals=0 sign=true}}</label
+      >{{numberFormat data.attributes.perception.modifier decimals=0 sign=true}}</label
       >
     </div>
     <div class="attributetextper attribute-roll" data-key="perception">

@@ -2,7 +2,9 @@
   <header class="sheet-header itemsheet-header">
     <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
-      <div class="gridrow"><input name="name" type="text" value="{{item.name}}" placeholder="Language Name"/></div>
+      <div class="gridrow">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Language Name"/>
+      </div>
     </div>
     <div class="template-type">{{item.type}}</div>
   </header>
@@ -14,7 +16,7 @@
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-    <section class="sheet-content ">
+    <section class="sheet-content">
       <div class="tab weapons" data-group="primary" data-tab="attributes">
         <div class="item-table">
           <div class="row">

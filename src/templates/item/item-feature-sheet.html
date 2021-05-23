@@ -2,7 +2,9 @@
   <header class="sheet-header itemsheet-header">
     <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
-      <div class="gridrow"><input name="name" type="text" value="{{item.name}}" placeholder="Feature Name"/></div>
+      <div class="gridrow">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Feature Name"/>
+      </div>
     </div>
     <div class="template-type">{{item.type}}</div>
   </header>
@@ -14,9 +16,9 @@
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-    <section class="sheet-content ">
-      {{> "systems/demonlord08/templates/item/partial/item-description.html"}}
-      {{#if effects}}{{> "systems/demonlord08/templates/item/partial/item-effects.html"}}{{/if}}
+    <section class="sheet-content">
+      {{> "systems/demonlord08/templates/item/partial/item-description.html"}} {{#if effects}}{{>
+    "systems/demonlord08/templates/item/partial/item-effects.html"}}{{/if}}
     </section>
   </section>
 </form>

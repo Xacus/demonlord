@@ -1,10 +1,9 @@
-
 /* -------------------------------------------- */
 /* Utils                                        */
 /* -------------------------------------------- */
 
-import {DLActiveEffectConfig} from "../active-effects/sheets/active-effect-config";
-import {plusify} from "../utils/utils";
+import { DLActiveEffectConfig } from '../active-effects/sheets/active-effect-config'
+import { plusify } from '../utils/utils'
 
 /**
  * Groups the effects by change key
@@ -14,13 +13,17 @@ import {plusify} from "../utils/utils";
  */
 function _remapEffects(effects) {
   let m = new Map()
-  effects.forEach(effect => effect.data.changes.forEach((change) => {
-    const obj = {label: effect.data.label, type: effect.data.flags?.sourceType, value: change.value}
-    if (!m.has(change.key))
-      m.set(change.key, [obj])
-    else
-      m.get(change.key).push(obj)
-  }))
+  effects.forEach(effect =>
+    effect.data.changes.forEach(change => {
+      const obj = {
+        label: effect.data.label,
+        type: effect.data.flags?.sourceType,
+        value: change.value,
+      }
+      if (!m.has(change.key)) m.set(change.key, [obj])
+      else m.get(change.key).push(obj)
+    }),
+  )
   return m
 }
 
@@ -30,11 +33,7 @@ const _toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;&nbsp;• ${value} <i>(${lab
 
 const changeToMsg = (m, key, title) => {
   title = title ? `&nbsp;&nbsp;${game.i18n.localize(title)}<br>` : ''
-  if (m.has(key))
-    return m.get(key).reduce(
-      (acc, change) => acc + _toMsg(change.label, change.value),
-      title
-    )
+  if (m.has(key)) return m.get(key).reduce((acc, change) => acc + _toMsg(change.label, change.value), title)
   return ''
 }
 
@@ -50,10 +49,9 @@ const changeToMsg = (m, key, title) => {
  * @param item
  * @param attackAttribute
  * @param defenseAttribute
- * @param action
  * @returns {*}
  */
-export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, action = 'attack') {
+export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute) {
   const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
   let m = _remapEffects(attackerEffects)
 
@@ -74,17 +72,17 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   const defenderBoons = defender?.data.data.bonuses.defense.boons[defenseAttribute]
   const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
 
-  let boonsMsg
-    = changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, '')
-    + (itemBoons != 0 ? _toMsg(item.name, plusify(itemBoons)) : '')
-    + (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '')
-  boonsMsg = boonsMsg
-    ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg
-    : ''
+  let boonsMsg =
+    changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, '') +
+    (itemBoons != 0 ? _toMsg(item.name, plusify(itemBoons)) : '') +
+    (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '')
+  boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
 
-  return boonsMsg
-    + changeToMsg(m, 'data.bonuses.attack.damage', 'DL.TalentExtraDamage')
-    + changeToMsg(m, 'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+  return (
+    boonsMsg +
+    changeToMsg(m, 'data.bonuses.attack.damage', 'DL.TalentExtraDamage') +
+    changeToMsg(m, 'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+  )
   // + changeToMsg(m, 'data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
 }
 
@@ -99,7 +97,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
 export function buildAttributeEffectsMessage(actor, attribute) {
   const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
   let m = _remapEffects(actorEffects)
-  let result = ""
+  let result = ''
   result += changeToMsg(m, `data.bonuses.challenge.boons.${attribute}`, 'DL.TalentChallengeBoonsBanes')
   return result
 }
@@ -113,8 +111,7 @@ export function buildAttributeEffectsMessage(actor, attribute) {
  * @returns {string}
  */
 export function buildTalentEffectsMessage(actor, talent) {
-  const effects = actor.getEmbeddedCollection('ActiveEffect')
-    .filter(effect => effect.data.origin === talent.uuid)
+  const effects = actor.getEmbeddedCollection('ActiveEffect').filter(effect => effect.data.origin === talent.uuid)
 
   let m = _remapEffects(effects)
   const get = (key, strLocalization, prefix = '') => {
@@ -125,26 +122,26 @@ export function buildTalentEffectsMessage(actor, talent) {
     return `&nbsp;&nbsp;&nbsp;• ${str} (${value})<br>`
   }
 
-  const attackBoonsPrefix = game.i18n.localize('DL.TalentAttackBoonsBanes') + " "
-  const challengeBoonsPrefix = game.i18n.localize('DL.TalentChallengeBoonsBanes') + " "
-  let result
-    = get(`data.bonuses.attack.boons.strength`, 'DL.AttributeStrength', attackBoonsPrefix)
-    + get(`data.bonuses.attack.boons.agility`, 'DL.AttributeAgility', attackBoonsPrefix)
-    + get(`data.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect', attackBoonsPrefix)
-    + get(`data.bonuses.attack.boons.will`, 'DL.AttributeWill', attackBoonsPrefix)
-    + get(`data.bonuses.attack.boons.perception`, 'DL.CharPerception', attackBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.strength`, 'DL.AttributeStrength', challengeBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.agility`, 'DL.AttributeAgility', challengeBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.intellect`, 'DL.AttributeIntellect', challengeBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.will`, 'DL.AttributeWill', challengeBoonsPrefix)
-    + get(`data.bonuses.challenge.boons.perception`, 'DL.CharPerception', challengeBoonsPrefix)
-    + get(`data.bonuses.attack.damage`, 'DL.TalentExtraDamage')
-    + get(`data.bonuses.attack.plus20Damage`, 'DL.TalentExtraDamage20plus')
-    + get('data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
-    + get('data.characteristics.defense', 'DL.TalentBonusesDefense')
-    + get('data.characteristics.health.max', 'DL.TalentBonusesHealth')
-    + get('data.characteristics.speed', 'DL.TalentBonusesSpeed')
-    + get('data.characteristics.power', 'DL.TalentBonusesPower')
+  const attackBoonsPrefix = game.i18n.localize('DL.TalentAttackBoonsBanes') + ' '
+  const challengeBoonsPrefix = game.i18n.localize('DL.TalentChallengeBoonsBanes') + ' '
+  let result =
+    get(`data.bonuses.attack.boons.strength`, 'DL.AttributeStrength', attackBoonsPrefix) +
+    get(`data.bonuses.attack.boons.agility`, 'DL.AttributeAgility', attackBoonsPrefix) +
+    get(`data.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect', attackBoonsPrefix) +
+    get(`data.bonuses.attack.boons.will`, 'DL.AttributeWill', attackBoonsPrefix) +
+    get(`data.bonuses.attack.boons.perception`, 'DL.CharPerception', attackBoonsPrefix) +
+    get(`data.bonuses.challenge.boons.strength`, 'DL.AttributeStrength', challengeBoonsPrefix) +
+    get(`data.bonuses.challenge.boons.agility`, 'DL.AttributeAgility', challengeBoonsPrefix) +
+    get(`data.bonuses.challenge.boons.intellect`, 'DL.AttributeIntellect', challengeBoonsPrefix) +
+    get(`data.bonuses.challenge.boons.will`, 'DL.AttributeWill', challengeBoonsPrefix) +
+    get(`data.bonuses.challenge.boons.perception`, 'DL.CharPerception', challengeBoonsPrefix) +
+    get(`data.bonuses.attack.damage`, 'DL.TalentExtraDamage') +
+    get(`data.bonuses.attack.plus20Damage`, 'DL.TalentExtraDamage20plus') +
+    get('data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect') +
+    get('data.characteristics.defense', 'DL.TalentBonusesDefense') +
+    get('data.characteristics.health.max', 'DL.TalentBonusesHealth') +
+    get('data.characteristics.speed', 'DL.TalentBonusesSpeed') +
+    get('data.characteristics.power', 'DL.TalentBonusesPower')
 
   return result
 }
@@ -156,8 +153,7 @@ export function buildOverview(actor) {
   const sections = []
 
   for (const [changeKey, label] of Object.entries(DLActiveEffectConfig._availableChangeKeys)) {
-    if (m.has(changeKey))
-      sections.push({changeLabel: label, sources: m.get(changeKey)})
+    if (m.has(changeKey)) sections.push({ changeLabel: label, sources: m.get(changeKey) })
   }
   return sections // [{changeLabel, sources}]    sources = {label, type, value}
 }

@@ -38,7 +38,6 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord08/templates/actor/limited-sidemenu.html',
     'systems/demonlord08/templates/actor/header.html',
     'systems/demonlord08/templates/actor/limited-header.html',
-    'systems/demonlord08/templates/dialogs/actor-modifiers-dialog.html',
     'systems/demonlord08/templates/dialogs/choose-turn-dialog.html',
     'systems/demonlord08/templates/dialogs/endofround-dialog.html',
     'systems/demonlord08/templates/actor/creature-sheet.html',
@@ -50,5 +49,5 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord08/templates/item/partial/item-activation.html',
     'systems/demonlord08/templates/item/partial/item-description.html',
     'systems/demonlord08/templates/item/partial/item-effects.html',
-  ]);
-};
+  ])
+}

@@ -1,99 +1,99 @@
 <aside>
-    <div class="sidebar" data-group="dashboard" data-tab="sidebar">
-        <div class="framecreature">
-            <img class="profile-img img-cre" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img" />
-        </div>
-        <div class="injuredbox">
-            <div class="frightening">
-                <input type="checkbox" name="data.frightening"
-                    id="data.frightening" class="checkbox"
-                    class="checkinput"
-                    {{checked data.frightening}} /><label
-                    for="data.frightening" />
-            </div>
-            <div class="injuredtext">{{localize "DL.CreatureFrightening"}}</div>
-        </div>
-        <div class="injuredboxright">
-            <div class="horrifying">
-                <input type="checkbox" name="data.horrifying"
-                    id="data.horrifying" class="checkbox"
-                    class="checkinput"
-                    {{checked data.horrifying}} /><label
-                    for="data.horrifying" />
-            </div>
-            <div class="injuredtext">{{localize "DL.CreatureHorrifying"}}</div>
-        </div>
-        <div class="charsstat">
-            <div class="chars grid grid-2col">
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.TalentDamage"}}</div>
-                    <div class="speed">
-                        <input name="data.characteristics.health.value" type="number"
-                            value="{{data.characteristics.health.value}}" data-dtype="Number" placeholder="" />
-                    </div>
-                </div>
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.CreatureHealth"}}</div>
-                    <div class="speed">
-                        <input name="data.characteristics.health.max" type="number"
-                            value="{{data.characteristics.health.max}}" data-dtype="Number" placeholder="" />
-                    </div>
-                </div>
-            </div>
-            <div class="chars grid grid-2col">
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.CharDefense"}}</div>
-                    <div class="speed"><input name="data.characteristics.defense" type="number"
-                            value="{{data.characteristics.defense}}" data-dtype="Number" placeholder="" /></div>
-                </div>
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.CharPower"}}</div>
-                    <div class="speed"><input name="data.characteristics.power" type="number"
-                            value="{{data.characteristics.power}}" data-dtype="Number" placeholder="" /></div>
-                </div>
-            </div>
-            <div class="chars grid grid-2col">
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.CharSize"}}</div>
-                    <div class="speed"><input name="data.characteristics.size" type="text"
-                            value="{{data.characteristics.size}}" data-dtype="String" placeholder="" /></div>
-                </div>
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.CharSpeed"}}</div>
-                    <div class="speed"><input name="data.characteristics.speed" type="number"
-                            value="{{data.characteristics.speed}}" data-dtype="Number" placeholder="" />
-                    </div>
-                </div>
-            </div>
-            <div class="chars grid grid-2col">
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.CreatureInsanity"}}</div>
-                    <div class="speed"><input name="data.characteristics.insanity.value" type="number"
-                            value="{{data.characteristics.insanity.value}}" data-dtype="Number" /></div>
-                </div>
-                <div class="speedbox">
-                    <div class="speedtext">{{localize "DL.CreatureCorruption"}}</div>
-                    <div class="speed"><input name="data.characteristics.corruption" type="number"
-                            value="{{data.characteristics.corruption}}" data-dtype="Number" /></div>
-                    </div>
-                </div>
-            </div>
-            <div class="armor">
-                <input name="data.armor" type="text" value="{{data.armor}}" data-dtype="String"
-                    placeholder="{{localize 'DL.CreatureArmor'}}" />
-            </div>
-            <div class="speedtraits">
-                <input name="data.speedtraits" type="text" value="{{data.speedtraits}}"
-                    data-dtype="String" placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
-            </div>
-            <div class="turnmode">
-                <label class="switchTurn">
-                    <input type="checkbox" id="data.fastturn" name="data.fastturn" {{checked data.fastturn}}>
-                    <div class="slider round">
-                        <span class="on">Fast turn</span><span class="off">Slow turn</span>
-                    </div>
-                </label>
-            </div>
-        </div>
+  <div class="sidebar" data-group="dashboard" data-tab="sidebar">
+    <div class="framecreature">
+      <img class="profile-img img-cre" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
     </div>
+    <div class="injuredbox">
+      <div class="frightening">
+        <input type="checkbox" name="data.frightening"
+               id="data.frightening" class="checkbox"
+               class="checkinput"
+          {{checked data.frightening}} /><label
+              for="data.frightening"/>
+      </div>
+      <div class="injuredtext">{{localize "DL.CreatureFrightening"}}</div>
+    </div>
+    <div class="injuredboxright">
+      <div class="horrifying">
+        <input type="checkbox" name="data.horrifying"
+               id="data.horrifying" class="checkbox"
+               class="checkinput"
+          {{checked data.horrifying}} /><label
+              for="data.horrifying"/>
+      </div>
+      <div class="injuredtext">{{localize "DL.CreatureHorrifying"}}</div>
+    </div>
+    <div class="charsstat">
+      <div class="chars grid grid-2col">
+        <div class="speedbox">
+          <div class="speedtext">{{localize "DL.TalentDamage"}}</div>
+          <div class="speed">
+            <input name="data.characteristics.health.value" type="number"
+                   value="{{data.characteristics.health.value}}" data-dtype="Number" placeholder=""/>
+          </div>
+        </div>
+        <div class="speedbox">
+          <div class="speedtext">{{localize "DL.CreatureHealth"}}</div>
+          <div class="speed">
+            <input name="data.characteristics.health.max" type="number"
+                   value="{{data.characteristics.health.max}}" data-dtype="Number" placeholder=""/>
+          </div>
+        </div>
+      </div>
+      <div class="chars grid grid-2col">
+        <div class="speedbox">
+          <div class="speedtext">{{localize "DL.CharDefense"}}</div>
+          <div class="speed"><input name="data.characteristics.defense" type="number"
+                                    value="{{data.characteristics.defense}}" data-dtype="Number" placeholder=""/></div>
+        </div>
+        <div class="speedbox">
+          <div class="speedtext">{{localize "DL.CharPower"}}</div>
+          <div class="speed"><input name="data.characteristics.power" type="number"
+                                    value="{{data.characteristics.power}}" data-dtype="Number" placeholder=""/></div>
+        </div>
+      </div>
+      <div class="chars grid grid-2col">
+        <div class="speedbox">
+          <div class="speedtext">{{localize "DL.CharSize"}}</div>
+          <div class="speed"><input name="data.characteristics.size" type="text"
+                                    value="{{data.characteristics.size}}" data-dtype="String" placeholder=""/></div>
+        </div>
+        <div class="speedbox">
+          <div class="speedtext">{{localize "DL.CharSpeed"}}</div>
+          <div class="speed"><input name="data.characteristics.speed" type="number"
+                                    value="{{data.characteristics.speed}}" data-dtype="Number" placeholder=""/>
+          </div>
+        </div>
+      </div>
+      <div class="chars grid grid-2col">
+        <div class="speedbox">
+          <div class="speedtext">{{localize "DL.CreatureInsanity"}}</div>
+          <div class="speed"><input name="data.characteristics.insanity.value" type="number"
+                                    value="{{data.characteristics.insanity.value}}" data-dtype="Number"/></div>
+        </div>
+        <div class="speedbox">
+          <div class="speedtext">{{localize "DL.CreatureCorruption"}}</div>
+          <div class="speed"><input name="data.characteristics.corruption" type="number"
+                                    value="{{data.characteristics.corruption}}" data-dtype="Number"/></div>
+        </div>
+      </div>
+    </div>
+    <div class="armor">
+      <input name="data.armor" type="text" value="{{data.armor}}" data-dtype="String"
+             placeholder="{{localize 'DL.CreatureArmor'}}"/>
+    </div>
+    <div class="speedtraits">
+      <input name="data.speedtraits" type="text" value="{{data.speedtraits}}"
+             data-dtype="String" placeholder="{{localize 'DL.CreatureSpeedTraits'}}"/>
+    </div>
+    <div class="turnmode">
+      <label class="switchTurn">
+        <input type="checkbox" id="data.fastturn" name="data.fastturn" {{checked data.fastturn}}>
+        <div class="slider round">
+          <span class="on">Fast turn</span><span class="off">Slow turn</span>
+        </div>
+      </label>
+    </div>
+  </div>
+  </div>
 </aside>

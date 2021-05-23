@@ -1,27 +1,27 @@
 module.exports = {
   parserOptions: {
-    ecmaVersion: 2020,
     sourceType: 'module',
   },
 
   env: {
-    browser: true,
+    "browser": true,
+    "commonjs": true,
+    "es2021": true,
+    "jquery": true
   },
 
-  extends: ['eslint:recommended', '@typhonjs-fvtt/eslint-config-foundry.js/0.7.9', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    '@typhonjs-fvtt/eslint-config-foundry.js/latest-0.8.x',
+    'prettier',
+  ],
 
   plugins: [],
 
   rules: {
     // Specify any specific ESLint rules.
+    'no-shadow': ['error',{ builtinGlobals: true, hoist: 'all', allow: ['event'] },],
+    "no-unused-vars": ["error", { "vars": "local", "args": "after-used", "ignoreRestSiblings": false, argsIgnorePattern: '^_'}]
   },
 
-  overrides: [
-    {
-      files: ['./*.js'],
-      env: {
-        node: true,
-      },
-    },
-  ],
-};
+}
