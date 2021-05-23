@@ -306,6 +306,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Rest character
     html.find('.rest-char').click(_ => this.actor.restActor())
 
+    // Healing Rate button
+    html.find('.healingratebox').on('mousedown', ev => this.actor.applyHealing(ev.button === 0))
+
     // Talent: Options
     html.find('input[type=checkbox][id^="option"]').click(ev => {
       const div = ev.currentTarget.closest('.option')
