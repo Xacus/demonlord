@@ -52,7 +52,7 @@ export class DemonlordItem extends Item {
 
     var selected = Array.from(game.user.targets)
     if (selected.length === 0) {
-      ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
+      ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotTargeted'))
       return
     }
 
@@ -159,7 +159,7 @@ export class DemonlordItem extends Item {
 
     var selected = Array.from(game.user.targets)
     if (selected.length == 0) {
-      ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
+      ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotTargeted'))
       return
     }
 
