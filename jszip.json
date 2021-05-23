@@ -1,6 +1,0 @@
-{
-  "entities": [{ "name": "./dist", "root": true }],
-  "options": {
-    "output": "system.zip"
-  }
-}
