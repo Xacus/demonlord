@@ -49,13 +49,13 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   let diceTotal = attackRoll != null ? attackRoll.total : ''
   let resultText = didHit ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
 
-  const attackShow = game.settings.get('demonlord08', 'attackShowAttack')
+  const attackShow = game.settings.get('demonlord', 'attackShowAttack')
   if ((attacker.data.type === 'creature' && !attackShow) || rollMode === 'blindroll') {
     diceTotal = '?'
     resultText = ''
   }
 
-  const defenseShow = game.settings.get('demonlord08', 'attackShowDefense')
+  const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = (defender?.data.type == 'character' || defenseShow) && targetNumber ? targetNumber : '?'
 
   const templateData = {
@@ -91,7 +91,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['itemEffects'] = item.effects
 
   const chatData = _getChatBaseData(attacker, rollMode)
-  const template = 'systems/demonlord08/templates/chat/combat.html'
+  const template = 'systems/demonlord/templates/chat/combat.html'
 
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
@@ -143,7 +143,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   data['ifBlindedRoll'] = rollMode === 'blindroll'
 
   const chatData = _getChatBaseData(actor, rollMode)
-  const template = 'systems/demonlord08/templates/chat/challenge.html'
+  const template = 'systems/demonlord/templates/chat/challenge.html'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
     if (game.dice3d) {
@@ -186,7 +186,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   let diceTotalGM = attackRoll?.total ?? ''
   let diceTotal = diceTotalGM
   if (
-    (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) ||
+    (actor.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) ||
     rollMode === 'blindroll'
   ) {
     diceTotal = '?'
@@ -194,7 +194,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   }
 
   const againstNumber =
-    target?.actor?.data.type === 'character' || (game.settings.get('demonlord08', 'attackShowDefense') && targetNumber)
+    target?.actor?.data.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
       ? targetNumber
       : '?'
 
@@ -242,11 +242,11 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
 
   const chatData = _getChatBaseData(actor, rollMode)
   if (talentData?.damage || talentData?.vs?.attribute || (!talentData?.vs?.attribute && !talentData?.damage)) {
-    const template = 'systems/demonlord08/templates/chat/talent.html'
+    const template = 'systems/demonlord/templates/chat/talent.html'
     return renderTemplate(template, templateData).then(content => {
       chatData.content = content
       if (game.dice3d && attackRoll != null) {
-        if (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) {
+        if (actor.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
           if (attackRoll != null) chatData.sound = CONFIG.sounds.dice
           ChatMessage.create(chatData)
         } else {
@@ -294,7 +294,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   let diceTotalGM = attackRoll?.total || ''
   let diceTotal = diceTotalGM
   if (
-    (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) ||
+    (actor.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) ||
     rollMode === 'blindroll'
   ) {
     diceTotal = '?'
@@ -302,7 +302,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   }
 
   let againstNumber =
-    target?.actor?.data.type === 'character' || (game.settings.get('demonlord08', 'attackShowDefense') && targetNumber)
+    target?.actor?.data.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
       ? targetNumber
       : '?'
 
@@ -364,11 +364,11 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['itemEffects'] = spell.effects
 
   const chatData = _getChatBaseData(actor, rollMode)
-  const template = 'systems/demonlord08/templates/chat/spell.html'
+  const template = 'systems/demonlord/templates/chat/spell.html'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
     if (game.dice3d && attackRoll != null && attackAttribute) {
-      if (actor.data.type === 'creature' && !game.settings.get('demonlord08', 'attackShowAttack')) {
+      if (actor.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
         if (attackRoll != null) chatData.sound = CONFIG.sounds.dice
         ChatMessage.create(chatData)
       } else {
@@ -408,7 +408,7 @@ export function postCorruptionToChat(actor, corruptionRoll) {
 
   const rollMode = game.settings.get('core', 'rollMode')
   const chatData = _getChatBaseData(actor, rollMode)
-  const template = 'systems/demonlord08/templates/chat/corruption.html'
+  const template = 'systems/demonlord/templates/chat/corruption.html'
 
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
@@ -418,7 +418,7 @@ export function postCorruptionToChat(actor, corruptionRoll) {
           if (corruptionRoll.total < actor.data.data.characteristics.corruption) {
             ;(async () => {
               // FIXME: get data from table
-              const compRollTabels = await game.packs.get('demonlord08.sotdl roll tabels').getContent()
+              const compRollTabels = await game.packs.get('demonlord.sotdl roll tabels').getContent()
               const tableMarkOfDarkness = compRollTabels.find(i => i.name === 'Mark of Darkness')
 
               const result = tableMarkOfDarkness.draw()

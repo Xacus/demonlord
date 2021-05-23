@@ -1,6 +1,6 @@
 {
-  "name": "demonlord08",
-  "title": "Shadow of the Demon Lord 0.8.x",
+  "name": "demonlord",
+  "title": "Shadow of the Demon Lord",
   "description": "The Shadow of the Demonlord system for FoundryVTT",
   "version": "2.0.0",
   "author": "Xacus",
@@ -13,63 +13,63 @@
     {
       "name": "weapons",
       "label": "Weapons",
-      "system": "demonlord08",
+      "system": "demonlord",
       "path": "packs/weapons.db",
       "entity": "Item"
     },
     {
       "name": "armor",
       "label": "Armor",
-      "system": "demonlord08",
+      "system": "demonlord",
       "path": "packs/armor.db",
       "entity": "Item"
     },
     {
       "name": "ammunition",
       "label": "Ammunition",
-      "system": "demonlord08",
+      "system": "demonlord",
       "path": "packs/ammunition.db",
       "entity": "Item"
     },
     {
       "name": "weapons creature",
       "label": "Weapons Creature",
-      "system": "demonlord08",
+      "system": "demonlord",
       "path": "packs/weapons-creatures.db",
       "entity": "Item"
     },
     {
       "name": "languages",
       "label": "Languages",
-      "system": "demonlord08",
+      "system": "demonlord",
       "path": "packs/languages.db",
       "entity": "Item"
     },
     {
       "name": "demonlord macros gm",
       "label": "Demonlord Macros - GM",
-      "system": "demonlord08",
+      "system": "demonlord",
       "path": "packs/demonlord-macros-gm.db",
       "entity": "Macro"
     },
     {
       "name": "demonlord macros player",
       "label": "Demonlord Macros - Player",
-      "system": "demonlord08",
+      "system": "demonlord",
       "path": "packs/demonlord-macros-player.db",
       "entity": "Macro"
     },
     {
       "name": "sotdl system guide",
       "label": "SotDL System Guide",
-      "system": "demonlord08",
+      "system": "demonlord",
       "path": "packs/sotdl-system-guide.db",
       "entity": "JournalEntry"
     },
     {
       "name": "sotdl roll tabels",
       "label": "Demonlord - Roll Tables",
-      "system": "demonlord08",
+      "system": "demonlord",
       "path": "packs/roll-tables.db",
       "entity": "RollTable"
     }

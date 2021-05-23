@@ -15,7 +15,7 @@ export class DemonlordItem extends Item {
   /** @override */
   static async create(data, options = {}) {
     // Add default image
-    if (!data?.img && game.settings.get('demonlord08', 'replaceIcons'))
+    if (!data?.img && game.settings.get('demonlord', 'replaceIcons'))
       data.img = CONFIG.DL.defaultItemIcons[data.type] || 'icons/svg/item-bag.svg'
     return super.create(data, options)
   }
@@ -137,7 +137,7 @@ export class DemonlordItem extends Item {
     if (rollMode === 'selfroll') chatData.whisper = [game.user._id]
     if (rollMode === 'blindroll') chatData.blind = true
 
-    const template = 'systems/demonlord08/templates/chat/damage.html'
+    const template = 'systems/demonlord/templates/chat/damage.html'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
       if (game.dice3d) {
@@ -265,7 +265,7 @@ export class DemonlordItem extends Item {
 
       chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
 
-      const template = 'systems/demonlord08/templates/chat/makechallengeroll.html'
+      const template = 'systems/demonlord/templates/chat/makechallengeroll.html'
       renderTemplate(template, templateData).then(content => {
         chatData.content = content
         ChatMessage.create(chatData)
@@ -316,7 +316,7 @@ export class DemonlordItem extends Item {
 
       chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
 
-      const template = 'systems/demonlord08/templates/chat/makeinitroll.html'
+      const template = 'systems/demonlord/templates/chat/makeinitroll.html'
       renderTemplate(template, templateData).then(content => {
         chatData.content = content
         ChatMessage.create(chatData)

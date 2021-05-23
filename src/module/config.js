@@ -93,18 +93,18 @@ DL.ActiveEffectsMenuTypes = {
 }
 
 DL.defaultItemIcons = {
-  ammo: 'systems/demonlord08/assets/icons/ammunition/arrows/arrows7.webp',
+  ammo: 'systems/demonlord/assets/icons/ammunition/arrows/arrows7.webp',
   item: 'icons/containers/bags/sack-cloth-tan.webp',
-  armor: 'systems/demonlord08/assets/icons/armor/soft%20leather.webp',
+  armor: 'systems/demonlord/assets/icons/armor/soft%20leather.webp',
   feature: 'icons/containers/bags/sack-cloth-tan.webp', // TODO: find better
-  spell: 'systems/demonlord08/assets/icons/skills/spellbook.webp',
-  talent: 'systems/demonlord08/assets/icons/skills/fist.webp',
-  weapon: 'systems/demonlord08/assets/icons/weapons/swords/sword11.webp',
-  specialaction: 'systems/demonlord08/assets/icons/skills/fist.webp',
+  spell: 'systems/demonlord/assets/icons/skills/spellbook.webp',
+  talent: 'systems/demonlord/assets/icons/skills/fist.webp',
+  weapon: 'systems/demonlord/assets/icons/weapons/swords/sword11.webp',
+  specialaction: 'systems/demonlord/assets/icons/skills/fist.webp',
   endoftheround: 'icons/skills/targeting/crosshair-pointed-orange.webp',
   mod: 'icons/containers/bags/sack-cloth-tan.webp', // TODO: find better
-  ancestry: 'systems/demonlord08/assets/icons/avatars/changeling.webp', // TODO: find better
+  ancestry: 'systems/demonlord/assets/icons/avatars/changeling.webp', // TODO: find better
   profession: 'icons/tools/hand/hammer-and-nail.webp',
-  path: 'systems/demonlord08/assets/icons/avatars/magician.webp',
-  language: 'systems/demonlord08/assets/icons/other/books/book2.webp',
+  path: 'systems/demonlord/assets/icons/avatars/magician.webp',
+  language: 'systems/demonlord/assets/icons/other/books/book2.webp',
 }

@@ -18,7 +18,7 @@ export class DLCharacterGenerater extends FormApplication {
 
   /** @override */
   get template() {
-    return 'systems/demonlord08/templates/dialogs/character-generator.html'
+    return 'systems/demonlord/templates/dialogs/character-generator.html'
   }
 
   /* -------------------------------------------- */

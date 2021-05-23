@@ -22,7 +22,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   /** @override */
   get template() {
-    const path = 'systems/demonlord08/templates/item'
+    const path = 'systems/demonlord/templates/item'
     return `${path}/item-${this.item.data.type}-sheet.html`
   }
 
@@ -44,7 +44,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     const data = super.getData(options)
     const itemData = data.data
     data.isGM = game.user.isGM
-    data.lockAncestry = game.settings.get('demonlord08', 'lockAncestry')
+    data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
     data.config = DL
     data.item = itemData
     data.data = itemData.data

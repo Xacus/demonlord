@@ -62,18 +62,18 @@ Hooks.once('init', async function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet)
-  Actors.registerSheet('demonlord08', DLCharacterSheet, {
+  Actors.registerSheet('demonlord', DLCharacterSheet, {
     types: ['character'],
     makeDefault: true,
   })
 
-  Actors.registerSheet('demonlord08', DLCreatureSheet, {
+  Actors.registerSheet('demonlord', DLCreatureSheet, {
     types: ['creature'],
     makeDefault: false,
   })
 
   Items.unregisterSheet('core', ItemSheet)
-  Items.registerSheet('demonlord08', DLBaseItemSheet, {
+  Items.registerSheet('demonlord', DLBaseItemSheet, {
     types: [
       'item',
       'feature',
@@ -89,11 +89,11 @@ Hooks.once('init', async function () {
     ],
     makeDefault: true,
   })
-  Items.registerSheet('demonlord08', DLAncestrySheet, {
+  Items.registerSheet('demonlord', DLAncestrySheet, {
     types: ['ancestry'],
     makeDefault: true,
   })
-  Items.registerSheet('demonlord08', DLPathSheet, {
+  Items.registerSheet('demonlord', DLPathSheet, {
     types: ['path'],
     makeDefault: true,
   })
@@ -128,7 +128,7 @@ Hooks.once('init', async function () {
   Handlebars.registerHelper('hideIf', val => (val ? 'style="display:none";' : ''))
 
   Handlebars.registerHelper('hiddenEffect', val =>
-    val && game.user.isGM && !game.settings.get('demonlord08', 'gmEffectsControls') ? 'visibility: hidden;' : '',
+    val && game.user.isGM && !game.settings.get('demonlord', 'gmEffectsControls') ? 'visibility: hidden;' : '',
   )
 
   preloadHandlebarsTemplates()
@@ -156,7 +156,7 @@ Hooks.once('setup', function () {
 
   const effects = DLAfflictions.buildAll()
 
-  if (!game.settings.get('demonlord08', 'statusIcons')) {
+  if (!game.settings.get('demonlord', 'statusIcons')) {
     for (const effect of CONFIG.statusEffects) {
       effects.push({
         id: effect.id,
@@ -226,7 +226,7 @@ Hooks.on('createActiveEffect', async activeEffect => {
   const statusId = activeEffect.data.flags?.core?.statusId
   const _parent = activeEffect?.parent
   if (statusId && _parent) {
-    await _parent.setFlag('demonlord08', statusId, true)
+    await _parent.setFlag('demonlord', statusId, true)
 
     // If asleep, also add prone and uncoscious
     if (statusId === 'asleep') {
@@ -249,7 +249,7 @@ Hooks.on('deleteActiveEffect', async activeEffect => {
   const statusId = activeEffect.data.flags?.core?.statusId
   const _parent = activeEffect?.parent
   if (statusId && _parent) {
-    await _parent.unsetFlag('demonlord08', statusId)
+    await _parent.unsetFlag('demonlord', statusId)
 
     // If asleep, also remove prone and uncoscious
     if (statusId === 'asleep') {
@@ -306,11 +306,11 @@ Hooks.on('renderChatMessage', async (app, html, msg) => {
 })
 
 Hooks.once('diceSoNiceReady', dice3d => {
-  dice3d.addSystem({ id: 'demonlord08', name: 'Demonlord' }, true)
+  dice3d.addSystem({ id: 'demonlord', name: 'Demonlord' }, true)
   dice3d.addDicePreset({
     type: 'd6',
-    labels: ['1', '2', '3', '4', '5', 'systems/demonlord08/ui/icons/logo.webp'],
-    system: 'demonlord08',
+    labels: ['1', '2', '3', '4', '5', 'systems/demonlord/ui/icons/logo.webp'],
+    system: 'demonlord',
   })
   dice3d.addDicePreset({
     type: 'd20',
@@ -334,12 +334,12 @@ Hooks.once('diceSoNiceReady', dice3d => {
       '17',
       '18',
       '19',
-      'systems/demonlord08/ui/icons/logo.webp',
+      'systems/demonlord/ui/icons/logo.webp',
     ],
-    system: 'demonlord08',
+    system: 'demonlord',
   })
   dice3d.addColorset({
-    name: 'demonlord08',
+    name: 'demonlord',
     description: 'Special',
     category: 'Demonlord',
     foreground: '#f2f2f2',

@@ -108,7 +108,7 @@ export class ActionTemplate extends MeasuredTemplate {
       const destination = canvas.grid.getSnappedPosition(this.data.x, this.data.y, 2)
       this.data.update(destination)
 
-      if (game.settings.get('demonlord08', 'templateAutoTargeting')) {
+      if (game.settings.get('demonlord', 'templateAutoTargeting')) {
         this.autoTargeting()
       }
 

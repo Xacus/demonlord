@@ -45,7 +45,7 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
       }
     }
 
-    if (game.settings.get('demonlord08', 'initRandomize')) {
+    if (game.settings.get('demonlord', 'initRandomize')) {
       init = init + Math.round(Math.random() * 6)
     }
 
@@ -68,8 +68,8 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
       },
     }
 
-    if (game.settings.get('demonlord08', 'initMessage')) {
-      const template = 'systems/demonlord08/templates/chat/init.html'
+    if (game.settings.get('demonlord', 'initMessage')) {
+      const template = 'systems/demonlord/templates/chat/init.html'
       renderTemplate(template, templateData).then(content => {
         const messageData = mergeObject(
           {
@@ -194,7 +194,7 @@ export const setupTurns = function () {
 
 const selectTurnType = async function (actor, fastturn) {
   let turn = ''
-  const template = 'systems/demonlord08/templates/dialogs/choose-turn-dialog.html'
+  const template = 'systems/demonlord/templates/dialogs/choose-turn-dialog.html'
   const html = await renderTemplate(template, {
     data: {
       fastturn: fastturn,

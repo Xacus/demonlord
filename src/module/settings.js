@@ -1,12 +1,12 @@
 export const registerSettings = function () {
-  game.settings.register('demonlord08', 'systemMigrationVersion', {
+  game.settings.register('demonlord', 'systemMigrationVersion', {
     name: 'System Migration Version',
     scope: 'world',
     config: false,
     type: String,
     default: '',
   })
-  game.settings.register('demonlord08', 'lockAncestry', {
+  game.settings.register('demonlord', 'lockAncestry', {
     name: game.i18n.localize('DL.SettingLockAncestry'),
     hint: game.i18n.localize('DL.SettingLockAncestrHint'),
     default: false,
@@ -14,7 +14,7 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord08', 'initMessage', {
+  game.settings.register('demonlord', 'initMessage', {
     name: game.i18n.localize('DL.SettingInitMessage'),
     hint: game.i18n.localize('DL.SettingInitMessageHint'),
     default: true,
@@ -22,7 +22,7 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord08', 'initRandomize', {
+  game.settings.register('demonlord', 'initRandomize', {
     name: game.i18n.localize('DL.SettingInitRandomize'),
     hint: game.i18n.localize('DL.SettingInitRandomizeHint'),
     default: false,
@@ -30,7 +30,7 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord08', 'attackShowAttack', {
+  game.settings.register('demonlord', 'attackShowAttack', {
     name: game.i18n.localize('DL.SettingAttackShowEnemyAttributeAtt'),
     hint: game.i18n.localize('DL.SettingAttackShowEnemyAttributeAttHint'),
     default: true,
@@ -38,7 +38,7 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord08', 'attackShowDefense', {
+  game.settings.register('demonlord', 'attackShowDefense', {
     name: game.i18n.localize('DL.SettingAttackShowEnemyAttribute'),
     hint: game.i18n.localize('DL.SettingAttackShowEnemyAttributeHint'),
     default: false,
@@ -46,7 +46,7 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord08', 'rollCreaturesToGM', {
+  game.settings.register('demonlord', 'rollCreaturesToGM', {
     name: game.i18n.localize('DL.SettingRollCreaturesToGM'),
     hint: game.i18n.localize('DL.SettingRollCreaturesToGMHint'),
     default: true,
@@ -54,7 +54,7 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord08', 'statusIcons', {
+  game.settings.register('demonlord', 'statusIcons', {
     name: game.i18n.localize('DL.SettingStatusIcons'),
     hint: game.i18n.localize('DL.SettingStatusIconsHint'),
     default: false,
@@ -62,7 +62,7 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord08', 'templateAutoTargeting', {
+  game.settings.register('demonlord', 'templateAutoTargeting', {
     name: game.i18n.localize('DL.SettingTemplateAutoTargeting'),
     hint: game.i18n.localize('DL.SettingTemplateAutoTargetingHint'),
     default: false,
@@ -70,7 +70,7 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord08', 'replaceIcons', {
+  game.settings.register('demonlord', 'replaceIcons', {
     name: game.i18n.localize('DL.SettingReplaceIcons'),
     hint: game.i18n.localize('DL.SettingReplaceIconsHint'),
     default: true,
@@ -78,7 +78,7 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord08', 'gmEffectsControls', {
+  game.settings.register('demonlord', 'gmEffectsControls', {
     name: game.i18n.localize('DL.SettingGMEffectsControls'),
     hint: game.i18n.localize('DL.SettingGMEffectsControlsHint'),
     default: false,

@@ -213,7 +213,7 @@ export function healingPotionMacro() {
       },
     }
 
-    const template = 'systems/demonlord08/templates/chat/useitem.html'
+    const template = 'systems/demonlord/templates/chat/useitem.html'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
       ChatMessage.create(chatData)

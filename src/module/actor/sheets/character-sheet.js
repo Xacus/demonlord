@@ -28,8 +28,8 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
   /** @override */
   get template() {
-    if (!game.user.isGM && this.actor.limited) return 'systems/demonlord08/templates/actor/limited-sheet.html'
-    return 'systems/demonlord08/templates/actor/actor-sheet.html'
+    if (!game.user.isGM && this.actor.limited) return 'systems/demonlord/templates/actor/limited-sheet.html'
+    return 'systems/demonlord/templates/actor/actor-sheet.html'
   }
 
   /* -------------------------------------------- */

@@ -365,7 +365,7 @@ export class DLActiveEffects {
 
     const effectData = {
       label: effectLabel,
-      icon: 'systems/demonlord08/assets/icons/effects/fatigued.svg',
+      icon: 'systems/demonlord/assets/icons/effects/fatigued.svg',
       origin: 'encumbrance',
       transfer: false,
       duration: { startTime: 0 },

@@ -82,7 +82,7 @@ export default class extends CombatTracker {
       // const initMessages = []
 
       if (game.user.isGM || combatant.actor.isOwner) {
-        if (game.settings.get('demonlord08', 'initMessage')) {
+        if (game.settings.get('demonlord', 'initMessage')) {
           var templateData = {
             actor: combatant.actor,
             item: {
@@ -106,7 +106,7 @@ export default class extends CombatTracker {
             },
           }
 
-          const template = 'systems/demonlord08/templates/chat/init.html'
+          const template = 'systems/demonlord/templates/chat/init.html'
           renderTemplate(template, templateData).then(content => {
             chatData.content = content
             ChatMessage.create(chatData)
@@ -122,7 +122,7 @@ export default class extends CombatTracker {
       html
         .find('#combat-tracker')
         .append(
-          '<li id="combat-endofround" class="combatant actor directory-item flexrow"><img class="token-image" title="Hag" src="systems/demonlord08/assets/ui/icons/pentragram.webp"/><div class="token-name flexcol"><h4>End of the Round</h4></div></li>',
+          '<li id="combat-endofround" class="combatant actor directory-item flexrow"><img class="token-image" title="Hag" src="systems/demonlord/assets/ui/icons/pentragram.webp"/><div class="token-name flexcol"><h4>End of the Round</h4></div></li>',
         )
     }
 

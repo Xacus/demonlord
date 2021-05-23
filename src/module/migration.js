@@ -1,10 +1,10 @@
 export async function handleMigrations() {
   // Determine whether a system migration is required and feasible
   if (!game.user.isGM) return
-  const currentVersion = game.settings.get('demonlord08', 'systemMigrationVersion')
+  const currentVersion = game.settings.get('demonlord', 'systemMigrationVersion')
   if (!currentVersion) {
     // If no version is saved, no need to migrate
-    return game.settings.set('demonlord08', 'systemMigrationVersion', game.system.data.version)
+    return game.settings.set('demonlord', 'systemMigrationVersion', game.system.data.version)
   }
 
   // Compatibility warning
@@ -22,7 +22,7 @@ export async function handleMigrations() {
   if (isNewerVersion('2.0.0', currentVersion)) await migrateWorld_2_0_0()
 
   // Migration completed
-  return game.settings.set('demonlord08', 'systemMigrationVersion', game.system.data.version)
+  return game.settings.set('demonlord', 'systemMigrationVersion', game.system.data.version)
 }
 
 /* -------------------------------------------- */
@@ -70,10 +70,7 @@ export const migrateWorld_2_0_0 = async () => {
 }
 
 const _getNewImgPath = img => {
-  // FIXME \/ the correct if is this
-  // if (img && img.includes('systems/demonlord/icons')) {
-  if (img) {
-    // FIXME!!! currently in development all icons are already in demonlord08/assets so i enforce it
+  if (img && img.includes('systems/demonlord/icons')) {
     img = img.replace('/demonlord/icons', '/demonlord/assets/icons')
     img = img.replace('.png', '.webp')
     return img
