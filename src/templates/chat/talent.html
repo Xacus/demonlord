@@ -240,8 +240,8 @@
     <div class="gmonly">
     {{/if}}
     {{#if data.hasAreaTarget }}
-      <div class="combatactions place-template">
-        <div class="header" data-item-id="{{data.id.value}}">
+      <div class="combatactions place-template" data-item-uuid="{{item.uuid}}">
+        <div class="header">
           <img src="systems/demonlord/assets/ui/icons/pentagram.webp" width="15" height="15"/>
           <div>{{localize "DL.ActionPlaceTemplate"}}</div>
         </div>

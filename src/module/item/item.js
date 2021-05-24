@@ -383,11 +383,8 @@ export class DemonlordItem extends Item {
 
   static async _onChatPlaceTemplate(event) {
     event.preventDefault()
-    const li = event.currentTarget
-    const metadata = li.closest('.demonlord').dataset
-    const itemId = metadata.itemId
-    const actor = game.actors.get(metadata.actorId)
-    const item = actor.items.get(itemId)
+    const itemUuid = $(event.currentTarget).data('itemUuid')
+    const item = await fromUuid(itemUuid)
 
     const template = game.demonlord.canvas.ActionTemplate.fromItem(item)
     if (template) {

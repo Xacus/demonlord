@@ -31,7 +31,7 @@ All notable changes to this project will be documented in this file.
 - Removed Actor Mods
 - Changed "Apply ... to selected token" to "Apply ... to targeted token" for damage and healing
 - When clicking on healing rate, it heals the character. Left click: full healing; Right click: half healing
-- Replaced default foundry logo in the upper right corner with the SotDL banner, replaced the default "game paused" icon with a pentagram
+- Replaced default foundry logo in the upper right corner with the SotDL banner, replaced the default "game paused" icon
 
 ### Behind the scenes changes
 - Project structure changed to use rollup, eslint and prettifier
