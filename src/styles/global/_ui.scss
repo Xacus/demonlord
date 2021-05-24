@@ -273,3 +273,33 @@
   font-family: $font-header;
   font-size: 16px;
 }
+
+#navigation {
+  left: 170px;
+}
+
+#logo {
+  content: url('../assets/ui/demonlord-logo.png');
+  width: 150px;
+}
+
+#pause {
+  background: none;
+}
+
+#pause > img {
+  content: url('../assets/ui/pentagram-pause.png');
+  width: 200px;
+  height: 200px;
+  top: -50px;
+  left: calc(50% - 100px);
+  opacity: 0.7;
+  -webkit-animation: rotation 10s infinite linear;
+  animation: rotation 10s infinite linear;
+}
+
+#pause h3 {
+  font-family: 'IM Fell English SC', serif;
+  font-size: 32px;
+  text-shadow: 0px 3px 5px rgba(0, 0, 0, 1);
+}
