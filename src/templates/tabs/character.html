@@ -279,9 +279,7 @@
                 ></a>
               </div>
               <input type="text" name="feature.name" data-target="name" value="{{feature.name}}"/>
-              <textarea name="feature.data.description" data-target="feature.data.description">
-                {{feature.data.description}}</textarea
-              >
+              <textarea style="white-space: pre-wrap;">{{{replaceNewline feature.data.description}}}</textarea>
             </li>
           {{/each}} {{else}} {{#each actor.features as |feature id|}}
             <li class="feature dropitem" data-item-id="{{feature._id}}">

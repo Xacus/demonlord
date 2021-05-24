@@ -21,10 +21,10 @@
   <div class="content" style="display: block">
     <ol class="items-list">
       {{#each actor.features as |feature id|}}
-        <li class="feature dropitem" data-item-id="{{feature._id}}">
+        <li class="item dropitem" data-item-id="{{feature._id}}">
           <div class="item-controls">
-            <a class="item-control feature-edit" title="{{localize 'DL.FeatureEdit'}}"><i class="fas fa-edit"></i></a>
-            <a class="item-control feature-delete" title="{{localize 'DL.FeatureDelete'}}"
+            <a class="item-control item-edit" title="{{localize 'DL.FeatureEdit'}}"><i class="fas fa-edit"></i></a>
+            <a class="item-control item-delete" title="{{localize 'DL.FeatureDelete'}}"
             ><i class="fas fa-trash"></i
             ></a>
           </div>

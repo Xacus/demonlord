@@ -259,6 +259,15 @@ export default class DLBaseActorSheet extends ActorSheet {
       .click(() =>
         this.actor.update({ 'data.features.edit': !this.actor.data.data.features.edit }).then(() => this.render()),
       )
+    html.find('.editfeature').change((ev) => {
+      const id = $(ev.currentTarget).attr('data-item-id')
+      const nameValue = ev.currentTarget.children[1].value
+      let descValue = ev.currentTarget.children[2].value
+      descValue = descValue.trim()
+
+      const item = this.actor.getOwnedItem(id)
+      item.update({name: nameValue, 'data.description': descValue})
+    })
 
     // Rollable Attributes
     html.find('.attribute-roll').click(ev => {

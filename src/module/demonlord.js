@@ -128,6 +128,10 @@ Hooks.once('init', async function () {
 
   Handlebars.registerHelper('hideIf', val => (val ? 'style="display:none";' : ''))
 
+  Handlebars.registerHelper('replaceNewline', val =>
+    val.split('\n').reduce((acc, v) => acc + v.trim() + '&#13;&#10;', ''),
+  )
+
   Handlebars.registerHelper('hiddenEffect', val =>
     val && game.user.isGM && !game.settings.get('demonlord', 'gmEffectsControls') ? 'visibility: hidden;' : '',
   )
