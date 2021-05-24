@@ -101,9 +101,6 @@ export class DemonlordActor extends Actor {
   prepareDerivedData() {
     const data = this.data.data
 
-    // Override Perception initial value
-    data.attributes.perception.value += data.attributes.will.value - 10
-
     // Bound attribute value and calculate modifiers
     for (const [key, attribute] of Object.entries(data.attributes)) {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
@@ -118,6 +115,8 @@ export class DemonlordActor extends Actor {
 
     // --- Character specific data ---
     if (this.data.type === 'character') {
+      // Override Perception initial value
+      data.attributes.perception.value += data.attributes.will.value - 10
       // Health and Healing Rate
       data.characteristics.health.max += data.attributes.strength.value
       data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)
