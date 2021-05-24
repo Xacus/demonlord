@@ -32,6 +32,7 @@ All notable changes to this project will be documented in this file.
 - Changed "Apply ... to selected token" to "Apply ... to targeted token" for damage and healing
 - When clicking on healing rate, it heals the character. Left click: full healing; Right click: half healing
 - Replaced default foundry logo in the upper right corner with the SotDL banner, replaced the default "game paused" icon
+- Removed Activated Effects tab to avoid confusion between it and "Effects". Measured template has been moved to the "Attributes" tab
 
 ### Behind the scenes changes
 - Project structure changed to use rollup, eslint and prettifier
