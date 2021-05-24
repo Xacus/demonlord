@@ -1,78 +1,67 @@
-# demonlord-cromethius
+# System: Shadow of the Demonlord
+![SotDL Logo](https://github.com/Xacus/demonlord/blob/master/ui/SotDL_Foundry.jpg)
 
-Add your description here.
+This is Shadow of the Demon Lord for FoundryVTT.
 
-## Installation
+Shadow of the Demonlord has no open license, but permission was granted to make the system.
 
-Add your installation instructions here.
+Ancestries, Talents and Spell are not provided as content. Support this awesome system and buy the books. https://schwalbentertainment.com
 
-## Development
+## **Features**
 
-### Prerequisites
+### **General:**
 
-In order to build this system, recent versions of `node` and `npm` are
-required. Most likely using `yarn` also works but only `npm` is officially
-supported. We recommend using the latest lts version of `node`, which is
-`v14.15.5` at the time of writing. If you use `nvm` to manage your `node`
-versions, you can simply run
+Remember, that you as a player only can effect your own Actor and not take damage or heal other Actors. It's the job of the GM to micromanage damage/healing etc.
 
-```
-nvm install
-```
+As a GM when you need to apply damage/healing you just select a single or more actors and then use the apply button in the chat.
 
-in the project's root directory.
+### **Combat Tracker:**
 
-You also need to install the the project's dependencies. To do so, run
+Uses the standard Combat Tracker but with a few changes. It still uses the standard way of having a initiative value that determines the order of actors. You can still change the number manually if your players need a different order.
 
-```
-npm install
-```
+- It shows FAST/SLOW turns for each Actor.
+- When rolling/rerolling initiative you are prompted to choose between Fast or Slow turn.
+- It's also possible to change turn order directly in the Combat Tracker by clicking on FAST/SLOW on your actor.
+- Use characteristics.health to track damage on your token. It uses characteristics.health.value for damage score and characteristics.health.max as health score.
+- System Settings: I added som settings regarding showing messages in the chat log when changing between fast and slow turn and randomizing the initiative a lille.
 
-### Building
+### **Compendiums:**
 
-You can build the project by running
+- The weapons, armors, ammunition and languages from the core rulebook is available for dragging and dropping onto your character sheet.
+- Macros for player and GM can be imported.
 
-```
-npm run build
-```
+### **Module Support:**
 
-Alternatively, you can run
+- [Dice So Nice!](https://foundryvtt.com/packages/dice-so-nice/)
+- [Material Deck. Integration with Elgato Stream Deck.](https://foundryvtt.com/packages/MaterialDeck)
+- [Token Action HUD](https://foundryvtt.com/packages/token-action-hud/)
+- [Token Hotbar](https://foundryvtt.com/packages/foundry-token-hotbar)
+- [Automated Animations](https://foundryvtt.com/packages/automated-jb2a-animations)
+- [Polyglot](https://foundryvtt.com/packages/polyglot)
+- [Arbron's Improved HP Bar](https://foundryvtt.com/packages/arbron-hp-bar)
 
-```
-npm run build:watch
-```
+### **Tracking:**
 
-to watch for changes and automatically build as necessary.
+You can track both Health and Insanity and they are set on the token when an Actor is created.
 
-### Linking the built project to Foundry VTT
+- characteristics.health
+- characteristics.insanity
 
-In order to provide a fluent development experience, it is recommended to link
-the built system to your local Foundry VTT installation's data folder. In
-order to do so, first add a file called `foundryconfig.json` to the project root
-with the following content:
+### **Bars:**
 
-```
-{
-  "dataPath": "/absolute/path/to/your/FoundryVTT/Data"
-}
-```
+Damage, Insanity and Corruption can be increased and decreased by left/right clicking on the headertext.
 
-(if you are using Windows, make sure to use `\` as a path separator instead of
-`/`)
+### [Release history](CHANGELOG.md)
 
-Then run
+## **Credits**
 
-```
-npm run link-project
-```
+Shadow of the Demon Lord is ©2015 Schwalb Entertainment, LLC. All rights reserved.
+Shadow of the Demon Lord, Schwalb Entertainment, and their associated logos are trademarks of Schwalb Entertainment, LLC.
 
-On Windows, creating symlinks requires administrator privileges so unfortunately
-you need to run the above command in an administrator terminal for it to work.
+A huge thanks to Robert Schwalb for letting me do this system.
 
-### Running the tests
+Icons are licensed to be used only in this application. Any other use is prohibited.
 
-You can run the tests with the following command:
+## **Discord**
 
-```
-npm test
-```
+Please join the Discord Server: https://discord.gg/DUMfrUc
