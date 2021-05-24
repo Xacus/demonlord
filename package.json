@@ -57,9 +57,7 @@
     "*.(json|scss)": "prettier --write"
   },
   "dependencies": {
-    "bestzip": "^2.2.0",
     "dotenv-cli": "^4.0.0",
-    "json": "^11.0.0",
     "jszip-cli": "^1.4.24"
   }
 }

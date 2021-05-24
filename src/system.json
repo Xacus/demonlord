@@ -109,7 +109,7 @@
   "secondaryTokenAttribute": null,
   "socket": true,
   "url": "https://github.com/ClipplerBlood/demonlord-cromethius",
-  "manifest": "https://raw.githubusercontent.com/ClipplerBlood/demonlord-cromethius/releases/latest/download/system.json",
+  "manifest": "https://github.com/ClipplerBlood/demonlord-cromethius/releases/latest/download/system.json",
   "download": "https://github.com/ClipplerBlood/demonlord-cromethius/releases/download/2.0.0/system.zip",
   "bugs": "https://github.com/ClipplerBlood/demonlord-cromethius/issues",
   "allowBugReporter": true,

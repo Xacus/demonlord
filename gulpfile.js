@@ -213,6 +213,22 @@ function bumpVersion(cb) {
   }
 }
 
+/**
+ * Set download url based on version
+ */
+function setDownloadURL(cb) {
+  const systemJson = fs.readJSONSync('src/system.json');
+  const version = systemJson.version
+  const newDownloadURL = `https://github.com/ClipplerBlood/demonlord-cromethius/releases/download/${version}/system.zip`
+  systemJson.download = newDownloadURL
+  console.info("Updating system download URL to " + newDownloadURL + '\n')
+  cb()
+}
+
+/********************/
+/*      EXPORTS     */
+/********************/
+
 const execBuild = gulp.parallel(buildCode, buildStyles, copyFiles);
 
 exports.build = gulp.series(clean, execBuild);
@@ -220,3 +236,4 @@ exports.watch = buildWatch;
 exports.clean = clean;
 exports.link = linkUserData;
 exports.bumpVersion = bumpVersion;
+exports.setDownloadURL = setDownloadURL;
