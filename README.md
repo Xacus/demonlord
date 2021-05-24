@@ -1,4 +1,5 @@
 # System: Shadow of the Demonlord
+![SotDL Logo](https://github.com/Xacus/demonlord/ui/SotDL_Foundry.jpg)
 
 This is Shadow of the Demon Lord for FoundryVTT.
 
