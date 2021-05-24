@@ -18,6 +18,7 @@ import DLCreatureSheet from './actor/sheets/creature-sheet'
 import DLBaseItemSheet from './item/sheets/base-item-sheet'
 import DLAncestrySheet from './item/sheets/ancestry-sheet'
 import DLPathSheet from './item/sheets/path-sheet'
+import './playertrackercontrol'
 
 Hooks.once('init', async function () {
   game.demonlord = {
