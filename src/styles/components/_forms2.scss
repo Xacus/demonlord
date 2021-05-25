@@ -122,7 +122,7 @@ nav.sheet-subnavigation {
     border-bottom: 1px solid var(--demonlord-red);
     font-weight: bold;
     font-family: $font-header;
-    font-size: 12px;
+    font-size: 13px;
 
     .edit {
       float: right;
@@ -186,7 +186,7 @@ nav.sheet-subnavigation {
     border-bottom: 1px solid var(--demonlord-red);
     font-weight: bold;
     font-family: $font-header;
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
 
     .edit {
@@ -261,12 +261,13 @@ nav.sheet-subnavigation {
     border-bottom: 1px solid var(--demonlord-red);
     font-weight: bold;
     font-family: $font-header;
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
 
     .edit {
       float: right;
       width: 24px;
+      font-size: 10px;
     }
   }
 
@@ -295,6 +296,9 @@ nav.sheet-subnavigation {
   }
 }
 
+.professions {
+  margin-top: 5px;
+}
 .religionback {
   margin-bottom: 25px;
 

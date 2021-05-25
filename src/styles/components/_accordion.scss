@@ -18,7 +18,7 @@
     border-bottom: 1px solid var(--demonlord-red);
     font-weight: bold;
     font-family: 'IM Fell English SC', serif;
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     /* background: rgba(0, 0, 0, 0.1); */
     height: 20px;
@@ -97,6 +97,10 @@
       li.item {
         display: block;
 
+        .featurename {
+          font-weight: bold;
+        }
+
         .spellinfo {
           display: block;
           float: left;
@@ -127,6 +131,20 @@
       li.tradition-header {
         display: block;
         font-weight: bold;
+      }
+    }
+  }
+
+  .featurelist {
+    .items-list {
+      .item {
+        border: unset;
+      }
+      .item-controls {
+        float: right;
+        flex: 0 0 40px;
+        text-align: right;
+        font-size: 12px;
       }
     }
   }
