@@ -199,14 +199,23 @@ nav.sheet-subnavigation {
     margin-top: 5px;
 
     .path {
-      height: 45px;
+      height: 34px;
+      line-height: 34px;
       font-size: 12px;
       font-weight: normal;
+      margin-bottom: 5px;
+      background: rgba(0, 0, 0, 0.1);
 
       .pathtitle {
         float: left;
         padding: 5px 5px 0 0;
         margin-bottom: -2px;
+      }
+
+      img {
+        float: left;
+        margin: 2px;
+        margin-right: 5px;
       }
 
       label {
@@ -223,6 +232,7 @@ nav.sheet-subnavigation {
       .editPath {
         float: right;
         margin-top: -15px;
+        margin-right: 2px;
 
         &:hover {
           cursor: pointer;
@@ -230,13 +240,9 @@ nav.sheet-subnavigation {
       }
 
       .path-label {
-        float: left;
-        background: rgba(0, 0, 0, 0.1);
-        color: #000;
-        border-radius: 0px;
-        margin-top: 3px;
-        padding: 1px 2px 1px 5px;
-        width: 100%;
+        height: 34px;
+        line-height: 11px;
+        padding: 5px;
 
         &:hover {
           background: rgba(0, 0, 0, 0.3);

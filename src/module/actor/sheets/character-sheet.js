@@ -77,9 +77,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     actorData.ancestry = m.get('ancestry' || [])
     actorData.professions = m.get('profession' || [])
     actorData.languages = m.get('language') || ''
-    actorData.pathNovice = m.get('path')?.filter(p => p.data.type === 'novice') || []
-    actorData.pathExpert = m.get('path')?.filter(p => p.data.type === 'expert') || []
-    actorData.pathMaster = m.get('path')?.filter(p => p.data.type === 'master') || []
+    actorData.paths = m.get('path')
     actorData.talentbook = this._prepareBook(actorData.talents, 'groupname', 'talents')
   }
 

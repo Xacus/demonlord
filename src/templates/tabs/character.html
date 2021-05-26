@@ -183,46 +183,19 @@
       <div class="paths">
         <div class="header">{{localize "DL.PathsTitle"}}</div>
         <div class="body">
-          {{#if actor.pathNovice}} {{#each actor.pathNovice as |path id|}}
+          {{#each actor.paths as |path id|}}
           <div class="path" data-item-id="{{path._id}}">
-            <div class="pathtitle">{{localize "DL.CharPathNovice"}}</div>
-            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
-            <div class="editPath path-edit">
-              <i class="fas fa-edit"></i>
-            </div>
+            <img src="{{path.img}}" title="{{weapon.name}}" width="30" height="30" />
+            <label class="path-label path-edit" for="path.name"
+              ><b
+                >{{#if (eq path.data.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}}{{#if (eq path.data.type
+                "expert")}}{{localize "DL.CharPathExpert"}}{{/if}}{{#if (eq path.data.type "master")}}{{localize
+                "DL.CharPathMaster"}}{{/if}}:</b
+              >
+              {{path.name}}</label
+            >
           </div>
-          {{/each}} {{else}}
-          <div class="path">
-            <div class="pathtitle">{{localize "DL.CharPathNovice"}}</div>
-            <input type="text" name="data.paths.novice" value="{{data.paths.novice}}" />
-          </div>
-          {{/if}} {{#if actor.pathExpert}} {{#each actor.pathExpert as |path id|}}
-          <div class="path" data-item-id="{{path._id}}">
-            <div class="pathtitle">{{localize "DL.CharPathExpert"}}</div>
-            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
-            <div class="editPath path-edit">
-              <i class="fas fa-edit"></i>
-            </div>
-          </div>
-          {{/each}} {{else}}
-          <div class="path">
-            <div class="pathtitle">{{localize "DL.CharPathExpert"}}</div>
-            <input type="text" name="data.paths.expert" value="{{data.paths.expert}}" />
-          </div>
-          {{/if}} {{#if actor.pathMaster}} {{#each actor.pathMaster as |path id|}}
-          <div class="path" data-item-id="{{path._id}}">
-            <div class="pathtitle">{{localize "DL.CharPathMaster"}}</div>
-            <label class="path-label path-edit" for="path.name">{{path.name}}</label>
-            <div class="editPath path-edit">
-              <i class="fas fa-edit"></i>
-            </div>
-          </div>
-          {{/each}} {{else}}
-          <div class="path">
-            <div class="pathtitle">{{localize "DL.CharPathMaster"}}</div>
-            <input type="text" name="data.paths.master" value="{{data.paths.master}}" />
-          </div>
-          {{/if}}
+          {{/each}}
         </div>
       </div>
     </div>
