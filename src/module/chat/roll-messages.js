@@ -117,7 +117,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
 
   let diceTotal = challengeRoll?.total ?? ''
   let resultTextGM =
-    challengeRoll.total > 10 ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
+    challengeRoll.total >= 10 ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
 
   let resultText = resultTextGM
   if (rollMode === 'blindroll') {
