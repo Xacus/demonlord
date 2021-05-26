@@ -1,6 +1,6 @@
 <div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
   {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
-  <div class="showlessinfo"></div>
+  <div class="showlessinfo">{{data.actorInfo}}</div>
   <header class="card-headersmall">
     <div class="header">{{localize "DL.ChallengeRollText"}}</div>
     <div class="gmremove headertext {{data.resultText}}">{{data.resultText}}</div>
@@ -74,21 +74,6 @@
       <div class="description">
         <div class="header">{{localize "DL.TalentRollActions"}}</div>
         <div class="body">{{{data.actionEffects}}}</div>
-      </div>
-    {{/if}}
-  {{/if}}
-  {{#if data.afflictionEffects}}
-    {{#if data.isCreature}}
-      <div class="gmonly">
-        <div class="description">
-          <div class="header">{{localize "DL.Afflictions"}}:</div>
-          <div class="body">{{{data.afflictionEffects}}}</div>
-        </div>
-      </div>
-    {{else}}
-      <div class="description">
-        <div class="header">{{localize "DL.Afflictions"}}:</div>
-        <div class="body">{{{data.afflictionEffects}}}</div>
       </div>
     {{/if}}
   {{/if}}

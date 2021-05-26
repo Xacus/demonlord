@@ -271,43 +271,11 @@ Hooks.on('updateCombat', _onUpdateCombat)
 
 Hooks.on('renderChatLog', (app, html, _data) => DemonlordItem.chatListeners(html))
 
-Hooks.on('renderChatMessage', async (app, html, msg) => {
-  var actor = loadActorForChatMessage(msg.message.speaker)
-
-  /*
-    const regex = /(\d+)?d(\d+)([\+\-]\d+)?/ig;
-    const text = html.find(".message-content")[0].innerHTML;
-    const found = text.match(regex);
-    var rrr = text.replace(found[1], "<a href=''>" + found[1] + "</a>");
-    html.find(".message-content").replaceWith(rrr);
-    */
-
-  if (actor && actor.data?.type === 'character') {
-    let path = actor.data.data.paths.master != '' ? actor.data.data.paths.master : ''
-    path = actor.data.data.paths.expert != '' ? actor.data.data.paths.expert : ''
-    path = actor.data.data.paths.novice
-
-    html.find('.showlessinfo').prepend(actor.data.data.ancestry + ', ' + path)
-  }
-
+Hooks.on('renderChatMessage', async (app, html, _msg) => {
   if (!game.user.isGM) {
     html.find('.gmonly').remove()
     html.find('.gmonlyzero').remove()
-  } else {
-    html.find('.gmremove').remove()
-
-    if (actor && actor.data?.type === 'creature') {
-      let _status = 'Size ' + actor.data.data.characteristics.size + ' ' + actor.data.data.descriptor
-      if (actor.data.data.frightening) {
-        _status += ', ' + game.i18n.localize('DL.CreatureFrightening')
-      }
-      if (actor.data.data.horrifying) {
-        _status += ', ' + game.i18n.localize('DL.CreatureHorrifying')
-      }
-
-      html.find('.showlessinfo').prepend(_status)
-    }
-  }
+  } else html.find('.gmremove').remove()
 })
 
 Hooks.once('diceSoNiceReady', dice3d => {
@@ -389,6 +357,7 @@ Hooks.once('dragRuler.ready', SpeedProvider => {
   dragRuler.registerSystem('demonlord', DemonLordSpeedProvider)
 })
 
+// eslint-disable-next-line no-unused-vars
 function loadActorForChatMessage(speaker) {
   var actor
   if (speaker.token) {

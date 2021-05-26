@@ -89,6 +89,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
   data['itemEffects'] = item.effects
+  data['actorInfo'] = _buildActorInfo(attacker)
 
   const chatData = _getChatBaseData(attacker, rollMode)
   const template = 'systems/demonlord/templates/chat/combat.html'
@@ -138,9 +139,9 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   data['resultText'] = resultText
   data['resultTextGM'] = resultTextGM
   data['isCreature'] = actor.data.type === 'creature'
-  data['afflictionEffects'] = '' // TODO
   data['actionEffects'] = effects
   data['ifBlindedRoll'] = rollMode === 'blindroll'
+  data['actorInfo'] = _buildActorInfo(actor)
 
   const chatData = _getChatBaseData(actor, rollMode)
   const template = 'systems/demonlord/templates/chat/challenge.html'
@@ -241,6 +242,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['itemEffects'] = talent.effects
+  data['actorInfo'] = _buildActorInfo(actor)
 
   const chatData = _getChatBaseData(actor, rollMode)
   if (talentData?.damage || talentData?.vs?.attribute || (!talentData?.vs?.attribute && !talentData?.damage)) {
@@ -364,6 +366,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['itemEffects'] = spell.effects
+  data['actorInfo'] = _buildActorInfo(actor)
 
   const chatData = _getChatBaseData(actor, rollMode)
   const template = 'systems/demonlord/templates/chat/spell.html'
@@ -397,6 +400,7 @@ export function postCorruptionToChat(actor, corruptionRoll) {
   }
   const data = templateData.data
   data['diceTotal'] = corruptionRoll.total
+  data['actorInfo'] = _buildActorInfo(actor)
   data['tagetValueText'] = game.i18n.localize('DL.CharCorruption').toUpperCase()
   data['targetValue'] = actor.data.data.characteristics.corruption
   data['resultText'] =
@@ -447,4 +451,28 @@ export function postCorruptionToChat(actor, corruptionRoll) {
       ChatMessage.create(chatData)
     }
   })
+}
+
+/* -------------------------------------------- */
+
+function _buildActorInfo(actor) {
+  let info = ''
+  console.log(actor)
+  if (actor.type === 'character') {
+    const ancestry = actor.items.find(i => i.type === 'ancestry')?.name || ''
+    const paths = actor.data.paths || actor.items.filter(i => i.type === 'path')
+    const path =
+      paths.find(p => p.data.data.type === 'master')?.name ||
+      paths.find(p => p.data.data.type === 'expert')?.name ||
+      paths.find(p => p.data.data.type === 'novice')?.name ||
+      ''
+    info = ancestry + (path ? ', ' + path : '')
+  } else {
+    const size = game.i18n.localize('DL.CreatureSize') + ' ' + actor.data.data.characteristics.size
+    const desc = actor.data.data.descriptor
+    const frig = actor.data.data.frightening ? ', ' + game.i18n.localize('DL.CreatureFrightening') : ''
+    const horr = actor.data.data.horrifying ? ', ' + game.i18n.localize('DL.CreatureHorrifying') : ''
+    info = size + ' ' + desc + frig + horr
+  }
+  return info
 }

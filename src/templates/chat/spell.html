@@ -1,6 +1,6 @@
 <div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
   {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
-  <div class="showlessinfo"></div>
+  <div class="showlessinfo">{{data.actorInfo}}</div>
   {{#if data.attack}}
     <header class="card-header">
       <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img"
