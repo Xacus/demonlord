@@ -323,9 +323,7 @@ export class DLAfflictions {
     // ----------------------- ACTIONS -------------------------- //
 
     // Concentrate
-    effectsDataList.push(
-      _buildBaseAffliction('concentrate', 'systems/demonlord/assets/icons/effects/concentrate.svg'),
-    )
+    effectsDataList.push(_buildBaseAffliction('concentrate', 'systems/demonlord/assets/icons/effects/concentrate.svg'))
 
     // Defend
     effectsDataList.push(

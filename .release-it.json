@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "before:init": ["npm run lint", "echo Project linted successfully!"],
+    "before:init": ["prettier -w src", "npm run lint", "echo Project linted successfully!"],
     "after:bumper:bump": ["gulp setDownloadURL", "echo Download link url bumped"],
     "before:git:release": ["npm run pre-release", "echo Pre-Release completed!"]
   },

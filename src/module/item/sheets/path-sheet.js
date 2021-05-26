@@ -263,7 +263,6 @@ export default class DLPathSheet extends DLBaseItemSheet {
         const oldLevel = this.object.data.data.levels.find(l => !levelsLevelList.includes(l.level))
         this._keepNestedItems(newLevel, oldLevel)
       })
-
     } else if (allFormData.length > 0) {
       updateData.levels = this._mergeLevels(this.object.data.data.levels, allFormData)
     }
