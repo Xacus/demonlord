@@ -298,6 +298,7 @@ nav.sheet-subnavigation {
 .features {
   float: left;
   width: 100%;
+  padding-right: 10px;
 
   .header {
     width: 100%;
@@ -317,11 +318,18 @@ nav.sheet-subnavigation {
 
   .body {
     margin-top: 5px;
+
+    input {
+      float: left;
+      width: 200px;
+      height: 15px;
+    }
   }
 }
 
 .professions {
   margin-top: -5px;
+  margin-right: -10px;
 }
 .religionback {
   margin-bottom: 25px;
