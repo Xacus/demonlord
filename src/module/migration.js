@@ -36,28 +36,37 @@ export const migrateWorld_2_0_0 = async () => {
   for (let item of game.items.values()) {
     console.log('Migrating item', item)
     const newIcon = _getNewImgPath(item.img)
-    if (newIcon) await item.update({ img: newIcon })
+    if (newIcon) await item.update({name:item.name || '', img: newIcon })
   }
 
-  // Migrate actor icons
+  // Migrate actors
   for (let actor of game.actors.values()) {
     console.log('Migrating actor', actor)
     const newActorIcon = _getNewImgPath(actor.img)
     const newReligionIcon = _getNewImgPath(actor.data.data?.religion?.image)
 
-    const actUpd = {}
+    const actUpd = actor.data.toObject()
+
     if (newActorIcon) actUpd.img = newActorIcon
-    if (newReligionIcon) actUpd['data.religion.image'] = newReligionIcon
+    if (newReligionIcon) actUpd.data.religion.image = newReligionIcon
+
+    if (actUpd.type === 'character') _resetActorData(actUpd.data)
+    delete actUpd.items
+    delete actUpd.effects
+    delete actUpd.token
     await actor.update(actUpd)
 
     // Migrate embedded items, forcing an update to embed the active effects
     const embeddedUpdateData = []
     for (const embeddedItem of actor.items.values()) {
-      const data = embeddedItem.toObject()
-      console.log('Migrating embedded item', embeddedItem)
+      const data = embeddedItem.data.toObject()
       const newItemIcon = _getNewImgPath(data.img)
-      if (newItemIcon) data.img = newItemIcon
-      embeddedUpdateData.push(data)
+      if (newItemIcon) {
+        console.log('Migrating embedded item', embeddedItem)
+        data.img = newItemIcon
+        data.name = data.name || ''
+        embeddedUpdateData.push(data)
+      }
     }
     if (embeddedUpdateData.length > 0) {
       const u = await actor.updateEmbeddedDocuments('Item', embeddedUpdateData, { noEmbedEffects: true })
@@ -76,6 +85,20 @@ const _getNewImgPath = img => {
     return img
   }
   return undefined
+}
+
+const _resetActorData = (actData) => {
+  actData.attributes.strength.value = 10
+  actData.attributes.agility.value = 10
+  actData.attributes.intellect.value = 10
+  actData.attributes.will.value = 10
+  actData.attributes.perception.value = 10
+  actData.characteristics.health.max = 0
+  actData.characteristics.health.healingrate = 0
+  actData.characteristics.defense = 0
+  actData.characteristics.speed = 10
+  actData.characteristics.power = 0
+  actData.characteristics.insanity.max = 0
 }
 /* -------------------------------------------- */
 /* 1.7.7                                        */

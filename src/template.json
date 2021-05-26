@@ -56,9 +56,6 @@
           },
           "corruption": 0,
           "fortune": 0,
-          "defensebonus": 0,
-          "healthbonus": 0,
-          "speedbonus": 0,
           "editbar": false
         },
         "afflictionsTab": {
