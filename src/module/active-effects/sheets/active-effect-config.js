@@ -69,8 +69,8 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       // Armor bonuses
       'data.bonuses.armor.fixed': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.ArmorFixed'),
       'data.bonuses.armor.agility': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeAgility'),
-      'data.bonuses.armor.defense': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Defense'),
-      'data.bonuses.armor.override': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.override'),
+      'data.bonuses.armor.defense': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.CharDefense'),
+      'data.bonuses.armor.override': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Override'),
       // Defense
       'data.bonuses.defense.boons.spell': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.MagicSpellsTitle'),
       'data.bonuses.defense.boons.weapon': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.WeaponTitle'),
