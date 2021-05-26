@@ -1,10 +1,10 @@
 <div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
   {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
-  <div class="showlessinfo"></div>
+  <div class="showlessinfo">{{data.actorInfo}}</div>
   <header class="card-headersmall tooltip">
     <div class="attackbox">
-      <div class="header">{{data.damagetype.value}} {{localize "DL.DamageRollText"}}: {{data.damageTotal.value}}</div>
-      {{#if data.isCreature.value}}
+      <div class="header">{{data.damagetype}} {{localize "DL.DamageRollText"}}: {{data.damageTotal}}</div>
+      {{#if data.isCreature}}
         <div class="gmonly">
                     <span class="tooltiptext">
                       {{#each diceData.dice}}
@@ -37,21 +37,21 @@
   </header>
   <div class="gmonly">
     <div class="damageaction apply-damage">
-      <div class="header" data-damage="{{data.damageTotal.value}}">
+      <div class="header" data-damage="{{data.damageTotal}}">
         <div class="fas fa-tint blood"></div>
-        <div>{{localize "DL.DialogTalentApplyDamage"}} ({{data.damageTotal.value}})</div>
+        <div>{{localize "DL.DialogTalentApplyDamage"}} ({{data.damageTotal}})</div>
       </div>
     </div>
     <div class="damageaction apply-damage">
-      <div class="header" data-damage="{{data.damageDouble.value}}">
+      <div class="header" data-damage="{{data.damageDouble}}">
         <div class="fas fa-tint blood"></div>
-        <div>{{localize "DL.DialogTalentApplyDoubleDamage"}} ({{data.damageDouble.value}})</div>
+        <div>{{localize "DL.DialogTalentApplyDoubleDamage"}} ({{data.damageDouble}})</div>
       </div>
     </div>
     <div class="damageaction apply-damage">
-      <div class="header" data-damage="{{data.damageHalf.value}}">
+      <div class="header" data-damage="{{data.damageHalf}}">
         <div class="fas fa-tint blood"></div>
-        <div>{{localize "DL.DialogTalentApplyHalfDamage"}} ({{data.damageHalf.value}})</div>
+        <div>{{localize "DL.DialogTalentApplyHalfDamage"}} ({{data.damageHalf}})</div>
       </div>
     </div>
   </div>

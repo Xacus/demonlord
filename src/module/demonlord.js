@@ -19,6 +19,7 @@ import DLBaseItemSheet from './item/sheets/base-item-sheet'
 import DLAncestrySheet from './item/sheets/ancestry-sheet'
 import DLPathSheet from './item/sheets/path-sheet'
 import './playertrackercontrol'
+import {initChatListeners} from "./chat/chat-listeners";
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -269,7 +270,7 @@ Hooks.on('deleteActiveEffect', async activeEffect => {
 
 Hooks.on('updateCombat', _onUpdateCombat)
 
-Hooks.on('renderChatLog', (app, html, _data) => DemonlordItem.chatListeners(html))
+Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
 
 Hooks.on('renderChatMessage', async (app, html, _msg) => {
   if (!game.user.isGM) {
