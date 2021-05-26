@@ -249,8 +249,7 @@ nav.sheet-subnavigation {
 
 .professions,
 .languages,
-.religionback,
-.features {
+.religionback {
   margin-top: -5px;
   font-size: 11px;
   margin-bottom: 35px;
@@ -296,8 +295,33 @@ nav.sheet-subnavigation {
   }
 }
 
+.features {
+  float: left;
+  width: 100%;
+
+  .header {
+    width: 100%;
+    padding: 3px 0;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: $font-header;
+    font-size: 11px;
+    text-transform: uppercase;
+
+    .edit {
+      float: right;
+      width: 24px;
+      font-size: 10px;
+    }
+  }
+
+  .body {
+    margin-top: 5px;
+  }
+}
+
 .professions {
-  margin-top: 5px;
+  margin-top: -5px;
 }
 .religionback {
   margin-bottom: 25px;
