@@ -240,26 +240,43 @@ export default class DLPathSheet extends DLBaseItemSheet {
     }
 
     if (this.object.data.data.editPath) {
-      updateData.levels = allFormData.map(ld => new PathLevel(ld))
+      updateData.levels = allFormData.map(ld => new PathLevel(ld)) || []
       // Sort the levels and check for duplicate levels
-      const hasDuplicates =
-        new Set(updateData.levels.sort((a, b) => (a?.level > b?.level ? 1 : -1)).map(l => l.level)).size !==
-        updateData.levels.length
+      updateData.levels.sort((a, b) => (a?.level > b?.level ? 1 : -1))
+      this.object.data.data.levels.sort((a, b) => (a?.level > b?.level ? 1 : -1))
+      const hasDuplicates = new Set(updateData.levels.map(l => l.level)).size !== updateData.levels.length
       if (hasDuplicates) return ui.notifications.warn('Path items must not have duplicate levels')
 
-      // Keep nested items
-      updateData.levels.forEach((level, i) => {
-        level.talentsSelected = this.object.data.data.levels[i]?.talentsSelected || []
-        level.talentspick = this.object.data.data.levels[i]?.talentspick || []
-        level.languages = this.object.data.data.levels[i]?.languages || []
-        level.talents = this.object.data.data.levels[i]?.talents || []
-        level.spells = this.object.data.data.levels[i]?.spells || []
+      // Match the new levels with the old and keep the nested items
+      // TODO: Code below can be fixed by using level ids
+      const matches = [] // [[newLevel, oldLevel], ...]
+      const notFound = [] // [[newLevel], ...]
+      updateData.levels.forEach(newLevel => {
+        const match = this.object.data.data.levels.find(l => l.level === newLevel.level)
+        if (match) {
+          this._keepNestedItems(newLevel, match)
+          matches.push([newLevel, match])
+        } else notFound.push(newLevel)
       })
+      notFound.forEach(newLevel => {
+        const levelsLevelList = matches.map(m => m[1].level)
+        const oldLevel = this.object.data.data.levels.find(l => !levelsLevelList.includes(l.level))
+        this._keepNestedItems(newLevel, oldLevel)
+      })
+
     } else if (allFormData.length > 0) {
       updateData.levels = this._mergeLevels(this.object.data.data.levels, allFormData)
     }
 
     return this.object.update({ name: _name, data: updateData })
+  }
+
+  _keepNestedItems(newLevelData, oldLevelData) {
+    newLevelData.talentsSelected = oldLevelData?.talentsSelected || []
+    newLevelData.talentspick = oldLevelData?.talentspick || []
+    newLevelData.languages = oldLevelData?.languages || []
+    newLevelData.talents = oldLevelData?.talents || []
+    newLevelData.spells = oldLevelData?.spells || []
   }
 
   _getPathDataFromForm() {
