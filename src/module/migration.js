@@ -30,13 +30,23 @@ export async function handleMigrations() {
 /* -------------------------------------------- */
 
 export const migrateWorld_2_0_0 = async () => {
-  _migrationStartInfo()
+  let migrateNewIcons = false
+  let d = Dialog.confirm({
+    title: 'Default icons',
+    content:
+      'Do you want to migrate current default item icons to the new ones?\nThe new icons will be set only for items that have the "mystery-man" icon.',
+    yes: () => (migrateNewIcons = true),
+    no: () => (migrateNewIcons = false),
+    defaultYes: true,
+  })
+  await d
 
+  _migrationStartInfo()
   // Migrate not embedded Items icons
   for (let item of game.items.values()) {
     console.log('Migrating item', item)
-    const newIcon = _getNewImgPath(item.img)
-    if (newIcon) await item.update({name:item.name || '', img: newIcon })
+    const newIcon = _getNewImgPath(item.img, migrateNewIcons, item.type)
+    if (newIcon) await item.update({ name: item.name || '', img: newIcon })
   }
 
   // Migrate actors
@@ -60,7 +70,7 @@ export const migrateWorld_2_0_0 = async () => {
     const embeddedUpdateData = []
     for (const embeddedItem of actor.items.values()) {
       const data = embeddedItem.data.toObject()
-      const newItemIcon = _getNewImgPath(data.img)
+      const newItemIcon = _getNewImgPath(data.img, migrateNewIcons, data.type)
       if (newItemIcon) {
         console.log('Migrating embedded item', embeddedItem)
         data.img = newItemIcon
@@ -78,16 +88,18 @@ export const migrateWorld_2_0_0 = async () => {
   _migrationEndInfo()
 }
 
-const _getNewImgPath = img => {
+const _getNewImgPath = (img, migrateDefault = false, type = undefined) => {
   if (img && img.includes('systems/demonlord/icons')) {
     img = img.replace('/demonlord/icons', '/demonlord/assets/icons')
     img = img.replace('.png', '.webp')
     return img
+  } else if (migrateDefault && img === 'icons/svg/mystery-man.svg' && type) {
+    return CONFIG.DL.defaultItemIcons[type]
   }
   return undefined
 }
 
-const _resetActorData = (actData) => {
+const _resetActorData = actData => {
   actData.attributes.strength.value = 10
   actData.attributes.agility.value = 10
   actData.attributes.intellect.value = 10
