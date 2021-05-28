@@ -45,7 +45,7 @@ export const migrateWorld_2_0_0 = async () => {
   // Migrate not embedded Items icons
   for (let item of game.items.values()) {
     console.log('Migrating item', item)
-    const newIcon = _getNewImgPath(item.img, migrateNewIcons, item.type)
+    const newIcon = _getNewImgPath(item.img, migrateNewIcons, item)
     if (newIcon) await item.update({ name: item.name || '', img: newIcon })
   }
 
@@ -70,7 +70,7 @@ export const migrateWorld_2_0_0 = async () => {
     const embeddedUpdateData = []
     for (const embeddedItem of actor.items.values()) {
       const data = embeddedItem.data.toObject()
-      const newItemIcon = _getNewImgPath(data.img, migrateNewIcons, data.type)
+      const newItemIcon = _getNewImgPath(data.img, migrateNewIcons, data)
       if (newItemIcon) {
         console.log('Migrating embedded item', embeddedItem)
         data.img = newItemIcon
@@ -88,13 +88,19 @@ export const migrateWorld_2_0_0 = async () => {
   _migrationEndInfo()
 }
 
-const _getNewImgPath = (img, migrateDefault = false, type = undefined) => {
+const _getNewImgPath = (img, migrateDefault = false, item = undefined) => {
   if (img && img.includes('systems/demonlord/icons')) {
     img = img.replace('/demonlord/icons', '/demonlord/assets/icons')
     img = img.replace('.png', '.webp')
     return img
-  } else if (migrateDefault && img === 'icons/svg/mystery-man.svg' && type) {
-    return CONFIG.DL.defaultItemIcons[type]
+  } else if (migrateDefault && img === 'icons/svg/mystery-man.svg' && item) {
+    img = CONFIG.DL.defaultItemIcons[item.type]
+    if (item.type === 'path') {
+      const pathType = item.data?.data?.type ?? item.data.type
+      img = CONFIG.DL.defaultItemIcons.path[pathType] || CONFIG.DL.defaultItemIcons.path.novice
+
+    }
+    return img
   }
   return undefined
 }

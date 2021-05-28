@@ -13,8 +13,12 @@ export class DemonlordItem extends Item {
   /** @override */
   static async create(data, options = {}) {
     // Add default image
-    if (!data?.img && game.settings.get('demonlord', 'replaceIcons'))
+    if (!data?.img && game.settings.get('demonlord', 'replaceIcons')) {
       data.img = CONFIG.DL.defaultItemIcons[data.type] || 'icons/svg/item-bag.svg'
+      if (data.type === 'path'){
+        data.img = CONFIG.DL.defaultItemIcons.path.novice
+      }
+    }
     return super.create(data, options)
   }
 

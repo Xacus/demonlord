@@ -265,8 +265,15 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
     updateData.editPath = formData['data.editPath']
     updateData.description = formData['data.description'] || this.object.data.data.description
-    updateData.type = formData['data.type'] || this.object.data.data.type
-    return this.object.update({ name: _name, data: updateData })
+    updateData.type = formData['data.type']
+
+    // Set default image based on new path type
+    const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.path).includes(formData.img)
+    if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
+      formData.img = CONFIG.DL.defaultItemIcons.path[updateData.type] || CONFIG.DL.defaultItemIcons.path.novice
+    }
+
+    return this.object.update({ name: _name, img: formData.img, data: updateData })
   }
 
   _keepNestedItems(newLevelData, oldLevelData) {

@@ -102,9 +102,12 @@ DL.defaultItemIcons = {
   weapon: 'systems/demonlord/assets/icons/weapons/swords/sword11.webp',
   specialaction: 'systems/demonlord/assets/icons/skills/fist.webp',
   endoftheround: 'icons/skills/targeting/crosshair-pointed-orange.webp',
-  mod: 'icons/containers/bags/sack-cloth-tan.webp', // TODO: find better
-  ancestry: 'systems/demonlord/assets/icons/avatars/changeling.webp', // TODO: find better
   profession: 'icons/tools/hand/hammer-and-nail.webp',
-  path: 'systems/demonlord/assets/icons/avatars/magician.webp',
   language: 'systems/demonlord/assets/icons/other/books/book2.webp',
+  ancestry: 'systems/demonlord/assets/icons/badges/dwarf-01.webp',
+  path: {
+    novice: 'systems/demonlord/assets/icons/badges/sword-01.webp',
+    expert: 'systems/demonlord/assets/icons/badges/axe-01.webp',
+    master: 'systems/demonlord/assets/icons/badges/helm-01.webp',
+  },
 }

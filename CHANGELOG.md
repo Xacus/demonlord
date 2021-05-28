@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.0.0] - 2021-05-24
+## [2.0.0] - 2021-05-28
 ### Overview
 - Foundry 0.8.x support
 - New item sheets layouts
@@ -33,6 +33,9 @@ All notable changes to this project will be documented in this file.
 - When clicking on healing rate, it heals the character. Left click: full healing; Right click: half healing
 - Replaced default foundry logo in the upper right corner with the SotDL banner, replaced the default "game paused" icon
 - Removed Activated Effects tab to avoid confusion between it and "Effects". Measured template has been moved to the "Attributes" tab
+- Moved the folder /icons/ to /assets/icons/
+- Added 10 new high quality icons! You can find them inside assets/icons/badges
+- Changed the design of the character tab inside character sheet
 
 ### Behind the scenes changes
 - Project structure changed to use rollup, eslint and prettifier
