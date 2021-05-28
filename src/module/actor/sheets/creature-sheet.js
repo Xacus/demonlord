@@ -39,4 +39,12 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     actorData.endoftheround = m.get('endoftheround') || []
     actorData.magic = m.get('magic') || []
   }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  async checkDroppedItem(itemData) {
+    if (['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language'].includes(itemData.type)) return false
+    return true
+  }
 }

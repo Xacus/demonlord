@@ -74,11 +74,26 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     actorData.gear = m.get('item') || []
     actorData.armor = m.get('armor') || []
     actorData.ammo = m.get('ammo') || []
-    actorData.ancestry = m.get('ancestry' || [])
-    actorData.professions = m.get('profession' || [])
+    actorData.ancestry = m.get('ancestry') || []
+    actorData.professions = m.get('profession') || []
     actorData.languages = m.get('language') || ''
-    actorData.paths = m.get('path')
+    actorData.paths = m.get('path') || []
     actorData.talentbook = this._prepareBook(actorData.talents, 'groupname', 'talents')
+  }
+
+  /* -------------------------------------------- */
+  /** @override */
+  async checkDroppedItem(itemData) {
+    const type = itemData.type
+    if (['specialaction', 'endoftheround'].includes(type)) return false
+
+    if (type === 'ancestry') {
+      const currentAncestriesIds = this.actor.data?.ancestry?.map(a => a._id)
+      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
+      return true
+    } else if (type === 'path' && this.actor.data.paths?.length >= 3) return false
+
+    return true
   }
 
   /* -------------------------------------------- */
