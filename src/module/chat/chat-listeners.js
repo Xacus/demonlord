@@ -26,9 +26,9 @@ async function  _onChatApplyHealing(event) {
   const item = li.children[0]
   const isFullRate = +item.dataset.healing === 1
 
-  var selected = Array.from(game.user.targets)
+  const selected = Object.values(canvas.tokens.controlled)
   if (selected.length === 0) {
-    ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotTargeted'))
+    ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
     return
   }
 
@@ -109,9 +109,9 @@ async function _onChatApplyDamage(event) {
   const item = li.children[0]
   const damage = parseInt(item.dataset.damage)
 
-  var selected = Array.from(game.user.targets)
+  var selected = Object.values(canvas.tokens.controlled)
   if (selected.length == 0) {
-    ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotTargeted'))
+    ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
     return
   }
 
@@ -141,8 +141,13 @@ async function _onChatApplyEffect(event) {
     console.warn('Demonlord | _onChatApplyEffect | Effect not found!')
     return
   }
+  const selected = Object.values(canvas.tokens.controlled)
+  if (selected.length == 0) {
+    ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
+    return
+  }
 
-  game.user.targets.forEach(target => {
+ selected.forEach(target => {
     ActiveEffect.create(activeEffect.data, { parent: target.actor }).then(e =>
       ui.notifications.info(`Added "${e.data.label}" to "${target.actor.name}"`),
     )
@@ -175,7 +180,7 @@ async function _onChatRequestChallengeRoll(event) {
   if (boonsbanes == undefined) boonsbanes = parseInt(item.dataset.boba)
   if (isNaN(boonsbanes)) boonsbanes = 0
 
-  var selected = Array.from(game.user.targets)
+  var selected = Object.values(canvas.tokens.controlled)
   if (selected.length == 0) {
     ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
   }
@@ -253,7 +258,7 @@ async function _onChatMakeChallengeRoll(event) {
 async function _onChatRequestInitRoll(event) {
   event.preventDefault()
 
-  var selected = canvas.tokens.controlled
+  var selected = Object.values(canvas.tokens.controlled)
   if (selected.length == 0) {
     ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
   }

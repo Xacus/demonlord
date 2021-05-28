@@ -256,7 +256,6 @@ nav.sheet-subnavigation {
 .professions,
 .languages,
 .religionback {
-  margin-top: -5px;
   font-size: 11px;
   margin-bottom: 35px;
 
@@ -404,85 +403,6 @@ nav.sheet-subnavigation {
     border-radius: 0px;
   }
 
-  .charinfo {
-    margin-bottom: 10px;
-    height: 45px;
-
-    .ancestry {
-      float: left;
-      width: 140px;
-      cursor: pointer;
-
-      .editAncestry {
-        position: relative;
-        top: -16px;
-        left: 124px;
-        width: 15px;
-      }
-    }
-
-    .gender {
-      float: left;
-      width: 70px;
-      margin-left: 10px;
-    }
-
-    .age {
-      float: left;
-      width: 40px;
-      margin-left: 10px;
-    }
-
-    .size {
-      float: left;
-      width: 40px;
-      margin-left: 10px;
-
-      div {
-        background: rgba(0, 0, 0, 0.05);
-        height: 18px;
-        padding-top: 2px;
-        padding-left: 5px;
-      }
-    }
-
-    .religion {
-      float: left;
-      width: 195px;
-      margin-left: 10px;
-
-      img {
-        position: relative;
-        left: 190px;
-        top: -35px;
-        height: 40px;
-        width: 40px;
-        border-radius: 20px;
-        border: none;
-        background-color: #fff;
-        box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
-        cursor: pointer;
-      }
-    }
-  }
-
-  .charinfo2 {
-    float: left;
-    margin-bottom: 10px;
-    margin-top: -35px;
-    margin-left: -10px;
-    height: 45px;
-
-    .eyes,
-    .hair,
-    .height,
-    .weight {
-      float: left;
-      width: 120px;
-      margin-left: 10px;
-    }
-  }
-
   .chardetail {
     float: left;
     width: 100%;
@@ -491,11 +411,7 @@ nav.sheet-subnavigation {
   }
 
   .languages {
-    float: left;
     width: 100%;
-    padding-right: 7px;
-    margin-top: -10px;
-    margin-bottom: 50px;
     height: 24px;
 
     .language {
@@ -528,5 +444,80 @@ nav.sheet-subnavigation {
       top: -12px;
       margin-right: 6px;
     }
+  }
+
+  .ancestry-paths {
+    text-align: center;
+    font-family: 'IM Fell English SC', serif;
+
+    img {
+      display: block;
+      height: 64px;
+      width: 64px;
+      margin-left: auto;
+      margin-right: auto;
+      border: none;
+    }
+
+    .ancestry-frame,
+    .path-frame {
+      height: 64px;
+      width: 64px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+
+      img.icon {
+        position: relative;
+        top: 7px;
+        height: 50px;
+        width: 50px;
+        border-radius: 25px;
+      }
+      img.border {
+        position: absolute;
+      }
+    }
+
+    h3 {
+      margin: 0;
+      font-weight: bold;
+    }
+    p {
+      margin: 0;
+      font-size: 13px;
+    }
+  }
+
+  .char-description {
+    margin-right: 10px;
+    .row {
+      margin-bottom: 6px;
+    }
+    .religion {
+      position: relative;
+      img {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        border: none;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgb(0 0 0 / 50%), 0 0 8px #a22223;
+        cursor: pointer;
+      }
+    }
+  }
+
+  h1 {
+    margin-right: 10px;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding-bottom: 1px;
   }
 }

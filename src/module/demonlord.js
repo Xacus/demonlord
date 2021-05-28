@@ -137,6 +137,7 @@ Hooks.once('init', async function () {
     val && game.user.isGM && !game.settings.get('demonlord', 'gmEffectsControls') ? 'visibility: hidden;' : '',
   )
 
+  Handlebars.registerHelper('isBadgeImg', (img) => img.includes('/demonlord/assets/icons/badges'))
   preloadHandlebarsTemplates()
 })
 

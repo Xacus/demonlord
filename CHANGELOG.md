@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Overview
 - Foundry 0.8.x support
 - New item sheets layouts
-- Improved Creature sheet layout
+- Improved Character and Creature sheet layout
 - Implemented Active Effects
 - Icons converted to .webp, saving 90% space
 
@@ -29,7 +29,7 @@ All notable changes to this project will be documented in this file.
 - Removed the Enchantments section. To enchant items now, active effects can be used
 - Roll dialog layout slightly improved. Moved inputs to the left and can now be increased/decreased using the scroll wheel
 - Removed Actor Mods
-- Changed "Apply ... to selected token" to "Apply ... to targeted token" for damage and healing
+- The behaviour of apply damage and healing has been reverted from "apply to targeted tokens" to "apply to selected tokens"
 - When clicking on healing rate, it heals the character. Left click: full healing; Right click: half healing
 - Replaced default foundry logo in the upper right corner with the SotDL banner, replaced the default "game paused" icon
 - Removed Activated Effects tab to avoid confusion between it and "Effects". Measured template has been moved to the "Attributes" tab

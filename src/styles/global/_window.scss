@@ -28,7 +28,6 @@
 .toggleItemInfo,
 .toggleEffectInfo,
 .item-uses,
-.path-edit,
 .ancestry-create,
 .edit-ancestrytalents,
 .show-iteminfo {
@@ -36,6 +35,16 @@
   &:focus {
     color: #000;
     text-shadow: 0 0 10px #fa200b;
+    cursor: pointer;
+  }
+}
+
+.ancestry-edit,
+.path-edit {
+  &:hover,
+  &:focus {
+    -webkit-filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+    filter: drop-shadow(0px 0px 4px var(--demonlord-red));
     cursor: pointer;
   }
 }

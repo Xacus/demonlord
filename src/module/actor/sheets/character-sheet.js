@@ -106,7 +106,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   }
 
   _onAncestryEdit(ev) {
-    const div = $(ev.currentTarget).parents('.item')
+    const div = $(ev.currentTarget)
     const ancestry = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
     if (ev.button == 0) ancestry.sheet.render(true)
     else if (ev.button == 2) {
@@ -118,8 +118,10 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   /* -------------------------------------------- */
 
   _onPathEdit(ev) {
-    const div = $(ev.currentTarget).parents('.path')
+    const div = $(ev.currentTarget)
+    console.log(div)
     const path = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+
     if (ev.button == 0) path.sheet.render(true)
     else if (ev.button == 2) {
       // await deletePathItems(this.actor, path.data.data.levels)
