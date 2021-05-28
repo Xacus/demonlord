@@ -233,11 +233,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
   async _updateObject(event, formData) {
     const _name = formData['name'] || this.object.name
     const allFormData = this._getPathDataFromForm()
-    const updateData = {
-      editPath: formData['data.editPath'],
-      description: formData['data.description'],
-      type: formData['data.type'],
-    }
+    const updateData = {}
 
     if (this.object.data.data.editPath) {
       updateData.levels = allFormData.map(ld => new PathLevel(ld)) || []
@@ -267,6 +263,9 @@ export default class DLPathSheet extends DLBaseItemSheet {
       updateData.levels = this._mergeLevels(this.object.data.data.levels, allFormData)
     }
 
+    updateData.editPath = formData['data.editPath']
+    updateData.description = formData['data.description'] || this.object.data.data.description
+    updateData.type = formData['data.type'] || this.object.data.data.type
     return this.object.update({ name: _name, data: updateData })
   }
 
