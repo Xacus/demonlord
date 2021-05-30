@@ -452,17 +452,29 @@ nav.sheet-subnavigation {
 
     img {
       display: block;
-      height: 64px;
-      width: 64px;
+      height: 80px;
+      width: 80px;
       margin-left: auto;
       margin-right: auto;
       border: none;
     }
 
     .ancestry-frame,
+    .path-frame,
+    .badge {
+      -webkit-filter: drop-shadow(0px 0px 3px #404040);
+      filter: drop-shadow(0px 0px 3px #404040);
+    }
+
+    img.icon {
+      -webkit-filter: grayscale(0.15);
+      filter: grayscale(0.15);
+    }
+
+    .ancestry-frame,
     .path-frame {
-      height: 64px;
-      width: 64px;
+      height: 80px;
+      width: 80px;
       margin-left: auto;
       margin-right: auto;
       position: relative;
@@ -472,10 +484,11 @@ nav.sheet-subnavigation {
         top: 7px;
         height: 50px;
         width: 50px;
-        border-radius: 25px;
       }
       img.border {
         position: absolute;
+        height: 80px;
+        width: 80px;
       }
     }
 

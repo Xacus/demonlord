@@ -1,39 +1,93 @@
+<div style="height: 0">
+  <svg class="svg">
+    <clipPath id="assassin-shield-clip-path" clipPathUnits="objectBoundingBox"><path d="M0,0.474 C0.165,0.396,0.167,0.305,0.083,0.208 L0.129,0.188,0.092,0.148 C0.329,-0.094,0.816,0.005,0.905,0.139 l-0.046,0.027,0.049,0.043 c-0.067,0.086,-0.05,0.172,0.092,0.258 c-0.085,0.173,-0.142,0.342,-0.442,0.532 l-0.065,-0.033,-0.064,0.031 C0.23,0.883,0.086,0.707,0,0.474"></path></clipPath>
+  </svg>
+</div>
+
+
+
 <div class="body" style="margin-top: 5px;">
   <h1>{{localize "DL.CharacterTitle"}}</h1>
 
   <div class="ancestry-paths">
     <div class="row">
       {{#if actor.ancestry}} {{#each actor.ancestry as |ancestry id|}}
-          <div class="col-3 ancestry-edit" data-item-id="{{ancestry._id}}">
-            {{#if (isBadgeImg ancestry.img)}}
-              <img src="{{ancestry.img}}">
-            {{else}}
-              <div class="ancestry-frame">
-                <img src="{{ancestry.img}}">
-              </div>
-            {{/if}}
-            <h3>{{localize 'DL.CharAncestry'}}</h3>
-            <p>{{ancestry.name}}</p>
-          </div>
+        <div class="col-3 ancestry-edit" data-item-id="{{ancestry._id}}">
+          {{#if (isBadgeImg ancestry.img)}}
+            <img class="badge" src="{{ancestry.img}}">
+          {{else}}
+            <div class="ancestry-frame">
+              <img class="border" src="systems/demonlord/assets/ui/shields/rogue-shield.webp">
+              <img class="icon" src="{{ancestry.img}}" style="
+                top: 15px;
+                left: -1px;
+                clip-path: polygon(51% 0%, 100% 50%, 52% 100%, 0% 48%);">
+            </div>
+          {{/if}}
+          <h3>{{localize 'DL.CharAncestry'}}</h3>
+          <p>{{ancestry.name}}</p>
+        </div>
 
       {{/each}} {{/if}}
       {{#if actor.paths}} {{#each actor.paths as |path id|}}
-          <div class="col-3 path-edit" data-item-id="{{path._id}}">
-            {{#if (isBadgeImg path.img)}}
-              <img src="{{path.img}}">
-            {{else}}
+        <div class="col-3 path-edit" data-item-id="{{path._id}}">
+          {{#if (isBadgeImg path.img)}}
+            <img class="badge" src="{{path.img}}">
+          {{else}}
+            {{#if (eq path.data.type "novice")}}
               <div class="path-frame">
-                <img class="icon" src="{{path.img}}">
-                <img class="border" src="systems/demonlord/assets/ui/image-circle-npc.webp">
+                <img class="border" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp" style="
+                  height: 64px;
+                  width: 64px;
+                  left: 8px;
+                  top: 8px;">
+                <img class="icon" src="{{path.img}}" style="
+                  top: 16px;
+                  left: 0px;
+                  height: 48px;
+                  width: 48px;
+                  clip-path: circle(50% at 50% 50%);">
               </div>
             {{/if}}
-            <h3>
-              {{#if (eq path.data.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}}
-              {{#if (eq path.data.type "expert")}}{{localize "DL.CharPathExpert"}}{{/if}}
-              {{#if (eq path.data.type "master")}}{{localize "DL.CharPathMaster"}}{{/if}}
-            </h3>
-            <p>{{path.name}}</p>
-          </div>
+            {{#if (eq path.data.type "expert")}}
+              <div class="path-frame">
+                <img class="border" src="systems/demonlord/assets/ui/shields/mage-shield.webp" style="
+                  height: 64px;
+                  width: 64px;
+                  left: 8px;
+                  top: 8px;">
+                <img class="icon" src="{{path.img}}" style="
+                  top: 16px;
+                  left: 0px;
+                  height: 48px;
+                  width: 48px;
+                  clip-path: circle(50% at 50% 50%);">
+              </div>
+            {{/if}}
+            {{#if (eq path.data.type "master")}}
+              <div class="path-frame">
+                <img class="border" src="systems/demonlord/assets/ui/shields/assassin-shield.webp" style="
+                  height: 64px;
+                  width: 64px;
+                  left: 8px;
+                  top: 8px;">
+                <img class="icon" src="{{path.img}}" style="
+                  top: 12px;
+                  left: 0px;
+                  height: 54px;
+                  width: 43px;
+                  clip-path: url(#assassin-shield-clip-path);
+                  object-fit: cover;">
+              </div>
+            {{/if}}
+          {{/if}}
+          <h3>
+            {{#if (eq path.data.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}}
+            {{#if (eq path.data.type "expert")}}{{localize "DL.CharPathExpert"}}{{/if}}
+            {{#if (eq path.data.type "master")}}{{localize "DL.CharPathMaster"}}{{/if}}
+          </h3>
+          <p>{{path.name}}</p>
+        </div>
       {{/each}} {{/if}}
       {{#if (not (and actor.ancestry actor.paths))}}
         <div class="col-3 helper">
@@ -50,35 +104,43 @@
     <div class="row">
       <div class="col-3">
         <label class="resource-label" for="data.appearance.sex">{{localize 'DL.CharGender'}}</label>
-        <input name="data.appearance.sex" type="text" value="{{data.appearance.sex}}" placeholder="{{localize 'DL.CharGender'}}"/>
+        <input name="data.appearance.sex" type="text" value="{{data.appearance.sex}}"
+               placeholder="{{localize 'DL.CharGender'}}"/>
       </div>
       <div class="col-3">
         <label class="resource-label" for="data.appearance.age">{{localize 'DL.CharAge'}}</label>
-        <input name="data.appearance.age" type="text" value="{{data.appearance.age}}" placeholder="{{localize 'DL.CharAge'}}"/>
+        <input name="data.appearance.age" type="text" value="{{data.appearance.age}}"
+               placeholder="{{localize 'DL.CharAge'}}"/>
       </div>
       <div class="col-6 religion">
         <label class="resource-label" for="data.religion.value">{{localize 'DL.CharReligion'}}</label>
-        <input name="data.religion.value" type="text" value="{{data.religion.value}}" placeholder="{{localize 'DL.CharReligion'}}" />
-        <img src="{{data.religion.image}}" alt="{{data.religion.value}}" title="{{localize 'DL.CharReligion'}}" data-edit="data.religion.image"/>
+        <input name="data.religion.value" type="text" value="{{data.religion.value}}"
+               placeholder="{{localize 'DL.CharReligion'}}"/>
+        <img src="{{data.religion.image}}" alt="{{data.religion.value}}" title="{{localize 'DL.CharReligion'}}"
+             data-edit="data.religion.image"/>
       </div>
     </div>
 
     <div class="row">
       <div class="col-3">
         <label class="resource-label" for="data.appearance.eyes">{{localize 'DL.CharEyes'}}</label>
-        <input name="data.appearance.eyes" type="text" value="{{data.appearance.eyes}}" placeholder="{{localize 'DL.CharEyes'}}"/>
+        <input name="data.appearance.eyes" type="text" value="{{data.appearance.eyes}}"
+               placeholder="{{localize 'DL.CharEyes'}}"/>
       </div>
       <div class="col-3">
         <label class="resource-label" for="data.appearance.hair">{{localize 'DL.CharHair'}}</label>
-        <input name="data.appearance.hair" type="text" value="{{data.appearance.hair}}" placeholder="{{localize 'DL.CharHair'}}"/>
+        <input name="data.appearance.hair" type="text" value="{{data.appearance.hair}}"
+               placeholder="{{localize 'DL.CharHair'}}"/>
       </div>
       <div class="col-3">
         <label class="resource-label" for="data.appearance.height">{{localize 'DL.CharHeight'}}</label>
-        <input name="data.appearance.height" type="text" value="{{data.appearance.height}}" placeholder="{{localize 'DL.CharHeight'}}"/>
+        <input name="data.appearance.height" type="text" value="{{data.appearance.height}}"
+               placeholder="{{localize 'DL.CharHeight'}}"/>
       </div>
       <div class="col-3">
         <label class="resource-label" for="data.appearance.weight">{{localize 'DL.CharWeight'}}</label>
-        <input name="data.appearance.weight" type="text" value="{{data.appearance.weight}}" placeholder="{{localize 'DL.CharWeight'}}"/>
+        <input name="data.appearance.weight" type="text" value="{{data.appearance.weight}}"
+               placeholder="{{localize 'DL.CharWeight'}}"/>
       </div>
     </div>
     <div class="row">
@@ -175,7 +237,7 @@
                   ><i class="fas fa-trash"></i
                   ></a>
                 </div>
-                <input type="text" name="feature.name" data-target="name" value="{{feature.name}}" />
+                <input type="text" name="feature.name" data-target="name" value="{{feature.name}}"/>
                 <textarea style="white-space: pre-wrap">{{{replaceNewline feature.data.description}}}</textarea>
               </li>
             {{/each}} {{else}} {{#each actor.features as |feature id|}}
@@ -194,7 +256,7 @@
           {{localize "DL.ProfessionsTitle"}}
           <div class="edit">
             <a class="item-control item-create" title="{{localize 'DL.ProfessionsAdd'}}" data-type="profession"
-              ><i class="fas fa-plus"></i
+            ><i class="fas fa-plus"></i
             ></a>
             <a class="profession-edit" title="{{localize 'DL.ProfessionsEdit'}}"><i class="fas fa-edit"></i></a>
           </div>
@@ -202,22 +264,22 @@
         <div class="body">
           <ol class="professionslist">
             {{#if data.professions.edit}} {{#each actor.professions as |profession id|}}
-            <li class="item editprofession" data-item-id="{{profession._id}}">
-              <div class="item-controls">
-                <a class="item-control item-delete" title="{{localize 'DL.ProfessionsDelete'}}"
+              <li class="item editprofession" data-item-id="{{profession._id}}">
+                <div class="item-controls">
+                  <a class="item-control item-delete" title="{{localize 'DL.ProfessionsDelete'}}"
                   ><i class="fas fa-trash"></i
-                ></a>
-              </div>
-              <input type="text" name="profession.name" data-target="name" value="{{profession.name}}" />
-              <textarea name="profession.data.description" data-target="profession.data.description">
+                  ></a>
+                </div>
+                <input type="text" name="profession.name" data-target="name" value="{{profession.name}}"/>
+                <textarea name="profession.data.description" data-target="profession.data.description">
                   {{profession.data.description}}</textarea
-              >
-            </li>
+                >
+              </li>
             {{/each}} {{else}} {{#each actor.professions as |profession id|}}
-            <li class="item dropitem" data-item-id="{{profession._id}}">
-              <label class="resource-label" for="profession.name">{{profession.name}}</label>
-              <div>{{{profession.data.description}}}</div>
-            </li>
+              <li class="item dropitem" data-item-id="{{profession._id}}">
+                <label class="resource-label" for="profession.name">{{profession.name}}</label>
+                <div>{{{profession.data.description}}}</div>
+              </li>
             {{/each}} {{/if}}
           </ol>
         </div>
