@@ -336,6 +336,7 @@ nav.sheet-subnavigation {
   margin-top: -5px;
   margin-right: -10px;
 }
+
 .religionback {
   margin-bottom: 25px;
 
@@ -424,9 +425,11 @@ nav.sheet-subnavigation {
       .chardim {
         float: left;
       }
+
       .charhighlight {
         float: left;
       }
+
       .chardim {
         float: left;
         color: #777;
@@ -485,17 +488,32 @@ nav.sheet-subnavigation {
         height: 50px;
         width: 50px;
       }
+
       img.border {
         position: absolute;
         height: 80px;
         width: 80px;
       }
+
+      img.border-small {
+        height: 64px;
+        width: 64px;
+        position: absolute;
+        left: 8px;
+        top: 8px;
+      }
+    }
+
+    img.gray {
+      filter: grayscale(0.7);
+      -webkit-filter: grayscale(0.7);
     }
 
     h3 {
       margin: 0;
       font-weight: bold;
     }
+
     p {
       margin: 0;
       font-size: 13px;
@@ -504,11 +522,14 @@ nav.sheet-subnavigation {
 
   .char-description {
     margin-right: 10px;
+
     .row {
       margin-bottom: 6px;
     }
+
     .religion {
       position: relative;
+
       img {
         position: absolute;
         right: 0;

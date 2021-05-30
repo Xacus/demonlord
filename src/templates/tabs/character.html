@@ -1,9 +1,10 @@
 <div style="height: 0">
   <svg class="svg">
-    <clipPath id="assassin-shield-clip-path" clipPathUnits="objectBoundingBox"><path d="M0,0.474 C0.165,0.396,0.167,0.305,0.083,0.208 L0.129,0.188,0.092,0.148 C0.329,-0.094,0.816,0.005,0.905,0.139 l-0.046,0.027,0.049,0.043 c-0.067,0.086,-0.05,0.172,0.092,0.258 c-0.085,0.173,-0.142,0.342,-0.442,0.532 l-0.065,-0.033,-0.064,0.031 C0.23,0.883,0.086,0.707,0,0.474"></path></clipPath>
+    <clipPath id="assassin-shield-clip-path" clipPathUnits="objectBoundingBox">
+      <path d="M0,0.474 C0.165,0.396,0.167,0.305,0.083,0.208 L0.129,0.188,0.092,0.148 C0.329,-0.094,0.816,0.005,0.905,0.139 l-0.046,0.027,0.049,0.043 c-0.067,0.086,-0.05,0.172,0.092,0.258 c-0.085,0.173,-0.142,0.342,-0.442,0.532 l-0.065,-0.033,-0.064,0.031 C0.23,0.883,0.086,0.707,0,0.474"></path>
+    </clipPath>
   </svg>
 </div>
-
 
 
 <div class="body" style="margin-top: 5px;">
@@ -11,90 +12,95 @@
 
   <div class="ancestry-paths">
     <div class="row">
-      {{#if actor.ancestry}} {{#each actor.ancestry as |ancestry id|}}
-        <div class="col-3 ancestry-edit" data-item-id="{{ancestry._id}}">
-          {{#if (isBadgeImg ancestry.img)}}
-            <img class="badge" src="{{ancestry.img}}">
-          {{else}}
-            <div class="ancestry-frame">
-              <img class="border" src="systems/demonlord/assets/ui/shields/rogue-shield.webp">
-              <img class="icon" src="{{ancestry.img}}" style="
+
+      {{#if actor.ancestry}}
+        {{#each actor.ancestry as |ancestry id|}}
+          <div class="col-3 ancestry-edit" data-item-id="{{ancestry._id}}">
+            {{#if (isBadgeImg ancestry.img)}}
+              <img class="badge" src="{{ancestry.img}}">
+            {{else}}
+              <div class="ancestry-frame">
+                <img class="border" src="systems/demonlord/assets/ui/shields/rogue-shield.webp">
+                <img class="icon" src="{{ancestry.img}}" style="
                 top: 15px;
                 left: -1px;
                 clip-path: polygon(51% 0%, 100% 50%, 52% 100%, 0% 48%);">
-            </div>
-          {{/if}}
+              </div>
+            {{/if}}
+            <h3>{{localize 'DL.CharAncestry'}}</h3>
+            <p>{{ancestry.name}}</p>
+          </div>
+        {{/each}}
+      {{else}}
+        <div class="col-3">
+          <div class="ancestry-frame">
+            <img class="border gray" src="systems/demonlord/assets/ui/shields/rogue-shield.webp">
+          </div>
           <h3>{{localize 'DL.CharAncestry'}}</h3>
-          <p>{{ancestry.name}}</p>
+          <p></p>
         </div>
+      {{/if}}
 
-      {{/each}} {{/if}}
-      {{#if actor.paths}} {{#each actor.paths as |path id|}}
-        <div class="col-3 path-edit" data-item-id="{{path._id}}">
-          {{#if (isBadgeImg path.img)}}
-            <img class="badge" src="{{path.img}}">
-          {{else}}
-            {{#if (eq path.data.type "novice")}}
-              <div class="path-frame">
-                <img class="border" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp" style="
-                  height: 64px;
-                  width: 64px;
-                  left: 8px;
-                  top: 8px;">
-                <img class="icon" src="{{path.img}}" style="
+
+      {{#if actor.paths}}
+        {{#each actor.paths as |path id|}}
+          <div class="col-3 path-edit" data-item-id="{{path._id}}">
+            {{#if (isBadgeImg path.img)}}
+              <img class="badge" src="{{path.img}}">
+            {{else}}
+              {{#if (eq path.data.type "novice")}}
+                <div class="path-frame">
+                  <img class="border-small" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp">
+                  <img class="icon" src="{{path.img}}" style="
                   top: 16px;
                   left: 0px;
                   height: 48px;
                   width: 48px;
                   clip-path: circle(50% at 50% 50%);">
-              </div>
-            {{/if}}
-            {{#if (eq path.data.type "expert")}}
-              <div class="path-frame">
-                <img class="border" src="systems/demonlord/assets/ui/shields/mage-shield.webp" style="
-                  height: 64px;
-                  width: 64px;
-                  left: 8px;
-                  top: 8px;">
-                <img class="icon" src="{{path.img}}" style="
+                </div>
+              {{/if}}
+              {{#if (eq path.data.type "expert")}}
+                <div class="path-frame">
+                  <img class="border-small" src="systems/demonlord/assets/ui/shields/mage-shield.webp">
+                  <img class="icon" src="{{path.img}}" style="
                   top: 16px;
                   left: 0px;
                   height: 48px;
                   width: 48px;
                   clip-path: circle(50% at 50% 50%);">
-              </div>
-            {{/if}}
-            {{#if (eq path.data.type "master")}}
-              <div class="path-frame">
-                <img class="border" src="systems/demonlord/assets/ui/shields/assassin-shield.webp" style="
-                  height: 64px;
-                  width: 64px;
-                  left: 8px;
-                  top: 8px;">
-                <img class="icon" src="{{path.img}}" style="
+                </div>
+              {{/if}}
+              {{#if (eq path.data.type "master")}}
+                <div class="path-frame">
+                  <img class="border-small" src="systems/demonlord/assets/ui/shields/assassin-shield.webp">
+                  <img class="icon" src="{{path.img}}" style="
                   top: 12px;
                   left: 0px;
                   height: 54px;
                   width: 43px;
                   clip-path: url(#assassin-shield-clip-path);
                   object-fit: cover;">
-              </div>
+                </div>
+              {{/if}}
             {{/if}}
-          {{/if}}
-          <h3>
-            {{#if (eq path.data.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}}
-            {{#if (eq path.data.type "expert")}}{{localize "DL.CharPathExpert"}}{{/if}}
-            {{#if (eq path.data.type "master")}}{{localize "DL.CharPathMaster"}}{{/if}}
-          </h3>
-          <p>{{path.name}}</p>
-        </div>
-      {{/each}} {{/if}}
-      {{#if (not (and actor.ancestry actor.paths))}}
-        <div class="col-3 helper">
-          Drag ancestries and paths here!
-          <!-- TODO: Localization, better ui-->
+            <h3>
+              {{#if (eq path.data.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}}
+              {{#if (eq path.data.type "expert")}}{{localize "DL.CharPathExpert"}}{{/if}}
+              {{#if (eq path.data.type "master")}}{{localize "DL.CharPathMaster"}}{{/if}}
+            </h3>
+            <p>{{path.name}}</p>
+          </div>
+        {{/each}}
+      {{else}}
+        <div class="col-3">
+          <div class="path-frame">
+            <img class="border-small gray" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp">
+          </div>
+          <h3>{{localize 'DL.TabsPath'}}</h3>
+          <p></p>
         </div>
       {{/if}}
+
     </div>
   </div>
 
