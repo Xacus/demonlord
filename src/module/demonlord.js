@@ -19,7 +19,7 @@ import DLBaseItemSheet from './item/sheets/base-item-sheet'
 import DLAncestrySheet from './item/sheets/ancestry-sheet'
 import DLPathSheet from './item/sheets/path-sheet'
 import './playertrackercontrol'
-import {initChatListeners} from "./chat/chat-listeners";
+import { initChatListeners } from './chat/chat-listeners'
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -137,7 +137,7 @@ Hooks.once('init', async function () {
     val && game.user.isGM && !game.settings.get('demonlord', 'gmEffectsControls') ? 'visibility: hidden;' : '',
   )
 
-  Handlebars.registerHelper('isBadgeImg', (img) => img.includes('/demonlord/assets/icons/badges'))
+  Handlebars.registerHelper('isBadgeImg', img => img.includes('/demonlord/assets/icons/badges'))
   preloadHandlebarsTemplates()
 })
 
@@ -182,27 +182,25 @@ Hooks.once('setup', function () {
 /**
  * Set default values for new actors' tokens
  */
-Hooks.on('preCreateActor', (createData, changes) => {
+Hooks.on('preCreateActor', (actor, data, _options, _userId) => {
   let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL
+  if (data.type === 'creature') disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
 
-  if (createData.type == 'creature') {
-    disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
+  console.log(actor, data)
+  const tokenData = {
+    name: data.name,
+    bar1: { attribute: 'characteristics.health' },
+    displayName: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+    displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+    disposition: disposition,
   }
 
-  mergeObject(changes, {
-    'token.bar1': { attribute: 'characteristics.health' }, // Default Bar 1 to Health
-    //'token.bar2': { attribute: 'characteristics.insanity' }, // Default Bar 2 to Insanity
-    'token.displayName': CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER, // Default display name to be on owner hover
-    'token.displayBars': CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER, // Default display bars to be on owner hover
-    'token.disposition': disposition, // Default disposition to neutral
-    'token.name': createData.name, // Set token name to actor name
-  })
-
-  // Default characters to HasVision = true and Link Data = true
-  if (createData.type == 'character') {
-    changes.token.vision = true
-    changes.token.actorLink = true
+  if (data.type == 'character') {
+    tokenData.vision = true
+    tokenData.actorLink = true
+    tokenData.dimSight = 5 // Give some squares of dim vision
   }
+  actor.data.update({token: tokenData})
 })
 
 Hooks.on('createToken', async _tokenDocument => {

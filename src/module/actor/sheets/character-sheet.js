@@ -81,7 +81,6 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     actorData.talentbook = this._prepareBook(actorData.talents, 'groupname', 'talents')
 
     // Sort paths
-    console.log(actorData.paths)
     actorData.paths = [
       ...actorData.paths.filter(p => p.data.type === 'novice'),
       ...actorData.paths.filter(p => p.data.type === 'expert'),
