@@ -30,11 +30,11 @@ export function buildActorInfo(actor) {
   console.log(actor)
   if (actor.type === 'character') {
     const ancestry = actor.items.find(i => i.type === 'ancestry')?.name || ''
-    const paths = actor.data.paths || actor.items.filter(i => i.type === 'path')
+    const paths = actor.data.paths || actor.items.filter(i => i.type === 'path').map(p => p.data)
     const path =
-      paths.find(p => p.data.data.type === 'master')?.name ||
-      paths.find(p => p.data.data.type === 'expert')?.name ||
-      paths.find(p => p.data.data.type === 'novice')?.name ||
+      paths.find(p => p.data.type === 'master')?.name ||
+      paths.find(p => p.data.type === 'expert')?.name ||
+      paths.find(p => p.data.type === 'novice')?.name ||
       ''
     info = ancestry + (path ? ', ' + path : '')
   } else {
