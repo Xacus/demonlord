@@ -9,7 +9,7 @@ export function onManageActiveEffect(event, owner) {
   const li = a.closest('li')
   const effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null
   const isCharacter = owner.type === 'character'
-  console.log(owner)
+  //console.log(owner)
   switch (a.dataset.action) {
     case 'create':
       return owner

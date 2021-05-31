@@ -27,7 +27,6 @@ export function getChatBaseData(actor, rollMode) {
 
 export function buildActorInfo(actor) {
   let info = ''
-  console.log(actor)
   if (actor.type === 'character') {
     const ancestry = actor.items.find(i => i.type === 'ancestry')?.name || ''
     const paths = actor.data.paths || actor.items.filter(i => i.type === 'path').map(p => p.data)
@@ -100,4 +99,3 @@ export function formatDice(diceRoll) {
 
   return diceData
 }
-

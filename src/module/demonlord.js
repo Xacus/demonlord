@@ -186,7 +186,7 @@ Hooks.on('preCreateActor', (actor, data, _options, _userId) => {
   let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL
   if (data.type === 'creature') disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
 
-  console.log(actor, data)
+  //console.log(actor, data)
   const tokenData = {
     name: data.name,
     bar1: { attribute: 'characteristics.health' },
@@ -200,7 +200,7 @@ Hooks.on('preCreateActor', (actor, data, _options, _userId) => {
     tokenData.actorLink = true
     tokenData.dimSight = 5 // Give some squares of dim vision
   }
-  actor.data.update({token: tokenData})
+  actor.data.update({ token: tokenData })
 })
 
 Hooks.on('createToken', async _tokenDocument => {
