@@ -13,7 +13,7 @@ import {
   postSpellToChat,
   postTalentToChat,
 } from '../chat/roll-messages'
-import {handleCreateAncestry, handleCreatePath} from '../item/nested-objects'
+import { handleCreateAncestry, handleCreatePath } from '../item/nested-objects'
 
 export class DemonlordActor extends Actor {
   /* -------------------------------------------- */

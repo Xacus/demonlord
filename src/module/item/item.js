@@ -15,7 +15,7 @@ export class DemonlordItem extends Item {
     // Add default image
     if (!data?.img && game.settings.get('demonlord', 'replaceIcons')) {
       data.img = CONFIG.DL.defaultItemIcons[data.type] || 'icons/svg/item-bag.svg'
-      if (data.type === 'path'){
+      if (data.type === 'path') {
         data.img = CONFIG.DL.defaultItemIcons.path.novice
       }
     }

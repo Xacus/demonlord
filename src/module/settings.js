@@ -92,6 +92,6 @@ export const registerSettings = function () {
     default: false,
     scope: 'world',
     type: Boolean,
-    config: true
+    config: true,
   })
 }

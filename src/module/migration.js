@@ -98,7 +98,6 @@ const _getNewImgPath = (img, migrateDefault = false, item = undefined) => {
     if (item.type === 'path') {
       const pathType = item.data?.data?.type ?? item.data.type
       img = CONFIG.DL.defaultItemIcons.path[pathType] || CONFIG.DL.defaultItemIcons.path.novice
-
     }
     return img
   }

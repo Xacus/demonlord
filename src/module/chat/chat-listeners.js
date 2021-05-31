@@ -1,9 +1,8 @@
-
 /* -------------------------------------------- */
 /*  Chat methods                                */
 /* -------------------------------------------- */
 
-import {buildActorInfo, formatDice, getChatBaseData} from "./base-messages";
+import { buildActorInfo, formatDice, getChatBaseData } from './base-messages'
 
 export function initChatListeners(html) {
   html.on('click', '.roll-healing', _onChatApplyHealing.bind(this))
@@ -20,7 +19,7 @@ export function initChatListeners(html) {
 
 /* -------------------------------------------- */
 
-async function  _onChatApplyHealing(event) {
+async function _onChatApplyHealing(event) {
   event.preventDefault()
   const li = event.currentTarget
   const item = li.children[0]
@@ -76,7 +75,7 @@ async function _onChatRollDamage(event) {
       _id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId,
     },
     data: {},
-    diceData: formatDice(damageRoll)
+    diceData: formatDice(damageRoll),
   }
   templateData.data['damageTotal'] = totalDamage
   templateData.data['damageTotalGM'] = totalDamageGM
@@ -147,7 +146,7 @@ async function _onChatApplyEffect(event) {
     return
   }
 
- selected.forEach(target => {
+  selected.forEach(target => {
     ActiveEffect.create(activeEffect.data, { parent: target.actor }).then(e =>
       ui.notifications.info(`Added "${e.data.label}" to "${target.actor.name}"`),
     )

@@ -1,6 +1,5 @@
 import { buildAttackEffectsMessage, buildAttributeEffectsMessage, buildTalentEffectsMessage } from './effect-messages'
-import {buildActorInfo, getChatBaseData, formatDice} from "./base-messages";
-
+import { buildActorInfo, getChatBaseData, formatDice } from './base-messages'
 
 /**
  * Generates and sends the chat message for an ATTACK
