@@ -1,0 +1,439 @@
+{
+  "Actor": {
+    "types": ["character", "creature"],
+    "templates": {
+      "base": {
+        "description": "",
+        "fastturn": false,
+        "activebonuses": false,
+        "attributes": {
+          "strength": {
+            "value": 10,
+            "modifier": 0,
+            "min": 1,
+            "max": 20
+          },
+          "agility": {
+            "value": 10,
+            "modifier": 0,
+            "min": 1,
+            "max": 20
+          },
+          "intellect": {
+            "value": 10,
+            "modifier": 0,
+            "min": 1,
+            "max": 20
+          },
+          "will": {
+            "value": 10,
+            "modifier": 0,
+            "min": 1,
+            "max": 20
+          },
+          "perception": {
+            "value": 10,
+            "modifier": 0,
+            "min": 1,
+            "max": 20
+          }
+        },
+        "characteristics": {
+          "health": {
+            "max": 0,
+            "value": 0,
+            "injured": false,
+            "healingrate": 0
+          },
+          "defense": 0,
+          "size": "1",
+          "speed": 10,
+          "power": 0,
+          "insanity": {
+            "min": 0,
+            "max": 0,
+            "value": 0
+          },
+          "corruption": 0,
+          "fortune": 0,
+          "editbar": false
+        },
+        "afflictionsTab": {
+          "hideAction": false,
+          "hideAfflictions": false,
+          "hideDamageEffects": false
+        }
+      },
+      "section": {
+        "sections": {
+          "showtraits": true,
+          "showattackoptions": true,
+          "showspecialattack": true,
+          "showspecialactions": true,
+          "showmagic": true,
+          "showendofround": true,
+          "showdescription": true
+        }
+      }
+    },
+    "character": {
+      "templates": ["base"],
+      "isPC": true,
+      "gmnote": "",
+      "gmnoteedit": false,
+      "level": 0,
+      "ancestry": "",
+      "religion": {
+        "edit": false,
+        "value": "",
+        "image": "systems/demonlord/assets/icons/bird.webp"
+      },
+      "languages": {
+        "edit": false,
+        "value": ""
+      },
+      "wealth": {
+        "edit": false,
+        "lifestyle": "",
+        "description": "",
+        "bits": 0,
+        "cp": 0,
+        "ss": 0,
+        "gc": 0
+      },
+      "professions": {
+        "edit": false,
+        "value": ""
+      },
+      "features": {
+        "edit": false
+      },
+      "paths": {
+        "edit": false,
+        "novice": "",
+        "expert": "",
+        "master": ""
+      },
+      "appearance": {
+        "age": 0,
+        "sex": "",
+        "eyes": "",
+        "hair": "",
+        "height": "",
+        "weight": "",
+        "feature": ""
+      }
+    },
+    "creature": {
+      "templates": ["base", "section"],
+      "edit": true,
+      "difficulty": 0,
+      "frightening": false,
+      "horrifying": false,
+      "descriptor": "",
+      "perceptionsenses": "",
+      "speedtraits": "",
+      "armor": ""
+    }
+  },
+  "Item": {
+    "types": [
+      "ammo",
+      "ancestry",
+      "armor",
+      "creaturerole",
+      "endoftheround",
+      "feature",
+      "item",
+      "language",
+      "path",
+      "profession",
+      "specialaction",
+      "spell",
+      "talent",
+      "weapon"
+    ],
+    "templates": {
+      "base": {
+        "description": ""
+      },
+      "action": {
+        "action": {
+          "active": true,
+          "attack": "",
+          "against": "",
+          "damageactive": true,
+          "damage": "",
+          "damagetype": "",
+          "boonsbanesactive": true,
+          "boonsbanes": "",
+          "plus20active": true,
+          "plus20": "",
+          "plus20damage": "",
+          "defense": "",
+          "defenseboonsbanes": "",
+          "damagetypes": [],
+          "strengthboonsbanesselect": false,
+          "agilityboonsbanesselect": false,
+          "intellectboonsbanesselect": false,
+          "willboonsbanesselect": false,
+          "perceptionboonsbanesselect": false,
+          "extraeffect": ""
+        },
+        "activatedEffect": {
+          "activation": {
+            "type": "",
+            "cost": 0
+          },
+          "duration": {
+            "value": 0,
+            "type": ""
+          },
+          "target": {
+            "value": "",
+            "type": ""
+          },
+          "texture": "",
+          "range": "",
+          "uses": {
+            "value": 0,
+            "max": 0,
+            "per": null
+          }
+        }
+      },
+      "enchantment": {
+        "enchantment": {
+          "attackbonus": 0,
+          "challengebonus": 0,
+          "damage": "",
+          "defense": 0,
+          "speed": 0,
+          "perception": 0,
+          "effect": "",
+          "uses": {
+            "value": 0,
+            "max": 0
+          }
+        }
+      }
+    },
+    "item": {
+      "templates": ["base", "enchantment"],
+      "quantity": 1,
+      "availability": "",
+      "value": "",
+      "wear": true,
+      "healingoption": false
+    },
+    "feature": {
+      "templates": ["base"]
+    },
+    "spell": {
+      "tradition": "",
+      "edit": false,
+      "templates": ["base", "action"],
+      "spelltype": "",
+      "rank": 0,
+      "attribute": "",
+      "effectdice": "",
+      "castings": {
+        "value": "",
+        "max": ""
+      },
+      "duration": "",
+      "target": "",
+      "area": "",
+      "requirements": "",
+      "sacrifice": "",
+      "permanence": "",
+      "aftereffect": "",
+      "special": "",
+      "triggered": "",
+      "roundsleft": 0,
+      "healing": {
+        "healactive": true,
+        "healing": false,
+        "rate": ""
+      },
+      "quantity": 1
+    },
+    "talent": {
+      "templates": ["base", "action"],
+      "addtonextroll": false,
+      "multipleoptions": false,
+      "uses": {
+        "value": "",
+        "max": ""
+      },
+      "challenge": {
+        "active": true,
+        "attribute": "",
+        "boonsbanesactive": true,
+        "boonsbanesselect": "",
+        "boonsbanes": "",
+        "strengthboonsbanesselect": false,
+        "agilityboonsbanesselect": false,
+        "intellectboonsbanesselect": false,
+        "willboonsbanesselect": false,
+        "perceptionboonsbanesselect": false
+      },
+      "vs": {
+        "active": true,
+        "attribute": "",
+        "against": "",
+        "damageactive": true,
+        "damage": "",
+        "damagetype": "",
+        "boonsbanesactive": true,
+        "boonsbanes": "",
+        "damagetypes": []
+      },
+      "healing": {
+        "healactive": true,
+        "healing": false,
+        "rate": ""
+      },
+      "damage": "",
+      "damagetype": "",
+      "bonuses": {
+        "defenseactive": true,
+        "defense": "",
+        "healthactive": true,
+        "health": "",
+        "speedactive": true,
+        "speed": "",
+        "poweractive": true,
+        "power": ""
+      },
+      "groupname": "",
+      "isActive": false
+    },
+    "weapon": {
+      "templates": ["base", "action", "enchantment"],
+      "hands": "",
+      "properties": "",
+      "strengthmin": "",
+      "wear": true,
+      "quantity": 1,
+      "availability": "",
+      "value": ""
+    },
+    "armor": {
+      "templates": ["base", "enchantment"],
+      "properties": "",
+      "defense": "",
+      "agility": "",
+      "fixed": "",
+      "strengthmin": "",
+      "wear": true,
+      "isShield": false,
+      "quantity": 1,
+      "availability": "",
+      "value": ""
+    },
+    "ammo": {
+      "templates": ["base"],
+      "quantity": 5,
+      "value": ""
+    },
+    "specialaction": {
+      "templates": ["base"]
+    },
+    "endoftheround": {
+      "templates": ["base"]
+    },
+    "ancestry": {
+      "description": "",
+      "attributes": {
+        "strength": {
+          "value": 10,
+          "min": 0,
+          "max": 20
+        },
+        "agility": {
+          "value": 10,
+          "min": 0,
+          "max": 20
+        },
+        "intellect": {
+          "value": 10,
+          "min": 0,
+          "max": 20
+        },
+        "will": {
+          "value": 10,
+          "min": 0,
+          "max": 20
+        }
+      },
+      "characteristics": {
+        "perceptionmodifier": 0,
+        "healthmodifier": 0,
+        "defensemodifier": 0,
+        "healingratemodifier": 0,
+        "size": "1",
+        "speed": 10,
+        "power": 0,
+        "insanity": 0,
+        "corruption": 0
+      },
+      "level4": {
+        "healthbonus": 0,
+        "option1": true,
+        "option1text": "",
+        "talent": [],
+        "pickedTalents": [],
+        "picks": 1
+      },
+      "languages": "",
+      "talents": [],
+      "languagelist": [],
+      "editTalents": false,
+      "editAncestry": true
+    },
+    "profession": {
+      "templates": ["base"]
+    },
+    "path": {
+      "templates": ["base"],
+      "type": "novice",
+      "levels": [],
+      "editPath": true
+    },
+    "creaturerole": {
+      "templates": ["base"],
+      "type": "",
+      "difficultystep": 0,
+      "size": "1",
+      "bonuses": {
+        "strength": 0,
+        "agility": 0,
+        "intellect": 0,
+        "will": 0,
+        "perception": 0,
+        "defense": 0,
+        "health": 0,
+        "power": 0,
+        "speed": 0,
+        "boonsbanes": 0,
+        "damagebonus": ""
+      },
+      "talents": [],
+      "magic": {
+        "power": 0,
+        "description": "",
+        "spells": []
+      }
+    },
+    "language": {
+      "templates": ["base"],
+      "read": false,
+      "write": false,
+      "speak": true
+    },
+    "affliction": {
+      "templates": ["base"]
+    }
+  }
+}

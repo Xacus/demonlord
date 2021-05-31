@@ -1,0 +1,91 @@
+<form class="{{cssClass}} item-form" autocomplete="off">
+  <header class="sheet-header itemsheet-header">
+    <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    <div class="header-fields">
+      <div class="gridrow">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Armor Name"/>
+      </div>
+    </div>
+    <div class="template-type">{{item.type}}</div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
+    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+    {{#if effects}}<a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>{{/if}}
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      <div class="tab weapons" data-group="primary" data-tab="attributes">
+        <div class="item-table">
+          {{!-- Bonuses --}}
+          <div class="row">
+            <div class="col-12">
+              <label>{{localize "DL.ArmorBonuses"}}</label>
+            </div>
+            <div class="col-4">
+              <label>{{localize "DL.ArmorDefense"}}</label>
+              <input type="text" name="data.defense" value="{{data.defense}}"/>
+            </div>
+            <div class="col-4">
+              <label>{{localize "DL.ArmorAgility"}}</label>
+              <input type="text" name="data.agility" value="{{data.agility}}"/>
+            </div>
+            <div class="col-4">
+              <label>{{localize "DL.ArmorFixed"}}</label>
+              <input type="text" name="data.fixed" value="{{data.fixed}}"/>
+            </div>
+          </div>
+
+          {{!-- Properties is Shield --}}
+          <div class="row">
+            <div class="col-8">
+              <label>{{localize "DL.ArmorProperties"}}</label>
+              <input type="text" name="data.properties" value="{{data.properties}}"/>
+            </div>
+            <div class="col-4">
+              <label class="resource-label">{{localize "DL.ArmorIsShield"}}</label>
+              <input
+                      type="checkbox"
+                      name="data.isShield"
+                      id="multipleoptions"
+                      class="single-checkbox"
+                {{checked
+                        data.isShield}}
+              />
+            </div>
+          </div>
+
+          {{!-- Str min - Availability - Price --}}
+          <div class="row">
+            <div class="col-4">
+              <label>{{localize "DL.ArmorStrengthMin"}}</label>
+              <input type="text" name="data.strengthmin" value="{{data.strengthmin}}"/>
+            </div>
+            <div class="col-4">
+              <label>{{localize "DL.Availability"}}</label>
+              <select name="data.availability" data-dtype="String">
+                {{#select data.availability}}
+                  <option value="C">{{localize "DL.AvailabilityCommon"}}</option>
+                  <option value="U">{{localize "DL.AvailabilityUncommon"}}</option>
+                  <option value="R">{{localize "DL.AvailabilityRare"}}</option>
+                  <option value="E">{{localize "DL.AvailabilityExotic"}}</option>
+                {{/select}}
+              </select>
+            </div>
+            <div class="col-4">
+              <label class="resource-label">{{localize "DL.ItemValue"}}</label>
+              <input type="text" name="data.value" value="{{data.value}}"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{> "systems/demonlord/templates/item/partial/item-description.html"}} {{#if effects}}{{>
+    "systems/demonlord/templates/item/partial/item-effects.html"}}{{/if}}
+    </section>
+  </section>
+</form>

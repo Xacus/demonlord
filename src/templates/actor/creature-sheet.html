@@ -1,0 +1,28 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  {{> systems/demonlord/templates/actor/creature-sidemenu.html}} {{!-- Sheet Header --}}
+  <header class="sheet-header">{{> systems/demonlord/templates/actor/creature-header.html}}</header>
+  <nav class="sheet-navigation creature" data-group="primary">
+    <a class="item" data-tab="creature">{{localize "ACTOR.TypeCreature"}}</a>
+    <a class="item" data-tab="afflictions">{{localize "DL.ModsAfflictions"}}</a>
+    <a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>
+  </nav>
+
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{!-- Creature Tab --}}
+      <div class="tab creature" data-group="primary" data-tab="creature" style="position: relative; top: -12px">
+        {{#if data.edit}} {{> systems/demonlord/templates/tabs/creature-edit.html}} {{else}} {{>
+        systems/demonlord/templates/tabs/creature-view.html}} {{/if}}
+      </div>
+      {{!-- Active Affliction Tab --}}
+      <div class="tab afflictions" data-group="primary" data-tab="afflictions">
+        {{> systems/demonlord/templates/tabs/afflictions.html}}
+      </div>
+
+      {{!-- Active Effects Tab --}}
+      <div class="tab creatureeffects" data-group="primary" data-tab="effects">
+        {{> systems/demonlord/templates/tabs/activeeffects.html effects=generalEffects}}
+      </div>
+    </section>
+  </section>
+</form>

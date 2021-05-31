@@ -1,0 +1,19 @@
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
+  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+  <header class="card-headersmall">
+    <div class="init-img"></div>
+    <div class="attackbox">
+      <div class="boxline">
+        <div class="header">{{localize "DL.DialogRollInitiative"}}</div>
+        <div class="headertext"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="damageaction make-initroll">
+    <div class="header" data-actorid="{{actor.id}}">
+      <div class="init-img"></div>
+      <div>{{localize "DL.DialogRequestInitiative"}}</div>
+    </div>
+  </div>
+</div>

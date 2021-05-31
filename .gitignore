@@ -1,11 +1,23 @@
 # IDE
 .idea/
 .vs/
-.DS_Store
 
 # Node Modules
 node_modules/
 npm-debug.log
-.eslintrc.js
-package-lock.json
-package.json
+
+# Local configuration
+foundryconfig.json
+
+# Distribution files
+dist
+system.zip
+
+# ESLint
+.eslintcache
+
+# Junit results
+junit.xml
+
+# Environment variables
+.env

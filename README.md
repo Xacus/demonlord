@@ -5,7 +5,7 @@ This is Shadow of the Demon Lord for FoundryVTT.
 
 Shadow of the Demonlord has no open license, but permission was granted to make the system.
 
-Ancestries, Talents and Spell are not providet as content. Support this awesome system and buy the books. https://schwalbentertainment.com
+Ancestries, Talents and Spell are not provided as content. Support this awesome system and buy the books. https://schwalbentertainment.com
 
 ## **Features**
 
@@ -22,13 +22,12 @@ Uses the standard Combat Tracker but with a few changes. It still uses the stand
 - It shows FAST/SLOW turns for each Actor.
 - When rolling/rerolling initiative you are prompted to choose between Fast or Slow turn.
 - It's also possible to change turn order directly in the Combat Tracker by clicking on FAST/SLOW on your actor.
-- On your character sheet at the top of the window their is a "Actor Mods" menu button. Their you can set the default initiative turn order for you character, npcs and creatures. When you create an Actor the default is set to Slow.
 - Use characteristics.health to track damage on your token. It uses characteristics.health.value for damage score and characteristics.health.max as health score.
 - System Settings: I added som settings regarding showing messages in the chat log when changing between fast and slow turn and randomizing the initiative a lille.
 
 ### **Compendiums:**
 
-- The weapons, armors, ammunition and languages from the core rulebook is available for draging and droping onto your character sheet.
+- The weapons, armors, ammunition and languages from the core rulebook is available for dragging and dropping onto your character sheet.
 - Macros for player and GM can be imported.
 
 ### **Module Support:**
@@ -51,6 +50,8 @@ You can track both Health and Insanity and they are set on the token when an Act
 ### **Bars:**
 
 Damage, Insanity and Corruption can be increased and decreased by left/right clicking on the headertext.
+
+### [Release history](CHANGELOG.md)
 
 ## **Credits**
 

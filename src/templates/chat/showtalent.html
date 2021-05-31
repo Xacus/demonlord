@@ -1,0 +1,40 @@
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
+  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+  <header class="card-header">
+    {{#if token.img}}
+      <div class="token-img"><img class="profile-img" src="{{token.img}}" data-edit="img" title="{{actor.name}}"
+                                  height="40" width="40"/></div>
+    {{/if}}
+    <div class="attackbox">
+      <div class="boxline">
+        <div class="header">
+          {{localize "DL.TalentRollTitle"}}
+        </div>
+        <div class="headertext">{{item.name}}</div>
+      </div>
+    </div>
+  </header>
+  {{#if data.uses.value}}
+    <div class="chat-uses">{{data.uses.value}}</div>
+  {{/if}}
+  {{#if data.effects.value}}
+    <div class="description">
+      <div class="header">{{localize "DL.TalentRollEffects"}}</div>
+      <div class="body">{{{data.effects.value}}}</div>
+    </div>
+  {{/if}}
+  {{#if data.description.value}}
+    <div class="description">
+      <div class="header">{{localize "DL.TalentRollDescription"}}</div>
+      <div class="body">{{{data.description.value}}}</div>
+    </div>
+  {{/if}}
+  {{#if data.uses.value}}
+    <div class="damageaction use-talent">
+      <div class="header" data-item-id="{{data.id.value}}">
+        <div class="talent-img"></div>
+        <div>{{localize "DL.DialogUseTalent"}}</div>
+      </div>
+    </div>
+  {{/if}}
+</div>

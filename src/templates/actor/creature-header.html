@@ -1,0 +1,143 @@
+<div class="header-fields gridrow">
+  <h1 class="char-name">
+    <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CharName'}}"/>
+  </h1>
+  <div class="descriptor">
+    <input
+            name="data.descriptor"
+            type="text"
+            value="{{data.descriptor}}"
+            placeholder="{{localize 'DL.CreatureDescriptor'}}"
+    />
+  </div>
+  <div class="senses">
+    <input
+            name="data.perceptionsenses"
+            type="text"
+            value="{{data.perceptionsenses}}"
+            placeholder="{{localize 'DL.CreaturePerceptionSenses'}}"
+    />
+  </div>
+  <div class="leveltext">{{localize 'DL.CreatureDifficultyTitle'}}</div>
+  <div class="level">
+    <input
+            name="data.difficulty"
+            type="number"
+            value="{{data.difficulty}}"
+            data-dtype="Number"
+            placeholder=""
+            min="1"
+    />
+  </div>
+</div>
+<div class="attributes grid grid-5col">
+  <div class="attributebox">
+    <div class="attribute">
+      <input
+              name="data.attributes.strength.value"
+              type="number"
+              value="{{data.attributes.strength.value}}"
+              data-dtype="Number"
+              placeholder=""
+              min="{{data.attributes.strength.min}}"
+              max="{{data.attributes.strength.max}}"
+      />
+    </div>
+    <div class="attributemod">
+      <label for="data.attributes.strength.modifier" class="mod"
+      >{{numberFormat data.attributes.strength.modifier decimals=0 sign=true}}</label
+      >
+    </div>
+    <div class="attributetext attribute-roll" data-key="strength">
+      <label for="data.attributes.strength.value">{{data.attributes.strength.label}}</label>
+    </div>
+  </div>
+  <div class="attributebox">
+    <div class="attribute">
+      <input
+              name="data.attributes.agility.value"
+              type="number"
+              value="{{data.attributes.agility.value}}"
+              data-dtype="Number"
+              placeholder=""
+              min="{{data.attributes.agility.min}}"
+              max="{{data.attributes.agility.max}}"
+      />
+    </div>
+    <div class="attributemod">
+      <label for="data.attributes.agility.modifier" class="mod"
+      >{{numberFormat data.attributes.agility.modifier decimals=0 sign=true}}</label
+      >
+    </div>
+    <div class="attributetext attribute-roll" data-key="agility">
+      <label for="data.attributes.agility.value">{{data.attributes.agility.label}}</label>
+    </div>
+  </div>
+  <div class="attributebox">
+    <div class="attribute">
+      <input
+              name="data.attributes.intellect.value"
+              type="number"
+              value="{{data.attributes.intellect.value}}"
+              data-dtype="Number"
+              placeholder=""
+              min="{{data.attributes.intellect.min}}"
+              max="{{data.attributes.intellect.max}}"
+      />
+    </div>
+    <div class="attributemod">
+      <label for="data.attributes.intellect.modifier" class="mod"
+      >{{numberFormat data.attributes.intellect.modifier decimals=0 sign=true}}</label
+      >
+    </div>
+    <div class="attributetext attribute-roll" data-key="intellect">
+      <label for="data.attributes.intellect.value">{{data.attributes.intellect.label}}</label>
+    </div>
+  </div>
+  <div class="attributebox">
+    <div class="attribute">
+      <input
+              name="data.attributes.will.value"
+              type="number"
+              value="{{data.attributes.will.value}}"
+              data-dtype="Number"
+              placeholder=""
+              min="{{data.attributes.will.min}}"
+              max="{{data.attributes.will.max}}"
+      />
+    </div>
+    <div class="attributemod">
+      <label for="data.attributes.will.modifier" class="mod"
+      >{{numberFormat data.attributes.will.modifier decimals=0 sign=true}}</label
+      >
+    </div>
+    <div class="attributetext attribute-roll" data-key="will">
+      <label for="data.attributes.will.value">{{data.attributes.will.label}}</label>
+    </div>
+  </div>
+  <div class="attributebox">
+    <div class="attribute">
+      <input
+              name="data.attributes.perception.value"
+              type="number"
+              value="{{data.attributes.perception.value}}"
+              data-dtype="Number"
+              placeholder=""
+      />
+    </div>
+    <div class="attributemodper">
+      <label for="data.attributes.perception.modifier" class="mod"
+      >{{numberFormat data.attributes.perception.modifier decimals=0 sign=true}}</label
+      >
+    </div>
+    <div class="attributetextper attribute-roll" data-key="perception">
+      <label for="data.attributes.perception.value">{{data.attributes.perception.label}}</label>
+    </div>
+  </div>
+  <div class="editmode">
+    <label class="switchBig">
+      <input type="checkbox" id="data.edit" name="data.edit" {{checked data.edit}} />
+      <div class="slider round"><span class="on">Edit</span><span class="off">View</span></div>
+    </label>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="demonlord" {{#if actor.id }}data-actor-id="{{actor.id}}" {{/if}}
+  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+  <header class="card-header">
+    <div class="token-img"><img class="profile-img" src="{{token.img}}" data-edit="img" title="{{actor.name}}"
+                                height="40" width="40"/></div>
+    <div class="attackbox">
+      <div class="boxline">
+        <div class="header">{{localize "DL.AttackSpecialRollText"}}</div>
+        <div class="headertext">{{item.name}}</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="description">
+    <div class="header">{{localize "DL.AttackRollDescription"}}</div>
+    <div class="body">{{{data.description.value}}}</div>
+  </div>
+</div>
