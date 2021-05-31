@@ -172,7 +172,7 @@ function _getIdsToRemove(actor, nestedItems) {
   const actorItemsIds = actor.items.map(i => ({ name: i.name, id: i.id }))
   return nestedItems.map(ni => {
     const index = actorItemsIds.findIndex(ai => ai.name === ni.name)
-    if (index > 0) return actorItemsIds.splice(index, 1).id
+    if (index >= 0) return actorItemsIds.splice(index, 1)[0].id
   }).filter(id => Boolean(id))
 }
 /* -------------------------------------------- */
