@@ -120,6 +120,16 @@ export async function getNestedItemsList(nestedDataList) {
 
 /* -------------------------------------------- */
 
+export async function handleCreatePath(actor, pathData) {
+  const actorLevel = actor.data.data.level
+  const leqLevels = pathData.levels.filter(l => l.level <= actorLevel)
+
+  let nestedItems = []
+  leqLevels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
+  const itemsData = (await getNestedItemsList(nestedItems)).map(ni => duplicate(ni))
+  return actor.createEmbeddedDocuments('Item', itemsData)
+}
+
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
   curLevel = curLevel ?? actor.data.data.level
   const paths = actor.items.filter(i => i.type === 'path')
@@ -141,7 +151,6 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
     // Delete ALL items from the difference of levels
     const idsToDel = getPathItemsToDel(actor, levels)
     return actor.deleteEmbeddedDocuments('Item', idsToDel)
-    // return deletePathItems(actor, levels)
   }
 }
 
@@ -149,30 +158,23 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
 
 export function getPathItemsToDel(actor, pathLevels) {
   let nestedItems = []
-  pathLevels.forEach(l => {
-    nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages, ...l.talentspick]
-  })
-  return nestedItems.map(ni => actor.items.find(i => i.name === ni.name)?.id).filter(id => Boolean(id))
-}
-
-// Alternative (tentative to fix error)
-export async function deletePathItems(actor, pathLevels) {
-  let nestedItems = []
-  pathLevels.forEach(l => {
-    nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages, ...l.talentspick]
-  })
-  let actorItems = nestedItems.map(ni => actor.items.find(i => i.name === ni.name)).filter(i => Boolean(i))
-  for (const item of actorItems) {
-    await item.delete({ parent: actor })
-  }
-  return Promise.resolve()
+  pathLevels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages, ...l.talentspick]))
+  return _getIdsToRemove(actor, nestedItems)
 }
 
 export function getAncestryItemsToDel(actor, ancestryData) {
   let nestedItems = [...ancestryData.talents, ...ancestryData.languagelist, ...ancestryData.level4.talent]
-  return nestedItems.map(ni => actor.items.find(i => i.name === ni.name)?.id).filter(id => Boolean(id))
+  return _getIdsToRemove(actor, nestedItems)
 }
 
+function _getIdsToRemove(actor, nestedItems) {
+  // Gets the ids to remove, handling items with duplicate names
+  const actorItemsIds = actor.items.map(i => ({ name: i.name, id: i.id }))
+  return nestedItems.map(ni => {
+    const index = actorItemsIds.findIndex(ai => ai.name === ni.name)
+    if (index > 0) return actorItemsIds.splice(index, 1).id
+  }).filter(id => Boolean(id))
+}
 /* -------------------------------------------- */
 
 export async function handleCreateAncestry(actor, ancestryData) {

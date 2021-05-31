@@ -13,7 +13,7 @@ import {
   postSpellToChat,
   postTalentToChat,
 } from '../chat/roll-messages'
-import { handleCreateAncestry, handleLevelChange } from '../item/nested-objects'
+import {handleCreateAncestry, handleCreatePath} from '../item/nested-objects'
 
 export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
@@ -156,14 +156,14 @@ export class DemonlordActor extends Actor {
 
   async _handleOnCreateEmbedded(documents) {
     for (const doc of documents) {
-      await DLActiveEffects.embedActiveEffects(this, doc, 'create')
-
       // Ancestry an path creations
       if (doc.type === 'ancestry') {
         await handleCreateAncestry(this, doc.data.data)
       } else if (doc.type === 'path') {
-        await handleLevelChange(this, this.data.data.level, -1)
+        await handleCreatePath(this, doc.data.data)
       }
+
+      await DLActiveEffects.embedActiveEffects(this, doc, 'create')
     }
     return Promise.resolve()
   }
