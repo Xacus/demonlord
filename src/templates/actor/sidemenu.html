@@ -1,0 +1,153 @@
+{{#if data.isPC}}
+  <aside>
+{{else}}
+  <aside class="npc">
+{{/if}}
+  <div class="sidebar" data-group="dashboard" data-tab="sidebar">
+    <div class="isPC">
+      <label class="switch">
+        <input type="checkbox" id="data.isPC" name="data.isPC" {{checked data.isPC}} />
+        <div class="slider round"><span class="on">PC</span><span class="off">NPC</span></div>
+      </label>
+    </div>
+    {{#if data.isPC}}
+      <div class="frame">
+        <img class="profile-img" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
+      </div>
+    {{else}}
+      <div class="framenpc">
+        <img class="profile-img" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
+      </div>
+    {{/if}}
+    <div class="injuredbox">
+      <div class="injured">
+        <input
+                type="checkbox"
+                name="data.characteristics.health.injured"
+                id="data.characteristics.health.injured"
+                class="checkbox"
+          {{checked
+                  data.characteristics.health.injured}}
+        /><label for="data.characteristics.health.injured"/>
+      </div>
+      <div class="injuredtext">{{localize "DL.CharHealthInjured"}}</div>
+    </div>
+    <div class="healingratebox" style="cursor: pointer">
+      <div class="healingrate">{{data.characteristics.health.healingrate}}</div>
+      <div class="healingratetext">{{localize "DL.CharHealthHealingRating"}}</div>
+    </div>
+    <div class="editBars">
+      <a class="bar-edit" title="{{localize 'DL.ToogleBarView'}}"><i class="fas fa-edit"></i></a>
+    </div>
+    {{#if data.characteristics.editbar}}
+      <div class="barboxes">
+        <div class="barbox">
+          <div class="healthtext">{{localize "DL.TalentDamage"}}</div>
+          <div class="healthedit">
+            <input
+                    name="data.characteristics.health.value"
+                    type="text"
+                    value="{{data.characteristics.health.value}}"
+                    placeholder=""
+            />
+          </div>
+        </div>
+        <div class="barbox">
+          <div class="insanitytext">{{localize "DL.CharInsanity"}}</div>
+          <div class="insanityedit">
+            <input
+                    name="data.characteristics.insanity.value"
+                    type="text"
+                    value="{{data.characteristics.insanity.value}}"
+                    placeholder=""
+            />
+          </div>
+        </div>
+        <div class="barbox">
+          <div class="corruptiontext">{{localize "DL.CharCorruption"}}</div>
+          <div class="corruptionedit">
+            <input
+                    name="data.characteristics.corruption"
+                    type="text"
+                    value="{{data.characteristics.corruption}}"
+                    placeholder=""
+            />
+          </div>
+        </div>
+      </div>
+    {{else}}
+      <div class="health">
+        <div class="addDamage">{{localize "DL.TalentDamage"}}</div>
+        <div class="healthbar">
+          <span class="healthbar-fill"></span>
+        </div>
+        <div class="healtmax">{{data.characteristics.health.max}}</div>
+        <div class="damage">{{data.characteristics.health.value}}</div>
+      </div>
+      <div class="insanity">
+        <div class="addInsanity">{{localize "DL.CharInsanity"}}</div>
+        <div class="healthbar">
+          <span class="insanity-fill"></span>
+        </div>
+        <div class="insanitymax">{{data.characteristics.insanity.max}}</div>
+        <div class="insanityvalue">{{data.characteristics.insanity.value}}</div>
+      </div>
+      <div class="corruption">
+        <div class="addCorruption">{{localize "DL.CharCorruption"}}</div>
+        <div class="healthbar">
+          <span class="corruption-fill"></span>
+        </div>
+        <div class="corruptionmax">20</div>
+        <div class="corruptionvalue">{{data.characteristics.corruption}}</div>
+        <a class="corruption-roll" title="{{localize 'DL.CharRolCorruption'}}"><i class="fas fa-dice-d20"></i></a>
+      </div>
+    {{/if}}
+    <div class="chars grid grid-2col">
+      <div class="defensebox">
+        <div class="defensetext">{{localize "DL.CharDefense"}}</div>
+        <div class="defense">{{data.characteristics.defense}}</div>
+      </div>
+      <div class="powerbox">
+        <div class="powertext">{{localize "DL.CharPower"}}</div>
+        <div class="power">{{data.characteristics.power}}</div>
+      </div>
+    </div>
+    <div class="chars grid grid-2col">
+      <div class="speedbox">
+        <div class="speedtext">{{localize "DL.CharSize"}}</div>
+        <div class="speed">{{data.characteristics.size}}</div>
+      </div>
+      <div class="speedbox">
+        <div class="speedtext">{{localize "DL.CharSpeed"}}</div>
+        <div class="speed">{{data.characteristics.speed}}</div>
+      </div>
+    </div>
+    <div class="chars grid grid-2col">
+      <div class="speedbox">
+        <div class="speedtext">{{localize "DL.CharFortune"}}</div>
+        <div class="speed">
+          <input
+                  name="data.characteristics.fortune"
+                  type="text"
+                  value="{{data.characteristics.fortune}}"
+                  data-dtype="Number"
+                  placeholder=""
+          />
+        </div>
+      </div>
+      <div></div>
+    </div>
+    <div class="chars flexrow">
+      <div class="turnmode">
+        <label class="switchTurn">
+          <input type="checkbox" id="data.fastturn" name="data.fastturn" {{checked data.fastturn}} />
+          <div class="slider round">
+              <span class="on">{{localize "DL.TurnFastButton"}}</span
+              ><span class="off">{{localize "DL.TurnSlowButton"}}</span>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+</aside>
+</aside>

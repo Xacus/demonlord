@@ -1,0 +1,98 @@
+<div class="accordion">
+  {{#if (and data.sections.showtraits actor.features.length)}}
+  <div class="toggleAccordion change">{{localize "DL.CreatureTraits"}}</div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.features as |feature id|}}
+      <li class="item feature dropitem" data-item-id="{{feature._id}}">
+        <div class="featurename">{{feature.name}}</div>
+        <div class="itemtext">{{{feature.data.description}}}</div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  {{/if}} {{#if (and data.sections.showattackoptions actor.weapons.length)}}
+  <div class="toggleAccordion change">{{localize "DL.CreatureAttackOptions"}}</div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.weapons as |weapon id|}}
+      <li class="item dropitem" data-item-id="{{weapon._id}}">
+        <div class="itemnamefull dropitem attack-roll" data-key="{{id}}">
+          <i class="fas fa-dice-d20"></i> {{weapon.name}} {{#if data.properties}} ({{data.properties}}) {{/if}}{{#if
+          data.action.boonsbanes}}{{localize "DL.CreatureWeaponWith"}} {{numberFormat data.action.boonsbanes decimals=0
+          sign=true}}{{else}} +0{{/if}} {{#if data.action.boonsbanes}}{{localize "DL.WeaponBoonsBanes"}}{{/if}} {{#if
+          data.action.damage}} ({{data.action.damage}}){{/if}}
+        </div>
+        <div class="itemtext">{{{data.description}}}</div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  {{/if}} {{#if (and data.sections.showspecialattack actor.talents.length)}}
+  <div class="toggleAccordion change">{{localize "DL.CreatureSpecialAttacks"}}</div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.talents as |item id|}}
+      <li class="item dropitem" data-item-id="{{item._id}}">
+        <div class="itemnamefull talent-roll"><i class="fas fa-dice-d20"></i> {{item.name}}</div>
+        <div class="itemtext">{{{data.description}}}</div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  {{/if}} {{#if (and data.sections.showspecialactions actor.specialactions.length)}}
+  <div class="toggleAccordion change">{{localize "DL.CreatureSpecialActions"}}</div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.specialactions as |item id|}}
+      <li class="item" data-item-id="{{item._id}}">
+        <div class="itemnamefull">{{item.name}}</div>
+        <div class="itemtext">{{{data.description}}}</div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  {{/if}} {{#if (and data.sections.showmagic actor.spellbook.length)}}
+  <div class="toggleAccordion change">{{localize "DL.CreatureSpecialMagic"}}</div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.spellbook as |spellbook id|}} {{#if spellbook.tradition}}
+      <li class="tradition-header">
+        <div class="spellnameheader">{{spellbook.tradition}}</div>
+      </li>
+      {{/if}} {{#each spellbook.spells as |spell id|}}
+      <li class="item spell dropitem creaturetooltip" data-item-id="{{spell._id}}">
+        <div class="spellinfo">
+          <div class="itemname magic-roll"><i class="fas fa-dice-d20"></i> {{spell.name}}</div>
+          <div class="spellcastings spell-uses">({{data.castings.value}} / {{data.castings.max}}),</div>
+          <div class="spelltype">{{data.spelltype}} {{data.rank}},</div>
+          <div class="bonesbanes">
+            {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}} +0{{/if}}
+          </div>
+        </div>
+        {{#if data.description}}
+        <span class="tooltiptext">{{{data.description}}}</span>
+        {{/if}}
+      </li>
+      {{/each}} {{/each}}
+    </ol>
+  </div>
+  {{/if}} {{#if (and data.sections.showendofround actor.specialactions.length)}}
+  <div class="toggleAccordion change">{{localize "DL.CreatureSpecialEndRound"}}</div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.endoftheround as |item id|}}
+      <li class="item" data-item-id="{{item._id}}">
+        <div class="itemnamefull">{{item.name}}</div>
+        <div class="itemtext">{{{data.description}}}</div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  {{/if}} {{#if (and data.sections.showdescription data.description)}}
+  <div class="toggleAccordion change">{{localize "DL.CreatureDiscription"}}</div>
+  <div class="content" style="display: block">
+    <div class="credescription">{{{data.description}}}</div>
+  </div>
+  {{/if}}
+</div>

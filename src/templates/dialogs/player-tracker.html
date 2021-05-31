@@ -1,0 +1,80 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="tabitem active" data-tab="character">{{localize "DL.PTCharacters"}}</a>
+    <a class="tabitem" data-tab="notes">{{localize "DL.GMnote"}}</a>
+  </nav>
+  <section class="sheet-body">
+    <section class="sheet-content">
+      <div class="tab character" data-group="primary" data-tab="character">
+        <div class="donslide">
+          {{#each persons as |person id|}}
+            <div class="item">
+              <div class="player">{{person.playername}}</div>
+              <div>
+                <b>{{localize "DL.CharName"}}:</b>
+                <a class="entity-link" data-entity="Actor" data-id="{{person.playerid}}">{{person.charactername}}</a>
+              </div>
+              <div><b>{{localize "DL.CharAncestry"}}: </b>{{person.ancestry}}</div>
+              <br/>
+              <div><b>{{localize "DL.CharPathNovice"}}: </b>{{person.paths.novice}}</div>
+              <div><b>{{localize "DL.CharPathExpert"}}: </b>{{person.paths.expert}}</div>
+              <div><b>{{localize "DL.CharPathMaster"}}: </b>{{person.paths.master}}</div>
+              <br/>
+              <div>
+                <b>{{localize "DL.CharProfessions"}}: </b><br/>
+                {{#each person.professions as |profession id|}} &#9679; {{profession.name}}<br/>
+                {{/each}}
+              </div>
+              <br/>
+              <div><b>{{localize "DL.CharHealthDamage"}}: </b>{{person.damage}}</div>
+              <div><b>{{localize "DL.CharInsanity"}}: </b>{{person.insanity}}</div>
+              <div><b>{{localize "DL.CharCorruption"}}: </b>{{person.corruption}}</div>
+              <br/>
+              <div><b>{{localize "DL.CharDefense"}}: </b>{{person.defense}}</div>
+              <div><b>{{localize "DL.CharPower"}}: </b>{{person.power}}</div>
+              <div><b>{{localize "DL.CharSpeed"}}: </b>{{person.speed}}</div>
+              <div><b>{{localize "DL.CharFortune"}}: </b>{{person.fortune}}</div>
+              <br/>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+      <div class="tab talents" data-group="primary" data-tab="notes">
+        <div class="donslide">
+          {{#each persons as |person id|}}
+            <div class="item">
+              <div class="player">{{person.playername}}</div>
+              <div>
+                <b>{{localize "DL.CharName"}}:</b>
+                <a class="entity-link" data-entity="Actor" data-id="{{person.playerid}}">{{person.charactername}}</a>
+              </div>
+              <br/>
+              <div>
+                <b
+                >{{localize "DL.GMnote"}}: {{#if person.gmnoteedit}}<a
+                        class="gmnote-control"
+                        data-action="save"
+                        data-id="{{person.playerid}}"
+                        title="{{localize 'DL.GMnoteSave'}}"
+                ><i class="fas fa-save"></i></a
+                >{{else}}<a
+                        class="gmnote-control"
+                        data-action="edit"
+                        data-id="{{person.playerid}}"
+                        title="{{localize 'DL.GMnoteEdit'}}"
+                ><i class="fas fa-edit"></i></a
+                >{{/if}}</b
+                >
+              </div>
+              <div class="gmnote">
+                {{#if person.gmnoteedit}}
+                  <textarea id="person.{{person.playerid}}" name="person.gmnote">{{person.gmnote}}</textarea>
+                {{else}} {{person.gmnote}} {{/if}}
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </section>
+  </section>
+</form>

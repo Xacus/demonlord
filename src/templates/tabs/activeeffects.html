@@ -1,0 +1,57 @@
+<ol class="items-list effects-list">
+  {{#each effects as |section sid|}}
+    <li class="items-header flexrow" data-effect-type="{{section.type}}">
+      <h3 class="item-name effect-name flexrow">{{localize section.label}}</h3>
+      <div class="effect-source">Duration</div>
+      <div class="effect-controls flexrow">
+        {{#if section.showCreateButtons}}
+          <a class="effect-control" data-action="create" title="{{localize 'DL.EffectCreate'}}">
+            <i class="fas fa-plus"></i>
+          </a>
+        {{/if}}
+      </div>
+    </li>
+
+    <ol class="item-list">
+      {{#each section.effects as |effect|}}
+        <li class="item effect flexrow" data-effect-id="{{effect.id}}">
+          <div class="item-name effect-name flexrow">
+            {{#if effect.data.tint}}
+              <img class="item-image-small" src="{{effect.data.icon}}" style="border: 2px solid {{effect.data.tint}};"/>
+            {{else}}
+              <img class="item-image-small" src="{{effect.data.icon}}"/>
+            {{/if}}
+            <h4>{{effect.data.label}}</h4>
+          </div>
+          <div class="effect-duration">{{effect.duration.label}}</div>
+          <div class="effect-controls flexrow">
+            <a
+                    class="effect-control"
+                    data-action="toggle"
+                    title="{{localize 'DL.EffectToggle'}}"
+                    style="{{hiddenEffect effect.data.flags.notToggleable}}"
+            >
+              <i class="fas {{#if effect.data.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+            </a>
+            <a
+                    class="effect-control"
+                    data-action="edit"
+                    title="{{localize 'DL.EffectEdit'}}"
+                    style="{{hiddenEffect effect.data.flags.notEditable}}"
+            >
+              <i class="fas fa-edit"></i>
+            </a>
+            <a
+                    class="effect-control"
+                    data-action="delete"
+                    title="{{localize 'DL.EffectDelete'}}"
+                    style="{{hiddenEffect effect.data.flags.notDeletable}}"
+            >
+              <i class="fas fa-trash"></i>
+            </a>
+          </div>
+        </li>
+      {{/each}}
+    </ol>
+  {{/each}}
+</ol>

@@ -1,0 +1,59 @@
+.window-app {
+  font-family: $font-primary;
+}
+
+.rollable,
+.attribute-roll,
+.attack-roll,
+.talent-roll,
+.magic-roll,
+.ammo-amount,
+.talent-uses,
+.spell-uses,
+.tradition-edit,
+.roll-healing,
+.roll-damage,
+.apply-effect,
+.apply-damage,
+.use-talent,
+.request-challengeroll,
+.make-challengeroll,
+.request-initroll,
+.make-initroll,
+.addInsanity,
+.addCorruption,
+.addDamage,
+.toggleInfo,
+.toggleTalentInfo,
+.toggleItemInfo,
+.toggleEffectInfo,
+.item-uses,
+.ancestry-create,
+.edit-ancestrytalents,
+.show-iteminfo {
+  &:hover,
+  &:focus {
+    color: #000;
+    text-shadow: 0 0 10px #fa200b;
+    cursor: pointer;
+  }
+}
+
+.ancestry-edit,
+.path-edit {
+  &:hover,
+  &:focus {
+    -webkit-filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+    filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+    cursor: pointer;
+  }
+}
+
+#combat-endofround {
+  &:hover,
+  &:focus {
+    color: #fff;
+    text-shadow: 0 0 10px #fa200b;
+    cursor: pointer;
+  }
+}

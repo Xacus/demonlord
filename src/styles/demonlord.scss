@@ -1,0 +1,84 @@
+// Import utilities.
+@import 'utils/typography';
+@import 'utils/colors';
+@import 'utils/mixins';
+@import 'utils/variables';
+
+/* Global styles */
+@import 'global/window';
+@import 'global/grid';
+@import 'global/flex';
+@import 'global/ui';
+@import 'global/grid2';
+
+/* Styles limited to demonlord sheets */
+.demonlord {
+  @import 'components/chat';
+  @import 'components/dialog';
+  @import 'components/forms';
+  @import 'components/creature';
+  @import 'components/items';
+  @import 'components/resource';
+  @import 'components/tabs';
+}
+
+.charactergenerator {
+  @import 'components/formsCG';
+}
+
+/* Styles limited to demonlord sheets */
+.demonlord2.item {
+  @import 'components/items2';
+  @import 'components/creature';
+}
+
+.demonlord2 {
+  @import 'components/aside';
+  @import 'components/body';
+  @import 'components/chat';
+  @import 'components/dialog';
+  @import 'components/forms2';
+  @import 'components/general';
+  @import 'components/resource2';
+  @import 'components/tabs2';
+  @import 'components/tags';
+  @import 'components/accordion';
+}
+
+.demonlord2.actor {
+  @import 'components/header';
+}
+
+@import 'components/dialog2';
+
+/* Styles limited to demonlord sheets */
+.newcreature.item {
+  @import 'components/items2';
+}
+
+.newcreature {
+  @import 'components/aside-creature';
+  @import 'components/body';
+  @import 'components/chat';
+  @import 'components/dialog';
+  @import 'components/forms2';
+  @import 'components/general';
+  @import 'components/resource2';
+  @import 'components/tabs2';
+  @import 'components/tags';
+  @import 'components/creature';
+  @import 'components/accordion';
+}
+
+.newcreature.actor {
+  @import 'components/header-creture';
+}
+
+/* Styles limited to demonlord sheets */
+.playertracker {
+  @import 'components/playertracker';
+}
+
+@import 'tipfy';
+//@import 'node_modules/flexboxgrid/css/flexboxgrid';
+@import 'src/styles/components/item-sheet';

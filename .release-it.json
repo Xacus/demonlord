@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "before:init": ["prettier -w src", "npm run lint", "echo Project linted successfully!"],
+    "after:bumper:bump": ["gulp setDownloadURL", "echo Download link url bumped"],
+    "before:git:release": ["npm run pre-release", "echo Pre-Release completed!"]
+  },
+  "git": {
+    "requireCleanWorkingDir": false
+  },
+  "npm": {
+    "publish": false
+  },
+  "github": {
+    "release": true,
+    "draft": true,
+    "assets": ["system.zip", "dist/system.json"]
+  },
+  "plugins": {
+    "@release-it/bumper": {
+      "in": "src/system.json",
+      "out": "src/system.json"
+    }
+  }
+}

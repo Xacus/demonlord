@@ -1,0 +1,46 @@
+<form class="{{cssClass}} item-form" autocomplete="off">
+  <header class="sheet-header itemsheet-header">
+    <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    <div class="header-fields">
+      <div class="gridrow">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Language Name"/>
+      </div>
+    </div>
+    <div class="template-type">{{item.type}}</div>
+  </header>
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
+    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      <div class="tab weapons" data-group="primary" data-tab="attributes">
+        <div class="item-table">
+          <div class="row">
+            <div class="col-6 inline-input fix">
+              <input type="checkbox" name="data.read" id="multipleoptions" {{checked data.read}} />
+              <label for="data.read">{{localize "DL.LanguagesKnowledeRead"}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 inline-input fix">
+              <input type="checkbox" name="data.write" id="multipleoptions" {{checked data.write}} />
+              <label for="data.write">{{localize "DL.LanguagesKnowledeWrite"}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 inline-input fix">
+              <input type="checkbox" name="data.speak" id="multipleoptions" {{checked data.speak}} />
+              <label for="data.speak">{{localize "DL.LanguagesKnowledeSpeak"}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{> "systems/demonlord/templates/item/partial/item-description.html"}}
+    </section>
+  </section>
+</form>

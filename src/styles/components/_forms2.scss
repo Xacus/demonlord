@@ -1,0 +1,557 @@
+.content {
+  float: right;
+  width: calc(100% - 220px);
+}
+
+.sheet-body {
+  position: relative;
+  grid-area: content;
+}
+
+nav.sheet-subnavigation {
+  font-family: $font-header;
+  font-size: 10px;
+  color: #000000;
+  text-transform: uppercase;
+  text-align: center;
+
+  a.item.active {
+    border-bottom: 1px solid var(--demonlord-red);
+    text-shadow: 0 0 8px red;
+  }
+}
+
+.sheet-body .sheet-content,
+.sheet-body .sheet-content .inventory,
+.sheet-subbody .sheet-tabs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 12px;
+}
+
+.sheet-subbody .sheet-tabs {
+  top: 35px;
+  height: 100%;
+}
+
+.character .character-details {
+  display: grid;
+  grid: 'img alignment deity' 30px 'img details details' 150px/120px 120px 1fr;
+  margin-top: 4px;
+}
+
+.sheet-body .sheet-content .tab,
+.sheet-body .sheet-content .tab .editor {
+  height: 100%;
+  padding: 2px 5px;
+  font-size: 12px;
+  margin-top: 0px;
+  overflow-y: auto;
+
+  .weaponalign {
+    text-align: center;
+  }
+
+  .descriptionblock {
+    margin: 10px 5px 0px 5px;
+    height: 100%;
+    font-size: 13px;
+
+    .editor,
+    .editor-content {
+      height: 100%;
+      min-height: 200px;
+      font-size: 13px;
+    }
+
+    textarea {
+      font-family: $font-primary;
+      border: 1px solid #7a7971;
+      background: rgba(0, 0, 0, 0.05);
+      resize: vertical;
+      height: 200px;
+
+      &:focus,
+      &:active {
+        box-shadow: 0 0 5px red;
+        border: 1px solid #7a7971;
+        outline: 0;
+      }
+    }
+  }
+}
+
+.sheet-body .sheet-content .limited {
+  margin-top: 15px;
+}
+
+.tox {
+  .tox-editor-container {
+    background: $c-white;
+  }
+
+  .tox-edit-area {
+    padding: 0 8px;
+  }
+}
+
+.background {
+  margin-right: 10px;
+}
+
+.col1 {
+  input[type='text'] {
+    background: rgba(0, 0, 0, 0.05);
+    color: #000;
+  }
+}
+
+.wealth {
+  font-size: 11px;
+  font-weight: bold;
+  padding: 0 10px 0 0;
+
+  .header {
+    width: 100%;
+    padding: 3px 0;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: $font-header;
+    font-size: 13px;
+
+    .edit {
+      float: right;
+      width: 15px;
+    }
+  }
+
+  .body {
+    margin-top: 5px;
+
+    .lifestyle {
+      height: 15px;
+
+      .lifestyletitle {
+        float: left;
+        height: 20px;
+        margin-right: 5px;
+      }
+
+      input {
+        width: 100px;
+        height: 15px;
+      }
+
+      label {
+        font-weight: normal;
+      }
+    }
+
+    .coins {
+      height: 15px;
+      margin-bottom: 10px;
+
+      .cointitle {
+        float: left;
+        height: 20px;
+        width: 25px;
+      }
+
+      input {
+        float: left;
+        height: 15px;
+        width: 35px;
+      }
+
+      label {
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+.paths {
+  margin-top: -5px;
+  font-size: 11px;
+  font-weight: bold;
+
+  .header {
+    width: 100%;
+    padding: 3px 0;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: $font-header;
+    font-size: 11px;
+    text-transform: uppercase;
+
+    .edit {
+      float: right;
+      width: 15px;
+    }
+  }
+
+  .body {
+    margin-top: 5px;
+
+    .path {
+      height: 34px;
+      line-height: 34px;
+      font-size: 12px;
+      font-weight: normal;
+      margin-bottom: 5px;
+      background: rgba(0, 0, 0, 0.1);
+
+      .pathtitle {
+        float: left;
+        padding: 5px 5px 0 0;
+        margin-bottom: -2px;
+      }
+
+      img {
+        float: left;
+        margin: 2px;
+        margin-right: 5px;
+      }
+
+      label {
+        font-weight: normal;
+      }
+
+      input {
+        float: left;
+        width: 100%;
+        margin-top: 3px;
+        padding: 1px 2px 1px 5px;
+      }
+
+      .editPath {
+        float: right;
+        margin-top: -15px;
+        margin-right: 2px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .path-label {
+        height: 34px;
+        line-height: 11px;
+        padding: 5px;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.3);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.professions,
+.languages,
+.religionback {
+  font-size: 11px;
+  margin-bottom: 35px;
+
+  .header {
+    width: 100%;
+    padding: 3px 0;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: $font-header;
+    font-size: 11px;
+    text-transform: uppercase;
+
+    .edit {
+      float: right;
+      width: 24px;
+      font-size: 10px;
+    }
+  }
+
+  .body {
+    margin-top: 5px;
+
+    textarea {
+      float: left;
+      width: 100%;
+      height: 100px;
+      resize: none;
+
+      &:focus,
+      &:active {
+        box-shadow: 0 0 5px red;
+        border: 1px solid #7a7971;
+        outline: 0;
+      }
+    }
+
+    input {
+      float: left;
+      width: 200px;
+      height: 15px;
+    }
+  }
+}
+
+.features {
+  float: left;
+  width: 100%;
+  padding-right: 10px;
+
+  .header {
+    width: 100%;
+    padding: 3px 0;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: $font-header;
+    font-size: 11px;
+    text-transform: uppercase;
+
+    .edit {
+      float: right;
+      width: 24px;
+      font-size: 10px;
+    }
+  }
+
+  .body {
+    margin-top: 5px;
+
+    input {
+      float: left;
+      width: 200px;
+      height: 15px;
+    }
+  }
+}
+
+.professions {
+  margin-top: -5px;
+  margin-right: -10px;
+}
+
+.religionback {
+  margin-bottom: 25px;
+
+  .body {
+    height: 15px;
+  }
+}
+
+.professions {
+  height: 110px;
+
+  .body {
+    height: 100px;
+  }
+}
+
+.languages {
+  height: 80px;
+
+  .body {
+    height: 70px;
+
+    textarea {
+      height: 70px;
+    }
+  }
+}
+
+.itemheader {
+  margin-top: 8px;
+  font-size: 13px;
+  height: 17px;
+  font-weight: bold;
+  padding: 0;
+  border-bottom: 1px solid var(--demonlord-red);
+  font-family: $font-header;
+
+  .itemnameheader {
+    float: left;
+  }
+
+  .item-controls {
+    float: right;
+    width: 10px;
+  }
+}
+
+.body {
+  color: #000;
+  margin-top: -10px;
+
+  input[type='text'] {
+    background: rgba(0, 0, 0, 0.1);
+    height: 17px;
+    color: #000;
+    border-radius: 0px;
+    padding-left: 5px;
+  }
+
+  input[type='text']:focus,
+  input[type='text']:hover {
+    background: rgba(0, 0, 0, 0.3);
+    height: 17px;
+    padding-left: 6px;
+    border-radius: 0px;
+  }
+
+  .chardetail {
+    float: left;
+    width: 100%;
+    padding-right: 10px;
+    margin-top: -10px;
+  }
+
+  .languages {
+    width: 100%;
+    height: 24px;
+
+    .language {
+      float: left;
+      margin-right: 5px;
+
+      .languagetitle,
+      .delimiter,
+      .charhighlight,
+      .chardim {
+        float: left;
+      }
+
+      .charhighlight {
+        float: left;
+      }
+
+      .chardim {
+        float: left;
+        color: #777;
+      }
+
+      .item-controls {
+        float: right;
+        margin-left: 2px;
+      }
+    }
+
+    .edit {
+      float: right;
+      position: relative;
+      top: -12px;
+      margin-right: 6px;
+    }
+  }
+
+  .ancestry-paths {
+    text-align: center;
+    font-family: 'IM Fell English SC', serif;
+
+    img {
+      display: block;
+      height: 80px;
+      width: 80px;
+      margin-left: auto;
+      margin-right: auto;
+      border: none;
+    }
+
+    .ancestry-frame,
+    .path-frame,
+    .badge {
+      -webkit-filter: drop-shadow(0px 0px 3px #404040);
+      filter: drop-shadow(0px 0px 3px #404040);
+    }
+
+    img.icon {
+      -webkit-filter: grayscale(0.15);
+      filter: grayscale(0.15);
+    }
+
+    .ancestry-frame,
+    .path-frame {
+      height: 80px;
+      width: 80px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+
+      img.icon {
+        position: relative;
+        top: 7px;
+        height: 50px;
+        width: 50px;
+      }
+
+      img.border {
+        position: absolute;
+        height: 80px;
+        width: 80px;
+      }
+
+      img.border-small {
+        height: 64px;
+        width: 64px;
+        position: absolute;
+        left: 8px;
+        top: 8px;
+      }
+    }
+
+    img.gray {
+      filter: grayscale(0.7);
+      -webkit-filter: grayscale(0.7);
+    }
+
+    h3 {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+    }
+  }
+
+  .char-description {
+    margin-right: 10px;
+
+    .row {
+      margin-bottom: 6px;
+    }
+
+    .religion {
+      position: relative;
+
+      img {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        border: none;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgb(0 0 0 / 50%), 0 0 8px #a22223;
+        cursor: pointer;
+      }
+    }
+  }
+
+  h1 {
+    margin-right: 10px;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding-bottom: 1px;
+  }
+}

@@ -1,0 +1,198 @@
+.accordion {
+  /* margin-right: 10px; */
+  padding-right: 10px;
+  margin-right: -5px;
+  padding-top: 12px;
+  overflow-y: auto;
+  height: 100%;
+
+  .toggleAccordion {
+    display: block;
+    padding: 6px 4px 0;
+    margin: 0 0 10px 0;
+    cursor: pointer;
+    color: #000;
+    //transition: ease 0.5s;
+    position: relative;
+    overflow-y: hidden;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    /* background: rgba(0, 0, 0, 0.1); */
+    height: 20px;
+    line-height: 1;
+    vertical-align: middle;
+
+    & > div {
+      & > label,
+      & > span {
+        display: inline-block;
+        margin: 0 2px;
+      }
+    }
+  }
+
+  .toggleAccordion:hover {
+    text-shadow: 0 0 4px var(--demonlord-red);
+  }
+
+  .toggleAccordion::after {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f077';
+    font-size: 12px;
+    font-weight: bold;
+    position: relative;
+    float: right;
+    right: 0px;
+    top: 0px;
+  }
+
+  ol,
+  li {
+    list-style: none;
+    padding: 0;
+    height: 100%;
+  }
+
+  .items-line {
+    li .grid {
+      gap: 0px;
+      margin: 0 0 5px 0;
+    }
+
+    .disableafflictions {
+      margin-bottom: 5px;
+    }
+  }
+
+  .content {
+    position: relative;
+    width: 100%;
+    padding: 5px;
+    font-size: 12px;
+
+    .header {
+      margin: 5px 0;
+      height: 10px;
+
+      .item-controls {
+        float: right;
+        margin-top: -15px;
+      }
+    }
+
+    .body {
+      .item-controls {
+        float: right;
+        margin-top: -15px;
+      }
+
+      .spellnameheader {
+        float: left;
+        margin: 10px 0 3px 0;
+      }
+
+      li.item {
+        display: block;
+
+        .featurename {
+          font-weight: bold;
+        }
+
+        .spellinfo {
+          display: block;
+          float: left;
+          width: 100%;
+
+          .itemname {
+            float: left;
+            font-weight: bold;
+          }
+          .spellcastings,
+          .spelltype,
+          .bonesbanes {
+            float: left;
+            padding-left: 5px;
+          }
+
+          .item-controls {
+            float: right;
+            margin-top: 0px;
+          }
+        }
+
+        .enditemtext {
+          margin-top: -5px;
+        }
+      }
+
+      li.tradition-header {
+        display: block;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .featurelist {
+    .items-list {
+      .item {
+        border: unset;
+      }
+      .item-controls {
+        float: right;
+        flex: 0 0 40px;
+        text-align: right;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .contentMain {
+    padding-top: 0px;
+    margin-top: -10px;
+  }
+
+  .change::after {
+    content: '\f078';
+  }
+}
+
+.accordionMain {
+  overflow-y: unset;
+  margin: 0 10px 0 0;
+}
+
+.collapse-title {
+  margin-top: 4px;
+
+  &:not(.active) {
+    border-bottom: 1px solid #565656;
+
+    & > div::after {
+      font-family: 'Font Awesome 5 Free';
+      content: '\f106';
+      font-size: 16px;
+      line-height: 1.8;
+      font-weight: bold;
+      float: right;
+      text-align: right;
+      margin-right: 4px;
+    }
+  }
+
+  &.active > div::after {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f107';
+    font-size: 16px;
+    line-height: 1.8;
+    font-weight: bold;
+    float: right;
+    text-align: right;
+    margin-right: 4px;
+  }
+}
+
+.collapse-content {
+}

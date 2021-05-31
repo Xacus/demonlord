@@ -1,0 +1,21 @@
+<form class="{{cssClass}} item-form" autocomplete="off">
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{!-- General (Icon, Name, Description, Type) --}}
+      <div class="item-general">
+        <div class="row">
+          <div class="col-2 item-banner" style="background: url(systems/demonlord/assets/ui/sidebar_creature.webp)">
+            <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+            <div class="template-type">{{item.type}}</div>
+          </div>
+          <div class="col-10">
+            <input name="name" type="text" value="{{item.name}}" placeholder="Special Attack Name"/>
+            <label class="description-label">{{localize 'DL.TabsDescription'}}</label>
+            {{editor content=data.description target="data.description" button=true owner=owner editable=editable }}
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</form>

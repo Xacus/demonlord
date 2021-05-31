@@ -1,0 +1,73 @@
+{{#if effects}}
+  <div class="tab" data-group="primary" data-tab="effects">
+    {{#if document.isEmbedded}}
+      <!--    TODO-->
+      <p class="warning" style="margin-bottom: 12px; background: #8d3b3c; border-radius: 8px; padding: 8px;
+      font-size: 14px; border:1px solid black">
+        <b>WARNING:</b><br> As of Foundry 0.8.5 the creation of Active Effects inside Items owned by a Character is
+        unsupported.
+        To edit effects present in the item, please edit the item from the Sidebar.
+      </p>
+
+    {{/if}}
+
+    <ol class="items-list effects-list" style="margin-top: 0; padding: 0 8px;">
+      {{#each effects as |section sid|}}
+        <li class="items-header flexrow" data-effect-type="{{section.type}}">
+          <h3 class="item-name effect-name flexrow">{{localize section.label}}</h3>
+          <div class="effect-source">Duration</div>
+          <div class="effect-controls flexrow">
+            {{#if section.showCreateButtons}}
+              <a class="effect-control" data-action="create" title="{{localize 'DL.EffectCreate'}}">
+                <i class="fas fa-plus"></i>
+              </a>
+            {{/if}}
+          </div>
+        </li>
+
+        <ol class="item-list">
+          {{#each section.effects as |effect|}}
+            <li class="item effect flexrow" data-effect-id="{{effect.id}}">
+              <div class="item-name effect-name flexrow">
+                {{#if effect.data.tint}}
+                  <img class="item-image-small" src="{{effect.data.icon}}"
+                       style="border: 2px solid {{effect.data.tint}};"/>
+                {{else}}
+                  <img class="item-image-small" src="{{effect.data.icon}}"/>
+                {{/if}}
+                <h4>{{effect.data.label}}</h4>
+              </div>
+              <div class="effect-duration">{{effect.duration.label}}</div>
+              <div class="effect-controls flexrow">
+                {{#if (eq section.showControls 1)}}
+                  <a class="effect-control" data-action="toggle" title="{{localize 'DL.EffectToggle'}}">
+                    <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+                  </a>
+                {{/if}} {{#if (eq section.showControls 2)}}
+                <a class="effect-control" data-action="toggle" title="{{localize 'DL.EffectToggle'}}">
+                  <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+                </a>
+                <a class="effect-control" data-action="edit" title="{{localize 'DL.EffectEdit'}}">
+                  <i class="fas fa-edit"></i>
+                </a>
+              {{/if}} {{#if (eq section.showControls 3)}}
+                <a class="effect-control" data-action="toggle" title="{{localize 'DL.EffectToggle'}}">
+                  <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+                </a>
+                <a class="effect-control" data-action="edit" title="{{localize 'DL.EffectEdit'}}">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <a class="effect-control" data-action="delete" title="{{localize 'DL.EffectDelete'}}">
+                  <i class="fas fa-trash"></i>
+                </a>
+              {{/if}}
+              </div>
+            </li>
+          {{/each}}
+        </ol>
+      {{/each}}
+    </ol>
+
+  </div>
+  </div>
+{{/if}}

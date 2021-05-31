@@ -1,0 +1,71 @@
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
+  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+  <div class="showlessinfo"></div>
+  <header class="card-header">
+    <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img"
+                                title="{{item.data.name}}" height="40" width="40"/></div>
+    <div class="attackbox">
+      <div class="header">{{localize "DL.ItemRollText"}}</div>
+      <div class="headertext">{{item.name}}</div>
+    </div>
+  </header>
+  {{#if data.uses.value}}
+    <div class="chat-uses">{{data.uses.value}}</div>
+  {{/if}}
+  {{#if item.data.data.data.enchantment.attackbonus}}
+    <div class="roll20">
+      <div class="header">{{localize "DL.TalentAttackBoonsBanes"}}</div>
+      <div class="body">{{item.data.data.data.enchantment.attackbonus}}</div>
+    </div>
+  {{/if}}
+  {{#if item.data.data.data.enchantment.challengebonus}}
+    <div class="roll20">
+      <div class="header">{{localize "DL.TalentChallengeBoonsBanes"}}</div>
+      <div class="body">{{item.data.data.data.enchantment.challengebonus}}</div>
+    </div>
+  {{/if}}
+  {{#if item.data.data.data.enchantment.damage}}
+    <div class="roll20">
+      <div class="header">{{localize "DL.ItemDamage"}}</div>
+      <div class="body">{{item.data.data.data.enchantment.damage}}</div>
+    </div>
+  {{/if}}
+  {{#if item.data.data.data.enchantment.defense}}
+    <div class="roll20">
+      <div class="header">{{localize "DL.ItemDefenseModifier"}}</div>
+      <div class="body">{{item.data.data.data.enchantment.defense}}</div>
+    </div>
+  {{/if}}
+  {{#if item.data.data.data.enchantment.speed}}
+    <div class="roll20">
+      <div class="header">{{localize "DL.ItemSpeedModifier"}}</div>
+      <div class="body">{{item.data.data.data.enchantment.speed}}</div>
+    </div>
+  {{/if}}
+  {{#if item.data.data.data.enchantment.perception}}
+    <div class="roll20">
+      <div class="header">{{localize "DL.ItemPerceptionModifier"}}</div>
+      <div class="body">{{item.data.data.data.enchantment.perception}}</div>
+    </div>
+  {{/if}}
+  {{#if item.data.data.data.enchantment.effect}}
+    <div class="description">
+      <div class="header">{{localize "DL.SpellRollDescription"}}</div>
+      <div class="body">{{{item.data.data.data.enchantment.effect}}}</div>
+    </div>
+  {{/if}}
+  {{#if data.healing.value}}
+    <div class="talentactions roll-healing">
+      <div class="header" data-item-id="{{data.id.value}}" data-healing="1">
+        <img src=" systems/demonlord/assets/ui/icons/health.webp" width="15" height="15"/>
+        <div>{{localize "DL.DialogTalentApplyHealing"}}</div>
+      </div>
+    </div>
+    <div class="talentactions roll-healing">
+      <div class="header" data-item-id="{{data.id.value}}" data-healing="2">
+        <img src=" systems/demonlord/assets/ui/icons/health.webp" width="15" height="15"/>
+        <div>{{localize "DL.DialogTalentApplyHalfHealing"}}</div>
+      </div>
+    </div>
+  {{/if}}
+</div>

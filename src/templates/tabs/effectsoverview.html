@@ -1,0 +1,12 @@
+<div style="display: flex; flex-wrap: wrap">
+  {{#each effectsOverview as |section|}}
+    <div style="flex: 50%">
+      <h3 style="font-size: 1.1em; font-weight: bold">{{section.changeLabel}}</h3>
+      <ul>
+        {{#each section.sources as |source|}}
+          <li><b>{{source.value}}</b> <i>({{source.label}})</i></li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/each}}
+</div>
