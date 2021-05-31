@@ -1,0 +1,16 @@
+.tabs {
+  color: #ddd;
+
+  .item {
+    line-height: 94px;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-top: 4px;
+  }
+
+  .item.active {
+    text-decoration: underline;
+    text-shadow: none;
+  }
+}

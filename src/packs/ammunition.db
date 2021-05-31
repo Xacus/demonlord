@@ -1,0 +1,5 @@
+{"_id":"3DyeaERbAOaGT8pA","name":"Bullets","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","quantity":"5","value":"1 ss"},"flags":{},"img":"systems/demonlord/assets/icons/ammunition/bullets.webp"}
+{"_id":"5jbJ3sA7G1QxWvSf","name":"Arrows","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","quantity":"5","value":"5 cp"},"flags":{},"img":"systems/demonlord/assets/icons/ammunition/arrows.webp"}
+{"_id":"Bmr3cvbAdC57YL6W","name":"Darts","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","quantity":"5","value":"5 cp"},"flags":{},"img":"systems/demonlord/assets/icons/weapons/dart.webp"}
+{"_id":"Y6Xp0ynkGeM44abA","name":"Bolts","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","quantity":"5","value":"5 cp"},"flags":{},"img":"systems/demonlord/assets/icons/ammunition/bolts.webp"}
+{"_id":"dOlgELtLo49QcCJc","name":"Stones","permission":{"default":0,"Sd8TaawsSgOTEPU7":3},"type":"ammo","data":{"description":"","quantity":"5","value":"5 cp"},"flags":{},"img":"systems/demonlord/assets/icons/ammunition/rock.webp"}

@@ -1,0 +1,247 @@
+<div class="accordion">
+  <div class="toggleAccordion change">
+    {{localize "DL.CreatureTraits"}}
+    <div class="hidesection">
+      <input
+        type="checkbox"
+        name="data.sections.showtraits"
+        id="data.sections.showtraits"
+        class="checkbox"
+        class="checkinput"
+        {{checked
+        data.sections.showtraits}}
+      /><label for="data.sections.showtraits"></label>
+      <span class="item-controls">
+        <a class="item-control item-create" title="{{localize 'DL.CreatureTraitsAdd'}}" data-type="feature"
+          ><i class="fas fa-plus"></i
+        ></a>
+      </span>
+    </div>
+  </div>
+  <div class="content featurelist" style="display: block">
+    <ol class="items-list">
+      {{#each actor.features as |feature id|}}
+      <li class="item dropitem" data-item-id="{{feature._id}}">
+        <div class="item-controls">
+          <a class="item-control item-edit" title="{{localize 'DL.FeatureEdit'}}"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete" title="{{localize 'DL.FeatureDelete'}}"><i class="fas fa-trash"></i></a>
+        </div>
+        <div class="featurename">{{feature.name}}</div>
+        <div class="itemtext">{{{feature.data.description}}}</div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  <div class="toggleAccordion change">
+    {{localize "DL.CreatureAttackOptions"}}
+    <div class="hidesection">
+      <input
+        type="checkbox"
+        name="data.sections.showattackoptions"
+        id="data.sections.showattackoptions"
+        class="checkbox"
+        class="checkinput"
+        {{checked
+        data.sections.showattackoptions}}
+      /><label for="data.sections.showattackoptions"></label>
+      <span class="item-controls">
+        <a class="item-control item-create" title="{{localize 'DL.CreatureAddAttackOptions'}}" data-type="weapon"
+          ><i class="fas fa-plus"></i
+        ></a>
+      </span>
+    </div>
+  </div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.weapons as |weapon id|}}
+      <li class="item dropitem" data-item-id="{{weapon._id}}">
+        <div class="itemname">
+          {{weapon.name}}{{#if data.properties}}({{data.properties}}){{/if}}{{#if
+          data.action.damage}}({{data.action.damage}}){{/if}}
+        </div>
+        <div class="item-controls">
+          <a class="item-control item-clone" title="{{localize 'DL.AttackClone'}}"><i class="fas fa-clone"></i></a>
+          <a class="item-control item-edit" title="{{localize 'DL.AttackEdit'}}"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete" title="{{localize 'DL.AttackDelete'}}"><i class="fas fa-trash"></i></a>
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  <div class="toggleAccordion change">
+    {{localize "DL.CreatureSpecialAttacks"}}
+    <div class="hidesection">
+      <input
+        type="checkbox"
+        name="data.sections.showspecialattack"
+        id="data.sections.showspecialattack"
+        class="checkbox"
+        class="checkinput"
+        {{checked
+        data.sections.showspecialattack}}
+      /><label for="data.sections.showspecialattack"></label>
+      <span class="item-controls">
+        <a class="item-control item-create" title="{{localize 'DL.CreatureAddSpecialAttacks'}}" data-type="talent"
+          ><i class="fas fa-plus"></i
+        ></a>
+      </span>
+    </div>
+  </div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.talents as |item id|}}
+      <li class="item" data-item-id="{{item._id}}">
+        <div class="itemname">{{item.name}}</div>
+        <div class="item-controls">
+          <a class="item-control item-edit" title="{{localize 'DL.CreatureEditSpecialAttacks'}}"
+            ><i class="fas fa-edit"></i
+          ></a>
+          <a class="item-control item-delete" title="{{localize 'DL.CreatureDeleteSpecialAttacks'}}"
+            ><i class="fas fa-trash"></i
+          ></a>
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  <div class="toggleAccordion change">
+    {{localize "DL.CreatureSpecialActions"}}
+    <div class="hidesection">
+      <input
+        type="checkbox"
+        name="data.sections.showspecialactions"
+        id="data.sections.showspecialactions"
+        class="checkbox"
+        class="checkinput"
+        {{checked
+        data.sections.showspecialactions}}
+      /><label for="data.sections.showspecialactions"></label>
+      <span class="item-controls">
+        <a
+          class="item-control item-create"
+          title="{{localize 'DL.CreatureAddSpecialActions'}}"
+          data-type="specialaction"
+          ><i class="fas fa-plus"></i
+        ></a>
+      </span>
+    </div>
+  </div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.specialactions as |item id|}}
+      <li class="item" data-item-id="{{item._id}}">
+        <div class="itemname">{{item.name}}</div>
+        <div class="item-controls">
+          <a class="item-control item-edit" title="{{localize 'DL.CreatureEditSpecialActions'}}"
+            ><i class="fas fa-edit"></i
+          ></a>
+          <a class="item-control item-delete" title="{{localize 'DL.CreatureDeleteSpecialActions'}}"
+            ><i class="fas fa-trash"></i
+          ></a>
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  <div class="toggleAccordion change">
+    {{localize "DL.CreatureSpecialMagic"}}
+    <div class="hidesection">
+      <input
+        type="checkbox"
+        name="data.sections.showmagic"
+        id="data.sections.showmagic"
+        class="checkbox"
+        class="checkinput"
+        {{checked
+        data.sections.showmagic}}
+      /><label for="data.sections.showmagic"></label>
+      <span class="item-controls">
+        <a class="item-control item-create" title="{{localize 'DL.MagicAddSpell'}}" data-type="spell"
+          ><i class="fas fa-plus"></i
+        ></a>
+      </span>
+    </div>
+  </div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.spellbook as |spellbook id|}}
+      <li class="tradition-header">
+        <div class="spellnameheader">{{spellbook.tradition}}</div>
+      </li>
+      {{#each spellbook.spells as |spell id|}}
+      <li class="item spell dropitem" data-item-id="{{spell._id}}">
+        <div class="spellinfo">
+          <div class="itemname">{{spell.name}}</div>
+          <div class="spellcastings">({{data.castings.value}}/{{data.castings.max}}),</div>
+          <div class="spelltype">{{data.spelltype}}{{data.rank}},</div>
+          <div class="bonesbanes">
+            {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}} +0{{/if}}
+          </div>
+          <div class="item-controls">
+            <a class="item-control spell-edit" title="{{localize 'DL.MagicEditSpell'}}"><i class="fas fa-edit"></i></a>
+            <a class="item-control spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"
+              ><i class="fas fa-trash"></i
+            ></a>
+          </div>
+        </div>
+      </li>
+      {{/each}}{{/each}}
+    </ol>
+  </div>
+
+  <div class="toggleAccordion change">
+    {{localize "DL.CreatureSpecialEndRound"}}
+    <div class="hidesection">
+      <input
+        type="checkbox"
+        name="data.sections.showendofround"
+        id="data.sections.showendofround"
+        class="checkbox"
+        class="checkinput"
+        {{checked
+        data.sections.showendofround}}
+      /><label for="data.sections.showendofround"></label>
+      <span class="item-controls">
+        <a class="item-control item-create" title="{{localize 'DL.CreatureAddEndRound'}}" data-type="endoftheround"
+          ><i class="fas fa-plus"></i
+        ></a>
+      </span>
+    </div>
+  </div>
+  <div class="content" style="display: block">
+    <ol class="body">
+      {{#each actor.endoftheround as |item id|}}
+      <li class="item" data-item-id="{{item._id}}">
+        <div class="itemname">{{item.name}}</div>
+        <div class="item-controls">
+          <a class="item-control item-edit" title="{{localize 'DL.CreatureEditEndRound'}}"
+            ><i class="fas fa-edit"></i
+          ></a>
+          <a class="item-control item-delete" title="{{localize 'DL.CreatureDeleteEndRound'}}"
+            ><i class="fas fa-trash"></i
+          ></a>
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+  <div class="toggleAccordion change">
+    {{localize "DL.CreatureDiscription"}}
+    <div class="hidesection">
+      <input
+        type="checkbox"
+        name="data.sections.showdescription"
+        id="data.sections.showdescription"
+        class="checkbox"
+        class="checkinput"
+        {{checked
+        data.sections.showdescription}}
+      /><label for="data.sections.showdescription"></label>
+    </div>
+  </div>
+  <div class="content" style="display: block">
+    <div class="credescription">
+      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+    </div>
+  </div>
+</div>

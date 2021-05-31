@@ -1,0 +1,170 @@
+<form class="{{cssClass}} item-form" autocomplete="off">
+  <header class="sheet-header itemsheet-header">
+    <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    <div class="header-fields">
+      <div class="gridrow">
+        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'DL.WeaponName'}}"/>
+      </div>
+    </div>
+    <div class="template-type">{{item.type}}</div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
+    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+    {{#if effects}}<a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>{{/if}}
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{!-- Attributes Tab --}}
+      <div class="tab" data-group="primary" data-tab="attributes">
+        <div class="item-table">
+          {{!-- Modifier - BO/BA --}}
+          <div class="row" style="position: relative">
+            <div class="col-4">
+              <label>{{localize "DL.WeaponAttackModifier"}}</label>
+              <select name="data.action.attack" data-dtype="String">
+                {{#select data.action.attack}}
+                  <option value="">—</option>
+                  <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
+                  <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
+                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+                  <option value="Will">{{localize "DL.AttributeWill"}}</option>
+                  <option value="Perception">{{localize "DL.CharPerception"}}</option>
+                {{/select}}
+              </select>
+            </div>
+            <div class="vs">VS</div>
+            <div class="col-4">
+              <label>{{localize "DL.WeaponDefenseModifier"}}</label>
+              <select name="data.action.against" data-dtype="String">
+                {{#select data.action.against}}
+                  <option value="">—</option>
+                  <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
+                  <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
+                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+                  <option value="Will">{{localize "DL.AttributeWill"}}</option>
+                  <option value="Perception">{{localize "DL.CharPerception"}}</option>
+                  <option value="Defense">{{localize "DL.CharDefense"}}</option>
+                {{/select}}
+              </select>
+            </div>
+            <div class="col-4">
+              <label>{{localize "DL.WeaponBoonsBanes"}}</label>
+              <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}"/>
+            </div>
+          </div>
+
+          {{!-- Damage --}}
+          <div class="row">
+            <div class="col-11">
+              <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
+            </div>
+            <div class="col-1 item-controls">
+              <a
+                      class="item-control damagetype-control"
+                      title="{{localize 'DL.DamageAddType'}}"
+                      data-action="create"
+                      style="margin-left: -11px"
+              ><i class="fas fa-plus"></i>
+              </a>
+            </div>
+          </div>
+          <div class="row damage-row">
+            <div class="col-4">
+              <input
+                      class="damagevalue"
+                      type="text"
+                      name="data.action.damage"
+                      value="{{data.action.damage}}"
+                      placeholder="{{localize 'DL.WeaponDamage'}}"
+              />
+            </div>
+            <div class="col-8">
+              <input
+                      class="damagetype"
+                      type="text"
+                      name="data.action.damagetype"
+                      value="{{data.action.damagetype}}"
+                      placeholder="Damage Type"
+              />
+            </div>
+          </div>
+          {{#each data.action.damagetypes as |damagetype id|}}
+            <div class="row damage-row" style="position: relative">
+              <div class="col-4" style="margin-top: 2px">
+                <input
+                        class="damagevalue"
+                        type="text"
+                        name="altdamage"
+                        value="{{damagetype.damage}}"
+                        placeholder="{{localize 'DL.WeaponDamage'}}"
+                />
+              </div>
+              <div class="col-8" style="margin-top: 2px">
+                <input
+                        class="damagetype"
+                        type="text"
+                        name="altdamagetype"
+                        value="{{damagetype.damagetype}}"
+                        placeholder="{{localize 'DL.DamageType'}}"
+                />
+              </div>
+              <a
+                      class="item-control damagetype-control damage-delete"
+                      title="{{localize 'DL.DamageAddType'}}"
+                      data-action="delete"
+                      data-id="{{id}}"
+              ><i class="fas fa-trash"></i
+              ></a>
+            </div>
+          {{/each}} {{!-- Properties - Min Strength --}}
+          <div class="row">
+            <div class="col-8">
+              <label class="resource-label">{{localize "DL.WeaponProperties"}}</label>
+              <input type="text" name="data.properties" value="{{data.properties}}"/>
+            </div>
+            <div class="col-4">
+              <label class="resource-label">{{localize "DL.ArmorStrengthMin"}}</label>
+              <input type="text" name="data.strengthmin" value="{{data.strengthmin}}"/>
+            </div>
+          </div>
+          {{!-- Hands - Availability - Value --}}
+          <div class="row">
+            <div class="col-4">
+              <label>{{localize "DL.WeaponHands"}}</label>
+              <select name="data.hands" data-dtype="String">
+                {{#select data.hands}}
+                  <option value="">—</option>
+                  <option value="One">{{localize "DL.WeaponHandsOne"}}</option>
+                  <option value="Two">{{localize "DL.WeaponHandsTwo"}}</option>
+                  <option value="Off">{{localize "DL.WeaponHandsOff"}}</option>
+                {{/select}}
+              </select>
+            </div>
+            <div class="col-4">
+              <label>{{localize "DL.Availability"}}</label>
+              <select name="data.availability" data-dtype="String">
+                {{#select data.availability}}
+                  <option value="C">{{localize "DL.AvailabilityCommon"}}</option>
+                  <option value="U">{{localize "DL.AvailabilityUncommon"}}</option>
+                  <option value="R">{{localize "DL.AvailabilityRare"}}</option>
+                  <option value="E">{{localize "DL.AvailabilityExotic"}}</option>
+                {{/select}}
+              </select>
+            </div>
+            <div class="col-4">
+              <label>{{localize "DL.ItemValue"}}</label>
+              <input type="text" name="data.value" value="{{data.value}}"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{> "systems/demonlord/templates/item/partial/item-description.html"}} {{#if effects}}{{>
+    "systems/demonlord/templates/item/partial/item-effects.html"}}{{/if}}
+    </section>
+  </section>
+</form>

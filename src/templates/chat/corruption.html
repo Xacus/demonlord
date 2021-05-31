@@ -1,0 +1,43 @@
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
+  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+  <div class="showlessinfo">{{data.actorInfo}}</div>
+  <header class="card-headersmall">
+    <div class="header">{{localize "DL.CharRolCorruption"}}</div>
+    <div class="headertext {{data.resultText}}">{{data.resultText}}</div>
+  </header>
+
+  <div class="result">
+    <div class="box {{data.resultText}}">
+      <div class="valuetext">D20</div>
+      <div class="boxborder tooltip">
+        <div class="value">{{data.diceTotal}}</div>
+        <span class="tooltiptext">
+          {{#each diceData.dice}}
+            <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                        <label style="color:{{this.color}};">
+                          {{this.result}}
+                        </label>
+              {{#if this.img}}
+                <img src='{{this.img}}'/>
+              {{/if}}
+                    </div>
+          {{/each}}
+        </span>
+      </div>
+    </div>
+    <div class="boxvs">
+      <div class="vs">{{localize "DL.ChallengeVS"}}</div>
+    </div>
+    <div class="box {{data.resultText}}">
+      <div class="valuetext">{{data.tagetValueText}}</div>
+      <div class="boxborderTarget">
+        <div class="value">{{data.targetValue}}</div>
+      </div>
+    </div>
+  </div>
+  {{#if data.failureText}}
+    <div class="description">
+      {{data.failureText}}
+    </div>
+  {{/if}}
+</div>

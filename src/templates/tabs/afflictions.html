@@ -1,0 +1,340 @@
+<div class="accordion accordionMain">
+  {{#if data.afflictionsTab.hideAction}}
+    <div class="toggleAccordion" data-type="action">{{localize "DL.Actions"}}</div>
+  <div class="content contentMain" style="display: none">
+  {{else}}
+    <div class="toggleAccordion change" data-type="action">{{localize "DL.Actions"}}</div>
+  <div class="content contentMain" style="display: block">
+  {{/if}}
+  <ol class="items-line">
+    <li class="form-line">
+      <div class="grid grid-3col">
+        <div class="affliction">
+          <input type="checkbox" id="data.afflictions.concentrate" {{checked flags.demonlord.concentrate}} />
+          <div>
+            <label for="data.afflictions.concentrate"> {{localize "DL.concentrate"}} </label>
+            <div class="fas fa-question tooltip">
+              <span class="tooltiptext">{{localize "DL.AfflictionsConcentrate"}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="affliction">
+          <input type="checkbox" id="data.afflictions.defend" {{checked flags.demonlord.defend}} />
+          <div>
+            <label for="data.afflictions.defend"> {{localize "DL.defend"}} </label>
+            <div class="fas fa-question tooltip">
+              <span class="tooltiptext">{{localize "DL.AfflictionsDefend"}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="affliction">
+          <input type="checkbox" id="data.afflictions.help" {{checked flags.demonlord.help}} />
+          <div>
+            <label for="data.afflictions.help"> {{localize "DL.help"}} </label>
+            <div class="fas fa-question tooltip">
+              <span class="tooltiptext">{{localize "DL.AfflictionsHelp"}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="affliction">
+          <input type="checkbox" id="data.afflictions.prepare" {{checked flags.demonlord.prepare}} />
+          <div>
+            <label for="data.afflictions.prepare"> {{localize "DL.prepare"}} </label>
+            <div class="fas fa-question tooltip">
+              <span class="tooltiptext">{{localize "DL.AfflictionsPrepare"}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="affliction">
+          <input type="checkbox" id="data.afflictions.reload" {{checked flags.demonlord.reload}} />
+          <div>
+            <label for="data.afflictions.reload"> {{localize "DL.reload"}} </label>
+            <div class="fas fa-question tooltip">
+              <span class="tooltiptext">{{localize "DL.AfflictionsReload"}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="affliction">
+          <input type="checkbox" id="data.afflictions.retreat" {{checked flags.demonlord.retreat}} />
+          <div>
+            <label for="data.afflictions.retreat"> {{localize "DL.retreat"}} </label>
+            <div class="fas fa-question tooltip">
+              <span class="tooltiptext">{{localize "DL.AfflictionsRetreat"}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="affliction">
+          <input type="checkbox" id="data.afflictions.rush" {{checked flags.demonlord.rush}} />
+          <div>
+            <label for="data.afflictions.rush"> {{localize "DL.rush"}} </label>
+            <div class="fas fa-question tooltip">
+              <span class="tooltiptext">{{localize "DL.AfflictionsRush"}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="affliction">
+          <input type="checkbox" id="data.afflictions.stabilize" {{checked flags.demonlord.stabilize}} />
+          <div>
+            <label for="data.afflictions.stabilize"> {{localize "DL.stabilize"}} </label>
+            <div class="fas fa-question tooltip">
+              <span class="tooltiptext">{{localize "DL.AfflictionsStabilize"}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ol>
+</div>
+  {{#if data.afflictionsTab.hideAfflictions}}
+    <div class="toggleAccordion" data-type="afflictions">{{localize "DL.ModsAfflictions"}}</div>
+  <div class="content contentMain" style="display: none">
+  {{else}}
+    <div class="toggleAccordion change" data-type="afflictions">{{localize "DL.ModsAfflictions"}}</div>
+  <div class="content contentMain" style="display: block">
+  {{/if}}
+  <div>
+    <ol class="items-line">
+      <li class="form-line">
+        <div class="disableafflictions">
+          <a id="disableafflictions">{{localize "DL.ModsDisableAfflictions"}}</a>
+        </div>
+      </li>
+      <li>
+        <div class="grid grid-3col">
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.asleep" {{checked flags.demonlord.asleep}} />
+            <div>
+              <label for="data.afflictions.asleep"> {{localize "DL.asleep"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsAsleep"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.blinded" {{checked flags.demonlord.blinded}} />
+            <div>
+              <label for="data.afflictions.blinded"> {{localize "DL.blinded"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsBlinded"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.charmed" {{checked flags.demonlord.charmed}} />
+            <div>
+              <label for="data.afflictions.charmed"> {{localize "DL.charmed"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsCharmed"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.compelled" {{checked flags.demonlord.compelled}} />
+            <div>
+              <label for="data.afflictions.compelled"> {{localize "DL.compelled"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsCompelled"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.dazed" {{checked flags.demonlord.dazed}} />
+            <div>
+              <label for="data.afflictions.dazed"> {{localize "DL.dazed"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsDazed"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.deafened" {{checked flags.demonlord.deafened}} />
+            <div>
+              <label for="data.afflictions.deafened"> {{localize "DL.deafened"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsDeafened"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.defenseless" {{checked flags.demonlord.defenseless}} />
+            <div>
+              <label for="data.afflictions.defenseless"> {{localize "DL.defenseless"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsDefenseless"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.diseased" {{checked flags.demonlord.diseased}} />
+            <div>
+              <label for="data.afflictions.diseased"> {{localize "DL.diseased"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsDiseased"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.fatigued" {{checked flags.demonlord.fatigued}} />
+            <div>
+              <label for="data.afflictions.fatigued"> {{localize "DL.fatigued"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsFatigued"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.frightened" {{checked flags.demonlord.frightened}} />
+            <div>
+              <label for="data.afflictions.frightened"> {{localize "DL.frightened"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsFrightened"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.horrified" {{checked flags.demonlord.horrified}} />
+            <div>
+              <label for="data.afflictions.horrified"> {{localize "DL.horrified"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsHorrified"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.grabbed" {{checked flags.demonlord.grabbed}} />
+            <div>
+              <label for="data.afflictions.grabbed"> {{localize "DL.grabbed"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsGrabbed"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.immobilized" {{checked flags.demonlord.immobilized}} />
+            <div>
+              <label for="data.afflictions.immobilized"> {{localize "DL.immobilized"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsImmobilized"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.impaired" {{checked flags.demonlord.impaired}} />
+            <div>
+              <label for="data.afflictions.impaired"> {{localize "DL.impaired"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsImpaired"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.poisoned" {{checked flags.demonlord.poisoned}} />
+            <div>
+              <label for="data.afflictions.poisoned"> {{localize "DL.poisoned"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsPoisoned"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.prone" {{checked flags.demonlord.prone}} />
+            <div>
+              <label for="data.afflictions.prone"> {{localize "DL.prone"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsProne"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.slowed" {{checked flags.demonlord.slowed}} />
+            <div>
+              <label for="data.afflictions.slowed"> {{localize "DL.slowed"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsSlowed"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.stunned" {{checked flags.demonlord.stunned}} />
+            <div class="tooltip">
+              <label for="data.afflictions.stunned"> {{localize "DL.stunned"}} </label>
+              <div class="fas fa-question">
+                <span class="tooltiptext">{{localize "DL.AfflictionsStunned"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.surprised" {{checked flags.demonlord.surprised}} />
+            <div>
+              <label for="data.afflictions.surprised"> {{localize "DL.surprised"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsSurprised"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.unconscious" {{checked flags.demonlord.unconscious}} />
+            <div>
+              <label for="data.afflictions.unconscious"> {{localize "DL.unconscious"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.AfflictionsUnconscious"}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>
+  {{#if data.afflictionsTab.hideDamageEffects}}
+    <div class="toggleAccordion" data-type="damage">{{localize "DL.ModsDamage"}}</div>
+  <div class="content contentMain" style="display: none">
+  {{else}}
+    <div class="toggleAccordion change" data-type="damage">{{localize "DL.ModsDamage"}}</div>
+  <div class="content contentMain" style="display: block">
+  {{/if}}
+  <div>
+    <ol class="items-line">
+      <li>
+        <div class="grid grid-3col">
+          <div class="affliction">
+            <input
+                    type="checkbox"
+                    id="data.afflictions.incapacitated"
+              {{checked
+                      flags.demonlord.incapacitated}}
+            />
+            <div>
+              <label for="data.afflictions.incapacitated"> {{localize "DL.incapacitated"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.incapacitatedText"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.disabled" {{checked flags.demonlord.disabled}} />
+            <div>
+              <label for="data.afflictions.disabled"> {{localize "DL.disabled"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.disabledText"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="affliction">
+            <input type="checkbox" id="data.afflictions.dying" {{checked flags.demonlord.dying}} />
+            <div>
+              <label for="data.afflictions.dying"> {{localize "DL.dying"}} </label>
+              <div class="fas fa-question tooltip">
+                <span class="tooltiptext">{{localize "DL.dyingText"}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>

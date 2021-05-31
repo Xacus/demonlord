@@ -1,0 +1,26 @@
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
+  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+  <header class="card-headersmall">
+    <div class="challenge-img"></div>
+    <div class="attackbox">
+      <div class="header">{{localize "DL.DialogRollChallenge"}}</div>
+      <div class="headertext"></div>
+    </div>
+  </header>
+
+  <div class="sectionblock">
+    <div class="boonsbanes">
+      <div class="header">
+        <div>{{localize "DL.ModsListBoonsBanes"}}</div>
+        <input type="text" name="boonsbanes" value="0"/>
+      </div>
+    </div>
+    <div class="damageaction make-challengeroll">
+      <div class="header" data-attribute="{{data.attribute.value}}" data-boonsbanes="{{data.boonsbanes.value}}"
+           data-actorid="{{actor.id}}">
+        <div class="challenge-img"></div>
+        <div>{{data.attribute.value}} ({{data.boonsbanestext.value}})</div>
+      </div>
+    </div>
+  </div>
+</div>
