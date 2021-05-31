@@ -8,9 +8,16 @@
   "author": "Xacus, ClipplerBlood, PatrickPorto",
   "creators": "Xacus",
   "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf",
-  "esmodules": ["module/demonlord.js"],
-  "styles": ["styles/demonlord.css"],
-  "scripts": ["lib/tagify.min.js", "lib/tipfy.js"],
+  "esmodules": [
+    "module/demonlord.js"
+  ],
+  "styles": [
+    "styles/demonlord.css"
+  ],
+  "scripts": [
+    "lib/tagify.min.js",
+    "lib/tipfy.js"
+  ],
   "packs": [
     {
       "name": "weapons",
