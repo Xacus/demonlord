@@ -62,18 +62,11 @@
         </div>
         {{/if}} {{#if (eq path.data.type "master")}}
         <div class="path-frame">
-          <img class="border-small" src="systems/demonlord/assets/ui/shields/assassin-shield.webp" />
+          <img class="border" src="systems/demonlord/assets/ui/shields/demon-shield.webp" />
           <img
             class="icon"
             src="{{path.img}}"
-            style="
-              top: 12px;
-              left: 0px;
-              height: 54px;
-              width: 43px;
-              clip-path: url(#assassin-shield-clip-path);
-              object-fit: cover;
-            "
+            style="top: 19px; left: 0px; height: 42px; width: 42px; clip-path: circle(50% at 50% 50%);"
           />
         </div>
         {{/if}} {{/if}}
