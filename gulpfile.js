@@ -15,7 +15,7 @@ sass.compiler = require('sass');
 
 const name = path.basename(path.resolve('.'));
 const sourceDirectory = './src';
-const distDirectory = '/Users/bokehlet/Library/Application Support/FoundryVTT/Data/systems/demonlord';
+const distDirectory = './dist';
 const stylesDirectory = `${sourceDirectory}/styles`;
 const stylesExtension = 'scss';
 const sourceFileExtension = 'js';
