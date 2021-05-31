@@ -112,8 +112,8 @@
   "manifest": "https://github.com/Xacus/demonlord/releases/latest/download/system.json",
   "download": "https://github.com/Xacus/demonlord/releases/download/2.0.0/system.zip",
   "bugs": "https://github.com/Xacus/demonlord/issues",
-  "readme": "https://github.com/Xacus/demonlord/blob/main/README.md",
-  "changelog": "https://github.com/Xacus/demonlord/blob/main/CHANGELOG.md",
+  "readme": "https://github.com/Xacus/demonlord/blob/master/README.md",
+  "changelog": "https://github.com/Xacus/demonlord/blob/master/CHANGELOG.md",
   "allowBugReporter": true,
   "license": "LICENSE.txt"
 }
