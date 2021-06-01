@@ -282,7 +282,7 @@ Hooks.once('diceSoNiceReady', dice3d => {
   dice3d.addSystem({ id: 'demonlord', name: 'Demonlord' }, true)
   dice3d.addDicePreset({
     type: 'd6',
-    labels: ['1', '2', '3', '4', '5', 'systems/demonlord/ui/icons/logo.webp'],
+    labels: ['1', '2', '3', '4', '5', 'systems/demonlord/assets/ui/icons/logo.png'],
     system: 'demonlord',
   })
   dice3d.addDicePreset({
@@ -307,7 +307,7 @@ Hooks.once('diceSoNiceReady', dice3d => {
       '17',
       '18',
       '19',
-      'systems/demonlord/ui/icons/logo.webp',
+      'systems/demonlord/assets/ui/icons/logo.png',
     ],
     system: 'demonlord',
   })
@@ -315,11 +315,12 @@ Hooks.once('diceSoNiceReady', dice3d => {
     name: 'demonlord',
     description: 'Special',
     category: 'Demonlord',
-    foreground: '#f2f2f2',
-    background: '#6F0000',
-    outline: '#651320',
-    edge: '#020202',
+    foreground: '#651510',
+    background: '#651510',
+    outline: '#651510',
     texture: 'marble',
+    material: 'metal',
+    font: 'Luminari',
     default: true,
   })
 })
