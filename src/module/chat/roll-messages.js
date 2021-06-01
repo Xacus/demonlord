@@ -71,12 +71,14 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
-    chatData.sound = attackRoll ? CONFIG.sounds.dice : ''
     if (game.dice3d && attackRoll && !(attacker.data.type === 'creature' && !attackShow))
       game.dice3d
         .showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind)
         .then(() => ChatMessage.create(chatData))
-    else ChatMessage.create(chatData)
+    else {
+      chatData.sound = attackRoll ? CONFIG.sounds.dice : ''
+      ChatMessage.create(chatData)
+    }
   })
 }
 

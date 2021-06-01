@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Fix: Dice So Nice, Colorset + Preset + Image
 - Fix: Add Mark of Darkness to Features
+- Fix: Removed dice sound when attacking and Dice So Nice is used. It made two different sound effects.
 
 ## [2.0.0] - 2021-05-28
 
