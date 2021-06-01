@@ -15,7 +15,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
   getData(options) {
     const data = super.getData(options)
     data.levels = this.item.data.data.levels || []
-    data.levels.sort((a, b) => (a?.level > b?.level ? 1 : -1))
+    data.levels.sort((a, b) => (+a?.level > +b?.level ? 1 : -1))
 
     // Localize Two Set labels if is 'view'
     if (!this.item.data.data.editPath)
@@ -237,9 +237,10 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
     if (this.object.data.data.editPath) {
       updateData.levels = allFormData.map(ld => new PathLevel(ld)) || []
-      // Sort the levels and check for duplicate levels
-      updateData.levels.sort((a, b) => (a?.level > b?.level ? 1 : -1))
-      this.object.data.data.levels.sort((a, b) => (a?.level > b?.level ? 1 : -1))
+      // Sort the levels
+      updateData.levels.sort((a, b) => (+a?.level > +b?.level ? 1 : -1))
+      this.object.data.data.levels.sort((a, b) => (+a?.level > +b?.level ? 1 : -1))
+      // Check for duplicate levels
       const hasDuplicates = new Set(updateData.levels.map(l => l.level)).size !== updateData.levels.length
       if (hasDuplicates) return ui.notifications.warn('Path items must not have duplicate levels')
 
@@ -248,7 +249,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
       const matches = [] // [[newLevel, oldLevel], ...]
       const notFound = [] // [[newLevel], ...]
       updateData.levels.forEach(newLevel => {
-        const match = this.object.data.data.levels.find(l => l.level === newLevel.level)
+        const match = this.object.data.data.levels.find(l => +l.level === +newLevel.level)
         if (match) {
           this._keepNestedItems(newLevel, match)
           matches.push([newLevel, match])
