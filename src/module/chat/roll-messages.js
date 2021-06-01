@@ -408,13 +408,15 @@ export function postCorruptionToChat(actor, corruptionRoll) {
               result.then(function (res) {
                 resultText = res.results[0].text
 
-                actor.createItem({
-                  name: 'Mark of Darkness',
-                  type: 'feature',
-                  data: {
-                    description: resultText,
+                actor.createEmbeddedDocuments('Item', [
+                  {
+                    name: 'Mark of Darkness',
+                    type: 'feature',
+                    data: {
+                      description: resultText,
+                    },
                   },
-                })
+                ])
               })
               // tableMarkOfDarkness.roll().results[0].text
             })()
