@@ -76,7 +76,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
         .showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind)
         .then(() => ChatMessage.create(chatData))
     else {
-      chatData.sound = attackRoll ? CONFIG.sounds.dice : ''
+      chatData.sound = CONFIG.sounds.dice
       ChatMessage.create(chatData)
     }
   })
