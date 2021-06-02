@@ -15,7 +15,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
   getData(options) {
     const data = super.getData(options)
     data.levels = this.item.data.data.levels || []
-    data.levels.sort((a, b) => (+a?.level > +b?.level ? 1 : -1))
+    data.levels.sort(_sortLevels)
 
     // Localize Two Set labels if is 'view'
     if (!this.item.data.data.editPath)
@@ -28,14 +28,6 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
     //data.item.data.editPath = !game.user.isGM;
     return data
-  }
-
-  get _width() {
-    return 475
-  }
-
-  get _height() {
-    return 700
   }
 
   /* -------------------------------------------- */
@@ -232,50 +224,68 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   async _updateObject(event, formData) {
     const _name = formData['name'] || this.object.name
-    const allFormData = this._getPathDataFromForm()
+    const completeFormData = this._getPathDataFromForm()
     const updateData = {}
-
-    if (this.object.data.data.editPath) {
-      updateData.levels = allFormData.map(ld => new PathLevel(ld)) || []
-      // Sort the levels
-      updateData.levels.sort((a, b) => (+a?.level > +b?.level ? 1 : -1))
-      this.object.data.data.levels.sort((a, b) => (+a?.level > +b?.level ? 1 : -1))
-      // Check for duplicate levels
-      const hasDuplicates = new Set(updateData.levels.map(l => l.level)).size !== updateData.levels.length
-      if (hasDuplicates) return ui.notifications.warn('Path items must not have duplicate levels')
-
-      // Match the new levels with the old and keep the nested items
-      // TODO: Code below can be fixed by using level ids
-      const matches = [] // [[newLevel, oldLevel], ...]
-      const notFound = [] // [[newLevel], ...]
-      updateData.levels.forEach(newLevel => {
-        const match = this.object.data.data.levels.find(l => +l.level === +newLevel.level)
-        if (match) {
-          this._keepNestedItems(newLevel, match)
-          matches.push([newLevel, match])
-        } else notFound.push(newLevel)
-      })
-      notFound.forEach(newLevel => {
-        const levelsLevelList = matches.map(m => m[1].level)
-        const oldLevel = this.object.data.data.levels.find(l => !levelsLevelList.includes(l.level))
-        this._keepNestedItems(newLevel, oldLevel)
-      })
-    } else if (allFormData.length > 0) {
-      updateData.levels = this._mergeLevels(this.object.data.data.levels, allFormData)
-    }
 
     updateData.editPath = formData['data.editPath']
     updateData.description = formData['data.description'] || this.object.data.data.description
     updateData.type = formData['data.type']
 
-    // Set default image based on new path type
-    const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.path).includes(formData.img)
-    if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
-      formData.img = CONFIG.DL.defaultItemIcons.path[updateData.type] || CONFIG.DL.defaultItemIcons.path.novice
+    if (completeFormData.length > 0) {
+      if (this.object.data.data.editPath) {
+        updateData.levels = this._getEditLevelsUpdateData(completeFormData)
+        updateData.levels.sort(_sortLevels)
+        // Set default image based on new path type
+        const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.path).includes(formData.img)
+        if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
+          formData.img = CONFIG.DL.defaultItemIcons.path[formData['data.type']] || CONFIG.DL.defaultItemIcons.path.novice
+        }
+      } else {
+        updateData.levels = this._getViewLevelsUpdateData(completeFormData)
+      }
     }
 
     return this.object.update({ name: _name, img: formData.img, data: updateData })
   }
+
+  /* -------------------------------------------- */
+
+  _getViewLevelsUpdateData(completeFormData) {
+    return this._mergeLevels(this.object.data.data.levels, completeFormData)
+  }
+
+  _getEditLevelsUpdateData(completeFormData) {
+    const newLevels = completeFormData.map(cf => new PathLevel(cf))
+
+    // Check duplicate levels in new data
+    const hasDuplicates = new Set(newLevels.map(l => l.level)).size !== newLevels.length
+    if (hasDuplicates) {
+      ui.notifications.warn('Path items must not have duplicate levels')
+      return this.object.data.data.levels
+    }
+
+    // Match the new levels with the old ones and keep the nested items
+    const oldLevels = duplicate(this.object).data.levels
+    const notFound = [] // stores path levels that do not have been found in the current levels
+    newLevels.forEach(newLevel => {
+      const foundIndex = oldLevels.findIndex(l => +l.level === +newLevel.level)
+      if (foundIndex >= 0) {
+        // if index is found, remove the relative level from the list of old levels and keep the nested items
+        const foundLevel = oldLevels.splice(foundIndex, 1)[0]
+        this._keepNestedItems(newLevel, foundLevel)
+      } else notFound.push(newLevel)
+    })
+    // Assert that there is only one level not matching.
+    // Not matching levels happen when a path level level changes so there should only be one
+    if (oldLevels.length > 1 && notFound.length > 1 || oldLevels.length !== notFound.length) {
+      throw new Error('Error in path level matching')
+    } else if (notFound.length === 1) {
+      this._keepNestedItems(notFound[0], oldLevels[0])
+    }
+    return newLevels
+  }
+
+  /* -------------------------------------------- */
 
   _keepNestedItems(newLevelData, oldLevelData) {
     newLevelData.talentsSelected = oldLevelData?.talentsSelected || []
@@ -284,6 +294,8 @@ export default class DLPathSheet extends DLBaseItemSheet {
     newLevelData.talents = oldLevelData?.talents || []
     newLevelData.spells = oldLevelData?.spells || []
   }
+
+  /* -------------------------------------------- */
 
   _getPathDataFromForm() {
     // Get all html elements that are 'path-level' and group their inputs by path-level
@@ -314,36 +326,45 @@ export default class DLPathSheet extends DLBaseItemSheet {
     return objLevels
   }
 
+  /* -------------------------------------------- */
+
   _mergeLevels(currentLevels, formLevels) {
     const warn = () => ui.notifications.warn('More attributes selected than allowed') // FIXME: localize
 
     let index = 0
-    formLevels.sort((a, b) => (a?.level > b?.level ? 1 : -1))
-    currentLevels
-      .sort((a, b) => (a?.level > b?.level ? 1 : -1))
-      .filter(cl => !['', 'fixed'].includes(cl.attributeSelect))
-      .forEach(currentLevel => {
-        // Convert new level to map
-        const newLevel = new Map(Object.entries(formLevels[index++]))
+    formLevels.sort(_sortLevels)
+    currentLevels.sort(_sortLevels).forEach(currentLevel => {
+      // Check if attribute select is none or fixed, if so skip the merging
+      if (['', 'fixed'].includes(currentLevel)) {
+        index++
+        return
+      }
 
-        // Get number of choices
-        let newChoices = 0
-        newLevel.forEach((v, k) => {
-          if (k.includes('attribute') && v === true) newChoices++
-        })
+      // Convert new level to map
+      const newLevel = new Map(Object.entries(formLevels[index++]))
 
-        if (currentLevel.attributeSelectIsTwoSet) {
-          currentLevel.attributeSelectTwoSetSelectedValue1 = newLevel.get('attributeSelectTwoSetSelectedValue1')
-          currentLevel.attributeSelectTwoSetSelectedValue2 = newLevel.get('attributeSelectTwoSetSelectedValue2')
-        } else if (currentLevel.attributeSelectIsChooseTwo) {
-          if (newChoices > 2) return warn()
-          newLevel.forEach((v, k) => (currentLevel[k] = v))
-        } else if (currentLevel.attributeSelectIsChooseThree) {
-          if (newChoices > 3) return warn()
-          newLevel.forEach((v, k) => (currentLevel[k] = v))
-        }
+      // Get number of choices
+      let newChoices = 0
+      newLevel.forEach((v, k) => {
+        if (k.includes('attribute') && v === true) newChoices++
       })
+
+      if (currentLevel.attributeSelectIsTwoSet) {
+        currentLevel.attributeSelectTwoSetSelectedValue1 = newLevel.get('attributeSelectTwoSetSelectedValue1')
+        currentLevel.attributeSelectTwoSetSelectedValue2 = newLevel.get('attributeSelectTwoSetSelectedValue2')
+      } else if (currentLevel.attributeSelectIsChooseTwo) {
+        if (newChoices > 2) return warn()
+        newLevel.forEach((v, k) => (currentLevel[k] = v))
+      } else if (currentLevel.attributeSelectIsChooseThree) {
+        if (newChoices > 3) return warn()
+        newLevel.forEach((v, k) => (currentLevel[k] = v))
+      }
+    })
 
     return currentLevels
   }
 }
+
+/* -------------------------------------------- */
+
+const _sortLevels = (a, b) => (+a.level > +b.level ? 1 : -1)
