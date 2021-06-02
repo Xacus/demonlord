@@ -381,7 +381,7 @@ export class DLActiveEffects {
         addEffect('data.bonuses.attack.boons.strength', n),
         addEffect('data.bonuses.attack.boons.agility', n),
         addEffect('data.bonuses.challenge.boons.strength', n),
-        addEffect('data.bonuses.challenge.boons.strength', n),
+        addEffect('data.bonuses.challenge.boons.agility', n),
         addEffect('data.characteristics.speed', n * 2),
       ],
     }

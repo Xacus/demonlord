@@ -581,10 +581,8 @@ export class DemonlordActor extends Actor {
   }
 
   setEncumbrance() {
-    const notMetItemNames = this.getEmbeddedCollection('Item')
-      .filter(i => i.data?.data?.strengthmin > this.data.data.attributes.strength.value)
-      .filter(i => i.data?.data?.wear)
-      .map(i => i.data.name)
-    return DLActiveEffects.addEncumbrance(this, notMetItemNames)
+    const armors = this.data.armor || this.items.filter(i => i.type === 'armor').map(a => a.data)
+    const notMetItemNames = armors.filter(a => a.data.strengthmin > this.data.data.attributes.strength.value && a.data.wear).map(a => a.name)
+    if (notMetItemNames.length > 0) return DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }
 }
