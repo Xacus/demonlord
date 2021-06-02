@@ -7,7 +7,8 @@ All notable changes to this project will be documented in this file.
 - Bugfix: Dice So Nice, Colorset + Preset + Image
 - Bugfix: Add Mark of Darkness to Features
 - Bugfix: Removed dice sound when attacking and Dice So Nice is used. It made two different sound effects.
-- Bugfix: Meaured Template on Foundry 0.8.x
+- Bugfix: Measured Template on Foundry 0.8.x
+- Bugfix: Talents inside paths now are correctly handled when path is edited
 
 ## [2.0.0] - 2021-05-28
 
