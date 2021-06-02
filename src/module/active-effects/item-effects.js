@@ -85,14 +85,14 @@ export class DLActiveEffects {
     if (operation === 'create') {
       effectDataList = effectDataList.filter(effectData => effectData.changes.length > 0)
       await actor.createEmbeddedDocuments('ActiveEffect', effectDataList)
-    } else if (operation === 'update') {
-      const currentEffects = actor.effects.filter(e => e.data.origin === effectDataList[0].origin)
+    } else if (operation === 'update' && effectDataList.length > 0) {
+      const currentEffects = actor.effects.filter(e => e.data?.origin === effectDataList[0]?.origin)
       const effectsToAdd = []
       const effectsToUpd = []
       const effectsToDel = []
 
       for (const effectData of effectDataList) {
-        const u = currentEffects.find(ce => ce.data.label === effectData.label)
+        const u = currentEffects.find(ce => ce.data.label === effectData?.label)
         if (u) {
           effectData._id = u.data._id
           if (effectData.changes.length > 0) effectsToUpd.push(effectData)

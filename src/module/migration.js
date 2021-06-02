@@ -30,6 +30,7 @@ export async function handleMigrations() {
 /* -------------------------------------------- */
 
 export const migrateWorld_2_0_0 = async () => {
+  let errorsInMigration = false
   let migrateNewIcons = false
   let d = Dialog.confirm({
     title: 'Default icons',
@@ -44,48 +45,60 @@ export const migrateWorld_2_0_0 = async () => {
   _migrationStartInfo()
   // Migrate not embedded Items icons
   for (let item of game.items.values()) {
-    console.log('Migrating item', item)
-    const newIcon = _getNewImgPath(item.img, migrateNewIcons, item)
-    if (newIcon) await item.update({ name: item.name || '', img: newIcon })
+    try {
+      console.log('Migrating item', item)
+      const newIcon = _getNewImgPath(item.img, migrateNewIcons, item)
+      if (newIcon) await item.update({ name: item.name || '', img: newIcon })
+    } catch (e) {
+      errorsInMigration = true
+      console.log('Error migrating item', item, e)
+    }
   }
 
   // Migrate actors
   for (let actor of game.actors.values()) {
-    console.log('Migrating actor', actor)
-    const newActorIcon = _getNewImgPath(actor.img)
-    const newReligionIcon = _getNewImgPath(actor.data.data?.religion?.image)
+    try {
+      const actUpd = actor.data.toObject()
+      // Migrate actor icon and religion
+      console.log('Migrating actor', actor)
+      const newActorIcon = _getNewImgPath(actor.img)
+      const newReligionIcon = _getNewImgPath(actor.data.data?.religion?.image)
+      if (newActorIcon) actUpd.img = newActorIcon
+      if (newReligionIcon) actUpd.data.religion.image = newReligionIcon
 
-    const actUpd = actor.data.toObject()
+      // Reset character data and update the actor icons
+      if (actUpd.type === 'character') _resetActorData(actUpd.data)
+      delete actUpd.items
+      delete actUpd.effects
+      delete actUpd.token
+      await actor.update(actUpd)
 
-    if (newActorIcon) actUpd.img = newActorIcon
-    if (newReligionIcon) actUpd.data.religion.image = newReligionIcon
-
-    if (actUpd.type === 'character') _resetActorData(actUpd.data)
-    delete actUpd.items
-    delete actUpd.effects
-    delete actUpd.token
-    await actor.update(actUpd)
-
-    // Migrate embedded items, forcing an update to embed the active effects
-    const embeddedUpdateData = []
-    for (const embeddedItem of actor.items.values()) {
-      const data = embeddedItem.data.toObject()
-      const newItemIcon = _getNewImgPath(data.img, migrateNewIcons, data)
-      if (newItemIcon) {
-        console.log('Migrating embedded item', embeddedItem)
-        data.img = newItemIcon
-        data.name = data.name || ''
-        embeddedUpdateData.push(data)
+      // Change embedded items icons
+      const embeddedUpdateData = []
+      for (const embeddedItem of actor.items.values()) {
+        const data = embeddedItem.data.toObject()
+        const newItemIcon = _getNewImgPath(data.img, migrateNewIcons, data)
+        if (newItemIcon) {
+          console.log('Migrating embedded item', embeddedItem)
+          data.img = newItemIcon
+          data.name = data.name || ''
+          embeddedUpdateData.push(data)
+        }
       }
+      if (embeddedUpdateData.length > 0) {
+        const u = await actor.updateEmbeddedDocuments('Item', embeddedUpdateData, { noEmbedEffects: true })
+        console.log('Embedded item migration complete with result', u)
+      }
+      // Embed the effects of the item into the actor
+      await actor._handleOnUpdateEmbedded(actor.items)
+    } catch (e) {
+      errorsInMigration = true
+      console.log('Error migrating actor', actor, e)
     }
-    if (embeddedUpdateData.length > 0) {
-      const u = await actor.updateEmbeddedDocuments('Item', embeddedUpdateData, { noEmbedEffects: true })
-      console.log('Embedded item migration complete with result', u)
-    }
-    await actor._handleOnUpdateEmbedded(actor.items)
   }
 
-  _migrationEndInfo()
+  if (!errorsInMigration) _migrationSuccessInfo()
+  else _migrationErrorInfo()
 }
 
 const _getNewImgPath = (img, migrateDefault = false, item = undefined) => {
@@ -117,6 +130,7 @@ const _resetActorData = actData => {
   actData.characteristics.power = 0
   actData.characteristics.insanity.max = 0
 }
+
 /* -------------------------------------------- */
 /* 1.7.7                                        */
 /* -------------------------------------------- */
@@ -155,7 +169,7 @@ export const migrateWorld_1_7_7 = async function () {
       console.error(err)
     }
   }
-  _migrationEndInfo()
+  _migrationSuccessInfo()
 }
 
 /* -------------------------------------------- */
@@ -227,7 +241,7 @@ function _nullToUndefined(data, recDepth) {
   Object.entries(data).forEach(ele => {
     if (ele[1] === null) {
       data[ele[0]] = undefined
-    } else if (recDepth > 0 && toString.call(ele[1]) == '[object Object]' && Object.keys(ele[1]).length > 0) {
+    } else if (recDepth > 0 && toString.call(ele[1]) === '[object Object]' && Object.keys(ele[1]).length > 0) {
       data[ele[0]] = _nullToUndefined(ele[1], recDepth - 1)
     }
   })
@@ -242,7 +256,12 @@ const _migrationStartInfo = () =>
     { permanent: true },
   )
 
-const _migrationEndInfo = () =>
+const _migrationSuccessInfo = () =>
   ui.notifications.info(`Demonlord System Migration to version ${game.system.data.version} completed!`, {
+    permanent: true,
+  })
+
+const _migrationErrorInfo = () =>
+  ui.notifications.error(`Demonlord System Migration to version ${game.system.data.version} error`, {
     permanent: true,
   })
