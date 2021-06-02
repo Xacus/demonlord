@@ -40,10 +40,12 @@ export class ActionTemplate extends MeasuredTemplate {
     }
 
     // Return the template constructed from the item data
-    const template = new this(templateData)
-    template.item = item
-    template.actorSheet = item.actor?.sheet || null
-    return template
+    const cls = CONFIG.MeasuredTemplate.documentClass;
+    const template = new cls(templateData, {parent: canvas.scene});
+    const object = new this(template);
+    object.item = item;
+    object.actorSheet = item.actor?.sheet || null;
+    return object;
   }
 
   /* -------------------------------------------- */
@@ -105,16 +107,15 @@ export class ActionTemplate extends MeasuredTemplate {
       handlers.rc(event)
 
       // Confirm final snapped position
-      const destination = canvas.grid.getSnappedPosition(this.x, this.y, 2)
-      this.data.x = destination.x
-      this.data.y = destination.y
+      const destination = canvas.grid.getSnappedPosition(this.data.x, this.data.y, 2);
+      this.data.update(destination);
 
       if (game.settings.get('demonlord', 'templateAutoTargeting')) {
         this.autoTargeting()
       }
 
       // Create the template
-      canvas.scene.createEmbeddedEntity('MeasuredTemplate', this.data)
+      canvas.scene.createEmbeddedDocuments('MeasuredTemplate', [this.data])
     }
 
     // Rotate the template by 3 degree increments (mouse-wheel)
