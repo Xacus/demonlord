@@ -165,6 +165,7 @@ export class DemonlordActor extends Actor {
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')
     }
+    await this._handleEmbeddedDocuments()
     return Promise.resolve()
   }
 
@@ -178,6 +179,7 @@ export class DemonlordActor extends Actor {
 
   async _handleOnUpdateEmbedded(documents) {
     for (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
+    await this._handleEmbeddedDocuments()
     return Promise.resolve()
   }
 
