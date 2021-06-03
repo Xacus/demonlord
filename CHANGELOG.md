@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [2.0.1] -
+### Changed
+- Reintroduced Homebrew Mode setting
 ### Fixed
 - Added Dice So Nice, Colorset + Preset + Image
 - Added Mark of Darkness to Features
@@ -12,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Improved migration code
 - Fix Encumbrance not correctly applying
 - Perception now correctly uses Intellect as base
+- Improved alignment on actor sheets headers
 
 ## [2.0.0] - 2021-05-28
 

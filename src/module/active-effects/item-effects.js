@@ -375,7 +375,7 @@ export class DLActiveEffects {
         permanent: true,
         notDeletable: true,
         notEditable: true,
-        notToggleable: false,
+        notToggleable: true,
       },
       changes: [
         addEffect('data.bonuses.attack.boons.strength', n),
@@ -389,5 +389,33 @@ export class DLActiveEffects {
     if (!oldEffect) return ActiveEffect.create(effectData, { parent: actor })
     else if (n !== 0) oldEffect.update(effectData, { parent: actor })
     else oldEffect.delete({ parent: actor })
+  }
+
+  /* -------------------------------------------- */
+
+  static async addHomebrew(actor, homebrewObject) {
+    console.log(homebrewObject)
+    const effectData = {
+      label: game.i18n.localize('DL.Homebrew'),
+      icon: actor.img,
+      origin: 'homebrew',
+      transfer: false,
+      flags: {
+        sourceType: 'homebrew',
+        permanent: true,
+        notDeletable: true,
+        notEditable: true,
+        notToggleable: true,
+      },
+      changes: [
+        overrideEffect('data.attributes.strength.value', homebrewObject.strength),
+        overrideEffect('data.attributes.agility.value', homebrewObject.agility),
+        overrideEffect('data.attributes.intellect.value', homebrewObject.intellect),
+        overrideEffect('data.attributes.will.value', homebrewObject.will),
+        overrideEffect('data.attributes.perception.value', homebrewObject.perception),
+      ]
+    }
+    effectData.changes.forEach(c => c.priority = 1000)
+    return DLActiveEffects.addUpdateEffectsToActor(actor, [effectData], 'update')
   }
 }

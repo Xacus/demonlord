@@ -2,6 +2,7 @@ import DLBaseActorSheet from './base-actor-sheet'
 import { prepareActiveEffectCategories } from '../../active-effects/effects'
 import { DemonlordItem } from '../../item/item'
 import { getAncestryItemsToDel, getPathItemsToDel, handleLevelChange } from '../../item/nested-objects'
+import {DLActiveEffects} from "../../active-effects/item-effects";
 
 export default class DLCharacterSheet extends DLBaseActorSheet {
   /** @override */
@@ -140,10 +141,30 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
   /* -------------------------------------------- */
 
-  async _updateObject(event, formData) {
+  async _updateObject(_event, formData) {
     const newLevel = formData['data.level']
     if (newLevel !== this.document.data.data.level) handleLevelChange(this.document, newLevel)
+    if (game.settings.get('demonlord', 'useHomebrewMode'))
+      await this._interceptHomebrewFormUpdate(formData)
+    console.log(formData)
     return this.document.update(formData)
+  }
+
+  async _interceptHomebrewFormUpdate(formData) {
+    // Grab the form data, without it being "filtered" by effects
+    let trueFormData = DocumentSheet.prototype._getSubmitData.call(this)
+    // Get the overridden values (note: this is not limited to "override" effect)
+    // const overrides = flattenObject(this.actor.overrides)
+
+    console.log(trueFormData)
+    const homebrewObj = {}
+    for (const attr of ['strength', 'agility', 'intellect', 'will', 'perception']) {
+      const k = `data.attributes.${attr}.value`
+      // homebrewObj[attr] = (+trueFormData[k] || 10) - (+overrides[k] || 10)
+      homebrewObj[attr] = +trueFormData[k]
+      delete formData[k]
+    }
+    return DLActiveEffects.addHomebrew(this.actor, homebrewObj);
   }
 
   /* -------------------------------------------- */
