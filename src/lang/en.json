@@ -670,6 +670,5 @@
   "DL.AutoFailChallenges": "Auto fail challenges",
   "DL.NoFastTurns": "No fast turns",
   "DL.HalfSpeed": "Half Speed",
-  "DL.Override": "Override",
-  "DL.Homebrew": "Homebrew"
+  "DL.Override": "Override"
 }

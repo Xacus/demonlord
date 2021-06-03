@@ -1,4 +1,4 @@
-<div class="actor-header {{#if homebrewMode}}homebrew-mode{{/if}}" >
+<div class="actor-header">
 
   <div class="row">
     <div class="col-10 actor-name">
@@ -14,16 +14,16 @@
     {{#*inline "attribute-partial"}}
       <div class="col-2 attribute">
         <label class="value">{{attr.label}}</label>
-        <input type="Number" name="{{attr.value}}" value="{{attr.value}}" {{readonly (not homebrewMode)}}/>
+        <input type="Number" name="data.attributes.{{n}}.value" value="{{attr.value}}" readonly/>
         <label class="modifier">{{plusify attr.modifier}}</label>
       </div>
     {{/inline}}
 
-    {{> attribute-partial attr=data.attributes.strength}}
-    {{> attribute-partial attr=data.attributes.agility}}
-    {{> attribute-partial attr=data.attributes.intellect}}
-    {{> attribute-partial attr=data.attributes.will}}
-    {{> attribute-partial attr=data.attributes.perception}}
+    {{> attribute-partial attr=data.attributes.strength    n='strength'}}
+    {{> attribute-partial attr=data.attributes.agility     n='agility'}}
+    {{> attribute-partial attr=data.attributes.intellect   n='intellect'}}
+    {{> attribute-partial attr=data.attributes.will        n='will'}}
+    {{> attribute-partial attr=data.attributes.perception  n='perception'}}
   </div>
 
 </div>
