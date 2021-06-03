@@ -17,13 +17,13 @@
 /* Sidebar */
 #sidebar {
   background: url(../assets/ui/sidebar_background.webp);
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 #sidebar h2 {
   font-family: $font-header;
   font-size: 16px;
-  border-bottom: 0px;
+  border-bottom: 0;
   color: var(--demonlord-red);
   text-transform: uppercase;
   margin-top: 10px;
@@ -32,7 +32,7 @@
 
 #sidebar button {
   color: white;
-  background-color: none;
+  background-color: transparent;
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
   background: none;
@@ -53,7 +53,7 @@
 
 #sidebar-tabs > .item.active {
   box-shadow: none;
-  border: 0px solid var(--demonlord-red);
+  border: 0 solid var(--demonlord-red);
 }
 
 #sidebar .tabs .item.active {
@@ -72,7 +72,7 @@
 
 .sidebar-tab .directory-header .header-search input {
   background: none;
-  border-radius: 0px;
+  border-radius: 0;
   border: 1px solid var(--demonlord-red);
   color: white;
 }
@@ -98,7 +98,7 @@
 
 /* Compendoum */
 #compendium h3 {
-  border: 0px;
+  border: 0;
   background: var(--demonlord-red);
   color: white;
   font-family: $font-header;
@@ -108,7 +108,7 @@
 /* Chat */
 #chat-form textarea {
   background: white;
-  border-radius: 0px;
+  border-radius: 0;
   border: 1px solid var(--demonlord-red);
   margin-top: 3px;
 }
@@ -127,8 +127,7 @@
 
 #chat-controls div.roll-type-select select {
   background: none;
-  border: none;
-  padding: 0px;
+  padding: 0;
   color: white;
   border: 1px solid #666;
   border-radius: 1px;
@@ -166,7 +165,7 @@
 #hotbar .macro,
 #hotbar .bar-controls,
 #hotbar .macro.inactive {
-  border-radius: 0px;
+  border-radius: 0;
   box-shadow: none;
 }
 
@@ -238,7 +237,7 @@
   font-size: 11px;
   text-transform: uppercase;
   border: 1px solid #666;
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 #players ol .player-name.self {
@@ -303,5 +302,5 @@
 #pause h3 {
   font-family: 'IM Fell English SC', serif;
   font-size: 32px;
-  text-shadow: 0px 3px 5px rgba(0, 0, 0, 1);
+  text-shadow: 0 3px 5px rgba(0, 0, 0, 1);
 }

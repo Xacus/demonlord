@@ -96,7 +96,6 @@
 
 .items-list {
   list-style: none;
-  margin: 0;
   padding: 0;
   margin: 5px 10px 20px 0;
 
@@ -487,7 +486,7 @@
 }
 
 .colright .items-list {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .professionslist,
@@ -592,7 +591,7 @@
 
 .switchBig .slider {
   background-color: transparent;
-  box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 0px rgb(0 0 0 / 50%), 0 0 5px #a22223;
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 0 rgb(0 0 0 / 50%), 0 0 5px #a22223;
 }
 .switchTurn .slider {
   background: none;

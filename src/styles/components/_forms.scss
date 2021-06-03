@@ -1,287 +1,60 @@
-.window-content {
-  background: #e3e3e3 url('../assets/ui/backgroundN2.webp') no-repeat;
+.content {
+  float: right;
+  width: calc(100% - 220px);
 }
 
-.item-form {
-  font-family: $font-primary;
+.sheet-body {
+  position: relative;
+  grid-area: content;
 }
 
-.sheet-header {
-  flex: 0 0 260px;
-  overflow: hidden;
+nav.sheet-subnavigation {
+  font-family: $font-header;
+  font-size: 10px;
+  color: #000000;
+  text-transform: uppercase;
+  text-align: center;
+
+  a.item.active {
+    border-bottom: 1px solid var(--demonlord-red);
+    text-shadow: 0 0 8px red;
+  }
+}
+
+.sheet-body .sheet-content,
+.sheet-body .sheet-content .inventory,
+.sheet-subbody .sheet-tabs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: -10px;
-
-  .profile-img {
-    float: left;
-    height: 115px;
-    width: 90px;
-    margin: 0px 10px 10px 0px;
-    border: 1px solid #7a7971;
-    border-radius: 3px;
-    background: rgba(0, 0, 0, 0.05);
-  }
-
-  .weapon-img {
-    height: 55px;
-    width: 50px;
-    margin-right: 10px;
-    border: 1px solid #7a7971;
-    border-radius: 3px;
-    background: rgba(0, 0, 0, 0.05);
-  }
-
-  .header-fields {
-    flex: 1;
-  }
-
-  .charname {
-    position: relative;
-    float: left;
-    font-family: $font-secondary;
-    font-size: 20px;
-    height: 40px;
-    width: 270px;
-    padding: 0px;
-    margin: 0;
-    border-bottom: 0;
-
-    input {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
-  }
-
-  .charancestry {
-    position: relative;
-    float: left;
-    font-family: $font-secondary;
-    font-size: 20px;
-    height: 40px;
-    width: 120px;
-    padding: 0px;
-    margin-left: 10px;
-    border-bottom: 0;
-
-    div {
-      input {
-        width: 100%;
-        height: 40px;
-        margin: 0;
-      }
-    }
-  }
-
-  .charsex {
-    position: relative;
-    float: left;
-    font-family: $font-secondary;
-    font-size: 20px;
-    height: 40px;
-    width: 70px;
-    padding: 0px;
-    margin-left: 10px;
-    border-bottom: 0;
-
-    input {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
-  }
-
-  .topline {
-    height: 35px;
-  }
-
-  .attributes {
-    height: 72px;
-
-    .attributebox {
-      background: url(../assets/ui/attbox.webp) no-repeat;
-      width: 82px;
-
-      .attribute {
-        position: relative;
-        top: 12px;
-        left: 26px;
-        width: 25px;
-
-        input {
-          width: 25px;
-          height: 25px;
-          margin: 0;
-          padding: 2px;
-          border: 0;
-          font-size: 16px;
-          text-align: center;
-          background: #fff;
-        }
-      }
-
-      .attributemod {
-        position: relative;
-        left: 25px;
-        top: 0px;
-        font-size: 11px;
-        text-align: center;
-      }
-
-      .attributetext {
-        position: relative;
-        left: 8px;
-        top: 12px;
-        font-size: 12px;
-        text-align: center;
-        width: 71px;
-      }
-
-      .attributeper {
-        position: relative;
-        top: 15px;
-        left: 26px;
-        width: 25px;
-
-        label {
-          width: 25px;
-          height: 25px;
-          margin: 0;
-          padding: 2px;
-          border: 0;
-          font-size: 16px;
-          text-align: center;
-          background: #fff;
-        }
-      }
-
-      .attributemodper {
-        position: relative;
-        left: 25px;
-        top: 5px;
-        font-size: 11px;
-        text-align: center;
-      }
-
-      .attributetextper {
-        position: relative;
-        left: 8px;
-        top: 18px;
-        font-size: 12px;
-        text-align: center;
-        width: 71px;
-      }
-    }
-  }
-
-  .characteristics {
-    .characteristic {
-      .charbox {
-        background: url('../assets/ui/charbox.webp') no-repeat;
-        width: 82px;
-        height: 68px;
-
-        .char {
-          position: relative;
-          top: 9px;
-          left: 9px;
-          width: 25px;
-
-          input {
-            width: 24px;
-            height: 21px;
-            margin: 0;
-            padding: 2px;
-            border: 0;
-            font-size: 13px;
-            text-align: center;
-            background: #fff;
-          }
-
-          input.checkbox {
-            display: none;
-          }
-
-          input.checkbox + label {
-            position: relative;
-            top: -8px;
-            left: -8px;
-            display: inline-block;
-            width: 35px;
-            height: 38px;
-            cursor: pointer;
-          }
-
-          input.checkbox:checked + label {
-            background-image: url('../assets/ui/bloodstain.webp');
-          }
-        }
-
-        .charlabel {
-          position: relative;
-          top: 11px;
-          left: 12px;
-          width: 25px;
-
-          div {
-            width: 30px;
-            margin-left: -6px;
-            text-align: center;
-          }
-        }
-
-        .chartext {
-          position: relative;
-          left: 5px;
-          top: 19px;
-          width: 85px;
-          font-size: 11px;
-          font-weight: bold;
-        }
-
-        .chartextlabel {
-          position: relative;
-          left: 5px;
-          top: 24px;
-          width: 85px;
-          font-size: 11px;
-          font-weight: bold;
-        }
-
-        .chartextinjured {
-          position: relative;
-          left: 5px;
-          top: -1px;
-          width: 85px;
-          font-size: 11px;
-          font-weight: bold;
-        }
-      }
-    }
-  }
+  flex-direction: column;
+  width: 100%;
+  padding-top: 12px;
 }
 
-.sheet-tabs {
-  flex: 0;
-}
-
-.sheet-body,
-.sheet-body .tab,
-.sheet-body .tab .editor {
+.sheet-subbody .sheet-tabs {
+  top: 35px;
   height: 100%;
-  padding: 2px;
-  font-size: 12px;
-  margin-top: -8px;
+}
 
-  .weaponalign {
-    text-align: center;
-  }
+.character .character-details {
+  display: grid;
+  grid: 'img alignment deity' 30px 'img details details' 150px/120px 120px 1fr;
+  margin-top: 4px;
+}
+
+.sheet-body .sheet-content .tab,
+.sheet-body .sheet-content .tab .editor {
+  height: 100%;
+  padding: 2px 5px;
+  font-size: 12px;
+  margin-top: 0;
+  overflow-y: auto;
 
   .descriptionblock {
-    margin-top: 10px;
+    margin: 10px 5px 0 5px;
     height: 100%;
     font-size: 13px;
 
@@ -309,6 +82,10 @@
   }
 }
 
+.sheet-body .sheet-content .limited {
+  margin-top: 15px;
+}
+
 .tox {
   .tox-editor-container {
     background: $c-white;
@@ -319,17 +96,29 @@
   }
 }
 
+.background {
+  margin-right: 10px;
+}
+
+.col1 {
+  input[type='text'] {
+    background: rgba(0, 0, 0, 0.05);
+    color: #000;
+  }
+}
+
 .wealth {
-  margin-top: -5px;
   font-size: 11px;
   font-weight: bold;
-  margin-bottom: 15px;
+  padding: 0 10px 0 0;
 
   .header {
     width: 100%;
     padding: 3px 0;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid var(--demonlord-red);
     font-weight: bold;
+    font-family: $font-header;
+    font-size: 13px;
 
     .edit {
       float: right;
@@ -346,12 +135,16 @@
       .lifestyletitle {
         float: left;
         height: 20px;
-        width: 50px;
+        margin-right: 5px;
       }
 
       input {
         width: 100px;
         height: 15px;
+      }
+
+      label {
+        font-weight: normal;
       }
     }
 
@@ -370,6 +163,10 @@
         height: 15px;
         width: 35px;
       }
+
+      label {
+        font-weight: normal;
+      }
     }
   }
 }
@@ -382,8 +179,11 @@
   .header {
     width: 100%;
     padding: 3px 0;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid var(--demonlord-red);
     font-weight: bold;
+    font-family: $font-header;
+    font-size: 11px;
+    text-transform: uppercase;
 
     .edit {
       float: right;
@@ -395,60 +195,67 @@
     margin-top: 5px;
 
     .path {
-      height: 10px;
-      margin-bottom: 10px;
+      height: 34px;
+      line-height: 34px;
+      font-size: 12px;
+      font-weight: normal;
+      margin-bottom: 5px;
+      background: rgba(0, 0, 0, 0.1);
 
-      .pathtitle {
+      img {
         float: left;
-        height: 20px;
-        width: 45px;
+        margin: 2px;
+        margin-right: 5px;
+      }
+
+      label {
+        font-weight: normal;
       }
 
       input {
         float: left;
-        width: 200px;
-        height: 15px;
+        width: 100%;
+        margin-top: 3px;
+        padding: 1px 2px 1px 5px;
+      }
+
+      .path-label {
+        height: 34px;
+        line-height: 11px;
+        padding: 5px;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.3);
+          cursor: pointer;
+        }
       }
     }
   }
 }
 
-.professions,
-.religion,
-.languages {
-  margin-top: -5px;
-  font-size: 11px;
-  font-weight: bold;
-  margin-bottom: 35px;
+.features {
+  float: left;
+  width: 100%;
+  padding-right: 10px;
 
   .header {
     width: 100%;
     padding: 3px 0;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid var(--demonlord-red);
     font-weight: bold;
+    font-family: $font-header;
+    font-size: 11px;
+    text-transform: uppercase;
 
     .edit {
       float: right;
-      width: 15px;
+      width: 24px;
+      font-size: 10px;
     }
   }
 
   .body {
     margin-top: 5px;
-
-    textarea {
-      float: left;
-      width: 100%;
-      height: 100px;
-      resize: none;
-
-      &:focus,
-      &:active {
-        box-shadow: 0 0 5px red;
-        border: 1px solid #7a7971;
-        outline: 0;
-      }
-    }
 
     input {
       float: left;
@@ -458,12 +265,9 @@
   }
 }
 
-.religion {
-  margin-bottom: 25px;
-
-  .body {
-    height: 15px;
-  }
+.professions {
+  margin-top: -5px;
+  margin-right: -10px;
 }
 
 .professions {
@@ -486,20 +290,174 @@
   }
 }
 
-.itemheader {
-  margin-top: 8px;
-  font-size: 11px;
-  height: 17px;
-  font-weight: bold;
-  padding: 0;
-  border-bottom: 1px solid #bbb;
+.body {
+  color: #000;
+  margin-top: -10px;
 
-  .itemnameheader {
-    float: left;
+  input[type='text'] {
+    background: rgba(0, 0, 0, 0.1);
+    height: 17px;
+    color: #000;
+    border-radius: 0;
+    padding-left: 5px;
   }
 
-  .item-controls {
-    float: right;
-    width: 10px;
+  input[type='text']:focus,
+  input[type='text']:hover {
+    background: rgba(0, 0, 0, 0.3);
+    height: 17px;
+    padding-left: 6px;
+    border-radius: 0;
+  }
+
+  .chardetail {
+    float: left;
+    width: 100%;
+    padding-right: 10px;
+    margin-top: -10px;
+  }
+
+  .languages {
+    width: 100%;
+    height: 24px;
+
+    .language {
+      float: left;
+      margin-right: 5px;
+
+      .languagetitle,
+      .delimiter,
+      .charhighlight,
+      .chardim {
+        float: left;
+      }
+
+      .charhighlight {
+        float: left;
+      }
+
+      .chardim {
+        float: left;
+        color: #777;
+      }
+
+      .item-controls {
+        float: right;
+        margin-left: 2px;
+      }
+    }
+
+    .edit {
+      float: right;
+      position: relative;
+      top: -12px;
+      margin-right: 6px;
+    }
+  }
+
+  .ancestry-paths {
+    text-align: center;
+    font-family: 'IM Fell English SC', serif;
+
+    img {
+      display: block;
+      height: 80px;
+      width: 80px;
+      margin-left: auto;
+      margin-right: auto;
+      border: none;
+    }
+
+    .ancestry-frame,
+    .path-frame,
+    .badge {
+      -webkit-filter: drop-shadow(0px 0px 3px #404040);
+      filter: drop-shadow(0px 0px 3px #404040);
+    }
+
+    img.icon {
+      -webkit-filter: grayscale(0.15);
+      filter: grayscale(0.15);
+    }
+
+    .ancestry-frame,
+    .path-frame {
+      height: 80px;
+      width: 80px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+
+      img.icon {
+        position: relative;
+        top: 7px;
+        height: 50px;
+        width: 50px;
+      }
+
+      img.border {
+        position: absolute;
+        height: 80px;
+        width: 80px;
+      }
+
+      img.border-small {
+        height: 64px;
+        width: 64px;
+        position: absolute;
+        left: 8px;
+        top: 8px;
+      }
+    }
+
+    img.gray {
+      filter: grayscale(0.7);
+      -webkit-filter: grayscale(0.7);
+    }
+
+    h3 {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+    }
+  }
+
+  .char-description {
+    margin-right: 10px;
+
+    .row {
+      margin-bottom: 6px;
+    }
+
+    .religion {
+      position: relative;
+
+      img {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        border: none;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgb(0 0 0 / 50%), 0 0 8px #a22223;
+        cursor: pointer;
+      }
+    }
+  }
+
+  h1 {
+    margin-right: 10px;
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding-bottom: 1px;
   }
 }

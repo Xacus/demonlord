@@ -32,9 +32,7 @@ form {
     background: url('../assets/ui/sidebar.webp') no-repeat top center;
 
     .sidebar {
-      margin: 0px 23px 0 30px;
-      overflow: auto;
-      overflow-x: hidden;
+      margin: 0 23px 0 30px;
       height: 650px;
       overflow: hidden scroll;
       scrollbar-width: thin;
@@ -45,7 +43,7 @@ form {
         background-size: 171px 171px, cover;
         height: 170px;
         margin-left: 9px;
-        margin-top: 0px;
+        margin-top: 0;
       }
 
       .framenpc {
@@ -53,7 +51,7 @@ form {
         background-size: 171px 171px, cover;
         height: 170px;
         margin-left: 9px;
-        margin-top: 0px;
+        margin-top: 0;
       }
 
       .framecreature {
@@ -61,7 +59,7 @@ form {
         background-size: 171px 171px, cover;
         height: 170px;
         margin-left: 9px;
-        margin-top: 0px;
+        margin-top: 0;
       }
 
       .profile-img {
@@ -124,7 +122,7 @@ form {
         .healingratetext {
           position: absolute;
           text-align: center;
-          left: 0px;
+          left: 0;
           top: 30px;
         }
       }
@@ -214,8 +212,8 @@ form {
           .powertext {
             position: absolute;
             text-align: center;
-            left: 0px;
-            top: 0px;
+            left: 0;
+            top: 0;
             width: 100%;
           }
         }

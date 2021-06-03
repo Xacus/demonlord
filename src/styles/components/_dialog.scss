@@ -55,21 +55,8 @@
     width: 100%;
     height: 22px;
 
-    .form-fieldheader {
-      float: left;
-      padding-top: 2px;
-      padding-right: 5px;
-    }
-
     .bold {
       font-weight: bold;
-    }
-
-    .enablemod {
-      float: left;
-      width: 20px;
-      height: 16px;
-      margin: -2px 5px 0 -5px;
     }
 
     .disable {
@@ -108,66 +95,12 @@
         }
       }
 
-      .numberLabel {
-        margin-top: 4px;
-        margin-left: 19px;
-      }
-
-      .numbermid {
-        input {
-          width: 50px;
-          text-align: right;
-        }
-      }
-
-      .radioblock,
-      .radioblockfast {
-        padding-right: 15px;
-        margin-left: 0px;
-
-        input[type='radio'] {
-          width: 15px;
-          margin-top: -1px;
-        }
-      }
     }
 
     .item-controls {
       float: right;
       width: 15px;
       margin-top: 2px;
-    }
-  }
-
-  .form-modline {
-    width: 100%;
-    height: 12px;
-
-    .form-fields {
-      float: left;
-      margin-top: -3px;
-      padding-top: 2px;
-
-      .modname {
-        width: 133px;
-        padding-left: 20px;
-      }
-
-      .modeffects {
-        width: 152px;
-      }
-
-      .modmodifier {
-        width: 35px;
-      }
-
-      .modrounds {
-        width: 43px;
-      }
-
-      .modleft {
-        width: 22px;
-      }
     }
   }
 

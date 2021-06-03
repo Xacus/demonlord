@@ -7,7 +7,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ['demonlord2', 'sheet', 'actor'],
+      classes: ['demonlord', 'sheet', 'actor'],
       width: 780,
       height: 700,
       tabs: [

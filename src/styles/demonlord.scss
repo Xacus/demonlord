@@ -12,66 +12,57 @@
 @import 'global/grid2';
 
 /* Styles limited to demonlord sheets */
-.demonlord {
-  @import 'components/chat';
-  @import 'components/dialog';
-  @import 'components/forms';
-  @import 'components/creature';
-  @import 'components/items';
-  @import 'components/resource';
-  @import 'components/tabs';
-}
-
 .charactergenerator {
   @import 'components/formsCG';
 }
 
 /* Styles limited to demonlord sheets */
-.demonlord2.item {
+.demonlord.item {
   @import 'components/items2';
+  @import 'src/styles/components/item-sheet';
   @import 'components/creature';
 }
 
-.demonlord2 {
+.demonlord {
   @import 'components/aside';
   @import 'components/body';
   @import 'components/chat';
   @import 'components/dialog';
-  @import 'components/forms2';
+  @import 'components/forms';
   @import 'components/general';
-  @import 'components/resource2';
-  @import 'components/tabs2';
+  @import 'src/styles/components/resource';
+  @import 'src/styles/components/tabs';
   @import 'components/tags';
   @import 'components/accordion';
 }
 
-.demonlord2.actor {
-  @import 'components/header';
+.demonlord.actor {
+  @import 'src/styles/components/header-character';
 }
 
 @import 'components/dialog2';
 
 /* Styles limited to demonlord sheets */
-.newcreature.item {
+.creature.item {
   @import 'components/items2';
 }
 
-.newcreature {
+.creature {
   @import 'components/aside-creature';
   @import 'components/body';
   @import 'components/chat';
   @import 'components/dialog';
-  @import 'components/forms2';
+  @import 'components/forms';
   @import 'components/general';
-  @import 'components/resource2';
-  @import 'components/tabs2';
+  @import 'src/styles/components/resource';
+  @import 'src/styles/components/tabs';
   @import 'components/tags';
   @import 'components/creature';
   @import 'components/accordion';
 }
 
-.newcreature.actor {
-  @import 'components/header-creture';
+.creature.actor {
+  @import 'src/styles/components/header-creature';
 }
 
 /* Styles limited to demonlord sheets */
@@ -80,5 +71,4 @@
 }
 
 @import 'tipfy';
-//@import 'node_modules/flexboxgrid/css/flexboxgrid';
-@import 'src/styles/components/item-sheet';
+@import 'components/dialog2';

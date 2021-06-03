@@ -6,7 +6,7 @@ export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ['demonlord2', 'sheet', 'item'],
+      classes: ['demonlord', 'sheet', 'item'],
       width: 600,
       height: 620,
       tabs: [
