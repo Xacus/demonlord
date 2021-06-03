@@ -10,7 +10,7 @@ import { preloadHandlebarsTemplates } from './templates.js'
 import * as migrations from './migration.js'
 import { handleMigrations } from './migration.js'
 import * as macros from './macros.js'
-import { capitalize } from './utils/utils'
+import {capitalize, plusify} from './utils/utils'
 import { DLAfflictions } from './active-effects/afflictions'
 import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config'
 import DLCharacterSheet from './actor/sheets/character-sheet'
@@ -138,6 +138,9 @@ Hooks.once('init', async function () {
   )
 
   Handlebars.registerHelper('isBadgeImg', img => img.includes('/demonlord/assets/icons/badges'))
+
+  Handlebars.registerHelper('plusify', x => x >= 0 ? '+' + x : x)
+
   preloadHandlebarsTemplates()
 })
 

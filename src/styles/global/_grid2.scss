@@ -4,6 +4,12 @@
   grid-gap: 16px;
 }
 
+.row-10 {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-gap: 16px;
+}
+
 .col-1 {
   grid-column: span 1;
 }

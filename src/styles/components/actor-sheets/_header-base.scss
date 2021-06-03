@@ -1,214 +1,101 @@
-form {
-  display: grid;
+
+.actor-header {
+  font-family: "IM Fell English SC", serif;
+  position: relative;
+  color: white;
+  height: 100%;
+  width: calc(100% + 10px);
+  left: -10px;
+  flex: none !important;
+
+  // NAME
+  .actor-name {
+    font-size: 20px;
+    height: 26px;
+    padding-left: 4px;
+    margin-top: 4px;
+
+    &:hover, &:focus {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    input {
+      text-align: start;
+      font-family: $font-header;
+    }
+  }
+
+  // Labels and inputs
+  label {
+    text-transform: uppercase;
+    font-size: 11px;
+  }
+
+  input {
+    text-align: center;
+    background: transparent;
+    border: none;
+    font-family: $font-actor-sheet-inputs
+  }
+
+  // Level
+  .actor-level {
+    position: relative;
+    top: 4px;
+
+    label {
+      position: absolute;
+      //right: 36px;.
+      right: 38px;
+      top: 8px;
+    }
+
+    input {
+      @extend %demonlord-red-border-shadow;
+      width: 26px;
+      height: 26px;
+      border-radius: 16px;
+      position: absolute;
+      right: 4px;
+    }
+  }
+
+  // Attributes
+  .attribute {
+    position: relative;
+    margin-top: 16px;
+
+    input {
+      @extend %demonlord-red-border-shadow;
+      width: 32px;
+      height: 32px;
+      border-radius: 16px;
+      color: white;
+      display: block;
+      margin: 4px auto 0;
+    }
+
+    label.value {
+      text-align: center;
+    }
+
+    label.modifier {
+      font-family: $font-actor-sheet-inputs;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+    }
+  }
 }
 
-.header.sheet-header {
-  display: flex;
-  justify-content: space-between;
+/* ---------------------------------------- */
+form {
+  display: grid;
 }
 
 .sheet-header {
   grid-area: header;
   position: relative;
-
-  .header-fields {
-    font-family: 'Roboto', system, -apple-system, sans-serif;
-    font-size: 8px;
-    font-weight: 700;
-    line-height: 1;
-    text-transform: uppercase;
-    letter-spacing: 0.25px;
-    color: #fff;
-    height: 30px;
-    position: absolute;
-    top: 5px;
-    left: 0;
-
-    h1.char-name {
-      float: left;
-      border: none;
-      width: 410px;
-
-      input[type='text'],
-      input[type='number'] {
-        width: 365px;
-        font-family: $font-header;
-        font-weight: 500;
-        font-size: 20px;
-        color: #fff;
-        line-height: calc(1em + 1px);
-        border-bottom: 1px solid transparent;
-        height: 26px;
-        padding-left: 5px;
-        margin-left: -5px;
-
-        &:focus {
-          padding-left: 5px;
-          margin-left: -5px;
-          background: rgba(0, 0, 0, 0.5);
-        }
-      }
-    }
-
-    .leveltext {
-      float: left;
-      font-family: 'IM Fell English SC', serif;
-      font-weight: 400;
-      font-size: 11px;
-    }
-
-    .level {
-      float: right;
-      border: none;
-      -webkit-box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-      0 0 8px #a22223;
-      box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
-      font-weight: 500;
-      font-size: 13px;
-
-      input {
-        margin-left: 1px;
-        text-align: center;
-        color: white;
-
-        &:focus {
-          background: #555;
-        }
-      }
-    }
-
-    label {
-      font-family: $font-header;
-      font-weight: 500;
-      font-size: 14px;
-    }
-  }
-
-  .attributes {
-    height: 54px;
-
-    .attributebox {
-      float: right;
-      position: relative;
-      height: 54px;
-
-      .attribute {
-        position: relative;
-        top: 17px;
-        left: 24px;
-        height: 32px;
-        width: 32px;
-        border-radius: 16px;
-        border: none;
-        box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
-        font-weight: 500;
-        font-size: 20px;
-
-        input {
-          width: 26px;
-          height: 26px;
-          margin-left: 3px;
-          margin-top: 3px;
-          padding: 2px;
-          border: 0;
-          font-size: 15px;
-          text-align: center;
-          color: #fff;
-
-          &:focus {
-            border-radius: 16px;
-            background: #555;
-          }
-        }
-      }
-
-      .attributemod {
-        position: relative;
-        left: 25px;
-        top: -16px;
-        font-size: 11px;
-        text-align: center;
-        color: #fff;
-      }
-
-      .attributetext {
-        position: relative;
-        left: 0;
-        top: -46px;
-        color: #fff;
-        font-family: $font-header;
-        font-weight: 500;
-        font-size: 11px;
-        text-align: center;
-      }
-
-      .attributeper {
-        position: relative;
-        top: 15px;
-        left: 24px;
-        height: 32px;
-        width: 32px;
-        border-radius: 16px;
-        border: none;
-        box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
-        font-weight: 500;
-        font-size: 20px;
-
-        label {
-          width: 25px;
-          height: 25px;
-          margin-left: 3px;
-          margin-top: 3px;
-          padding: 2px;
-          padding-top: 6px;
-          border: 0;
-          font-size: 15px;
-          text-align: center;
-          color: #fff;
-        }
-      }
-
-      .attributemodper {
-        position: relative;
-        left: 25px;
-        top: -18px;
-        font-size: 11px;
-        text-align: center;
-        color: #fff;
-      }
-
-      .attributetextper {
-        position: relative;
-        left: 0;
-        top: -49px;
-        text-align: center;
-        color: #fff;
-        font-family: $font-header;
-        font-weight: 500;
-        font-size: 11px;
-        text-transform: uppercase;
-      }
-    }
-  }
-}
-
-.sheet-header > * {
-  flex: 1;
-}
-
-.sheet-header h1 {
-  margin: 0;
-  border: none;
-}
-
-.sheet-header h1 > input {
-  height: 44px;
-  width: 100%;
-  margin: 2px;
-  font-family: 'Nodesto', 'Signika', 'Palatino Linotype', serif;
-  color: #444;
-  font-size: 36px;
-  border: none;
 }
 
 nav.sheet-navigation {

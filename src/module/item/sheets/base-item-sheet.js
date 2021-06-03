@@ -48,6 +48,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     data.config = DL
     data.item = itemData
     data.data = itemData.data
+    data.homebrewMode = game.settings.get('demonlord', 'useHomebrewMode')
 
     const effControls = data.document.isEmbedded ? -1 : 3
     data.effects =

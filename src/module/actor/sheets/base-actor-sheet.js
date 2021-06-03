@@ -28,6 +28,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       generalEffects: prepareActiveEffectCategories(this.actor.effects, true),
       effectsOverview: buildOverview(this.actor),
       flags: this.actor.data.flags,
+      homebrewMode: game.settings.get('demonlord', 'useHomebrewMode')
     }
 
     // Items

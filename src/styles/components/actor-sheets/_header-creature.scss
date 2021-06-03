@@ -4,106 +4,45 @@ form {
   grid: 'sidebar header' 130px 'sidebar nav' minmax(min-content, max-content) 'sidebar content' 1fr/247px 1fr;
 }
 
-.sheet-header {
-  h1.char-name {
-    width: 365px;
-  }
+.actor-header {
 
-  .descriptor,
-  .senses {
-    float: left;
-    font-size: 12px;
-    width: 245px;
-    margin-top: -3px;
-    margin-left: -1px;
-
-    input[type='text'],
-    input[type='number'] {
-      height: 20px;
-      margin-left: -2px;
-      padding: 2px;
-      line-height: calc(1em + 1px);
-
-      &:focus,
-      &:hover {
-        padding-left: 5px;
-        margin-left: -4px;
-        margin-top: 1px;
-        background: rgba(0, 0, 0, 0.5);
-      }
-    }
-  }
-
-  .senses {
-    float: right;
-    text-align: right;
-
-    input[type='text'],
-    input[type='number'] {
-      &:focus,
-      &:hover {
-        padding-right: 5px;
-        margin-right: -2px;
-        margin-top: 1px;
-        background: rgba(0, 0, 0, 0.5);
-      }
-    }
-  }
-
-  .leveltext {
-    margin: -50px 0 0 360px;
-  }
-
-  .level {
-    margin-top: -49px;
-    margin-right: 5px;
-    height: 19px;
-    width: 40px;
-    border-radius: 12px;
+  // Creature difficulty
+  .creature-difficulty {
+    @extend .actor-level;
 
     input {
-      margin-top: -3px;
-      border: 0;
-      box-shadow: none;
+      width: 32px;
+      height: 20px;
+      color: white;
+    }
 
-      &:focus {
-        height: 16px;
-        width: 36px;
-        margin-left: 2px;
-        margin-top: 2px;
-        border-radius: 11px;
-      }
+    label {
+      right: 44px;
+      top: 5px;
     }
   }
 
-  .attributes {
-    margin-top: 55px;
-
-    .attribute input {
-      box-shadow: none;
+  // Creature descriptors
+  .creature-descriptors {
+    input {
+      width: 100%;
+      color: grey;
     }
-  }
 
-  .attributetextper label {
-    cursor: pointer !important;
-  }
-}
-
-.editmode {
-  position: absolute;
-  left: -187px;
-  top: 485px;
-  text-transform: uppercase;
-  font-weight: bold;
-
-  .switchBig {
-    width: 130px;
-
-    input:checked + .slider:before {
-      -webkit-transform: translateX(116px);
-      -ms-transform: translateX(116px);
-      transform: translateX(116px);
+    div:nth-child(odd) input {
+      text-align: left;
+      padding-left: 4px;
     }
+
+    div:nth-child(even) input {
+      text-align: right;
+      padding-right: 4px;
+    }
+
+    input:hover, input:focus {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
   }
 }
 

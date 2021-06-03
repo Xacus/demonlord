@@ -1,100 +1,29 @@
-<div class="header-fields gridrow">
-  <h1 class="char-name">
-    <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CharName'}}"/>
-  </h1>
-  <div class="leveltext">{{localize "DL.CharLevel"}}</div>
-  <div class="level">
-    <input name="data.level" type="text" value="{{data.level}}" data-dtype="{{attribute.dtype}}" placeholder=""/>
-  </div>
-</div>
-<div class="attributes grid grid-5col">
-  <div class="attributebox">
-    <div class="attribute">
-      <input
-              name="data.attributes.strength.value"
-              type="text"
-              value="{{data.attributes.strength.value}}"
-              data-dtype="Number"
-              placeholder=""
-      />
+<div class="actor-header {{#if homebrewMode}}homebrew-mode{{/if}}" >
+
+  <div class="row">
+    <div class="col-10 actor-name">
+      <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CharName'}}"/>
     </div>
-    <div class="attributemod">
-      <label for="data.attributes.strength.modifier" class="mod"
-      >{{numberFormat data.attributes.strength.modifier decimals=0 sign=true}}</label
-      >
-    </div>
-    <div class="attributetext attribute-roll" data-key="strength">
-      <label for="data.attributes.strength.value">{{data.attributes.strength.label}}</label>
+    <div class="col-2 actor-level">
+      <label>{{localize "DL.CharLevel"}}</label>
+      <input name="data.level" type="text" value="{{data.level}}" data-dtype="{{attribute.dtype}}" min="0"/>
     </div>
   </div>
-  <div class="attributebox">
-    <div class="attribute">
-      <input
-              name="data.attributes.agility.value"
-              type="text"
-              value="{{data.attributes.agility.value}}"
-              data-dtype="Number"
-              placeholder=""
-      />
-    </div>
-    <div class="attributemod">
-      <label for="data.attributes.agility.modifier" class="mod"
-      >{{numberFormat data.attributes.agility.modifier decimals=0 sign=true}}</label
-      >
-    </div>
-    <div class="attributetext attribute-roll" data-key="agility">
-      <label for="data.attributes.agility.value">{{data.attributes.agility.label}}</label>
-    </div>
+
+  <div class="row-10">
+    {{#*inline "attribute-partial"}}
+      <div class="col-2 attribute">
+        <label class="value">{{attr.label}}</label>
+        <input type="Number" name="{{attr.value}}" value="{{attr.value}}" {{readonly (not homebrewMode)}}/>
+        <label class="modifier">{{plusify attr.modifier}}</label>
+      </div>
+    {{/inline}}
+
+    {{> attribute-partial attr=data.attributes.strength}}
+    {{> attribute-partial attr=data.attributes.agility}}
+    {{> attribute-partial attr=data.attributes.intellect}}
+    {{> attribute-partial attr=data.attributes.will}}
+    {{> attribute-partial attr=data.attributes.perception}}
   </div>
-  <div class="attributebox">
-    <div class="attribute">
-      <input
-              name="data.attributes.intellect.value"
-              type="text"
-              value="{{data.attributes.intellect.value}}"
-              data-dtype="Number"
-              placeholder=""
-      />
-    </div>
-    <div class="attributemod">
-      <label for="data.attributes.intellect.modifier" class="mod"
-      >{{numberFormat data.attributes.intellect.modifier decimals=0 sign=true}}</label
-      >
-    </div>
-    <div class="attributetext attribute-roll" data-key="intellect">
-      <label for="data.attributes.intellect.value">{{data.attributes.intellect.label}}</label>
-    </div>
-  </div>
-  <div class="attributebox">
-    <div class="attribute">
-      <input
-              name="data.attributes.will.value"
-              type="text"
-              value="{{data.attributes.will.value}}"
-              data-dtype="Number"
-              placeholder=""
-      />
-    </div>
-    <div class="attributemod">
-      <label for="data.attributes.will.modifier" class="mod"
-      >{{numberFormat data.attributes.will.modifier decimals=0 sign=true}}</label
-      >
-    </div>
-    <div class="attributetext attribute-roll" data-key="will">
-      <label for="data.attributes.will.value">{{data.attributes.will.label}}</label>
-    </div>
-  </div>
-  <div class="attributebox">
-    <div class="attributeper">
-      <label for="data.attributes.perception.value">{{data.attributes.perception.value}}</label>
-    </div>
-    <div class="attributemodper">
-      <label for="data.attributes.perception.modifier" class="mod"
-      >{{numberFormat data.attributes.perception.modifier decimals=0 sign=true}}</label
-      >
-    </div>
-    <div class="attributetextper attribute-roll" data-key="perception">
-      <label for="data.attributes.perception.value">{{data.attributes.perception.label}}</label>
-    </div>
-  </div>
+
 </div>
