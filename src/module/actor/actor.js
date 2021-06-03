@@ -116,7 +116,9 @@ export class DemonlordActor extends Actor {
     // --- Character specific data ---
     if (this.data.type === 'character') {
       // Override Perception initial value
-      data.attributes.perception.value += data.attributes.will.value - 10
+      data.attributes.perception.value += data.attributes.intellect.value - 10
+      data.attributes.perception.modifier = data.attributes.perception.value - 10
+
       // Health and Healing Rate
       data.characteristics.health.max += data.attributes.strength.value
       data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)

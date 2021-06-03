@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Talents inside paths now are correctly handled when path is edited
 - Improved migration code
 - Fix Encumbrance not correctly applying
+- Perception now correctly uses Intellect as base
 
 ## [2.0.0] - 2021-05-28
 
