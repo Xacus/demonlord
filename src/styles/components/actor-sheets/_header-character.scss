@@ -1,0 +1,37 @@
+@import "header-base";
+
+form {
+  grid: 'sidebar header' 110px 'sidebar nav' minmax(min-content, max-content) 'sidebar content' 1fr/247px 1fr;
+}
+
+.sheet-header {
+  h1.char-name {
+    width: 410px;
+  }
+
+  .leveltext {
+    margin: 0 7px 0 38px;
+  }
+
+  .level {
+    height: 26px;
+    width: 26px;
+    border-radius: 16px;
+
+    input {
+      margin-top: 1px;
+
+      &:focus {
+        border-radius: 16px;
+      }
+    }
+  }
+
+  .attributes {
+    margin-top: 45px;
+  }
+
+  .attributetextper label {
+    cursor: pointer !important;
+  }
+}

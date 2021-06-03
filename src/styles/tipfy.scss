@@ -11,6 +11,7 @@ $tipfyAnimation: 0.2s;
     transform: translate(0, $tipfyArrow);
   }
 }
+
 @keyframes tipfyLeftBottom {
   from {
     transform: translate(0, $tipfyArrow * -2);
@@ -19,6 +20,7 @@ $tipfyAnimation: 0.2s;
     transform: translate(0, $tipfyArrow * -1);
   }
 }
+
 @keyframes tipfyRightTop {
   from {
     transform: translate($tipfyArrow, $tipfyArrow * 2);
@@ -27,6 +29,7 @@ $tipfyAnimation: 0.2s;
     transform: translate($tipfyArrow, $tipfyArrow);
   }
 }
+
 @keyframes tipfyRightBottom {
   from {
     transform: translate($tipfyArrow, $tipfyArrow * -2);
@@ -35,6 +38,7 @@ $tipfyAnimation: 0.2s;
     transform: translate($tipfyArrow, $tipfyArrow * -1);
   }
 }
+
 @keyframes tipfyTop {
   from {
     transform: translateY($tipfyArrow * -2);
@@ -43,6 +47,7 @@ $tipfyAnimation: 0.2s;
     transform: translateY($tipfyArrow * -1);
   }
 }
+
 @keyframes tipfyBottom {
   from {
     transform: translateY($tipfyArrow * 2);
@@ -51,6 +56,7 @@ $tipfyAnimation: 0.2s;
     transform: translateY($tipfyArrow);
   }
 }
+
 @keyframes tipfyLeft {
   from {
     transform: translateX($tipfyArrow * -2);
@@ -59,6 +65,7 @@ $tipfyAnimation: 0.2s;
     transform: translateX($tipfyArrow * -1);
   }
 }
+
 @keyframes tipfyRight {
   from {
     transform: translateX($tipfyArrow * 2);
@@ -67,6 +74,7 @@ $tipfyAnimation: 0.2s;
     transform: translateX($tipfyArrow);
   }
 }
+
 .tipfy {
   position: absolute;
   padding: 10px;
@@ -82,6 +90,7 @@ $tipfyAnimation: 0.2s;
     position: absolute;
     border: $tipfyArrow solid transparent;
   }
+
   &--top {
     &:before {
       bottom: 100%;
@@ -89,6 +98,7 @@ $tipfyAnimation: 0.2s;
       border-top-style: none;
     }
   }
+
   &--bottom {
     &:before {
       top: 100%;
@@ -96,37 +106,47 @@ $tipfyAnimation: 0.2s;
       border-bottom-style: none;
     }
   }
+
   &--left {
     &.tipfy--top {
       animation: tipfyLeftTop $tipfyAnimation forwards;
+
       &:before {
         left: $tipfyArrow;
       }
     }
+
     &.tipfy--bottom {
       animation: tipfyLeftBottom $tipfyAnimation forwards;
+
       &:before {
         left: $tipfyArrow;
       }
     }
   }
+
   &--right {
     &.tipfy--top {
       animation: tipfyRightTop $tipfyAnimation forwards;
+
       &:before {
         right: $tipfyArrow;
       }
     }
+
     &.tipfy--bottom {
       animation: tipfyRightBottom $tipfyAnimation forwards;
+
       &:before {
         right: $tipfyArrow;
       }
     }
   }
+
   &--side {
     &-right {
       animation: tipfyRight $tipfyAnimation forwards;
+
       &:before {
         right: 100%;
         border-right-color: $tipfyBackground;
@@ -135,8 +155,10 @@ $tipfyAnimation: 0.2s;
         transform: translateY(-50%);
       }
     }
+
     &-left {
       animation: tipfyLeft $tipfyAnimation forwards;
+
       &:before {
         left: 100%;
         border-left-color: $tipfyBackground;
@@ -145,8 +167,10 @@ $tipfyAnimation: 0.2s;
         transform: translateY(-50%);
       }
     }
+
     &-top {
       animation: tipfyTop $tipfyAnimation forwards;
+
       &:before {
         left: 50%;
         border-top-color: $tipfyBackground;
@@ -155,8 +179,10 @@ $tipfyAnimation: 0.2s;
         transform: translateX(-50%);
       }
     }
+
     &-bottom {
       animation: tipfyBottom $tipfyAnimation forwards;
+
       &:before {
         left: 50%;
         border-bottom-color: $tipfyBackground;
@@ -165,6 +191,7 @@ $tipfyAnimation: 0.2s;
         transform: translateX(-50%);
       }
     }
+
     &-auto {
       &:before {
         left: 50%;

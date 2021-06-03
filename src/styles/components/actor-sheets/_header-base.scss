@@ -1,12 +1,12 @@
 form {
   display: grid;
-  grid: 'sidebar header' 110px 'sidebar nav' minmax(min-content, max-content) 'sidebar content' 1fr/247px 1fr;
 }
 
 .header.sheet-header {
   display: flex;
   justify-content: space-between;
 }
+
 .sheet-header {
   grid-area: header;
   position: relative;
@@ -29,7 +29,8 @@ form {
       border: none;
       width: 410px;
 
-      input[type='text'] {
+      input[type='text'],
+      input[type='number'] {
         width: 365px;
         font-family: $font-header;
         font-weight: 500;
@@ -54,29 +55,23 @@ form {
       font-family: 'IM Fell English SC', serif;
       font-weight: 400;
       font-size: 11px;
-      margin: 0 7px 0 38px;
     }
 
     .level {
       float: right;
-      height: 26px;
-      width: 26px;
-      border-radius: 16px;
       border: none;
       -webkit-box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-        0 0 8px #a22223;
+      0 0 8px #a22223;
       box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
       font-weight: 500;
       font-size: 13px;
 
       input {
         margin-left: 1px;
-        margin-top: 1px;
         text-align: center;
         color: white;
 
         &:focus {
-          border-radius: 16px;
           background: #555;
         }
       }
@@ -91,7 +86,6 @@ form {
 
   .attributes {
     height: 54px;
-    margin-top: 45px;
 
     .attributebox {
       float: right;
@@ -146,11 +140,6 @@ form {
         font-weight: 500;
         font-size: 11px;
         text-align: center;
-        text-transform: uppercase;
-
-        label {
-          cursor: pointer !important;
-        }
       }
 
       .attributeper {
@@ -198,21 +187,20 @@ form {
         font-weight: 500;
         font-size: 11px;
         text-transform: uppercase;
-
-        label {
-          cursor: pointer !important;
-        }
       }
     }
   }
 }
+
 .sheet-header > * {
   flex: 1;
 }
+
 .sheet-header h1 {
   margin: 0;
   border: none;
 }
+
 .sheet-header h1 > input {
   height: 44px;
   width: 100%;
@@ -222,6 +210,7 @@ form {
   font-size: 36px;
   border: none;
 }
+
 nav.sheet-navigation {
   font-family: $font-header;
   font-size: 10px;
@@ -232,6 +221,7 @@ nav.sheet-navigation {
   color: white;
   text-transform: uppercase;
 }
+
 .sheet-navigation {
   grid-area: nav;
   margin-right: 20px;

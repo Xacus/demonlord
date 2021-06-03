@@ -29,7 +29,6 @@ form {
     width: 247px;
     position: fixed;
     overflow: hidden;
-    background: url('../assets/ui/sidebar_creature.webp') no-repeat top center;
 
     .sidebar {
       margin: 0 23px 0 30px;
@@ -87,6 +86,7 @@ form {
         position: absolute;
         top: 143px;
         left: 35px;
+
         .injured,
         .healingrate,
         .frightening,
@@ -96,7 +96,7 @@ form {
           border-radius: 16px;
           border: none;
           box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-            0 0 8px #a22223;
+          0 0 8px #a22223;
           font-weight: 500;
           font-size: 14px;
           padding-left: 2px;
@@ -122,48 +122,11 @@ form {
           }
         }
 
-        .frightening {
-          input.checkbox + label {
-            top: -4px;
-            left: -2px;
-            width: 26px;
-            height: 26px;
-            border-radius: 16px;
-          }
-
-          input.checkbox:checked + label {
-            background-image: url('../assets/icons/effects/terror.svg');
-          }
-        }
-        .horrifying {
-          input.checkbox + label {
-            top: -3px;
-            left: -2px;
-            width: 26px;
-            height: 26px;
-            border-radius: 16px;
-          }
-
-          input.checkbox:checked + label {
-            background-image: url('../assets/icons/effects/horrified.svg');
-          }
-        }
-
         .injuredtext,
         .healingratetext {
           position: absolute;
           text-align: center;
           left: 0;
-          top: 30px;
-        }
-      }
-
-      .injuredboxright {
-        top: 143px;
-        left: 188px;
-
-        .injuredtext {
-          left: -30px;
           top: 30px;
         }
       }
@@ -192,7 +155,7 @@ form {
             border-radius: 16px;
             border: none;
             box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-              0 0 8px #a22223;
+            0 0 8px #a22223;
             font-weight: 500;
             font-size: 13px;
             padding-left: 2px;
@@ -200,12 +163,6 @@ form {
 
             input {
               margin-top: -4px;
-              margin-left: -2px;
-
-              &:focus {
-                border-radius: 16px;
-                background: #555;
-              }
             }
           }
 
@@ -219,12 +176,10 @@ form {
         }
       }
 
-      .charsstat {
-        margin-top: 25px;
-      }
       .chars.grid {
         gap: 0;
       }
+
       .chars {
         margin-bottom: -19px;
 
@@ -246,24 +201,14 @@ form {
             border-radius: 16px;
             border: none;
             box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-              0 0 8px #a22223;
+            0 0 8px #a22223;
             font-weight: 500;
             font-size: 13px;
             padding-left: 2px;
             padding-top: 2px;
 
             input {
-              margin-top: -6px;
-              margin-left: -2px;
-              height: 16px;
-              border: 0;
-              color: #ffffff;
-              box-shadow: none;
-
-              &:focus {
-                border-radius: 16px;
-                background: #555;
-              }
+              margin-top: -4px;
             }
           }
 
@@ -277,15 +222,21 @@ form {
             width: 100%;
           }
         }
+
+        .turnmode {
+          margin-top: 15px;
+          text-align: center;
+        }
       }
 
       .healingratebox {
         left: 186px;
-        margin-bottom: 10px;
+
         .healingrate {
           padding-top: 5px;
           text-align: center;
         }
+
         .healingratetext {
           left: -43px;
         }
@@ -296,6 +247,7 @@ form {
       .corruption {
         margin-top: 10px;
         padding: 5px;
+
         .healthbar {
           width: 178px;
           background-color: #e0e0e0;
@@ -303,7 +255,7 @@ form {
           margin-top: 3px;
           border-radius: 3px;
           box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-            0 0 8px #a22223;
+          0 0 8px #a22223;
         }
 
         .healthbar-fill,
@@ -349,36 +301,6 @@ form {
         .corruption-fill {
           background-color: darkmagenta;
         }
-      }
-
-      .armor,
-      .speedtraits {
-        padding: 10px;
-
-        input[type='text'],
-        input[type='number'] {
-          width: 174px;
-          font-family: 'Roboto', system, -apple-system, sans-serif;
-          font-size: 11px;
-          color: #fff;
-          line-height: calc(1em + 1px);
-          height: 26px;
-          padding: 10px;
-          margin-left: -5px;
-          background: rgba(0, 0, 0, 1);
-
-          &:focus,
-          &:hover {
-            padding-left: 5px;
-            margin-left: 1px;
-            margin-top: 1px;
-            background: #000;
-          }
-        }
-      }
-
-      .speedtraits {
-        margin-top: -10px;
       }
     }
 

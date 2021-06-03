@@ -1,0 +1,122 @@
+@import 'aside-base';
+
+form {
+  aside {
+    background: url('../assets/ui/sidebar_creature.webp') no-repeat top center;
+  }
+
+  .sidebar {
+    .frightening {
+      input.checkbox + label {
+        top: -4px;
+        left: -2px;
+        width: 26px;
+        height: 26px;
+        border-radius: 16px;
+      }
+
+      input.checkbox:checked + label {
+        background-image: url('../assets/icons/effects/terror.svg');
+      }
+    }
+
+    .horrifying {
+      input.checkbox + label {
+        top: -3px;
+        left: -2px;
+        width: 26px;
+        height: 26px;
+        border-radius: 16px;
+      }
+
+      input.checkbox:checked + label {
+        background-image: url('../assets/icons/effects/horrified.svg');
+      }
+    }
+
+    .injuredboxright {
+      left: 188px !important;
+
+      .injuredtext {
+        left: -30px !important;
+      }
+    }
+
+    .charsstat {
+      margin-top: 25px;
+    }
+
+    .barboxes .barbox {
+      .healthedit,
+      .insanityedit,
+      .corruptionedit {
+        input {
+          margin-left: -2px;
+
+          &:focus {
+            border-radius: 16px;
+            background: #555;
+          }
+        }
+      }
+    }
+
+    .chars {
+      .defensebox,
+      .speedbox,
+      .powerbox {
+        .defense,
+        .speed,
+        .power {
+          input {
+            margin-top: -6px;
+            margin-left: -2px;
+            height: 16px;
+            border: 0;
+            color: #ffffff;
+            box-shadow: none;
+
+            &:focus {
+              border-radius: 16px;
+              background: #555;
+            }
+          }
+        }
+      }
+    }
+
+    .healingratebox {
+      margin-bottom: 10px;
+    }
+
+    .armor,
+    .speedtraits {
+      padding: 10px;
+
+      input[type='text'],
+      input[type='number'] {
+        width: 174px;
+        font-family: 'Roboto', system, -apple-system, sans-serif;
+        font-size: 11px;
+        color: #fff;
+        line-height: calc(1em + 1px);
+        height: 26px;
+        padding: 10px;
+        margin-left: -5px;
+        background: rgba(0, 0, 0, 1);
+
+        &:focus,
+        &:hover {
+          padding-left: 5px;
+          margin-left: 1px;
+          margin-top: 1px;
+          background: #000;
+        }
+      }
+    }
+
+    .speedtraits {
+      margin-top: -10px;
+    }
+  }
+}

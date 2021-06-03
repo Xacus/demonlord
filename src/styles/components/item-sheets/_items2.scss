@@ -54,7 +54,6 @@ form {
       background: #edf2f7;
     }
   }
-
 }
 
 .sheet-header {
@@ -74,6 +73,7 @@ form {
     color: #fff;
     margin-top: 4px;
     margin-left: 0;
+
     input[type='text'] {
       width: 100%;
       font-family: $font-header;
@@ -85,6 +85,7 @@ form {
       height: 26px;
       padding: 5px;
     }
+
     input[type='text']:focus {
       background: rgba(0, 0, 0, 0.5);
       padding-left: 6px;
@@ -134,7 +135,6 @@ form {
 }
 
 .features {
-
   .items-list {
     margin-right: 0;
   }
@@ -292,7 +292,6 @@ form {
 
     .tradition {
       margin-top: 15px;
-
     }
 
     .itemname {
@@ -337,6 +336,7 @@ form {
       float: left;
       width: 50px;
     }
+
     .spellinfo {
       float: left;
     }
@@ -364,7 +364,6 @@ form {
     .item-control {
       padding-left: 1px;
     }
-
   }
 
   .talent {

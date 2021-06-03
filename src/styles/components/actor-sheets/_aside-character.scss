@@ -1,3 +1,15 @@
+@import 'aside-base';
+
+form {
+  aside {
+    background: url('../assets/ui/sidebar.webp') no-repeat top center;
+  }
+
+  aside.npc {
+    background: url('../assets/ui/sidebar_npc.webp') no-repeat top center;
+  }
+}
+
 .window-content {
   padding: 5px;
   font-size: 13px;
@@ -86,6 +98,7 @@ form {
         position: absolute;
         top: 143px;
         left: 35px;
+
         .injured,
         .healingrate {
           height: 26px;
@@ -93,7 +106,7 @@ form {
           border-radius: 16px;
           border: none;
           box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-            0 0 8px #a22223;
+          0 0 8px #a22223;
           font-weight: 500;
           font-size: 14px;
           padding-left: 2px;
@@ -118,6 +131,7 @@ form {
             background-image: url('../assets/ui/bloodstain.webp');
           }
         }
+
         .injuredtext,
         .healingratetext {
           position: absolute;
@@ -151,7 +165,7 @@ form {
             border-radius: 16px;
             border: none;
             box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-              0 0 8px #a22223;
+            0 0 8px #a22223;
             font-weight: 500;
             font-size: 13px;
             padding-left: 2px;
@@ -175,6 +189,7 @@ form {
       .chars.grid {
         gap: 0;
       }
+
       .chars {
         margin-bottom: -19px;
 
@@ -196,7 +211,7 @@ form {
             border-radius: 16px;
             border: none;
             box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-              0 0 8px #a22223;
+            0 0 8px #a22223;
             font-weight: 500;
             font-size: 13px;
             padding-left: 2px;
@@ -226,10 +241,12 @@ form {
 
       .healingratebox {
         left: 186px;
+
         .healingrate {
           padding-top: 5px;
           text-align: center;
         }
+
         .healingratetext {
           left: -43px;
         }
@@ -240,6 +257,7 @@ form {
       .corruption {
         margin-top: 10px;
         padding: 5px;
+
         .healthbar {
           width: 178px;
           background-color: #e0e0e0;
@@ -247,7 +265,7 @@ form {
           margin-top: 3px;
           border-radius: 3px;
           box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
-            0 0 8px #a22223;
+          0 0 8px #a22223;
         }
 
         .healthbar-fill,

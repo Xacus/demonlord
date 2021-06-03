@@ -18,57 +18,57 @@
 
 /* Styles limited to demonlord sheets */
 .demonlord.item {
-  @import 'components/items2';
-  @import 'src/styles/components/item-sheet';
-  @import 'components/creature';
+  @import 'src/styles/components/item-sheets/items2';
+  @import 'src/styles/components/item-sheets/item-sheet';
+  @import 'src/styles/components/actor-sheets/body-creature';
 }
 
 .demonlord {
-  @import 'components/aside';
-  @import 'components/body';
+  @import 'src/styles/components/actor-sheets/aside-character';
+  @import 'src/styles/components/actor-sheets/body-character';
   @import 'components/chat';
-  @import 'components/dialog';
+  @import 'src/styles/components/dialogs/dialog';
   @import 'components/forms';
   @import 'components/general';
-  @import 'src/styles/components/resource';
-  @import 'src/styles/components/tabs';
-  @import 'components/tags';
-  @import 'components/accordion';
+  @import 'src/styles/components/parts/resource';
+  @import 'src/styles/components/parts/tabs';
+  @import 'src/styles/components/parts/tags';
+  @import 'src/styles/components/parts/accordion';
 }
 
 .demonlord.actor {
-  @import 'src/styles/components/header-character';
+  @import 'src/styles/components/actor-sheets/header-character';
 }
 
-@import 'components/dialog2';
+@import 'src/styles/components/dialogs/dialog2';
 
 /* Styles limited to demonlord sheets */
 .creature.item {
-  @import 'components/items2';
+  @import 'src/styles/components/item-sheets/items2';
 }
 
 .creature {
-  @import 'components/aside-creature';
-  @import 'components/body';
+  @import 'src/styles/components/actor-sheets/aside-creature';
+  @import 'src/styles/components/actor-sheets/body-character';
   @import 'components/chat';
-  @import 'components/dialog';
+  @import 'src/styles/components/dialogs/dialog';
   @import 'components/forms';
   @import 'components/general';
-  @import 'src/styles/components/resource';
-  @import 'src/styles/components/tabs';
-  @import 'components/tags';
-  @import 'components/creature';
-  @import 'components/accordion';
+  @import 'src/styles/components/parts/resource';
+  @import 'src/styles/components/parts/tabs';
+  @import 'src/styles/components/parts/tags';
+  @import 'src/styles/components/actor-sheets/body-creature';
+  @import 'src/styles/components/parts/accordion';
 }
 
 .creature.actor {
-  @import 'src/styles/components/header-creature';
+  @import 'src/styles/components/actor-sheets/header-creature';
 }
 
 /* Styles limited to demonlord sheets */
 .playertracker {
-  @import 'components/playertracker';
+  @import 'src/styles/components/extras/playertracker';
 }
 
 @import 'tipfy';
-@import 'components/dialog2';
+@import 'src/styles/components/dialogs/dialog2';
