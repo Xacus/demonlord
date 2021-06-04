@@ -112,7 +112,7 @@ export async function getNestedItem(nestedData) {
   return game.items.get(nestedData.id)
 }
 
-export async function getNestedItemsList(nestedDataList) {
+export async function getNestedItemsDataList(nestedDataList) {
   const p = []
   for (const nd of nestedDataList) p.push(await getNestedItem(nd))
   return p
@@ -126,7 +126,8 @@ export async function handleCreatePath(actor, pathData) {
 
   let nestedItems = []
   leqLevels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
-  const itemsData = (await getNestedItemsList(nestedItems)).map(ni => duplicate(ni))
+  let itemsData = await getNestedItemsDataList(nestedItems)
+  itemsData = itemsData.map(i => i.data)
   return actor.createEmbeddedDocuments('Item', itemsData)
 }
 
@@ -145,7 +146,8 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
   if (newLevel > curLevel) {
     // Get spells, talents and languages and add them to the actor
     levels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
-    const itemsData = (await getNestedItemsList(nestedItems)).map(ni => duplicate(ni))
+    let itemsData = await getNestedItemsDataList(nestedItems)
+    itemsData = itemsData.map(i => i.data)
     return actor.createEmbeddedDocuments('Item', itemsData)
   } else {
     // Delete ALL items from the difference of levels
@@ -184,6 +186,7 @@ export async function handleCreateAncestry(actor, ancestryData) {
   // Do not add level 4, user has to pick it
   // if (actor.data.data.level >= 4)
   //   nestedItems = [...nestedItems, ...ancestryData.level4.talent]
-  const itemsData = (await getNestedItemsList(nestedItems)).map(ni => duplicate(ni))
+  let itemsData = await getNestedItemsDataList(nestedItems)
+  itemsData = itemsData.map(i => i.data)
   return await actor.createEmbeddedDocuments('Item', itemsData)
 }
