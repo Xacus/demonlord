@@ -83,7 +83,7 @@
       font-family: $font-actor-sheet-inputs;
       position: absolute;
       top: 12px;
-      right: 12px;
+      right: calc(50% - 34px);
     }
   }
 }
