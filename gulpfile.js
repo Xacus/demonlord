@@ -7,6 +7,7 @@ const path = require('path');
 const rollupConfig = require('./rollup.config');
 const semver = require('semver');
 const sass = require('gulp-sass');
+const pug = require('gulp-pug')
 sass.compiler = require('sass');
 
 /********************/
@@ -16,10 +17,11 @@ sass.compiler = require('sass');
 const name = path.basename(path.resolve('.'));
 const sourceDirectory = './src';
 const distDirectory = './dist';
+const pugDirectory = './src/templates'
 const stylesDirectory = `${sourceDirectory}/styles`;
 const stylesExtension = 'scss';
 const sourceFileExtension = 'js';
-const staticFiles = ['assets', 'fonts', 'lang', 'packs', 'templates', 'system.json', 'template.json', 'lib'];
+const staticFiles = ['assets', 'fonts', 'lang', 'packs', 'templates', 'system.json', 'template.json', 'lib']; //FIXME: remove templates here, after conversion is complete
 const getDownloadURL = (version) => `https://host/path/to/${version}.zip`;
 
 /********************/
@@ -61,6 +63,7 @@ async function copyFiles() {
 function buildWatch() {
   gulp.watch(`${sourceDirectory}/**/*.${sourceFileExtension}`, { ignoreInitial: false }, buildCode);
   gulp.watch(`${stylesDirectory}/**/*.${stylesExtension}`, { ignoreInitial: false }, buildStyles);
+  gulp.watch(`${pugDirectory}/**/*.pug`, { ignoreInitial: false }, buildPug);
   gulp.watch(
     staticFiles.map((file) => `${sourceDirectory}/${file}`),
     { ignoreInitial: false },
@@ -224,12 +227,22 @@ function setDownloadURL(cb) {
   console.info("Updating system download URL to " + newDownloadURL + '\n')
   cb()
 }
+/********************/
+/*        PUG       */
+/********************/
+
+function buildPug(cb) {
+  gulp.src('src/templates/**/*.pug')
+    .pipe(pug({basedir: 'src/templates'}))
+    .pipe(gulp.dest('dist/templates/'));
+  cb()
+}
 
 /********************/
 /*      EXPORTS     */
 /********************/
 
-const execBuild = gulp.parallel(buildCode, buildStyles, copyFiles);
+const execBuild = gulp.parallel(buildCode, buildStyles, copyFiles, buildPug);
 
 exports.build = gulp.series(clean, execBuild);
 exports.watch = buildWatch;
@@ -237,3 +250,4 @@ exports.clean = clean;
 exports.link = linkUserData;
 exports.bumpVersion = bumpVersion;
 exports.setDownloadURL = setDownloadURL;
+exports.pug = buildPug;

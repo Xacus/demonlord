@@ -20,6 +20,7 @@
   ],
   "scripts": {
     "build": "gulp build",
+    "pug": "gulp pug",
     "build:watch": "gulp watch",
     "link-project": "gulp link",
     "clean": "gulp clean",
@@ -58,6 +59,8 @@
   },
   "dependencies": {
     "dotenv-cli": "^4.0.0",
-    "jszip-cli": "^1.4.24"
+    "gulp-pug": "^4.0.1",
+    "jszip-cli": "^1.4.24",
+    "pug": "^3.0.2"
   }
 }
