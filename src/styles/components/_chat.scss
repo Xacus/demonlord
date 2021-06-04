@@ -220,11 +220,17 @@
       margin: auto;
       height: 40px;
 
-      .value {
+      .name {
         position: relative;
         text-align: center;
         top: 8px;
         font-size: 17px;
+      }
+      .value {
+        font-size: 16px;
+        margin-top: 8px;
+        font-weight: bold;
+        font-family: $font-actor-sheet-inputs
       }
     }
 
@@ -259,7 +265,7 @@
     .boxborder {
       border: 3px solid darkgreen;
 
-      .value {
+      .name {
         top: 6px;
         font-weight: bold;
       }
@@ -270,7 +276,7 @@
     .boxborder {
       border: 3px solid var(--demonlord-red);
 
-      .value {
+      .name {
         top: 6px;
         font-weight: bold;
       }

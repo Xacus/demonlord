@@ -285,7 +285,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Rollable Attributes
-    html.find('.attribute-roll').click(ev => {
+    html.find('.attribute .name').click(ev => {
       const div = $(ev.currentTarget)
       const attributeName = div.data('key')
       const attribute = this.actor.data.data.attributes[attributeName]

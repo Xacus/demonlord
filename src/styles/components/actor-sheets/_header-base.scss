@@ -75,8 +75,12 @@
       margin: 4px auto 0;
     }
 
-    label.value {
+    label.name {
       text-align: center;
+      &:hover {
+        cursor: pointer;
+        text-shadow: 0 0 10px #fa200b;
+      }
     }
 
     label.modifier {
