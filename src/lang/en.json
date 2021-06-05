@@ -471,6 +471,8 @@
   "DL.SettingGMEffectsControlsHint": "Always show the active effects controls in the character sheets (toggle, edit and delete) to the Game Master, regardless of the effect type.",
   "DL.SettingTemplateAutoTargeting": "Auto targeting with Measured Templates",
   "DL.SettingTemplateAutoTargetingHint": "Automatically targets the tokens inside of your placed Measured Template.",
+  "DL.SettingTemplateAutoRemove": "Auto remove Measured Templates after action",
+  "DL.SettingTemplateAutoRemoveHint": "Automatically remove Measured Templates healing or damage from Scene.",
   "DL.SettingReplaceIcons": "Replace default icons",
   "DL.SettingReplaceIconsHint": "Replace the default icon when creating an Item",
   "DL.DialogInitiative": "Initiative",

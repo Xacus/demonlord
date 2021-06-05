@@ -94,4 +94,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'templateAutoRemove', {
+    name: game.i18n.localize('DL.SettingTemplateAutoRemove'),
+    hint: game.i18n.localize('DL.SettingTemplateAutoRemoveHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })
 }

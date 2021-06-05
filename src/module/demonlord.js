@@ -379,3 +379,18 @@ function loadActorForChatMessage(speaker) {
   }
   return actor
 }
+
+Hooks.on("DL.ApplyDamage", (...args) => {
+  Hooks.call("DL.Action", ...args)
+})
+Hooks.on("DL.ApplyHealing", (...args) => {
+  Hooks.call("DL.Action", ...args)
+})
+
+Hooks.on("DL.Action", () => {
+  if (!game.settings.get('demonlord', 'templateAutoRemove')) {
+    return
+  }
+  const actionTemplates = canvas.scene.templates.filter(a => a.data.flags.actionTemplate).map(a => a.id)
+  canvas.scene.deleteEmbeddedDocuments("MeasuredTemplate", actionTemplates)
+})

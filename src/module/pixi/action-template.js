@@ -20,6 +20,9 @@ export class ActionTemplate extends MeasuredTemplate {
       y: 0,
       fillColor: game.user.color,
       texture: item.data.data.activatedEffect.texture,
+      flags: {
+        "actionTemplate": true
+      }
     }
 
     // Additional type-specific data
