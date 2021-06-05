@@ -2,7 +2,7 @@
 import { DL } from './config.js'
 import { DemonlordActor } from './actor/actor.js'
 import { DemonlordItem } from './item/item.js'
-import { ActionTemplate } from './item/action-template.js'
+import { ActionTemplate } from './pixi/action-template.js'
 import { registerSettings } from './settings.js'
 import { nextTurn, rollInitiative, setupTurns, startCombat } from './init/init.js'
 import combattracker, { _onUpdateCombat } from './combattracker.js'
