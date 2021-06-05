@@ -72,7 +72,7 @@ async function _onChatRollDamage(event) {
   var templateData = {
     actor: actor,
     item: {
-      _id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId,
+      id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId,
     },
     data: {},
     diceData: formatDice(damageRoll),
