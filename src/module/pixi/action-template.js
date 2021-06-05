@@ -140,13 +140,13 @@ export class ActionTemplate extends MeasuredTemplate {
       templatePos = { x: this.data.x, y: this.data.y }
     // Check for center of  each square the token uses.
     // e.g. for large tokens all 4 squares
-    const startX = token.width >= 1 ? 0.5 : token.width / 2
-    const startY = token.height >= 1 ? 0.5 : token.height / 2
-    for (let x = startX; x < token.width; x++) {
-      for (let y = startY; y < token.height; y++) {
+    const startX = token.data.width >= 1 ? 0.5 : token.data.width / 2
+    const startY = token.data.height >= 1 ? 0.5 : token.data.height / 2
+    for (let x = startX; x < token.data.width; x++) {
+      for (let y = startY; y < token.data.height; y++) {
         const currGrid = {
-          x: token.x + x * grid - templatePos.x,
-          y: token.y + y * grid - templatePos.y,
+          x: token.data.x + x * grid - templatePos.x,
+          y: token.data.y + y * grid - templatePos.y,
         }
         const contains = this.shape.contains(currGrid.x, currGrid.y)
         if (contains) return true
