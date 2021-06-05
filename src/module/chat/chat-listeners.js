@@ -35,7 +35,7 @@ async function _onChatApplyHealing(event) {
 
   const actor = _getChatCardActor(li.closest('.demonlord'))
   const sourceToken = canvas.tokens.placeables.find(token => token.actor.id === actor.id)
-  const itemId = li.children[0].dataset.itemId
+  const itemId = li.closest('.demonlord').dataset.itemId
   Hooks.call('DL.ApplyHealing', {
     sourceToken,
     targets: selected,
@@ -72,7 +72,7 @@ async function _onChatRollDamage(event) {
   var templateData = {
     actor: actor,
     item: {
-      _id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId,
+      id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId,
     },
     data: {},
     diceData: formatDice(damageRoll),
