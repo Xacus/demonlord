@@ -92,7 +92,7 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
   if (!combatantUpdates.length) return this
 
   // Update multiple combatants
-  await this.updateEmbeddedDocument('Combatant', combatantUpdates)
+  //await this.updateEmbeddedDocument('Combatant', combatantUpdates)
   await ChatMessage.create(initMessages)
 
   return this
