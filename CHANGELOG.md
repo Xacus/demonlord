@@ -3,7 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [2.0.1] -
+
 ### Fixed
+
 - Added Dice So Nice, Colorset + Preset + Image
 - Added Mark of Darkness to Features
 - Removed dice sound when attacking and Dice So Nice is used. It made two different sound effects.
@@ -11,11 +13,12 @@ All notable changes to this project will be documented in this file.
 - Talents inside paths now are correctly handled when path is edited
 - Improved migration code
 - Fix Encumbrance not correctly applying
-- Perception now correctly uses Intellect as base
+- Perception snow correctly uses Intellect as base
+- Automated Animations integration
 
 ## [2.0.0] - 2021-05-28
 
-### Overview
+### Overviewss
 
 - Foundry 0.8.x support
 - New item sheets layouts
