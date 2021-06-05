@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Fix Encumbrance not correctly applying
 - Perception snow correctly uses Intellect as base
 - Automated Animations integration
+- Macro: Request initiative
 
 ## [2.0.0] - 2021-05-28
 
