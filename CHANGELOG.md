@@ -9,7 +9,10 @@ All notable changes to this project will be documented in this file.
 - Added Dice So Nice, Colorset + Preset + Image
 - Added Mark of Darkness to Features
 - Removed dice sound when attacking and Dice So Nice is used. It made two different sound effects.
-- Fix Measured Template on Foundry 0.8.x
+- Measured Template on Foundry 0.8.x
+- Measured Template: Auto-targeting on Foundry 0.8.x
+- Measured Template: Auto remove measured template after action
+- Measured Template: Support to target or selection in chat log actions
 - Talents inside paths now are correctly handled when path is edited
 - Improved migration code
 - Fix Encumbrance not correctly applying
