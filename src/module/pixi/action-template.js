@@ -21,8 +21,8 @@ export class ActionTemplate extends MeasuredTemplate {
       fillColor: game.user.color,
       texture: item.data.data.activatedEffect.texture,
       flags: {
-        "actionTemplate": true
-      }
+        actionTemplate: true,
+      },
     }
 
     // Additional type-specific data
@@ -43,12 +43,12 @@ export class ActionTemplate extends MeasuredTemplate {
     }
 
     // Return the template constructed from the item data
-    const cls = CONFIG.MeasuredTemplate.documentClass;
-    const template = new cls(templateData, {parent: canvas.scene});
-    const object = new this(template);
-    object.item = item;
-    object.actorSheet = item.actor?.sheet || null;
-    return object;
+    const cls = CONFIG.MeasuredTemplate.documentClass
+    const template = new cls(templateData, { parent: canvas.scene })
+    const object = new this(template)
+    object.item = item
+    object.actorSheet = item.actor?.sheet || null
+    return object
   }
 
   /* -------------------------------------------- */
@@ -110,8 +110,8 @@ export class ActionTemplate extends MeasuredTemplate {
       handlers.rc(event)
 
       // Confirm final snapped position
-      const destination = canvas.grid.getSnappedPosition(this.data.x, this.data.y, 2);
-      this.data.update(destination);
+      const destination = canvas.grid.getSnappedPosition(this.data.x, this.data.y, 2)
+      this.data.update(destination)
 
       if (game.settings.get('demonlord', 'templateAutoTargeting')) {
         this.autoTargeting()

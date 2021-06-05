@@ -238,7 +238,8 @@ export default class DLPathSheet extends DLBaseItemSheet {
         // Set default image based on new path type
         const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.path).includes(formData.img)
         if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
-          formData.img = CONFIG.DL.defaultItemIcons.path[formData['data.type']] || CONFIG.DL.defaultItemIcons.path.novice
+          formData.img =
+            CONFIG.DL.defaultItemIcons.path[formData['data.type']] || CONFIG.DL.defaultItemIcons.path.novice
         }
       } else {
         updateData.levels = this._getViewLevelsUpdateData(completeFormData)
@@ -277,7 +278,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     })
     // Assert that there is only one level not matching.
     // Not matching levels happen when a path level level changes so there should only be one
-    if (oldLevels.length > 1 && notFound.length > 1 || oldLevels.length !== notFound.length) {
+    if ((oldLevels.length > 1 && notFound.length > 1) || oldLevels.length !== notFound.length) {
       throw new Error('Error in path level matching')
     } else if (notFound.length === 1) {
       this._keepNestedItems(notFound[0], oldLevels[0])

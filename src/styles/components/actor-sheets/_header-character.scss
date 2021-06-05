@@ -1,4 +1,4 @@
-@import "header-base";
+@import 'header-base';
 
 form {
   grid: 'sidebar header' 110px 'sidebar nav' minmax(min-content, max-content) 'sidebar content' 1fr/247px 1fr;

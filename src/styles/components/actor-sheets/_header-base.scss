@@ -1,6 +1,5 @@
-
 .actor-header {
-  font-family: "IM Fell English SC", serif;
+  font-family: 'IM Fell English SC', serif;
   position: relative;
   color: white;
   height: 100%;
@@ -15,7 +14,8 @@
     padding-left: 4px;
     margin-top: 4px;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background: rgba(0, 0, 0, 0.5);
     }
 
@@ -35,7 +35,7 @@
     text-align: center;
     background: transparent;
     border: none;
-    font-family: $font-actor-sheet-inputs
+    font-family: $font-actor-sheet-inputs;
   }
 
   // Level

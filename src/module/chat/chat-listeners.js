@@ -3,7 +3,7 @@
 /* -------------------------------------------- */
 
 import { buildActorInfo, formatDice, getChatBaseData } from './base-messages'
-import {TokenManager} from "../pixi/token-manager";
+import { TokenManager } from '../pixi/token-manager'
 
 const tokenManager = new TokenManager()
 
