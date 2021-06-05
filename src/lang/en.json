@@ -473,6 +473,8 @@
   "DL.SettingTemplateAutoTargetingHint": "Automatically targets the tokens inside of your placed Measured Template.",
   "DL.SettingTemplateAutoRemove": "Auto remove Measured Templates after action",
   "DL.SettingTemplateAutoRemoveHint": "Automatically remove Measured Templates healing or damage from Scene.",
+  "DL.SettingtargetingOnSelect": "Replace token targeting with token selection",
+  "DL.SettingtargetingOnSelectHint": "Replace token targeting with token selection on chat log actions.",
   "DL.SettingReplaceIcons": "Replace default icons",
   "DL.SettingReplaceIconsHint": "Replace the default icon when creating an Item",
   "DL.DialogInitiative": "Initiative",

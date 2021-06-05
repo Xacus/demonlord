@@ -3,6 +3,9 @@
 /* -------------------------------------------- */
 
 import { buildActorInfo, formatDice, getChatBaseData } from './base-messages'
+import {TokenManager} from "../pixi/token-manager";
+
+const tokenManager = new TokenManager()
 
 export function initChatListeners(html) {
   html.on('click', '.roll-healing', _onChatApplyHealing.bind(this))
@@ -25,7 +28,7 @@ async function _onChatApplyHealing(event) {
   const item = li.children[0]
   const isFullRate = +item.dataset.healing === 1
 
-  const selected = Object.values(canvas.tokens.controlled)
+  const selected = tokenManager.targets
   if (selected.length === 0) {
     ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
     return
@@ -34,7 +37,7 @@ async function _onChatApplyHealing(event) {
   selected.forEach(token => token.actor.applyHealing(isFullRate))
 
   const actor = _getChatCardActor(li.closest('.demonlord'))
-  const sourceToken = canvas.tokens.placeables.find(token => token.actor.id === actor.id)
+  const sourceToken = tokenManager.getTokenByActorId(actor.id)
   const itemId = li.closest('.demonlord').dataset.itemId
   Hooks.call('DL.ApplyHealing', {
     sourceToken,
@@ -108,7 +111,7 @@ async function _onChatApplyDamage(event) {
   const item = li.children[0]
   const damage = parseInt(item.dataset.damage)
 
-  var selected = Object.values(canvas.tokens.controlled)
+  var selected = tokenManager.targets
   if (selected.length == 0) {
     ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
     return
@@ -117,7 +120,7 @@ async function _onChatApplyDamage(event) {
   selected.forEach(token => token.actor.increaseDamage(+damage))
 
   const actor = _getChatCardActor(li.closest('.demonlord'))
-  const sourceToken = canvas.tokens.placeables.find(token => token.actor.id === actor.id)
+  const sourceToken = tokenManager.getTokenByActorId(actor.id)
   const itemId = li.closest('.demonlord').dataset.itemId
   Hooks.call('DL.ApplyDamage', {
     sourceToken,
@@ -140,7 +143,7 @@ async function _onChatApplyEffect(event) {
     console.warn('Demonlord | _onChatApplyEffect | Effect not found!')
     return
   }
-  const selected = Object.values(canvas.tokens.controlled)
+  const selected = tokenManager.targets
   if (selected.length == 0) {
     ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
     return
@@ -179,7 +182,7 @@ async function _onChatRequestChallengeRoll(event) {
   if (boonsbanes == undefined) boonsbanes = parseInt(item.dataset.boba)
   if (isNaN(boonsbanes)) boonsbanes = 0
 
-  var selected = Object.values(canvas.tokens.controlled)
+  var selected = tokenManager.targets
   if (selected.length == 0) {
     ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
   }
@@ -257,7 +260,7 @@ async function _onChatMakeChallengeRoll(event) {
 async function _onChatRequestInitRoll(event) {
   event.preventDefault()
 
-  var selected = Object.values(canvas.tokens.controlled)
+  var selected = tokenManager.targets
   if (selected.length == 0) {
     ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
   }
