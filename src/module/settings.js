@@ -86,10 +86,26 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'targetingOnSelect', {
+    name: game.i18n.localize('DL.SettingtargetingOnSelect'),
+    hint: game.i18n.localize('DL.SettingtargetingOnSelectHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })
   game.settings.register('demonlord', 'templateAutoTargeting', {
     name: game.i18n.localize('DL.SettingTemplateAutoTargeting'),
     hint: game.i18n.localize('DL.SettingTemplateAutoTargetingHint'),
     default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })
+  game.settings.register('demonlord', 'templateAutoRemove', {
+    name: game.i18n.localize('DL.SettingTemplateAutoRemove'),
+    hint: game.i18n.localize('DL.SettingTemplateAutoRemoveHint'),
+    default: true,
     scope: 'world',
     type: Boolean,
     config: true,
