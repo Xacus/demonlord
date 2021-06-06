@@ -1,4 +1,7 @@
 import { DL } from '../config.js'
+import {TokenManager} from "./token-manager";
+
+const tokenManager = new TokenManager()
 
 /**
  * A helper class for building MeasuredTemplates for 5e spells and abilities
@@ -162,10 +165,11 @@ export class ActionTemplate extends MeasuredTemplate {
     const tokens = canvas.scene.getEmbeddedCollection('Token')
     let targets = []
 
-    for (const token of tokens)
+    for (const token of tokens) {
       if (this.isTokenInside(token)) {
         targets.push(token._id)
       }
-    game.user.updateTokenTargets(targets)
+    }
+    tokenManager.targetTokens(targets)
   }
 }

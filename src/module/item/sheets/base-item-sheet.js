@@ -71,11 +71,12 @@ export default class DLBaseItemSheet extends ItemSheet {
   async _updateObject(event, formData) {
     const item = this.object
     const updateData = expandObject(formData)
-    let altdamage, altdamagetype
+    let altdamage = []
+    let altdamagetype = []
 
     if (item.type === 'talent') {
-      altdamage = updateData?.altdamagevs || []
-      altdamagetype = updateData?.altdamagetypevs || []
+      altdamage.push(updateData?.altdamage)
+      altdamagetype.push(updateData?.altdamagetype)
       updateData['data.vs.damagetypes'] = altdamage.map((damage, index) => ({
         damage: damage,
         damagetype: altdamagetype[index],
@@ -83,8 +84,8 @@ export default class DLBaseItemSheet extends ItemSheet {
       // If a Talent has no uses it's always active
       updateData['data.addtonextroll'] = !updateData.data?.uses?.max
     } else if (item.type === 'weapon' || item.type === 'spell') {
-      altdamage = updateData?.altdamage || []
-      altdamagetype = updateData?.altdamagetype || []
+      altdamage.push(updateData?.altdamage)
+      altdamagetype.push(updateData?.altdamagetype)
       updateData['data.action.damagetypes'] = altdamage.map((damage, index) => ({
         damage: damage,
         damagetype: altdamagetype[index],

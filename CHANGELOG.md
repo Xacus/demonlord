@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] -
+
+- Measured Template: Selection support
+- Damage Types
+
 ## [2.0.1] - 2021-06-06
 
 ### Fixed
