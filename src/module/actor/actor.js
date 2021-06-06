@@ -584,7 +584,9 @@ export class DemonlordActor extends Actor {
 
   setEncumbrance() {
     const armors = this.data.armor || this.items.filter(i => i.type === 'armor').map(a => a.data)
-    const notMetItemNames = armors.filter(a => a.data.strengthmin > this.data.data.attributes.strength.value && a.data.wear).map(a => a.name)
+    const notMetItemNames = armors
+      .filter(a => a.data.strengthmin > this.data.data.attributes.strength.value && a.data.wear)
+      .map(a => a.name)
     return DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }
 }

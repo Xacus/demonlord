@@ -2,20 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.1] -
+## [2.0.1] - 2021-06-06
+
 ### Fixed
+
 - Added Dice So Nice, Colorset + Preset + Image
 - Added Mark of Darkness to Features
 - Removed dice sound when attacking and Dice So Nice is used. It made two different sound effects.
-- Fix Measured Template on Foundry 0.8.x
+- Measured Template on Foundry 0.8.x
+- Measured Template: Auto-targeting on Foundry 0.8.x
+- Measured Template: Auto remove measured template after action
+- Measured Template: Support to target or selection in chat log actions
 - Talents inside paths now are correctly handled when path is edited
 - Improved migration code
 - Fix Encumbrance not correctly applying
-- Perception now correctly uses Intellect as base
+- Perception snow correctly uses Intellect as base
+- Automated Animations integration
+- Macro: Request initiative
 
 ## [2.0.0] - 2021-05-28
 
-### Overview
+### Overviewss
 
 - Foundry 0.8.x support
 - New item sheets layouts

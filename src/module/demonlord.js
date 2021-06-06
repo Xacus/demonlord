@@ -2,7 +2,7 @@
 import { DL } from './config.js'
 import { DemonlordActor } from './actor/actor.js'
 import { DemonlordItem } from './item/item.js'
-import { ActionTemplate } from './item/action-template.js'
+import { ActionTemplate } from './pixi/action-template.js'
 import { registerSettings } from './settings.js'
 import { nextTurn, rollInitiative, setupTurns, startCombat } from './init/init.js'
 import combattracker, { _onUpdateCombat } from './combattracker.js'
@@ -10,7 +10,7 @@ import { preloadHandlebarsTemplates } from './templates.js'
 import * as migrations from './migration.js'
 import { handleMigrations } from './migration.js'
 import * as macros from './macros.js'
-import {capitalize, plusify} from './utils/utils'
+import { capitalize } from './utils/utils'
 import { DLAfflictions } from './active-effects/afflictions'
 import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config'
 import DLCharacterSheet from './actor/sheets/character-sheet'
@@ -139,7 +139,7 @@ Hooks.once('init', async function () {
 
   Handlebars.registerHelper('isBadgeImg', img => img.includes('/demonlord/assets/icons/badges'))
 
-  Handlebars.registerHelper('plusify', x => x >= 0 ? '+' + x : x)
+  Handlebars.registerHelper('plusify', x => (x >= 0 ? '+' + x : x))
 
   preloadHandlebarsTemplates()
 })
@@ -379,3 +379,18 @@ function loadActorForChatMessage(speaker) {
   }
   return actor
 }
+
+Hooks.on('DL.ApplyDamage', (...args) => {
+  Hooks.call('DL.Action', ...args)
+})
+Hooks.on('DL.ApplyHealing', (...args) => {
+  Hooks.call('DL.Action', ...args)
+})
+
+Hooks.on('DL.Action', () => {
+  if (!game.settings.get('demonlord', 'templateAutoRemove')) {
+    return
+  }
+  const actionTemplates = canvas.scene.templates.filter(a => a.data.flags.actionTemplate).map(a => a.id)
+  canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
+})
