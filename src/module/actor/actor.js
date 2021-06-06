@@ -219,7 +219,8 @@ export class DemonlordActor extends Actor {
       (parseInt(item.data.data.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
       (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0) -
-      (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0)
+      (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0) -
+      (defender?.data.data.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
     if (item.data.data.wear && parseInt(item.data.data.strengthmin) > attacker.data.data.attributes.strength.value)

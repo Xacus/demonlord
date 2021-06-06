@@ -55,11 +55,18 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
   let m = _remapEffects(attackerEffects)
 
+  let defenderBoons = defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0
+  const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
+
   let itemBoons
   switch (item.data.type) {
     case 'spell':
+      itemBoons = item.data.data.action.boonsbanes
+      defenderBoons += defender?.data.data.bonuses.defense.boons.spell || 0
+      break
     case 'weapon':
       itemBoons = item.data.data.action.boonsbanes
+      defenderBoons += defender?.data.data.bonuses.defense.boons.weapon || 0
       if (item.data.data.wear && +item.data.data.strengthmin > attacker.data.data.attributes.strength.value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
       break
     case 'talent':
@@ -69,9 +76,6 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     default:
       return
   }
-
-  const defenderBoons = defender?.data.data.bonuses.defense.boons[defenseAttribute]
-  const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
 
   let boonsMsg =
     changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, '') +
