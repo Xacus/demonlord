@@ -164,12 +164,25 @@ export default class extends CombatTracker {
   }
 }
 
-export function _onUpdateCombat(combatData) {
+export function _onUpdateCombat(combatData, _updateData, _options, _userId) {
+  // Do this only if the user is GM to avoid multiple operations; FIXME: does not handle multiple GMs
+  if (!game.user.isGM) return
+
   const isRoundAdvanced = combatData?.current?.round - combatData?.previous?.round > 0
   if (isRoundAdvanced) {
     const actors = combatData.data.combatants.map(c => c.actor)
-
+    console.log('combatData')
     // Deactivate temporary talents
     actors.forEach(a => a.items.filter(i => i.data.type === 'talent').forEach(t => a.deactivateTalent(t, 0, true)))
+    // Decrease duration of effects
+    actors.forEach(a => {
+      const aeToUpd = a.effects
+        .filter(e => e.data?.duration?.rounds > 0)
+        .map(e => ({
+          _id: e.id,
+          'duration.rounds': e.data.duration.rounds - 1,
+        }))
+      if (aeToUpd.length > 0) a.updateEmbeddedDocuments('ActiveEffect', aeToUpd)
+    })
   }
 }
