@@ -1,0 +1,22 @@
+
+mixin if(condition)
+  | {{#if #{condition} }}
+  block
+  | {{/if}}
+
+mixin if-not(condition)
+  | {{#if (not #{condition}) }}
+  block
+  | {{/if}}
+
+mixin ife(condition)
+  | {{#if #{condition} }}
+  block
+
+mixin else
+  | {{else}}
+  block
+  | {{/if}}
+
+
+

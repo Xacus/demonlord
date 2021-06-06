@@ -1,0 +1,78 @@
+include ../_global-mixins
+
+//-------------------------------
+  GENERIC
+  -------------------------------
+mixin item-header(editKey)
+  header.sheet-header.itemsheet-header
+    img.weapon-img(src="{{item.img}}" data-edit="img" title="{{item.name}}")
+    .header-fields
+      .gridrow
+        input(name="name" type="text" value="{{item.name}}" placeholder="Name")
+    .template-type {{item.type}}
+    if (editKey)
+      - const _checked = `{{checked ${editKey} }}`
+      +if("isGM")
+        .togglegm
+          label.switchBig
+            != `<input type="checkbox" id="${editKey}" name="${editKey}" {{checked ${editKey} }} />`
+            .slider.round
+              span.on Edit
+              span.off View
+
+mixin drop-area(items, dataGroup, loc, tag)
+  label {{localize '#{loc}' }}
+  div.item-container.drop-area(data-group=dataGroup, data-level="{{id}}")
+    ul.tags
+      | {{#each #{items} as |item id|}}
+      li.tag(data-item-id="{{id}}")
+        | {{item.name}}
+        span.remove-tag(class=tag role="button" data-action="delete")
+      | {{/each}}
+
+//-------------------------------
+
+mixin select-area(items, loc)
+  label {{localize '#{loc}' }}
+  div.item-container.select-area(data-level="{{id}}")
+    ul.tags
+      | {{#each #{items} as |item id|}}
+      li.tagcleantooltip(data-item-id="{{id}}")
+        | {{#if item.description}}
+        span(data-tipfy="{{{item.description}}}") {{item.name}}
+        | {{else}} {{language.name}} {{/if}}
+      | {{/each}}
+
+
+//-------------------------------
+  ANCESTRY
+  -------------------------------
+
+mixin ancestry-edit-char(col, char, loc, notTransferred)
+  div(class=[col, "inline-input"])
+    input(type="number" name=char, value=`{{${char}}}`)
+    if notTransferred
+      label.resource-label(title="{{localize 'DL.AncestryNotTransferred'}}" style="cursor: help") {{localize '#{loc}'}}¹
+    else
+      label.resource-label {{localize '#{loc}'}}
+
+//--------------------------------
+
+mixin ancestry-view-char(char, loc, n, notTransferred)
+  +if(`(ne ${char} ${n})`)
+    .col-6.inline-input
+      input(type="text" value=`+{{ ${char} }}` readonly)
+      if notTransferred
+        label.resource-label(title="{{localize 'DL.AncestryNotTransferred'}}" style="cursor: help") {{localize '#{loc}'}}¹
+      else
+        label.resource-label {{localize '#{loc}'}}
+
+
+//--------------------------------
+
+mixin radio-lv4(name, loc, val, isChecked)
+  .col-5.inline-input
+    input(type="radio", name=name, id=val, checked=isChecked)
+    label(style="vertical-align: super") {{localize "#{loc}" }}
+
+//--------------------------------

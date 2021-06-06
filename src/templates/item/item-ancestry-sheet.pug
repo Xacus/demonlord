@@ -1,0 +1,124 @@
+include _item-mixins
+form(class="{{cssClass}} item-form" autocomplete="off")
+
+  //- Header
+  +item-header('data.editAncestry')
+
+  //- Nav
+  nav.sheet-tabs.tabs(data-group="primary")
+    a.item(data-tab="attributes") {{localize "DL.TabsAttributes"}}
+    a.item(data-tab="description") {{localize "DL.TabsDescription"}}
+
+  section.sheet-body
+    section.sheet-content
+      div.tab.paths(data-group="primary" data-tab="attributes")
+
+        //- Starting attributes
+        .item-tab-header
+          img(src="systems/demonlord/assets/ui/dl-divider.webp")
+          div {{localize "DL.AncestryStartingAttributes"}}
+        .item-table
+          .row
+            mixin ancestry-attribute(attr, loc)
+              .col-3.inline-input
+                input(type="number" name=attr value=`{{${attr}}}` placeholder="10", {{notreadonly data.editAncestry}})
+                label.bold {{localize '#{loc}'}}
+            +ancestry-attribute('data.attributes.strength.value', 'DL.AttributeStrength')
+            +ancestry-attribute('data.attributes.agility.value', 'DL.AttributeAgility')
+            +ancestry-attribute('data.attributes.intellect.value', 'DL.AttributeIntellect')
+            +ancestry-attribute('data.attributes.will.value', 'DL.AttributeWill')
+
+        //- Characteristics
+        .item-tab-header(style="margin-top: 12px")
+          div {{localize "DL.Characteristics"}}
+
+        +ife("data.editAncestry")
+          .item-table
+            .row
+              +ancestry-edit-char("col-4", "data.characteristics.power", "DL.CharPower")
+              +ancestry-edit-char("col-4", "data.characteristics.size", "DL.CharSize")
+              +ancestry-edit-char("col-4", "data.characteristics.speed", "DL.CharSpeed")
+            .row
+              +ancestry-edit-char("col-6", "data.characteristics.perceptionmodifier", "DL.AncestryPerceptionModifier")
+              +ancestry-edit-char("col-6", "data.characteristics.defensemodifier", "DL.AncestryDefenseModifier")
+            .row
+              +ancestry-edit-char("col-6", "data.characteristics.healthmodifier", "DL.AncestryHealthModifier")
+              +ancestry-edit-char("col-6", "data.characteristics.healingratemodifier", "DL.AncestryHealingRateModifier")
+            .row
+              +ancestry-edit-char("col-6", "data.characteristics.insanity", "DL.CharInsanity", true)
+              +ancestry-edit-char("col-6", "data.characteristics.corruption", "DL.CharCorruption", true)
+            .row
+              .col-12
+                label {{localize 'DL.PathsLevelLanguages'}}
+                textarea(name="data.languages") {{data.languages}}
+                | {{#if data.languages}} <div>{{data.languages}}</div> {{/if}}
+            .row
+              .col-12
+                +drop-area("data.languagelist", "language", "DL.LanguagesTitle", "delete-ancestryitem")
+              .col-12
+                +drop-area("data.talents", "talent", "DL.CreatureTraits", "delete-ancestryitem")
+
+        +else
+          .item-table
+            .row
+              +ancestry-view-char("data.characteristics.power", "DL.CharPower", 0)
+              +ancestry-view-char("data.characteristics.size", "DL.CharSize", 0)
+              +ancestry-view-char("data.characteristics.speed", "DL.CharSpeed", 0)
+              +ancestry-view-char("data.characteristics.perceptionmodifier", "DL.AncestryPerceptionModifier", 0)
+              +ancestry-view-char("data.characteristics.defensemodifier", "DL.AncestryDefenseModifier", 0)
+              +ancestry-view-char("data.characteristics.healthmodifier", "DL.AncestryHealthModifier", 0)
+              +ancestry-view-char("data.characteristics.healingratemodifier", "DL.AncestryHealingRateModifier", 0)
+              +ancestry-view-char("data.characteristics.insanity", "DL.CharInsanity", "0", true)
+              +ancestry-view-char("data.characteristics.corruption", "DL.CharCorruption", "0", true)
+          +if("(ne data.languages '')")
+            .row
+              .col-12
+                label {{localize 'DL.PathsLevelLanguages'}}
+                div {{data.languages}}
+          +if("data.languagelist")
+            .row
+              .col-12
+                +select-area("data.languagelist", "DL.LanguagesTitle")
+          +if("data.talents")
+            .row
+              .col-12
+                +select-area("data.talents", "DL.CreatureTraits")
+
+        //- Level 4
+        .item-tab-header(style="margin-top: 12px")
+          img(src="systems/demonlord/assets/ui/dl-divider.webp")
+          div {{localize "DL.AncestryLevel4"}}
+        .item-table
+          //- L4 Health
+          .row
+            +ancestry-attribute("data.level4.healthbonus", "DL.CharHealth")
+
+          //- L4 Radio
+          .row
+            .col-12 {{localize "DL.AncestryOptionTitle"}}
+            +if("data.level4.option1")
+              +radio-lv4("data.level4.options", "DL.AncestryLearnSpell", "data.level4.option.true", true)
+              +radio-lv4("data.level4.options", "DL.AncestryLearnTalent", "data.level4.option.false", false)
+            +if-not("data.level4.option1")
+              +radio-lv4("data.level4.options", "DL.AncestryLearnSpell", "data.level4.option.true", false)
+              +radio-lv4("data.level4.options", "DL.AncestryLearnTalent", "data.level4.option.false", true)
+
+          //- L4 traits
+          +ife("data.editAncestry")
+            .row
+              .col-12
+                +drop-area("data.level4.talent", "talent4", "DL.CreatureTraits", "delete-ancestryitem")
+          +else("data.editAncestry")
+            +if("data.level4.talent")
+              .row
+                .col-8
+                  +select-area("data.level4.talent", "DL.CreatureTraits")
+                .col-4
+                  .info
+                    a.item-control.transfer-talents(data-group="talent4" title="{{localize 'DL.PathsTraitTransfers'}}") {{localize 'DL.PathsTraitTransfers'}}
+
+    //- Description tab
+    | {{> "systems/demonlord/templates/item/partial/item-description.html"}}
+
+  script.
+    new Tipfy('[data-tipfy]')
