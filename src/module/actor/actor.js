@@ -568,7 +568,7 @@ export class DemonlordActor extends Actor {
     return this.update({ 'data.characteristics.health.value': newHp })
   }
 
-  setUsesOnSpells() {
+  async setUsesOnSpells() {
     const power = this.data.data.characteristics.power
     const diff = []
     this.data.items
@@ -582,7 +582,7 @@ export class DemonlordActor extends Actor {
     if (diff.length > 0) return this.updateEmbeddedDocuments('Item', diff)
   }
 
-  setEncumbrance() {
+  async setEncumbrance() {
     const armors = this.data.armor || this.items.filter(i => i.type === 'armor').map(a => a.data)
     const notMetItemNames = armors
       .filter(a => a.data.strengthmin > this.data.data.attributes.strength.value && a.data.wear)

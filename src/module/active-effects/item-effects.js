@@ -335,7 +335,7 @@ export class DLActiveEffects {
    * Toggles the activation of an active effect based on its level requirements and current activation
    * @param actor
    */
-  static toggleEffectsByActorRequirements(actor) {
+  static async toggleEffectsByActorRequirements(actor) {
     const notMetEffectsData = actor.effects
       .filter(
         effect =>

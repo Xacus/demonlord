@@ -128,7 +128,7 @@ export async function handleCreatePath(actor, pathData) {
   leqLevels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
   let itemsData = await getNestedItemsDataList(nestedItems)
   itemsData = itemsData.map(i => i.data)
-  return actor.createEmbeddedDocuments('Item', itemsData)
+  if (itemsData.length > 0) return actor.createEmbeddedDocuments('Item', itemsData)
 }
 
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
@@ -148,11 +148,11 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
     levels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
     let itemsData = await getNestedItemsDataList(nestedItems)
     itemsData = itemsData.map(i => i.data)
-    return actor.createEmbeddedDocuments('Item', itemsData)
+    if (itemsData.length > 0) return actor.createEmbeddedDocuments('Item', itemsData)
   } else {
     // Delete ALL items from the difference of levels
     const idsToDel = getPathItemsToDel(actor, levels)
-    return actor.deleteEmbeddedDocuments('Item', idsToDel)
+    if (idsToDel.length > 0) return actor.deleteEmbeddedDocuments('Item', idsToDel)
   }
 }
 
