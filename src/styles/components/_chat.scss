@@ -66,6 +66,7 @@
   .attackbox {
     .boxline {
       flex-direction: row;
+      display: flex;
 
       .header {
       }
@@ -302,6 +303,13 @@
   margin-top: 10px;
 
   .header {
+    font-weight: bold;
+  }
+}
+
+.roll20 {
+  .header {
+    height: 24px;
     font-weight: bold;
   }
 }
