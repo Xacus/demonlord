@@ -20,6 +20,15 @@ mixin item-header(editKey)
               span.on Edit
               span.off View
 
+//-------------------------------
+
+mixin item-input(cls, name, loc, type)
+  div(class=cls)
+    label.resource-label {{localize '#{loc}'}}
+    input(type=type||"text", name=name value=`{{ ${name} }}`)
+
+//-------------------------------
+
 mixin drop-area(items, dataGroup, loc, tag)
   label {{localize '#{loc}' }}
   div.item-container.drop-area(data-group=dataGroup, data-level="{{id}}")

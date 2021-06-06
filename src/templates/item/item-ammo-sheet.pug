@@ -1,0 +1,7 @@
+extends _item-base-layout
+block attributes
+  div.tab.weapons(data-group="primary" data-tab="attributes")
+    .item-table
+      .row
+        +item-input("col-6", "data.quantity", "DL.AmmoAmount", "number")
+        +item-input("col-6", "data.value", "DL.ItemValue", "text")

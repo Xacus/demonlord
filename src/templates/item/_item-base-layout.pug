@@ -1,0 +1,26 @@
+include _item-mixins
+block options
+form(class="{{cssClass}} item-form" autocomplete="off")
+  //- Header
+  +item-header(hasEditBtn||false)
+
+  //- Nav
+  nav.sheet-tabs.tabs(data-group="primary")
+    unless (hasNoAttributes)
+      a.item(data-tab="attributes") {{localize "DL.TabsAttributes"}}
+    a.item(data-tab="description") {{localize "DL.TabsDescription"}}
+    if (hasEffectsTab||false)
+      +if("effects")
+        a.item(data-tab="effects") {{localize "DL.TabsEffects"}}
+    block extraNavs
+
+  //-Body
+  section.sheet-body
+    section.sheet-content
+      block attributes
+      //- Other tabs
+      | {{> "systems/demonlord/templates/item/partial/item-description.html"}}
+      if (hasEffectsTab||false)
+        +if("effects")
+          | {{> "systems/demonlord/templates/item/partial/item-effects.html"}}
+      block extraTabs

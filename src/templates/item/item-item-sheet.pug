@@ -1,0 +1,19 @@
+extends _item-base-layout
+block options
+  - const hasEffects = true
+
+block attributes
+  div.tab.weapons(data-group="primary" data-tab="attributes")
+    .item-table
+      .row
+        +item-input("col-4", "data.quantity", "DL.ItemAmount", "text")
+        +item-input("col-4", "data.value", "DL.ItemValue", "value")
+        .col-4
+          label {{localize "DL.Availability"}}
+          select(name="data.availability" data-dtype="String")
+            | {{#select data.availability}}
+            option(value="C") {{localize "DL.AvailabilityCommon"}}
+            option(value="U") {{localize "DL.AvailabilityUncommon"}}
+            option(value="R") {{localize "DL.AvailabilityRare"}}
+            option(value="E") {{localize "DL.AvailabilityExotic"}}
+            | {{/select}}

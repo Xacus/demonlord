@@ -1,0 +1,14 @@
+extends _item-base-layout
+block attributes
+  div.tab.weapons(data-group="primary" data-tab="attributes")
+    .item-table
+      .row
+        .col-4.inline-input.fix
+          input(type="checkbox", name="data.read", id="multipleoptions", {{checked data.read}})
+          label {{localize "DL.LanguagesKnowledeRead"}}
+        .col-4.inline-input.fix
+          input(type="checkbox", name="data.write", id="multipleoptions", {{checked data.write}})
+          label {{localize "DL.LanguagesKnowledeWrite"}}
+        .col-4.inline-input.fix
+          input(type="checkbox", name="data.speak", id="multipleoptions", {{checked data.speak}})
+          label {{localize "DL.LanguagesKnowledeSpeak"}}
