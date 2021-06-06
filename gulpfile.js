@@ -52,7 +52,9 @@ function buildStyles() {
 async function copyFiles() {
   for (const file of staticFiles) {
     if (fs.existsSync(`${sourceDirectory}/${file}`)) {
-      await fs.copy(`${sourceDirectory}/${file}`, `${distDirectory}/${file}`)
+      await fs.copy(`${sourceDirectory}/${file}`, `${distDirectory}/${file}`, {
+        filter: (name) => !name.endsWith(".pug")
+      })
     }
   }
 }
@@ -233,7 +235,7 @@ function setDownloadURL(cb) {
 
 function buildPug(cb) {
   gulp
-    .src('src/templates/**/*.pug')
+    .src('src/templates/**/[^_]*.pug')
     .pipe(pug({ basedir: 'src/templates', doctype: 'html' }))
     .pipe(gulp.dest('dist/templates/'))
   cb()
