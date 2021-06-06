@@ -49,7 +49,7 @@ mixin select-area(items, loc)
       li.tagcleantooltip(data-item-id="{{id}}")
         | {{#if item.description}}
         span(data-tipfy="{{{item.description}}}") {{item.name}}
-        | {{else}} {{language.name}} {{/if}}
+        | {{else}} {{item.name}} {{/if}}
       | {{/each}}
 
 

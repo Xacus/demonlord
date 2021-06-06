@@ -1,8 +1,9 @@
 include _item-mixins
 block options
+
 form(class="{{cssClass}} item-form" autocomplete="off")
   //- Header
-  +item-header(hasEditBtn||false)
+  +item-header(editKey||false)
 
   //- Nav
   nav.sheet-tabs.tabs(data-group="primary")
