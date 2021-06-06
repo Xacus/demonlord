@@ -84,7 +84,7 @@ export class DLActiveEffects {
   static async addUpdateEffectsToActor(actor, effectDataList, operation) {
     if (operation === 'create') {
       effectDataList = effectDataList.filter(effectData => effectData.changes.length > 0)
-      await actor.createEmbeddedDocuments('ActiveEffect', effectDataList)
+      if (effectDataList.length > 0) await actor.createEmbeddedDocuments('ActiveEffect', effectDataList)
     } else if (operation === 'update' && effectDataList.length > 0) {
       const currentEffects = actor.effects.filter(e => e.data?.origin === effectDataList[0]?.origin)
       const effectsToAdd = []
