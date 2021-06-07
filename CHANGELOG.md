@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.2] -
 
+### Fixed
+
 - Measured Template: Selection support
 - Damage Types
+- Mark of Darkness
 
 ## [2.0.1] - 2021-06-06
 
