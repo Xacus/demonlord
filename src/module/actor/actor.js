@@ -33,6 +33,9 @@ export class DemonlordActor extends Actor {
    */
   prepareBaseData() {
     const data = this.data.data
+    // Set the base perception equal to intellect
+    if (this.data.type === 'character') data.attributes.perception.value = data.attributes.intellect.value || 10
+
     setProperty(data, 'bonuses', {
       attack: {
         boons: {
@@ -115,8 +118,8 @@ export class DemonlordActor extends Actor {
 
     // --- Character specific data ---
     if (this.data.type === 'character') {
-      // Override Perception initial value
-      data.attributes.perception.value += data.attributes.intellect.value - 10
+      // Override Perception value
+      data.attributes.perception.value += data.attributes.intellect.modifier
       data.attributes.perception.modifier = data.attributes.perception.value - 10
 
       // Health and Healing Rate
@@ -216,7 +219,8 @@ export class DemonlordActor extends Actor {
       (parseInt(item.data.data.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
       (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0) -
-      (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0)
+      (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0) -
+      (defender?.data.data.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
     if (item.data.data.wear && parseInt(item.data.data.strengthmin) > attacker.data.data.attributes.strength.value)
