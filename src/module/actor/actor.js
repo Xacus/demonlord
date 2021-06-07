@@ -383,9 +383,7 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   rollCorruption() {
-    const corruptionRoll = new Roll('1d20 - @corruption', {
-      corruption: this.data.data.characteristics.corruption,
-    })
+    const corruptionRoll = new Roll('1d20')
     corruptionRoll.evaluate()
     postCorruptionToChat(this, corruptionRoll)
   }
