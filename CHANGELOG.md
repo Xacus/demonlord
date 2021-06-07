@@ -9,6 +9,12 @@ All notable changes to this project will be documented in this file.
 - Measured Template: Selection support
 - Damage Types
 - Mark of Darkness
+- Defense bonus Active Effect now correctly applies
+- Perception errors
+- Errors on character leveling up
+
+### Added
+- Active Effects' duration now decreases at each round (only for 'round' duration)
 
 ## [2.0.1] - 2021-06-06
 
