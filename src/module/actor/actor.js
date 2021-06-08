@@ -234,6 +234,25 @@ export class DemonlordActor extends Actor {
     attackRoll.evaluate()
 
     postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
+
+    const targets = [new Token(defender.token)]
+    const hitTargets = []
+    for (let target of targets) {
+      const targetNumber =
+        defenseAttribute === 'defense'
+          ? defender?.data.data.characteristics.defense
+          : defender?.data.data.attributes[defenseAttribute]?.value || ''
+      if (attackRoll?.total >= targetNumber) {
+        hitTargets.push(target)
+      }
+    }
+
+    Hooks.call("DL.RollAttack", {
+      sourceToken: new Token(attacker.token),
+      targets,
+      itemId: item.id,
+      hitTargets,
+    })
   }
 
   /**
