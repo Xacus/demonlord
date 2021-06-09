@@ -328,7 +328,14 @@ export class DemonlordActor extends Actor {
     const target = this.getTarget()
     let attackRoll = null
 
-    if (!talentData?.vs?.attribute) await this.activateTalent(talent, true)
+    if (!talentData?.vs?.attribute) {
+      await this.activateTalent(talent, true)
+      Hooks.call("DL.UseTalent", {
+        sourceToken: new Token(this.token),
+        targets: [new Token(target.token)],
+        itemId: talent.id,
+      })
+    }
     else {
       await this.activateTalent(talent, Boolean(talentData.vs?.damageActive))
 
@@ -398,6 +405,12 @@ export class DemonlordActor extends Actor {
       const attackFormula = '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
       attackRoll = new Roll(attackFormula, {})
       attackRoll.evaluate()
+    } else {
+      Hooks.call("DL.UseSpell", {
+        sourceToken: new Token(this.token),
+        targets: [new Token(target.token)],
+        itemId: spell.id,
+      })
     }
 
     postSpellToChat(this, spell, attackRoll, target)

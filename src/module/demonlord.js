@@ -380,6 +380,12 @@ function loadActorForChatMessage(speaker) {
   return actor
 }
 
+Hooks.on("DL.UseTalent", (data) => {
+  Hooks.call('DL.Action', {type: "use-talent", ...data})
+})
+Hooks.on("DL.UseSpell", (data) => {
+  Hooks.call('DL.Action', {type: "use-spell", ...data})
+})
 Hooks.on('DL.RollAttack', (data) => {
   Hooks.call('DL.Action', {type: "roll-attack", ...data})
 })
