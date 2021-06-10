@@ -412,7 +412,9 @@ export class DemonlordActor extends Actor {
       const attackFormula = '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
       attackRoll = new Roll(attackFormula, {})
       attackRoll.evaluate()
-    } else if (spellData.action.damage.length === 0) {
+    }
+
+    if (spellData.action.damage.length === 0) {
       Hooks.call("DL.UseSpell", {
         sourceToken: new Token(this.token),
         targets,
