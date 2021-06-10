@@ -14,6 +14,9 @@ import {
   postTalentToChat,
 } from '../chat/roll-messages'
 import { handleCreateAncestry, handleCreatePath } from '../item/nested-objects'
+import {TokenManager} from "../pixi/token-manager";
+
+const tokenManager = new TokenManager()
 
 export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
@@ -200,7 +203,7 @@ export class DemonlordActor extends Actor {
    */
   rollAttack(item, inputBoons = 0, inputModifier = 0) {
     const attacker = this
-    const defender = attacker.getTarget()
+    const defender = tokenManager.targets
     // Get attacker attribute and defender attribute name
     const attackAttribute = item.data.data.action?.attack?.toLowerCase()
     const defenseAttribute = item.data.data?.action?.against?.toLowerCase() || item.data.action?.against?.toLowerCase()
@@ -325,7 +328,8 @@ export class DemonlordActor extends Actor {
 
   async useTalent(talent, inputBoons, inputModifier) {
     const talentData = talent.data.data
-    const target = this.getTarget()
+    const targets = tokenManager.targets
+    const target = targets[0]
     let attackRoll = null
 
     if (!talentData?.vs?.attribute) {
@@ -342,7 +346,7 @@ export class DemonlordActor extends Actor {
         parseInt(inputBoons) +
         (this.data.data.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
         parseInt(talentData.vs?.boonsbanes || 0) -
-        (target?.data.data.bonuses.defense[defenseAttribute] || 0)
+        (target?.actor?.data.data.bonuses.defense[defenseAttribute] || 0)
 
       let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
       attackRoll = new Roll(attackRollFormula, {})
@@ -351,11 +355,11 @@ export class DemonlordActor extends Actor {
     if (talentData.vs.damage.length === 0) {
       Hooks.call("DL.UseTalent", {
         sourceToken: new Token(this.token),
-        targets: [new Token(target.token)],
+        targets,
         itemId: talent.id,
       })
     }
-    postTalentToChat(this, talent, attackRoll, target)
+    postTalentToChat(this, talent, attackRoll, target?.actor)
   }
 
   /* -------------------------------------------- */
@@ -388,7 +392,8 @@ export class DemonlordActor extends Actor {
   }
 
   async useSpell(spell, inputBoons, inputModifier) {
-    const target = this.getTarget()
+    const targets = tokenManager.targets
+    const target = targets[0]
     const spellData = spell.data.data
 
     const attackAttribute = spellData?.action?.attack?.toLowerCase()
@@ -400,8 +405,8 @@ export class DemonlordActor extends Actor {
         (parseInt(inputBoons) || 0) +
         (parseInt(spellData.action.boonsbanes) || 0) +
         (this.data.data.bonuses.attack.boons[attackAttribute] || 0) -
-        (target?.data.data.bonuses.defense.boons[defenseAttribute] || 0) -
-        (target?.data.data.bonuses.defense.boons.spell || 0)
+        (target?.actor?.data.data.bonuses.defense.boons[defenseAttribute] || 0) -
+        (target?.actor?.data.data.bonuses.defense.boons.spell || 0)
       const attackModifier = (parseInt(inputModifier) || 0) + this.data.data.attributes[attackAttribute].modifier || 0
 
       const attackFormula = '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
@@ -410,12 +415,12 @@ export class DemonlordActor extends Actor {
     } else if (spellData.action.damage.length === 0) {
       Hooks.call("DL.UseSpell", {
         sourceToken: new Token(this.token),
-        targets: [new Token(target.token)],
+        targets,
         itemId: spell.id,
       })
     }
 
-    postSpellToChat(this, spell, attackRoll, target)
+    postSpellToChat(this, spell, attackRoll, target?.actor)
   }
 
   /* -------------------------------------------- */
@@ -491,15 +496,6 @@ export class DemonlordActor extends Actor {
       chatData.content = content
       ChatMessage.create(chatData)
     })
-  }
-
-  getTarget() {
-    let selectedTarget = null
-    game.user.targets.forEach(async target => {
-      selectedTarget = target.actor
-    })
-
-    return selectedTarget
   }
 
   getTargetNumber(item) {
