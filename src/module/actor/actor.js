@@ -352,13 +352,11 @@ export class DemonlordActor extends Actor {
       attackRoll = new Roll(attackRollFormula, {})
       attackRoll.evaluate()
     }
-    if (talentData.vs.damage.length === 0) {
-      Hooks.call("DL.UseTalent", {
-        sourceToken: new Token(this.token),
-        targets,
-        itemId: talent.id,
-      })
-    }
+    Hooks.call("DL.UseTalent", {
+      sourceToken: new Token(this.token),
+      targets,
+      itemId: talent.id,
+    })
     postTalentToChat(this, talent, attackRoll, target?.actor)
   }
 
@@ -414,13 +412,11 @@ export class DemonlordActor extends Actor {
       attackRoll.evaluate()
     }
 
-    if (spellData.action.damage.length === 0) {
-      Hooks.call("DL.UseSpell", {
-        sourceToken: new Token(this.token),
-        targets,
-        itemId: spell.id,
-      })
-    }
+    Hooks.call("DL.UseSpell", {
+      sourceToken: new Token(this.token),
+      targets,
+      itemId: spell.id,
+    })
 
     postSpellToChat(this, spell, attackRoll, target?.actor)
   }

@@ -28,4 +28,8 @@ export class DemonlordItem extends Item {
    * @private
    */
   async roll() {}
+
+  hasDamage() {
+    return Boolean(this.data.data?.action?.damage || this.data.data?.vs?.damage)
+  }
 }
