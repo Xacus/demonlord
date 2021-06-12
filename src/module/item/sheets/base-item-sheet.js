@@ -77,7 +77,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     if (item.type === 'talent') {
       altdamage.push(updateData?.altdamage)
       altdamagetype.push(updateData?.altdamagetype)
-      updateData['data.vs.damagetypes'] = altdamage.map((damage, index) => ({
+      updateData['data.vs.damagetypes'] = altdamage.filter(Boolean).map((damage, index) => ({
         damage: damage,
         damagetype: altdamagetype[index],
       }))
@@ -86,7 +86,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     } else if (item.type === 'weapon' || item.type === 'spell') {
       altdamage.push(updateData?.altdamage)
       altdamagetype.push(updateData?.altdamagetype)
-      updateData['data.action.damagetypes'] = altdamage.map((damage, index) => ({
+      updateData['data.action.damagetypes'] = altdamage.filter(Boolean).map((damage, index) => ({
         damage: damage,
         damagetype: altdamagetype[index],
       }))
