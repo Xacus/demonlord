@@ -32,4 +32,8 @@ export class DemonlordItem extends Item {
   hasDamage() {
     return Boolean(this.data.data?.action?.damage || this.data.data?.vs?.damage)
   }
+
+  hasHealing() {
+    return this.data.data?.healing?.healing ?? false
+  }
 }
