@@ -115,7 +115,7 @@ export async function getNestedItem(nestedData) {
 export async function getNestedItemsDataList(nestedDataList) {
   const p = []
   for (const nd of nestedDataList) p.push(await getNestedItem(nd))
-  return p
+  return p.map(i => i?.data || i)
 }
 
 /* -------------------------------------------- */
@@ -127,7 +127,6 @@ export async function handleCreatePath(actor, pathData) {
   let nestedItems = []
   leqLevels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
   let itemsData = await getNestedItemsDataList(nestedItems)
-  itemsData = itemsData.map(i => i.data)
   if (itemsData.length > 0) return actor.createEmbeddedDocuments('Item', itemsData)
 }
 
@@ -147,7 +146,6 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
     // Get spells, talents and languages and add them to the actor
     levels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
     let itemsData = await getNestedItemsDataList(nestedItems)
-    itemsData = itemsData.map(i => i.data)
     if (itemsData.length > 0) return actor.createEmbeddedDocuments('Item', itemsData)
   } else {
     // Delete ALL items from the difference of levels
@@ -187,6 +185,5 @@ export async function handleCreateAncestry(actor, ancestryData) {
   // if (actor.data.data.level >= 4)
   //   nestedItems = [...nestedItems, ...ancestryData.level4.talent]
   let itemsData = await getNestedItemsDataList(nestedItems)
-  itemsData = itemsData.map(i => i.data)
   return await actor.createEmbeddedDocuments('Item', itemsData)
 }

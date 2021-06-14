@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Defense bonus Active Effect now correctly applies
 - Perception errors
 - Errors on character leveling up
+- Fixed multiple damages not being correctly updating in sheets
 
 ### Added
 - Active Effects' duration now decreases at each round (only for 'round' duration)
