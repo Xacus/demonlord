@@ -18,5 +18,8 @@ mixin else
   block
   | {{/if}}
 
-
-
+mixin select(dataName)
+  select(name=dataName)&attributes(attributes)
+    | {{#select #{dataName} }}
+    block
+    | {{/select}}

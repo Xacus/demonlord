@@ -62,19 +62,20 @@ block attributes
           +ancestry-view-char("data.characteristics.healingratemodifier", "DL.AncestryHealingRateModifier", 0)
           +ancestry-view-char("data.characteristics.insanity", "DL.CharInsanity", "0", true)
           +ancestry-view-char("data.characteristics.corruption", "DL.CharCorruption", "0", true)
-      +if("(ne data.languages '')")
-        .row
-          .col-12
-            label {{localize 'DL.PathsLevelLanguages'}}
-            div {{data.languages}}
-      +if("data.languagelist")
-        .row
-          .col-12
-            +select-area("data.languagelist", "DL.LanguagesTitle")
-      +if("data.talents")
-        .row
-          .col-12
-            +select-area("data.talents", "DL.CreatureTraits")
+      .item-table
+        +if("(ne data.languages '')")
+          .row
+            .col-12
+              label {{localize 'DL.PathsLevelLanguages'}}
+              div {{data.languages}}
+        +if("data.languagelist")
+          .row
+            .col-12
+              +select-area("data.languagelist", "DL.LanguagesTitle")
+        +if("data.talents")
+          .row
+            .col-12
+              +select-area("data.talents", "DL.CreatureTraits")
 
     //- Level 4
     .item-tab-header(style="margin-top: 12px")

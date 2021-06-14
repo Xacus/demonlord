@@ -52,6 +52,15 @@ mixin select-area(items, loc)
         | {{else}} {{item.name}} {{/if}}
       | {{/each}}
 
+//-------------------------------
+mixin options-attributes
+  option(value="") -
+  option(value="Strength") {{localize "DL.AttributeStrength"}}
+  option(value="Agility") {{localize "DL.AttributeAgility"}}
+  option(value="Intellect") {{localize "DL.AttributeIntellect"}}
+  option(value="Will") {{localize "DL.AttributeWill"}}
+  option(value="Perception") {{localize "DL.CharPerception"}}
+  block
 
 //-------------------------------
   ANCESTRY

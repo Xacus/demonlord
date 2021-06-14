@@ -1,0 +1,143 @@
+extends _item-base-layout
+block options
+  - const hasEffectsTab = true
+
+block attributes
+  div.tab.attributes(data-group="primary" data-tab="attributes")
+    //- Spell header: tradition, rank, type, attribute
+    .item-table.fixed-path
+      .row
+        .col-3
+          label.resource-label(style="font-size:16px") {{localize "DL.MagicTradition"}}
+          input(type="text" name="data.tradition" value="{{data.tradition}}" style="font-size: 14px")
+        .col-3
+          label.resource-label(style="font-size:16px") {{localize "DL.SpellRank"}}
+          input(type="text" name="data.rank" value="{{data.rank}}" style="font-size: 14px")
+        .col-3
+          label.resource-label(style="font-size:16px") {{localize "DL.SpellType"}}
+          +select("data.spelltype")(style="font-size: 14px")
+            option(value="") -
+            option(value="Attack") {{localize "DL.SpellTypeAttack"}}
+            option(value="Utility") {{localize "DL.SpellTypeUtility"}}
+        .col-3
+          label.resource-label(style="font-size:16px") {{localize "DL.SpellAttribute"}}
+          +select("data.attribute")(style="font-size: 14px")
+            option(value="") -
+            option(value="Intellect") {{localize "DL.AttributeIntellect"}}
+            option(value="Will") {{localize "DL.AttributeWill"}}
+
+    //- Castings
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.SpellCastings"}}
+    .item-table.indent.collapse-content
+      .row
+        +item-input("col-6", "data.castings.value", "DL.SpellCastingsUses", "number")
+        +item-input("col-6", "data.castings.max", "DL.SpellCastingsMax", "number")
+
+    //- VS Roll
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.SpellTypeAttack"}}
+    .item-table.indent.collapse-content
+      .row(style="position:relative")
+        .col-4
+          label.resource-label {{localize "DL.WeaponAttackModifier"}}
+          +select("data.action.attack")
+            +options-attributes
+        .vs VS
+        .col-4
+          label.resource-label {{localize "DL.WeaponDefenseModifier"}}
+          +select("data.action.against")
+            +options-attributes
+              option(value="Defense") {{localize "DL.CharDefense"}}
+        +item-input("col-4", "data.action.boonsbanes", "DL.WeaponBoonsBanes", "text")
+
+      .row
+        .col-11
+          label.resource-label {{localize "DL.WeaponDamage"}}
+        .col-1.item-controls
+          a.item-control.damagetype-control(title="{{localize 'DL.DamageAddType'}}", data-action="create" style="margin-left: -11px")
+            i.fas.fa-plus
+      .row.damage-row
+        .col-4
+          input.damagevalue(type="text" name="data.action.damage" value="{{data.action.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}")
+        .col-8
+          input.damagetype(type="text" name="data.action.damagetype" value="{{data.action.damagetype}}" placeholder="Damage Type")
+
+      | {{#each data.action.damagetypes as |damagetype id|}}
+      .row.damage-row
+        .col-4(style="margin-top: 2px")
+          input.damagevalue(type="text" name="data.action.damage" value="{{damagetype.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}")
+        .col-8(style="margin-top: 2px")
+          input.damagetype(type="text" name="data.action.damagetype" value="{{damagetype.damagetype}}" placeholder="Damage Type")
+        a.item-control.damagetype-control.damage-delete(title="{{localize 'DL.DamageAddType'}}" data-action="delete" data-id="{{id}}")
+          i.fas.fa-trash
+      | {{/each}}
+
+      .row
+        +item-input("col-12", "data.action.plus20damage", "DL.WeaponAttack20")
+      .row
+        .col-12
+          label.resource-label {{localize "DL.WeaponAttack20Text"}}
+          textarea(id="data.action.plus20" name="data.action.plus20" rows="4" cols="50") {{data.action.plus20}}
+
+
+    //- Spell Defense
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.SpellTypeDefense"}}
+    .item-table.indent.collapse-content
+      .row
+        .col-4
+          label.resource-label {{localize "DL.ChallengeRoll"}}
+          +select("data.action.defense")
+            +options-attributes
+        +item-input("col-8", "data.action.defenseboonsbanes", "DL.WeaponBoonsBanes")
+
+    //- Healing
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.TalentHealing"}}
+    .item-table.indent.collapse-content
+      .row
+        .col-12.inline-input.fix
+          input(type="checkbox", name="data.healing.healing", id="healingoptions", {{checked data.healing.healing}})
+          label.resource-label(for="healingoptions") {{localize "DL.TalentHealingOptions"}}
+
+    //- Spell Characteristics
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.Characteristics"}}
+    .item-table.indent.collapse-content
+      .row
+        +item-input("col-6", "data.effectdice", "DL.SpellEffectDice")
+        +item-input("col-6", "data.duration", "DL.SpellDuration")
+      .row
+        +item-input("col-6", "data.target", "DL.SpellTarget")
+        +item-input("col-6", "data.area", "DL.SpellArea")
+      .row
+        +item-input("col-6", "data.requirements", "DL.SpellRequirements")
+        +item-input("col-6", "data.sacrifice", "DL.SpellSacrifice")
+      .row
+        +item-input("col-6", "data.permanence", "DL.SpellPermanence")
+        +item-input("col-6", "data.aftereffect", "DL.SpellAftereffect")
+      .row
+        +item-input("col-6", "data.special", "DL.SpellSpecial")
+        +item-input("col-6", "data.triggered", "DL.SpellTriggered")
+
+    //- Activated Effects
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.MeasuredTemplate"}}
+    .item-table.indent.collapse-content
+      .row
+        +item-input("col-6", "data.activatedEffect.target.value", "DL.ActionTargetValue")
+        .col-6
+          label.resource-label {{localize "DL.ActionTargetType"}}
+          +select("data.activatedEffect.target.type")
+            option(value="") -
+            | {{#each config.actionTargetTypes as |name key|}}
+            option(value="{{key}}") {{localize name}}
+            | {{/each}}
+      .row
+        .col-11
+          input.image(type="text" name="data.activatedEffect.texture" placeholder="path/image.webp" value="{{data.activatedEffect.texture}}")
+        .col-1
+          button.file-picker(type="button", data-type="imagevideo" data-target="data.activatedEffect.texture" title="File" tabindex="-1"
+            style="height: 21px;width: 21px;font-size: 12px;padding: 0;line-height: 7px;border: none;border-bottom: 1px solid #a17771;")
+            i.fas.fa-file-import.fa-fw

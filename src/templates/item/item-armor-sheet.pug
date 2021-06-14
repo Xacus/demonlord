@@ -9,25 +9,23 @@ block attributes
       .row
         .col-12
           label {{localize "DL.ArmorBonuses"}}
-        +item-input("col-4", "data.defense", "DL.ArmorDefense", "text")
-        +item-input("col-4", "data.agility", "DL.ArmorAgility", "text")
-        +item-input("col-4", "data.fixed", "DL.ArmorFixed", "text")
+        +item-input("col-4", "data.defense", "DL.ArmorDefense")
+        +item-input("col-4", "data.agility", "DL.ArmorAgility")
+        +item-input("col-4", "data.fixed", "DL.ArmorFixed")
       //- Properties, isShield
       .row
-        +item-input("col-8", "data.properties", "DL.ArmorProperties", "text")
+        +item-input("col-8", "data.properties", "DL.ArmorProperties")
         .col-4
           label.resource-label {{localize "DL.ArmorIsShield"}}
           input.single-checkbox(type="checkbox", name="data.isShield", id="multipleoptions", {{checked data.isShield}})
       //- Str min, price, availability
       .row
-        +item-input("col-4", "data.strengthmin", "DL.ArmorStrengthMin", "text")
-        +item-input("col-4", "data.value", "DL.ItemValue", "text")
+        +item-input("col-4", "data.strengthmin", "DL.ArmorStrengthMin")
+        +item-input("col-4", "data.value", "DL.ItemValue")
         .col-4
           label {{localize "DL.Availability"}}
-          select(name="data.availability" data-dtype="String")
-            | {{#select data.availability}}
+          +select("data.availability")
             option(value="C") {{localize "DL.AvailabilityCommon"}}
             option(value="U") {{localize "DL.AvailabilityUncommon"}}
             option(value="R") {{localize "DL.AvailabilityRare"}}
             option(value="E") {{localize "DL.AvailabilityExotic"}}
-            | {{/select}}

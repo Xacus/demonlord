@@ -10,10 +10,8 @@ block attributes
         +item-input("col-4", "data.value", "DL.ItemValue", "value")
         .col-4
           label {{localize "DL.Availability"}}
-          select(name="data.availability" data-dtype="String")
-            | {{#select data.availability}}
+          +select("data.availability")
             option(value="C") {{localize "DL.AvailabilityCommon"}}
             option(value="U") {{localize "DL.AvailabilityUncommon"}}
             option(value="R") {{localize "DL.AvailabilityRare"}}
             option(value="E") {{localize "DL.AvailabilityExotic"}}
-            | {{/select}}
