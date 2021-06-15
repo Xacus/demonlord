@@ -14,7 +14,7 @@ import {
   postTalentToChat,
 } from '../chat/roll-messages'
 import { handleCreateAncestry, handleCreatePath } from '../item/nested-objects'
-import {TokenManager} from "../pixi/token-manager";
+import { TokenManager } from '../pixi/token-manager'
 
 const tokenManager = new TokenManager()
 
@@ -203,7 +203,9 @@ export class DemonlordActor extends Actor {
    */
   rollAttack(item, inputBoons = 0, inputModifier = 0) {
     const attacker = this
-    const defender = tokenManager.targets
+    const defendersTokens = tokenManager.targets
+    const defender = defendersTokens[0]?.actor
+
     // Get attacker attribute and defender attribute name
     const attackAttribute = item.data.data.action?.attack?.toLowerCase()
     const defenseAttribute = item.data.data?.action?.against?.toLowerCase() || item.data.action?.against?.toLowerCase()
@@ -221,9 +223,13 @@ export class DemonlordActor extends Actor {
     let attackBOBA =
       (parseInt(item.data.data.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
-      (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0) -
-      (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0) -
-      (defender?.data.data.bonuses.defense.boons.weapon || 0)
+      (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0)
+
+    // The defender banes apply only if the defender is one target
+    if (defendersTokens.length === 1)
+      attackBOBA -=
+        (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0) +
+        (defender?.data.data.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
     if (item.data.data.wear && parseInt(item.data.data.strengthmin) > attacker.data.data.attributes.strength.value)
@@ -238,23 +244,19 @@ export class DemonlordActor extends Actor {
 
     postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
 
-    const targets = [new Token(defender.token)]
-    const hitTargets = []
-    for (let target of targets) {
+    const hitTargets = defendersTokens.filter(d => {
       const targetNumber =
         defenseAttribute === 'defense'
-          ? defender?.data.data.characteristics.defense
-          : defender?.data.data.attributes[defenseAttribute]?.value || ''
-      if (attackRoll?.total >= targetNumber) {
-        hitTargets.push(target)
-      }
-    }
+          ? d.actor?.data.data.characteristics.defense
+          : d.actor?.data.data.attributes[defenseAttribute]?.value || ''
+      return attackRoll?.total >= targetNumber
+    })
 
-    Hooks.call("DL.RollAttack", {
-      sourceToken: new Token(attacker.token),
-      targets,
+    Hooks.call('DL.RollAttack', {
+      sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
+      targets: defendersTokens,
       itemId: item.id,
-      hitTargets,
+      hitTargets: hitTargets,
     })
   }
 
@@ -334,29 +336,31 @@ export class DemonlordActor extends Actor {
 
     if (!talentData?.vs?.attribute) {
       await this.activateTalent(talent, true)
-    }
-    else {
+    } else {
       await this.activateTalent(talent, Boolean(talentData.vs?.damageActive))
 
       const attackAttribute = talentData.vs.attribute.toLowerCase()
       const defenseAttribute = talentData.vs?.against?.toLowerCase()
 
       let modifier = parseInt(inputModifier) + (this.data.data.attributes[attackAttribute]?.modifier || 0)
+
       let boons =
         parseInt(inputBoons) +
         (this.data.data.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
-        parseInt(talentData.vs?.boonsbanes || 0) -
-        (target?.actor?.data.data.bonuses.defense[defenseAttribute] || 0)
+        parseInt(talentData.vs?.boonsbanes || 0)
+      if (targets.length > 0) boons -= (target?.actor?.data.data.bonuses.defense[defenseAttribute] || 0)
 
       let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
       attackRoll = new Roll(attackRollFormula, {})
       attackRoll.evaluate()
     }
-    Hooks.call("DL.UseTalent", {
-      sourceToken: new Token(this.token),
-      targets,
+
+    Hooks.call('DL.UseTalent', {
+      sourceToken: this.token || tokenManager.getTokenByActorId(this.id),
+      targets: targets,
       itemId: talent.id,
     })
+
     postTalentToChat(this, talent, attackRoll, target?.actor)
   }
 
@@ -399,12 +403,15 @@ export class DemonlordActor extends Actor {
 
     let attackRoll
     if (attackAttribute) {
-      const attackBoons =
+      let attackBoons =
         (parseInt(inputBoons) || 0) +
         (parseInt(spellData.action.boonsbanes) || 0) +
-        (this.data.data.bonuses.attack.boons[attackAttribute] || 0) -
-        (target?.actor?.data.data.bonuses.defense.boons[defenseAttribute] || 0) -
+        (this.data.data.bonuses.attack.boons[attackAttribute] || 0)
+
+      if (targets.length > 0) attackBoons -=
+        (target?.actor?.data.data.bonuses.defense.boons[defenseAttribute] || 0) +
         (target?.actor?.data.data.bonuses.defense.boons.spell || 0)
+
       const attackModifier = (parseInt(inputModifier) || 0) + this.data.data.attributes[attackAttribute].modifier || 0
 
       const attackFormula = '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
@@ -412,9 +419,9 @@ export class DemonlordActor extends Actor {
       attackRoll.evaluate()
     }
 
-    Hooks.call("DL.UseSpell", {
-      sourceToken: new Token(this.token),
-      targets,
+    Hooks.call('DL.UseSpell', {
+      sourceToken: this.token || tokenManager.getTokenByActorId(this.id),
+      targets: targets,
       itemId: spell.id,
     })
 

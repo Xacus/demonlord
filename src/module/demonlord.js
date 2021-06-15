@@ -404,5 +404,6 @@ Hooks.on('DL.Action', () => {
     return
   }
   const actionTemplates = canvas.scene.templates.filter(a => a.data.flags.actionTemplate).map(a => a.id)
-  canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
+  if (actionTemplates.length > 0)
+    canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
 })
