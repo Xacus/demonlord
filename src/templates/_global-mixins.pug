@@ -23,3 +23,8 @@ mixin select(dataName)
     | {{#select #{dataName} }}
     block
     | {{/select}}
+
+mixin each(iterator, i)
+  | {{#each #{iterator} as #{i} }}
+  block
+  | {{/each}}

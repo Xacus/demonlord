@@ -1,0 +1,123 @@
+extends _item-base-layout
+block options
+  - const hasEffects = true
+
+block attributes
+  div.tab.weapons(data-group="primary" data-tab="attributes")
+    //- Group name, Uses
+    .item-table
+      .row
+        +item-input("col-4", "data.groupname", "DL.TalentGroupname")
+        +item-input("col-4", "data.uses.value", "DL.TalentUses")
+        +item-input("col-4", "data.uses.max", "DL.TalentUsesMax")
+
+    //- Attack Roll Bonuses
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.AttackRollBonuses"}}
+    .item-table.indent.collapse-content
+      .row
+        .col-12
+          label {{localize "DL.WeaponBoonsBanes"}}
+          input(type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}" placeholder="{{localize 'DL.TalentAddBoonsBanesBonus'}}")
+      .row.center
+        .col-1
+        +item-checkbox("col-2", "data.action.strengthboonsbanesselect", "DL.AttributeStrength")
+        +item-checkbox("col-2", "data.action.agilityboonsbanesselect", "DL.AttributeAgility")
+        +item-checkbox("col-2", "data.action.intellectboonsbanesselect", "DL.AttributeIntellect")
+        +item-checkbox("col-2", "data.action.willboonsbanesselect", "DL.AttributeWill")
+        +item-checkbox("col-2", "data.action.perceptionboonsbanesselect", "DL.CharPerception")
+      .row
+        .col-12
+          label {{localize "DL.WeaponDamage"}}
+          input(type="text" name="data.action.plus20" value="{{data.action.plus20}}" placeholder="{{localize 'DL.TalentAddExtraDamageToYourAttackRoll'}}")
+        .col-12
+          label {{localize "DL.TalentExtraEffect"}}
+          textarea(name="data.action.extraeffect" rows="3" cols="50") {{data.action.extraeffect}}
+
+    //- Challenge roll bonus
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.TalentChallengeRollBonus"}}
+    .item-table.indent.collapse-content
+      .row
+        .col-12
+          label {{localize "DL.WeaponBoonsBanes"}}
+          input(type="text" name="data.challenge.boonsbanes" value="{{data.challenge.boonsbanes}}" data-dtype="Number" placeholder="{{localize 'DL.TalentAddBoonsBanesBonus'}}")
+      .row
+        .col-1
+        +item-checkbox("col-2", "data.challenge.strengthboonsbanesselect", "DL.AttributeStrength")
+        +item-checkbox("col-2", "data.challenge.agilityboonsbanesselect", "DL.AttributeAgility")
+        +item-checkbox("col-2", "data.challenge.intellectboonsbanesselect", "DL.AttributeIntellect")
+        +item-checkbox("col-2", "data.challenge.willboonsbanesselect", "DL.AttributeWill")
+        +item-checkbox("col-2", "data.challenge.perceptionboonsbanesselect", "DL.CharPerception")
+
+    //- VS Roll
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.VSRoll"}}
+    .item-table.indent.collapse-content
+      .row(style="position: relative")
+        .col-4
+          label {{localize "DL.WeaponAttackModifier"}}
+          +select("data.vs.attribute")
+            +options-attributes
+        .vs VS
+        .col-4
+          label {{localize "DL.WeaponDefenseModifier"}}
+          +select("data.vs.against")
+            +options-attributes
+              option(value="Defense") {{localize "DL.CharDefense"}}
+        .col-4
+          label {{localize "DL.WeaponBoonsBanes"}}
+          input(type="text" name="data.vs.boonsbanes" value="{{data.vs.boonsbanes}}" placeholder="{{localize 'DL.TalentAddBoonsBanesBonus'}}")
+      .row
+        .col-11
+          label {{localize "DL.WeaponDamage"}}
+        .col-1.item-controls
+          a.item-control.vsdamagetype-control(title="{{localize 'DL.DamageAddType'}}", data-action="create", style="margin-left: -11px")
+            i.fas.fa-plus
+      .row.damage-row
+        .col-4
+          input.damagevalue(type="text" name="data.vs.damage" value="{{data.vs.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}")
+        .col-8
+          input.damagetype(type="text" name="data.vs.damagetype" value="{{data.vs.damagetype}}" placeholder="{{localize 'DL.DamageType'}}")
+      +each("data.vs.damagetypes", "|damagetype id|")
+        .row.damage-row
+          .col-4(style="margin-top: 2px")
+            input.damagevalue(type="text" name="data.action.damage" value="{{damagetype.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}")
+          .col-8(style="margin-top: 2px")
+            input.damagetype(type="text" name="data.action.damagetype" value="{{damagetype.damagetype}}" placeholder="{{localize 'DL.DamageType'}}")
+          a.item-control.vsdamagetype-control.damage-delete(title="{{localize 'DL.DamageAddType'}}" data-action="delete" data-id="{{id}}")
+            i.fas.fa-trash
+
+    //- Healing
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.TalentHealing"}}
+    .item-table.indent.collapse-content
+      .row
+        .col-12.inline-input.fix
+          input(type="checkbox", name="data.healing.healing", {{checked data.healing.healing}})
+          label {{localize "DL.TalentHealingOptions"}}
+
+    //- Damage Roll
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.TalentMakeADamageRoll"}}
+    .item-table.indent.collapse-content
+      .row
+        .col-12
+          label {{localize "DL.TalentRollDamage"}}
+        .col-4
+          input.damagevalue(type="text" name="data.damage" value="{{data.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}")
+        .col-8
+          input.damagetype(type="text" name="data.damagetype" value="{{data.damagetype}}" placeholder="{{localize 'DL.DamageType'}}")
+
+    //- Characteristics bonuses
+    .item-tab-sub-header.collapse-title
+      div {{localize "DL.TalentAddBonusesToYourCharacteristics"}}
+    .item-table.indent.collapse-content
+      .row
+        +item-input("col-6", "data.bonuses.defense", "DL.TalentBonusesDefense")
+        +item-input("col-6", "data.bonuses.health", "DL.TalentBonusesHealth")
+        +item-input("col-6", "data.bonuses.speed", "DL.TalentBonusesSpeed")
+        +item-input("col-6", "data.bonuses.power", "DL.TalentBonusesPower")
+
+    //- Activated Effects
+    +item-activated-effect

@@ -67,8 +67,8 @@ function buildWatch() {
   gulp.watch(`${stylesDirectory}/**/*.${stylesExtension}`, { ignoreInitial: false }, buildStyles)
   gulp.watch(`${pugDirectory}/**/*.pug`, { ignoreInitial: false }, buildPug)
   gulp.watch(
-    [...staticFiles.map(file => `${sourceDirectory}/${file}`),
-    `!**/*.pug`
+    [`!**/*.pug`,
+      ...staticFiles.map(file => `${sourceDirectory}/${file}`),
     ],
     { ignoreInitial: false },
     copyFiles,

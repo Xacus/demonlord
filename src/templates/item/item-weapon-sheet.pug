@@ -1,0 +1,60 @@
+extends _item-base-layout
+block options
+  - const hasEffects = true
+
+block attributes
+  div.tab.weapons(data-group="primary" data-tab="attributes")
+    .item-table
+      //- Attack: attribute, against, boons
+      .row(style="position: relative")
+        .col-4
+          label {{localize "DL.WeaponAttackModifier"}}
+          +select("data.action.attack")
+            +options-attributes
+        .vs VS
+        .col-4
+          label {{localize "DL.WeaponDefenseModifier"}}
+          +select("data.action.against")
+            +options-attributes
+              option(value="Defense") {{localize "DL.CharDefense"}}
+        +item-input("col-4", "data.action.boonsbanes", "DL.WeaponBoonsBanes")
+
+      //- Damage
+      .row
+        .col-11
+          label {{localize "DL.WeaponDamage"}}
+        .col-1.item-controls
+          a.item-control.damagetype-control(title="{{localize 'DL.DamageAddType'}}", data-action="create", style="margin-left: -11px")
+            i.fas.fa-plus
+      .row.damage-row
+        .col-4
+          input.damagevalue(type="text" name="data.action.damage" value="{{data.action.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}")
+        .col-8
+          input.damagetype(type="text" name="data.action.damagetype" value="{{data.action.damagetype}}" placeholder="{{localize 'DL.DamageType'}}")
+      +each("data.action.damagetypes", "|damagetype id|")
+        .row.damage-row
+          .col-4(style="margin-top: 2px")
+            input.damagevalue(type="text" name="data.action.damage" value="{{damagetype.damage}}" placeholder="{{localize 'DL.WeaponDamage'}}")
+          .col-8(style="margin-top: 2px")
+            input.damagetype(type="text" name="data.action.damagetype" value="{{damagetype.damagetype}}" placeholder="{{localize 'DL.DamageType'}}")
+          a.item-control.damagetype-control.damage-delete(title="{{localize 'DL.DamageAddType'}}" data-action="delete" data-id="{{id}}")
+            i.fas.fa-trash
+
+      //- Properties, Min Strength
+      .row
+        +item-input("col-8", "data.properties", "DL.WeaponProperties")
+        +item-input("col-4", "data.strengthmin", "DL.ArmorStrengthMin")
+      //- Hands, Availability, Value
+      .row
+        .col-4
+          label {{localize "DL.WeaponHands"}}
+          +select("data.hands")
+            option(value="") -
+            option(value="One") {{localize "DL.WeaponHandsOne"}}
+            option(value="Two") {{localize "DL.WeaponHandsTwo"}}
+            option(value="Off") {{localize "DL.WeaponHandsOff"}}
+        .col-4
+          label {{localize "DL.Availability"}}
+          +select("data.availability")
+            +options-availability
+        +item-input("col-4", "data.value", "DL.ItemValue")

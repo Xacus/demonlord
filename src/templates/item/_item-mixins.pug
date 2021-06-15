@@ -24,9 +24,13 @@ mixin item-header(editKey)
 
 mixin item-input(cls, name, loc, type)
   div(class=cls)
-    label.resource-label {{localize '#{loc}'}}
+    label {{localize '#{loc}'}}
     input(type=type||"text", name=name value=`{{ ${name} }}`)
 
+mixin item-checkbox(cls, name, loc)
+  div(class=cls)
+    label {{localize '#{loc}'}}
+    != `<input type="checkbox" name="${name}" {{checked ${name} }} />`
 //-------------------------------
 
 mixin drop-area(items, dataGroup, loc, tag)
@@ -62,6 +66,13 @@ mixin options-attributes
   option(value="Perception") {{localize "DL.CharPerception"}}
   block
 
+mixin options-availability
+  option(value="C") {{localize "DL.AvailabilityCommon"}}
+  option(value="U") {{localize "DL.AvailabilityUncommon"}}
+  option(value="R") {{localize "DL.AvailabilityRare"}}
+  option(value="E") {{localize "DL.AvailabilityExotic"}}
+  block
+
 //-------------------------------
   ANCESTRY
   -------------------------------
@@ -70,9 +81,9 @@ mixin ancestry-edit-char(col, char, loc, notTransferred)
   div(class=[col, "inline-input"])
     input(type="number" name=char, value=`{{${char}}}`)
     if notTransferred
-      label.resource-label(title="{{localize 'DL.AncestryNotTransferred'}}" style="cursor: help") {{localize '#{loc}'}}¹
+      label(title="{{localize 'DL.AncestryNotTransferred'}}" style="cursor: help") {{localize '#{loc}'}}¹
     else
-      label.resource-label {{localize '#{loc}'}}
+      label {{localize '#{loc}'}}
 
 //--------------------------------
 
@@ -81,9 +92,9 @@ mixin ancestry-view-char(char, loc, n, notTransferred)
     .col-6.inline-input
       input(type="text" value=`+{{ ${char} }}` readonly)
       if notTransferred
-        label.resource-label(title="{{localize 'DL.AncestryNotTransferred'}}" style="cursor: help") {{localize '#{loc}'}}¹
+        label(title="{{localize 'DL.AncestryNotTransferred'}}" style="cursor: help") {{localize '#{loc}'}}¹
       else
-        label.resource-label {{localize '#{loc}'}}
+        label {{localize '#{loc}'}}
 
 
 //--------------------------------
@@ -93,4 +104,27 @@ mixin radio-lv4(name, loc, val, isChecked)
     input(type="radio", name=name, id=val, checked=isChecked)
     label(style="vertical-align: super") {{localize "#{loc}" }}
 
-//--------------------------------
+//-------------------------------
+  ACTIVATED EFFECT
+  -------------------------------
+
+mixin item-activated-effect
+  .item-tab-sub-header.collapse-title
+    div {{localize "DL.MeasuredTemplate"}}
+  .item-table.indent.collapse-content
+    .row
+      +item-input("col-6", "data.activatedEffect.target.value", "DL.ActionTargetValue")
+      .col-6
+        label {{localize "DL.ActionTargetType"}}
+        +select("data.activatedEffect.target.type")
+          option(value="") -
+          | {{#each config.actionTargetTypes as |name key|}}
+          option(value="{{key}}") {{localize name}}
+          | {{/each}}
+    .row
+      .col-11
+        input.image(type="text" name="data.activatedEffect.texture" placeholder="path/image.webp" value="{{data.activatedEffect.texture}}")
+      .col-1
+        button.file-picker(type="button", data-type="imagevideo" data-target="data.activatedEffect.texture" title="File" tabindex="-1"
+          style="height: 21px;width: 21px;font-size: 12px;padding: 0;line-height: 7px;border: none;border-bottom: 1px solid #a17771;")
+          i.fas.fa-file-import.fa-fw

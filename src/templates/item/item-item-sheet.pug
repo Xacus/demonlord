@@ -11,7 +11,4 @@ block attributes
         .col-4
           label {{localize "DL.Availability"}}
           +select("data.availability")
-            option(value="C") {{localize "DL.AvailabilityCommon"}}
-            option(value="U") {{localize "DL.AvailabilityUncommon"}}
-            option(value="R") {{localize "DL.AvailabilityRare"}}
-            option(value="E") {{localize "DL.AvailabilityExotic"}}
+            +options-availability
