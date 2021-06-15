@@ -318,7 +318,7 @@ Hooks.once('diceSoNiceReady', dice3d => {
     name: 'demonlord',
     description: 'Special',
     category: 'Demonlord',
-    foreground: '#651510',
+    foreground: '#d0d0d0',
     background: '#651510',
     outline: '#651510',
     texture: 'marble',

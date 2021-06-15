@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Perception errors
 - Errors on character leveling up
 - Fixed multiple damages not being correctly updating in sheets
+- Dice So Nice custom dice text color is now white
 
 ### Added
 - Active Effects' duration now decreases at each round (only for 'round' duration)
