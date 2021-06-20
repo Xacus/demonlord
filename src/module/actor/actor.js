@@ -152,6 +152,7 @@ export class DemonlordActor extends Actor {
     await DLActiveEffects.toggleEffectsByActorRequirements(this)
     await this.setUsesOnSpells()
     await this.setEncumbrance()
+    return Promise.resolve()
   }
 
   /* -------------------------------------------- */

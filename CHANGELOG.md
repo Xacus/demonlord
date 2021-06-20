@@ -14,8 +14,12 @@ All notable changes to this project will be documented in this file.
 - Errors on character leveling up
 - Fixed multiple damages not being correctly updating in sheets
 - Dice So Nice custom dice text color is now white
+- Improved Path and Ancestry Item fetching inside compendia.
+- Data of nested Talents, languages, etc... inside Paths or Ancestries is now stored directly inside the container.
+  This allows items such as talents to be still retrieved even when the original item is deleted.
 
 ### Added
+
 - Active Effects' duration now decreases at each round (only for 'round' duration)
 
 ## [2.0.1] - 2021-06-06

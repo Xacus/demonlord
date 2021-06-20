@@ -188,21 +188,21 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   async _addItem(data, level, group) {
     const levelItem = new PathLevelItem()
-    const itemData = duplicate(this.item.data)
+    const pathData = duplicate(this.item.data)
     const item = await getNestedItem(data)
-    const type = item?.type
-    if (!item || !(type === item.data.type)) return
+    if (!item) return
 
     levelItem.id = item.id
     levelItem.name = item.name
-    levelItem.description = item.data.data.description
+    levelItem.description = item.data.description
     levelItem.pack = data.pack ? data.pack : ''
+    levelItem.data = item
 
-    if (group === 'talent') itemData.data.levels[level]?.talents.push(levelItem)
-    else if (group === 'talentpick') itemData.data.levels[level]?.talentspick.push(levelItem)
-    else if (group === 'spell') itemData.data.levels[level]?.spells.push(levelItem)
+    if (group === 'talent') pathData.data.levels[level]?.talents.push(levelItem)
+    else if (group === 'talentpick') pathData.data.levels[level]?.talentspick.push(levelItem)
+    else if (group === 'spell') pathData.data.levels[level]?.spells.push(levelItem)
 
-    this.item.update(itemData)
+    this.item.update(pathData)
   }
 
   _deleteItem(ev) {
