@@ -1,7 +1,7 @@
 import DLBaseActorSheet from './base-actor-sheet'
 import { prepareActiveEffectCategories } from '../../active-effects/effects'
 import { DemonlordItem } from '../../item/item'
-import { getAncestryItemsToDel, getPathItemsToDel, handleLevelChange } from '../../item/nested-objects'
+import { handleLevelChange } from '../../item/nested-objects'
 
 export default class DLCharacterSheet extends DLBaseActorSheet {
   /** @override */
