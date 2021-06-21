@@ -346,12 +346,13 @@ export class DLActiveEffects {
         _id: effect.data._id,
         disabled: !effect.data.disabled,
       }))
-    if (notMetEffectsData.length > 0) return actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
+    if (notMetEffectsData.length > 0) await actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
+    return Promise.resolve()
   }
 
   /* -------------------------------------------- */
 
-  static addEncumbrance(actor, itemNames) {
+  static async addEncumbrance(actor, itemNames) {
     let effectLabel =
       game.i18n.localize('DL.encumbered') +
       ' (' +
@@ -386,8 +387,9 @@ export class DLActiveEffects {
       ],
     }
 
-    if (!oldEffect) return ActiveEffect.create(effectData, { parent: actor })
-    else if (n !== 0) oldEffect.update(effectData, { parent: actor })
-    else oldEffect.delete({ parent: actor })
+    if (!oldEffect) await ActiveEffect.create(effectData, { parent: actor })
+    else if (n !== 0) await oldEffect.update(effectData, { parent: actor })
+    else await oldEffect.delete({ parent: actor })
+    return Promise.resolve()
   }
 }

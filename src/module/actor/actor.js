@@ -145,10 +145,14 @@ export class DemonlordActor extends Actor {
   /** @override */
   _onUpdate(changed, options, user) {
     super._onUpdate(changed, options, user)
-    this._handleEmbeddedDocuments()
+    if (changed?.data?.level) {
+      this._handleEmbeddedDocuments({ debugCaller: '_onUpdate' })
+    }
   }
 
-  async _handleEmbeddedDocuments() {
+  async _handleEmbeddedDocuments(options = {}) {
+    //TODO: Remove logs when stable
+    console.log(`DEMONLORD | Calling _handleEmbeddedDocuments from ${options?.debugCaller || '??'}`)
     await DLActiveEffects.toggleEffectsByActorRequirements(this)
     await this.setUsesOnSpells()
     await this.setEncumbrance()
@@ -164,6 +168,7 @@ export class DemonlordActor extends Actor {
   }
 
   async _handleOnCreateEmbedded(documents) {
+    console.log('DEMONLORD | Calling _handleOnCreateEmbedded', documents)
     for (const doc of documents) {
       // Ancestry an path creations
       if (doc.type === 'ancestry') {
@@ -174,7 +179,7 @@ export class DemonlordActor extends Actor {
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')
     }
-    await this._handleEmbeddedDocuments()
+    await this._handleEmbeddedDocuments({ debugCaller: `_handleOnCreateEmbedded [${documents.length}]` })
     return Promise.resolve()
   }
 
@@ -187,8 +192,9 @@ export class DemonlordActor extends Actor {
   }
 
   async _handleOnUpdateEmbedded(documents) {
+    console.log('DEMONLORD | Calling _handleOnUpdateEmbedded', documents)
     for (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
-    await this._handleEmbeddedDocuments()
+    await this._handleEmbeddedDocuments({ debugCaller: `_handleOnUpdateEmbedded [${documents.length}]` })
     return Promise.resolve()
   }
 
@@ -349,7 +355,7 @@ export class DemonlordActor extends Actor {
         parseInt(inputBoons) +
         (this.data.data.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
         parseInt(talentData.vs?.boonsbanes || 0)
-      if (targets.length > 0) boons -= (target?.actor?.data.data.bonuses.defense[defenseAttribute] || 0)
+      if (targets.length > 0) boons -= target?.actor?.data.data.bonuses.defense[defenseAttribute] || 0
 
       let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
       attackRoll = new Roll(attackRollFormula, {})
@@ -409,9 +415,10 @@ export class DemonlordActor extends Actor {
         (parseInt(spellData.action.boonsbanes) || 0) +
         (this.data.data.bonuses.attack.boons[attackAttribute] || 0)
 
-      if (targets.length > 0) attackBoons -=
-        (target?.actor?.data.data.bonuses.defense.boons[defenseAttribute] || 0) +
-        (target?.actor?.data.data.bonuses.defense.boons.spell || 0)
+      if (targets.length > 0)
+        attackBoons -=
+          (target?.actor?.data.data.bonuses.defense.boons[defenseAttribute] || 0) +
+          (target?.actor?.data.data.bonuses.defense.boons.spell || 0)
 
       const attackModifier = (parseInt(inputModifier) || 0) + this.data.data.attributes[attackAttribute].modifier || 0
 
@@ -625,6 +632,6 @@ export class DemonlordActor extends Actor {
     const notMetItemNames = armors
       .filter(a => a.data.strengthmin > this.data.data.attributes.strength.value && a.data.wear)
       .map(a => a.name)
-    return DLActiveEffects.addEncumbrance(this, notMetItemNames)
+    return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }
 }

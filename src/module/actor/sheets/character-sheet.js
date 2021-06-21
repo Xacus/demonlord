@@ -112,30 +112,22 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     DemonlordItem.create(data, { parent: this.document }).then(i => i.sheet.render(true))
   }
 
-  _onAncestryEdit(ev) {
+  async _onAncestryEdit(ev) {
     const div = $(ev.currentTarget)
     const ancestry = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+
     if (ev.button == 0) ancestry.sheet.render(true)
-    else if (ev.button == 2) {
-      const idsToDel = [ancestry.id, ...getAncestryItemsToDel(this.actor, ancestry.data.data)]
-      this.actor.deleteEmbeddedDocuments('Item', idsToDel)
-    }
+    else if (ev.button == 2) await ancestry.delete({ parent: this.actor })
   }
 
   /* -------------------------------------------- */
 
-  _onPathEdit(ev) {
+  async _onPathEdit(ev) {
     const div = $(ev.currentTarget)
     const path = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
 
     if (ev.button == 0) path.sheet.render(true)
-    else if (ev.button == 2) {
-      // await deletePathItems(this.actor, path.data.data.levels)
-      // await path.delete({parent: this.actor})
-
-      const ids = [path.id, ...getPathItemsToDel(this.actor, path.data.data.levels)]
-      this.actor.deleteEmbeddedDocuments('Item', ids)
-    }
+    else if (ev.button == 2) await path.delete({ parent: this.actor })
   }
 
   /* -------------------------------------------- */
