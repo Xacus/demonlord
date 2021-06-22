@@ -1,5 +1,5 @@
 import { DL } from '../config.js'
-import {TokenManager} from "./token-manager";
+import { TokenManager } from './token-manager'
 
 const tokenManager = new TokenManager()
 

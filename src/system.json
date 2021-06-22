@@ -2,15 +2,22 @@
   "name": "demonlord",
   "title": "Shadow of the Demon Lord",
   "description": "The Shadow of the Demonlord system for FoundryVTT",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "minimumCoreVersion": "0.8.6",
   "compatibleCoreVersion": "0.8.7",
   "author": "Xacus, ClipplerBlood, PatrickPorto",
   "creators": "Xacus",
   "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf",
-  "esmodules": ["module/demonlord.js"],
-  "styles": ["styles/demonlord.css"],
-  "scripts": ["lib/tagify.min.js", "lib/tipfy.js"],
+  "esmodules": [
+    "module/demonlord.js"
+  ],
+  "styles": [
+    "styles/demonlord.css"
+  ],
+  "scripts": [
+    "lib/tagify.min.js",
+    "lib/tipfy.js"
+  ],
   "packs": [
     {
       "name": "weapons",
@@ -115,7 +122,7 @@
   "socket": true,
   "url": "https://github.com/Xacus/demonlord",
   "manifest": "https://github.com/Xacus/demonlord/releases/latest/download/system.json",
-  "download": "https://github.com/Xacus/demonlord/releases/download/2.0.1/system.zip",
+  "download": "https://github.com/Xacus/demonlord/releases/download/2.0.2/system.zip",
   "bugs": "https://github.com/Xacus/demonlord/issues",
   "readme": "https://github.com/Xacus/demonlord/blob/master/README.md",
   "changelog": "https://github.com/Xacus/demonlord/blob/master/CHANGELOG.md",
