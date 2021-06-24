@@ -49,7 +49,7 @@
   {{/if}}
   {{#if data.roll}}
     <div class="result">
-      <div class="box {{data.resultText}}">
+      <div class="box {{data.resultBoxClass}}">
         <div class="valuetext">
           {{#if data.against}}
             {{data.attack}}
@@ -103,7 +103,7 @@
         <div class="boxvs">
           <div class="vs">{{localize "DL.ChallengeVS"}}</div>
         </div>
-        <div class="box {{data.resultText}}">
+        <div class="box {{data.resultBoxClass}}">
           <div class="valuetext">{{data.against}}</div>
           <div class="boxborderTarget">
             <div class="value">

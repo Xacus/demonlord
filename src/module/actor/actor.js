@@ -4,7 +4,7 @@
  */
 import { DLActiveEffects } from '../active-effects/item-effects'
 import { DLAfflictions } from '../active-effects/afflictions'
-import { plusify } from '../utils/utils'
+import {capitalize, plusify} from '../utils/utils'
 import launchRollDialog from '../dialog/roll-dialog'
 import {
   postAttackToChat,
@@ -111,8 +111,10 @@ export class DemonlordActor extends Actor {
     for (const [key, attribute] of Object.entries(data.attributes)) {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.modifier = attribute.value - 10
-      attribute.label = key.toUpperCase()
+      attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
     }
+    data.attributes.perception.label = game.i18n.localize(`DL.CharPerception`)
+
     // Speed
     data.characteristics.speed = Math.max(0, data.characteristics.speed)
 
