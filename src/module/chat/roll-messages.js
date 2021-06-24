@@ -29,7 +29,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
     diceTotal = '?'
     resultText = ''
   }
-
+  const resultBoxClass = resultText === '' ? '' : didHit ? 'SUCCESS' : 'FAILURE'
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = (defender?.data.type == 'character' || defenseShow) && targetNumber ? targetNumber : '?'
 
@@ -45,6 +45,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['diceTotalGM'] = attackRoll?.total ?? ''
   data['resultText'] = resultText
   data['didHit'] = didHit
+  data['resultBoxClass'] = resultBoxClass
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute].toUpperCase()) : ''
   data['againstNumber'] = againstNumber
@@ -102,7 +103,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
     diceTotal = '?'
     resultText = ''
   }
-
+  const resultBoxClass = resultText === '' ? '' : challengeRoll.total >= 10 ? 'SUCCESS' : 'FAILURE'
   const templateData = {
     actor: actor,
     item: { name: attribute.toUpperCase() },
@@ -110,11 +111,13 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
     data: {},
   }
   const effects = buildAttributeEffectsMessage(actor, attribute)
+
   const data = templateData.data
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = challengeRoll.total
   data['resultText'] = resultText
   data['resultTextGM'] = resultTextGM
+  data['resultBoxClass'] = resultBoxClass
   data['isCreature'] = actor.data.type === 'creature'
   data['actionEffects'] = effects
   data['ifBlindedRoll'] = rollMode === 'blindroll'
@@ -170,7 +173,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
     diceTotal = '?'
     resultText = ''
   }
-
+  const resultBoxClass = resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE'
   const againstNumber =
     target?.actor?.data.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
       ? targetNumber
@@ -192,6 +195,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = diceTotalGM
   data['resultText'] = resultText
+  data['resultBoxClass'] = resultBoxClass
   data['didHit'] = attackRoll?.total >= targetNumber
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
   data['against'] = defenseAttribute
@@ -281,7 +285,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
     diceTotal = '?'
     resultText = ''
   }
-
+  const resultBoxClass = resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE'
   let againstNumber =
     target?.actor?.data.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
       ? targetNumber
@@ -305,6 +309,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = diceTotalGM
   data['resultText'] = resultText
+  data['resultBoxClass'] = resultBoxClass
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute].toUpperCase()) : ''
   data['againstNumber'] = againstNumber

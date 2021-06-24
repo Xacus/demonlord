@@ -7,7 +7,7 @@
   "compatibleCoreVersion": "0.8.7",
   "author": "Xacus, ClipplerBlood, PatrickPorto",
   "creators": "Xacus",
-  "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf",
+  "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf, ParvusDomus, Cugi",
   "esmodules": [
     "module/demonlord.js"
   ],

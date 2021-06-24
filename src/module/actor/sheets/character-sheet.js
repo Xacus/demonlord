@@ -8,8 +8,8 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord', 'sheet', 'actor'],
-      width: 780,
-      height: 700,
+      width: 865,
+      height: 670,
       tabs: [
         {
           navSelector: '.sheet-navigation',
