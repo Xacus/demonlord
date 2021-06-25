@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 - Localization now applies to attributes in character sheet
 - Fixed chat success/failure border not correctly showing in languages other than english
 - Default character sheet window size is now slightly wider to accommodate other languages words length
+- Fixed ancestry and path transfer traits error
+- Fixed paths not correctly adding talents to level 10 characters
 
 ## [2.0.2] - 2021-06-21
 

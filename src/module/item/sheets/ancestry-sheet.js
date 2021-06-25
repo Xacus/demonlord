@@ -1,5 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet'
-import { getNestedItem, PathLevelItem } from '../nested-objects'
+import {getNestedItem, getNestedItemsDataList, PathLevelItem} from '../nested-objects'
 
 export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
@@ -132,17 +132,14 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   async transferItem(event) {
     event.preventDefault()
-    const toAdd = []
+    if (!this.actor) return
     // Transfer all talents
     if (event.currentTarget.className.indexOf('transfer-talents')) {
       const itemGroup = event.currentTarget.getAttribute('data-group')
       let obj = itemGroup === 'talent' ? this.object.data.data.talents : this.object.data.data.level4.talent
       if (!obj) return
-      for (const o of obj) {
-        const item = await getNestedItem(o)
-        if (item) toAdd.push(duplicate(item.data))
-      }
-      this.actor.createEmbeddedDocuments('Item', toAdd)
+      const toAdd = await getNestedItemsDataList(obj)
+      if (toAdd.length > 0) await this.actor.createEmbeddedDocuments('Item', toAdd)
     }
     // Transfer single Item
     else {
@@ -153,9 +150,8 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
           ? this.object.data.data.talents[itemIndex]
           : this.object.data.data.level4.talent[itemIndex]
       if (!selectedLevelItem) return
-      let item = await game.items.get(selectedLevelItem.id)
-      if (!item) return
-      this.actor.createEmbeddedDocuments('Item', [duplicate(item.data)])
+      let item = await getNestedItem(selectedLevelItem)
+      if (item) await this.actor.createEmbeddedDocuments('Item', [item])
     }
   }
 }

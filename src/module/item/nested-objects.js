@@ -156,8 +156,8 @@ export async function getNestedItemsDataList(nestedDataList) {
 /* -------------------------------------------- */
 
 export async function handleCreatePath(actor, pathData) {
-  const actorLevel = actor.data.data.level
-  const leqLevels = pathData.levels.filter(l => l.level <= actorLevel)
+  const actorLevel = parseInt(actor.data.data.level)
+  const leqLevels = pathData.levels.filter(l => +l.level <= +actorLevel)
 
   let nestedItems = []
   leqLevels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
@@ -167,7 +167,8 @@ export async function handleCreatePath(actor, pathData) {
 }
 
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
-  curLevel = curLevel ?? actor.data.data.level
+  curLevel = parseInt(curLevel ?? actor.data.data.level)
+  newLevel = parseInt(newLevel)
   const paths = actor.items.filter(i => i.type === 'path')
 
   const start = Math.min(curLevel, newLevel)
