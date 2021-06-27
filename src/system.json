@@ -4,10 +4,10 @@
   "description": "The Shadow of the Demonlord system for FoundryVTT",
   "version": "2.0.2",
   "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "0.8.7",
+  "compatibleCoreVersion": "0.8.8",
   "author": "Xacus, ClipplerBlood, PatrickPorto",
   "creators": "Xacus",
-  "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf, ParvusDomus, Cugi",
+  "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf, ParvusDomus, Cugi, zeteticl",
   "esmodules": [
     "module/demonlord.js"
   ],
@@ -113,6 +113,11 @@
       "lang": "it",
       "name": "Italian",
       "path": "lang/it.json"
+    },
+    {
+      "lang": "zh-tw",
+      "name": "Taiwanese Chinese",
+      "path": "lang/zh-tw.json"
     }
   ],
   "gridDistance": 1,
