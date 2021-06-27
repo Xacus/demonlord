@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 ## [2.0.3]
 ### Added
 - Italian localization (thanks to Cugi#0989)
+- Added Taiwanese Chinese localization (thanks to zeteticl, Tian#7972)
 - Improvements in spanish localization (thanks to ParvusDomus#9612)
+
 ### Fixed
 - Localization now applies to attributes in character sheet
 - Fixed chat success/failure border not correctly showing in languages other than english
@@ -54,7 +56,7 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.0] - 2021-05-28
 
-### Overviewss
+### Overview
 
 - Foundry 0.8.x support
 - New item sheets layouts
