@@ -1,5 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet'
-import {getNestedItem, getNestedItemsDataList, PathLevelItem} from '../nested-objects'
+import { getNestedItem, getNestedItemsDataList, PathLevelItem } from '../nested-objects'
 
 export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */

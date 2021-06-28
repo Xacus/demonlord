@@ -1,6 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet'
-import {getNestedItem, getNestedItemsDataList, PathLevel, PathLevelItem} from '../nested-objects'
-import { DemonlordItem } from '../item'
+import { getNestedItem, getNestedItemsDataList, PathLevel, PathLevelItem } from '../nested-objects'
 
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
@@ -165,7 +164,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
       const nestedItemData = this.object.data.data.levels[levelIndex][type][itemIndex]
       if (!nestedItemData) return
       const item = await getNestedItem(nestedItemData)
-      if (item)  await this.actor.createEmbeddedDocuments('Item', [item])
+      if (item) await this.actor.createEmbeddedDocuments('Item', [item])
     }
   }
 

@@ -4,7 +4,7 @@
  */
 import { DLActiveEffects } from '../active-effects/item-effects'
 import { DLAfflictions } from '../active-effects/afflictions'
-import {capitalize, plusify} from '../utils/utils'
+import { capitalize, plusify } from '../utils/utils'
 import launchRollDialog from '../dialog/roll-dialog'
 import {
   postAttackToChat,
