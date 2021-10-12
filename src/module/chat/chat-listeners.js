@@ -43,8 +43,6 @@ async function _onChatApplyHealing(event) {
     sourceToken,
     targets: selected,
     itemId,
-    event,
-    healing: isFullRate,
   })
 }
 
@@ -59,6 +57,8 @@ async function _onChatRollDamage(event) {
   const item = li.children[0]
   const damageformular = item.dataset.damage
   const damagetype = item.dataset.damagetype
+  const selected = tokenManager.targets
+  const itemId = item.dataset.itemId || li.closest('.demonlord').dataset.itemId
 
   const damageRoll = new Roll(damageformular, {})
   damageRoll.evaluate()
@@ -75,7 +75,7 @@ async function _onChatRollDamage(event) {
   var templateData = {
     actor: actor,
     item: {
-      id: item.dataset.itemId || li.closest('.demonlord').dataset.itemId,
+      id: itemId,
     },
     data: {},
     diceData: formatDice(damageRoll),
@@ -100,6 +100,11 @@ async function _onChatRollDamage(event) {
       chatData.sound = CONFIG.sounds.dice
       ChatMessage.create(chatData)
     }
+  })
+  Hooks.call('DL.RollDamage', {
+    sourceToken: tokenManager.getTokenByActorId(actor.id),
+    targets: selected,
+    itemId,
   })
 }
 
@@ -126,7 +131,6 @@ async function _onChatApplyDamage(event) {
     sourceToken,
     targets: selected,
     itemId,
-    event,
     damage,
   })
 }

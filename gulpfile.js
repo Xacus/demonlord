@@ -219,7 +219,7 @@ function bumpVersion(cb) {
 function setDownloadURL(cb) {
   const systemJson = fs.readJSONSync('src/system.json');
   const version = systemJson.version
-  const newDownloadURL = `https://github.com/ClipplerBlood/demonlord-cromethius/releases/download/${version}/system.zip`
+  const newDownloadURL = `https://github.com/Xacus/demonlord/releases/download/${version}/system.zip`
   systemJson.download = newDownloadURL
   console.info("Updating system download URL to " + newDownloadURL + '\n')
   cb()

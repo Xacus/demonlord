@@ -2,7 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.2] -
+## [2.0.3]
+### Added
+- Italian localization (thanks to Cugi#0989)
+- Added Taiwanese Chinese localization (thanks to zeteticl, Tian#7972)
+- Improvements in spanish localization (thanks to ParvusDomus#9612)
+
+### Fixed
+- Localization now applies to attributes in character sheet
+- Fixed chat success/failure border not correctly showing in languages other than english
+- Default character sheet window size is now slightly wider to accommodate other languages words length
+- Fixed ancestry and path transfer traits error
+- Fixed paths not correctly adding talents to level 10 characters
+
+## [2.0.2] - 2021-06-21
 
 ### Fixed
 
@@ -12,8 +25,15 @@ All notable changes to this project will be documented in this file.
 - Defense bonus Active Effect now correctly applies
 - Perception errors
 - Errors on character leveling up
+- Fixed multiple damages not being correctly updating in sheets
+- Dice So Nice custom dice text color is now white
+- Fixed errors when deleting a path from inside an actor
+- Improved Path and Ancestry Item fetching inside compendia
+- Data of nested Talents, languages, etc... inside Paths or Ancestries is now stored directly inside the container
+  This allows items such as talents to be still retrieved even when the original item is deleted
 
 ### Added
+
 - Active Effects' duration now decreases at each round (only for 'round' duration)
 
 ## [2.0.1] - 2021-06-06
@@ -36,7 +56,7 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.0] - 2021-05-28
 
-### Overviewss
+### Overview
 
 - Foundry 0.8.x support
 - New item sheets layouts

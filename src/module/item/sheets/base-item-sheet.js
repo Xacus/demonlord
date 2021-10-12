@@ -71,26 +71,31 @@ export default class DLBaseItemSheet extends ItemSheet {
   async _updateObject(event, formData) {
     const item = this.object
     const updateData = expandObject(formData)
-    let altdamage = []
-    let altdamagetype = []
 
-    if (item.type === 'talent') {
-      altdamage.push(updateData?.altdamage)
-      altdamagetype.push(updateData?.altdamagetype)
-      updateData['data.vs.damagetypes'] = altdamage.map((damage, index) => ({
-        damage: damage,
-        damagetype: altdamagetype[index],
-      }))
-      // If a Talent has no uses it's always active
-      updateData['data.addtonextroll'] = !updateData.data?.uses?.max
-    } else if (item.type === 'weapon' || item.type === 'spell') {
-      altdamage.push(updateData?.altdamage)
-      altdamagetype.push(updateData?.altdamagetype)
-      updateData['data.action.damagetypes'] = altdamage.map((damage, index) => ({
-        damage: damage,
-        damagetype: altdamagetype[index],
-      }))
+    if (['talent', 'weapon', 'spell'].includes(item.type)) {
+      // Set the update key based on type
+      const damageKey = item.type === 'talent' ? 'data.vs.damagetypes' : 'data.action.damagetypes'
+      // Grab damages from form
+      let altdamage = updateData.altdamage || updateData.altdamagevs
+      let altdamagetype = updateData.altdamagetype || updateData.altdamagetypevs
+      altdamage = Array.isArray(altdamage) ? altdamage : [altdamage]
+      altdamagetype = Array.isArray(altdamagetype) ? altdamagetype : [altdamagetype]
+
+      // Zip the damage-damagetypes into objects, filtering them for types that do not have a damage
+      updateData[damageKey] = altdamage
+        .map((damage, index) => ({
+          damage: damage,
+          damagetype: altdamagetype[index],
+        }))
+        .filter(d => Boolean(d.damage))
+      // Remove the unzipped values from the update data
+      delete updateData.altdamage
+      delete updateData.altdamagetype
     }
+
+    // If a Talent has no uses it's always active
+    if (item.type === 'talent') updateData['data.addtonextroll'] = !updateData.data?.uses?.max
+
     return this.object.update(updateData)
   }
   /* -------------------------------------------- */

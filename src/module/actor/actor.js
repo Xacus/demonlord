@@ -4,7 +4,7 @@
  */
 import { DLActiveEffects } from '../active-effects/item-effects'
 import { DLAfflictions } from '../active-effects/afflictions'
-import { plusify } from '../utils/utils'
+import { capitalize, plusify } from '../utils/utils'
 import launchRollDialog from '../dialog/roll-dialog'
 import {
   postAttackToChat,
@@ -14,6 +14,9 @@ import {
   postTalentToChat,
 } from '../chat/roll-messages'
 import { handleCreateAncestry, handleCreatePath } from '../item/nested-objects'
+import { TokenManager } from '../pixi/token-manager'
+
+const tokenManager = new TokenManager()
 
 export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
@@ -108,8 +111,10 @@ export class DemonlordActor extends Actor {
     for (const [key, attribute] of Object.entries(data.attributes)) {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.modifier = attribute.value - 10
-      attribute.label = key.toUpperCase()
+      attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
     }
+    data.attributes.perception.label = game.i18n.localize(`DL.CharPerception`)
+
     // Speed
     data.characteristics.speed = Math.max(0, data.characteristics.speed)
 
@@ -142,13 +147,18 @@ export class DemonlordActor extends Actor {
   /** @override */
   _onUpdate(changed, options, user) {
     super._onUpdate(changed, options, user)
-    this._handleEmbeddedDocuments()
+    if (changed?.data?.level) {
+      this._handleEmbeddedDocuments({ debugCaller: '_onUpdate' })
+    }
   }
 
-  async _handleEmbeddedDocuments() {
+  async _handleEmbeddedDocuments(options = {}) {
+    //TODO: Remove logs when stable
+    console.log(`DEMONLORD | Calling _handleEmbeddedDocuments from ${options?.debugCaller || '??'}`)
     await DLActiveEffects.toggleEffectsByActorRequirements(this)
     await this.setUsesOnSpells()
     await this.setEncumbrance()
+    return Promise.resolve()
   }
 
   /* -------------------------------------------- */
@@ -160,6 +170,7 @@ export class DemonlordActor extends Actor {
   }
 
   async _handleOnCreateEmbedded(documents) {
+    console.log('DEMONLORD | Calling _handleOnCreateEmbedded', documents)
     for (const doc of documents) {
       // Ancestry an path creations
       if (doc.type === 'ancestry') {
@@ -170,7 +181,7 @@ export class DemonlordActor extends Actor {
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')
     }
-    await this._handleEmbeddedDocuments()
+    await this._handleEmbeddedDocuments({ debugCaller: `_handleOnCreateEmbedded [${documents.length}]` })
     return Promise.resolve()
   }
 
@@ -183,8 +194,9 @@ export class DemonlordActor extends Actor {
   }
 
   async _handleOnUpdateEmbedded(documents) {
+    console.log('DEMONLORD | Calling _handleOnUpdateEmbedded', documents)
     for (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
-    await this._handleEmbeddedDocuments()
+    await this._handleEmbeddedDocuments({ debugCaller: `_handleOnUpdateEmbedded [${documents.length}]` })
     return Promise.resolve()
   }
 
@@ -216,7 +228,9 @@ export class DemonlordActor extends Actor {
    */
   rollAttack(item, inputBoons = 0, inputModifier = 0) {
     const attacker = this
-    const defender = attacker.getTarget()
+    const defendersTokens = tokenManager.targets
+    const defender = defendersTokens[0]?.actor
+
     // Get attacker attribute and defender attribute name
     const attackAttribute = item.data.data.action?.attack?.toLowerCase()
     const defenseAttribute = item.data.data?.action?.against?.toLowerCase() || item.data.action?.against?.toLowerCase()
@@ -234,9 +248,13 @@ export class DemonlordActor extends Actor {
     let attackBOBA =
       (parseInt(item.data.data.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
-      (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0) -
-      (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0) -
-      (defender?.data.data.bonuses.defense.boons.weapon || 0)
+      (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0)
+
+    // The defender banes apply only if the defender is one target
+    if (defendersTokens.length === 1)
+      attackBOBA -=
+        (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0) +
+        (defender?.data.data.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
     if (item.data.data.wear && parseInt(item.data.data.strengthmin) > attacker.getAttribute("strength").value)
@@ -250,6 +268,21 @@ export class DemonlordActor extends Actor {
     attackRoll.evaluate()
 
     postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
+
+    const hitTargets = defendersTokens.filter(d => {
+      const targetNumber =
+        defenseAttribute === 'defense'
+          ? d.actor?.data.data.characteristics.defense
+          : d.actor?.data.data.attributes[defenseAttribute]?.value || ''
+      return attackRoll?.total >= targetNumber
+    })
+
+    Hooks.call('DL.RollAttack', {
+      sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
+      targets: defendersTokens,
+      itemId: item.id,
+      hitTargets: hitTargets,
+    })
   }
 
   /**
@@ -322,28 +355,38 @@ export class DemonlordActor extends Actor {
 
   async useTalent(talent, inputBoons, inputModifier) {
     const talentData = talent.data.data
-    const target = this.getTarget()
+    const targets = tokenManager.targets
+    const target = targets[0]
     let attackRoll = null
 
-    if (!talentData?.vs?.attribute) await this.activateTalent(talent, true)
-    else {
+    if (!talentData?.vs?.attribute) {
+      await this.activateTalent(talent, true)
+    } else {
       await this.activateTalent(talent, Boolean(talentData.vs?.damageActive))
 
       const attackAttribute = talentData.vs.attribute.toLowerCase()
       const defenseAttribute = talentData.vs?.against?.toLowerCase()
 
       let modifier = parseInt(inputModifier) + (this.getAttribute(attackAttribute)?.modifier || 0)
+
       let boons =
         parseInt(inputBoons) +
         (this.data.data.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
-        parseInt(talentData.vs?.boonsbanes || 0) -
-        (target?.data.data.bonuses.defense[defenseAttribute] || 0)
+        parseInt(talentData.vs?.boonsbanes || 0)
+      if (targets.length > 0) boons -= target?.actor?.data.data.bonuses.defense[defenseAttribute] || 0
 
       let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
       attackRoll = new Roll(attackRollFormula, {})
       attackRoll.evaluate()
     }
-    postTalentToChat(this, talent, attackRoll, target)
+
+    Hooks.call('DL.UseTalent', {
+      sourceToken: this.token || tokenManager.getTokenByActorId(this.id),
+      targets: targets,
+      itemId: talent.id,
+    })
+
+    postTalentToChat(this, talent, attackRoll, target?.actor)
   }
 
   /* -------------------------------------------- */
@@ -376,7 +419,8 @@ export class DemonlordActor extends Actor {
   }
 
   async useSpell(spell, inputBoons, inputModifier) {
-    const target = this.getTarget()
+    const targets = tokenManager.targets
+    const target = targets[0]
     const spellData = spell.data.data
 
     const attackAttribute = spellData?.action?.attack?.toLowerCase()
@@ -384,12 +428,16 @@ export class DemonlordActor extends Actor {
 
     let attackRoll
     if (attackAttribute) {
-      const attackBoons =
+      let attackBoons =
         (parseInt(inputBoons) || 0) +
         (parseInt(spellData.action.boonsbanes) || 0) +
-        (this.data.data.bonuses.attack.boons[attackAttribute] || 0) -
-        (target?.data.data.bonuses.defense.boons[defenseAttribute] || 0) -
-        (target?.data.data.bonuses.defense.boons.spell || 0)
+        (this.data.data.bonuses.attack.boons[attackAttribute] || 0)
+
+      if (targets.length > 0)
+        attackBoons -=
+          (target?.actor?.data.data.bonuses.defense.boons[defenseAttribute] || 0) +
+          (target?.actor?.data.data.bonuses.defense.boons.spell || 0)
+
       const attackModifier = (parseInt(inputModifier) || 0) + this.getAttribute(attackAttribute).modifier || 0
 
       const attackFormula = '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
@@ -397,7 +445,13 @@ export class DemonlordActor extends Actor {
       attackRoll.evaluate()
     }
 
-    postSpellToChat(this, spell, attackRoll, target)
+    Hooks.call('DL.UseSpell', {
+      sourceToken: this.token || tokenManager.getTokenByActorId(this.id),
+      targets: targets,
+      itemId: spell.id,
+    })
+
+    postSpellToChat(this, spell, attackRoll, target?.actor)
   }
 
   /* -------------------------------------------- */
@@ -473,15 +527,6 @@ export class DemonlordActor extends Actor {
       chatData.content = content
       ChatMessage.create(chatData)
     })
-  }
-
-  getTarget() {
-    let selectedTarget = null
-    game.user.targets.forEach(async target => {
-      selectedTarget = target.actor
-    })
-
-    return selectedTarget
   }
 
   getTargetNumber(item) {
@@ -605,6 +650,6 @@ export class DemonlordActor extends Actor {
     const notMetItemNames = armors
       .filter(a => a.data.strengthmin > this.getAttribute("strength").value && a.data.wear)
       .map(a => a.name)
-    return DLActiveEffects.addEncumbrance(this, notMetItemNames)
+    return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }
 }

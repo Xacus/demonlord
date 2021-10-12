@@ -104,35 +104,71 @@ export class DamageType {
 /* -------------------------------------------- */
 
 export async function getNestedItem(nestedData) {
+  let entity
+  let method // <- Used to print how the item was fetched
   if (nestedData.pack) {
     const pack = game.packs.get(nestedData.pack)
     if (pack.metadata.entity !== 'Item') return
-    return await pack.getEntity(nestedData.id)
-  } else if (nestedData.data) return nestedData
-  return game.items.get(nestedData.id)
+    entity = await pack.getDocument(nestedData.id)
+    method = 'PACK'
+  } else if (nestedData.data) {
+    entity = nestedData
+    method = 'DATA-OBJ'
+  } else {
+    entity = game.items.get(nestedData.id)
+    method = entity ? 'ITEMS' : 'FALLBACK'
+  }
+
+  // -- Fallbacks
+  // Look for talents with same name inside items
+  if (!entity) {
+    entity = game.items.find(i => i.name === nestedData.name)
+    method = entity ? 'FB-ITEMS' : method
+  }
+  // Look for talents with same id or name inside ALL packs
+  if (!entity) {
+    for (const pack of game.packs) {
+      entity = (await pack.getDocument(nestedData.id)) || (await pack.getDocuments({ name: nestedData.name }))[0]
+      if (entity) break
+    }
+    method = entity ? 'FB-PACKS' : method
+  }
+
+  if (!entity) {
+    console.error('DEMONLORD | Nested object not found', nestedData)
+    return null
+  }
+  console.log(`DEMONLORD | Nested object fetched using ${method}`, nestedData, entity) // TODO: Remove when stable
+
+  // Return only the data
+  // Warning: here the implicit assertion is that entity is an Item and not an Actor or something else
+  if (entity instanceof Item) return entity.data
+  else if (entity?.data?.data) return entity.data
+  return entity
 }
 
 export async function getNestedItemsDataList(nestedDataList) {
   const p = []
   for (const nd of nestedDataList) p.push(await getNestedItem(nd))
-  return p
+  return p.filter(Boolean)
 }
 
 /* -------------------------------------------- */
 
 export async function handleCreatePath(actor, pathData) {
-  const actorLevel = actor.data.data.level
-  const leqLevels = pathData.levels.filter(l => l.level <= actorLevel)
+  const actorLevel = parseInt(actor.data.data.level)
+  const leqLevels = pathData.levels.filter(l => +l.level <= +actorLevel)
 
   let nestedItems = []
   leqLevels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
   let itemsData = await getNestedItemsDataList(nestedItems)
-  itemsData = itemsData.map(i => i.data)
-  if (itemsData.length > 0) return actor.createEmbeddedDocuments('Item', itemsData)
+  if (itemsData.length > 0) await actor.createEmbeddedDocuments('Item', itemsData)
+  return Promise.resolve()
 }
 
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
-  curLevel = curLevel ?? actor.data.data.level
+  curLevel = parseInt(curLevel ?? actor.data.data.level)
+  newLevel = parseInt(newLevel)
   const paths = actor.items.filter(i => i.type === 'path')
 
   const start = Math.min(curLevel, newLevel)
@@ -147,13 +183,13 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
     // Get spells, talents and languages and add them to the actor
     levels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
     let itemsData = await getNestedItemsDataList(nestedItems)
-    itemsData = itemsData.map(i => i.data)
-    if (itemsData.length > 0) return actor.createEmbeddedDocuments('Item', itemsData)
+    if (itemsData.length > 0) await actor.createEmbeddedDocuments('Item', itemsData)
   } else {
     // Delete ALL items from the difference of levels
     const idsToDel = getPathItemsToDel(actor, levels)
-    if (idsToDel.length > 0) return actor.deleteEmbeddedDocuments('Item', idsToDel)
+    if (idsToDel.length > 0) await actor.deleteEmbeddedDocuments('Item', idsToDel)
   }
+  return Promise.resolve()
 }
 
 /* -------------------------------------------- */
@@ -187,6 +223,6 @@ export async function handleCreateAncestry(actor, ancestryData) {
   // if (actor.data.data.level >= 4)
   //   nestedItems = [...nestedItems, ...ancestryData.level4.talent]
   let itemsData = await getNestedItemsDataList(nestedItems)
-  itemsData = itemsData.map(i => i.data)
-  return await actor.createEmbeddedDocuments('Item', itemsData)
+  await actor.createEmbeddedDocuments('Item', itemsData)
+  return Promise.resolve()
 }

@@ -1,5 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet'
-import { getNestedItem, PathLevelItem } from '../nested-objects'
+import { getNestedItem, getNestedItemsDataList, PathLevelItem } from '../nested-objects'
 
 export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
@@ -81,22 +81,21 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   async _addItem(data, group) {
     const levelItem = new PathLevelItem()
-    const itemData = duplicate(this.item.data)
+    const ancestryData = duplicate(this.item.data)
     let item = await getNestedItem(data)
-    let type = item.type
-
-    if (!item || !(type === item.data.type)) return
+    if (!item) return
 
     levelItem.id = item.id
     levelItem.name = item.name
-    levelItem.description = item.data.data.description
+    levelItem.description = item.data.description
     levelItem.pack = data.pack ? data.pack : ''
+    levelItem.data = item
 
-    if (type === 'talent' && group === 'talent') itemData.data.talents.push(levelItem)
-    else if (type === 'talent') itemData.data.level4.talent.push(levelItem)
-    else if (type === 'language') itemData.data.languagelist.push(levelItem)
+    if (group === 'talent') ancestryData.data.talents.push(levelItem)
+    else if (group === 'talent4') ancestryData.data.level4.talent.push(levelItem)
+    else if (group === 'language') ancestryData.data.languagelist.push(levelItem)
     else return
-    this.item.update(itemData, { diff: false }).then(_ => this.render)
+    this.item.update(ancestryData, { diff: false }).then(_ => this.render)
   }
 
   async _deleteItem(itemIndex, itemGroup) {
@@ -133,17 +132,14 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   async transferItem(event) {
     event.preventDefault()
-    const toAdd = []
+    if (!this.actor) return
     // Transfer all talents
     if (event.currentTarget.className.indexOf('transfer-talents')) {
       const itemGroup = event.currentTarget.getAttribute('data-group')
       let obj = itemGroup === 'talent' ? this.object.data.data.talents : this.object.data.data.level4.talent
       if (!obj) return
-      for (const o of obj) {
-        const item = await getNestedItem(o)
-        if (item) toAdd.push(duplicate(item.data))
-      }
-      this.actor.createEmbeddedDocuments('Item', toAdd)
+      const toAdd = await getNestedItemsDataList(obj)
+      if (toAdd.length > 0) await this.actor.createEmbeddedDocuments('Item', toAdd)
     }
     // Transfer single Item
     else {
@@ -154,9 +150,8 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
           ? this.object.data.data.talents[itemIndex]
           : this.object.data.data.level4.talent[itemIndex]
       if (!selectedLevelItem) return
-      let item = await game.items.get(selectedLevelItem.id)
-      if (!item) return
-      this.actor.createEmbeddedDocuments('Item', [duplicate(item.data)])
+      let item = await getNestedItem(selectedLevelItem)
+      if (item) await this.actor.createEmbeddedDocuments('Item', [item])
     }
   }
 }

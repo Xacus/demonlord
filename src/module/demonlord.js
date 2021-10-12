@@ -318,7 +318,7 @@ Hooks.once('diceSoNiceReady', dice3d => {
     name: 'demonlord',
     description: 'Special',
     category: 'Demonlord',
-    foreground: '#651510',
+    foreground: '#d0d0d0',
     background: '#651510',
     outline: '#651510',
     texture: 'marble',
@@ -380,11 +380,23 @@ function loadActorForChatMessage(speaker) {
   return actor
 }
 
-Hooks.on('DL.ApplyDamage', (...args) => {
-  Hooks.call('DL.Action', ...args)
+Hooks.on('DL.UseTalent', data => {
+  Hooks.call('DL.Action', { type: 'use-talent', ...data })
 })
-Hooks.on('DL.ApplyHealing', (...args) => {
-  Hooks.call('DL.Action', ...args)
+Hooks.on('DL.UseSpell', data => {
+  Hooks.call('DL.Action', { type: 'use-spell', ...data })
+})
+Hooks.on('DL.RollAttack', data => {
+  Hooks.call('DL.Action', { type: 'roll-attack', ...data })
+})
+Hooks.on('DL.RollDamage', data => {
+  Hooks.call('DL.Action', { type: 'roll-damage', ...data })
+})
+Hooks.on('DL.ApplyDamage', data => {
+  Hooks.call('DL.Action', { type: 'apply-damage', ...data })
+})
+Hooks.on('DL.ApplyHealing', data => {
+  Hooks.call('DL.Action', { type: 'apply-healing', ...data })
 })
 
 Hooks.on('DL.Action', () => {
@@ -392,5 +404,5 @@ Hooks.on('DL.Action', () => {
     return
   }
   const actionTemplates = canvas.scene.templates.filter(a => a.data.flags.actionTemplate).map(a => a.id)
-  canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
+  if (actionTemplates.length > 0) canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
 })

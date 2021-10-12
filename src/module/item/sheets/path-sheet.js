@@ -1,6 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet'
-import { getNestedItem, PathLevel, PathLevelItem } from '../nested-objects'
-import { DemonlordItem } from '../item'
+import { getNestedItem, getNestedItemsDataList, PathLevel, PathLevelItem } from '../nested-objects'
 
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
@@ -153,19 +152,19 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   async transferItem(event, type) {
     event.preventDefault()
+    if (!this.actor) return
     const levelIndex = event.currentTarget.parentElement.parentElement.getAttribute('data-level')
     if (type === 'transfer-talents') {
-      const toAdd = []
-      for (const talent of this.object.data.data.levels[levelIndex].talents) {
-        const i = await getNestedItem(talent)
-        if (i) toAdd.push(duplicate(i.data))
-      }
+      const talents = this.object.data.data.levels[levelIndex].talents
+      if (!talents) return
+      const toAdd = await getNestedItemsDataList(talents)
       if (toAdd.length > 0) await this.actor.createEmbeddedDocuments('Item', toAdd)
     } else {
       const itemIndex = event.currentTarget.getAttribute('data-item-id')
       const nestedItemData = this.object.data.data.levels[levelIndex][type][itemIndex]
+      if (!nestedItemData) return
       const item = await getNestedItem(nestedItemData)
-      await DemonlordItem.create(duplicate(item.data), { parent: this.actor })
+      if (item) await this.actor.createEmbeddedDocuments('Item', [item])
     }
   }
 
@@ -188,21 +187,21 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   async _addItem(data, level, group) {
     const levelItem = new PathLevelItem()
-    const itemData = duplicate(this.item.data)
+    const pathData = duplicate(this.item.data)
     const item = await getNestedItem(data)
-    const type = item?.type
-    if (!item || !(type === item.data.type)) return
+    if (!item) return
 
     levelItem.id = item.id
     levelItem.name = item.name
-    levelItem.description = item.data.data.description
+    levelItem.description = item.data.description
     levelItem.pack = data.pack ? data.pack : ''
+    levelItem.data = item
 
-    if (group === 'talent') itemData.data.levels[level]?.talents.push(levelItem)
-    else if (group === 'talentpick') itemData.data.levels[level]?.talentspick.push(levelItem)
-    else if (group === 'spell') itemData.data.levels[level]?.spells.push(levelItem)
+    if (group === 'talent') pathData.data.levels[level]?.talents.push(levelItem)
+    else if (group === 'talentpick') pathData.data.levels[level]?.talentspick.push(levelItem)
+    else if (group === 'spell') pathData.data.levels[level]?.spells.push(levelItem)
 
-    this.item.update(itemData)
+    this.item.update(pathData)
   }
 
   _deleteItem(ev) {
