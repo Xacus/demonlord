@@ -3,11 +3,11 @@
   <div class="showlessinfo">{{data.actorInfo}}</div>
   <header class="card-headersmall">
     <div class="header">{{localize "DL.CharRolCorruption"}}</div>
-    <div class="headertext {{data.resultText}}">{{data.resultText}}</div>
+    <div class="headertext {{#if data.didHit}}SUCCESS{{else}}FAILURE{{/if}}">{{data.resultText}}</div>
   </header>
 
   <div class="result">
-    <div class="box {{data.resultText}}">
+    <div class="box {{#if data.didHit}}SUCCESS{{else}}FAILURE{{/if}}">
       <div class="valuetext">D20</div>
       <div class="boxborder tooltip">
         <div class="value">{{data.diceTotal}}</div>
@@ -28,7 +28,7 @@
     <div class="boxvs">
       <div class="vs">{{localize "DL.ChallengeVS"}}</div>
     </div>
-    <div class="box {{data.resultText}}">
+    <div class="box {{#if data.didHit}}SUCCESS{{else}}FAILURE{{/if}}">
       <div class="valuetext">{{data.tagetValueText}}</div>
       <div class="boxborderTarget">
         <div class="value">{{data.targetValue}}</div>
