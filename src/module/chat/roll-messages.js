@@ -94,9 +94,8 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   const rollMode = game.settings.get('core', 'rollMode')
 
   let diceTotal = challengeRoll?.total ?? ''
-  const didHit = challengeRoll.total >= 10
   let resultTextGM =
-     didHit ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
+    challengeRoll.total >= 10 ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
 
   let resultText = resultTextGM
   if (rollMode === 'blindroll') {
@@ -112,7 +111,6 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   }
   const effects = buildAttributeEffectsMessage(actor, attribute)
   const data = templateData.data
-  data['didHit'] = didHit
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = challengeRoll.total
   data['resultText'] = resultText
@@ -158,9 +156,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   }
 
   const targetNumber = talentData?.vs?.attribute ? actor.getVSTargetNumber(talent) : ''
-  const didHit = attackRoll != null && targetNumber !== undefined && attackRoll.total >= parseInt(targetNumber)
   let resultText =
-    didHit
+    attackRoll != null && targetNumber !== undefined && attackRoll.total >= parseInt(targetNumber)
       ? game.i18n.localize('DL.DiceResultSuccess')
       : game.i18n.localize('DL.DiceResultFailure')
 
@@ -194,7 +191,6 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['roll'] = Boolean(attackRoll)
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = diceTotalGM
-  data['didHit'] = didHit
   data['resultText'] = resultText
   data['didHit'] = attackRoll?.total >= targetNumber
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
@@ -272,8 +268,8 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   let usesText = ''
   if (uses >= 0 && usesMax > 0) usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesMax
 
-  const didHit = targetNumber && attackRoll?.total >= parseInt(targetNumber)
-  let resultText = didHit
+  let resultText =
+    targetNumber && attackRoll?.total >= parseInt(targetNumber)
       ? game.i18n.localize('DL.DiceResultSuccess')
       : game.i18n.localize('DL.DiceResultFailure')
   let diceTotalGM = attackRoll?.total || ''
@@ -308,7 +304,6 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['id'] = spell.id
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = diceTotalGM
-  data['didHit'] = didHit
   data['resultText'] = resultText
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute].toUpperCase()) : ''
@@ -380,19 +375,17 @@ export function postCorruptionToChat(actor, corruptionRoll) {
     data: {},
     diceData: formatDice(corruptionRoll),
   }
-  const didHit = corruptionRoll.total >= actor.data.data.characteristics.corruption
   const data = templateData.data
-  data['didHit'] = didHit
   data['diceTotal'] = corruptionRoll.total
   data['actorInfo'] = buildActorInfo(actor)
   data['tagetValueText'] = game.i18n.localize('DL.CharCorruption').toUpperCase()
   data['targetValue'] = actor.data.data.characteristics.corruption
   data['resultText'] =
-    didHit
+    corruptionRoll.total >= actor.data.data.characteristics.corruption
       ? game.i18n.localize('DL.DiceResultSuccess')
       : game.i18n.localize('DL.DiceResultFailure')
   data['failureText'] =
-    didHit
+    corruptionRoll.total >= actor.data.data.characteristics.corruption
       ? ''
       : game.i18n.localize('DL.CharRolCorruptionResult')
 
