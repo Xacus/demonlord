@@ -16,7 +16,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   const targetNumber =
     defenseAttribute === 'defense'
       ? defender?.data.data.characteristics.defense
-      : defender?.data.data.attributes[defenseAttribute]?.value || ''
+      : defender?.getAttribute(defenseAttribute)?.value || ''
 
   const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
   const didHit = attackRoll?.total >= targetNumber

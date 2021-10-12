@@ -67,7 +67,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     case 'weapon':
       itemBoons = item.data.data.action.boonsbanes
       defenderBoons += defender?.data.data.bonuses.defense.boons.weapon || 0
-      if (item.data.data.wear && +item.data.data.strengthmin > attacker.data.data.attributes.strength.value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
+      if (item.data.data.wear && +item.data.data.strengthmin > attacker.getAttribute('strength').value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
       break
     case 'talent':
       if (!attackAttribute) return
