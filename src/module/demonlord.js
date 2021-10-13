@@ -20,6 +20,7 @@ import DLAncestrySheet from './item/sheets/ancestry-sheet'
 import DLPathSheet from './item/sheets/path-sheet'
 import './playertrackercontrol'
 import { initChatListeners } from './chat/chat-listeners'
+import {DLMacro} from "./active-effects/macro";
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -256,17 +257,29 @@ Hooks.on('createActiveEffect', async activeEffect => {
 Hooks.on('deleteActiveEffect', async activeEffect => {
   const statusId = activeEffect.data.flags?.core?.statusId
   const _parent = activeEffect?.parent
-  if (statusId && _parent) {
-    await _parent.unsetFlag('demonlord', statusId)
+  if (_parent) {
+    const macro = new DLMacro()
+    macro.off(_parent, activeEffect.data)
+    if (statusId) {
+      await _parent.unsetFlag('demonlord', statusId)
 
-    // If asleep, also remove prone and uncoscious
-    if (statusId === 'asleep') {
-      const prone = _parent.effects.find(e => e.data.flags?.core?.statusId === 'prone')
-      await prone?.delete()
+      // If asleep, also remove prone and uncoscious
+      if (statusId === 'asleep') {
+        const prone = _parent.effects.find(e => e.data.flags?.core?.statusId === 'prone')
+        await prone?.delete()
 
-      const unconscious = _parent.effects.find(e => e.data.flags?.core?.statusId === 'unconscious')
-      await unconscious?.delete()
+        const unconscious = _parent.effects.find(e => e.data.flags?.core?.statusId === 'unconscious')
+        await unconscious?.delete()
+      }
     }
+  }
+})
+
+Hooks.on('preCreateActiveEffect', async activeEffect => {
+  const _parent = activeEffect?.parent
+  if (_parent) {
+    const macro = new DLMacro()
+    macro.on(_parent, activeEffect.data)
   }
 })
 

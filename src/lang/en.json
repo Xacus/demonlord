@@ -674,5 +674,8 @@
   "DL.AutoFailChallenges": "Auto fail challenges",
   "DL.NoFastTurns": "No fast turns",
   "DL.HalfSpeed": "Half Speed",
-  "DL.Override": "Override"
+  "DL.Override": "Override",
+  "DL.Macro": "Macro",
+  "DL.MacroOnApply": "On apply active effect",
+  "DL.MacroOnRemove": "On remove active effect"
 }

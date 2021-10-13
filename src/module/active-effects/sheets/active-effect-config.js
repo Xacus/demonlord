@@ -97,6 +97,8 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       // Other maluses
       'data.maluses.halfSpeed': i18n('DL.Malus') + ' - ' + i18n('DL.HalfSpeed'),
       'data.maluses.noFastTurn': i18n('DL.Malus') + ' - ' + i18n('DL.NoFastTurns'),
+      'data.misc.macroOnApply': i18n('DL.Macro') + ' - ' + i18n('DL.MacroOnApply'),
+      'data.misc.macroOnRemove': i18n('DL.Macro') + ' - ' + i18n('DL.MacroOnRemove'),
     }
   }
 }
