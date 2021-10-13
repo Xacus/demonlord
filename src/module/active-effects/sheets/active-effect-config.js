@@ -101,6 +101,21 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'data.misc.macroOnRemove': i18n('DL.Macro') + ' - ' + i18n('DL.MacroOnRemove'),
     }
   }
+
+  refreshChangeOptions({target}) {
+    const effectChange = $(target).closest('.effect-change')
+    const key = $(target).val()
+    if (["data.misc.macroOnApply", "data.misc.macroOnRemove"].includes(key)) {
+      effectChange.find(".effect-change-mode").val(0).prop('disabled', true);
+    } else {
+      effectChange.find(".effect-change-mode").show().prop('disabled', false);
+    }
+  }
+
+  activateListeners(html) {
+    html.find(".effect-change-key").on("change", this.refreshChangeOptions.bind(this)).trigger('change')
+    super.activateListeners(html)
+  }
 }
 
 const i18n = s => game.i18n.localize(s)

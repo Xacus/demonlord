@@ -1,5 +1,5 @@
 export class DLMacro {
-  getMacroArguments({ actor }) {
+  getMacroContext({ actor }) {
     return mergeObject({
       token: ChatMessage.getSpeaker({ actor }).token,
       actor: actor.id,
@@ -21,16 +21,16 @@ export class DLMacro {
     return this.executeMacro(actor, changes)
   }
 
-  async executeMacro(actor, changes, context) {
+  async executeMacro(actor, changes) {
     for (const change of changes) {
       const macro = game.macros.getName(change.value)
       if (!macro) {
         ui.notifications.warn(`macro.execute | No macro ${change.value} found`)
         console.error(`macro.execute | No macro ${change.value} found`);
-        continue;
+        continue
       }
-      const args = this.getMacroArguments({ actor, ...context })
-      await macro.execute(args)
+      const context = this.getMacroContext({ actor, change })
+      macro.execute(context)
     }
   }
 }

@@ -112,14 +112,14 @@
 
     <ol class="changes-list">
       {{#each data.changes as |change i|}}
-        <li class="effect-change flexrow" data-index="{{i}}">
+        <li class="effect-change flexrow">
           <div class="key">
-            <select name="changes.{{i}}.key">
+            <select class="effect-change-key" name="changes.{{i}}.key">
               {{selectOptions ../availableChangeKeys selected=change.key}}
             </select>
           </div>
           <div class="mode">
-            <select name="changes.{{i}}.mode" data-dtype="Number">
+            <select class="effect-change-mode" name="changes.{{i}}.mode" data-dtype="Number">
               {{selectOptions ../modes selected=change.mode}}
             </select>
           </div>
