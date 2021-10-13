@@ -250,7 +250,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       if (
         item.data.data.wear &&
         item.data.data.strengthmin != '' &&
-        +item.data.data.strengthmin > +this.actor.data.data.attributes.strength.value
+        +item.data.data.strengthmin > +this.actor.getAttribute("strength").value
       ) {
         const controls = el.getElementsByClassName('item-control')
         controls[0].className += ' itemred'
@@ -288,7 +288,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     html.find('.attribute .name').click(ev => {
       const div = $(ev.currentTarget)
       const attributeName = div.data('key')
-      const attribute = this.actor.data.data.attributes[attributeName]
+      const attribute = this.actor.getAttribute(attributeName)
       this.actor.rollChallenge(attribute)
     })
 

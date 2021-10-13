@@ -200,6 +200,22 @@ export class DemonlordActor extends Actor {
     return Promise.resolve()
   }
 
+  /**
+   * Get actor attribute by localized name
+   * @param attributeName                    Localized name
+   */
+  getAttribute(attributeName) {
+    const attributes = {
+      [game.i18n.localize("DL.AttributeStrength").toLowerCase()]: "strength",
+      [game.i18n.localize("DL.AttributeAgility").toLowerCase()]: "agility",
+      [game.i18n.localize("DL.AttributeIntellect").toLowerCase()]: "intellect",
+      [game.i18n.localize("DL.AttributeWill").toLowerCase()]: "will",
+      [game.i18n.localize("DL.CharPerception").toLowerCase()]: "perception",
+    }
+    const normalizedName = attributes[attributeName.toLowerCase()] || attributeName.toLowerCase()
+    return getProperty(this.data.data, `attributes.${normalizedName}`, this.data.data[attributeName])
+  }
+
   /* -------------------------------------------- */
   /*  Rolls and Actions                           */
   /* -------------------------------------------- */
@@ -241,7 +257,7 @@ export class DemonlordActor extends Actor {
         (defender?.data.data.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
-    if (item.data.data.wear && parseInt(item.data.data.strengthmin) > attacker.data.data.attributes.strength.value)
+    if (item.data.data.wear && parseInt(item.data.data.strengthmin) > attacker.getAttribute("strength").value)
       attackBOBA--
 
     // Roll the attack
@@ -295,7 +311,7 @@ export class DemonlordActor extends Actor {
 
   rollAttribute(attribute, inputBoons, inputModifier) {
     attribute = attribute.label.toLowerCase()
-    const modifier = parseInt(inputModifier) + (this.data.data.attributes[attribute]?.modifier || 0)
+    const modifier = parseInt(inputModifier) + (this.getAttribute(attribute)?.modifier || 0)
     const boons = parseInt(inputBoons) + (this.data.data.bonuses.challenge.boons[attribute] || 0)
 
     let diceFormula = '1d20' + (plusify(modifier) || '')
@@ -307,7 +323,7 @@ export class DemonlordActor extends Actor {
   }
 
   rollChallenge(attribute) {
-    if (typeof attribute === 'string' || attribute instanceof String) attribute = this.data.data.attributes[attribute]
+    if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.label))
       launchRollDialog(this.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2), html =>
@@ -351,7 +367,7 @@ export class DemonlordActor extends Actor {
       const attackAttribute = talentData.vs.attribute.toLowerCase()
       const defenseAttribute = talentData.vs?.against?.toLowerCase()
 
-      let modifier = parseInt(inputModifier) + (this.data.data.attributes[attackAttribute]?.modifier || 0)
+      let modifier = parseInt(inputModifier) + (this.getAttribute(attackAttribute)?.modifier || 0)
 
       let boons =
         parseInt(inputBoons) +
@@ -422,7 +438,7 @@ export class DemonlordActor extends Actor {
           (target?.actor?.data.data.bonuses.defense.boons[defenseAttribute] || 0) +
           (target?.actor?.data.data.bonuses.defense.boons.spell || 0)
 
-      const attackModifier = (parseInt(inputModifier) || 0) + this.data.data.attributes[attackAttribute].modifier || 0
+      const attackModifier = (parseInt(inputModifier) || 0) + this.getAttribute(attackAttribute).modifier || 0
 
       const attackFormula = '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
       attackRoll = new Roll(attackFormula, {})
@@ -546,7 +562,7 @@ export class DemonlordActor extends Actor {
         if (againstSelectedAttribute == 'defense') {
           tagetNumber = targetActor.data.data.characteristics.defense
         } else {
-          tagetNumber = targetActor.data.data.attributes[againstSelectedAttribute].value
+          tagetNumber = targetActor.getAttribute(againstSelectedAttribute).value
         }
       }
     })
@@ -632,7 +648,7 @@ export class DemonlordActor extends Actor {
   async setEncumbrance() {
     const armors = this.data.armor || this.items.filter(i => i.type === 'armor').map(a => a.data)
     const notMetItemNames = armors
-      .filter(a => a.data.strengthmin > this.data.data.attributes.strength.value && a.data.wear)
+      .filter(a => a.data.strengthmin > this.getAttribute("strength").value && a.data.wear)
       .map(a => a.name)
     return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }

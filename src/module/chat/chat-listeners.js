@@ -252,7 +252,7 @@ async function _onChatMakeChallengeRoll(event) {
   const boonsbanes = item.dataset.boonsbanes
   const actorId = item.dataset.actorid
   const actor = game.actors.get(actorId)
-  const attribute = actor.data.data.attributes[attributeName.toLowerCase()]
+  const attribute = actor.getAttribute(attributeName)
   const start = li.closest('.demonlord')
   const boonsbanesEntered = start.children[1].children[0].children[0].children[1]?.value
 
