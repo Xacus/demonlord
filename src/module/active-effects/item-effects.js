@@ -92,7 +92,7 @@ export class DLActiveEffects {
       const effectsToDel = []
 
       for (const effectData of effectDataList) {
-        const u = currentEffects.find(ce => ce.data.label === effectData?.label)
+        const u = currentEffects.find(ce => ce.data?.flags?.slug === effectData?.flags?.slug)
         if (u) {
           effectData._id = u.data._id
           if (effectData.changes.length > 0) effectsToUpd.push(effectData)
@@ -126,6 +126,7 @@ export class DLActiveEffects {
         notEditable: true,
         notToggleable: true,
         permanent: true,
+        slug: `ancestry-${item.name.toLowerCase()}-L0`,
       },
       changes: [
         addEffect('data.attributes.strength.value', dataL0.attributes.strength.value - 10),
@@ -162,6 +163,7 @@ export class DLActiveEffects {
         notDeletable: true,
         notEditable: true,
         notToggleable: true,
+        slug: `ancestry-${item.name.toLowerCase()}-L4`,
       },
       changes: [addEffect('data.characteristics.health.max', dataL4.healthbonus)].filter(falsyChangeFilter),
     }
@@ -189,6 +191,7 @@ export class DLActiveEffects {
           notDeletable: true,
           notEditable: true,
           notToggleable: true,
+          slug: `path-${item.name.toLowerCase()}-L${pathLevel.level}`,
         },
         changes: [
           // Characteristics
@@ -263,6 +266,7 @@ export class DLActiveEffects {
         notDeletable: true,
         notEditable: true,
         notToggleable: false,
+        slug: `talent-${item.name.toLowerCase()}`,
       },
       changes: [
         // Bonuses - Characteristics
@@ -319,6 +323,7 @@ export class DLActiveEffects {
         notDeletable: true,
         notEditable: true,
         notToggleable: true,
+        slug: `armor-${item.name.toLowerCase()}`,
       },
       changes: [
         addEffect('data.bonuses.armor.agility', armorData.agility),
@@ -377,6 +382,7 @@ export class DLActiveEffects {
         notDeletable: true,
         notEditable: true,
         notToggleable: false,
+        slug: `encumbrance-${effectLabel.toLowerCase()}`,
       },
       changes: [
         addEffect('data.bonuses.attack.boons.strength', n),
