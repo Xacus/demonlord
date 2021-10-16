@@ -437,4 +437,34 @@ export function postCorruptionToChat(actor, corruptionRoll) {
   })
 }
 
+export const postItemToChat = (actor, item) => {
+  const templateData = {
+    actor,
+    token: actor.data.token,
+    data: {
+      img: item.img,
+      itemname: {
+        value: item.name,
+      },
+      description: {
+        value: item.data.description,
+      },
+    },
+  }
+
+  const chatData = {
+    user: game.user.id,
+    speaker: {
+      actor: actor.id,
+      token: actor.token,
+      alias: actor.name,
+    },
+  }
+  const template = 'systems/demonlord/templates/chat/useitem.html'
+  renderTemplate(template, templateData).then(content => {
+    chatData.content = content
+    ChatMessage.create(chatData)
+  })
+}
+
 /* -------------------------------------------- */

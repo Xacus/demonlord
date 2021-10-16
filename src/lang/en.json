@@ -315,6 +315,7 @@
   "DL.ItemWear": "Wear item",
   "DL.ItemShowInfo": "Item Info",
   "DL.ItemRollText": "Item:",
+  "DL.ItemMaxUsesReached": "Maximum uses of the item reached",
   "DL.WealthTitle": "Wealth",
   "DL.WealthLifestyle": "Lifestyle: ",
   "DL.WealthCoinsGC": "GC: ",

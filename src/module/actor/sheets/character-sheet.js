@@ -311,8 +311,13 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html.on('mousedown', '.item-uses', ev => {
       const li = ev.currentTarget.closest('.item')
       const item = duplicate(this.actor.items.get(li.dataset.itemId))
-      if (ev.button == 0) item.data.data.quantity++
-      else if (ev.button == 2) if (item.data.data.quantity > 0) item.data.data.quantity--
+      if (ev.button == 0) {
+        item.data.quantity++
+      } else if (ev.button == 2) {
+        if (item.data.quantity > 0) {
+          item.data.quantity--
+        }
+      }
       Item.updateDocuments([item], { parent: this.actor })
     })
 

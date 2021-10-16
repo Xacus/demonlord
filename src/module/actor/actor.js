@@ -10,6 +10,7 @@ import {
   postAttackToChat,
   postAttributeToChat,
   postCorruptionToChat,
+  postItemToChat,
   postSpellToChat,
   postTalentToChat,
 } from '../chat/roll-messages'
@@ -452,6 +453,18 @@ export class DemonlordActor extends Actor {
     })
 
     postSpellToChat(this, spell, attackRoll, target?.actor)
+  }
+  /* -------------------------------------------- */
+
+  async useItem(itemID) {
+    const item = duplicate(this.items.get(itemID))
+    if (item.data.quantity < 1) {
+      ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+      return
+    }
+    item.data.quantity--
+    await Item.updateDocuments([item], { parent: this })
+    postItemToChat(this, item)
   }
 
   /* -------------------------------------------- */

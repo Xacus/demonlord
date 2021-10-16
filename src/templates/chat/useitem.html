@@ -1,7 +1,10 @@
 <div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
   {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
   <header class="card-header">
-    {{#if token.img}}
+    {{#if data.img}}
+      <div class="token-img"><img class="profile-img" src="{{data.img}}" data-edit="img" title="{{actor.name}}"
+                                  height="40" width="40"/></div>
+    {{else if token.img}}
       <div class="token-img"><img class="profile-img" src="{{token.img}}" data-edit="img" title="{{actor.name}}"
                                   height="40" width="40"/></div>
     {{/if}}
