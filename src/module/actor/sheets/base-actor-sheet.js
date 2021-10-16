@@ -322,6 +322,12 @@ export default class DLBaseActorSheet extends ActorSheet {
           speaker: ChatMessage.getSpeaker({ actor: this.actor }),
           flavor: label,
         })
+      } else {
+        const li = element.closest('.item')
+        const itemId = li.dataset.itemId
+        if (itemId) {
+          this.actor.useItem(itemId)
+        }
       }
     })
 
