@@ -3,21 +3,14 @@
   "title": "Shadow of the Demon Lord",
   "description": "The Shadow of the Demonlord system for FoundryVTT",
   "version": "2.0.3",
-  "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "0.8.8",
+  "minimumCoreVersion": "0.8.9",
+  "compatibleCoreVersion": "9",
   "author": "Xacus, ClipplerBlood, PatrickPorto",
   "creators": "Xacus",
   "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf, ParvusDomus, Cugi, zeteticl",
-  "esmodules": [
-    "module/demonlord.js"
-  ],
-  "styles": [
-    "styles/demonlord.css"
-  ],
-  "scripts": [
-    "lib/tagify.min.js",
-    "lib/tipfy.js"
-  ],
+  "esmodules": ["module/demonlord.js"],
+  "styles": ["styles/demonlord.css"],
+  "scripts": ["lib/tagify.min.js", "lib/tipfy.js"],
   "packs": [
     {
       "name": "weapons",
