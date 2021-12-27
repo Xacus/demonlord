@@ -406,7 +406,7 @@ export function postCorruptionToChat(actor, corruptionRoll) {
           if (corruptionRoll.total < actor.data.data.characteristics.corruption) {
             ;(async () => {
               // FIXME: get data from table
-              const compRollTabels = await game.packs.get('demonlord.sotdl roll tabels').getContent()
+              const compRollTabels = await game.packs.get('demonlord.sotdl roll tabels').getDocuments()
               const tableMarkOfDarkness = compRollTabels.find(i => i.name === 'Mark of Darkness')
 
               const result = tableMarkOfDarkness.draw()
