@@ -55,7 +55,7 @@ Hooks.once('init', async function () {
 
   CONFIG.Actor.documentClass = DemonlordActor
   CONFIG.Item.documentClass = DemonlordItem
-  CONFIG.ActiveEffect.sheetClass = DLActiveEffectConfig
+  DocumentSheetConfig.registerSheet("demonlord", DLActiveEffectConfig, {makeDefault: true})
   CONFIG.ui.combat = combattracker
   CONFIG.time.roundTime = 10
   // CONFIG.debug.hooks = true
