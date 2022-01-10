@@ -294,7 +294,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   let effectdice = ''
   if (spellData?.effectdice && spellData?.effectdice !== '') {
     const effectRoll = new Roll(spellData.effectdice, {})
-    effectRoll.evaluate()
+    effectRoll.evaluate({async: false})
     effectdice = effectRoll.total
   }
 
