@@ -266,7 +266,7 @@ export class DemonlordActor extends Actor {
     if (attackBOBA) diceFormula += plusify(attackBOBA) + 'd6kh'
 
     const attackRoll = new Roll(diceFormula, {})
-    attackRoll.evaluate()
+    attackRoll.evaluate({async: false})
 
     postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
 
@@ -319,7 +319,7 @@ export class DemonlordActor extends Actor {
     if (boons) diceFormula += plusify(boons) + 'd6kh'
 
     const challengeRoll = new Roll(diceFormula, {})
-    challengeRoll.evaluate()
+    challengeRoll.evaluate({async: false})
     postAttributeToChat(this, attribute, challengeRoll)
   }
 
@@ -378,7 +378,7 @@ export class DemonlordActor extends Actor {
 
       let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
       attackRoll = new Roll(attackRollFormula, {})
-      attackRoll.evaluate()
+      attackRoll.evaluate({async: false})
     }
 
     Hooks.call('DL.UseTalent', {
@@ -443,7 +443,7 @@ export class DemonlordActor extends Actor {
 
       const attackFormula = '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
       attackRoll = new Roll(attackFormula, {})
-      attackRoll.evaluate()
+      attackRoll.evaluate({async: false})
     }
 
     Hooks.call('DL.UseSpell', {
@@ -471,7 +471,7 @@ export class DemonlordActor extends Actor {
 
   rollCorruption() {
     const corruptionRoll = new Roll('1d20')
-    corruptionRoll.evaluate()
+    corruptionRoll.evaluate({async: false})
     postCorruptionToChat(this, corruptionRoll)
   }
 
