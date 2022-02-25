@@ -97,6 +97,16 @@ export class DemonlordActor extends Actor {
       halfSpeed: 0,
       noFastTurn: 0,
     })
+
+      // Bound attribute value
+      for (const [key, attribute] of Object.entries(data.attributes)) {
+        attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
+        attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
+      }
+      data.attributes.perception.label = game.i18n.localize(`DL.CharPerception`)
+  
+      // Speed
+      data.characteristics.speed = Math.max(0, data.characteristics.speed)
   }
 
   /* -------------------------------------------- */
@@ -108,16 +118,10 @@ export class DemonlordActor extends Actor {
   prepareDerivedData() {
     const data = this.data.data
 
-    // Bound attribute value and calculate modifiers
-    for (const [key, attribute] of Object.entries(data.attributes)) {
-      attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
+    // Modifiers
+    for (const attribute of Object.values(data.attributes)) {
       attribute.modifier = attribute.value - 10
-      attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
     }
-    data.attributes.perception.label = game.i18n.localize(`DL.CharPerception`)
-
-    // Speed
-    data.characteristics.speed = Math.max(0, data.characteristics.speed)
 
     // Maluses
     if (data.maluses.halfSpeed) data.characteristics.speed = Math.floor(data.characteristics.speed / 2)
@@ -133,9 +137,10 @@ export class DemonlordActor extends Actor {
       data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)
       // Insanity
       data.characteristics.insanity.max += data.attributes.will.value
+      
       // Armor
-      data.characteristics.defense +=
-        data.bonuses.armor.fixed || data.attributes.agility.value + data.bonuses.armor.agility
+      data.characteristics.defense =
+        Math.max(data.characteristics.defense, data.bonuses.armor.fixed) || data.attributes.agility.value + data.bonuses.armor.agility
       data.characteristics.defense += data.bonuses.armor.defense
       data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense
     }
