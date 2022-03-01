@@ -107,6 +107,9 @@ export class DemonlordActor extends Actor {
   
       // Speed
       data.characteristics.speed = Math.max(0, data.characteristics.speed)
+
+      // Defense (assume it's agility)
+      data.characteristics.defense = Math.max(0, data.attributes.agility.value + data.bonuses.armor.agility)
   }
 
   /* -------------------------------------------- */
@@ -118,8 +121,9 @@ export class DemonlordActor extends Actor {
   prepareDerivedData() {
     const data = this.data.data
 
-    // Modifiers
+    // Clamp attribute values and calculate modifiers
     for (const attribute of Object.values(data.attributes)) {
+      attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.modifier = attribute.value - 10
     }
 
@@ -139,8 +143,7 @@ export class DemonlordActor extends Actor {
       data.characteristics.insanity.max += data.attributes.will.value
       
       // Armor
-      data.characteristics.defense =
-        Math.max(data.characteristics.defense, data.bonuses.armor.fixed) || data.attributes.agility.value + data.bonuses.armor.agility
+      data.characteristics.defense = Math.max(data.characteristics.defense, data.bonuses.armor.fixed)
       data.characteristics.defense += data.bonuses.armor.defense
       data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense
     }

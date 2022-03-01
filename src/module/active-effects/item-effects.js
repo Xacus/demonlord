@@ -1,9 +1,10 @@
 import { plusify } from '../utils/utils'
 
-export const addEffect = (key, value) => ({
+export const addEffect = (key, value, priority) => ({
   key: key,
   value: plusify(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+  priority: priority
 })
 
 export const concatDiceEffect = (key, value) => ({
@@ -18,22 +19,25 @@ export const concatString = (key, value, separator = '') => ({
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
 })
 
-export const overrideEffect = (key, value) => ({
+export const overrideEffect = (key, value, priority) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+  priority: priority
 })
 
-export const upgradeEffect = (key, value) => ({
+export const upgradeEffect = (key, value, priority) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE,
+  priority: priority
 })
 
-export const downgradeEffect = (key, value) => ({
+export const downgradeEffect = (key, value, priority) => ({
   key: key,
   value: parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,
+  priority: priority
 })
 
 export const addObject = (key, value) => ({
@@ -110,6 +114,7 @@ export class DLActiveEffects {
   /* -------------------------------------------- */
 
   static generateEffectDataFromAncestry(item, actor = null) {
+    const priority = 1
     const dataL0 = item.data.data
 
     const effectDataL0 = {
@@ -129,22 +134,23 @@ export class DLActiveEffects {
         slug: `ancestry-${item.name.toLowerCase()}-L0`,
       },
       changes: [
-        addEffect('data.attributes.strength.value', dataL0.attributes.strength.value - 10),
-        addEffect('data.attributes.agility.value', dataL0.attributes.agility.value - 10),
-        addEffect('data.attributes.intellect.value', dataL0.attributes.intellect.value - 10),
-        addEffect('data.attributes.will.value', dataL0.attributes.will.value - 10),
-        addEffect('data.attributes.perception.value', dataL0.characteristics.perceptionmodifier),
-        addEffect('data.characteristics.defense', dataL0.characteristics.defensemodifier),
-        addEffect('data.characteristics.health.max', dataL0.characteristics.healthmodifier),
-        addEffect('data.characteristics.health.healingrate', dataL0.characteristics.healingratemodifier),
-        addEffect('data.characteristics.power', dataL0.characteristics.power),
-        addEffect('data.characteristics.speed', dataL0.characteristics.speed - 10),
+        addEffect('data.attributes.strength.value', dataL0.attributes.strength.value - 10, priority),
+        addEffect('data.attributes.agility.value', dataL0.attributes.agility.value - 10, priority),
+        addEffect('data.attributes.intellect.value', dataL0.attributes.intellect.value - 10, priority),
+        addEffect('data.attributes.will.value', dataL0.attributes.will.value - 10, priority),
+        addEffect('data.attributes.perception.value', dataL0.characteristics.perceptionmodifier, priority),
+        addEffect('data.characteristics.defense', dataL0.characteristics.defensemodifier, priority),
+        addEffect('data.characteristics.health.max', dataL0.characteristics.healthmodifier, priority),
+        addEffect('data.characteristics.health.healingrate', dataL0.characteristics.healingratemodifier, priority),
+        addEffect('data.characteristics.power', dataL0.characteristics.power, priority),
+        addEffect('data.characteristics.speed', dataL0.characteristics.speed - 10, priority),
         {
           key: 'data.characteristics.size',
           value: dataL0.characteristics.size,
           mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-          priority: 0,
+          priority: priority,
         },
+        // overrideEffect('data.characteristics.size', dataL0.characteristics.size, priority)
       ].filter(falsyChangeFilter),
     }
 
@@ -165,7 +171,7 @@ export class DLActiveEffects {
         notToggleable: true,
         slug: `ancestry-${item.name.toLowerCase()}-L4`,
       },
-      changes: [addEffect('data.characteristics.health.max', dataL4.healthbonus)].filter(falsyChangeFilter),
+      changes: [addEffect('data.characteristics.health.max', dataL4.healthbonus, priority)].filter(falsyChangeFilter),
     }
     return [effectDataL0, effectDataL4]
   }
@@ -173,6 +179,7 @@ export class DLActiveEffects {
   /* -------------------------------------------- */
 
   static generateEffectDataFromPath(item, actor = null) {
+    const priority = 2
     const pathdata = item.data.data
     const effectDataList = []
 
@@ -195,32 +202,36 @@ export class DLActiveEffects {
         },
         changes: [
           // Characteristics
-          addEffect('data.characteristics.health.max', pathLevel.characteristicsHealth),
-          addEffect('data.characteristics.power', pathLevel.characteristicsPower),
-          addEffect('data.attributes.perception.value', pathLevel.characteristicsPerception),
-          addEffect('data.characteristics.speed', pathLevel.characteristicsSpeed),
-          addEffect('data.characteristics.defense', pathLevel.characteristicsDefense),
+          addEffect('data.characteristics.health.max', pathLevel.characteristicsHealth, priority),
+          addEffect('data.characteristics.power', pathLevel.characteristicsPower, priority),
+          addEffect('data.attributes.perception.value', pathLevel.characteristicsPerception, priority),
+          addEffect('data.characteristics.speed', pathLevel.characteristicsSpeed, priority),
+          addEffect('data.characteristics.defense', pathLevel.characteristicsDefense, priority),
 
           // FIXME
-          // addEffect('data.characteristics.insanityModifier', pathLevel.characteristicsInsanity),
-          // addEffect('data.characteristics.corruptionModifier', pathLevel.characteristicsCorruption),
+          // addEffect('data.characteristics.insanityModifier', pathLevel.characteristicsInsanity, priority),
+          // addEffect('data.characteristics.corruptionModifier', pathLevel.characteristicsCorruption, priority),
 
           // Selected checkbox (select two, three, fixed)
           addEffect(
             'data.attributes.strength.value',
             pathLevel.attributeStrength * (pathLevel.attributeStrengthSelected || pathLevel.attributeSelectIsFixed),
+            priority
           ),
           addEffect(
             'data.attributes.agility.value',
             pathLevel.attributeAgility * (pathLevel.attributeAgilitySelected || pathLevel.attributeSelectIsFixed),
+            priority
           ),
           addEffect(
             'data.attributes.intellect.value',
             pathLevel.attributeIntellect * (pathLevel.attributeIntellectSelected || pathLevel.attributeSelectIsFixed),
+            priority
           ),
           addEffect(
             'data.attributes.will.value',
             pathLevel.attributeWill * (pathLevel.attributeWillSelected || pathLevel.attributeSelectIsFixed),
+            priority
           ),
         ].filter(falsyChangeFilter),
       }
@@ -236,8 +247,8 @@ export class DLActiveEffects {
 
         levelEffectData.changes = levelEffectData.changes.concat(
           [
-            addEffect(`data.attributes.${attributeOne}.value`, pathLevel.attributeSelectTwoSetValue1),
-            addEffect(`data.attributes.${attributeTwo}.value`, pathLevel.attributeSelectTwoSetValue2),
+            addEffect(`data.attributes.${attributeOne}.value`, pathLevel.attributeSelectTwoSetValue1, priority),
+            addEffect(`data.attributes.${attributeTwo}.value`, pathLevel.attributeSelectTwoSetValue2, priority),
           ].filter(falsyChangeFilter),
         )
       }
@@ -251,6 +262,7 @@ export class DLActiveEffects {
   /* -------------------------------------------- */
 
   static generateEffectDataFromTalent(item) {
+    const priority = 3
     const talentData = item.data.data
     const effectData = {
       label: item.name,
@@ -270,19 +282,19 @@ export class DLActiveEffects {
       },
       changes: [
         // Bonuses - Characteristics
-        addEffect('data.characteristics.defense', talentData.bonuses.defense),
-        addEffect('data.characteristics.health.max', talentData.bonuses.health),
-        addEffect('data.characteristics.power', talentData.bonuses.power),
-        addEffect('data.characteristics.speed', talentData.bonuses.speed),
+        addEffect('data.characteristics.defense', talentData.bonuses.defense, priority),
+        addEffect('data.characteristics.health.max', talentData.bonuses.health, priority),
+        addEffect('data.characteristics.power', talentData.bonuses.power, priority),
+        addEffect('data.characteristics.speed', talentData.bonuses.speed, priority),
       ].filter(falsyChangeFilter),
     }
     // --- Attack
     const action = talentData.action
     const attackChanges = [
-      addEffect('data.bonuses.attack.boons.strength', action.boonsbanes * action.strengthboonsbanesselect),
-      addEffect('data.bonuses.attack.boons.agility', action.boonsbanes * action.agilityboonsbanesselect),
-      addEffect('data.bonuses.attack.boons.intellect', action.boonsbanes * action.intellectboonsbanesselect),
-      addEffect('data.bonuses.attack.boons.will', action.boonsbanes * action.willboonsbanesselect),
+      addEffect('data.bonuses.attack.boons.strength', action.boonsbanes * action.strengthboonsbanesselect, priority),
+      addEffect('data.bonuses.attack.boons.agility', action.boonsbanes * action.agilityboonsbanesselect, priority),
+      addEffect('data.bonuses.attack.boons.intellect', action.boonsbanes * action.intellectboonsbanesselect, priority),
+      addEffect('data.bonuses.attack.boons.will', action.boonsbanes * action.willboonsbanesselect, priority),
       concatDiceEffect('data.bonuses.attack.damage', action.damage),
       concatDiceEffect('data.bonuses.attack.plus20Damage', action.plus20),
       concatString('data.bonuses.attack.extraEffect', action.extraeffect, '\n'),
@@ -293,11 +305,11 @@ export class DLActiveEffects {
     // --- Challenge
     const challenge = talentData.challenge
     const challengeChanges = [
-      addEffect('data.bonuses.challenge.boons.strength', challenge.boonsbanes * challenge.strengthboonsbanesselect),
-      addEffect('data.bonuses.challenge.boons.agility', challenge.boonsbanes * challenge.agilityboonsbanesselect),
-      addEffect('data.bonuses.challenge.boons.intellect', challenge.boonsbanes * challenge.intellectboonsbanesselect),
-      addEffect('data.bonuses.challenge.boons.will', challenge.boonsbanes * challenge.willboonsbanesselect),
-      addEffect('data.bonuses.challenge.boons.perception', challenge.boonsbanes * challenge.perceptionboonsbanesselect),
+      addEffect('data.bonuses.challenge.boons.strength', challenge.boonsbanes * challenge.strengthboonsbanesselect, priority),
+      addEffect('data.bonuses.challenge.boons.agility', challenge.boonsbanes * challenge.agilityboonsbanesselect, priority),
+      addEffect('data.bonuses.challenge.boons.intellect', challenge.boonsbanes * challenge.intellectboonsbanesselect, priority),
+      addEffect('data.bonuses.challenge.boons.will', challenge.boonsbanes * challenge.willboonsbanesselect, priority),
+      addEffect('data.bonuses.challenge.boons.perception', challenge.boonsbanes * challenge.perceptionboonsbanesselect, priority),
     ].filter(falsyChangeFilter)
 
     if (challengeChanges.length > 0) effectData.changes = effectData.changes.concat(challengeChanges)
@@ -308,6 +320,7 @@ export class DLActiveEffects {
   /* -------------------------------------------- */
 
   static generateEffectDataFromArmor(item) {
+    const priority = 4
     const armorData = item.data.data
     const effectData = {
       label: item.name,
@@ -326,9 +339,9 @@ export class DLActiveEffects {
         slug: `armor-${item.name.toLowerCase()}`,
       },
       changes: [
-        addEffect('data.bonuses.armor.agility', armorData.agility),
-        addEffect('data.bonuses.armor.defense', armorData.defense),
-        upgradeEffect('data.bonuses.armor.fixed', armorData.fixed),
+        addEffect('data.bonuses.armor.agility', armorData.agility, priority),
+        addEffect('data.bonuses.armor.defense', armorData.defense, priority),
+        upgradeEffect('data.bonuses.armor.fixed', armorData.fixed, priority),
       ].filter(falsyChangeFilter),
     }
     return [effectData]
@@ -358,6 +371,7 @@ export class DLActiveEffects {
   /* -------------------------------------------- */
 
   static async addEncumbrance(actor, itemNames) {
+    const priority = 100
     let effectLabel =
       game.i18n.localize('DL.encumbered') +
       ' (' +
@@ -385,11 +399,11 @@ export class DLActiveEffects {
         slug: `encumbrance-${effectLabel.toLowerCase()}`,
       },
       changes: [
-        addEffect('data.bonuses.attack.boons.strength', n),
-        addEffect('data.bonuses.attack.boons.agility', n),
-        addEffect('data.bonuses.challenge.boons.strength', n),
-        addEffect('data.bonuses.challenge.boons.agility', n),
-        addEffect('data.characteristics.speed', n * 2),
+        addEffect('data.bonuses.attack.boons.strength', n, priority),
+        addEffect('data.bonuses.attack.boons.agility', n, priority),
+        addEffect('data.bonuses.challenge.boons.strength', n, priority),
+        addEffect('data.bonuses.challenge.boons.agility', n, priority),
+        addEffect('data.characteristics.speed', n * 2, priority),
       ],
     }
 
