@@ -124,15 +124,15 @@ export class DemonlordActor extends Actor {
     // We can reapply some active effects if we know they happened
     // We're copying what it's done in applyActiveEffects
     const effectChanges = this.effects.reduce((changes, e) => {
-      if ( e.data.disabled || e.isSuppressed ) return changes;
+      if ( e.data.disabled || e.isSuppressed ) return changes
       return changes.concat(e.data.changes.map(c => {
-        c = foundry.utils.duplicate(c);
-        c.effect = e;
-        c.priority = c.priority ?? (c.mode * 10);
-        return c;
-      }));
-    }, []).filter(e => e.key.startsWith("data.attributes") || e.key.startsWith("data.characteristics"));
-    effectChanges.sort((a, b) => a.priority - b.priority);
+        c = foundry.utils.duplicate(c)
+        c.effect = e
+        c.priority = c.priority ?? (c.mode * 10)
+        return c
+      }))
+    }, []).filter(e => e.key.startsWith("data.attributes") || e.key.startsWith("data.characteristics"))
+    effectChanges.sort((a, b) => a.priority - b.priority)
     // effectChanges now contains active effects for attributes and characteristics sorted by priority
     
 
@@ -152,8 +152,8 @@ export class DemonlordActor extends Actor {
       data.attributes.perception.value = Math.min(data.attributes.perception.max,
         Math.max(data.attributes.perception.min, data.attributes.perception.value))
       for (let change of effectChanges.filter(e => e.key.includes("perception"))) {
-        const result = change.effect.apply(this, change);
-        if ( result !== null ) this.overrides[change.key] = result;
+        const result = change.effect.apply(this, change)
+        if ( result !== null ) this.overrides[change.key] = result
       }
       data.attributes.perception.modifier = data.attributes.perception.value - 10
 
@@ -161,8 +161,8 @@ export class DemonlordActor extends Actor {
       data.characteristics.health.max = data.attributes.strength.value
       data.characteristics.health.healingrate = Math.floor(data.characteristics.health.max / 4)
       for (let change of effectChanges.filter(e => e.key.includes("health"))) {
-        const result = change.effect.apply(this, change);
-        if ( result !== null ) this.overrides[change.key] = result;
+        const result = change.effect.apply(this, change)
+        if ( result !== null ) this.overrides[change.key] = result
       }
       // Insanity
       data.characteristics.insanity.max += data.attributes.will.value
@@ -172,25 +172,9 @@ export class DemonlordActor extends Actor {
       data.characteristics.defense += data.bonuses.armor.defense
       data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense
       for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
-        const result = change.effect.apply(this, change);
-        if ( result !== null ) this.overrides[change.key] = result;
+        const result = change.effect.apply(this, change)
+        if ( result !== null ) this.overrides[change.key] = result
       }
-
-      // Size
-      for (let change of effectChanges.filter(e => e.key.includes("size"))) {
-        const result = change.effect.apply(this, change);
-        if ( result !== null ) this.overrides[change.key] = result;
-      }
-    }
-  }
-
-  getNumericSize(s) {
-    let numerator = Number.parseInt(s.split("/")[0])
-    let denominator = Number.parseInt(s.split("/")[1])
-    if (denominator) {
-      return numerator / denominator
-    } else {
-      return numerator
     }
   }
 
