@@ -24,4 +24,7 @@ module.exports = {
     "no-unused-vars": ["error", { "vars": "local", "args": "after-used", "ignoreRestSiblings": false, argsIgnorePattern: '^_'}]
   },
 
+  globals: {
+      "DocumentSheetConfig": true
+  }
 }

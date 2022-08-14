@@ -97,6 +97,19 @@ export class DemonlordActor extends Actor {
       halfSpeed: 0,
       noFastTurn: 0,
     })
+
+      // Bound attribute value
+      for (const [key, attribute] of Object.entries(data.attributes)) {
+        attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
+        attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
+      }
+      data.attributes.perception.label = game.i18n.localize(`DL.CharPerception`)
+  
+      // Speed
+      data.characteristics.speed = Math.max(0, data.characteristics.speed)
+
+      // Defense (assume it's agility)
+      data.characteristics.defense = 0
   }
 
   /* -------------------------------------------- */
@@ -107,17 +120,27 @@ export class DemonlordActor extends Actor {
    */
   prepareDerivedData() {
     const data = this.data.data
+    
+    // We can reapply some active effects if we know they happened
+    // We're copying what it's done in applyActiveEffects
+    const effectChanges = this.effects.reduce((changes, e) => {
+      if ( e.data.disabled || e.isSuppressed ) return changes
+      return changes.concat(e.data.changes.map(c => {
+        c = foundry.utils.duplicate(c)
+        c.effect = e
+        c.priority = c.priority ?? (c.mode * 10)
+        return c
+      }))
+    }, []).filter(e => e.key.startsWith("data.attributes") || e.key.startsWith("data.characteristics"))
+    effectChanges.sort((a, b) => a.priority - b.priority)
+    // effectChanges now contains active effects for attributes and characteristics sorted by priority
+    
 
-    // Bound attribute value and calculate modifiers
-    for (const [key, attribute] of Object.entries(data.attributes)) {
+    // Clamp attribute values and calculate modifiers
+    for (const attribute of Object.values(data.attributes)) {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.modifier = attribute.value - 10
-      attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
     }
-    data.attributes.perception.label = game.i18n.localize(`DL.CharPerception`)
-
-    // Speed
-    data.characteristics.speed = Math.max(0, data.characteristics.speed)
 
     // Maluses
     if (data.maluses.halfSpeed) data.characteristics.speed = Math.floor(data.characteristics.speed / 2)
@@ -126,18 +149,32 @@ export class DemonlordActor extends Actor {
     if (this.data.type === 'character') {
       // Override Perception value
       data.attributes.perception.value += data.attributes.intellect.modifier
+      data.attributes.perception.value = Math.min(data.attributes.perception.max,
+        Math.max(data.attributes.perception.min, data.attributes.perception.value))
+      for (let change of effectChanges.filter(e => e.key.includes("perception"))) {
+        const result = change.effect.apply(this, change)
+        if ( result !== null ) this.overrides[change.key] = result
+      }
       data.attributes.perception.modifier = data.attributes.perception.value - 10
 
       // Health and Healing Rate
-      data.characteristics.health.max += data.attributes.strength.value
-      data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)
+      data.characteristics.health.max = data.attributes.strength.value
+      data.characteristics.health.healingrate = Math.floor(data.characteristics.health.max / 4)
+      for (let change of effectChanges.filter(e => e.key.includes("health"))) {
+        const result = change.effect.apply(this, change)
+        if ( result !== null ) this.overrides[change.key] = result
+      }
       // Insanity
       data.characteristics.insanity.max += data.attributes.will.value
+      
       // Armor
-      data.characteristics.defense +=
-        data.bonuses.armor.fixed || data.attributes.agility.value + data.bonuses.armor.agility
+      data.characteristics.defense = data.bonuses.armor.fixed || data.attributes.agility.value + data.bonuses.armor.agility
       data.characteristics.defense += data.bonuses.armor.defense
       data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense
+      for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
+        const result = change.effect.apply(this, change)
+        if ( result !== null ) this.overrides[change.key] = result
+      }
     }
   }
 
@@ -266,7 +303,7 @@ export class DemonlordActor extends Actor {
     if (attackBOBA) diceFormula += plusify(attackBOBA) + 'd6kh'
 
     const attackRoll = new Roll(diceFormula, {})
-    attackRoll.evaluate()
+    attackRoll.evaluate({async: false})
 
     postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
 
@@ -319,7 +356,7 @@ export class DemonlordActor extends Actor {
     if (boons) diceFormula += plusify(boons) + 'd6kh'
 
     const challengeRoll = new Roll(diceFormula, {})
-    challengeRoll.evaluate()
+    challengeRoll.evaluate({async: false})
     postAttributeToChat(this, attribute, challengeRoll)
   }
 
@@ -378,7 +415,7 @@ export class DemonlordActor extends Actor {
 
       let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
       attackRoll = new Roll(attackRollFormula, {})
-      attackRoll.evaluate()
+      attackRoll.evaluate({async: false})
     }
 
     Hooks.call('DL.UseTalent', {
@@ -443,7 +480,7 @@ export class DemonlordActor extends Actor {
 
       const attackFormula = '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
       attackRoll = new Roll(attackFormula, {})
-      attackRoll.evaluate()
+      attackRoll.evaluate({async: false})
     }
 
     Hooks.call('DL.UseSpell', {
@@ -471,7 +508,7 @@ export class DemonlordActor extends Actor {
 
   rollCorruption() {
     const corruptionRoll = new Roll('1d20')
-    corruptionRoll.evaluate()
+    corruptionRoll.evaluate({async: false})
     postCorruptionToChat(this, corruptionRoll)
   }
 

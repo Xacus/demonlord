@@ -203,8 +203,8 @@ export default class DLBaseItemSheet extends ItemSheet {
   async _getIncorporatedItem(incorporatedData) {
     if (incorporatedData.pack) {
       const pack = game.packs.get(incorporatedData.pack)
-      if (pack.metadata.entity !== 'Item') return
-      return await pack.getEntity(incorporatedData.id)
+      if (pack.documentName !== 'Item') return
+      return await pack.getDocument(incorporatedData.id)
     } else if (incorporatedData.data) return incorporatedData
     return game.items.get(incorporatedData.id)
   }

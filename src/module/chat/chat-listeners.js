@@ -61,7 +61,7 @@ async function _onChatRollDamage(event) {
   const itemId = item.dataset.itemId || li.closest('.demonlord').dataset.itemId
 
   const damageRoll = new Roll(damageformular, {})
-  damageRoll.evaluate()
+  damageRoll.evaluate({async: false})
 
   let totalDamage = ''
   let totalDamageGM = ''

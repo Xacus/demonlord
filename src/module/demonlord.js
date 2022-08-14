@@ -49,13 +49,13 @@ Hooks.once('init', async function () {
   Combat.prototype.startCombat = startCombat
   Combat.prototype.nextTurn = nextTurn
 
-  if (!isNewerVersion(game.data.version, '0.6.9')) {
+  if (!isNewerVersion(game.version ?? game.data.version, '0.6.9') && !game.data.release?.generation) {
     Combat.prototype.setupTurns = setupTurns
   }
 
   CONFIG.Actor.documentClass = DemonlordActor
   CONFIG.Item.documentClass = DemonlordItem
-  CONFIG.ActiveEffect.sheetClass = DLActiveEffectConfig
+  DocumentSheetConfig.registerSheet("demonlord", DLActiveEffectConfig, {makeDefault: true})
   CONFIG.ui.combat = combattracker
   CONFIG.time.roundTime = 10
   // CONFIG.debug.hooks = true

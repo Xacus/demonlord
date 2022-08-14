@@ -108,7 +108,7 @@ export async function getNestedItem(nestedData) {
   let method // <- Used to print how the item was fetched
   if (nestedData.pack) {
     const pack = game.packs.get(nestedData.pack)
-    if (pack.metadata.entity !== 'Item') return
+    if (pack.documentName !== 'Item') return
     entity = await pack.getDocument(nestedData.id)
     method = 'PACK'
   } else if (nestedData.data) {

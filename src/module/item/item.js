@@ -32,7 +32,7 @@ export class DemonlordItem extends Item {
     if (!(this?.parent instanceof DemonlordActor)) return Promise.resolve()
 
     // Delete Active effects with this origin
-    let aes = this.parent.effects.filter(ae => ae.data?.origin.includes(this.id))
+    let aes = this.parent.effects.filter(ae => ae.data?.origin?.includes(this.id))
     for (const ae of aes) {
       try {
         await ae.delete({ parent: this.parent })

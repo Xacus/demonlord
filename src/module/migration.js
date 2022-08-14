@@ -9,17 +9,17 @@ export async function handleMigrations() {
 
   // Compatibility warning
   const COMPATIBLE_MIGRATION_VERSION = 0.8
-  if (currentVersion && isNewerVersion(COMPATIBLE_MIGRATION_VERSION, currentVersion)) {
+  if (currentVersion && isNewerVersion(COMPATIBLE_MIGRATION_VERSION, currentVersion) && !game.data.release?.generation) {
     const warning =
       'Your Demonlord system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.'
     ui.notifications.error(warning, { permanent: true })
   }
 
   // 1.7.7 migration
-  if (isNewerVersion('1.7.7', currentVersion)) await migrateWorld_1_7_7()
+  if (isNewerVersion('1.7.7', currentVersion) && !game.data.release?.generation) await migrateWorld_1_7_7()
 
   // 2.0.0 migration
-  if (isNewerVersion('2.0.0', currentVersion)) await migrateWorld_2_0_0()
+  if (isNewerVersion('2.0.0', currentVersion) && !game.data.release?.generation) await migrateWorld_2_0_0()
 
   // Migration completed
   return game.settings.set('demonlord', 'systemMigrationVersion', game.system.data.version)
