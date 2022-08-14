@@ -40,7 +40,7 @@ export async function createDemonlordMacro(data, slot) {
       break
   }
 
-  let macro = game.macros.entities.find(m => m.name === item.name && m.command === command)
+  let macro = game.macros.find(m => m.name === item.name && m.command === command)
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
