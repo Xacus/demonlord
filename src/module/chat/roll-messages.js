@@ -263,7 +263,8 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   const rollMode = game.settings.get('core', 'rollMode')
 
   const attackAttribute = spellData?.action?.attack?.toLowerCase()
-  const defenseAttribute = spellData?.action?.against?.toLowerCase()
+  const defenseAttribute = spellData?.action?.against?.toLowerCase()  // displayed as "against" in the sheet
+  const savingAttribute = spellData?.action?.defense?.toLowerCase()  // displayed as "Defense" in the sheet
   // const challengeAttribute = spellData?.attribute?.toLowerCase() // FIXME
   const targetNumber = actor.getTargetNumber(spell)
 
@@ -335,11 +336,11 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['effectdice'] = effectdice
   data['defense'] = spellData?.action?.defense
   data['defenseboonsbanes'] = parseInt(spellData?.action?.defenseboonsbanes)
-  data['challStrength'] = defenseAttribute === 'strength'
-  data['challAgility'] = defenseAttribute === 'agility'
-  data['challIntellect'] = defenseAttribute === 'intellect'
-  data['challWill'] = defenseAttribute === 'will'
-  data['challPerception'] = defenseAttribute === 'perception'
+  data['challStrength'] = savingAttribute === 'strength'
+  data['challAgility'] = savingAttribute === 'agility'
+  data['challIntellect'] = savingAttribute === 'intellect'
+  data['challWill'] = savingAttribute === 'will'
+  data['challPerception'] = savingAttribute === 'perception'
   data['uses'] = usesText
   data['isCreature'] = actor.data.type === 'creature'
   data['healing'] = spellData?.healing?.healactive && spellData?.healing?.healing

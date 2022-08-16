@@ -1,10 +1,10 @@
-<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
-  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}} {{#if item.id}}data-item-id="{{item.id}}"
+{{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
   <div class="showlessinfo">{{data.actorInfo}}</div>
   {{#if data.attack}}
     <header class="card-header">
-      <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img"
-                                  title="{{item.data.name}}" height="40" width="40"/></div>
+      <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img" title="{{item.data.name}}"
+                                  height="40" width="40"/></div>
       <div class="attackbox">
         <div class="boxline">
           <div class="header">{{localize "DL.SpellRollText"}}</div>
@@ -18,8 +18,8 @@
     </header>
   {{else}}
     <header class="card-header">
-      <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img"
-                                  title="{{item.data.name}}" height="40" width="40"/></div>
+      <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img" title="{{item.data.name}}"
+                                  height="40" width="40"/></div>
       <div class="attackbox">
         <div class="header">{{localize "DL.SpellRollText"}}</div>
         <div class="headertext">{{item.name}}</div>
@@ -46,18 +46,18 @@
           </div>
           {{#if data.isCreature}}
             <div class="gmonly">
-                    <span class="tooltiptext">
-                      {{#each diceData.dice}}
-                        <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
-                            <label style="color:{{this.color}};">
-                              {{this.result}}
-                            </label>
-                          {{#if this.img}}
-                            <img src='{{this.img}}'/>
-                          {{/if}}
-                        </div>
-                      {{/each}}
-                    </span>
+          <span class="tooltiptext">
+            {{#each diceData.dice}}
+              <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+              <label style="color:{{this.color}};">
+                {{this.result}}
+              </label>
+                {{#if this.img}}
+                  <img src='{{this.img}}'/>
+                {{/if}}
+            </div>
+            {{/each}}
+          </span>
             </div>
           {{else}}
             {{#if data.ifBlindedRoll }}
@@ -66,13 +66,13 @@
             <span class="tooltiptext">
               {{#each diceData.dice}}
                 <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
-                        <label style="color:{{this.color}};">
-                          {{this.result}}
-                        </label>
+              <label style="color:{{this.color}};">
+                {{this.result}}
+              </label>
                   {{#if this.img}}
                     <img src='{{this.img}}'/>
                   {{/if}}
-                    </div>
+            </div>
               {{/each}}
             </span>
             {{#if data.ifBlindedRoll }}
@@ -220,8 +220,7 @@
   <div class="gmonly">
     {{#if data.challStrength}}
       <div class="challengeaction request-challengeroll">
-        <div class="header" data-attribute="Strength"
-             data-boba="{{data.defenseboonsbanes}}">
+        <div class="header" data-attribute="Strength" data-boba="{{data.defenseboonsbanes}}">
           <div class="challenge-img"></div>
           <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeStrength"}}
             {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
@@ -231,8 +230,7 @@
     {{/if}}
     {{#if data.challAgility}}
       <div class="challengeaction request-challengeroll">
-        <div class="header" data-attribute="Agility"
-             data-boba="{{data.defenseboonsbanes}}">
+        <div class="header" data-attribute="Agility" data-boba="{{data.defenseboonsbanes}}">
           <div class="challenge-img"></div>
           <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeAgility"}}
             {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
@@ -242,8 +240,7 @@
     {{/if}}
     {{#if data.challIntellect}}
       <div class="challengeaction request-challengeroll">
-        <div class="header" data-attribute="Intellect"
-             data-boba="{{data.defenseboonsbanes}}">
+        <div class="header" data-attribute="Intellect" data-boba="{{data.defenseboonsbanes}}">
           <div class="challenge-img"></div>
           <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeIntellect"}}
             {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
@@ -253,8 +250,7 @@
     {{/if}}
     {{#if data.challWill}}
       <div class="challengeaction request-challengeroll">
-        <div class="header" data-attribute="Will"
-             data-boba="{{data.defenseboonsbanes}}">
+        <div class="header" data-attribute="Will" data-boba="{{data.defenseboonsbanes}}">
           <div class="challenge-img"></div>
           <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeWill"}}
             {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
@@ -264,8 +260,7 @@
     {{/if}}
     {{#if data.challPerception}}
       <div class="challengeaction request-challengeroll">
-        <div class="header" data-attribute="Perception"
-             data-boba="{{data.defenseboonsbanes}}">
+        <div class="header" data-attribute="Perception" data-boba="{{data.defenseboonsbanes}}">
           <div class="challenge-img"></div>
           <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.CharPerception"}}
             {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
@@ -278,7 +273,7 @@
   <div class="gmonly">
   {{/if}}
   {{#if data.hasAreaTarget }}
-    <div class="combatactions place-template"  data-item-uuid="{{item.uuid}}">
+    <div class="combatactions place-template" data-item-uuid="{{item.uuid}}">
       <div class="header">
         <img src="systems/demonlord/assets/ui/icons/pentagram.webp" width="15" height="15"/>
         <div>{{localize "DL.ActionPlaceTemplate"}}</div>

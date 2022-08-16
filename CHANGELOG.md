@@ -4,9 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.5]
 ### Fixed
+- Mark of Darkness not applying automatically after failed Corruption roll
+- Spell defense challenge rolls not appearing in chat message
 - Max perception is now 25 instead of 20
 - Defense is now correctly applied to creatures
-- Mark of Darkness not applying automatically after failed Corruption roll
+- Creature sheets in view mode now display End of Round section correctly
+
 
 ## [2.0.4]
 ### Fixed
