@@ -1,5 +1,5 @@
-import { buildAttackEffectsMessage, buildAttributeEffectsMessage, buildTalentEffectsMessage } from './effect-messages'
-import { buildActorInfo, getChatBaseData, formatDice } from './base-messages'
+import {buildAttackEffectsMessage, buildAttributeEffectsMessage, buildTalentEffectsMessage} from './effect-messages'
+import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
 
 /**
  * Generates and sends the chat message for an ATTACK
@@ -35,7 +35,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   const templateData = {
     actor: attacker,
-    item: { id: item.id, data: item, name: item.name },
+    item: {id: item.id, data: item, name: item.name},
     diceData: formatDice(attackRoll),
     data: {},
   }
@@ -106,7 +106,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   const resultBoxClass = resultText === '' ? '' : challengeRoll.total >= 10 ? 'SUCCESS' : 'FAILURE'
   const templateData = {
     actor: actor,
-    item: { name: attribute.toUpperCase() },
+    item: {name: attribute.toUpperCase()},
     diceData: formatDice(challengeRoll),
     data: {},
   }
@@ -374,7 +374,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
 
 /* -------------------------------------------- */
 
-export function postCorruptionToChat(actor, corruptionRoll) {
+export async function postCorruptionToChat(actor, corruptionRoll) {
   const templateData = {
     actor: actor,
     data: {},
@@ -398,43 +398,30 @@ export function postCorruptionToChat(actor, corruptionRoll) {
   const chatData = getChatBaseData(actor, rollMode)
   const template = 'systems/demonlord/templates/chat/corruption.html'
 
-  renderTemplate(template, templateData).then(content => {
-    chatData.content = content
-    if (game.dice3d) {
-      game.dice3d.showForRoll(corruptionRoll, game.user, true, chatData.whisper, chatData.blind).then(() =>
-        ChatMessage.create(chatData).then(() => {
-          if (corruptionRoll.total < actor.data.data.characteristics.corruption) {
-            ;(async () => {
-              // FIXME: get data from table
-              const compRollTabels = await game.packs.get('demonlord.sotdl roll tabels').getDocuments()
-              const tableMarkOfDarkness = compRollTabels.find(i => i.name === 'Mark of Darkness')
+  chatData.content = await renderTemplate(template, templateData)
+  if (game.dice3d) {
+    await game.dice3d.showForRoll(corruptionRoll, game.user, true, chatData.whisper, chatData.blind)
+  } else {
+    chatData.sound = CONFIG.sounds.dice
+  }
+  await ChatMessage.create(chatData)
 
-              const result = tableMarkOfDarkness.draw()
-              let resultText = ''
-
-              result.then(function (res) {
-                resultText = res.results[0].text
-
-                actor.createEmbeddedDocuments('Item', [
-                  {
-                    name: 'Mark of Darkness',
-                    type: 'feature',
-                    data: {
-                      description: resultText,
-                    },
-                  },
-                ])
-              })
-              // tableMarkOfDarkness.roll().results[0].text
-            })()
-          }
-        }),
-      )
-    } else {
-      chatData.sound = CONFIG.sounds.dice
-      ChatMessage.create(chatData)
-    }
-  })
+  // Get mark of darkess if roll < corruption value
+  if (corruptionRoll.total < actor.data.data.characteristics.corruption) {
+    const compendiumRollTables = await game.packs.get('demonlord.sotdl roll tabels').getDocuments()
+    const tableMarkOfDarkess = compendiumRollTables.find(i => i.name === 'Mark of Darkness')
+    const result = await tableMarkOfDarkess.draw()
+    let resultText = result.results[0].text
+    actor.createEmbeddedDocuments('Item', [
+      {
+        name: 'Mark of Darkness',
+        type: 'feature',
+        data: {
+          description: resultText,
+        },
+      },
+    ])
+  }
 }
 
 export const postItemToChat = (actor, item) => {

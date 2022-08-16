@@ -2,9 +2,9 @@
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-import { DLActiveEffects } from '../active-effects/item-effects'
-import { DLAfflictions } from '../active-effects/afflictions'
-import { capitalize, plusify } from '../utils/utils'
+import {DLActiveEffects} from '../active-effects/item-effects'
+import {DLAfflictions} from '../active-effects/afflictions'
+import {capitalize, plusify} from '../utils/utils'
 import launchRollDialog from '../dialog/roll-dialog'
 import {
   postAttackToChat,
@@ -14,14 +14,15 @@ import {
   postSpellToChat,
   postTalentToChat,
 } from '../chat/roll-messages'
-import { handleCreateAncestry, handleCreatePath } from '../item/nested-objects'
-import { TokenManager } from '../pixi/token-manager'
+import {handleCreateAncestry, handleCreatePath} from '../item/nested-objects'
+import {TokenManager} from '../pixi/token-manager'
 
 const tokenManager = new TokenManager()
 
 export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
   /*  Data preparation                            */
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -38,7 +39,10 @@ export class DemonlordActor extends Actor {
   prepareBaseData() {
     const data = this.data.data
     // Set the base perception equal to intellect
-    if (this.data.type === 'character') data.attributes.perception.value = data.attributes.intellect.value || 10
+    if (this.data.type === 'character') {
+      data.attributes.perception.value = data.attributes.intellect.value || 10
+      data.characteristics.defense = 0  // assume defense = agility
+    }
 
     setProperty(data, 'bonuses', {
       attack: {
@@ -62,7 +66,7 @@ export class DemonlordActor extends Actor {
           perception: 0,
         },
       },
-      armor: { fixed: 0, agility: 0, defense: 0, override: 0 },
+      armor: {fixed: 0, agility: 0, defense: 0, override: 0},
       defense: {
         boons: {
           spell: 0,
@@ -98,18 +102,16 @@ export class DemonlordActor extends Actor {
       noFastTurn: 0,
     })
 
-      // Bound attribute value
-      for (const [key, attribute] of Object.entries(data.attributes)) {
-        attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
-        attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
-      }
-      data.attributes.perception.label = game.i18n.localize(`DL.CharPerception`)
-  
-      // Speed
-      data.characteristics.speed = Math.max(0, data.characteristics.speed)
+    // Bound attribute value
+    data.attributes.perception.max = 25
+    for (const [key, attribute] of Object.entries(data.attributes)) {
+      attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
+      attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
+    }
+    data.attributes.perception.label = game.i18n.localize(`DL.CharPerception`)
 
-      // Defense (assume it's agility)
-      data.characteristics.defense = 0
+    // Speed
+    data.characteristics.speed = Math.max(0, data.characteristics.speed)
   }
 
   /* -------------------------------------------- */
@@ -120,11 +122,11 @@ export class DemonlordActor extends Actor {
    */
   prepareDerivedData() {
     const data = this.data.data
-    
+
     // We can reapply some active effects if we know they happened
     // We're copying what it's done in applyActiveEffects
     const effectChanges = this.effects.reduce((changes, e) => {
-      if ( e.data.disabled || e.isSuppressed ) return changes
+      if (e.data.disabled || e.isSuppressed) return changes
       return changes.concat(e.data.changes.map(c => {
         c = foundry.utils.duplicate(c)
         c.effect = e
@@ -134,7 +136,7 @@ export class DemonlordActor extends Actor {
     }, []).filter(e => e.key.startsWith("data.attributes") || e.key.startsWith("data.characteristics"))
     effectChanges.sort((a, b) => a.priority - b.priority)
     // effectChanges now contains active effects for attributes and characteristics sorted by priority
-    
+
 
     // Clamp attribute values and calculate modifiers
     for (const attribute of Object.values(data.attributes)) {
@@ -149,12 +151,12 @@ export class DemonlordActor extends Actor {
     if (this.data.type === 'character') {
       // Override Perception value
       data.attributes.perception.value += data.attributes.intellect.modifier
-      data.attributes.perception.value = Math.min(data.attributes.perception.max,
-        Math.max(data.attributes.perception.min, data.attributes.perception.value))
       for (let change of effectChanges.filter(e => e.key.includes("perception"))) {
         const result = change.effect.apply(this, change)
-        if ( result !== null ) this.overrides[change.key] = result
+        if (result !== null) this.overrides[change.key] = result
       }
+      data.attributes.perception.value = Math.min(data.attributes.perception.max,
+        Math.max(data.attributes.perception.min, data.attributes.perception.value))
       data.attributes.perception.modifier = data.attributes.perception.value - 10
 
       // Health and Healing Rate
@@ -162,31 +164,32 @@ export class DemonlordActor extends Actor {
       data.characteristics.health.healingrate = Math.floor(data.characteristics.health.max / 4)
       for (let change of effectChanges.filter(e => e.key.includes("health"))) {
         const result = change.effect.apply(this, change)
-        if ( result !== null ) this.overrides[change.key] = result
+        if (result !== null) this.overrides[change.key] = result
       }
       // Insanity
       data.characteristics.insanity.max += data.attributes.will.value
-      
+
       // Armor
       data.characteristics.defense = data.bonuses.armor.fixed || data.attributes.agility.value + data.bonuses.armor.agility
       data.characteristics.defense += data.bonuses.armor.defense
       data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense
       for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
         const result = change.effect.apply(this, change)
-        if ( result !== null ) this.overrides[change.key] = result
+        if (result !== null) this.overrides[change.key] = result
       }
     }
   }
 
   /* -------------------------------------------- */
   /*  _onOperations                                */
+
   /* -------------------------------------------- */
 
   /** @override */
   _onUpdate(changed, options, user) {
     super._onUpdate(changed, options, user)
     if (changed?.data?.level) {
-      this._handleEmbeddedDocuments({ debugCaller: '_onUpdate' })
+      this._handleEmbeddedDocuments({debugCaller: '_onUpdate'})
     }
   }
 
@@ -219,7 +222,7 @@ export class DemonlordActor extends Actor {
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')
     }
-    await this._handleEmbeddedDocuments({ debugCaller: `_handleOnCreateEmbedded [${documents.length}]` })
+    await this._handleEmbeddedDocuments({debugCaller: `_handleOnCreateEmbedded [${documents.length}]`})
     return Promise.resolve()
   }
 
@@ -234,7 +237,7 @@ export class DemonlordActor extends Actor {
   async _handleOnUpdateEmbedded(documents) {
     console.log('DEMONLORD | Calling _handleOnUpdateEmbedded', documents)
     for (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
-    await this._handleEmbeddedDocuments({ debugCaller: `_handleOnUpdateEmbedded [${documents.length}]` })
+    await this._handleEmbeddedDocuments({debugCaller: `_handleOnUpdateEmbedded [${documents.length}]`})
     return Promise.resolve()
   }
 
@@ -256,6 +259,7 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
   /*  Rolls and Actions                           */
+
   /* -------------------------------------------- */
 
   /**
@@ -328,7 +332,7 @@ export class DemonlordActor extends Actor {
    * @param itemID          The id of the item
    * @param _options         Additional options
    */
-  rollWeaponAttack(itemID, _options = { event: null }) {
+  rollWeaponAttack(itemID, _options = {event: null}) {
     const item = this.getEmbeddedDocument('Item', itemID)
 
     // If no attribute to roll, roll without modifiers and boons
@@ -371,7 +375,7 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  rollTalent(itemID, _options = { event: null }) {
+  rollTalent(itemID, _options = {event: null}) {
     if (DLAfflictions.isActorBlocked(this, 'challenge', 'strength'))
       //FIXME
       return
@@ -429,7 +433,7 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  async rollSpell(itemID, _options = { event: null }) {
+  async rollSpell(itemID, _options = {event: null}) {
     const item = this.items.get(itemID)
     const isAttack = item.data.spelltype === game.i18n.localize('DL.SpellTypeAttack')
     const attackAttribute = item.data.data?.action?.attack?.toLowerCase()
@@ -447,7 +451,7 @@ export class DemonlordActor extends Actor {
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
       return
-    } else await item.update({ 'data.castings.value': uses + 1 }, { parent: this })
+    } else await item.update({'data.castings.value': uses + 1}, {parent: this})
 
     if (isAttack && attackAttribute)
       launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), html =>
@@ -491,6 +495,7 @@ export class DemonlordActor extends Actor {
 
     postSpellToChat(this, spell, attackRoll, target?.actor)
   }
+
   /* -------------------------------------------- */
 
   async useItem(itemID) {
@@ -500,7 +505,7 @@ export class DemonlordActor extends Actor {
       return
     }
     item.data.quantity--
-    await Item.updateDocuments([item], { parent: this })
+    await Item.updateDocuments([item], {parent: this})
     postItemToChat(this, item)
   }
 
@@ -626,14 +631,14 @@ export class DemonlordActor extends Actor {
     let uses = talent.data.data.uses?.value || 0
     const usesmax = talent.data.data.uses?.max || 0
     if (usesmax > 0 && uses < usesmax)
-      return talent.update({ 'data.uses.value': ++uses, 'data.addtonextroll': setActive }, { parent: this })
+      return talent.update({'data.uses.value': ++uses, 'data.addtonextroll': setActive}, {parent: this})
   }
 
   async deactivateTalent(talent, decrement = 0, onlyTemporary = false) {
     if (onlyTemporary && !talent.data.data.uses?.max) return
     let uses = talent.data.data.uses?.value || 0
     uses = Math.max(0, uses - decrement)
-    talent.update({ 'data.uses.value': uses, 'data.addtonextroll': false }, { parent: this })
+    talent.update({'data.uses.value': uses, 'data.addtonextroll': false}, {parent: this})
   }
 
   /* -------------------------------------------- */
@@ -649,17 +654,17 @@ export class DemonlordActor extends Actor {
 
   async restActor() {
     // Reset talent and spell uses
-    const talentData = this.items.filter(i => i.type === 'talent').map(t => ({ _id: t.id, 'data.uses.value': 0 }))
-    const spellData = this.items.filter(i => i.type === 'spell').map(s => ({ _id: s.id, 'data.castings.value': 0 }))
+    const talentData = this.items.filter(i => i.type === 'talent').map(t => ({_id: t.id, 'data.uses.value': 0}))
+    const spellData = this.items.filter(i => i.type === 'spell').map(s => ({_id: s.id, 'data.castings.value': 0}))
 
     await this.updateEmbeddedDocuments('Item', [...talentData, ...spellData])
     await this.applyHealing(true)
 
-    var templateData = { actor: this }
+    var templateData = {actor: this}
 
     const chatData = {
       user: game.user.id,
-      speaker: { actor: this.id, token: this.token, alias: this.name },
+      speaker: {actor: this.id, token: this.token, alias: this.name},
     }
 
     const template = 'systems/demonlord/templates/chat/rest.html'
@@ -678,7 +683,7 @@ export class DemonlordActor extends Actor {
   async increaseDamage(increment) {
     const health = this.data.data.characteristics.health
     const newHp = Math.max(0, Math.min(+health.max, Math.floor(+health.value + +increment)))
-    return this.update({ 'data.characteristics.health.value': newHp })
+    return this.update({'data.characteristics.health.value': newHp})
   }
 
   async setUsesOnSpells() {
@@ -690,7 +695,7 @@ export class DemonlordActor extends Actor {
         const rank = s.data.data.rank
         const currentMax = s.data.data.castings.max
         const newMax = CONFIG.DL.spelluses[power]?.[rank] ?? 0
-        if (currentMax !== newMax) diff.push({ _id: s.id, 'data.castings.max': newMax })
+        if (currentMax !== newMax) diff.push({_id: s.id, 'data.castings.max': newMax})
       })
     if (diff.length > 0) return this.updateEmbeddedDocuments('Item', diff)
   }

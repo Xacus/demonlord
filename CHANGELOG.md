@@ -1,10 +1,16 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [2.0.5]
+### Fixed
+- Max perception is now 25 instead of 20
+- Defense is now correctly applied to creatures
+- Mark of Darkness not applying automatically after failed Corruption roll
+
 ## [2.0.4]
 ### Fixed
 - Foundry v9 support
-
 
 ## [2.0.3]
 ### Added
