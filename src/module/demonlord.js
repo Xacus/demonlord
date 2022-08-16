@@ -201,7 +201,7 @@ Hooks.on('preCreateActor', (actor, data, _options, _userId) => {
   if (data.type == 'character') {
     tokenData.vision = true
     tokenData.actorLink = true
-    tokenData.dimSight = 5 // Give some squares of dim vision
+    // tokenData.dimSight = 5 // Give some squares of dim vision
   }
   actor.data.update({ token: tokenData })
 })

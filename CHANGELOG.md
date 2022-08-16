@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file.
 - Defense is now correctly applied to creatures
 - Creature sheets in view mode now display End of Round section correctly
 
+### Changed
+- New character tokens don't have dim vision anymore
+
 
 ## [2.0.4]
 ### Fixed
