@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Active effect sheet now displaying correctly, with easier attribute key selection
 - Minimum attribute value is now 0
+- Selected Path attributes now remains selected after editing the path
 
 ## [2.0.5]
 ### Fixed

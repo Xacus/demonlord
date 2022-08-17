@@ -1,5 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet'
-import { getNestedItem, getNestedItemsDataList, PathLevel, PathLevelItem } from '../nested-objects'
+import {getNestedItem, getNestedItemsDataList, PathLevel, PathLevelItem} from '../nested-objects'
 
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
@@ -31,6 +31,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   /* -------------------------------------------- */
   /*  Listeners                                   */
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -95,6 +96,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   /* -------------------------------------------- */
   /*  Auxiliary functions                         */
+
   /* -------------------------------------------- */
 
   showLevelDeleteDialog(ev) {
@@ -109,17 +111,19 @@ export default class DLPathSheet extends DLBaseItemSheet {
           callback: _ => {
             const levels = this.item.data.data.levels
             levels.splice(itemIndex, 1)
-            this.item.update({ 'data.levels': levels })
+            this.item.update({'data.levels': levels})
           },
         },
         no: {
           icon: '<i class="fas fa-times"></i>',
           label: game.i18n.localize('DL.DialogNo'),
-          callback: () => {},
+          callback: () => {
+          },
         },
       },
       default: 'no',
-      close: () => {},
+      close: () => {
+      },
     })
     d.render(true)
   }
@@ -141,11 +145,13 @@ export default class DLPathSheet extends DLBaseItemSheet {
         no: {
           icon: '<i class="fas fa-times"></i>',
           label: game.i18n.localize('DL.DialogNo'),
-          callback: () => {},
+          callback: () => {
+          },
         },
       },
       default: 'no',
-      close: () => {},
+      close: () => {
+      },
     })
     d.render(true)
   }
@@ -219,6 +225,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   /* -------------------------------------------- */
   /*  Update Object                               */
+
   /* -------------------------------------------- */
 
   async _updateObject(event, formData) {
@@ -245,7 +252,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
       }
     }
 
-    return this.object.update({ name: _name, img: formData.img, data: updateData })
+    return this.object.update({name: _name, img: formData.img, data: updateData})
   }
 
   /* -------------------------------------------- */
@@ -273,6 +280,13 @@ export default class DLPathSheet extends DLBaseItemSheet {
         // if index is found, remove the relative level from the list of old levels and keep the nested items
         const foundLevel = oldLevels.splice(foundIndex, 1)[0]
         this._keepNestedItems(newLevel, foundLevel)
+        // Keep also the chosen user attributes
+        if (newLevel.attributeSelectIsChooseTwo === foundLevel.attributeSelectIsChooseTwo || newLevel.attributeSelectIsChooseThree === foundLevel.attributeSelectIsChooseThree) {
+          newLevel.attributeStrengthSelected = foundLevel.attributeStrengthSelected
+          newLevel.attributeAgilitySelected = foundLevel.attributeAgilitySelected
+          newLevel.attributeIntellectSelected = foundLevel.attributeIntellectSelected
+          newLevel.attributeWillSelected = foundLevel.attributeWillSelected
+        }
       } else notFound.push(newLevel)
     })
     // Assert that there is only one level not matching.
