@@ -105,6 +105,7 @@ export class DemonlordActor extends Actor {
     // Bound attribute value
     data.attributes.perception.max = 25
     for (const [key, attribute] of Object.entries(data.attributes)) {
+      attribute.min = 0
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
     }

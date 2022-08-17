@@ -10,31 +10,31 @@
           "strength": {
             "value": 10,
             "modifier": 0,
-            "min": 1,
+            "min": 0,
             "max": 20
           },
           "agility": {
             "value": 10,
             "modifier": 0,
-            "min": 1,
+            "min": 0,
             "max": 20
           },
           "intellect": {
             "value": 10,
             "modifier": 0,
-            "min": 1,
+            "min": 0,
             "max": 20
           },
           "will": {
             "value": 10,
             "modifier": 0,
-            "min": 1,
+            "min": 0,
             "max": 20
           },
           "perception": {
             "value": 10,
             "modifier": 0,
-            "min": 1,
+            "min": 0,
             "max": 25
           }
         },

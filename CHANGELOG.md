@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.6]
+### Fixed
+- Active effect sheet now displaying correctly, with easier attribute key selection
+- Minimum attribute value is now 0
+
 ## [2.0.5]
 ### Fixed
 - Mark of Darkness not applying automatically after failed Corruption roll
