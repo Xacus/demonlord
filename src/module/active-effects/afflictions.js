@@ -29,8 +29,10 @@ export class DLAfflictions {
     actionAttribute = actionAttribute.toLowerCase()
     const isBlocked = actor.data.data.maluses.autoFail[actionType]?.[actionAttribute] > 0
     if (isBlocked) {
-      const msg = actor.getEmbeddedCollection('ActiveEffect').find(effect => Boolean(effect.data.flags?.warningMessage))
+      // TODO: more precise message? Currently it picks the first message
+      let msg = actor.getEmbeddedCollection('ActiveEffect').find(effect => Boolean(effect.data.flags?.warningMessage))
         ?.data.flags.warningMessage
+      msg = msg ?? game.i18n.localize(`DL.AutoFail${actionType.capitalize()}s`)
       ui.notifications.error(msg)
     }
     return isBlocked
