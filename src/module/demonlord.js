@@ -141,6 +141,7 @@ Hooks.once('init', async function () {
 
   Handlebars.registerHelper('plusify', x => (x >= 0 ? '+' + x : x))
 
+  Handlebars.registerHelper('defaultValue', function (a, b) {return a ? a : b;});
   preloadHandlebarsTemplates()
 })
 

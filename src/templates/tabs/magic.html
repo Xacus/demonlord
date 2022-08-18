@@ -1,81 +1,143 @@
-<ol class="items-list">
-  <li class="item-header">
-    <div class="spellnameheader">{{localize "DL.MagicTitle"}}</div>
-    <div class="spellname"></div>
-    <div class="spelltypeheader">{{localize "DL.SpelltypeHeader"}}</div>
-    <div class="bonesbanesheader">{{localize "DL.WeaponBoonsBanesShort"}}</div>
-    <div class="spellcastingsheader">{{localize "DL.TalentUsesTitle"}}</div>
-    <div class="item-controls">
-      <a class="item-control spell-create" title="{{localize 'DL.MagicAddSpell'}}" data-type="spell"
-      ><i class="fas fa-plus"></i
-      ></a>
-    </div>
-  </li>
+<div class="dl-text-header-upper dl-underline dl-item-row-header">
+  <div class="col-4">{{localize "DL.MagicTitle"}}</div>
+  <div class="col-2"></div>
+  <div class="col-2">{{localize "DL.SpelltypeHeader"}}</div>
+  <div class="col-1">{{localize "DL.SpellRank"}}</div>
+  <div class="col-1">{{localize "DL.WeaponBoonsBanesShort"}}</div>
+  <div class="col-1">{{localize "DL.TalentUsesTitle"}}</div>
+  <div class=".dl-item-controls col-1">
+    <a class="spell-create" title="{{localize 'DL.MagicAddSpell'}}" data-type="spell"
+    ><i class="fas fa-plus"></i
+    ></a>
+  </div>
+</div>
 
-  {{#each actor.spellbook as |spellbook id|}}
-    <li class="tradition-header">
-      <div class="spellnameheader">{{spellbook.tradition}}</div>
-      <div class="spellname"></div>
-      <div class="spelltypeheader"></div>
-      <div class="bonesbanesheader"></div>
-      <div class="spellcastingsheader"></div>
-    </li>
-    {{#each spellbook.spells as |spell id|}}
-      <li class="item item-align spell dropitem" data-item-id="{{spell._id}}">
-        <div class="item-image">
-          <img src="{{spell.img}}" title="{{spell.name}}" width="30" height="30"/>
+{{#each actor.spellbook as |spellbook id|}}
+  <!-- Tradition Header -->
+  {{#if spellbook.tradition}}
+    <div class="dl-text-header-lower">
+      {{localize "DL.MagicTradition"}}: {{spellbook.tradition}}
+    </div>
+  {{/if}}
+
+  {{#each spellbook.spells as |spell id|}}
+    <div class="dl-item-row dropitem" data-item-id="{{spell._id}}">
+
+      <!-- Informations -->
+      <div class="row">
+        <div class="col-6">
+          <img class='dl-rollable magic-roll' src="{{spell.img}}" title="{{spell.name}}" width="32" height="32"/>
+          <label class="magic-roll dl-rollable">{{spell.name}}</label>
+          <div class="dl-clickable dlToggleInfoBtn">
+            <i class="fas fa-angle-right"></i> {{localize "DL.SpellShowSpellInfo"}}
+          </div>
         </div>
-        <div class="spellname magic-roll">{{spell.name}}</div>
-        <div class="spelltype">{{data.spelltype}} {{data.rank}}</div>
-        <div class="bonesbanes">
-          {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}}+0{{/if}}
+
+        <div class="col-2">{{defaultValue data.spelltype "―"}}</div>
+        <div class="col-1">{{data.rank}}</div>
+        <div class="col-1">
+          {{defaultValue (plusify data.action.boonsbanes) 0}}
         </div>
-        <div class="spellcastings spell-uses">
-          {{#if data.castings.max}}{{data.castings.value}} / {{data.castings.max}}
-            <i class="fas fa-arrows-alt-v"></i>{{/if}}
+        <div class="col-1 spell-uses dl-clickable">
+          {{#if data.castings.max}}
+            {{defaultValue data.castings.value 0}} / {{data.castings.max}}
+            <i class="fas fa-arrows-alt-v"></i>
+          {{/if}}
         </div>
-        <div class="toggleInfo"><i class="fas fa-angle-right"></i> {{localize "DL.SpellShowSpellInfo"}}</div>
-        <div class="spellinfo" style="display: none">
-          {{#if data.action.damage}}
-            <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}} ({{data.action.damagetype}})<br/>
-          {{/if}} {{#each data.damagetypes as |damagetype id|}}
-          <b>{{localize 'DL.WeaponDamage'}}:</b> {{damagetype.damage}} ({{damagetype.damagetype}})<br/>
-        {{/each}} {{#if data.action.defense}}
-          <b>{{localize "DL.SpellTypeDefense"}}</b>
-          {{localize "DL.ChallengeRoll"}}: {{data.action.defense}} {{#if
-                data.action.defenseboonsbanes}}({{data.action.defenseboonsbanes}}){{/if}}<br/>
-        {{/if}} {{#if data.healing.healing}}
-          <b>{{localize 'DL.TalentHealingOptions'}}</b>
-        {{/if}} {{#if data.target}}
-          <b>{{localize "DL.SpellTarget"}}:</b> {{data.target}}<br/>
-        {{/if}} {{#if data.area}}
-          <b>{{localize "DL.SpellArea"}}:</b> {{data.area}}<br/>
-        {{/if}} {{#if data.duration}}
-          <b>{{localize "DL.SpellDuration"}}:</b> {{data.duration}}<br/>
-        {{/if}} {{#if data.requirements}}
-          <b>{{localize "DL.SpellRequirements"}}:</b> {{data.requirements}}<br/>
-        {{/if}} {{#if data.sacrifice}}
-          <b>{{localize "DL.SpellSacrifice"}}:</b> {{data.sacrifice}}<br/>
-        {{/if}} {{#if data.permanence}}
-          <b>{{localize "DL.SpellPermanence"}}:</b> {{data.permanence}}<br/>
-        {{/if}} {{#if data.aftereffect}}
-          <b>{{localize "DL.SpellAftereffect"}}:</b> {{data.aftereffect}}<br/>
-        {{/if}} {{#if data.special}}
-          <b>{{localize "DL.SpellSpecial"}}:</b> {{data.special}}<br/>
-        {{/if}} {{#if data.triggered}}
-          <b>{{localize "DL.SpellTriggered"}}:</b> {{data.triggered}}<br/>
-        {{/if}} {{#if data.action.plus20damage}}
-          <b>{{localize "DL.WeaponAttack20"}}:</b>
-          {{data.action.plus20damage}}<br/>
-        {{/if}} {{#if data.action.plus20}}
-          <b>{{localize "DL.WeaponAttack20Text"}}:</b> {{data.action.plus20}}<br/>
-        {{/if}} {{#if data.description}} {{{data.description}}} {{/if}}
+        <div class="col-1">
+          <a class="dl-clickable spell-edit" title="{{localize 'DL.MagicEditSpell'}}"><i class="fas fa-edit"></i></a>
+          <a class="dl-clickable spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i
+            class="fas fa-trash"></i></a>
         </div>
-        <div class="item-controls">
-          <a class="item-control spell-edit" title="{{localize 'DL.MagicEditSpell'}}"><i class="fas fa-edit"></i></a>
-          <a class="item-control spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i
-                  class="fas fa-trash"></i></a>
-        </div>
-      </li>
-    {{/each}} {{/each}}
-</ol>
+      </div>
+
+      <!-- Toggleable Info -->
+      <div class="grid-2 dlInfo" style="display: none;">
+        {{#if data.action.damage}}
+          <div>
+            <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}} ({{data.action.damagetype}})
+            {{#each data.damagetypes as |damagetype id|}}
+            <br /> {{damagetype.damage}} ({{damagetype.damagetype}})
+            {{/each}}
+          </div>
+        {{/if}}
+
+        {{#if data.action.defense}}
+          <div>
+            <b>{{localize "DL.SpellTypeDefense"}}</b> {{localize "DL.ChallengeRoll"}}: {{data.action.defense}}
+            {{#if data.action.defenseboonsbanes}}
+              ({{data.action.defenseboonsbanes}})
+            {{/if}}<br/>
+          </div>
+        {{/if}}
+        {{#if data.healing.healing}}
+          <div>
+            <b>{{localize 'DL.TalentHealingOptions'}}</b>
+          </div>
+        {{/if}}
+        {{#if data.target}}
+          <div>
+            <b>{{localize "DL.SpellTarget"}}:</b> {{data.target}}
+          </div>
+        {{/if}}
+        {{#if data.area}}
+          <div>
+            <b>{{localize "DL.SpellArea"}}:</b> {{data.area}}
+          </div>
+        {{/if}}
+        {{#if data.duration}}
+          <div>
+            <b>{{localize "DL.SpellDuration"}}:</b> {{data.duration}}
+          </div>
+        {{/if}}
+        {{#if data.requirements}}
+          <div>
+            <b>{{localize "DL.SpellRequirements"}}:</b> {{data.requirements}}
+          </div>
+        {{/if}}
+        {{#if data.sacrifice}}
+          <div>
+            <b>{{localize "DL.SpellSacrifice"}}:</b> {{data.sacrifice}}
+          </div>
+        {{/if}}
+        {{#if data.permanence}}
+          <div>
+            <b>{{localize "DL.SpellPermanence"}}:</b> {{data.permanence}}
+          </div>
+        {{/if}}
+        {{#if data.aftereffect}}
+          <div>
+            <b>{{localize "DL.SpellAftereffect"}}:</b> {{data.aftereffect}}
+          </div>
+        {{/if}}
+        {{#if data.special}}
+          <div>
+            <b>{{localize "DL.SpellSpecial"}}:</b> {{data.special}}
+          </div>
+        {{/if}}
+        {{#if data.triggered}}
+          <div>
+            <b>{{localize "DL.SpellTriggered"}}:</b> {{data.triggered}}
+          </div>
+        {{/if}}
+        {{#if data.action.plus20damage}}
+          <div>
+            <b>{{localize "DL.WeaponAttack20"}}:</b> {{data.action.plus20damage}}
+          </div>
+        {{/if}}
+        {{#if data.action.plus20}}
+          <div>
+            <b>{{localize "DL.WeaponAttack20Text"}}:</b> {{data.action.plus20}}
+          </div>
+        {{/if}}
+        {{#if data.description}}
+          <div class="col-2">
+            <b>{{localize "DL.CharDescription"}}:</b><br/>
+            {{{data.description}}}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+
+  {{/each}}
+{{/each}}

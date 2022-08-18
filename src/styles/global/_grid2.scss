@@ -10,6 +10,19 @@
   grid-gap: 16px;
 }
 
+.grid-base {
+  display: grid;
+
+  & > {
+    grid-column: span 1;
+  }
+}
+
+.grid-2 {
+  @extend .grid-base;
+  grid-template-columns: 1fr 1fr;
+}
+
 .col-1 {
   grid-column: span 1;
 }

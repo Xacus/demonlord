@@ -1,0 +1,99 @@
+@import '../utils/colors';
+@import '../utils/typography';
+@import 'typography';
+
+// Underlines while adding a small padding
+.dl-underline {
+  border-bottom: 1px solid $demonlord-red !important;
+  padding-bottom: 2px;
+}
+
+// Used for buttons in character sheets
+.dl-item-controls {
+  float: right;
+  width: 15px;
+  margin: 0;
+  margin-top: 1px;
+}
+
+// Stuff that it's clickable gets highlighted when hovering
+.dl-clickable,
+.dl-rollable {
+  &:hover,
+  &:focus {
+    color: #000;
+    text-shadow: 0 0 10px #fa200b;
+    cursor: pointer;
+  }
+}
+
+// Vertical aligment
+.dl-vcenter {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+// Horizontal aligment
+.dl-hcenter {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+// Row of items
+.dl-item-row {
+  min-height: 32px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  font-size: $f-size-normal;
+  background: #00000005;
+  border-radius: 2px;
+  border: 1px solid #0000001a;
+
+  img {
+    width: 32px;
+    height: 32px;
+    float: left;
+    margin-right: 4px;
+  }
+
+  label {
+    margin-left: 2px;
+    display: inline-block;
+    font-weight: bold;
+  }
+
+  // Applies to the first sub-row inside the item row. The second is usually left for toggleable info
+  .row:first-child > div,
+  &:first-child > div {
+    @extend .dl-vcenter;
+
+    // First child text is aligned left, others are centered
+    &:not(:first-child) {
+      text-align: center;
+    }
+  }
+}
+
+// Row of items header
+.dl-item-row-header {
+  @extend .dl-item-row;
+  @extend .row;
+  min-height: 0;
+  background: none;
+  border-radius: 0;
+  border: none;
+}
+
+.dl-sheet {
+  font-size: $base-font-size;
+}
+
+// Hidden item
+.dlInfo {
+  //border-left: 1px solid gray;
+  //border-bottom: 1px solid gray;
+  //border-bottom-left-radius: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
+}

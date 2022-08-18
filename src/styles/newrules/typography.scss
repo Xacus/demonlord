@@ -1,0 +1,42 @@
+@import '../utils/typography';
+
+$f-size-bigger: 18px;
+$f-size-big: 14px;
+$f-size-normal: 12px;
+$f-size-small: 10px;
+$f-size-tiny: 8px;
+
+.dl-text-header-lower {
+  font-family: $font-header;
+  font-size: $f-size-big;
+  font-weight: bold;
+}
+
+.dl-text-header-upper {
+  font-family: $font-header;
+  font-size: $f-size-normal;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.dl-text-h1 {
+}
+
+.dl-text-h2 {
+  font-family: $font-header;
+  font-weight: bold;
+  font-size: $f-size-big;
+  text-transform: uppercase;
+}
+
+.dl-text-h3 {
+  font-family: $font-header;
+  font-weight: bold;
+  font-size: $f-size-big;
+}
+
+.dl-text-h4 {
+  font-family: $font-header;
+  font-weight: bold;
+  font-size: $f-size-normal;
+}

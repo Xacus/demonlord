@@ -7,7 +7,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ['demonlord', 'sheet', 'actor'],
+      classes: ['demonlord', 'sheet', 'actor', 'dl-sheet'],
       width: 865,
       height: 670,
       tabs: [
@@ -294,17 +294,6 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       const talent = this.actor.items.get(li.dataset.itemId)
       if (ev.button == 0) this.actor.activateTalent(talent, true)
       else if (ev.button == 2) this.actor.deactivateTalent(talent, 1)
-    })
-
-    // Spell uses
-    html.on('mousedown', '.spell-uses', ev => {
-      const li = ev.currentTarget.closest('.item')
-      const item = this.actor.items.get(li.dataset.itemId)
-      let uses = +item.data.data.castings.value
-      const usesmax = +item.data.data.castings.max
-      if (ev.button == 0) uses = uses < usesmax ? uses + 1 : 0
-      else if (ev.button == 2) uses = uses > 0 ? uses - 1 : 0
-      item.update({ 'data.castings.value': uses }, { parent: this.actor })
     })
 
     // Item uses
