@@ -141,7 +141,6 @@
       "ammo",
       "ancestry",
       "armor",
-      "creaturerole",
       "endoftheround",
       "feature",
       "item",
@@ -400,31 +399,6 @@
       "type": "novice",
       "levels": [],
       "editPath": true
-    },
-    "creaturerole": {
-      "templates": ["base"],
-      "type": "",
-      "difficultystep": 0,
-      "size": "1",
-      "bonuses": {
-        "strength": 0,
-        "agility": 0,
-        "intellect": 0,
-        "will": 0,
-        "perception": 0,
-        "defense": 0,
-        "health": 0,
-        "power": 0,
-        "speed": 0,
-        "boonsbanes": 0,
-        "damagebonus": ""
-      },
-      "talents": [],
-      "magic": {
-        "power": 0,
-        "description": "",
-        "spells": []
-      }
     },
     "language": {
       "templates": ["base"],

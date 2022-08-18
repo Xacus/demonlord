@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Health is now calculated properly. Before, health effects were being applied twice, and healing rate was calculated
 only using strength
+### Removed
+- Creature Role item type
 
 
 ## [2.0.6]
