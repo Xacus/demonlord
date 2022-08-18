@@ -163,7 +163,7 @@ export class DemonlordActor extends Actor {
 
       // Health and Healing Rate
       data.characteristics.health.max += data.attributes.strength.value
-      data.characteristics.health.healingrate = Math.floor(data.characteristics.health.max / 4)
+      data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)
       // Insanity
       data.characteristics.insanity.max += data.attributes.will.value
 
