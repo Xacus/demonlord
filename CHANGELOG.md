@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [2.0.7]
+### Fixed
+- Health is now calculated properly. Before, health effects were being applied twice, and healing rate was calculated
+only using strength
+
 
 ## [2.0.6]
 ### Fixed
