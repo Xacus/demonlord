@@ -47,21 +47,26 @@
   text-align: center;
 }
 
+.dl-bordered-bg-light {
+  background: #00000005;
+  border-radius: 2px;
+  border: 1px solid #0000001a;
+}
+
 // Row of items
 .dl-item-row {
+  @extend .dl-bordered-bg-light;
   min-height: 32px;
   margin-top: 4px;
   margin-bottom: 4px;
   font-size: $f-size-normal;
-  background: #00000005;
-  border-radius: 2px;
-  border: 1px solid #0000001a;
 
   img {
     width: 32px;
     height: 32px;
     float: left;
     margin-right: 4px;
+    border-color: dimgray;
   }
 
   label {
