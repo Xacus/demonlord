@@ -408,6 +408,7 @@
     },
     "affliction": {
       "templates": ["base"]
-    }
+    },
+    "creaturerole": {}
   }
 }

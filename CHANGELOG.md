@@ -1,6 +1,12 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [2.0.8]
+### Fixed
+- Worlds with Creature Roles items couldn't be started
+
+
 ## [2.0.7]
 ### Fixed
 - Health is now calculated properly. Before, health effects were being applied twice, and healing rate was calculated
