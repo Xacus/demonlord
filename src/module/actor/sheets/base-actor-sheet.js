@@ -331,10 +331,24 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Rollable Talent
-    html.find('.talent-roll').click(ev => {
+    html.on('mousedown', '.talent-roll', ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      this.actor.rollTalent(id, {event: ev})
+      console.log(ev)
+      if (ev.button == 0) this.actor.rollTalent(id, {event: ev})
+      else if (ev.button == 2) {
+        console.log("something")
+        this.actor.deactivateTalent(this.actor.items.get(id), 0)
+      }
     })
+
+    // Talent uses
+    html.on('mousedown', '.talent-uses', ev => {
+      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const talent = this.actor.items.get(id)
+      if (ev.button == 0) this.actor.activateTalent(talent, true)
+      else if (ev.button == 2) this.actor.deactivateTalent(talent, 1)
+    })
+
 
     // Rollable Attack Spell
     html.find('.magic-roll').click(ev => {

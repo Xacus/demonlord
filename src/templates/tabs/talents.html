@@ -17,7 +17,7 @@
     <div class="dl-item-row dropitem" data-item-id="{{talent._id}}">
       <div class="row">
         <div class="col-7">
-          <img class='dl-clickable talent-uses' src="{{talent.img}}" title="{{talent.name}}" width="32" height="32"/>
+          <img class='dl-clickable item-edit' src="{{talent.img}}" title="{{talent.name}}" width="32" height="32"/>
           <label class="talent-roll dl-rollable">{{talent.name}}</label>
           <div class="dl-clickable dlToggleInfoBtn">
             <i class="fas fa-angle-right"></i> {{localize "DL.TalentShowSpellInfo"}}
@@ -39,9 +39,8 @@
         </div>
         <div class="col-1">
           <div class="col-1">
-            <a class="dl-clickable item-edit" title="{{localize 'DL.TalentEdit'}}"><i class="fas fa-edit"></i></a>
             <a class="dl-clickable item-delete" title="{{localize 'DL.TalentDelete'}}"><i
-              class="fas fa-trash"></i></a>
+              class="fas fa-times"></i></a>
           </div>
         </div>
       </div>
@@ -161,7 +160,11 @@
             <b>{{localize 'DL.TalentBonusesPower'}}:</b> {{data.bonuses.power}}
           </div>
         {{/if}}
-        {{#if data.description}} {{{data.description}}} {{/if}}
+        {{#if data.description}}
+          <div class="col-2">
+            {{{data.description}}}
+          </div>
+        {{/if}}
       </div>
     </div>
   {{/each}}

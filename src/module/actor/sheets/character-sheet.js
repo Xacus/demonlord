@@ -288,14 +288,6 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       Item.updateDocuments([item], { parent: this.actor })
     })
 
-    // Talent uses
-    html.on('mousedown', '.talent-uses', ev => {
-      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      const talent = this.actor.items.get(id)
-      if (ev.button == 0) this.actor.activateTalent(talent, true)
-      else if (ev.button == 2) this.actor.deactivateTalent(talent, 1)
-    })
-
     // Item uses
     html.on('mousedown', '.item-uses', ev => {
       const li = ev.currentTarget.closest('.item')

@@ -86,6 +86,11 @@
     }
   }
 
+  label.center {
+    margin-top: 9px;
+    margin-left: 42px;
+  }
+
   .item-wearoff {
     color: $c-light-gray;
   }
@@ -121,4 +126,10 @@
 // Make "uses" (talents, spells) arrows not count towards positioning
 i.fas.fa-arrows-alt-v {
   width: 0;
+}
+
+.dl-editor-box {
+  .editor-content {
+    height: fit-content !important;
+  }
 }

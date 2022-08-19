@@ -13,14 +13,19 @@
 .grid-base {
   display: grid;
 
-  & > {
-    grid-column: span 1;
+  & > div {
+    height: fit-content;
   }
 }
 
 .grid-2 {
   @extend .grid-base;
   grid-template-columns: 1fr 1fr;
+}
+
+.grid-3 {
+  @extend .grid-base;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .col-1 {
