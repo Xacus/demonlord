@@ -117,3 +117,8 @@
   padding-left: 4px;
   padding-right: 4px;
 }
+
+// Make "uses" (talents, spells) arrows not count towards positioning
+i.fas.fa-arrows-alt-v {
+  width: 0;
+}

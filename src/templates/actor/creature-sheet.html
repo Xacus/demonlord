@@ -3,6 +3,7 @@
   <header class="sheet-header">{{> systems/demonlord/templates/actor/creature-header.html}}</header>
   <nav class="sheet-navigation creature" data-group="primary">
     <a class="item" data-tab="creature">{{localize "ACTOR.TypeCreature"}}</a>
+    <a class="item" data-tab="magic">{{localize "DL.TabsMagic"}}</a>
     <a class="item" data-tab="afflictions">{{localize "DL.ModsAfflictions"}}</a>
     <a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>
   </nav>
@@ -18,6 +19,11 @@
       <div class="tab afflictions" data-group="primary" data-tab="afflictions">
         {{> systems/demonlord/templates/tabs/afflictions.html}}
       </div>
+      {{!-- Spells Tab --}}
+      <div class="tab spells" data-group="primary" data-tab="magic">
+        {{> systems/demonlord/templates/tabs/magic.html}}
+      </div>
+
 
       {{!-- Active Effects Tab --}}
       <div class="tab creatureeffects" data-group="primary" data-tab="effects">

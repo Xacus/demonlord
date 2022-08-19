@@ -143,51 +143,6 @@
       {{/each}}
     </ol>
   </div>
-  <div class="toggleAccordion change">
-    {{localize "DL.CreatureSpecialMagic"}}
-    <div class="hidesection">
-      <input
-        type="checkbox"
-        name="data.sections.showmagic"
-        id="data.sections.showmagic"
-        class="checkbox"
-        class="checkinput"
-        {{checked
-        data.sections.showmagic}}
-      /><label for="data.sections.showmagic"></label>
-      <span class="item-controls">
-        <a class="item-control item-create" title="{{localize 'DL.MagicAddSpell'}}" data-type="spell"
-          ><i class="fas fa-plus"></i
-        ></a>
-      </span>
-    </div>
-  </div>
-  <div class="content" style="display: block">
-    <ol class="body">
-      {{#each actor.spellbook as |spellbook id|}}
-      <li class="tradition-header">
-        <div class="spellnameheader">{{spellbook.tradition}}</div>
-      </li>
-      {{#each spellbook.spells as |spell id|}}
-      <li class="item spell dropitem" data-item-id="{{spell._id}}">
-        <div class="spellinfo">
-          <div class="itemname">{{spell.name}}</div>
-          <div class="spellcastings">({{data.castings.value}}/{{data.castings.max}}),</div>
-          <div class="spelltype">{{data.spelltype}}{{data.rank}},</div>
-          <div class="bonesbanes">
-            {{#if data.action.boonsbanes}}{{numberFormat data.action.boonsbanes decimals=0 sign=true}}{{else}} +0{{/if}}
-          </div>
-          <div class="item-controls">
-            <a class="item-control spell-edit" title="{{localize 'DL.MagicEditSpell'}}"><i class="fas fa-edit"></i></a>
-            <a class="item-control spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"
-              ><i class="fas fa-trash"></i
-            ></a>
-          </div>
-        </div>
-      </li>
-      {{/each}}{{/each}}
-    </ol>
-  </div>
 
   <div class="toggleAccordion change">
     {{localize "DL.CreatureSpecialEndRound"}}
