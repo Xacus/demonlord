@@ -26,7 +26,7 @@
       <!-- Informations -->
       <div class="row">
         <div class="col-6">
-          <img class='dl-rollable magic-roll' src="{{spell.img}}" title="{{spell.name}}" width="32" height="32"/>
+          <img class="dl-clickable item-edit" src="{{spell.img}}" title="{{spell.name}}" width="32" height="32"/>
           <label class="magic-roll dl-rollable">{{spell.name}}</label>
           <div class="dl-clickable dlToggleInfoBtn">
             <i class="fas fa-angle-right"></i> {{localize "DL.SpellShowSpellInfo"}}
@@ -45,9 +45,8 @@
           {{/if}}
         </div>
         <div class="col-1">
-          <a class="dl-clickable spell-edit" title="{{localize 'DL.MagicEditSpell'}}"><i class="fas fa-edit"></i></a>
           <a class="dl-clickable spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i
-            class="fas fa-trash"></i></a>
+            class="fas fa-times"></i></a>
         </div>
       </div>
 

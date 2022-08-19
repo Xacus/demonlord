@@ -16,7 +16,7 @@
     <div class="row">
       <div class="col-7">
         {{#if data.wear}}
-          <img class="dl-rollable attack-roll" src="{{weapon.img}}" title="{{weapon.name}}" width="32" height="32"/>
+          <img class="dl-clickable item-edit" src="{{weapon.img}}" title="{{weapon.name}}" width="32" height="32"/>
           <label class="dl-rollable attack-roll">{{weapon.name}}</label>
         {{else}}
           <img src="{{weapon.img}}" title="{{weapon.name}}" width="30" height="30"/>
@@ -37,8 +37,7 @@
            title="{{localize 'DL.WeaponWear'}}">
           <i class="fas fa-tshirt"></i>
         </a>
-        <a class="dl-clickable item-edit" title="{{localize 'DL.WeaponEdit'}}"><i class="fas fa-edit"></i></a>
-        <a class="dl-clickable item-delete" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-trash"></i></a>
+        <a class="dl-clickable item-delete" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-times"></i></a>
       </div>
     </div>
     <div class="grid-2 dlInfo" style="display: none">
@@ -84,7 +83,7 @@
   <div class="dl-item-row dropitem" data-item-id="{{armor._id}}">
     <div class="row">
       <div class="col-10 dl-clickable-nored item-edit">
-        <img src="{{armor.img}}" title="{{armor.name}}" width="32" height="32"/>
+        <img class="dl-clickable item-edit" src="{{armor.img}}" title="{{armor.name}}" width="32" height="32"/>
         <div style="font-weight: normal">{{armor.name}}</div>
         <div>
           {{#if data.defense}}
@@ -103,8 +102,7 @@
            title="{{localize 'DL.ArmorWear'}}">
           <i class="fas fa-tshirt"></i>
         </a>
-        <a class="dl-clickable item-edit" title="{{localize 'DL.ArmorEdit'}}"><i class="fas fa-edit"></i></a>
-        <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-trash"></i></a>
+        <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
       </div>
     </div>
   </div>
@@ -124,7 +122,7 @@
   <div class="dl-item-row dropitem" data-item-id="{{ammo._id}}">
     <div class="row">
       <div class="col-8 dl-clickable-nored item-edit">
-        <img src="{{ammo.img}}" title="{{ammo.name}}" width="32" height="32"/>
+        <img class="dl-clickable item-edit" src="{{ammo.img}}" title="{{ammo.name}}" width="32" height="32"/>
         <div style="font-weight: normal">{{ammo.name}}</div>
       </div>
       <div class="col-2 ammo-amount">
@@ -132,8 +130,7 @@
       </div>
       <div class="col-2">
         <a style="visibility: hidden;"><i class="fas fa-edit"></i></a>
-        <a class="dl-clickable item-edit" title="{{localize 'DL.ArmorEdit'}}"><i class="fas fa-edit"></i></a>
-        <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-trash"></i></a>
+        <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
       </div>
     </div>
   </div>
