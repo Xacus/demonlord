@@ -94,6 +94,9 @@
   .item-wearoff {
     color: $c-light-gray;
   }
+  .fas {
+    margin-top: 2px;
+  }
 }
 
 // Row of items header
@@ -126,6 +129,11 @@
 // Make "uses" (talents, spells) arrows not count towards positioning
 i.fas.fa-arrows-alt-v {
   width: 0;
+}
+i.fas.fa-shield-alt {
+  margin-right: -16px;
+  width: 0;
+  float: right;
 }
 
 .dl-editor-box {

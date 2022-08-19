@@ -33,11 +33,11 @@
         {{defaultValue (plusify data.action.boonsbanes) 0}}
       </div>
       <div class="col-2">
+        <a class="dl-clickable item-delete" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-times"></i></a>
         <a class="dl-clickable {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}"
            title="{{localize 'DL.WeaponWear'}}">
-          <i class="fas fa-tshirt"></i>
+          <i class="fas fa-shield-alt"></i>
         </a>
-        <a class="dl-clickable item-delete" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-times"></i></a>
       </div>
     </div>
     <div class="grid-2 dlInfo" style="display: none">
@@ -98,11 +98,11 @@
         </div>
       </div>
       <div class="col-2">
+        <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
         <a class="dl-clickable {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}"
            title="{{localize 'DL.ArmorWear'}}">
-          <i class="fas fa-tshirt"></i>
+          <i class="fas fa-shield-alt"></i>
         </a>
-        <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
       </div>
     </div>
   </div>
@@ -129,7 +129,6 @@
         {{data.quantity}} <i class="fas fa-arrows-alt-v"></i>
       </div>
       <div class="col-2">
-        <a style="visibility: hidden;"><i class="fas fa-edit"></i></a>
         <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
       </div>
     </div>
