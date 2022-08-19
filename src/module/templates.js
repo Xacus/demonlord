@@ -11,7 +11,6 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/tabs/character.html',
     'systems/demonlord/templates/tabs/combat.html',
     'systems/demonlord/templates/tabs/creature-view.html',
-    'systems/demonlord/templates/tabs/creature-edit.html',
     'systems/demonlord/templates/tabs/creatureeffects.html',
     'systems/demonlord/templates/tabs/effects.html',
     'systems/demonlord/templates/tabs/effectsoverview.html',
