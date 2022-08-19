@@ -153,10 +153,6 @@ export class DemonlordActor extends Actor {
     if (this.data.type === 'character') {
       // Override Perception value
       data.attributes.perception.value += data.attributes.intellect.modifier
-      for (let change of effectChanges.filter(e => e.key.includes("perception"))) {
-        const result = change.effect.apply(this, change)
-        if (result !== null) this.overrides[change.key] = result
-      }
       data.attributes.perception.value = Math.min(data.attributes.perception.max,
         Math.max(data.attributes.perception.min, data.attributes.perception.value))
       data.attributes.perception.modifier = data.attributes.perception.value - 10

@@ -1,6 +1,18 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [2.1.0]
+### Changed
+- Changed the UI of several character sheet tab
+- New creature sheet, with compact main tab, and separate spells tab
+- Removed the creature edit view. Now everything can be done in one tab.
+- Changed how to interact with actions such as weapons:
+  - To roll, click the name of the action
+  - To edit, click the icon
+  - Right clicking on Talents deactivates them, without reducing the number of uses
+- Creature role is back, since it broke worlds where such items were present. Will be removed properly in a future version
+### Fixed
+- Perception effects now get correctly applied once
 
 ## [2.0.8]
 ### Fixed

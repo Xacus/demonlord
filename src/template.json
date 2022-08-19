@@ -150,7 +150,8 @@
       "specialaction",
       "spell",
       "talent",
-      "weapon"
+      "weapon",
+      "creaturerole"
     ],
     "templates": {
       "base": {
