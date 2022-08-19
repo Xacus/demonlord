@@ -42,6 +42,7 @@ export class DemonlordActor extends Actor {
     if (this.data.type === 'character') {
       data.attributes.perception.value = data.attributes.intellect.value || 10
       data.characteristics.defense = 0  // assume defense = agility
+      data.characteristics.health.max = 0
     }
 
     setProperty(data, 'bonuses', {
@@ -161,12 +162,8 @@ export class DemonlordActor extends Actor {
       data.attributes.perception.modifier = data.attributes.perception.value - 10
 
       // Health and Healing Rate
-      data.characteristics.health.max = data.attributes.strength.value
-      data.characteristics.health.healingrate = Math.floor(data.characteristics.health.max / 4)
-      for (let change of effectChanges.filter(e => e.key.includes("health"))) {
-        const result = change.effect.apply(this, change)
-        if (result !== null) this.overrides[change.key] = result
-      }
+      data.characteristics.health.max += data.attributes.strength.value
+      data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)
       // Insanity
       data.characteristics.insanity.max += data.attributes.will.value
 
@@ -683,7 +680,7 @@ export class DemonlordActor extends Actor {
 
   async increaseDamage(increment) {
     const health = this.data.data.characteristics.health
-    const newHp = Math.max(0, Math.min(+health.max, Math.floor(+health.value + +increment)))
+    const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value +increment)))
     return this.update({'data.characteristics.health.value': newHp})
   }
 
