@@ -260,22 +260,21 @@ export default class DLBaseActorSheet extends ActorSheet {
 
     // Wear item
     const _itemwear = (ev, bool) => {
-      const li = $(ev.currentTarget).parents('.item')
-      const item = this.actor.items.get(li.data('itemId'))
+      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const item = this.actor.items.get(id)
       item.update({'data.wear': bool}, {parent: this.actor})
     }
     html.find('.item-wear').click(ev => _itemwear(ev, false))
     html.find('.item-wearoff').click(ev => _itemwear(ev, true))
-    html.find('.wearitem').each((i, el) => {
-      const itemId = el.getAttribute('data-item-id')
+    html.find('.item-wear').each((i, el) => {
+      const itemId = $(el).closest('[data-item-id]').data('itemId')
       const item = this.actor.items.get(itemId)
       if (
         item.data.data.wear &&
         item.data.data.strengthmin != '' &&
         +item.data.data.strengthmin > +this.actor.getAttribute("strength").value
       ) {
-        const controls = el.getElementsByClassName('item-control')
-        controls[0].className += ' itemred'
+        $(el).addClass('dl-text-red')
       }
     })
 
@@ -327,8 +326,8 @@ export default class DLBaseActorSheet extends ActorSheet {
 
     // Rollable Attack
     html.find('.attack-roll').click(ev => {
-      const li = ev.currentTarget.closest('.item')
-      this.actor.rollWeaponAttack(li.dataset.itemId, {event: ev})
+      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      this.actor.rollWeaponAttack(id, {event: ev})
     })
 
     // Rollable Talent

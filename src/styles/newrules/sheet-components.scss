@@ -23,7 +23,14 @@
   &:focus {
     color: #000;
     text-shadow: 0 0 10px #fa200b;
-    cursor: pointer;
+    cursor: pointer !important;
+  }
+}
+
+.dl-clickable-nored {
+  &:hover,
+  &:focus {
+    cursor: pointer !important;
   }
 }
 
@@ -70,8 +77,12 @@
 
     // First child text is aligned left, others are centered
     &:not(:first-child) {
-      text-align: center;
+      @extend .dl-hcenter;
     }
+  }
+
+  .item-wearoff {
+    color: $c-light-gray;
   }
 }
 
@@ -83,6 +94,10 @@
   background: none;
   border-radius: 0;
   border: none;
+
+  & > div:not(:first-child) {
+    @extend .dl-hcenter;
+  }
 }
 
 .dl-sheet {

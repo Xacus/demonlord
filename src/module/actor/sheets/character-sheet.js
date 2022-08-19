@@ -280,8 +280,8 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Ammo uses
     html.on('mousedown', '.ammo-amount', ev => {
-      const li = ev.currentTarget.closest('.item')
-      const item = duplicate(this.actor.items.get(li.dataset.itemId))
+      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const item = duplicate(this.actor.items.get(id))
       const amount = item.data.quantity
       if (ev.button == 0 && amount >= 0) item.data.quantity = +amount + 1
       else if (ev.button == 2 && amount > 0) item.data.quantity = +amount - 1
