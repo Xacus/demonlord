@@ -63,9 +63,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     actorData.spells = m.get('spell') || []
     actorData.talents = m.get('talent') || []
     actorData.features = m.get('feature') || []
-    actorData.spellbook = this._prepareBook(actorData.spells, 'tradition', 'spells').sort(
-      (a, b) => a.tradition.localeCompare(b.tradition)
-    )
+    actorData.spellbook = this._prepareBook(actorData.spells, 'tradition', 'spells')
   }
 
   /* -------------------------------------------- */
@@ -80,7 +78,9 @@ export default class DLBaseActorSheet extends ActorSheet {
     return Array.from(m.keys()).map(k => ({
       [dataGroupProperty]: k,
       [returnItemsName]: m.get(k),
-    }))
+    })).sort(
+      (a, b) => a[dataGroupProperty].localeCompare(b[dataGroupProperty])
+    )
   }
 
   /* -------------------------------------------- */
@@ -332,8 +332,8 @@ export default class DLBaseActorSheet extends ActorSheet {
 
     // Rollable Talent
     html.find('.talent-roll').click(ev => {
-      const li = ev.currentTarget.closest('.item')
-      this.actor.rollTalent(li.dataset.itemId, {event: ev})
+      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      this.actor.rollTalent(id, {event: ev})
     })
 
     // Rollable Attack Spell
