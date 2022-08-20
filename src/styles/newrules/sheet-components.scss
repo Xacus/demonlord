@@ -167,3 +167,24 @@ i.fas.fa-shield-alt {
     height: fit-content !important;
   }
 }
+
+// Creature tab
+.dl-creature-tab {
+  & > div.grid-2 {
+    height: 100%;
+
+    & > .col-1 {
+      height: 98%;
+    }
+
+    & > .col-1:first-child {
+      border-right: 1px solid #33333333;
+      margin-right: 16px;
+      padding-right: 16px;
+      height: 98%;
+    }
+    & > .col-1:last-child {
+      padding-right: 8px;
+    }
+  }
+}
