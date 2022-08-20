@@ -50,15 +50,10 @@
       <hr>
       {{#if data.action.damage}}
         <div>
-          <b>{{localize "DL.WeaponDamage"}}</b> {{data.action.damage}}
-          {{#if data.action.damagetype}}
-            ({{data.action.damagetype}})
-          {{/if}}
+          <b>{{localize "DL.WeaponDamage"}}</b>{{data.action.damage}}
+          {{#if data.action.damagetype}}({{data.action.damagetype}}){{/if}}
           {{#each data.action.damagetypes as |damagetype id|}}
-            , {{damagetype.damage}}
-            {{#if damagetype.damagetype}}
-              ({{damagetype.damagetype}})
-            {{/if}}
+            | {{damagetype.damage}}{{#if damagetype.damagetype}} ({{damagetype.damagetype}}){{/if}}
           {{/each}}
         </div>
       {{/if}}
@@ -80,7 +75,7 @@
       {{#if data.description}}
         <hr>
         <div>
-          {{{data.description}}}
+          {{{enrichHTMLUnrolled data.description}}}
         </div>
       {{/if}}
     </div>

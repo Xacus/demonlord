@@ -443,7 +443,7 @@ export class DemonlordActor extends Actor {
     const usesMax = parseInt(item.data.data?.castings?.max) || 0
 
     if (usesMax !== 0 && uses >= usesMax) {
-      ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
+      ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
       return
     } else await item.update({'data.castings.value': uses + 1}, {parent: this})
 
