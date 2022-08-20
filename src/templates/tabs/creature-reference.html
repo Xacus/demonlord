@@ -54,7 +54,23 @@
     <div class="dl-creature-section-section">
       {{#each actor.weapons as |item id|}}
         <div data-item-id="{{item._id}}">
-          <b class="dl-rollable attack-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+          <b class="dl-rollable attack-roll">{{item.name}}</b>
+          <!-- TODO: RANGE-->
+          <!--{{#if data.range}}({{data.range}}){{/if}}-->
+          {{log data}}
+          {{#if data.action.attack}}
+            {{log item}}
+            {{plusify (lookupAttributeModifier data.action.attack item.document.actor.data)}}
+          {{/if}}
+          {{#if data.action.boonsbanes}}
+            {{localize "DL.With"}} {{plusify data.action.boonsbanes}}
+            {{toLowerCase (localize "DL.WeaponBoonsBanesShort")}}
+          {{/if}}
+          {{#if data.action.damage}}
+            ({{data.action.damage}})
+            <!-- TODO: EXTRA DAMAGE -->
+          {{/if}}
+          | {{{enrichHTMLUnrolled item.data.description}}}
         </div>
       {{/each}}
     </div>

@@ -676,5 +676,6 @@
   "DL.NoFastTurns": "No fast turns",
   "DL.HalfSpeed": "Half Speed",
   "DL.Override": "Override",
-  "DL.Reference": "Reference"
+  "DL.Reference": "Reference",
+  "DL.With": "with"
 }

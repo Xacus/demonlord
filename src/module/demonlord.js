@@ -1,25 +1,25 @@
 // Import Modules
-import { DL } from './config.js'
-import { DemonlordActor } from './actor/actor.js'
-import { DemonlordItem } from './item/item.js'
-import { ActionTemplate } from './pixi/action-template.js'
-import { registerSettings } from './settings.js'
-import { nextTurn, rollInitiative, setupTurns, startCombat } from './init/init.js'
-import combattracker, { _onUpdateCombat } from './combattracker.js'
-import { preloadHandlebarsTemplates } from './templates.js'
+import {DL} from './config.js'
+import {DemonlordActor} from './actor/actor.js'
+import {DemonlordItem} from './item/item.js'
+import {ActionTemplate} from './pixi/action-template.js'
+import {registerSettings} from './settings.js'
+import {nextTurn, rollInitiative, setupTurns, startCombat} from './init/init.js'
+import combattracker, {_onUpdateCombat} from './combattracker.js'
+import {preloadHandlebarsTemplates} from './templates.js'
 import * as migrations from './migration.js'
-import { handleMigrations } from './migration.js'
+import {handleMigrations} from './migration.js'
 import * as macros from './macros.js'
 import {capitalize, enrichHTMLUnrolled} from './utils/utils'
-import { DLAfflictions } from './active-effects/afflictions'
-import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config'
+import {DLAfflictions} from './active-effects/afflictions'
+import {DLActiveEffectConfig} from './active-effects/sheets/active-effect-config'
 import DLCharacterSheet from './actor/sheets/character-sheet'
 import DLCreatureSheet from './actor/sheets/creature-sheet'
 import DLBaseItemSheet from './item/sheets/base-item-sheet'
 import DLAncestrySheet from './item/sheets/ancestry-sheet'
 import DLPathSheet from './item/sheets/path-sheet'
 import './playertrackercontrol'
-import { initChatListeners } from './chat/chat-listeners'
+import {initChatListeners} from './chat/chat-listeners'
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -141,10 +141,15 @@ Hooks.once('init', async function () {
 
   Handlebars.registerHelper('plusify', x => (x >= 0 ? '+' + x : x))
 
-  Handlebars.registerHelper('defaultValue', function (a, b) {return a ? a : b;});
+  Handlebars.registerHelper('defaultValue', function (a, b) {
+    return a ? a : b;
+  });
 
   Handlebars.registerHelper('enrichHTMLUnrolled', (x) => enrichHTMLUnrolled(x))
 
+  Handlebars.registerHelper('lookupAttributeModifier', (attributeName, actorData) =>
+    actorData?.data?.attributes[attributeName.toLowerCase()]?.modifier
+  )
   preloadHandlebarsTemplates()
 })
 
@@ -196,7 +201,7 @@ Hooks.on('preCreateActor', (actor, data, _options, _userId) => {
   //console.log(actor, data)
   const tokenData = {
     name: data.name,
-    bar1: { attribute: 'characteristics.health' },
+    bar1: {attribute: 'characteristics.health'},
     displayName: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
     displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
     disposition: disposition,
@@ -207,7 +212,7 @@ Hooks.on('preCreateActor', (actor, data, _options, _userId) => {
     tokenData.actorLink = true
     // tokenData.dimSight = 5 // Give some squares of dim vision
   }
-  actor.data.update({ token: tokenData })
+  actor.data.update({token: tokenData})
 })
 
 Hooks.on('createToken', async _tokenDocument => {
@@ -245,13 +250,13 @@ Hooks.on('createActiveEffect', async activeEffect => {
       if (!_parent.effects.find(e => e.data.flags?.core?.statusId === 'prone')) {
         const prone = CONFIG.statusEffects.find(e => e.id === 'prone')
         prone['flags.core.statusId'] = 'prone'
-        await ActiveEffect.create(prone, { parent: _parent })
+        await ActiveEffect.create(prone, {parent: _parent})
       }
 
       if (!_parent.effects.find(e => e.data.flags?.core?.statusId === 'unconscious')) {
         const unconscious = CONFIG.statusEffects.find(e => e.id === 'unconscious')
         unconscious['flags.core.statusId'] = 'unconscious'
-        await ActiveEffect.create(unconscious, { parent: _parent })
+        await ActiveEffect.create(unconscious, {parent: _parent})
       }
     }
   }
@@ -286,7 +291,7 @@ Hooks.on('renderChatMessage', async (app, html, _msg) => {
 })
 
 Hooks.once('diceSoNiceReady', dice3d => {
-  dice3d.addSystem({ id: 'demonlord', name: 'Demonlord' }, true)
+  dice3d.addSystem({id: 'demonlord', name: 'Demonlord'}, true)
   dice3d.addDicePreset({
     type: 'd6',
     labels: ['1', '2', '3', '4', '5', 'systems/demonlord/assets/ui/icons/logo.png'],
@@ -336,8 +341,8 @@ Hooks.once('dragRuler.ready', SpeedProvider => {
   class DemonLordSpeedProvider extends SpeedProvider {
     get colors() {
       return [
-        { id: 'walk', default: 0x00ff00, name: 'demonlord.speeds.walk' },
-        { id: 'rush', default: 0xffff00, name: 'demonlord.speeds.rush' },
+        {id: 'walk', default: 0x00ff00, name: 'demonlord.speeds.walk'},
+        {id: 'rush', default: 0xffff00, name: 'demonlord.speeds.rush'},
       ]
     }
 
@@ -354,8 +359,8 @@ Hooks.once('dragRuler.ready', SpeedProvider => {
     getRanges(token) {
       const baseSpeed = token.actor.data.data.characteristics.speed + this.getSpeedModifier(token)
       const ranges = [
-        { range: baseSpeed, color: 'walk' },
-        { range: baseSpeed * 2, color: 'rush' },
+        {range: baseSpeed, color: 'walk'},
+        {range: baseSpeed * 2, color: 'rush'},
       ]
       return ranges
     }
@@ -385,22 +390,22 @@ function loadActorForChatMessage(speaker) {
 }
 
 Hooks.on('DL.UseTalent', data => {
-  Hooks.call('DL.Action', { type: 'use-talent', ...data })
+  Hooks.call('DL.Action', {type: 'use-talent', ...data})
 })
 Hooks.on('DL.UseSpell', data => {
-  Hooks.call('DL.Action', { type: 'use-spell', ...data })
+  Hooks.call('DL.Action', {type: 'use-spell', ...data})
 })
 Hooks.on('DL.RollAttack', data => {
-  Hooks.call('DL.Action', { type: 'roll-attack', ...data })
+  Hooks.call('DL.Action', {type: 'roll-attack', ...data})
 })
 Hooks.on('DL.RollDamage', data => {
-  Hooks.call('DL.Action', { type: 'roll-damage', ...data })
+  Hooks.call('DL.Action', {type: 'roll-damage', ...data})
 })
 Hooks.on('DL.ApplyDamage', data => {
-  Hooks.call('DL.Action', { type: 'apply-damage', ...data })
+  Hooks.call('DL.Action', {type: 'apply-damage', ...data})
 })
 Hooks.on('DL.ApplyHealing', data => {
-  Hooks.call('DL.Action', { type: 'apply-healing', ...data })
+  Hooks.call('DL.Action', {type: 'apply-healing', ...data})
 })
 
 Hooks.on('DL.Action', () => {
