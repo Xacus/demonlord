@@ -51,90 +51,68 @@
       </div>
 
       <!-- Toggleable Info -->
-      <div class="grid-2 dlInfo" style="display: none;">
-        {{#if data.action.damage}}
-          <div>
-            <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}} ({{data.action.damagetype}})
-            {{#each data.damagetypes as |damagetype id|}}
-            <br /> {{damagetype.damage}} ({{damagetype.damagetype}})
-            {{/each}}
+      <div class="dlInfo dl-item-info" style="display: none;">
+        <div class="row dl-item-info-header">
+          <div class="col-6">
+            <b>{{spell.name}}</b>
           </div>
-        {{/if}}
-
-        {{#if data.action.defense}}
-          <div>
-            <b>{{localize "DL.SpellTypeDefense"}}</b> {{localize "DL.ChallengeRoll"}}: {{data.action.defense}}
-            {{#if data.action.defenseboonsbanes}}
-              ({{data.action.defenseboonsbanes}})
-            {{/if}}<br/>
+          <div class="col-6" style="margin-right: 0;">
+            <b>{{spellbook.tradition}} {{data.spelltype}} {{data.rank}}</b>
           </div>
-        {{/if}}
-        {{#if data.healing.healing}}
+        </div>
+        <hr />
+        {{#if data.requirements}}
           <div>
-            <b>{{localize 'DL.TalentHealingOptions'}}</b>
+            <b>{{localize "DL.SpellRequirements"}}</b> {{data.requirements}}
           </div>
         {{/if}}
         {{#if data.target}}
           <div>
-            <b>{{localize "DL.SpellTarget"}}:</b> {{data.target}}
+            <b>{{localize "DL.SpellTarget"}}</b> {{data.target}}
           </div>
         {{/if}}
         {{#if data.area}}
           <div>
-            <b>{{localize "DL.SpellArea"}}:</b> {{data.area}}
+            <b>{{localize "DL.SpellArea"}}</b> {{data.area}}
           </div>
         {{/if}}
         {{#if data.duration}}
           <div>
-            <b>{{localize "DL.SpellDuration"}}:</b> {{data.duration}}
+            <b>{{localize "DL.SpellDuration"}}</b> {{data.duration}}
           </div>
         {{/if}}
-        {{#if data.requirements}}
+        <hr/>
+        {{#if data.description}}
           <div>
-            <b>{{localize "DL.SpellRequirements"}}:</b> {{data.requirements}}
+            {{{data.description}}}
           </div>
         {{/if}}
         {{#if data.sacrifice}}
           <div>
-            <b>{{localize "DL.SpellSacrifice"}}:</b> {{data.sacrifice}}
+            <b>{{localize "DL.SpellSacrifice"}}</b> {{data.sacrifice}}
           </div>
         {{/if}}
         {{#if data.permanence}}
           <div>
-            <b>{{localize "DL.SpellPermanence"}}:</b> {{data.permanence}}
-          </div>
-        {{/if}}
-        {{#if data.aftereffect}}
-          <div>
-            <b>{{localize "DL.SpellAftereffect"}}:</b> {{data.aftereffect}}
-          </div>
-        {{/if}}
-        {{#if data.special}}
-          <div>
-            <b>{{localize "DL.SpellSpecial"}}:</b> {{data.special}}
+            <b>{{localize "DL.SpellPermanence"}}</b> {{data.permanence}}
           </div>
         {{/if}}
         {{#if data.triggered}}
           <div>
-            <b>{{localize "DL.SpellTriggered"}}:</b> {{data.triggered}}
-          </div>
-        {{/if}}
-        {{#if data.action.plus20damage}}
-          <div>
-            <b>{{localize "DL.WeaponAttack20"}}:</b> {{data.action.plus20damage}}
+            <b>{{localize "DL.SpellTriggered"}}</b> {{data.triggered}}
           </div>
         {{/if}}
         {{#if data.action.plus20}}
           <div>
-            <b>{{localize "DL.WeaponAttack20Text"}}:</b> {{data.action.plus20}}
+            <b>{{localize "DL.SpellRollPlus20"}}</b> {{data.action.plus20}}
           </div>
         {{/if}}
-        {{#if data.description}}
-          <div class="col-2">
-            <b>{{localize "DL.CharDescription"}}:</b><br/>
-            {{{data.description}}}
+        {{#if data.aftereffect}}
+          <div>
+            <b>{{localize "DL.SpellAftereffect"}}</b> {{data.aftereffect}}
           </div>
         {{/if}}
+
       </div>
     </div>
 

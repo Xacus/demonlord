@@ -60,6 +60,7 @@
   margin-top: 4px;
   margin-bottom: 4px;
   font-size: $f-size-normal;
+  font-family: $font-primary;
 
   img {
     width: 32px;
@@ -94,8 +95,31 @@
   .item-wearoff {
     color: $c-light-gray;
   }
+
   .fas {
     margin-top: 2px;
+  }
+
+  .dl-item-info {
+    padding-bottom: 4px;
+    padding-top: 4px;
+
+    hr {
+      border-color: #33333333;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    & > div {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    .dl-item-info-header {
+      text-transform: uppercase;
+      font-family: $font-pm;
+      font-size: 10px;
+    }
   }
 }
 
@@ -107,6 +131,7 @@
   background: none;
   border-radius: 0;
   border: none;
+  font-family: $font-header;
 
   & > div:not(:first-child) {
     @extend .dl-hcenter;
@@ -130,6 +155,7 @@
 i.fas.fa-arrows-alt-v {
   width: 0;
 }
+
 i.fas.fa-shield-alt {
   margin-right: -16px;
   width: 0;
