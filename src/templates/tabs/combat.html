@@ -15,11 +15,10 @@
   <div class="dl-item-row dropitem" data-item-id="{{weapon._id}}">
     <div class="row">
       <div class="col-7">
+        <img class="dl-clickable item-edit" src="{{weapon.img}}" title="{{weapon.name}}" width="32" height="32"/>
         {{#if data.wear}}
-          <img class="dl-clickable item-edit" src="{{weapon.img}}" title="{{weapon.name}}" width="32" height="32"/>
           <label class="dl-rollable attack-roll">{{weapon.name}}</label>
         {{else}}
-          <img src="{{weapon.img}}" title="{{weapon.name}}" width="30" height="30"/>
           <label style="font-weight: normal">{{weapon.name}}</label>
         {{/if}}
         <div class="dl-clickable dlToggleInfoBtn">
