@@ -188,6 +188,22 @@ i.fas.fa-shield-alt {
       padding-right: 8px;
     }
   }
+
+  .dl-item-row {
+    label {
+      display: inline-block;
+      margin-top: 9px;
+    }
+
+    .dlToggleInfoBtn {
+      .fas {
+        width: 0;
+        position: relative;
+        left: -12px;
+        text-align: center;
+      }
+    }
+  }
 }
 
 .dl-creature-reference-tab {

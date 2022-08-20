@@ -3,8 +3,8 @@
 
     <!-- TRAITS  -->
     <div class="dl-text-header-upper dl-underline dl-item-row-header">
-      <div class="col-11">{{localize "DL.CreatureTraits"}}</div>
-      <div class="col-1">
+      <div class="col-10">{{localize "DL.CreatureTraits"}}</div>
+      <div class="col-2">
         <a class="item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"><i class="fas fa-plus"></i></a>
       </div>
     </div>
@@ -16,11 +16,11 @@
             <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
                  height="32"/>
             <label class="dl-clickable item-roll">{{item.name}}</label>
-            <div class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
-            </div>
           </div>
-          <div class="col-2 dl-clickable" style="padding-top: 3px">
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
             <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
                style="margin-left: 2px; margin-top: 3px;">
               <i class="fas fa-times"></i>
@@ -39,8 +39,8 @@
 
     <!-- SPECIAL ACTIONS -->
     <div class="dl-text-header-upper dl-underline dl-item-row-header">
-      <div class="col-11">{{localize "DL.CreatureSpecialActions"}}</div>
-      <div class="col-1">
+      <div class="col-10">{{localize "DL.CreatureSpecialActions"}}</div>
+      <div class="col-2">
         <a class="item-create" title="{{localize 'DL.CreatureAddSpecialActions'}}" data-type="specialaction"><i
           class="fas fa-plus"></i></a>
       </div>
@@ -54,11 +54,11 @@
             <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
                  height="32"/>
             <label class="dl-clickable item-roll">{{item.name}}</label>
-            <div class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
-            </div>
           </div>
-          <div class="col-2 dl-clickable" style="padding-top: 3px">
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
             <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
                style="margin-left: 2px; margin-top: 3px;">
               <i class="fas fa-times"></i>
@@ -77,8 +77,8 @@
 
     <!-- END OF ROUND -->
     <div class="dl-text-header-upper dl-underline dl-item-row-header">
-      <div class="col-11">{{localize "DL.CreatureSpecialEndRound"}}</div>
-      <div class="col-1">
+      <div class="col-10">{{localize "DL.CreatureSpecialEndRound"}}</div>
+      <div class="col-2">
         <a class="item-create" title="{{localize 'DL.CreatureAddEndRound'}}" data-type="endoftheround"><i
           class="fas fa-plus"></i></a>
       </div>
@@ -91,11 +91,11 @@
             <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
                  height="32"/>
             <label class="dl-clickable item-roll">{{item.name}}</label>
-            <div class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
-            </div>
           </div>
-          <div class="col-2 dl-clickable" style="padding-top: 3px">
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
             <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
                style="margin-left: 2px; margin-top: 3px;">
               <i class="fas fa-times"></i>
@@ -116,8 +116,8 @@
   <div class="col-1">
     <!-- ATTACKS -->
     <div class="dl-text-header-upper dl-underline dl-item-row-header">
-      <div class="col-11">{{localize "DL.CreatureAttackOptions"}}</div>
-      <div class="col-1">
+      <div class="col-10">{{localize "DL.CreatureAttackOptions"}}</div>
+      <div class="col-2">
         <a class="item-create" title="{{localize 'DL.WeaponAdd'}}" data-type="weapon"><i class="fas fa-plus"></i></a>
       </div>
     </div>
@@ -129,11 +129,11 @@
             <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
                  height="32"/>
             <label class="dl-rollable attack-roll">{{item.name}}</label>
-            <div class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
-            </div>
           </div>
-          <div class="col-2 dl-clickable" style="padding-top: 3px">
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
             <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}">
               <i class="fas fa-times"></i>
             </a>
@@ -189,9 +189,6 @@
           <div class="col-6">
             <img class='dl-clickable item-edit' src="{{talent.img}}" title="{{talent.name}}" width="32" height="32"/>
             <label class="talent-roll dl-rollable">{{talent.name}}</label>
-            <div class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-angle-right"></i> {{localize "DL.TalentShowSpellInfo"}}
-            </div>
           </div>
           <div class="col-2 dl-clickable talent-uses">
             {{#if data.allused}}
@@ -208,6 +205,9 @@
             {{/if}}
           </div>
           <div class="col-2">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
             <a class="dl-clickable item-delete" title="{{localize 'DL.TalentDelete'}}"><i
               class="fas fa-times"></i></a>
           </div>
@@ -215,7 +215,7 @@
         <!-- Toggleable Info -->
         <div class="row dlInfo" style="display: none; text-align: left">
           <div class="col-12" style="padding: 2px 4px 4px;">
-            {{{enrichHTMLUnrolled item.data.description}}}
+            {{{enrichHTMLUnrolled talent.data.description}}}
           </div>
         </div>
       </div>

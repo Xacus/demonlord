@@ -244,12 +244,19 @@ export default class DLBaseActorSheet extends ActorSheet {
     // New Toggle Info
     html.find('.dlToggleInfoBtn').click(ev => {
       const root = $(ev.currentTarget).closest('[data-item-id]')
+      const elem = $(ev.currentTarget)
+      const selector = '.fa-chevron-down, .fa-chevron-up'
+      const chevron = elem.is(selector) ? elem : elem.find(selector);
       const elements = $(root).find('.dlInfo')
       elements.each((_, el) => {
         if (el.style.display === 'none') {
-          $(el).slideDown(200)
+          $(el).slideDown(100)
+          chevron?.removeClass('fa-chevron-up')
+          chevron?.addClass('fa-chevron-down')
         } else {
-          $(el).slideUp(200)
+          $(el).slideUp(100)
+          chevron?.removeClass('fa-chevron-down')
+          chevron?.addClass('fa-chevron-up')
         }
       })
     })
