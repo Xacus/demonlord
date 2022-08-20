@@ -1,4 +1,3 @@
-
 <div class="grid-2">
   <div class="col-1">
 
@@ -16,7 +15,7 @@
           <div class="col-10">
             <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
                  height="32"/>
-            <label class="dl-clickable-nored dlToggleInfoBtn">{{item.name}}</label>
+            <label class="dl-clickable item-roll">{{item.name}}</label>
             <div class="dl-clickable dlToggleInfoBtn">
               <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
             </div>
@@ -54,7 +53,7 @@
           <div class="col-10">
             <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
                  height="32"/>
-            <label class="dl-clickable-nored dlToggleInfoBtn">{{item.name}}</label>
+            <label class="dl-clickable item-roll">{{item.name}}</label>
             <div class="dl-clickable dlToggleInfoBtn">
               <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
             </div>
@@ -91,7 +90,7 @@
           <div class="col-10">
             <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
                  height="32"/>
-            <label class="dl-clickable-nored dlToggleInfoBtn">{{item.name}}</label>
+            <label class="dl-clickable item-roll">{{item.name}}</label>
             <div class="dl-clickable dlToggleInfoBtn">
               <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
             </div>
@@ -176,9 +175,9 @@
 
     <!--  TALENTS / SPECIAL ATTACKS COPIED FROM TALENTS -->
     <div class="dl-text-header-upper dl-underline dl-item-row-header">
-      <div class="col-9">{{localize "DL.CreatureSpecialAttacks"}}</div>
+      <div class="col-8">{{localize "DL.CreatureSpecialAttacks"}}</div>
       <div class="col-2">{{localize "DL.TalentUsesTitle"}}</div>
-      <div class="col-1">
+      <div class="col-2">
         <a class="spell-create" title="{{localize 'DL.TalentAdd'}}" data-type="talent">
           <i class="fas fa-plus"></i>
         </a>
@@ -187,7 +186,7 @@
     {{#each actor.talents as |talent id|}}
       <div class="dl-item-row dropitem" data-item-id="{{talent._id}}">
         <div class="row">
-          <div class="col-7">
+          <div class="col-6">
             <img class='dl-clickable item-edit' src="{{talent.img}}" title="{{talent.name}}" width="32" height="32"/>
             <label class="talent-roll dl-rollable">{{talent.name}}</label>
             <div class="dl-clickable dlToggleInfoBtn">
@@ -208,134 +207,16 @@
               ―
             {{/if}}
           </div>
-          <div class="col-1">
-            <div class="col-1">
-              <a class="dl-clickable item-delete" title="{{localize 'DL.TalentDelete'}}"><i
-                class="fas fa-times"></i></a>
-            </div>
+          <div class="col-2">
+            <a class="dl-clickable item-delete" title="{{localize 'DL.TalentDelete'}}"><i
+              class="fas fa-times"></i></a>
           </div>
         </div>
         <!-- Toggleable Info -->
-        <div class="grid-2 dlInfo" style="display: none;">
-          {{#if data.action.boonsbanes}}
-            <div>
-              {{#if data.action.strengthboonsbanesselect}}
-                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeStrength'}}):</b>
-                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-              {{#if data.action.agilityboonsbanesselect}}
-                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeAgility'}}):</b>
-                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-              {{#if data.action.intellectboonsbanesselect}}
-                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeIntellect'}}):</b>
-                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-              {{#if data.action.willboonsbanesselect}}
-                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeWill'}}):</b>
-                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-              {{#if data.action.perceptionboonsbanesselect}}
-                <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.CharPerception'}}):</b>
-                {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-            </div>
-          {{/if}}
-          {{#if data.action.damage}}
-            <div>
-              <b>{{localize 'DL.TalentExtraDamage'}}:</b> {{data.action.damage}}
-            </div>
-          {{/if}}
-          {{#if data.action.plus20}}
-            <div>
-              <b>{{localize 'DL.TalentExtraDamage20plus'}}:</b> {{data.action.plus20}}
-            </div>
-          {{/if}}
-          {{#if data.action.extraeffect}}
-            <div>
-              <b>{{localize 'DL.TalentExtraEffect'}}:</b> {{data.action.extraeffect}}
-            </div>
-          {{/if}}
-          {{#if data.challenge.boonsbanes}}
-            <div>
-              {{#if data.challenge.strengthboonsbanesselect}}
-                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeStrength'}}):</b>
-                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-              {{#if data.challenge.agilityboonsbanesselect}}
-                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeAgility'}}):</b>
-                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-              {{#if data.challenge.intellectboonsbanesselect}}
-                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeIntellect'}}):</b>
-                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-              {{#if data.challenge.willboonsbanesselect}}
-                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeWill'}}):</b>
-                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-              {{#if data.challenge.perceptionboonsbanesselect}}
-                <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.CharPerception'}}):</b>
-                {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-              {{/if}}
-            </div>
-          {{/if}}
-          {{#if data.vs.attribute}}
-            <div>
-              <b>{{localize 'DL.TalentVSRoll'}}:</b> {{data.vs.attribute}} {{localize
-              'DL.ChallengeVS'}} {{data.vs.against}}
-            </div>
-          {{/if}}
-          {{#if data.vs.boonsbanes}}
-            <div>
-              <b>{{localize 'DL.TalentVSBoonsBanes'}}:</b> {{numberFormat data.vs.boonsbanes decimals=0 sign=true}}
-            </div>
-          {{/if}}
-          {{#if data.vs.damage}}
-            <div>
-              <b>{{localize 'DL.TalentVSDamage'}}:</b> {{data.vs.damage}} ({{data.vs.damagetype}})
-            </div>
-          {{/if}}
-          {{#each data.vs.damagetypes as |damagetype id|}}
-            <div>
-              <b>{{localize 'DL.TalentVSDamage'}}:</b> {{damagetype.damage}} ({{damagetype.damagetype}})
-            </div>
-          {{/each}}
-          {{#if data.healing.healing}}
-            <div>
-              <b>{{localize 'DL.TalentHealingOptions'}}</b>
-            </div>
-          {{/if}}
-          {{#if data.damage}}
-            <div>
-              <b>{{localize 'DL.TalentDamage'}}:</b> {{data.damage}}
-            </div>
-          {{/if}}
-          {{#if data.bonuses.defense}}
-            <div>
-              <b>{{localize 'DL.TalentBonusesDefense'}}:</b> {{data.bonuses.defense}}
-            </div>
-          {{/if}}
-          {{#if data.bonuses.health}}
-            <div>
-              <b>{{localize 'DL.TalentBonusesHealth'}}:</b> {{data.bonuses.health}}
-            </div>
-          {{/if}}
-          {{#if data.bonuses.speed}}
-            <div>
-              <b>{{localize 'DL.TalentBonusesSpeed'}}:</b> {{data.bonuses.speed}}
-            </div>
-          {{/if}}
-          {{#if data.bonuses.power}}
-            <div>
-              <b>{{localize 'DL.TalentBonusesPower'}}:</b> {{data.bonuses.power}}
-            </div>
-          {{/if}}
-          {{#if data.description}}
-            <div class="col-2">
-              {{{data.description}}}
-            </div>
-          {{/if}}
+        <div class="row dlInfo" style="display: none; text-align: left">
+          <div class="col-12" style="padding: 2px 4px 4px;">
+            {{{enrichHTMLUnrolled item.data.description}}}
+          </div>
         </div>
       </div>
     {{/each}}

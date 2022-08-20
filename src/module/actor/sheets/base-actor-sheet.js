@@ -360,7 +360,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Rollable (generic)
-    html.find('.rollable').click(event => {
+    html.find('.rollable, .item-roll').click(event => {
       event.preventDefault()
       const element = event.currentTarget
       const dataset = element.dataset
@@ -372,11 +372,8 @@ export default class DLBaseActorSheet extends ActorSheet {
           flavor: label,
         })
       } else {
-        const li = element.closest('.item')
-        const itemId = li.dataset.itemId
-        if (itemId) {
-          this.actor.useItem(itemId)
-        }
+        const id = event.currentTarget.closest("[data-item-id]").dataset.itemId
+        this.actor.useItem(id)
       }
     })
 

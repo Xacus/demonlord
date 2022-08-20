@@ -183,8 +183,56 @@ i.fas.fa-shield-alt {
       padding-right: 16px;
       height: 98%;
     }
+
     & > .col-1:last-child {
       padding-right: 8px;
+    }
+  }
+}
+
+.dl-creature-reference-tab {
+  font-family: $font-primary;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+
+  .dl-creature-title {
+    font-family: $font-pm;
+    background-color: black;
+    color: white;
+    padding: 6px;
+  }
+
+  .dl-creature-sub-title {
+    font-style: italic;
+    background-color: rgb(156 7 25);
+    color: white;
+    padding-left: 6px;
+    padding-bottom: 1px;
+    padding-top: 1px;
+    margin-top: 2px;
+  }
+
+  .dl-creature-section-header {
+    background-color: #a7a9ac52;
+    border-top: 1px solid black;
+    text-transform: uppercase;
+    font-family: $font-pm;
+    padding-left: 6px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    margin-top: 2px;
+  }
+
+  p {
+    display: inline;
+  }
+
+  .dl-creature-section-section {
+    padding: 6px;
+
+    & > div {
+      @extend .dl-text-indent;
     }
   }
 }

@@ -47,4 +47,11 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     if (['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language'].includes(itemData.type)) return false
     return true
   }
+
+  /** @override */
+  activateListeners(html) {
+    super.activateListeners(html)
+  }
+
+
 }

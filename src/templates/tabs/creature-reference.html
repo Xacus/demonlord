@@ -1,0 +1,134 @@
+<div style="-webkit-columns: 2;-moz-columns: 2;columns: 2; padding-right: 8px;">
+  {{log actor}}
+  <div class="dl-creature-title row">
+    <div class="col-6">{{actor.name}}</div>
+    <div class="col-6" style="margin-right: 0; margin-left: auto">
+      {{localize "DL.CreatureDifficulty"}} {{data.difficulty}}
+    </div>
+  </div>
+  <div class="dl-creature-sub-title">
+    {{localize "DL.CharSize"}} {{data.characteristics.size}}
+    {{#if data.horrifying}}{{toLowerCase (localize "DL.CreatureHorrifying")}}{{/if}}
+    {{#if data.frightening}}{{toLowerCase (localize "DL.CreatureFrightening")}}{{/if}}
+    {{data.descriptor}}
+  </div>
+
+  <!-- STATS AND TRAITS -->
+  <div class="dl-creature-section-section">
+    <div>
+      <b>{{localize "DL.CharPerception"}}</b>&nbsp;
+      {{data.attributes.perception.value}} ({{plusify data.attributes.perception.modifier}});
+      {{data.perceptionsenses}}
+    </div>
+    <div>
+      <b>{{localize "DL.ArmorDefense"}}</b> {{data.characteristics.defense}};&nbsp;
+      <b>{{localize "DL.CreatureHealth"}}</b> {{data.characteristics.health.max}}
+    </div>
+    <div>
+      <b>{{localize "DL.AttributeStrength"}}</b> {{data.attributes.strength.value}} ({{plusify
+      data.attributes.strength.modifier}}),
+      <b>{{localize "DL.AttributeAgility"}}</b> {{data.attributes.agility.value}} ({{plusify
+      data.attributes.agility.modifier}})
+    </div>
+    <div>
+      <b>{{localize "DL.AttributeIntellect"}}</b> {{data.attributes.intellect.value}} ({{plusify
+      data.attributes.intellect.modifier}}),
+      <b>{{localize "DL.AttributeWill"}}</b> {{data.attributes.will.value}} ({{plusify data.attributes.will.modifier}})
+    </div>
+    <div>
+      <b>{{localize "DL.CharSpeed"}}</b> {{data.characteristics.speed}};
+      {{data.speedtraits}}
+    </div>
+
+    {{#each actor.features as |item id|}}
+      <div data-item-id="{{item._id}}">
+        <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+      </div>
+    {{/each}}
+  </div>
+
+  <!-- ATTACK OPTIONS -->
+  {{#if actor.weapons.length}}
+    <div class="dl-creature-section-header">
+      {{localize "DL.CreatureAttackOptions"}}
+    </div>
+    <div class="dl-creature-section-section">
+      {{#each actor.weapons as |item id|}}
+        <div data-item-id="{{item._id}}">
+          <b class="dl-rollable attack-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+        </div>
+      {{/each}}
+    </div>
+
+  {{/if}}
+
+  <!-- SPECIAL ATTACKS -->
+  {{#if actor.weapons.length}}
+    <div class="dl-creature-section-header">
+      {{localize "DL.CreatureSpecialAttacks"}}
+    </div>
+    <div class="dl-creature-section-section">
+      {{#each actor.talents as |item id|}}
+        <div data-item-id="{{item._id}}">
+          <b class="dl-rollable talent-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <!-- SPECIAL ACTIONS -->
+  {{#if actor.weapons.length}}
+    <div class="dl-creature-section-header">
+      {{localize "DL.CreatureSpecialActions"}}
+    </div>
+    <div class="dl-creature-section-section">
+      {{#each actor.specialactions as |item id|}}
+        <div data-item-id="{{item._id}}">
+          <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <!-- MAGIC -->
+
+  {{#if actor.data.characteristics.power}}
+    <div class="dl-creature-section-header">
+      {{localize "DL.TabsMagic"}}
+    </div>
+    <div class="dl-creature-section-section">
+      <div>
+        <b>{{localize "DL.CharPower"}}</b> {{actor.data.characteristics.power}}
+      </div>
+      {{#each actor.spellbook as |spellbook id|}}
+        <div>
+          <b>{{spellbook.tradition}}</b>&nbsp;
+          {{#each spellbook.spells as |spell id|}}
+            <span class="dl-rollable magic-roll" data-item-id="{{spell._id}}">{{toLowerCase spell.name}}</span>
+              {{#if data.castings.max}}
+                &nbsp;({{data.castings.max}})
+              {{/if}},
+
+          {{/each}}
+
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <!-- END OF ROUND -->
+  {{#if actor.weapons.length}}
+    <div class="dl-creature-section-header">
+      {{localize "DL.CreatureSpecialEndRound"}}
+    </div>
+    <div class="dl-creature-section-section">
+      {{#each actor.endoftheround as |item id|}}
+        <div data-item-id="{{item._id}}">
+          <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+</div>
+

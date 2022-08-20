@@ -494,6 +494,7 @@ export class DemonlordActor extends Actor {
 
   async useItem(itemID) {
     const item = duplicate(this.items.get(itemID))
+    if (item.type !== 'item') return postItemToChat(this, item)
     if (item.data.quantity < 1) {
       ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
       return
