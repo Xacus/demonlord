@@ -50,6 +50,8 @@
                     value="{{data.characteristics.health.value}}"
                     placeholder="{{data.characteristics.health.value}}"
                     style="color: white; border: none; box-shadow: none"
+                    min="{{data.characteristics.health.min}}"
+                    max="{{data.characteristics.health.max}}"
             />
           </div>
         </div>
@@ -60,8 +62,10 @@
                     name="data.characteristics.insanity.value"
                     type="number"
                     value="{{data.characteristics.insanity.value}}"
-                    placeholder="{{data.characteristics.health.value}}"
+                    placeholder="{{data.characteristics.insanity.value}}"
                     style="color: white; border: none; box-shadow: none"
+                    min="{{data.characteristics.insanity.min}}"
+                    max="{{data.characteristics.insanity.max}}"
             />
           </div>
         </div>
@@ -72,8 +76,9 @@
                     name="data.characteristics.corruption"
                     type="number"
                     value="{{data.characteristics.corruption}}"
-                    placeholder="{{data.characteristics.health.value}}"
+                    placeholder="{{data.characteristics.corruption}}"
                     style="color: white; border: none; box-shadow: none"
+                    min="0"
             />
           </div>
         </div>
