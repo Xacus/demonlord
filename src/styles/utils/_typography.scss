@@ -4,11 +4,21 @@
 //@import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
-$font-primary: 'Roboto', sans-serif;
+@font-face {
+  font-family: 'Portmanteau';
+  src: url('../fonts/Portmanteau-Regular.otf');
+}
+
+@font-face {
+  font-family: 'Athelas';
+  src: url('../fonts/Athelas.ttc');
+}
+
+$font-primary: 'Arial', sans-serif;
 $font-secondary: 'Shadows Into Light', sans-serif;
 $font-header: 'IM Fell English SC', serif;
 $font-actor-sheet-inputs: 'Nodesto', 'Signika', 'Palatino Linotype', serif;
-
+$font-pm: 'Portmanteau', 'IM Fell English SC', serif;
 $base-font-size: 12px;
 
 //@font-face {

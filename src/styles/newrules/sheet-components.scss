@@ -60,6 +60,7 @@
   margin-top: 4px;
   margin-bottom: 4px;
   font-size: $f-size-normal;
+  font-family: $font-primary;
 
   img {
     width: 32px;
@@ -94,8 +95,32 @@
   .item-wearoff {
     color: $c-light-gray;
   }
+
   .fas {
     margin-top: 2px;
+  }
+
+  .dl-item-info {
+    padding-bottom: 4px;
+    padding-top: 4px;
+    line-height: 1.3;
+
+    hr {
+      border-color: #33333333;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    & > div {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    .dl-item-info-header {
+      text-transform: uppercase;
+      font-family: $font-pm;
+      font-size: 10px;
+    }
   }
 }
 
@@ -107,6 +132,7 @@
   background: none;
   border-radius: 0;
   border: none;
+  font-family: $font-header;
 
   & > div:not(:first-child) {
     @extend .dl-hcenter;
@@ -130,6 +156,7 @@
 i.fas.fa-arrows-alt-v {
   width: 0;
 }
+
 i.fas.fa-shield-alt {
   margin-right: -16px;
   width: 0;
@@ -139,5 +166,90 @@ i.fas.fa-shield-alt {
 .dl-editor-box {
   .editor-content {
     height: fit-content !important;
+  }
+}
+
+// Creature tab
+.dl-creature-tab {
+  & > div.grid-2 {
+    height: 100%;
+
+    & > .col-1 {
+      height: 98%;
+      padding-bottom: 32px;
+    }
+
+    & > .col-1:first-child {
+      border-right: 1px solid #33333333;
+      margin-right: 16px;
+      padding-right: 16px;
+      height: 98%;
+    }
+
+    & > .col-1:last-child {
+      padding-right: 8px;
+    }
+  }
+
+  .dl-item-row {
+    label {
+      display: inline-block;
+      margin-top: 9px;
+    }
+
+    .dlToggleInfoBtn {
+      .fas {
+        width: 0;
+        position: relative;
+        left: -12px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.dl-creature-reference-tab {
+  font-family: $font-primary;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+
+  .dl-creature-title {
+    font-family: $font-pm;
+    background-color: black;
+    color: white;
+    padding: 6px;
+  }
+
+  .dl-creature-sub-title {
+    font-style: italic;
+    background-color: rgb(156 7 25);
+    color: white;
+    padding-left: 6px;
+    padding-bottom: 1px;
+    padding-top: 1px;
+    margin-top: 2px;
+  }
+
+  .dl-creature-section-header {
+    background-color: #11111111;
+    border-top: 2px solid black;
+    text-transform: uppercase;
+    font-family: $font-pm;
+    padding-left: 6px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    margin-top: 2px;
+  }
+
+  .dl-creature-section-section {
+    padding: 6px;
+    p {
+      display: inline;
+    }
+    & > div {
+      @extend .dl-text-indent;
+      line-height: 1.4;
+    }
   }
 }

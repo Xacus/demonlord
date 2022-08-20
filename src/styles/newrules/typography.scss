@@ -2,6 +2,7 @@
 
 $f-size-bigger: 18px;
 $f-size-big: 14px;
+$f-size-big-slight: 13px;
 $f-size-normal: 12px;
 $f-size-small: 10px;
 $f-size-tiny: 8px;
@@ -44,4 +45,9 @@ $f-size-tiny: 8px;
 // Text colors
 .dl-text-red {
   color: $demonlord-red;
+}
+
+.dl-text-indent {
+  text-indent: -12px;
+  padding-left: 12px !important;
 }

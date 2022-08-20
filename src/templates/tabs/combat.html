@@ -40,29 +40,42 @@
         </a>
       </div>
     </div>
-    <div class="grid-2 dlInfo" style="display: none">
+    <div class="dlInfo dl-item-info" style="display: none">
       <!-- TODO: Action roll info -->
+      <div class="row dl-item-info-header">
+        <div class="col-12">
+          <b>{{weapon.name}}</b>
+        </div>
+      </div>
+      <hr>
       {{#if data.action.damage}}
         <div>
-          <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}} ({{data.action.damagetype}})
-          {{#each data.damagetypes as |damagetype id|}}
-            <br/> {{damagetype.damage}} ({{damagetype.damagetype}})
+          <b>{{localize "DL.WeaponDamage"}}</b>{{data.action.damage}}
+          {{#if data.action.damagetype}}({{data.action.damagetype}}){{/if}}
+          {{#each data.action.damagetypes as |damagetype id|}}
+            | {{damagetype.damage}}{{#if damagetype.damagetype}} ({{damagetype.damagetype}}){{/if}}
           {{/each}}
         </div>
       {{/if}}
       {{#if data.properties}}
         <div>
-          <b>{{localize "DL.WeaponProperties"}}:</b> {{data.properties}}
+          <b>{{localize "DL.WeaponProperties"}}</b> {{data.properties}}
         </div>
       {{/if}}
       {{#if data.strengthmin}}
         <div>
-          <b>{{localize "DL.ArmorStrengthRequiremet"}}:</b> {{data.strengthmin}}
+          <b>{{localize "DL.ArmorStrengthRequiremet"}}</b> {{data.strengthmin}}
         </div>
       {{/if}}
       {{#if data.hands}}
         <div>
-          <b>{{localize "DL.WeaponHands"}}:</b> {{data.hands}}
+          <b>{{localize "DL.WeaponHands"}}</b> {{data.hands}}
+        </div>
+      {{/if}}
+      {{#if data.description}}
+        <hr>
+        <div>
+          {{{enrichHTMLUnrolled data.description}}}
         </div>
       {{/if}}
     </div>

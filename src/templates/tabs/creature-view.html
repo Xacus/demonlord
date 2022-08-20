@@ -1,355 +1,229 @@
-<!-- TRAITS  -->
-<div class="dl-text-header-upper dl-underline dl-item-row-header">
-  <div class="col-11">{{localize "DL.CreatureTraits"}}</div>
+<div class="grid-2">
   <div class="col-1">
-    <a class="item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"><i class="fas fa-plus"></i></a>
-  </div>
-</div>
 
-<div class="grid-2" style="column-gap: 2px">
-  {{#each actor.features as |item id|}}
-    <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
-      <div class="row">
-        <div class="col-10">
-          <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
-               height="32"/>
-          <label class="dl-clickable-nored dlToggleInfoBtn">{{item.name}}</label>
-          <div class="dl-clickable dlToggleInfoBtn">
-            <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
-          </div>
-        </div>
-        <div class="col-2 dl-clickable" style="padding-top: 3px">
-          <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
-             style="margin-left: 2px; margin-top: 3px;">
-            <i class="fas fa-times"></i>
-          </a>
-        </div>
+    <!-- TRAITS  -->
+    <div class="dl-text-header-upper dl-underline dl-item-row-header">
+      <div class="col-10">{{localize "DL.CreatureTraits"}}</div>
+      <div class="col-2">
+        <a class="item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"><i class="fas fa-plus"></i></a>
       </div>
-      {{#if item.data.description}}
-        <div class="row dlInfo" style="display: none; text-align: left">
-          <div class="col-12" style="padding: 2px 4px 4px;">
-            {{{item.data.description}}}
-          </div>
-        </div>
-      {{/if}}
     </div>
-  {{/each}}
-</div>
 
-
-<!-- ATTACKS -->
-<div class="dl-text-header-upper dl-underline dl-item-row-header">
-  <div class="col-11">{{localize "DL.CreatureAttackOptions"}}</div>
-  <div class="col-1">
-    <a class="item-create" title="{{localize 'DL.WeaponAdd'}}" data-type="weapon"><i class="fas fa-plus"></i></a>
-  </div>
-</div>
-
-<div class="grid-2" style="column-gap: 2px">
-  {{#each actor.weapons as |item id|}}
-    <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
-      <div class="row">
-        <div class="col-10">
-          <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
-               height="32"/>
-          <label class="dl-rollable attack-roll">{{item.name}}</label>
-          <div class="dl-clickable dlToggleInfoBtn">
-            <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
+    {{#each actor.features as |item id|}}
+      <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
+        <div class="row">
+          <div class="col-10">
+            <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
+                 height="32"/>
+            <label class="dl-clickable item-roll">{{item.name}}</label>
+          </div>
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+            <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
+               style="margin-left: 2px; margin-top: 3px;">
+              <i class="fas fa-times"></i>
+            </a>
           </div>
         </div>
-        <div class="col-2 dl-clickable" style="padding-top: 3px">
-          <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}">
-            <i class="fas fa-times"></i>
-          </a>
-        </div>
-      </div>
-      <div class="dlInfo" style="display: none; text-align: left">
-        <!-- TODO: Action roll info. COPIED FROM COMBAT-TAB -->
-        {{#if data.action.damage}}
-          <div>
-            <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}} ({{data.action.damagetype}})
-            {{#each data.damagetypes as |damagetype id|}}
-              <br/> {{damagetype.damage}} ({{damagetype.damagetype}})
-            {{/each}}
-          </div>
-        {{/if}}
-        {{#if data.properties}}
-          <div>
-            <b>{{localize "DL.WeaponProperties"}}:</b> {{data.properties}}
-          </div>
-        {{/if}}
-        {{#if data.strengthmin}}
-          <div>
-            <b>{{localize "DL.ArmorStrengthRequiremet"}}:</b> {{data.strengthmin}}
-          </div>
-        {{/if}}
-        {{#if data.hands}}
-          <div>
-            <b>{{localize "DL.WeaponHands"}}:</b> {{data.hands}}
-          </div>
-        {{/if}}
         {{#if item.data.description}}
-          <div style="padding: 2px 4px 4px;">
-            {{{item.data.description}}}
+          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+            <div class="col-12">
+              {{{enrichHTMLUnrolled item.data.description}}}
+            </div>
           </div>
         {{/if}}
       </div>
+    {{/each}}
+
+    <!-- SPECIAL ACTIONS -->
+    <div class="dl-text-header-upper dl-underline dl-item-row-header">
+      <div class="col-10">{{localize "DL.CreatureSpecialActions"}}</div>
+      <div class="col-2">
+        <a class="item-create" title="{{localize 'DL.CreatureAddSpecialActions'}}" data-type="specialaction"><i
+          class="fas fa-plus"></i></a>
+      </div>
     </div>
-  {{/each}}
-</div>
 
 
-<!--  TALENTS / SPECIAL ATTACKS COPIED FROM TALENTS -->
-<div class="dl-text-header-upper dl-underline dl-item-row-header">
-  <div class="col-9">{{localize "DL.CreatureSpecialAttacks"}}</div>
-  <div class="col-2">{{localize "DL.TalentUsesTitle"}}</div>
-  <div class="col-1">
-    <a class="spell-create" title="{{localize 'DL.TalentAdd'}}" data-type="talent">
-      <i class="fas fa-plus"></i>
-    </a>
-  </div>
-</div>
-{{#each actor.talents as |talent id|}}
-  <div class="dl-item-row dropitem" data-item-id="{{talent._id}}">
-    <div class="row">
-      <div class="col-7">
-        <img class='dl-clickable item-edit' src="{{talent.img}}" title="{{talent.name}}" width="32" height="32"/>
-        <label class="talent-roll dl-rollable">{{talent.name}}</label>
-        <div class="dl-clickable dlToggleInfoBtn">
-          <i class="fas fa-angle-right"></i> {{localize "DL.TalentShowSpellInfo"}}
+    {{#each actor.specialactions as |item id|}}
+      <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
+        <div class="row">
+          <div class="col-10">
+            <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
+                 height="32"/>
+            <label class="dl-clickable item-roll">{{item.name}}</label>
+          </div>
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+            <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
+               style="margin-left: 2px; margin-top: 3px;">
+              <i class="fas fa-times"></i>
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="col-2 dl-clickable talent-uses">
-        {{#if data.allused}}
-          {{localize 'DL.TalentUsed'}}
-        {{else}} {{#if data.addtonextroll}}
-          {{localize 'DL.TalentActive'}}
-        {{/if}} {{/if}}
-      </div>
-      <div class="col-2 talent-uses">
-        {{#if data.uses.max}}
-          {{defaultValue data.uses.value 0}} / {{data.uses.max}} <i class="fas fa-arrows-alt-v"></i>
-        {{else}}
-          ―
+        {{#if item.data.description}}
+          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+            <div class="col-12">
+              {{{item.data.description}}}
+            </div>
+          </div>
         {{/if}}
       </div>
-      <div class="col-1">
-        <div class="col-1">
-          <a class="dl-clickable item-delete" title="{{localize 'DL.TalentDelete'}}"><i
-            class="fas fa-times"></i></a>
-        </div>
+    {{/each}}
+
+    <!-- END OF ROUND -->
+    <div class="dl-text-header-upper dl-underline dl-item-row-header">
+      <div class="col-10">{{localize "DL.CreatureSpecialEndRound"}}</div>
+      <div class="col-2">
+        <a class="item-create" title="{{localize 'DL.CreatureAddEndRound'}}" data-type="endoftheround"><i
+          class="fas fa-plus"></i></a>
       </div>
     </div>
-    <!-- Toggleable Info -->
-    <div class="grid-2 dlInfo" style="display: none;">
-      {{#if data.action.boonsbanes}}
-        <div>
-          {{#if data.action.strengthboonsbanesselect}}
-            <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeStrength'}}):</b>
-            {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
-          {{#if data.action.agilityboonsbanesselect}}
-            <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeAgility'}}):</b>
-            {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
-          {{#if data.action.intellectboonsbanesselect}}
-            <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeIntellect'}}):</b>
-            {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
-          {{#if data.action.willboonsbanesselect}}
-            <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.AttributeWill'}}):</b>
-            {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
-          {{#if data.action.perceptionboonsbanesselect}}
-            <b>{{localize 'DL.TalentAttackBoonsBanes'}} ({{localize 'DL.CharPerception'}}):</b>
-            {{numberFormat data.action.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
+
+    {{#each actor.endoftheround as |item id|}}
+      <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
+        <div class="row">
+          <div class="col-10">
+            <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
+                 height="32"/>
+            <label class="dl-clickable item-roll">{{item.name}}</label>
+          </div>
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+            <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
+               style="margin-left: 2px; margin-top: 3px;">
+              <i class="fas fa-times"></i>
+            </a>
+          </div>
         </div>
-      {{/if}}
-      {{#if data.action.damage}}
-        <div>
-          <b>{{localize 'DL.TalentExtraDamage'}}:</b> {{data.action.damage}}
-        </div>
-      {{/if}}
-      {{#if data.action.plus20}}
-        <div>
-          <b>{{localize 'DL.TalentExtraDamage20plus'}}:</b> {{data.action.plus20}}
-        </div>
-      {{/if}}
-      {{#if data.action.extraeffect}}
-        <div>
-          <b>{{localize 'DL.TalentExtraEffect'}}:</b> {{data.action.extraeffect}}
-        </div>
-      {{/if}}
-      {{#if data.challenge.boonsbanes}}
-        <div>
-          {{#if data.challenge.strengthboonsbanesselect}}
-            <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeStrength'}}):</b>
-            {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
-          {{#if data.challenge.agilityboonsbanesselect}}
-            <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeAgility'}}):</b>
-            {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
-          {{#if data.challenge.intellectboonsbanesselect}}
-            <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeIntellect'}}):</b>
-            {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
-          {{#if data.challenge.willboonsbanesselect}}
-            <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.AttributeWill'}}):</b>
-            {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
-          {{#if data.challenge.perceptionboonsbanesselect}}
-            <b>{{localize 'DL.TalentChallengeBoonsBanes'}} ({{localize 'DL.CharPerception'}}):</b>
-            {{numberFormat data.challenge.boonsbanes decimals=0 sign=true}}<br/>
-          {{/if}}
-        </div>
-      {{/if}}
-      {{#if data.vs.attribute}}
-        <div>
-          <b>{{localize 'DL.TalentVSRoll'}}:</b> {{data.vs.attribute}} {{localize
-          'DL.ChallengeVS'}} {{data.vs.against}}
-        </div>
-      {{/if}}
-      {{#if data.vs.boonsbanes}}
-        <div>
-          <b>{{localize 'DL.TalentVSBoonsBanes'}}:</b> {{numberFormat data.vs.boonsbanes decimals=0 sign=true}}
-        </div>
-      {{/if}}
-      {{#if data.vs.damage}}
-        <div>
-          <b>{{localize 'DL.TalentVSDamage'}}:</b> {{data.vs.damage}} ({{data.vs.damagetype}})
-        </div>
-      {{/if}}
-      {{#each data.vs.damagetypes as |damagetype id|}}
-        <div>
-          <b>{{localize 'DL.TalentVSDamage'}}:</b> {{damagetype.damage}} ({{damagetype.damagetype}})
-        </div>
-      {{/each}}
-      {{#if data.healing.healing}}
-        <div>
-          <b>{{localize 'DL.TalentHealingOptions'}}</b>
-        </div>
-      {{/if}}
-      {{#if data.damage}}
-        <div>
-          <b>{{localize 'DL.TalentDamage'}}:</b> {{data.damage}}
-        </div>
-      {{/if}}
-      {{#if data.bonuses.defense}}
-        <div>
-          <b>{{localize 'DL.TalentBonusesDefense'}}:</b> {{data.bonuses.defense}}
-        </div>
-      {{/if}}
-      {{#if data.bonuses.health}}
-        <div>
-          <b>{{localize 'DL.TalentBonusesHealth'}}:</b> {{data.bonuses.health}}
-        </div>
-      {{/if}}
-      {{#if data.bonuses.speed}}
-        <div>
-          <b>{{localize 'DL.TalentBonusesSpeed'}}:</b> {{data.bonuses.speed}}
-        </div>
-      {{/if}}
-      {{#if data.bonuses.power}}
-        <div>
-          <b>{{localize 'DL.TalentBonusesPower'}}:</b> {{data.bonuses.power}}
-        </div>
-      {{/if}}
-      {{#if data.description}}
-        <div class="col-2">
-          {{{data.description}}}
-        </div>
-      {{/if}}
-    </div>
+        {{#if item.data.description}}
+          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+            <div class="col-12">
+              {{{item.data.description}}}
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
   </div>
-{{/each}}
 
-
-
-
-<!-- SPECIAL ACTIONS -->
-<div class="dl-text-header-upper dl-underline dl-item-row-header">
-  <div class="col-11">{{localize "DL.CreatureSpecialActions"}}</div>
   <div class="col-1">
-    <a class="item-create" title="{{localize 'DL.CreatureAddSpecialActions'}}" data-type="specialaction"><i
-      class="fas fa-plus"></i></a>
-  </div>
-</div>
+    <!-- ATTACKS -->
+    <div class="dl-text-header-upper dl-underline dl-item-row-header">
+      <div class="col-10">{{localize "DL.CreatureAttackOptions"}}</div>
+      <div class="col-2">
+        <a class="item-create" title="{{localize 'DL.WeaponAdd'}}" data-type="weapon"><i class="fas fa-plus"></i></a>
+      </div>
+    </div>
 
-<div class="grid-2" style="column-gap: 2px">
-  {{#each actor.specialactions as |item id|}}
-    <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
-      <div class="row">
-        <div class="col-10">
-          <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
-               height="32"/>
-          <label class="dl-clickable-nored dlToggleInfoBtn">{{item.name}}</label>
-          <div class="dl-clickable dlToggleInfoBtn">
-            <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
+    {{#each actor.weapons as |item id|}}
+      <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
+        <div class="row">
+          <div class="col-10">
+            <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
+                 height="32"/>
+            <label class="dl-rollable attack-roll">{{item.name}}</label>
+          </div>
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+            <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}">
+              <i class="fas fa-times"></i>
+            </a>
           </div>
         </div>
-        <div class="col-2 dl-clickable" style="padding-top: 3px">
-          <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
-             style="margin-left: 2px; margin-top: 3px;">
-            <i class="fas fa-times"></i>
-          </a>
+        <div class="dlInfo dl-item-info" style="display: none; text-align: left">
+          <!-- TODO: Action roll info. COPIED FROM COMBAT-TAB -->
+          {{#if data.action.damage}}
+            <div>
+              <b>{{localize "DL.WeaponDamage"}}:</b> {{data.action.damage}} ({{data.action.damagetype}})
+              {{#each data.damagetypes as |damagetype id|}}
+                <br/> {{damagetype.damage}} ({{damagetype.damagetype}})
+              {{/each}}
+            </div>
+          {{/if}}
+          {{#if data.properties}}
+            <div>
+              <b>{{localize "DL.WeaponProperties"}}:</b> {{data.properties}}
+            </div>
+          {{/if}}
+          {{#if data.strengthmin}}
+            <div>
+              <b>{{localize "DL.ArmorStrengthRequiremet"}}:</b> {{data.strengthmin}}
+            </div>
+          {{/if}}
+          {{#if data.hands}}
+            <div>
+              <b>{{localize "DL.WeaponHands"}}:</b> {{data.hands}}
+            </div>
+          {{/if}}
+          {{#if item.data.description}}
+            <div>
+              {{{item.data.description}}}
+            </div>
+          {{/if}}
         </div>
       </div>
-      {{#if item.data.description}}
-        <div class="row dlInfo" style="display: none; text-align: left">
-          <div class="col-12" style="padding: 2px 4px 4px;">
-            {{{item.data.description}}}
-          </div>
-        </div>
-      {{/if}}
+    {{/each}}
+
+    <!--  TALENTS / SPECIAL ATTACKS COPIED FROM TALENTS -->
+    <div class="dl-text-header-upper dl-underline dl-item-row-header">
+      <div class="col-8">{{localize "DL.CreatureSpecialAttacks"}}</div>
+      <div class="col-2">{{localize "DL.TalentUsesTitle"}}</div>
+      <div class="col-2">
+        <a class="spell-create" title="{{localize 'DL.TalentAdd'}}" data-type="talent">
+          <i class="fas fa-plus"></i>
+        </a>
+      </div>
     </div>
-  {{/each}}
-</div>
-
-<!-- END OF ROUND -->
-<div class="dl-text-header-upper dl-underline dl-item-row-header">
-  <div class="col-11">{{localize "DL.CreatureSpecialEndRound"}}</div>
-  <div class="col-1">
-    <a class="item-create" title="{{localize 'DL.CreatureAddEndRound'}}" data-type="endoftheround"><i
-      class="fas fa-plus"></i></a>
-  </div>
-</div>
-
-<div class="grid-2" style="column-gap: 2px">
-  {{#each actor.endoftheround as |item id|}}
-    <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
-      <div class="row">
-        <div class="col-10">
-          <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
-               height="32"/>
-          <label class="dl-clickable-nored dlToggleInfoBtn">{{item.name}}</label>
-          <div class="dl-clickable dlToggleInfoBtn">
-            <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
+    {{#each actor.talents as |talent id|}}
+      <div class="dl-item-row dropitem" data-item-id="{{talent._id}}">
+        <div class="row">
+          <div class="col-6">
+            <img class='dl-clickable item-edit' src="{{talent.img}}" title="{{talent.name}}" width="32" height="32"/>
+            <label class="talent-roll dl-rollable">{{talent.name}}</label>
+          </div>
+          <div class="col-2 dl-clickable talent-uses">
+            {{#if data.allused}}
+              {{localize 'DL.TalentUsed'}}
+            {{else}} {{#if data.addtonextroll}}
+              {{localize 'DL.TalentActive'}}
+            {{/if}} {{/if}}
+          </div>
+          <div class="col-2 talent-uses">
+            {{#if data.uses.max}}
+              {{defaultValue data.uses.value 0}} / {{data.uses.max}} <i class="fas fa-arrows-alt-v"></i>
+            {{else}}
+              ―
+            {{/if}}
+          </div>
+          <div class="col-2">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+            <a class="dl-clickable item-delete" title="{{localize 'DL.TalentDelete'}}"><i
+              class="fas fa-times"></i></a>
           </div>
         </div>
-        <div class="col-2 dl-clickable" style="padding-top: 3px">
-          <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
-             style="margin-left: 2px; margin-top: 3px;">
-            <i class="fas fa-times"></i>
-          </a>
+        <!-- Toggleable Info -->
+        <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+          <div class="col-12">
+            {{{enrichHTMLUnrolled talent.data.description}}}
+          </div>
         </div>
       </div>
-      {{#if item.data.description}}
-        <div class="row dlInfo" style="display: none; text-align: left">
-          <div class="col-12" style="padding: 2px 4px 4px;">
-            {{{item.data.description}}}
-          </div>
-        </div>
-      {{/if}}
-    </div>
-  {{/each}}
+    {{/each}}
+
+  </div>
+
+
 </div>
 
-<!-- DESCRIPTION -->
-<div class="dl-text-header-upper dl-underline dl-item-row-header">
-  <div class="col-12">{{localize "DL.CreatureDiscription"}}</div>
-</div>
-<div class="editor-box">
-  {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
-</div>
+

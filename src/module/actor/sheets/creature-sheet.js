@@ -6,7 +6,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ['creature', 'sheet', 'actor', 'dl-sheet'],
       template: 'systems/demonlord/templates/actor/creature-sheet.html',
-      width: 875,
+      width: 900,
       height: 700,
       tabs: [
         {
@@ -21,6 +21,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
 
   /* -------------------------------------------- */
   /*  Data preparation                            */
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -47,4 +48,22 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     if (['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language'].includes(itemData.type)) return false
     return true
   }
+
+  /** @override */
+  activateListeners(html) {
+    super.activateListeners(html)
+
+    // Dynamically set the reference tab layout to two column if its height exceeds a certain threshold
+    html.find('.sheet-navigation').click(_ => this._resizeAutoColumns(this.element))
+    this._resizeAutoColumns(html)
+  }
+
+  _resizeAutoColumns(element) {
+    element.find('.dl-auto-column').each((_, ac) => {
+      ac = $(ac)
+      console.log(ac.height())
+      if (ac.height() > 700) ac.css({'columns': '2'})
+    })
+  }
+
 }

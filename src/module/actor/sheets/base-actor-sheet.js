@@ -244,12 +244,19 @@ export default class DLBaseActorSheet extends ActorSheet {
     // New Toggle Info
     html.find('.dlToggleInfoBtn').click(ev => {
       const root = $(ev.currentTarget).closest('[data-item-id]')
+      const elem = $(ev.currentTarget)
+      const selector = '.fa-chevron-down, .fa-chevron-up'
+      const chevron = elem.is(selector) ? elem : elem.find(selector);
       const elements = $(root).find('.dlInfo')
       elements.each((_, el) => {
         if (el.style.display === 'none') {
-          $(el).show(200)
+          $(el).slideDown(100)
+          chevron?.removeClass('fa-chevron-up')
+          chevron?.addClass('fa-chevron-down')
         } else {
-          $(el).hide(200)
+          $(el).slideUp(100)
+          chevron?.removeClass('fa-chevron-down')
+          chevron?.addClass('fa-chevron-up')
         }
       })
     })
@@ -360,7 +367,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Rollable (generic)
-    html.find('.rollable').click(event => {
+    html.find('.rollable, .item-roll').click(event => {
       event.preventDefault()
       const element = event.currentTarget
       const dataset = element.dataset
@@ -372,11 +379,8 @@ export default class DLBaseActorSheet extends ActorSheet {
           flavor: label,
         })
       } else {
-        const li = element.closest('.item')
-        const itemId = li.dataset.itemId
-        if (itemId) {
-          this.actor.useItem(itemId)
-        }
+        const id = event.currentTarget.closest("[data-item-id]").dataset.itemId
+        this.actor.useItem(id)
       }
     })
 
