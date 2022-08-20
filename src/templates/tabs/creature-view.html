@@ -28,8 +28,8 @@
           </div>
         </div>
         {{#if item.data.description}}
-          <div class="row dlInfo" style="display: none; text-align: left">
-            <div class="col-12" style="padding: 2px 4px 4px;">
+          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+            <div class="col-12">
               {{{enrichHTMLUnrolled item.data.description}}}
             </div>
           </div>
@@ -66,8 +66,8 @@
           </div>
         </div>
         {{#if item.data.description}}
-          <div class="row dlInfo" style="display: none; text-align: left">
-            <div class="col-12" style="padding: 2px 4px 4px;">
+          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+            <div class="col-12">
               {{{item.data.description}}}
             </div>
           </div>
@@ -103,8 +103,8 @@
           </div>
         </div>
         {{#if item.data.description}}
-          <div class="row dlInfo" style="display: none; text-align: left">
-            <div class="col-12" style="padding: 2px 4px 4px;">
+          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+            <div class="col-12">
               {{{item.data.description}}}
             </div>
           </div>
@@ -139,7 +139,7 @@
             </a>
           </div>
         </div>
-        <div class="dlInfo" style="display: none; text-align: left">
+        <div class="dlInfo dl-item-info" style="display: none; text-align: left">
           <!-- TODO: Action roll info. COPIED FROM COMBAT-TAB -->
           {{#if data.action.damage}}
             <div>
@@ -165,7 +165,7 @@
             </div>
           {{/if}}
           {{#if item.data.description}}
-            <div style="padding: 2px 4px 4px;">
+            <div>
               {{{item.data.description}}}
             </div>
           {{/if}}
@@ -213,8 +213,8 @@
           </div>
         </div>
         <!-- Toggleable Info -->
-        <div class="row dlInfo" style="display: none; text-align: left">
-          <div class="col-12" style="padding: 2px 4px 4px;">
+        <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+          <div class="col-12">
             {{{enrichHTMLUnrolled talent.data.description}}}
           </div>
         </div>
