@@ -1,6 +1,16 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [2.1.1]
+### Added
+- Creature reference tab
+### Changed
+- Design of additional info under spells and talents in actor sheets
+- Layout of creature main tab
+### Fixed
+- Bug with healing rate when health was manually edited in the character sheet
+
 ## [2.1.0]
 ### Changed
 - Changed the UI of several character sheet tab
