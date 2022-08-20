@@ -247,9 +247,9 @@ export default class DLBaseActorSheet extends ActorSheet {
       const elements = $(root).find('.dlInfo')
       elements.each((_, el) => {
         if (el.style.display === 'none') {
-          $(el).show(200)
+          $(el).slideDown(200)
         } else {
-          $(el).hide(200)
+          $(el).slideUp(200)
         }
       })
     })
