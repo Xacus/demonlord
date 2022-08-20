@@ -61,7 +61,6 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
   _resizeAutoColumns(element) {
     element.find('.dl-auto-column').each((_, ac) => {
       ac = $(ac)
-      console.log(ac.height())
       if (ac.height() > 700) ac.css({'columns': '2'})
     })
   }

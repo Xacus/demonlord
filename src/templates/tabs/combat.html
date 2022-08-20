@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="col-2">
-        {{defaultValue data.action.damage "―"}}
+        {{defaultValue data.action.damage "―"}}{{#if data.action.damagetypes}}∗{{/if}}
       </div>
       <div class="col-1">
         {{defaultValue (plusify data.action.boonsbanes) 0}}
@@ -49,7 +49,7 @@
       <hr>
       {{#if data.action.damage}}
         <div>
-          <b>{{localize "DL.WeaponDamage"}}</b>{{data.action.damage}}
+          <b>{{localize "DL.WeaponDamage"}}</b> {{data.action.damage}}
           {{#if data.action.damagetype}}({{data.action.damagetype}}){{/if}}
           {{#each data.action.damagetypes as |damagetype id|}}
             | {{damagetype.damage}}{{#if damagetype.damagetype}} ({{damagetype.damagetype}}){{/if}}
