@@ -154,8 +154,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html.find('.bar-edit').click(() => {
       const actor = this.actor
       const showEdit = actor.data.data.characteristics.editbar
-      if (showEdit) actor.data.data.characteristics.editbar = false
-      else actor.data.data.characteristics.editbar = true
+      actor.data.data.characteristics.editbar = !showEdit
 
       actor
         .update({
