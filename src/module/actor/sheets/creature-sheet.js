@@ -21,6 +21,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
 
   /* -------------------------------------------- */
   /*  Data preparation                            */
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -51,7 +52,18 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html)
+
+    // Dynamically set the reference tab layout to two column if its height exceeds a certain threshold
+    html.find('.sheet-navigation').click(_ => this._resizeAutoColumns(this.element))
+    this._resizeAutoColumns(html)
   }
 
+  _resizeAutoColumns(element) {
+    element.find('.dl-auto-column').each((_, ac) => {
+      ac = $(ac)
+      console.log(ac.height())
+      if (ac.height() > 700) ac.css({'columns': '2'})
+    })
+  }
 
 }
