@@ -68,6 +68,7 @@
   width: 16px;
   height: 16px;
   position: relative;
+
   i {
     width: 16px;
     height: 16px;
@@ -96,17 +97,52 @@
     top: 2px;
     background-color: gray;
   }
+
   &:hover {
     border-color: dimgray;
+
     & > i {
       background-color: dimgray;
     }
   }
+
   &.checked {
     border-color: var(--color-text-dark-primary);
   }
+
   input:checked ~ i {
     background-color: var(--color-text-dark-primary);
+  }
+}
+
+.dl-new-project-2 {
+  @extend .dl-bordered-bg-light;
+  border-radius: 4px;
+  box-sizing: content-box;
+  padding: 2px;
+  //width: 16px;
+  height: 16px;
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+
+  & i {
+    width: 16px;
+    height: 16px;
+    background-color: var(--color-text-dark-primary);
+  }
+
+  & span {
+    border-left: 1px solid #0000001a;
+    padding-left: 2px;
+    margin-left: 2px;
+    margin-left: 2px;
+  }
+
+  &:hover,
+  &:hover span {
+    border-color: dimgray;
+    cursor: pointer;
   }
 }
 
@@ -146,4 +182,8 @@ i.dl-icon-defense {
 
 i.dl-icon-healing {
   @include dl-icon('../assets/ui/other-svg/healing.svg');
+}
+
+i.dl-icon-nothing {
+  @include dl-icon('../assets/ui/other-svg/nothing.svg');
 }
