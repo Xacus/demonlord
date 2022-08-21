@@ -1,7 +1,7 @@
 const replace = require('@rollup/plugin-replace')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const css = require("rollup-plugin-import-css")
-
+const commonjs = require('@rollup/plugin-commonjs')
 module.exports = {
   input: 'src/module/demonlord.js',
   output: {
@@ -16,6 +16,7 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     nodeResolve(),
-    css()
+    css(),
+    commonjs(),
   ],
 }

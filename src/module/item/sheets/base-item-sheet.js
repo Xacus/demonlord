@@ -1,6 +1,6 @@
-import { onManageActiveEffect, prepareActiveEffectCategories } from '../../active-effects/effects'
-import { DL } from '../../config'
-import { DamageType } from '../nested-objects'
+import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
+import {DL} from '../../config'
+import {DamageType} from '../nested-objects'
 
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
@@ -98,10 +98,42 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     return this.object.update(updateData)
   }
+
   /* -------------------------------------------- */
   /*  Listeners                                   */
+
   /* -------------------------------------------- */
 
+  // eslint-disable-next-line no-unused-vars
+  static onRenderInner(app, html, data) {
+
+    const autoresize = (el) => {
+      const jEl = $(el)
+      if (jEl.prop("tagName") === 'INPUT') {
+        const getSize = () => Math.max(1, (el.value?.length || el.placeholder?.length))
+        el.size = getSize()
+        el.oninput = () => {
+          el.size = getSize()
+        }
+      } else if (jEl.prop("tagName") === 'TEXTAREA') {
+        const getHeight = () => Math.max(0, el?.scrollHeight)
+        // el.value = el.value.trim()
+        jEl.height(0)
+        jEl.height(getHeight() + 'px')
+        // const p = new Promise(x => setTimeout(x, 100))
+        // p.then(() => jEl.height(getHeight() + 'px'))
+        el.oninput = () => {
+          // el.value = el.value.trimStart()
+          jEl.height(0)
+          jEl.height(getHeight() + 'px')
+        }
+      }
+      console.log(jEl, jEl.prop("tagName"))
+    }
+
+    html.find('[autosize]').each((_, el) => autoresize(el))
+  }
+  /* -------------------------------------------- */
   /** @override */
   activateListeners(html) {
     super.activateListeners(html)
@@ -117,7 +149,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     // Damage types
     html.find('.damagetype-control').click(ev => this._onManageDamageType(ev, 'action'))
-    html.find('.vsdamagetype-control').click(ev => this._onManageDamageType(ev, 'vs', { diff: false }))
+    html.find('.vsdamagetype-control').click(ev => this._onManageDamageType(ev, 'vs', {diff: false}))
 
     // Collapsable tables
     const collapsableContents = html.find('.collapse-content')
@@ -181,7 +213,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     if (a.dataset.action === 'create') damageTypes.push(new DamageType())
     else if (a.dataset.action === 'delete') damageTypes.splice(a.dataset.id, 1)
-    this.object.update({ [updKey]: damageTypes }, { ...options, parent: this.actor }).then(_ => this.render())
+    this.object.update({[updKey]: damageTypes}, {...options, parent: this.actor}).then(_ => this.render())
   }
 
   /* -------------------------------------------- */

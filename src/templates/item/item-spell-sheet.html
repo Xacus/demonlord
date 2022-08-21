@@ -1,4 +1,4 @@
-<form class="{{cssClass}} item-form" autocomplete="off">
+<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
   <header class="sheet-header itemsheet-header">
     <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
@@ -21,25 +21,94 @@
   <section class="sheet-body">
     <section class="sheet-content">
       <div class="tab attributes" data-group="primary" data-tab="attributes">
+        <div class="dl-item-section-header row">
+          <div class="col-4">
+            <b>{{item.name}}</b>
+          </div>
+          <div class="col-8 dl-container-right-align">
+            <input name="data.tradition" value="{{data.tradition}}" placeholder="{{localize 'DL.MagicTradition'}}" autosize/>
+            <select name="data.spelltype" autosize>
+              {{#select data.spelltype}}
+                <option value="" selected disabled>—</option>
+                <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>
+                <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>
+              {{/select}}
+            </select>
+            <input name="data.rank" type="number" value="{{data.rank}}" placeholder="{{localize 'DL.SpellRank'}}" autosize/>
+          </div>
+        </div>
+        <hr>
+
+        <div class="dl-item-section-section">
+          <div>
+            <b>{{localize "DL.SpellRequirements"}}</b>
+            <textarea name="data.requirements" placeholder="―" autosize>{{data.requirements}}</textarea>
+          </div>
+          <div>
+            <b>{{localize "DL.SpellTarget"}}</b>
+            <textarea name="data.target" placeholder="―" autosize>{{data.target}}</textarea>
+          </div>
+          <div>
+            <b>{{localize "DL.SpellArea"}}</b>
+            <textarea name="data.area" placeholder="―" autosize>{{data.area}}</textarea>
+          </div>
+          <div>
+            <b>{{localize "DL.SpellDuration"}}</b>
+            <textarea name="data.duration" placeholder="―" autosize>{{data.duration}}</textarea>
+          </div>
+        </div>
+        <hr>
+        <div class="dl-item-section-section">
+          <!-- TODO DESCRIPTION -->
+          <!--          <div class="dl-editor-box">
+            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+          </div>-->
+          <div>
+            <b>{{localize "DL.SpellTriggered"}}</b>
+            <textarea name="data.triggered" placeholder="―" autosize>{{data.triggered}}</textarea>
+          </div>
+          <div>
+            <b>{{localize "DL.SpellSacrifice"}}</b>
+            <textarea name="data.sacrifice" placeholder="―" autosize>{{data.sacrifice}}</textarea>
+          </div>
+          <div>
+            <b>{{localize "DL.SpellPermanence"}}</b>
+            <textarea name="data.permanence" placeholder="―" autosize>{{data.permanence}}</textarea>
+          </div>
+          <div>
+            <b>{{localize "DL.SpellAftereffect"}}</b>
+            <textarea name="data.aftereffect" placeholder="―" autosize>{{data.aftereffect}}</textarea>
+          </div>
+          <div>
+            <b>{{localize "DL.SpellSpecial"}}</b>
+            <textarea name="data.special" placeholder="―" autosize>{{data.special}}</textarea>
+          </div>
+          <div>
+            <b>{{localize "DL.SpellEffectDice"}}</b>
+            <textarea name="data.effectdice" placeholder="―" autosize>{{data.effectdice}}</textarea>
+          </div>
+        </div>
+
+
         <div class="item-table fixed-path">
           <div class="row">
             <div class="col-3">
               <label class="resource-label" style="font-size: 16px">{{localize "DL.MagicTradition"}}</label>
-              <input type="text" name="data.tradition" value="{{data.tradition}}" style="font-size: 14px"/>
+<!--              <input type="text" name="data.tradition" value="{{data.tradition}}" style="font-size: 14px"/>-->
             </div>
             <div class="col-3">
               <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellRank"}}</label>
-              <input type="text" name="data.rank" value="{{data.rank}}" style="font-size: 14px"/>
+<!--              <input type="text" name="data.rank" value="{{data.rank}}" style="font-size: 14px"/>-->
             </div>
             <div class="col-3">
               <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellType"}}</label>
-              <select name="data.spelltype" data-dtype="String" style="font-size: 14px">
-                {{#select data.spelltype}}
-                  <option value="">—</option>
-                  <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>
-                  <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>
-                {{/select}}
-              </select>
+<!--              <select name="data.spelltype" data-dtype="String" style="font-size: 14px">-->
+<!--                {{#select data.spelltype}}-->
+<!--                  <option value="">—</option>-->
+<!--                  <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>-->
+<!--                  <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>-->
+<!--                {{/select}}-->
+<!--              </select>-->
             </div>
             <div class="col-3">
               <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellAttribute"}}</label>
@@ -239,51 +308,51 @@
           <div class="row">
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellEffectDice"}}</label>
-              <input type="text" name="data.effectdice" value="{{data.effectdice}}"/>
+<!--              <input type="text" name="data.effectdice" value="{{data.effectdice}}"/>-->
             </div>
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellDuration"}}</label>
-              <input type="text" name="data.duration" value="{{data.duration}}"/>
+<!--              <input type="text" name="data.duration" value="{{data.duration}}"/>-->
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellTarget"}}</label>
-              <input type="text" name="data.target" value="{{data.target}}"/>
+<!--              <input type="text" name="data.target" value="{{data.target}}"/>-->
             </div>
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellArea"}}</label>
-              <input type="text" name="data.area" value="{{data.area}}"/>
+<!--              <input type="text" name="data.area" value="{{data.area}}"/>-->
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellRequirements"}}</label>
-              <input type="text" name="data.requirements" value="{{data.requirements}}"/>
+<!--              <input type="text" name="data.requirements" value="{{data.requirements}}"/>-->
             </div>
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellSacrifice"}}</label>
-              <input type="text" name="data.sacrifice" value="{{data.sacrifice}}"/>
+<!--              <input type="text" name="data.sacrifice" value="{{data.sacrifice}}"/>-->
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellPermanence"}}</label>
-              <input type="text" name="data.permanence" value="{{data.permanence}}"/>
+<!--              <input type="text" name="data.permanence" value="{{data.permanence}}"/>-->
             </div>
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellAftereffect"}}</label>
-              <input type="text" name="data.aftereffect" value="{{data.aftereffect}}"/>
+<!--              <input type="text" name="data.aftereffect" value="{{data.aftereffect}}"/>-->
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellSpecial"}}</label>
-              <input type="text" name="data.special" value="{{data.special}}"/>
+<!--              <input type="text" name="data.special" value="{{data.special}}"/>-->
             </div>
             <div class="col-6">
               <label class="resource-label">{{localize "DL.SpellTriggered"}}</label>
-              <input type="text" name="data.triggered" value="{{data.triggered}}"/>
+<!--              <input type="text" name="data.triggered" value="{{data.triggered}}"/>-->
             </div>
           </div>
         </div>

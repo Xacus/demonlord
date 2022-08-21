@@ -3,3 +3,21 @@
   margin-top: 2px;
   margin-bottom: 2px;
 }
+
+.dl-container-right-align {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dl-editor-box {
+  min-height: 64px;
+  display: block !important;
+
+  .editor {
+    min-height: 64px;
+  }
+  .editor-content {
+    height: fit-content !important;
+    min-height: 64px;
+  }
+}

@@ -8,29 +8,45 @@
     padding: 16px;
   }
 
-  input {
+  input,
+  select,
+  input[type='number'] {
     display: inline-block;
-    width: 100%;
+    width: fit-content;
     height: fit-content;
     min-height: 16px;
     resize: none;
-
     &:empty {
       max-height: 28px;
     }
+    padding: 0;
+  }
+
+  input[type='number'] {
+    width: 24px;
   }
 
   .dl-item-section-header {
     font-family: $font-pm !important;
-    font-size: $f-size-big-slight !important;
+    font-size: $f-size-big !important;
     font-weight: bold !important;
+    padding: 0 16px;
 
     input,
-    select {
+    select,
+    input[type='number'] {
       font-family: $font-pm !important;
+      font-size: $f-size-big !important;
+      font-weight: bold !important;
       background: none;
       border: none;
       color: var(--color-text-dark-primary);
+      text-align: center;
+    }
+    select {
+      appearance: none;
+      cursor: pointer;
+      margin-top: 0;
     }
   }
 
@@ -40,9 +56,38 @@
 
   .dl-item-section-section {
     font-family: $font-primary !important;
-    input {
-      display: inline-block;
-      width: fit-content;
+    padding: 4px 16px;
+    font-size: $f-size-big-slight !important;
+    line-height: 1.4;
+
+    & > div {
+      display: flex;
+    }
+    input,
+    select,
+    input[type='number'],
+    textarea {
+      font-family: $font-primary !important;
+      font-size: $f-size-big-slight !important;
+      font-weight: normal;
+      background: none;
+      border: none;
+      color: var(--color-text-dark-primary);
+      text-align: left;
+    }
+    textarea {
+      //display: block;
+      resize: none;
+      min-height: 20px;
+      overflow: hidden;
+      box-shadow: none;
+      padding: 0;
+      padding-left: 4px;
+      width: auto;
+      flex-grow: 1;
+      &:first-letter {
+        text-transform: capitalize;
+      }
     }
   }
 }

@@ -82,7 +82,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       [dataGroupProperty]: k,
       [returnItemsName]: m.get(k),
     })).sort(
-      (a, b) => a[dataGroupProperty].localeCompare(b[dataGroupProperty])
+      (a, b) => a[dataGroupProperty]?.localeCompare(b[dataGroupProperty]) ?? 0
     )
   }
 
