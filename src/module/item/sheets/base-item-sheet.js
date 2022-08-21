@@ -38,7 +38,6 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
   /*  Data                                        */
-
   /* -------------------------------------------- */
 
   /** @override */
