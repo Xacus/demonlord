@@ -57,9 +57,7 @@
           <b class="dl-rollable attack-roll">{{item.name}}</b>
           <!-- TODO: RANGE-->
           <!--{{#if data.range}}({{data.range}}){{/if}}-->
-          {{log data}}
           {{#if data.action.attack}}
-            {{log item}}
             {{plusify (lookupAttributeModifier data.action.attack item.document.actor.data)}}
           {{/if}}
           {{#if data.action.boonsbanes}}

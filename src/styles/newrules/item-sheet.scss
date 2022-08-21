@@ -1,0 +1,48 @@
+@import '../utils/colors';
+@import '../utils/typography';
+@import 'typography';
+@import 'generic-components';
+
+.dl-item-form {
+  .tab {
+    padding: 16px;
+  }
+
+  input {
+    display: inline-block;
+    width: 100%;
+    height: fit-content;
+    min-height: 16px;
+    resize: none;
+
+    &:empty {
+      max-height: 28px;
+    }
+  }
+
+  .dl-item-section-header {
+    font-family: $font-pm !important;
+    font-size: $f-size-big-slight !important;
+    font-weight: bold !important;
+
+    input,
+    select {
+      font-family: $font-pm !important;
+      background: none;
+      border: none;
+      color: var(--color-text-dark-primary);
+    }
+  }
+
+  hr {
+    @include hr-gray;
+  }
+
+  .dl-item-section-section {
+    font-family: $font-primary !important;
+    input {
+      display: inline-block;
+      width: fit-content;
+    }
+  }
+}
