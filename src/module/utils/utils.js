@@ -1,3 +1,5 @@
+export const i18n = s => game.i18n.localize(s)
+
 export function capitalize(string) {
   return string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1)
 }

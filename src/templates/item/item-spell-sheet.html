@@ -37,6 +37,43 @@
             <input name="data.rank" type="number" value="{{data.rank}}" placeholder="{{localize 'DL.SpellRank'}}" autosize/>
           </div>
         </div>
+
+        <hr>
+
+        <div class="dl-item-section-section">
+          <div>
+            <b>{{localize "DL.SpellAttribute"}}</b>
+            <select name="data.attribute" autosize>
+              {{#select data.attribute}}
+                <option value="" selected disabled>—</option>
+                <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
+                <option value="Will">{{localize "DL.AttributeWill"}}</option>
+              {{/select}}
+            </select>
+          </div>
+          <div>
+            <div class="dl-new-project">
+              <i class="dl-icon-strength"></i>
+            </div>
+            <div class="dl-new-project">
+              <i class="dl-icon-agility"></i>
+            </div>
+            <div class="dl-new-project">
+              <i class="dl-icon-intellect"></i>
+            </div>
+            <div class="dl-new-project">
+              <i class="dl-icon-will"></i>
+            </div>
+            <div class="dl-new-project">
+              <i class="dl-icon-perception"></i>
+            </div>
+            <div class="dl-new-project">
+              <i class="dl-icon-defense"></i>
+            </div>
+
+          </div>
+        </div>
+
         <hr>
 
         <div class="dl-item-section-section">
@@ -112,13 +149,13 @@
             </div>
             <div class="col-3">
               <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellAttribute"}}</label>
-              <select name="data.attribute" data-dtype="String" style="font-size: 14px">
-                {{#select data.attribute}}
-                  <option value="">—</option>
-                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
-                  <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                {{/select}}
-              </select>
+<!--              <select name="data.attribute" data-dtype="String" style="font-size: 14px">-->
+<!--                {{#select data.attribute}}-->
+<!--                  <option value="">—</option>-->
+<!--                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>-->
+<!--                  <option value="Will">{{localize "DL.AttributeWill"}}</option>-->
+<!--                {{/select}}-->
+<!--              </select>-->
             </div>
           </div>
         </div>

@@ -1,6 +1,8 @@
 import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
 import {DL} from '../../config'
 import {DamageType} from '../nested-objects'
+import tippy, {createSingleton} from "tippy.js";
+import {i18n} from "../../utils/utils";
 
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
@@ -37,6 +39,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
   /*  Data                                        */
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -132,7 +135,19 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
 
     html.find('[autosize]').each((_, el) => autoresize(el))
+
+    // Icons tooltip
+    const iconToolTips = [].concat(
+      tippy('.dl-icon-strength', {content: i18n('DL.AttributeStrength')}),
+      tippy('.dl-icon-agility', {content: i18n('DL.AttributeAgility')}),
+      tippy('.dl-icon-will', {content: i18n('DL.AttributeWill')}),
+      tippy('.dl-icon-intellect', {content: i18n('DL.AttributeIntellect')}),
+      tippy('.dl-icon-defense', {content: i18n('DL.CharDefense')}),
+      tippy('.dl-icon-perception', {content: i18n('DL.CharPerception')}),
+    )
+    createSingleton(iconToolTips, {delay: 200})
   }
+
   /* -------------------------------------------- */
   /** @override */
   activateListeners(html) {
@@ -198,6 +213,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
   /*  Auxiliary functions                         */
+
   /* -------------------------------------------- */
 
   _prepareDamageTypes(data, isVs = false) {

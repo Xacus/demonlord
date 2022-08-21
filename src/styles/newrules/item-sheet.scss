@@ -16,9 +16,11 @@
     height: fit-content;
     min-height: 16px;
     resize: none;
+
     &:empty {
       max-height: 28px;
     }
+
     padding: 0;
   }
 
@@ -43,6 +45,7 @@
       color: var(--color-text-dark-primary);
       text-align: center;
     }
+
     select {
       appearance: none;
       cursor: pointer;
@@ -63,6 +66,7 @@
     & > div {
       display: flex;
     }
+
     input,
     select,
     input[type='number'],
@@ -75,6 +79,14 @@
       color: var(--color-text-dark-primary);
       text-align: left;
     }
+
+    select {
+      appearance: none;
+      cursor: pointer;
+      margin-top: 0;
+      margin-left: 4px;
+    }
+
     textarea {
       //display: block;
       resize: none;
@@ -85,6 +97,7 @@
       padding-left: 4px;
       width: auto;
       flex-grow: 1;
+
       &:first-letter {
         text-transform: capitalize;
       }

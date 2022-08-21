@@ -21,3 +21,84 @@
     min-height: 64px;
   }
 }
+// Stuff that it's clickable gets highlighted when hovering
+.dl-clickable,
+.dl-rollable {
+  &:hover,
+  &:focus {
+    color: #000;
+    text-shadow: 0 0 10px #fa200b;
+    cursor: pointer !important;
+  }
+}
+
+.dl-clickable-nored {
+  &:hover,
+  &:focus {
+    cursor: pointer !important;
+  }
+}
+
+// Vertical aligment
+.dl-vcenter {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+// Horizontal aligment
+.dl-hcenter {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.dl-bordered-bg-light {
+  background: #00000005;
+  border-radius: 2px;
+  border: 1px solid #0000001a;
+}
+
+.dl-new-project {
+  @extend .dl-bordered-bg-light;
+  border-radius: 4px;
+  box-sizing: content-box;
+  padding: 2px;
+  width: 16px;
+  height: 16px;
+
+  i {
+    width: 16px;
+    height: 16px;
+    border: none;
+    background-color: gray !important;
+  }
+}
+
+// Custom icons
+@mixin dl-icon($src) {
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  background-color: black;
+  display: inline-block;
+}
+
+i.dl-icon-strength {
+  @include dl-icon('../assets/ui/attributes/strength.svg');
+}
+i.dl-icon-agility {
+  @include dl-icon('../assets/ui/attributes/agility.svg');
+}
+i.dl-icon-intellect {
+  @include dl-icon('../assets/ui/attributes/intellect.svg');
+}
+i.dl-icon-will {
+  @include dl-icon('../assets/ui/attributes/will.svg');
+}
+i.dl-icon-perception {
+  @include dl-icon('../assets/ui/attributes/perception.svg');
+}
+i.dl-icon-defense {
+  @include dl-icon('../assets/ui/attributes/defense.svg');
+}
