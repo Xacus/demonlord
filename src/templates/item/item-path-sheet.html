@@ -236,7 +236,7 @@
                           value="{{level.characteristicsPerception}}"
                           data-dtype="Number"
                   />
-                  <label>{{localize 'DL.CharPerception'}}</label>
+                  <label>{{localize 'DL.AttributePerception'}}</label>
                 </div>
               </div>
               <div class="row">
@@ -256,7 +256,7 @@
                           value="{{level.characteristicsDefense}}"
                           data-dtype="Number"
                   />
-                  <label>{{localize 'DL.CharDefense'}}</label>
+                  <label>{{localize 'DL.AttributeDefense'}}</label>
                 </div>
                 <div class="col-4 inline-input">
                   <input
@@ -619,7 +619,7 @@
             {{/if}} {{#if (ne level.characteristicsPerception 0)}}
               <div class="col-6 inline-input">
                 <input type="text" value="+{{level.characteristicsPerception}}" readonly/>
-                <label>{{localize 'DL.CharPerception'}}</label>
+                <label>{{localize 'DL.AttributePerception'}}</label>
               </div>
             {{/if}} {{#if (ne level.characteristicsSpeed 0)}}
               <div class="col-6 inline-input">
@@ -629,7 +629,7 @@
             {{/if}} {{#if (ne level.characteristicsDefense 0)}}
               <div class="col-6 inline-input">
                 <input type="text" value="+{{level.characteristicsDefense}}" readonly/>
-                <label>{{localize 'DL.CharDefense'}}</label>
+                <label>{{localize 'DL.AttributeDefense'}}</label>
               </div>
             {{/if}} {{#if (ne level.characteristicsInsanity 0)}}
               <div class="col-6 inline-input">

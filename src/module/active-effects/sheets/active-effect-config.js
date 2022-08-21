@@ -37,10 +37,10 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'data.attributes.agility.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeAgility'),
       'data.attributes.intellect.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeIntellect'),
       'data.attributes.will.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeWill'),
-      'data.attributes.perception.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.CharPerception'),
+      'data.attributes.perception.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributePerception'),
       // Characteristics
       'data.characteristics.speed': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSpeed'),
-      'data.characteristics.defense': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharDefense'),
+      'data.characteristics.defense': i18n('DL.Characteristics') + ' - ' + i18n('DL.AttributeDefense'),
       'data.characteristics.power': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharPower'),
       'data.characteristics.size': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSize'),
       'data.characteristics.health.max': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharHealth'),
@@ -52,7 +52,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'data.bonuses.attack.boons.agility': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
       'data.bonuses.attack.boons.intellect': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
       'data.bonuses.attack.boons.will': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
-      'data.bonuses.attack.boons.perception': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.CharPerception'),
+      'data.bonuses.attack.boons.perception': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
       'data.bonuses.attack.damage': i18n('DL.TalentExtraDamage'),
       'data.bonuses.attack.plus20Damage': i18n('DL.TalentExtraDamage20plus'),
       'data.bonuses.attack.extraEffect': i18n('DL.TalentExtraEffect'),
@@ -65,11 +65,11 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
         i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
       'data.bonuses.challenge.boons.will': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
       'data.bonuses.challenge.boons.perception':
-        i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.CharPerception'),
+        i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
       // Armor bonuses
       'data.bonuses.armor.fixed': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.ArmorFixed'),
       'data.bonuses.armor.agility': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeAgility'),
-      'data.bonuses.armor.defense': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.CharDefense'),
+      'data.bonuses.armor.defense': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeDefense'),
       'data.bonuses.armor.override': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Override'),
       // Defense
       'data.bonuses.defense.boons.spell': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.MagicSpellsTitle'),
@@ -80,20 +80,20 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'data.bonuses.defense.boons.intellect':
         i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
       'data.bonuses.defense.boons.will': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
-      'data.bonuses.defense.boons.perception': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.CharPerception'),
+      'data.bonuses.defense.boons.perception': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
       // AutoFail challenge malus
       'data.maluses.autoFail.challenge.strength': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeStrength'),
       'data.maluses.autoFail.challenge.agility': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeAgility'),
       'data.maluses.autoFail.challenge.intellect':
         i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeIntellect'),
       'data.maluses.autoFail.challenge.will': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeWill'),
-      'data.maluses.autoFail.challenge.perception': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.CharPerception'),
+      'data.maluses.autoFail.challenge.perception': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributePerception'),
       // AutoFail action malus
       'data.maluses.autoFail.action.strength': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeStrength'),
       'data.maluses.autoFail.action.agility': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeAgility'),
       'data.maluses.autoFail.action.intellect': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeIntellect'),
       'data.maluses.autoFail.action.will': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeWill'),
-      'data.maluses.autoFail.action.perception': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.CharPerception'),
+      'data.maluses.autoFail.action.perception': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributePerception'),
       // Other maluses
       'data.maluses.halfSpeed': i18n('DL.Malus') + ' - ' + i18n('DL.HalfSpeed'),
       'data.maluses.noFastTurn': i18n('DL.Malus') + ' - ' + i18n('DL.NoFastTurns'),

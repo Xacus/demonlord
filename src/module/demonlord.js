@@ -10,7 +10,6 @@ import {preloadHandlebarsTemplates} from './templates.js'
 import * as migrations from './migration.js'
 import {handleMigrations} from './migration.js'
 import * as macros from './macros.js'
-import {capitalize, enrichHTMLUnrolled} from './utils/utils'
 import {DLAfflictions} from './active-effects/afflictions'
 import {DLActiveEffectConfig} from './active-effects/sheets/active-effect-config'
 import DLCharacterSheet from './actor/sheets/character-sheet'
@@ -21,7 +20,8 @@ import DLPathSheet from './item/sheets/path-sheet'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
 import tippy from 'tippy.js';
-import 'tippy.js/dist/tippy.css'; // optional for styling
+import 'tippy.js/dist/tippy.css';
+import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"; // optional for styling
 
 
 Hooks.once('init', async function () {
@@ -103,57 +103,8 @@ Hooks.once('init', async function () {
     makeDefault: true,
   })
 
-  // If you need to add Handlebars helpers, here are a few useful examples:
-  Handlebars.registerHelper('concat', function () {
-    var outStr = ''
-    for (var arg in arguments) {
-      if (typeof arguments[arg] !== 'object') {
-        outStr += arguments[arg]
-      }
-    }
-    return outStr
-  })
-
-  Handlebars.registerHelper('toLowerCase', function (str) {
-    return str.toLowerCase()
-  })
-
-  Handlebars.registerHelper('toUpperCase', str => str.toUpperCase())
-
-  Handlebars.registerHelper('capitalize', str => capitalize(str))
-
-  Handlebars.registerHelper('readonly', val => (val ? 'readonly' : ''))
-
-  Handlebars.registerHelper('notreadonly', val => (val ? '' : 'readonly'))
-
-  Handlebars.registerHelper('json', JSON.stringify)
-
-  Handlebars.registerHelper('not', val => !val)
-
-  Handlebars.registerHelper('hideIf', val => (val ? 'style="display:none";' : ''))
-
-  Handlebars.registerHelper('replaceNewline', val =>
-    val.split('\n').reduce((acc, v) => acc + v.trim() + '&#13;&#10;', ''),
-  )
-
-  Handlebars.registerHelper('hiddenEffect', val =>
-    val && game.user.isGM && !game.settings.get('demonlord', 'gmEffectsControls') ? 'visibility: hidden;' : '',
-  )
-
-  Handlebars.registerHelper('isBadgeImg', img => img.includes('/demonlord/assets/icons/badges'))
-
-  Handlebars.registerHelper('plusify', x => (x >= 0 ? '+' + x : x))
-
-  Handlebars.registerHelper('defaultValue', function (a, b) {
-    return a ? a : b;
-  });
-
-  Handlebars.registerHelper('enrichHTMLUnrolled', (x) => enrichHTMLUnrolled(x))
-
-  Handlebars.registerHelper('lookupAttributeModifier', (attributeName, actorData) =>
-    actorData?.data?.attributes[attributeName.toLowerCase()]?.modifier
-  )
   preloadHandlebarsTemplates()
+  registerHandlebarsHelpers()
   game.demonlord.tippy = tippy
 })
 

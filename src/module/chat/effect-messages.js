@@ -134,12 +134,12 @@ export function buildTalentEffectsMessage(actor, talent) {
     get(`data.bonuses.attack.boons.agility`, 'DL.AttributeAgility', attackBoonsPrefix) +
     get(`data.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect', attackBoonsPrefix) +
     get(`data.bonuses.attack.boons.will`, 'DL.AttributeWill', attackBoonsPrefix) +
-    get(`data.bonuses.attack.boons.perception`, 'DL.CharPerception', attackBoonsPrefix) +
+    get(`data.bonuses.attack.boons.perception`, 'DL.AttributePerception', attackBoonsPrefix) +
     get(`data.bonuses.challenge.boons.strength`, 'DL.AttributeStrength', challengeBoonsPrefix) +
     get(`data.bonuses.challenge.boons.agility`, 'DL.AttributeAgility', challengeBoonsPrefix) +
     get(`data.bonuses.challenge.boons.intellect`, 'DL.AttributeIntellect', challengeBoonsPrefix) +
     get(`data.bonuses.challenge.boons.will`, 'DL.AttributeWill', challengeBoonsPrefix) +
-    get(`data.bonuses.challenge.boons.perception`, 'DL.CharPerception', challengeBoonsPrefix) +
+    get(`data.bonuses.challenge.boons.perception`, 'DL.AttributePerception', challengeBoonsPrefix) +
     get(`data.bonuses.attack.damage`, 'DL.TalentExtraDamage') +
     get(`data.bonuses.attack.plus20Damage`, 'DL.TalentExtraDamage20plus') +
     get('data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect') +

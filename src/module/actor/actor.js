@@ -110,7 +110,7 @@ export class DemonlordActor extends Actor {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
     }
-    data.attributes.perception.label = game.i18n.localize(`DL.CharPerception`)
+    data.attributes.perception.label = game.i18n.localize(`DL.AttributePerception`)
 
     // Speed
     data.characteristics.speed = Math.max(0, data.characteristics.speed)
@@ -245,7 +245,7 @@ export class DemonlordActor extends Actor {
       [game.i18n.localize("DL.AttributeAgility").toLowerCase()]: "agility",
       [game.i18n.localize("DL.AttributeIntellect").toLowerCase()]: "intellect",
       [game.i18n.localize("DL.AttributeWill").toLowerCase()]: "will",
-      [game.i18n.localize("DL.CharPerception").toLowerCase()]: "perception",
+      [game.i18n.localize("DL.AttributePerception").toLowerCase()]: "perception",
     }
     const normalizedName = attributes[attributeName.toLowerCase()] || attributeName.toLowerCase()
     return getProperty(this.data.data, `attributes.${normalizedName}`, this.data.data[attributeName])

@@ -5,8 +5,8 @@ DL.attributes = {
   agility: 'DL.AttributeAgility',
   intellect: 'DL.AttributeIntellect',
   will: 'DL.AttributeWill',
-  perception: 'DL.CharPerception',
-  defense: 'DL.CharDefense',
+  perception: 'DL.AttributePerception',
+  defense: 'DL.AttributeDefense',
 }
 
 DL.pathtype = {

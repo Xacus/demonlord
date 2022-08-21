@@ -51,26 +51,12 @@
               {{/select}}
             </select>
           </div>
-          <div>
-            <div class="dl-new-project">
-              <i class="dl-icon-strength"></i>
-            </div>
-            <div class="dl-new-project">
-              <i class="dl-icon-agility"></i>
-            </div>
-            <div class="dl-new-project">
-              <i class="dl-icon-intellect"></i>
-            </div>
-            <div class="dl-new-project">
-              <i class="dl-icon-will"></i>
-            </div>
-            <div class="dl-new-project">
-              <i class="dl-icon-perception"></i>
-            </div>
-            <div class="dl-new-project">
-              <i class="dl-icon-defense"></i>
-            </div>
 
+          <div>
+            {{dlRadioBoxes "data.action.attack" data.action.attack}}
+          </div>
+          <div>
+            {{dlRadioBoxes "data.action.against" data.action.against}}
           </div>
         </div>
 
@@ -127,39 +113,6 @@
         </div>
 
 
-        <div class="item-table fixed-path">
-          <div class="row">
-            <div class="col-3">
-              <label class="resource-label" style="font-size: 16px">{{localize "DL.MagicTradition"}}</label>
-<!--              <input type="text" name="data.tradition" value="{{data.tradition}}" style="font-size: 14px"/>-->
-            </div>
-            <div class="col-3">
-              <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellRank"}}</label>
-<!--              <input type="text" name="data.rank" value="{{data.rank}}" style="font-size: 14px"/>-->
-            </div>
-            <div class="col-3">
-              <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellType"}}</label>
-<!--              <select name="data.spelltype" data-dtype="String" style="font-size: 14px">-->
-<!--                {{#select data.spelltype}}-->
-<!--                  <option value="">—</option>-->
-<!--                  <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>-->
-<!--                  <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>-->
-<!--                {{/select}}-->
-<!--              </select>-->
-            </div>
-            <div class="col-3">
-              <label class="resource-label" style="font-size: 16px">{{localize "DL.SpellAttribute"}}</label>
-<!--              <select name="data.attribute" data-dtype="String" style="font-size: 14px">-->
-<!--                {{#select data.attribute}}-->
-<!--                  <option value="">—</option>-->
-<!--                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>-->
-<!--                  <option value="Will">{{localize "DL.AttributeWill"}}</option>-->
-<!--                {{/select}}-->
-<!--              </select>-->
-            </div>
-          </div>
-        </div>
-
         <div class="item-tab-sub-header collapse-title">
           <div>{{localize "DL.SpellCastings"}}</div>
         </div>
@@ -184,31 +137,31 @@
           <div class="row" style="position: relative">
             <div class="col-4">
               <label class="resource-label">{{localize "DL.WeaponAttackModifier"}}</label>
-              <select name="data.action.attack" data-dtype="String">
+<!--              <select name="data.action.attack" data-dtype="String">
                 {{#select data.action.attack}}
                   <option value="">—</option>
                   <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
                   <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
                   <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
                   <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                  <option value="Perception">{{localize "DL.CharPerception"}}</option>
+                  <option value="Perception">{{localize "DL.AttributePerception"}}</option>
                 {{/select}}
-              </select>
+              </select>-->
             </div>
             <div class="vs">VS</div>
             <div class="col-4">
               <label class="resource-label">{{localize "DL.WeaponDefenseModifier"}}</label>
-              <select name="data.action.against" data-dtype="String">
-                {{#select data.action.against}}
-                  <option value="">—</option>
-                  <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
-                  <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
-                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
-                  <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                  <option value="Perception">{{localize "DL.CharPerception"}}</option>
-                  <option value="Defense">{{localize "DL.CharDefense"}}</option>
-                {{/select}}
-              </select>
+<!--              <select name="data.action.against" data-dtype="String">-->
+<!--                {{#select data.action.against}}-->
+<!--                  <option value="">—</option>-->
+<!--                  <option value="Strength">{{localize "DL.AttributeStrength"}}</option>-->
+<!--                  <option value="Agility">{{localize "DL.AttributeAgility"}}</option>-->
+<!--                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>-->
+<!--                  <option value="Will">{{localize "DL.AttributeWill"}}</option>-->
+<!--                  <option value="Perception">{{localize "DL.AttributePerception"}}</option>-->
+<!--                  <option value="Defense">{{localize "DL.AttributeDefense"}}</option>-->
+<!--                {{/select}}-->
+<!--              </select>-->
             </div>
             <div class="col-4">
               <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
@@ -313,7 +266,7 @@
                   <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
                   <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
                   <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                  <option value="Perception">{{localize "DL.CharPerception"}}</option>
+                  <option value="Perception">{{localize "DL.AttributePerception"}}</option>
                 {{/select}}
               </select>
             </div>

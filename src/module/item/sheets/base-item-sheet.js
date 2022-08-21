@@ -2,7 +2,6 @@ import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-
 import {DL} from '../../config'
 import {DamageType} from '../nested-objects'
 import tippy, {createSingleton} from "tippy.js";
-import {i18n} from "../../utils/utils";
 
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
@@ -137,14 +136,15 @@ export default class DLBaseItemSheet extends ItemSheet {
     html.find('[autosize]').each((_, el) => autoresize(el))
 
     // Icons tooltip
-    const iconToolTips = [].concat(
-      tippy('.dl-icon-strength', {content: i18n('DL.AttributeStrength')}),
-      tippy('.dl-icon-agility', {content: i18n('DL.AttributeAgility')}),
-      tippy('.dl-icon-will', {content: i18n('DL.AttributeWill')}),
-      tippy('.dl-icon-intellect', {content: i18n('DL.AttributeIntellect')}),
-      tippy('.dl-icon-defense', {content: i18n('DL.CharDefense')}),
-      tippy('.dl-icon-perception', {content: i18n('DL.CharPerception')}),
-    )
+    // const iconToolTips = [].concat(
+    //   tippy('.dl-icon-strength', {content: i18n('DL.AttributeStrength')}),
+    //   tippy('.dl-icon-agility', {content: i18n('DL.AttributeAgility')}),
+    //   tippy('.dl-icon-will', {content: i18n('DL.AttributeWill')}),
+    //   tippy('.dl-icon-intellect', {content: i18n('DL.AttributeIntellect')}),
+    //   tippy('.dl-icon-defense', {content: i18n('DL.AttributeDefense')}),
+    //   tippy('.dl-icon-perception', {content: i18n('DL.AttributePerception')}),
+    // )
+    const iconToolTips = tippy('[data-tippy-content]')
     createSingleton(iconToolTips, {delay: 200})
   }
 
