@@ -20,6 +20,9 @@ import DLAncestrySheet from './item/sheets/ancestry-sheet'
 import DLPathSheet from './item/sheets/path-sheet'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css'; // optional for styling
+
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -151,6 +154,7 @@ Hooks.once('init', async function () {
     actorData?.data?.attributes[attributeName.toLowerCase()]?.modifier
   )
   preloadHandlebarsTemplates()
+  game.demonlord.tippy = tippy
 })
 
 Hooks.once('ready', async function () {
