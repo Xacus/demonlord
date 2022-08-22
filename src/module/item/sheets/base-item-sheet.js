@@ -4,7 +4,7 @@ import {DamageType} from '../nested-objects'
 import tippy, {createSingleton} from "tippy.js";
 import {buildDropdownList} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
-import {initDlEditor} from "../../utils/utils";
+import {initDlEditor} from "../../utils/editor";
 
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */

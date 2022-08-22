@@ -1,8 +1,9 @@
 import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
 import {buildOverview} from '../../chat/effect-messages'
-import {capitalize, initDlEditor} from '../../utils/utils'
+import {capitalize} from '../../utils/utils'
 import {DemonlordItem} from '../../item/item'
 import {DLAfflictions} from '../../active-effects/afflictions'
+import {initDlEditor} from "../../utils/editor";
 
 export default class DLBaseActorSheet extends ActorSheet {
   /* -------------------------------------------- */

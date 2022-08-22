@@ -34,9 +34,9 @@ export function createInlineFormula(_match, _command, formula, closing, label, .
  * src: https://gitlab.com/foundryvtt_pathfinder1e/foundryvtt-pathfinder1/-/merge_requests/360/diffs
  */
 export function enrichHTMLUnrolled(content, { rollData, secrets, rolls, entities } = {}) {
-  let pcontent = TextEditor.enrichHTML(content, { secrets, rolls:false, entities, rollData });
+  let pcontent = TextEditor.enrichHTML(content, { secrets, rolls, entities, rollData });
 
-  if (!rolls) {
+  if (rolls) {
     const html = document.createElement("div");
     html.innerHTML = String(pcontent);
     const text = TextEditor._getTextNodes(html);
@@ -52,38 +52,3 @@ export function enrichHTMLUnrolled(content, { rollData, secrets, rolls, entities
 // -----------------------------------------------
 
 
-export function initDlEditor(html, application) {
-  // eslint-disable-next-line no-undef
-  tinymce.init({
-    selector: '.dl-editor-content',
-    menubar: false,
-    inline: true,
-    plugins: [
-      'autolink', 'autoresize', 'link', 'lists',
-      'powerpaste', 'table', 'quickbars'
-    ],
-    toolbar: false,
-    quickbars_selection_toolbar: 'bold italic underline | blocks | bullist numlist | blockquote',
-    contextmenu: 'undo redo | inserttable bullist numlist',
-    quickbars_insert_toolbar: false,
-    powerpaste_word_import: 'clean',
-    powerpaste_html_import: 'clean',
-    min_height: 400,
-    autoresize_bottom_margin: 50,
-  });
-
-  html.find('.dl-editor-content[data-edit]').each((i, div) => {
-    console.log(div)
-    const editor = application.editors[name] = {
-      target: name,
-      button: undefined,
-      hasButton: false,
-      mce: null,
-      active: true,
-      changed: false,
-      options: {},
-      initial: foundry.utils.getProperty(application.object.data, name)
-    };
-    console.log(editor)
-  })
-}
