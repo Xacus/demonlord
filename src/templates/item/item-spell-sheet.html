@@ -42,35 +42,45 @@
 
         <hr>
         <div class="dl-item-section-section">
-          <b>{{localize "DL.SpellAttribute"}}</b>
-          {{dlDropdown "data.attribute" data.attribute}}
+          <div>
+            <b>{{localize "DL.SpellAttribute"}}</b>
+            {{dlDropdown "data.attribute" data.attribute}}
+          </div>
+          <div>
+            <b>{{localize "DL.SpellTypeAttack"}}</b>
+            {{dlDropdown "data.action.attack" data.action.attack}}
+            <span>VS</span>
+            {{dlDropdown "data.action.against" data.action.against}}
+          </div>
+          <div>
+            <b>{{localize "DL.ChallengeRequestRollText"}}</b>
+            {{dlDropdown "data.action.defense" data.action.defense}}
+          </div>
+          <div>
+            <b>{{localize "DL.TalentHealingOptions"}}</b>
+            <div class="dl-new-project-radio {{checked data.healing.healing}}"
+                 data-tippy-content="{{localize "DL.TalentHealingOptions"}}">
+              <input type="checkbox" name="data.healing.healing" id="healingoptions" {{checked data.healing.healing}}/>
+              <i class="dl-icon-healing"></i>
+            </div>
+          </div>
         </div>
         <hr>
 
         <div class="dl-item-section-section">
-          <div>
-            <b>{{localize "DL.SpellAttribute"}}</b>
-            <select name="data.attribute" autosize>
-              {{#select data.attribute}}
-                <option value="" selected disabled>—</option>
-                <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
-                <option value="Will">{{localize "DL.AttributeWill"}}</option>
-              {{/select}}
-            </select>
-          </div>
 
           <div>
 <!--            {{dlRadioBoxes "data.action.attack" data.action.attack}}-->
           </div>
           <div>
-            {{dlRadioBoxes "data.action.against" data.action.against}}
+<!--            {{dlRadioBoxes "data.action.against" data.action.against}}-->
           </div>
 
-          <div class="dl-new-project-radio {{checked data.healing.healing}}"
-               data-tippy-content="{{localize "DL.TalentHealingOptions"}}">
-            <input type="checkbox" name="data.healing.healing" id="healingoptions" {{checked data.healing.healing}}/>
-            <i class="dl-icon-healing"></i>
-          </div>
+<!--          <div class="dl-new-project-radio {{checked data.healing.healing}}"-->
+<!--               data-tippy-content="{{localize "DL.TalentHealingOptions"}}">-->
+<!--            <input type="checkbox" name="data.healing.healing" id="healingoptions" {{checked data.healing.healing}}/>-->
+<!--            <i class="dl-icon-healing"></i>-->
+<!--          </div>-->
 
           <div class="dl-new-project-2">
             <i class="dl-icon-nothing"></i>
@@ -316,16 +326,16 @@
           <div class="row">
             <div class="col-4">
               <label class="resource-label">{{localize "DL.ChallengeRoll"}}</label>
-              <select name="data.action.defense" data-dtype="String">
-                {{#select data.action.defense}}
-                  <option value="">—</option>
-                  <option value="Strength">{{localize "DL.AttributeStrength"}}</option>
-                  <option value="Agility">{{localize "DL.AttributeAgility"}}</option>
-                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>
-                  <option value="Will">{{localize "DL.AttributeWill"}}</option>
-                  <option value="Perception">{{localize "DL.AttributePerception"}}</option>
-                {{/select}}
-              </select>
+<!--              <select name="data.action.defense" data-dtype="String">-->
+<!--                {{#select data.action.defense}}-->
+<!--                  <option value="">—</option>-->
+<!--                  <option value="Strength">{{localize "DL.AttributeStrength"}}</option>-->
+<!--                  <option value="Agility">{{localize "DL.AttributeAgility"}}</option>-->
+<!--                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>-->
+<!--                  <option value="Will">{{localize "DL.AttributeWill"}}</option>-->
+<!--                  <option value="Perception">{{localize "DL.AttributePerception"}}</option>-->
+<!--                {{/select}}-->
+<!--              </select>-->
             </div>
             <div class="col-8">
               <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>

@@ -61,11 +61,14 @@ export function registerHandlebarsHelpers() {
 
 function _getAttributes(groupName) {
   let attributes = []
-  if (groupName === 'data.action.attack') {
-    attributes = ['strength', 'agility', 'intellect', 'will', 'perception']
+  if (groupName === 'data.action.attack' || groupName === 'data.action.defense') {
+    attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'data.action.against') {
-    attributes = ['defense', 'strength', 'agility', 'intellect', 'will', 'perception']
+    attributes = ['', 'defense', 'strength', 'agility', 'intellect', 'will', 'perception']
+  } else if (groupName === 'data.attribute') {
+    attributes = ['', 'intellect', 'will']
   }
+  console.log(attributes)
   return attributes
 }
 
@@ -94,6 +97,7 @@ function _buildRadioBoxes(groupName, checkedKey) {
 function _buildDropdownItem(groupName, checkedKey) {
   let attributes = _getAttributes(groupName)
   let html = ""
+  checkedKey = checkedKey === 'null' ? '' : checkedKey
   for (let attribute of attributes) {
     const value = capitalize(attribute)
     const checked = value === checkedKey ? 'checked' : ''

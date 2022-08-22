@@ -127,7 +127,6 @@ export default class DLBaseItemSheet extends ItemSheet {
           jEl.height(getHeight() + 'px')
         }
       }
-      console.log(jEl, jEl.prop("tagName"))
     }
 
     html.find('[autosize]').each((_, el) => autoresize(el))
@@ -137,9 +136,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     createSingleton(iconToolTips, {delay: 200})
     tippy('.dl-new-project-2.dropdown', {
       content(reference) {
-        console.log(reference, reference.attributes.name.value, reference.attributes.value.value)
         html = buildDropdownList(reference.attributes.name.value, reference.attributes.value.value)
-        console.log(html)
         return html
       },
       allowHTML: true,

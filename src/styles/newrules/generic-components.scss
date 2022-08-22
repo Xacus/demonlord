@@ -124,7 +124,7 @@
   //width: 16px;
   height: 16px;
   position: relative;
-  display: flex;
+  display: inline-flex !important;
   width: fit-content;
 
   & i {
