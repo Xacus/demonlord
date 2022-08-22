@@ -225,7 +225,7 @@
   "DL.SpellEffectDiceResult": "結果：",
   "DL.SpellMaxUsesReached": "已達到法術最大使用次數",
   "DL.ChallengeRollText": "檢定：",
-  "DL.ChallengeRequestRollText": "要求檢定：",
+  "DL.ChallengeRequestRollText": "要求檢定",
   "DL.ChallengeVS": "VS",
   "DL.AttackRollText": "攻擊：",
   "DL.AttackSpecialRollText": "特殊攻擊：",

@@ -231,7 +231,7 @@
   "DL.SpellEffectDiceResult": "Ergebnis:",
   "DL.SpellMaxUsesReached": "Maximale Anzahl der Anwendung des Zaubers erreicht",
   "DL.ChallengeRollText": "Probe:",
-  "DL.ChallengeRequestRollText": "Probe anfordern:",
+  "DL.ChallengeRequestRollText": "Probe anfordern",
   "DL.ChallengeVS": "VS",
   "DL.AttackRollText": "Angriff:",
   "DL.AttackSpecialRollText": "Besondere Angriffe:",
