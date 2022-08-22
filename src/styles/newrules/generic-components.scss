@@ -187,3 +187,7 @@ i.dl-icon-healing {
 i.dl-icon-nothing {
   @include dl-icon('../assets/ui/other-svg/nothing.svg');
 }
+
+i.dl-icon-d6 {
+  @include dl-icon('../assets/ui/other-svg/d6.svg');
+}
