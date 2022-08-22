@@ -81,11 +81,36 @@
               <i class="dl-icon-d20"></i>
               <span class="sep"></span>
               <input type="text" name="data.action.damage" value="{{data.action.damage}}"
-                     data-tippy-content="{{localize "DL.DamageRollText"}}" placeholder="-" autosize/>
+                     data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
               <span class="sep"></span>
               <input type="text" name="data.action.damagetype" value="{{data.action.damagetype}}"
                      data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
             </div>
+            <a
+              class="dl-clickable damagetype-control"
+              data-tippy-content="{{localize 'DL.DamageAddType'}}"
+              data-action="create"
+            ><i class="fas fa-plus"></i>
+            </a>
+            {{#each data.action.damagetypes as |damagetype id|}}
+              <div class="dl-new-project-2 nohover">
+                <i class="dl-icon-d20"></i>
+                <span class="sep"></span>
+                <input type="text" name="altdamage" value="{{damagetype.damage}}"
+                       data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
+                <span class="sep"></span>
+                <input type="text" name="altdamagetype" value="{{damagetype.damagetype}}"
+                       data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
+              </div>
+              <a
+                class="item-control damagetype-control"
+                data-tippy-content="{{localize 'DL.DamageAddType'}}"
+                data-action="delete"
+                data-id="{{id}}"
+              ><i class="fas fa-times"></i>
+              </a>
+            {{/each}}
+
           </div>
         </div>
         <hr>
@@ -293,33 +318,33 @@
           </div>
 
           {{#each data.action.damagetypes as |damagetype id|}}
-            <div class="row damage-row">
-              <div class="col-4" style="margin-top: 2px">
-                <input
-                  class="damagevalue"
-                  type="text"
-                  name="altdamage"
-                  value="{{damagetype.damage}}"
-                  placeholder="{{localize 'DL.WeaponDamage'}}"
-                />
-              </div>
-              <div class="col-8" style="margin-top: 2px">
-                <input
-                  class="damagetype"
-                  type="text"
-                  name="altdamagetype"
-                  value="{{damagetype.damagetype}}"
-                  placeholder="{{localize 'DL.DamageType'}}"
-                />
-              </div>
-              <a
-                class="item-control damagetype-control damage-delete"
-                title="{{localize 'DL.DamageAddType'}}"
-                data-action="delete"
-                data-id="{{id}}"
-              ><i class="fas fa-times"></i
-              ></a>
-            </div>
+<!--            <div class="row damage-row">-->
+<!--              <div class="col-4" style="margin-top: 2px">-->
+<!--                <input-->
+<!--                  class="damagevalue"-->
+<!--                  type="text"-->
+<!--                  name="altdamage"-->
+<!--                  value="{{damagetype.damage}}"-->
+<!--                  placeholder="{{localize 'DL.WeaponDamage'}}"-->
+<!--                />-->
+<!--              </div>-->
+<!--              <div class="col-8" style="margin-top: 2px">-->
+<!--                <input-->
+<!--                  class="damagetype"-->
+<!--                  type="text"-->
+<!--                  name="altdamagetype"-->
+<!--                  value="{{damagetype.damagetype}}"-->
+<!--                  placeholder="{{localize 'DL.DamageType'}}"-->
+<!--                />-->
+<!--              </div>-->
+<!--              <a-->
+<!--                class="item-control damagetype-control damage-delete"-->
+<!--                title="{{localize 'DL.DamageAddType'}}"-->
+<!--                data-action="delete"-->
+<!--                data-id="{{id}}"-->
+<!--              ><i class="fas fa-times"></i-->
+<!--              ></a>-->
+<!--            </div>-->
           {{/each}}
 
           <div class="row">
