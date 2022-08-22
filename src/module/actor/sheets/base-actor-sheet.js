@@ -1,6 +1,6 @@
 import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
 import {buildOverview} from '../../chat/effect-messages'
-import {capitalize} from '../../utils/utils'
+import {capitalize, initDlEditor} from '../../utils/utils'
 import {DemonlordItem} from '../../item/item'
 import {DLAfflictions} from '../../active-effects/afflictions'
 
@@ -399,5 +399,8 @@ export default class DLBaseActorSheet extends ActorSheet {
         li.addEventListener('dragstart', handler, false)
       })
     }
+
+    // Custom editor
+    initDlEditor(html, this)
   }
 }

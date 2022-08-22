@@ -4,6 +4,7 @@ import {DamageType} from '../nested-objects'
 import tippy, {createSingleton} from "tippy.js";
 import {buildDropdownList} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
+import {initDlEditor} from "../../utils/utils";
 
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
@@ -149,26 +150,6 @@ export default class DLBaseItemSheet extends ItemSheet {
       theme: 'demonlord-dropdown',
       animation: 'shift-away',
     })
-
-    // Editor
-    // eslint-disable-next-line no-undef
-    tinymce.init({
-      selector: '.dl-editor-content',
-      menubar: false,
-      inline: true,
-      plugins: [
-        'autolink', 'autoresize', 'link', 'lists',
-        'powerpaste', 'table', 'quickbars'
-      ],
-      toolbar: false,
-      quickbars_selection_toolbar: 'bold italic underline | blocks | bullist numlist | blockquote',
-      contextmenu: 'undo redo | inserttable bullist numlist',
-      quickbars_insert_toolbar: false,
-      powerpaste_word_import: 'clean',
-      powerpaste_html_import: 'clean',
-      min_height: 400,
-      autoresize_bottom_margin: 50,
-    });
   }
 
   /* -------------------------------------------- */
@@ -234,20 +215,7 @@ export default class DLBaseItemSheet extends ItemSheet {
       .on('drop', this._onDrop.bind(this))
 
     // Custom editor
-    html.find('.dl-editor-content[data-edit]').each((i, div) => {
-      console.log(div)
-      const editor = this.editors[name] = {
-        target: name,
-        button: undefined,
-        hasButton: false,
-        mce: null,
-        active: true,
-        changed: false,
-        options: {},
-        initial: foundry.utils.getProperty(this.object.data, name)
-      };
-      console.log(editor)
-    })
+    initDlEditor(html, this)
   }
 
   /* -------------------------------------------- */
