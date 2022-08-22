@@ -256,6 +256,21 @@
   }
 }
 
+// Custom Editor
+.dl-editor {
+  .dl-editor-content {
+    font-family: $font-primary;
+    background: #ffffff47;
+    padding: 4px;
+    border-radius: 2px;
+    padding-left: 8px;
+    &:focus,
+    &:focus-visible {
+      outline: 1px solid rgb(31, 31, 31);
+    }
+  }
+}
+
 // Custom icons
 @mixin dl-icon($src) {
   -webkit-mask-image: url($src);

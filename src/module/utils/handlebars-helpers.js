@@ -55,6 +55,8 @@ export function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper('dlRadioBoxes', (groupName, checkedKey) => _buildRadioBoxes(groupName, checkedKey))
   Handlebars.registerHelper('dlDropdown', (groupName, checkedKey) => _buildDropdownItem(groupName, checkedKey))
+
+  Handlebars.registerHelper('dlEditor',  (options) => _buildEditor(options))
 }
 
 // ----------------------------------------------------
@@ -137,3 +139,19 @@ export function buildDropdownList(groupName, checkedKey) {
 }
 
 // ----------------------------------------------------
+
+
+function _buildEditor(options) {
+  const target = options.hash['target'];
+  if ( !target ) throw new Error("You must define the name of a target field.");
+
+  // Enrich the content
+  let documents = options.hash.documents !== false;
+  const owner = Boolean(options.hash['owner']);
+  const rollData = options.hash["rollData"];
+  const content = TextEditor.enrichHTML(options.hash['content'] || "", {secrets: owner, documents, rollData});
+
+  // Construct the HTML
+  let editor = $(`<div class="dl-editor"><div class="dl-editor-content" data-edit="${target}">${content}</div></div>`);
+  return new Handlebars.SafeString(editor[0].outerHTML);
+}
