@@ -131,6 +131,7 @@
     width: 16px;
     height: 16px;
     background-color: var(--color-text-dark-primary);
+    flex-shrink: 0;
   }
 
   .sep {
@@ -146,17 +147,26 @@
   }
 
   input {
-    &[type='number'] {
-      text-align: center !important;
-      margin-right: -4px;
-      height: 100%;
-      min-width: 24px;
+    text-align: center !important;
+    margin: 0 !important;
+    height: 100% !important;
+    min-width: 24px;
+    color: black !important;
 
-      &:hover,
-      &:focus {
-        cursor: text;
-        box-shadow: 0px 0px 2px 1px #a22223b0;
-      }
+    &[type='text'] {
+      //max-width: 28px;
+    }
+    &:hover,
+    &:focus {
+      cursor: text;
+      box-shadow: 0 0 2px 1px #a22223b0 !important;
+      background-color: transparent !important;
+      padding: 0 !important;
+      border: 1px solid transparent !important;
+    }
+
+    &:last-child {
+      margin-right: -4px !important;
     }
   }
 
@@ -290,4 +300,8 @@ i.dl-icon-nothing {
 
 i.dl-icon-d6 {
   @include dl-icon('../assets/ui/other-svg/d6.svg');
+}
+
+i.dl-icon-d20 {
+  @include dl-icon('../assets/ui/other-svg/d20.svg');
 }

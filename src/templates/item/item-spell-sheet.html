@@ -51,10 +51,20 @@
             {{dlDropdown "data.action.attack" data.action.attack}}
             <span>VS</span>
             {{dlDropdown "data.action.against" data.action.against}}
+            <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
+              <i class="dl-icon-d6"></i>
+              <span class="sep"></span>
+              <input type="number" name="data.action.boonsbanes" value="{{defaultValue data.action.boonsbanes 0}}"/>
+            </div>
           </div>
           <div>
             <b>{{localize "DL.ChallengeRequestRollText"}}</b>
             {{dlDropdown "data.action.defense" data.action.defense}}
+            <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
+              <i class="dl-icon-d6"></i>
+              <span class="sep"></span>
+              <input type="number" name="data.defenseboonsbanes" value="{{defaultValue data.defenseboonsbanes 0}}"/>
+            </div>
           </div>
           <div>
             <b>{{localize "DL.TalentHealingOptions"}}</b>
@@ -64,23 +74,37 @@
               <i class="dl-icon-healing"></i>
             </div>
           </div>
+
+          <div>
+            <b>{{localize "DL.WeaponDamage"}}</b>
+            <div class="dl-new-project-2 nohover">
+              <i class="dl-icon-d20"></i>
+              <span class="sep"></span>
+              <input type="text" name="data.action.damage" value="{{data.action.damage}}"
+                     data-tippy-content="{{localize "DL.DamageRollText"}}" placeholder="-" autosize/>
+              <span class="sep"></span>
+              <input type="text" name="data.action.damagetype" value="{{data.action.damagetype}}"
+                     data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
+            </div>
+          </div>
         </div>
         <hr>
 
         <div class="dl-item-section-section">
 
           <div>
-<!--            {{dlRadioBoxes "data.action.attack" data.action.attack}}-->
+            <!--            {{dlRadioBoxes "data.action.attack" data.action.attack}}-->
           </div>
           <div>
-<!--            {{dlRadioBoxes "data.action.against" data.action.against}}-->
+            <!--            {{dlRadioBoxes "data.action.against" data.action.against}}-->
           </div>
 
-<!--          <div class="dl-new-project-radio {{checked data.healing.healing}}"-->
-<!--               data-tippy-content="{{localize "DL.TalentHealingOptions"}}">-->
-<!--            <input type="checkbox" name="data.healing.healing" id="healingoptions" {{checked data.healing.healing}}/>-->
-<!--            <i class="dl-icon-healing"></i>-->
-<!--          </div>-->
+          <!--          <div class="dl-new-project-radio {{checked data.healing.healing}}"-->
+          <!--               data-tippy-content="{{localize "DL.TalentHealingOptions"}}">-->
+          <!--            <input type="checkbox" name="data.healing.healing" id="healingoptions" {{checked
+            data.healing.healing}}/>-->
+          <!--            <i class="dl-icon-healing"></i>-->
+          <!--          </div>-->
 
           <div class="dl-new-project-2">
             <i class="dl-icon-nothing"></i>
@@ -89,11 +113,6 @@
           </div>
 
           <div style="margin-top: 8px"></div>
-          <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
-            <i class="dl-icon-d6"></i>
-            <span class="sep"></span>
-            <input type="number" name="data.action.boonsbanes" value="{{defaultValue data.action.boonsbanes 0}}" />
-          </div>
 
 
           <div class="dl-new-project-2-dropdown">
@@ -176,11 +195,11 @@
           </div>
         </div>
 
-<!--
--
--
--
--->
+        <!--
+        -
+        -
+        -
+        -->
         <div class="item-tab-sub-header collapse-title">
           <div>{{localize "DL.SpellCastings"}}</div>
         </div>
@@ -233,7 +252,7 @@
             </div>
             <div class="col-4">
               <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-<!--              <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}"/>-->
+              <!--              <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}"/>-->
             </div>
           </div>
 
@@ -254,22 +273,22 @@
           </div>
           <div class="row damage-row">
             <div class="col-4">
-              <input
-                class="damagevalue"
-                type="text"
-                name="data.action.damage"
-                value="{{data.action.damage}}"
-                placeholder="{{localize 'DL.WeaponDamage'}}"
-              />
+              <!--              <input-->
+              <!--                class="damagevalue"-->
+              <!--                type="text"-->
+              <!--                name="data.action.damage"-->
+              <!--                value="{{data.action.damage}}"-->
+              <!--                placeholder="{{localize 'DL.WeaponDamage'}}"-->
+              <!--              />-->
             </div>
             <div class="col-8">
-              <input
-                class="damagetype"
-                type="text"
-                name="data.action.damagetype"
-                value="{{data.action.damagetype}}"
-                placeholder="Damage Type"
-              />
+              <!--              <input-->
+              <!--                class="damagetype"-->
+              <!--                type="text"-->
+              <!--                name="data.action.damagetype"-->
+              <!--                value="{{data.action.damagetype}}"-->
+              <!--                placeholder="Damage Type"-->
+              <!--              />-->
             </div>
           </div>
 
@@ -327,20 +346,20 @@
           <div class="row">
             <div class="col-4">
               <label class="resource-label">{{localize "DL.ChallengeRoll"}}</label>
-<!--              <select name="data.action.defense" data-dtype="String">-->
-<!--                {{#select data.action.defense}}-->
-<!--                  <option value="">—</option>-->
-<!--                  <option value="Strength">{{localize "DL.AttributeStrength"}}</option>-->
-<!--                  <option value="Agility">{{localize "DL.AttributeAgility"}}</option>-->
-<!--                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>-->
-<!--                  <option value="Will">{{localize "DL.AttributeWill"}}</option>-->
-<!--                  <option value="Perception">{{localize "DL.AttributePerception"}}</option>-->
-<!--                {{/select}}-->
-<!--              </select>-->
+              <!--              <select name="data.action.defense" data-dtype="String">-->
+              <!--                {{#select data.action.defense}}-->
+              <!--                  <option value="">—</option>-->
+              <!--                  <option value="Strength">{{localize "DL.AttributeStrength"}}</option>-->
+              <!--                  <option value="Agility">{{localize "DL.AttributeAgility"}}</option>-->
+              <!--                  <option value="Intellect">{{localize "DL.AttributeIntellect"}}</option>-->
+              <!--                  <option value="Will">{{localize "DL.AttributeWill"}}</option>-->
+              <!--                  <option value="Perception">{{localize "DL.AttributePerception"}}</option>-->
+              <!--                {{/select}}-->
+              <!--              </select>-->
             </div>
             <div class="col-8">
               <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-              <input type="text" name="data.action.defenseboonsbanes" value="{{data.action.defenseboonsbanes}}"/>
+              <!--              <input type="text" name="data.action.defenseboonsbanes" value="{{data.action.defenseboonsbanes}}"/>-->
             </div>
           </div>
         </div>

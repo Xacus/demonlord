@@ -133,7 +133,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     // Icons tooltip
     const iconToolTips = tippy('[data-tippy-content]')
-    createSingleton(iconToolTips, {delay: 200})
+    createSingleton(iconToolTips, {delay: 50})
     tippy('.dl-new-project-2.dropdown', {
       content(reference) {
         html = buildDropdownList(reference.attributes.name.value, reference.attributes.value.value)
