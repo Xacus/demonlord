@@ -120,10 +120,11 @@
   border-radius: 4px;
   box-sizing: content-box;
   padding: 2px;
+  padding-right: 6px;
   //width: 16px;
   height: 16px;
   position: relative;
-  display: inline-block;
+  display: flex;
   width: fit-content;
 
   & i {
@@ -132,10 +133,9 @@
     background-color: var(--color-text-dark-primary);
   }
 
-  & span {
+  .sep {
     border-left: 1px solid #0000001a;
     padding-left: 2px;
-    margin-left: 2px;
     margin-left: 2px;
   }
 
@@ -143,6 +143,87 @@
   &:hover span {
     border-color: dimgray;
     cursor: pointer;
+  }
+}
+
+.dl-new-project-2-dropdown {
+  $color: #e0e0e0;
+  $color-hover: #e0e0e0;
+  $color-checked: var(--demonlord-red);
+  $bg-hover: rgba(255, 255, 255, 0.04);
+  $border-color: rgb(109, 109, 109);
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+
+  & > div {
+    @extend .dl-new-project-2;
+    border-color: $border-color;
+    color: $color;
+    padding-right: 4px;
+    flex: 1 1 0;
+    width: auto;
+    margin: 1px;
+
+    .sep {
+      border-color: $border-color;
+    }
+
+    i {
+      background-color: $color;
+    }
+
+    &:hover {
+      cursor: pointer;
+      //border-color: $color-hover;
+      color: $color-hover;
+      background-color: $bg-hover;
+
+      .sep {
+        //border-color: $color-hover;
+      }
+
+      i {
+        background-color: $color-hover;
+      }
+    }
+
+    &.checked,
+    &.checked .sep {
+      //border-color: $color-checked;
+      color: $color-checked;
+      font-weight: bold;
+
+      i {
+        background-color: $color-checked;
+      }
+    }
+
+    input {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    span,
+    i {
+      pointer-events: none;
+    }
+  }
+}
+
+// Tippy theme
+.tippy-box[data-theme~='demonlord-dropdown'] {
+  padding: 0;
+  background-color: #222222;
+
+  .tippy-content {
+    padding: 4px;
   }
 }
 

@@ -54,18 +54,26 @@ export function registerHandlebarsHelpers() {
   )
 
   Handlebars.registerHelper('dlRadioBoxes', (groupName, checkedKey) => _buildRadioBoxes(groupName, checkedKey))
+  Handlebars.registerHelper('dlDropdown', (groupName, checkedKey) => _buildDropdownItem(groupName, checkedKey))
 }
 
 // ----------------------------------------------------
 
-function _buildRadioBoxes(groupName, checkedKey) {
-  let html = ""
+function _getAttributes(groupName) {
   let attributes = []
   if (groupName === 'data.action.attack') {
     attributes = ['strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'data.action.against') {
     attributes = ['defense', 'strength', 'agility', 'intellect', 'will', 'perception']
   }
+  return attributes
+}
+
+// ----------------------------------------------------
+
+function _buildRadioBoxes(groupName, checkedKey) {
+  let html = ""
+  let attributes = _getAttributes(groupName)
 
   for (let attribute of attributes) {
     const value = capitalize(attribute)
@@ -80,3 +88,48 @@ function _buildRadioBoxes(groupName, checkedKey) {
   }
   return new Handlebars.SafeString(html)
 }
+
+// ----------------------------------------------------
+
+function _buildDropdownItem(groupName, checkedKey) {
+  let attributes = _getAttributes(groupName)
+  let html = ""
+  for (let attribute of attributes) {
+    const value = capitalize(attribute)
+    const checked = value === checkedKey ? 'checked' : ''
+    if (!checked) continue
+    const label = value ? i18n(`DL.Attribute${value}`) : i18n('DL.None')
+    const icon = value ? `dl-icon-${attribute}` : 'dl-icon-nothing'
+    html += `
+<div class="dl-new-project-2 dropdown" name="${groupName}" value="${value}">
+    <i class="${icon}"></i>
+    <span class="sep"></span>
+    <span>${label}</span>
+</div>`
+    break
+  }
+  return new Handlebars.SafeString(html)
+}
+
+export function buildDropdownList(groupName, checkedKey) {
+  let attributes = _getAttributes(groupName)
+
+  let html = `<div class="dl-new-project-2-dropdown">`
+  for (let attribute of attributes) {
+    const value = capitalize(attribute)
+    const checked = value === checkedKey ? 'checked' : ''
+    const label = value ? i18n(`DL.Attribute${value}`) : i18n('DL.None')
+    const icon = value ? `dl-icon-${attribute}` : 'dl-icon-nothing'
+    html += `
+<div class="${checked}">
+    <input type="radio" name="${groupName}" value="${value}" ${checked}/>
+    <i class="${icon}"></i>
+    <span class="sep"></span>
+    <span>${label}</span>
+</div>`
+  }
+  html += `</div>`
+  return new Handlebars.SafeString(html)
+}
+
+// ----------------------------------------------------

@@ -547,7 +547,7 @@
   "DL.PathsAddLevel": "Adicionar Nível",
   "DL.PathsDeleteLevel": "Excluir Nível",
   "DL.PathsLevelAttributesSubtitle": "Atributos",
-  "DL.PathsLevelAttributesNone": "nenhum",
+  "DL.None": "nenhum",
   "DL.PathsLevelAttributesChooseTwo": "Escolha Dois",
   "DL.PathsLevelAttributesChooseThree": "Escolha Três",
   "DL.PathsLevelAttributesFixed": "Fixo",

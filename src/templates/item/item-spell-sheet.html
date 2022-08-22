@@ -41,6 +41,11 @@
         </div>
 
         <hr>
+        <div class="dl-item-section-section">
+          <b>{{localize "DL.SpellAttribute"}}</b>
+          {{dlDropdown "data.attribute" data.attribute}}
+        </div>
+        <hr>
 
         <div class="dl-item-section-section">
           <div>
@@ -55,7 +60,7 @@
           </div>
 
           <div>
-            {{dlRadioBoxes "data.action.attack" data.action.attack}}
+<!--            {{dlRadioBoxes "data.action.attack" data.action.attack}}-->
           </div>
           <div>
             {{dlRadioBoxes "data.action.against" data.action.against}}
@@ -69,13 +74,42 @@
 
           <div class="dl-new-project-2">
             <i class="dl-icon-nothing"></i>
+            <span class="sep"></span>
             <span>{{localize "DL.SpellTypeAttack"}}</span>
           </div>
+
           <div style="margin-top: 8px"></div>
           <div class="dl-new-project-2" data-tippy-content="+1 Boons and banes">
             <i class="dl-icon-d6"></i>
             <span>+1</span>
           </div>
+
+
+          <div class="dl-new-project-2-dropdown">
+            <div>
+              <i class="dl-icon-nothing"></i>
+              <span class="sep"></span>
+              <span>{{localize "DL.SpellTypeAttack"}}</span>
+            </div>
+            <div>
+              <i class="dl-icon-nothing"></i>
+              <span class="sep"></span>
+              <span>{{localize "DL.SpellTypeAttack"}}</span>
+            </div>
+            <div>
+              <i class="dl-icon-nothing"></i>
+              <span class="sep"></span>
+              <span>{{localize "DL.SpellTypeAttack"}}</span>
+            </div>
+            <div>
+              <i class="dl-icon-nothing"></i>
+              <span class="sep"></span>
+              <span>{{localize "DL.SpellTypeAttack"}}</span>
+            </div>
+
+          </div>
+          <hr>
+          {{dlDropdown "data.action.attack" data.action.attack}}
 
         </div>
 
@@ -131,7 +165,11 @@
           </div>
         </div>
 
-
+<!--
+-
+-
+-
+-->
         <div class="item-tab-sub-header collapse-title">
           <div>{{localize "DL.SpellCastings"}}</div>
         </div>
@@ -296,75 +334,7 @@
           </div>
         </div>
 
-        <div class="item-tab-sub-header collapse-title">
-          <div>{{localize "DL.TalentHealing"}}</div>
-        </div>
 
-        <div class="item-table indent collapse-content">
-          <div class="row">
-            <div class="col-12 inline-input fix">
-<!--              <input type="checkbox" name="data.healing.healing" id="healingoptions" {{checked data.healing.healing}} />-->
-              <label for="healingoptions" class="resource-label">{{localize "DL.TalentHealingOptions"}}</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="item-tab-sub-header collapse-title">
-          <div>{{localize "DL.Characteristics"}}</div>
-        </div>
-
-        <div class="item-table indent collapse-content">
-          <div class="row">
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellEffectDice"}}</label>
-              <!--              <input type="text" name="data.effectdice" value="{{data.effectdice}}"/>-->
-            </div>
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellDuration"}}</label>
-              <!--              <input type="text" name="data.duration" value="{{data.duration}}"/>-->
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellTarget"}}</label>
-              <!--              <input type="text" name="data.target" value="{{data.target}}"/>-->
-            </div>
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellArea"}}</label>
-              <!--              <input type="text" name="data.area" value="{{data.area}}"/>-->
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellRequirements"}}</label>
-              <!--              <input type="text" name="data.requirements" value="{{data.requirements}}"/>-->
-            </div>
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellSacrifice"}}</label>
-              <!--              <input type="text" name="data.sacrifice" value="{{data.sacrifice}}"/>-->
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellPermanence"}}</label>
-              <!--              <input type="text" name="data.permanence" value="{{data.permanence}}"/>-->
-            </div>
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellAftereffect"}}</label>
-              <!--              <input type="text" name="data.aftereffect" value="{{data.aftereffect}}"/>-->
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellSpecial"}}</label>
-              <!--              <input type="text" name="data.special" value="{{data.special}}"/>-->
-            </div>
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.SpellTriggered"}}</label>
-              <!--              <input type="text" name="data.triggered" value="{{data.triggered}}"/>-->
-            </div>
-          </div>
-        </div>
 
         {{!-- Activated Effects --}}
         <div class="item-tab-sub-header collapse-title">

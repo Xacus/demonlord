@@ -2,6 +2,8 @@ import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-
 import {DL} from '../../config'
 import {DamageType} from '../nested-objects'
 import tippy, {createSingleton} from "tippy.js";
+import {buildDropdownList} from "../../utils/handlebars-helpers";
+import 'tippy.js/animations/shift-away.css';
 
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
@@ -118,13 +120,9 @@ export default class DLBaseItemSheet extends ItemSheet {
         }
       } else if (jEl.prop("tagName") === 'TEXTAREA') {
         const getHeight = () => Math.max(0, el?.scrollHeight)
-        // el.value = el.value.trim()
         jEl.height(0)
         jEl.height(getHeight() + 'px')
-        // const p = new Promise(x => setTimeout(x, 100))
-        // p.then(() => jEl.height(getHeight() + 'px'))
         el.oninput = () => {
-          // el.value = el.value.trimStart()
           jEl.height(0)
           jEl.height(getHeight() + 'px')
         }
@@ -135,16 +133,24 @@ export default class DLBaseItemSheet extends ItemSheet {
     html.find('[autosize]').each((_, el) => autoresize(el))
 
     // Icons tooltip
-    // const iconToolTips = [].concat(
-    //   tippy('.dl-icon-strength', {content: i18n('DL.AttributeStrength')}),
-    //   tippy('.dl-icon-agility', {content: i18n('DL.AttributeAgility')}),
-    //   tippy('.dl-icon-will', {content: i18n('DL.AttributeWill')}),
-    //   tippy('.dl-icon-intellect', {content: i18n('DL.AttributeIntellect')}),
-    //   tippy('.dl-icon-defense', {content: i18n('DL.AttributeDefense')}),
-    //   tippy('.dl-icon-perception', {content: i18n('DL.AttributePerception')}),
-    // )
     const iconToolTips = tippy('[data-tippy-content]')
     createSingleton(iconToolTips, {delay: 200})
+    tippy('.dl-new-project-2.dropdown', {
+      content(reference) {
+        console.log(reference, reference.attributes.name.value, reference.attributes.value.value)
+        html = buildDropdownList(reference.attributes.name.value, reference.attributes.value.value)
+        console.log(html)
+        return html
+      },
+      allowHTML: true,
+      interactive: true,
+      // trigger: 'click',
+      placement: 'bottom',
+      arrow: false,
+      offset: [0, 0],
+      theme: 'demonlord-dropdown',
+      animation: 'shift-away',
+    })
   }
 
   /* -------------------------------------------- */

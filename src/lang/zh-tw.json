@@ -521,7 +521,7 @@
   "DL.PathsAddLevel": "添加等級",
   "DL.PathsDeleteLevel": "刪除等級",
   "DL.PathsLevelAttributesSubtitle": "屬性",
-  "DL.PathsLevelAttributesNone": "無",
+  "DL.None": "無",
   "DL.PathsLevelAttributesChooseTwo": "選擇兩項",
   "DL.PathsLevelAttributesChooseThree": "選擇三項",
   "DL.PathsLevelAttributesFixed": "固定",
