@@ -144,6 +144,25 @@
     border-color: dimgray;
     cursor: pointer;
   }
+
+  input {
+    &[type='number'] {
+      text-align: center !important;
+      margin-right: -4px;
+      height: 100%;
+      min-width: 24px;
+
+      &:hover,
+      &:focus {
+        cursor: text;
+        box-shadow: 0px 0px 2px 1px #a22223b0;
+      }
+    }
+  }
+
+  &.nohover:hover {
+    cursor: default;
+  }
 }
 
 .dl-new-project-2-dropdown {

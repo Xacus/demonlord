@@ -89,9 +89,10 @@
           </div>
 
           <div style="margin-top: 8px"></div>
-          <div class="dl-new-project-2" data-tippy-content="+1 Boons and banes">
+          <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
             <i class="dl-icon-d6"></i>
-            <span>+1</span>
+            <span class="sep"></span>
+            <input type="number" name="data.action.boonsbanes" value="{{defaultValue data.action.boonsbanes 0}}" />
           </div>
 
 
@@ -232,7 +233,7 @@
             </div>
             <div class="col-4">
               <label class="resource-label">{{localize "DL.WeaponBoonsBanes"}}</label>
-              <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}"/>
+<!--              <input type="text" name="data.action.boonsbanes" value="{{data.action.boonsbanes}}"/>-->
             </div>
           </div>
 

@@ -41,7 +41,7 @@ export function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper('isBadgeImg', img => img.includes('/demonlord/assets/icons/badges'))
 
-  Handlebars.registerHelper('plusify', x => (x >= 0 ? '+' + x : x))
+  Handlebars.registerHelper('plusify', x => (!x ? "0" : (x > 0 ? '+'+x : x)))
 
   Handlebars.registerHelper('defaultValue', function (a, b) {
     return a ? a : b;
