@@ -134,7 +134,7 @@ export function buildDropdownList(groupName, checkedKey) {
     const value = capitalize(attribute)
     const checked = value === checkedKey ? 'checked' : ''
     const label = value ? i18n(`DL.Attribute${value}`) : i18n('DL.None')
-    const icon = value ? `dl-icon-${attribute}` : 'dl-icon-nothing'
+    const icon = value ? `dl-icon-${attribute}` : 'dl-icon-minus'
     html += `
 <div class="${checked}">
     <input type="radio" name="${groupName}" value="${value}" ${checked}/>

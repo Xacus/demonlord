@@ -177,18 +177,21 @@
 }
 
 .dl-new-project-2-dropdown {
-  $color: #e0e0e0;
+  $color: #d5d5d5;
   $color-hover: #e0e0e0;
-  $color-checked: var(--demonlord-red);
+  $color-checked: $color-hover;
   $bg-hover: rgba(255, 255, 255, 0.04);
+  $bg-checked: rgba(255, 255, 255, 0.13);
   $border-color: rgb(109, 109, 109);
   display: flex;
   flex-direction: column;
   width: fit-content;
+  //outline: 1px solid $border-color;
+  border-radius: 4px;
 
   & > div {
     @extend .dl-new-project-2;
-    border-color: $border-color;
+    border: none;
     color: $color;
     padding-right: 4px;
     flex: 1 1 0;
@@ -197,6 +200,7 @@
 
     .sep {
       border-color: $border-color;
+      margin: 0 4px;
     }
 
     i {
@@ -218,6 +222,9 @@
       }
     }
 
+    &.checked {
+      background-color: $bg-checked;
+    }
     &.checked,
     &.checked .sep {
       //border-color: $color-checked;
@@ -250,7 +257,7 @@
 // Tippy theme
 .tippy-box[data-theme~='demonlord-dropdown'] {
   padding: 0;
-  background-color: #222222;
+  //background-color: #222222;
 
   .tippy-content {
     padding: 4px;
@@ -311,6 +318,10 @@ i.dl-icon-defense {
 
 i.dl-icon-healing {
   @include dl-icon('../assets/ui/other-svg/healing.svg');
+}
+
+i.dl-icon-minus {
+  @include dl-icon('../assets/ui/other-svg/minus.svg');
 }
 
 i.dl-icon-nothing {

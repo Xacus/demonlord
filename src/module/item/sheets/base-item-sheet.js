@@ -143,7 +143,7 @@ export default class DLBaseItemSheet extends ItemSheet {
       },
       allowHTML: true,
       interactive: true,
-      // trigger: 'click',
+      trigger: 'click',
       placement: 'bottom',
       arrow: false,
       offset: [0, 0],
