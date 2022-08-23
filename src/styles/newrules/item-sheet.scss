@@ -158,4 +158,22 @@
       }
     }
   }
+
+  .dl-item-section-description {
+    & > div > b {
+      display: inline-block;
+      font-family: $font-primary;
+      font-weight: bolder;
+      margin-bottom: 4px;
+    }
+
+    .dl-editor-content {
+      min-height: 64px;
+    }
+
+    margin: 4px 0;
+    padding: 0 16px;
+    font-family: $font-primary;
+    font-size: $f-size-big-slight;
+  }
 }

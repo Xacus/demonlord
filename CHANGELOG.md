@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0]
+Todo explain new editor + roll hotkey
+
 ## [2.1.1]
 ### Added
 - Creature reference tab

@@ -281,6 +281,9 @@
     box-shadow: none !important;
   }
 }
+.dl-editor .dl-editor-toolbar {
+  display: none;
+}
 
 // Custom icons
 @mixin dl-icon($src) {
