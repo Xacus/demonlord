@@ -54,6 +54,18 @@
             </div>
           </div>
           <div>
+            <b>{{localize "DL.SpellCastings"}}</b>
+            <div>
+              <div class="dl-new-project-2 nohover">
+                <input type="number" name="data.castings.value" value="{{data.castings.value}}"
+                       data-tippy-content="{{localize "DL.SpellCastingsUses"}}" placeholder="-" min="0" autosize/>
+                <span class="sep"></span>
+                <input type="number" name="data.castings.max" value="{{data.castings.max}}"
+                       data-tippy-content="{{localize "DL.SpellCastingsMax"}}" placeholder="-" min="0" autosize/>
+              </div>
+            </div>
+          </div>
+          <div>
             <b>{{localize "DL.SpellTypeAttack"}}</b>
             <div>
               {{dlDropdown "data.action.attack" data.action.attack}}
