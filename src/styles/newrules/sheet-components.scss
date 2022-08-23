@@ -5,6 +5,7 @@
 
 // Underlines while adding a small padding
 .dl-underline {
+  border: none !important;
   border-bottom: 1px solid $demonlord-red !important;
   padding-bottom: 2px;
 }
@@ -91,7 +92,7 @@
   @extend .dl-item-row;
   @extend .row;
   min-height: 0;
-  background: none;
+  background: none !important;
   border-radius: 0;
   border: none;
   font-family: $font-header;

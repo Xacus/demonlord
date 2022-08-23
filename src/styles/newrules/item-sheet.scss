@@ -37,11 +37,10 @@
     input,
     select,
     input[type='number'] {
+      @extend .dl-input-grey;
       font-family: $font-pm !important;
       font-size: $f-size-big !important;
       font-weight: bold !important;
-      background: none;
-      border: none;
       color: var(--color-text-dark-primary);
       text-align: center;
     }
@@ -62,6 +61,12 @@
       margin-top: 2px;
       margin-bottom: 2px;
     }
+    &.text-areas {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
     &.text-areas > div > b {
       min-width: 100px;
       align-self: flex-start;
@@ -125,8 +130,7 @@
       min-height: 20px;
       overflow: hidden;
       box-shadow: none;
-      padding: 0;
-      padding-left: 4px;
+      padding: 0 4px;
       width: auto;
       flex-grow: 1;
 

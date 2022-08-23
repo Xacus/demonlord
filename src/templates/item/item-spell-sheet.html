@@ -29,13 +29,15 @@
           <div class="col-8 dl-container-right-align">
             <input name="data.tradition" value="{{data.tradition}}" placeholder="{{localize 'DL.MagicTradition'}}"
                    autosize/>
-            <select name="data.spelltype" autosize>
-              {{#select data.spelltype}}
-                <option value="" selected disabled>—</option>
-                <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>
-                <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>
-              {{/select}}
-            </select>
+            <div class="select-wrapper">
+              <select name="data.spelltype" style="height: 25px;" autosize>
+                {{#select data.spelltype}}
+                  <option value="" selected disabled>—</option>
+                  <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>
+                  <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>
+                {{/select}}
+              </select>
+            </div>
             <input name="data.rank" type="number" value="{{data.rank}}" placeholder="{{localize 'DL.SpellRank'}}"
                    autosize/>
           </div>

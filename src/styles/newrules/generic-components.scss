@@ -156,6 +156,7 @@
     &[type='text'] {
       //max-width: 28px;
     }
+
     &:hover,
     &:focus {
       cursor: text;
@@ -257,17 +258,20 @@
 }
 
 // Custom Editor
-.dl-editor {
-  .dl-editor-content {
-    font-family: $font-primary;
-    background: #ffffff47;
-    padding: 4px;
-    border-radius: 2px;
-    padding-left: 8px;
-    &:focus,
-    &:focus-visible {
-      outline: 1px solid rgb(31, 31, 31);
-    }
+.dl-input-grey,
+.text-areas textarea,
+.dl-editor .dl-editor-content {
+  font-family: $font-primary;
+  background: #0000000d !important;
+  padding: 4px;
+  border: none;
+  border-radius: 2px;
+  padding-left: 8px;
+
+  &:focus,
+  &:focus-visible {
+    outline: 1px solid rgb(31, 31, 31);
+    box-shadow: none !important;
   }
 }
 
