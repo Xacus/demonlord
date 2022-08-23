@@ -71,7 +71,6 @@ function _getAttributes(groupName) {
   } else if (groupName === 'data.attribute') {
     attributes = ['', 'intellect', 'will']
   }
-  console.log(attributes)
   return attributes
 }
 

@@ -1,5 +1,7 @@
 import {enrichHTMLUnrolled} from "./utils";
 
+// ------------------------------------------------------------------------
+
 export function handlebarsBuildEditor(options) {
   const target = options.hash['target'];
   if (!target) throw new Error("You must define the name of a target field.");
@@ -24,64 +26,98 @@ export function handlebarsBuildEditor(options) {
 // ------------------------------------------------------------------------
 
 export function initDlEditor(html, application) {
-  // eslint-disable-next-line no-undef
-  tinymce.init({
-    selector: '.dl-editor-content',
-    menubar: false,
-    inline: true,
-    plugins: [
-      'autolink', 'autoresize', 'link', 'lists', 'table', 'quickbars', 'code'
-    ],
-    toolbar: true,
-    fixed_toolbar_container: '.dl-editor-toolbar',
-    quickbars_selection_toolbar: 'bold italic underline styleselect| customInsertButton roll blocks secrets | bullist numlist | blockquote',
-    contextmenu: 'undo redo | inserttable bullist numlist | styles code',
-    quickbars_insert_toolbar: false,
-    powerpaste_word_import: 'clean',
-    powerpaste_html_import: 'clean',
-    // min_height: 400,
-    autoresize_bottom_margin: 50,
+  $(function () {
+    // eslint-disable-next-line no-undef
+    tinymce.init({
+      selector: '.dl-editor-content',
+      menubar: false,
+      inline: true,
+      plugins: [
+        'autolink', 'autoresize', 'link', 'lists', 'table', 'quickbars', 'code'
+      ],
+      toolbar: false,
+      // fixed_toolbar_container: '.dl-editor-toolbar',
+      quickbars_selection_toolbar: 'bold italic underline styleselect| customInsertButton roll blocks secrets | bullist numlist | blockquote',
+      quickbars_insert_toolbar: 'styleselect',
+      contextmenu: 'undo redo | inserttable bullist numlist | styles code',
+      // quickbars_insert_toolbar: true,
+      powerpaste_word_import: 'clean',
+      powerpaste_html_import: 'clean',
+      // min_height: 400,
+      autoresize_bottom_margin: 50,
 
-    setup: function (editor) {
+      setup: function (editor) {
+        // Register the editor to the application
+        const id = editor.id
+        const edName = $(`#${id}`).closest('[data-edit]').data('edit')
+        application.editors[edName] = {
+          target: edName,
+          button: undefined,
+          hasButton: false,
+          mce: editor,
+          active: true,
+          changed: false,
+          options: {},
+          initial: foundry.utils.getProperty(application.object.data, edName)
+        };
 
-      const currentSelectionRoll = () => {
-        editor.focus()
-        editor.selection.setContent(`[[/r ${editor.selection.getContent()}]]`)
-      }
-
-      editor.addShortcut('ctrl+r', 'Make Roll', currentSelectionRoll)
-      editor.ui.registry.addButton('customInsertButton', {
-        text: 'Roll',
-        // icon:
-        onAction: currentSelectionRoll
-      });
-
-      editor.ui.registry.addButton('secrets', {
-        text: 'Secret',
-        onAction: () => {
-          editor.focus();
-          console.log(editor.ui.registry.getAll())
-          editor.selection.setContent(`<section class=secret>${editor.selection.getContent()}</section>`)
+        // Roll utility
+        const currentSelectionRoll = () => {
+          editor.focus()
+          editor.selection.setContent(`[[/r ${editor.selection.getContent()}]]`)
         }
-      })
-    },
 
+        editor.addShortcut('ctrl+r', 'Make Roll', currentSelectionRoll)
+        editor.ui.registry.addButton('customInsertButton', {
+          text: 'Roll',
+          // icon:
+          onAction: currentSelectionRoll
+        });
+
+        // Secret utility
+        editor.ui.registry.addButton('secrets', {
+          text: 'Secret',
+          onAction: () => {
+            editor.focus();
+            console.log(editor.ui.registry.getAll())
+            editor.selection.setContent(`<section class=secret>${editor.selection.getContent()}</section>`)
+          }
+        })
+
+        // Save on focusout
+        editor.on('focusout', () => {
+          application.saveEditor(edName)
+        })
+      },
+    })
   });
 
-  html.find('.dl-editor-content[data-edit]').each((i, div) => {
-    console.log(div)
-    const editor = application.editors[name] = {
-      target: name,
-      button: undefined,
-      hasButton: false,
-      mce: null,
-      active: true,
-      changed: false,
-      options: {},
-      initial: foundry.utils.getProperty(application.object.data, name)
-    };
-    console.log(editor)
-  })
+  // html.find('.dl-editor-content[data-edit]').each((i, div) => {
+  //   const edName = $(div).closest('[data-edit]').data('edit')
+  //   application.editors[edName] = {
+  //     target: edName,
+  //     button: undefined,
+  //     hasButton: false,
+  //     mce: null,
+  //     active: true,
+  //     changed: false,
+  //     options: {},
+  //     initial: foundry.utils.getProperty(application.object.data, edName)
+  //   };
+  // })
 }
+
+// ------------------------------------------------------------------------
+
+// Weird fix for tinyMCE 5 error
+const tinymceBind = window.tinymce.DOM.bind;
+window.tinymce.DOM.bind = (target, _name, func, scope) => {
+  // TODO This is only necessary until https://github.com/tinymce/tinymce/issues/4355 is fixed
+  if (_name === 'mouseup' && func.toString().includes('throttle()')) {
+    return func;
+  } else {
+    return tinymceBind(target, _name, func, scope);
+  }
+};
 
 // ------------------------------------------------------------------------
