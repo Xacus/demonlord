@@ -42,7 +42,7 @@ export function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper('isBadgeImg', img => img.includes('/demonlord/assets/icons/badges'))
 
-  Handlebars.registerHelper('plusify', x => (!x ? "0" : (x > 0 ? '+'+x : x)))
+  Handlebars.registerHelper('plusify', x => (!x ? "0" : (x > 0 ? '+' + x : x)))
 
   Handlebars.registerHelper('defaultValue', function (a, b) {
     return a ? a : b;
@@ -57,7 +57,7 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlRadioBoxes', (groupName, checkedKey) => _buildRadioBoxes(groupName, checkedKey))
   Handlebars.registerHelper('dlDropdown', (groupName, checkedKey) => _buildDropdownItem(groupName, checkedKey))
 
-  Handlebars.registerHelper('dlEditor',  (options) => handlebarsBuildEditor(options))
+  Handlebars.registerHelper('dlEditor', (options) => handlebarsBuildEditor(options))
 }
 
 // ----------------------------------------------------
@@ -101,12 +101,20 @@ function _buildDropdownItem(groupName, checkedKey) {
   let attributes = _getAttributes(groupName)
   let html = ""
   checkedKey = checkedKey === 'null' ? '' : checkedKey
+
   for (let attribute of attributes) {
     const value = capitalize(attribute)
     const checked = value === checkedKey ? 'checked' : ''
     if (!checked) continue
-    const label = value ? i18n(`DL.Attribute${value}`) : i18n('DL.None')
-    const icon = value ? `dl-icon-${attribute}` : 'dl-icon-nothing'
+    if (value === '') {
+      html += `<div class="dl-new-project-2 dropdown" name="${groupName}" value="">
+        <span style="margin-left: 4px;">${i18n('DL.None')}</span>
+      </div>`
+      continue
+    }
+
+    const label = i18n(`DL.Attribute${value}`)
+    const icon = `dl-icon-${attribute}`
     html += `
 <div class="dl-new-project-2 dropdown" name="${groupName}" value="${value}">
     <i class="${icon}"></i>

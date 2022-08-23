@@ -107,11 +107,11 @@
   }
 
   &.checked {
-    border-color: var(--color-text-dark-primary);
+    //border-color: var(--color-text-dark-primary);
   }
 
   input:checked ~ i {
-    background-color: var(--color-text-dark-primary);
+    background-color: #303030;
   }
 }
 
@@ -130,7 +130,7 @@
   & i {
     width: 16px;
     height: 16px;
-    background-color: var(--color-text-dark-primary);
+    background-color: #303030;
     flex-shrink: 0;
   }
 
@@ -154,7 +154,7 @@
     color: black !important;
 
     &[type='text'] {
-      //max-width: 28px;
+      width: fit-content !important;
     }
 
     &:hover,

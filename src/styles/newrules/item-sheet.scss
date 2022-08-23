@@ -61,6 +61,7 @@
       margin-top: 2px;
       margin-bottom: 2px;
     }
+
     &.text-areas {
       display: flex;
       flex-direction: column;
@@ -71,6 +72,7 @@
       min-width: 100px;
       align-self: flex-start;
     }
+
     font-family: $font-primary !important;
     padding: 4px 16px;
     font-size: $f-size-big-slight !important;
@@ -87,6 +89,23 @@
         align-items: center;
         gap: 4px;
       }
+    }
+
+    &.dl-damage-section {
+      flex-direction: row;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+
+      & > div {
+        flex-direction: column;
+        width: 100%;
+
+        b {
+          align-self: center;
+          margin-bottom: 4px;
+        }
+      }
 
       .dl-item-damage-container {
         flex-direction: column;
@@ -94,9 +113,9 @@
 
         & > div {
           display: flex;
-          align-items: center;
           gap: 4px;
         }
+
         a {
           width: 16px;
           text-align: center;
