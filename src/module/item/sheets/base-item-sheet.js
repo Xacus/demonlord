@@ -12,7 +12,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ['demonlord', 'sheet', 'item'],
       width: 600,
-      height: 620,
+      height: 650,
       tabs: [
         {
           navSelector: '.sheet-tabs',
