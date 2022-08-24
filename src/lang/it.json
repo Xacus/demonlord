@@ -521,7 +521,7 @@
   "DL.TalentExtraDamage": "Danno Extra",
   "DL.TalentExtraDamage20plus": "Danno Extra 20+",
   "DL.TalentExtraEffect": "Effetto Extra",
-  "DL.TalentGroupname": "Nome del gruppo Talento",
+  "DL.TalentGroupname": "Gruppo",
   "DL.TalentHasMultipleOptions": "Il Talento ha più opzioni",
   "DL.TalentHealing": "Guarigione",
   "DL.TalentHealingOptions": "Mostra opzioni di Guarigione",
@@ -652,5 +652,6 @@
   "DL.AmmoEdit": "Modifica munizione",
   "DL.AmmoTitle": "Munizioni",
   "DL.AncestryOptionTitle": "Opzione",
-  "DL.ArmorWear": "Indossa armatura"
+  "DL.ArmorWear": "Indossa armatura",
+  "DL.ChallengeRollBonus": "Bonus Tiro di Sfida"
 }

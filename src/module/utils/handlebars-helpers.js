@@ -56,7 +56,8 @@ export function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper('dlRadioBoxes', (groupName, checkedKey) => _buildRadioBoxes(groupName, checkedKey))
   Handlebars.registerHelper('dlDropdown', (groupName, checkedKey) => _buildDropdownItem(groupName, checkedKey))
-
+  Handlebars.registerHelper('dlCheckboxes', (groupName, checkedKey, data) => _buildCheckboxes(groupName, checkedKey, data))
+  Handlebars.registerHelper('dlBOBAButton', (_name, value, loc=undefined) => _buildBOBAButton(_name, value, loc))
   Handlebars.registerHelper('dlEditor', (options) => handlebarsBuildEditor(options))
 }
 
@@ -64,9 +65,9 @@ export function registerHandlebarsHelpers() {
 
 function _getAttributes(groupName) {
   let attributes = []
-  if (groupName === 'data.action.attack' || groupName === 'data.action.defense') {
+  if (groupName === 'data.action.attack' || groupName === 'data.action.defense' || groupName === 'data.vs.attribute') {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
-  } else if (groupName === 'data.action.against') {
+  } else if (groupName === 'data.action.against' || groupName === 'data.vs.against') {
     attributes = ['', 'defense', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'data.attribute') {
     attributes = ['', 'intellect', 'will']
@@ -76,6 +77,7 @@ function _getAttributes(groupName) {
 
 // ----------------------------------------------------
 
+
 function _buildRadioBoxes(groupName, checkedKey) {
   let html = ""
   let attributes = _getAttributes(groupName)
@@ -84,12 +86,10 @@ function _buildRadioBoxes(groupName, checkedKey) {
     const value = capitalize(attribute)
     const checked = value === checkedKey ? 'checked' : ''
     const tooltip = i18n(`DL.Attribute${value}`)
-    html += `
-<div class="dl-new-project-radio ${checked}" data-tippy-content="${tooltip}">
-    <input type="radio" name="${groupName}" value="${value}" ${checked}/>
-    <i class="dl-icon-${attribute}"></i>
-</div>
-`
+    html += `<div class="dl-new-project-radio ${checked}" data-tippy-content="${tooltip}">
+                <input type="radio" name="${groupName}" value="${value}" ${checked}/>
+                <i class="dl-icon-${attribute}"></i>
+            </div>`
   }
   return new Handlebars.SafeString(html)
 }
@@ -107,19 +107,18 @@ function _buildDropdownItem(groupName, checkedKey) {
     if (!checked) continue
     if (value === '') {
       html += `<div class="dl-new-project-2 dropdown" name="${groupName}" value="">
-        <span style="margin-left: 4px;">${i18n('DL.None')}</span>
-      </div>`
+                  <span style="margin-left: 4px;">${i18n('DL.None')}</span>
+               </div>`
       continue
     }
 
     const label = i18n(`DL.Attribute${value}`)
     const icon = `dl-icon-${attribute}`
-    html += `
-<div class="dl-new-project-2 dropdown" name="${groupName}" value="${value}">
-    <i class="${icon}"></i>
-    <span class="sep"></span>
-    <span>${label}</span>
-</div>`
+    html += `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${value}">
+                <i class="${icon}"></i>
+                <span class="sep"></span>
+                <span>${label}</span>
+            </div>`
     break
   }
   return new Handlebars.SafeString(html)
@@ -134,16 +133,62 @@ export function buildDropdownList(groupName, checkedKey) {
     const checked = value === checkedKey ? 'checked' : ''
     const label = value ? i18n(`DL.Attribute${value}`) : i18n('DL.None')
     const icon = value ? `dl-icon-${attribute}` : 'dl-icon-minus'
-    html += `
-<div class="${checked}">
-    <input type="radio" name="${groupName}" value="${value}" ${checked}/>
-    <i class="${icon}"></i>
-    <span class="sep"></span>
-    <span>${label}</span>
-</div>`
+    html += `<div class="${checked}">
+                <input type="radio" name="${groupName}" value="${value}" ${checked}/>
+                <i class="${icon}"></i>
+                <span class="sep"></span>
+                <span>${label}</span>
+            </div>`
   }
   html += `</div>`
   return new Handlebars.SafeString(html)
 }
 
 // ----------------------------------------------------
+
+function _buildCheckboxes(groupName, checkedKey, data) {
+  let html = ''
+  console.log(groupName, checkedKey, data)
+  if (groupName === 'talent-action-bonus') {
+    const attributes = ['strength', 'agility', 'intellect', 'will', 'perception']
+    for (let attribute of attributes) {
+      const label = i18n(`DL.Attribute${capitalize(attribute)}`)
+      const _name = `${attribute}boonsbanesselect`
+      const checked = data.action[_name] ? 'checked' : ''
+      html += `<div class="dl-new-project-radio ${checked}" data-tippy-content="${label}">
+                <input type="checkbox" name="data.action.${_name}" ${checked}/>
+                <i class="dl-icon-${attribute}"></i>
+              </div>`
+
+    }
+  } else if (groupName === 'talent-challenge-bonus') {
+    const attributes = ['strength', 'agility', 'intellect', 'will', 'perception']
+    for (let attribute of attributes) {
+      const label = i18n(`DL.Attribute${capitalize(attribute)}`)
+      const _name = `${attribute}boonsbanesselect`
+      const checked = data.challenge[_name] ? 'checked' : ''
+      html += `<div class="dl-new-project-radio ${checked}" data-tippy-content="${label}">
+                <input type="checkbox" name="data.challenge.${_name}" ${checked}/>
+                <i class="dl-icon-${attribute}"></i>
+              </div>`
+
+    }
+  }
+  return new Handlebars.SafeString(html)
+}
+
+// ----------------------------------------------------
+
+function _buildBOBAButton(_name, value, loc) {
+  loc = loc || "DL.WeaponBoonsBanes"
+  const html = `
+    <div class="dl-new-project-2 nohover" data-tippy-content="${i18n(loc)}">
+      <i class="dl-icon-d6 ${value ? '' : 'gray'}"></i>
+      <span class="sep"></span>
+      <input type="number" name="${_name}" value="${value || 0}"/>
+    </div>`
+  return new Handlebars.SafeString(html)
+}
+
+// ----------------------------------------------------
+

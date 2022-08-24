@@ -293,6 +293,10 @@
   mask-size: cover;
   //background-color: black;
   display: inline-block;
+
+  &.gray {
+    background-color: gray;
+  }
 }
 
 i.dl-icon-strength {
@@ -337,4 +341,8 @@ i.dl-icon-d6 {
 
 i.dl-icon-d20 {
   @include dl-icon('../assets/ui/other-svg/d20.svg');
+}
+
+i.dl-icon-d20-plus {
+  @include dl-icon('../assets/ui/other-svg/d20-number.svg');
 }

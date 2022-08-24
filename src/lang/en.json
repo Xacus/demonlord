@@ -91,7 +91,7 @@
   "DL.WeaponTitle": "Weapons",
   "DL.WeaponModifiers": "Modifiers",
   "DL.AttackRoll": "Attack Roll",
-  "DL.AttackRollBonuses": "Attack Roll Bonuses",
+  "DL.AttackRollBonuses": "Attack Roll Bonus",
   "DL.ChallengeRoll": "Challenge Roll",
   "DL.VSRoll": "VS Roll",
   "DL.TalentHealing": "Healing",
@@ -183,7 +183,7 @@
   "DL.TalentDelete": "Delete talent",
   "DL.TalentMaxUsesReached": "Maximum uses of the talent reached",
   "DL.TalentShowSpellInfo": "Talent Info",
-  "DL.TalentGroupname": "Talent Groupname",
+  "DL.TalentGroupname": "Groupname",
   "DL.MagicTitle": "Magic",
   "DL.BackgroundTitle": "Background",
   "DL.CharacterTitle": "Character",
@@ -677,5 +677,6 @@
   "DL.HalfSpeed": "Half Speed",
   "DL.Override": "Override",
   "DL.Reference": "Reference",
-  "DL.With": "with"
+  "DL.With": "with",
+  "DL.ChallengeRollBonus": "Challenge Roll Bonus"
 }

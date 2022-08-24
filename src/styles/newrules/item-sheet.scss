@@ -91,7 +91,7 @@
       }
     }
 
-    &.dl-damage-section {
+    &.dl-column-flex {
       flex-direction: row;
       display: flex;
       justify-content: space-around;
@@ -106,20 +106,20 @@
           margin-bottom: 4px;
         }
       }
+    }
 
-      .dl-item-damage-container {
-        flex-direction: column;
-        align-items: flex-end !important;
+    .dl-item-damage-container {
+      flex-direction: column;
+      align-items: flex-end !important;
 
-        & > div {
-          display: flex;
-          gap: 4px;
-        }
+      & > div {
+        display: flex;
+        gap: 4px;
+      }
 
-        a {
-          width: 16px;
-          text-align: center;
-        }
+      a {
+        width: 16px;
+        text-align: center;
       }
     }
 

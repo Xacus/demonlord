@@ -181,7 +181,7 @@
   "DL.TalentDelete": "Talent entfernen",
   "DL.TalentMaxUsesReached": "Maximale Anzahl der Anwendung des Talents ist erreicht",
   "DL.TalentShowSpellInfo": "Talentbeschreibung",
-  "DL.TalentGroupname": "Talentgruppenname",
+  "DL.TalentGroupname": "Gruppenname",
   "DL.MagicTitle": "Magie",
   "DL.BackgroundTitle": "Hintergrund",
   "DL.CharacterTitle": "Charakter",
@@ -567,5 +567,6 @@
   "DL.EffectEdit": "Bearbeiten",
   "DL.EffectDelete": "Entfernen",
   "DL.ActorMods": "Actor Mods",
-  "DL.ActorModfiers": "Actor Modifiers"
+  "DL.ActorModfiers": "Actor Modifiers",
+  "DL.ChallengeRollBonus": "Probe Bonus"
 }

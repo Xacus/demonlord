@@ -181,7 +181,7 @@
   "DL.TalentDelete": "Effacer talent",
   "DL.TalentMaxUsesReached": "Utilisation maximale du talent atteint",
   "DL.TalentShowSpellInfo": "Info du Talent ",
-  "DL.TalentGroupname": "Talent Nom du Groupe",
+  "DL.TalentGroupname": "Groupe",
   "DL.MagicTitle": "Magique",
   "DL.BackgroundTitle": "Historique",
   "DL.CharacterTitle": "Caractère",
@@ -602,5 +602,6 @@
   "DL.AttackDelete": "Effacer l'attaque",
   "DL.AttackClone": "Dupliquer l'attaque",
   "DL.ActorMods": "Actor Mods",
-  "DL.ActorModfiers": "Actor Modifiers"
+  "DL.ActorModfiers": "Actor Modifiers",
+  "DL.ChallengeRollBonus": "Bonus Dés"
 }

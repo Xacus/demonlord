@@ -183,7 +183,7 @@
   "DL.TalentDelete": "Borrar talento",
   "DL.TalentMaxUsesReached": "Alcanzado el máximo de usos del talento",
   "DL.TalentShowSpellInfo": "Información del Talento",
-  "DL.TalentGroupname": "Grupo de Talentos",
+  "DL.TalentGroupname": "Grupo",
   "DL.MagicTitle": "Magia",
   "DL.BackgroundTitle": "Trasfondo",
   "DL.CharacterTitle": "Personaje",
@@ -674,5 +674,6 @@
   "DL.AutoFailChallenges": "Fallar pruebas automáticamente",
   "DL.NoFastTurns": "Sin turnos rápidos",
   "DL.HalfSpeed": "Mitad de la Velocidad",
-  "DL.Override": "Reemplazar"
+  "DL.Override": "Reemplazar",
+  "DL.ChallengeRollBonus": "Bonos Prueba"
 }

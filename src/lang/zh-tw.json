@@ -683,5 +683,6 @@
   "DL.SettingTemplateAutoRemove": "在動作結束後自動移除測量板",
   "DL.SettingTemplateAutoRemoveHint": "自動移除場景中的治療或傷害測量板。",
   "DL.SettingtargetingOnSelectHint": "在聊天欄動作中用選中指示物來替代標記目標。",
-  "DL.SettingtargetingOnSelect": "用選中指示物來替代標記目標"
+  "DL.SettingtargetingOnSelect": "用選中指示物來替代標記目標",
+  "DL.ChallengeRollBonus": "Challenge Roll Bonus"
 }
