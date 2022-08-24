@@ -34,6 +34,17 @@
     font-weight: bold !important;
     padding: 0 16px;
 
+    div.uses {
+      height: 19px;
+      margin-left: 8px;
+      & > input[type='number'] {
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
+        text-align: center !important;
+      }
+    }
+
     input,
     select,
     input[type='number'] {
@@ -105,6 +116,18 @@
           align-self: center;
           margin-bottom: 4px;
         }
+      }
+    }
+
+    & > div.dl-column-flex {
+      flex-direction: row;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+
+      .dl-new-project-2 .sep {
+        border-left: 1px solid #0000001a !important;
+        height: 16px !important;
       }
     }
 

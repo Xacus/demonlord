@@ -30,7 +30,7 @@
           <div class="col-8 dl-container-right-align">
             <input name="data.groupname" value="{{data.groupname}}" placeholder="{{localize 'DL.TalentGroupname'}}"
                    autosize/>
-            <div class="dl-new-project-2 nohover">
+            <div class="dl-new-project-2 nohover uses">
               <input type="number" name="data.uses.value" value="{{data.uses.value}}"
                      data-tippy-content="{{localize "DL.TalentUses"}}" placeholder="-" min="0" autosize/>
               <span class="sep"></span>
@@ -118,6 +118,7 @@
                 </div>
                 <a
                   class="dl-clickable vsdamagetype-control"
+                  style="align-self: center;"
                   data-tippy-content="{{localize 'DL.DamageAddType'}}"
                   data-action="create"
                 ><i class="fas fa-plus"></i>
@@ -190,121 +191,55 @@
 
         <hr>
 
-        <div class="dl-item-section-section dl-column-flex">
+        <div class="dl-item-section-section">
+          <div class="dl-item-section-section-title">
+            <b style="align-self: center">{{localize "DL.TalentAddBonusesToYourCharacteristics"}}</b>
+          </div>
+          <div class="dl-column-flex">
+            <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeDefense"}}">
+              <i class="dl-icon-defense"></i>
+              <span class="sep"></span>
+              <input type="text" name="data.bonuses.defense" value="{{data.bonuses.defense}}" placeholder="0" autosize/>
+            </div>
+            <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharHealth"}}">
+              <i class="dl-icon-health"></i>
+              <span class="sep"></span>
+              <input type="text" name="data.bonuses.health" value="{{data.bonuses.health}}" placeholder="0" autosize/>
+            </div>
+            <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharSpeed"}}">
+              <i class="dl-icon-speed"></i>
+              <span class="sep"></span>
+              <input type="text" name="data.bonuses.speed" value="{{data.bonuses.speed}}" placeholder="0" autosize/>
+            </div>
+            <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharPower"}}">
+              <i class="dl-icon-power"></i>
+              <span class="sep"></span>
+              <input type="text" name="data.bonuses.power" value="{{data.bonuses.power}}" placeholder="0" autosize/>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="dl-item-section-section margin">
           <div>
-            <b style="align-self: center">{{localize "DL.WeaponDamage"}}</b>
-          </div>
-        </div>
-
-        {{!-- Attack Roll Bonuses --}}
-        <div class="item-tab-sub-header collapse-title">
-          <div>{{localize "DL.AttackRollBonuses"}}</div>
-        </div>
-
-        <div class="item-table indent collapse-content">
-
-          <div class="row">
-            <div class="col-12">
-              <label class="resource-label">{{localize "DL.WeaponDamage"}}</label>
-              <!--              <input
-                type="text"
-                name="data.action.damage"
-                value="{{data.action.damage}}"
-                placeholder="{{localize 'DL.TalentAddDamageToYourAttackRoll'}}"
-              />-->
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <label class="resource-label">{{localize "DL.WeaponAttack20"}}</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <label class="resource-label">{{localize "DL.TalentExtraEffect"}}</label>
-
+            <b>{{localize "DL.TalentMakeADamageRoll"}}</b>
+            <div>
+              <div class="dl-new-project-2 nohover" data-tippy-content="{{localize 'DL.WeaponDamage'}}">
+                <i class="dl-icon-d20"></i>
+                <span class="sep"></span>
+                <input type="text" name="data.damage" value="{{data.damage}}"
+                       data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
+                <span class="sep"></span>
+                <input type="text" name="data.damagetype" value="{{data.damagetype}}"
+                       data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
+              </div>
             </div>
           </div>
         </div>
 
 
-        <div class="item-tab-sub-header collapse-title">
-          <div>{{localize "DL.TalentMakeADamageRoll"}}</div>
-        </div>
-        <div class="item-table indent collapse-content">
-          <div class="row">
-            <div class="col-12">
-              <label class="resource-label">{{localize "DL.TalentRollDamage"}}</label>
-            </div>
-            <div class="col-4">
-              <input
-                class="damagevalue"
-                type="text"
-                name="data.damage"
-                value="{{data.damage}}"
-                placeholder="{{localize 'DL.WeaponDamage'}}"
-              />
-            </div>
-            <div class="col-8">
-              <input
-                class="damagetype"
-                type="text"
-                name="data.damagetype"
-                value="{{data.damagetype}}"
-                placeholder="{{localize 'DL.DamageType'}}"
-              />
-            </div>
-          </div>
-        </div>
 
-        <div class="item-tab-sub-header collapse-title">
-          <div>{{localize "DL.TalentAddBonusesToYourCharacteristics"}}</div>
-        </div>
-
-        <div class="item-table indent collapse-content">
-          <div class="row">
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.TalentBonusesDefense"}}</label>
-              <input
-                type="text"
-                name="data.bonuses.defense"
-                value="{{data.bonuses.defense}}"
-                data-dtype="Number"
-                placeholder="0"
-              />
-            </div>
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.TalentBonusesHealth"}}</label>
-              <input
-                type="text"
-                name="data.bonuses.health"
-                value="{{data.bonuses.health}}"
-                data-dtype="Number"
-                placeholder="0"
-              />
-            </div>
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.TalentBonusesSpeed"}}</label>
-              <input
-                type="text"
-                name="data.bonuses.speed"
-                value="{{data.bonuses.speed}}"
-                data-dtype="Number"
-                placeholder="0"
-              />
-            </div>
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.TalentBonusesPower"}}</label>
-              <input
-                type="text"
-                name="data.bonuses.power"
-                value="{{data.bonuses.power}}"
-                data-dtype="Number"
-                placeholder="0"
-              />
-            </div>
-          </div>
-        </div>
 
         {{!-- Activated Effects --}}
         <!--        <div class="item-tab-sub-header collapse-title">-->

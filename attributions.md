@@ -10,3 +10,5 @@ Icons / SVGs
 - <a href="https://www.flaticon.com/free-icons/shield" title="shield icons">Shield icons created by Good Ware - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/medical-sign" title="medical sign icons">Medical sign icons created by Uniconlabs - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/dice" title="dice icons">Dice icons created by bearicons - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/back-to-top" title="back to top icons">Back to top icons created by Cuputo - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/magic" title="magic icons">Magic icons created by iconixar - Flaticon</a>

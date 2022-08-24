@@ -335,6 +335,22 @@ i.dl-icon-nothing {
   @include dl-icon('../assets/ui/other-svg/nothing.svg');
 }
 
+i.dl-icon-health {
+  @include dl-icon('../assets/ui/other-svg/health.svg');
+}
+
+i.dl-icon-size {
+  @include dl-icon('../assets/ui/other-svg/size.svg');
+}
+
+i.dl-icon-speed {
+  @include dl-icon('../assets/ui/other-svg/speed.svg');
+}
+
+i.dl-icon-power {
+  @include dl-icon('../assets/ui/other-svg/power.svg');
+}
+
 i.dl-icon-d6 {
   @include dl-icon('../assets/ui/other-svg/d6.svg');
 }
