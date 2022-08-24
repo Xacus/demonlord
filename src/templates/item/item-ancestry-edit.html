@@ -1,0 +1,171 @@
+<div class="dl-item-section-header row">
+  <div class="col-4" style="margin-top: 4px">
+    <b>{{item.name}}</b>
+  </div>
+</div>
+<hr>
+
+<!-- STARTING ATTRIBUTES  -->
+<div class="dl-item-section-section margin">
+  <div class="dl-item-section-section-title">
+    <b>{{localize "DL.AncestryStartingAttributes"}}</b>
+  </div>
+  <div class="dl-column-flex">
+    <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeStrength"}}">
+      <i class="dl-icon-strength"></i>
+      <span class="sep"></span>
+      <input type="text" name="data.attributes.strength.value" value="{{data.attributes.strength.value}}"
+             placeholder="0" autosize/>
+    </div>
+
+    <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeAgility"}}">
+      <i class="dl-icon-agility"></i>
+      <span class="sep"></span>
+      <input type="text" name="data.attributes.agility.value" value="{{data.attributes.agility.value}}" placeholder="0"
+             autosize/>
+    </div>
+
+    <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeIntellect"}}">
+      <i class="dl-icon-intellect"></i>
+      <span class="sep"></span>
+      <input type="text" name="data.attributes.intellect.value" value="{{data.attributes.intellect.value}}"
+             placeholder="0" autosize/>
+    </div>
+
+    <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeWill"}}">
+      <i class="dl-icon-will"></i>
+      <span class="sep"></span>
+      <input type="text" name="data.attributes.will.value" value="{{data.attributes.will.value}}" placeholder="0"
+             autosize/>
+    </div>
+  </div>
+  <!--  <div class="dl-column-flex">-->
+  <!--    <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharSize"}}">-->
+  <!--      <i class="dl-icon-size"></i>-->
+  <!--      <span class="sep"></span>-->
+  <!--      <input type="text" name="characteristics.size" value="{{data.characteristics.size}}"-->
+  <!--             placeholder="0" autosize/>-->
+  <!--    </div>-->
+
+  <!--    <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharSpeed"}}">-->
+  <!--      <i class="dl-icon-speed"></i>-->
+  <!--      <span class="sep"></span>-->
+  <!--      <input type="text" name="characteristics.speed" value="{{data.characteristics.speed}}"-->
+  <!--             placeholder="0" autosize/>-->
+  <!--    </div>-->
+  <!--    -->
+  <!--  </div>-->
+</div>
+
+<hr>
+
+<!-- CHARACTERISTICS MODIFIER  -->
+<div class="grid-2-sep">
+  <div class="dl-item-section-section margin dl-characteristics-container">
+    <div class="dl-item-section-section-title">
+      <b>{{localize "DL.WeaponModifiers"}}</b>
+    </div>
+
+    <div class="dl-column-flex">
+      <div class="dl-new-project-2 nohover">
+        <i class="dl-icon-size"></i>
+        <span class="sep"></span>
+        <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.CharSize"}}</span>
+        <span class="sep"></span>
+        <input type="number" name="data.characteristics.size" value="{{data.characteristics.size}}" placeholder="0"/>
+      </div>
+
+      <div class="dl-new-project-2 nohover">
+        <i class="dl-icon-size"></i>
+        <span class="sep"></span>
+        <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.CharSpeed"}}</span>
+        <span class="sep"></span>
+        <input type="number" name="data.characteristics.speed" value="{{data.characteristics.speed}}" placeholder="0"/>
+      </div>
+    </div>
+
+    <div class="dl-column-flex">
+      <div class="dl-new-project-2 nohover">
+        <i class="dl-icon-health"></i>
+        <span class="sep"></span>
+        <span>{{localize "DL.CharHealth"}}</span>
+        <span class="sep"></span>
+        <input type="number" name="data.characteristics.healthmodifier" value="{{data.characteristics.healthmodifier}}"
+               placeholder="0"/>
+      </div>
+
+      <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharHealthHealingRating"}}">
+        <i class="dl-icon-healing"></i>
+        <span class="sep"></span>
+        <span>{{localize "DL.CharHealthHealingRating"}}</span>
+        <span class="sep"></span>
+        <input type="number" name="data.characteristics.healingratemodifier"
+               value="{{data.characteristics.healingratemodifier}}" placeholder="0"/>
+      </div>
+    </div>
+
+    <div class="dl-column-flex">
+      <div class="dl-new-project-2 nohover">
+        <i class="dl-icon-perception"></i>
+        <span class="sep"></span>
+        <span>{{localize "DL.AttributePerception"}}</span>
+        <span class="sep"></span>
+        <input type="number" name="data.characteristics.perceptionmodifier"
+               value="{{data.characteristics.perceptionmodifier}}" placeholder="0"/>
+      </div>
+
+      <div class="dl-new-project-2 nohover">
+        <i class="dl-icon-defense"></i>
+        <span class="sep"></span>
+        <span>{{localize "DL.AttributeDefense"}}</span>
+        <span class="sep"></span>
+        <input type="number" name="data.characteristics.defensemodifier"
+               value="{{data.characteristics.defensemodifier}}" placeholder="0"/>
+      </div>
+    </div>
+
+    <div class="dl-column-flex">
+      <div class="dl-new-project-2 nohover">
+        <i class="dl-icon-insanity"></i>
+        <span class="sep"></span>
+        <span>{{localize "DL.CharInsanity"}}</span>
+        <span class="sep"></span>
+        <input type="number" name="data.characteristics.insanity" value="{{data.characteristics.insanity}}"
+               placeholder="0"/>
+      </div>
+
+      <div class="dl-new-project-2 nohover">
+        <i class="dl-icon-corruption"></i>
+        <span class="sep"></span>
+        <span>{{localize "DL.CharCorruption"}}</span>
+        <span class="sep"></span>
+        <input type="number" name="data.characteristics.corruption" value="{{data.characteristics.corruption}}"
+               placeholder="0"/>
+      </div>
+    </div>
+
+    <div class="dl-column-flex">
+      <div class="dl-new-project-2 nohover">
+        <i class="dl-icon-power"></i>
+        <span class="sep"></span>
+        <span>{{localize "DL.CharPower"}}</span>
+        <span class="sep"></span>
+        <input type="number" name="data.characteristics.power" value="{{data.characteristics.power}}" placeholder="0"/>
+      </div>
+    </div>
+  </div>
+  <span class="grid-sep"></span>
+  <div class="dl-item-section-section margin">
+    <div class="dl-item-section-section-title">
+      <b>{{localize "DL.PathsLevelLanguages"}}</b>
+    </div>
+    <div class="text-areas">
+      <textarea name="data.languages">{{data.languages}}</textarea>
+    </div>
+  </div>
+
+</div>
+
+
+
+

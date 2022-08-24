@@ -1,4 +1,4 @@
-<form class="{{cssClass}} item-form" autocomplete="off">
+<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
   <header class="sheet-header itemsheet-header">
     <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
@@ -28,140 +28,19 @@
     <section class="sheet-content">
       {{!-- Attributes Tab --}}
       <div class="tab paths" data-group="primary" data-tab="attributes">
+        {{#if data.editAncestry}}
+          {{> "systems/demonlord/templates/item/item-ancestry-edit.html"}}
+        {{else}}
+          TODO
+        {{/if}}
         {{!-- Starting Attributes --}}
-        <div class="item-tab-header">
-          <img src="systems/demonlord/assets/ui/dl-divider.webp"/>
-          <div>{{localize "DL.AncestryStartingAttributes"}}</div>
-        </div>
-        <div class="item-table">
-          <div class="row">
-            <div class="col-3 inline-input">
-              <input
-                      type="number"
-                      name="data.attributes.strength.value"
-                      value="{{data.attributes.strength.value}}"
-                      data-dtype="Number"
-                      placeholder="10"
-                {{notreadonly
-                        data.editAncestry}}
-              />
-              <label class="bold">{{localize 'DL.AttributeStrength'}}</label>
-            </div>
-            <div class="col-3 inline-input">
-              <input
-                      type="number"
-                      name="data.attributes.agility.value"
-                      value="{{data.attributes.agility.value}}"
-                      data-dtype="Number"
-                      placeholder="10"
-                {{notreadonly
-                        data.editAncestry}}
-              />
-              <label class="bold">{{localize 'DL.AttributeAgility'}}</label>
-            </div>
-            <div class="col-3 inline-input">
-              <input
-                      type="number"
-                      name="data.attributes.intellect.value"
-                      value="{{data.attributes.intellect.value}}"
-                      data-dtype="Number"
-                      placeholder="10"
-                {{notreadonly
-                        data.editAncestry}}
-              />
-              <label class="bold">{{localize 'DL.AttributeIntellect'}} </label>
-            </div>
-            <div class="col-3 inline-input">
-              <input
-                      type="number"
-                      name="data.attributes.will.value"
-                      value="{{data.attributes.will.value}}"
-                      data-dtype="Number"
-                      placeholder="10"
-                {{notreadonly
-                        data.editAncestry}}
-              />
-              <label class="bold">{{localize 'DL.AttributeWill'}}</label>
-            </div>
-          </div>
-        </div>
+
         {{!-- Characteristics --}}
         <div class="item-tab-header" style="margin-top: 12px">
           <div>{{localize "DL.Characteristics"}}</div>
         </div>
         <div class="item-table">
           {{#if data.editAncestry}} {{!-- Power - Size - Speed --}}
-            <div class="row">
-              <div class="col-4 inline-input">
-                <input type="number" name="data.characteristics.power" value="{{data.characteristics.power}}"/>
-                <label class="resource-label">{{localize "DL.CharPower"}}</label>
-              </div>
-              <div class="col-4 inline-input">
-                <input type="text" name="data.characteristics.size" value="{{data.characteristics.size}}"/>
-                <label class="resource-label">{{localize "DL.CharSize"}}</label>
-              </div>
-              <div class="col-4 inline-input">
-                <input type="text" name="data.characteristics.speed" value="{{data.characteristics.speed}}"/>
-                <label class="resource-label">{{localize "DL.CharSpeed"}}</label>
-              </div>
-            </div>
-
-            {{!-- Perception - Defense --}}
-            <div class="row">
-              <div class="col-6 inline-input">
-                <input
-                        type="number"
-                        name="data.characteristics.perceptionmodifier"
-                        value="{{data.characteristics.perceptionmodifier}}"
-                />
-                <label class="resource-label">{{localize "DL.AncestryPerceptionModifier"}}</label>
-              </div>
-              <div class="col-6 inline-input">
-                <input
-                        type="number"
-                        name="data.characteristics.defensemodifier"
-                        value="{{data.characteristics.defensemodifier}}"
-                />
-                <label class="resource-label">{{localize "DL.AncestryDefenseModifier"}}</label>
-              </div>
-            </div>
-
-            {{!-- Health - Healing --}}
-            <div class="row">
-              <div class="col-6 inline-input">
-                <input
-                        type="number"
-                        name="data.characteristics.healthmodifier"
-                        value="{{data.characteristics.healthmodifier}}"
-                />
-                <label class="resource-label">{{localize "DL.AncestryHealthModifier"}}</label>
-              </div>
-              <div class="col-6 inline-input">
-                <input
-                        type="number"
-                        name="data.characteristics.healingratemodifier"
-                        value="{{data.characteristics.healingratemodifier}}"
-                />
-                <label class="resource-label">{{localize "DL.AncestryHealingRateModifier"}}</label>
-              </div>
-            </div>
-
-            {{!-- Insanity - Corruption --}}
-            <div class="row">
-              <div class="col-6 inline-input">
-                <input type="text" name="data.characteristics.insanity" value="{{data.characteristics.insanity}}"/>
-                <label class="resource-label" title="{{localize 'DL.AncestryNotTransferred'}}" style="cursor: help"
-                >{{localize "DL.CharInsanity"}}¹</label
-                >
-              </div>
-              <div class="col-6 inline-input">
-                <input type="text" name="data.characteristics.corruption" value="{{data.characteristics.corruption}}"/>
-                <label class="resource-label" title="{{localize 'DL.AncestryNotTransferred'}}" style="cursor: help"
-                >{{localize "DL.CharCorruption"}}¹</label
-                >
-              </div>
-            </div>
-
           {{else}}
             <div class="row">
               {{#if (ne data.characteristics.power 0)}}
@@ -219,7 +98,7 @@
           <div class="row">
             <div class="col-12">
               <label>{{localize 'DL.PathsLevelLanguages'}}</label>
-              <textarea name="data.languages">{{data.languages}}</textarea>
+<!--              <textarea name="data.languages">{{data.languages}}</textarea>-->
               {{#if data.languages}}
                 <div>{{data.languages}}</div>
               {{/if}}

@@ -156,7 +156,9 @@
     &[type='text'] {
       width: fit-content !important;
     }
-
+    &[type='number']:not([autosize='true']) {
+      max-width: 16px;
+    }
     &:hover,
     &:focus {
       cursor: text;
@@ -351,6 +353,14 @@ i.dl-icon-power {
   @include dl-icon('../assets/ui/other-svg/power.svg');
 }
 
+i.dl-icon-insanity {
+  @include dl-icon('../assets/ui/other-svg/insanity.svg');
+}
+
+i.dl-icon-corruption {
+  @include dl-icon('../assets/ui/other-svg/corruption.svg');
+}
+
 i.dl-icon-d6 {
   @include dl-icon('../assets/ui/other-svg/d6.svg');
 }
@@ -360,5 +370,5 @@ i.dl-icon-d20 {
 }
 
 i.dl-icon-d20-plus {
-  @include dl-icon('../assets/ui/other-svg/d20-number.svg');
+  @include dl-icon('../assets/ui/other-svg/d20-plus.svg');
 }

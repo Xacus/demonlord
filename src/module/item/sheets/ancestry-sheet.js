@@ -9,7 +9,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      width: 575,
+      width: 650,
       height: 700,
     })
   }

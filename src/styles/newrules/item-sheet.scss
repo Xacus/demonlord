@@ -180,6 +180,19 @@
         text-transform: capitalize;
       }
     }
+
+    &.dl-characteristics-container .dl-new-project-2 {
+      margin-top: 2px;
+      margin-bottom: 2px;
+      & > span:not(:empty) {
+        width: 64px;
+        text-align: center;
+        text-overflow: ellipsis;
+        max-height: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
   }
 
   .dl-item-section-description {

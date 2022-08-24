@@ -16,6 +16,14 @@
   & > div {
     height: fit-content;
   }
+
+  & > .grid-sep {
+    border-right: 1px solid #33333333;
+    margin-right: 2px;
+    height: 94%;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 }
 
 .grid-2 {
@@ -74,4 +82,9 @@
 
 .col-12 {
   grid-column: span 12;
+}
+
+.grid-2-sep {
+  @extend .grid-base;
+  grid-template-columns: 1fr 4px 1fr;
 }

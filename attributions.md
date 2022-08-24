@@ -12,3 +12,4 @@ Icons / SVGs
 - <a href="https://www.flaticon.com/free-icons/dice" title="dice icons">Dice icons created by bearicons - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/back-to-top" title="back to top icons">Back to top icons created by Cuputo - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/magic" title="magic icons">Magic icons created by iconixar - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/evil-eye" title="evil eye icons">Evil eye icons created by AbtoCreative - Flaticon</a>
