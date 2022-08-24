@@ -50,8 +50,9 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
     // Delete ancestry item
     html.find('.delete-ancestryitem').click(ev => {
-      const itemGroup = ev.currentTarget.parentElement.parentElement.parentElement.getAttribute('data-group')
-      const itemIndex = ev.currentTarget.parentElement.getAttribute('data-item-id')
+      const itemGroup = $(ev.currentTarget).closest('[data-type]').data('type')
+      console.log($(ev.currentTarget).closest('[data-type]'))
+      const itemIndex = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       this._deleteItem(itemIndex, itemGroup)
     })
 

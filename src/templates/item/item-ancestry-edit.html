@@ -162,6 +162,27 @@
     <div class="text-areas">
       <textarea name="data.languages">{{data.languages}}</textarea>
     </div>
+    <div class="dl-item-section-section-title">
+      <b>{{localize "DL.LanguagesTitle"}} ({{localize "CONTROLS.Drop"}})</b>
+      <a class="TODO" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="language">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+    <div class="dl-drop-zone" data-group="language" data-level="{{id}}">
+      {{#each data.languagelist as |item id|}}
+        <div class="dl-nested-item" data-item-id="{{id}}">
+          <img src="{{item.data.img}}">
+          <span>{{item.name}}</span>
+          <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="language">
+            <i class="fas fa-times"></i>
+          </a>
+        </div>
+        <!--<li class="tag" data-item-id="{{id}}">
+          {{language.name}}
+          <span class="remove-tag delete-ancestryitem" role="button" data-action="delete"></span>
+        </li>-->
+      {{/each}}
+    </div>
   </div>
 
 </div>

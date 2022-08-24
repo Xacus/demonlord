@@ -209,7 +209,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     // Add drag events.
     html
-      .find('.drop-area')
+      .find('.drop-area, .dl-drop-zone')
       .on('dragover', this._onDragOver.bind(this))
       .on('dragleave', this._onDragLeave.bind(this))
       .on('drop', this._onDrop.bind(this))
