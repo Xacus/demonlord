@@ -1,9 +1,10 @@
 import DLBaseItemSheet from './base-item-sheet'
-import { getNestedItem, getNestedItemsDataList, PathLevelItem } from '../nested-objects'
+import {getNestedItem, getNestedItemsDataList, PathLevelItem} from '../nested-objects'
 
 export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
   /*  Data                                        */
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -32,6 +33,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   /* -------------------------------------------- */
   /*  Listeners                                   */
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -40,20 +42,32 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     if (!this.options.editable) return
 
     // Radio buttons
-    html.find('.radiotrue').click(_ => this.item.update({ 'data.level4.option1': true }))
-    html.find('.radiofalse').click(_ => this.item.update({ 'data.level4.option1': false }))
+    html.find('.radiotrue').click(_ => this.item.update({'data.level4.option1': true}))
+    html.find('.radiofalse').click(_ => this.item.update({'data.level4.option1': false}))
 
     // Edit ancestry talents
     html
       .find('.edit-ancestrytalents')
-      .click(_ => this.item.update({ 'data.editTalents': !this.item.data.data.editTalents }).then(() => this.render()))
+      .click(_ => this.item.update({'data.editTalents': !this.item.data.data.editTalents}).then(() => this.render()))
 
     // Delete ancestry item
     html.find('.delete-ancestryitem').click(ev => {
       const itemGroup = $(ev.currentTarget).closest('[data-type]').data('type')
-      console.log($(ev.currentTarget).closest('[data-type]'))
-      const itemIndex = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
       this._deleteItem(itemIndex, itemGroup)
+    })
+
+    // Edit ancestry item
+    html.find('.nested-item-edit').click(ev => {
+      const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const ancestryData = this.object.data.data
+      const itemDocument =
+        ancestryData.languagelist.find(i => i.data._id === itemId) ??
+        ancestryData.talents.find(i => i.data._id === itemId) ??
+        ancestryData.level4.talent.find(i => i.data._id === itemId)
+      console.log(itemDocument)
+      console.log(this.object)
+      //TODO: Here check in game.items or compendium, then open sheet. Or better, refactor all of this
     })
 
     // Transfer talents
@@ -63,15 +77,17 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   /* -------------------------------------------- */
   /*  Auxiliary functions                         */
+
   /* -------------------------------------------- */
 
   /** @override */
   _onDrop(ev) {
     const $dropTarget = $(ev.originalEvent.target)
+    const group = $dropTarget.closest('[data-group]').data('group')
+    console.log($dropTarget, $dropTarget.closest('[data-group]'))
     try {
       const data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'))
       if (data.type === 'Item') {
-        const group = $dropTarget.data('group')
         $dropTarget.removeClass('drop-hover')
         this._addItem(data, group)
       }
@@ -96,7 +112,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     else if (group === 'talent4') ancestryData.data.level4.talent.push(levelItem)
     else if (group === 'language') ancestryData.data.languagelist.push(levelItem)
     else return
-    this.item.update(ancestryData, { diff: false }).then(_ => this.render)
+    this.item.update(ancestryData, {diff: false}).then(_ => this.render)
   }
 
   async _deleteItem(itemIndex, itemGroup) {
@@ -104,7 +120,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     if (itemGroup === 'talent') itemData.data.talents.splice(itemIndex, 1)
     else if (itemGroup === 'talent4') itemData.data.level4.talent.splice(itemIndex, 1)
     else if (itemGroup === 'language') itemData.data.languagelist.splice(itemIndex, 1)
-    Item.updateDocuments([itemData], { parent: this.actor }).then(_ => this.render())
+    Item.updateDocuments([itemData], {parent: this.actor}).then(_ => this.render())
   }
 
   /* -------------------------------------------- */
@@ -122,11 +138,13 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
         no: {
           icon: '<i class="fas fa-times"></i>',
           label: game.i18n.localize('DL.DialogNo'),
-          callback: () => {},
+          callback: () => {
+          },
         },
       },
       default: 'no',
-      close: () => {},
+      close: () => {
+      },
     })
     d.render(true)
   }

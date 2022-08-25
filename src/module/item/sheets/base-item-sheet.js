@@ -134,7 +134,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     html.find('[autosize]').each((_, el) => autoresize(el))
 
     // Icons tooltip
-    const iconToolTips = tippy('[data-tippy-content]')
+    const iconToolTips = tippy('[data-tippy-content]', {allowHTML:true})
     createSingleton(iconToolTips, {delay: 50})
     tippy('.dl-new-project-2.dropdown', {
       content(reference) {
@@ -209,7 +209,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     // Add drag events.
     html
-      .find('.drop-area, .dl-drop-zone')
+      .find('.drop-area, .dl-drop-zone, .dl-drop-zone *')
       .on('dragover', this._onDragOver.bind(this))
       .on('dragleave', this._onDragLeave.bind(this))
       .on('drop', this._onDrop.bind(this))

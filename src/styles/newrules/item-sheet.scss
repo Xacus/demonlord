@@ -222,7 +222,8 @@
     flex-direction: column !important;
     justify-content: flex-start !important;
     align-items: flex-start !important;
-    padding: 4px;
+    padding: 4px 4px 24px;
+    gap: 4px;
 
     &:hover {
       cursor: copy;
@@ -232,8 +233,10 @@
       width: 100%;
       padding: 2px 2px 2px 0;
       border-radius: 2px;
-      box-sizing: border-box;
+      box-sizing: content-box;
       height: 16px;
+      display: flex;
+      gap: 4px;
       //outline: 1px solid #33333333;
       img {
         width: 16px;
@@ -243,6 +246,9 @@
       }
       &:hover {
         cursor: default;
+      }
+      span {
+        height: 16px;
       }
       .delete-ancestryitem {
         margin-left: auto;
