@@ -6,12 +6,20 @@
 
 @font-face {
   font-family: 'Portmanteau';
-  src: url('../fonts/Portmanteau-Regular.otf');
+  src: url('../fonts/portmanteau-regular-webfont.woff2') format('woff2'),
+    url('../fonts/portmanteau-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
   font-family: 'Athelas';
-  src: url('../fonts/Athelas.ttc');
+  src: url('../fonts/Athelas.ttc'format('truetype'));
+}
+
+@font-face {
+  font-family: 'Poison Hope';
+  src: url('../fonts/PoisonHope-Regular.ttf') format('truetype');
 }
 
 $font-primary: 'Arial', sans-serif;
@@ -19,6 +27,7 @@ $font-secondary: 'Shadows Into Light', sans-serif;
 $font-header: 'IM Fell English SC', serif;
 $font-actor-sheet-inputs: 'Nodesto', 'Signika', 'Palatino Linotype', serif;
 $font-pm: 'Portmanteau', 'IM Fell English SC', serif;
+$font-ph: 'Poison Hope', 'IM Fell English SC', serif;
 $base-font-size: 12px;
 
 //@font-face {
