@@ -5,6 +5,8 @@ import tippy, {createSingleton} from "tippy.js";
 import {buildDropdownList} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
 import {initDlEditor} from "../../utils/editor";
+import {DemonlordItem} from "../item";
+import {i18n} from "../../utils/utils";
 
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
@@ -134,7 +136,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     html.find('[autosize]').each((_, el) => autoresize(el))
 
     // Icons tooltip
-    const iconToolTips = tippy('[data-tippy-content]', {allowHTML:true})
+    const iconToolTips = tippy('[data-tippy-content]', {allowHTML: true})
     createSingleton(iconToolTips, {delay: 50})
     tippy('.dl-new-project-2.dropdown', {
       content(reference) {
@@ -153,6 +155,7 @@ export default class DLBaseItemSheet extends ItemSheet {
   }
 
   /* -------------------------------------------- */
+
   /** @override */
   activateListeners(html) {
     super.activateListeners(html)
@@ -216,6 +219,9 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     // Custom editor
     initDlEditor(html, this)
+
+    // Nested item create
+    html.find('.create-nested-item').click((ev) => this._onNestedItemCreate(ev))
   }
 
   /* -------------------------------------------- */
@@ -253,14 +259,28 @@ export default class DLBaseItemSheet extends ItemSheet {
     $(ev.originalEvent.target).removeClass('drop-hover')
   }
 
-  /* -------------------------------------------- */
+  async _onNestedItemCreate(ev) {
+    const type = $(ev.currentTarget).closest('[data-type]').data('type')
 
-  async _getIncorporatedItem(incorporatedData) {
-    if (incorporatedData.pack) {
-      const pack = game.packs.get(incorporatedData.pack)
-      if (pack.documentName !== 'Item') return
-      return await pack.getDocument(incorporatedData.id)
-    } else if (incorporatedData.data) return incorporatedData
-    return game.items.get(incorporatedData.id)
+    // Create a folder for the quick item to be stored in
+    const folderLoc = $(ev.currentTarget).closest('[data-folder-loc]').data('folderLoc')
+    const folderName = i18n("DL." + folderLoc)
+    let folder = game.folders.find(f => f.name === folderName)
+    if (!folder) {
+      folder = await Folder.create({name:folderName, type: DemonlordItem.documentName})
+    }
+
+    const item = await DemonlordItem.create({
+      name: `New ${type.capitalize()}`,
+      type: type,
+      folder: folder.id,
+      data: {},
+    })
+
+    item.sheet.render(true)
+    // await item.setFlag('demonlord', 'parentItems', [this.document.id])
+    console.log(item)
+    this.render()
+    return item
   }
 }

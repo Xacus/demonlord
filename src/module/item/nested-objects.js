@@ -1,4 +1,4 @@
-import { capitalize } from '../utils/utils'
+import {capitalize} from '../utils/utils'
 
 /* -------------------------------------------- */
 /*  Class Models                                */
@@ -106,17 +106,23 @@ export class DamageType {
 export async function getNestedItem(nestedData) {
   let entity
   let method // <- Used to print how the item was fetched
+  const id = nestedData.id ?? nestedData._id ?? nestedData.data._id
+  // First look into packs, then into the game items by ID
+
   if (nestedData.pack) {
     const pack = game.packs.get(nestedData.pack)
     if (pack.documentName !== 'Item') return
-    entity = await pack.getDocument(nestedData.id)
+    entity = await pack.getDocument(id)
     method = 'PACK'
-  } else if (nestedData.data) {
-    entity = nestedData
+  } else if (id) {
+    entity = game.items.get(id)
+    method = 'ITEMS'
+  }
+
+  // If the data was already stored, use it
+  if (!entity) {
+    entity = nestedData.data
     method = 'DATA-OBJ'
-  } else {
-    entity = game.items.get(nestedData.id)
-    method = entity ? 'ITEMS' : 'FALLBACK'
   }
 
   // -- Fallbacks
@@ -138,7 +144,8 @@ export async function getNestedItem(nestedData) {
     console.error('DEMONLORD | Nested object not found', nestedData)
     return null
   }
-  console.log(`DEMONLORD | Nested object fetched using ${method}`, nestedData, entity) // TODO: Remove when stable
+  // console.log(`DEMONLORD | Nested object fetched using ${method}`, nestedData, entity) // TODO: Remove when stable
+  console.log(`DEMONLORD | Nested object fetched using ${method}`)
 
   // Return only the data
   // Warning: here the implicit assertion is that entity is an Item and not an Actor or something else

@@ -16,9 +16,15 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   }
 
   /** @override */
-  getData(options) {
+  async getData(options) {
     const data = super.getData(options)
     data.item.editAncestry = false
+
+    // Fetch the updated nested items properties (name, description, img)
+    const ancestryData = data.data
+    ancestryData.languagelist = await Promise.all(ancestryData.languagelist.map(await getNestedItem))
+    ancestryData.talents = await Promise.all(ancestryData.talents.map(await getNestedItem))
+    ancestryData.level4.talent = await Promise.all(ancestryData.level4.talent.map(await getNestedItem))
     return data
   }
 
@@ -172,5 +178,13 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
       let item = await getNestedItem(selectedLevelItem)
       if (item) await this.actor.createEmbeddedDocuments('Item', [item])
     }
+  }
+
+  /** @override */
+  async _onNestedItemCreate(ev) {
+    const item = await super._onNestedItemCreate(ev)
+    const group = $(ev.currentTarget).closest('[data-group]').data('group')
+    this._addItem(item.data, group)
+    return item
   }
 }

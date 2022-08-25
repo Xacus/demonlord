@@ -21,7 +21,8 @@
     <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeAgility"}}">
       <i class="dl-icon-agility"></i>
       <span class="sep"></span>
-      <input type="number" name="data.attributes.agility.value" value="{{data.attributes.agility.value}}" placeholder="0"
+      <input type="number" name="data.attributes.agility.value" value="{{data.attributes.agility.value}}"
+             placeholder="0"
              autosize/>
     </div>
 
@@ -39,22 +40,6 @@
              autosize/>
     </div>
   </div>
-  <!--  <div class="dl-column-flex">-->
-  <!--    <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharSize"}}">-->
-  <!--      <i class="dl-icon-size"></i>-->
-  <!--      <span class="sep"></span>-->
-  <!--      <input type="text" name="characteristics.size" value="{{data.characteristics.size}}"-->
-  <!--             placeholder="0" autosize/>-->
-  <!--    </div>-->
-
-  <!--    <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharSpeed"}}">-->
-  <!--      <i class="dl-icon-speed"></i>-->
-  <!--      <span class="sep"></span>-->
-  <!--      <input type="text" name="characteristics.speed" value="{{data.characteristics.speed}}"-->
-  <!--             placeholder="0" autosize/>-->
-  <!--    </div>-->
-  <!--    -->
-  <!--  </div>-->
 </div>
 
 <hr>
@@ -164,18 +149,19 @@
     </div>
     <div class="dl-item-section-section-title">
       <b>{{localize "DL.LanguagesTitle"}} ({{localize "CONTROLS.Drop"}})</b>
-      <!--<a class="TODO" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="language">
+      <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+         data-type="language" data-group="language" data-folder-loc="LanguagesTitle">
         <i class="fas fa-plus"></i>
-      </a>-->
+      </a>
     </div>
     <div class="dl-drop-zone" data-group="language" data-level="{{id}}">
       {{#each data.languagelist as |item index|}}
         <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item.data._id}}"
              {{#if item.data.description}}data-tippy-content="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
-          <img src="{{item.data.img}}">
+          <img src="{{item.img}}">
           <span class="nested-item-edit">{{item.name}}</span>
-          <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="language">
-            <i class="fas fa-times"></i>
+          <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="language"">
+          <i class="fas fa-times"></i>
           </a>
         </div>
       {{/each}}
@@ -188,16 +174,17 @@
 
 <div class="dl-item-section-section margin">
   <div class="dl-item-section-section-title">
-    <b>{{localize "DL.CreatureTraits"}} ({{localize "CONTROLS.Drop"}})</b>
-    <!--<a class="TODO" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="language">
-        <i class="fas fa-plus"></i>
-      </a>-->
+    <b>{{localize "DL.FeaturesTitle"}} ({{localize "CONTROLS.Drop"}})</b>
+    <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+       data-type="feature" data-group="talent" data-folder-loc="FeaturesTitle">
+      <i class="fas fa-plus"></i>
+    </a>
   </div>
   <div class="dl-drop-zone dl-drop-zone-col-2" data-group="talent" data-level="{{id}}">
     {{#each data.talents as |item index|}}
       <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item.data._id}}"
            {{#if item.data.description}}data-tippy-content="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
-        <img src="{{item.data.img}}">
+        <img src="{{item.img}}">
         <span class="nested-item-edit">{{item.name}}</span>
         <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="talent">
           <i class="fas fa-times"></i>
@@ -237,16 +224,12 @@
       {{#each data.level4.spells as |item index|}}
         <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item.data._id}}"
              {{#if item.data.description}}data-tippy-content="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
-          <img src="{{item.data.img}}">
+          <img src="{{item.img}}">
           <span class="nested-item-edit">{{item.name}}</span>
           <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="spell">
             <i class="fas fa-times"></i>
           </a>
         </div>
-        <!--<li class="tag" data-item-id="{{id}}">
-          {{language.name}}
-          <span class="remove-tag delete-ancestryitem" role="button" data-action="delete"></span>
-        </li>-->
       {{/each}}
     </div>
   </div>
@@ -254,24 +237,21 @@
   <div class="dl-item-section-section margin">
     <div class="dl-item-section-section-title">
       <b>{{localize "DL.AncestryLearnTalent"}} ({{localize "CONTROLS.Drop"}})</b>
-      <!--<a class="TODO" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="language">
+      <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+         data-type="talent" data-group="talent4" data-folder-loc="TalentTitle">
         <i class="fas fa-plus"></i>
-      </a>-->
+      </a>
     </div>
     <div class="dl-drop-zone" data-group="talent4" data-level="{{id}}">
       {{#each data.level4.talent as |item index|}}
         <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item.data._id}}"
              {{#if item.data.description}}data-tippy-content="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
-          <img src="{{item.data.img}}">
+          <img src="{{item.img}}">
           <span class="nested-item-edit">{{item.name}}</span>
           <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="talent4">
             <i class="fas fa-times"></i>
           </a>
         </div>
-        <!--<li class="tag" data-item-id="{{id}}">
-          {{language.name}}
-          <span class="remove-tag delete-ancestryitem" role="button" data-action="delete"></span>
-        </li>-->
       {{/each}}
     </div>
   </div>

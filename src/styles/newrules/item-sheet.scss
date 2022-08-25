@@ -225,7 +225,9 @@
     font-family: $font-primary;
     font-size: $f-size-big-slight;
   }
-
+  a.create-nested-item {
+    margin-right: 7px;
+  }
   .dl-drop-zone {
     min-height: 64px;
     background: rgb(126 126 126 / 5%);
