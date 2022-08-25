@@ -34,9 +34,14 @@
     font-weight: bold !important;
     padding: 0 16px;
 
+    &.center {
+      text-align: center;
+    }
+
     div.uses {
       height: 19px;
       margin-left: 8px;
+
       & > input[type='number'] {
         background: none !important;
         border: none !important;
@@ -184,6 +189,7 @@
     &.dl-characteristics-container .dl-new-project-2 {
       margin-top: 2px;
       margin-bottom: 2px;
+
       & > span:not(:empty) {
         width: 64px;
         text-align: center;
@@ -191,6 +197,9 @@
         max-height: 16px;
         white-space: nowrap;
         overflow: hidden;
+      }
+      & > input {
+        max-width: 16px;
       }
     }
   }
@@ -225,9 +234,20 @@
     padding: 4px 4px 24px;
     gap: 4px;
 
+    &.dl-drop-zone-col-2 {
+      flex-wrap: wrap;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+
+      .dl-nested-item {
+        width: 49%;
+      }
+    }
+
     &:hover {
       cursor: copy;
     }
+
     .dl-nested-item {
       background: rgba(0, 0, 0, 0.05);
       width: 100%;
@@ -244,12 +264,15 @@
         border: none;
         border-radius: 2px;
       }
+
       &:hover {
         cursor: default;
       }
+
       span {
         height: 16px;
       }
+
       .delete-ancestryitem {
         margin-left: auto;
         margin-right: 4px;

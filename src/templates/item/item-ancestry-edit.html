@@ -14,28 +14,28 @@
     <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeStrength"}}">
       <i class="dl-icon-strength"></i>
       <span class="sep"></span>
-      <input type="text" name="data.attributes.strength.value" value="{{data.attributes.strength.value}}"
+      <input type="number" name="data.attributes.strength.value" value="{{data.attributes.strength.value}}"
              placeholder="0" autosize/>
     </div>
 
     <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeAgility"}}">
       <i class="dl-icon-agility"></i>
       <span class="sep"></span>
-      <input type="text" name="data.attributes.agility.value" value="{{data.attributes.agility.value}}" placeholder="0"
+      <input type="number" name="data.attributes.agility.value" value="{{data.attributes.agility.value}}" placeholder="0"
              autosize/>
     </div>
 
     <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeIntellect"}}">
       <i class="dl-icon-intellect"></i>
       <span class="sep"></span>
-      <input type="text" name="data.attributes.intellect.value" value="{{data.attributes.intellect.value}}"
+      <input type="number" name="data.attributes.intellect.value" value="{{data.attributes.intellect.value}}"
              placeholder="0" autosize/>
     </div>
 
     <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeWill"}}">
       <i class="dl-icon-will"></i>
       <span class="sep"></span>
-      <input type="text" name="data.attributes.will.value" value="{{data.attributes.will.value}}" placeholder="0"
+      <input type="number" name="data.attributes.will.value" value="{{data.attributes.will.value}}" placeholder="0"
              autosize/>
     </div>
   </div>
@@ -72,7 +72,7 @@
         <span class="sep"></span>
         <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.CharSize"}}</span>
         <span class="sep"></span>
-        <input type="number" name="data.characteristics.size" value="{{data.characteristics.size}}" placeholder="0"/>
+        <input type="text" name="data.characteristics.size" value="{{data.characteristics.size}}" placeholder="0"/>
       </div>
 
       <div class="dl-new-project-2 nohover">
@@ -160,7 +160,7 @@
       <b>{{localize "DL.PathsLevelLanguages"}}</b>
     </div>
     <div class="text-areas">
-      <textarea name="data.languages">{{data.languages}}</textarea>
+      <textarea name="data.languages" autosize>{{data.languages}}</textarea>
     </div>
     <div class="dl-item-section-section-title">
       <b>{{localize "DL.LanguagesTitle"}} ({{localize "CONTROLS.Drop"}})</b>
@@ -175,6 +175,96 @@
           <img src="{{item.data.img}}">
           <span class="nested-item-edit">{{item.name}}</span>
           <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="language">
+            <i class="fas fa-times"></i>
+          </a>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div>
+
+
+<hr>
+
+<div class="dl-item-section-section margin">
+  <div class="dl-item-section-section-title">
+    <b>{{localize "DL.CreatureTraits"}} ({{localize "CONTROLS.Drop"}})</b>
+    <!--<a class="TODO" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="language">
+        <i class="fas fa-plus"></i>
+      </a>-->
+  </div>
+  <div class="dl-drop-zone dl-drop-zone-col-2" data-group="talent" data-level="{{id}}">
+    {{#each data.talents as |item index|}}
+      <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item.data._id}}"
+           {{#if item.data.description}}data-tippy-content="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
+        <img src="{{item.data.img}}">
+        <span class="nested-item-edit">{{item.name}}</span>
+        <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="talent">
+          <i class="fas fa-times"></i>
+        </a>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<hr>
+
+<div class="dl-item-section-header center">
+  <b>{{localize "DL.AncestryLevel4"}} {{item.name}}</b>
+</div>
+<div class="dl-item-section-section margin">
+  <div class="dl-column-flex">
+    <div class="dl-new-project-2 nohover">
+      <i class="dl-icon-health"></i>
+      <span class="sep"></span>
+      <span>{{localize "DL.CharHealth"}}</span>
+      <span class="sep"></span>
+      <input type="number" name="data.level4.healthbonus" value="{{data.level4.healthbonus}}"
+             placeholder="0"/>
+    </div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="dl-item-section-section margin">
+    <div class="dl-item-section-section-title">
+      <b>{{localize "DL.AncestryLearnSpell"}} ({{localize "CONTROLS.Drop"}})</b>
+      <!--<a class="TODO" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="language">
+        <i class="fas fa-plus"></i>
+      </a>-->
+    </div>
+    <div class="dl-drop-zone" data-group="spells4" data-level="{{id}}">
+      {{#each data.level4.spells as |item index|}}
+        <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item.data._id}}"
+             {{#if item.data.description}}data-tippy-content="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
+          <img src="{{item.data.img}}">
+          <span class="nested-item-edit">{{item.name}}</span>
+          <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="spell">
+            <i class="fas fa-times"></i>
+          </a>
+        </div>
+        <!--<li class="tag" data-item-id="{{id}}">
+          {{language.name}}
+          <span class="remove-tag delete-ancestryitem" role="button" data-action="delete"></span>
+        </li>-->
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="dl-item-section-section margin">
+    <div class="dl-item-section-section-title">
+      <b>{{localize "DL.AncestryLearnTalent"}} ({{localize "CONTROLS.Drop"}})</b>
+      <!--<a class="TODO" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="language">
+        <i class="fas fa-plus"></i>
+      </a>-->
+    </div>
+    <div class="dl-drop-zone" data-group="talent4" data-level="{{id}}">
+      {{#each data.level4.talent as |item index|}}
+        <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item.data._id}}"
+             {{#if item.data.description}}data-tippy-content="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
+          <img src="{{item.data.img}}">
+          <span class="nested-item-edit">{{item.name}}</span>
+          <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="talent4">
             <i class="fas fa-times"></i>
           </a>
         </div>

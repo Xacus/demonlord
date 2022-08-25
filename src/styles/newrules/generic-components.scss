@@ -156,8 +156,10 @@
     &[type='text'] {
       width: fit-content !important;
     }
+
+    &[type='text']:not([autosize='true']),
     &[type='number']:not([autosize='true']) {
-      max-width: 16px;
+      width: 16px;
     }
     &:hover,
     &:focus {
