@@ -220,8 +220,10 @@ export default class DLBaseItemSheet extends ItemSheet {
     // Custom editor
     initDlEditor(html, this)
 
-    // Nested item create
+    // Nested item create, edit
     html.find('.create-nested-item').click((ev) => this._onNestedItemCreate(ev))
+    html.find('.edit-nested-item').click((ev) => this._onNestedItemEdit(ev))
+
   }
 
   /* -------------------------------------------- */
@@ -282,5 +284,9 @@ export default class DLBaseItemSheet extends ItemSheet {
     console.log(item)
     this.render()
     return item
+  }
+
+  _onNestedItemEdit(ev) {
+    console.log(ev)
   }
 }

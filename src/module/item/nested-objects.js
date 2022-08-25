@@ -103,7 +103,7 @@ export class DamageType {
 /*  Transfer functions                          */
 /* -------------------------------------------- */
 
-export async function getNestedItem(nestedData) {
+export async function getNestedDocument(nestedData) {
   let entity
   let method // <- Used to print how the item was fetched
   const id = nestedData.id ?? nestedData._id ?? nestedData.data._id
@@ -146,6 +146,11 @@ export async function getNestedItem(nestedData) {
   }
   // console.log(`DEMONLORD | Nested object fetched using ${method}`, nestedData, entity) // TODO: Remove when stable
   console.log(`DEMONLORD | Nested object fetched using ${method}`)
+  return entity
+}
+
+export async function getNestedItemData(nestedData) {
+  const entity = await getNestedDocument(nestedData)
 
   // Return only the data
   // Warning: here the implicit assertion is that entity is an Item and not an Actor or something else
@@ -156,7 +161,7 @@ export async function getNestedItem(nestedData) {
 
 export async function getNestedItemsDataList(nestedDataList) {
   const p = []
-  for (const nd of nestedDataList) p.push(await getNestedItem(nd))
+  for (const nd of nestedDataList) p.push(await getNestedItemData(nd))
   return p.filter(Boolean)
 }
 

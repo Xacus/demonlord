@@ -1,5 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet'
-import {getNestedItem, getNestedItemsDataList, PathLevel, PathLevelItem} from '../nested-objects'
+import {getNestedItemData, getNestedItemsDataList, PathLevel, PathLevelItem} from '../nested-objects'
 
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
@@ -169,7 +169,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
       const itemIndex = event.currentTarget.getAttribute('data-item-id')
       const nestedItemData = this.object.data.data.levels[levelIndex][type][itemIndex]
       if (!nestedItemData) return
-      const item = await getNestedItem(nestedItemData)
+      const item = await getNestedItemData(nestedItemData)
       if (item) await this.actor.createEmbeddedDocuments('Item', [item])
     }
   }
@@ -194,7 +194,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
   async _addItem(data, level, group) {
     const levelItem = new PathLevelItem()
     const pathData = duplicate(this.item.data)
-    const item = await getNestedItem(data)
+    const item = await getNestedItemData(data)
     if (!item) return
 
     levelItem.id = item.id

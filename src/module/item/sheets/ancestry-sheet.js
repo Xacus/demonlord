@@ -1,5 +1,5 @@
 import DLBaseItemSheet from './base-item-sheet'
-import {getNestedItem, getNestedItemsDataList, PathLevelItem} from '../nested-objects'
+import {getNestedDocument, getNestedItemData, getNestedItemsDataList, PathLevelItem} from '../nested-objects'
 
 export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
@@ -22,9 +22,9 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
     // Fetch the updated nested items properties (name, description, img)
     const ancestryData = data.data
-    ancestryData.languagelist = await Promise.all(ancestryData.languagelist.map(await getNestedItem))
-    ancestryData.talents = await Promise.all(ancestryData.talents.map(await getNestedItem))
-    ancestryData.level4.talent = await Promise.all(ancestryData.level4.talent.map(await getNestedItem))
+    ancestryData.languagelist = await Promise.all(ancestryData.languagelist.map(await getNestedItemData))
+    ancestryData.talents = await Promise.all(ancestryData.talents.map(await getNestedItemData))
+    ancestryData.level4.talent = await Promise.all(ancestryData.level4.talent.map(await getNestedItemData))
     return data
   }
 
@@ -63,19 +63,6 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
       this._deleteItem(itemIndex, itemGroup)
     })
 
-    // Edit ancestry item
-    html.find('.nested-item-edit').click(ev => {
-      const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      const ancestryData = this.object.data.data
-      const itemDocument =
-        ancestryData.languagelist.find(i => i.data._id === itemId) ??
-        ancestryData.talents.find(i => i.data._id === itemId) ??
-        ancestryData.level4.talent.find(i => i.data._id === itemId)
-      console.log(itemDocument)
-      console.log(this.object)
-      //TODO: Here check in game.items or compendium, then open sheet. Or better, refactor all of this
-    })
-
     // Transfer talents
     html.find('.transfer-talent').click(ev => this.showTransferDialog(ev))
     html.find('.transfer-talents').click(ev => this.showTransferDialog(ev))
@@ -105,7 +92,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   async _addItem(data, group) {
     const levelItem = new PathLevelItem()
     const ancestryData = duplicate(this.item.data)
-    let item = await getNestedItem(data)
+    let item = await getNestedItemData(data)
     if (!item) return
 
     levelItem.id = item.id
@@ -175,7 +162,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
           ? this.object.data.data.talents[itemIndex]
           : this.object.data.data.level4.talent[itemIndex]
       if (!selectedLevelItem) return
-      let item = await getNestedItem(selectedLevelItem)
+      let item = await getNestedItemData(selectedLevelItem)
       if (item) await this.actor.createEmbeddedDocuments('Item', [item])
     }
   }
@@ -186,5 +173,16 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const group = $(ev.currentTarget).closest('[data-group]').data('group')
     this._addItem(item.data, group)
     return item
+  }
+
+  /** @override */
+  _onNestedItemEdit(ev) {
+    const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+    const ancestryData = this.object.data.data
+    const nestedData =
+      ancestryData.languagelist.find(i => i.data._id === itemId) ??
+      ancestryData.talents.find(i => i.data._id === itemId) ??
+      ancestryData.level4.talent.find(i => i.data._id === itemId)
+    getNestedDocument(nestedData).then(d => d.sheet.render(true))
   }
 }
