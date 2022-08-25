@@ -134,6 +134,10 @@
         border-left: 1px solid #0000001a !important;
         height: 16px !important;
       }
+      .dl-new-project-2,
+      .dl-new-project-2:last-child {
+        gap: 0 !important;
+      }
     }
 
     .dl-item-damage-container {
