@@ -78,6 +78,9 @@
       margin-bottom: 2px;
     }
 
+    &.left > div {
+      justify-content: flex-start;
+    }
     &.text-areas {
       display: flex;
       flex-direction: column;
@@ -228,6 +231,18 @@
   a.create-nested-item {
     margin-right: 7px;
   }
+
+  .dl-drop-zone-view {
+    outline: none !important;
+    padding-bottom: 4px !important;
+    min-height: 0 !important;
+
+    &:hover {
+      cursor: default !important;
+    }
+  }
+
+  .dl-drop-zone-view,
   .dl-drop-zone {
     min-height: 64px;
     background: rgb(126 126 126 / 5%);
@@ -246,7 +261,7 @@
       justify-content: space-between !important;
 
       .dl-nested-item {
-        width: 49%;
+        width: 48%;
       }
     }
 
