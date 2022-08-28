@@ -13,8 +13,8 @@ export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
   async getData(options) {
     const data = super.getData(options)
-    data.levels = this.item.data.data.levels || []
-    data.levels.sort(_sortLevels)
+    data.data.levels = this.item.data.data.levels || []
+    data.data.levels.sort(_sortLevels)
 
     // Localize Two Set labels if is 'view'
     if (!this.item.data.data.editPath)
@@ -30,10 +30,10 @@ export default class DLPathSheet extends DLBaseItemSheet {
     data.data.selectedLevelIndex = this._selectedLevelIndex || 0
 
     // Fetch contents of nested items
-    for (let i of data.levels.keys()) {
-      data.data.levels[i].talents = await Promise.all(data.levels[i].talents.map(await getNestedItemData))
-      data.data.levels[i].talentspick = await Promise.all(data.levels[i].talentspick.map(await getNestedItemData))
-      data.data.levels[i].spells = await Promise.all(data.levels[i].spells.map(await getNestedItemData))
+    for (let i of data.data.levels.keys()) {
+      data.data.levels[i].talents = await Promise.all(data.data.levels[i].talents.map(await getNestedItemData))
+      data.data.levels[i].talentspick = await Promise.all(data.data.levels[i].talentspick.map(await getNestedItemData))
+      data.data.levels[i].spells = await Promise.all(data.data.levels[i].spells.map(await getNestedItemData))
     }
     return data
   }
@@ -260,6 +260,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
       if (this.object.data.data.editPath) {
         updateData.levels = this._getEditLevelsUpdateData(completeFormData)
         updateData.levels.sort(_sortLevels)
+
         // Set default image based on new path type
         const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.path).includes(formData.img)
         if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
@@ -270,6 +271,22 @@ export default class DLPathSheet extends DLBaseItemSheet {
         updateData.levels = this._getViewLevelsUpdateData(completeFormData)
       }
     }
+
+    // Change the levels levels based on path type
+    if (updateData.type && this.object.data.data.editPath && updateData.type !== this.item.data.data.type) {
+      let autoLevels = []
+      switch (updateData.type) {
+        case 'novice': autoLevels = [1, 2, 5, 8]; break
+        case 'expert': autoLevels = [3, 6, 9]; break
+        case 'master': autoLevels = [7, 10]; break
+      }
+      updateData.levels = updateData.levels ?? []
+      for (let index of autoLevels.keys()) {
+        if (!updateData.levels[index]) updateData.levels[index] = new PathLevel({level:autoLevels[index]})
+        else updateData.levels[index].level = autoLevels[index]
+      }
+    }
+
 
     return this.object.update({name: _name, img: formData.img, data: updateData})
   }
@@ -415,7 +432,6 @@ export default class DLPathSheet extends DLBaseItemSheet {
 }
 
 /* -------------------------------------------- */
-
 
 
 const _sortLevels = (a, b) => (+a.level > +b.level ? 1 : -1)

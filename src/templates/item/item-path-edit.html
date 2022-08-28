@@ -69,7 +69,7 @@
         {{else if (eq data.type 'master')}}
           {{localize "DL.CharPathMaster"}}
         {{else}}
-          -
+          {{localize "DL.PathsPathType"}}
         {{/if}}
       </span>
     </div>
@@ -128,7 +128,6 @@
               </span>
               </div>
             </div>
-            {{log level}}
 
             {{#if
               (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree level.attributeSelectIsFixed)}}
