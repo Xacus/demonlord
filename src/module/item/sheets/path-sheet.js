@@ -344,20 +344,21 @@ export default class DLPathSheet extends DLBaseItemSheet {
     for (const hl of htmlLevels) {
       const obj = {}
       hl.each((i, input) => {
+        const _name = input.getAttribute('name')
         if (input.tagName === 'SELECT') {
-          obj[input.getAttribute('name')] = input.options[input?.selectedIndex]?.getAttribute('value')
+          obj[_name] = input.options[input?.selectedIndex]?.getAttribute('value')
         } else if (input.type === 'checkbox') {
-          obj[input.getAttribute('name')] = input.checked || false
+          obj[_name] = input.checked || false
         } else if (input.type === 'radio') {
           if (input.checked) {
-            if (input.getAttribute('name') === 'level.attributeSelect' && input.checked) {
-              obj[input.getAttribute('name')] = input.getAttribute('value')
+            if (_name === 'level.attributeSelect' || _name.startsWith('level.attributeSelectTwoSet')) {
+              obj[_name] = input.getAttribute('value')
             } else {
-              obj[input.getAttribute('name')] = input.value === 'true'
+              obj[_name] = input.value === 'true'
             }
           }
         } else {
-          obj[input.getAttribute('name')] = input.value ?? input.getAttribute('value')
+          obj[_name] = input.value ?? input.getAttribute('value')
         }
       })
       objLevels.push(expandObject(obj).level)

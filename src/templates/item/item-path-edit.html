@@ -136,6 +136,26 @@
               {{> dlAttributeInputCol1 icon="agility"    value=level.attributeAgility   name="level.attributeAgility"   loc="DL.AttributeAgility"}}
               {{> dlAttributeInputCol1 icon="intellect"  value=level.attributeIntellect name="level.attributeIntellect" loc="DL.AttributeIntellect"}}
               {{> dlAttributeInputCol1 icon="will"       value=level.attributeWill      name="level.attributeWill"      loc="DL.AttributeWill"}}
+
+            {{else if level.attributeSelectIsTwoSet}}
+              <div class="dl-column-flex">
+                {{dlPathAttributeTwoSet "level.attributeSelectTwoSet1" level.attributeSelectTwoSet1}}
+                <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
+                {{dlPathAttributeTwoSet "level.attributeSelectTwoSet2" level.attributeSelectTwoSet2}}
+                <div class="dl-new-project-2">
+                  <input type="number" name="level.attributeSelectTwoSetValue1"
+                         value="{{level.attributeSelectTwoSetValue1}}"/>
+                </div>
+              </div>
+              <div class="dl-column-flex">
+                {{dlPathAttributeTwoSet "level.attributeSelectTwoSet3" level.attributeSelectTwoSet3}}
+                <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
+                {{dlPathAttributeTwoSet "level.attributeSelectTwoSet4" level.attributeSelectTwoSet4}}
+                <div class="dl-new-project-2">
+                  <input type="number" name="level.attributeSelectTwoSetValue2"
+                         value="{{level.attributeSelectTwoSetValue2}}"/>
+                </div>
+              </div>
             {{/if}}
 
           </div>

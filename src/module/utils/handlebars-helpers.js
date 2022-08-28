@@ -41,8 +41,9 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlRadioBoxes', (groupName, checkedKey) => _buildRadioBoxes(groupName, checkedKey))
   Handlebars.registerHelper('dlDropdown', (groupName, checkedKey) => _buildDropdownItem(groupName, checkedKey))
   Handlebars.registerHelper('dlCheckboxes', (groupName, checkedKey, data) => _buildCheckboxes(groupName, checkedKey, data))
-  Handlebars.registerHelper('dlBOBAButton', (_name, value, loc=undefined) => _buildBOBAButton(_name, value, loc))
+  Handlebars.registerHelper('dlBOBAButton', (_name, value, loc = undefined) => _buildBOBAButton(_name, value, loc))
   Handlebars.registerHelper('dlEditor', (options) => handlebarsBuildEditor(options))
+  Handlebars.registerHelper('dlPathAttributeTwoSet', (groupName, checkedKey) => _buildPathAttributeTwoSetDropdown(groupName, checkedKey))
 }
 
 // ----------------------------------------------------
@@ -108,9 +109,11 @@ function _buildDropdownItem(groupName, checkedKey) {
   return new Handlebars.SafeString(html)
 }
 
+
 export function buildDropdownList(groupName, checkedKey) {
   if (groupName === 'path-type') return _buildPathTypeDropdownList(checkedKey)
   if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
+  if (groupName.startsWith('level.attributeSelectTwoSet')) return _buildPathAttributeTwoSetDropdownList(groupName, checkedKey)
   let attributes = _getAttributes(groupName)
   let html = `<div class="dl-new-project-2-dropdown">`
   for (let attribute of attributes) {
@@ -202,6 +205,50 @@ function _buildPathAttributeSelectDropdownList(checkedKey) {
             </div>`
   }
   html += `</div>`
+  return new Handlebars.SafeString(html)
+}
+
+
+function _buildPathAttributeTwoSetDropdown(groupName, checkedKey) {
+  const attributes = ['strength', 'agility', 'intellect', 'will']
+  let html = ""
+  checkedKey = checkedKey || 'strength'
+
+  for (let attribute of attributes) {
+    const checked = attribute === checkedKey ? 'checked' : ''
+    if (!checked) continue
+
+    const label = i18n(`DL.Attribute${capitalize(attribute)}`)
+    const icon = `dl-icon-${attribute}`
+    html += `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${attribute}">
+                <i class="${icon}"></i>
+                <span class="sep"></span>
+                <span style="text-align: center">${label}</span>
+            </div>`
+    break
+  }
+  return new Handlebars.SafeString(html)
+}
+
+
+function _buildPathAttributeTwoSetDropdownList(groupName, checkedKey) {
+  const attributes = ['strength', 'agility', 'intellect', 'will']
+  let html = `<div class="dl-new-project-2-dropdown">`
+  checkedKey = checkedKey || 'strength'
+
+  for (let attribute of attributes) {
+    const value = capitalize(attribute)
+    const checked = attribute === checkedKey ? 'checked' : ''
+    const label = value ? i18n(`DL.Attribute${value}`) : i18n('DL.None')
+    const icon = value ? `dl-icon-${attribute}` : 'dl-icon-minus'
+    html += `<div class="${checked}">
+                <input type="radio" name="${groupName}" value="${attribute}" ${checked}/>
+                <i class="${icon}"></i>
+                <span class="sep"></span>
+                <span>${label}</span>
+            </div>`
+  }
+  html += '</div>'
   return new Handlebars.SafeString(html)
 }
 
