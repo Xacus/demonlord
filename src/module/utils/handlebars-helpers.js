@@ -3,7 +3,6 @@ import {handlebarsBuildEditor} from "./editor";
 
 export function registerHandlebarsHelpers() {
 
-  // If you need to add Handlebars helpers, here are a few useful examples:
   Handlebars.registerHelper('concat', function () {
     var outStr = ''
     for (var arg in arguments) {
@@ -13,43 +12,28 @@ export function registerHandlebarsHelpers() {
     }
     return outStr
   })
-
-  Handlebars.registerHelper('toLowerCase', function (str) {
-    return str.toLowerCase()
-  })
-
+  Handlebars.registerHelper('toLowerCase', str => str.toLowerCase())
   Handlebars.registerHelper('toUpperCase', str => str.toUpperCase())
-
   Handlebars.registerHelper('capitalize', str => capitalize(str))
-
   Handlebars.registerHelper('readonly', val => (val ? 'readonly' : ''))
-
   Handlebars.registerHelper('notreadonly', val => (val ? '' : 'readonly'))
-
   Handlebars.registerHelper('json', JSON.stringify)
-
   Handlebars.registerHelper('not', val => !val)
-
   Handlebars.registerHelper('hideIf', val => (val ? 'style="display:none";' : ''))
-
   Handlebars.registerHelper('replaceNewline', val =>
     val.split('\n').reduce((acc, v) => acc + v.trim() + '&#13;&#10;', ''),
   )
-
   Handlebars.registerHelper('hiddenEffect', val =>
     val && game.user.isGM && !game.settings.get('demonlord', 'gmEffectsControls') ? 'visibility: hidden;' : '',
   )
 
   Handlebars.registerHelper('isBadgeImg', img => img.includes('/demonlord/assets/icons/badges'))
-
   Handlebars.registerHelper('plusify', x => (!x ? "0" : (x > 0 ? '+' + x : x)))
-
   Handlebars.registerHelper('defaultValue', function (a, b) {
     return a ? a : b;
   });
 
   Handlebars.registerHelper('enrichHTMLUnrolled', (x) => enrichHTMLUnrolled(x))
-
   Handlebars.registerHelper('lookupAttributeModifier', (attributeName, actorData) =>
     actorData?.data?.attributes[attributeName.toLowerCase()]?.modifier
   )
@@ -125,8 +109,9 @@ function _buildDropdownItem(groupName, checkedKey) {
 }
 
 export function buildDropdownList(groupName, checkedKey) {
+  if (groupName === 'path-type') return _buildPathTypeDropdownList(checkedKey)
+  if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
   let attributes = _getAttributes(groupName)
-
   let html = `<div class="dl-new-project-2-dropdown">`
   for (let attribute of attributes) {
     const value = capitalize(attribute)
@@ -191,4 +176,32 @@ function _buildBOBAButton(_name, value, loc) {
 }
 
 // ----------------------------------------------------
+
+function _buildPathTypeDropdownList(checkedKey) {
+  let html = `<div class="dl-new-project-2-dropdown">`
+  for (let type of ['novice', 'expert', 'master']) {
+    const checked = type === checkedKey ? 'checked' : ''
+    const label = i18n(`DL.CharPath${capitalize(type)}`)
+    html += `<div class="${checked}">
+                <input type="radio" name="data.type" value="${type}" ${checked}/>
+                <span style="margin-left: 4px">${label}</span>
+            </div>`
+  }
+  html += `</div>`
+  return new Handlebars.SafeString(html)
+}
+
+function _buildPathAttributeSelectDropdownList(checkedKey) {
+  let html = `<div class="dl-new-project-2-dropdown">`
+  for (let type of ['-', 'choosetwo', 'choosethree', 'fixed', 'twosets']) {
+    const checked = type === checkedKey ? 'checked' : ''
+    const label = type !== '-' ? i18n(`DL.PathsLevelAttributes${capitalize(type)}`) : i18n('DL.None')
+    html += `<div class="${checked}">
+                <input type="radio" name="level.attributeSelect" value="${type}" ${checked}/>
+                <span style="margin-left: 4px">${label}</span>
+            </div>`
+  }
+  html += `</div>`
+  return new Handlebars.SafeString(html)
+}
 

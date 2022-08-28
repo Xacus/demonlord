@@ -5,13 +5,13 @@ export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      width: 475,
+      width: 650,
       height: 700,
     })
   }
 
   /** @override */
-  getData(options) {
+  async getData(options) {
     const data = super.getData(options)
     data.levels = this.item.data.data.levels || []
     data.levels.sort(_sortLevels)
@@ -26,6 +26,15 @@ export default class DLPathSheet extends DLBaseItemSheet {
       })
 
     //data.item.data.editPath = !game.user.isGM;
+    // Which level the user has selected
+    data.data.selectedLevelIndex = this._selectedLevelIndex || 0
+
+    // Fetch contents of nested items
+    for (let i of data.levels.keys()) {
+      data.data.levels[i].talents = await Promise.all(data.levels[i].talents.map(await getNestedItemData))
+      data.data.levels[i].talentspick = await Promise.all(data.levels[i].talentspick.map(await getNestedItemData))
+      data.data.levels[i].spells = await Promise.all(data.levels[i].spells.map(await getNestedItemData))
+    }
     return data
   }
 
@@ -92,6 +101,18 @@ export default class DLPathSheet extends DLBaseItemSheet {
         'spells',
       )
     })
+
+    // Display/hide levels on click
+    html.find('.dl-path-level-select').click(ev => {
+      const levelIndex = $(ev.currentTarget).closest('[data-level-index]').data('levelIndex')
+      const form = $(ev.currentTarget).closest("form")
+      this._selectedLevelIndex = levelIndex
+      form.find('.dl-path-level').each((_, pl) => {
+        pl = $(pl)
+        if (pl.data('levelIndex') === levelIndex) pl.show()
+        else pl.hide()
+      })
+    })
   }
 
   /* -------------------------------------------- */
@@ -100,7 +121,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
 
   showLevelDeleteDialog(ev) {
-    const itemIndex = ev.currentTarget.parentElement.parentElement.getAttribute('data-item-id')
+    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
     const d = new Dialog({
       title: game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevel'),
       content: game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevelText'),
@@ -178,13 +199,12 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   /** @override */
   _onDrop(ev) {
-    const $dropTarget = $(ev.originalEvent.target)
+    const group = $(ev.currentTarget).closest('[data-group]').data('group')
+    const level = $(ev.currentTarget).closest('[data-level]').data('level')
     try {
-      $dropTarget.removeClass('drop-hover')
+      $(ev.originalEvent.target).removeClass('drop-hover')
       const data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'))
       if (data.type !== 'Item') return
-      const level = $dropTarget.data('level')
-      const group = $dropTarget.data('group')
       this._addItem(data, level, group)
     } catch (err) {
       console.warn(err)
@@ -211,10 +231,9 @@ export default class DLPathSheet extends DLBaseItemSheet {
   }
 
   _deleteItem(ev) {
-    const _parent = ev.currentTarget.parentElement
-    const itemLevel = _parent.parentElement.parentElement.getAttribute('data-level')
-    const itemGroup = _parent.parentElement.parentElement.getAttribute('data-group')
-    const itemIndex = _parent.parentElement.getAttribute('data-item-id')
+    const itemLevel = $(ev.currentTarget).closest('[data-level]').data('level')
+    const itemGroup = $(ev.currentTarget).closest('[data-group]').data('group')
+    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
     const itemData = duplicate(this.item.data)
 
     if (itemGroup === 'talent') itemData.data.levels[itemLevel].talents.splice(itemIndex, 1)
@@ -315,7 +334,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     // Get all html elements that are 'path-level' and group their inputs by path-level
     const htmlLevels = []
     $(this.form)
-      .find('.path-level')
+      .find('.dl-path-level')
       .each((i, pl) => {
         htmlLevels.push($(pl).find("*[name^='level']"))
       })
@@ -330,9 +349,15 @@ export default class DLPathSheet extends DLBaseItemSheet {
         } else if (input.type === 'checkbox') {
           obj[input.getAttribute('name')] = input.checked || false
         } else if (input.type === 'radio') {
-          if (input.checked) obj[input.getAttribute('name')] = input.value === 'true'
+          if (input.checked) {
+            if (input.getAttribute('name') === 'level.attributeSelect' && input.checked) {
+              obj[input.getAttribute('name')] = input.getAttribute('value')
+            } else {
+              obj[input.getAttribute('name')] = input.value === 'true'
+            }
+          }
         } else {
-          obj[input.getAttribute('name')] = input.value
+          obj[input.getAttribute('name')] = input.value ?? input.getAttribute('value')
         }
       })
       objLevels.push(expandObject(obj).level)

@@ -136,7 +136,13 @@ export default class DLBaseItemSheet extends ItemSheet {
     html.find('[autosize]').each((_, el) => autoresize(el))
 
     // Icons tooltip
-    const iconToolTips = tippy('[data-tippy-content]', {allowHTML: true})
+    const iconToolTips = tippy('[data-tippy-content]')
+    tippy('[data-tippy-html]', {
+      content(reference) {
+        return $(reference).data('tippyHtml')
+      },
+      allowHTML: true
+    })
     createSingleton(iconToolTips, {delay: 50})
     tippy('.dl-new-project-2.dropdown', {
       content(reference) {

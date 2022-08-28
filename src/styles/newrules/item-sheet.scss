@@ -81,6 +81,7 @@
     &.left > div {
       justify-content: flex-start;
     }
+
     &.text-areas {
       display: flex;
       flex-direction: column;
@@ -137,6 +138,7 @@
         border-left: 1px solid #0000001a !important;
         height: 16px !important;
       }
+
       .dl-new-project-2,
       .dl-new-project-2:last-child {
         gap: 0 !important;
@@ -205,6 +207,7 @@
         white-space: nowrap;
         overflow: hidden;
       }
+
       & > input {
         max-width: 16px;
       }
@@ -228,6 +231,7 @@
     font-family: $font-primary;
     font-size: $f-size-big-slight;
   }
+
   a.create-nested-item {
     margin-right: 7px;
   }
@@ -297,6 +301,44 @@
       .delete-ancestryitem {
         margin-left: auto;
         margin-right: 4px;
+      }
+    }
+  }
+
+  .dl-path-container {
+    height: 100%;
+    min-height: 300px;
+    display: flex;
+    //background: aliceblue;
+    font-family: $font-primary;
+
+    .dl-path-sidebar {
+      width: 120px;
+      border-right: 1px solid;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 16px;
+      font-size: $f-size-big;
+      font-weight: bold;
+
+      & > div:first-child {
+        margin-bottom: 16px;
+      }
+
+      & > *:not(:first-child) {
+        margin-bottom: 4px;
+        font-family: 'Poison Hope', serif;
+        font-size: 15px;
+      }
+    }
+
+    .dl-path-content {
+      width: 100%;
+      padding: 8px;
+
+      .dl-new-project-2 {
+        margin: 2px;
       }
     }
   }
