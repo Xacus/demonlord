@@ -211,6 +211,10 @@
           <div class="dl-item-section-section">
             <div class="dl-item-section-section-title">
               <b>{{localize "DL.TalentTitle"}}</b>
+              <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+                 data-type="talent" data-group="talent" data-folder-loc="TalentTitle" data-level="{{index}}">
+                <i class="fas fa-plus"></i>
+              </a>
             </div>
             {{> dlDropZoneEdit collection=level.talents dataGroup="talent" dataLevel=index}}
           </div>
@@ -218,6 +222,10 @@
           <div class="dl-item-section-section">
             <div class="dl-item-section-section-title">
               <b>{{localize "DL.TalentTitle"}} ({{localize 'DL.PathsLevelTalentChooseOne'}})</b>
+              <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+                 data-type="talent" data-group="talentpick" data-folder-loc="TalentTitle" data-level="{{index}}">
+                <i class="fas fa-plus"></i>
+              </a>
             </div>
             {{> dlDropZoneEdit collection=level.talentspick dataGroup="talentpick" dataLevel=index}}
           </div>
@@ -225,6 +233,10 @@
         <div class="dl-item-section-section">
           <div class="dl-item-section-section-title">
             <b>{{localize "DL.MagicSpellsTitle"}}</b>
+            <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+               data-type="spell" data-group="spell" data-folder-loc="MagicSpellsTitle" data-level="{{index}}">
+              <i class="fas fa-plus"></i>
+            </a>
           </div>
           {{> dlDropZoneEdit collection=level.spells dataGroup="spell" dataLevel=index}}
         </div>

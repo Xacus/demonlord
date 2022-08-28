@@ -403,8 +403,19 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
     return currentLevels
   }
+
+  /** @override */
+  async _onNestedItemCreate(ev) {
+    const item = await super._onNestedItemCreate(ev)
+    const group = $(ev.currentTarget).closest('[data-group]').data('group')
+    const level = $(ev.currentTarget).closest('[data-level]').data('level')
+    await this._addItem(item.data, level, group)
+    return item
+  }
 }
 
 /* -------------------------------------------- */
+
+
 
 const _sortLevels = (a, b) => (+a.level > +b.level ? 1 : -1)
