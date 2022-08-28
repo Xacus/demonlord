@@ -13,6 +13,14 @@ export class DemonlordItem extends Item {
     return super.update(updateData)
   }
 
+  _onUpdate(changed, options, userId) {
+    super._onUpdate(changed, options, userId)
+    // Search for open path/ancestry sheets and re-render them. This allows the nested objects to fetch new values
+    // eslint-disable-next-line no-prototype-builtins
+    let openSheets = Object.entries(ui.windows).map(i => i[1]).filter(i => Item.prototype.isPrototypeOf(i.object))
+    openSheets = openSheets.filter(s => ['path', 'ancestry'].includes(s.object.type))
+    openSheets.forEach(s => s.render())
+  }
   /** @override */
   static async create(data, options = {}) {
     // Add default image
