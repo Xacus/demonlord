@@ -58,61 +58,32 @@
 <!-- END OF TEMPLATES -->
 
 
-<div class="dl-path-container">
-  <div class="dl-path-sidebar dl-item-section-section">
-    <div class="dl-new-project-2 dropdown" name="path-type" value="{{data.type}}">
-      <span style="margin-left: 4px;">
-        {{#if (eq data.type 'novice')}}
-          {{localize "DL.CharPathNovice"}}
-        {{else if (eq data.type 'expert')}}
-          {{localize "DL.CharPathExpert"}}
-        {{else if (eq data.type 'master')}}
-          {{localize "DL.CharPathMaster"}}
-        {{else}}
-          {{localize "DL.PathsPathType"}}
-        {{/if}}
-      </span>
-    </div>
+{{#each data.levels as |level index|}}
+  <div class="dl-path-level" data-level-index="{{index}}"
+       {{#if (ne index ../data.selectedLevelIndex)}}style="display: none"{{/if}}>
+    <div name="level.level" value="{{level.level}}" style="display: none"></div>
 
-    {{#each data.levels as |level index|}}
-      <div class="dl-clickable dl-path-level-select" data-level-index="{{index}}">
-        {{localize 'DL.PathsLevelsSubTitle'}} {{level.level}}
+    <div class="dl-item-section-header row">
+      <div class="col-11" style="margin-top: 4px">
+        <b>{{localize 'DL.PathsLevelsSubTitle'}}</b>
+        <input type="number" name="level.level" value="{{level.level}}" min="0" max="20"
+               style="padding: 0" autosize/>
       </div>
-    {{/each}}
-    <a class="item-control add-level" data-tippy-content="{{localize 'DL.PathsAddLevel'}}">
-      <i class="fas fa-plus"></i>
-    </a>
+      <div class="col-1">
+        <a class="dl-clickable delete-level" data-tippy-content="{{localize 'DL.PathsDeleteLevel'}}">
+          <i style="margin-top: 6px;" class="fas fa-times"></i>
+        </a>
+      </div>
 
-  </div>
-
-
-  <div class="dl-path-content">
-    {{#each data.levels as |level index|}}
-      <div class="dl-path-level" data-level-index="{{index}}"
-           {{#if (ne index ../data.selectedLevelIndex)}}style="display: none"{{/if}}>
-        <div name="level.level" value="{{level.level}}" style="display: none"></div>
-
-        <div class="dl-item-section-header row">
-          <div class="col-11" style="margin-top: 4px">
-            <b>{{localize 'DL.PathsLevelsSubTitle'}}</b>
-            <input type="number" name="level.level" value="{{level.level}}" min="0" max="20"
-                   style="padding: 0" autosize/>
-          </div>
-          <div class="col-1">
-            <a class="dl-clickable delete-level" data-tippy-content="{{localize 'DL.PathsDeleteLevel'}}">
-              <i style="margin-top: 6px;" class="fas fa-times"></i>
-            </a>
-          </div>
-
+    </div>
+    <hr>
+    <div class="grid-2-sep">
+      <div class="dl-item-section-section">
+        <div class="dl-item-section-section-title">
+          <b>{{localize "DL.PathsLevelAttributesSubtitle"}}</b>
         </div>
-        <hr>
-        <div class="grid-2-sep">
-          <div class="dl-item-section-section">
-            <div class="dl-item-section-section-title">
-              <b>{{localize "DL.PathsLevelAttributesSubtitle"}}</b>
-            </div>
-            <div class="dl-column-flex" style="margin-bottom: 8px">
-              <div class="dl-new-project-2 dropdown" name="level.attributeSelect" value="{{level.attributeSelect}}">
+        <div class="dl-column-flex" style="margin-bottom: 8px">
+          <div class="dl-new-project-2 dropdown" name="level.attributeSelect" value="{{level.attributeSelect}}">
               <span style="margin-left: 4px;">
                 {{#if (eq level.attributeSelect 'twosets')}}
                   {{localize "DL.PathsLevelAttributesTwosets"}}
@@ -126,122 +97,120 @@
                   {{localize "DL.None"}}
                 {{/if}}
               </span>
-              </div>
-            </div>
-
-            {{#if
-              (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree level.attributeSelectIsFixed)}}
-              {{> dlAttributeInputCol1 icon="strength"   value=level.attributeStrength  name="level.attributeStrength"  loc="DL.AttributeStrength"}}
-              {{> dlAttributeInputCol1 icon="agility"    value=level.attributeAgility   name="level.attributeAgility"   loc="DL.AttributeAgility"}}
-              {{> dlAttributeInputCol1 icon="intellect"  value=level.attributeIntellect name="level.attributeIntellect" loc="DL.AttributeIntellect"}}
-              {{> dlAttributeInputCol1 icon="will"       value=level.attributeWill      name="level.attributeWill"      loc="DL.AttributeWill"}}
-
-            {{else if level.attributeSelectIsTwoSet}}
-              <div class="dl-column-flex">
-                {{dlPathAttributeTwoSet "level.attributeSelectTwoSet1" level.attributeSelectTwoSet1}}
-                <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
-                {{dlPathAttributeTwoSet "level.attributeSelectTwoSet2" level.attributeSelectTwoSet2}}
-                <div class="dl-new-project-2">
-                  <input type="number" name="level.attributeSelectTwoSetValue1"
-                         value="{{level.attributeSelectTwoSetValue1}}"/>
-                </div>
-              </div>
-              <div class="dl-column-flex">
-                {{dlPathAttributeTwoSet "level.attributeSelectTwoSet3" level.attributeSelectTwoSet3}}
-                <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
-                {{dlPathAttributeTwoSet "level.attributeSelectTwoSet4" level.attributeSelectTwoSet4}}
-                <div class="dl-new-project-2">
-                  <input type="number" name="level.attributeSelectTwoSetValue2"
-                         value="{{level.attributeSelectTwoSetValue2}}"/>
-                </div>
-              </div>
-            {{/if}}
-
-          </div>
-          <span class="grid-sep"></span>
-          <div class="dl-item-section-section">
-            <div class="dl-item-section-section-title">
-              <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
-            </div>
-            <div class="dl-column-flex">
-              {{> dlAttributeInput icon="health"   value=level.characteristicsHealth  name="level.characteristicsHealth"  loc="DL.CharHealth"}}
-              {{> dlAttributeInput icon="defense"   value=level.characteristicsDefense  name="level.characteristicsDefense"  loc="DL.AttributeDefense"}}
-            </div>
-            <div class="dl-column-flex">
-              {{> dlAttributeInput icon="perception"   value=level.characteristicsPerception  name="level.characteristicsPerception"  loc="DL.AttributePerception"}}
-              {{> dlAttributeInput icon="speed"   value=level.characteristicsSpeed  name="level.characteristicsSpeed"  loc="DL.CharSpeed"}}
-            </div>
-            <div class="dl-column-flex">
-              {{> dlAttributeInput icon="insanity"   value=level.characteristicsInsanity  name="level.characteristicsInsanity"  loc="DL.CharInsanity"}}
-              {{> dlAttributeInput icon="corruption"   value=level.characteristicsCorruption  name="level.characteristicsCorruption"  loc="DL.CharCorruption"}}
-            </div>
-            <div class="dl-column-flex">
-              {{> dlAttributeInput icon="power"   value=level.characteristicsPower  name="level.characteristicsPower"  loc="DL.CharPower"}}
-            </div>
           </div>
         </div>
-        <hr>
 
-        <div class="dl-item-section-section">
-          <div class="dl-item-section-section-title">
-            <b>{{localize "DL.PathsLevelLanguages"}}</b>
-          </div>
-          <div class="text-areas">
-            <textarea name="data.languagesText" autosize>{{data.languagesText}}</textarea>
-          </div>
+        {{#if
+          (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree level.attributeSelectIsFixed)}}
+          {{> dlAttributeInputCol1 icon="strength"   value=level.attributeStrength  name="level.attributeStrength"  loc="DL.AttributeStrength"}}
+          {{> dlAttributeInputCol1 icon="agility"    value=level.attributeAgility   name="level.attributeAgility"   loc="DL.AttributeAgility"}}
+          {{> dlAttributeInputCol1 icon="intellect"  value=level.attributeIntellect name="level.attributeIntellect" loc="DL.AttributeIntellect"}}
+          {{> dlAttributeInputCol1 icon="will"       value=level.attributeWill      name="level.attributeWill"      loc="DL.AttributeWill"}}
 
-          <div class="dl-item-section-section-title">
-            <b>{{localize "DL.PathsLevelEquipment"}}</b>
-          </div>
-          <div class="text-areas">
-            <textarea name="data.equipmentText" autosize>{{data.equipmentText}}</textarea>
-          </div>
-
-          <div class="dl-item-section-section-title">
-            <b>{{localize "DL.TabsMagic"}}</b>
-          </div>
-          <div class="text-areas">
-            <textarea name="data.magicText" autosize>{{data.magicText}}</textarea>
-          </div>
-        </div>
-        <hr>
-
-        <div class="grid-2">
-          <div class="dl-item-section-section">
-            <div class="dl-item-section-section-title">
-              <b>{{localize "DL.TalentTitle"}}</b>
-              <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
-                 data-type="talent" data-group="talent" data-folder-loc="TalentTitle" data-level="{{index}}">
-                <i class="fas fa-plus"></i>
-              </a>
+        {{else if level.attributeSelectIsTwoSet}}
+          <div class="dl-column-flex">
+            {{dlPathAttributeTwoSet "level.attributeSelectTwoSet1" level.attributeSelectTwoSet1}}
+            <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
+            {{dlPathAttributeTwoSet "level.attributeSelectTwoSet2" level.attributeSelectTwoSet2}}
+            <div class="dl-new-project-2">
+              <input type="number" name="level.attributeSelectTwoSetValue1"
+                     value="{{level.attributeSelectTwoSetValue1}}"/>
             </div>
-            {{> dlDropZoneEdit collection=level.talents dataGroup="talent" dataLevel=index}}
           </div>
-          <!--          <span class="grid-sep"></span>-->
-          <div class="dl-item-section-section">
-            <div class="dl-item-section-section-title">
-              <b>{{localize "DL.TalentTitle"}} ({{localize 'DL.PathsLevelTalentChooseOne'}})</b>
-              <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
-                 data-type="talent" data-group="talentpick" data-folder-loc="TalentTitle" data-level="{{index}}">
-                <i class="fas fa-plus"></i>
-              </a>
+          <div class="dl-column-flex">
+            {{dlPathAttributeTwoSet "level.attributeSelectTwoSet3" level.attributeSelectTwoSet3}}
+            <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
+            {{dlPathAttributeTwoSet "level.attributeSelectTwoSet4" level.attributeSelectTwoSet4}}
+            <div class="dl-new-project-2">
+              <input type="number" name="level.attributeSelectTwoSetValue2"
+                     value="{{level.attributeSelectTwoSetValue2}}"/>
             </div>
-            {{> dlDropZoneEdit collection=level.talentspick dataGroup="talentpick" dataLevel=index}}
           </div>
-        </div>
-        <div class="dl-item-section-section">
-          <div class="dl-item-section-section-title">
-            <b>{{localize "DL.MagicSpellsTitle"}}</b>
-            <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
-               data-type="spell" data-group="spell" data-folder-loc="MagicSpellsTitle" data-level="{{index}}">
-              <i class="fas fa-plus"></i>
-            </a>
-          </div>
-          {{> dlDropZoneEdit collection=level.spells dataGroup="spell" dataLevel=index}}
-        </div>
-
+        {{/if}}
 
       </div>
-    {{/each}}
+      <span class="grid-sep"></span>
+      <div class="dl-item-section-section">
+        <div class="dl-item-section-section-title">
+          <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
+        </div>
+        <div class="dl-column-flex">
+          {{> dlAttributeInput icon="health"   value=level.characteristicsHealth  name="level.characteristicsHealth"  loc="DL.CharHealth"}}
+          {{> dlAttributeInput icon="defense"   value=level.characteristicsDefense  name="level.characteristicsDefense"  loc="DL.AttributeDefense"}}
+        </div>
+        <div class="dl-column-flex">
+          {{> dlAttributeInput icon="perception"   value=level.characteristicsPerception  name="level.characteristicsPerception"  loc="DL.AttributePerception"}}
+          {{> dlAttributeInput icon="speed"   value=level.characteristicsSpeed  name="level.characteristicsSpeed"  loc="DL.CharSpeed"}}
+        </div>
+        <div class="dl-column-flex">
+          {{> dlAttributeInput icon="insanity"   value=level.characteristicsInsanity  name="level.characteristicsInsanity"  loc="DL.CharInsanity"}}
+          {{> dlAttributeInput icon="corruption"   value=level.characteristicsCorruption  name="level.characteristicsCorruption"  loc="DL.CharCorruption"}}
+        </div>
+        <div class="dl-column-flex">
+          {{> dlAttributeInput icon="power"   value=level.characteristicsPower  name="level.characteristicsPower"  loc="DL.CharPower"}}
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="dl-item-section-section">
+      <div class="dl-item-section-section-title">
+        <b>{{localize "DL.PathsLevelLanguages"}}</b>
+      </div>
+      <div class="text-areas">
+        <textarea name="level.languagesText" autosize>{{level.languagesText}}</textarea>
+      </div>
+
+      <div class="dl-item-section-section-title">
+        <b>{{localize "DL.PathsLevelEquipment"}}</b>
+      </div>
+      <div class="text-areas">
+        <textarea name="level.equipmentText" autosize>{{level.equipmentText}}</textarea>
+      </div>
+
+      <div class="dl-item-section-section-title">
+        <b>{{localize "DL.TabsMagic"}}</b>
+      </div>
+      <div class="text-areas">
+        <textarea name="level.magicText" autosize>{{level.magicText}}</textarea>
+      </div>
+    </div>
+    <hr>
+
+    <div class="grid-2">
+      <div class="dl-item-section-section">
+        <div class="dl-item-section-section-title">
+          <b>{{localize "DL.TalentTitle"}}</b>
+          <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+             data-type="talent" data-group="talent" data-folder-loc="TalentTitle" data-level="{{index}}">
+            <i class="fas fa-plus"></i>
+          </a>
+        </div>
+        {{> dlDropZoneEdit collection=level.talents dataGroup="talent" dataLevel=index}}
+      </div>
+      <!--          <span class="grid-sep"></span>-->
+      <div class="dl-item-section-section">
+        <div class="dl-item-section-section-title">
+          <b>{{localize "DL.TalentTitle"}} ({{localize 'DL.PathsLevelTalentChooseOne'}})</b>
+          <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+             data-type="talent" data-group="talentpick" data-folder-loc="TalentTitle" data-level="{{index}}">
+            <i class="fas fa-plus"></i>
+          </a>
+        </div>
+        {{> dlDropZoneEdit collection=level.talentspick dataGroup="talentpick" dataLevel=index}}
+      </div>
+    </div>
+    <div class="dl-item-section-section">
+      <div class="dl-item-section-section-title">
+        <b>{{localize "DL.MagicSpellsTitle"}}</b>
+        <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+           data-type="spell" data-group="spell" data-folder-loc="MagicSpellsTitle" data-level="{{index}}">
+          <i class="fas fa-plus"></i>
+        </a>
+      </div>
+      {{> dlDropZoneEdit collection=level.spells dataGroup="spell" dataLevel=index}}
+    </div>
+
+
   </div>
-</div>
+{{/each}}

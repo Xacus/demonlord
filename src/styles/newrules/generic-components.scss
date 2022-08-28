@@ -140,8 +140,8 @@
     margin-left: 2px;
   }
 
-  &:hover,
-  &:hover span {
+  &:not(.nohover):hover,
+  &:not(.nohover):hover span {
     border-color: dimgray;
     cursor: pointer;
   }

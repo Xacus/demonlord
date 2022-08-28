@@ -18,7 +18,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
     // Localize Two Set labels if is 'view'
     if (!this.item.data.data.editPath)
-      data.levels.forEach(l => {
+      data.data.levels.forEach(l => {
         l.attributeSelectTwoSet1Label = game.i18n.localize(CONFIG.DL.attributes[l.attributeSelectTwoSet1])
         l.attributeSelectTwoSet2Label = game.i18n.localize(CONFIG.DL.attributes[l.attributeSelectTwoSet2])
         l.attributeSelectTwoSet3Label = game.i18n.localize(CONFIG.DL.attributes[l.attributeSelectTwoSet3])

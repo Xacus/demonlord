@@ -26,12 +26,44 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     <section class="sheet-content" style="padding-top: 0">
-      <div class="tab paths" data-group="primary" data-tab="attributes" style="padding: 0 !important; padding-bottom: 8px">
-        {{#if data.editPath}}
-          {{> "systems/demonlord/templates/item/item-path-edit.html"}}
-        {{else}}
-          {{> "systems/demonlord/templates/item/item-path-view.html"}}
-        {{/if}}
+      <div class="tab paths" data-group="primary" data-tab="attributes"
+           style="padding: 0 !important; padding-bottom: 8px">
+        <div class="dl-path-container">
+          <div class="dl-path-sidebar dl-item-section-section">
+            <div class="dl-new-project-2 dropdown" name="path-type" value="{{data.type}}">
+              <span style="margin-left: 4px;">
+                {{#if (eq data.type 'novice')}}
+                  {{localize "DL.CharPathNovice"}}
+                {{else if (eq data.type 'expert')}}
+                  {{localize "DL.CharPathExpert"}}
+                {{else if (eq data.type 'master')}}
+                  {{localize "DL.CharPathMaster"}}
+                {{else}}
+                  {{localize "DL.PathsPathType"}}
+                {{/if}}
+              </span>
+            </div>
+
+            {{#each data.levels as |level index|}}
+              <div class="dl-clickable dl-path-level-select" data-level-index="{{index}}">
+                {{localize 'DL.PathsLevelsSubTitle'}} {{level.level}}
+              </div>
+            {{/each}}
+            <a class="item-control add-level" data-tippy-content="{{localize 'DL.PathsAddLevel'}}">
+              <i class="fas fa-plus"></i>
+            </a>
+
+          </div>
+
+
+          <div class="dl-path-content">
+            {{#if data.editPath}}
+              {{> "systems/demonlord/templates/item/item-path-edit.html"}}
+            {{else}}
+              {{> "systems/demonlord/templates/item/item-path-view.html"}}
+            {{/if}}
+          </div>
+        </div>
       </div>
 
       {{> "systems/demonlord/templates/item/partial/item-description.html"}}
