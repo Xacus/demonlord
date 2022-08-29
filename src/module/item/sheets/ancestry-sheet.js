@@ -1,5 +1,11 @@
 import DLBaseItemSheet from './base-item-sheet'
-import {getNestedDocument, getNestedItemData, PathLevelItem} from '../nested-objects'
+import {
+  createActorNestedItems,
+  deleteActorNestedItems,
+  getNestedDocument,
+  getNestedItemData,
+  PathLevelItem
+} from '../nested-objects'
 
 export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
@@ -148,16 +154,10 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
     // If the ancestry is inside a character, and the actor's level is >= 4, add or remove the item to the actor
     const actor = this.document.parent
-    if (actor && actor.type === 'character' && actor.data.data.level >= 4 && selected) {
-      const createdItem = await actor.createEmbeddedDocuments('Item', [await getNestedItemData(nestedItemData)])
-      await createdItem[0].setFlag('demonlord', 'nestedItemId', itemId)
-      await createdItem[0].setFlag('demonlord', 'parentItemId', this.document.id)
-    }
-    else {
-      actor.getEmbeddedCollection('Item')
-        .filter(i => i.data.flags?.demonlord?.nestedItemId === itemId)
-        .forEach(i => i.delete({parent: actor}))
-    }
+    if (actor && actor.type === 'character' && actor.data.data.level >= 4 && selected)
+      await createActorNestedItems(actor, [nestedItemData], this.document.id)
+    else
+      await deleteActorNestedItems(actor, null, itemId)
   }
 
 

@@ -2,6 +2,7 @@ import {capitalize} from '../utils/utils'
 
 /* -------------------------------------------- */
 /*  Class Models                                */
+
 /* -------------------------------------------- */
 
 export class PathLevel {
@@ -102,6 +103,7 @@ export class DamageType {
 
 /* -------------------------------------------- */
 /*  Transfer functions                          */
+
 /* -------------------------------------------- */
 
 export async function getNestedDocument(nestedData) {
@@ -135,7 +137,7 @@ export async function getNestedDocument(nestedData) {
   // Look for talents with same id or name inside ALL packs
   if (!entity) {
     for (const pack of game.packs) {
-      entity = (await pack.getDocument(nestedData.id)) || (await pack.getDocuments({ name: nestedData.name }))[0]
+      entity = (await pack.getDocument(nestedData.id)) || (await pack.getDocuments({name: nestedData.name}))[0]
       if (entity) break
     }
     method = entity ? 'FB-PACKS' : method
@@ -221,7 +223,7 @@ export function getAncestryItemsToDel(actor, ancestryData) {
 
 function _getIdsToRemove(actor, nestedItems) {
   // Gets the ids to remove, handling items with duplicate names
-  const actorItemsIds = actor.items.map(i => ({ name: i.name, id: i.id }))
+  const actorItemsIds = actor.items.map(i => ({name: i.name, id: i.id}))
   return nestedItems
     .map(ni => {
       const index = actorItemsIds.findIndex(ai => ai.name === ni.name)
@@ -229,6 +231,7 @@ function _getIdsToRemove(actor, nestedItems) {
     })
     .filter(id => Boolean(id))
 }
+
 /* -------------------------------------------- */
 
 export async function handleCreateAncestry(actor, ancestryData) {
@@ -239,4 +242,44 @@ export async function handleCreateAncestry(actor, ancestryData) {
   let itemsData = await getNestedItemsDataList(nestedItems)
   await actor.createEmbeddedDocuments('Item', itemsData)
   return Promise.resolve()
+}
+
+/**
+ * Creates nested items inside an Actor, using a collection of ItemData.
+ * @param actor Target DemonlordActor to contain the item
+ * @param nestedItems Nested items list. Important, it doesn't contain ItemData, but the custom nestedItemData (PathLevelItem)
+ * @param parentItemId ID of the parent of the nested item
+ * @returns {Promise<Item>} The created item list
+ */
+export async function createActorNestedItems(actor, nestedItems, parentItemId) {
+  const itemDataList = await getNestedItemsDataList(nestedItems)
+  const createdItems = await actor.createEmbeddedDocuments('Item', itemDataList)
+  for (let [i, ci] of createdItems.entries()) {
+    await ci.setFlag('demonlord', 'nestedItemId', nestedItems[i].data._id)
+    await ci.setFlag('demonlord', 'parentItemId', parentItemId)
+  }
+  return createdItems
+}
+
+
+/**
+ * Deletes nested items from an actor using one of two methods:
+ * - By parentItemId lookup, deleting items which match the flag 'demonlord.parentItemId'
+ * - By nestedItemId lookup, deleting items which match the flag 'demonlord.nestedItemId'
+ * The first can be used to delete all items from a parent, for example when deleting an ancestry we want to delete all
+ * of its nested items from the actor.
+ * The latter is used to delete all items from a single nested item. For example when the user de-selects a choosable
+ * talent inside an ancestry
+ * @param actor
+ * @param parentItemId
+ * @param nestedItemId
+ * @returns {Promise<void>}
+ */
+export async function deleteActorNestedItems(actor, parentItemId = undefined, nestedItemId = undefined) {
+  const actorItems = actor.getEmbeddedCollection('Item')
+  if (parentItemId) {
+    actorItems.filter(i => i.data.flags?.demonlord?.parentItemId === parentItemId).forEach(i => i.delete({parent:actor}))
+  } else if (nestedItemId) {
+    actorItems.filter(i => i.data.flags?.demonlord?.nestedItemId === nestedItemId).forEach(i => i.delete({parent:actor}))
+  }
 }
