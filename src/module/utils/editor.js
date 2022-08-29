@@ -85,8 +85,8 @@ export function initDlEditor(html, application) {
         })
 
         // Save on focusout
-        editor.on('focusout', () => {
-          application.saveEditor(edName)
+        editor.on('focusout', (ev) => {
+          if (!ev.relatedTarget) application.saveEditor(edName)
         })
       },
     })

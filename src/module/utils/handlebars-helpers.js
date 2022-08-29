@@ -136,7 +136,6 @@ export function buildDropdownList(groupName, checkedKey) {
 
 function _buildCheckboxes(groupName, checkedKey, data) {
   let html = ''
-  console.log(groupName, checkedKey, data)
   if (groupName === 'talent-action-bonus') {
     const attributes = ['strength', 'agility', 'intellect', 'will', 'perception']
     for (let attribute of attributes) {

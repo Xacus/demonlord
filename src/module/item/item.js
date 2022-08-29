@@ -23,6 +23,7 @@ export class DemonlordItem extends Item {
       openSheets.forEach(s => s.render())
     }
   }
+
   /** @override */
   static async create(data, options = {}) {
     // Add default image
