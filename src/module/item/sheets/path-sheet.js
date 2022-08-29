@@ -1,12 +1,12 @@
 import DLBaseItemSheet from './base-item-sheet'
-import {getNestedItemData, getNestedItemsDataList, PathLevel, PathLevelItem} from '../nested-objects'
+import {getNestedDocument, getNestedItemData, getNestedItemsDataList, PathLevel, PathLevelItem} from '../nested-objects'
 
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      width: 650,
-      height: 700,
+      width: 700,
+      height: 680,
     })
   }
 
@@ -121,7 +121,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
 
   showLevelDeleteDialog(ev) {
-    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+    const levelIndex = $(ev.currentTarget).closest('[data-level-index]').data('levelIndex')
     const d = new Dialog({
       title: game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevel'),
       content: game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevelText'),
@@ -131,7 +131,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
           label: game.i18n.localize('DL.DialogYes'),
           callback: _ => {
             const levels = this.item.data.data.levels
-            levels.splice(itemIndex, 1)
+            levels.splice(levelIndex, 1)
             this.item.update({'data.levels': levels})
           },
         },
@@ -223,9 +223,9 @@ export default class DLPathSheet extends DLBaseItemSheet {
     levelItem.pack = data.pack ? data.pack : ''
     levelItem.data = item
 
-    if (group === 'talent') pathData.data.levels[level]?.talents.push(levelItem)
-    else if (group === 'talentpick') pathData.data.levels[level]?.talentspick.push(levelItem)
-    else if (group === 'spell') pathData.data.levels[level]?.spells.push(levelItem)
+    if (group === 'talents') pathData.data.levels[level]?.talents.push(levelItem)
+    else if (group === 'talentspick') pathData.data.levels[level]?.talentspick.push(levelItem)
+    else if (group === 'spells') pathData.data.levels[level]?.spells.push(levelItem)
 
     this.item.update(pathData)
   }
@@ -236,9 +236,9 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
     const itemData = duplicate(this.item.data)
 
-    if (itemGroup === 'talent') itemData.data.levels[itemLevel].talents.splice(itemIndex, 1)
-    else if (itemGroup === 'talentpick') itemData.data.levels[itemLevel].talentspick.splice(itemIndex, 1)
-    else if (itemGroup === 'spell') itemData.data.levels[itemLevel].spells.splice(itemIndex, 1)
+    if (itemGroup === 'talents') itemData.data.levels[itemLevel].talents.splice(itemIndex, 1)
+    else if (itemGroup === 'talentspick') itemData.data.levels[itemLevel].talentspick.splice(itemIndex, 1)
+    else if (itemGroup === 'spells') itemData.data.levels[itemLevel].spells.splice(itemIndex, 1)
     this.item.update(itemData)
   }
 
@@ -276,13 +276,19 @@ export default class DLPathSheet extends DLBaseItemSheet {
     if (updateData.type && this.object.data.data.editPath && updateData.type !== this.item.data.data.type) {
       let autoLevels = []
       switch (updateData.type) {
-        case 'novice': autoLevels = [1, 2, 5, 8]; break
-        case 'expert': autoLevels = [3, 6, 9]; break
-        case 'master': autoLevels = [7, 10]; break
+        case 'novice':
+          autoLevels = [1, 2, 5, 8];
+          break
+        case 'expert':
+          autoLevels = [3, 6, 9];
+          break
+        case 'master':
+          autoLevels = [7, 10];
+          break
       }
       updateData.levels = updateData.levels ?? []
       for (let index of autoLevels.keys()) {
-        if (!updateData.levels[index]) updateData.levels[index] = new PathLevel({level:autoLevels[index]})
+        if (!updateData.levels[index]) updateData.levels[index] = new PathLevel({level: autoLevels[index]})
         else updateData.levels[index].level = autoLevels[index]
       }
     }
@@ -428,6 +434,18 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const level = $(ev.currentTarget).closest('[data-level]').data('level')
     await this._addItem(item.data, level, group)
     return item
+  }
+
+
+  /** @override */
+  async _onNestedItemEdit(ev) {
+    const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+    const group = $(ev.currentTarget).closest('[data-group]').data('group')
+    const level = $(ev.currentTarget).closest('[data-level]').data('level')
+
+    const data = await this.getData({})
+    const nestedData = data.data.levels[level][group].find(i => i._id === itemId)
+    getNestedDocument(nestedData).then(d => d.sheet.render(true))
   }
 }
 

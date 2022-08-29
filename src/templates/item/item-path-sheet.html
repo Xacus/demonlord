@@ -30,7 +30,8 @@
            style="padding: 0 !important; padding-bottom: 8px">
         <div class="dl-path-container">
           <div class="dl-path-sidebar dl-item-section-section">
-            <div class="dl-new-project-2 dropdown" name="path-type" value="{{data.type}}">
+            <div class="dl-new-project-2 {{#if data.editPath}}dropdown{{else}}nohover{{/if}}" name="path-type"
+                 value="{{data.type}}">
               <span style="margin-left: 4px;">
                 {{#if (eq data.type 'novice')}}
                   {{localize "DL.CharPathNovice"}}
