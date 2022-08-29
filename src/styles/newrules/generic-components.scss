@@ -258,6 +258,19 @@
   }
 }
 
+.dl-custom-checkbox {
+  @extend .dl-new-project-2;
+  margin-right: 1px;
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+
+  &.checked {
+    background: rgba(105, 105, 105, 0.61);
+  }
+}
+
 // Tippy theme
 .tippy-box[data-theme~='demonlord-dropdown'] {
   padding: 0;

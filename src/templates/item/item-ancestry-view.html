@@ -21,12 +21,15 @@
     {{#if title}}
       <div class="dl-item-section-section-title"><b>{{localize title}}</b></div>
     {{/if}}
-    <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}">
+    <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}" data-group="{{dataGroup}}">
       {{#each collection as |item index|}}
         <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
              {{#if item.data.description}}data-tippy-html="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
           <img src="{{item.img}}">
           <span class="edit-nested-item dl-clickable">{{item.name}}</span>
+          {{#if ../selectable}}
+            <div class="dl-custom-checkbox dl-item-transfer {{#if item.selected}}checked{{/if}}"></div>
+          {{/if}}
         </div>
       {{/each}}
     </div>
@@ -105,19 +108,19 @@
 {{#if (and data.level4.spells.length data.level4.talent.length)}}
   <div class="grid-2">
     <div class="dl-item-section-section margin">
-      {{> dlDropZoneView collection=data.level4.spells title="DL.AncestryLearnSpell"}}
+      {{> dlDropZoneView collection=data.level4.spells dataGroup='spells4' title="DL.AncestryLearnSpell" selectable=true}}
     </div>
     <div class="dl-item-section-section margin">
-      {{> dlDropZoneView collection=data.level4.talent title="DL.AncestryLearnTalent"}}
+      {{> dlDropZoneView collection=data.level4.talent dataGroup='talent4' title="DL.AncestryLearnTalent" selectable=true}}
     </div>
   </div>
 {{else if data.level4.spells.length}}
   <div class="dl-item-section-section margin">
-    {{> dlDropZoneView collection=data.level4.spells title="DL.AncestryLearnSpell" col2=true}}
+    {{> dlDropZoneView collection=data.level4.spells dataGroup='spells4' title="DL.AncestryLearnSpell" col2=true selectable=true}}
   </div>
 {{else if data.level4.talent.length}}
   <div class="dl-item-section-section margin">
-    {{> dlDropZoneView collection=data.level4.talent title="DL.AncestryLearnTalent" col2=true}}
+    {{> dlDropZoneView collection=data.level4.talent dataGroup='talent4' title="DL.AncestryLearnTalent" col2=true selectable=true}}
   </div>
 {{/if}}
 

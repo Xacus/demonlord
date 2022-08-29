@@ -224,9 +224,10 @@
   <div class="dl-item-section-section margin">
     <div class="dl-item-section-section-title">
       <b>{{localize "DL.AncestryLearnSpell"}} ({{localize "CONTROLS.Drop"}})</b>
-      <!--<a class="TODO" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="language">
+      <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+         data-type="spell" data-group="spells4" data-folder-loc="MagicSpellsTitle">
         <i class="fas fa-plus"></i>
-      </a>-->
+      </a>
     </div>
     <div class="dl-drop-zone" data-group="spells4" data-level="{{id}}">
       {{#each data.level4.spells as |item index|}}
@@ -234,7 +235,7 @@
              {{#if item.data.description}}data-tippy-html="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
           <img src="{{item.img}}">
           <span class="edit-nested-item dl-clickable">{{item.name}}</span>
-          <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="spell">
+          <a class="delete-ancestryitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="spells4">
             <i class="fas fa-times"></i>
           </a>
         </div>

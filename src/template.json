@@ -383,6 +383,7 @@
         "option1": true,
         "option1text": "",
         "talent": [],
+        "spells": [],
         "pickedTalents": [],
         "picks": 1
       },

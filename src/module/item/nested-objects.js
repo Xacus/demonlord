@@ -86,6 +86,7 @@ export class PathLevelItem {
     this.name = obj.name || ''
     this.description = obj.description || ''
     this.pack = obj.pack || ''
+    this.selected = Boolean(obj.selected) || false
   }
 }
 
@@ -151,6 +152,7 @@ export async function getNestedDocument(nestedData) {
 
 export async function getNestedItemData(nestedData) {
   const entity = await getNestedDocument(nestedData)
+  entity.data.selected = nestedData.selected  // Remember the user selection
 
   // Return only the data
   // Warning: here the implicit assertion is that entity is an Item and not an Actor or something else
