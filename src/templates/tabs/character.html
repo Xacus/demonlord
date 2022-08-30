@@ -159,29 +159,39 @@
           {{#if actor.data.languages.edit}} {{#each actor.languages as |language id|}}
             <div class="language" data-item-id="{{language._id}}">
               <div class="languagetitle">{{language.name}} (</div>
-              <a class="language-toggle-r"
-              >{{#if language.data.read}}
-                <div class="charhighlight">{{localize "DL.LanguagesKnowledeReadShort"}}</div>
-              {{else}}
-                <div class="chardim">{{localize "DL.LanguagesKnowledeReadShort"}}</div>
-              {{/if}}</a
-              >
-              <div class="delimiter">/</div>
-              <a class="language-toggle-w"
-              >{{#if language.data.write}}
-                <div class="charhighlight">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>
-              {{else}}
-                <div class="chardim">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>
-              {{/if}}</a
-              >
-              <div class="delimiter">/</div>
-              <a class="language-toggle-s"
-              >{{#if language.data.speak}}
-                <div class="charhighlight">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>
-              {{else}}
-                <div class="chardim">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>
-              {{/if}}</a
-              >)
+              <a class="language-toggle-r">
+                {{#if language.data.read}}
+                  <div class="charhighlight">
+                    <i class="dl-icon-read black" style="width: 10px; height: 10px; margin-right: 4px"></i>
+                  </div>
+                {{else}}
+                  <div class="chardim">
+                    <i class="dl-icon-read gray" style="width: 10px; height: 10px; margin-right: 4px"></i>
+                  </div>
+                {{/if}}
+              </a>
+              <a class="language-toggle-w">
+                {{#if language.data.write}}
+                  <div class="charhighlight">
+                    <i class="dl-icon-write black" style="width: 10px; height: 10px; margin-right: 4px"></i>
+                  </div>
+                {{else}}
+                  <div class="chardim">
+                    <i class="dl-icon-write gray" style="width: 10px; height: 10px; margin-right: 4px"></i>
+                  </div>
+                {{/if}}
+              </a>
+              <a class="language-toggle-s">
+                {{#if language.data.speak}}
+                  <div class="charhighlight">
+                    <i class="dl-icon-speak black" style="width: 10px; height: 10px"></i>
+                  </div>
+                {{else}}
+                  <div class="chardim">
+                    <i class="dl-icon-speak gray" style="width: 10px; height: 10px"></i>
+                  </div>
+                {{/if}}
+              </a>)
               <div class="item-controls">
                 <a class="item-control language-delete" title="{{localize 'DL.LanguageDelete'}}"
                 ><i class="fas fa-times"></i
@@ -192,21 +202,19 @@
             <div class="language">
               <div class="languagetitle">{{language.name}} (</div>
               {{#if language.data.read}}
-                <div class="charhighlight">{{localize "DL.LanguagesKnowledeReadShort"}}</div>
+                <i class="dl-icon-read black" style="width: 10px; height: 10px"></i>
               {{else}}
-                <div class="chardim">{{localize "DL.LanguagesKnowledeReadShort"}}</div>
+                <i class="dl-icon-read gray" style="width: 10px; height: 10px"></i>
               {{/if}}
-              <div class="delimiter">/</div>
               {{#if language.data.write}}
-                <div class="charhighlight">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>
+                <i class="dl-icon-write black" style="width: 10px; height: 10px"></i>
               {{else}}
-                <div class="chardim">{{localize "DL.LanguagesKnowledeWriteShort"}}</div>
+                <i class="dl-icon-write gray" style="width: 10px; height: 10px"></i>
               {{/if}}
-              <div class="delimiter">/</div>
               {{#if language.data.speak}}
-                <div class="charhighlight">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>
+                <i class="dl-icon-speak black" style="width: 10px; height: 10px"></i>
               {{else}}
-                <div class="chardim">{{localize "DL.LanguagesKnowledeSpeakShort"}}</div>
+                <i class="dl-icon-speak gray" style="width: 10px; height: 10px"></i>
               {{/if}})
             </div>
           {{/each}} {{/if}} {{else}}

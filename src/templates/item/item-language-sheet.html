@@ -1,4 +1,4 @@
-<form class="{{cssClass}} item-form" autocomplete="off">
+<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
   <header class="sheet-header itemsheet-header">
     <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
@@ -18,28 +18,41 @@
   <section class="sheet-body">
     <section class="sheet-content">
       <div class="tab weapons" data-group="primary" data-tab="attributes">
-        <div class="item-table">
-          <div class="row">
-            <div class="col-6 inline-input fix">
-              <input type="checkbox" name="data.read" id="multipleoptions" {{checked data.read}} />
-              <label for="data.read">{{localize "DL.LanguagesKnowledeRead"}}</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6 inline-input fix">
-              <input type="checkbox" name="data.write" id="multipleoptions" {{checked data.write}} />
-              <label for="data.write">{{localize "DL.LanguagesKnowledeWrite"}}</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6 inline-input fix">
-              <input type="checkbox" name="data.speak" id="multipleoptions" {{checked data.speak}} />
-              <label for="data.speak">{{localize "DL.LanguagesKnowledeSpeak"}}</label>
-            </div>
+
+        <div class="dl-item-section-header row">
+          <div class="col-12" style="margin-top: 4px">
+            <b>{{item.name}}</b>
           </div>
         </div>
-      </div>
+        <hr>
 
+
+        <div class="dl-item-section-section margin">
+          {{#*inline "dlLangType"}}
+            <div class="dl-new-project-2 selectable {{#if selected}}selected{{/if}}">
+              <input type="checkbox" name="data.{{name}}" {{checked selected}} />
+              <i class="dl-icon-{{name}}"></i>
+              <span class="sep"></span>
+              <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
+            </div>
+          {{/inline}}
+
+          <div class="dl-column-flex" style="padding: 0 15%">
+            {{> dlLangType name="read"  selected=data.read  loc="DL.LanguagesRead"}}
+            {{> dlLangType name="write" selected=data.write loc="DL.LanguagesWrite"}}
+            {{> dlLangType name="speak" selected=data.speak loc="DL.LanguagesSpeak"}}
+          </div>
+        </div>
+        <hr>
+
+        <div class="dl-item-section-description">
+          <div><b>{{localize "DL.TabsDescription"}}</b></div>
+          <div>
+            {{dlEditor content=data.description target="data.description" button=true owner=owner editable=editable}}
+          </div>
+        </div>
+
+      </div>
       {{> "systems/demonlord/templates/item/partial/item-description.html"}}
     </section>
   </section>

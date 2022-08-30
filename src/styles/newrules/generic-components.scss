@@ -341,6 +341,12 @@
   &.gray {
     background-color: gray;
   }
+  &.black {
+    background-color: black;
+  }
+  &.hover-red:hover {
+    background-color: var(--demonlord-red);
+  }
 }
 
 i.dl-icon-strength {
@@ -413,4 +419,16 @@ i.dl-icon-d20 {
 
 i.dl-icon-d20-plus {
   @include dl-icon('../assets/ui/other-svg/d20-plus.svg');
+}
+
+i.dl-icon-speak {
+  @include dl-icon('../assets/ui/other-svg/speak.svg');
+}
+
+i.dl-icon-read {
+  @include dl-icon('../assets/ui/other-svg/read.svg');
+}
+
+i.dl-icon-write {
+  @include dl-icon('../assets/ui/other-svg/write.svg');
 }
