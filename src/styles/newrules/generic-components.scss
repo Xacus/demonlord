@@ -146,6 +146,28 @@
     cursor: pointer;
   }
 
+  &.selectable {
+    input[type='checkbox'],
+    input[type='radio'] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &:not(.selected) {
+      color: gray;
+
+      i {
+        background-color: gray;
+      }
+    }
+  }
+
   input {
     text-align: center !important;
     margin: 0 !important;
@@ -161,6 +183,7 @@
     &[type='number']:not([autosize='true']) {
       width: 16px;
     }
+
     &:hover,
     &:focus {
       cursor: text;
@@ -229,6 +252,7 @@
     &.checked {
       background-color: $bg-checked;
     }
+
     &.checked,
     &.checked .sep {
       //border-color: $color-checked;
@@ -298,6 +322,7 @@
     box-shadow: none !important;
   }
 }
+
 .dl-editor .dl-editor-toolbar {
   display: none;
 }

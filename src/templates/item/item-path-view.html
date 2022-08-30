@@ -6,7 +6,7 @@
     <span class="sep"></span>
     <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
     <span class="sep"></span>
-    <span style="text-align: center; margin-left: 4px">{{value}}</span>
+    <span style="text-align: center; margin-left: 4px">{{plusify value}}</span>
   </div>
 {{/inline}}
 
@@ -20,6 +20,21 @@
   {{#if value}}
     <div class="dl-column-flex">
       {{> dlAttributeInput icon=icon  value=value name=name loc=loc}}
+    </div>
+  {{/if}}
+{{/inline}}
+
+{{#*inline "dlAttributeSelector"}}
+  {{#if value}}
+    <div class="dl-column-flex">
+      <div class="dl-new-project-2 selectable {{#if selected}}selected{{/if}}">
+        <input type="checkbox" name="{{name}}" {{checked selected}} />
+        <i class="dl-icon-{{icon}}"></i>
+        <span class="sep"></span>
+        <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
+        <span class="sep"></span>
+        <span style="text-align: center; margin-left: 4px">{{plusify value}}</span>
+      </div>
     </div>
   {{/if}}
 {{/inline}}
@@ -93,8 +108,13 @@
           </div>
         </div>
 
-        {{#if
-          (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree level.attributeSelectIsFixed)}}
+        {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree)}}
+          {{> dlAttributeSelector icon="strength"   value=level.attributeStrength  name="level.attributeStrengthSelected"  selected=level.attributeStrengthSelected  loc="DL.AttributeStrength"}}
+          {{> dlAttributeSelector icon="agility"    value=level.attributeAgility   name="level.attributeAgilitySelected"   selected=level.attributeAgilitySelected   loc="DL.AttributeAgility"}}
+          {{> dlAttributeSelector icon="intellect"  value=level.attributeIntellect name="level.attributeIntellectSelected" selected=level.attributeIntellectSelected loc="DL.AttributeIntellect"}}
+          {{> dlAttributeSelector icon="will"       value=level.attributeWill      name="level.attributeWillSelected"      selected=level.attributeWillSelected      loc="DL.AttributeWill"}}
+
+        {{else if level.attributeSelectIsFixed}}
           {{> dlAttributeInputCol1 icon="strength"   value=level.attributeStrength  name="level.attributeStrength"  loc="DL.AttributeStrength"}}
           {{> dlAttributeInputCol1 icon="agility"    value=level.attributeAgility   name="level.attributeAgility"   loc="DL.AttributeAgility"}}
           {{> dlAttributeInputCol1 icon="intellect"  value=level.attributeIntellect name="level.attributeIntellect" loc="DL.AttributeIntellect"}}
@@ -102,19 +122,34 @@
 
         {{else if level.attributeSelectIsTwoSet}}
           <div class="dl-column-flex">
-            {{dlPathAttributeTwoSet "level.attributeSelectTwoSet1" level.attributeSelectTwoSet1 true}}
-            <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
-            {{dlPathAttributeTwoSet "level.attributeSelectTwoSet2" level.attributeSelectTwoSet2 true}}
+            {{#if level.attributeSelectTwoSetSelectedValue1}}
+              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet1 true "level.attributeSelectTwoSetSelectedValue1" true index}}
+              <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
+              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet2 false "level.attributeSelectTwoSetSelectedValue1" false index}}
+            {{else}}
+              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet1 false "level.attributeSelectTwoSetSelectedValue1" true index}}
+              <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
+              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet2 true "level.attributeSelectTwoSetSelectedValue1" false index}}
+            {{/if}}
+
             <div class="dl-new-project-2 nohover">
-              <span style="margin-left: 4px">{{level.attributeSelectTwoSetValue1}}</span>
+              <span style="margin-left: 4px">{{plusify level.attributeSelectTwoSetValue1}}</span>
             </div>
           </div>
+
           <div class="dl-column-flex">
-            {{dlPathAttributeTwoSet "level.attributeSelectTwoSet3" level.attributeSelectTwoSet3 true}}
-            <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
-            {{dlPathAttributeTwoSet "level.attributeSelectTwoSet4" level.attributeSelectTwoSet4 true}}
+            {{#if level.attributeSelectTwoSetSelectedValue2}}
+              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet3 true "level.attributeSelectTwoSetSelectedValue2" true index}}
+              <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
+              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet4 false "level.attributeSelectTwoSetSelectedValue2" false index}}
+            {{else}}
+              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet3 false "level.attributeSelectTwoSetSelectedValue2" true index}}
+              <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
+              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet4 true "level.attributeSelectTwoSetSelectedValue2" false index}}
+            {{/if}}
+
             <div class="dl-new-project-2 nohover">
-              <span style="margin-left: 4px">{{level.attributeSelectTwoSetValue2}}</span>
+              <span style="margin-left: 4px">{{plusify level.attributeSelectTwoSetValue2}}</span>
             </div>
           </div>
         {{/if}}

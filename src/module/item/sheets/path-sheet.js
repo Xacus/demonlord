@@ -207,7 +207,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     }
 
     // Match the new levels with the old ones and keep the nested items
-    const oldLevels = this.item.data.toObject().levels
+    const oldLevels = this.item.data.toObject().data.levels
     const notFound = [] // stores path levels that do not have been found in the current levels
     newLevels.forEach(newLevel => {
       const foundIndex = oldLevels.findIndex(l => +l.level === +newLevel.level)
@@ -272,6 +272,9 @@ export default class DLPathSheet extends DLBaseItemSheet {
             } else {
               obj[_name] = input.value === 'true'
             }
+          }
+          if (_name.startsWith('level.attributeSelectTwoSetSelectedValue') && input.checked) {
+            obj[_name] = (input.getAttribute('value') ?? input.value) === 'true'
           }
         } else {
           obj[_name] = input.value ?? input.getAttribute('value')
