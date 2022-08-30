@@ -32,6 +32,10 @@
            {{#if item.data.description}}data-tippy-html="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
         <img src="{{item.img}}">
         <span class="edit-nested-item dl-clickable">{{item.name}}</span>
+        {{#if ../selectable}}
+          <div style="margin-right: 1px;margin-left: auto; align-self: center"
+               class="dl-custom-checkbox dl-item-transfer {{#if item.selected}}checked{{/if}}"></div>
+        {{/if}}
       </div>
     {{/each}}
   </div>
@@ -178,7 +182,7 @@
         <div class="dl-item-section-section-title">
           <b>{{localize "DL.TalentTitle"}} ({{localize 'DL.PathsLevelTalentChooseOne'}})</b>
         </div>
-        {{> dlDropZoneView collection=level.talentspick dataGroup="talentspick" dataLevel=index col2=true}}
+        {{> dlDropZoneView collection=level.talentspick dataGroup="talentspick" dataLevel=index col2=true selectable=true}}
       </div>
     {{/if}}
 
@@ -187,7 +191,7 @@
         <div class="dl-item-section-section-title">
           <b>{{localize "DL.MagicSpellsTitle"}}</b>
         </div>
-        {{> dlDropZoneView collection=level.spells dataGroup="spells" dataLevel=index col2=true}}
+        {{> dlDropZoneView collection=level.spells dataGroup="spells" dataLevel=index col2=true selectable=true}}
       </div>
     {{/if}}
 

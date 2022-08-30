@@ -211,7 +211,7 @@ export class DemonlordActor extends Actor {
       if (doc.type === 'ancestry') {
         await handleCreateAncestry(this, doc)
       } else if (doc.type === 'path') {
-        await handleCreatePath(this, doc.data.data)
+        await handleCreatePath(this, doc)
       }
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')

@@ -171,65 +171,54 @@ export async function getNestedItemsDataList(nestedDataList) {
 
 /* -------------------------------------------- */
 
-export async function handleCreatePath(actor, pathData) {
+function _getLevelItemsToTransfer(level) {
+  let nestedItems = [...level.talents, ...level.languages]
+  const selectedItems = [...level.spells, ...level.talentspick].filter(i => Boolean(i.selected))
+  nestedItems = [...nestedItems, ...selectedItems]
+  return nestedItems
+}
+
+export async function handleCreatePath(actor, pathItem) {
   const actorLevel = parseInt(actor.data.data.level)
+  const pathData = pathItem.data.data
   const leqLevels = pathData.levels.filter(l => +l.level <= +actorLevel)
 
-  let nestedItems = []
-  leqLevels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
-  let itemsData = await getNestedItemsDataList(nestedItems)
-  if (itemsData.length > 0) await actor.createEmbeddedDocuments('Item', itemsData)
+  // For each level that is <= actor level, add all talents and *selected* nested items
+  for (let level of leqLevels) {
+    await createActorNestedItems(actor, _getLevelItemsToTransfer(level), pathItem.id, level.level)
+  }
   return Promise.resolve()
 }
 
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
   curLevel = parseInt(curLevel ?? actor.data.data.level)
   newLevel = parseInt(newLevel)
-  const paths = actor.items.filter(i => i.type === 'path')
+  if (newLevel === curLevel) return
+  const actorItems = actor.getEmbeddedCollection('Item')
+  const paths = actorItems.filter(i => i.type === 'path')
+  const ancestry = actorItems.find(i => i.type === 'ancestry')
 
-  const start = Math.min(curLevel, newLevel)
-  const end = Math.max(curLevel, newLevel)
-  const levels = []
-  for (const p of paths) {
-    p.data.data.levels.filter(l => l.level > start && l.level <= end).forEach(l => levels.push(l))
-  }
-
-  let nestedItems = []
+  // If the new level is greater than the old, add stuff
   if (newLevel > curLevel) {
-    // Get spells, talents and languages and add them to the actor
-    levels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages]))
-    let itemsData = await getNestedItemsDataList(nestedItems)
-    if (itemsData.length > 0) await actor.createEmbeddedDocuments('Item', itemsData)
-  } else {
-    // Delete ALL items from the difference of levels
-    const idsToDel = getPathItemsToDel(actor, levels)
-    if (idsToDel.length > 0) await actor.deleteEmbeddedDocuments('Item', idsToDel)
+    // Create relevant path levels' nested items
+    for (let path of paths) {
+      path.data.data.levels
+        .filter(l => +l.level > curLevel && +l.level <= newLevel)
+        .forEach(level => createActorNestedItems(actor, _getLevelItemsToTransfer(level), path.id, level.level))
+    }
+    // Add ancestry level 4 nested items
+    if (ancestry && curLevel < 4 && newLevel >= 4) {
+      const ancestryData = ancestry.data.data
+      let chosenNestedItems = [...ancestryData.level4.talent, ...ancestryData.level4.spells].filter(i => Boolean(i.selected))
+      await createActorNestedItems(actor, chosenNestedItems, ancestry.id, 4)
+    }
+  }
+  // Otherwise delete items with levelRequired > newLevel
+  else {
+    const ids = actorItems.filter(i => i.data.flags?.demonlord?.levelRequired > newLevel).map(i => i.id)
+    if (ids.length) await actor.deleteEmbeddedDocuments('Item', ids)
   }
   return Promise.resolve()
-}
-
-/* -------------------------------------------- */
-
-export function getPathItemsToDel(actor, pathLevels) {
-  let nestedItems = []
-  pathLevels.forEach(l => (nestedItems = [...nestedItems, ...l.spells, ...l.talents, ...l.languages, ...l.talentspick]))
-  return _getIdsToRemove(actor, nestedItems)
-}
-
-export function getAncestryItemsToDel(actor, ancestryData) {
-  let nestedItems = [...ancestryData.talents, ...ancestryData.languagelist, ...ancestryData.level4.talent]
-  return _getIdsToRemove(actor, nestedItems)
-}
-
-function _getIdsToRemove(actor, nestedItems) {
-  // Gets the ids to remove, handling items with duplicate names
-  const actorItemsIds = actor.items.map(i => ({name: i.name, id: i.id}))
-  return nestedItems
-    .map(ni => {
-      const index = actorItemsIds.findIndex(ai => ai.name === ni.name)
-      if (index >= 0) return actorItemsIds.splice(index, 1)[0].id
-    })
-    .filter(id => Boolean(id))
 }
 
 /* -------------------------------------------- */
@@ -237,14 +226,16 @@ function _getIdsToRemove(actor, nestedItems) {
 export async function handleCreateAncestry(actor, ancestryItem) {
   const ancestryData = ancestryItem.data.data
   let nestedItems = [...ancestryData.talents, ...ancestryData.languagelist]
+  let createdItems = await createActorNestedItems(actor, nestedItems, ancestryItem.id, 0)
   // If character level >= 4, add chosen nested items
   if (actor.data.data.level >= 4) {
-    let chosenNestedItems = [...ancestryData.level4.talent, ...ancestryData.level4.spells]
-      .filter(i => Boolean(i.selected))
-    nestedItems = [...nestedItems, ...chosenNestedItems]
+    let chosenNestedItems = [...ancestryData.level4.talent, ...ancestryData.level4.spells].filter(i => Boolean(i.selected))
+    createdItems = createdItems.concat(await createActorNestedItems(actor, chosenNestedItems, ancestryItem.id, 4))
   }
-  return await createActorNestedItems(actor, nestedItems, ancestryItem.id)
+  return createdItems
 }
+
+/* -------------------------------------------- */
 
 /**
  * Creates nested items inside an Actor, using a collection of ItemData.
@@ -255,18 +246,18 @@ export async function handleCreateAncestry(actor, ancestryItem) {
  */
 export async function createActorNestedItems(actor, nestedItems, parentItemId, levelRequired = 0) {
   let itemDataList = await getNestedItemsDataList(nestedItems)
-  itemDataList.forEach((itemData, i) => itemData.flags = {
-    nestedItemId: nestedItems[i].data._id,
-    parentItemId: parentItemId,
-    levelRequired: levelRequired
+  // Set the flags
+  itemDataList = itemDataList.map((itemData, i) => {
+    itemData = itemData.toObject()
+    itemData.flags.demonlord = {
+      nestedItemId: nestedItems[i].data._id ?? nestedItems[i]._id,
+      parentItemId: parentItemId,
+      levelRequired: levelRequired
+    }
+    return itemData
   })
-  console.log(itemDataList)
-  const createdItems = await actor.createEmbeddedDocuments('Item', itemDataList)
-  for (let [i, ci] of createdItems.entries()) {
-    await ci.setFlag('demonlord', 'nestedItemId', nestedItems[i].data._id)
-    await ci.setFlag('demonlord', 'parentItemId', parentItemId)
-  }
-  return createdItems
+
+  return await actor.createEmbeddedDocuments('Item', itemDataList)
 }
 
 

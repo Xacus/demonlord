@@ -76,7 +76,6 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   /* -------------------------------------------- */
   /*  Auxiliary functions                         */
-
   /* -------------------------------------------- */
 
   /** @override */
@@ -106,7 +105,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     levelItem.description = item.data.description
     levelItem.pack = data.pack ? data.pack : ''
     levelItem.data = item
-    console.log(group)
+
     if (group === 'talent') ancestryData.data.talents.push(levelItem)
     else if (group === 'talent4') ancestryData.data.level4.talent.push(levelItem)
     else if (group === 'language') ancestryData.data.languagelist.push(levelItem)
@@ -155,7 +154,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     // If the ancestry is inside a character, and the actor's level is >= 4, add or remove the item to the actor
     const actor = this.document.parent
     if (!actor || actor.type !== 'character') return
-    if (actor.data.data.level >= 4 && selected)
+    if (parseInt(actor.data.data.level) >= 4 && selected)
       await createActorNestedItems(actor, [nestedItemData], this.document.id, 4)
     else
       await deleteActorNestedItems(actor, null, itemId)

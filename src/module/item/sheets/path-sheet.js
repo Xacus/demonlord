@@ -1,5 +1,12 @@
 import DLBaseItemSheet from './base-item-sheet'
-import {getNestedDocument, getNestedItemData, getNestedItemsDataList, PathLevel, PathLevelItem} from '../nested-objects'
+import {
+  createActorNestedItems, deleteActorNestedItems,
+  getNestedDocument,
+  getNestedItemData,
+  getNestedItemsDataList,
+  PathLevel,
+  PathLevelItem
+} from '../nested-objects'
 
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
@@ -13,7 +20,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
   async getData(options) {
     const data = super.getData(options)
-    data.data.levels = this.item.data.data.levels || []
+    data.data.levels = data.data.levels || []
     data.data.levels.sort(_sortLevels)
 
     // Localize Two Set labels if is 'view'
@@ -113,6 +120,9 @@ export default class DLPathSheet extends DLBaseItemSheet {
         else pl.hide()
       })
     })
+
+    // Nested item transfer checkbox
+    html.find('.dl-item-transfer').click(ev => this._transferItem(ev))
   }
 
   /* -------------------------------------------- */
@@ -314,7 +324,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     }
 
     // Match the new levels with the old ones and keep the nested items
-    const oldLevels = duplicate(this.object).data.levels
+    const oldLevels = this.item.data.toObject().levels
     const notFound = [] // stores path levels that do not have been found in the current levels
     newLevels.forEach(newLevel => {
       const foundIndex = oldLevels.findIndex(l => +l.level === +newLevel.level)
@@ -446,6 +456,29 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const data = await this.getData({})
     const nestedData = data.data.levels[level][group].find(i => i._id === itemId)
     getNestedDocument(nestedData).then(d => d.sheet.render(true))
+  }
+
+  async _transferItem(ev) {
+    // Grab data from the event
+    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+    const itemGroup = $(ev.currentTarget).closest('[data-group]').data('group')
+    const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+    const itemLevelIndex = $(ev.currentTarget).closest('[data-level]').data('level')
+
+    // Grab the nested item data
+    const pathData = this.item.data.toObject()
+    const nestedItemData = pathData.data.levels[itemLevelIndex][itemGroup][itemIndex]
+    let selected = nestedItemData.selected = !nestedItemData.selected
+    await this.document.update(pathData)
+
+    // If the path is inside a character, and the actor level matches the item level, add it to the actor
+    const actor = this.document.parent
+    if (!actor || actor.type !== 'character') return
+    const levelRequired = pathData.data.levels[itemLevelIndex].level
+    if (parseInt(actor.data.data.level) >= levelRequired && selected)
+      await createActorNestedItems(actor, [nestedItemData], this.document.id, levelRequired)
+    else
+      await deleteActorNestedItems(actor, null,  itemId)
   }
 }
 
