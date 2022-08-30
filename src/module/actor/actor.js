@@ -207,9 +207,9 @@ export class DemonlordActor extends Actor {
   async _handleOnCreateEmbedded(documents) {
     console.log('DEMONLORD | Calling _handleOnCreateEmbedded', documents)
     for (const doc of documents) {
-      // Ancestry an path creations
+      // Ancestry and path creations
       if (doc.type === 'ancestry') {
-        await handleCreateAncestry(this, doc.data.data)
+        await handleCreateAncestry(this, doc)
       } else if (doc.type === 'path') {
         await handleCreatePath(this, doc.data.data)
       }
@@ -224,6 +224,14 @@ export class DemonlordActor extends Actor {
 
   _onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
     super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId)
+
+    // Check if only the flag has changed. If so, we can skip the handling
+    const keys = new Set(result.reduce((prev, r) => prev.concat(Object.keys(r)), []))
+    if (keys.size <= 2 && keys.has('flags')) {
+      // Maybe check if the changed flag is 'levelRequired'?
+      return
+    }
+
     if (embeddedName === 'Item' && userId === game.userId && !options.noEmbedEffects)
       this._handleOnUpdateEmbedded(documents).then(_ => this.sheet.render())
   }
@@ -253,7 +261,6 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
   /*  Rolls and Actions                           */
-
   /* -------------------------------------------- */
 
   /**

@@ -154,8 +154,9 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
     // If the ancestry is inside a character, and the actor's level is >= 4, add or remove the item to the actor
     const actor = this.document.parent
-    if (actor && actor.type === 'character' && actor.data.data.level >= 4 && selected)
-      await createActorNestedItems(actor, [nestedItemData], this.document.id)
+    if (!actor || actor.type !== 'character') return
+    if (actor.data.data.level >= 4 && selected)
+      await createActorNestedItems(actor, [nestedItemData], this.document.id, 4)
     else
       await deleteActorNestedItems(actor, null, itemId)
   }

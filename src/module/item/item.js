@@ -1,5 +1,5 @@
-import { getAncestryItemsToDel, getPathItemsToDel } from './nested-objects'
-import { DemonlordActor } from '../actor/actor'
+import {deleteActorNestedItems} from './nested-objects'
+import {DemonlordActor} from '../actor/actor'
 
 export class DemonlordItem extends Item {
   /** @override */
@@ -46,21 +46,14 @@ export class DemonlordItem extends Item {
     let aes = this.parent.effects.filter(ae => ae.data?.origin?.includes(this.id))
     for (const ae of aes) {
       try {
-        await ae.delete({ parent: this.parent })
+        await ae.delete({parent: this.parent})
       } catch (e) {
         console.error(e)
       }
     }
 
     // Delete nested objects if ancestry or path
-    let nestedIds = []
-    if (this.type === 'ancestry') nestedIds = getAncestryItemsToDel(this.parent, this.data.data)
-    if (this.type === 'path') nestedIds = getPathItemsToDel(this.parent, this.data.data.levels)
-    if (nestedIds.length > 0) {
-      console.log(`DEMONLORD | Deleting ${nestedIds.length} nested objects`)
-      await this.parent.deleteEmbeddedDocuments('Item', nestedIds)
-    }
-
+    if (['ancestry', 'path'].includes(this.type)) await deleteActorNestedItems(this.parent, this.id, null)
     return Promise.resolve()
   }
 
@@ -69,7 +62,8 @@ export class DemonlordItem extends Item {
    * @param {Event} event   The originating click event
    * @private
    */
-  async roll() {}
+  async roll() {
+  }
 
   hasDamage() {
     return Boolean(this.data.data?.action?.damage || this.data.data?.vs?.damage)

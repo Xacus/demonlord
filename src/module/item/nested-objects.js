@@ -234,14 +234,16 @@ function _getIdsToRemove(actor, nestedItems) {
 
 /* -------------------------------------------- */
 
-export async function handleCreateAncestry(actor, ancestryData) {
+export async function handleCreateAncestry(actor, ancestryItem) {
+  const ancestryData = ancestryItem.data.data
   let nestedItems = [...ancestryData.talents, ...ancestryData.languagelist]
-  // Do not add level 4, user has to pick it
-  // if (actor.data.data.level >= 4)
-  //   nestedItems = [...nestedItems, ...ancestryData.level4.talent]
-  let itemsData = await getNestedItemsDataList(nestedItems)
-  await actor.createEmbeddedDocuments('Item', itemsData)
-  return Promise.resolve()
+  // If character level >= 4, add chosen nested items
+  if (actor.data.data.level >= 4) {
+    let chosenNestedItems = [...ancestryData.level4.talent, ...ancestryData.level4.spells]
+      .filter(i => Boolean(i.selected))
+    nestedItems = [...nestedItems, ...chosenNestedItems]
+  }
+  return await createActorNestedItems(actor, nestedItems, ancestryItem.id)
 }
 
 /**
@@ -251,8 +253,14 @@ export async function handleCreateAncestry(actor, ancestryData) {
  * @param parentItemId ID of the parent of the nested item
  * @returns {Promise<Item>} The created item list
  */
-export async function createActorNestedItems(actor, nestedItems, parentItemId) {
-  const itemDataList = await getNestedItemsDataList(nestedItems)
+export async function createActorNestedItems(actor, nestedItems, parentItemId, levelRequired = 0) {
+  let itemDataList = await getNestedItemsDataList(nestedItems)
+  itemDataList.forEach((itemData, i) => itemData.flags = {
+    nestedItemId: nestedItems[i].data._id,
+    parentItemId: parentItemId,
+    levelRequired: levelRequired
+  })
+  console.log(itemDataList)
   const createdItems = await actor.createEmbeddedDocuments('Item', itemDataList)
   for (let [i, ci] of createdItems.entries()) {
     await ci.setFlag('demonlord', 'nestedItemId', nestedItems[i].data._id)
@@ -277,9 +285,11 @@ export async function createActorNestedItems(actor, nestedItems, parentItemId) {
  */
 export async function deleteActorNestedItems(actor, parentItemId = undefined, nestedItemId = undefined) {
   const actorItems = actor.getEmbeddedCollection('Item')
+  let ids = []
   if (parentItemId) {
-    actorItems.filter(i => i.data.flags?.demonlord?.parentItemId === parentItemId).forEach(i => i.delete({parent:actor}))
+    ids = actorItems.filter(i => i.data.flags?.demonlord?.parentItemId === parentItemId).map(i => i.id)
   } else if (nestedItemId) {
-    actorItems.filter(i => i.data.flags?.demonlord?.nestedItemId === nestedItemId).forEach(i => i.delete({parent:actor}))
+    ids = actorItems.filter(i => i.data.flags?.demonlord?.nestedItemId === nestedItemId).map(i => i.id)
   }
+  if (ids.length) actor.deleteEmbeddedDocuments('Item', ids)
 }
