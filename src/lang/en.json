@@ -678,5 +678,6 @@
   "DL.Override": "Override",
   "DL.Reference": "Reference",
   "DL.With": "with",
-  "DL.ChallengeRollBonus": "Challenge Roll Bonus"
+  "DL.ChallengeRollBonus": "Challenge Roll Bonus",
+  "DL.TransferItem": "Transfer item to character"
 }

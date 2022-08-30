@@ -28,7 +28,8 @@
           <img src="{{item.img}}">
           <span class="edit-nested-item dl-clickable">{{item.name}}</span>
           {{#if ../selectable}}
-            <div class="dl-custom-checkbox dl-item-transfer {{#if item.selected}}checked{{/if}}"></div>
+            <div class="dl-custom-checkbox dl-item-transfer {{#if item.selected}}checked{{/if}}"
+                 data-tippy-content="{{localize "DL.TransferItem"}}"></div>
           {{/if}}
         </div>
       {{/each}}
