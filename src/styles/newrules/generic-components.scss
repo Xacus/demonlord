@@ -432,3 +432,23 @@ i.dl-icon-read {
 i.dl-icon-write {
   @include dl-icon('../assets/ui/other-svg/write.svg');
 }
+
+i.dl-icon-availability-C {
+  @include dl-icon('../assets/ui/availability/common.svg');
+}
+
+i.dl-icon-availability-U {
+  @include dl-icon('../assets/ui/availability/uncommon.svg');
+}
+
+i.dl-icon-availability-R {
+  @include dl-icon('../assets/ui/availability/rare.svg');
+}
+
+i.dl-icon-availability-E {
+  @include dl-icon('../assets/ui/availability/exotic.svg');
+}
+
+i.dl-icon-price {
+  @include dl-icon('../assets/ui/availability/price.svg');
+}

@@ -47,6 +47,7 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlPathAttributeTwoSetViewSelector', (attributeName, isSelected, selectedName, selectedValue, idx) =>
     _buildPathAttributeTwoSetViewSelector(attributeName, isSelected, selectedName, selectedValue, idx)
   )
+  Handlebars.registerHelper('dlAvailabilityDropdown', (groupName, checkedKey) => _buildAvailabilityDropdownItem(groupName, checkedKey))
 }
 
 // ----------------------------------------------------
@@ -59,6 +60,10 @@ function _getAttributes(groupName) {
     attributes = ['', 'defense', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'data.attribute') {
     attributes = ['', 'intellect', 'will']
+  } else if (groupName === 'data.hands') {
+    attributes = ['', 'one', 'two', 'off']
+  } else if (groupName === 'data.availability') {
+    attributes = ['', 'C', 'U', 'R', 'E']
   }
   return attributes
 }
@@ -114,20 +119,26 @@ function _buildDropdownItem(groupName, checkedKey) {
 
 
 export function buildDropdownList(groupName, checkedKey) {
+  let labelPrefix = 'DL.Attribute'
+  let iconPrefix = 'dl-icon-'
+  let useIcon = true
+
   if (groupName === 'path-type') return _buildPathTypeDropdownList(checkedKey)
   if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
   if (groupName.startsWith('level.attributeSelectTwoSet')) return _buildPathAttributeTwoSetDropdownList(groupName, checkedKey)
+  if (groupName === 'data.hands') {labelPrefix = 'DL.WeaponHands'; useIcon = false}
+  if (groupName === 'data.availability') {labelPrefix = 'DL.Availability', iconPrefix = 'dl-icon-availability-'}
   let attributes = _getAttributes(groupName)
+
   let html = `<div class="dl-new-project-2-dropdown">`
   for (let attribute of attributes) {
     const value = capitalize(attribute)
     const checked = value === checkedKey ? 'checked' : ''
-    const label = value ? i18n(`DL.Attribute${value}`) : i18n('DL.None')
-    const icon = value ? `dl-icon-${attribute}` : 'dl-icon-minus'
+    const label = value ? i18n(`${labelPrefix}${value}`) : i18n('DL.None')
+    const icon = value ? `${iconPrefix}${attribute}` : 'dl-icon-minus'
+    const iconHtml = useIcon ? `<i class="${icon}"></i><span class="sep"></span>` : ''
     html += `<div class="${checked}">
-                <input type="radio" name="${groupName}" value="${value}" ${checked}/>
-                <i class="${icon}"></i>
-                <span class="sep"></span>
+                <input type="radio" name="${groupName}" value="${value}" ${checked}/>${iconHtml}
                 <span>${label}</span>
             </div>`
   }
@@ -266,6 +277,23 @@ function _buildPathAttributeTwoSetViewSelector(attributeName, isSelected, select
         <span style="width: 64px; text-align: center; text-overflow: ellipsis">${label}</span>
      </div>`
   return new Handlebars.SafeString(html)
+}
+
+// ----------------------------------------------------
+
+function _buildAvailabilityDropdownItem(groupName, checkedKey) {
+  const attributes = ['', 'C', 'U', 'R', 'E']
+  for (let attribute of attributes) {
+    if (checkedKey != attribute) continue
+    const label = attribute === '' ? i18n("DL.None") : i18n(`DL.Availability${attribute}`)
+    let html =
+      `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
+            <i class="dl-icon-availability-${attribute}"></i>
+            <span class="sep"></span>
+            <span style="width: 64px; text-align: center; text-overflow: ellipsis">${label}</span>
+       </div>`
+    return new Handlebars.SafeString(html)
+  }
 }
 
 
