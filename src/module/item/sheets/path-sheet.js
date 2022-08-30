@@ -3,7 +3,6 @@ import {
   createActorNestedItems, deleteActorNestedItems,
   getNestedDocument,
   getNestedItemData,
-  getNestedItemsDataList,
   PathLevel,
   PathLevelItem
 } from '../nested-objects'
@@ -69,46 +68,6 @@ export default class DLPathSheet extends DLBaseItemSheet {
     // Delete item
     html.find('.delete-item').click(ev => this._deleteItem(ev))
 
-    // Transfer talent
-    html.find('.transfer-talent').click(ev => {
-      this.showTransferDialog(
-        game.i18n.localize('DL.PathsDialogTransferTalent'),
-        game.i18n.localize('DL.PathsDialogTransferTalentText'),
-        ev,
-        'talents',
-      )
-    })
-
-    // Transfer multiple talents
-    html.find('.transfer-talents').click(ev => {
-      this.showTransferDialog(
-        game.i18n.localize('DL.PathsDialogTransferTalents'),
-        game.i18n.localize('DL.PathsDialogTransferTalentsText'),
-        ev,
-        'transfer-talents',
-      )
-    })
-
-    // Transfer talent pick
-    html.find('.transfer-talentpick').click(ev => {
-      this.showTransferDialog(
-        game.i18n.localize('DL.PathsDialogTransferTalent'),
-        game.i18n.localize('DL.PathsDialogTransferTalentText'),
-        ev,
-        'talentspick',
-      )
-    })
-
-    // Transfer spell
-    html.find('.transfer-spell').click(ev => {
-      this.showTransferDialog(
-        game.i18n.localize('DL.PathsDialogTransferSpell'),
-        game.i18n.localize('DL.PathsDialogTransferSpellText'),
-        ev,
-        'spells',
-      )
-    })
-
     // Display/hide levels on click
     html.find('.dl-path-level-select').click(ev => {
       const levelIndex = $(ev.currentTarget).closest('[data-level-index]').data('levelIndex')
@@ -130,82 +89,6 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   /* -------------------------------------------- */
 
-  showLevelDeleteDialog(ev) {
-    const levelIndex = $(ev.currentTarget).closest('[data-level-index]').data('levelIndex')
-    const d = new Dialog({
-      title: game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevel'),
-      content: game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevelText'),
-      buttons: {
-        yes: {
-          icon: '<i class="fas fa-check"></i>',
-          label: game.i18n.localize('DL.DialogYes'),
-          callback: _ => {
-            const levels = this.item.data.data.levels
-            levels.splice(levelIndex, 1)
-            this.item.update({'data.levels': levels})
-          },
-        },
-        no: {
-          icon: '<i class="fas fa-times"></i>',
-          label: game.i18n.localize('DL.DialogNo'),
-          callback: () => {
-          },
-        },
-      },
-      default: 'no',
-      close: () => {
-      },
-    })
-    d.render(true)
-  }
-
-  /* -------------------------------------------- */
-
-  /* -------------------------------------------- */
-
-  showTransferDialog(title, content, event, type) {
-    const d = new Dialog({
-      title: title,
-      content: content,
-      buttons: {
-        yes: {
-          icon: '<i class="fas fa-check"></i>',
-          label: game.i18n.localize('DL.DialogYes'),
-          callback: _ => this.transferItem(event, type),
-        },
-        no: {
-          icon: '<i class="fas fa-times"></i>',
-          label: game.i18n.localize('DL.DialogNo'),
-          callback: () => {
-          },
-        },
-      },
-      default: 'no',
-      close: () => {
-      },
-    })
-    d.render(true)
-  }
-
-  async transferItem(event, type) {
-    event.preventDefault()
-    if (!this.actor) return
-    const levelIndex = event.currentTarget.parentElement.parentElement.getAttribute('data-level')
-    if (type === 'transfer-talents') {
-      const talents = this.object.data.data.levels[levelIndex].talents
-      if (!talents) return
-      const toAdd = await getNestedItemsDataList(talents)
-      if (toAdd.length > 0) await this.actor.createEmbeddedDocuments('Item', toAdd)
-    } else {
-      const itemIndex = event.currentTarget.getAttribute('data-item-id')
-      const nestedItemData = this.object.data.data.levels[levelIndex][type][itemIndex]
-      if (!nestedItemData) return
-      const item = await getNestedItemData(nestedItemData)
-      if (item) await this.actor.createEmbeddedDocuments('Item', [item])
-    }
-  }
-
-  /* -------------------------------------------- */
 
   /** @override */
   _onDrop(ev) {
