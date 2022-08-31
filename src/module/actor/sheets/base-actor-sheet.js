@@ -236,17 +236,6 @@ export default class DLBaseActorSheet extends ActorSheet {
       }
     })
 
-    // Toggle info
-    const _toggleInfo = (ev, n) => {
-      const div = ev.currentTarget
-      const _parent = div.parentElement
-      if (_parent.children[n].style.display === 'none') _parent.children[n].style.display = 'block'
-      else _parent.children[n].style.display = 'none'
-    }
-    html.find('.toggleInfo').click(ev => _toggleInfo(ev, 6))
-    html.find('.toggleTalentInfo').click(ev => _toggleInfo(ev, 4))
-    html.find('.toggleItemInfo').click(ev => _toggleInfo(ev, 3))
-
     // New Toggle Info
     html.find('.dlToggleInfoBtn').click(ev => {
       const root = $(ev.currentTarget).closest('[data-item-id]')
@@ -315,23 +304,6 @@ export default class DLBaseActorSheet extends ActorSheet {
       item.update({'data.castings.value': uses}, {parent: this.actor})
     })
 
-    // Feature Item UD
-    html.find('.feature-delete').click(ev => this._onItemDelete(ev, '.feature'))
-    html
-      .find('.feature-edit')
-      .click(() =>
-        this.actor.update({'data.features.edit': !this.actor.data.data.features.edit}).then(() => this.render()),
-      )
-    html.find('.editfeature').change(ev => {
-      const id = $(ev.currentTarget).attr('data-item-id')
-      const nameValue = ev.currentTarget.children[1].value
-      let descValue = ev.currentTarget.children[2].value
-      descValue = descValue.trim()
-
-      const item = this.actor.getOwnedItem(id)
-      item.update({name: nameValue, 'data.description': descValue})
-    })
-
     // Rollable Attributes
     html.find('.attribute .name').click(ev => {
       const div = $(ev.currentTarget)
@@ -388,12 +360,6 @@ export default class DLBaseActorSheet extends ActorSheet {
         const id = event.currentTarget.closest("[data-item-id]").dataset.itemId
         this.actor.useItem(id)
       }
-    })
-
-    // Attribute Checks
-    html.find('.ability-name').click(ev => {
-      const abl = ev.currentTarget.parentElement.getAttribute('data-ability')
-      this.actor.rollAbility(abl)
     })
 
     // Drag events for macros.

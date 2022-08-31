@@ -219,8 +219,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       corruptionbar[0].style.width = Math.floor((+corruption / 20) * 100) + '%'
     }
 
-    // Ancestry CRUD
-    html.on('mousedown', '.ancestry-create', ev => this._onAncestryCreate(ev))
+    // Ancestry edit
     html.on('mousedown', '.ancestry-edit', ev => this._onAncestryEdit(ev))
 
     // Path RUD
@@ -253,22 +252,6 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html.find('.language-toggle-r').click(ev => _toggleLang(ev, 'read'))
     html.find('.language-toggle-w').click(ev => _toggleLang(ev, 'write'))
     html.find('.language-toggle-s').click(ev => _toggleLang(ev, 'speak'))
-
-    // Profession
-    html.find('.profession-edit').click(_ =>
-      this.actor
-        .update({
-          'data.professions.edit': !this.actor.data.data.professions.edit,
-        })
-        .then(() => this.render()),
-    )
-    html.find('.editprofession').change(ev => {
-      const id = $(ev.currentTarget).attr('data-item-id')
-      const namevalue = ev.currentTarget.children[1].value
-      const descriptionvalue = ev.currentTarget.children[2].value
-      const item = this.actor.items.get(id)
-      item.update({ name: namevalue, 'data.description': descriptionvalue }, { parent: this })
-    })
 
     // Religion
     html
