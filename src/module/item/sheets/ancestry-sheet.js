@@ -171,7 +171,10 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
       ancestryData.talents.find(i => i.data._id === itemId) ??
       ancestryData.level4.talent.find(i => i.data._id === itemId) ??
       ancestryData.level4.spells.find(i => i.data._id === itemId)
-    getNestedDocument(nestedData).then(d => d.sheet.render(true))
+    getNestedDocument(nestedData).then(d => {
+      if (d.sheet) d.sheet.render(true)
+      else ui.notifications.warn('The item is not present in the game and cannot be edited.')
+    })
   }
 
 }

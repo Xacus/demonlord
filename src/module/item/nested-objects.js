@@ -154,7 +154,15 @@ export async function getNestedDocument(nestedData) {
 
 export async function getNestedItemData(nestedData) {
   const entity = await getNestedDocument(nestedData)
-  const itemData = entity.data.toObject()
+
+  // Get the item data OBJECT. If the item is not an item, then it has been retreived using the data saved in the nested
+  let itemData = undefined
+  if (entity instanceof Item)
+    itemData = entity.data.toObject()
+  else {
+    itemData = entity
+  }
+
   itemData.selected = nestedData.selected  // Remember the user selection
 
   // Return only the data

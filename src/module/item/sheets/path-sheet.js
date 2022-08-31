@@ -369,7 +369,10 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
     const data = await this.getData({})
     const nestedData = data.data.levels[level][group].find(i => i._id === itemId)
-    getNestedDocument(nestedData).then(d => d.sheet.render(true))
+    getNestedDocument(nestedData).then(d => {
+      if (d.sheet) d.sheet.render(true)
+      else ui.notifications.warn('The item is not present in the game and cannot be edited.')
+    })
   }
 
   async _transferItem(ev) {
