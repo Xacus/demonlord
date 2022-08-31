@@ -79,7 +79,6 @@ export function initDlEditor(html, application) {
           text: 'Secret',
           onAction: () => {
             editor.focus();
-            console.log(editor.ui.registry.getAll())
             editor.selection.setContent(`<section class=secret>${editor.selection.getContent()}</section>`)
           }
         })

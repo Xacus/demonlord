@@ -321,12 +321,8 @@ export default class DLBaseActorSheet extends ActorSheet {
     // Rollable Talent
     html.on('mousedown', '.talent-roll', ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      console.log(ev)
       if (ev.button == 0) this.actor.rollTalent(id, {event: ev})
-      else if (ev.button == 2) {
-        console.log("something")
-        this.actor.deactivateTalent(this.actor.items.get(id), 0)
-      }
+      else if (ev.button == 2) this.actor.deactivateTalent(this.actor.items.get(id), 0)
     })
 
     // Talent uses

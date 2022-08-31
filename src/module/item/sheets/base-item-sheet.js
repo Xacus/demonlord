@@ -294,13 +294,11 @@ export default class DLBaseItemSheet extends ItemSheet {
     })
 
     item.sheet.render(true)
-    // await item.setFlag('demonlord', 'parentItems', [this.document.id])
-    console.log(item)
     this.render()
     return item
   }
 
+  // eslint-disable-next-line no-unused-vars
   _onNestedItemEdit(ev) {
-    console.log(ev)
   }
 }

@@ -152,7 +152,6 @@ Hooks.on('preCreateActor', (actor, data, _options, _userId) => {
   let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL
   if (data.type === 'creature') disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
 
-  //console.log(actor, data)
   const tokenData = {
     name: data.name,
     bar1: {attribute: 'characteristics.health'},

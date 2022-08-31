@@ -82,7 +82,6 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   _onDrop(ev) {
     const $dropTarget = $(ev.originalEvent.target)
     const group = $dropTarget.closest('[data-group]').data('group')
-    console.log($dropTarget, $dropTarget.closest('[data-group]'))
     try {
       const data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'))
       if (data.type === 'Item') {
