@@ -23,26 +23,25 @@
       <div class="tab attributes" data-group="primary" data-tab="attributes">
 
         <!-- Header -->
-        <div class="dl-item-section-header row">
-          <div class="col-4" style="margin-top: 4px">
+        <div class="dl-item-section-header flex">
+          <div>
             <b>{{item.name}}</b>
           </div>
-          <div class="col-8 dl-container-right-align">
-            <input name="data.tradition" value="{{data.tradition}}" placeholder="{{localize 'DL.MagicTradition'}}"
-                   autosize/>
-            <div class="select-wrapper">
-              <select name="data.spelltype" style="height: 28px;" autosize>
-                {{#select data.spelltype}}
-                  <option value="">—</option>
-                  <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>
-                  <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>
-                {{/select}}
-              </select>
-            </div>
-            <input name="data.rank" type="number" value="{{data.rank}}" placeholder="{{localize 'DL.SpellRank'}}"
-                   style="padding: 4px"
-                   autosize/>
+
+          <input name="data.tradition" value="{{data.tradition}}" placeholder="{{localize 'DL.MagicTradition'}}"
+                 autosize/>
+          <div class="select-wrapper">
+            <select name="data.spelltype" style="height: 28px; padding-top: 2px">
+              {{#select data.spelltype}}
+                <option value="">—</option>
+                <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>
+                <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>
+              {{/select}}
+            </select>
           </div>
+          <input name="data.rank" type="number" value="{{data.rank}}" placeholder="{{localize 'DL.SpellRank'}}"
+                 style="padding: 4px" data-tippy-content="{{localize "DL.SpellRank"}}"
+                 autosize/>
         </div>
 
         <hr>

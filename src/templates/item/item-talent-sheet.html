@@ -23,26 +23,29 @@
       <div class="tab weapons" data-group="primary" data-tab="attributes">
         {{!-- Groupname - Uses - Max Uses --}}
         <!-- Header -->
-        <div class="dl-item-section-header row">
-          <div class="col-4" style="margin-top: 4px">
+        <div class="dl-item-section-header flex">
+          <div>
             <b>{{item.name}}</b>
           </div>
-          <div class="col-8 dl-container-right-align">
-            <input name="data.groupname" value="{{data.groupname}}" placeholder="{{localize 'DL.TalentGroupname'}}"
-                   autosize/>
-            <div class="dl-new-project-2 nohover uses">
-              <input type="number" name="data.uses.value" value="{{data.uses.value}}"
-                     data-tippy-content="{{localize "DL.TalentUses"}}" placeholder="-" min="0" autosize/>
-              <span class="sep"></span>
-              <input type="number" name="data.uses.max" value="{{data.uses.max}}"
-                     data-tippy-content="{{localize "DL.TalentUsesMax"}}" placeholder="-" min="0" autosize/>
-            </div>
-          </div>
+          <input name="data.groupname" value="{{data.groupname}}" placeholder="{{localize 'DL.TalentGroupname'}}"
+                 autosize/>
         </div>
 
         <hr>
 
         <div class="dl-item-section-section margin">
+          <div>
+            <b>{{localize "DL.TalentUses"}}</b>
+            <div>
+              <div class="dl-new-project-2 nohover uses">
+                <input type="number" name="data.uses.value" value="{{data.uses.value}}"
+                       data-tippy-content="{{localize "DL.TalentUses"}}" placeholder="-" min="0" autosize/>
+                <span class="sep"></span>
+                <input type="number" name="data.uses.max" value="{{data.uses.max}}"
+                       data-tippy-content="{{localize "DL.TalentUsesMax"}}" placeholder="-" min="0" autosize/>
+              </div>
+            </div>
+          </div>
           <div>
             <b>{{localize "DL.ChallengeRollBonus"}}</b>
             <div>

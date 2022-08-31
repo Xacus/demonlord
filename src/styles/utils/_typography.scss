@@ -18,16 +18,18 @@
 }
 
 @font-face {
-  font-family: 'Poison Hope';
-  src: url('../fonts/PoisonHope-Regular.ttf') format('truetype');
+  font-family: 'Linux Libertine Capitals';
+  font-style: normal;
+  font-weight: normal;
+  size-adjust: 150%;
+  src: local('Linux Libertine Capitals'), url('../fonts/LinLibertineC_Re-4.0_.1_.woff') format('woff');
 }
 
 $font-primary: 'Arial', sans-serif;
 $font-secondary: 'Shadows Into Light', sans-serif;
 $font-header: 'IM Fell English SC', serif;
 $font-actor-sheet-inputs: 'Nodesto', 'Signika', 'Palatino Linotype', serif;
-$font-pm: 'Portmanteau', 'IM Fell English SC', serif;
-$font-ph: 'Poison Hope', 'IM Fell English SC', serif;
+$font-pm: 'Linux Libertine Capitals', 'IM Fell English SC', serif;
 $base-font-size: 12px;
 
 //@font-face {

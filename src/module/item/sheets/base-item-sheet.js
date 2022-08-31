@@ -119,11 +119,17 @@ export default class DLBaseItemSheet extends ItemSheet {
     const autoresize = (el) => {
       const jEl = $(el)
       if (jEl.prop("tagName") === 'INPUT') {
-        const getSize = () => Math.max(1, (el.value?.length || el.placeholder?.length))
-        el.size = getSize()
-        el.oninput = () => {
-          el.size = getSize()
+        const setSize = () => {
+          let size = Math.max(1, (el.value?.length || el.placeholder?.length))
+          let ff = jEl.css('font-family')
+          if (ff.includes('Libertine')) {
+            el.style.width = (size + 4)+ 'ch'
+          } else {
+            el.size = size
+          }
         }
+        setSize()
+        el.oninput = setSize
       } else if (jEl.prop("tagName") === 'TEXTAREA') {
         const getHeight = () => Math.max(0, el?.scrollHeight)
         jEl.height(0)

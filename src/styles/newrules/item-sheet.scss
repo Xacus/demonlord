@@ -34,6 +34,16 @@
     font-weight: bold !important;
     padding: 0 16px;
 
+    &.flex {
+      display: flex;
+      align-content: center;
+      justify-content: flex-end;
+      align-items: center;
+      & > div:first-child {
+        margin-right: auto;
+      }
+    }
+
     &.center {
       text-align: center;
     }
