@@ -16,3 +16,4 @@ Icons / SVGs
 - <a href="https://www.flaticon.com/free-icons/right" title="right icons">Right icons created by Pixel perfect - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/coin" title="coin icons">Coin icons created by prettycons - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/money" title="money icons">Money icons created by Those Icons - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/shield" title="shield icons">Shield icons created by IwitoStudio - Flaticon</a>

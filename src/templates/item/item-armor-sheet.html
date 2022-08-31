@@ -1,4 +1,4 @@
-<form class="{{cssClass}} item-form" autocomplete="off">
+<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
   <header class="sheet-header itemsheet-header">
     <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
@@ -20,70 +20,103 @@
   <section class="sheet-body">
     <section class="sheet-content">
       <div class="tab weapons" data-group="primary" data-tab="attributes">
-        <div class="item-table">
-          {{!-- Bonuses --}}
-          <div class="row">
-            <div class="col-12">
-              <label>{{localize "DL.ArmorBonuses"}}</label>
-            </div>
-            <div class="col-4">
-              <label>{{localize "DL.ArmorDefense"}}</label>
-              <input type="text" name="data.defense" value="{{data.defense}}"/>
-            </div>
-            <div class="col-4">
-              <label>{{localize "DL.ArmorAgility"}}</label>
-              <input type="text" name="data.agility" value="{{data.agility}}"/>
-            </div>
-            <div class="col-4">
-              <label>{{localize "DL.ArmorFixed"}}</label>
-              <input type="text" name="data.fixed" value="{{data.fixed}}"/>
-            </div>
-          </div>
 
-          {{!-- Properties is Shield --}}
-          <div class="row">
-            <div class="col-8">
-              <label>{{localize "DL.ArmorProperties"}}</label>
-              <input type="text" name="data.properties" value="{{data.properties}}"/>
-            </div>
-            <div class="col-4">
-              <label class="resource-label">{{localize "DL.ArmorIsShield"}}</label>
-              <input
-                      type="checkbox"
-                      name="data.isShield"
-                      id="multipleoptions"
-                      class="single-checkbox"
-                {{checked
-                        data.isShield}}
-              />
-            </div>
+        <div class="dl-item-section-header row">
+          <div class="col-12" style="margin-top: 4px">
+            <b>{{item.name}}</b>
           </div>
+        </div>
+        <hr>
 
-          {{!-- Str min - Availability - Price --}}
-          <div class="row">
-            <div class="col-4">
-              <label>{{localize "DL.ArmorStrengthMin"}}</label>
-              <input type="text" name="data.strengthmin" value="{{data.strengthmin}}"/>
-            </div>
-            <div class="col-4">
-              <label>{{localize "DL.Availability"}}</label>
-              <select name="data.availability" data-dtype="String">
-                {{#select data.availability}}
-                  <option value="C">{{localize "DL.AvailabilityC"}}</option>
-                  <option value="U">{{localize "DL.AvailabilityU"}}</option>
-                  <option value="R">{{localize "DL.AvailabilityR"}}</option>
-                  <option value="E">{{localize "DL.AvailabilityE"}}</option>
-                {{/select}}
-              </select>
-            </div>
-            <div class="col-4">
-              <label class="resource-label">{{localize "DL.ItemValue"}}</label>
-              <input type="text" name="data.value" value="{{data.value}}"/>
+        <div class="dl-item-section-section text-areas">
+          <div>
+            <b>{{localize "DL.WeaponProperties"}}</b>
+            <textarea name="data.properties" placeholder="―" autosize>{{data.properties}}</textarea>
+            <div style="margin-left: 8px">
+              <div class="dl-new-project-2 selectable {{#if data.isShield}}selected{{/if}}"
+                   data-tippy-content="{{localize "DL.ArmorIsShield"}}">
+                <input type="checkbox" name="data.isShield" {{checked data.isShield}}>
+                <i class="dl-icon-shield"></i>
+                <span class="sep"></span>
+                <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
+                  "DL.ArmorShield"}}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
+        <div class="dl-item-section-section">
+          <div>
+            <b>{{localize "DL.TalentRollAttribute"}}</b>
+            <div>
+              <div class="dl-new-project-2">
+                <i class="dl-icon-agility"></i>
+                <span class="sep"></span>
+                <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
+                  "DL.AttributeAgility"}}</span>
+                <span class="sep"></span>
+                <input type="number" name="data.agility" value="{{data.agility}}" placeholder="0"/>
+              </div>
+              <div class="dl-new-project-2">
+                <i class="dl-icon-defense"></i>
+                <span class="sep"></span>
+                <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
+                  "DL.AttributeDefense"}}</span>
+                <span class="sep"></span>
+                <input type="number" name="data.defense" value="{{data.defense}}" placeholder="0"/>
+              </div>
+              <div class="dl-new-project-2">
+                <i class="dl-icon-defense-fixed"></i>
+                <span class="sep"></span>
+                <span style="width: 64px; text-align: center; text-overflow: ellipsis; overflow: hidden">{{localize
+                  "DL.ArmorFixed"}}</span>
+                <span class="sep"></span>
+                <input type="number" name="data.fixed" value="{{data.fixed}}" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+
+        <div class="dl-item-section-section margin">
+          <div>
+            <b>{{localize "DL.SpellRequirements"}}</b>
+            <div>
+              <div class="dl-new-project-2" data-tippy-content="{{localize "DL.ArmorStrengthRequiremet"}}">
+                <i class="dl-icon-strength"></i>
+                <span class="sep"></span>
+                <span>{{localize "DL.AttributeStrength"}}</span>
+                <span class="sep"></span>
+                <input type="number" name="data.strengthmin" value="{{data.strengthmin}}" placeholder="-" autosize/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+
+        <div class="dl-item-section-description">
+          <div><b>{{localize "DL.TabsDescription"}}</b></div>
+          <div>
+            {{dlEditor content=data.description target="data.description" button=true owner=owner editable=editable}}
+          </div>
+        </div>
+        <hr>
+
+        <div class="dl-item-section-section margin">
+          <div>
+            <b>{{localize "DL.Availability"}}</b>
+            <div>
+              {{dlAvailabilityDropdown "data.availability" data.availability}}
+              <div class="dl-new-project-2" data-tippy-content="{{localize "DL.ItemValue"}}">
+                <i class="dl-icon-price"></i>
+                <span class="sep"></span>
+                <input type="text" name="data.value" value="{{data.value}}" autosize/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
       {{> "systems/demonlord/templates/item/partial/item-description.html"}} {{#if effects}}{{>
     "systems/demonlord/templates/item/partial/item-effects.html"}}{{/if}}
     </section>

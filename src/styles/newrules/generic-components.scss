@@ -433,6 +433,14 @@ i.dl-icon-write {
   @include dl-icon('../assets/ui/other-svg/write.svg');
 }
 
+i.dl-icon-shield {
+  @include dl-icon('../assets/ui/other-svg/shield.svg');
+}
+
+i.dl-icon-defense-fixed {
+  @include dl-icon('../assets/ui/other-svg/defense-fixed.svg');
+}
+
 i.dl-icon-availability-C {
   @include dl-icon('../assets/ui/availability/common.svg');
 }
