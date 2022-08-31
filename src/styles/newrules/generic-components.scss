@@ -441,6 +441,10 @@ i.dl-icon-defense-fixed {
   @include dl-icon('../assets/ui/other-svg/defense-fixed.svg');
 }
 
+i.dl-icon-availability- {
+  @include dl-icon('../assets/ui/other-svg/minus.svg');
+}
+
 i.dl-icon-availability-C {
   @include dl-icon('../assets/ui/availability/common.svg');
 }
@@ -459,4 +463,8 @@ i.dl-icon-availability-E {
 
 i.dl-icon-price {
   @include dl-icon('../assets/ui/availability/price.svg');
+}
+
+i.dl-icon-amount {
+  @include dl-icon('../assets/ui/other-svg/amount.svg');
 }

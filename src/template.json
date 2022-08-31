@@ -334,7 +334,9 @@
     },
     "ammo": {
       "templates": ["base"],
+      "properties": "",
       "quantity": 5,
+      "availability": "",
       "value": ""
     },
     "specialaction": {
