@@ -89,6 +89,34 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   /* -------------------------------------------- */
 
+  showLevelDeleteDialog(ev) {
+    const itemIndex = $(ev.currentTarget).closest('[data-level-index]').data('levelIndex')
+    const d = new Dialog({
+      title: game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevel'),
+      content: game.i18n.localize('DL.PathsLevelDeleteDialogDeleteLevelText'),
+      buttons: {
+        yes: {
+          icon: '<i class="fas fa-check"></i>',
+          label: game.i18n.localize('DL.DialogYes'),
+          callback: _ => {
+            const levels = this.item.data.data.levels
+            levels.splice(itemIndex, 1)
+            this.item.update({'data.levels': levels})
+          },
+        },
+        no: {
+          icon: '<i class="fas fa-times"></i>',
+          label: game.i18n.localize('DL.DialogNo'),
+          callback: () => {
+          },
+        },
+      },
+      default: 'no',
+      close: () => {
+      },
+    })
+    d.render(true)
+  }
 
   /** @override */
   _onDrop(ev) {

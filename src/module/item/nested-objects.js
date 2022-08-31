@@ -154,11 +154,12 @@ export async function getNestedDocument(nestedData) {
 
 export async function getNestedItemData(nestedData) {
   const entity = await getNestedDocument(nestedData)
-  entity.data.selected = nestedData.selected  // Remember the user selection
+  const itemData = entity.data.toObject()
+  itemData.selected = nestedData.selected  // Remember the user selection
 
   // Return only the data
   // Warning: here the implicit assertion is that entity is an Item and not an Actor or something else
-  if (entity instanceof Item) return entity.data
+  if (entity instanceof Item) return itemData
   else if (entity?.data?.data) return entity.data
   return entity
 }
@@ -248,7 +249,6 @@ export async function createActorNestedItems(actor, nestedItems, parentItemId, l
   let itemDataList = await getNestedItemsDataList(nestedItems)
   // Set the flags
   itemDataList = itemDataList.map((itemData, i) => {
-    itemData = itemData.toObject()
     itemData.flags.demonlord = {
       nestedItemId: nestedItems[i].data._id ?? nestedItems[i]._id,
       parentItemId: parentItemId,

@@ -47,6 +47,7 @@
            {{#if item.data.description}}data-tippy-html="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
         <img src="{{item.img}}">
         <span class="edit-nested-item dl-clickable">{{item.name}}</span>
+        {{log item}}
         {{#if ../selectable}}
           <div style="margin-right: 1px;margin-left: auto; align-self: center"
                class="dl-custom-checkbox dl-item-transfer {{#if item.selected}}checked{{/if}}"
