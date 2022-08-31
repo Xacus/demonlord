@@ -20,7 +20,8 @@ import DLPathSheet from './item/sheets/path-sheet'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
 import 'tippy.js/dist/tippy.css';
-import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"; // optional for styling
+import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
+import DLBaseActorSheet from "./actor/sheets/base-actor-sheet"; // optional for styling
 
 
 Hooks.once('init', async function () {
@@ -370,3 +371,4 @@ Hooks.on('DL.Action', () => {
 })
 
 Hooks.on('renderDLBaseItemSheet', (app, html, data) => DLBaseItemSheet.onRenderInner(app, html, data))
+Hooks.on('renderDLBaseActorSheet', (app, html, data) => DLBaseActorSheet.onRenderInner(app, html, data))

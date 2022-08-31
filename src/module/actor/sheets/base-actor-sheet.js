@@ -4,6 +4,7 @@ import {capitalize} from '../../utils/utils'
 import {DemonlordItem} from '../../item/item'
 import {DLAfflictions} from '../../active-effects/afflictions'
 import {initDlEditor} from "../../utils/editor";
+import DLBaseItemSheet from "../../item/sheets/base-item-sheet";
 
 export default class DLBaseActorSheet extends ActorSheet {
   /* -------------------------------------------- */
@@ -132,7 +133,7 @@ export default class DLBaseActorSheet extends ActorSheet {
   }
 
   _onItemDelete(event, cls = '.item') {
-    const li = $(event.currentTarget).parents(cls + ', .dl-item-row')
+    const li = $(event.currentTarget).parents(cls + ', .dl-item-row, [data-item-id]')
     this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li)
   }
 
@@ -172,6 +173,10 @@ export default class DLBaseActorSheet extends ActorSheet {
   /*  Listeners                                   */
 
   /* -------------------------------------------- */
+
+  static onRenderInner(app, html, data) {
+    DLBaseItemSheet.onRenderInner(app, html, data)  // Call onRenderInner of base item sheet, since it's the same
+  }
 
   /** @override */
   activateListeners(html) {

@@ -229,38 +229,35 @@
     </div>
   </div>
 
+  {{#* inline "dlDropZoneView"}}
+    <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}">
+      {{#each collection as |item index|}}
+        <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
+             {{#if item.data.description}}data-tippy-html="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
+          <img src="{{item.img}}">
+          <span class="item-edit dl-clickable">{{item.name}}</span>
+          <a class="dl-clickable item-delete" style="margin-right: 4px; margin-left: auto; margin-top: 1px;">
+            <i class="fas fa-times"></i>
+          </a>
+        </div>
+      {{/each}}
+    </div>
+  {{/inline}}
+
   <!-- TODO: Use .row .col here -->
   <div class="grid grid-2col chardetail">
     <div class="colleft" style="margin-top: -5px">
       <div class="features">
         <div class="header">
           {{localize "DL.FeaturesTitle"}}
-          <div class="edit">
-            <a class="item-control item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"
-            ><i class="fas fa-plus"></i
-            ></a>
-            <a class="feature-edit" title="{{localize 'DL.FeatureEdit'}}"><i class="fas fa-edit"></i></a>
+          <div class="edit" style="text-align: center">
+            <a class="item-control item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature">
+              <i class="fas fa-plus"></i>
+            </a>
           </div>
         </div>
         <div class="body">
-          <ol class="featureslist">
-            {{#if data.features.edit}} {{#each actor.features as |feature id|}}
-              <li class="feature editfeature" data-item-id="{{feature._id}}">
-                <div class="item-controls">
-                  <a class="item-control feature-delete" title="{{localize 'DL.FeatureDelete'}}"
-                  ><i class="fas fa-times"></i
-                  ></a>
-                </div>
-                <input type="text" name="feature.name" data-target="name" value="{{feature.name}}"/>
-                <textarea style="white-space: pre-wrap">{{{replaceNewline feature.data.description}}}</textarea>
-              </li>
-            {{/each}} {{else}} {{#each actor.features as |feature id|}}
-              <li class="feature dropitem" data-item-id="{{feature._id}}">
-                <label class="resource-label" for="feature.name">{{feature.name}}</label>
-                <div class="featurediscription">{{{enrichHTMLUnrolled feature.data.description}}}</div>
-              </li>
-            {{/each}} {{/if}}
-          </ol>
+          {{> dlDropZoneView collection=actor.features}}
         </div>
       </div>
     </div>
@@ -268,34 +265,14 @@
       <div class="professions">
         <div class="header">
           {{localize "DL.ProfessionsTitle"}}
-          <div class="edit">
-            <a class="item-control item-create" title="{{localize 'DL.ProfessionsAdd'}}" data-type="profession"
-            ><i class="fas fa-plus"></i
-            ></a>
-            <a class="profession-edit" title="{{localize 'DL.ProfessionsEdit'}}"><i class="fas fa-edit"></i></a>
+          <div class="edit" style="text-align: center">
+            <a class="item-control item-create" title="{{localize 'DL.ProfessionsAdd'}}" data-type="profession">
+              <i class="fas fa-plus"></i>
+            </a>
           </div>
         </div>
         <div class="body">
-          <ol class="professionslist">
-            {{#if data.professions.edit}} {{#each actor.professions as |profession id|}}
-              <li class="item editprofession" data-item-id="{{profession._id}}">
-                <div class="item-controls">
-                  <a class="item-control item-delete" title="{{localize 'DL.ProfessionsDelete'}}"
-                  ><i class="fas fa-times"></i
-                  ></a>
-                </div>
-                <input type="text" name="profession.name" data-target="name" value="{{profession.name}}"/>
-                <textarea name="profession.data.description" data-target="profession.data.description">
-                  {{profession.data.description}}</textarea
-                >
-              </li>
-            {{/each}} {{else}} {{#each actor.professions as |profession id|}}
-              <li class="item dropitem" data-item-id="{{profession._id}}">
-                <label class="resource-label" for="profession.name">{{profession.name}}</label>
-                <div>{{{profession.data.description}}}</div>
-              </li>
-            {{/each}} {{/if}}
-          </ol>
+          {{> dlDropZoneView collection=actor.professions}}
         </div>
       </div>
     </div>
