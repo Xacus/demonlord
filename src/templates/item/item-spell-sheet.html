@@ -188,13 +188,6 @@
         </div>
 
         <div class="dl-item-section-section text-areas">
-          <!-- TODO DESCRIPTION -->
-          <div style="display: block">
-<!--            {{{enrichHTMLUnrolled data.description}}}-->
-          </div>
-          <!--          <div class="dl-editor-box">
-            {{dlEditor content=data.description target="data.description" button=true owner=owner editable=editable}}
-          </div>-->
           <div>
             <b>{{localize "DL.SpellTriggered"}}</b>
             <textarea name="data.triggered" placeholder="―" autosize>{{data.triggered}}</textarea>
@@ -224,65 +217,64 @@
             <textarea name="data.action.plus20" placeholder="―" autosize>{{data.action.plus20}}</textarea>
           </div>
         </div>
+        <hr>
 
-
-        {{!-- Activated Effects --}}
-        <!--
-        <div class="item-tab-sub-header collapse-title">
-          <div>{{localize "DL.MeasuredTemplate"}}</div>
-        </div>
-        <div class="item-table indent collapse-content">
-          {{!-- Target --}}
-          <div class="row">
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.ActionTargetValue"}}</label>
-              <input
-                type="text"
-                name="data.activatedEffect.target.value"
-                value="{{data.activatedEffect.target.value}}"
-                data-dtype="Number"
-              />
+        <!-- MEASURED TEMPLATE -->
+        <div class="dl-item-section-section margin">
+          <div class="dl-item-section-section-title">
+            <b>{{localize "DL.MeasuredTemplate"}}</b>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 8px">
+            <div class="dl-new-project-2">
+              <span>{{localize "DL.ActionTargetValue"}}</span>
+              <span class="sep"></span>
+              <input type="number" name="data.activatedEffect.target.value"
+                     value="{{data.activatedEffect.target.value}}"
+                     placeholder="-" autosize/>
             </div>
-            <div class="col-6">
-              <label class="resource-label">{{localize "DL.ActionTargetType"}}</label>
-              <select name="data.activatedEffect.target.type" data-dtype="String">
+
+            <div class="dl-new-project-2 nohover">
+              <span>{{localize "DL.ActionTargetType"}}</span>
+              <span class="sep"></span>
+              <select name="data.activatedEffect.target.type">
                 {{#select data.activatedEffect.target.type}}
                   <option value="">—</option>
                   {{#each config.actionTargetTypes as |name key|}}
                     <option value="{{key}}">{{localize name}}</option>
-                  {{/each}} {{/select}}
+                  {{/each}}
+                {{/select}}
               </select>
             </div>
-          </div>
-
-          {{!-- Template --}}
-          <div class="row">
-            <div class="col-11">
-              <input
-                class="image"
-                type="text"
-                name="data.activatedEffect.texture"
-                placeholder="path/image.webp"
-                value="{{data.activatedEffect.texture}}"
-                data-dtype="String"
-              />
-            </div>
-            <div class="col-1">
+            <div style="gap: 0">
+              <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.ActionTexture"}}">
+                <input type="text" name="data.activatedEffect.texture" value="{{data.activatedEffect.texture}}" autosize
+                       placeholder="path/image.webp" style="min-width: 120px">
+              </div>
               <button
                 type="button"
-                class="file-picker"
+                class="file-picker dl-clickable"
                 data-type="imagevideo"
                 data-target="data.activatedEffect.texture"
                 title="File"
                 tabindex="-1"
-                style="height: 21px;width: 21px;font-size: 12px;padding: 0;line-height: 7px;border: none;border-bottom: 1px solid #a17771;"
+                style="
+                  background-color: rgba(0, 0, 0, 0.02);
+                  height: 22px;
+                  width: 22px;
+                  margin-right: 3px;
+                  font-size: 12px;
+                  padding: 0;
+                  line-height: 7px;
+                  border: 1px solid #0000001a;
+                  margin-left: 2px;
+                  border-radius: 4px;"
               >
                 <i class="fas fa-file-import fa-fw"></i>
               </button>
             </div>
           </div>
         </div>
-        -->
+
       </div>
 
       {{> "systems/demonlord/templates/item/partial/item-description.html"}} {{#if effects}}{{>
