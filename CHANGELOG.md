@@ -3,7 +3,32 @@
 All notable changes to this project will be documented in this file.
 
 ## [2.2.0]
-Todo explain new editor + roll hotkey
+### Changed
+- New item sheet design focused on compactness and insertion speed.
+- Path levels are now divided into tabs.
+- When clicking on item names inside character sheets now they get posted to chat.
+- Changed the design of languages, features and professions inside character sheets.
+- Improved how items inside paths and ancestries are retrieved. Now items are looked inside compendiums and items first,
+then a fallback method is used.
+- Paths and ancestries now always display the updated version of items present within them, instead of displaying the
+items in the state that they were dropped in.
+- Token targeting is now "on target" instead of "on selected" by default.
+### Added
+- Now it is possible to create items directly inside ancestries and paths for faster compendium making. The item gets created directly inside a folder
+in the sidebar and added to the ancestry or path.
+- Selectable talents or spells from ancestries/paths. The players can now select which talents they want to add to their sheet.
+- When selecting a path type (novice, expert, master) the levels get filled automatically. Note that levels do not get removed automatically as a
+safeguard against involuntarily changing the path type.
+- New inline editor for descriptions. When selecting text such as "1d6", it can be transformed into a rollable icon with the "Roll" button or with
+ctrl+r shortcut.
+- New and improved tooltips.
+- New icons.
+### Fixed
+- Duplication bug that happened if a path or ancestry had an item with the same name in it.
+- Bug of item tooltips inside paths when the item description had HTML in it.
+### Compatibility
+- When deleting paths or ancestries added to characters prior to this version, the items from those paths or ancestries
+do not get deleted automatically, so manual deletion is required.
 
 ## [2.1.1]
 ### Added
