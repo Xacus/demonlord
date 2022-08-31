@@ -33,7 +33,6 @@
   @import 'components/general';
   @import 'src/styles/components/parts/resource';
   @import 'src/styles/components/parts/tabs';
-  @import 'src/styles/components/parts/tags';
   @import 'src/styles/components/parts/accordion';
 }
 
@@ -57,7 +56,6 @@
   @import 'components/general';
   @import 'src/styles/components/parts/resource';
   @import 'src/styles/components/parts/tabs';
-  @import 'src/styles/components/parts/tags';
   @import 'src/styles/components/actor-sheets/body-creature';
   @import 'src/styles/components/parts/accordion';
 }
@@ -71,5 +69,4 @@
   @import 'src/styles/components/extras/playertracker';
 }
 
-@import 'tipfy';
 @import 'src/styles/components/dialogs/dialog2';

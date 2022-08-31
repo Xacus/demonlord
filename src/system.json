@@ -10,7 +10,7 @@
   "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf, ParvusDomus, Cugi, zeteticl",
   "esmodules": ["module/demonlord.js"],
   "styles": ["styles/demonlord.css", "module/bundle.css"],
-  "scripts": ["lib/tagify.min.js", "lib/tipfy.js"],
+  "scripts": [],
   "packs": [
     {
       "name": "weapons",
