@@ -108,7 +108,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const levelItem = new PathLevelItem()
     const pathData = duplicate(this.item.data)
     const item = await getNestedItemData(data)
-    if (!item) return
+    if (!item || ['ancestry', 'path'].includes(item.type)) return
 
     levelItem.id = item.id
     levelItem.name = item.name

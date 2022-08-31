@@ -98,7 +98,8 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const levelItem = new PathLevelItem()
     const ancestryData = duplicate(this.item.data)
     let item = await getNestedItemData(data)
-    if (!item) return
+    if (!item || ['ancestry', 'path'].includes(item.type)) return
+
 
     levelItem.id = item.id
     levelItem.name = item.name
