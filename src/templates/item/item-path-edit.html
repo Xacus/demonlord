@@ -31,7 +31,7 @@
     <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}">
       {{#each collection as |item index|}}
         <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
-             {{#if item.data.description}}data-tippy-html="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
+             {{#if item.data.description}}data-tippy-html="{{enrichHTMLUnrolled item.data.description}}"{{/if}}>
           <img src="{{item.img}}">
           <span class="edit-nested-item dl-clickable">{{item.name}}</span>
         </div>
@@ -44,7 +44,7 @@
   <div class="dl-drop-zone" data-group="{{dataGroup}}" data-level="{{dataLevel}}">
     {{#each collection as |item index|}}
       <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
-           {{#if item.data.description}}data-tippy-html="{{{enrichHTMLUnrolled item.data.description}}}"{{/if}}>
+           {{#if item.data.description}}data-tippy-html="{{enrichHTMLUnrolled item.data.description}}"{{/if}}>
         <img src="{{item.img}}">
         <span class="edit-nested-item dl-clickable">{{item.name}}</span>
         <a class="delete-item" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="{{type}}"
