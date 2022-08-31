@@ -89,7 +89,7 @@ export const registerSettings = function () {
   game.settings.register('demonlord', 'targetingOnSelect', {
     name: game.i18n.localize('DL.SettingtargetingOnSelect'),
     hint: game.i18n.localize('DL.SettingtargetingOnSelectHint'),
-    default: true,
+    default: false,
     scope: 'world',
     type: Boolean,
     config: true,
