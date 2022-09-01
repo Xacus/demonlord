@@ -37,8 +37,8 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const data = super.getData()
+  async getData() {
+    const data = await super.getData()
 
     // Effects categories
     data.ancestryEffects = prepareActiveEffectCategories(
@@ -222,23 +222,20 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Ancestry edit
     html.on('mousedown', '.ancestry-edit', ev => this._onAncestryEdit(ev))
 
-    // Path RUD
+    // Path edit
     html.on('mousedown', '.path-edit', ev => this._onPathEdit(ev))
-    html
-      .find('.paths-edit')
-      .click(_ => this.actor.update({ 'data.paths.edit': !this.actor.system.paths.edit }).then(() => this.render()))
 
     // Wealth edit
     html
       .find('.wealth-edit')
       .click(_ =>
-        this.actor.update({ 'data.wealth.edit': !this.actor.system.wealth.edit }).then(() => this.render()),
+        this.actor.update({ 'system.wealth.edit': !this.actor.system.wealth.edit }).then(() => this.render()),
       )
     // Languages CRUD + Edit
     html.find('.languages-edit').click(_ =>
       this.actor
         .update({
-          'data.languages.edit': !this.actor.system.languages.edit,
+          'system.languages.edit': !this.actor.system.languages.edit,
         })
         .then(() => this.render()),
     )

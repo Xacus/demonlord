@@ -182,7 +182,7 @@ export class DemonlordActor extends Actor {
   /** @override */
   _onUpdate(changed, options, user) {
     super._onUpdate(changed, options, user)
-    if (changed?.data?.level) {
+    if (changed?.level || changed?.system?.level) {
       this._handleEmbeddedDocuments({debugCaller: '_onUpdate'})
     }
   }

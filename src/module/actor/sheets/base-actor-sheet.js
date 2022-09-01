@@ -13,7 +13,7 @@ export default class DLBaseActorSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
+  async getData() {
     // Base data
     const data = {
       isGM: game.user.isGM,
@@ -26,7 +26,8 @@ export default class DLBaseActorSheet extends ActorSheet {
       editable: this.isEditable,
       config: CONFIG.DL,
       actor: this.actor,
-      data: this.actor.system,
+      data: this.actor.system, // TODO: remove after migrating
+      system: this.actor.system,
       effects: true,
       generalEffects: prepareActiveEffectCategories(this.actor.effects, true),
       effectsOverview: buildOverview(this.actor),
@@ -35,11 +36,11 @@ export default class DLBaseActorSheet extends ActorSheet {
 
     // Items
     data.items = this.actor.items
-      .map(i => {
-        i.data.labels = i.labels
-        return i.data
-      })
+      .map(i => i.system)
       .sort((a, b) => (a.sort || 0) - (b.sort || 0))
+
+    // Enrich HTML
+    data.system.enrichedDescription = await TextEditor.enrichHTML(this.actor.system.description, {async: true});
 
     // Attributes checkbox
     for (const attr of Object.entries(data.data.attributes)) {
@@ -48,7 +49,7 @@ export default class DLBaseActorSheet extends ActorSheet {
 
     // Map items by type (used in other operations)
     const m = new Map()
-    data.items.map(item => {
+    this.actor.items.forEach(item => {
       const type = item.type
       m.has(type) ? m.get(type).push(item) : m.set(type, [item])
     })

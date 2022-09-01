@@ -173,7 +173,7 @@ Hooks.on('createToken', async _tokenDocument => {
 })
 
 Hooks.on('updateActor', async (actor, updateData) => {
-  if (updateData.data && (game.user.isGM || actor.isOwner)) {
+  if (updateData.system && (game.user.isGM || actor.isOwner)) {
     if (game.combat) {
       for (const combatant of game.combat.combatants) {
         let init = 0

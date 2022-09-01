@@ -25,8 +25,8 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const data = super.getData()
+  async getData() {
+    const data = await super.getData()
     data.dtypes = ['String', 'Number', 'Boolean']
     this.prepareItems(data)
     return data
