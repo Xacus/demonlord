@@ -28,18 +28,18 @@
             <b>{{item.name}}</b>
           </div>
 
-          <input name="data.tradition" value="{{data.tradition}}" placeholder="{{localize 'DL.MagicTradition'}}"
+          <input name="system.tradition" value="{{system.tradition}}" placeholder="{{localize 'DL.MagicTradition'}}"
                  autosize/>
           <div class="select-wrapper">
-            <select name="data.spelltype" style="height: 28px; padding-top: 2px">
-              {{#select data.spelltype}}
+            <select name="system.spelltype" style="height: 28px; padding-top: 2px">
+              {{#select system.spelltype}}
                 <option value="">—</option>
                 <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>
                 <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>
               {{/select}}
             </select>
           </div>
-          <input name="data.rank" type="number" value="{{data.rank}}" placeholder="{{localize 'DL.SpellRank'}}"
+          <input name="system.rank" type="number" value="{{system.rank}}" placeholder="{{localize 'DL.SpellRank'}}"
                  style="padding: 4px" data-tippy-content="{{localize "DL.SpellRank"}}"
                  autosize/>
         </div>
@@ -50,17 +50,17 @@
           <div>
             <b>{{localize "DL.SpellAttribute"}}</b>
             <div>
-              {{dlDropdown "data.attribute" data.attribute}}
+              {{dlDropdown "system.attribute" system.attribute}}
             </div>
           </div>
           <div>
             <b>{{localize "DL.SpellCastings"}}</b>
             <div>
               <div class="dl-new-project-2 nohover">
-                <input type="number" name="data.castings.value" value="{{data.castings.value}}"
+                <input type="number" name="system.castings.value" value="{{system.castings.value}}"
                        data-tippy-content="{{localize "DL.SpellCastingsUses"}}" placeholder="-" min="0" autosize/>
                 <span class="sep"></span>
-                <input type="number" name="data.castings.max" value="{{data.castings.max}}"
+                <input type="number" name="system.castings.max" value="{{system.castings.max}}"
                        data-tippy-content="{{localize "DL.SpellCastingsMax"}}" placeholder="-" min="0" autosize/>
               </div>
             </div>
@@ -68,32 +68,32 @@
           <div>
             <b>{{localize "DL.SpellTypeAttack"}}</b>
             <div>
-              {{dlDropdown "data.action.attack" data.action.attack}}
+              {{dlDropdown "system.action.attack" system.action.attack}}
               <span style="font-size: 11px">VS</span>
-              {{dlDropdown "data.action.against" data.action.against}}
+              {{dlDropdown "system.action.against" system.action.against}}
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
                 <i class="dl-icon-d6"></i>
                 <span class="sep"></span>
-                <input type="number" name="data.action.boonsbanes" value="{{defaultValue data.action.boonsbanes 0}}"/>
+                <input type="number" name="system.action.boonsbanes" value="{{defaultValue system.action.boonsbanes 0}}"/>
               </div>
             </div>
           </div>
           <div>
             <b>{{localize "DL.ChallengeRequestRollText"}}</b>
             <div>
-              {{dlDropdown "data.action.defense" data.action.defense}}
+              {{dlDropdown "system.action.defense" system.action.defense}}
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
                 <i class="dl-icon-d6"></i>
                 <span class="sep"></span>
-                <input type="number" name="data.defenseboonsbanes" value="{{defaultValue data.defenseboonsbanes 0}}"/>
+                <input type="number" name="system.defenseboonsbanes" value="{{defaultValue system.defenseboonsbanes 0}}"/>
               </div>
             </div>
           </div>
           <div>
             <b>{{localize "DL.TalentHealingOptions"}}</b>
-            <div class="dl-new-project-radio {{checked data.healing.healing}}"
+            <div class="dl-new-project-radio {{checked system.healing.healing}}"
                  data-tippy-content="{{localize "DL.TalentHealingOptions"}}">
-              <input type="checkbox" name="data.healing.healing" id="healingoptions" {{checked data.healing.healing}}/>
+              <input type="checkbox" name="system.healing.healing" id="healingoptions" {{checked system.healing.healing}}/>
               <i class="dl-icon-healing"></i>
             </div>
           </div>
@@ -109,10 +109,10 @@
                 <div class="dl-new-project-2 nohover">
                   <i class="dl-icon-d20"></i>
                   <span class="sep"></span>
-                  <input type="text" name="data.action.damage" value="{{data.action.damage}}"
+                  <input type="text" name="system.action.damage" value="{{system.action.damage}}"
                          data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
                   <span class="sep"></span>
-                  <input type="text" name="data.action.damagetype" value="{{data.action.damagetype}}"
+                  <input type="text" name="system.action.damagetype" value="{{system.action.damagetype}}"
                          data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
                 </div>
                 <a
@@ -123,7 +123,7 @@
                 ><i class="fas fa-plus"></i>
                 </a>
               </div>
-              {{#each data.action.damagetypes as |damagetype id|}}
+              {{#each system.action.damagetypes as |damagetype id|}}
                 <div>
                   <div class="dl-new-project-2 nohover">
                     <i class="dl-icon-d20"></i>
@@ -151,7 +151,7 @@
               <div class="dl-new-project-2 nohover">
                 <i class="dl-icon-d20"></i>
                 <span class="sep"></span>
-                <input type="text" name="data.action.plus20damage" value="{{data.action.plus20damage}}"
+                <input type="text" name="system.action.plus20damage" value="{{system.action.plus20damage}}"
                        data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
               </div>
             </div>
@@ -162,19 +162,19 @@
         <div class="dl-item-section-section text-areas">
           <div>
             <b>{{localize "DL.SpellRequirements"}}</b>
-            <textarea name="data.requirements" placeholder="―" autosize>{{data.requirements}}</textarea>
+            <textarea name="system.requirements" placeholder="―" autosize>{{system.requirements}}</textarea>
           </div>
           <div>
             <b>{{localize "DL.SpellTarget"}}</b>
-            <textarea name="data.target" placeholder="―" autosize>{{data.target}}</textarea>
+            <textarea name="system.target" placeholder="―" autosize>{{system.target}}</textarea>
           </div>
           <div>
             <b>{{localize "DL.SpellArea"}}</b>
-            <textarea name="data.area" placeholder="―" autosize>{{data.area}}</textarea>
+            <textarea name="system.area" placeholder="―" autosize>{{system.area}}</textarea>
           </div>
           <div>
             <b>{{localize "DL.SpellDuration"}}</b>
-            <textarea name="data.duration" placeholder="―" autosize>{{data.duration}}</textarea>
+            <textarea name="system.duration" placeholder="―" autosize>{{system.duration}}</textarea>
           </div>
         </div>
         <hr>
@@ -189,31 +189,31 @@
         <div class="dl-item-section-section text-areas">
           <div>
             <b>{{localize "DL.SpellTriggered"}}</b>
-            <textarea name="data.triggered" placeholder="―" autosize>{{data.triggered}}</textarea>
+            <textarea name="system.triggered" placeholder="―" autosize>{{system.triggered}}</textarea>
           </div>
           <div>
             <b>{{localize "DL.SpellSacrifice"}}</b>
-            <textarea name="data.sacrifice" placeholder="―" autosize>{{data.sacrifice}}</textarea>
+            <textarea name="system.sacrifice" placeholder="―" autosize>{{system.sacrifice}}</textarea>
           </div>
           <div>
             <b>{{localize "DL.SpellPermanence"}}</b>
-            <textarea name="data.permanence" placeholder="―" autosize>{{data.permanence}}</textarea>
+            <textarea name="system.permanence" placeholder="―" autosize>{{system.permanence}}</textarea>
           </div>
           <div>
             <b>{{localize "DL.SpellAftereffect"}}</b>
-            <textarea name="data.aftereffect" placeholder="―" autosize>{{data.aftereffect}}</textarea>
+            <textarea name="system.aftereffect" placeholder="―" autosize>{{system.aftereffect}}</textarea>
           </div>
           <div>
             <b>{{localize "DL.SpellSpecial"}}</b>
-            <textarea name="data.special" placeholder="―" autosize>{{data.special}}</textarea>
+            <textarea name="system.special" placeholder="―" autosize>{{system.special}}</textarea>
           </div>
           <div>
             <b>{{localize "DL.SpellEffectDice"}}</b>
-            <textarea name="data.effectdice" placeholder="―" autosize>{{data.effectdice}}</textarea>
+            <textarea name="system.effectdice" placeholder="―" autosize>{{system.effectdice}}</textarea>
           </div>
           <div>
             <b>{{localize "DL.WeaponAttack20Text"}}</b>
-            <textarea name="data.action.plus20" placeholder="―" autosize>{{data.action.plus20}}</textarea>
+            <textarea name="system.action.plus20" placeholder="―" autosize>{{system.action.plus20}}</textarea>
           </div>
         </div>
         <hr>
@@ -227,16 +227,16 @@
             <div class="dl-new-project-2">
               <span>{{localize "DL.ActionTargetValue"}}</span>
               <span class="sep"></span>
-              <input type="number" name="data.activatedEffect.target.value"
-                     value="{{data.activatedEffect.target.value}}"
+              <input type="number" name="system.activatedEffect.target.value"
+                     value="{{system.activatedEffect.target.value}}"
                      placeholder="-" autosize/>
             </div>
 
             <div class="dl-new-project-2 nohover">
               <span>{{localize "DL.ActionTargetType"}}</span>
               <span class="sep"></span>
-              <select name="data.activatedEffect.target.type">
-                {{#select data.activatedEffect.target.type}}
+              <select name="system.activatedEffect.target.type">
+                {{#select system.activatedEffect.target.type}}
                   <option value="">—</option>
                   {{#each config.actionTargetTypes as |name key|}}
                     <option value="{{key}}">{{localize name}}</option>
@@ -246,14 +246,14 @@
             </div>
             <div style="gap: 0">
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.ActionTexture"}}">
-                <input type="text" name="data.activatedEffect.texture" value="{{data.activatedEffect.texture}}" autosize
+                <input type="text" name="system.activatedEffect.texture" value="{{system.activatedEffect.texture}}" autosize
                        placeholder="path/image.webp" style="min-width: 120px">
               </div>
               <button
                 type="button"
                 class="file-picker dl-clickable"
                 data-type="imagevideo"
-                data-target="data.activatedEffect.texture"
+                data-target="system.activatedEffect.texture"
                 title="File"
                 tabindex="-1"
                 style="

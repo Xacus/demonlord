@@ -27,7 +27,7 @@
           <div>
             <b>{{item.name}}</b>
           </div>
-          <input name="data.groupname" value="{{data.groupname}}" placeholder="{{localize 'DL.TalentGroupname'}}"
+          <input name="system.groupname" value="{{system.groupname}}" placeholder="{{localize 'DL.TalentGroupname'}}"
                  autosize/>
         </div>
 
@@ -38,10 +38,10 @@
             <b>{{localize "DL.TalentUses"}}</b>
             <div>
               <div class="dl-new-project-2 nohover uses">
-                <input type="number" name="data.uses.value" value="{{data.uses.value}}"
+                <input type="number" name="system.uses.value" value="{{system.uses.value}}"
                        data-tippy-content="{{localize "DL.TalentUses"}}" placeholder="-" min="0" autosize/>
                 <span class="sep"></span>
-                <input type="number" name="data.uses.max" value="{{data.uses.max}}"
+                <input type="number" name="system.uses.max" value="{{system.uses.max}}"
                        data-tippy-content="{{localize "DL.TalentUsesMax"}}" placeholder="-" min="0" autosize/>
               </div>
             </div>
@@ -50,7 +50,7 @@
             <b>{{localize "DL.ChallengeRollBonus"}}</b>
             <div>
               {{dlCheckboxes "talent-challenge-bonus" '' data}}
-              {{dlBOBAButton "data.challenge.boonsbanes" data.challenge.boonsbanes "DL.TalentAddBoonsBanesToAttribute"}}
+              {{dlBOBAButton "system.challenge.boonsbanes" system.challenge.boonsbanes "DL.TalentAddBoonsBanesToAttribute"}}
             </div>
           </div>
 
@@ -58,7 +58,7 @@
             <b>{{localize "DL.AttackRollBonuses"}}</b>
             <div>
               {{dlCheckboxes "talent-action-bonus" '' data}}
-              {{dlBOBAButton "data.action.boonsbanes" data.action.boonsbanes "DL.TalentAddBoonsBanesBonus"}}
+              {{dlBOBAButton "system.action.boonsbanes" system.action.boonsbanes "DL.TalentAddBoonsBanesBonus"}}
             </div>
           </div>
           <div>
@@ -68,7 +68,7 @@
                    data-tippy-content="{{localize 'DL.TalentAddDamageToYourAttackRoll'}}">
                 <i class="dl-icon-d20"></i>
                 <span class="sep"></span>
-                <input type="text" name="data.action.damage" value="{{data.action.damage}}"
+                <input type="text" name="system.action.damage" value="{{system.action.damage}}"
                        data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
               </div>
             </div>
@@ -79,7 +79,7 @@
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponAttack20"}}">
                 <i class="dl-icon-d20-plus"></i>
                 <span class="sep"></span>
-                <input type="text" name="data.action.plus20damage" value="{{data.action.plus20damage}}"
+                <input type="text" name="system.action.plus20damage" value="{{system.action.plus20damage}}"
                        data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
               </div>
             </div>
@@ -87,7 +87,7 @@
           <div class="text-areas">
             <b style="min-width: 100px">{{localize "DL.TalentExtraEffect"}}</b>
             <div style="flex-grow: 1">
-              <textarea name="data.action.extraeffect" placeholder="―" autosize>{{data.action.extraeffect}}</textarea>
+              <textarea name="system.action.extraeffect" placeholder="―" autosize>{{system.action.extraeffect}}</textarea>
             </div>
           </div>
 
@@ -100,10 +100,10 @@
           <div>
             <b>{{localize "DL.AttackRoll"}}</b>
             <div>
-              {{dlDropdown "data.vs.attribute" data.vs.attribute}}
+              {{dlDropdown "system.vs.attribute" system.vs.attribute}}
               <span style="font-size: 11px">VS</span>
-              {{dlDropdown "data.vs.against" data.vs.against}}
-              {{dlBOBAButton "data.vs.boonsbanes" data.vs.boonsbanes ""}}
+              {{dlDropdown "system.vs.against" system.vs.against}}
+              {{dlBOBAButton "system.vs.boonsbanes" system.vs.boonsbanes ""}}
             </div>
           </div>
           <div>
@@ -113,10 +113,10 @@
                 <div class="dl-new-project-2 nohover">
                   <i class="dl-icon-d20"></i>
                   <span class="sep"></span>
-                  <input type="text" name="data.vs.damage" value="{{data.vs.damage}}"
+                  <input type="text" name="system.vs.damage" value="{{system.vs.damage}}"
                          data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
                   <span class="sep"></span>
-                  <input type="text" name="data.vs.damagetype" value="{{data.vs.damagetype}}"
+                  <input type="text" name="system.vs.damagetype" value="{{system.vs.damagetype}}"
                          data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
                 </div>
                 <a
@@ -127,7 +127,7 @@
                 ><i class="fas fa-plus"></i>
                 </a>
               </div>
-              {{#each data.vs.damagetypes as |damagetype id|}}
+              {{#each system.vs.damagetypes as |damagetype id|}}
                 <div>
                   <div class="dl-new-project-2 nohover">
                     <i class="dl-icon-d20"></i>
@@ -156,7 +156,7 @@
               <div class="dl-new-project-2 nohover">
                 <i class="dl-icon-d20"></i>
                 <span class="sep"></span>
-                <input type="text" name="data.action.plus20damage" value="{{data.action.plus20damage}}"
+                <input type="text" name="system.action.plus20damage" value="{{system.action.plus20damage}}"
                        data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
               </div>
             </div>-->
@@ -169,15 +169,15 @@
           <div>
             <b>{{localize "DL.ChallengeRequestRollText"}}</b>
             <div>
-              {{dlDropdown "data.action.defense" data.action.defense}}
-              {{dlBOBAButton "data.action.defense" data.action.defense ""}}
+              {{dlDropdown "system.action.defense" system.action.defense}}
+              {{dlBOBAButton "system.action.defense" system.action.defense ""}}
             </div>
           </div>
           <div>
             <b>{{localize "DL.TalentHealingOptions"}}</b>
-            <div class="dl-new-project-radio {{checked data.healing.healing}}"
+            <div class="dl-new-project-radio {{checked system.healing.healing}}"
                  data-tippy-content="{{localize "DL.TalentHealingOptions"}}">
-              <input type="checkbox" name="data.healing.healing" id="healingoptions" {{checked data.healing.healing}}/>
+              <input type="checkbox" name="system.healing.healing" id="healingoptions" {{checked system.healing.healing}}/>
               <i class="dl-icon-healing"></i>
             </div>
           </div>
@@ -202,22 +202,22 @@
             <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.AttributeDefense"}}">
               <i class="dl-icon-defense"></i>
               <span class="sep"></span>
-              <input type="text" name="data.bonuses.defense" value="{{data.bonuses.defense}}" placeholder="0" autosize/>
+              <input type="number" name="system.bonuses.defense" value="{{system.bonuses.defense}}" placeholder="0" autosize/>
             </div>
             <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharHealth"}}">
               <i class="dl-icon-health"></i>
               <span class="sep"></span>
-              <input type="text" name="data.bonuses.health" value="{{data.bonuses.health}}" placeholder="0" autosize/>
+              <input type="number" name="system.bonuses.health" value="{{system.bonuses.health}}" placeholder="0" autosize/>
             </div>
             <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharSpeed"}}">
               <i class="dl-icon-speed"></i>
               <span class="sep"></span>
-              <input type="text" name="data.bonuses.speed" value="{{data.bonuses.speed}}" placeholder="0" autosize/>
+              <input type="number" name="system.bonuses.speed" value="{{system.bonuses.speed}}" placeholder="0" autosize/>
             </div>
             <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.CharPower"}}">
               <i class="dl-icon-power"></i>
               <span class="sep"></span>
-              <input type="text" name="data.bonuses.power" value="{{data.bonuses.power}}" placeholder="0" autosize/>
+              <input type="number" name="system.bonuses.power" value="{{system.bonuses.power}}" placeholder="0" autosize/>
             </div>
           </div>
         </div>
@@ -231,74 +231,15 @@
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize 'DL.WeaponDamage'}}">
                 <i class="dl-icon-d20"></i>
                 <span class="sep"></span>
-                <input type="text" name="data.damage" value="{{data.damage}}"
+                <input type="text" name="system.damage" value="{{system.damage}}"
                        data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
                 <span class="sep"></span>
-                <input type="text" name="data.damagetype" value="{{data.damagetype}}"
+                <input type="text" name="system.damagetype" value="{{system.damagetype}}"
                        data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
               </div>
             </div>
           </div>
         </div>
-
-
-
-
-        {{!-- Activated Effects --}}
-        <!--        <div class="item-tab-sub-header collapse-title">-->
-        <!--          <div>{{localize "DL.MeasuredTemplate"}}</div>-->
-        <!--        </div>-->
-        <!--        <div class="item-table indent collapse-content">-->
-        <!--          {{!-- Target --}}-->
-        <!--          <div class="row">-->
-        <!--            <div class="col-6">-->
-        <!--              <label class="resource-label">{{localize "DL.ActionTargetValue"}}</label>-->
-        <!--              <input-->
-        <!--                type="text"-->
-        <!--                name="data.activatedEffect.target.value"-->
-        <!--                value="{{data.activatedEffect.target.value}}"-->
-        <!--                data-dtype="Number"-->
-        <!--              />-->
-        <!--            </div>-->
-        <!--            <div class="col-6">-->
-        <!--              <label class="resource-label">{{localize "DL.ActionTargetType"}}</label>-->
-        <!--              <select name="data.activatedEffect.target.type" data-dtype="String">-->
-        <!--                {{#select data.activatedEffect.target.type}}-->
-        <!--                  <option value="">—</option>-->
-        <!--                  {{#each config.actionTargetTypes as |name key|}}-->
-          <!--                    <option value="{{key}}">{{localize name}}</option>-->
-          <!--                  {{/each}} {{/select}}-->
-        <!--              </select>-->
-        <!--            </div>-->
-        <!--          </div>-->
-
-        <!--          {{!-- Template --}}-->
-        <!--          <div class="row">-->
-        <!--            <div class="col-11">-->
-        <!--              <input-->
-        <!--                class="image"-->
-        <!--                type="text"-->
-        <!--                name="data.activatedEffect.texture"-->
-        <!--                placeholder="path/image.webp"-->
-        <!--                value="{{data.activatedEffect.texture}}"-->
-        <!--                data-dtype="String"-->
-        <!--              />-->
-        <!--            </div>-->
-        <!--            <div class="col-1">-->
-        <!--              <button-->
-        <!--                type="button"-->
-        <!--                class="file-picker"-->
-        <!--                data-type="imagevideo"-->
-        <!--                data-target="data.activatedEffect.texture"-->
-        <!--                title="File"-->
-        <!--                tabindex="-1"-->
-        <!--                style="height: 21px;width: 21px;font-size: 12px;padding: 0;line-height: 7px;border: none;border-bottom: 1px solid #a17771;"-->
-        <!--              >-->
-        <!--                <i class="fas fa-file-import fa-fw"></i>-->
-        <!--              </button>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
       </div>
 
       {{> "systems/demonlord/templates/item/partial/item-description.html"}} {{#if effects}}{{>
