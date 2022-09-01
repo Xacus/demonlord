@@ -77,7 +77,7 @@ export default class DLBaseActorSheet extends ActorSheet {
   _prepareBook(items, dataGroupProperty, returnItemsName) {
     const m = new Map()
     items.forEach(i => {
-      const group = i.data[dataGroupProperty] || ''
+      const group = i.system[dataGroupProperty] || ''
       if (m.has(group)) m.get(group).push(i)
       else m.set(group, [i])
     })

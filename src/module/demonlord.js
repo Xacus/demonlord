@@ -148,24 +148,24 @@ Hooks.once('setup', function () {
 /**
  * Set default values for new actors' tokens
  */
-Hooks.on('preCreateActor', (actor, data, _options, _userId) => {
+Hooks.on('createActor', (actor, _options, _id) => {
   let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL
-  if (data.type === 'creature') disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
+  if (actor.type === 'creature') disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
 
   const tokenData = {
-    name: data.name,
+    name: actor.name,
     bar1: {attribute: 'characteristics.health'},
     displayName: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
     displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
     disposition: disposition,
   }
 
-  if (data.type == 'character') {
+  if (actor.type == 'character') {
     tokenData.vision = true
     tokenData.actorLink = true
     // tokenData.dimSight = 5 // Give some squares of dim vision
   }
-  actor.data.update({token: tokenData})
+  actor.update({token: tokenData})
 })
 
 Hooks.on('createToken', async _tokenDocument => {

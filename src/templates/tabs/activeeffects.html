@@ -16,12 +16,12 @@
       {{#each section.effects as |effect|}}
         <li class="item effect flexrow" data-effect-id="{{effect.id}}">
           <div class="item-name effect-name flexrow">
-            {{#if effect.data.tint}}
-              <img class="item-image-small" src="{{effect.data.icon}}" style="border: 2px solid {{effect.data.tint}};"/>
+            {{#if effect.tint}}
+              <img class="item-image-small" src="{{effect.icon}}" style="border: 2px solid {{effect.tint}};"/>
             {{else}}
-              <img class="item-image-small" src="{{effect.data.icon}}"/>
+              <img class="item-image-small" src="{{effect.icon}}"/>
             {{/if}}
-            <h4>{{effect.data.label}}</h4>
+            <h4>{{effect.label}}</h4>
           </div>
           <div class="effect-duration">{{effect.duration.label}}</div>
           <div class="effect-controls flexrow">
@@ -29,15 +29,15 @@
                     class="effect-control"
                     data-action="toggle"
                     title="{{localize 'DL.EffectToggle'}}"
-                    style="{{hiddenEffect effect.data.flags.notToggleable}}"
+                    style="{{hiddenEffect effect.flags.notToggleable}}"
             >
-              <i class="fas {{#if effect.data.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+              <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
             </a>
             <a
                     class="effect-control"
                     data-action="edit"
                     title="{{localize 'DL.EffectEdit'}}"
-                    style="{{hiddenEffect effect.data.flags.notEditable}}"
+                    style="{{hiddenEffect effect.flags.notEditable}}"
             >
               <i class="fas fa-edit"></i>
             </a>
@@ -45,7 +45,7 @@
                     class="effect-control"
                     data-action="delete"
                     title="{{localize 'DL.EffectDelete'}}"
-                    style="{{hiddenEffect effect.data.flags.notDeletable}}"
+                    style="{{hiddenEffect effect.flags.notDeletable}}"
             >
               <i class="fas fa-times"></i>
             </a>

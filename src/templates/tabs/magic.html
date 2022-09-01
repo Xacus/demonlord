@@ -33,14 +33,14 @@
           </div>
         </div>
 
-        <div class="col-2">{{defaultValue data.spelltype "―"}}</div>
-        <div class="col-1">{{data.rank}}</div>
+        <div class="col-2">{{defaultValue system.spelltype "―"}}</div>
+        <div class="col-1">{{system.rank}}</div>
         <div class="col-1">
-          {{defaultValue (plusify data.action.boonsbanes) 0}}
+          {{defaultValue (plusify system.action.boonsbanes) 0}}
         </div>
         <div class="col-1 spell-uses dl-clickable">
-          {{#if data.castings.max}}
-            {{defaultValue data.castings.value 0}} / {{data.castings.max}}
+          {{#if system.castings.max}}
+            {{defaultValue system.castings.value 0}} / {{system.castings.max}}
             <i class="fas fa-arrows-alt-v"></i>
           {{/if}}
         </div>
@@ -57,59 +57,59 @@
             <b>{{spell.name}}</b>
           </div>
           <div class="col-6" style="margin-right: 0;">
-            <b>{{spellbook.tradition}} {{data.spelltype}} {{data.rank}}</b>
+            <b>{{spellbook.tradition}} {{system.spelltype}} {{system.rank}}</b>
           </div>
         </div>
         <hr />
-        {{#if data.requirements}}
+        {{#if system.requirements}}
           <div>
-            <b>{{localize "DL.SpellRequirements"}}</b> {{data.requirements}}
+            <b>{{localize "DL.SpellRequirements"}}</b> {{system.requirements}}
           </div>
         {{/if}}
-        {{#if data.target}}
+        {{#if system.target}}
           <div>
-            <b>{{localize "DL.SpellTarget"}}</b> {{data.target}}
+            <b>{{localize "DL.SpellTarget"}}</b> {{system.target}}
           </div>
         {{/if}}
-        {{#if data.area}}
+        {{#if system.area}}
           <div>
-            <b>{{localize "DL.SpellArea"}}</b> {{data.area}}
+            <b>{{localize "DL.SpellArea"}}</b> {{system.area}}
           </div>
         {{/if}}
-        {{#if data.duration}}
+        {{#if system.duration}}
           <div>
-            <b>{{localize "DL.SpellDuration"}}</b> {{data.duration}}
+            <b>{{localize "DL.SpellDuration"}}</b> {{system.duration}}
           </div>
         {{/if}}
         <hr/>
-        {{#if data.description}}
+        {{#if system.description}}
           <div>
-            {{{enrichHTMLUnrolled data.description}}}
+            {{{enrichHTMLUnrolled system.description}}}
           </div>
         {{/if}}
-        {{#if data.sacrifice}}
+        {{#if system.sacrifice}}
           <div>
-            <b>{{localize "DL.SpellSacrifice"}}</b> {{data.sacrifice}}
+            <b>{{localize "DL.SpellSacrifice"}}</b> {{system.sacrifice}}
           </div>
         {{/if}}
-        {{#if data.permanence}}
+        {{#if system.permanence}}
           <div>
-            <b>{{localize "DL.SpellPermanence"}}</b> {{data.permanence}}
+            <b>{{localize "DL.SpellPermanence"}}</b> {{system.permanence}}
           </div>
         {{/if}}
-        {{#if data.triggered}}
+        {{#if system.triggered}}
           <div>
-            <b>{{localize "DL.SpellTriggered"}}</b> {{data.triggered}}
+            <b>{{localize "DL.SpellTriggered"}}</b> {{system.triggered}}
           </div>
         {{/if}}
-        {{#if data.action.plus20}}
+        {{#if system.action.plus20}}
           <div>
-            <b>{{localize "DL.SpellRollPlus20"}}</b> {{data.action.plus20}}
+            <b>{{localize "DL.SpellRollPlus20"}}</b> {{system.action.plus20}}
           </div>
         {{/if}}
-        {{#if data.aftereffect}}
+        {{#if system.aftereffect}}
           <div>
-            <b>{{localize "DL.SpellAftereffect"}}</b> {{data.aftereffect}}
+            <b>{{localize "DL.SpellAftereffect"}}</b> {{system.aftereffect}}
           </div>
         {{/if}}
 

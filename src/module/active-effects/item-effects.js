@@ -65,7 +65,7 @@ export class DLActiveEffects {
 
   static async embedActiveEffects(actor, doc, operation = 'create') {
     let effectDataList = []
-    switch (doc.data.type) {
+    switch (doc.type) {
       case 'ancestry':
         effectDataList = DLActiveEffects.generateEffectDataFromAncestry(doc, actor)
         break

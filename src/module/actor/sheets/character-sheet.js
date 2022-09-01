@@ -42,23 +42,23 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Effects categories
     data.ancestryEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.data.flags?.sourceType === 'ancestry'),
+      this.actor.effects.filter(effect => effect.flags?.sourceType === 'ancestry'),
     )
     delete data.ancestryEffects.temporary
 
     data.pathEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.data.flags?.sourceType === 'path'),
+      this.actor.effects.filter(effect => effect.flags?.sourceType === 'path'),
     )
     delete data.pathEffects.temporary
 
     data.talentEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.data.flags?.sourceType === 'talent'),
+      this.actor.effects.filter(effect => effect.flags?.sourceType === 'talent'),
     )
     data.spellEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.data.flags?.sourceType === 'spell'),
+      this.actor.effects.filter(effect => effect.flags?.sourceType === 'spell'),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.data.flags?.sourceType) >= 0),
+      this.actor.effects.filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.sourceType) >= 0),
     )
     this.prepareItems(data)
     return data
@@ -82,9 +82,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Sort paths
     actorData.paths = [
-      ...actorData.paths.filter(p => p.data.type === 'novice'),
-      ...actorData.paths.filter(p => p.data.type === 'expert'),
-      ...actorData.paths.filter(p => p.data.type === 'master'),
+      ...actorData.paths.filter(p => p.system.type === 'novice'),
+      ...actorData.paths.filter(p => p.system.type === 'expert'),
+      ...actorData.paths.filter(p => p.system.type === 'master'),
     ]
   }
 
@@ -243,7 +243,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     const _toggleLang = (ev, key) => {
       const dev = ev.currentTarget.closest('.language')
       const item = this.actor.items.get(dev.dataset.itemId)
-      item.update({ ['data.' + key]: !item.system[key] }, { parent: this.actor })
+      item.update({[`system.${key}`]: !item.system[key] }, { parent: this.actor })
     }
     html.find('.language-delete').click(ev => this._onItemDelete(ev, '.language'))
     html.find('.language-toggle-r').click(ev => _toggleLang(ev, 'read'))

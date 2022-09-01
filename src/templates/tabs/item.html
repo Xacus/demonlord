@@ -10,43 +10,43 @@
   <div class="body">
     <div class="lifestyle">
       <div class="lifestyletitle">{{localize "DL.WealthLifestyle"}}</div>
-      {{#if data.wealth.edit}}
-        <input type="text" name="data.wealth.lifestyle" value="{{data.wealth.lifestyle}}"/>
+      {{#if system.wealth.edit}}
+        <input type="text" name="system.wealth.lifestyle" value="{{system.wealth.lifestyle}}"/>
       {{else}}
-        <label class="resource-label" for="data.wealth.lifestyle">{{data.wealth.lifestyle}}</label>
+        <label class="resource-label" for="system.wealth.lifestyle">{{system.wealth.lifestyle}}</label>
       {{/if}}
     </div>
     <div class="grid grid-4col">
       <div class="coins">
         <div class="cointitle">{{localize "DL.WealthCoinsGC"}}</div>
-        {{#if data.wealth.edit}}
-          <input type="text" name="data.wealth.gc" value="{{data.wealth.gc}}"/>
+        {{#if system.wealth.edit}}
+          <input type="text" name="system.wealth.gc" value="{{system.wealth.gc}}"/>
         {{else}}
-          <label class="resource-label" for="data.wealth.gc">{{data.wealth.gc}}</label>
+          <label class="resource-label" for="system.wealth.gc">{{system.wealth.gc}}</label>
         {{/if}}
       </div>
       <div class="coins">
         <div class="cointitle">{{localize "DL.WealthCoinsSS"}}</div>
-        {{#if data.wealth.edit}}
-          <input type="text" name="data.wealth.ss" value="{{data.wealth.ss}}"/>
+        {{#if system.wealth.edit}}
+          <input type="text" name="system.wealth.ss" value="{{system.wealth.ss}}"/>
         {{else}}
-          <label class="resource-label" for="data.wealth.ss">{{data.wealth.ss}}</label>
+          <label class="resource-label" for="system.wealth.ss">{{system.wealth.ss}}</label>
         {{/if}}
       </div>
       <div class="coins">
         <div class="cointitle">{{localize "DL.WealthCoinsCP"}}</div>
-        {{#if data.wealth.edit}}
-          <input type="text" name="data.wealth.cp" value="{{data.wealth.cp}}"/>
+        {{#if system.wealth.edit}}
+          <input type="text" name="system.wealth.cp" value="{{system.wealth.cp}}"/>
         {{else}}
-          <label class="resource-label" for="data.wealth.cp">{{data.wealth.cp}}</label>
+          <label class="resource-label" for="system.wealth.cp">{{system.wealth.cp}}</label>
         {{/if}}
       </div>
       <div class="coins">
         <div class="cointitle">{{localize "DL.WealthCoinsBits"}}</div>
-        {{#if data.wealth.edit}}
-          <input type="text" name="data.wealth.bits" value="{{data.wealth.bits}}"/>
+        {{#if system.wealth.edit}}
+          <input type="text" name="system.wealth.bits" value="{{system.wealth.bits}}"/>
         {{else}}
-          <label class="resource-label" for="data.wealth.bits">{{data.wealth.bits}}</label>
+          <label class="resource-label" for="system.wealth.bits">{{system.wealth.bits}}</label>
         {{/if}}
       </div>
     </div>
@@ -75,10 +75,10 @@
         </div>
       </div>
       <div class="col-2 item-uses">
-        {{item.data.quantity}} <i class="fas fa-arrows-alt-v"></i>
+        {{item.system.quantity}} <i class="fas fa-arrows-alt-v"></i>
       </div>
       <div class="col-2">
-        {{defaultValue data.value "―"}}
+        {{defaultValue system.value "―"}}
       </div>
       <div class="col-1 dl-clickable" style="padding-top: 3px">
         <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
@@ -87,10 +87,10 @@
         </a>
       </div>
     </div>
-    {{#if item.data.description}}
+    {{#if item.system.description}}
       <div class="row dlInfo" style="display: none; text-align: left">
         <div class="col-12" style="padding: 2px 4px 4px;">
-          {{{item.data.description}}}
+          {{{item.system.description}}}
         </div>
       </div>
     {{/if}}

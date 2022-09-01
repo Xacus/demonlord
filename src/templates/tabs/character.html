@@ -37,8 +37,8 @@
           <div class="ancestry-frame">
             <img class="border gray" src="systems/demonlord/assets/ui/shields/rogue-shield.webp"/>
           </div>
-          <h3>{{localize 'DL.CharAncestry'}}</h3>
-          <p></p>
+          <div class="type">{{localize 'DL.CharAncestry'}}</div>
+          <div class="name"></div>
         </div>
       {{/if}}
 
@@ -47,7 +47,7 @@
         <div class="col-3 path-edit" data-item-id="{{path._id}}">
           {{#if (isBadgeImg path.img)}}
             <img class="badge" src="{{path.img}}"/>
-          {{else}} {{#if (eq path.data.type "novice")}}
+          {{else}} {{#if (eq path.system.type "novice")}}
             <div class="path-frame">
               <img class="border-small" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp"/>
               <img
@@ -56,7 +56,7 @@
                 style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)"
               />
             </div>
-          {{/if}} {{#if (eq path.data.type "expert")}}
+          {{/if}} {{#if (eq path.system.type "expert")}}
             <div class="path-frame">
               <img class="border-small" src="systems/demonlord/assets/ui/shields/mage-shield.webp"/>
               <img
@@ -65,7 +65,7 @@
                 style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)"
               />
             </div>
-          {{/if}} {{#if (eq path.data.type "master")}}
+          {{/if}} {{#if (eq path.system.type "master")}}
             <div class="path-frame">
               <img class="border" src="systems/demonlord/assets/ui/shields/demon-shield.webp"/>
               <img
@@ -75,21 +75,20 @@
               />
             </div>
           {{/if}} {{/if}}
-          <h3>
-            {{#if (eq path.data.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}} {{#if (eq path.data.type
-                                                                                                "expert")}}{{localize
-            "DL.CharPathExpert"}}{{/if}} {{#if (eq path.data.type "master")}}{{localize
-            "DL.CharPathMaster"}}{{/if}}
-          </h3>
-          <p>{{path.name}}</p>
+          <div class="type">
+            {{#if (eq path.system.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}}
+            {{#if (eq path.system.type "expert")}}{{localize "DL.CharPathExpert"}}{{/if}}
+            {{#if (eq path.system.type "master")}}{{localize "DL.CharPathMaster"}}{{/if}}
+          </div>
+          <div class="name">{{path.name}}</div>
         </div>
       {{/each}} {{else}}
         <div class="col-3">
           <div class="path-frame">
             <img class="border-small gray" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp"/>
           </div>
-          <h3>{{localize 'DL.TabsPath'}}</h3>
-          <p></p>
+          <div class="type">{{localize 'DL.TabsPath'}}</div>
+          <div class="name"></div>
         </div>
       {{/if}}
     </div>
@@ -160,7 +159,7 @@
             <div class="language" data-item-id="{{language._id}}">
               <div class="languagetitle">{{language.name}} (</div>
               <a class="language-toggle-s">
-                {{#if language.speak}}
+                {{#if language.system.speak}}
                   <div class="charhighlight" data-tippy-content="{{localize "DL.LanguagesSpeak"}}">
                     <i class="dl-icon-speak black" style="width: 10px; height: 10px; margin-right: 4px"
                        data-tippy-content="{{localize "DL.LanguagesSpeak"}}"></i>
@@ -173,7 +172,7 @@
                 {{/if}}
               </a>
               <a class="language-toggle-r">
-                {{#if language.read}}
+                {{#if language.system.read}}
                   <div class="charhighlight" data-tippy-content="{{localize "DL.LanguagesRead"}}">
                     <i class="dl-icon-read black" style="width: 10px; height: 10px; margin-right: 4px"
                        data-tippy-content="{{localize "DL.LanguagesRead"}}"></i>
@@ -186,7 +185,7 @@
                 {{/if}}
               </a>
               <a class="language-toggle-w">
-                {{#if language.write}}
+                {{#if language.system.write}}
                   <div class="charhighlight">
                     <i class="dl-icon-write black" style="width: 10px; height: 10px"
                        data-tippy-content="{{localize "DL.LanguagesWrite"}}"></i>
@@ -207,17 +206,17 @@
           {{/each}} {{else}} {{#each actor.languages as |language id|}}
             <div class="language">
               <div class="languagetitle">{{language.name}} (</div>
-              {{#if language.speak}}
+              {{#if language.system.speak}}
                 <i class="dl-icon-speak black" style="width: 10px; height: 10px" data-tippy-content="{{localize "DL.LanguagesSpeak"}}"></i>
               {{else}}
                 <i class="dl-icon-speak gray" style="width: 10px; height: 10px" data-tippy-content="{{localize "DL.LanguagesSpeak"}}"></i>
               {{/if}}
-              {{#if language.read}}
+              {{#if language.system.read}}
                 <i class="dl-icon-read black" style="width: 10px; height: 10px" data-tippy-content="{{localize "DL.LanguagesRead"}}"></i>
               {{else}}
                 <i class="dl-icon-read gray" style="width: 10px; height: 10px" data-tippy-content="{{localize "DL.LanguagesRead"}}"></i>
               {{/if}}
-              {{#if language.write}}
+              {{#if language.system.write}}
                 <i class="dl-icon-write black" style="width: 10px; height: 10px" data-tippy-content="{{localize "DL.LanguagesWrite"}}"></i>
               {{else}}
                 <i class="dl-icon-write gray" style="width: 10px; height: 10px" data-tippy-content="{{localize "DL.LanguagesWrite"}}"></i>
@@ -239,7 +238,7 @@
     <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}">
       {{#each collection as |item index|}}
         <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
-             {{#if item.data.description}}data-tippy-html="{{enrichHTMLUnrolled item.data.description}}"{{/if}}>
+             {{#if item.system.description}}data-tippy-html="{{enrichHTMLUnrolled item.system.description}}"{{/if}}>
           <img src="{{item.img}}">
           <span class="item-edit dl-clickable">{{item.name}}</span>
           <a class="dl-clickable item-delete" style="margin-right: 4px; margin-left: auto; margin-top: 1px;">

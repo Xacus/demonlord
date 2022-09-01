@@ -24,15 +24,15 @@
           </div>
         </div>
         <div class="col-2 dl-clickable talent-uses">
-          {{#if data.allused}}
+          {{#if system.allused}}
             {{localize 'DL.TalentUsed'}}
-          {{else}} {{#if data.addtonextroll}}
+          {{else}} {{#if system.addtonextroll}}
             {{localize 'DL.TalentActive'}}
           {{/if}} {{/if}}
         </div>
         <div class="col-2 talent-uses">
-          {{#if data.uses.max}}
-            {{defaultValue data.uses.value 0}} / {{data.uses.max}} <i class="fas fa-arrows-alt-v"></i>
+          {{#if system.uses.max}}
+            {{defaultValue system.uses.value 0}} / {{system.uses.max}} <i class="fas fa-arrows-alt-v"></i>
           {{else}}
             ―
           {{/if}}
@@ -52,9 +52,9 @@
           </div>
         </div>
         <hr>
-        {{#if data.description}}
+        {{#if system.description}}
           <div>
-            {{{enrichHTMLUnrolled data.description}}}
+            {{{enrichHTMLUnrolled system.description}}}
           </div>
         {{/if}}
       </div>

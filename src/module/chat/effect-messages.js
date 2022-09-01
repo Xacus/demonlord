@@ -14,10 +14,10 @@ import { plusify } from '../utils/utils'
 function _remapEffects(effects) {
   let m = new Map()
   effects.forEach(effect =>
-    effect.data.changes.forEach(change => {
+    effect.changes.forEach(change => {
       const obj = {
-        label: effect.data.label,
-        type: effect.data.flags?.sourceType,
+        label: effect.label,
+        type: effect.flags?.sourceType,
         value: change.value,
       }
       if (!m.has(change.key)) m.set(change.key, [obj])
@@ -153,7 +153,7 @@ export function buildTalentEffectsMessage(actor, talent) {
 /* -------------------------------------------- */
 
 export function buildOverview(actor) {
-  let m = _remapEffects(actor.effects.filter(e => !e.data.disabled)) // <changeKey> : [{label, type, value}, ]
+  let m = _remapEffects(actor.effects.filter(e => !e.disabled)) // <changeKey> : [{label, type, value}, ]
   m.delete('')
   const sections = []
 

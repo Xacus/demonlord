@@ -16,7 +16,7 @@
     <div class="row">
       <div class="col-7">
         <img class="dl-clickable item-edit" src="{{weapon.img}}" title="{{weapon.name}}" width="32" height="32"/>
-        {{#if data.wear}}
+        {{#if system.wear}}
           <label class="dl-rollable attack-roll">{{weapon.name}}</label>
         {{else}}
           <label style="font-weight: normal">{{weapon.name}}</label>
@@ -26,14 +26,14 @@
         </div>
       </div>
       <div class="col-2">
-        {{defaultValue data.action.damage "―"}}{{#if data.action.damagetypes}}∗{{/if}}
+        {{defaultValue system.action.damage "―"}}{{#if system.action.damagetypes}}∗{{/if}}
       </div>
       <div class="col-1">
-        {{defaultValue (plusify data.action.boonsbanes) 0}}
+        {{defaultValue (plusify system.action.boonsbanes) 0}}
       </div>
       <div class="col-2">
         <a class="dl-clickable item-delete" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-times"></i></a>
-        <a class="dl-clickable {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}"
+        <a class="dl-clickable {{#if system.wear}}item-wear{{else}}item-wearoff{{/if}}"
            title="{{localize 'DL.WeaponWear'}}">
           <i class="fas fa-shield-alt"></i>
         </a>
@@ -47,34 +47,34 @@
         </div>
       </div>
       <hr>
-      {{#if data.action.damage}}
+      {{#if system.action.damage}}
         <div>
-          <b>{{localize "DL.WeaponDamage"}}</b> {{data.action.damage}}
-          {{#if data.action.damagetype}}({{data.action.damagetype}}){{/if}}
-          {{#each data.action.damagetypes as |damagetype id|}}
+          <b>{{localize "DL.WeaponDamage"}}</b> {{system.action.damage}}
+          {{#if system.action.damagetype}}({{system.action.damagetype}}){{/if}}
+          {{#each system.action.damagetypes as |damagetype id|}}
             | {{damagetype.damage}}{{#if damagetype.damagetype}} ({{damagetype.damagetype}}){{/if}}
           {{/each}}
         </div>
       {{/if}}
-      {{#if data.properties}}
+      {{#if system.properties}}
         <div>
-          <b>{{localize "DL.WeaponProperties"}}</b> {{data.properties}}
+          <b>{{localize "DL.WeaponProperties"}}</b> {{system.properties}}
         </div>
       {{/if}}
-      {{#if data.strengthmin}}
+      {{#if system.strengthmin}}
         <div>
-          <b>{{localize "DL.ArmorStrengthRequiremet"}}</b> {{data.strengthmin}}
+          <b>{{localize "DL.ArmorStrengthRequiremet"}}</b> {{system.strengthmin}}
         </div>
       {{/if}}
-      {{#if data.hands}}
+      {{#if system.hands}}
         <div>
-          <b>{{localize "DL.WeaponHands"}}</b> {{data.hands}}
+          <b>{{localize "DL.WeaponHands"}}</b> {{system.hands}}
         </div>
       {{/if}}
-      {{#if data.description}}
+      {{#if system.description}}
         <hr>
         <div>
-          {{{enrichHTMLUnrolled data.description}}}
+          {{{enrichHTMLUnrolled system.description}}}
         </div>
       {{/if}}
     </div>
@@ -98,20 +98,20 @@
         <img class="dl-clickable item-edit" src="{{armor.img}}" title="{{armor.name}}" width="32" height="32"/>
         <div style="font-weight: normal">{{armor.name}}</div>
         <div>
-          {{#if data.defense}}
-            {{localize "DL.ArmorDefense"}} {{plusify data.defense}}
+          {{#if system.defense}}
+            {{localize "DL.ArmorDefense"}} {{plusify system.defense}}
           {{/if}}
-          {{#if data.agility}}
-            {{localize "DL.ArmorAgility"}} {{plusify data.agility}}
+          {{#if system.agility}}
+            {{localize "DL.ArmorAgility"}} {{plusify system.agility}}
           {{/if}}
-          {{#if data.fixed}}
-            {{localize "DL.ArmorFixed"}} {{data.fixed}}
+          {{#if system.fixed}}
+            {{localize "DL.ArmorFixed"}} {{system.fixed}}
           {{/if}}
         </div>
       </div>
       <div class="col-2">
         <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
-        <a class="dl-clickable {{#if data.wear}}item-wear{{else}}item-wearoff{{/if}}"
+        <a class="dl-clickable {{#if system.wear}}item-wear{{else}}item-wearoff{{/if}}"
            title="{{localize 'DL.ArmorWear'}}">
           <i class="fas fa-shield-alt"></i>
         </a>
@@ -138,7 +138,7 @@
         <div style="font-weight: normal">{{ammo.name}}</div>
       </div>
       <div class="col-2 ammo-amount">
-        {{data.quantity}} <i class="fas fa-arrows-alt-v"></i>
+        {{system.quantity}} <i class="fas fa-arrows-alt-v"></i>
       </div>
       <div class="col-2">
         <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
