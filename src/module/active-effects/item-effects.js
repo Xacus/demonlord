@@ -134,23 +134,23 @@ export class DLActiveEffects {
         slug: `ancestry-${item.name.toLowerCase()}-L0`,
       },
       changes: [
-        addEffect('data.attributes.strength.value', dataL0.attributes.strength.value - 10, priority),
-        addEffect('data.attributes.agility.value', dataL0.attributes.agility.value - 10, priority),
-        addEffect('data.attributes.intellect.value', dataL0.attributes.intellect.value - 10, priority),
-        addEffect('data.attributes.will.value', dataL0.attributes.will.value - 10, priority),
-        addEffect('data.attributes.perception.value', dataL0.characteristics.perceptionmodifier, priority),
-        addEffect('data.characteristics.defense', dataL0.characteristics.defensemodifier, priority),
-        addEffect('data.characteristics.health.max', dataL0.characteristics.healthmodifier, priority),
-        addEffect('data.characteristics.health.healingrate', dataL0.characteristics.healingratemodifier, priority),
-        addEffect('data.characteristics.power', dataL0.characteristics.power, priority),
-        addEffect('data.characteristics.speed', dataL0.characteristics.speed - 10, priority),
+        addEffect('system.attributes.strength.value', dataL0.attributes.strength.value - 10, priority),
+        addEffect('system.attributes.agility.value', dataL0.attributes.agility.value - 10, priority),
+        addEffect('system.attributes.intellect.value', dataL0.attributes.intellect.value - 10, priority),
+        addEffect('system.attributes.will.value', dataL0.attributes.will.value - 10, priority),
+        addEffect('system.attributes.perception.value', dataL0.characteristics.perceptionmodifier, priority),
+        addEffect('system.characteristics.defense', dataL0.characteristics.defensemodifier, priority),
+        addEffect('system.characteristics.health.max', dataL0.characteristics.healthmodifier, priority),
+        addEffect('system.characteristics.health.healingrate', dataL0.characteristics.healingratemodifier, priority),
+        addEffect('system.characteristics.power', dataL0.characteristics.power, priority),
+        addEffect('system.characteristics.speed', dataL0.characteristics.speed - 10, priority),
         {
-          key: 'data.characteristics.size',
+          key: 'system.characteristics.size',
           value: dataL0.characteristics.size,
           mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           priority: priority,
         },
-        // overrideEffect('data.characteristics.size', dataL0.characteristics.size, priority)
+        // overrideEffect('system.characteristics.size', dataL0.characteristics.size, priority)
       ].filter(falsyChangeFilter),
     }
 
@@ -171,7 +171,7 @@ export class DLActiveEffects {
         notToggleable: true,
         slug: `ancestry-${item.name.toLowerCase()}-L4`,
       },
-      changes: [addEffect('data.characteristics.health.max', dataL4.healthbonus, priority)].filter(falsyChangeFilter),
+      changes: [addEffect('system.characteristics.health.max', dataL4.healthbonus, priority)].filter(falsyChangeFilter),
     }
     return [effectDataL0, effectDataL4]
   }
@@ -202,34 +202,34 @@ export class DLActiveEffects {
         },
         changes: [
           // Characteristics
-          addEffect('data.characteristics.health.max', pathLevel.characteristicsHealth, priority),
-          addEffect('data.characteristics.power', pathLevel.characteristicsPower, priority),
-          addEffect('data.attributes.perception.value', pathLevel.characteristicsPerception, priority),
-          addEffect('data.characteristics.speed', pathLevel.characteristicsSpeed, priority),
-          addEffect('data.characteristics.defense', pathLevel.characteristicsDefense, priority),
+          addEffect('system.characteristics.health.max', pathLevel.characteristicsHealth, priority),
+          addEffect('system.characteristics.power', pathLevel.characteristicsPower, priority),
+          addEffect('system.attributes.perception.value', pathLevel.characteristicsPerception, priority),
+          addEffect('system.characteristics.speed', pathLevel.characteristicsSpeed, priority),
+          addEffect('system.characteristics.defense', pathLevel.characteristicsDefense, priority),
 
           // FIXME
-          // addEffect('data.characteristics.insanityModifier', pathLevel.characteristicsInsanity, priority),
-          // addEffect('data.characteristics.corruptionModifier', pathLevel.characteristicsCorruption, priority),
+          // addEffect('system.characteristics.insanityModifier', pathLevel.characteristicsInsanity, priority),
+          // addEffect('system.characteristics.corruptionModifier', pathLevel.characteristicsCorruption, priority),
 
           // Selected checkbox (select two, three, fixed)
           addEffect(
-            'data.attributes.strength.value',
+            'system.attributes.strength.value',
             pathLevel.attributeStrength * (pathLevel.attributeStrengthSelected || pathLevel.attributeSelectIsFixed),
             priority
           ),
           addEffect(
-            'data.attributes.agility.value',
+            'system.attributes.agility.value',
             pathLevel.attributeAgility * (pathLevel.attributeAgilitySelected || pathLevel.attributeSelectIsFixed),
             priority
           ),
           addEffect(
-            'data.attributes.intellect.value',
+            'system.attributes.intellect.value',
             pathLevel.attributeIntellect * (pathLevel.attributeIntellectSelected || pathLevel.attributeSelectIsFixed),
             priority
           ),
           addEffect(
-            'data.attributes.will.value',
+            'system.attributes.will.value',
             pathLevel.attributeWill * (pathLevel.attributeWillSelected || pathLevel.attributeSelectIsFixed),
             priority
           ),
@@ -247,8 +247,8 @@ export class DLActiveEffects {
 
         levelEffectData.changes = levelEffectData.changes.concat(
           [
-            addEffect(`data.attributes.${attributeOne}.value`, pathLevel.attributeSelectTwoSetValue1, priority),
-            addEffect(`data.attributes.${attributeTwo}.value`, pathLevel.attributeSelectTwoSetValue2, priority),
+            addEffect(`system.attributes.${attributeOne}.value`, pathLevel.attributeSelectTwoSetValue1, priority),
+            addEffect(`system.attributes.${attributeTwo}.value`, pathLevel.attributeSelectTwoSetValue2, priority),
           ].filter(falsyChangeFilter),
         )
       }
@@ -282,22 +282,22 @@ export class DLActiveEffects {
       },
       changes: [
         // Bonuses - Characteristics
-        addEffect('data.characteristics.defense', talentData.bonuses.defense, priority),
-        addEffect('data.characteristics.health.max', talentData.bonuses.health, priority),
-        addEffect('data.characteristics.power', talentData.bonuses.power, priority),
-        addEffect('data.characteristics.speed', talentData.bonuses.speed, priority),
+        addEffect('system.characteristics.defense', talentData.bonuses.defense, priority),
+        addEffect('system.characteristics.health.max', talentData.bonuses.health, priority),
+        addEffect('system.characteristics.power', talentData.bonuses.power, priority),
+        addEffect('system.characteristics.speed', talentData.bonuses.speed, priority),
       ].filter(falsyChangeFilter),
     }
     // --- Attack
     const action = talentData.action
     const attackChanges = [
-      addEffect('data.bonuses.attack.boons.strength', action.boonsbanes * action.strengthboonsbanesselect, priority),
-      addEffect('data.bonuses.attack.boons.agility', action.boonsbanes * action.agilityboonsbanesselect, priority),
-      addEffect('data.bonuses.attack.boons.intellect', action.boonsbanes * action.intellectboonsbanesselect, priority),
-      addEffect('data.bonuses.attack.boons.will', action.boonsbanes * action.willboonsbanesselect, priority),
-      concatDiceEffect('data.bonuses.attack.damage', action.damage),
-      concatDiceEffect('data.bonuses.attack.plus20Damage', action.plus20),
-      concatString('data.bonuses.attack.extraEffect', action.extraeffect, '\n'),
+      addEffect('system.bonuses.attack.boons.strength', action.boonsbanes * action.strengthboonsbanesselect, priority),
+      addEffect('system.bonuses.attack.boons.agility', action.boonsbanes * action.agilityboonsbanesselect, priority),
+      addEffect('system.bonuses.attack.boons.intellect', action.boonsbanes * action.intellectboonsbanesselect, priority),
+      addEffect('system.bonuses.attack.boons.will', action.boonsbanes * action.willboonsbanesselect, priority),
+      concatDiceEffect('system.bonuses.attack.damage', action.damage),
+      concatDiceEffect('system.bonuses.attack.plus20Damage', action.plus20),
+      concatString('system.bonuses.attack.extraEffect', action.extraeffect, '\n'),
     ].filter(falsyChangeFilter)
 
     if (attackChanges.length > 0) effectData.changes = effectData.changes.concat(attackChanges)
@@ -305,11 +305,11 @@ export class DLActiveEffects {
     // --- Challenge
     const challenge = talentData.challenge
     const challengeChanges = [
-      addEffect('data.bonuses.challenge.boons.strength', challenge.boonsbanes * challenge.strengthboonsbanesselect, priority),
-      addEffect('data.bonuses.challenge.boons.agility', challenge.boonsbanes * challenge.agilityboonsbanesselect, priority),
-      addEffect('data.bonuses.challenge.boons.intellect', challenge.boonsbanes * challenge.intellectboonsbanesselect, priority),
-      addEffect('data.bonuses.challenge.boons.will', challenge.boonsbanes * challenge.willboonsbanesselect, priority),
-      addEffect('data.bonuses.challenge.boons.perception', challenge.boonsbanes * challenge.perceptionboonsbanesselect, priority),
+      addEffect('system.bonuses.challenge.boons.strength', challenge.boonsbanes * challenge.strengthboonsbanesselect, priority),
+      addEffect('system.bonuses.challenge.boons.agility', challenge.boonsbanes * challenge.agilityboonsbanesselect, priority),
+      addEffect('system.bonuses.challenge.boons.intellect', challenge.boonsbanes * challenge.intellectboonsbanesselect, priority),
+      addEffect('system.bonuses.challenge.boons.will', challenge.boonsbanes * challenge.willboonsbanesselect, priority),
+      addEffect('system.bonuses.challenge.boons.perception', challenge.boonsbanes * challenge.perceptionboonsbanesselect, priority),
     ].filter(falsyChangeFilter)
 
     if (challengeChanges.length > 0) effectData.changes = effectData.changes.concat(challengeChanges)
@@ -339,9 +339,9 @@ export class DLActiveEffects {
         slug: `armor-${item.name.toLowerCase()}`,
       },
       changes: [
-        addEffect('data.bonuses.armor.agility', armorData.agility, priority),
-        addEffect('data.bonuses.armor.defense', armorData.defense, priority),
-        upgradeEffect('data.bonuses.armor.fixed', armorData.fixed, priority),
+        addEffect('system.bonuses.armor.agility', armorData.agility, priority),
+        addEffect('system.bonuses.armor.defense', armorData.defense, priority),
+        upgradeEffect('system.bonuses.armor.fixed', armorData.fixed, priority),
       ].filter(falsyChangeFilter),
     }
     return [effectData]
@@ -399,11 +399,11 @@ export class DLActiveEffects {
         slug: `encumbrance-${effectLabel.toLowerCase()}`,
       },
       changes: [
-        addEffect('data.bonuses.attack.boons.strength', n, priority),
-        addEffect('data.bonuses.attack.boons.agility', n, priority),
-        addEffect('data.bonuses.challenge.boons.strength', n, priority),
-        addEffect('data.bonuses.challenge.boons.agility', n, priority),
-        addEffect('data.characteristics.speed', n * 2, priority),
+        addEffect('system.bonuses.attack.boons.strength', n, priority),
+        addEffect('system.bonuses.attack.boons.agility', n, priority),
+        addEffect('system.bonuses.challenge.boons.strength', n, priority),
+        addEffect('system.bonuses.challenge.boons.agility', n, priority),
+        addEffect('system.characteristics.speed', n * 2, priority),
       ],
     }
 

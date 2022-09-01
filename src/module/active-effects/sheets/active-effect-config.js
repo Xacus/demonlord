@@ -12,10 +12,10 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
 
   /** @override */
   getData() {
-    const effect = foundry.utils.deepClone(this.object.data)
+    const effect = foundry.utils.deepClone(this.object)
     return {
       effect: effect, // Backwards compatibility
-      data: foundry.utils.deepClone(this.object.data),
+      data: effect,
       isActorEffect: this.object.parent.documentName === 'Actor',
       isItemEffect: this.object.parent.documentName === 'Item',
       submitText: 'EFFECT.Submit',
@@ -33,70 +33,70 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       // No change
       '': '-',
       // Attributes
-      'data.attributes.strength.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeStrength'),
-      'data.attributes.agility.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeAgility'),
-      'data.attributes.intellect.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeIntellect'),
-      'data.attributes.will.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeWill'),
-      'data.attributes.perception.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributePerception'),
+      'system.attributes.strength.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeStrength'),
+      'system.attributes.agility.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeAgility'),
+      'system.attributes.intellect.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeIntellect'),
+      'system.attributes.will.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributeWill'),
+      'system.attributes.perception.value': i18n('DL.SpellAttribute') + ' - ' + i18n('DL.AttributePerception'),
       // Characteristics
-      'data.characteristics.speed': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSpeed'),
-      'data.characteristics.defense': i18n('DL.Characteristics') + ' - ' + i18n('DL.AttributeDefense'),
-      'data.characteristics.power': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharPower'),
-      'data.characteristics.size': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSize'),
-      'data.characteristics.health.max': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharHealth'),
-      'data.characteristics.health.healingrate':
+      'system.characteristics.speed': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSpeed'),
+      'system.characteristics.defense': i18n('DL.Characteristics') + ' - ' + i18n('DL.AttributeDefense'),
+      'system.characteristics.power': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharPower'),
+      'system.characteristics.size': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSize'),
+      'system.characteristics.health.max': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharHealth'),
+      'system.characteristics.health.healingrate':
         i18n('DL.Characteristics') + ' - ' + i18n('DL.CharHealthHealingRating'),
-      'data.characteristics.health.insanity.max': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharInsanity'),
+      'system.characteristics.health.insanity.max': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharInsanity'),
       // Attack bonuses
-      'data.bonuses.attack.boons.strength': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
-      'data.bonuses.attack.boons.agility': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
-      'data.bonuses.attack.boons.intellect': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
-      'data.bonuses.attack.boons.will': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
-      'data.bonuses.attack.boons.perception': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
-      'data.bonuses.attack.damage': i18n('DL.TalentExtraDamage'),
-      'data.bonuses.attack.plus20Damage': i18n('DL.TalentExtraDamage20plus'),
-      'data.bonuses.attack.extraEffect': i18n('DL.TalentExtraEffect'),
+      'system.bonuses.attack.boons.strength': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
+      'system.bonuses.attack.boons.agility': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
+      'system.bonuses.attack.boons.intellect': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
+      'system.bonuses.attack.boons.will': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
+      'system.bonuses.attack.boons.perception': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
+      'system.bonuses.attack.damage': i18n('DL.TalentExtraDamage'),
+      'system.bonuses.attack.plus20Damage': i18n('DL.TalentExtraDamage20plus'),
+      'system.bonuses.attack.extraEffect': i18n('DL.TalentExtraEffect'),
       // Challenge bonuses
-      'data.bonuses.challenge.boons.strength':
+      'system.bonuses.challenge.boons.strength':
         i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
-      'data.bonuses.challenge.boons.agility':
+      'system.bonuses.challenge.boons.agility':
         i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
-      'data.bonuses.challenge.boons.intellect':
+      'system.bonuses.challenge.boons.intellect':
         i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
-      'data.bonuses.challenge.boons.will': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
-      'data.bonuses.challenge.boons.perception':
+      'system.bonuses.challenge.boons.will': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
+      'system.bonuses.challenge.boons.perception':
         i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
       // Armor bonuses
-      'data.bonuses.armor.fixed': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.ArmorFixed'),
-      'data.bonuses.armor.agility': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeAgility'),
-      'data.bonuses.armor.defense': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeDefense'),
-      'data.bonuses.armor.override': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Override'),
+      'system.bonuses.armor.fixed': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.ArmorFixed'),
+      'system.bonuses.armor.agility': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeAgility'),
+      'system.bonuses.armor.defense': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeDefense'),
+      'system.bonuses.armor.override': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Override'),
       // Defense
-      'data.bonuses.defense.boons.spell': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.MagicSpellsTitle'),
-      'data.bonuses.defense.boons.weapon': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.WeaponTitle'),
-      'data.bonuses.defense.boons.defense': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.SpellTypeDefense'),
-      'data.bonuses.defense.boons.strength': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
-      'data.bonuses.defense.boons.agility': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
-      'data.bonuses.defense.boons.intellect':
+      'system.bonuses.defense.boons.spell': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.MagicSpellsTitle'),
+      'system.bonuses.defense.boons.weapon': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.WeaponTitle'),
+      'system.bonuses.defense.boons.defense': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.SpellTypeDefense'),
+      'system.bonuses.defense.boons.strength': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
+      'system.bonuses.defense.boons.agility': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
+      'system.bonuses.defense.boons.intellect':
         i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
-      'data.bonuses.defense.boons.will': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
-      'data.bonuses.defense.boons.perception': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
+      'system.bonuses.defense.boons.will': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
+      'system.bonuses.defense.boons.perception': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
       // AutoFail challenge malus
-      'data.maluses.autoFail.challenge.strength': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeStrength'),
-      'data.maluses.autoFail.challenge.agility': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeAgility'),
-      'data.maluses.autoFail.challenge.intellect':
+      'system.maluses.autoFail.challenge.strength': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeStrength'),
+      'system.maluses.autoFail.challenge.agility': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeAgility'),
+      'system.maluses.autoFail.challenge.intellect':
         i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeIntellect'),
-      'data.maluses.autoFail.challenge.will': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeWill'),
-      'data.maluses.autoFail.challenge.perception': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributePerception'),
+      'system.maluses.autoFail.challenge.will': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeWill'),
+      'system.maluses.autoFail.challenge.perception': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributePerception'),
       // AutoFail action malus
-      'data.maluses.autoFail.action.strength': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeStrength'),
-      'data.maluses.autoFail.action.agility': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeAgility'),
-      'data.maluses.autoFail.action.intellect': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeIntellect'),
-      'data.maluses.autoFail.action.will': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeWill'),
-      'data.maluses.autoFail.action.perception': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributePerception'),
+      'system.maluses.autoFail.action.strength': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeStrength'),
+      'system.maluses.autoFail.action.agility': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeAgility'),
+      'system.maluses.autoFail.action.intellect': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeIntellect'),
+      'system.maluses.autoFail.action.will': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeWill'),
+      'system.maluses.autoFail.action.perception': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributePerception'),
       // Other maluses
-      'data.maluses.halfSpeed': i18n('DL.Malus') + ' - ' + i18n('DL.HalfSpeed'),
-      'data.maluses.noFastTurn': i18n('DL.Malus') + ' - ' + i18n('DL.NoFastTurns'),
+      'system.maluses.halfSpeed': i18n('DL.Malus') + ' - ' + i18n('DL.HalfSpeed'),
+      'system.maluses.noFastTurn': i18n('DL.Malus') + ' - ' + i18n('DL.NoFastTurns'),
     }
   }
 }
