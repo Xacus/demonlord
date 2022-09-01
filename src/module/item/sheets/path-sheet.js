@@ -18,7 +18,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   /** @override */
   async getData(options) {
-    const data = super.getData(options)
+    const data = await super.getData(options)
     data.data.levels = data.data.levels || []
     data.data.levels.sort(_sortLevels)
 

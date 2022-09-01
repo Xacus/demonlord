@@ -6,7 +6,7 @@ import {buildDropdownList} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
 import {initDlEditor} from "../../utils/editor";
 import {DemonlordItem} from "../item";
-import {i18n} from "../../utils/utils";
+import {enrichHTMLUnrolled, i18n} from "../../utils/utils";
 
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
@@ -29,7 +29,7 @@ export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
   get template() {
     const path = 'systems/demonlord/templates/item'
-    return `${path}/item-${this.item.data.type}-sheet.html`
+    return `${path}/item-${this.item.type}-sheet.html`
   }
 
   /** @override */
@@ -47,14 +47,19 @@ export default class DLBaseItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData(options) {
-    const data = super.getData(options)
+  async getData(options) {
+    const data = await super.getData(options)
     const itemData = data.data
     data.isGM = game.user.isGM
     data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
     data.config = DL
     data.item = itemData
-    data.data = itemData.data
+    data.data = this.document.system // TODO: remove at end of migration
+    data.system = this.document.system
+
+    // Enrich the description
+    data.system.enrichedDescription = await TextEditor.enrichHTML(this.actor.system.description, {async: true});
+    data.system.enrichedDescriptionUnrolled = await enrichHTMLUnrolled(this.actor.system.description)
 
     const effControls = data.document.isEmbedded ? -1 : 3
     data.effects =
@@ -81,7 +86,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     if (['talent', 'weapon', 'spell'].includes(item.type)) {
       // Set the update key based on type
-      const damageKey = item.type === 'talent' ? 'data.vs.damagetypes' : 'data.action.damagetypes'
+      const damageKey = item.type === 'talent' ? 'system.vs.damagetypes' : 'system.action.damagetypes'
       // Grab damages from form
       let altdamage = updateData.altdamage || updateData.altdamagevs
       let altdamagetype = updateData.altdamagetype || updateData.altdamagetypevs
@@ -103,7 +108,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     // If a Talent has no uses it's always active
     if (item.type === 'talent') updateData['data.addtonextroll'] = !updateData.data?.uses?.max
     // Bug fix for custom editor
-    if (updateData.data.description === '' && event.type !== 'mcesave') delete updateData.data.description
+    if (updateData.system?.description === '' && event.type !== 'mcesave') delete updateData.system.description
 
     return this.object.update(updateData)
   }
@@ -245,15 +250,15 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
 
-  _prepareDamageTypes(data, isVs = false) {
-    data.item.damagetypes = data.item.data?.action?.damagetypes
-    if (isVs) data.item.vsdamagetypes = data.item.data?.vs?.damagetypes
+  _prepareDamageTypes(sheetData, isVs = false) {
+    sheetData.item.damagetypes = this.item.system.action?.damagetypes
+    if (isVs) sheetData.item.vsdamagetypes = this.item.system.vs?.damagetypes
   }
 
   _onManageDamageType(ev, actionKey, options = {}) {
     ev.preventDefault()
     const a = ev.currentTarget
-    const damageTypes = this.object.data.data[actionKey].damagetypes
+    const damageTypes = this.object.system[actionKey].damagetypes
     const updKey = `data.${actionKey}.damagetypes`
 
     if (a.dataset.action === 'create') damageTypes.push(new DamageType())

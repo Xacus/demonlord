@@ -31,11 +31,11 @@
         <div class="dl-item-section-section text-areas">
           <div>
             <b>{{localize "DL.WeaponProperties"}}</b>
-            <textarea name="data.properties" placeholder="―" autosize>{{data.properties}}</textarea>
+            <textarea name="system.properties" placeholder="―" autosize>{{system.properties}}</textarea>
             <div style="margin-left: 8px">
-              <div class="dl-new-project-2 selectable {{#if data.isShield}}selected{{/if}}"
+              <div class="dl-new-project-2 selectable {{#if system.isShield}}selected{{/if}}"
                    data-tippy-content="{{localize "DL.ArmorIsShield"}}">
-                <input type="checkbox" name="data.isShield" {{checked data.isShield}}>
+                <input type="checkbox" name="system.isShield" {{checked system.isShield}}>
                 <i class="dl-icon-shield"></i>
                 <span class="sep"></span>
                 <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
@@ -55,7 +55,7 @@
                 <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
                   "DL.AttributeAgility"}}</span>
                 <span class="sep"></span>
-                <input type="number" name="data.agility" value="{{data.agility}}" placeholder="0"/>
+                <input type="number" name="system.agility" value="{{system.agility}}" placeholder="0"/>
               </div>
               <div class="dl-new-project-2">
                 <i class="dl-icon-defense"></i>
@@ -63,7 +63,7 @@
                 <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
                   "DL.AttributeDefense"}}</span>
                 <span class="sep"></span>
-                <input type="number" name="data.defense" value="{{data.defense}}" placeholder="0"/>
+                <input type="number" name="system.defense" value="{{system.defense}}" placeholder="0"/>
               </div>
               <div class="dl-new-project-2">
                 <i class="dl-icon-defense-fixed"></i>
@@ -71,7 +71,7 @@
                 <span style="width: 64px; text-align: center; text-overflow: ellipsis; overflow: hidden">{{localize
                   "DL.ArmorFixed"}}</span>
                 <span class="sep"></span>
-                <input type="number" name="data.fixed" value="{{data.fixed}}" placeholder="0"/>
+                <input type="number" name="system.fixed" value="{{system.fixed}}" placeholder="0"/>
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@
                 <span class="sep"></span>
                 <span>{{localize "DL.AttributeStrength"}}</span>
                 <span class="sep"></span>
-                <input type="number" name="data.strengthmin" value="{{data.strengthmin}}" placeholder="-" autosize/>
+                <input type="number" name="system.strengthmin" value="{{system.strengthmin}}" placeholder="-" autosize/>
               </div>
             </div>
           </div>
@@ -97,7 +97,7 @@
         <div class="dl-item-section-description">
           <div><b>{{localize "DL.TabsDescription"}}</b></div>
           <div>
-            {{dlEditor content=data.description target="data.description" button=true owner=owner editable=editable}}
+            {{dlEditor content=system.enrichedDescriptionUnrolled target="system.description" button=true owner=owner editable=editable}}
           </div>
         </div>
         <hr>
@@ -106,11 +106,11 @@
           <div>
             <b>{{localize "DL.Availability"}}</b>
             <div>
-              {{dlAvailabilityDropdown "data.availability" data.availability}}
+              {{dlAvailabilityDropdown "system.availability" system.availability}}
               <div class="dl-new-project-2" data-tippy-content="{{localize "DL.ItemValue"}}">
                 <i class="dl-icon-price"></i>
                 <span class="sep"></span>
-                <input type="text" name="data.value" value="{{data.value}}" autosize/>
+                <input type="text" name="system.value" value="{{system.value}}" autosize/>
               </div>
             </div>
           </div>

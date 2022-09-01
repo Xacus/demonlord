@@ -30,7 +30,7 @@
         <div class="dl-item-section-section text-areas">
           <div>
             <b>{{localize "DL.WeaponProperties"}}</b>
-            <textarea name="data.properties" placeholder="―" autosize>{{data.properties}}</textarea>
+            <textarea name="system.properties" placeholder="―" autosize>{{system.properties}}</textarea>
             <div style="margin-left: 8px">
               <div class="dl-new-project-2">
                 <i class="dl-icon-amount"></i>
@@ -38,7 +38,7 @@
                 <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
                   "DL.AmmoAmount"}}</span>
                 <span class="sep"></span>
-                <input type="number" name="data.quantity" value="{{data.quantity}}" placeholder="0"/>
+                <input type="number" name="system.quantity" value="{{system.quantity}}" placeholder="0"/>
               </div>
             </div>
           </div>
@@ -48,7 +48,7 @@
         <div class="dl-item-section-description">
           <div><b>{{localize "DL.TabsDescription"}}</b></div>
           <div>
-            {{dlEditor content=data.description target="data.description" button=true owner=owner editable=editable}}
+            {{dlEditor content=system.enrichedDescriptionUnrolled target="system.description" button=true owner=owner editable=editable}}
           </div>
         </div>
         <hr>
@@ -57,16 +57,16 @@
           <div>
             <b>{{localize "DL.Availability"}}</b>
             <div>
-              {{dlAvailabilityDropdown "data.availability" data.availability}}
+              {{dlAvailabilityDropdown "system.availability" system.availability}}
               <div class="dl-new-project-2" data-tippy-content="{{localize "DL.ItemValue"}}">
                 <i class="dl-icon-price"></i>
                 <span class="sep"></span>
-                <input type="text" name="data.value" value="{{data.value}}" autosize/>
+                <input type="text" name="system.value" value="{{system.value}}" autosize/>
               </div>
             </div>
           </div>
         </div>
-        
+
       </div>
       {{> "systems/demonlord/templates/item/partial/item-description.html"}}
     </section>

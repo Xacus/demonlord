@@ -54,15 +54,15 @@ export function registerHandlebarsHelpers() {
 
 function _getAttributes(groupName) {
   let attributes = []
-  if (groupName === 'data.action.attack' || groupName === 'data.action.defense' || groupName === 'data.vs.attribute') {
+  if (groupName === 'system.action.attack' || groupName === 'data.action.defense' || groupName === 'data.vs.attribute') {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
-  } else if (groupName === 'data.action.against' || groupName === 'data.vs.against') {
+  } else if (groupName === 'system.action.against' || groupName === 'data.vs.against') {
     attributes = ['', 'defense', 'strength', 'agility', 'intellect', 'will', 'perception']
-  } else if (groupName === 'data.attribute') {
+  } else if (groupName === 'system.attribute') {
     attributes = ['', 'intellect', 'will']
-  } else if (groupName === 'data.hands') {
+  } else if (groupName === 'system.hands') {
     attributes = ['', 'one', 'two', 'off']
-  } else if (groupName === 'data.availability') {
+  } else if (groupName === 'system.availability') {
     attributes = ['', 'C', 'U', 'R', 'E']
   }
   return attributes
@@ -126,8 +126,8 @@ export function buildDropdownList(groupName, checkedKey) {
   if (groupName === 'path-type') return _buildPathTypeDropdownList(checkedKey)
   if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
   if (groupName.startsWith('level.attributeSelectTwoSet')) return _buildPathAttributeTwoSetDropdownList(groupName, checkedKey)
-  if (groupName === 'data.hands') {labelPrefix = 'DL.WeaponHands'; useIcon = false}
-  if (groupName === 'data.availability') {labelPrefix = 'DL.Availability', iconPrefix = 'dl-icon-availability-'}
+  if (groupName === 'system.hands') {labelPrefix = 'DL.WeaponHands'; useIcon = false}
+  if (groupName === 'system.availability') {labelPrefix = 'DL.Availability', iconPrefix = 'dl-icon-availability-'}
   let attributes = _getAttributes(groupName)
 
   let html = `<div class="dl-new-project-2-dropdown">`
@@ -157,7 +157,7 @@ function _buildCheckboxes(groupName, checkedKey, data) {
       const _name = `${attribute}boonsbanesselect`
       const checked = data.action[_name] ? 'checked' : ''
       html += `<div class="dl-new-project-radio ${checked}" data-tippy-content="${label}">
-                <input type="checkbox" name="data.action.${_name}" ${checked}/>
+                <input type="checkbox" name="system.action.${_name}" ${checked}/>
                 <i class="dl-icon-${attribute}"></i>
               </div>`
 
@@ -169,7 +169,7 @@ function _buildCheckboxes(groupName, checkedKey, data) {
       const _name = `${attribute}boonsbanesselect`
       const checked = data.challenge[_name] ? 'checked' : ''
       html += `<div class="dl-new-project-radio ${checked}" data-tippy-content="${label}">
-                <input type="checkbox" name="data.challenge.${_name}" ${checked}/>
+                <input type="checkbox" name="system.challenge.${_name}" ${checked}/>
                 <i class="dl-icon-${attribute}"></i>
               </div>`
 
@@ -199,7 +199,7 @@ function _buildPathTypeDropdownList(checkedKey) {
     const checked = type === checkedKey ? 'checked' : ''
     const label = i18n(`DL.CharPath${capitalize(type)}`)
     html += `<div class="${checked}">
-                <input type="radio" name="data.type" value="${type}" ${checked}/>
+                <input type="radio" name="system.type" value="${type}" ${checked}/>
                 <span style="margin-left: 4px">${label}</span>
             </div>`
   }

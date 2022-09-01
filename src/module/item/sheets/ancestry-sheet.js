@@ -23,7 +23,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   /** @override */
   async getData(options) {
-    const data = super.getData(options)
+    const data = await super.getData(options)
     data.item.editAncestry = false
 
     // Fetch the updated nested items properties (name, description, img)

@@ -33,8 +33,8 @@ export function createInlineFormula(_match, _command, formula, closing, label, .
  * enrichHTML but with inline rolls not rolled
  * src: https://gitlab.com/foundryvtt_pathfinder1e/foundryvtt-pathfinder1/-/merge_requests/360/diffs
  */
-export function enrichHTMLUnrolled(content, { rollData, secrets, rolls, entities } = {}) {
-  let pcontent = TextEditor.enrichHTML(content, { secrets, rolls, entities, rollData });
+export async function enrichHTMLUnrolled(content, {rollData, secrets, rolls, entities} = {}) {
+  let pcontent = await TextEditor.enrichHTML(content, {secrets, rolls, entities, rollData, async:true});
 
   if (rolls) {
     const html = document.createElement("div");

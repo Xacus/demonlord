@@ -1,21 +1,8 @@
-import {enrichHTMLUnrolled} from "./utils";
-
-// ------------------------------------------------------------------------
 
 export function handlebarsBuildEditor(options) {
   const target = options.hash['target'];
   if (!target) throw new Error("You must define the name of a target field.");
-
-  // Enrich the content
-  let documents = options.hash.documents !== false;
-  const owner = Boolean(options.hash['owner']);
-  const rollData = options.hash["rollData"];
-  const content = enrichHTMLUnrolled(options.hash['content'] || "", {
-    rolls: false,
-    secrets: owner,
-    documents,
-    rollData
-  });
+  const content = options.hash['content'] || ""
 
   // Construct the HTML
   let editor = $(`<div class="dl-editor"><div class="dl-editor-toolbar"></div><div class="dl-editor-content" data-edit="${target}">${content}</div></div>`);
@@ -58,7 +45,7 @@ export function initDlEditor(html, application) {
           active: true,
           changed: false,
           options: {},
-          initial: foundry.utils.getProperty(application.object.data, edName)
+          initial: foundry.utils.getProperty(application.object, edName)
         };
 
         // Roll utility

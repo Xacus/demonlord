@@ -33,13 +33,13 @@
           <div>
             <b>{{localize "DL.AttackRoll"}}</b>
             <div>
-              {{dlDropdown "data.action.attack" data.action.attack}}
+              {{dlDropdown "system.action.attack" system.action.attack}}
               <span style="font-size: 11px">VS</span>
-              {{dlDropdown "data.action.against" data.action.against}}
+              {{dlDropdown "system.action.against" system.action.against}}
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
                 <i class="dl-icon-d6"></i>
                 <span class="sep"></span>
-                <input type="number" name="data.action.boonsbanes" value="{{defaultValue data.action.boonsbanes 0}}"/>
+                <input type="number" name="system.action.boonsbanes" value="{{defaultValue system.action.boonsbanes 0}}"/>
               </div>
             </div>
           </div>
@@ -51,10 +51,10 @@
                 <div class="dl-new-project-2 nohover">
                   <i class="dl-icon-d20"></i>
                   <span class="sep"></span>
-                  <input type="text" name="data.action.damage" value="{{data.action.damage}}"
+                  <input type="text" name="system.action.damage" value="{{system.action.damage}}"
                          data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
                   <span class="sep"></span>
-                  <input type="text" name="data.action.damagetype" value="{{data.action.damagetype}}"
+                  <input type="text" name="system.action.damagetype" value="{{system.action.damagetype}}"
                          data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
                 </div>
                 <a
@@ -65,7 +65,7 @@
                 ><i class="fas fa-plus"></i>
                 </a>
               </div>
-              {{#each data.action.damagetypes as |damagetype id|}}
+              {{#each system.action.damagetypes as |damagetype id|}}
                 <div>
                   <div class="dl-new-project-2 nohover">
                     <i class="dl-icon-d20"></i>
@@ -99,7 +99,7 @@
                 <span class="sep"></span>
                 <span>{{localize "DL.AttributeStrength"}}</span>
                 <span class="sep"></span>
-                <input type="number" name="data.strengthmin" value="{{data.strengthmin}}" placeholder="-" autosize/>
+                <input type="number" name="system.strengthmin" value="{{system.strengthmin}}" placeholder="-" autosize/>
               </div>
             </div>
           </div>
@@ -107,13 +107,13 @@
           <div>
             <b>{{localize "DL.WeaponHands"}}</b>
             <div>
-              <div class="dl-new-project-2 dropdown" name="data.hands" value="{{data.hands}}">
+              <div class="dl-new-project-2 dropdown" name="system.hands" value="{{system.hands}}">
                 <span>
-                  {{#if (eq data.hands "One")}}
+                  {{#if (eq system.hands "One")}}
                     {{localize "DL.WeaponHandsOne"}}
-                  {{else if (eq data.hands "Two")}}
+                  {{else if (eq system.hands "Two")}}
                     {{localize "DL.WeaponHandsTwo"}}
-                  {{else if (eq data.hands "Off")}}
+                  {{else if (eq system.hands "Off")}}
                     {{localize "DL.WeaponHandsOff"}}
                   {{else}}
                     -
@@ -126,7 +126,7 @@
         <div class="dl-item-section-section text-areas">
           <div>
             <b>{{localize "DL.WeaponProperties"}}</b>
-            <textarea name="data.properties" placeholder="―" autosize>{{data.properties}}</textarea>
+            <textarea name="system.properties" placeholder="―" autosize>{{system.properties}}</textarea>
           </div>
         </div>
         <hr>
@@ -134,7 +134,7 @@
         <div class="dl-item-section-description">
           <div><b>{{localize "DL.TabsDescription"}}</b></div>
           <div>
-            {{dlEditor content=data.description target="data.description" button=true owner=owner editable=editable}}
+            {{dlEditor content=system.enrichedDescriptionUnrolled target="system.description" button=true owner=owner editable=editable}}
           </div>
         </div>
         <hr>
@@ -143,11 +143,11 @@
           <div>
             <b>{{localize "DL.Availability"}}</b>
             <div>
-              {{dlAvailabilityDropdown "data.availability" data.availability}}
+              {{dlAvailabilityDropdown "system.availability" system.availability}}
               <div class="dl-new-project-2" data-tippy-content="{{localize "DL.ItemValue"}}">
                 <i class="dl-icon-price"></i>
                 <span class="sep"></span>
-                <input type="text" name="data.value" value="{{data.value}}" autosize/>
+                <input type="text" name="system.value" value="{{system.value}}" autosize/>
               </div>
             </div>
           </div>
