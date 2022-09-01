@@ -389,7 +389,7 @@ export class DemonlordActor extends Actor {
       return
     }
 
-    if (item.data?.vs?.attribute)
+    if (item.system?.vs?.attribute)
       launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), html =>
         this.useTalent(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
@@ -436,7 +436,7 @@ export class DemonlordActor extends Actor {
 
   async rollSpell(itemID, _options = {event: null}) {
     const item = this.items.get(itemID)
-    const isAttack = item.data.spelltype === game.i18n.localize('DL.SpellTypeAttack')
+    const isAttack = item.system.spelltype === game.i18n.localize('DL.SpellTypeAttack')
     const attackAttribute = item.system?.action?.attack?.toLowerCase()
     const challengeAttribute = item.system?.attribute?.toLowerCase()
 
@@ -452,7 +452,7 @@ export class DemonlordActor extends Actor {
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
       return
-    } else await item.update({'data.castings.value': uses + 1}, {parent: this})
+    } else await item.update({'system.castings.value': uses + 1}, {parent: this})
 
     if (isAttack && attackAttribute)
       launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), html =>
@@ -502,11 +502,11 @@ export class DemonlordActor extends Actor {
   async useItem(itemID) {
     const item = duplicate(this.items.get(itemID))
     if (item.type !== 'item') return postItemToChat(this, item)
-    if (item.data.quantity < 1) {
+    if (item.system.quantity < 1) {
       ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
       return
     }
-    item.data.quantity--
+    item.system.quantity--
     await Item.updateDocuments([item], {parent: this})
     postItemToChat(this, item)
   }

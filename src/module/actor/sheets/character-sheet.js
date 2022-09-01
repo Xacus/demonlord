@@ -255,9 +255,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html.on('mousedown', '.ammo-amount', ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       const item = duplicate(this.actor.items.get(id))
-      const amount = item.data.quantity
-      if (ev.button == 0 && amount >= 0) item.data.quantity = +amount + 1
-      else if (ev.button == 2 && amount > 0) item.data.quantity = +amount - 1
+      const amount = item.system.quantity
+      if (ev.button == 0 && amount >= 0) item.system.quantity = +amount + 1
+      else if (ev.button == 2 && amount > 0) item.system.quantity = +amount - 1
       Item.updateDocuments([item], { parent: this.actor })
     })
 
@@ -266,10 +266,10 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       const item = duplicate(this.actor.items.get(id))
       if (ev.button == 0) {
-        item.data.quantity++
+        item.system.quantity++
       } else if (ev.button == 2) {
-        if (item.data.quantity > 0) {
-          item.data.quantity--
+        if (item.system.quantity > 0) {
+          item.system.quantity--
         }
       }
       Item.updateDocuments([item], { parent: this.actor })

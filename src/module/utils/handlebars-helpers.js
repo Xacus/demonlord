@@ -54,9 +54,9 @@ export function registerHandlebarsHelpers() {
 
 function _getAttributes(groupName) {
   let attributes = []
-  if (groupName === 'system.action.attack' || groupName === 'data.action.defense' || groupName === 'data.vs.attribute') {
+  if (groupName === 'system.action.attack' || groupName === 'system.action.defense' || groupName === 'system.vs.attribute') {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
-  } else if (groupName === 'system.action.against' || groupName === 'data.vs.against') {
+  } else if (groupName === 'system.action.against' || groupName === 'system.vs.against') {
     attributes = ['', 'defense', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'system.attribute') {
     attributes = ['', 'intellect', 'will']
@@ -114,6 +114,11 @@ function _buildDropdownItem(groupName, checkedKey) {
             </div>`
     break
   }
+  if (html === '') html =
+    `<div class="dl-new-project-2 dropdown" name="${groupName}" value="">
+        <span style="margin-left: 4px;">${i18n('DL.None')}</span>
+    </div>`
+
   return new Handlebars.SafeString(html)
 }
 

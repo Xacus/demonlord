@@ -55,40 +55,40 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
   let m = _remapEffects(attackerEffects)
 
-  let defenderBoons = defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0
+  let defenderBoons = defender?.system.bonuses.defense.boons[defenseAttribute] || 0
   const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
 
   let itemBoons
-  switch (item.data.type) {
+  switch (item.type) {
     case 'spell':
-      itemBoons = item.data.data.action.boonsbanes
-      defenderBoons += defender?.data.data.bonuses.defense.boons.spell || 0
+      itemBoons = item.system.action.boonsbanes
+      defenderBoons += defender?.system.bonuses.defense.boons.spell || 0
       break
     case 'weapon':
-      itemBoons = item.data.data.action.boonsbanes
-      defenderBoons += defender?.data.data.bonuses.defense.boons.weapon || 0
-      if (item.data.data.wear && +item.data.data.strengthmin > attacker.getAttribute('strength').value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
+      itemBoons = item.system.action.boonsbanes
+      defenderBoons += defender?.system.bonuses.defense.boons.weapon || 0
+      if (item.system.wear && +item.system.strengthmin > attacker.getAttribute('strength').value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
       break
     case 'talent':
       if (!attackAttribute) return
-      itemBoons = item.data.data.vs.boonsbanes
+      itemBoons = item.system.vs.boonsbanes
       break
     default:
       return
   }
 
   let boonsMsg =
-    changeToMsg(m, `data.bonuses.attack.boons.${attackAttribute}`, '') +
+    changeToMsg(m, `system.bonuses.attack.boons.${attackAttribute}`, '') +
     (itemBoons != 0 ? _toMsg(item.name, plusify(itemBoons)) : '') +
     (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '')
   boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
 
   return (
     boonsMsg +
-    changeToMsg(m, 'data.bonuses.attack.damage', 'DL.TalentExtraDamage') +
-    changeToMsg(m, 'data.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+    changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') +
+    changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
   )
-  // + changeToMsg(m, 'data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
+  // + changeToMsg(m, 'system.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
 }
 
 /* -------------------------------------------- */
@@ -100,10 +100,10 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
  * @returns {string}
  */
 export function buildAttributeEffectsMessage(actor, attribute) {
-  const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+  const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
   let m = _remapEffects(actorEffects)
   let result = ''
-  result += changeToMsg(m, `data.bonuses.challenge.boons.${attribute}`, 'DL.TalentChallengeBoonsBanes')
+  result += changeToMsg(m, `system.bonuses.challenge.boons.${attribute}`, 'DL.TalentChallengeBoonsBanes')
   return result
 }
 
@@ -116,7 +116,7 @@ export function buildAttributeEffectsMessage(actor, attribute) {
  * @returns {string}
  */
 export function buildTalentEffectsMessage(actor, talent) {
-  const effects = actor.getEmbeddedCollection('ActiveEffect').filter(effect => effect.data.origin === talent.uuid)
+  const effects = actor.getEmbeddedCollection('ActiveEffect').filter(effect => effect.origin === talent.uuid)
 
   let m = _remapEffects(effects)
   const get = (key, strLocalization, prefix = '') => {
@@ -130,23 +130,23 @@ export function buildTalentEffectsMessage(actor, talent) {
   const attackBoonsPrefix = game.i18n.localize('DL.TalentAttackBoonsBanes') + ' '
   const challengeBoonsPrefix = game.i18n.localize('DL.TalentChallengeBoonsBanes') + ' '
   let result =
-    get(`data.bonuses.attack.boons.strength`, 'DL.AttributeStrength', attackBoonsPrefix) +
-    get(`data.bonuses.attack.boons.agility`, 'DL.AttributeAgility', attackBoonsPrefix) +
-    get(`data.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect', attackBoonsPrefix) +
-    get(`data.bonuses.attack.boons.will`, 'DL.AttributeWill', attackBoonsPrefix) +
-    get(`data.bonuses.attack.boons.perception`, 'DL.AttributePerception', attackBoonsPrefix) +
-    get(`data.bonuses.challenge.boons.strength`, 'DL.AttributeStrength', challengeBoonsPrefix) +
-    get(`data.bonuses.challenge.boons.agility`, 'DL.AttributeAgility', challengeBoonsPrefix) +
-    get(`data.bonuses.challenge.boons.intellect`, 'DL.AttributeIntellect', challengeBoonsPrefix) +
-    get(`data.bonuses.challenge.boons.will`, 'DL.AttributeWill', challengeBoonsPrefix) +
-    get(`data.bonuses.challenge.boons.perception`, 'DL.AttributePerception', challengeBoonsPrefix) +
-    get(`data.bonuses.attack.damage`, 'DL.TalentExtraDamage') +
-    get(`data.bonuses.attack.plus20Damage`, 'DL.TalentExtraDamage20plus') +
-    get('data.bonuses.attack.extraEffect', 'DL.TalentExtraEffect') +
-    get('data.characteristics.defense', 'DL.TalentBonusesDefense') +
-    get('data.characteristics.health.max', 'DL.TalentBonusesHealth') +
-    get('data.characteristics.speed', 'DL.TalentBonusesSpeed') +
-    get('data.characteristics.power', 'DL.TalentBonusesPower')
+    get(`system.bonuses.attack.boons.strength`, 'DL.AttributeStrength', attackBoonsPrefix) +
+    get(`system.bonuses.attack.boons.agility`, 'DL.AttributeAgility', attackBoonsPrefix) +
+    get(`system.bonuses.attack.boons.intellect`, 'DL.AttributeIntellect', attackBoonsPrefix) +
+    get(`system.bonuses.attack.boons.will`, 'DL.AttributeWill', attackBoonsPrefix) +
+    get(`system.bonuses.attack.boons.perception`, 'DL.AttributePerception', attackBoonsPrefix) +
+    get(`system.bonuses.challenge.boons.strength`, 'DL.AttributeStrength', challengeBoonsPrefix) +
+    get(`system.bonuses.challenge.boons.agility`, 'DL.AttributeAgility', challengeBoonsPrefix) +
+    get(`system.bonuses.challenge.boons.intellect`, 'DL.AttributeIntellect', challengeBoonsPrefix) +
+    get(`system.bonuses.challenge.boons.will`, 'DL.AttributeWill', challengeBoonsPrefix) +
+    get(`system.bonuses.challenge.boons.perception`, 'DL.AttributePerception', challengeBoonsPrefix) +
+    get(`system.bonuses.attack.damage`, 'DL.TalentExtraDamage') +
+    get(`system.bonuses.attack.plus20Damage`, 'DL.TalentExtraDamage20plus') +
+    get('system.bonuses.attack.extraEffect', 'DL.TalentExtraEffect') +
+    get('system.characteristics.defense', 'DL.TalentBonusesDefense') +
+    get('system.characteristics.health.max', 'DL.TalentBonusesHealth') +
+    get('system.characteristics.speed', 'DL.TalentBonusesSpeed') +
+    get('system.characteristics.power', 'DL.TalentBonusesPower')
 
   return result
 }

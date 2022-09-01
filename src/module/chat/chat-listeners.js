@@ -85,7 +85,7 @@ async function _onChatRollDamage(event) {
   templateData.data['damageDouble'] = +damageRoll.total * 2
   templateData.data['damageHalf'] = Math.floor(+damageRoll.total / 2)
   templateData.data['damagetype'] = damagetype
-  templateData.data['isCreature'] = actor.data.type === 'creature'
+  templateData.data['isCreature'] = actor.type === 'creature'
   templateData.data['actorInfo'] = buildActorInfo(actor)
 
   const chatData = getChatBaseData(actor, rollMode)

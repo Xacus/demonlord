@@ -27,11 +27,11 @@ export class DLAfflictions {
    */
   static isActorBlocked(actor, actionType, actionAttribute) {
     actionAttribute = actionAttribute.toLowerCase()
-    const isBlocked = actor.data.data.maluses.autoFail[actionType]?.[actionAttribute] > 0
+    const isBlocked = actor.system.maluses.autoFail[actionType]?.[actionAttribute] > 0
     if (isBlocked) {
       // TODO: more precise message? Currently it picks the first message
-      let msg = actor.getEmbeddedCollection('ActiveEffect').find(effect => Boolean(effect.data.flags?.warningMessage))
-        ?.data.flags.warningMessage
+      let msg = actor.getEmbeddedCollection('ActiveEffect').find(effect => Boolean(effect.flags?.warningMessage))
+        ?.flags.warningMessage
       msg = msg ?? game.i18n.localize(`DL.AutoFail${actionType.capitalize()}s`)
       ui.notifications.error(msg)
     }
@@ -42,8 +42,8 @@ export class DLAfflictions {
     if (!actor) return
     const afflictions = actor
       .getEmbeddedCollection('ActiveEffect')
-      .filter(e => e.data.flags?.sourceType === 'affliction')
-      .map(e => e.data._id)
+      .filter(e => e.flags?.sourceType === 'affliction')
+      .map(e => e._id)
     actor.deleteEmbeddedDocuments('ActiveEffect', afflictions)
   }
 

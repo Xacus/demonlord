@@ -3,7 +3,7 @@
   <div class="showlessinfo">{{data.actorInfo}}</div>
   {{#if data.attack}}
     <header class="card-header">
-      <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img" title="{{item.data.name}}"
+      <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"
                                   height="40" width="40"/></div>
       <div class="attackbox">
         <div class="boxline">
@@ -18,7 +18,7 @@
     </header>
   {{else}}
     <header class="card-header">
-      <div class="token-img"><img class="profile-img" src="{{item.data.img}}" data-edit="img" title="{{item.data.name}}"
+      <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"
                                   height="40" width="40"/></div>
       <div class="attackbox">
         <div class="header">{{localize "DL.SpellRollText"}}</div>
@@ -310,8 +310,8 @@
   {{#each data.itemEffects as |effect|}}
     <div class="combatactions apply-effect" data-effect-uuid="{{effect.uuid}}">
       <div class="header">
-        <img src="{{effect.data.icon}}" width="15" height="15"/>
-        <div>{{effect.data.label}}</div>
+        <img src="{{effect.icon}}" width="15" height="15"/>
+        <div>{{effect.label}}</div>
       </div>
     </div>
   {{/each}}

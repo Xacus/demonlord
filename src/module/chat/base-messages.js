@@ -29,18 +29,18 @@ export function buildActorInfo(actor) {
   let info = ''
   if (actor.type === 'character') {
     const ancestry = actor.items.find(i => i.type === 'ancestry')?.name || ''
-    const paths = actor.data.paths || actor.items.filter(i => i.type === 'path').map(p => p.data)
+    const pathsData = actor.items.filter(i => i.type === 'path').map(p => p.system)
     const path =
-      paths.find(p => p.data.type === 'master')?.name ||
-      paths.find(p => p.data.type === 'expert')?.name ||
-      paths.find(p => p.data.type === 'novice')?.name ||
+      pathsData.find(p => p.type === 'novice')?.name ||
+      pathsData.find(p => p.type === 'expert')?.name ||
+      pathsData.find(p => p.type === 'master')?.name ||
       ''
     info = ancestry + (path ? ', ' + path : '')
   } else {
-    const size = game.i18n.localize('DL.CreatureSize') + ' ' + actor.data.data.characteristics.size
-    const desc = actor.data.data.descriptor
-    const frig = actor.data.data.frightening ? ', ' + game.i18n.localize('DL.CreatureFrightening') : ''
-    const horr = actor.data.data.horrifying ? ', ' + game.i18n.localize('DL.CreatureHorrifying') : ''
+    const size = game.i18n.localize('DL.CreatureSize') + ' ' + actor.system.characteristics.size
+    const desc = actor.system.descriptor
+    const frig = actor.system.frightening ? ', ' + game.i18n.localize('DL.CreatureFrightening') : ''
+    const horr = actor.system.horrifying ? ', ' + game.i18n.localize('DL.CreatureHorrifying') : ''
     info = size + ' ' + desc + frig + horr
   }
   return info

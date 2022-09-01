@@ -15,7 +15,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   const targetNumber =
     defenseAttribute === 'defense'
-      ? defender?.data.data.characteristics.defense
+      ? defender?.system.characteristics.defense
       : defender?.getAttribute(defenseAttribute)?.value || ''
 
   const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
@@ -25,13 +25,13 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   let resultText = didHit ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
 
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
-  if ((attacker.data.type === 'creature' && !attackShow) || rollMode === 'blindroll') {
+  if ((attacker.type === 'creature' && !attackShow) || rollMode === 'blindroll') {
     diceTotal = '?'
     resultText = ''
   }
   const resultBoxClass = resultText === '' ? '' : didHit ? 'SUCCESS' : 'FAILURE'
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
-  const againstNumber = (defender?.data.type == 'character' || defenseShow) && targetNumber ? targetNumber : '?'
+  const againstNumber = (defender?.type == 'character' || defenseShow) && targetNumber ? targetNumber : '?'
 
   const templateData = {
     actor: attacker,
@@ -50,14 +50,14 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute].toUpperCase()) : ''
   data['againstNumber'] = againstNumber
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
-  data['damageFormular'] = item.data.data.action.damage + attacker.data.data.bonuses.attack.damage
-  data['damageType'] = item.data.data.action.damagetype
-  data['damageTypes'] = item.data.data.action.damagetypes
-  data['damageExtra20plusFormular'] = attacker.data.data.bonuses.attack.plus20Damage
-  data['description'] = item.data.data.description
+  data['damageFormular'] = item.system.action.damage + attacker.system.bonuses.attack.damage
+  data['damageType'] = item.system.action.damagetype
+  data['damageTypes'] = item.system.action.damagetypes
+  data['damageExtra20plusFormular'] = attacker.system.bonuses.attack.plus20Damage
+  data['description'] = item.system.description
   data['targetname'] = defender?.name || ''
-  data['effects'] = attacker.data.data.bonuses.attack.extraEffect
-  data['isCreature'] = attacker.data.type === 'creature'
+  data['effects'] = attacker.system.bonuses.attack.extraEffect
+  data['isCreature'] = attacker.type === 'creature'
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['ifBlindedRoll'] = rollMode === 'blindroll'
@@ -72,7 +72,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
-    if (game.dice3d && attackRoll && !(attacker.data.type === 'creature' && !attackShow))
+    if (game.dice3d && attackRoll && !(attacker.type === 'creature' && !attackShow))
       game.dice3d
         .showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind)
         .then(() => ChatMessage.create(chatData))
@@ -118,7 +118,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   data['resultText'] = resultText
   data['resultTextGM'] = resultTextGM
   data['resultBoxClass'] = resultBoxClass
-  data['isCreature'] = actor.data.type === 'creature'
+  data['isCreature'] = actor.type === 'creature'
   data['actionEffects'] = effects
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['actorInfo'] = buildActorInfo(actor)
@@ -148,7 +148,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
  * @param target        DemonlordActor
  */
 export function postTalentToChat(actor, talent, attackRoll, target) {
-  const talentData = talent.data.data
+  const talentData = talent.system
   const rollMode = game.settings.get('core', 'rollMode')
 
   let usesText = ''
@@ -167,7 +167,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   let diceTotalGM = attackRoll?.total ?? ''
   let diceTotal = diceTotalGM
   if (
-    (actor.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) ||
+    (actor.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) ||
     rollMode === 'blindroll'
   ) {
     diceTotal = '?'
@@ -175,7 +175,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   }
   const resultBoxClass = resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE'
   const againstNumber =
-    target?.actor?.data.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
+    target?.actor?.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
       ? targetNumber
       : '?'
 
@@ -204,7 +204,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['againstNumber'] = againstNumber
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
   data['damageFormular'] = talentData?.vs?.damage
-    ? talentData?.vs?.damage + actor.data.data.bonuses.attack.damage || ''
+    ? talentData?.vs?.damage + actor.system.bonuses.attack.damage || ''
     : ''
   data['damageType'] =
     talentData?.vs?.damageactive && talentData?.vs?.damage ? talentData?.vs?.damagetype : talentData?.action?.damagetype
@@ -215,7 +215,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['healing'] =
     talentData?.healing?.healactive && talentData?.healing?.healing ? talentData?.healing?.healing : false
   data['targetname'] = target?.name || ''
-  data['isCreature'] = actor.data.type === 'creature'
+  data['isCreature'] = actor.type === 'creature'
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute)
@@ -231,7 +231,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
     return renderTemplate(template, templateData).then(content => {
       chatData.content = content
       if (game.dice3d && attackRoll != null) {
-        if (actor.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+        if (actor.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
           if (attackRoll != null) chatData.sound = CONFIG.sounds.dice
           ChatMessage.create(chatData)
         } else {
@@ -259,7 +259,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
  * @param target
  */
 export function postSpellToChat(actor, spell, attackRoll, target) {
-  const spellData = spell.data.data
+  const spellData = spell.system
   const rollMode = game.settings.get('core', 'rollMode')
 
   const attackAttribute = spellData?.action?.attack?.toLowerCase()
@@ -280,7 +280,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   let diceTotalGM = attackRoll?.total || ''
   let diceTotal = diceTotalGM
   if (
-    (actor.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) ||
+    (actor.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) ||
     rollMode === 'blindroll'
   ) {
     diceTotal = '?'
@@ -288,7 +288,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   }
   const resultBoxClass = resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE'
   let againstNumber =
-    target?.actor?.data.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
+    target?.actor?.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
       ? targetNumber
       : '?'
 
@@ -342,7 +342,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['challWill'] = savingAttribute === 'will'
   data['challPerception'] = savingAttribute === 'perception'
   data['uses'] = usesText
-  data['isCreature'] = actor.data.type === 'creature'
+  data['isCreature'] = actor.type === 'creature'
   data['healing'] = spellData?.healing?.healactive && spellData?.healing?.healing
   data['effects'] = '' // FIXME: what to put in here??
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute)
@@ -356,7 +356,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
     if (game.dice3d && attackRoll != null && attackAttribute) {
-      if (actor.data.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
+      if (actor.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
         if (attackRoll != null) chatData.sound = CONFIG.sounds.dice
         ChatMessage.create(chatData)
       } else {
@@ -385,13 +385,13 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
   data['diceTotal'] = corruptionRoll.total
   data['actorInfo'] = buildActorInfo(actor)
   data['tagetValueText'] = game.i18n.localize('DL.CharCorruption').toUpperCase()
-  data['targetValue'] = actor.data.data.characteristics.corruption
+  data['targetValue'] = actor.system.characteristics.corruption
   data['resultText'] =
-    corruptionRoll.total >= actor.data.data.characteristics.corruption
+    corruptionRoll.total >= actor.system.characteristics.corruption
       ? game.i18n.localize('DL.DiceResultSuccess')
       : game.i18n.localize('DL.DiceResultFailure')
   data['failureText'] =
-    corruptionRoll.total >= actor.data.data.characteristics.corruption
+    corruptionRoll.total >= actor.system.characteristics.corruption
       ? ''
       : game.i18n.localize('DL.CharRolCorruptionResult')
 
@@ -408,7 +408,7 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
   await ChatMessage.create(chatData)
 
   // Get mark of darkess if roll < corruption value
-  if (corruptionRoll.total < actor.data.data.characteristics.corruption) {
+  if (corruptionRoll.total < actor.system.characteristics.corruption) {
     const compendiumRollTables = await game.packs.get('demonlord.sotdl roll tabels').getDocuments()
     const tableMarkOfDarkess = compendiumRollTables.find(i => i.name === 'Mark of Darkness')
     const result = await tableMarkOfDarkess.draw()
@@ -428,14 +428,14 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
 export const postItemToChat = (actor, item) => {
   const templateData = {
     actor,
-    token: actor.data.token,
+    token: actor.token,
     data: {
       img: item.img,
       itemname: {
         value: item.name,
       },
       description: {
-        value: item.data.description,
+        value: item.system.description,
       },
     },
   }

@@ -168,18 +168,18 @@
       </div>
     {{/if}}
   {{/if}}
-  {{#if item.data.action.extraeffect}}
+  {{#if item.system.action.extraeffect}}
     {{#if data.isCreature}}
       <div class="gmonly">
         <div class="description">
           <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
-          <div class="body">{{{item.data.action.extraeffect}}}</div>
+          <div class="body">{{{item.system.action.extraeffect}}}</div>
         </div>
       </div>
     {{else}}
       <div class="description">
         <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
-        <div class="body">{{{item.data.action.extraeffect}}}</div>
+        <div class="body">{{{item.system.action.extraeffect}}}</div>
       </div>
     {{/if}}
   {{/if}}
