@@ -115,7 +115,7 @@ export class DLActiveEffects {
 
   static generateEffectDataFromAncestry(item, actor = null) {
     const priority = 1
-    const dataL0 = item.data.data
+    const dataL0 = item.system
 
     const effectDataL0 = {
       label: `${item.name} (${game.i18n.localize('DL.CharLevel')} 0)`,
@@ -154,12 +154,12 @@ export class DLActiveEffects {
       ].filter(falsyChangeFilter),
     }
 
-    const dataL4 = item.data.data.level4
+    const dataL4 = item.system.level4
     const effectDataL4 = {
       label: `${item.name} (${game.i18n.localize('DL.CharLevel')} 4)`,
       icon: item.img,
       origin: item.uuid,
-      disabled: actor.data.data.level < 4,
+      disabled: actor.system.level < 4,
       transfer: false,
       duration: { startTime: 0 },
       flags: {
@@ -180,7 +180,7 @@ export class DLActiveEffects {
 
   static generateEffectDataFromPath(item, actor = null) {
     const priority = 2
-    const pathdata = item.data.data
+    const pathdata = item.system
     const effectDataList = []
 
     pathdata.levels.forEach(pathLevel => {
@@ -188,7 +188,7 @@ export class DLActiveEffects {
         label: `${item.name} (${game.i18n.localize('DL.CharLevel')} ${pathLevel.level})`,
         icon: item.img,
         origin: item.uuid,
-        disabled: actor.data.data.level < pathLevel.level,
+        disabled: actor.system.level < pathLevel.level,
         transfer: false,
         duration: { startTime: 0 },
         flags: {
@@ -263,7 +263,7 @@ export class DLActiveEffects {
 
   static generateEffectDataFromTalent(item) {
     const priority = 3
-    const talentData = item.data.data
+    const talentData = item.system
     const effectData = {
       label: item.name,
       icon: item.img,
@@ -321,7 +321,7 @@ export class DLActiveEffects {
 
   static generateEffectDataFromArmor(item) {
     const priority = 4
-    const armorData = item.data.data
+    const armorData = item.system
     const effectData = {
       label: item.name,
       icon: item.img,
@@ -357,12 +357,12 @@ export class DLActiveEffects {
     const notMetEffectsData = actor.effects
       .filter(
         effect =>
-          (effect.data.flags?.levelRequired > actor.data.data.level && !effect.data.disabled) ||
-          (effect.data.flags?.levelRequired <= actor.data.data.level && effect.data.disabled),
+          (effect.flags?.levelRequired > actor.system.level && !effect.disabled) ||
+          (effect.flags?.levelRequired <= actor.system.level && effect.disabled),
       )
       .map(effect => ({
-        _id: effect.data._id,
-        disabled: !effect.data.disabled,
+        _id: effect._id,
+        disabled: !effect.disabled,
       }))
     if (notMetEffectsData.length > 0) await actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
     return Promise.resolve()
@@ -380,7 +380,7 @@ export class DLActiveEffects {
       ')'
 
     const n = -itemNames.length
-    const oldEffect = actor.effects.find(e => e.data.origin === 'encumbrance')
+    const oldEffect = actor.effects.find(e => e.origin === 'encumbrance')
     if (!oldEffect && !n) return
 
     const effectData = {

@@ -6,8 +6,8 @@ export class DemonlordItem extends Item {
   async update(updateData) {
     // Set spell uses
     if (this.type === 'spell' && this.parent) {
-      const power = +this.parent.data?.data?.characteristics.power || 0
-      const rank = updateData?.data?.rank ?? +this.data.data.rank
+      const power = +this.parent.system?.characteristics.power || 0
+      const rank = updateData?.data?.rank ?? +this.system.rank
       updateData['data.castings.max'] = CONFIG.DL.spelluses[power]?.[rank] ?? updateData?.data?.castings?.max ?? 0
     }
     return super.update(updateData)
@@ -43,7 +43,7 @@ export class DemonlordItem extends Item {
     if (!(this?.parent instanceof DemonlordActor)) return Promise.resolve()
 
     // Delete Active effects with this origin
-    let aes = this.parent.effects.filter(ae => ae.data?.origin?.includes(this.id))
+    let aes = this.parent.effects.filter(ae => ae?.origin?.includes(this.id))
     for (const ae of aes) {
       try {
         await ae.delete({parent: this.parent})
@@ -66,10 +66,10 @@ export class DemonlordItem extends Item {
   }
 
   hasDamage() {
-    return Boolean(this.data.data?.action?.damage || this.data.data?.vs?.damage)
+    return Boolean(this.system.action?.damage || this.system.vs?.damage)
   }
 
   hasHealing() {
-    return this.data.data?.healing?.healing ?? false
+    return this.system.healing?.healing ?? false
   }
 }

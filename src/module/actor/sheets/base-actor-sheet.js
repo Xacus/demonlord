@@ -67,7 +67,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     actorData.talents = m.get('talent') || []
     actorData.features = m.get('feature') || []
     // Sort spells in the spellbooks by their rank
-    actorData.spells.sort((a, b) => a.data.rank - b.data.rank)
+    actorData.spells.sort((a, b) => a.system.rank - b.system.rank)
     // Prepare the book (spells divided by tradition)
     actorData.spellbook = this._prepareBook(actorData.spells, 'tradition', 'spells')
   }
