@@ -27,7 +27,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     data.item.editAncestry = false
 
     // Fetch the updated nested items properties (name, description, img)
-    const ancestryData = data.data
+    const ancestryData = data.system
     ancestryData.languagelist = await Promise.all(ancestryData.languagelist.map(await getNestedItemData))
     ancestryData.talents = await Promise.all(ancestryData.talents.map(await getNestedItemData))
     ancestryData.level4.talent = await Promise.all(ancestryData.level4.talent.map(await getNestedItemData))
@@ -40,7 +40,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
    * @override */
   async _updateObject(event, formData) {
     const updateData = expandObject(formData)
-    if (this.item.actor && updateData.data?.characteristics?.power) this.item.actor.setUsesOnSpells()
+    if (this.item.actor && updateData.system?.characteristics?.power) this.item.actor.setUsesOnSpells()
     return this.object.update(updateData)
   }
 
@@ -55,13 +55,13 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     if (!this.options.editable) return
 
     // Radio buttons
-    html.find('.radiotrue').click(_ => this.item.update({'data.level4.option1': true}))
-    html.find('.radiofalse').click(_ => this.item.update({'data.level4.option1': false}))
+    html.find('.radiotrue').click(_ => this.item.update({'system.level4.option1': true}))
+    html.find('.radiofalse').click(_ => this.item.update({'system.level4.option1': false}))
 
     // Edit ancestry talents
     html
       .find('.edit-ancestrytalents')
-      .click(_ => this.item.update({'data.editTalents': !this.item.data.data.editTalents}).then(() => this.render()))
+      .click(_ => this.item.update({'data.editTalents': !this.item.system.editTalents}).then(() => this.render()))
 
     // Delete ancestry item
     html.find('.delete-ancestryitem').click(ev => {
@@ -140,7 +140,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
 
     // Based on the group, index and id, update the nested item to selected
-    const ancestryData = this.document.data.data
+    const ancestryData = this.document.system
     let nestedItemData = undefined
     if (itemGroup === 'talent4')
       nestedItemData = ancestryData.level4.talent[itemIndex]
@@ -154,7 +154,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     // If the ancestry is inside a character, and the actor's level is >= 4, add or remove the item to the actor
     const actor = this.document.parent
     if (!actor || actor.type !== 'character') return
-    if (parseInt(actor.data.data.level) >= 4 && selected)
+    if (parseInt(actor.system.level) >= 4 && selected)
       await createActorNestedItems(actor, [nestedItemData], this.document.id, 4)
     else
       await deleteActorNestedItems(actor, null, itemId)
@@ -164,7 +164,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   /** @override */
   _onNestedItemEdit(ev) {
     const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-    const ancestryData = this.object.data.data
+    const ancestryData = this.object.system
     const nestedData =
       ancestryData.languagelist.find(i => i.data._id === itemId) ??
       ancestryData.talents.find(i => i.data._id === itemId) ??

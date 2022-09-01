@@ -10,7 +10,7 @@
     {{#if isGM}}
       <div class="togglegm">
         <label class="switchBig">
-          <input type="checkbox" id="data.editAncestry" name="data.editAncestry" {{checked data.editAncestry}} />
+          <input type="checkbox" id="system.editAncestry" name="system.editAncestry" {{checked system.editAncestry}} />
           <div class="slider round"><span class="on">Edit</span><span class="off">View</span></div>
         </label>
       </div>
@@ -28,7 +28,7 @@
     <section class="sheet-content">
       {{!-- Attributes Tab --}}
       <div class="tab paths" data-group="primary" data-tab="attributes">
-        {{#if data.editAncestry}}
+        {{#if system.editAncestry}}
           {{> "systems/demonlord/templates/item/item-ancestry-edit.html"}}
         {{else}}
           {{> "systems/demonlord/templates/item/item-ancestry-view.html"}}
