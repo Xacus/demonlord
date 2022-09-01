@@ -310,19 +310,42 @@
 // Custom Editor
 .dl-input-grey,
 .text-areas textarea,
-.dl-editor .dl-editor-content {
+.dl-editor .dl-editor-content,
+.editor .editor-content {
   font-family: $font-primary;
   background: #0000000d !important;
-  padding: 4px;
+  padding: 4px 8px;
   border: none;
   border-radius: 2px;
-  padding-left: 8px;
+  height: fit-content;
+  min-height: 32px;
 
   &:focus,
   &:focus-visible {
     outline: 1px solid rgb(31, 31, 31);
     box-shadow: none !important;
   }
+}
+
+.editor .tox-tinymce {
+  height: inherit !important;
+  background: #0000000d;
+  border: none;
+  border-radius: 2px;
+
+  iframe {
+    width: 98%;
+  }
+
+  .tox-toolbar__primary {
+    background: #00000021 none !important;
+    border-bottom: 2px solid rgb(34, 47, 62);
+  }
+}
+
+.editor .editor-edit {
+  background-color: lightgray;
+  margin: 6px 8px;
 }
 
 .dl-editor .dl-editor-toolbar {

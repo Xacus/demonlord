@@ -83,33 +83,6 @@
         font-weight: bold;
       }
 
-      .tox-tinymce {
-        min-height: 200px;
-      }
-
-      .editor {
-        min-height: 80% !important;
-        padding-left: 8px !important;
-        border-left: 2px solid #333333;
-        border-bottom-left-radius: 8px;
-        border-top-left-radius: 2px;
-        font-family: $font-primary;
-      }
-
-      .editor-content {
-        font-size: 15px;
-        padding-top: 4px;
-      }
-
-      .tox-editor-header {
-        //display: none !important; // FIXME: Here i removed the editor controls
-      }
-
-      .tox-edit-area {
-        background: #b0ab9f;
-        height: 100%;
-      }
-
       .togglegm {
         position: relative;
         top: 0;

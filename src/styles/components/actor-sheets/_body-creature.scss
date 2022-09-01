@@ -2,13 +2,6 @@
   margin: 40px 5px 0 5px;
   height: 100%;
   font-size: 13px;
-
-  .editor,
-  .editor-content {
-    height: 100%;
-    min-height: 200px;
-    font-size: 13px;
-  }
 }
 
 .creature {
@@ -99,13 +92,6 @@
 
     .description {
       font-size: 12px;
-
-      .editor,
-      .editor-content {
-        height: 100%;
-        min-height: 200px;
-        font-size: 13px;
-      }
     }
 
     .body {
@@ -167,13 +153,6 @@
 
 .credescription {
   margin: -10px 0 0 0;
-}
-
-.credescription .editor,
-.credescription .editor-content {
-  height: 100%;
-  min-height: 200px;
-  font-size: 13px;
 }
 
 .items-list {
