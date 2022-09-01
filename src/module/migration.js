@@ -4,7 +4,7 @@ export async function handleMigrations() {
   const currentVersion = game.settings.get('demonlord', 'systemMigrationVersion')
   if (!currentVersion) {
     // If no version is saved, no need to migrate
-    return game.settings.set('demonlord', 'systemMigrationVersion', game.system.data.version)
+    return game.settings.set('demonlord', 'systemMigrationVersion', game.system.version)
   }
 
   // Compatibility warning
@@ -22,7 +22,7 @@ export async function handleMigrations() {
   if (isNewerVersion('2.0.0', currentVersion) && !game.data.release?.generation) await migrateWorld_2_0_0()
 
   // Migration completed
-  return game.settings.set('demonlord', 'systemMigrationVersion', game.system.data.version)
+  return game.settings.set('demonlord', 'systemMigrationVersion', game.system.version)
 }
 
 /* -------------------------------------------- */
@@ -252,16 +252,16 @@ function _nullToUndefined(data, recDepth) {
 
 const _migrationStartInfo = () =>
   ui.notifications.info(
-    `Applying Demonlord System Migration for version ${game.system.data.version}. Please be patient and do not close your game or shut down your server.`,
+    `Applying Demonlord System Migration for version ${game.system.version}. Please be patient and do not close your game or shut down your server.`,
     { permanent: true },
   )
 
 const _migrationSuccessInfo = () =>
-  ui.notifications.info(`Demonlord System Migration to version ${game.system.data.version} completed!`, {
+  ui.notifications.info(`Demonlord System Migration to version ${game.system.version} completed!`, {
     permanent: true,
   })
 
 const _migrationErrorInfo = () =>
-  ui.notifications.error(`Demonlord System Migration to version ${game.system.data.version} error`, {
+  ui.notifications.error(`Demonlord System Migration to version ${game.system.version} error`, {
     permanent: true,
   })

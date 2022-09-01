@@ -25,7 +25,7 @@ class PlayerTrackerLayer extends CanvasLayer {
 
   initialize() {
     Hooks.on('getSceneControlButtons', controls => {
-      if (game.user.data.role == 4) {
+      if (game.user.role === 4) {
         controls.push(sptLayer.newButtons)
       }
     })

@@ -37,15 +37,15 @@ export class DemonlordActor extends Actor {
    * @override
    */
   prepareBaseData() {
-    const data = this.data.data
+    const system = this.system
     // Set the base perception equal to intellect
-    if (this.data.type === 'character') {
-      data.attributes.perception.value = data.attributes.intellect.value || 10
-      data.characteristics.defense = 0  // assume defense = agility
-      data.characteristics.health.max = 0
+    if (this.type === 'character') {
+      system.attributes.perception.value = system.attributes.intellect.value || 10
+      system.characteristics.defense = 0  // assume defense = agility
+      system.characteristics.health.max = 0
     }
 
-    setProperty(data, 'bonuses', {
+    setProperty(system, 'bonuses', {
       attack: {
         boons: {
           strength: 0,
@@ -82,7 +82,7 @@ export class DemonlordActor extends Actor {
       },
     })
 
-    setProperty(data, 'maluses', {
+    setProperty(system, 'maluses', {
       autoFail: {
         challenge: {
           strength: 0,
@@ -104,16 +104,16 @@ export class DemonlordActor extends Actor {
     })
 
     // Bound attribute value
-    data.attributes.perception.max = 25
-    for (const [key, attribute] of Object.entries(data.attributes)) {
+    system.attributes.perception.max = 25
+    for (const [key, attribute] of Object.entries(system.attributes)) {
       attribute.min = 0
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
     }
-    data.attributes.perception.label = game.i18n.localize(`DL.AttributePerception`)
+    system.attributes.perception.label = game.i18n.localize(`DL.AttributePerception`)
 
     // Speed
-    data.characteristics.speed = Math.max(0, data.characteristics.speed)
+    system.characteristics.speed = Math.max(0, system.characteristics.speed)
   }
 
   /* -------------------------------------------- */
@@ -123,13 +123,13 @@ export class DemonlordActor extends Actor {
    * @override
    */
   prepareDerivedData() {
-    const data = this.data.data
+    const system = this.system
 
     // We can reapply some active effects if we know they happened
     // We're copying what it's done in applyActiveEffects
     const effectChanges = this.effects.reduce((changes, e) => {
-      if (e.data.disabled || e.isSuppressed) return changes
-      return changes.concat(e.data.changes.map(c => {
+      if (e.disabled || e.isSuppressed) return changes
+      return changes.concat(e.changes.map(c => {
         c = foundry.utils.duplicate(c)
         c.effect = e
         c.priority = c.priority ?? (c.mode * 10)
@@ -141,32 +141,32 @@ export class DemonlordActor extends Actor {
 
 
     // Clamp attribute values and calculate modifiers
-    for (const attribute of Object.values(data.attributes)) {
+    for (const attribute of Object.values(system.attributes)) {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.modifier = attribute.value - 10
     }
 
     // Maluses
-    if (data.maluses.halfSpeed) data.characteristics.speed = Math.floor(data.characteristics.speed / 2)
+    if (system.maluses.halfSpeed) system.characteristics.speed = Math.floor(system.characteristics.speed / 2)
 
     // --- Character specific data ---
-    if (this.data.type === 'character') {
+    if (this.type === 'character') {
       // Override Perception value
-      data.attributes.perception.value += data.attributes.intellect.modifier
-      data.attributes.perception.value = Math.min(data.attributes.perception.max,
-        Math.max(data.attributes.perception.min, data.attributes.perception.value))
-      data.attributes.perception.modifier = data.attributes.perception.value - 10
+      system.attributes.perception.value += system.attributes.intellect.modifier
+      system.attributes.perception.value = Math.min(system.attributes.perception.max,
+        Math.max(system.attributes.perception.min, system.attributes.perception.value))
+      system.attributes.perception.modifier = system.attributes.perception.value - 10
 
       // Health and Healing Rate
-      data.characteristics.health.max += data.attributes.strength.value
-      data.characteristics.health.healingrate += Math.floor(data.characteristics.health.max / 4)
+      system.characteristics.health.max += system.attributes.strength.value
+      system.characteristics.health.healingrate += Math.floor(system.characteristics.health.max / 4)
       // Insanity
-      data.characteristics.insanity.max += data.attributes.will.value
+      system.characteristics.insanity.max += system.attributes.will.value
 
       // Armor
-      data.characteristics.defense = data.bonuses.armor.fixed || data.attributes.agility.value + data.bonuses.armor.agility
-      data.characteristics.defense += data.bonuses.armor.defense
-      data.characteristics.defense = data.bonuses.armor.override || data.characteristics.defense
+      system.characteristics.defense = system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
+      system.characteristics.defense += system.bonuses.armor.defense
+      system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
       for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
         const result = change.effect.apply(this, change)
         if (result !== null) this.overrides[change.key] = result
@@ -275,8 +275,8 @@ export class DemonlordActor extends Actor {
     const defender = defendersTokens[0]?.actor
 
     // Get attacker attribute and defender attribute name
-    const attackAttribute = item.data.data.action?.attack?.toLowerCase()
-    const defenseAttribute = item.data.data?.action?.against?.toLowerCase() || item.data.action?.against?.toLowerCase()
+    const attackAttribute = item.system.action?.attack?.toLowerCase()
+    const defenseAttribute = item.system.action?.against?.toLowerCase()
 
     // If no attack mod selected, warn user
     if (!attackAttribute) {
@@ -287,20 +287,20 @@ export class DemonlordActor extends Actor {
 
     // Attack modifier and Boons/Banes
     const attackModifier =
-      (attacker.data.data?.attributes[attackAttribute]?.modifier || 0) + (parseInt(inputModifier) || 0)
+      (attacker.system?.attributes[attackAttribute]?.modifier || 0) + (parseInt(inputModifier) || 0)
     let attackBOBA =
       (parseInt(item.data.data.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
-      (attacker.data.data.bonuses.attack.boons[attackAttribute] || 0)
+      (attacker.system.bonuses.attack.boons[attackAttribute] || 0)
 
     // The defender banes apply only if the defender is one target
     if (defendersTokens.length === 1)
       attackBOBA -=
-        (defender?.data.data.bonuses.defense.boons[defenseAttribute] || 0) +
-        (defender?.data.data.bonuses.defense.boons.weapon || 0)
+        (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) +
+        (defender?.system.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
-    if (item.data.data.wear && parseInt(item.data.data.strengthmin) > attacker.getAttribute("strength").value)
+    if (item.system.wear && parseInt(item.system.strengthmin) > attacker.getAttribute("strength").value)
       attackBOBA--
 
     // Roll the attack
@@ -315,8 +315,8 @@ export class DemonlordActor extends Actor {
     const hitTargets = defendersTokens.filter(d => {
       const targetNumber =
         defenseAttribute === 'defense'
-          ? d.actor?.data.data.characteristics.defense
-          : d.actor?.data.data.attributes[defenseAttribute]?.value || ''
+          ? d.actor?.system.characteristics.defense
+          : d.actor?.system.attributes[defenseAttribute]?.value || ''
       return attackRoll?.total >= targetNumber
     })
 
@@ -337,7 +337,7 @@ export class DemonlordActor extends Actor {
     const item = this.getEmbeddedDocument('Item', itemID)
 
     // If no attribute to roll, roll without modifiers and boons
-    const attribute = item.data.data.action?.attack
+    const attribute = item.system.action?.attack
     if (!attribute) {
       this.rollAttack(item, 0, 0)
       return
@@ -355,7 +355,7 @@ export class DemonlordActor extends Actor {
   rollAttribute(attribute, inputBoons, inputModifier) {
     attribute = attribute.label.toLowerCase()
     const modifier = parseInt(inputModifier) + (this.getAttribute(attribute)?.modifier || 0)
-    const boons = parseInt(inputBoons) + (this.data.data.bonuses.challenge.boons[attribute] || 0)
+    const boons = parseInt(inputBoons) + (this.system.bonuses.challenge.boons[attribute] || 0)
 
     let diceFormula = '1d20' + (plusify(modifier) || '')
     if (boons) diceFormula += plusify(boons) + 'd6kh'
@@ -382,8 +382,8 @@ export class DemonlordActor extends Actor {
       return
 
     const item = this.items.get(itemID)
-    const uses = parseInt(item.data.data?.uses?.value) || 0
-    const usesMax = parseInt(item.data.data?.uses?.max) || 0
+    const uses = parseInt(item.system?.uses?.value) || 0
+    const usesMax = parseInt(item.system?.uses?.max) || 0
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
       return
@@ -397,7 +397,7 @@ export class DemonlordActor extends Actor {
   }
 
   async useTalent(talent, inputBoons, inputModifier) {
-    const talentData = talent.data.data
+    const talentData = talent.system
     const targets = tokenManager.targets
     const target = targets[0]
     let attackRoll = null
@@ -414,9 +414,9 @@ export class DemonlordActor extends Actor {
 
       let boons =
         parseInt(inputBoons) +
-        (this.data.data.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
+        (this.system.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
         parseInt(talentData.vs?.boonsbanes || 0)
-      if (targets.length > 0) boons -= target?.actor?.data.data.bonuses.defense[defenseAttribute] || 0
+      if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
 
       let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
       attackRoll = new Roll(attackRollFormula, {})
@@ -437,8 +437,8 @@ export class DemonlordActor extends Actor {
   async rollSpell(itemID, _options = {event: null}) {
     const item = this.items.get(itemID)
     const isAttack = item.data.spelltype === game.i18n.localize('DL.SpellTypeAttack')
-    const attackAttribute = item.data.data?.action?.attack?.toLowerCase()
-    const challengeAttribute = item.data.data?.attribute?.toLowerCase()
+    const attackAttribute = item.system?.action?.attack?.toLowerCase()
+    const challengeAttribute = item.system?.attribute?.toLowerCase()
 
     // Check if actor is blocked
     // If it has an attack attribute, check action attack else if it has a challenge attribute, check action challenge
@@ -446,8 +446,8 @@ export class DemonlordActor extends Actor {
     else if (challengeAttribute && DLAfflictions.isActorBlocked(this, 'challenge', challengeAttribute)) return
 
     // Check uses
-    const uses = parseInt(item.data.data?.castings?.value) || 0
-    const usesMax = parseInt(item.data.data?.castings?.max) || 0
+    const uses = parseInt(item.system?.castings?.value) || 0
+    const usesMax = parseInt(item.system?.castings?.max) || 0
 
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
@@ -464,7 +464,7 @@ export class DemonlordActor extends Actor {
   async useSpell(spell, inputBoons, inputModifier) {
     const targets = tokenManager.targets
     const target = targets[0]
-    const spellData = spell.data.data
+    const spellData = spell.system
 
     const attackAttribute = spellData?.action?.attack?.toLowerCase()
     const defenseAttribute = spellData?.action?.against?.toLowerCase()
@@ -474,12 +474,12 @@ export class DemonlordActor extends Actor {
       let attackBoons =
         (parseInt(inputBoons) || 0) +
         (parseInt(spellData.action.boonsbanes) || 0) +
-        (this.data.data.bonuses.attack.boons[attackAttribute] || 0)
+        (this.system.bonuses.attack.boons[attackAttribute] || 0)
 
       if (targets.length > 0)
         attackBoons -=
-          (target?.actor?.data.data.bonuses.defense.boons[defenseAttribute] || 0) +
-          (target?.actor?.data.data.bonuses.defense.boons.spell || 0)
+          (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
+          (target?.actor?.system.bonuses.defense.boons.spell || 0)
 
       const attackModifier = (parseInt(inputModifier) || 0) + this.getAttribute(attackAttribute).modifier || 0
 
@@ -537,15 +537,15 @@ export class DemonlordActor extends Actor {
     }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data.type
+    delete itemData.type
 
     // Finally, create the item!
     return await this.createItem(itemData)
   }
 
   showItemInfo(item) {
-    const uses = parseInt(item.data?.data?.enchantment?.uses?.value)
-    const usesmax = parseInt(item.data?.data?.enchantment?.uses?.max)
+    const uses = parseInt(item.system?.enchantment?.uses?.value)
+    const usesmax = parseInt(item.system?.enchantment?.uses?.max)
 
     const usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesmax
 
@@ -560,7 +560,7 @@ export class DemonlordActor extends Actor {
           value: usesText,
         },
         healing: {
-          value: item.data?.data?.healingoption,
+          value: item.system?.healingoption,
         },
       },
     }
@@ -591,16 +591,16 @@ export class DemonlordActor extends Actor {
     game.user.targets.forEach(async target => {
       const targetActor = target.actor
       if (targetActor) {
-        let againstSelectedAttribute = item.data.data?.action?.against?.toLowerCase()
+        let againstSelectedAttribute = item.system.action?.against?.toLowerCase()
 
         if (againstSelectedAttribute == undefined) {
-          againstSelectedAttribute = item.data.action?.against?.toLowerCase()
+          againstSelectedAttribute = item.system.action?.against?.toLowerCase()
         }
 
         if (againstSelectedAttribute == 'defense') {
-          tagetNumber = targetActor.data.data?.characteristics?.defense
+          tagetNumber = targetActor.system?.characteristics?.defense
         } else {
-          tagetNumber = targetActor.data.data?.attributes[againstSelectedAttribute]?.value
+          tagetNumber = targetActor.system?.attributes[againstSelectedAttribute]?.value
         }
       }
     })
@@ -614,7 +614,7 @@ export class DemonlordActor extends Actor {
     game.user.targets.forEach(async target => {
       const targetActor = target.actor
       if (targetActor) {
-        const againstSelectedAttribute = talent.data.data.vs.against.toLowerCase()
+        const againstSelectedAttribute = talent.system.vs.against.toLowerCase()
 
         if (againstSelectedAttribute == 'defense') {
           tagetNumber = targetActor.data.data.characteristics.defense
@@ -630,8 +630,8 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   async activateTalent(talent, setActive) {
-    let uses = talent.data.data.uses?.value || 0
-    const usesmax = talent.data.data.uses?.max || 0
+    let uses = talent.system.uses?.value || 0
+    const usesmax = talent.system.uses?.max || 0
     if (usesmax > 0 && uses < usesmax)
       return talent.update({'data.uses.value': ++uses, 'data.addtonextroll': setActive}, {parent: this})
   }
@@ -647,7 +647,7 @@ export class DemonlordActor extends Actor {
 
   async addDamageToTarget(damage) {
     game.user.targets.forEach(target => {
-      const currentDamage = parseInt(target.actor.data.data.characteristics.health.value)
+      const currentDamage = parseInt(target.actor.system.characteristics.health.value)
       target?.actor.update({
         'data.characteristics.health.value': currentDamage + damage,
       })
@@ -677,19 +677,19 @@ export class DemonlordActor extends Actor {
   }
 
   async applyHealing(fullHealingRate) {
-    let rate = this.data.data.characteristics.health?.healingrate || 0
+    let rate = this.system.characteristics.health?.healingrate || 0
     rate = fullHealingRate ? rate : rate / 2
     return this.increaseDamage(-rate)
   }
 
   async increaseDamage(increment) {
-    const health = this.data.data.characteristics.health
+    const health = this.system.characteristics.health
     const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value +increment)))
     return this.update({'data.characteristics.health.value': newHp})
   }
 
   async setUsesOnSpells() {
-    const power = this.data.data.characteristics.power
+    const power = this.system.characteristics.power
     const diff = []
     this.data.items
       .filter(i => i.type === 'spell')
@@ -703,9 +703,10 @@ export class DemonlordActor extends Actor {
   }
 
   async setEncumbrance() {
-    const armors = this.data.armor || this.items.filter(i => i.type === 'armor').map(a => a.data)
+    const armors = this.items.filter(i => i.type === 'armor')
     const notMetItemNames = armors
-      .filter(a => a.data.strengthmin > this.getAttribute("strength").value && a.data.wear)
+      .map(a => a.system)
+      .filter(a => a.strengthmin > this.getAttribute("strength").value && a.wear)
       .map(a => a.name)
     return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }

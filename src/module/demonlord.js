@@ -52,7 +52,7 @@ Hooks.once('init', async function () {
   Combat.prototype.startCombat = startCombat
   Combat.prototype.nextTurn = nextTurn
 
-  if (!isNewerVersion(game.version ?? game.data.version, '0.6.9') && !game.data.release?.generation) {
+  if (!isNewerVersion(game.version ?? game.version, '0.6.9') && !game.release?.generation) {
     Combat.prototype.setupTurns = setupTurns
   }
 
