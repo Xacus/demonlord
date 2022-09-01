@@ -1,6 +1,5 @@
 import DLBaseActorSheet from './base-actor-sheet'
 import { prepareActiveEffectCategories } from '../../active-effects/effects'
-import { DemonlordItem } from '../../item/item'
 import { handleLevelChange } from '../../item/nested-objects'
 
 export default class DLCharacterSheet extends DLBaseActorSheet {
@@ -95,10 +94,10 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     if (['specialaction', 'endoftheround'].includes(type)) return false
 
     if (type === 'ancestry') {
-      const currentAncestriesIds = this.actor.data?.ancestry?.map(a => a._id)
+      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
       if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
       return true
-    } else if (type === 'path' && this.actor.data.paths?.length >= 3) return false
+    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
 
     return true
   }
@@ -106,11 +105,6 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   /* -------------------------------------------- */
   /*  Auxiliary functions                         */
   /* -------------------------------------------- */
-
-  _onAncestryCreate() {
-    const data = { name: 'New ancestry', type: 'ancestry' }
-    DemonlordItem.create(data, { parent: this.document }).then(i => i.sheet.render(true))
-  }
 
   async _onAncestryEdit(ev) {
     const div = $(ev.currentTarget)

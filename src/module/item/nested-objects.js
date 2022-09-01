@@ -158,7 +158,7 @@ export async function getNestedItemData(nestedData) {
   // Get the item data OBJECT. If the item is not an item, then it has been retreived using the data saved in the nested
   let itemData = undefined
   if (entity instanceof Item)
-    itemData = entity.data.toObject()
+    itemData = entity.toObject()
   else {
     itemData = entity
   }
@@ -188,8 +188,8 @@ function _getLevelItemsToTransfer(level) {
 }
 
 export async function handleCreatePath(actor, pathItem) {
-  const actorLevel = parseInt(actor.data.data.level)
-  const pathData = pathItem.data.data
+  const actorLevel = parseInt(actor.system.level)
+  const pathData = pathItem.system
   const leqLevels = pathData.levels.filter(l => +l.level <= +actorLevel)
 
   // For each level that is <= actor level, add all talents and *selected* nested items
@@ -233,11 +233,11 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
 /* -------------------------------------------- */
 
 export async function handleCreateAncestry(actor, ancestryItem) {
-  const ancestryData = ancestryItem.data.data
+  const ancestryData = ancestryItem.system
   let nestedItems = [...ancestryData.talents, ...ancestryData.languagelist]
   let createdItems = await createActorNestedItems(actor, nestedItems, ancestryItem.id, 0)
   // If character level >= 4, add chosen nested items
-  if (actor.data.data.level >= 4) {
+  if (actor.system.level >= 4) {
     let chosenNestedItems = [...ancestryData.level4.talent, ...ancestryData.level4.spells].filter(i => Boolean(i.selected))
     createdItems = createdItems.concat(await createActorNestedItems(actor, chosenNestedItems, ancestryItem.id, 4))
   }
@@ -258,7 +258,7 @@ export async function createActorNestedItems(actor, nestedItems, parentItemId, l
   // Set the flags
   itemDataList = itemDataList.map((itemData, i) => {
     itemData.flags.demonlord = {
-      nestedItemId: nestedItems[i].data._id ?? nestedItems[i]._id,
+      nestedItemId: nestedItems[i]._id ?? nestedItems[i].id,
       parentItemId: parentItemId,
       levelRequired: levelRequired
     }
@@ -286,9 +286,9 @@ export async function deleteActorNestedItems(actor, parentItemId = undefined, ne
   const actorItems = actor.getEmbeddedCollection('Item')
   let ids = []
   if (parentItemId) {
-    ids = actorItems.filter(i => i.data.flags?.demonlord?.parentItemId === parentItemId).map(i => i.id)
+    ids = actorItems.filter(i => i.flags?.demonlord?.parentItemId === parentItemId).map(i => i.id)
   } else if (nestedItemId) {
-    ids = actorItems.filter(i => i.data.flags?.demonlord?.nestedItemId === nestedItemId).map(i => i.id)
+    ids = actorItems.filter(i => i.flags?.demonlord?.nestedItemId === nestedItemId).map(i => i.id)
   }
   if (ids.length) actor.deleteEmbeddedDocuments('Item', ids)
 }
