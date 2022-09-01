@@ -6,7 +6,7 @@
     </div>
     <div class="col-2 actor-level">
       <label>{{localize "DL.CharLevel"}}</label>
-      <input name="data.level" type="text" value="{{data.level}}" data-dtype="{{attribute.dtype}}" min="0"/>
+      <input name="system.level" type="text" value="{{system.level}}" data-dtype="{{attribute.dtype}}" min="0"/>
     </div>
   </div>
 
@@ -14,7 +14,7 @@
     {{#*inline "attribute-partial"}}
       <div class="col-2 attribute">
         <label class="name" data-key="{{n}}">{{attr.label}}</label>
-        <input type="Number" name="data.attributes.{{n}}.value" value="{{attr.value}}" readonly/>
+        <input type="Number" name="system.attributes.{{n}}.value" value="{{attr.value}}" readonly/>
         <label class="modifier">{{plusify attr.modifier}}</label>
       </div>
     {{/inline}}

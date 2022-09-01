@@ -691,7 +691,7 @@ export class DemonlordActor extends Actor {
   async setUsesOnSpells() {
     const power = this.system.characteristics.power
     const diff = []
-    this.data.items
+    this.items
       .filter(i => i.type === 'spell')
       .map(s => {
         const rank = s.system.rank

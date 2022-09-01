@@ -111,52 +111,52 @@
   <div class="char-description">
     <div class="row">
       <div class="col-3">
-        {{> resourcePartial res="data.appearance.sex" val=data.appearance.sex loc="DL.CharGender"}}
+        {{> resourcePartial res="system.appearance.sex" val=system.appearance.sex loc="DL.CharGender"}}
       </div>
       <div class="col-3">
-        {{> resourcePartial res="data.appearance.age" val=data.appearance.age loc="DL.CharAge"}}
+        {{> resourcePartial res="system.appearance.age" val=system.appearance.age loc="DL.CharAge"}}
       </div>
       <div class="col-6 religion">
-        <label class="resource-label" for="data.religion.value">{{localize 'DL.CharReligion'}}</label>
+        <label class="resource-label" for="system.religion.value">{{localize 'DL.CharReligion'}}</label>
         <input
-          name="data.religion.value"
+          name="system.religion.value"
           type="text"
-          value="{{data.religion.value}}"
+          value="{{system.religion.value}}"
           placeholder="{{localize 'DL.CharReligion'}}"
         />
         <img
-          src="{{data.religion.image}}"
-          alt="{{data.religion.value}}"
+          src="{{system.religion.image}}"
+          alt="{{system.religion.value}}"
           title="{{localize 'DL.CharReligion'}}"
-          data-edit="data.religion.image"
+          data-edit="system.religion.image"
         />
       </div>
     </div>
 
     <div class="row">
       <div class="col-3">
-        {{> resourcePartial res="data.appearance.eyes" val=data.appearance.eyes loc="DL.CharEyes"}}
+        {{> resourcePartial res="system.appearance.eyes" val=system.appearance.eyes loc="DL.CharEyes"}}
       </div>
       <div class="col-3">
-        {{> resourcePartial res="data.appearance.hair" val=data.appearance.hair loc="DL.CharHair"}}
+        {{> resourcePartial res="system.appearance.hair" val=system.appearance.hair loc="DL.CharHair"}}
       </div>
       <div class="col-3">
-        {{> resourcePartial res="data.appearance.height" val=data.appearance.height loc="DL.CharHeight"}}
+        {{> resourcePartial res="system.appearance.height" val=system.appearance.height loc="DL.CharHeight"}}
       </div>
       <div class="col-3">
-        {{> resourcePartial res="data.appearance.weight" val=data.appearance.weight loc="DL.CharWeight"}}
+        {{> resourcePartial res="system.appearance.weight" val=system.appearance.weight loc="DL.CharWeight"}}
       </div>
     </div>
 
     <!-- Languages   -->
     <div class="row">
       <div class="col-12 languages">
-        <label class="resource-label" for="data.appearance.age">{{localize 'DL.LanguagesTitle'}}</label>
+        <label class="resource-label" for="system.appearance.age">{{localize 'DL.LanguagesTitle'}}</label>
         {{#if actor.languages}}
           <div class="edit">
             <a class="languages-edit" title="{{localize 'DL.LanguagesEdit'}}"><i class="fas fa-edit"></i></a>
           </div>
-          {{#if data.languages.edit}} {{#each actor.languages as |language id|}}
+          {{#if system.languages.edit}} {{#each actor.languages as |language id|}}
             <div class="language" data-item-id="{{language._id}}">
               <div class="languagetitle">{{language.name}} (</div>
               <a class="language-toggle-s">
@@ -225,7 +225,7 @@
             </div>
           {{/each}} {{/if}} {{else}}
           <input
-            name="data.languages.value"
+            name="system.languages.value"
             type="text"
             value="{{data.languages.value}}"
             placeholder="{{localize 'DL.LanguagesTitle'}}"

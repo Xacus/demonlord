@@ -1,4 +1,4 @@
-{{#if data.isPC}}
+{{#if system.isPC}}
   <aside>
 {{else}}
   <aside class="npc">
@@ -6,11 +6,11 @@
   <div class="sidebar" data-group="dashboard" data-tab="sidebar">
     <div class="isPC">
       <label class="switch">
-        <input type="checkbox" id="data.isPC" name="data.isPC" {{checked data.isPC}} />
+        <input type="checkbox" id="system.isPC" name="system.isPC" {{checked system.isPC}} />
         <div class="slider round"><span class="on">PC</span><span class="off">NPC</span></div>
       </label>
     </div>
-    {{#if data.isPC}}
+    {{#if system.isPC}}
       <div class="frame">
         <img class="profile-img" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
       </div>
@@ -23,35 +23,35 @@
       <div class="injured">
         <input
                 type="checkbox"
-                name="data.characteristics.health.injured"
-                id="data.characteristics.health.injured"
+                name="system.characteristics.health.injured"
+                id="system.characteristics.health.injured"
                 class="checkbox"
           {{checked
-                  data.characteristics.health.injured}}
-        /><label for="data.characteristics.health.injured"/>
+                  system.characteristics.health.injured}}
+        /><label for="system.characteristics.health.injured"/>
       </div>
       <div class="injuredtext">{{localize "DL.CharHealthInjured"}}</div>
     </div>
     <div class="healingratebox" style="cursor: pointer">
-      <div class="healingrate">{{data.characteristics.health.healingrate}}</div>
+      <div class="healingrate">{{system.characteristics.health.healingrate}}</div>
       <div class="healingratetext">{{localize "DL.CharHealthHealingRating"}}</div>
     </div>
     <div class="editBars">
       <a class="bar-edit" title="{{localize 'DL.ToogleBarView'}}"><i class="fas fa-edit"></i></a>
     </div>
-    {{#if data.characteristics.editbar}}
+    {{#if system.characteristics.editbar}}
       <div class="barboxes">
         <div class="barbox">
           <div class="healthtext">{{localize "DL.TalentDamage"}}</div>
           <div class="healthedit">
             <input
-                    name="data.characteristics.health.value"
+                    name="system.characteristics.health.value"
                     type="number"
-                    value="{{data.characteristics.health.value}}"
-                    placeholder="{{data.characteristics.health.value}}"
+                    value="{{system.characteristics.health.value}}"
+                    placeholder="{{system.characteristics.health.value}}"
                     style="color: white; border: none; box-shadow: none"
-                    min="{{data.characteristics.health.min}}"
-                    max="{{data.characteristics.health.max}}"
+                    min="{{system.characteristics.health.min}}"
+                    max="{{system.characteristics.health.max}}"
             />
           </div>
         </div>
@@ -59,13 +59,13 @@
           <div class="insanitytext">{{localize "DL.CharInsanity"}}</div>
           <div class="insanityedit">
             <input
-                    name="data.characteristics.insanity.value"
+                    name="system.characteristics.insanity.value"
                     type="number"
-                    value="{{data.characteristics.insanity.value}}"
-                    placeholder="{{data.characteristics.insanity.value}}"
+                    value="{{system.characteristics.insanity.value}}"
+                    placeholder="{{system.characteristics.insanity.value}}"
                     style="color: white; border: none; box-shadow: none"
-                    min="{{data.characteristics.insanity.min}}"
-                    max="{{data.characteristics.insanity.max}}"
+                    min="{{system.characteristics.insanity.min}}"
+                    max="{{system.characteristics.insanity.max}}"
             />
           </div>
         </div>
@@ -73,10 +73,10 @@
           <div class="corruptiontext">{{localize "DL.CharCorruption"}}</div>
           <div class="corruptionedit">
             <input
-                    name="data.characteristics.corruption"
+                    name="system.characteristics.corruption"
                     type="number"
-                    value="{{data.characteristics.corruption}}"
-                    placeholder="{{data.characteristics.corruption}}"
+                    value="{{system.characteristics.corruption}}"
+                    placeholder="{{system.characteristics.corruption}}"
                     style="color: white; border: none; box-shadow: none"
                     min="0"
             />
@@ -89,16 +89,16 @@
         <div class="healthbar">
           <span class="healthbar-fill"></span>
         </div>
-        <div class="healtmax">{{data.characteristics.health.max}}</div>
-        <div class="damage">{{data.characteristics.health.value}}</div>
+        <div class="healtmax">{{system.characteristics.health.max}}</div>
+        <div class="damage">{{system.characteristics.health.value}}</div>
       </div>
       <div class="insanity">
         <div class="addInsanity">{{localize "DL.CharInsanity"}}</div>
         <div class="healthbar">
           <span class="insanity-fill"></span>
         </div>
-        <div class="insanitymax">{{data.characteristics.insanity.max}}</div>
-        <div class="insanityvalue">{{data.characteristics.insanity.value}}</div>
+        <div class="insanitymax">{{system.characteristics.insanity.max}}</div>
+        <div class="insanityvalue">{{system.characteristics.insanity.value}}</div>
       </div>
       <div class="corruption">
         <div class="addCorruption">{{localize "DL.CharCorruption"}}</div>
@@ -106,28 +106,28 @@
           <span class="corruption-fill"></span>
         </div>
         <div class="corruptionmax">20</div>
-        <div class="corruptionvalue">{{data.characteristics.corruption}}</div>
+        <div class="corruptionvalue">{{system.characteristics.corruption}}</div>
         <a class="corruption-roll" title="{{localize 'DL.CharRolCorruption'}}"><i class="fas fa-dice-d20"></i></a>
       </div>
     {{/if}}
     <div class="chars grid grid-2col">
       <div class="defensebox">
         <div class="defensetext">{{localize "DL.AttributeDefense"}}</div>
-        <div class="defense">{{data.characteristics.defense}}</div>
+        <div class="defense">{{system.characteristics.defense}}</div>
       </div>
       <div class="powerbox">
         <div class="powertext">{{localize "DL.CharPower"}}</div>
-        <div class="power">{{data.characteristics.power}}</div>
+        <div class="power">{{system.characteristics.power}}</div>
       </div>
     </div>
     <div class="chars grid grid-2col">
       <div class="speedbox">
         <div class="speedtext">{{localize "DL.CharSize"}}</div>
-        <div class="speed">{{data.characteristics.size}}</div>
+        <div class="speed">{{system.characteristics.size}}</div>
       </div>
       <div class="speedbox">
         <div class="speedtext">{{localize "DL.CharSpeed"}}</div>
-        <div class="speed">{{data.characteristics.speed}}</div>
+        <div class="speed">{{system.characteristics.speed}}</div>
       </div>
     </div>
     <div class="chars grid grid-2col">
@@ -135,9 +135,9 @@
         <div class="speedtext">{{localize "DL.CharFortune"}}</div>
         <div class="speed">
           <input
-                  name="data.characteristics.fortune"
+                  name="system.characteristics.fortune"
                   type="text"
-                  value="{{data.characteristics.fortune}}"
+                  value="{{system.characteristics.fortune}}"
                   data-dtype="Number"
                   placeholder=""
           />
@@ -148,7 +148,7 @@
     <div class="chars flexrow">
       <div class="turnmode">
         <label class="switchTurn">
-          <input type="checkbox" id="data.fastturn" name="data.fastturn" {{checked data.fastturn}} />
+          <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}} />
           <div class="slider round">
               <span class="on">{{localize "DL.TurnFastButton"}}</span
               ><span class="off">{{localize "DL.TurnSlowButton"}}</span>

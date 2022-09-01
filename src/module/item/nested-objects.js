@@ -200,7 +200,7 @@ export async function handleCreatePath(actor, pathItem) {
 }
 
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
-  curLevel = parseInt(curLevel ?? actor.data.data.level)
+  curLevel = parseInt(curLevel ?? actor.system.level)
   newLevel = parseInt(newLevel)
   if (newLevel === curLevel) return
   const actorItems = actor.getEmbeddedCollection('Item')
@@ -211,20 +211,20 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
   if (newLevel > curLevel) {
     // Create relevant path levels' nested items
     for (let path of paths) {
-      path.data.data.levels
+      path.system.levels
         .filter(l => +l.level > curLevel && +l.level <= newLevel)
         .forEach(level => createActorNestedItems(actor, _getLevelItemsToTransfer(level), path.id, level.level))
     }
     // Add ancestry level 4 nested items
     if (ancestry && curLevel < 4 && newLevel >= 4) {
-      const ancestryData = ancestry.data.data
+      const ancestryData = ancestry.system
       let chosenNestedItems = [...ancestryData.level4.talent, ...ancestryData.level4.spells].filter(i => Boolean(i.selected))
       await createActorNestedItems(actor, chosenNestedItems, ancestry.id, 4)
     }
   }
   // Otherwise delete items with levelRequired > newLevel
   else {
-    const ids = actorItems.filter(i => i.data.flags?.demonlord?.levelRequired > newLevel).map(i => i.id)
+    const ids = actorItems.filter(i => i.flags?.demonlord?.levelRequired > newLevel).map(i => i.id)
     if (ids.length) await actor.deleteEmbeddedDocuments('Item', ids)
   }
   return Promise.resolve()

@@ -133,7 +133,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   /* -------------------------------------------- */
 
   async _updateObject(event, formData) {
-    const newLevel = formData['data.level']
+    const newLevel = formData['system.level']
     if (newLevel !== this.document.system.level) handleLevelChange(this.document, newLevel)
     return this.document.update(formData)
   }
