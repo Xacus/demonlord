@@ -256,7 +256,7 @@ export class DemonlordActor extends Actor {
       [game.i18n.localize("DL.AttributePerception").toLowerCase()]: "perception",
     }
     const normalizedName = attributes[attributeName.toLowerCase()] || attributeName.toLowerCase()
-    return getProperty(this.data.data, `attributes.${normalizedName}`, this.data.data[attributeName])
+    return getProperty(this.system, `attributes.${normalizedName}`, this.system[attributeName])
   }
 
   /* -------------------------------------------- */
@@ -289,7 +289,7 @@ export class DemonlordActor extends Actor {
     const attackModifier =
       (attacker.system?.attributes[attackAttribute]?.modifier || 0) + (parseInt(inputModifier) || 0)
     let attackBOBA =
-      (parseInt(item.data.data.action.boonsbanes) || 0) +
+      (parseInt(item.system.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
       (attacker.system.bonuses.attack.boons[attackAttribute] || 0)
 
@@ -617,7 +617,7 @@ export class DemonlordActor extends Actor {
         const againstSelectedAttribute = talent.system.vs.against.toLowerCase()
 
         if (againstSelectedAttribute == 'defense') {
-          tagetNumber = targetActor.data.data.characteristics.defense
+          tagetNumber = targetActor.system.characteristics.defense
         } else {
           tagetNumber = targetActor.getAttribute(againstSelectedAttribute).value
         }
@@ -637,8 +637,8 @@ export class DemonlordActor extends Actor {
   }
 
   async deactivateTalent(talent, decrement = 0, onlyTemporary = false) {
-    if (onlyTemporary && !talent.data.data.uses?.max) return
-    let uses = talent.data.data.uses?.value || 0
+    if (onlyTemporary && !talent.system.uses?.max) return
+    let uses = talent.system.uses?.value || 0
     uses = Math.max(0, uses - decrement)
     talent.update({'data.uses.value': uses, 'data.addtonextroll': false}, {parent: this})
   }
@@ -694,8 +694,8 @@ export class DemonlordActor extends Actor {
     this.data.items
       .filter(i => i.type === 'spell')
       .map(s => {
-        const rank = s.data.data.rank
-        const currentMax = s.data.data.castings.max
+        const rank = s.system.rank
+        const currentMax = s.system.castings.max
         const newMax = CONFIG.DL.spelluses[power]?.[rank] ?? 0
         if (currentMax !== newMax) diff.push({_id: s.id, 'data.castings.max': newMax})
       })

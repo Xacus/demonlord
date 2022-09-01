@@ -29,7 +29,7 @@ export function onManageActiveEffect(event, owner) {
     case 'delete':
       return effect.delete()
     case 'toggle':
-      return effect.update({ disabled: !effect.data.disabled })
+      return effect.update({ disabled: !effect.disabled })
   }
 }
 
@@ -68,7 +68,7 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
 
   // Iterate over active effects, classifying them into categories
   for (let e of effects) {
-    if (e.data.disabled) categories.inactive.effects.push(e)
+    if (e.disabled) categories.inactive.effects.push(e)
     else if (e.isTemporary) categories.temporary.effects.push(e)
     else categories.passive.effects.push(e)
   }

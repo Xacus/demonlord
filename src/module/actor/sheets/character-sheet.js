@@ -134,7 +134,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
   async _updateObject(event, formData) {
     const newLevel = formData['data.level']
-    if (newLevel !== this.document.data.data.level) handleLevelChange(this.document, newLevel)
+    if (newLevel !== this.document.system.level) handleLevelChange(this.document, newLevel)
     return this.document.update(formData)
   }
 
@@ -153,12 +153,12 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Edit HealthBar, Insanity and Corruption
     html.find('.bar-edit').click(() => {
       const actor = this.actor
-      const showEdit = actor.data.data.characteristics.editbar
-      actor.data.data.characteristics.editbar = !showEdit
+      const showEdit = actor.system.characteristics.editbar
+      actor.system.characteristics.editbar = !showEdit
 
       actor
         .update({
-          'data.characteristics.editbar': actor.data.data.characteristics.editbar,
+          'data.characteristics.editbar': actor.system.characteristics.editbar,
         })
         .then(_ => this.render())
     })
@@ -172,8 +172,8 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Insanity bar click
     html.on('mousedown', '.addInsanity', ev => {
-      let value = parseInt(this.actor.data.data.characteristics.insanity.value)
-      const max = parseInt(this.actor.data.data.characteristics.insanity.max)
+      let value = parseInt(this.actor.system.characteristics.insanity.value)
+      const max = parseInt(this.actor.system.characteristics.insanity.max)
       if (ev.button == 0) {
         if (value >= max) value = 0
         else value++
@@ -186,7 +186,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Corruption bar click
     html.on('mousedown', '.addCorruption', ev => {
-      let value = parseInt(this.actor.data.data.characteristics.corruption)
+      let value = parseInt(this.actor.system.characteristics.corruption)
       const max = parseInt(20)
       if (ev.button == 0) {
         if (value >= max) value = 0
@@ -201,21 +201,21 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Health bar fill
     const healthbar = html.find('.healthbar-fill')
     if (healthbar.length > 0) {
-      const health = this.actor.data.data.characteristics.health
+      const health = this.actor.system.characteristics.health
       healthbar[0].style.width = Math.floor((+health.value / +health.max) * 100) + '%'
     }
 
     // Insanity bar fill
     const insanitybar = html.find('.insanity-fill')
     if (insanitybar.length > 0) {
-      const insanity = this.actor.data.data.characteristics.insanity
+      const insanity = this.actor.system.characteristics.insanity
       insanitybar[0].style.width = Math.floor((+insanity.value / +insanity.max) * 100) + '%'
     }
 
     // Corruption bar fill
     const corruptionbar = html.find('.corruption-fill')
     if (corruptionbar.length > 0) {
-      const corruption = this.actor.data.data.characteristics.corruption
+      const corruption = this.actor.system.characteristics.corruption
       corruptionbar[0].style.width = Math.floor((+corruption / 20) * 100) + '%'
     }
 
@@ -226,19 +226,19 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html.on('mousedown', '.path-edit', ev => this._onPathEdit(ev))
     html
       .find('.paths-edit')
-      .click(_ => this.actor.update({ 'data.paths.edit': !this.actor.data.data.paths.edit }).then(() => this.render()))
+      .click(_ => this.actor.update({ 'data.paths.edit': !this.actor.system.paths.edit }).then(() => this.render()))
 
     // Wealth edit
     html
       .find('.wealth-edit')
       .click(_ =>
-        this.actor.update({ 'data.wealth.edit': !this.actor.data.data.wealth.edit }).then(() => this.render()),
+        this.actor.update({ 'data.wealth.edit': !this.actor.system.wealth.edit }).then(() => this.render()),
       )
     // Languages CRUD + Edit
     html.find('.languages-edit').click(_ =>
       this.actor
         .update({
-          'data.languages.edit': !this.actor.data.data.languages.edit,
+          'data.languages.edit': !this.actor.system.languages.edit,
         })
         .then(() => this.render()),
     )
@@ -246,7 +246,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     const _toggleLang = (ev, key) => {
       const dev = ev.currentTarget.closest('.language')
       const item = this.actor.items.get(dev.dataset.itemId)
-      item.update({ ['data.' + key]: !item.data.data[key] }, { parent: this.actor })
+      item.update({ ['data.' + key]: !item.system[key] }, { parent: this.actor })
     }
     html.find('.language-delete').click(ev => this._onItemDelete(ev, '.language'))
     html.find('.language-toggle-r').click(ev => _toggleLang(ev, 'read'))
@@ -257,7 +257,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html
       .find('.religion-edit')
       .click(_ =>
-        this.actor.update({ 'data.religion.edit': !this.actor.data.data.religion.edit }).then(() => this.render()),
+        this.actor.update({ 'data.religion.edit': !this.actor.system.religion.edit }).then(() => this.render()),
       )
 
     // Ammo uses

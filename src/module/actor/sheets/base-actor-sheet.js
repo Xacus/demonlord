@@ -20,17 +20,17 @@ export default class DLBaseActorSheet extends ActorSheet {
       isOwner: this.actor.isOwner,
       isCreature: this.actor.type === 'creature',
       isCharacter: this.actor.type === 'character',
-      isNPC: this.actor.type === 'character' && !this.actor.data.isPC,
+      isNPC: this.actor.type === 'character' && !this.actor.system.isPC,
       limited: this.document.limited,
       options: this.options,
       editable: this.isEditable,
       config: CONFIG.DL,
-      actor: this.actor.data,
-      data: this.actor.data.data,
+      actor: this.actor,
+      data: this.actor.system,
       effects: true,
       generalEffects: prepareActiveEffectCategories(this.actor.effects, true),
       effectsOverview: buildOverview(this.actor),
-      flags: this.actor.data.flags,
+      flags: this.actor.flags,
     }
 
     // Items
@@ -121,7 +121,6 @@ export default class DLBaseActorSheet extends ActorSheet {
     }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data.type
     return DemonlordItem.create(itemData, {parent: this.actor})
   }
 
@@ -231,7 +230,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       if (['action', 'afflictions', 'damage'].includes(div.dataset.type)) {
         const type = capitalize(div.dataset.type)
         const k = 'data.afflictionsTab.hideAction' + type
-        const v = !this.actor.data.data.afflictionsTab[`hide${type}`]
+        const v = !this.actor.system.afflictionsTab[`hide${type}`]
         this.actor.update({[k]: v})
       }
     })
@@ -275,9 +274,9 @@ export default class DLBaseActorSheet extends ActorSheet {
       const itemId = $(el).closest('[data-item-id]').data('itemId')
       const item = this.actor.items.get(itemId)
       if (
-        item.data.data.wear &&
-        item.data.data.strengthmin != '' &&
-        +item.data.data.strengthmin > +this.actor.getAttribute("strength").value
+        item.system.wear &&
+        item.system.strengthmin != '' &&
+        +item.system.strengthmin > +this.actor.getAttribute("strength").value
       ) {
         $(el).addClass('dl-text-red')
       }
@@ -297,8 +296,8 @@ export default class DLBaseActorSheet extends ActorSheet {
     html.on('mousedown', '.spell-uses', ev => {
       const li = ev.currentTarget.closest('[data-item-id]')
       const item = this.actor.items.get(li.dataset.itemId)
-      let uses = +item.data.data.castings.value
-      const usesmax = +item.data.data.castings.max
+      let uses = +item.system.castings.value
+      const usesmax = +item.system.castings.max
       if (ev.button == 0) uses = uses < usesmax ? uses + 1 : 0
       else if (ev.button == 2) uses = uses > 0 ? uses - 1 : 0
       item.update({'data.castings.value': uses}, {parent: this.actor})
@@ -346,7 +345,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       const element = event.currentTarget
       const dataset = element.dataset
       if (dataset.roll) {
-        const roll = new Roll(dataset.roll, this.actor.data.data)
+        const roll = new Roll(dataset.roll, this.actor.system)
         const label = dataset.label ? `Rolling ${dataset.label}` : ''
         roll.roll({async: false}).toMessage({
           speaker: ChatMessage.getSpeaker({actor: this.actor}),
