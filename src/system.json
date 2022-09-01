@@ -1,11 +1,23 @@
 {
-  "name": "demonlord",
+  "id": "demonlord",
   "title": "Shadow of the Demon Lord",
   "description": "The Shadow of the Demonlord system for FoundryVTT",
   "version": "2.2.0",
-  "minimumCoreVersion": "0.8.9",
-  "compatibleCoreVersion": "9",
-  "author": "Xacus, ClipplerBlood, PatrickPorto",
+  "authors": [
+    {
+      "name": "Xacus"
+    },
+    {
+      "name": "ClipplerBlood"
+    },
+    {
+      "name": "PatrickPorto"
+    }
+  ],
+  "compatibility": {
+    "minimum": 10,
+    "verified": 10
+  },
   "creators": "Xacus",
   "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf, ParvusDomus, Cugi, zeteticl",
   "esmodules": ["module/demonlord.js"],
@@ -17,63 +29,63 @@
       "label": "Weapons",
       "system": "demonlord",
       "path": "packs/weapons.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "armor",
       "label": "Armor",
       "system": "demonlord",
       "path": "packs/armor.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "ammunition",
       "label": "Ammunition",
       "system": "demonlord",
       "path": "packs/ammunition.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "weapons creature",
       "label": "Weapons Creature",
       "system": "demonlord",
       "path": "packs/weapons-creatures.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "languages",
       "label": "Languages",
       "system": "demonlord",
       "path": "packs/languages.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "demonlord macros gm",
       "label": "Demonlord Macros - GM",
       "system": "demonlord",
       "path": "packs/demonlord-macros-gm.db",
-      "entity": "Macro"
+      "type": "Macro"
     },
     {
       "name": "demonlord macros player",
       "label": "Demonlord Macros - Player",
       "system": "demonlord",
       "path": "packs/demonlord-macros-player.db",
-      "entity": "Macro"
+      "type": "Macro"
     },
     {
       "name": "sotdl system guide",
       "label": "SotDL System Guide",
       "system": "demonlord",
       "path": "packs/sotdl-system-guide.db",
-      "entity": "JournalEntry"
+      "type": "JournalEntry"
     },
     {
       "name": "sotdl roll tabels",
       "label": "Demonlord - Roll Tables",
       "system": "demonlord",
       "path": "packs/roll-tables.db",
-      "entity": "RollTable"
+      "type": "RollTable"
     }
   ],
   "languages": [
