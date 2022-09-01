@@ -180,9 +180,9 @@ Hooks.on('updateActor', async (actor, updateData) => {
 
         if (combatant.actor == actor) {
           if (actor.data.type == 'character') {
-            init = actor.data.data.fastturn ? 70 : 30
+            init = actor.system.fastturn ? 70 : 30
           } else {
-            init = actor.data.data.fastturn ? 50 : 10
+            init = actor.system.fastturn ? 50 : 10
           }
 
           game.combat.setInitiative(combatant.id, init)
@@ -193,20 +193,20 @@ Hooks.on('updateActor', async (actor, updateData) => {
 })
 
 Hooks.on('createActiveEffect', async activeEffect => {
-  const statusId = activeEffect.data.flags?.core?.statusId
+  const statusId = activeEffect.flags?.core?.statusId
   const _parent = activeEffect?.parent
   if (statusId && _parent) {
     await _parent.setFlag('demonlord', statusId, true)
 
     // If asleep, also add prone and uncoscious
     if (statusId === 'asleep') {
-      if (!_parent.effects.find(e => e.data.flags?.core?.statusId === 'prone')) {
+      if (!_parent.effects.find(e => e.flags?.core?.statusId === 'prone')) {
         const prone = CONFIG.statusEffects.find(e => e.id === 'prone')
         prone['flags.core.statusId'] = 'prone'
         await ActiveEffect.create(prone, {parent: _parent})
       }
 
-      if (!_parent.effects.find(e => e.data.flags?.core?.statusId === 'unconscious')) {
+      if (!_parent.effects.find(e => e.flags?.core?.statusId === 'unconscious')) {
         const unconscious = CONFIG.statusEffects.find(e => e.id === 'unconscious')
         unconscious['flags.core.statusId'] = 'unconscious'
         await ActiveEffect.create(unconscious, {parent: _parent})
@@ -216,17 +216,17 @@ Hooks.on('createActiveEffect', async activeEffect => {
 })
 
 Hooks.on('deleteActiveEffect', async activeEffect => {
-  const statusId = activeEffect.data.flags?.core?.statusId
+  const statusId = activeEffect.flags?.core?.statusId
   const _parent = activeEffect?.parent
   if (statusId && _parent) {
     await _parent.unsetFlag('demonlord', statusId)
 
     // If asleep, also remove prone and uncoscious
     if (statusId === 'asleep') {
-      const prone = _parent.effects.find(e => e.data.flags?.core?.statusId === 'prone')
+      const prone = _parent.effects.find(e => e.flags?.core?.statusId === 'prone')
       await prone?.delete()
 
-      const unconscious = _parent.effects.find(e => e.data.flags?.core?.statusId === 'unconscious')
+      const unconscious = _parent.effects.find(e => e.flags?.core?.statusId === 'unconscious')
       await unconscious?.delete()
     }
   }
@@ -301,7 +301,7 @@ Hooks.once('dragRuler.ready', SpeedProvider => {
 
     getSpeedModifier(token) {
       const itemsHeavy = token.actor.items.filter(
-        item => Number(item.data.data.strengthmin) > token.actor.getAttribute("strength").value,
+        item => Number(item.system.strengthmin) > token.actor.getAttribute("strength").value,
       )
       if (itemsHeavy.length > 0) {
         return -2
@@ -310,7 +310,7 @@ Hooks.once('dragRuler.ready', SpeedProvider => {
     }
 
     getRanges(token) {
-      const baseSpeed = token.actor.data.data.characteristics.speed + this.getSpeedModifier(token)
+      const baseSpeed = token.actor.system.characteristics.speed + this.getSpeedModifier(token)
       const ranges = [
         {range: baseSpeed, color: 'walk'},
         {range: baseSpeed * 2, color: 'rush'},

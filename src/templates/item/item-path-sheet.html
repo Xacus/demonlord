@@ -10,7 +10,7 @@
     {{#if isGM}}
       <div class="togglegm">
         <label class="switchBig">
-          <input type="checkbox" id="data.editPath" name="data.editPath" {{checked data.editPath}} />
+          <input type="checkbox" id="system.editPath" name="system.editPath" {{checked system.editPath}} />
           <div class="slider round"><span class="on">Edit</span><span class="off">View</span></div>
         </label>
       </div>
@@ -30,14 +30,14 @@
            style="padding: 0 !important; padding-bottom: 8px">
         <div class="dl-path-container">
           <div class="dl-path-sidebar dl-item-section-section">
-            <div class="dl-new-project-2 {{#if data.editPath}}dropdown{{else}}nohover{{/if}}" name="path-type"
-                 value="{{data.type}}">
+            <div class="dl-new-project-2 {{#if system.editPath}}dropdown{{else}}nohover{{/if}}" name="path-type"
+                 value="{{system.type}}">
               <span style="margin-left: 4px;">
-                {{#if (eq data.type 'novice')}}
+                {{#if (eq system.type 'novice')}}
                   {{localize "DL.CharPathNovice"}}
-                {{else if (eq data.type 'expert')}}
+                {{else if (eq system.type 'expert')}}
                   {{localize "DL.CharPathExpert"}}
-                {{else if (eq data.type 'master')}}
+                {{else if (eq system.type 'master')}}
                   {{localize "DL.CharPathMaster"}}
                 {{else}}
                   {{localize "DL.PathsPathType"}}
@@ -45,7 +45,7 @@
               </span>
             </div>
 
-            {{#each data.levels as |level index|}}
+            {{#each system.levels as |level index|}}
               <div class="dl-clickable dl-path-level-select" data-level-index="{{index}}">
                 {{localize 'DL.PathsLevelsSubTitle'}} {{level.level}}
               </div>
@@ -58,7 +58,7 @@
 
 
           <div class="dl-path-content">
-            {{#if data.editPath}}
+            {{#if system.editPath}}
               {{> "systems/demonlord/templates/item/item-path-edit.html"}}
             {{else}}
               {{> "systems/demonlord/templates/item/item-path-view.html"}}

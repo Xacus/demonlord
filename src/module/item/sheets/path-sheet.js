@@ -19,12 +19,12 @@ export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
   async getData(options) {
     const data = await super.getData(options)
-    data.data.levels = data.data.levels || []
-    data.data.levels.sort(_sortLevels)
+    data.system.levels = data.system.levels || []
+    data.system.levels.sort(_sortLevels)
 
     // Localize Two Set labels if is 'view'
-    if (!this.item.data.data.editPath)
-      data.data.levels.forEach(l => {
+    if (!this.item.system.editPath)
+      data.system.levels.forEach(l => {
         l.attributeSelectTwoSet1Label = game.i18n.localize(CONFIG.DL.attributes[l.attributeSelectTwoSet1])
         l.attributeSelectTwoSet2Label = game.i18n.localize(CONFIG.DL.attributes[l.attributeSelectTwoSet2])
         l.attributeSelectTwoSet3Label = game.i18n.localize(CONFIG.DL.attributes[l.attributeSelectTwoSet3])
@@ -33,13 +33,13 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
     //data.item.data.editPath = !game.user.isGM;
     // Which level the user has selected
-    data.data.selectedLevelIndex = this._selectedLevelIndex || 0
+    data.system.selectedLevelIndex = this._selectedLevelIndex || 0
 
     // Fetch contents of nested items
-    for (let i of data.data.levels.keys()) {
-      data.data.levels[i].talents = await Promise.all(data.data.levels[i].talents.map(await getNestedItemData))
-      data.data.levels[i].talentspick = await Promise.all(data.data.levels[i].talentspick.map(await getNestedItemData))
-      data.data.levels[i].spells = await Promise.all(data.data.levels[i].spells.map(await getNestedItemData))
+    for (let i of data.system.levels.keys()) {
+      data.system.levels[i].talents = await Promise.all(data.system.levels[i].talents.map(await getNestedItemData))
+      data.system.levels[i].talentspick = await Promise.all(data.system.levels[i].talentspick.map(await getNestedItemData))
+      data.system.levels[i].spells = await Promise.all(data.system.levels[i].spells.map(await getNestedItemData))
     }
     return data
   }
@@ -58,7 +58,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     html.find('.add-level').click(ev => {
       ev.preventDefault()
       this.item.update({
-        'data.levels': [...(this.item.data.data.levels || []), new PathLevel()],
+        'data.levels': [...(this.item.system.levels || []), new PathLevel()],
       })
     })
 
@@ -99,7 +99,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize('DL.DialogYes'),
           callback: _ => {
-            const levels = this.item.data.data.levels
+            const levels = this.item.system.levels
             levels.splice(itemIndex, 1)
             this.item.update({'data.levels': levels})
           },
@@ -173,12 +173,12 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const completeFormData = this._getPathDataFromForm()
     const updateData = {}
 
-    updateData.editPath = formData['data.editPath']
-    updateData.description = formData['data.description'] || this.object.data.data.description
-    updateData.type = formData['data.type']
+    updateData.editPath = formData['system.editPath']
+    updateData.description = formData['system.description'] || this.object.system.description
+    updateData.type = formData['system.type']
 
     if (completeFormData.length > 0) {
-      if (this.object.data.data.editPath) {
+      if (this.object.system.editPath) {
         updateData.levels = this._getEditLevelsUpdateData(completeFormData)
         updateData.levels.sort(_sortLevels)
 
@@ -194,7 +194,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     }
 
     // Change the levels levels based on path type
-    if (updateData.type && this.object.data.data.editPath && updateData.type !== this.item.data.data.type) {
+    if (updateData.type && this.object.system.editPath && updateData.type !== this.item.system.type) {
       let autoLevels = []
       switch (updateData.type) {
         case 'novice':
@@ -221,7 +221,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
 
   _getViewLevelsUpdateData(completeFormData) {
-    return this._mergeLevels(this.object.data.data.levels, completeFormData)
+    return this._mergeLevels(this.object.system.levels, completeFormData)
   }
 
   _getEditLevelsUpdateData(completeFormData) {
@@ -231,11 +231,11 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const hasDuplicates = new Set(newLevels.map(l => l.level)).size !== newLevels.length
     if (hasDuplicates) {
       ui.notifications.warn('Path items must not have duplicate levels')
-      return this.object.data.data.levels
+      return this.object.system.levels
     }
 
     // Match the new levels with the old ones and keep the nested items
-    const oldLevels = this.item.data.toObject().data.levels
+    const oldLevels = this.item.toObject().system.levels
     const notFound = [] // stores path levels that do not have been found in the current levels
     newLevels.forEach(newLevel => {
       const foundIndex = oldLevels.findIndex(l => +l.level === +newLevel.level)
@@ -368,7 +368,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const level = $(ev.currentTarget).closest('[data-level]').data('level')
 
     const data = await this.getData({})
-    const nestedData = data.data.levels[level][group].find(i => i._id === itemId)
+    const nestedData = data.system.levels[level][group].find(i => i._id === itemId)
     getNestedDocument(nestedData).then(d => {
       if (d.sheet) d.sheet.render(true)
       else ui.notifications.warn('The item is not present in the game and cannot be edited.')
@@ -392,7 +392,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const actor = this.document.parent
     if (!actor || actor.type !== 'character') return
     const levelRequired = pathData.data.levels[itemLevelIndex].level
-    if (parseInt(actor.data.data.level) >= levelRequired && selected)
+    if (parseInt(actor.system.level) >= levelRequired && selected)
       await createActorNestedItems(actor, [nestedItemData], this.document.id, levelRequired)
     else
       await deleteActorNestedItems(actor, null,  itemId)
