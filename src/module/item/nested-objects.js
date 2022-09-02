@@ -1,4 +1,4 @@
-import {capitalize} from '../utils/utils'
+import {capitalize, enrichHTMLUnrolled} from '../utils/utils'
 
 /* -------------------------------------------- */
 /*  Class Models                                */
@@ -163,7 +163,9 @@ export async function getNestedItemData(nestedData) {
     itemData = entity
   }
 
-  itemData.selected = nestedData.selected  // Remember the user selection
+  // Remember user selection & enrich description
+  itemData.selected = nestedData.selected
+  itemData.system.enrichedDescriptionUnrolled = await enrichHTMLUnrolled(itemData?.system?.description)
 
   // Return only the data
   // Warning: here the implicit assertion is that entity is an Item and not an Actor or something else
