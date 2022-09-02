@@ -109,9 +109,15 @@ export class DamageType {
 export async function getNestedDocument(nestedData) {
   let entity
   let method // <- Used to print how the item was fetched
-  const id = nestedData.id ?? nestedData._id ?? nestedData.data._id
-  // First look into packs, then into the game items by ID
+  const id = nestedData.id ?? nestedData._id ?? nestedData?.data?._id
 
+  // First, try using the uuid
+  if (nestedData.uuid) {
+    entity = await fromUuid(nestedData.uuid)
+    method = 'UUID'
+  }
+
+  // Look into packs, then into the game items by ID
   if (nestedData.pack) {
     const pack = game.packs.get(nestedData.pack)
     if (pack.documentName !== 'Item') return
@@ -260,7 +266,7 @@ export async function createActorNestedItems(actor, nestedItems, parentItemId, l
   // Set the flags
   itemDataList = itemDataList.map((itemData, i) => {
     itemData.flags.demonlord = {
-      nestedItemId: nestedItems[i]._id ?? nestedItems[i].id,
+      nestedItemId: nestedItems[i]?._id ?? nestedItems[i]?.id,
       parentItemId: parentItemId,
       levelRequired: levelRequired
     }

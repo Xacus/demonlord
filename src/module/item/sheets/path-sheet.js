@@ -134,19 +134,19 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   async _addItem(data, level, group) {
     const levelItem = new PathLevelItem()
-    const pathData = duplicate(this.item.data)
+    const pathData = duplicate(this.item)
     const item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path'].includes(item.type)) return
 
     levelItem.id = item.id
     levelItem.name = item.name
-    levelItem.description = item.data.description
+    levelItem.description = item.system.description
     levelItem.pack = data.pack ? data.pack : ''
     levelItem.data = item
 
-    if (group === 'talents') pathData.data.levels[level]?.talents.push(levelItem)
-    else if (group === 'talentspick') pathData.data.levels[level]?.talentspick.push(levelItem)
-    else if (group === 'spells') pathData.data.levels[level]?.spells.push(levelItem)
+    if (group === 'talents') pathData.system.levels[level]?.talents.push(levelItem)
+    else if (group === 'talentspick') pathData.system.levels[level]?.talentspick.push(levelItem)
+    else if (group === 'spells') pathData.system.levels[level]?.spells.push(levelItem)
 
     this.item.update(pathData)
   }
@@ -155,11 +155,11 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const itemLevel = $(ev.currentTarget).closest('[data-level]').data('level')
     const itemGroup = $(ev.currentTarget).closest('[data-group]').data('group')
     const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
-    const itemData = duplicate(this.item.data)
+    const itemData = duplicate(this.item)
 
-    if (itemGroup === 'talents') itemData.data.levels[itemLevel].talents.splice(itemIndex, 1)
-    else if (itemGroup === 'talentspick') itemData.data.levels[itemLevel].talentspick.splice(itemIndex, 1)
-    else if (itemGroup === 'spells') itemData.data.levels[itemLevel].spells.splice(itemIndex, 1)
+    if (itemGroup === 'talents') itemData.system.levels[itemLevel].talents.splice(itemIndex, 1)
+    else if (itemGroup === 'talentspick') itemData.system.levels[itemLevel].talentspick.splice(itemIndex, 1)
+    else if (itemGroup === 'spells') itemData.system.levels[itemLevel].spells.splice(itemIndex, 1)
     this.item.update(itemData)
   }
 
@@ -383,15 +383,15 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const itemLevelIndex = $(ev.currentTarget).closest('[data-level]').data('level')
 
     // Grab the nested item data
-    const pathData = this.item.data.toObject()
-    const nestedItemData = pathData.data.levels[itemLevelIndex][itemGroup][itemIndex]
+    const pathData = this.item.toObject()
+    const nestedItemData = pathData.system.levels[itemLevelIndex][itemGroup][itemIndex]
     let selected = nestedItemData.selected = !nestedItemData.selected
     await this.document.update(pathData)
 
     // If the path is inside a character, and the actor level matches the item level, add it to the actor
     const actor = this.document.parent
     if (!actor || actor.type !== 'character') return
-    const levelRequired = pathData.data.levels[itemLevelIndex].level
+    const levelRequired = pathData.system.levels[itemLevelIndex].level
     if (parseInt(actor.system.level) >= levelRequired && selected)
       await createActorNestedItems(actor, [nestedItemData], this.document.id, levelRequired)
     else

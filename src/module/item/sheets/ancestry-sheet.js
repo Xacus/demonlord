@@ -95,31 +95,31 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   async _addItem(data, group) {
     const levelItem = new PathLevelItem()
-    const ancestryData = duplicate(this.item.data)
+    const ancestryData = duplicate(this.item)
     let item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path'].includes(item.type)) return
 
 
     levelItem.id = item.id
     levelItem.name = item.name
-    levelItem.description = item.data.description
+    levelItem.description = item.system.description
     levelItem.pack = data.pack ? data.pack : ''
     levelItem.data = item
 
-    if (group === 'talent') ancestryData.data.talents.push(levelItem)
-    else if (group === 'talent4') ancestryData.data.level4.talent.push(levelItem)
-    else if (group === 'language') ancestryData.data.languagelist.push(levelItem)
-    else if (group === 'spells4') ancestryData.data.level4.spells.push(levelItem)
+    if (group === 'talent') ancestryData.system.talents.push(levelItem)
+    else if (group === 'talent4') ancestryData.system.level4.talent.push(levelItem)
+    else if (group === 'language') ancestryData.system.languagelist.push(levelItem)
+    else if (group === 'spells4') ancestryData.system.level4.spells.push(levelItem)
     else return
     this.item.update(ancestryData, {diff: false}).then(_ => this.render)
   }
 
   async _deleteItem(itemIndex, itemGroup) {
-    const itemData = duplicate(this.item.data)
-    if (itemGroup === 'talent') itemData.data.talents.splice(itemIndex, 1)
-    else if (itemGroup === 'talent4') itemData.data.level4.talent.splice(itemIndex, 1)
-    else if (itemGroup === 'language') itemData.data.languagelist.splice(itemIndex, 1)
-    else if (itemGroup === 'spells4') itemData.data.level4.spells.splice(itemIndex, 1)
+    const itemData = duplicate(this.item)
+    if (itemGroup === 'talent') itemData.system.talents.splice(itemIndex, 1)
+    else if (itemGroup === 'talent4') itemData.system.level4.talent.splice(itemIndex, 1)
+    else if (itemGroup === 'language') itemData.system.languagelist.splice(itemIndex, 1)
+    else if (itemGroup === 'spells4') itemData.system.level4.spells.splice(itemIndex, 1)
     Item.updateDocuments([itemData], {parent: this.actor}).then(_ => this.render())
   }
 
