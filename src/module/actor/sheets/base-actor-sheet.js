@@ -1,6 +1,6 @@
 import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
 import {buildOverview} from '../../chat/effect-messages'
-import {capitalize} from '../../utils/utils'
+import {capitalize, enrichHTMLUnrolled} from '../../utils/utils'
 import {DemonlordItem} from '../../item/item'
 import {DLAfflictions} from '../../active-effects/afflictions'
 import {initDlEditor} from "../../utils/editor";
@@ -34,11 +34,6 @@ export default class DLBaseActorSheet extends ActorSheet {
       flags: this.actor.flags,
     }
 
-    // Items
-    data.items = this.actor.items
-      .map(i => i.system)
-      .sort((a, b) => (a.sort || 0) - (b.sort || 0))
-
     // Enrich HTML
     data.system.enrichedDescription = await TextEditor.enrichHTML(this.actor.system.description, {async: true});
 
@@ -47,12 +42,13 @@ export default class DLBaseActorSheet extends ActorSheet {
       attr.isCheckbox = attr.dtype === 'Boolean'
     }
 
-    // Map items by type (used in other operations)
+    // Map items by type (used in other operations). Also enrich the items' descriptions
     const m = new Map()
-    this.actor.items.forEach(item => {
+    for (const item of this.actor.items) {
       const type = item.type
+      item.system.enrichedDescription =  await enrichHTMLUnrolled(item.system.description)
       m.has(type) ? m.get(type).push(item) : m.set(type, [item])
-    })
+    }
     data._itemsByType = m
     return data
   }
@@ -211,7 +207,7 @@ export default class DLBaseActorSheet extends ActorSheet {
         ActiveEffect.create(affliction, {parent: this.actor})
         return true
       } else {
-        const affliction = this.actor.effects.find(e => e.data.label === afflictionName)
+        const affliction = this.actor.effects.find(e => e.label === afflictionName)
         if (!affliction) return false
         affliction.delete()
       }

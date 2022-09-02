@@ -52,7 +52,7 @@ const changeToMsg = (m, key, title) => {
  * @returns {*}
  */
 export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute) {
-  const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.data.disabled)
+  const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
   let m = _remapEffects(attackerEffects)
 
   let defenderBoons = defender?.system.bonuses.defense.boons[defenseAttribute] || 0

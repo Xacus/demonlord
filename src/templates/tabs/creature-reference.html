@@ -41,7 +41,7 @@
 
     {{#each actor.features as |item id|}}
       <div data-item-id="{{item._id}}">
-        <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.system.description}}}
+        <b class="dl-rollable item-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
       </div>
     {{/each}}
   </div>
@@ -68,7 +68,7 @@
             ({{system.action.damage}})
             <!-- TODO: EXTRA DAMAGE -->
           {{/if}}
-          | {{{enrichHTMLUnrolled item.system.description}}}
+          | {{{item.system.enrichedDescription}}}
         </div>
       {{/each}}
     </div>
@@ -83,7 +83,7 @@
     <div class="dl-creature-section-section">
       {{#each actor.talents as |item id|}}
         <div data-item-id="{{item._id}}">
-          <b class="dl-rollable talent-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.system.description}}}
+          <b class="dl-rollable talent-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
         </div>
       {{/each}}
     </div>
@@ -97,7 +97,7 @@
     <div class="dl-creature-section-section">
       {{#each actor.specialactions as |item id|}}
         <div data-item-id="{{item._id}}">
-          <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.system.description}}}
+          <b class="dl-rollable item-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
         </div>
       {{/each}}
     </div>
@@ -137,7 +137,7 @@
     <div class="dl-creature-section-section">
       {{#each actor.endoftheround as |item id|}}
         <div data-item-id="{{item._id}}">
-          <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.system.description}}}
+          <b class="dl-rollable item-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
         </div>
       {{/each}}
     </div>
