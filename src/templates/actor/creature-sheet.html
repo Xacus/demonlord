@@ -30,7 +30,10 @@
       </div>
       {{!-- Description Tab --}}
       <div class="tab" data-group="primary" data-tab="description">
-        {{editor system.enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        <div class="dl-editor-box" style="margin-bottom: 4px">
+          {{editor system.enrichedDescription target="system.description" button=true owner=owner editable=editable
+                   engine="prosemirror"}}
+        </div>
       </div>
 
       {{!-- Active Effects Tab --}}

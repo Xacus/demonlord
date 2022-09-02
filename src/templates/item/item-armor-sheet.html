@@ -94,13 +94,15 @@
         </div>
         <hr>
 
-        <div class="dl-item-section-description">
-          <div><b>{{localize "DL.TabsDescription"}}</b></div>
-          <div>
-            {{dlEditor content=system.enrichedDescriptionUnrolled target="system.description" button=true owner=owner editable=editable}}
+        {{#if system.description}}
+          <div class="dl-item-section-description">
+            <div><b>{{localize "DL.TabsDescription"}}</b></div>
+            <div>
+              {{{system.enrichedDescription}}}
+            </div>
           </div>
-        </div>
         <hr>
+        {{/if}}
 
         <div class="dl-item-section-section margin">
           <div>

@@ -2,6 +2,9 @@
   <div class="item-general"
        style="height: -moz-available; height: -webkit-fill-available; height: fill-available; padding-bottom: 32px">
     <label class="description-label">{{localize 'DL.TabsDescription'}}</label>
-    {{editor system.enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+    <div class="dl-editor-box">
+      {{editor system.enrichedDescription target="system.description" button=true owner=owner editable=editable
+               engine="prosemirror"}}
+    </div>
   </div>
 </div>

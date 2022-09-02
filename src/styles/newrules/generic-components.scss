@@ -9,7 +9,7 @@
   justify-content: flex-end;
 }
 
-.dl-editor-box {
+.dl-editor-box-old {
   min-height: 64px;
   display: block !important;
 
@@ -20,6 +20,79 @@
   .editor-content {
     height: fit-content !important;
     min-height: 64px;
+  }
+
+  .editor .tox-tinymce {
+    height: inherit !important;
+    background: #0000000d;
+    border: none;
+    border-radius: 2px;
+
+    iframe {
+      width: 98%;
+    }
+
+    .tox-toolbar__primary {
+      background: #00000021 none !important;
+      border-bottom: 2px solid rgb(34, 47, 62);
+    }
+  }
+
+  .editor .editor-edit {
+    background-color: lightgray;
+    margin: 6px 8px;
+  }
+
+  .dl-editor .dl-editor-toolbar {
+    display: none;
+  }
+}
+
+.dl-editor-box {
+  font-family: $font-primary;
+  height: 100%;
+
+  .editor-content {
+    background: #0000000d !important;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 2px;
+    height: fit-content;
+    min-height: 32px;
+  }
+
+  .editor-container {
+    margin: 8px 0 0;
+  }
+
+  .editor-menu {
+    border-radius: 4px;
+
+    .pm-dropdown,
+    .pm-dropdown ul {
+      background: #c8c6bd;
+    }
+  }
+
+  .editor {
+    height: 100%;
+  }
+}
+
+.dl-input-grey,
+.text-areas textarea {
+  font-family: $font-primary;
+  background: #0000000d !important;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 2px;
+  height: fit-content;
+  min-height: 32px;
+
+  &:focus,
+  &:focus-visible {
+    outline: 1px solid rgb(31, 31, 31);
+    box-shadow: none !important;
   }
 }
 
@@ -89,6 +162,7 @@
     opacity: 0;
     width: 100%;
     height: 100%;
+
     &:hover {
       cursor: pointer;
     }
@@ -308,51 +382,6 @@
   .tippy-content {
     padding: 4px;
   }
-}
-
-// Custom Editor
-.dl-input-grey,
-.text-areas textarea,
-.dl-editor .dl-editor-content,
-.editor .editor-content {
-  font-family: $font-primary;
-  background: #0000000d !important;
-  padding: 4px 8px;
-  border: none;
-  border-radius: 2px;
-  height: fit-content;
-  min-height: 32px;
-
-  &:focus,
-  &:focus-visible {
-    outline: 1px solid rgb(31, 31, 31);
-    box-shadow: none !important;
-  }
-}
-
-.editor .tox-tinymce {
-  height: inherit !important;
-  background: #0000000d;
-  border: none;
-  border-radius: 2px;
-
-  iframe {
-    width: 98%;
-  }
-
-  .tox-toolbar__primary {
-    background: #00000021 none !important;
-    border-bottom: 2px solid rgb(34, 47, 62);
-  }
-}
-
-.editor .editor-edit {
-  background-color: lightgray;
-  margin: 6px 8px;
-}
-
-.dl-editor .dl-editor-toolbar {
-  display: none;
 }
 
 .dl-drop-zone-view {
