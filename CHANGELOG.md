@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [2.2.2]
+### Added
+- Compatibility with foundry v10.
+### Notes
+- Worlds created prior to version v10 must be migrated to v10. This process is irreversible, so as always doing a backup is strongly advised.
 
 ## [2.2.1]
 ### Fixed
