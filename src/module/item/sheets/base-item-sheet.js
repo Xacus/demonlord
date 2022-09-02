@@ -54,7 +54,6 @@ export default class DLBaseItemSheet extends ItemSheet {
     data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
     data.config = DL
     data.item = itemData
-    data.data = this.document.system // TODO: remove at end of migration
     data.system = this.document.system
 
     // Enrich the description
@@ -107,8 +106,6 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     // If a Talent has no uses it's always active
     if (item.type === 'talent') updateData['data.addtonextroll'] = !updateData.data?.uses?.max
-    // Bug fix for custom editor
-    if (updateData.system?.description === '' && event.type !== 'mcesave') delete updateData.system.description
 
     return this.object.update(updateData)
   }

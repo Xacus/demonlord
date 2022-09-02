@@ -26,7 +26,6 @@ export default class DLBaseActorSheet extends ActorSheet {
       editable: this.isEditable,
       config: CONFIG.DL,
       actor: this.actor,
-      data: this.actor.system, // TODO: remove after migrating
       system: this.actor.system,
       effects: true,
       generalEffects: prepareActiveEffectCategories(this.actor.effects, true),
@@ -38,7 +37,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     data.system.enrichedDescription = await TextEditor.enrichHTML(this.actor.system.description, {async: true});
 
     // Attributes checkbox
-    for (const attr of Object.entries(data.data.attributes)) {
+    for (const attr of Object.entries(data.system.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean'
     }
 
