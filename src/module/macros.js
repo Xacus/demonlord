@@ -1,5 +1,6 @@
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
+
 /* -------------------------------------------- */
 
 /**
@@ -9,13 +10,18 @@
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
-export async function createDemonlordMacro(data, slot) {
+export function createDemonlordMacro(data, slot) {
   if (data.type !== 'Item') return
-  if (!('data' in data)) {
+  fromUuid(data.uuid).then(item => _createDemonlordItemMacro(item, slot))
+  return false
+}
+
+async function _createDemonlordItemMacro(item, slot) {
+  if (!item) throw "DEMONLORD | Item not found in macro creation"
+  console.log(item, item.ownership, item.ownership[game.userId], game.userId, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+  if (item.ownership[game.userId] !== CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     return ui.notifications.warn('You can only create macro buttons for owned Items')
   }
-  const item = data.data
-  // DL.WeaponName, WeaponBoonsBanes, WeaponDamageBonus
 
   // Create the macro command
   let command
@@ -28,13 +34,13 @@ export async function createDemonlordMacro(data, slot) {
         game.i18n.localize('DL.WeaponBoonsBanes') +
         ', ' +
         game.i18n.localize('DL.WeaponDamageBonus') +
-        `\ngame.demonlord.rollWeaponMacro("${item.name}", "0", "");`
+        `\ngame.demonlord.rollWeaponMacro("${item.name}", "0", "")`
       break
     case 'talent':
-      command = `// Active = [true/false/], blank = toggle true/false.\ngame.demonlord.rollTalentMacro("${item.name}", "true");`
+      command = `// Active = [true/false/], blank = toggle true/false.\ngame.demonlord.rollTalentMacro("${item.name}", "true")`
       break
     case 'spell':
-      command = `game.demonlord.rollSpellMacro("${item.name}");`
+      command = `game.demonlord.rollSpellMacro("${item.name}")`
       break
     default:
       break
@@ -52,8 +58,7 @@ export async function createDemonlordMacro(data, slot) {
       },
     })
   }
-  game.user.assignHotbarMacro(macro, slot)
-  return false
+  await game.user.assignHotbarMacro(macro, slot)
 }
 
 /**
