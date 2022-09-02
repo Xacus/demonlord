@@ -258,7 +258,7 @@ export async function createActorNestedItems(actor, nestedItems, parentItemId, l
   // Set the flags
   itemDataList = itemDataList.map((itemData, i) => {
     itemData.flags.demonlord = {
-      nestedItemId: nestedItems[i].data._id ?? nestedItems[i]._id,
+      nestedItemId: nestedItems[i]?.data?._id ?? nestedItems[i]._id,
       parentItemId: parentItemId,
       levelRequired: levelRequired
     }
