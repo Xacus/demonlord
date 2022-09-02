@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.1]
+### Fixed
+- Bug that deleted all character descriptions
+- Nested items sometimes were not retreived
+### Removed
+- All custom editor instances, for stability.
+
 ## [2.2.0]
 ### Changed
 - New item sheet design focused on compactness and insertion speed.
