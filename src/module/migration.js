@@ -62,7 +62,7 @@ export const migrateWorld_2_0_0 = async () => {
       // Migrate actor icon and religion
       console.log('Migrating actor', actor)
       const newActorIcon = _getNewImgPath(actor.img)
-      const newReligionIcon = _getNewImgPath(actor.data.data?.religion?.image)
+      const newReligionIcon = _getNewImgPath(actor.system?.religion?.image)
       if (newActorIcon) actUpd.img = newActorIcon
       if (newReligionIcon) actUpd.data.religion.image = newReligionIcon
 

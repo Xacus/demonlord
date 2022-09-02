@@ -179,7 +179,7 @@ Hooks.on('updateActor', async (actor, updateData) => {
         let init = 0
 
         if (combatant.actor == actor) {
-          if (actor.data.type == 'character') {
+          if (actor.type == 'character') {
             init = actor.system.fastturn ? 70 : 30
           } else {
             init = actor.system.fastturn ? 50 : 10

@@ -7,8 +7,8 @@
             <img class="token-image" src="{{creature.token.data.img}}" title="{{creature.token.name}}"/>
             <h3 style="font-weight:bold;">{{creature.token.name}}</h3>
             <div class="headerbody">
-              {{localize 'DL.CreatureSize'}} {{creature.actor.data.data.characteristics.size}}
-              {{creature.actor.data.data.descriptor}}
+              {{localize 'DL.CreatureSize'}} {{creature.actor.system.characteristics.size}}
+              {{creature.actor.system.descriptor}}
             </div>
           </div>
           <div class="toggleEffectInfo"><i class="fas fa-angle-right"></i> {{localize "DL.DialogShowEffects"}}</div>
@@ -17,7 +17,7 @@
               {{#each creature.endOfRoundEffects as |endOfRoundEffect id|}}
                 <li class="effect">
                   <div class="effectname">{{endOfRoundEffect.name}}</div>
-                  <div class="effectsescription">{{{endOfRoundEffect.data.data.description}}}</div>
+                  <div class="effectsescription">{{{endOfRoundEffect.system.description}}}</div>
                 </li>
               {{/each}}
             </ol>

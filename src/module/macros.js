@@ -100,16 +100,16 @@ export function rollTalentMacro(itemName, state) {
       break
 
     case 'false':
-      item.data.data.uses.value = 0
-      item.data.data.addtonextroll = false
+      item.system.uses.value = 0
+      item.system.addtonextroll = false
       actor.updateEmbeddedDocuments('Item', item.data)
       break
 
     case '':
-      item.data.data.addtonextroll = !item.data.data.addtonextroll
+      item.system.addtonextroll = !item.system.addtonextroll
       actor.updateEmbeddedDocuments('Item', item.data)
 
-      if (item.data.data.addtonextroll) actor.rollTalent(item.id)
+      if (item.system.addtonextroll) actor.rollTalent(item.id)
       break
 
     default:
@@ -186,8 +186,8 @@ export function healingPotionMacro() {
   if (!actor) actor = game.actors.get(speaker.actor)
 
   if (actor) {
-    const currentDamage = parseInt(actor.data.data.characteristics.health.value)
-    const healingRate = parseInt(actor.data.data.characteristics.health.healingrate)
+    const currentDamage = parseInt(actor.system.characteristics.health.value)
+    const healingRate = parseInt(actor.system.characteristics.health.healingrate)
 
     let newdamage = currentDamage - healingRate
     if (newdamage < 0) newdamage = 0

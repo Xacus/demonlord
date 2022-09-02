@@ -24,11 +24,11 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
     if (c.defeated) continue
 
     // FAST/SLOW Turn select
-    turn = await selectTurnType(c.actor, c.actor.data.data.fastturn)
+    turn = await selectTurnType(c.actor, c.actor.system.fastturn)
 
     if (turn != '') {
       const fastslow = turn == 'fast'
-      if (c.actor.data.type == 'character') {
+      if (c.actor.type == 'character') {
         init = fastslow ? 70 : 30
       } else {
         init = fastslow ? 50 : 10
@@ -38,10 +38,10 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
         'data.fastturn': fastslow,
       })
     } else {
-      if (c.actor.data.type == 'character') {
-        init = c.actor.data.data.fastturn ? 70 : 30
+      if (c.actor.type == 'character') {
+        init = c.actor.system.fastturn ? 70 : 30
       } else {
-        init = c.actor.data.data.fastturn ? 50 : 10
+        init = c.actor.system.fastturn ? 50 : 10
       }
     }
 
@@ -61,7 +61,7 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
       },
       data: {
         turn: {
-          value: c.actor.data.data.fastturn
+          value: c.actor.system.fastturn
             ? game.i18n.localize('DL.DialogTurnFast')
             : game.i18n.localize('DL.DialogTurnSlow'),
         },
@@ -103,10 +103,10 @@ export const startCombat = async function () {
     let init = 0
 
     // if (combatant.name != "End of Round") {
-    if (combatant.actor?.data?.type == 'character') {
-      init = combatant.actor?.data?.data.fastturn ? 70 : 30
+    if (combatant.actor?.type == 'character') {
+      init = combatant.actor?.system.fastturn ? 70 : 30
     } else {
-      init = combatant.actor?.data?.data.fastturn ? 50 : 10
+      init = combatant.actor?.system.fastturn ? 50 : 10
     }
     /*
         } else {
@@ -215,7 +215,7 @@ const selectTurnType = async function (actor, fastturn) {
       close: () => resolve(turn),
     }
 
-    if (!actor.data.data.maluses.noFastTurn)
+    if (!actor.system.maluses.noFastTurn)
       dialogData.buttons['ok'] = {
         icon: '<i class="fas"></i>',
         label: game.i18n.localize('DL.TurnFast'),
@@ -227,7 +227,7 @@ const selectTurnType = async function (actor, fastturn) {
 
 const postEndOfRound = async function () {
   for (const combatant of game.combat.combatants) {
-    if (combatant.actor?.data?.type != 'character') {
+    if (combatant.actor?.type != 'character') {
       const endofrounds = combatant.actor.getEmbeddedCollection('Item').filter(e => e.type === 'endoftheround')
       for (const endofround of endofrounds) {
         console.log(endofround.name)

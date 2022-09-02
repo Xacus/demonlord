@@ -22,7 +22,7 @@ export class ActionTemplate extends MeasuredTemplate {
       x: 0,
       y: 0,
       fillColor: game.user.color,
-      texture: item.data.data.activatedEffect.texture,
+      texture: item.system.activatedEffect.texture,
       flags: {
         actionTemplate: true,
       },

@@ -19,7 +19,7 @@ export default class extends CombatTracker {
       const combId = el.getAttribute('data-combatant-id')
       const combatant = currentCombat.combatants.find(c => c.id == combId)
 
-      init = combatant.actor?.data?.data?.fastturn
+      init = combatant.actor?.system.fastturn
         ? game.i18n.localize('DL.TurnFast')
         : game.i18n.localize('DL.TurnSlow')
       el.getElementsByClassName('token-initiative')[0].innerHTML =
@@ -33,10 +33,10 @@ export default class extends CombatTracker {
       // Group actor effects by image
       const imgEffectMap = new Map()
       combatant.actor.effects
-        .filter(e => e.isTemporary && !e.data.disabled)
+        .filter(e => e.isTemporary && !e.disabled)
         .forEach(e => {
-          if (imgEffectMap.has(e.data.icon)) imgEffectMap.get(e.data.icon).push(e)
-          else imgEffectMap.set(e.data.icon, [e])
+          if (imgEffectMap.has(e.icon)) imgEffectMap.get(e.icon).push(e)
+          else imgEffectMap.set(e.icon, [e])
         })
 
       // Get effects displayed in the combat tracker and add the relevant data to the html,
@@ -48,10 +48,10 @@ export default class extends CombatTracker {
         const match = imgEffectMap.get(img)?.pop()
         if (!match) continue
 
-        let tooltiptext = ': ' + game.i18n.localize('DL.Afflictions' + match.data.label)
+        let tooltiptext = ': ' + game.i18n.localize('DL.Afflictions' + match.label)
         tooltiptext = tooltiptext.indexOf('DL.Afflictions') === -1 ? tooltiptext : ''
 
-        const tooltip = `<div class="tooltipEffect tracker-effect" data-effect-uuid="${match.uuid}">${htmlEffect.outerHTML}<span class="tooltiptextEffect">${match.data.label}${tooltiptext}</span></div>`
+        const tooltip = `<div class="tooltipEffect tracker-effect" data-effect-uuid="${match.uuid}">${htmlEffect.outerHTML}<span class="tooltiptextEffect">${match.label}${tooltiptext}</span></div>`
         htmlEffect.outerHTML = tooltip
         // htmlEffect.addEventListener('click', ev => (ev.button == "2") ? match.delete() : null)
         // ^ does not work, probably the event gets intercepted
@@ -90,7 +90,7 @@ export default class extends CombatTracker {
             },
             data: {
               turn: {
-                value: combatant.actor.data?.data?.fastturn
+                value: combatant.actor.system?.fastturn
                   ? game.i18n.localize('DL.DialogTurnSlow')
                   : game.i18n.localize('DL.DialogTurnFast'),
               },
@@ -135,15 +135,12 @@ export default class extends CombatTracker {
   }
 
   getCurrentCombat() {
-    const combat = this.viewed
-    const combats = combat.scene ? game.combats.contents.filter(c => c.data.scene === combat.scene.id) : []
-    const currentIdx = combats.findIndex(c => c === this.viewed)
-    return combats[currentIdx]
+    return this.viewed
   }
 
   async updateActorsFastturn(actor) {
     await actor.update({
-      'data.fastturn': !actor.data?.data?.fastturn,
+      'data.fastturn': !actor.system?.fastturn,
     })
 
     if (game.combat) {
@@ -151,10 +148,10 @@ export default class extends CombatTracker {
         let init = 0
 
         if (combatant.actor == actor) {
-          if (actor.data.type == 'character') {
-            init = actor.data?.data.fastturn ? 70 : 30
+          if (actor.type == 'character') {
+            init = actor.system.fastturn ? 70 : 30
           } else {
-            init = actor.data?.data.fastturn ? 50 : 10
+            init = actor.system.fastturn ? 50 : 10
           }
 
           game.combat.setInitiative(combatant.id, init)
@@ -170,16 +167,16 @@ export function _onUpdateCombat(combatData, _updateData, _options, _userId) {
 
   const isRoundAdvanced = combatData?.current?.round - combatData?.previous?.round > 0
   if (isRoundAdvanced) {
-    const actors = combatData.data.combatants.map(c => c.actor)
+    const actors = combatData.combatants.map(c => c.actor)
     // Deactivate temporary talents
-    actors.forEach(a => a.items.filter(i => i.data.type === 'talent').forEach(t => a.deactivateTalent(t, 0, true)))
+    actors.forEach(a => a.items.filter(i => i.type === 'talent').forEach(t => a.deactivateTalent(t, 0, true)))
     // Decrease duration of effects
     actors.forEach(a => {
       const aeToUpd = a.effects
-        .filter(e => e.data?.duration?.rounds > 0)
+        .filter(e => e.duration?.rounds > 0)
         .map(e => ({
           _id: e.id,
-          'duration.rounds': e.data.duration.rounds - 1,
+          'duration.rounds': e.duration.rounds - 1,
         }))
       if (aeToUpd.length > 0) a.updateEmbeddedDocuments('ActiveEffect', aeToUpd)
     })

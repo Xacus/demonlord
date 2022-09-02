@@ -12,46 +12,46 @@
   {{#if data.uses.value}}
     <div class="chat-uses">{{data.uses.value}}</div>
   {{/if}}
-  {{#if item.data.data.data.enchantment.attackbonus}}
+  {{#if item.system.data.enchantment.attackbonus}}
     <div class="roll20">
       <div class="header">{{localize "DL.TalentAttackBoonsBanes"}}</div>
-      <div class="body">{{item.data.data.data.enchantment.attackbonus}}</div>
+      <div class="body">{{item.system.data.enchantment.attackbonus}}</div>
     </div>
   {{/if}}
-  {{#if item.data.data.data.enchantment.challengebonus}}
+  {{#if item.system.data.enchantment.challengebonus}}
     <div class="roll20">
       <div class="header">{{localize "DL.TalentChallengeBoonsBanes"}}</div>
-      <div class="body">{{item.data.data.data.enchantment.challengebonus}}</div>
+      <div class="body">{{item.system.data.enchantment.challengebonus}}</div>
     </div>
   {{/if}}
-  {{#if item.data.data.data.enchantment.damage}}
+  {{#if item.system.data.enchantment.damage}}
     <div class="roll20">
       <div class="header">{{localize "DL.ItemDamage"}}</div>
-      <div class="body">{{item.data.data.data.enchantment.damage}}</div>
+      <div class="body">{{item.system.data.enchantment.damage}}</div>
     </div>
   {{/if}}
-  {{#if item.data.data.data.enchantment.defense}}
+  {{#if item.system.data.enchantment.defense}}
     <div class="roll20">
       <div class="header">{{localize "DL.ItemDefenseModifier"}}</div>
-      <div class="body">{{item.data.data.data.enchantment.defense}}</div>
+      <div class="body">{{item.system.data.enchantment.defense}}</div>
     </div>
   {{/if}}
-  {{#if item.data.data.data.enchantment.speed}}
+  {{#if item.system.data.enchantment.speed}}
     <div class="roll20">
       <div class="header">{{localize "DL.ItemSpeedModifier"}}</div>
-      <div class="body">{{item.data.data.data.enchantment.speed}}</div>
+      <div class="body">{{item.system.data.enchantment.speed}}</div>
     </div>
   {{/if}}
-  {{#if item.data.data.data.enchantment.perception}}
+  {{#if item.system.data.enchantment.perception}}
     <div class="roll20">
       <div class="header">{{localize "DL.ItemPerceptionModifier"}}</div>
-      <div class="body">{{item.data.data.data.enchantment.perception}}</div>
+      <div class="body">{{item.system.data.enchantment.perception}}</div>
     </div>
   {{/if}}
-  {{#if item.data.data.data.enchantment.effect}}
+  {{#if item.system.data.enchantment.effect}}
     <div class="description">
       <div class="header">{{localize "DL.SpellRollDescription"}}</div>
-      <div class="body">{{{item.data.data.data.enchantment.effect}}}</div>
+      <div class="body">{{{item.system.data.enchantment.effect}}}</div>
     </div>
   {{/if}}
   {{#if data.healing.value}}

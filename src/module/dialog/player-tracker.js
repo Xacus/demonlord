@@ -70,31 +70,31 @@ export class PlayerTracker extends FormApplication {
         ancestry: player.character?.items.filter(e => e.type === 'ancestry').map(e => e.name),
         paths: {
           novice: player.character?.items
-            .filter(e => e.type === 'path' && e.data.data.type === 'novice')
+            .filter(e => e.type === 'path' && e.system.type === 'novice')
             .map(e => e.name),
           expert: player.character?.items
-            .filter(e => e.type === 'path' && e.data.data.type === 'expert')
+            .filter(e => e.type === 'path' && e.system.type === 'expert')
             .map(e => e.name),
           master: player.character?.items
-            .filter(e => e.type === 'path' && e.data.data.type === 'master')
+            .filter(e => e.type === 'path' && e.system.type === 'master')
             .map(e => e.name),
         },
         professions: player.character?.items.filter(e => e.type === 'profession'),
-        defense: player.character?.data.data.characteristics.defense,
+        defense: player.character?.system.characteristics.defense,
         damage:
-          player.character?.data.data.characteristics.health.value +
+          player.character?.system.characteristics.health.value +
           '/' +
-          player.character?.data.data.characteristics.health.max,
+          player.character?.system.characteristics.health.max,
         insanity:
-          player.character?.data.data.characteristics.insanity.value +
+          player.character?.system.characteristics.insanity.value +
           '/' +
-          player.character?.data.data.characteristics.insanity.max,
-        corruption: player.character?.data.data.characteristics.corruption,
-        power: player.character?.data.data.characteristics.power,
-        speed: player.character?.data.data.characteristics.speed,
-        fortune: player.character?.data.data.characteristics.fortune,
-        gmnote: player.character?.data.data.gmnote,
-        gmnoteedit: player.character?.data.data.gmnoteedit,
+          player.character?.system.characteristics.insanity.max,
+        corruption: player.character?.system.characteristics.corruption,
+        power: player.character?.system.characteristics.power,
+        speed: player.character?.system.characteristics.speed,
+        fortune: player.character?.system.characteristics.fortune,
+        gmnote: player.character?.system.gmnote,
+        gmnoteedit: player.character?.system.gmnoteedit,
       }
       persons.push(person)
     }
@@ -120,7 +120,7 @@ export class PlayerTracker extends FormApplication {
           case 'edit':
             return actor
               .update({
-                'data.gmnoteedit': !actor.data.data.gmnoteedit,
+                'data.gmnoteedit': !actor.system.gmnoteedit,
               })
               .then(() => this.render())
           case 'save': {
@@ -128,7 +128,7 @@ export class PlayerTracker extends FormApplication {
             return actor
               .update({
                 'data.gmnote': textarea[0].value,
-                'data.gmnoteedit': !actor.data.data.gmnoteedit,
+                'data.gmnoteedit': !actor.system.gmnoteedit,
               })
               .then(() => this.render())
           }
