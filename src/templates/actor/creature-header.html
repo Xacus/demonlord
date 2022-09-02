@@ -6,16 +6,16 @@
     </div>
     <div class="col-2 creature-difficulty ">
       <label>{{localize "DL.CreatureDifficulty"}}</label>
-      <input name="data.difficulty" type="number" value="{{data.difficulty}}" min="1"/>
+      <input name="system.difficulty" type="number" value="{{system.difficulty}}" min="1"/>
     </div>
   </div>
 
   <div class="row creature-descriptors">
     <div class="col-6">
-      <input name="data.descriptor" value="{{data.descriptor}}" placeholder="{{localize 'DL.CreatureDescriptor'}}"/>
+      <input name="system.descriptor" value="{{system.descriptor}}" placeholder="{{localize 'DL.CreatureDescriptor'}}"/>
     </div>
     <div class="col-6">
-      <input name="data.perceptionsenses" value="{{data.perceptionsenses}}" placeholder="{{localize 'DL.CreaturePerceptionSenses'}}"/>
+      <input name="system.perceptionsenses" value="{{system.perceptionsenses}}" placeholder="{{localize 'DL.CreaturePerceptionSenses'}}"/>
     </div>
   </div>
 
@@ -23,16 +23,16 @@
     {{#*inline "attribute-partial"}}
       <div class="col-2 attribute" style="margin-top: 8px">
         <label class="name" data-key="{{n}}">{{attr.label}}</label>
-        <input type="Number" name="data.attributes.{{n}}.value" value="{{attr.value}}"/>
+        <input type="Number" name="system.attributes.{{n}}.value" value="{{attr.value}}"/>
         <label class="modifier">{{plusify attr.modifier}}</label>
       </div>
     {{/inline}}
 
-    {{> attribute-partial attr=data.attributes.strength    n='strength'}}
-    {{> attribute-partial attr=data.attributes.agility     n='agility'}}
-    {{> attribute-partial attr=data.attributes.intellect   n='intellect'}}
-    {{> attribute-partial attr=data.attributes.will        n='will'}}
-    {{> attribute-partial attr=data.attributes.perception  n='perception'}}
+    {{> attribute-partial attr=system.attributes.strength    n='strength'}}
+    {{> attribute-partial attr=system.attributes.agility     n='agility'}}
+    {{> attribute-partial attr=system.attributes.intellect   n='intellect'}}
+    {{> attribute-partial attr=system.attributes.will        n='will'}}
+    {{> attribute-partial attr=system.attributes.perception  n='perception'}}
   </div>
 
 </div>

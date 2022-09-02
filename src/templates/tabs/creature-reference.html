@@ -2,46 +2,46 @@
   <div class="dl-creature-title row">
     <div class="col-6">{{actor.name}}</div>
     <div class="col-6" style="margin-right: 0; margin-left: auto">
-      {{localize "DL.CreatureDifficulty"}} {{data.difficulty}}
+      {{localize "DL.CreatureDifficulty"}} {{system.difficulty}}
     </div>
   </div>
   <div class="dl-creature-sub-title">
-    {{localize "DL.CharSize"}} {{data.characteristics.size}}
-    {{#if data.horrifying}}{{toLowerCase (localize "DL.CreatureHorrifying")}}{{/if}}
-    {{#if data.frightening}}{{toLowerCase (localize "DL.CreatureFrightening")}}{{/if}}
-    {{data.descriptor}}
+    {{localize "DL.CharSize"}} {{system.characteristics.size}}
+    {{#if system.horrifying}}{{toLowerCase (localize "DL.CreatureHorrifying")}}{{/if}}
+    {{#if system.frightening}}{{toLowerCase (localize "DL.CreatureFrightening")}}{{/if}}
+    {{system.descriptor}}
   </div>
 
   <!-- STATS AND TRAITS -->
   <div class="dl-creature-section-section">
     <div>
       <b>{{localize "DL.AttributePerception"}}</b>&nbsp;
-      {{data.attributes.perception.value}} ({{plusify data.attributes.perception.modifier}});
-      {{data.perceptionsenses}}
+      {{system.attributes.perception.value}} ({{plusify system.attributes.perception.modifier}});
+      {{system.perceptionsenses}}
     </div>
     <div>
-      <b>{{localize "DL.ArmorDefense"}}</b> {{data.characteristics.defense}};&nbsp;
-      <b>{{localize "DL.CreatureHealth"}}</b> {{data.characteristics.health.max}}
+      <b>{{localize "DL.ArmorDefense"}}</b> {{system.characteristics.defense}};&nbsp;
+      <b>{{localize "DL.CreatureHealth"}}</b> {{system.characteristics.health.max}}
     </div>
     <div>
-      <b>{{localize "DL.AttributeStrength"}}</b> {{data.attributes.strength.value}} ({{plusify
-      data.attributes.strength.modifier}}),
-      <b>{{localize "DL.AttributeAgility"}}</b> {{data.attributes.agility.value}} ({{plusify
-      data.attributes.agility.modifier}})
+      <b>{{localize "DL.AttributeStrength"}}</b> {{system.attributes.strength.value}} ({{plusify
+      system.attributes.strength.modifier}}),
+      <b>{{localize "DL.AttributeAgility"}}</b> {{system.attributes.agility.value}} ({{plusify
+      system.attributes.agility.modifier}})
     </div>
     <div>
-      <b>{{localize "DL.AttributeIntellect"}}</b> {{data.attributes.intellect.value}} ({{plusify
-      data.attributes.intellect.modifier}}),
-      <b>{{localize "DL.AttributeWill"}}</b> {{data.attributes.will.value}} ({{plusify data.attributes.will.modifier}})
+      <b>{{localize "DL.AttributeIntellect"}}</b> {{system.attributes.intellect.value}} ({{plusify
+      system.attributes.intellect.modifier}}),
+      <b>{{localize "DL.AttributeWill"}}</b> {{system.attributes.will.value}} ({{plusify system.attributes.will.modifier}})
     </div>
     <div>
-      <b>{{localize "DL.CharSpeed"}}</b> {{data.characteristics.speed}};
-      {{data.speedtraits}}
+      <b>{{localize "DL.CharSpeed"}}</b> {{system.characteristics.speed}};
+      {{system.speedtraits}}
     </div>
 
     {{#each actor.features as |item id|}}
       <div data-item-id="{{item._id}}">
-        <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+        <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.system.description}}}
       </div>
     {{/each}}
   </div>
@@ -56,19 +56,19 @@
         <div data-item-id="{{item._id}}">
           <b class="dl-rollable attack-roll">{{item.name}}</b>
           <!-- TODO: RANGE-->
-          <!--{{#if data.range}}({{data.range}}){{/if}}-->
-          {{#if data.action.attack}}
-            {{plusify (lookupAttributeModifier data.action.attack item.document.actor.data)}}
+          <!--{{#if system.range}}({{system.range}}){{/if}}-->
+          {{#if system.action.attack}}
+            {{plusify (lookupAttributeModifier system.action.attack item.document.actor.data)}}
           {{/if}}
-          {{#if data.action.boonsbanes}}
-            {{localize "DL.With"}} {{plusify data.action.boonsbanes}}
+          {{#if system.action.boonsbanes}}
+            {{localize "DL.With"}} {{plusify system.action.boonsbanes}}
             {{toLowerCase (localize "DL.WeaponBoonsBanesShort")}}
           {{/if}}
-          {{#if data.action.damage}}
-            ({{data.action.damage}})
+          {{#if system.action.damage}}
+            ({{system.action.damage}})
             <!-- TODO: EXTRA DAMAGE -->
           {{/if}}
-          | {{{enrichHTMLUnrolled item.data.description}}}
+          | {{{enrichHTMLUnrolled item.system.description}}}
         </div>
       {{/each}}
     </div>
@@ -83,7 +83,7 @@
     <div class="dl-creature-section-section">
       {{#each actor.talents as |item id|}}
         <div data-item-id="{{item._id}}">
-          <b class="dl-rollable talent-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+          <b class="dl-rollable talent-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.system.description}}}
         </div>
       {{/each}}
     </div>
@@ -97,7 +97,7 @@
     <div class="dl-creature-section-section">
       {{#each actor.specialactions as |item id|}}
         <div data-item-id="{{item._id}}">
-          <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+          <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.system.description}}}
         </div>
       {{/each}}
     </div>
@@ -105,21 +105,21 @@
 
   <!-- MAGIC -->
 
-  {{#if actor.data.characteristics.power}}
+  {{#if actor.system.characteristics.power}}
     <div class="dl-creature-section-header">
       {{localize "DL.TabsMagic"}}
     </div>
     <div class="dl-creature-section-section">
       <div>
-        <b>{{localize "DL.CharPower"}}</b> {{actor.data.characteristics.power}}
+        <b>{{localize "DL.CharPower"}}</b> {{actor.system.characteristics.power}}
       </div>
       {{#each actor.spellbook as |spellbook id|}}
         <div>
           <b>{{spellbook.tradition}}</b>&nbsp;
           {{#each spellbook.spells as |spell id|}}
             <span class="dl-rollable magic-roll" data-item-id="{{spell._id}}">{{toLowerCase spell.name}}</span>
-              {{#if data.castings.max}}
-                &nbsp;({{data.castings.max}})
+              {{#if system.castings.max}}
+                &nbsp;({{system.castings.max}})
               {{/if}},
 
           {{/each}}
@@ -137,7 +137,7 @@
     <div class="dl-creature-section-section">
       {{#each actor.endoftheround as |item id|}}
         <div data-item-id="{{item._id}}">
-          <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.data.description}}}
+          <b class="dl-rollable item-roll">{{item.name}}</b> {{{enrichHTMLUnrolled item.system.description}}}
         </div>
       {{/each}}
     </div>

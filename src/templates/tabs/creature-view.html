@@ -27,10 +27,10 @@
             </a>
           </div>
         </div>
-        {{#if item.data.description}}
+        {{#if item.system.description}}
           <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
             <div class="col-12">
-              {{{enrichHTMLUnrolled item.data.description}}}
+              {{{enrichHTMLUnrolled item.system.description}}}
             </div>
           </div>
         {{/if}}
@@ -65,10 +65,10 @@
             </a>
           </div>
         </div>
-        {{#if item.data.description}}
+        {{#if item.system.description}}
           <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
             <div class="col-12">
-              {{{item.data.description}}}
+              {{{item.system.description}}}
             </div>
           </div>
         {{/if}}
@@ -102,10 +102,10 @@
             </a>
           </div>
         </div>
-        {{#if item.data.description}}
+        {{#if item.system.description}}
           <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
             <div class="col-12">
-              {{{item.data.description}}}
+              {{{item.system.description}}}
             </div>
           </div>
         {{/if}}
@@ -132,7 +132,7 @@
             <label class="dl-rollable attack-roll">{{item.name}}</label>
           </div>
           <div class="col-2">
-            {{defaultValue data.action.damage "―"}}{{#if data.action.damagetypes}}∗{{/if}}
+            {{defaultValue system.action.damage "―"}}{{#if system.action.damagetypes}}∗{{/if}}
           </div>
           <div class="col-2" style="padding-top: 3px">
             <span class="dl-clickable dlToggleInfoBtn">
@@ -145,33 +145,33 @@
         </div>
         <div class="dlInfo dl-item-info" style="display: none; text-align: left">
           <!-- TODO: Action roll info. COPIED FROM COMBAT-TAB -->
-          {{#if data.action.damage}}
+          {{#if system.action.damage}}
             <div>
-              <b>{{localize "DL.WeaponDamage"}}</b> {{data.action.damage}}
-              {{#if data.action.damagetype}}({{data.action.damagetype}}){{/if}}
-              {{#each data.action.damagetypes as |damagetype id|}}
+              <b>{{localize "DL.WeaponDamage"}}</b> {{system.action.damage}}
+              {{#if system.action.damagetype}}({{system.action.damagetype}}){{/if}}
+              {{#each system.action.damagetypes as |damagetype id|}}
                 | {{damagetype.damage}}{{#if damagetype.damagetype}} ({{damagetype.damagetype}}){{/if}}
               {{/each}}
             </div>
           {{/if}}
-          {{#if data.properties}}
+          {{#if system.properties}}
             <div>
-              <b>{{localize "DL.WeaponProperties"}}:</b> {{data.properties}}
+              <b>{{localize "DL.WeaponProperties"}}:</b> {{system.properties}}
             </div>
           {{/if}}
-          {{#if data.strengthmin}}
+          {{#if system.strengthmin}}
             <div>
-              <b>{{localize "DL.ArmorStrengthRequiremet"}}:</b> {{data.strengthmin}}
+              <b>{{localize "DL.ArmorStrengthRequiremet"}}:</b> {{system.strengthmin}}
             </div>
           {{/if}}
-          {{#if data.hands}}
+          {{#if system.hands}}
             <div>
-              <b>{{localize "DL.WeaponHands"}}:</b> {{data.hands}}
+              <b>{{localize "DL.WeaponHands"}}:</b> {{system.hands}}
             </div>
           {{/if}}
-          {{#if item.data.description}}
+          {{#if item.system.description}}
             <div>
-              {{{item.data.description}}}
+              {{{item.system.description}}}
             </div>
           {{/if}}
         </div>
@@ -196,15 +196,15 @@
             <label class="talent-roll dl-rollable">{{talent.name}}</label>
           </div>
           <div class="col-2 dl-clickable talent-uses">
-            {{#if data.allused}}
+            {{#if system.allused}}
               {{localize 'DL.TalentUsed'}}
-            {{else}} {{#if data.addtonextroll}}
+            {{else}} {{#if system.addtonextroll}}
               {{localize 'DL.TalentActive'}}
             {{/if}} {{/if}}
           </div>
           <div class="col-2 talent-uses">
-            {{#if data.uses.max}}
-              {{defaultValue data.uses.value 0}} / {{data.uses.max}} <i class="fas fa-arrows-alt-v"></i>
+            {{#if system.uses.max}}
+              {{defaultValue system.uses.value 0}} / {{system.uses.max}} <i class="fas fa-arrows-alt-v"></i>
             {{else}}
               ―
             {{/if}}
@@ -220,7 +220,7 @@
         <!-- Toggleable Info -->
         <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
           <div class="col-12">
-            {{{enrichHTMLUnrolled talent.data.description}}}
+            {{{enrichHTMLUnrolled talent.system.description}}}
           </div>
         </div>
       </div>
