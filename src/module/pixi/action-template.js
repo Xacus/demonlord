@@ -9,7 +9,7 @@ const tokenManager = new TokenManager()
  */
 export class ActionTemplate extends MeasuredTemplate {
   static fromItem(item) {
-    const target = getProperty(item.data, 'data.activatedEffect.target') || {}
+    const target = getProperty(item, 'system.activatedEffect.target') || {}
     const templateShape = DL.actionAreaShape[target.type]
     if (!templateShape) return null
 
@@ -91,14 +91,17 @@ export class ActionTemplate extends MeasuredTemplate {
       if (now - moveTime <= 20) return
       const center = event.data.getLocalPosition(this.layer)
       const snapped = canvas.grid.getSnappedPosition(center.x, center.y, 2)
-      this.data.x = snapped.x
-      this.data.y = snapped.y
+      this.document.updateSource({x: snapped.x, y: snapped.y})
+      console.log(this)
       this.refresh()
+      this.autoTargeting()
+
       moveTime = now
     }
 
     // Cancel the workflow (right-click)
     handlers.rc = _event => {
+      _event.stopPropagation()
       this.layer.preview.removeChildren()
       canvas.stage.off('mousemove', handlers.mm)
       canvas.stage.off('mousedown', handlers.lc)
@@ -109,19 +112,17 @@ export class ActionTemplate extends MeasuredTemplate {
     }
 
     // Confirm the workflow (left-click)
-    handlers.lc = event => {
+    handlers.lc = async event => {
       handlers.rc(event)
 
       // Confirm final snapped position
-      const destination = canvas.grid.getSnappedPosition(this.data.x, this.data.y, 2)
-      this.data.update(destination)
-
-      if (game.settings.get('demonlord', 'templateAutoTargeting')) {
-        this.autoTargeting()
-      }
+      const destination = canvas.grid.getSnappedPosition(this.x, this.y, 2)
+      await this.document.updateSource(destination)
+      const data = this.document.toObject()
+      this.autoTargeting()
 
       // Create the template
-      canvas.scene.createEmbeddedDocuments('MeasuredTemplate', [this.data])
+      canvas.scene.createEmbeddedDocuments('MeasuredTemplate', [data])
     }
 
     // Rotate the template by 3 degree increments (mouse-wheel)
@@ -130,8 +131,10 @@ export class ActionTemplate extends MeasuredTemplate {
       event.stopPropagation()
       let delta = canvas.grid.type > CONST.GRID_TYPES.SQUARE ? 30 : 15
       let snap = event.shiftKey ? delta : 5
-      this.data.direction += snap * Math.sign(event.deltaY)
+      // this.direction +=
+      this.document.updateSource({direction: this.document.direction + snap * Math.sign(event.deltaY)})
       this.refresh()
+      this.autoTargeting()
     }
 
     // Activate listeners
@@ -142,17 +145,17 @@ export class ActionTemplate extends MeasuredTemplate {
   }
 
   isTokenInside(token) {
-    const grid = canvas.scene.data.grid,
-      templatePos = { x: this.data.x, y: this.data.y }
+    const gridSize = canvas.scene.grid.size,
+      templatePos = { x: this.x, y: this.y }
     // Check for center of  each square the token uses.
     // e.g. for large tokens all 4 squares
-    const startX = token.data.width >= 1 ? 0.5 : token.data.width / 2
-    const startY = token.data.height >= 1 ? 0.5 : token.data.height / 2
-    for (let x = startX; x < token.data.width; x++) {
-      for (let y = startY; y < token.data.height; y++) {
+    const startX = token.width >= 1 ? 0.5 : token.width / 2
+    const startY = token.height >= 1 ? 0.5 : token.height / 2
+    for (let x = startX; x < token.width; x++) {
+      for (let y = startY; y < token.height; y++) {
         const currGrid = {
-          x: token.data.x + x * grid - templatePos.x,
-          y: token.data.y + y * grid - templatePos.y,
+          x: token.x + x * gridSize - templatePos.x,
+          y: token.y + y * gridSize - templatePos.y,
         }
         const contains = this.shape.contains(currGrid.x, currGrid.y)
         if (contains) return true
@@ -162,6 +165,7 @@ export class ActionTemplate extends MeasuredTemplate {
   }
 
   autoTargeting() {
+    if (!game.settings.get('demonlord', 'templateAutoTargeting')) return
     const tokens = canvas.scene.getEmbeddedCollection('Token')
     let targets = []
 

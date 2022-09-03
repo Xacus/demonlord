@@ -46,8 +46,8 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['resultText'] = resultText
   data['didHit'] = didHit
   data['resultBoxClass'] = resultBoxClass
-  data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
-  data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute].toUpperCase()) : ''
+  data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : ''
+  data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = againstNumber
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
   data['damageFormular'] = item.system.action.damage + attacker.system.bonuses.attack.damage
@@ -106,7 +106,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   const resultBoxClass = resultText === '' ? '' : challengeRoll.total >= 10 ? 'SUCCESS' : 'FAILURE'
   const templateData = {
     actor: actor,
-    item: {name: attribute.toUpperCase()},
+    item: {name: attribute?.toUpperCase()},
     diceData: formatDice(challengeRoll),
     data: {},
   }
@@ -197,7 +197,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['resultText'] = resultText
   data['resultBoxClass'] = resultBoxClass
   data['didHit'] = attackRoll?.total >= targetNumber
-  data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
+  data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : ''
   data['against'] = defenseAttribute
     ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) || ''
     : ''
@@ -311,8 +311,8 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['diceTotalGM'] = diceTotalGM
   data['resultText'] = resultText
   data['resultBoxClass'] = resultBoxClass
-  data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute].toUpperCase()) : ''
-  data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute].toUpperCase()) : ''
+  data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : ''
+  data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = againstNumber
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
   data['damageFormular'] = spellData.action?.damage

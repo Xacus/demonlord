@@ -65,7 +65,7 @@ export const registerSettings = function () {
   game.settings.register('demonlord', 'templateAutoTargeting', {
     name: game.i18n.localize('DL.SettingTemplateAutoTargeting'),
     hint: game.i18n.localize('DL.SettingTemplateAutoTargetingHint'),
-    default: false,
+    default: true,
     scope: 'world',
     type: Boolean,
     config: true,

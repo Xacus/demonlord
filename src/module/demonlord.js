@@ -362,10 +362,8 @@ Hooks.on('DL.ApplyHealing', data => {
 })
 
 Hooks.on('DL.Action', () => {
-  if (!game.settings.get('demonlord', 'templateAutoRemove')) {
-    return
-  }
-  const actionTemplates = canvas.scene.templates.filter(a => a.data.flags.actionTemplate).map(a => a.id)
+  if (!game.settings.get('demonlord', 'templateAutoRemove')) return
+  const actionTemplates = canvas.scene.templates.filter(a => a.flags.actionTemplate).map(a => a.id)
   if (actionTemplates.length > 0) canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
 })
 

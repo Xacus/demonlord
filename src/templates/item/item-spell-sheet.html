@@ -74,7 +74,8 @@
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
                 <i class="dl-icon-d6"></i>
                 <span class="sep"></span>
-                <input type="number" name="system.action.boonsbanes" value="{{defaultValue system.action.boonsbanes 0}}"/>
+                <input type="number" name="system.action.boonsbanes"
+                       value="{{defaultValue system.action.boonsbanes 0}}"/>
               </div>
             </div>
           </div>
@@ -85,7 +86,8 @@
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
                 <i class="dl-icon-d6"></i>
                 <span class="sep"></span>
-                <input type="number" name="system.defenseboonsbanes" value="{{defaultValue system.defenseboonsbanes 0}}"/>
+                <input type="number" name="system.defenseboonsbanes"
+                       value="{{defaultValue system.defenseboonsbanes 0}}"/>
               </div>
             </div>
           </div>
@@ -93,7 +95,8 @@
             <b>{{localize "DL.TalentHealingOptions"}}</b>
             <div class="dl-new-project-radio {{checked system.healing.healing}}"
                  data-tippy-content="{{localize "DL.TalentHealingOptions"}}">
-              <input type="checkbox" name="system.healing.healing" id="healingoptions" {{checked system.healing.healing}}/>
+              <input type="checkbox" name="system.healing.healing" id="healingoptions" {{checked
+                system.healing.healing}}/>
               <i class="dl-icon-healing"></i>
             </div>
           </div>
@@ -228,7 +231,7 @@
           </div>
           <div style="display: flex; justify-content: flex-end; gap: 8px">
             <div class="dl-new-project-2">
-              <span>{{localize "DL.ActionTargetValue"}}</span>
+              <span>{{localize "DL.ActionTargetValue"}} (yd)</span>
               <span class="sep"></span>
               <input type="number" name="system.activatedEffect.target.value"
                      value="{{system.activatedEffect.target.value}}"
@@ -249,8 +252,11 @@
             </div>
             <div style="gap: 0">
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.ActionTexture"}}">
-                <input type="text" name="system.activatedEffect.texture" value="{{system.activatedEffect.texture}}" autosize
-                       placeholder="path/image.webp" style="min-width: 120px">
+                <input type="text" name="system.activatedEffect.texture" value="{{system.activatedEffect.texture}}"
+                       autosize
+                       placeholder="path/image.webp"
+                       style="min-width: 120px; max-width: 200px; text-overflow: ellipsis; color: grey !important;
+                       overflow: hidden; direction: rtl;">
               </div>
               <button
                 type="button"
