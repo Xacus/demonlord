@@ -9,7 +9,7 @@ class PlayerTrackerLayer extends CanvasLayer {
     sptLayer.newButtons = {
       name: 'dl-gm-tools',
       title: 'SotDL GM Tools',
-      layer: 'grid', // TODO: different layer to allow token clicks
+      layer: 'controls', // TODO: different layer to allow token clicks
       icon: 'fas fa-book-dead', // More demonic themed :) [old: fa-wrench]
       visible: true,
       tools: [

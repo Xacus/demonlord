@@ -16,13 +16,17 @@
   }
 
   .tabitem {
-    line-height: 20px;
     white-space: nowrap;
     padding: 8px 15px;
     background: url(../../../ui/parchment.jpg) repeat;
     box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.9);
     font-size: 12px;
     filter: brightness(0.9);
+    font-family: $font-pm;
+    font-weight: bold;
+    right: -43px;
+    position: absolute;
+    top: 78px;
   }
 }
 
