@@ -164,13 +164,18 @@ export class DemonlordActor extends Actor {
       system.characteristics.insanity.max += system.attributes.will.value
 
       // Armor
-      system.characteristics.defense = system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
-      system.characteristics.defense += system.bonuses.armor.defense
-      system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
-      for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
-        const result = change.effect.apply(this, change)
-        if (result !== null) this.overrides[change.key] = result
-      }
+      system.characteristics.defense = (system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility) + system.characteristics.defense
+    }
+    // --- Creature specific data ---
+    else {
+      system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
+    }
+    // Final armor computation
+    system.characteristics.defense += system.bonuses.armor.defense
+    system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
+    for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
+      const result = change.effect.apply(this, change)
+      if (result !== null) this.overrides[change.key] = result
     }
   }
 
@@ -261,6 +266,7 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
   /*  Rolls and Actions                           */
+
   /* -------------------------------------------- */
 
   /**
@@ -684,7 +690,7 @@ export class DemonlordActor extends Actor {
 
   async increaseDamage(increment) {
     const health = this.system.characteristics.health
-    const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value +increment)))
+    const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value + increment)))
     return this.update({'data.characteristics.health.value': newHp})
   }
 
