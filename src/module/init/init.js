@@ -18,7 +18,7 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
   for (let i = 0; i < ids.length; i++) {
     const id = ids[i]
     // Get Combatant data
-    const c = await this.getCombatant(id)
+    const c = game.combat.combatants.get(id) || game.combat.getCombatantByActor(id) || game.combat.getCombatantByToken(id)
 
     // Do not roll defeated combatants
     if (c.defeated) continue
@@ -90,9 +90,7 @@ export const rollInitiative = async function (ids, formula, messageOptions) {
   }
 
   if (!combatantUpdates.length) return this
-
   // Update multiple combatants
-  //await this.updateEmbeddedDocument('Combatant', combatantUpdates)
   await ChatMessage.create(initMessages)
 
   return this

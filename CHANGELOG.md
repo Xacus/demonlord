@@ -7,10 +7,14 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Now measured templates dynamically target tokens even before placing them.
 - Auto targeting by measured templates is now enabled by default.
+- Code for macros in the system compendium is now internal.
 ### Fixed
 - Error message when applying afflictions
+### Removed
+- Apply afflictions GM macro
 ### Notes
 - Worlds created prior to version v10 must be migrated to v10. This process is irreversible, so as always doing a backup is strongly advised.
+- Some old GM and player macros in the hotbar need to be imported again using the new versions in the compendium. This does not apply to item macros.
 
 ## [2.2.1]
 ### Fixed

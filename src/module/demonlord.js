@@ -9,7 +9,9 @@ import combattracker, {_onUpdateCombat} from './combattracker.js'
 import {preloadHandlebarsTemplates} from './templates.js'
 import * as migrations from './migration.js'
 import {handleMigrations} from './migration.js'
-import * as macros from './macros.js'
+import * as macros from './macros/item-macros.js'
+import * as gmMacros from './macros/gm-macros.js'
+import * as playerMacros from './macros/player-macros'
 import {DLAfflictions} from './active-effects/afflictions'
 import {DLActiveEffectConfig} from './active-effects/sheets/active-effect-config'
 import DLCharacterSheet from './actor/sheets/character-sheet'
@@ -34,7 +36,7 @@ Hooks.once('init', async function () {
       ActionTemplate,
     },
     migrations: migrations,
-    macros: macros,
+    macros: {...macros, ...gmMacros, ...playerMacros},
     rollWeaponMacro: macros.rollWeaponMacro,
     rollTalentMacro: macros.rollTalentMacro,
     rollSpellMacro: macros.rollSpellMacro,
