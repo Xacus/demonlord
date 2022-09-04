@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Now measured templates dynamically target tokens even before placing them.
 - Auto targeting by measured templates is now enabled by default.
+### Fixed
+- Error message when applying afflictions
 ### Notes
 - Worlds created prior to version v10 must be migrated to v10. This process is irreversible, so as always doing a backup is strongly advised.
 

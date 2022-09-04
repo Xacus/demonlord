@@ -164,7 +164,7 @@ export default class extends CombatTracker {
 
 export function _onUpdateCombat(combatData, _updateData, _options, _userId) {
   // Do this only if the user is GM to avoid multiple operations; FIXME: does not handle multiple GMs
-  if (!game.user.isGM) return
+  if (!game.user.isGM && game.user.id !== _userId) return
 
   const isRoundAdvanced = combatData?.current?.round - combatData?.previous?.round > 0
   if (isRoundAdvanced) {
