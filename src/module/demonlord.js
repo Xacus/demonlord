@@ -192,7 +192,8 @@ Hooks.on('updateActor', async (actor, updateData) => {
   }
 })
 
-Hooks.on('createActiveEffect', async activeEffect => {
+Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
+  if (game.user.id !== userId) return
   const statusId = activeEffect.flags?.core?.statusId
   const _parent = activeEffect?.parent
   if (statusId && _parent) {
@@ -215,7 +216,8 @@ Hooks.on('createActiveEffect', async activeEffect => {
   }
 })
 
-Hooks.on('deleteActiveEffect', async activeEffect => {
+Hooks.on('deleteActiveEffect', async (activeEffect, _, userId) => {
+  if (game.user.id !== userId) return
   const statusId = activeEffect.flags?.core?.statusId
   const _parent = activeEffect?.parent
   if (statusId && _parent) {

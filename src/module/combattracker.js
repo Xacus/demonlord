@@ -18,7 +18,7 @@ export default class extends CombatTracker {
 
       const combId = el.getAttribute('data-combatant-id')
       const combatant = currentCombat.combatants.find(c => c.id == combId)
-
+      if (!combatant) return
       init = combatant.actor?.system.fastturn
         ? game.i18n.localize('DL.TurnFast')
         : game.i18n.localize('DL.TurnSlow')
@@ -79,6 +79,7 @@ export default class extends CombatTracker {
       const combId = li.dataset.combatantId
       const currentCombat = this.getCurrentCombat()
       const combatant = currentCombat.combatants.find(c => c.id == combId)
+      if (!combatant) return
       // const initMessages = []
 
       if (game.user.isGM || combatant.actor.isOwner) {
