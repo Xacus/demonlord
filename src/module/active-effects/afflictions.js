@@ -199,7 +199,7 @@ export class DLAfflictions {
     // Immobilized
     effectsDataList.push(
       _buildBaseAffliction('immobilized', 'systems/demonlord/assets/icons/effects/immobilized.svg', [
-        downgradeEffect('system.characteristics.speed', -1, effectPriority),
+        downgradeEffect('system.characteristics.speed', 0, effectPriority),
         addEffect('system.bonuses.defense.boons.defense', -1, effectPriority),
         addEffect('system.bonuses.defense.boons.strength', -1, effectPriority),
         addEffect('system.bonuses.defense.boons.agility', -1, effectPriority),
@@ -315,7 +315,7 @@ export class DLAfflictions {
           overrideEffect('system.maluses.autoFail.action.intellect', 1, effectPriority),
           overrideEffect('system.maluses.autoFail.action.will', 1, effectPriority),
           overrideEffect('system.maluses.autoFail.action.perception', 1, effectPriority),
-          downgradeEffect('system.characteristics.speed', -1, effectPriority),
+          downgradeEffect('system.characteristics.speed', 0, effectPriority),
           overrideEffect('system.bonuses.armor.override', 5, effectPriority),
         ],
         {
