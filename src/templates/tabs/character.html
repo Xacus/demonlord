@@ -238,7 +238,7 @@
     <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}">
       {{#each collection as |item index|}}
         <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
-             {{#if item.system.description}}data-tippy-html="{{enrichHTMLUnrolled item.system.description}}"{{/if}}>
+             {{#if item.system.description}}data-tippy-html="{{item.system.enrichedDescription}}"{{/if}}>
           <img src="{{item.img}}">
           <span class="item-edit dl-clickable">{{item.name}}</span>
           <a class="dl-clickable item-delete" style="margin-right: 4px; margin-left: auto; margin-top: 1px;">

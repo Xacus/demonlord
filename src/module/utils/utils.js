@@ -36,12 +36,12 @@ export function createInlineFormula(_match, _command, formula, closing, label, .
 export async function enrichHTMLUnrolled(content, {rollData, secrets, rolls, entities} = {}) {
   let pcontent = await TextEditor.enrichHTML(content, {secrets, rolls, entities, rollData, async:true});
 
-  if (rolls) {
+  if (!rolls) {
     const html = document.createElement("div");
     html.innerHTML = String(pcontent);
-    const text = TextEditor._getTextNodes(html);
+    const text = await TextEditor._getTextNodes(html);
     const rgx = /\[\[(\/[a-zA-Z]+\s)?(.*?)([\]]{2,3})(?:{([^}]+)})?/gi;
-    TextEditor._replaceTextContent(text, rgx, (...args) => createInlineFormula(...args, rollData));
+    await TextEditor._replaceTextContent(text, rgx, (...args) => createInlineFormula(...args, rollData));
     pcontent = html.innerHTML;
   }
 

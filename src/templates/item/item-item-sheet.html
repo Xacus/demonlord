@@ -37,7 +37,7 @@
                 <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
                   "DL.ItemAmount"}}</span>
                 <span class="sep"></span>
-                <input type="number" name="data.quantity" value="{{data.quantity}}" placeholder="0"/>
+                <input type="number" name="system.quantity" value="{{system.quantity}}" placeholder="0"/>
               </div>
             </div>
           </div>
@@ -58,11 +58,11 @@
           <div>
             <b>{{localize "DL.Availability"}}</b>
             <div>
-              {{dlAvailabilityDropdown "data.availability" data.availability}}
+              {{dlAvailabilityDropdown "system.availability" system.availability}}
               <div class="dl-new-project-2" data-tippy-content="{{localize "DL.ItemValue"}}">
                 <i class="dl-icon-price"></i>
                 <span class="sep"></span>
-                <input type="text" name="data.value" value="{{data.value}}" autosize/>
+                <input type="text" name="system.value" value="{{system.value}}" autosize/>
               </div>
             </div>
           </div>
