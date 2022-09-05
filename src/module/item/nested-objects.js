@@ -128,9 +128,10 @@ export async function getNestedDocument(nestedData) {
     method = 'ITEMS'
   }
 
+
   // If the data was already stored, use it
   if (!entity) {
-    entity = nestedData.data
+    entity = nestedData
     method = 'DATA-OBJ'
   }
 
@@ -149,6 +150,7 @@ export async function getNestedDocument(nestedData) {
     method = entity ? 'FB-PACKS' : method
   }
 
+
   if (!entity) {
     console.error('DEMONLORD | Nested object not found', nestedData)
     return null
@@ -166,7 +168,20 @@ export async function getNestedItemData(nestedData) {
   if (entity instanceof Item)
     itemData = entity.toObject()
   else {
-    itemData = entity
+    // Here we have an entity which is fetched using fallback methods, so we must construct it properly to v10 specs
+    const ed = entity.system ?? entity.data ?? entity
+    const sys = entity.system ?? ed.system
+    itemData = {
+      uuid: entity.uuid || ed.uuid,
+      _id: entity._id || ed._id,
+      type: entity.type || ed.type,
+      name: entity.name || ed.name,
+      img: entity.img || ed.img,
+      description: entity.description || sys.description,
+      pack: entity.pack,
+      data: sys.ed,
+      system: sys || ed,
+    }
   }
 
   // Remember user selection & enrich description
@@ -175,9 +190,7 @@ export async function getNestedItemData(nestedData) {
 
   // Return only the data
   // Warning: here the implicit assertion is that entity is an Item and not an Actor or something else
-  if (entity instanceof Item) return itemData
-  else if (entity?.data?.data) return entity.data
-  return entity
+  return itemData
 }
 
 export async function getNestedItemsDataList(nestedDataList) {
@@ -265,6 +278,7 @@ export async function createActorNestedItems(actor, nestedItems, parentItemId, l
   let itemDataList = await getNestedItemsDataList(nestedItems)
   // Set the flags
   itemDataList = itemDataList.map((itemData, i) => {
+    if (!itemData.flags) itemData.flags = {}
     itemData.flags.demonlord = {
       nestedItemId: nestedItems[i]?._id ?? nestedItems[i]?.id,
       parentItemId: parentItemId,

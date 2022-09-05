@@ -99,7 +99,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     let item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path'].includes(item.type)) return
 
-
+    levelItem.uuid = item.uuid
     levelItem.id = item.id
     levelItem.name = item.name
     levelItem.description = item.system.description
@@ -166,10 +166,10 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
     const ancestryData = this.object.system
     const nestedData =
-      ancestryData.languagelist.find(i => i.data._id === itemId) ??
-      ancestryData.talents.find(i => i.data._id === itemId) ??
-      ancestryData.level4.talent.find(i => i.data._id === itemId) ??
-      ancestryData.level4.spells.find(i => i.data._id === itemId)
+      ancestryData.languagelist.find(i => i._id === itemId) ??
+      ancestryData.talents.find(i => i._id === itemId) ??
+      ancestryData.level4.talent.find(i => i._id === itemId) ??
+      ancestryData.level4.spells.find(i => i._id === itemId)
     getNestedDocument(nestedData).then(d => {
       if (d.sheet) d.sheet.render(true)
       else ui.notifications.warn('The item is not present in the game and cannot be edited.')
