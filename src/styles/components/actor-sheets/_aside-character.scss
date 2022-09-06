@@ -161,7 +161,6 @@ form {
           .insanityedit,
           .corruptionedit {
             height: 19px;
-            width: 40px;
             border-radius: 16px;
             border: none;
             box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
@@ -169,7 +168,9 @@ form {
             font-weight: 500;
             font-size: 13px;
             padding-left: 2px;
-            padding-top: 2px;
+            width: 98%;
+            line-height: 0;
+            padding-top: 0;
 
             input {
               margin-top: -4px;
@@ -276,6 +277,7 @@ form {
           background-color: var(--demonlord-red);
           border-radius: 3px;
           transition: width 500ms ease-in-out;
+          max-width: 100%;
         }
 
         .healtmax,
@@ -307,7 +309,7 @@ form {
         margin: 4px 0 0 0;
 
         .insanity-fill {
-          background-color: darkgreen;
+          background-color: #3e796a;
         }
       }
 
@@ -315,7 +317,7 @@ form {
         margin: 4px 0 0 0;
 
         .corruption-fill {
-          background-color: darkmagenta;
+          background-color: #6f58c9;
         }
       }
     }

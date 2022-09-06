@@ -157,7 +157,7 @@ export function wealthManagerMacro() {
     let currentWealthList = '';
     playerNameList = `<option value="everyone" selected>` + game.i18n.localize('DL.MacroWealthManager.Everyone') + `</option>`;
     playersNames.forEach((el) => {
-        playerNameList += `<option value="${el}">${el}</option>`;
+      playerNameList += `<option value="${el}">${el}</option>`;
     });
 
     let currentWealth = checkWealth();
@@ -295,4 +295,99 @@ export function wealthManagerMacro() {
     };
     ChatMessage.create(chatData, {});
   }
+}
+
+export function applyVisionMacro() {
+  if (!canvas.tokens.controlled?.length) {
+    ui.notifications.warn('No token selected.')
+    return
+  }
+
+  let d = new Dialog({
+    title: "Change token vision type",
+    buttons: {
+      basic: {
+        label: "Basic",
+        callback: () => applyVisionToSelectedTokens('basic')
+      },
+      shadowsight: {
+        label: "Shadowsight",
+        callback: () => applyVisionToSelectedTokens('shadowsight')
+      },
+      darksight: {
+        label: "Darksight",
+        callback: () => applyVisionToSelectedTokens('darksight')
+      },
+      sightless: {
+        label: "Sightless",
+        callback: () => applyVisionToSelectedTokens('sightless')
+      },
+      truesight: {
+        label: "Truesight",
+        callback: () => applyVisionToSelectedTokens('truesight')
+      }
+    },
+    default: "basic",
+  });
+  d.render(true);
+
+
+  function applyVisionToSelectedTokens(visionType) {
+    const controlled = canvas.tokens.controlled
+    if (!controlled?.length) {
+      ui.notifications.warn('No token selected.')
+      return
+    }
+    Promise.all(controlled.map(t => game.demonlord.macros.applyVisionType(t, visionType))).then(_ =>
+      ui.notifications.info(`Successfully applied ${visionType} to ${controlled.length} token${controlled.length > 1 ? 's' : ''}.`)
+    )
+  }
+}
+
+
+export function applyVisionType(token, visionType = undefined, _otherData = undefined) {
+  if (!token) return
+  visionType = visionType?.toLowerCase() ?? 'basic'
+
+  let updateData = {
+    sight: {
+      enabled: true,
+      angle: 360,
+      range: 0,
+      visionMode: 'basic',
+    },
+    detectionModes: [{
+      id: 'basicSight',
+      enabled: true,
+      range: 0
+    }]
+  }
+  if (visionType === 'darksight') {
+    updateData.sight.range = 20
+    updateData.sight.visionMode = 'darkvision'
+    updateData.detectionModes[0].range = 20
+  } else if (visionType === 'shadowsight') {
+    // Pass, waiting for foundry to implement shadow vision
+    ui.notifications.warn('In foundry v10 Shadowsight works the same as Basic sight, since no options for dim light exist yet.')
+  } else if (visionType === 'sightless') {
+    updateData.sight.range = 100
+    updateData.sight.visionMode = 'tremorsense'
+    updateData.detectionModes[0].enabled = false
+    updateData.detectionModes.push({
+      id: 'feelTremor',
+      enabled: true,
+      range: 100,
+    })
+
+  } else if (visionType === 'truesight') {
+    updateData.sight.range = 100
+    updateData.detectionModes[0].enabled = false
+    updateData.detectionModes.push({
+      id: 'seeAll',
+      enabled: true,
+      range: 100,
+    })
+  }
+
+  return token.document.update(updateData)
 }

@@ -4,10 +4,13 @@ All notable changes to this project will be documented in this file.
 ## [2.2.2]
 ### Added
 - Compatibility with foundry v10.
+- New macro "Change Token Vision". It allows to apply vision types like Darksight, Sightless, and all the others to the selected tokens, using the new Foundry v10 token vision settings.
 ### Changed
 - Now measured templates dynamically target tokens even before placing them.
 - Auto targeting by measured templates is now enabled by default.
 - Code for macros in the system compendium is now internal.
+- Minor UI changes
+- Changed some default item icons (End of round, Special Action, Weapon, Talent, Feature)
 ### Fixed
 - Error message when applying afflictions
 ### Removed
