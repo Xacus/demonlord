@@ -387,10 +387,10 @@ export class DLAfflictions {
     )
 
     // Disabled
-    effectsDataList.push(_buildBaseAffliction('disabled', 'systems/demonlord/assets/icons/effects/disabled.svg'))
+    effectsDataList.push(_buildBaseAffliction('disabled', 'systems/demonlord/assets/icons/effects/disabled.svg', [], {'core.overlay': true}))
 
     // Dying
-    effectsDataList.push(_buildBaseAffliction('dying', 'systems/demonlord/assets/icons/effects/dying.svg'))
+    effectsDataList.push(_buildBaseAffliction('dying', 'systems/demonlord/assets/icons/effects/dying.svg', [], {'core.overlay': true}))
 
     return effectsDataList
   }

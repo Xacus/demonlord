@@ -211,6 +211,15 @@
     flex-shrink: 0;
   }
 
+  & img {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    align-self: center;
+    border: none;
+    margin-left: 2px;
+  }
+
   .sep {
     border-left: 1px solid #0000001a;
     padding-left: 2px;
@@ -242,6 +251,10 @@
       i {
         background-color: gray;
       }
+    }
+    &.selected,
+    &.selected .sep {
+      border-color: #3333339e;
     }
   }
 
@@ -451,144 +464,4 @@
       margin-right: 4px;
     }
   }
-}
-
-// Custom icons
-@mixin dl-icon($src) {
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-  -webkit-mask-size: cover;
-  mask-size: cover;
-  //background-color: black;
-  display: inline-block;
-
-  &.gray {
-    background-color: gray;
-  }
-  &.black {
-    background-color: black;
-  }
-  &.hover-red:hover {
-    background-color: var(--demonlord-red);
-  }
-}
-
-i.dl-icon-strength {
-  @include dl-icon('../assets/ui/attributes/strength.svg');
-}
-
-i.dl-icon-agility {
-  @include dl-icon('../assets/ui/attributes/agility.svg');
-}
-
-i.dl-icon-intellect {
-  @include dl-icon('../assets/ui/attributes/intellect.svg');
-}
-
-i.dl-icon-will {
-  @include dl-icon('../assets/ui/attributes/will.svg');
-}
-
-i.dl-icon-perception {
-  @include dl-icon('../assets/ui/attributes/perception.svg');
-}
-
-i.dl-icon-defense {
-  @include dl-icon('../assets/ui/attributes/defense.svg');
-}
-
-i.dl-icon-healing {
-  @include dl-icon('../assets/ui/other-svg/healing.svg');
-}
-
-i.dl-icon-minus {
-  @include dl-icon('../assets/ui/other-svg/minus.svg');
-}
-
-i.dl-icon-nothing {
-  @include dl-icon('../assets/ui/other-svg/nothing.svg');
-}
-
-i.dl-icon-health {
-  @include dl-icon('../assets/ui/other-svg/health.svg');
-}
-
-i.dl-icon-size {
-  @include dl-icon('../assets/ui/other-svg/size.svg');
-}
-
-i.dl-icon-speed {
-  @include dl-icon('../assets/ui/other-svg/speed.svg');
-}
-
-i.dl-icon-power {
-  @include dl-icon('../assets/ui/other-svg/power.svg');
-}
-
-i.dl-icon-insanity {
-  @include dl-icon('../assets/ui/other-svg/insanity.svg');
-}
-
-i.dl-icon-corruption {
-  @include dl-icon('../assets/ui/other-svg/corruption.svg');
-}
-
-i.dl-icon-d6 {
-  @include dl-icon('../assets/ui/other-svg/d6.svg');
-}
-
-i.dl-icon-d20 {
-  @include dl-icon('../assets/ui/other-svg/d20.svg');
-}
-
-i.dl-icon-d20-plus {
-  @include dl-icon('../assets/ui/other-svg/d20-plus.svg');
-}
-
-i.dl-icon-speak {
-  @include dl-icon('../assets/ui/other-svg/speak.svg');
-}
-
-i.dl-icon-read {
-  @include dl-icon('../assets/ui/other-svg/read.svg');
-}
-
-i.dl-icon-write {
-  @include dl-icon('../assets/ui/other-svg/write.svg');
-}
-
-i.dl-icon-shield {
-  @include dl-icon('../assets/ui/other-svg/shield.svg');
-}
-
-i.dl-icon-defense-fixed {
-  @include dl-icon('../assets/ui/other-svg/defense-fixed.svg');
-}
-
-i.dl-icon-availability- {
-  @include dl-icon('../assets/ui/other-svg/minus.svg');
-}
-
-i.dl-icon-availability-C {
-  @include dl-icon('../assets/ui/availability/common.svg');
-}
-
-i.dl-icon-availability-U {
-  @include dl-icon('../assets/ui/availability/uncommon.svg');
-}
-
-i.dl-icon-availability-R {
-  @include dl-icon('../assets/ui/availability/rare.svg');
-}
-
-i.dl-icon-availability-E {
-  @include dl-icon('../assets/ui/availability/exotic.svg');
-}
-
-i.dl-icon-price {
-  @include dl-icon('../assets/ui/availability/price.svg');
-}
-
-i.dl-icon-amount {
-  @include dl-icon('../assets/ui/other-svg/amount.svg');
 }

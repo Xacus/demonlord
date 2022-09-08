@@ -62,7 +62,7 @@
     <div class="form-group">
       <label>{{ localize "EFFECT.DurationSecs" }}</label>
       <div class="form-fields">
-        <input type="number" name="duration.seconds" value="{{ data.duration.seconds }}"/>
+        <input type="number" name="duration.seconds" value="{{ data.duration.seconds }}" step="1" min="0"/>
       </div>
     </div>
     <div class="form-group">
@@ -76,9 +76,9 @@
       <label>{{ localize "EFFECT.DurationTurns" }}</label>
       <div class="form-fields">
         <label>{{ localize "COMBAT.Rounds" }}</label>
-        <input type="number" name="duration.rounds" value="{{ data.duration.rounds }}"/>
+        <input type="number" name="duration.rounds" value="{{ data.duration.rounds }}" step="1" min="0"/>
         <label>{{ localize "COMBAT.Turns" }}</label>
-        <input type="number" name="duration.turns" value="{{ data.duration.turns }}"/>
+        <input type="number" name="duration.turns" value="{{ data.duration.turns }}" step="1" min="0"/>
       </div>
     </div>
     <div class="form-group">

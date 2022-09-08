@@ -92,7 +92,6 @@ export class ActionTemplate extends MeasuredTemplate {
       const center = event.data.getLocalPosition(this.layer)
       const snapped = canvas.grid.getSnappedPosition(center.x, center.y, 2)
       this.document.updateSource({x: snapped.x, y: snapped.y})
-      console.log(this)
       this.refresh()
       this.autoTargeting()
 

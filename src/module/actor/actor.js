@@ -16,6 +16,7 @@ import {
 } from '../chat/roll-messages'
 import {handleCreateAncestry, handleCreatePath} from '../item/nested-objects'
 import {TokenManager} from '../pixi/token-manager'
+import {findAddEffect, findDeleteEffect} from "../demonlord";
 
 const tokenManager = new TokenManager()
 
@@ -190,6 +191,7 @@ export class DemonlordActor extends Actor {
     if (changed?.level || changed?.system?.level) {
       this._handleEmbeddedDocuments({debugCaller: '_onUpdate'})
     }
+    if (changed.system?.characteristics?.health) this.handleIncapacitated()
   }
 
   async _handleEmbeddedDocuments(options = {}) {
@@ -646,7 +648,7 @@ export class DemonlordActor extends Actor {
     if (onlyTemporary && !talent.system.uses?.max) return
     let uses = talent.system.uses?.value || 0
     uses = Math.max(0, uses - decrement)
-    talent.update({'data.uses.value': uses, 'data.addtonextroll': false}, {parent: this})
+    return talent.update({'data.uses.value': uses, 'data.addtonextroll': false}, {parent: this})
   }
 
   /* -------------------------------------------- */
@@ -715,5 +717,12 @@ export class DemonlordActor extends Actor {
       .filter(a => a.strengthmin > this.getAttribute("strength").value && a.wear)
       .map(a => a.name)
     return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
+  }
+
+  async handleIncapacitated() {
+    if (this.type !== 'character') return
+    const hp = this.system.characteristics.health
+    if (hp.value >= hp.max) findAddEffect(this, 'incapacitated')
+    else findDeleteEffect(this, 'incapacitated')
   }
 }

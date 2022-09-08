@@ -155,7 +155,6 @@ export async function getNestedDocument(nestedData) {
     console.error('DEMONLORD | Nested object not found', nestedData)
     return null
   }
-  // console.log(`DEMONLORD | Nested object fetched using ${method}`, nestedData, entity) // TODO: Remove when stable
   console.log(`DEMONLORD | Nested object fetched using ${method}`)
   return entity
 }

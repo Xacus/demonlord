@@ -8,13 +8,17 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Now measured templates dynamically target tokens even before placing them.
 - Auto targeting by measured templates is now enabled by default.
-- Code for macros in the system compendium is now internal.
-- Minor UI changes
-- Changed some default item icons (End of round, Special Action, Weapon, Talent, Feature)
+- Code for macros in the system compendium is now internal for easier maintenance.
+- Minor UI changes.
+- Changed some default item icons (End of round, Special Action, Weapon, Talent, Feature).
+- Improved UI of Afflictions tab. The Invisible token effect is now added, integrating with new foundry v10 vision changes.
+- Improved Incapacitated, Unconscious and Dying afflictions. Incapacitated is now applied when characters reach maximum damage.
+- Combat tracker now properly keeps track of effect durations.
+- Effect duration in seconds is now automatically converted to rounds.
 ### Fixed
-- Error message when applying afflictions
+- Error message when applying afflictions.
 ### Removed
-- Apply afflictions GM macro
+- Apply afflictions GM macro.
 ### Notes
 - Worlds created prior to version v10 must be migrated to v10. This process is irreversible, so as always doing a backup is strongly advised.
 - Some old GM and player macros in the hotbar need to be imported again using the new versions in the compendium. This does not apply to item macros.

@@ -36,6 +36,16 @@
   grid-template-columns: 1fr 1fr 1fr;
 }
 
+.grid-4 {
+  @extend .grid-base;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.grid-5 {
+  @extend .grid-base;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
 .col-1 {
   grid-column: span 1;
 }

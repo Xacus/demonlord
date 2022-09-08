@@ -1,4 +1,4 @@
-import { DLEndOfRound } from './dialog/endofround.js'
+import {DLEndOfRound} from './dialog/endofround.js'
 
 export default class extends CombatTracker {
   constructor(options) {
@@ -68,7 +68,7 @@ export default class extends CombatTracker {
       if (!game.user.isGM) return
       const effectUUID = ev.currentTarget.attributes.getNamedItem('data-effect-uuid').value
       fromUuid(effectUUID).then(effect =>
-        effect.getFlag('core', 'statusId') ? effect.delete() : effect.update({ disabled: true }),
+        effect.getFlag('core', 'statusId') ? effect.delete() : effect.update({disabled: true}),
       )
     })
 
@@ -163,23 +163,37 @@ export default class extends CombatTracker {
 }
 
 export function _onUpdateCombat(combatData, _updateData, _options, _userId) {
-  // Do this only if the user is GM to avoid multiple operations; FIXME: does not handle multiple GMs
+  // Do this only if the user is GM to avoid multiple operations
   if (!game.user.isGM && game.user.id !== _userId) return
 
   const isRoundAdvanced = combatData?.current?.round - combatData?.previous?.round > 0
-  if (isRoundAdvanced) {
-    const actors = combatData.combatants.map(c => c.actor)
-    // Deactivate temporary talents
-    actors.forEach(a => a.items.filter(i => i.type === 'talent').forEach(t => a.deactivateTalent(t, 0, true)))
-    // Decrease duration of effects
-    actors.forEach(a => {
-      const aeToUpd = a.effects
-        .filter(e => e.duration?.rounds > 0)
-        .map(e => ({
-          _id: e.id,
-          'duration.rounds': e.duration.rounds - 1,
-        }))
-      if (aeToUpd.length > 0) a.updateEmbeddedDocuments('ActiveEffect', aeToUpd)
-    })
+  const isRoundDecreased = combatData?.current?.round - combatData?.previous?.round < 0
+  const actors = combatData.combatants.map(c => c.actor)
+
+  // Todo: maybe add some memory to remember what has been deactivated in last round?
+  for (let actor of actors) {
+    // Deactivate temporary talents if the round has advanced.
+    // If the round is decreased, there is no way to determine what to activate
+    if (isRoundAdvanced) {
+      actor.items
+        .filter(i => i.type === 'talent')
+        .forEach(t => actor.deactivateTalent(t, 0, true))
+    }
+
+    // Decrease/increase the duration of effects, also deactivating them if expired
+    const inc = isRoundAdvanced * 1 - isRoundDecreased * 1
+    const tempEffects = actor.effects.filter(e => e.duration?.rounds > 0 || e.duration?.seconds > 0)
+    let aeToUpd = []
+    for (let effect of tempEffects) {
+      const newRounds = Math.max(0, effect.duration.rounds - inc)
+      const newSeconds = Math.max(0, effect.duration.seconds - inc * 10)
+      aeToUpd.push({
+        _id: effect._id,
+        disabled: (newRounds + newSeconds) === 0,
+        'duration.rounds': newRounds,
+        'duration.seconds': newSeconds,
+      })
+    }
+    if (aeToUpd.length > 0) actor.updateEmbeddedDocuments('ActiveEffect', aeToUpd)
   }
 }

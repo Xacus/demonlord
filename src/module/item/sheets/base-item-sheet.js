@@ -1,7 +1,7 @@
 import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
 import {DL} from '../../config'
 import {DamageType} from '../nested-objects'
-import tippy, {createSingleton} from "tippy.js";
+import tippy from "tippy.js";
 import {buildDropdownList} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
 import {initDlEditor} from "../../utils/editor";
@@ -146,14 +146,13 @@ export default class DLBaseItemSheet extends ItemSheet {
     html.find('[autosize]').each((_, el) => autoresize(el))
 
     // Icons tooltip
-    const iconToolTips = tippy('[data-tippy-content]')
+    tippy('[data-tippy-content]')
     tippy('[data-tippy-html]', {
       content(reference) {
         return $(reference).data('tippyHtml')
       },
       allowHTML: true
     })
-    createSingleton(iconToolTips, {delay: 50})
     tippy('.dl-new-project-2.dropdown', {
       content(reference) {
         html = buildDropdownList(reference.attributes.name.value, reference.attributes.value.value)

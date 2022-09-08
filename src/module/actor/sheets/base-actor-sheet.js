@@ -5,6 +5,7 @@ import {DemonlordItem} from '../../item/item'
 import {DLAfflictions} from '../../active-effects/afflictions'
 import {initDlEditor} from "../../utils/editor";
 import DLBaseItemSheet from "../../item/sheets/base-item-sheet";
+import tippy from "tippy.js";
 
 export default class DLBaseActorSheet extends ActorSheet {
   /* -------------------------------------------- */
@@ -171,6 +172,15 @@ export default class DLBaseActorSheet extends ActorSheet {
 
   static onRenderInner(app, html, data) {
     DLBaseItemSheet.onRenderInner(app, html, data)  // Call onRenderInner of base item sheet, since it's the same
+    tippy('[data-tab="afflictions"] [data-tippy-affliction]', {
+      content(reference) {
+        return $(reference).data('tippyAffliction')
+      },
+      trigger: 'mouseenter',
+      arrow: true,
+      placement: 'right-start',
+    })
+    document.querySelector('[data-tippy-root]')?.remove()
   }
 
   /** @override */
@@ -193,23 +203,22 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Afflictions checkboxes
-    html.find('.affliction > input').click(ev => {
-      ev.preventDefault()
+    html.find('[data-tab="afflictions"] input').click(async ev => {
       const input = ev.currentTarget
       const checked = input.checked
-      const afflictionName = input.labels[0].innerText
-
+      const afflictionId = $(ev.currentTarget).data('name')
       if (checked) {
-        const affliction = CONFIG.statusEffects.find(e => e.label === afflictionName)
+        const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
         if (!affliction) return false
         affliction['flags.core.statusId'] = affliction.id
-        ActiveEffect.create(affliction, {parent: this.actor})
-        return true
+        await ActiveEffect.create(affliction, {parent: this.actor})
+
       } else {
-        const affliction = this.actor.effects.find(e => e.label === afflictionName)
+        const affliction = this.actor.effects.find(e => e?.flags?.core?.statusId === afflictionId)
         if (!affliction) return false
-        affliction.delete()
+        await affliction.delete()
       }
+      return true
     })
 
     // Toggle Accordion
