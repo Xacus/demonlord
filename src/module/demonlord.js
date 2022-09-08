@@ -131,6 +131,7 @@ Hooks.once('setup', function () {
 
   const effects = DLAfflictions.buildAll()
 
+  // Add the default status icons if the setting is not on
   if (!game.settings.get('demonlord', 'statusIcons')) {
     for (const effect of CONFIG.statusEffects) {
       effects.push({
@@ -140,6 +141,11 @@ Hooks.once('setup', function () {
       })
     }
   }
+  // Regardless of the setting, add the "invisible" status so that actors can turn invisible
+  else {
+    effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'))
+  }
+
 
   CONFIG.statusEffects = effects
 
