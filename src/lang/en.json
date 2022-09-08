@@ -680,5 +680,6 @@
   "DL.Reference": "Reference",
   "DL.With": "with",
   "DL.ChallengeRollBonus": "Challenge Roll Bonus",
-  "DL.TransferItem": "Transfer item to character"
+  "DL.TransferItem": "Transfer item to character",
+  "DL.RerollBoons1": "Reroll Boon dice with result 1"
 }

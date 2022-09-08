@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Compatibility with foundry v10.
 - New macro "Change Token Vision". It allows to apply vision types like Darksight, Sightless, and all the others to the selected tokens, using the new Foundry v10 token vision settings.
+- New Active Effect property, which allows character to reroll 1 on boon rolls
+- 2 new Active Effect properties: "Attack Boons/Banes - Spell" and "Attack Boons/Banes - Spell"
 ### Changed
 - Now measured templates dynamically target tokens even before placing them.
 - Auto targeting by measured templates is now enabled by default.
@@ -14,7 +16,7 @@ All notable changes to this project will be documented in this file.
 - Improved UI of Afflictions tab. The Invisible token effect is now added, integrating with new foundry v10 vision changes.
 - Improved Incapacitated, Unconscious and Dying afflictions. Incapacitated is now applied when characters reach maximum damage.
 - Combat tracker now properly keeps track of effect durations.
-- Effect duration in seconds is now automatically converted to rounds.
+- Effect duration in seconds is now automatically converted to rounds and vice-versa.
 ### Fixed
 - Error message when applying afflictions.
 ### Removed

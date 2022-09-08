@@ -31,9 +31,9 @@ function _remapEffects(effects) {
 
 const _toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;&nbsp;• ${value} <i>(${label})</i><br>`
 
-const changeToMsg = (m, key, title) => {
+const changeToMsg = (m, key, title, f=plusify) => {
   title = title ? `&nbsp;&nbsp;${game.i18n.localize(title)}<br>` : ''
-  if (m.has(key)) return m.get(key).reduce((acc, change) => acc + _toMsg(change.label, change.value), title)
+  if (m.has(key)) return m.get(key).reduce((acc, change) => acc + _toMsg(change.label, f(change.value)), title)
   return ''
 }
 
@@ -57,15 +57,17 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
 
   let defenderBoons = defender?.system.bonuses.defense.boons[defenseAttribute] || 0
   const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
-
+  let otherBoons = ''
   let itemBoons
   switch (item.type) {
     case 'spell':
       itemBoons = item.system.action.boonsbanes
+      otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.spell', '')
       defenderBoons += defender?.system.bonuses.defense.boons.spell || 0
       break
     case 'weapon':
       itemBoons = item.system.action.boonsbanes
+      otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.weapon', '')
       defenderBoons += defender?.system.bonuses.defense.boons.weapon || 0
       if (item.system.wear && +item.system.strengthmin > attacker.getAttribute('strength').value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
       break
@@ -79,7 +81,8 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
 
   let boonsMsg =
     changeToMsg(m, `system.bonuses.attack.boons.${attackAttribute}`, '') +
-    (itemBoons != 0 ? _toMsg(item.name, plusify(itemBoons)) : '') +
+    (itemBoons ? _toMsg(item.name, plusify(itemBoons)) : '') +
+    otherBoons +
     (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '')
   boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
 

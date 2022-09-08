@@ -270,6 +270,13 @@ export class DemonlordActor extends Actor {
   /*  Rolls and Actions                           */
 
   /* -------------------------------------------- */
+  rollFormula(mod, boba, bobaRerolls) {
+    let rollFormula = '1d20' + plusify(mod)
+    if (boba > 0 && bobaRerolls) rollFormula += `+${boba}d6r1kh`
+    else if (boba) rollFormula += plusify(boba) + 'd6r1kh'
+    console.log(rollFormula)
+    return rollFormula
+  }
 
   /**
    * Rolls an attack using an Item
@@ -294,28 +301,27 @@ export class DemonlordActor extends Actor {
     // if !target -> ui.notifications.warn(Please select target) ??
 
     // Attack modifier and Boons/Banes
-    const attackModifier =
+    const modifier =
       (attacker.system?.attributes[attackAttribute]?.modifier || 0) + (parseInt(inputModifier) || 0)
-    let attackBOBA =
+    let boons =
       (parseInt(item.system.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
-      (attacker.system.bonuses.attack.boons[attackAttribute] || 0)
+      (attacker.system.bonuses.attack.boons[attackAttribute] || 0) +
+      (attacker.system.bonuses.attack.boons.weapon || 0)
 
     // The defender banes apply only if the defender is one target
     if (defendersTokens.length === 1)
-      attackBOBA -=
+      boons -=
         (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) +
         (defender?.system.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
     if (item.system.wear && parseInt(item.system.strengthmin) > attacker.getAttribute("strength").value)
-      attackBOBA--
+      boons--
+    const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
     // Roll the attack
-    let diceFormula = '1d20' + (plusify(attackModifier) || '')
-    if (attackBOBA) diceFormula += plusify(attackBOBA) + 'd6kh'
-
-    const attackRoll = new Roll(diceFormula, {})
+    const attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
     attackRoll.evaluate({async: false})
 
     postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
@@ -364,11 +370,9 @@ export class DemonlordActor extends Actor {
     attribute = attribute.label.toLowerCase()
     const modifier = parseInt(inputModifier) + (this.getAttribute(attribute)?.modifier || 0)
     const boons = parseInt(inputBoons) + (this.system.bonuses.challenge.boons[attribute] || 0)
+    const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-    let diceFormula = '1d20' + (plusify(modifier) || '')
-    if (boons) diceFormula += plusify(boons) + 'd6kh'
-
-    const challengeRoll = new Roll(diceFormula, {})
+    const challengeRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
     challengeRoll.evaluate({async: false})
     postAttributeToChat(this, attribute, challengeRoll)
   }
@@ -425,9 +429,9 @@ export class DemonlordActor extends Actor {
         (this.system.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
         parseInt(talentData.vs?.boonsbanes || 0)
       if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
+      const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-      let attackRollFormula = '1d20' + plusify(modifier) + (boons ? plusify(boons) + 'd6kh' : '')
-      attackRoll = new Roll(attackRollFormula, {})
+      attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
       attackRoll.evaluate({async: false})
     }
 
@@ -479,20 +483,21 @@ export class DemonlordActor extends Actor {
 
     let attackRoll
     if (attackAttribute) {
-      let attackBoons =
+      let boons =
         (parseInt(inputBoons) || 0) +
         (parseInt(spellData.action.boonsbanes) || 0) +
-        (this.system.bonuses.attack.boons[attackAttribute] || 0)
+        (this.system.bonuses.attack.boons[attackAttribute] || 0) +
+        (this.system.bonuses.attack.boons.spell || 0)
 
       if (targets.length > 0)
-        attackBoons -=
+        boons -=
           (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
           (target?.actor?.system.bonuses.defense.boons.spell || 0)
 
-      const attackModifier = (parseInt(inputModifier) || 0) + this.getAttribute(attackAttribute).modifier || 0
+      const modifier = (parseInt(inputModifier) || 0) + this.getAttribute(attackAttribute).modifier || 0
+      const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-      const attackFormula = '1d20' + plusify(attackModifier) + (attackBoons ? plusify(attackBoons) + 'd6kh' : '')
-      attackRoll = new Roll(attackFormula, {})
+      attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
       attackRoll.evaluate({async: false})
     }
 

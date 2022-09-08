@@ -57,6 +57,8 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
         i18n('DL.Characteristics') + ' - ' + i18n('DL.CharHealthHealingRating'),
       'system.characteristics.health.insanity.max': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharInsanity'),
       // Attack bonuses
+      'system.bonuses.attack.boons.spell': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.MagicSpellsTitle'),
+      'system.bonuses.attack.boons.weapon': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.WeaponTitle'),
       'system.bonuses.attack.boons.strength': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
       'system.bonuses.attack.boons.agility': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeAgility'),
       'system.bonuses.attack.boons.intellect': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
@@ -106,6 +108,8 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       // Other maluses
       'system.maluses.halfSpeed': i18n('DL.Malus') + ' - ' + i18n('DL.HalfSpeed'),
       'system.maluses.noFastTurn': i18n('DL.Malus') + ' - ' + i18n('DL.NoFastTurns'),
+      // Other bonuses
+      'system.bonuses.rerollBoon1Dice': i18n('DL.RerollBoons1')
     }
   }
 }
