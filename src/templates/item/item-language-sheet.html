@@ -30,17 +30,17 @@
         <div class="dl-item-section-section margin">
           {{#*inline "dlLangType"}}
             <div class="dl-new-project-2 selectable {{#if selected}}selected{{/if}}">
-              <input type="checkbox" name="data.{{name}}" {{checked selected}} />
+              <input type="checkbox" name="system.{{name}}" {{checked selected}} />
               <i class="dl-icon-{{name}}"></i>
               <span class="sep"></span>
-              <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
+              <span style="width: 64px; text-align: center; text-overflow: ellipsis; height: 16px">{{localize loc}}</span>
             </div>
           {{/inline}}
 
           <div class="dl-column-flex" style="padding: 0 15%">
-            {{> dlLangType name="speak" selected=data.speak loc="DL.LanguagesSpeak"}}
-            {{> dlLangType name="read"  selected=data.read  loc="DL.LanguagesRead"}}
-            {{> dlLangType name="write" selected=data.write loc="DL.LanguagesWrite"}}
+            {{> dlLangType name="speak" selected=system.speak loc="DL.LanguagesSpeak"}}
+            {{> dlLangType name="read"  selected=system.read  loc="DL.LanguagesRead"}}
+            {{> dlLangType name="write" selected=system.write loc="DL.LanguagesWrite"}}
           </div>
         </div>
         <hr>

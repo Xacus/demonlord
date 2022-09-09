@@ -2,8 +2,8 @@
 /*  Chat methods                                */
 /* -------------------------------------------- */
 
-import { buildActorInfo, formatDice, getChatBaseData } from './base-messages'
-import { TokenManager } from '../pixi/token-manager'
+import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
+import {TokenManager} from '../pixi/token-manager'
 
 const tokenManager = new TokenManager()
 
@@ -148,16 +148,15 @@ async function _onChatApplyEffect(event) {
     return
   }
   const selected = tokenManager.targets
-  if (selected.length == 0) {
-    ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
+  if (selected.length === 0) {
+    tokenManager.warnNotSelected()
     return
   }
 
+  const effectData = activeEffect.toObject()
   selected.forEach(target => {
-    ActiveEffect.create(activeEffect.data, { parent: target.actor }).then(e =>
-      ui.notifications.info(`Added "${e.data.label}" to "${target.actor.name}"`),
-    )
-    //TODO: localization
+    ActiveEffect.create(effectData, {parent: target.actor})
+      .then(e => ui.notifications.info(`Added "${e.label}" to "${target.actor.name}"`))
   })
 }
 

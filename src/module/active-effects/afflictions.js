@@ -42,7 +42,7 @@ export class DLAfflictions {
     if (!actor) return
     const afflictions = actor
       .getEmbeddedCollection('ActiveEffect')
-      .filter(e => e.flags?.sourceType === 'affliction')
+      .filter(e => e.flags?.core?.statusId)
       .map(e => e._id)
     actor.deleteEmbeddedDocuments('ActiveEffect', afflictions)
   }

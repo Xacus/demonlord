@@ -213,25 +213,25 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
   const statusId = activeEffect.flags?.core?.statusId
   const _parent = activeEffect?.parent
   if (statusId && _parent) {
-    _parent.setFlag('demonlord', statusId, true)
+    await _parent.setFlag('demonlord', statusId, true)
 
     // If asleep, also add prone and uncoscious
     if (statusId === 'asleep') {
-      findAddEffect(_parent, 'prone')
-      findAddEffect(_parent, 'unconscious')
+      await findAddEffect(_parent, 'prone')
+      await findAddEffect(_parent, 'unconscious')
     }
     // If incapacitated, add prone and disabled
     if (statusId === 'incapacitated') {
-      findAddEffect(_parent, 'prone')
+      await findAddEffect(_parent, 'prone')
       if (_parent.type === 'character') findAddEffect(_parent, 'disabled')
     }
     // If disabled, add defenseless
     if (statusId === 'disabled') {
-      findAddEffect(_parent, 'defenseless')
+      await findAddEffect(_parent, 'defenseless')
     }
     // If dying, add unconscious
     if (statusId === 'dying') {
-      findAddEffect(_parent, 'unconscious')
+      await findAddEffect(_parent, 'unconscious')
     }
   }
 })
@@ -246,7 +246,7 @@ Hooks.on('deleteActiveEffect', async (activeEffect, _, userId) => {
   const statusId = activeEffect.flags?.core?.statusId
   const _parent = activeEffect?.parent
   if (statusId && _parent) {
-    _parent.unsetFlag('demonlord', statusId)
+    await _parent.unsetFlag('demonlord', statusId)
 
     if (statusId === 'asleep') {
       findDeleteEffect(_parent, 'prone')

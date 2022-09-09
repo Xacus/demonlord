@@ -29,30 +29,30 @@
           {{#each section.effects as |effect|}}
             <li class="item effect flexrow" data-effect-id="{{effect.id}}">
               <div class="item-name effect-name flexrow">
-                {{#if effect.data.tint}}
-                  <img class="item-image-small" src="{{effect.data.icon}}"
-                       style="border: 2px solid {{effect.data.tint}};"/>
+                {{#if effect.tint}}
+                  <img class="item-image-small" src="{{effect.icon}}"
+                       style="border: 2px solid {{effect.tint}};"/>
                 {{else}}
-                  <img class="item-image-small" src="{{effect.data.icon}}"/>
+                  <img class="item-image-small" src="{{effect.icon}}"/>
                 {{/if}}
-                <h4>{{effect.data.label}}</h4>
+                <h4>{{effect.label}}</h4>
               </div>
               <div class="effect-duration">{{effect.duration.label}}</div>
               <div class="effect-controls flexrow">
                 {{#if (eq section.showControls 1)}}
                   <a class="effect-control" data-action="toggle" title="{{localize 'DL.EffectToggle'}}">
-                    <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+                    <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
                   </a>
                 {{/if}} {{#if (eq section.showControls 2)}}
                 <a class="effect-control" data-action="toggle" title="{{localize 'DL.EffectToggle'}}">
-                  <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+                  <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
                 </a>
                 <a class="effect-control" data-action="edit" title="{{localize 'DL.EffectEdit'}}">
                   <i class="fas fa-edit"></i>
                 </a>
               {{/if}} {{#if (eq section.showControls 3)}}
                 <a class="effect-control" data-action="toggle" title="{{localize 'DL.EffectToggle'}}">
-                  <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+                  <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
                 </a>
                 <a class="effect-control" data-action="edit" title="{{localize 'DL.EffectEdit'}}">
                   <i class="fas fa-edit"></i>

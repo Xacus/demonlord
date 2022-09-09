@@ -20,4 +20,12 @@ export class TokenManager {
   getTokenByActorId(actorId) {
     return canvas.tokens.placeables.find(token => token.actor.id === actorId)
   }
+
+  warnNotSelected() {
+    if (game.settings.get('demonlord', 'targetingOnSelect')) {
+      ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'))
+    } else {
+      ui.notifications.info(game.i18n.localize('DL.DialogWarningTargetNotSelected'))
+    }
+  }
 }
