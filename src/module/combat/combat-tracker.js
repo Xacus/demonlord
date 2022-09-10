@@ -1,6 +1,7 @@
 import {DLEndOfRound} from '../dialog/endofround.js'
 import {i18n} from "../utils/utils";
 import {createInitChatMessage} from "./combat";
+import {injectDraggable} from "./combat-tracker-draggable";
 
 export class DLCombatTracker extends CombatTracker {
   constructor(options) {
@@ -99,12 +100,16 @@ export class DLCombatTracker extends CombatTracker {
         )
     }
 
+    // End of the round click
     html.find('#combat-endofround').click(_ev => {
       new DLEndOfRound(this.getCurrentCombat(), {
         top: 50,
         right: 700,
       }).render(true)
     })
+
+    // Draggable
+    injectDraggable(html, this)
   }
 
   getCurrentCombat() {
@@ -131,3 +136,4 @@ export function _onUpdateCombat(combatData, _updateData, _options, _userId) {
     }
   }
 }
+

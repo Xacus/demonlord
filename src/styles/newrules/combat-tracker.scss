@@ -1,0 +1,20 @@
+// Custom tracker drag effects
+// SRC: https://gitlab.com/mkahvi/fvtt-micro-modules/-/blob/master/reorder-initiative/reorder-init.css
+ol#combat-tracker li.combatant.drag-hover {
+  /*box-sizing: border-box;*/
+  background-color: rgba(162, 34, 35, 0.24);
+}
+
+ol#combat-tracker li.combatant.drag-hover-under {
+  /*border-bottom: #ffba00 dashed;*/
+  box-shadow: 0 3px 0 var(--demonlord-red);
+}
+
+ol#combat-tracker li.combatant.drag-hover-over {
+  /*border-top: #ffba00 dashed;*/
+  box-shadow: 0 -3px 0 var(--demonlord-red);
+}
+
+ol#combat-tracker li.combatant.drag-source-active {
+  opacity: 0.4;
+}
