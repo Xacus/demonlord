@@ -16,7 +16,8 @@ All notable changes to this project will be documented in this file.
 - Improved UI of Afflictions tab. The Invisible token effect is now added, integrating with new foundry v10 vision changes.
 - Improved Incapacitated, Unconscious and Dying afflictions. Incapacitated is now applied when characters reach maximum damage.
 - Combat tracker now properly keeps track of effect durations.
-- Effect duration in seconds is now automatically converted to rounds and vice-versa.
+- Effects are now automatically disabled when game time advances, for example when using Simple Calendar module.
+- Effects inside the character sheet now display their duration in rounds if in combat, and in seconds outside combat.
 ### Fixed
 - Error message when applying afflictions.
 ### Removed

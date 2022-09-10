@@ -4,8 +4,7 @@ import {DemonlordActor} from './actor/actor.js'
 import {DemonlordItem} from './item/item.js'
 import {ActionTemplate} from './pixi/action-template.js'
 import {registerSettings} from './settings.js'
-import {nextTurn, rollInitiative, setupTurns, startCombat} from './init/init.js'
-import combattracker, {_onUpdateCombat} from './combattracker.js'
+import {DLCombatTracker} from './combat/combat-tracker.js'
 import {preloadHandlebarsTemplates} from './templates.js'
 import * as migrations from './migration.js'
 import {handleMigrations} from './migration.js'
@@ -23,7 +22,8 @@ import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
 import 'tippy.js/dist/tippy.css';
 import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
-import DLBaseActorSheet from "./actor/sheets/base-actor-sheet"; // optional for styling
+import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
+import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
 
 
 Hooks.once('init', async function () {
@@ -49,19 +49,11 @@ Hooks.once('init', async function () {
 
   // Define custom Entity classes
   CONFIG.DL = DL
-
-  Combat.prototype.rollInitiative = rollInitiative
-  Combat.prototype.startCombat = startCombat
-  Combat.prototype.nextTurn = nextTurn
-
-  if (!isNewerVersion(game.version ?? game.version, '0.6.9') && !game.release?.generation) {
-    Combat.prototype.setupTurns = setupTurns
-  }
-
   CONFIG.Actor.documentClass = DemonlordActor
   CONFIG.Item.documentClass = DemonlordItem
   DocumentSheetConfig.registerSheet(ActiveEffect, "demonlord", DLActiveEffectConfig, {makeDefault: true})
-  CONFIG.ui.combat = combattracker
+  CONFIG.ui.combat = DLCombatTracker
+  CONFIG.Combat.documentClass = DLCombat
   CONFIG.time.roundTime = 10
   // CONFIG.debug.hooks = true
 
@@ -181,30 +173,17 @@ Hooks.on('createToken', async _tokenDocument => {
 })
 
 Hooks.on('updateActor', async (actor, updateData) => {
-  if (updateData.system && (game.user.isGM || actor.isOwner)) {
-    if (game.combat) {
-      for (const combatant of game.combat.combatants) {
-        let init = 0
-
-        if (combatant.actor == actor) {
-          if (actor.type == 'character') {
-            init = actor.system.fastturn ? 70 : 30
-          } else {
-            init = actor.system.fastturn ? 50 : 10
-          }
-
-          game.combat.setInitiative(combatant.id, init)
-        }
-      }
-    }
-  }
+  // Update the combat initiative if the actor has changed its turn speed
+  if (!(updateData.system.fastturn && (game.user.isGM || actor.isOwner) && game.combat)) return
+  const combatant = game.combat.combatants.find(c => c.actorId === actor.id)
+  if (combatant) game.combat.setInitiative(combatant.id, game.combat.getInitiativeValue(combatant))
 })
 
 export async function findAddEffect(actor, effectId) {
   if (!actor.effects.find(e => e.flags?.core?.statusId === effectId)) {
     const effect = CONFIG.statusEffects.find(e => e.id === effectId)
     effect['flags.core.statusId'] = effectId
-    return  ActiveEffect.create(effect, {parent: actor})
+    return ActiveEffect.create(effect, {parent: actor})
   }
 }
 
@@ -265,7 +244,7 @@ Hooks.on('deleteActiveEffect', async (activeEffect, _, userId) => {
   }
 })
 
-Hooks.on('updateCombat', _onUpdateCombat)
+Hooks.on("updateWorldTime", _onUpdateWorldTime)
 
 Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
 

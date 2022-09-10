@@ -30,10 +30,10 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
   activateListeners(html) {
     super.activateListeners(html)
     // Change the duration in rounds based on seconds and vice-versa
-    const inputSeconds = html.find('input[name="duration.seconds"]')
-    const inputRounds = html.find('input[name="duration.rounds"]')
-    inputSeconds.change(_ => inputRounds.val(Math.floor(inputSeconds.val() / 10)))
-    inputRounds.change(_ => inputSeconds.val(inputRounds.val() * 10))
+    // const inputSeconds = html.find('input[name="duration.seconds"]')
+    // const inputRounds = html.find('input[name="duration.rounds"]')
+    // inputSeconds.change(_ => inputRounds.val(Math.floor(inputSeconds.val() / 10)))
+    // inputRounds.change(_ => inputSeconds.val(inputRounds.val() * 10))
   }
 
   static initializeChangeKeys() {

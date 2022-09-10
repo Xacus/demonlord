@@ -1,6 +1,7 @@
-import {DLEndOfRound} from './dialog/endofround.js'
+import {DLEndOfRound} from '../dialog/endofround.js'
+import {i18n} from "../utils/utils";
 
-export default class extends CombatTracker {
+export class DLCombatTracker extends CombatTracker {
   constructor(options) {
     super(options)
   }
@@ -123,7 +124,10 @@ export default class extends CombatTracker {
       html
         .find('#combat-tracker')
         .append(
-          '<li id="combat-endofround" class="combatant actor directory-item flexrow"><img class="token-image" title="Hag" src="systems/demonlord/assets/ui/icons/pentragram.webp"/><div class="token-name flexcol"><h4>End of the Round</h4></div></li>',
+          `<li id="combat-endofround" class="combatant actor directory-item flexrow">
+             <img class="token-image" src="systems/demonlord/assets/ui/icons/pentragram.webp"/>
+             <div class="token-name flexcol"><h4>${i18n("DL.CreatureSpecialEndRound")}</h4></div>
+           </li>`,
         )
     }
 
@@ -163,11 +167,11 @@ export default class extends CombatTracker {
 }
 
 export function _onUpdateCombat(combatData, _updateData, _options, _userId) {
+  // TODO: DELETE
   // Do this only if the user is GM to avoid multiple operations
   if (!game.user.isGM && game.user.id !== _userId) return
 
   const isRoundAdvanced = combatData?.current?.round - combatData?.previous?.round > 0
-  const isRoundDecreased = combatData?.current?.round - combatData?.previous?.round < 0
   const actors = combatData.combatants.map(c => c.actor)
 
   // Todo: maybe add some memory to remember what has been deactivated in last round?
@@ -179,21 +183,5 @@ export function _onUpdateCombat(combatData, _updateData, _options, _userId) {
         .filter(i => i.type === 'talent')
         .forEach(t => actor.deactivateTalent(t, 0, true))
     }
-
-    // Decrease/increase the duration of effects, also deactivating them if expired
-    const inc = isRoundAdvanced * 1 - isRoundDecreased * 1
-    const tempEffects = actor.effects.filter(e => e.duration?.rounds > 0 || e.duration?.seconds > 0)
-    let aeToUpd = []
-    for (let effect of tempEffects) {
-      const newRounds = Math.max(0, effect.duration.rounds - inc)
-      const newSeconds = Math.max(0, effect.duration.seconds - inc * 10)
-      aeToUpd.push({
-        _id: effect._id,
-        disabled: (newRounds + newSeconds) === 0,
-        'duration.rounds': newRounds,
-        'duration.seconds': newSeconds,
-      })
-    }
-    if (aeToUpd.length > 0) actor.updateEmbeddedDocuments('ActiveEffect', aeToUpd)
   }
 }

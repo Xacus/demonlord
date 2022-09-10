@@ -28,7 +28,7 @@ export class DLEndOfRound extends FormApplication {
     const combatants = Array.from(currentCombat.combatants?.values()) || []
 
     combatants
-      .filter(combatant => !combatant.data.defeated && combatant.actor.type === 'creature')
+      .filter(combatant => !combatant.defeated && combatant.actor.type === 'creature')
       .sort((a, b) => (a.initiative > b.initiative ? -1 : 1))
       .forEach((combatant, index) => {
         creatures[index] = {

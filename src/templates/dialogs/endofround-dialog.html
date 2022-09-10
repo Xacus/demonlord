@@ -4,8 +4,8 @@
       {{#each creatures as |creature id|}}
         <li class="creature-entry combatant actor">
           <div class="header">
-            <img class="token-image" src="{{creature.token.data.img}}" title="{{creature.token.name}}"/>
-            <h3 style="font-weight:bold;">{{creature.token.name}}</h3>
+            <img class="token-image" src="{{creature.actor.img}}" title="{{creature.token.name}}"/>
+            <h3 style="font-weight:bold; border: none">{{creature.token.name}}</h3>
             <div class="headerbody">
               {{localize 'DL.CreatureSize'}} {{creature.actor.system.characteristics.size}}
               {{creature.actor.system.descriptor}}
