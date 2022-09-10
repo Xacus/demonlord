@@ -9,7 +9,7 @@ export class DLCombat extends Combat {
   getInitiativeValue(combatant, isFast = undefined, offset = 0) {
     const isPc = combatant.actor.type === 'character'
     isFast = isFast ?? combatant.actor.system.fastturn
-    return (isPc * 10) + isFast * 50 + offset
+    return (isPc * 20) + isFast * 50 + offset
   }
 
   /**
@@ -64,7 +64,6 @@ export class DLCombat extends Combat {
     await ChatMessage.implementation.create(initMessages);
     return this;
   }
-
 
   /**
    * Begin the combat encounter, advancing to round 1 and turn 1
@@ -290,3 +289,11 @@ export function calcEffectRemainingTurn(e, currentTurn) {
   const passedTurns = currentTurn - startTurn
   return durationTurns - passedTurns
 }
+
+// -----------------------------------------------------------------------------------------------
+
+// When a combatant is created, get its initiative from the actor
+Hooks.on('preCreateCombatant', (combatant, _data, _options, userId) => {
+  if (game.userId !== userId) return
+  combatant.updateSource({initiative: game.combat.getInitiativeValue(combatant)})
+})

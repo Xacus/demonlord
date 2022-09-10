@@ -121,7 +121,7 @@ function dragStartEvent(ev) {
 
   document.body.addEventListener('dragend', () => {
     currentId = dragId = undefined;
-    c.classList.remove('drag-source-active');
+    c.classList.remove('drag-source-active', 'drag-hover', 'drag-hover-under', 'drag-hover-over');
   }, { passive: true, once: true });
 
   return true;
@@ -209,9 +209,10 @@ function dropEvent(ev) {
   const dropEl = ev.target,
     targetEl = dropEl.matches(combatantMatch) ? dropEl : dropEl.closest(combatantMatch),
     combatantId = targetEl?.dataset.combatantId;
-
+  if (!targetEl) return;
   const alt = ev.altKey;
   targetEl.classList.remove('drag-hover', 'drag-hover-under', 'drag-hover-over');
+  currentValidEl?.classList.remove('drag-hover', 'drag-hover-under', 'drag-hover-over');
   if (!combatantId) return;
 
   const combat = game.combat;

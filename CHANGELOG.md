@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file.
   - Dragging with the Alt key pressed puts the dragged combatant below instead of above.
   - GMs can drag all combatants, Players only owned combatants
   - Dragging is limited to the initiative "speed slots". For example, characters with fast turns can freely move their order within other character with fast turns, but not creatures with fast or slow turns.
-  - Huge thanks to Mana#4176 for the code.
+  - Huge thanks to Mana#4176 for the code!
 ### Changed
 - Now measured templates dynamically target tokens even before placing them.
 - Auto targeting by measured templates is now enabled by default.
