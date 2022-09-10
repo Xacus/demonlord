@@ -1,5 +1,6 @@
 import {DLEndOfRound} from '../dialog/endofround.js'
 import {i18n} from "../utils/utils";
+import {createInitChatMessage} from "./combat";
 
 export class DLCombatTracker extends CombatTracker {
   constructor(options) {
@@ -14,23 +15,23 @@ export class DLCombatTracker extends CombatTracker {
   activateListeners(html) {
     let init
     let hasEndOfRoundEffects = false
-    html.find('.combatant').each((i, el) => {
-      const currentCombat = this.getCurrentCombat()
+    const currentCombat = this.getCurrentCombat()
+    const combatants = currentCombat?.combatants
 
+    html.find('.combatant').each((i, el) => {
+      // For each combatant in the tracker, change the initiative selector
       const combId = el.getAttribute('data-combatant-id')
-      const combatant = currentCombat.combatants.find(c => c.id == combId)
+      const combatant = combatants.find(c => c.id === combId)
       if (!combatant) return
+
       init = combatant.actor?.system.fastturn
         ? game.i18n.localize('DL.TurnFast')
         : game.i18n.localize('DL.TurnSlow')
-      el.getElementsByClassName('token-initiative')[0].innerHTML =
-        '<a class="combatant-control dlturnorder" title="' +
-        game.i18n.localize('DL.TurnChangeTurn') +
-        '">' +
-        init +
-        '</a>'
 
-      // Tooltip on Status Effects
+      el.getElementsByClassName('token-initiative')[0].innerHTML =
+        `<a class="combatant-control dlturnorder" title="${i18n('DL.TurnChangeTurn')}">${init}</a>`
+
+      // Add Tooltip on Status Effects
       // Group actor effects by image
       const imgEffectMap = new Map()
       combatant.actor.effects
@@ -51,17 +52,15 @@ export class DLCombatTracker extends CombatTracker {
 
         let tooltiptext = ': ' + game.i18n.localize('DL.Afflictions' + match.label)
         tooltiptext = tooltiptext.indexOf('DL.Afflictions') === -1 ? tooltiptext : ''
-
-        const tooltip = `<div class="tooltipEffect tracker-effect" data-effect-uuid="${match.uuid}">${htmlEffect.outerHTML}<span class="tooltiptextEffect">${match.label}${tooltiptext}</span></div>`
-        htmlEffect.outerHTML = tooltip
+        htmlEffect.outerHTML =
+          `<div class="tooltipEffect tracker-effect" data-effect-uuid="${match.uuid}">${htmlEffect.outerHTML}
+            <span class="tooltiptextEffect">${match.label}${tooltiptext}</span>
+           </div>`
         // htmlEffect.addEventListener('click', ev => (ev.button == "2") ? match.delete() : null)
         // ^ does not work, probably the event gets intercepted
       }
 
-      const endofrounds =
-        combatant.actor != null
-          ? combatant?.actor.getEmbeddedCollection('Item').filter(e => e.type === 'endoftheround')
-          : ''
+      const endofrounds = combatant.actor.getEmbeddedCollection('Item').filter(e => e.type === 'endoftheround')
       if (endofrounds.length > 0) hasEndOfRoundEffects = true
     })
 
@@ -75,47 +74,16 @@ export class DLCombatTracker extends CombatTracker {
 
     super.activateListeners(html)
 
-    html.find('.dlturnorder').click(ev => {
+    html.find('.dlturnorder').click(async ev => {
       const li = ev.currentTarget.closest('li')
       const combId = li.dataset.combatantId
-      const currentCombat = this.getCurrentCombat()
-      const combatant = currentCombat.combatants.find(c => c.id == combId)
+      const combatant = combatants.find(c => c.id === combId)
       if (!combatant) return
-      // const initMessages = []
 
       if (game.user.isGM || combatant.actor.isOwner) {
-        if (game.settings.get('demonlord', 'initMessage')) {
-          var templateData = {
-            actor: combatant.actor,
-            item: {
-              name: game.i18n.localize('DL.DialogInitiative'),
-            },
-            data: {
-              turn: {
-                value: combatant.actor.system?.fastturn
-                  ? game.i18n.localize('DL.DialogTurnSlow')
-                  : game.i18n.localize('DL.DialogTurnFast'),
-              },
-            },
-          }
-
-          const chatData = {
-            user: game.user.id,
-            speaker: {
-              actor: combatant.actor.id,
-              token: combatant.actor.token,
-              alias: combatant.actor.name,
-            },
-          }
-
-          const template = 'systems/demonlord/templates/chat/init.html'
-          renderTemplate(template, templateData).then(content => {
-            chatData.content = content
-            ChatMessage.create(chatData)
-          })
-        }
-
-        this.updateActorsFastturn(combatant.actor)
+        await combatant.actor.update({'system.fastturn': !combatant.actor.system.fastturn})
+        const initChatMessage = await createInitChatMessage(combatant, {})
+        if (initChatMessage) ChatMessage.create(initChatMessage)
       }
     })
 
@@ -141,28 +109,6 @@ export class DLCombatTracker extends CombatTracker {
 
   getCurrentCombat() {
     return this.viewed
-  }
-
-  async updateActorsFastturn(actor) {
-    await actor.update({
-      'data.fastturn': !actor.system?.fastturn,
-    })
-
-    if (game.combat) {
-      for (const combatant of game.combat.combatants) {
-        let init = 0
-
-        if (combatant.actor == actor) {
-          if (actor.type == 'character') {
-            init = actor.system.fastturn ? 70 : 30
-          } else {
-            init = actor.system.fastturn ? 50 : 10
-          }
-
-          game.combat.setInitiative(combatant.id, init)
-        }
-      }
-    }
   }
 }
 

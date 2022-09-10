@@ -56,7 +56,7 @@ export class DLCombat extends Combat {
     await this.updateEmbeddedDocuments("Combatant", combatantUpdates);
 
     // Ensure the turn order remains with the same combatant
-    if ( updateTurn && currentId ) {
+    if (updateTurn && currentId) {
       await this.update({turn: this.turns.findIndex(t => t.id === currentId)});
     }
 
@@ -75,15 +75,59 @@ export class DLCombat extends Combat {
     this.combatants.forEach(combatant => this.setInitiative(combatant.id, this.getInitiativeValue(combatant)))
     return this.update({
       round: 1,
-      turn: 0,
+      turn: 1,
     })
   }
 
-  // /** @override */
-  // async nextTurn() {
-  //   const _updatedTurn = await super.nextTurn()
-  //   return _updatedTurn
-  // }
+  /** @override */
+  async nextTurn() {
+    const _updatedTurn = await super.nextTurn()
+    await this._handleTurnEffects()
+    return _updatedTurn
+  }
+
+  /** @override */
+  async previousTurn() {
+    const _updatedTurn = await super.previousTurn()
+    await this._handleTurnEffects()
+    return _updatedTurn
+  }
+
+  /** @override */
+  async nextRound() {
+    const _updatedRound = await super.nextRound()
+    await this._handleTurnEffects()
+    return _updatedRound
+  }
+
+  /** @override */
+  async previousRound() {
+    const _updatedRound = await super.previousRound()
+    await this._handleTurnEffects()
+    return _updatedRound
+  }
+
+
+  async _handleTurnEffects() {
+    // Disable the effects which have TURN duration
+    const actors = this.combatants.map(c => c.actor)
+    for (let actor of actors) {
+      let updateData = []
+      const enabledEffects = actor.effects
+      const tempEffects = enabledEffects.filter(e => e.duration?.turns > 0)
+      tempEffects.forEach(e => {
+        const passedRounds = this.round - e.duration?.startRound
+        const isRoundActive = e.duration.rounds !== null
+          ? (0 <= passedRounds) && (passedRounds <= e.duration.rounds)
+          : true
+        const disabled = !isRoundActive || calcEffectRemainingTurn(e, this.turn) <= 0
+        if (disabled !== e.disabled)
+          updateData.push({_id: e._id, disabled: disabled})
+      })
+      if (updateData.length) await actor.updateEmbeddedDocuments('ActiveEffect', updateData).then(_ => actor.sheet.render())
+    }
+    return true
+  }
 }
 
 
@@ -122,7 +166,7 @@ const selectTurnType = async function (actor, fastturn) {
   })
 }
 
-const createInitChatMessage = async function (combatant, messageOptions) {
+export async function createInitChatMessage(combatant, messageOptions) {
   const c = combatant
   if (!game.settings.get('demonlord', 'initMessage')) return
   var templateData = {
@@ -199,15 +243,14 @@ export function _onUpdateWorldTime(worldTime, delta, _options, userId) {
 
       // Maybe here handle deletion of external effects vs disabling of item-owned effects
       if (disabled !== e.disabled)
-        updateData.push({
-          _id: e._id,
-          disabled: disabled,
-        })
+        updateData.push({_id: e._id, disabled: disabled})
     })
     // Finally, update actor's active effects
     if (updateData.length) actor.updateEmbeddedDocuments('ActiveEffect', updateData).then(_ => actor.sheet.render())
   }
 }
+
+// -----------------------------------------------------------------------------------------------
 
 /**
  * Calculates the remaining effect duration in ROUNDS
@@ -216,7 +259,7 @@ export function _onUpdateWorldTime(worldTime, delta, _options, userId) {
  * @returns {number}
  */
 export function calcEffectRemainingRounds(e, currentRound) {
-  const durationRounds = e.duration.rounds || Math.floor(e.duration.seconds / 10)
+  const durationRounds = e.duration.rounds || Math.floor(e.duration.seconds / 10) || 0
   const startRound = e.duration.startRound || (currentRound ? 1 : 0)
   const passedRounds = currentRound - startRound
   return durationRounds - passedRounds
@@ -229,8 +272,21 @@ export function calcEffectRemainingRounds(e, currentRound) {
  * @returns {number}
  */
 export function calcEffectRemainingSeconds(e, currentTime) {
-  const durationSeconds = e.duration.seconds || e.duration.rounds * 10
+  const durationSeconds = e.duration.seconds || e.duration.rounds * 10 || 0
   const startSeconds = e.duration.startTime || e.duration.startRound * 10
   const passedSeconds = currentTime - startSeconds
   return durationSeconds - passedSeconds
+}
+
+/**
+ * Calculates the remaining effect duration in TURNS
+ * @param {ActiveEffect} e
+ * @param {number} currentTurn
+ * @returns {number}
+ */
+export function calcEffectRemainingTurn(e, currentTurn) {
+  const durationTurns = e.duration.turns || 0
+  const startTurn = e.duration.startTurn || 0
+  const passedTurns = currentTurn - startTurn
+  return durationTurns - passedTurns
 }

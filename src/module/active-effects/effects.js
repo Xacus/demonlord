@@ -3,7 +3,7 @@
  * @param {MouseEvent} event      The left-click event on the effect control
  * @param {Actor|Item} owner      The owning entity which manages this effect
  */
-import {calcEffectRemainingRounds, calcEffectRemainingSeconds} from "../combat/combat";
+import {calcEffectRemainingRounds, calcEffectRemainingSeconds, calcEffectRemainingTurn} from "../combat/combat";
 import {i18n} from "../utils/utils";
 
 export function onManageActiveEffect(event, owner) {
@@ -72,10 +72,19 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
   // Iterate over active effects, classifying them into categories.
   for (let e of effects) {
     // Also set the 'remaining time' in seconds or rounds depending on if in combat
-    if (e.isTemporary && (e.duration.seconds || e.duration.rounds)) {
+    if (e.isTemporary && (e.duration.seconds || e.duration.rounds || e.duration.turns)) {
       if (game.combat) {
-        const r = calcEffectRemainingRounds(e, game.combat.round)
-        e.dlRemaining = `${r} ${Math.abs(r) > 1 ? i18n("COMBAT.Rounds") : i18n("COMBAT.Round")}`
+        if (e.duration.turns > 0) {
+          const rr = calcEffectRemainingRounds(e, game.combat.round)
+          const rt = calcEffectRemainingTurn(e, game.combat.turn)
+          const sr = `${rr} ${Math.abs(rr) > 1 ? i18n("COMBAT.Rounds") : i18n("COMBAT.Round")}`
+          const st = `${rt} ${Math.abs(rt) > 1 ? i18n("COMBAT.Turns") : i18n("COMBAT.Turn")}`
+          e.dlRemaining = sr + ' ' + st
+        }
+        else {
+          const r = calcEffectRemainingRounds(e, game.combat.round)
+          e.dlRemaining = `${r} ${Math.abs(r) > 1 ? i18n("COMBAT.Rounds") : i18n("COMBAT.Round")}`
+        }
       } else {
         const r = calcEffectRemainingSeconds(e, game.time.worldTime)
         e.dlRemaining = `${r} ${i18n("TIME.Seconds")}`

@@ -174,7 +174,8 @@ Hooks.on('createToken', async _tokenDocument => {
 
 Hooks.on('updateActor', async (actor, updateData) => {
   // Update the combat initiative if the actor has changed its turn speed
-  if (!(updateData.system.fastturn && (game.user.isGM || actor.isOwner) && game.combat)) return
+  const isUpdateTurn = typeof updateData?.system.fastturn !== 'undefined' && updateData?.system?.fastturn !== null
+  if (!(isUpdateTurn && (game.user.isGM || actor.isOwner) && game.combat)) return
   const combatant = game.combat.combatants.find(c => c.actorId === actor.id)
   if (combatant) game.combat.setInitiative(combatant.id, game.combat.getInitiativeValue(combatant))
 })
