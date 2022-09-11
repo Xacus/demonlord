@@ -7,11 +7,12 @@ All notable changes to this project will be documented in this file.
 - New macro "Change Token Vision". It allows to apply vision types like Darksight, Sightless, and all the others to the selected tokens, using the new Foundry v10 token vision settings.
 - New Active Effect property, which allows character to reroll 1 on boon rolls
 - 2 new Active Effect properties: "Attack Boons/Banes - Spell" and "Attack Boons/Banes - Spell"
+- New setting "Auto Delete Effects"
 - It is now possible to change the initiative order directly inside the combat tracker simply by dragging the combatants:
   - Dragging with the Alt key pressed puts the dragged combatant below instead of above.
   - GMs can drag all combatants, Players only owned combatants
   - Dragging is limited to the initiative "speed slots". For example, characters with fast turns can freely move their order within other character with fast turns, but not creatures with fast or slow turns.
-  - Huge thanks to Mana#4176 for the code!
+  - Huge thanks to Mana#4176 for providing the initial implementation!
 ### Changed
 - Now measured templates dynamically target tokens even before placing them.
 - Auto targeting by measured templates is now enabled by default.
@@ -20,9 +21,12 @@ All notable changes to this project will be documented in this file.
 - Changed some default item icons (End of round, Special Action, Weapon, Talent, Feature).
 - Improved UI of Afflictions tab. The Invisible token effect is now added, integrating with new foundry v10 vision changes.
 - Improved Incapacitated, Unconscious and Dying afflictions. Incapacitated is now applied when characters reach maximum damage.
-- Combat tracker now properly keeps track of effect durations.
-- Effects are now automatically disabled when game time advances, for example when using Simple Calendar module.
-- Effects inside the character sheet now display their duration in rounds if in combat, and in seconds outside combat.
+- Active Effects durations improvements:
+  - Combat tracker now properly keeps track of effect durations.
+  - Note: Spell effects with 1 round duration will last until the end of next round instead of the end of the current round.
+  - Effects are now automatically disabled when game time advances, for example when using Simple Calendar module.
+  - If the "Auto Delete Effects" setting is on, temporary effects that are "external" to the character, such as effects from spells or afflictions are automatically deleted.
+  - Effects inside the character sheet now display their duration in rounds if in combat, and in seconds outside combat.
 ### Fixed
 - Error message when applying afflictions.
 ### Removed

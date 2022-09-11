@@ -176,8 +176,8 @@ Hooks.on('updateActor', async (actor, updateData) => {
   // Update the combat initiative if the actor has changed its turn speed
   const isUpdateTurn = typeof updateData?.system?.fastturn !== 'undefined' && updateData?.system?.fastturn !== null
   if (!(isUpdateTurn && (game.user.isGM || actor.isOwner) && game.combat)) return
-  const combatant = game.combat.combatants.find(c => c.actorId === actor.id)
-  if (combatant) game.combat.setInitiative(combatant.id, game.combat.getInitiativeValue(combatant))
+  const linkedCombatants = game.combat.combatants.filter(c => c.actorId === actor.id)
+  linkedCombatants.forEach(c => game.combat.setInitiative(c.id, game.combat.getInitiativeValue(c)))
 })
 
 export async function findAddEffect(actor, effectId) {

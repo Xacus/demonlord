@@ -110,4 +110,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'autoDeleteEffects', {
+    name: game.i18n.localize('DL.SettingAutoDeleteEffects'),
+    hint: game.i18n.localize('DL.SettingAutoDeleteEffectsHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })
 }

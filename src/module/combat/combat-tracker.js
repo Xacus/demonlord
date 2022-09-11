@@ -22,7 +22,7 @@ export class DLCombatTracker extends CombatTracker {
     html.find('.combatant').each((i, el) => {
       // For each combatant in the tracker, change the initiative selector
       const combId = el.getAttribute('data-combatant-id')
-      const combatant = combatants.find(c => c.id === combId)
+      const combatant = combatants.get(combId)
       if (!combatant) return
 
       init = combatant.actor?.system.fastturn
@@ -78,7 +78,7 @@ export class DLCombatTracker extends CombatTracker {
     html.find('.dlturnorder').click(async ev => {
       const li = ev.currentTarget.closest('li')
       const combId = li.dataset.combatantId
-      const combatant = combatants.find(c => c.id === combId)
+      const combatant = combatants.get(combId)
       if (!combatant) return
 
       if (game.user.isGM || combatant.actor.isOwner) {

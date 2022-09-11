@@ -15,9 +15,9 @@
           <div class="effectInfo" style="display: none">
             <ol class="effects">
               {{#each creature.endOfRoundEffects as |endOfRoundEffect id|}}
-                <li class="effect">
-                  <div class="effectname">{{endOfRoundEffect.name}}</div>
-                  <div class="effectsescription">{{{endOfRoundEffect.system.description}}}</div>
+                <li class="effect" style="margin-bottom: 4px">
+                  <div style="font-weight: bold">{{endOfRoundEffect.name}}</div>
+                  <div>{{{endOfRoundEffect.system.description}}}</div>
                 </li>
               {{/each}}
             </ol>

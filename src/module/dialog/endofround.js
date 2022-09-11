@@ -29,6 +29,7 @@ export class DLEndOfRound extends FormApplication {
 
     combatants
       .filter(combatant => !combatant.defeated && combatant.actor.type === 'creature')
+      .filter(combatant => combatant.actor.items.filter(i => i.type === 'endoftheround').length > 0)
       .sort((a, b) => (a.initiative > b.initiative ? -1 : 1))
       .forEach((combatant, index) => {
         creatures[index] = {

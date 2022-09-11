@@ -207,9 +207,9 @@ export async function createInitChatMessage(combatant, messageOptions) {
  * @param {string} userId     id of the caller
  * @private
  */
-export function _onUpdateWorldTime(worldTime, delta, _options, userId) {
+export function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
   // Automatically disable active effects, based on their start time and duration
-  console.log("_onUpdateWorldTime", worldTime, delta, _options, userId)
+  const autoDelete = game.settings.get('demonlord', 'autoDeleteEffects')
 
   // if (game.userId !== userId) return FIXME: doesn't work currently due to foundry bug (9/9/22)
   // Dirty fix
@@ -227,24 +227,32 @@ export function _onUpdateWorldTime(worldTime, delta, _options, userId) {
 
   for (let actor of currentActors) {
     let updateData = []
+    let deleteIds = []
+
     // For each actor, select effects that are enabled and have a duration (either rounds or secs)
     // const enabledEffects = actor.effects.filter(e => !e.disabled && !e.isSuppressed)
     const enabledEffects = actor.effects
     const tempEffects = enabledEffects.filter(e => e.duration?.rounds > 0 || e.duration?.seconds > 0)
     tempEffects.forEach(e => {
+      const eType = e.flags?.sourceType
+      const isSpell1Round = eType === 'spell' && e.duration.rounds === 1
 
       // If in combat, handle the duration in rounds, otherwise handle the duration in seconds
       let disabled = false
       if (inCombat)
-        disabled = calcEffectRemainingRounds(e, game.combat.round) < 0 // not <= since effects last until the end of next round
+        disabled = calcEffectRemainingRounds(e, game.combat.round) <= (isSpell1Round ? -1 : 0)
       else
         disabled = calcEffectRemainingSeconds(e, worldTime) <= 0
 
-      // Maybe here handle deletion of external effects vs disabling of item-owned effects
-      if (disabled !== e.disabled)
+      // Delete effects that come from spells, characters or afflictions
+      if (autoDelete && disabled && ['spell', 'character', 'affliction'].includes(eType))
+        deleteIds.push(e._id)
+      else if (disabled !== e.disabled)
         updateData.push({_id: e._id, disabled: disabled})
     })
+
     // Finally, update actor's active effects
+    if (deleteIds.length) actor.deleteEmbeddedDocuments('ActiveEffect', deleteIds)
     if (updateData.length) actor.updateEmbeddedDocuments('ActiveEffect', updateData).then(_ => actor.sheet.render())
   }
 }
