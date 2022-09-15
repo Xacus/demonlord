@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [2.2.3]
+### Fixed
+- Boons incorrectly being always rerolled
+- Apply vision macro now updates actors (even in compendiums)
+
 ## [2.2.2]
 ### Added
 - Compatibility with foundry v10.

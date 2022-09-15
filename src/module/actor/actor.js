@@ -273,8 +273,8 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
   rollFormula(mod, boba, bobaRerolls) {
     let rollFormula = '1d20' + plusify(mod)
-    if (boba > 0 && bobaRerolls) rollFormula += `+${boba}d6r1kh`
-    else if (boba) rollFormula += plusify(boba) + 'd6r1kh'
+    if (boba > 0 && parseInt(bobaRerolls) > 0) rollFormula += `+${boba}d6r1kh`
+    else if (boba) rollFormula += plusify(boba) + 'd6kh'
     console.log(rollFormula)
     return rollFormula
   }

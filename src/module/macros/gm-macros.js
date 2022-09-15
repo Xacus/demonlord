@@ -345,7 +345,7 @@ export function applyVisionMacro() {
 }
 
 
-export function applyVisionType(token, visionType = undefined, _otherData = undefined) {
+export async function applyVisionType(token, visionType = undefined, _otherData = undefined) {
   if (!token) return
   visionType = visionType?.toLowerCase() ?? 'basic'
 
@@ -389,5 +389,15 @@ export function applyVisionType(token, visionType = undefined, _otherData = unde
     })
   }
 
-  return token.document.update(updateData)
+  // Update the token and the prototype
+  const promises = [
+    token.document.update(updateData),
+    token.actor?.prototypeToken?.update(updateData)
+  ]
+
+  const actorUuid = token.actor.flags?.core?.sourceId
+  const actorSource = await fromUuid(actorUuid)
+  if (actorSource) promises.push(actorSource.prototypeToken.update(updateData))
+  return Promise.all(promises)
+
 }
