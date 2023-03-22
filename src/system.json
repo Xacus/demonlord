@@ -124,6 +124,11 @@
       "lang": "zh-tw",
       "name": "Taiwanese Chinese",
       "path": "lang/zh-tw.json"
+    },
+    {
+      "lang": "pl",
+      "name": "Polish",
+      "path": "lang/pl.json"
     }
   ],
   "gridDistance": 1,
