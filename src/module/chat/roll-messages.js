@@ -68,6 +68,8 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['actorInfo'] = buildActorInfo(attacker)
 
   const chatData = getChatBaseData(attacker, rollMode)
+  chatData.rolls = [attackRoll]
+  chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   const template = 'systems/demonlord/templates/chat/combat.html'
 
   renderTemplate(template, templateData).then(content => {
@@ -124,6 +126,8 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   data['actorInfo'] = buildActorInfo(actor)
 
   const chatData = getChatBaseData(actor, rollMode)
+  chatData.rolls = [challengeRoll]
+  chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   const template = 'systems/demonlord/templates/chat/challenge.html'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
@@ -226,6 +230,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['actorInfo'] = buildActorInfo(actor)
 
   const chatData = getChatBaseData(actor, rollMode)
+  chatData.rolls = [attackRoll]
+  chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   if (talentData?.damage || talentData?.vs?.attribute || (!talentData?.vs?.attribute && !talentData?.damage)) {
     const template = 'systems/demonlord/templates/chat/talent.html'
     return renderTemplate(template, templateData).then(content => {
@@ -352,6 +358,8 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['actorInfo'] = buildActorInfo(actor)
 
   const chatData = getChatBaseData(actor, rollMode)
+  chatData.rolls = [attackRoll]
+  chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   const template = 'systems/demonlord/templates/chat/spell.html'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
@@ -397,6 +405,8 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
 
   const rollMode = game.settings.get('core', 'rollMode')
   const chatData = getChatBaseData(actor, rollMode)
+  chatData.rolls = [corruptionRoll]
+  chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   const template = 'systems/demonlord/templates/chat/corruption.html'
 
   chatData.content = await renderTemplate(template, templateData)
