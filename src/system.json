@@ -2,7 +2,7 @@
   "id": "demonlord",
   "title": "Shadow of the Demon Lord",
   "description": "The Shadow of the Demonlord system for FoundryVTT",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "author": "Xacus, ClipplerBlood, PatrickPorto",
   "authors": [
     {
@@ -138,7 +138,7 @@
   "socket": true,
   "url": "https://github.com/Xacus/demonlord",
   "manifest": "https://github.com/Xacus/demonlord/releases/latest/download/system.json",
-  "download": "https://github.com/Xacus/demonlord/releases/download/2.2.4/system.zip",
+  "download": "https://github.com/Xacus/demonlord/releases/download/2.2.5/system.zip",
   "bugs": "https://github.com/Xacus/demonlord/issues",
   "readme": "https://github.com/Xacus/demonlord/blob/master/README.md",
   "changelog": "https://github.com/Xacus/demonlord/blob/master/CHANGELOG.md",
