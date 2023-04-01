@@ -136,7 +136,7 @@ export class DemonlordActor extends Actor {
         c.priority = c.priority ?? (c.mode * 10)
         return c
       }))
-    }, []).filter(e => e.key.startsWith("data.attributes") || e.key.startsWith("data.characteristics"))
+    }, []).filter(e => e.key.startsWith("system.attributes") || e.key.startsWith("system.characteristics"))
     effectChanges.sort((a, b) => a.priority - b.priority)
     // effectChanges now contains active effects for attributes and characteristics sorted by priority
 
