@@ -89,6 +89,10 @@ async function _onChatRollDamage(event) {
   templateData.data['actorInfo'] = buildActorInfo(actor)
 
   const chatData = getChatBaseData(actor, rollMode)
+  if (damageRoll) {
+    chatData.rolls = [damageRoll],
+    chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
+  }
   const template = 'systems/demonlord/templates/chat/damage.html'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
@@ -236,6 +240,7 @@ async function _onChatRequestChallengeRoll(event) {
     const template = 'systems/demonlord/templates/chat/makechallengeroll.html'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
+
       ChatMessage.create(chatData)
     })
   })
