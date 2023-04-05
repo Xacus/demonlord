@@ -593,7 +593,7 @@ export class DemonlordActor extends Actor {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
 
-    const template = 'systems/demonlord/templates/chat/enchantment.html'
+    const template = 'systems/demonlord/templates/chat/enchantment.hbs'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
       ChatMessage.create(chatData)
@@ -683,7 +683,7 @@ export class DemonlordActor extends Actor {
       speaker: {actor: this.id, token: this.token, alias: this.name},
     }
 
-    const template = 'systems/demonlord/templates/chat/rest.html'
+    const template = 'systems/demonlord/templates/chat/rest.hbs'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
       ChatMessage.create(chatData)

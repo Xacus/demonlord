@@ -3,7 +3,7 @@ export class DLEndOfRound extends FormApplication {
     const options = super.defaultOptions
     options.id = 'sheet-modifiers'
     options.classes = ['demonlorddialog', 'dialog']
-    options.template = 'systems/demonlord/templates/dialogs/endofround-dialog.html'
+    options.template = 'systems/demonlord/templates/dialogs/endofround-dialog.hbs'
     options.width = 430
     options.height = 430
     return options

@@ -24,7 +24,7 @@ export function requestInitiativeRollMacro() {
 
     chatData["whisper"] = targets;
 
-    let template = 'systems/demonlord/templates/chat/makeinitroll.html';
+    let template = 'systems/demonlord/templates/chat/makeinitroll.hbs';
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;
       ChatMessage.create(chatData);
@@ -87,7 +87,7 @@ export function requestChallengeRollMacro() {
 
     chatData["whisper"] = targets;
 
-    let template = 'systems/demonlord/templates/chat/makechallengeroll.html';
+    let template = 'systems/demonlord/templates/chat/makechallengeroll.hbs';
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;
       ChatMessage.create(chatData);

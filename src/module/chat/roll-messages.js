@@ -72,7 +72,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
     chatData.rolls = [attackRoll]
     chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
-  const template = 'systems/demonlord/templates/chat/combat.html'
+  const template = 'systems/demonlord/templates/chat/combat.hbs'
 
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
@@ -132,7 +132,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
     chatData.rolls = [challengeRoll]
     chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
-  const template = 'systems/demonlord/templates/chat/challenge.html'
+  const template = 'systems/demonlord/templates/chat/challenge.hbs'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
     if (game.dice3d) {
@@ -189,6 +189,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
 
   const attackAttribute = talentData.vs?.attribute?.toLowerCase() || ''
   const defenseAttribute = talentData.vs?.against?.toLowerCase() || ''
+  const savingAttribute = talentData?.action?.defense?.toLowerCase() || ''
   const talentEffects = buildTalentEffectsMessage(actor, talent)
   //
   const templateData = {
@@ -207,7 +208,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['didHit'] = attackRoll?.total >= targetNumber
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : ''
   data['against'] = defenseAttribute
-    ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) || ''
+    ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase())
     : ''
   data['againstNumber'] = againstNumber
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
@@ -219,6 +220,13 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['damageTypes'] = talentData?.vs?.damagetypes
   data['damageExtra20plusFormular'] = talentData?.action?.plus20
   data['description'] = talentData?.description
+  data['defense'] = talentData?.action?.defense
+  data['defenseboonsbanse'] = parseInt(talentData?.action?.defenseboonsbanes)
+  data['challStrength'] = savingAttribute === 'strength'
+  data['challAgility'] = savingAttribute === 'agility'
+  data['challIntellect'] = savingAttribute === 'intellect'
+  data['challWill'] = savingAttribute === 'will'
+  data['challPerception'] = savingAttribute === 'perception'
   data['uses'] = usesText
   data['healing'] =
     talentData?.healing?.healactive && talentData?.healing?.healing ? talentData?.healing?.healing : false
@@ -239,7 +247,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
     chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
   if (talentData?.damage || talentData?.vs?.attribute || (!talentData?.vs?.attribute && !talentData?.damage)) {
-    const template = 'systems/demonlord/templates/chat/talent.html'
+    const template = 'systems/demonlord/templates/chat/talent.hbs'
     return renderTemplate(template, templateData).then(content => {
       chatData.content = content
       if (game.dice3d && attackRoll != null) {
@@ -344,7 +352,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['spellpermanence'] = spellData?.permanence
   data['spellspecial'] = spellData?.special
   data['spelltriggered'] = spellData?.triggered
-  data['tagetname'] = target?.name || ''
+  data['targetname'] = target?.name || ''
   data['effectdice'] = effectdice
   data['defense'] = spellData?.action?.defense
   data['defenseboonsbanes'] = parseInt(spellData?.action?.defenseboonsbanes)
@@ -368,7 +376,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
     chatData.rolls = [attackRoll]
     chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
-  const template = 'systems/demonlord/templates/chat/spell.html'
+  const template = 'systems/demonlord/templates/chat/spell.hbs'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
     if (game.dice3d && attackRoll != null && attackAttribute) {
@@ -417,7 +425,7 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
     chatData.rolls = [corruptionRoll]
     chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
-  const template = 'systems/demonlord/templates/chat/corruption.html'
+  const template = 'systems/demonlord/templates/chat/corruption.hbs'
 
   chatData.content = await renderTemplate(template, templateData)
   if (game.dice3d) {
@@ -469,7 +477,7 @@ export const postItemToChat = (actor, item) => {
       alias: actor.name,
     },
   }
-  const template = 'systems/demonlord/templates/chat/useitem.html'
+  const template = 'systems/demonlord/templates/chat/useitem.hbs'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
     ChatMessage.create(chatData)

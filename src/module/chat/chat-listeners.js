@@ -93,7 +93,7 @@ async function _onChatRollDamage(event) {
     chatData.rolls = [damageRoll],
     chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
-  const template = 'systems/demonlord/templates/chat/damage.html'
+  const template = 'systems/demonlord/templates/chat/damage.hbs'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
     if (game.dice3d) {
@@ -237,7 +237,7 @@ async function _onChatRequestChallengeRoll(event) {
 
     chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
 
-    const template = 'systems/demonlord/templates/chat/makechallengeroll.html'
+    const template = 'systems/demonlord/templates/chat/makechallengeroll.hbs'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
 
@@ -293,7 +293,7 @@ async function _onChatRequestInitRoll(event) {
 
     chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
 
-    const template = 'systems/demonlord/templates/chat/makeinitroll.html'
+    const template = 'systems/demonlord/templates/chat/makeinitroll.hbs'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
       ChatMessage.create(chatData)
