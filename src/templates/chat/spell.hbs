@@ -7,7 +7,9 @@
                                   height="40" width="40"/></div>
       <div class="attackbox">
         <div class="boxline">
-          <div class="header">{{localize "DL.SpellRollText"}}</div>
+          <div class="header">
+            {{localize "DL.SpellRollText"}}
+          </div>
           <div class="headertext">{{item.name}}</div>
         </div>
         <div class="boxline">
@@ -21,7 +23,9 @@
       <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"
                                   height="40" width="40"/></div>
       <div class="attackbox">
-        <div class="header">{{localize "DL.SpellRollText"}}</div>
+        <div class="header">
+          {{localize "DL.SpellRollText"}}
+        </div>
         <div class="headertext">{{item.name}}</div>
       </div>
     </header>
@@ -38,7 +42,9 @@
   {{#if data.attack}}
     <div class="result">
       <div class="box {{data.resultBoxClass}}">
-        <div class="valuetext">{{data.attack}}</div>
+        <div class="valuetext">
+          {{data.attack}}
+        </div>
         <div class="boxborder tooltip">
           <div class="value">
             <div class="gmremove">{{data.diceTotal}}</div>
@@ -280,7 +286,6 @@
       </div>
     </div>
   {{/if}}
-
   {{#if data.damageFormular}}
     <div class="combatactions roll-damage">
       <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageFormular}}"
