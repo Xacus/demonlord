@@ -6,8 +6,7 @@ const gulp = require('gulp');
 const path = require('path');
 const rollupConfig = require('./rollup.config');
 const semver = require('semver');
-const sass = require('gulp-sass');
-sass.compiler = require('sass');
+const sass = require('gulp-sass')(require('sass'));
 
 /********************/
 /*  CONFIGURATION   */
