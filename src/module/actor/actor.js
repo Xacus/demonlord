@@ -165,7 +165,7 @@ export class DemonlordActor extends Actor {
       system.characteristics.insanity.max += system.attributes.will.value
 
       // Armor
-      system.characteristics.defense = (system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility) + system.characteristics.defense
+      system.characteristics.defense = (system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility) // + system.characteristics.defense // Applied as ActiveEffect further down
     }
     // --- Creature specific data ---
     else {
