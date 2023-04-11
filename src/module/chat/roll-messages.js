@@ -189,6 +189,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
 
   const attackAttribute = talentData.vs?.attribute?.toLowerCase() || ''
   const defenseAttribute = talentData.vs?.against?.toLowerCase() || ''
+  const savingAttribute = talentData?.action?.defense?.toLowerCase() || ''
   const talentEffects = buildTalentEffectsMessage(actor, talent)
   //
   const templateData = {
@@ -207,7 +208,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['didHit'] = attackRoll?.total >= targetNumber
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : ''
   data['against'] = defenseAttribute
-    ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) || ''
+    ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase())
     : ''
   data['againstNumber'] = againstNumber
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
@@ -217,8 +218,15 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['damageType'] =
     talentData?.vs?.damageactive && talentData?.vs?.damage ? talentData?.vs?.damagetype : talentData?.action?.damagetype
   data['damageTypes'] = talentData?.vs?.damagetypes
-  data['damageExtra20plusFormular'] = talentData?.action?.plus20
+  data['damageExtra20plusFormular'] = talentData?.action?.plus20damage
   data['description'] = talentData?.description
+  data['defense'] = talentData?.action?.defense
+  data['defenseboonsbanse'] = parseInt(talentData?.action?.defenseboonsbanes)
+  data['challStrength'] = savingAttribute === 'strength'
+  data['challAgility'] = savingAttribute === 'agility'
+  data['challIntellect'] = savingAttribute === 'intellect'
+  data['challWill'] = savingAttribute === 'will'
+  data['challPerception'] = savingAttribute === 'perception'
   data['uses'] = usesText
   data['healing'] =
     talentData?.healing?.healactive && talentData?.healing?.healing ? talentData?.healing?.healing : false
