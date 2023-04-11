@@ -76,14 +76,8 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
-    if (game.dice3d && attackRoll && !(attacker.type === 'creature' && !attackShow))
-      game.dice3d
-        .showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind)
-        .then(() => ChatMessage.create(chatData))
-    else {
-      chatData.sound = CONFIG.sounds.dice
-      ChatMessage.create(chatData)
-    }
+    chatData.sound = CONFIG.sounds.dice
+    ChatMessage.create(chatData)
   })
 }
 
@@ -135,14 +129,8 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   const template = 'systems/demonlord/templates/chat/challenge.html'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
-    if (game.dice3d) {
-      game.dice3d
-        .showForRoll(challengeRoll, game.user, true, chatData.whisper, chatData.blind)
-        .then(() => ChatMessage.create(chatData))
-    } else {
-      chatData.sound = CONFIG.sounds.dice
-      ChatMessage.create(chatData)
-    }
+    chatData.sound = CONFIG.sounds.dice
+    ChatMessage.create(chatData)
   })
 }
 
@@ -250,21 +238,10 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
     const template = 'systems/demonlord/templates/chat/talent.html'
     return renderTemplate(template, templateData).then(content => {
       chatData.content = content
-      if (game.dice3d && attackRoll != null) {
-        if (actor.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
-          if (attackRoll != null) chatData.sound = CONFIG.sounds.dice
-          ChatMessage.create(chatData)
-        } else {
-          game.dice3d
-            .showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind)
-            .then(() => ChatMessage.create(chatData))
-        }
-      } else {
-        if (attackRoll != null) {
-          chatData.sound = CONFIG.sounds.dice
-        }
-        ChatMessage.create(chatData)
+      if (attackRoll != null) {
+        chatData.sound = CONFIG.sounds.dice
       }
+      ChatMessage.create(chatData)
     })
   }
 }
@@ -379,21 +356,10 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   const template = 'systems/demonlord/templates/chat/spell.html'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
-    if (game.dice3d && attackRoll != null && attackAttribute) {
-      if (actor.type === 'creature' && !game.settings.get('demonlord', 'attackShowAttack')) {
-        if (attackRoll != null) chatData.sound = CONFIG.sounds.dice
-        ChatMessage.create(chatData)
-      } else {
-        game.dice3d
-          .showForRoll(attackRoll, game.user, true, chatData.whisper, chatData.blind)
-          .then(() => ChatMessage.create(chatData))
-      }
-    } else {
-      if (attackRoll != null && attackAttribute) {
-        chatData.sound = CONFIG.sounds.dice
-      }
-      ChatMessage.create(chatData)
+    if (attackRoll != null && attackAttribute) {
+      chatData.sound = CONFIG.sounds.dice
     }
+    ChatMessage.create(chatData)
   })
 }
 
@@ -428,11 +394,7 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
   const template = 'systems/demonlord/templates/chat/corruption.html'
 
   chatData.content = await renderTemplate(template, templateData)
-  if (game.dice3d) {
-    await game.dice3d.showForRoll(corruptionRoll, game.user, true, chatData.whisper, chatData.blind)
-  } else {
-    chatData.sound = CONFIG.sounds.dice
-  }
+  chatData.sound = CONFIG.sounds.dice
   await ChatMessage.create(chatData)
 
   // Get mark of darkess if roll < corruption value
