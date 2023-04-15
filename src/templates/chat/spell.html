@@ -269,53 +269,99 @@
       </div>
     {{/if}}
   </div>
-  {{#if data.ifBlindedRoll }}
-  <div class="gmonly">
-  {{/if}}
-  {{#if data.hasAreaTarget }}
-    <div class="combatactions place-template dl-clickable" data-item-uuid="{{item.uuid}}">
-      <div class="header">
-        <img src="systems/demonlord/assets/ui/icons/pentagram.webp" width="15" height="15"/>
-        <div>{{localize "DL.ActionPlaceTemplate"}}</div>
-      </div>
+  {{#if data.isCreature}}
+    <div class="gmonly">
+      {{#if data.hasAreaTarget }}
+        <div class="combatactions place-template dl-clickable" data-item-uuid="{{item.uuid}}">
+          <div class="header">
+            <img src="systems/demonlord/assets/ui/icons/pentagram.webp" width="15" height="15"/>
+            <div>{{localize "DL.ActionPlaceTemplate"}}</div>
+          </div>
+        </div>
+      {{/if}}
+      {{#if data.damageFormular}}
+        <div class="combatactions roll-damage">
+          <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageFormular}}"
+              data-damagetype="{{data.damageType}}">
+            <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
+            <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormular}})</div>
+          </div>
+        </div>
+      {{/if}}
+      {{#each data.damageTypes as |damagetype id|}}
+        <div class="combatactions roll-damage">
+          <div class="header" data-item-id="{{data._id}}" data-damage="{{damagetype.damage}}"
+              data-damagetype="{{damagetype.damagetype}}">
+            <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
+            <div>{{damagetype.damagetype}} {{localize "DL.WeaponDamage"}} ({{damagetype.damage}})</div>
+          </div>
+        </div>
+      {{/each}}
+      {{#if data.damageExtra20plusFormular}}
+        <div class="combatactions roll-damage">
+          <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageExtra20plusFormular}}">
+            <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
+            <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular}})</div>
+          </div>
+        </div>
+      {{/if}}
+      {{#each data.itemEffects as |effect|}}
+        <div class="combatactions apply-effect" data-effect-uuid="{{effect.uuid}}">
+          <div class="header">
+            <img src="{{effect.icon}}" width="15" height="15"/>
+            <div>{{effect.label}}</div>
+          </div>
+        </div>
+      {{/each}}
     </div>
-  {{/if}}
-
-  {{#if data.damageFormular}}
-    <div class="combatactions roll-damage">
-      <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageFormular}}"
-           data-damagetype="{{data.damageType}}">
-        <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
-        <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormular}})</div>
+  {{else}}
+    {{#if data.ifBlindedRoll }}
+    <div class="gmonly">
+    {{/if}}
+    {{#if data.hasAreaTarget }}
+      <div class="combatactions place-template dl-clickable" data-item-uuid="{{item.uuid}}">
+        <div class="header">
+          <img src="systems/demonlord/assets/ui/icons/pentagram.webp" width="15" height="15"/>
+          <div>{{localize "DL.ActionPlaceTemplate"}}</div>
+        </div>
       </div>
-    </div>
-  {{/if}}
-  {{#each data.damageTypes as |damagetype id|}}
-    <div class="combatactions roll-damage">
-      <div class="header" data-item-id="{{data._id}}" data-damage="{{damagetype.damage}}"
-           data-damagetype="{{damagetype.damagetype}}">
-        <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
-        <div>{{damagetype.damagetype}} {{localize "DL.WeaponDamage"}} ({{damagetype.damage}})</div>
+    {{/if}}
+    {{#if data.damageFormular}}
+      <div class="combatactions roll-damage">
+        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageFormular}}"
+            data-damagetype="{{data.damageType}}">
+          <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
+          <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormular}})</div>
+        </div>
       </div>
-    </div>
-  {{/each}}
-  {{#if data.damageExtra20plusFormular}}
-    <div class="combatactions roll-damage">
-      <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageExtra20plusFormular}}">
-        <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
-        <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular}})</div>
+    {{/if}}
+    {{#each data.damageTypes as |damagetype id|}}
+      <div class="combatactions roll-damage">
+        <div class="header" data-item-id="{{data._id}}" data-damage="{{damagetype.damage}}"
+            data-damagetype="{{damagetype.damagetype}}">
+          <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
+          <div>{{damagetype.damagetype}} {{localize "DL.WeaponDamage"}} ({{damagetype.damage}})</div>
+        </div>
       </div>
-    </div>
-  {{/if}}
-  {{#each data.itemEffects as |effect|}}
-    <div class="combatactions apply-effect" data-effect-uuid="{{effect.uuid}}">
-      <div class="header">
-        <img src="{{effect.icon}}" width="15" height="15"/>
-        <div>{{effect.label}}</div>
+    {{/each}}
+    {{#if data.damageExtra20plusFormular}}
+      <div class="combatactions roll-damage">
+        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageExtra20plusFormular}}">
+          <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
+          <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular}})</div>
+        </div>
       </div>
+    {{/if}}
+    {{#each data.itemEffects as |effect|}}
+      <div class="combatactions apply-effect" data-effect-uuid="{{effect.uuid}}">
+        <div class="header">
+          <img src="{{effect.icon}}" width="15" height="15"/>
+          <div>{{effect.label}}</div>
+        </div>
+      </div>
+    {{/each}}
+    {{#if data.ifBlindedRoll }}
     </div>
-  {{/each}}
-  {{#if data.ifBlindedRoll }}
-  </div>
+    {{/if}}
   {{/if}}
 </div>

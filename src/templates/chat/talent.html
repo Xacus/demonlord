@@ -115,73 +115,44 @@
       {{/if}}
     </div>
   {{/if}}
+  {{#if data.isCreature}}
+    <div class="gmonly">
+  {{/if}}
   {{#if data.attackEffects}}
-    {{#if data.isCreature}}
-      <div class="gmonly">
-        <div class="description">
-          <div class="header">{{localize "DL.AttackRollBonuses"}}</div>
-          <div class="body">{{{data.attackEffects}}}
-            <hr>
-          </div>
-        </div>
+    <div class="description">
+      <div class="header">{{localize "DL.AttackRollBonuses"}}:</div>
+      <div class="body">{{{data.attackEffects}}}
+        <hr>
       </div>
-    {{else}}
-      <div class="description">
-        <div class="header">{{localize "DL.AttackRollBonuses"}}</div>
-        <div class="body">{{{data.attackEffects}}}
-          <hr>
-        </div>
-      </div>
-    {{/if}}
+    </div>
   {{/if}}
   {{#if data.description}}
-    {{#if data.isCreature}}
-      <div class="gmonly">
-        <div class="description">
-          <div class="header">{{localize "DL.AttackRollDescription"}}</div>
-          <div class="body">{{{data.description}}}</div>
-        </div>
-      </div>
-    {{else}}
-      <div class="description">
-        <div class="header">{{localize "DL.AttackRollDescription"}}</div>
-        <div class="body">{{{data.description}}}</div>
-      </div>
-    {{/if}}
+    <div class="description">
+      <div class="header">{{localize "DL.AttackRollDescription"}}</div>
+      <div class="body">{{{data.description}}}</div>
+    </div>
   {{/if}}
   {{#if data.talentEffects}}
-    {{#if data.isCreature}}
-      <div class="gmonly">
-        <div class="description">
-          <div class="header">{{localize "DL.TalentRollEffects"}}</div>
-          <div class="body">{{{data.talentEffects}}}
-            <hr>
-          </div>
-        </div>
+    <div class="description">
+      <div class="header">{{localize "DL.TalentRollEffects"}}</div>
+      <div class="body">{{{data.talentEffects}}}
+        <hr>
       </div>
-    {{else}}
-      <div class="description">
-        <div class="header">{{localize "DL.TalentRollEffects"}}</div>
-        <div class="body">{{{data.talentEffects}}}
-          <hr>
-        </div>
-      </div>
-    {{/if}}
+    </div>
   {{/if}}
   {{#if item.system.action.extraeffect}}
-    {{#if data.isCreature}}
-      <div class="gmonly">
-        <div class="description">
-          <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
-          <div class="body">{{{item.system.action.extraeffect}}}</div>
-        </div>
+    <div class="description">
+      <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
+      <div class="body">{{{item.system.action.extraeffect}}}</div>
+    </div>
+  {{/if}}
+  {{#if data.defense}}
+    <div class="roll20">
+      <div class="header">{{localize "DL.SpellTypeDefense"}}</div>
+      <div class="body">{{localize "DL.ChallengeRoll"}}: {{data.defense}}
+        {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
       </div>
-    {{else}}
-      <div class="description">
-        <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
-        <div class="body">{{{item.system.action.extraeffect}}}</div>
-      </div>
-    {{/if}}
+    </div>
   {{/if}}
   {{#if data.healing}}
     <div class="talentactions roll-healing">
@@ -197,6 +168,61 @@
       </div>
     </div>
   {{/if}}
+  {{#if data.isCreature}}
+  </div>
+  {{/if}}
+  <div class="gmonly">
+    {{#if data.challStrength}}
+      <div class="challengeaction request-challengeroll">
+        <div class="header" data-attribute="Strength" data-boba="{{data.defenseboonsbanes}}">
+          <div class="challenge-img"></div>
+          <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeStrength"}}
+            {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    {{#if data.challAgility}}
+      <div class="challengeaction request-challengeroll">
+        <div class="header" data-attribute="Agility" data-boba="{{data.defenseboonsbanes}}">
+          <div class="challenge-img"></div>
+          <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeAgility"}}
+            {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    {{#if data.challIntellect}}
+      <div class="challengeaction request-challengeroll">
+        <div class="header" data-attribute="Intellect" data-boba="{{data.defenseboonsbanes}}">
+          <div class="challenge-img"></div>
+          <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeIntellect"}}
+            {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    {{#if data.challWill}}
+      <div class="challengeaction request-challengeroll">
+        <div class="header" data-attribute="Will" data-boba="{{data.defenseboonsbanes}}">
+          <div class="challenge-img"></div>
+          <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeWill"}}
+            {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    {{#if data.challPerception}}
+      <div class="challengeaction request-challengeroll">
+        <div class="header" data-attribute="Perception" data-boba="{{data.defenseboonsbanes}}">
+          <div class="challenge-img"></div>
+          <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributePerception"}}
+            {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+  </div>
   {{#if data.isCreature}}
     <div class="gmonly">
       {{#if data.damageFormular}}
