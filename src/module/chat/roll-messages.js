@@ -209,7 +209,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['damageExtra20plusFormular'] = talentData?.action?.plus20damage
   data['description'] = talentData?.description
   data['defense'] = talentData?.action?.defense
-  data['defenseboonsbanse'] = parseInt(talentData?.action?.defenseboonsbanes)
+  data['defenseboonsbanes'] = parseInt(talentData?.action?.defenseboonsbanes)
   data['challStrength'] = savingAttribute === 'strength'
   data['challAgility'] = savingAttribute === 'agility'
   data['challIntellect'] = savingAttribute === 'intellect'
