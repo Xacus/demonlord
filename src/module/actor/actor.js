@@ -237,8 +237,8 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  _onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
-    super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId)
+  _onUpdateDescendantDocuments(embeddedName, documents, result, options, userId) {
+    super._onUpdateDescendantDocuments(embeddedName, documents, result, options, userId)
 
     // Check if only the flag has changed. If so, we can skip the handling
     const keys = new Set(result.reduce((prev, r) => prev.concat(Object.keys(r)), []))

@@ -191,9 +191,9 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['roll'] = Boolean(attackRoll)
   data['diceTotal'] = diceTotal
   data['diceTotalGM'] = diceTotalGM
-  data['resultText'] = resultText
+  // data['resultText'] = resultText // Unused
   data['resultBoxClass'] = resultBoxClass
-  data['didHit'] = attackRoll?.total >= targetNumber
+  // data['didHit'] = attackRoll?.total >= targetNumber // Unused
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : ''
   data['against'] = defenseAttribute
     ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase())
@@ -329,7 +329,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['spellpermanence'] = spellData?.permanence
   data['spellspecial'] = spellData?.special
   data['spelltriggered'] = spellData?.triggered
-  data['tagetname'] = target?.name || ''
+  data['targetname'] = target?.name || ''
   data['effectdice'] = effectdice
   data['defense'] = spellData?.action?.defense
   data['defenseboonsbanes'] = parseInt(spellData?.action?.defenseboonsbanes)

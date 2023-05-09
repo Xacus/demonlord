@@ -1,10 +1,10 @@
-<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
-  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}} {{#if item.id}}data-item-id="{{item.id}}"
+  {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
   <div class="showlessinfo">{{data.actorInfo}}</div>
   {{#if data.roll}}
     <header class="card-header">
-      <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img"
-                                  title="{{item.name}}" height="40" width="40"/></div>
+      <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"
+        height="40" width="40"/></div>
       <div class="attackbox">
         <div class="boxline">
           <div class="header">
@@ -24,8 +24,8 @@
     </header>
   {{else}}
     <header class="card-header">
-      <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img"
-                                  title="{{item.name}}" height="40" width="40"/></div>
+      <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"
+        height="40" width="40"/></div>
       <div class="attackbox">
         <div class="header">
           {{#if data.against}}
@@ -154,6 +154,14 @@
       </div>
     </div>
   {{/if}}
+  {{#if data.defense}}
+    <div class="roll20">
+      <div class="header">{{localize "DL.SpellTypeDefense"}}</div>
+      <div class="body">{{localize "DL.ChallengeRoll"}}: {{data.defense}}
+        {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+      </div>
+    </div>
+  {{/if}}
   {{#if data.healing}}
     <div class="talentactions roll-healing">
       <div class="header" data-item-id="{{data.id}}" data-healing="1">
@@ -260,8 +268,60 @@
           </div>
         </div>
       {{/if}}
-    </div>
   {{else}}
+      <div class="gmonly">
+        {{#if data.challStrength}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Strength" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeStrength"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        {{#if data.challAgility}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Agility" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeAgility"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        {{#if data.challIntellect}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Intellect" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeIntellect"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        {{#if data.challWill}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Will" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeWill"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        {{#if data.challPerception}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Perception" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributePerception"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
     {{#if data.ifBlindedRoll }}
     <div class="gmonly">
     {{/if}}
@@ -275,7 +335,7 @@
     {{/if}}
     {{#if data.damageFormular}}
       <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageFormular}}"
+        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageFormular}}"
              data-damagetype="{{data.damageType}}">
           <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
           <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormular}})</div>
@@ -284,7 +344,7 @@
     {{/if}}
     {{#each data.damageTypes as |damagetype id|}}
       <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data.id}}" data-damage="{{damagetype.damage}}"
+        <div class="header" data-item-id="{{data._id}}" data-damage="{{damagetype.damage}}"
              data-damagetype="{{damagetype.damagetype}}">
           <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
           <div>{{damagetype.damagetype}} {{localize "DL.WeaponDamage"}} ({{damagetype.damage}})</div>
@@ -302,7 +362,7 @@
     {{/if}}
     {{#if data.damageExtra20plusFormular}}
       <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageExtra20plusFormular}}">
+        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageExtra20plusFormular}}">
           <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
           <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular}})</div>
         </div>
