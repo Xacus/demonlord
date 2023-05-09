@@ -45,6 +45,9 @@ export class DemonlordActor extends Actor {
       system.characteristics.defense = 0  // assume defense = agility
       system.characteristics.health.max = 0
     }
+    else if (this.type === 'vehicle') {
+      // TODO
+    }
 
     setProperty(system, 'bonuses', {
       attack: {
@@ -167,10 +170,14 @@ export class DemonlordActor extends Actor {
       // Armor
       system.characteristics.defense = (system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility) // + system.characteristics.defense // Applied as ActiveEffect further down
     }
+    // --- Vehicle specific data ---
+    else if (this.type === 'vehicle') {
+      // TODO
+    }
     // --- Creature specific data ---
     else {
       system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
-    }
+    }    
     // Final armor computation
     system.characteristics.defense += system.bonuses.armor.defense
     system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
@@ -295,7 +302,7 @@ export class DemonlordActor extends Actor {
     const defenseAttribute = item.system.action?.against?.toLowerCase()
 
     // If no attack mod selected, warn user
-    if (!attackAttribute) {
+    if (!attackAttribute && attacker.type !== 'vehicle') {
       ui.notifications.error(game.i18n.localize('DL.DialogWarningWeaponAttackModifier'))
       return
     }
@@ -353,7 +360,7 @@ export class DemonlordActor extends Actor {
 
     // If no attribute to roll, roll without modifiers and boons
     const attribute = item.system.action?.attack
-    if (!attribute) {
+    if (!attribute && this.type !== 'vehicle') {
       this.rollAttack(item, 0, 0)
       return
     }
@@ -593,7 +600,7 @@ export class DemonlordActor extends Actor {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
 
-    const template = 'systems/demonlord/templates/chat/enchantment.html'
+    const template = 'systems/demonlord/templates/chat/enchantment.hbs'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
       ChatMessage.create(chatData)
@@ -683,7 +690,7 @@ export class DemonlordActor extends Actor {
       speaker: {actor: this.id, token: this.token, alias: this.name},
     }
 
-    const template = 'systems/demonlord/templates/chat/rest.html'
+    const template = 'systems/demonlord/templates/chat/rest.hbs'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
       ChatMessage.create(chatData)

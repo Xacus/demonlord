@@ -25,7 +25,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   let resultText = didHit ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
 
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
-  if ((attacker.type === 'creature' && !attackShow) || rollMode === 'blindroll') {
+  if (((attacker.type === 'creature' || attacker.type === 'vehicle') && !attackShow) || rollMode === 'blindroll') {
     diceTotal = '?'
     resultText = ''
   }
@@ -57,7 +57,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['description'] = item.system.description
   data['targetname'] = defender?.name || ''
   data['effects'] = attacker.system.bonuses.attack.extraEffect
-  data['isCreature'] = attacker.type === 'creature'
+  data['isCreature'] = attacker.type === 'creature' || attacker.type === 'vehicle'
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['ifBlindedRoll'] = rollMode === 'blindroll'
@@ -66,6 +66,10 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['afflictionEffects'] = '' //TODO
   data['itemEffects'] = item.effects
   data['actorInfo'] = buildActorInfo(attacker)
+
+  if (attacker.type === 'vehicle') {
+    data['attack'] = "FLAT";
+  }
 
   const chatData = getChatBaseData(attacker, rollMode)
   if (attackRoll) {
