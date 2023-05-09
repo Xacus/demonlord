@@ -5,7 +5,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ['creature', 'sheet', 'actor', 'dl-sheet'],
-      template: 'systems/demonlord/templates/actor/creature-sheet.html',
+      template: 'systems/demonlord/templates/actor/creature-sheet.hbs',
       width: 900,
       height: 700,
       tabs: [

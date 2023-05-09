@@ -5,7 +5,7 @@ export class PlayerTracker extends FormApplication {
     return mergeObject(super.defaultOptions, {
       id: 'sheet-modifiers',
       classes: ['playertracker', 'sheet', 'actor'],
-      template: 'systems/demonlord/templates/dialogs/player-tracker.html',
+      template: 'systems/demonlord/templates/dialogs/player-tracker.hbs',
       width: game.users.players.length * 150,
       height: 'auto',
       tabs: [
