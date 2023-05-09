@@ -46,7 +46,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['resultText'] = resultText
   data['didHit'] = didHit
   data['resultBoxClass'] = resultBoxClass
-  data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : ''
+  data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : 'FLAT'
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = againstNumber
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
@@ -66,10 +66,6 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['afflictionEffects'] = '' //TODO
   data['itemEffects'] = item.effects
   data['actorInfo'] = buildActorInfo(attacker)
-
-  if (attacker.type === 'vehicle') {
-    data['attack'] = "FLAT";
-  }
 
   const chatData = getChatBaseData(attacker, rollMode)
   if (attackRoll) {

@@ -302,10 +302,11 @@ export class DemonlordActor extends Actor {
     const defenseAttribute = item.system.action?.against?.toLowerCase()
 
     // If no attack mod selected, warn user
-    if (!attackAttribute && attacker.type !== 'vehicle') {
+    // Actually, there's a valid reason to not set the attack mod, especially for vehicles
+    /*if (!attackAttribute) {
       ui.notifications.error(game.i18n.localize('DL.DialogWarningWeaponAttackModifier'))
       return
-    }
+    }*/
     // if !target -> ui.notifications.warn(Please select target) ??
 
     // Attack modifier and Boons/Banes
@@ -360,10 +361,10 @@ export class DemonlordActor extends Actor {
 
     // If no attribute to roll, roll without modifiers and boons
     const attribute = item.system.action?.attack
-    if (!attribute && this.type !== 'vehicle') {
+    /*if (!attribute) {
       this.rollAttack(item, 0, 0)
       return
-    }
+    }*/
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
