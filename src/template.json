@@ -227,7 +227,7 @@
       }
     },
     "item": {
-      "templates": ["base", "enchantment"],
+      "templates": ["base", "action", "enchantment"],
       "quantity": 1,
       "availability": "",
       "value": "",
