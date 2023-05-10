@@ -707,7 +707,12 @@ export class DemonlordActor extends Actor {
   async increaseDamage(increment) {
     const health = this.system.characteristics.health
     const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value + increment)))
-    return this.update({'data.characteristics.health.value': newHp})
+    // Recalculate injured
+    const newInjured = (this.system.characteristics.health.max / 2) <= newHp
+    return this.update({
+      'data.characteristics.health.value': newHp,
+      'data.characteristics.health.injured': newInjured
+    })
   }
 
   async setUsesOnSpells() {
