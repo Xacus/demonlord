@@ -335,7 +335,7 @@
     {{/if}}
     {{#if data.damageFormular}}
       <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageFormular}}"
+        <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageFormular}}"
              data-damagetype="{{data.damageType}}">
           <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
           <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormular}})</div>
@@ -344,7 +344,7 @@
     {{/if}}
     {{#each data.damageTypes as |damagetype id|}}
       <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data._id}}" data-damage="{{damagetype.damage}}"
+        <div class="header" data-item-id="{{data.id}}" data-damage="{{damagetype.damage}}"
              data-damagetype="{{damagetype.damagetype}}">
           <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
           <div>{{damagetype.damagetype}} {{localize "DL.WeaponDamage"}} ({{damagetype.damage}})</div>
@@ -362,7 +362,7 @@
     {{/if}}
     {{#if data.damageExtra20plusFormular}}
       <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageExtra20plusFormular}}">
+        <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageExtra20plusFormular}}">
           <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
           <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular}})</div>
         </div>
