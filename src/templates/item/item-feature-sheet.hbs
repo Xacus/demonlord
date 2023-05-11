@@ -3,7 +3,7 @@
     <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
       <div class="gridrow">
-        <input name="name" type="text" value="{{item.name}}" placeholder="End of Round Name"/>
+        <input name="name" type="text" value="{{item.name}}" placeholder="Feature Name"/>
       </div>
     </div>
     <div class="template-type">{{item.type}}</div>
@@ -17,8 +17,8 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     <section class="sheet-content">
-      {{> "systems/demonlord/templates/item/partial/item-description.html"}} {{#if effects}}{{>
-    "systems/demonlord/templates/item/partial/item-effects.html"}}{{/if}}
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}} {{#if effects}}{{>
+    "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
     </section>
   </section>
 </form>

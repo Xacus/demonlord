@@ -1,0 +1,34 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  {{> systems/demonlord/templates/actor/vehicle-sidemenu.hbs}} {{!-- Sheet Header --}}
+  <header class="sheet-header">{{> systems/demonlord/templates/actor/vehicle-header.hbs}}</header>
+  <nav class="sheet-navigation vehicle" data-group="primary">
+    <a class="item" data-tab="vehicle">{{localize "DL.TabsCombat"}}</a>
+    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+    <a class="item" data-tab="reference">{{localize "DL.Reference"}}</a>
+    <a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>
+  </nav>
+
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{!-- Vehicle Tab --}}
+      <div class="tab vehicle dl-vehicle-tab" data-group="primary" data-tab="vehicle" style="position: relative;">
+        {{> systems/demonlord/templates/tabs/vehicle-view.hbs}}
+      </div>
+      {{!-- Reference Tab --}}
+      <div class="tab dl-vehicle-reference-tab" data-group="primary" data-tab="reference">
+        {{> systems/demonlord/templates/tabs/vehicle-reference.hbs}}
+      </div>
+      {{!-- Description Tab --}}
+      <div class="tab" data-group="primary" data-tab="description">
+        <div class="dl-editor-box" style="margin-bottom: 4px">
+          {{editor system.enrichedDescription target="system.description" button=true owner=owner editable=editable
+                   engine="prosemirror"}}
+        </div>
+      </div>
+      {{!-- Active Effects Tab --}}
+      <div class="tab creatureeffects" data-group="primary" data-tab="effects">
+        {{> systems/demonlord/templates/tabs/activeeffects.hbs effects=generalEffects}}
+      </div>
+    </section>
+  </section>
+</form>

@@ -29,7 +29,7 @@ export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
   get template() {
     const path = 'systems/demonlord/templates/item'
-    return `${path}/item-${this.item.type}-sheet.html`
+    return `${path}/item-${this.item.type}-sheet.hbs`
   }
 
   /** @override */

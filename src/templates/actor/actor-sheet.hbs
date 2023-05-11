@@ -1,6 +1,6 @@
 <form class="{{cssClass}} flexcol" autocomplete="off">
-  {{> systems/demonlord/templates/actor/sidemenu.html}} {{!-- Sheet Header --}}
-  <header class="sheet-header">{{> systems/demonlord/templates/actor/header.html}}</header>
+  {{> systems/demonlord/templates/actor/sidemenu.hbs}} {{!-- Sheet Header --}}
+  <header class="sheet-header">{{> systems/demonlord/templates/actor/header.hbs}}</header>
   <nav class="sheet-navigation" data-group="primary">
     <a class="item" data-tab="character">{{localize "DL.TabsCharacter"}}</a>
     <a class="item" data-tab="combat">{{localize "DL.TabsCombat"}}</a>
@@ -17,41 +17,41 @@
     <section class="sheet-content">
       {{!-- Character Tab --}}
       <div class="tab character" data-group="primary" data-tab="character">
-        {{> systems/demonlord/templates/tabs/character.html}}
+        {{> systems/demonlord/templates/tabs/character.hbs}}
       </div>
       {{!-- Combat Tab --}}
       <div class="tab combat" data-group="primary" data-tab="combat">
-        {{> systems/demonlord/templates/tabs/combat.html}}
+        {{> systems/demonlord/templates/tabs/combat.hbs}}
       </div>
 
       {{!-- Talents Tab --}}
       <div class="tab talents" data-group="primary" data-tab="talents">
-        {{> systems/demonlord/templates/tabs/talents.html}}
+        {{> systems/demonlord/templates/tabs/talents.hbs}}
       </div>
 
       {{!-- Magic Tab --}}
       <div class="tab spells" data-group="primary" data-tab="magic">
-        {{> systems/demonlord/templates/tabs/magic.html}}
+        {{> systems/demonlord/templates/tabs/magic.hbs}}
       </div>
 
       {{!-- Items Tab --}}
       <div class="tab items" data-group="primary" data-tab="items">
-        {{> systems/demonlord/templates/tabs/item.html}}
+        {{> systems/demonlord/templates/tabs/item.hbs}}
       </div>
 
       {{!-- Background Tab --}}
       <div class="tab biography" data-group="primary" data-tab="background">
-        {{> systems/demonlord/templates/tabs/background.html}}
+        {{> systems/demonlord/templates/tabs/background.hbs}}
       </div>
 
       {{!-- Active Affliction Tab --}}
       <div class="tab effects" data-group="primary" data-tab="afflictions">
-        {{> systems/demonlord/templates/tabs/afflictions.html}}
+        {{> systems/demonlord/templates/tabs/afflictions.hbs}}
       </div>
 
       {{!-- Active Effects Tab --}}
       <div class="tab effects" data-group="primary" data-tab="effects">
-        {{> systems/demonlord/templates/tabs/effects.html}}
+        {{> systems/demonlord/templates/tabs/effects.hbs}}
       </div>
     </section>
   </section>

@@ -1,0 +1,34 @@
+<div class="actor-header" >
+
+  <div class="row">
+    <div class="col-10 actor-name">
+      <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CharName'}}"/>
+    </div>
+    <div class="col-2 vehicle-price ">
+      <label>{{localize "DL.VehiclePrice"}}</label>
+      <input name="system.price" type="text" value="{{system.price}}" min="1"/>
+    </div>
+  </div>
+
+  <div class="row vehicle-descriptors">
+    <div class="col-6">
+      <input name="system.descriptor" value="{{system.descriptor}}" placeholder="{{localize 'DL.VehicleDescriptor'}}"/>
+    </div>
+  </div>
+
+  <div class="row-10">
+    {{#*inline "attribute-partial"}}
+      <div class="col-2 attribute" style="margin-top: 8px">
+        <label class="name" data-key="{{n}}">{{attr.label}}</label>
+        <input type="Number" name="system.attributes.{{n}}.value" value="{{attr.value}}"/>
+        <label class="modifier">{{plusify attr.modifier}}</label>
+      </div>
+    {{/inline}}
+
+    {{> attribute-partial attr=system.attributes.strength    n='strength'}}
+    {{> attribute-partial attr=system.attributes.agility     n='agility'}}
+    {{> attribute-partial attr=system.attributes.intellect   n='intellect'}}
+    {{> attribute-partial attr=system.attributes.will        n='will'}}
+  </div>
+
+</div>

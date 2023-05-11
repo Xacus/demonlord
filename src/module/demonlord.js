@@ -15,6 +15,7 @@ import {DLAfflictions} from './active-effects/afflictions'
 import {DLActiveEffectConfig} from './active-effects/sheets/active-effect-config'
 import DLCharacterSheet from './actor/sheets/character-sheet'
 import DLCreatureSheet from './actor/sheets/creature-sheet'
+import DLVehicleSheet from './actor/sheets/vehicle-sheet'
 import DLBaseItemSheet from './item/sheets/base-item-sheet'
 import DLAncestrySheet from './item/sheets/ancestry-sheet'
 import DLPathSheet from './item/sheets/path-sheet'
@@ -68,6 +69,11 @@ Hooks.once('init', async function () {
 
   Actors.registerSheet('demonlord', DLCreatureSheet, {
     types: ['creature'],
+    makeDefault: false,
+  })
+
+  Actors.registerSheet('demonlord', DLVehicleSheet, {
+    types: ['vehicle'],
     makeDefault: false,
   })
 

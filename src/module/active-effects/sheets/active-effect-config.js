@@ -3,7 +3,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['sheet', 'active-effect-sheet'],
-      template: 'systems/demonlord/templates/item/active-effect-config.html',
+      template: 'systems/demonlord/templates/item/active-effect-config.hbs',
       width: 560,
       height: 'auto',
       tabs: [{ navSelector: '.tabs', contentSelector: 'form', initial: 'details' }],

@@ -1,0 +1,106 @@
+<div class="grid-2">
+  <div class="col-1">
+    <!-- TRAITS  -->
+    <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+      <div class="col-10">{{localize "DL.VehicleTraits"}}</div>
+      <div class="col-2">
+        <a class="item-create" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"><i class="fas fa-plus"></i></a>
+      </div>
+    </div>
+
+    {{#each actor.features as |item id|}}
+      <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
+        <div class="row">
+          <div class="col-10">
+            <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
+                 height="32"/>
+            <label class="dl-clickable item-roll">{{item.name}}</label>
+          </div>
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+            <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
+               style="margin-left: 2px; margin-top: 3px;">
+              <i class="fas fa-times"></i>
+            </a>
+          </div>
+        </div>
+        {{#if item.system.description}}
+          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+            <div class="col-12">
+              {{{item.system.enrichedDescription}}}
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </div>
+  <div class="col-1">
+    <!-- ATTACKS -->
+    <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+      <div class="col-8">{{localize "DL.CreatureAttackOptions"}}</div>
+      <div class="col-2">{{localize "DL.WeaponDamage"}}</div>
+      <div class="col-2">
+        <a class="item-create" title="{{localize 'DL.WeaponAdd'}}" data-type="weapon"><i class="fas fa-plus"></i></a>
+      </div>
+    </div>
+
+    {{#each actor.weapons as |item id|}}
+      <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
+        <div class="row">
+          <div class="col-8">
+            <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
+                 height="32"/>
+            <label class="dl-rollable attack-roll">{{item.name}}</label>
+          </div>
+          <div class="col-2">
+            {{defaultValue system.action.damage "―"}}{{#if system.action.damagetypes}}∗{{/if}}
+          </div>
+          <div class="col-2" style="padding-top: 3px">
+            <span class="dl-clickable dlToggleInfoBtn">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+            <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}">
+              <i class="fas fa-times"></i>
+            </a>
+          </div>
+        </div>
+        <div class="dlInfo dl-item-info" style="display: none; text-align: left">
+          <!-- TODO: Action roll info. COPIED FROM COMBAT-TAB -->
+          {{#if system.action.damage}}
+            <div>
+              <b>{{localize "DL.WeaponDamage"}}</b> {{system.action.damage}}
+              {{#if system.action.damagetype}}({{system.action.damagetype}}){{/if}}
+              {{#each system.action.damagetypes as |damagetype id|}}
+                | {{damagetype.damage}}{{#if damagetype.damagetype}} ({{damagetype.damagetype}}){{/if}}
+              {{/each}}
+            </div>
+          {{/if}}
+          {{#if system.properties}}
+            <div>
+              <b>{{localize "DL.WeaponProperties"}}:</b> {{system.properties}}
+            </div>
+          {{/if}}
+          {{#if system.strengthmin}}
+            <div>
+              <b>{{localize "DL.ArmorStrengthRequiremet"}}:</b> {{system.strengthmin}}
+            </div>
+          {{/if}}
+          {{#if system.hands}}
+            <div>
+              <b>{{localize "DL.WeaponHands"}}:</b> {{system.hands}}
+            </div>
+          {{/if}}
+          {{#if item.system.description}}
+            <div>
+              {{{item.system.description}}}
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+

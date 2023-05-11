@@ -213,3 +213,91 @@ i.fas.fa-shield-alt {
     }
   }
 }
+
+// Vehicle tab
+.dl-vehicle-tab {
+  & > div.grid-2 {
+    height: 100%;
+
+    & > .col-1 {
+      height: 98%;
+      padding-bottom: 32px;
+    }
+
+    & > .col-1:first-child {
+      border-right: 1px solid #33333333;
+      margin-right: 16px;
+      padding-right: 16px;
+      height: 98%;
+    }
+
+    & > .col-1:last-child {
+      padding-right: 8px;
+    }
+  }
+
+  .dl-item-row {
+    label {
+      display: inline-block;
+      margin-top: 9px;
+    }
+
+    .dlToggleInfoBtn {
+      .fas {
+        width: 0;
+        position: relative;
+        left: -12px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.dl-vehicle-reference-tab {
+  font-family: $font-primary;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+
+  .dl-vehicle-title {
+    font-family: $font-pm;
+    background-color: black;
+    color: white;
+    padding: 6px;
+  }
+
+  .dl-vehicle-sub-title {
+    font-style: italic;
+    background-color: rgb(156 7 25);
+    color: white;
+    padding-left: 6px;
+    padding-bottom: 1px;
+    padding-top: 1px;
+    margin-top: 2px;
+  }
+
+  .dl-vehicle-section-header {
+    background-color: #11111111;
+    border-top: 2px solid black;
+    text-transform: uppercase;
+    font-family: $font-pm;
+    padding-left: 6px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    margin-top: 2px;
+    font-weight: bold;
+  }
+
+  .dl-vehicle-section-section {
+    padding: 6px;
+
+    p {
+      display: inline;
+    }
+
+    & > div {
+      @extend .dl-text-indent;
+      line-height: 1.4;
+    }
+  }
+}

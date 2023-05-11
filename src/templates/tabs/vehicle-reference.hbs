@@ -1,0 +1,78 @@
+<div class="dl-auto-column" style="columns: 1; padding-right: 8px;">
+  <div class="dl-vehicle-title row">
+    <div class="col-6">{{actor.name}}</div>
+    <div class="col-6" style="margin-right: 0; margin-left: auto">
+      {{localize "DL.VehiclePrice"}} {{system.price}}
+    </div>
+  </div>
+  <div class="dl-vehicle-sub-title">
+    {{localize "DL.CharSize"}} {{system.characteristics.size}}
+    {{system.descriptor}}
+  </div>
+
+  <!-- STATS AND TRAITS -->
+  <div class="dl-vehicle-section-section">
+    <div>
+      <b>{{localize "DL.ArmorDefense"}}</b> {{system.characteristics.defense}};&nbsp;
+      <b>{{localize "DL.VehicleHealth"}}</b> {{system.characteristics.health.max}}
+    </div>
+    <div>
+      <b>{{localize "DL.AttributeStrength"}}</b> {{system.attributes.strength.value}} ({{plusify
+      system.attributes.strength.modifier}}),
+      <b>{{localize "DL.AttributeAgility"}}</b> {{system.attributes.agility.value}} ({{plusify
+      system.attributes.agility.modifier}})
+    </div>
+    <div>
+      <b>{{localize "DL.AttributeIntellect"}}</b> {{system.attributes.intellect.value}} ({{plusify
+      system.attributes.intellect.modifier}}),
+      <b>{{localize "DL.AttributeWill"}}</b> {{system.attributes.will.value}} ({{plusify system.attributes.will.modifier}})
+    </div>
+    <div>
+      <b>{{localize "DL.VehicleSpace"}}</b> {{system.space}}
+    </div>
+    <div>
+      <b>{{localize "DL.VehicleMaximumSpeed"}}</b> {{system.maximumspeed}};
+      {{system.speedtraits}}
+    </div>
+    <div>
+      <b>{{localize "DL.VehicleCrew"}}</b> {{system.crew}}
+    </div>
+
+    {{#each actor.features as |item id|}}
+      <div data-item-id="{{item._id}}">
+        <b class="dl-rollable item-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
+      </div>
+    {{/each}}
+  </div>
+
+  <!-- ATTACK OPTIONS -->
+  {{#if actor.weapons.length}}
+    <div class="dl-vehicle-section-header">
+      {{localize "DL.VehicleAttackOptions"}}
+    </div>
+    <div class="dl-vehicle-section-section">
+      {{#each actor.weapons as |item id|}}
+        <div data-item-id="{{item._id}}">
+          <b class="dl-rollable attack-roll">{{item.name}}</b>
+          <!-- TODO: RANGE-->
+          <!--{{#if system.range}}({{system.range}}){{/if}}-->
+          {{#if system.action.attack}}
+            {{plusify (lookupAttributeModifier system.action.attack item.document.actor.data)}}
+          {{/if}}
+          {{#if system.action.boonsbanes}}
+            {{localize "DL.With"}} {{plusify system.action.boonsbanes}}
+            {{toLowerCase (localize "DL.WeaponBoonsBanesShort")}}
+          {{/if}}
+          {{#if system.action.damage}}
+            ({{system.action.damage}})
+            <!-- TODO: EXTRA DAMAGE -->
+          {{/if}}
+          | {{{item.system.enrichedDescription}}}
+        </div>
+      {{/each}}
+    </div>
+
+  {{/if}}
+
+</div>
+

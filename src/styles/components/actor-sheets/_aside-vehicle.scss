@@ -1,0 +1,104 @@
+@import 'aside-base';
+
+form {
+  aside {
+    background: url('../assets/ui/sidebar_vehicle.webp') no-repeat top center;
+  }
+
+  .sidebar {
+    .charsstat {
+      margin-top: 25px;
+    }
+
+    .barboxes .barbox {
+      .healthedit {
+        input {
+          margin-left: -2px;
+
+          &:focus {
+            border-radius: 16px;
+            background: #555;
+          }
+        }
+      }
+    }
+
+    .chars {
+      .defensebox,
+      .speedbox,
+      .powerbox {
+        .defense,
+        .speed,
+        .power {
+          input {
+            margin-top: -6px;
+            margin-left: -2px;
+            height: 16px;
+            border: 0;
+            color: #ffffff;
+            box-shadow: none;
+
+            &:focus {
+              border-radius: 16px;
+              background: #555;
+            }
+          }
+        }
+      }
+    }
+
+    .healingratebox {
+      margin-bottom: 10px;
+    }
+
+    .space,
+    .maximumspeed,
+    .crew,
+    .speedtraits {
+      padding: 10px;
+
+      input[type='text'],
+      input[type='number'] {
+        width: 174px;
+        font-family: 'Roboto', system, -apple-system, sans-serif;
+        font-size: 11px;
+        color: #fff;
+        line-height: calc(1em + 1px);
+        height: 26px;
+        padding: 10px;
+        margin-left: -5px;
+        background: rgba(0, 0, 0, 1);
+
+        &:focus,
+        &:hover {
+          padding-left: 5px;
+          margin-left: 1px;
+          margin-top: 1px;
+          background: #000;
+        }
+      }
+    }
+
+    .speedtraits {
+      margin-top: -10px;
+    }
+  }
+}
+
+.editmode {
+  position: relative;
+  left: 29px;
+  top: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+
+  .switchBig {
+    width: 130px;
+
+    input:checked + .slider:before {
+      -webkit-transform: translateX(116px);
+      -ms-transform: translateX(116px);
+      transform: translateX(116px);
+    }
+  }
+}

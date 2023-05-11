@@ -134,7 +134,7 @@ export class DLCombat extends Combat {
 
 const selectTurnType = async function (actor, fastturn) {
   let turn = ''
-  const template = 'systems/demonlord/templates/dialogs/choose-turn-dialog.html'
+  const template = 'systems/demonlord/templates/dialogs/choose-turn-dialog.hbs'
   const html = await renderTemplate(template, {
     data: {
       fastturn: fastturn,
@@ -182,7 +182,7 @@ export async function createInitChatMessage(combatant, messageOptions) {
     },
   }
 
-  const template = 'systems/demonlord/templates/chat/init.html'
+  const template = 'systems/demonlord/templates/chat/init.hbs'
   const content = await renderTemplate(template, templateData)
   return mergeObject(messageOptions, {
     speaker: {
