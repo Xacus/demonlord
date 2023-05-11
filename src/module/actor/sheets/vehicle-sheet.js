@@ -1,18 +1,18 @@
 import DLBaseActorSheet from './base-actor-sheet'
 
-export default class DLCreatureSheet extends DLBaseActorSheet {
+export default class DLVehicleSheet extends DLBaseActorSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ['creature', 'sheet', 'actor', 'dl-sheet'],
-      template: 'systems/demonlord/templates/actor/creature-sheet.hbs',
+      classes: ['vehicle', 'sheet', 'actor', 'dl-sheet'],
+      template: 'systems/demonlord/templates/actor/vehicle-sheet.hbs',
       width: 900,
       height: 700,
       tabs: [
         {
           navSelector: '.sheet-navigation',
           contentSelector: '.sheet-body',
-          initial: 'creature',
+          initial: 'vehicle',
         },
       ],
       scrollY: ['.tab.active'],

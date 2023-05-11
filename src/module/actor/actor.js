@@ -160,7 +160,18 @@ export class DemonlordActor extends Actor {
 
       // Health and Healing Rate
       system.characteristics.health.max += system.attributes.strength.value
-      system.characteristics.health.healingrate += Math.floor(system.characteristics.health.max / 4)
+      system.characteristics.health.healingrate = Math.floor(system.characteristics.health.max / 4)
+
+      // Reapply healingrate from ActiveEffects
+      for (let change of effectChanges.filter(e => e.key.includes("healingrate"))) {
+        const result = change.effect.apply(this, change)
+        if (result !== null) this.overrides[change.key] = result
+      }
+
+      // And then round down
+      system.characteristics.health.healingrate = Math.floor(system.characteristics.health.healingrate)
+
+
       // Insanity
       system.characteristics.insanity.max += system.attributes.will.value
 
@@ -170,7 +181,7 @@ export class DemonlordActor extends Actor {
     // --- Creature specific data ---
     else {
       system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
-    }
+    }    
     // Final armor computation
     system.characteristics.defense += system.bonuses.armor.defense
     system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
@@ -295,10 +306,11 @@ export class DemonlordActor extends Actor {
     const defenseAttribute = item.system.action?.against?.toLowerCase()
 
     // If no attack mod selected, warn user
-    if (!attackAttribute) {
+    // Actually, there's a valid reason to not set the attack mod, especially for vehicles
+    /*if (!attackAttribute) {
       ui.notifications.error(game.i18n.localize('DL.DialogWarningWeaponAttackModifier'))
       return
-    }
+    }*/
     // if !target -> ui.notifications.warn(Please select target) ??
 
     // Attack modifier and Boons/Banes
@@ -353,10 +365,10 @@ export class DemonlordActor extends Actor {
 
     // If no attribute to roll, roll without modifiers and boons
     const attribute = item.system.action?.attack
-    if (!attribute) {
+    /*if (!attribute) {
       this.rollAttack(item, 0, 0)
       return
-    }
+    }*/
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
@@ -593,7 +605,7 @@ export class DemonlordActor extends Actor {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
 
-    const template = 'systems/demonlord/templates/chat/enchantment.html'
+    const template = 'systems/demonlord/templates/chat/enchantment.hbs'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
       ChatMessage.create(chatData)
@@ -683,7 +695,7 @@ export class DemonlordActor extends Actor {
       speaker: {actor: this.id, token: this.token, alias: this.name},
     }
 
-    const template = 'systems/demonlord/templates/chat/rest.html'
+    const template = 'systems/demonlord/templates/chat/rest.hbs'
     renderTemplate(template, templateData).then(content => {
       chatData.content = content
       ChatMessage.create(chatData)
@@ -699,7 +711,12 @@ export class DemonlordActor extends Actor {
   async increaseDamage(increment) {
     const health = this.system.characteristics.health
     const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value + increment)))
-    return this.update({'data.characteristics.health.value': newHp})
+    // Recalculate injured
+    const newInjured = (this.system.characteristics.health.max / 2) <= newHp
+    return this.update({
+      'data.characteristics.health.value': newHp,
+      'data.characteristics.health.injured': newInjured
+    })
   }
 
   async setUsesOnSpells() {

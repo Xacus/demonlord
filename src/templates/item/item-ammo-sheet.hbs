@@ -3,12 +3,13 @@
     <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
       <div class="gridrow">
-        <input name="name" type="text" value="{{item.name}}" placeholder="Feature Name"/>
+        <input name="name" type="text" value="{{item.name}}" placeholder="Ammo Name"/>
       </div>
     </div>
     <div class="template-type">{{item.type}}</div>
   </header>
 
+  {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
     <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
@@ -27,15 +28,16 @@
         </div>
         <hr>
 
-        <div class="dl-item-section-section margin">
+        <div class="dl-item-section-section text-areas">
           <div>
             <b>{{localize "DL.WeaponProperties"}}</b>
+            <textarea name="system.properties" placeholder="―" autosize>{{system.properties}}</textarea>
             <div style="margin-left: 8px">
               <div class="dl-new-project-2">
                 <i class="dl-icon-amount"></i>
                 <span class="sep"></span>
                 <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
-                  "DL.ItemAmount"}}</span>
+                  "DL.AmmoAmount"}}</span>
                 <span class="sep"></span>
                 <input type="number" name="system.quantity" value="{{system.quantity}}" placeholder="0"/>
               </div>
@@ -69,8 +71,8 @@
         </div>
 
       </div>
-      {{> "systems/demonlord/templates/item/partial/item-description.html"}} {{#if effects}}{{>
-    "systems/demonlord/templates/item/partial/item-effects.html"}}{{/if}}
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
     </section>
   </section>
 </form>

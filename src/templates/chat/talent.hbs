@@ -1,27 +1,39 @@
 <div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}} {{#if item.id}}data-item-id="{{item.id}}"
-{{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+  {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
   <div class="showlessinfo">{{data.actorInfo}}</div>
-  {{#if data.attack}}
+  {{#if data.roll}}
     <header class="card-header">
       <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"
-                                  height="40" width="40"/></div>
+        height="40" width="40"/></div>
       <div class="attackbox">
         <div class="boxline">
-          <div class="header">{{localize "DL.SpellRollText"}}</div>
+          <div class="header">
+            {{#if data.isCreature}}
+              {{localize "DL.AttackSpecialRollText"}}
+            {{else}}
+              {{localize "DL.TalentRollTitle"}}
+            {{/if}}
+          </div>
           <div class="headertext">{{item.name}}</div>
         </div>
         <div class="boxline">
           <div class="header">{{localize "DL.TargetRollText"}}</div>
-          <div class="targetname">{{data.tagetname}}</div>
+          <div class="targetname">{{data.targetname}}</div>
         </div>
       </div>
     </header>
   {{else}}
     <header class="card-header">
       <div class="token-img"><img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"
-                                  height="40" width="40"/></div>
+        height="40" width="40"/></div>
       <div class="attackbox">
-        <div class="header">{{localize "DL.SpellRollText"}}</div>
+        <div class="header">
+          {{#if data.against}}
+            {{localize "DL.AttackRollText"}}
+          {{else}}
+            {{localize "DL.TalentRollTitle"}}
+          {{/if}}
+        </div>
         <div class="headertext">{{item.name}}</div>
       </div>
     </header>
@@ -35,10 +47,16 @@
       <div class="chat-uses">{{data.uses}}</div>
     {{/if}}
   {{/if}}
-  {{#if data.attack}}
+  {{#if data.roll}}
     <div class="result">
       <div class="box {{data.resultBoxClass}}">
-        <div class="valuetext">{{data.attack}}</div>
+        <div class="valuetext">
+          {{#if data.against}}
+            {{data.attack}}
+          {{else}}
+            {{localize "DL.TalentRollText"}}
+          {{/if}}
+        </div>
         <div class="boxborder tooltip">
           <div class="value">
             <div class="gmremove">{{data.diceTotal}}</div>
@@ -46,18 +64,18 @@
           </div>
           {{#if data.isCreature}}
             <div class="gmonly">
-          <span class="tooltiptext">
-            {{#each diceData.dice}}
-              <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
-              <label style="color:{{this.color}};">
-                {{this.result}}
-              </label>
-                {{#if this.img}}
-                  <img src='{{this.img}}'/>
-                {{/if}}
-            </div>
-            {{/each}}
-          </span>
+                    <span class="tooltiptext">
+                      {{#each diceData.dice}}
+                        <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                            <label style="color:{{this.color}};">
+                              {{this.result}}
+                            </label>
+                          {{#if this.img}}
+                            <img src='{{this.img}}'/>
+                          {{/if}}
+                        </div>
+                      {{/each}}
+                    </span>
             </div>
           {{else}}
             {{#if data.ifBlindedRoll }}
@@ -66,13 +84,13 @@
             <span class="tooltiptext">
               {{#each diceData.dice}}
                 <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
-              <label style="color:{{this.color}};">
-                {{this.result}}
-              </label>
+                        <label style="color:{{this.color}};">
+                          {{this.result}}
+                        </label>
                   {{#if this.img}}
                     <img src='{{this.img}}'/>
                   {{/if}}
-            </div>
+                    </div>
               {{/each}}
             </span>
             {{#if data.ifBlindedRoll }}
@@ -81,56 +99,60 @@
           {{/if}}
         </div>
       </div>
-      <div class="boxvs">
-        <div class="vs">{{localize "DL.ChallengeVS"}}</div>
-      </div>
-      <div class="box {{data.resultBoxClass}}">
-        <div class="valuetext">{{data.against}}</div>
-        <div class="boxborderTarget">
-          <div class="value">
-            <div class="gmremove">{{data.againstNumber}}</div>
-            <div class="gmonlyzero">{{data.againstNumberGM}}</div>
-          </div>
+      {{#if data.against}}
+        <div class="boxvs">
+          <div class="vs">{{localize "DL.ChallengeVS"}}</div>
         </div>
-      </div>
-    </div>
-    {{#if data.attackEffects}}
-      {{#if data.isCreature}}
-        <div class="gmonly">
-          <div class="description">
-            <div class="header">{{localize "DL.AttackRollBonuses"}}:</div>
-            <div class="body">{{{data.attackEffects}}}
-              <hr>
+        <div class="box {{data.resultBoxClass}}">
+          <div class="valuetext">{{data.against}}</div>
+          <div class="boxborderTarget">
+            <div class="value">
+              <div class="gmremove">{{data.againstNumber}}</div>
+              <div class="gmonlyzero">{{data.againstNumberGM}}</div>
             </div>
           </div>
         </div>
-      {{else}}
-        <div class="description">
-          <div class="header">{{localize "DL.AttackRollBonuses"}}:</div>
-          <div class="body">{{{data.attackEffects}}}
-            <hr>
-          </div>
-        </div>
       {{/if}}
-    {{/if}}
-  {{/if}}
-  {{#if data.description}}
-    {{#if data.isCreature}}
-      <div class="gmonly">
-        <div class="description">
-          <div class="header">{{localize "DL.SpellRollDescription"}}</div>
-          <div class="body">{{{data.description}}}</div>
-        </div>
-      </div>
-    {{else}}
-      <div class="description">
-        <div class="header">{{localize "DL.SpellRollDescription"}}</div>
-        <div class="body">{{{data.description}}}</div>
-      </div>
-    {{/if}}
+    </div>
   {{/if}}
   {{#if data.isCreature}}
-  <div class="gmonly">
+    <div class="gmonly">
+  {{/if}}
+  {{#if data.attackEffects}}
+    <div class="description">
+      <div class="header">{{localize "DL.AttackRollBonuses"}}:</div>
+      <div class="body">{{{data.attackEffects}}}
+        <hr>
+      </div>
+    </div>
+  {{/if}}
+  {{#if data.description}}
+    <div class="description">
+      <div class="header">{{localize "DL.AttackRollDescription"}}</div>
+      <div class="body">{{{data.description}}}</div>
+    </div>
+  {{/if}}
+  {{#if data.talentEffects}}
+    <div class="description">
+      <div class="header">{{localize "DL.TalentRollEffects"}}</div>
+      <div class="body">{{{data.talentEffects}}}
+        <hr>
+      </div>
+    </div>
+  {{/if}}
+  {{#if item.system.action.extraeffect}}
+    <div class="description">
+      <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
+      <div class="body">{{{item.system.action.extraeffect}}}</div>
+    </div>
+  {{/if}}
+  {{#if data.defense}}
+    <div class="roll20">
+      <div class="header">{{localize "DL.SpellTypeDefense"}}</div>
+      <div class="body">{{localize "DL.ChallengeRoll"}}: {{data.defense}}
+        {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+      </div>
+    </div>
   {{/if}}
   {{#if data.defense}}
     <div class="roll20">
@@ -142,76 +164,16 @@
   {{/if}}
   {{#if data.healing}}
     <div class="talentactions roll-healing">
-      <div class="header" data-healing="1">
+      <div class="header" data-item-id="{{data.id}}" data-healing="1">
         <img src=" systems/demonlord/assets/ui/icons/health.webp" width="15" height="15"/>
         <div>{{localize "DL.DialogTalentApplyHealing"}}</div>
       </div>
     </div>
     <div class="talentactions roll-healing">
-      <div class="header" data-healing="2">
+      <div class="header" data-item-id="{{data.id}}" data-healing="2">
         <img src=" systems/demonlord/assets/ui/icons/health.webp" width="15" height="15"/>
         <div>{{localize "DL.DialogTalentApplyHalfHealing"}}</div>
       </div>
-    </div>
-  {{/if}}
-  {{#if data.effectdice}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellEffectDice"}}</div>
-      <div class="body">{{localize "DL.SpellEffectDiceResult"}} {{data.effectdice}}</div>
-    </div>
-  {{/if}}
-  {{#if data.plus20text}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollPlus20"}}</div>
-      <div class="body">{{data.plus20text}}</div>
-    </div>
-  {{/if}}
-  {{#if data.spelltarget}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollTarget"}}</div>
-      <div class="body">{{data.spelltarget}}</div>
-    </div>
-  {{/if}}
-  {{#if data.spellarea}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollArea"}}</div>
-      <div class="body">{{data.spellarea}}</div>
-    </div>
-  {{/if}}
-  {{#if data.spellduration}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollDuration"}}</div>
-      <div class="body">{{data.spellduration}}</div>
-    </div>
-  {{/if}}
-  {{#if data.spellrequirements}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollRequirements"}}</div>
-      <div class="body">{{data.spellrequirements}}</div>
-    </div>
-  {{/if}}
-  {{#if data.spellsacrifice}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollSacrifice"}}</div>
-      <div class="body">{{data.spellsacrifice}}</div>
-    </div>
-  {{/if}}
-  {{#if data.spellpermanence}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollPermanence"}}</div>
-      <div class="body">{{data.spellpermanence}}</div>
-    </div>
-  {{/if}}
-  {{#if data.spellspecial}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollSpecial"}}</div>
-      <div class="body">{{data.spellspecial}}</div>
-    </div>
-  {{/if}}
-  {{#if data.spelltriggered}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollTriggered"}}</div>
-      <div class="body">{{data.spelltriggered}}</div>
     </div>
   {{/if}}
   {{#if data.isCreature}}
@@ -271,18 +233,10 @@
   </div>
   {{#if data.isCreature}}
     <div class="gmonly">
-      {{#if data.hasAreaTarget }}
-        <div class="combatactions place-template dl-clickable" data-item-uuid="{{item.uuid}}">
-          <div class="header">
-            <img src="systems/demonlord/assets/ui/icons/pentagram.webp" width="15" height="15"/>
-            <div>{{localize "DL.ActionPlaceTemplate"}}</div>
-          </div>
-        </div>
-      {{/if}}
       {{#if data.damageFormular}}
         <div class="combatactions roll-damage">
-          <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageFormular}}"
-              data-damagetype="{{data.damageType}}">
+          <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageFormular}}"
+               data-damagetype="{{data.damageType}}">
             <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
             <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormular}})</div>
           </div>
@@ -290,31 +244,84 @@
       {{/if}}
       {{#each data.damageTypes as |damagetype id|}}
         <div class="combatactions roll-damage">
-          <div class="header" data-item-id="{{data._id}}" data-damage="{{damagetype.damage}}"
-              data-damagetype="{{damagetype.damagetype}}">
+          <div class="header" data-item-id="{{data.id}}" data-damage="{{damagetype.damage}}"
+               data-damagetype="{{damagetype.damagetype}}">
             <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
             <div>{{damagetype.damagetype}} {{localize "DL.WeaponDamage"}} ({{damagetype.damage}})</div>
           </div>
         </div>
       {{/each}}
+      {{#if data.pureDamage}}
+        <div class="combatactions roll-damage">
+          <div class="header" data-item-id="{{data.id}}" data-damage="{{data.pureDamage}}"
+               data-damagetype="{{data.pureDamageType}}">
+            <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
+            <div>{{data.pureDamageType}} {{localize "DL.WeaponDamage"}} ({{data.pureDamage}})</div>
+          </div>
+        </div>
+      {{/if}}
       {{#if data.damageExtra20plusFormular}}
         <div class="combatactions roll-damage">
-          <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageExtra20plusFormular}}">
+          <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageExtra20plusFormular}}">
             <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
             <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular}})</div>
           </div>
         </div>
       {{/if}}
-      {{#each data.itemEffects as |effect|}}
-        <div class="combatactions apply-effect" data-effect-uuid="{{effect.uuid}}">
-          <div class="header">
-            <img src="{{effect.icon}}" width="15" height="15"/>
-            <div>{{effect.label}}</div>
-          </div>
-        </div>
-      {{/each}}
-    </div>
   {{else}}
+      <div class="gmonly">
+        {{#if data.challStrength}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Strength" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeStrength"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        {{#if data.challAgility}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Agility" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeAgility"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        {{#if data.challIntellect}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Intellect" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeIntellect"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        {{#if data.challWill}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Will" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeWill"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        {{#if data.challPerception}}
+          <div class="challengeaction request-challengeroll">
+            <div class="header" data-attribute="Perception" data-boba="{{data.defenseboonsbanes}}">
+              <div class="challenge-img"></div>
+              <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributePerception"}}
+                {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
     {{#if data.ifBlindedRoll }}
     <div class="gmonly">
     {{/if}}
@@ -328,8 +335,8 @@
     {{/if}}
     {{#if data.damageFormular}}
       <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageFormular}}"
-            data-damagetype="{{data.damageType}}">
+        <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageFormular}}"
+             data-damagetype="{{data.damageType}}">
           <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
           <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormular}})</div>
         </div>
@@ -337,16 +344,25 @@
     {{/if}}
     {{#each data.damageTypes as |damagetype id|}}
       <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data._id}}" data-damage="{{damagetype.damage}}"
-            data-damagetype="{{damagetype.damagetype}}">
+        <div class="header" data-item-id="{{data.id}}" data-damage="{{damagetype.damage}}"
+             data-damagetype="{{damagetype.damagetype}}">
           <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
           <div>{{damagetype.damagetype}} {{localize "DL.WeaponDamage"}} ({{damagetype.damage}})</div>
         </div>
       </div>
     {{/each}}
+    {{#if data.pureDamage}}
+      <div class="combatactions roll-damage">
+        <div class="header" data-item-id="{{data.id}}" data-damage="{{data.pureDamage}}"
+             data-damagetype="{{data.pureDamageType}}">
+          <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
+          <div>{{data.pureDamageType}} {{localize "DL.WeaponDamage"}} ({{data.pureDamage}})</div>
+        </div>
+      </div>
+    {{/if}}
     {{#if data.damageExtra20plusFormular}}
       <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{data._id}}" data-damage="{{data.damageExtra20plusFormular}}">
+        <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageExtra20plusFormular}}">
           <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15"/>
           <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20plusFormular}})</div>
         </div>

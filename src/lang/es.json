@@ -1,7 +1,8 @@
 {
   "ACTOR": {
     "TypeCharacter": "PJ/PNJ",
-    "TypeCreature": "Criatura"
+    "TypeCreature": "Criatura",
+    "TypeVehicle": "Vehículo"
   },
   "ITEM": {
     "TypeAmmo": "Munición",
@@ -450,6 +451,16 @@
   "DL.CreatureFrighteningDescription": "Una criatura que no tenga el rasgo aterrador u horripilante debe realizar una prueba de Voluntad la primera vez que vea una o más criaturas que sí lo tengan. Aplica 1 desventaja si ve cuatro o más criaturas de este tipo a la vez. Si falla, la criatura queda atemorizada durante un número de rondas equivalente a 1d3 + su Locura total o gana 1 punto de Locura si ya estaba atemorizada. Una vez que la criatura hace la prueba, tenga o no éxito, no podrá verse afectada de nuevo por este rasgo de la criatura que haya visto hasta después de hacer un descanso.",
   "DL.CreatureHorrifying": "Horripilante",
   "DL.CreatureHorrifyingDescription": "Una criatura que no tenga el rasgo horripilante debe realizar una prueba de Voluntad la primera vez que vea una o más criaturas que sí lo tengan.. Aplica 1 desventaja si ve a cuatro o más criaturas así a la vez. Si falla, la criatura gana 1 punto de Locura o 1d3 si ya estaba atemorizada. Una vez que la criatura hace la prueba, tenga o no éxito, no podrá verse afectada de nuevo por este rasgo de la criatura que haya visto hasta después de hacer un descanso. Independientemente del desenlace de la prueba, las criaturas que carecen del rasgo aterrador u horripilante hacen las tiradas de ataque contra criaturas horripilantes con 1 desventaja.",
+  "DL.VehicleDescriptor": "Descriptor",
+  "DL.VehiclePrice": "Precio",
+  "DL.VehicleHealth": "Salud",
+  "DL.VehicleCrew": "Tripulación",
+  "DL.VehicleSpace": "Espacio",
+  "DL.VehicleMaximumSpeed": "Velocidad Máxima",
+  "DL.VehicleCargo": "Carga",
+  "DL.VehicleTraits": "Rasgos",
+  "DL.VehicleSpeedTraits": "Rasgos de Velocidad",
+  "DL.VehicleAttackOptions": "Opciones de Ataque",
   "DL.SettingInitMessage": "Mensajes de Iniciativa",
   "DL.SettingInitMessageHint": "Muestra en el chat si el jugador elige un turno Rápido o Lento.",
   "DL.SettingInitRandomize": "Iniciativa Aleatoria",

@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["character", "creature"],
+    "types": ["character", "creature", "vehicle"],
     "templates": {
       "base": {
         "description": "",
@@ -134,6 +134,14 @@
       "perceptionsenses": "",
       "speedtraits": "",
       "armor": ""
+    },
+    "vehicle": {
+      "templates": ["base", "section"],
+      "edit": true,
+      "descriptor": "object (vehicle)",
+      "speedtraits": "",
+      "price": "0 gc",
+      "cargo": 0
     }
   },
   "Item": {
@@ -219,7 +227,7 @@
       }
     },
     "item": {
-      "templates": ["base", "enchantment"],
+      "templates": ["base", "action", "enchantment"],
       "quantity": 1,
       "availability": "",
       "value": "",
