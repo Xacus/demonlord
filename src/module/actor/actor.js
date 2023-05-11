@@ -45,9 +45,6 @@ export class DemonlordActor extends Actor {
       system.characteristics.defense = 0  // assume defense = agility
       system.characteristics.health.max = 0
     }
-    else if (this.type === 'vehicle') {
-      // TODO
-    }
 
     setProperty(system, 'bonuses', {
       attack: {
@@ -180,10 +177,6 @@ export class DemonlordActor extends Actor {
 
       // Armor
       system.characteristics.defense = (system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility) // + system.characteristics.defense // Applied as ActiveEffect further down
-    }
-    // --- Vehicle specific data ---
-    else if (this.type === 'vehicle') {
-      // TODO
     }
     // --- Creature specific data ---
     else {
