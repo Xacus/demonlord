@@ -160,7 +160,7 @@ export class DemonlordActor extends Actor {
 
       // Health and Healing Rate
       system.characteristics.health.max += system.attributes.strength.value
-      system.characteristics.health.healingrate = Math.floor(system.characteristics.health.max / 4)
+      system.characteristics.health.healingrate = system.characteristics.health.max / 4
 
       // Reapply healingrate from ActiveEffects
       for (let change of effectChanges.filter(e => e.key.includes("healingrate"))) {

@@ -35,7 +35,7 @@ export function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper('enrichHTMLUnrolled', (x) => enrichHTMLUnrolled(x))
   Handlebars.registerHelper('lookupAttributeModifier', (attributeName, actorData) =>
-    actorData?.data?.attributes[attributeName.toLowerCase()]?.modifier
+    actorData?.system?.attributes[attributeName.toLowerCase()]?.modifier
   )
 
   Handlebars.registerHelper('dlRadioBoxes', (groupName, checkedKey) => _buildRadioBoxes(groupName, checkedKey))

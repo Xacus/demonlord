@@ -58,7 +58,7 @@
           <!-- TODO: RANGE-->
           <!--{{#if system.range}}({{system.range}}){{/if}}-->
           {{#if system.action.attack}}
-            {{plusify (lookupAttributeModifier system.action.attack item.document.actor.data)}}
+            {{plusify (lookupAttributeModifier system.action.attack item.parent)}}
           {{/if}}
           {{#if system.action.boonsbanes}}
             {{localize "DL.With"}} {{plusify system.action.boonsbanes}}
