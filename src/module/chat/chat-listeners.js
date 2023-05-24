@@ -96,14 +96,8 @@ async function _onChatRollDamage(event) {
   const template = 'systems/demonlord/templates/chat/damage.hbs'
   renderTemplate(template, templateData).then(content => {
     chatData.content = content
-    if (game.dice3d) {
-      game.dice3d
-        .showForRoll(damageRoll, game.user, true, chatData.whisper, chatData.blind)
-        .then(() => ChatMessage.create(chatData))
-    } else {
-      chatData.sound = CONFIG.sounds.dice
-      ChatMessage.create(chatData)
-    }
+    chatData.sound = CONFIG.sounds.dice
+    ChatMessage.create(chatData)
   })
   Hooks.call('DL.RollDamage', {
     sourceToken: tokenManager.getTokenByActorId(actor.id),
