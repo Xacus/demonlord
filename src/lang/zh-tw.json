@@ -341,9 +341,11 @@
   "DL.DialogShoeEffects": "顯示效果",
   "DL.CreatureEdit": "編輯生物",
   "DL.CreatureSave": "保存生物",
-  "ACTOR": {
-    "TypeCharacter": "PC/NPC",
-    "TypeCreature": "生物"
+  "TYPES": {
+    "Actor": {
+      "character": "PC/NPC",
+      "creature": "生物"
+    }
   },
   "DL.CreatureName": "名稱",
   "DL.CreatureDifficultyTitle": "強度",

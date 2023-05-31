@@ -1,24 +1,26 @@
 {
-  "ACTOR": {
-    "TypeCharacter": "PC/NPC",
-    "TypeCreature": "Creature",
-    "TypeVehicle": "Vehicle"
-  },
-  "ITEM": {
-    "TypeAmmo": "Ammo",
-    "TypeAncestry": "Ancestry",
-    "TypeArmor": "Armor",
-    "TypeCreaturerole": "Creature Role",
-    "TypeEndoftheround": "End of the Round effect",
-    "TypeFeature": "Feature",
-    "TypeItem": "Inventory Item",
-    "TypeLanguage": "Language",
-    "TypePath": "Path",
-    "TypeProfession": "Profession",
-    "TypeSpecialaction": "Special action",
-    "TypeSpell": "Spell",
-    "TypeTalent": "Talent",
-    "TypeWeapon": "Weapon"
+  "TYPES": {
+    "Actor": {
+      "character": "PC/NPC",
+      "creature": "Creature",
+      "vehicle": "Vehicle"
+    },
+    "Item": {
+      "ammo": "Ammo",
+      "ancestry": "Ancestry",
+      "armor": "Armor",
+      "creaturerole": "Creature Role",
+      "endoftheround": "End of the Round effect",
+      "feature": "Feature",
+      "item": "Inventory Item",
+      "language": "Language",
+      "path": "Path",
+      "profession": "Profession",
+      "specialaction": "Special action",
+      "spell": "Spell",
+      "talent": "Talent",
+      "weapon": "Weapon"
+    }
   },
   "DL.Attributes": "Attributes",
   "DL.AttributeStrength": "Strength",

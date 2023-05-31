@@ -118,7 +118,7 @@ export class DLActiveEffects {
     const dataL0 = item.system
 
     const effectDataL0 = {
-      label: `${item.name} (${game.i18n.localize('DL.CharLevel')} 0)`,
+      name: `${item.name} (${game.i18n.localize('DL.CharLevel')} 0)`,
       icon: item.img,
       origin: item.uuid,
       disabled: false,
@@ -156,7 +156,7 @@ export class DLActiveEffects {
 
     const dataL4 = item.system.level4
     const effectDataL4 = {
-      label: `${item.name} (${game.i18n.localize('DL.CharLevel')} 4)`,
+      name: `${item.name} (${game.i18n.localize('DL.CharLevel')} 4)`,
       icon: item.img,
       origin: item.uuid,
       disabled: actor.system.level < 4,
@@ -185,7 +185,7 @@ export class DLActiveEffects {
 
     pathdata.levels.forEach(pathLevel => {
       const levelEffectData = {
-        label: `${item.name} (${game.i18n.localize('DL.CharLevel')} ${pathLevel.level})`,
+        name: `${item.name} (${game.i18n.localize('DL.CharLevel')} ${pathLevel.level})`,
         icon: item.img,
         origin: item.uuid,
         disabled: actor.system.level < pathLevel.level,
@@ -265,7 +265,7 @@ export class DLActiveEffects {
     const priority = 3
     const talentData = item.system
     const effectData = {
-      label: item.name,
+      name: item.name,
       icon: item.img,
       origin: item.uuid,
       disabled: !talentData.addtonextroll,
@@ -323,7 +323,7 @@ export class DLActiveEffects {
     const priority = 4
     const armorData = item.system
     const effectData = {
-      label: item.name,
+      name: item.name,
       icon: item.img,
       origin: item.uuid,
       transfer: false,
@@ -372,7 +372,7 @@ export class DLActiveEffects {
 
   static async addEncumbrance(actor, itemNames) {
     const priority = 100
-    let effectLabel =
+    let effectName =
       game.i18n.localize('DL.encumbered') +
       ' (' +
       (itemNames[0] || '') +
@@ -384,7 +384,7 @@ export class DLActiveEffects {
     if (!oldEffect && !n) return
 
     const effectData = {
-      label: effectLabel,
+      name: effectName,
       icon: 'systems/demonlord/assets/icons/effects/fatigued.svg',
       origin: 'encumbrance',
       transfer: false,
@@ -396,7 +396,7 @@ export class DLActiveEffects {
         notDeletable: true,
         notEditable: true,
         notToggleable: false,
-        slug: `encumbrance-${effectLabel.toLowerCase()}`,
+        slug: `encumbrance-${effectName.toLowerCase()}`,
       },
       changes: [
         addEffect('system.bonuses.attack.boons.strength', n, priority),

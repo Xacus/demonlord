@@ -1,23 +1,25 @@
 {
-  "ACTOR": {
-    "TypeCharacter": "PJ/PNJ",
-    "TypeCreature": "Créature"
-  },
-  "ITEM": {
-    "TypeAmmo": "Munition",
-    "TypeAncestry": "Origine",
-    "TypeArmor": "Armure",
-    "TypeCreaturerole": "Rôle de la créature",
-    "TypeEndoftheround": "fin du round",
-    "TypeFeature": "Dossier",
-    "TypeItem": "Objet inventer",
-    "TypeLanguage": "Langue",
-    "TypePath": "Voie",
-    "TypeProfession": "Profession",
-    "TypeSpecialaction": "Action Spéciale",
-    "TypeSpell": "Sort",
-    "TypeTalent": "Talent",
-    "TypeWeapon": "arme"
+  "TYPES": {
+    "Actor": {
+      "character": "PJ/PNJ",
+      "creature": "Créature"
+    },
+    "Item": {
+      "ammo": "Munition",
+      "ancestry": "Origine",
+      "armor": "Armure",
+      "creaturerole": "Rôle de la créature",
+      "endoftheround": "Fin du round",
+      "feature": "Dossier",
+      "item": "Objet inventer",
+      "language": "Langue",
+      "path": "Voie",
+      "profession": "Profession",
+      "specialaction": "Action Spéciale",
+      "spell": "Sort",
+      "talent": "Talent",
+      "weapon": "Arme"
+    }
   },
   "DL.Attributes": "Attributs",
   "DL.AttributeStrength": "Force",

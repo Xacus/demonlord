@@ -16,7 +16,7 @@ function _remapEffects(effects) {
   effects.forEach(effect =>
     effect.changes.forEach(change => {
       const obj = {
-        label: effect.label,
+        name: effect.name,
         type: effect.flags?.sourceType,
         value: change.value,
       }
@@ -33,7 +33,7 @@ const _toMsg = (label, value) => `&nbsp;&nbsp;&nbsp;&nbsp;• ${value} <i>(${lab
 
 const changeToMsg = (m, key, title, f=plusify) => {
   title = title ? `&nbsp;&nbsp;${game.i18n.localize(title)}<br>` : ''
-  if (m.has(key)) return m.get(key).reduce((acc, change) => acc + _toMsg(change.label, f(change.value)), title)
+  if (m.has(key)) return m.get(key).reduce((acc, change) => acc + _toMsg(change.name, f(change.value)), title)
   return ''
 }
 

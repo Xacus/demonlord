@@ -1,8 +1,10 @@
 {
   "DL.LanguagesTitle": "Linguaggi",
-  "ACTOR": {
-    "TypeCharacter": "PG/PNG",
-    "TypeCreature": "Creatura"
+  "TYPES": {
+    "Actor": {
+      "character": "PG/PNG",
+      "creature": "Creatura"
+    }
   },
   "DL.Afflictions": "Afflizioni",
   "DL.AfflictionsAsleep": "Una creatura addormentata è prona e svenuta. Un’altra creatura che ce l’abbia entro portata può usare un’azione per svegliarla. A meno che non sia indicato diversamente, subire danni rimuove quest’afflizione.",
