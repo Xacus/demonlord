@@ -169,7 +169,7 @@ export async function getNestedItemData(nestedData) {
   else {
     // Here we have an entity which is fetched using fallback methods, so we must construct it properly to v10 specs
     const ed = entity.system ?? entity.data ?? entity
-    const sys = entity.system ?? ed
+    const sys = entity.system ?? ed.system ?? ed
     itemData = {
       uuid: entity.uuid || ed.uuid,
       _id: entity._id || ed._id,
