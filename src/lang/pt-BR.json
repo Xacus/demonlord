@@ -1,24 +1,26 @@
 {
-  "ACTOR": {
-    "TypeCharacter": "PC/NPC",
-    "TypeCreature": "Criatura"
-  },
-  "ITEM": {
-    "TypeAmmo": "Munição",
-    "TypeAncestry": "Ancestralidade",
-    "TypeArmor": "Armadura",
-    "TypeCreaturerole": "Função da Criatura",
-    "TypeEndoftheround": "Efeito de Fim da Rodada",
-    "TypeFeature": "Propriedade",
-    "TypeItem": "Item de Inventário",
-    "TypeLanguage": "Idioma",
-    "TypeMod": "Modificador",
-    "TypePath": "Trilha",
-    "TypeProfession": "Profissão",
-    "TypeSpecialaction": "Ação Especial",
-    "TypeSpell": "Magia",
-    "TypeTalent": "Talento",
-    "TypeWeapon": "Arma"
+  "TYPES": {
+    "Actor": {
+      "character": "PC/NPC",
+      "creature": "Criatura"
+    },
+    "Item": {
+      "ammo": "Munição",
+      "ancestry": "Ancestralidade",
+      "armor": "Armadura",
+      "creaturerole": "Função da Criatura",
+      "endoftheround": "Efeito de Fim da Rodada",
+      "feature": "Propriedade",
+      "item": "Item de Inventário",
+      "language": "Idioma",
+      "mod": "Modificador",
+      "path": "Trilha",
+      "profession": "Profissão",
+      "specialaction": "Ação Especial",
+      "spell": "Magia",
+      "talent": "Talento",
+      "weapon": "Arma"
+    }
   },
   "DL.Attributes": "Atributos",
   "DL.AttributeStrength": "Força",

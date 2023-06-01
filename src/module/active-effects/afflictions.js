@@ -4,7 +4,7 @@ const effectPriority = 110
 
 const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
   id: label, // TODO: Check corrections here?
-  label: game.i18n.localize('DL.' + label),
+  name: game.i18n.localize('DL.' + label),
   icon: icon,
   disabled: false,
   transfer: true,

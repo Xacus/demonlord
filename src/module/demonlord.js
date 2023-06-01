@@ -134,7 +134,7 @@ Hooks.once('setup', function () {
     for (const effect of CONFIG.statusEffects) {
       effects.push({
         id: effect.id,
-        label: effect.label,
+        name: effect.name,
         icon: effect.icon,
       })
     }

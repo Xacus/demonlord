@@ -1,24 +1,26 @@
 {
-  "ACTOR": {
-    "TypeCharacter": "PJ/PNJ",
-    "TypeCreature": "Criatura",
-    "TypeVehicle": "Vehículo"
-  },
-  "ITEM": {
-    "TypeAmmo": "Munición",
-    "TypeAncestry": "Linaje",
-    "TypeArmor": "Armadura",
-    "TypeCreaturerole": "Rol de Criatura",
-    "TypeEndoftheround": "Efecto de Final de la Ronda",
-    "TypeFeature": "Rasgo",
-    "TypeItem": "Objeto de Inventario",
-    "TypeLanguage": "Idioma",
-    "TypePath": "Senda",
-    "TypeProfession": "Profesión",
-    "TypeSpecialaction": "Acción Especial",
-    "TypeSpell": "Conjuro",
-    "TypeTalent": "Talento",
-    "TypeWeapon": "Arma"
+  "TYPES": {
+    "Actor": {
+      "character": "PJ/PNJ",
+      "creature": "Criatura",
+      "vehicle": "Vehículo"
+    },
+    "Item": {
+      "ammo": "Munición",
+      "ancestry": "Linaje",
+      "armor": "Armadura",
+      "creaturerole": "Rol de Criatura",
+      "endoftheround": "Efecto de Final de la Ronda",
+      "feature": "Rasgo",
+      "item": "Objeto de Inventario",
+      "language": "Idioma",
+      "path": "Senda",
+      "profession": "Profesión",
+      "specialaction": "Acción Especial",
+      "spell": "Conjuro",
+      "talent": "Talento",
+      "weapon": "Arma"
+    }
   },
   "DL.Attributes": "Atributos",
   "DL.AttributeStrength": "Fuerza",

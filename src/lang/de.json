@@ -1,23 +1,25 @@
 {
-  "ACTOR": {
-    "TypeCharacter": "PC/NPC",
-    "TypeCreature": "Kreatur"
-  },
-  "ITEM": {
-    "TypeAmmo": "Munition",
-    "TypeAncestry": "Abstammung",
-    "TypeArmor": "Rüstung",
-    "TypeCreaturerole": "Kreatur rolle",
-    "TypeEndoftheround": "End of the Round efffect",
-    "TypeFeature": "Züge",
-    "TypeItem": "Gegenstände",
-    "TypeLanguage": "Sprache",
-    "TypePath": "Pfade",
-    "TypeProfession": "Berufe",
-    "TypeSpecialaction": "Spezial aktion",
-    "TypeSpell": "Zauber",
-    "TypeTalent": "Talent",
-    "TypeWeapon": "Waffe"
+  "TYPES": {
+    "Actor": {
+      "character": "PC/NPC",
+      "creature": "Kreatur"
+    },
+    "Item": {
+      "ammo": "Munition",
+      "ancestry": "Abstammung",
+      "armor": "Rüstung",
+      "creaturerole": "Kreatur rolle",
+      "endoftheround": "End of the Round efffect",
+      "feature": "Züge",
+      "item": "Gegenstände",
+      "language": "Sprache",
+      "path": "Pfade",
+      "profession": "Berufe",
+      "specialaction": "Spezial aktion",
+      "spell": "Zauber",
+      "talent": "Talent",
+      "weapon": "Waffe"
+    }
   },
   "DL.Attributes": "Attribute",
   "DL.AttributeStrength": "Stärke",

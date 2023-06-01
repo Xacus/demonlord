@@ -1,23 +1,25 @@
 {
-  "ACTOR": {
-    "TypeCharacter": "BG/BN",
-    "TypeCreature": "Stworzenie"
-  },
-  "ITEM": {
-    "TypeAmmo": "Amunicja",
-    "TypeAncestry": "Pochodzenie/Rasa",
-    "TypeArmor": "Zbroja",
-    "TypeCreaturerole": "Akcje Stworzeń",
-    "TypeEndoftheround": "Efekt zakończenia rundy",
-    "TypeFeature": "Cecha",
-    "TypeItem": "Przedmioty",
-    "TypeLanguage": "Język",
-    "TypePath": "Ścieżka",
-    "TypeProfession": "Profesia",
-    "TypeSpecialaction": "Akcja Specjalna",
-    "TypeSpell": "Zaklęcie",
-    "TypeTalent": "Talent",
-    "TypeWeapon": "Broń"
+  "TYPES": {
+    "Actor": {
+      "character": "BG/BN",
+      "creature": "Stworzenie"
+    },
+    "Item": {
+      "ammo": "Amunicja",
+      "ancestry": "Pochodzenie/Rasa",
+      "armor": "Zbroja",
+      "creaturerole": "Akcje Stworzeń",
+      "endoftheround": "Efekt zakończenia rundy",
+      "feature": "Cecha",
+      "item": "Przedmioty",
+      "language": "Język",
+      "path": "Ścieżka",
+      "profession": "Profesia",
+      "specialaction": "Akcja Specjalna",
+      "spell": "Zaklęcie",
+      "talent": "Talent",
+      "weapon": "Broń"
+    }
   },
   "DL.Attributes": "Atrybuty",
   "DL.AttributeStrength": "Siła",

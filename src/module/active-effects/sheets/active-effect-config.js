@@ -38,7 +38,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
 
   static initializeChangeKeys() {
     DLActiveEffectConfig._availableChangeKeys = {
-      // <key> : <label>
+      // <key> : <name>
       // No change
       '': '-',
       // Attributes
