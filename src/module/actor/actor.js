@@ -713,6 +713,10 @@ export class DemonlordActor extends Actor {
     const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value + increment)))
     // Recalculate injured
     const newInjured = (this.system.characteristics.health.max / 2) <= newHp
+
+    if (newInjured) findAddEffect(this, 'injured')
+    else findDeleteEffect(this, 'injured')
+
     return this.update({
       'data.characteristics.health.value': newHp,
       'data.characteristics.health.injured': newInjured

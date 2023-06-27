@@ -210,11 +210,11 @@ export default class DLBaseActorSheet extends ActorSheet {
       if (checked) {
         const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
         if (!affliction) return false
-        affliction['flags.core.statusId'] = affliction.id
+        affliction['statuses'] = [affliction.id]
         await ActiveEffect.create(affliction, {parent: this.actor})
 
       } else {
-        const affliction = this.actor.effects.find(e => e?.flags?.core?.statusId === afflictionId)
+        const affliction = this.actor.effects.find(e => e?.statuses?.has(afflictionId))
         if (!affliction) return false
         await affliction.delete()
       }

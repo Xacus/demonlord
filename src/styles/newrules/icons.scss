@@ -141,7 +141,7 @@ i.dl-icon-amount {
 // Afflictions
 $afflictions-demonlord: 'concentrate', 'defend', 'help', 'prepare', 'reload', 'retreat', 'rush', 'stabilize', 'charmed',
   'compelled', 'defenseless', 'diseased', 'fatigued', 'horrified', 'grabbed', 'immobilized', 'impaired', 'surprised',
-  'slowed', 'incapacitated', 'disabled', 'dying';
+  'slowed', 'injured', 'incapacitated', 'disabled', 'dying';
 @each $affliction in $afflictions-demonlord {
   i.dl-icon-#{$affliction} {
     @include dl-icon('/systems/demonlord/assets/icons/effects/#{$affliction}.svg');
@@ -159,6 +159,7 @@ $afflictions-foundry-icon: (
   'stunned': 'stoned',
   'unconscious': 'unconscious',
   'invisible': 'invisible',
+  'injured': 'blood',
 );
 @each $affliction, $icon in $afflictions-foundry-icon {
   i.dl-icon-#{$affliction} {
