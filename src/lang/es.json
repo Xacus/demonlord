@@ -537,6 +537,8 @@
   "DL.ModsAfflictions": "Aflicciones",
   "DL.ModsDisableAfflictions": "Desactivar todas las Aflicciones",
   "DL.ModsDamage": "Efectos de Daño",
+  "DL.injured": "Herido",
+  "DL.injuredText": "Estás herido mientras tu daño es igual o excede la mitad de tu Salud.",
   "DL.incapacitated": "Incapacitado",
   "DL.incapacitatedText": "Una criatura adquiere la condición de incapacitada si el daño total iguala su Salud. Cuando esto ocurre, la criatura cae derribada. Permanecerá incapacitada hasta que el daño total deje de ser igual a su Salud. Si la criatura sufre daño mientras esté incapacitada, muere. Las criaturas que no sean los personajes jugadores que caigan incapacitadas, mueren o caen inconscientes durante 1d3 horas, según convenga el DJ. Sin embargo, los personajes jugadores quedan debilitados y hacen tiradas de destino para determinar lo que les ocurre.",
   "DL.disabled": "Debilitado",

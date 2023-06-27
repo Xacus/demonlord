@@ -615,6 +615,8 @@
   "DL.horrified": "Inorridito",
   "DL.immobilized": "Immobilizzato",
   "DL.impaired": "Indebolito",
+  "DL.injured": "Ferito",
+  "DL.injuredText": "You are injured while your damage equals or exceeds one-half your Health.",
   "DL.incapacitated": "Incapacitato",
   "DL.incapacitatedText": "Una creatura diventa incapacitata quando il suo danno totale è pari al suo punteggio di Salute. Quando diventa incapacitata, una creatura cade prona. Una creatura resta incapacitata finché il suo danno totale è pari alla sua Salute. Se la creatura subisce un qualsiasi ammontare di danni mentre è incapacitata, muore. Le creature diverse dai personaggi giocanti che diventano incapacitate muoiono o cadono prive di sensi per 1d3 ore, a discrezione del GM. I personaggi giocanti, tuttavia, diventano inabili ed effettuano tiri di fato per determinare cosa accade loro.",
   "DL.poisoned": "Avvelenato",
