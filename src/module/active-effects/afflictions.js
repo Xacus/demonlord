@@ -382,7 +382,7 @@ export class DLAfflictions {
     // ----------------------- DAMAGE EFFECTS -------------------------- //
 
     // Injured
-    effectsDataList.push(_buildBaseAffliction('injured', 'icons/svg/blood.svg', [], {'core.overlay': true}))
+    effectsDataList.push(_buildBaseAffliction('injured', 'icons/svg/blood.svg'))
 
     // Incapacitated
     effectsDataList.push(
