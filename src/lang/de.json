@@ -462,7 +462,7 @@
   "DL.ModsDisableAfflictions": "Alle Zustände deaktiviern",
   "DL.ModsDamage": "Schadenseffekte",
   "DL.injured": "Verletzt",
-  "DL.injuredText": "You are injured while your damage equals or exceeds one-half your Health.",
+  "DL.injuredText": "Du zählst als verletzt, wenn der erlittene Schaden gleich oder höher der Hälfte deiner Lebenspunkte ist.",
   "DL.incapacitated": "Kampfunfähig",
   "DL.incapacitatedText": "Ein Wesen wird kampfunfähig, wenn die Gesamtsumme des Schades den Lebenspunkten entspricht. Wenn man kampfunfähig wird, geht man zu Boden. Man bleibt so lange kampfunfähig wie der Schaden den Lebenspunkten entspricht. Wenn man zusätzlich Schaden erleidet stirbt man. Wesen die keine Spielercharaktere sind die kampfunfägig werden, sterben entweder oder werden für 1W3 Stunden bewusstlos, nach Entscheidung des Spielleiters. Spielercharaktere werden ausgeschaltet und machen Schicksalswürfe um zu sehen was mit ihnen geschieht.",
   "DL.disabled": "Augeschaltet",

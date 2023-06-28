@@ -577,6 +577,7 @@
   "DL.rush": "Rush",
   "DL.stabilize": "Stabilize",
   "DL.encumbered": "Encumbered",
+  "DL.invisibleText": "An invisible creature or object cannot be seen by other creatures using normal senses. It is considered to be totally obscured and can thus hide away anywhere. An invisible creature makes attack rolls with 1 boon against the Defense or Agility of a target creature that cannot see it.",
   "DL.GMTools": "GM Tools",
   "DL.ToogleBarView": "Toogle Barview",
   "DL.AfflictionsAsleep": "A sleeping creature is prone and unconscious. Another creature that can reach it can use an action to wake it up. Unless otherwise noted, taking damage removes this affliction.",
