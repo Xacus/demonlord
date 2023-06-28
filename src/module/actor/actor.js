@@ -762,8 +762,13 @@ export class DemonlordActor extends Actor {
     else await findDeleteEffect(this, 'incapacitated')
 
     // Injured
-    if (hp.value >= (hp.max / 2)) await findAddEffect(this, 'injured')
-    else await findDeleteEffect(this, 'injured')
+    if (hp.value >= (hp.max / 2)) {
+      await findAddEffect(this, 'injured')
+      await this.update({ 'system.characteristics.health.injured': true})
+    } else {
+      await findDeleteEffect(this, 'injured')
+      await this.update({ 'system.characteristics.health.injured': false})
+    }
 
   }
 }

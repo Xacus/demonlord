@@ -82,12 +82,24 @@ form {
         margin-top: 0;
       }
 
+      .injured-overlay {
+        background: url(../assets/ui/injured-overlay.webp) no-repeat top left;
+        background-size: 171px 171px, cover;
+        pointer-events: none;
+        position: absolute;
+        top: 3px;
+        left: 42px;
+        width: 164px;
+        height: 163px;
+        border-radius: 100px;
+      }
+
       .profile-img {
         position: relative;
-        top: 28px;
-        right: -28px;
-        height: 115px;
-        width: 115px;
+        top: 27px;
+        right: -27px;
+        height: 119px;
+        width: 119px;
         border-radius: 60px;
         object-fit: cover;
         object-position: top;
@@ -101,13 +113,13 @@ form {
         width: 124px;
       }
 
-      .injuredbox,
+      .restbox,
       .healingratebox {
         position: absolute;
         top: 143px;
         left: 35px;
 
-        .injured,
+        .rest,
         .healingrate {
           height: 26px;
           width: 26px;
@@ -119,6 +131,26 @@ form {
           font-size: 14px;
           padding-left: 2px;
           padding-top: 4px;
+
+          input.button {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            left: -4px;
+            top: -6px;
+            border-radius: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+          }
+
+          img.rest-icon {
+            pointer-events: none;
+            content: url('../../../icons/svg/sleep.svg');
+            position: relative;
+            left: -1px;
+            top: -36px;
+          }
 
           input.checkbox {
             display: none;
@@ -140,7 +172,7 @@ form {
           }
         }
 
-        .injuredtext,
+        .resttext,
         .healingratetext {
           position: absolute;
           text-align: center;

@@ -3,7 +3,10 @@
     <div class="framecreature">
       <img class="profile-img img-cre" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
     </div>
-    <div class="injuredbox">
+    {{#if system.characteristics.health.injured}}
+    <div class="injured-overlay"></div>
+    {{/if}}
+    <div class="restbox">
       <div class="frightening">
         <input type="checkbox" name="system.frightening"
                id="system.frightening" class="checkbox"
@@ -11,9 +14,9 @@
           {{checked system.frightening}} /><label
               for="system.frightening"/>
       </div>
-      <div class="injuredtext">{{localize "DL.CreatureFrightening"}}</div>
+      <div class="resttext">{{localize "DL.CreatureFrightening"}}</div>
     </div>
-    <div class="injuredboxright">
+    <div class="restboxright">
       <div class="horrifying">
         <input type="checkbox" name="system.horrifying"
                id="system.horrifying" class="checkbox"
@@ -21,7 +24,7 @@
           {{checked system.horrifying}} /><label
               for="system.horrifying"/>
       </div>
-      <div class="injuredtext">{{localize "DL.CreatureHorrifying"}}</div>
+      <div class="resttext">{{localize "DL.CreatureHorrifying"}}</div>
     </div>
     <div class="charsstat">
       <div class="chars grid grid-2col">

@@ -403,6 +403,7 @@
   "DL.DialogBanes": "Banes",
   "DL.DialogHealedFor": "Healed ",
   "DL.DialogHealedForPoints": " points of damage.",
+  "DL.RestAction": "Rest",
   "DL.DialogRest": "Taking a rest.",
   "DL.DialogShowEffects": "Show effects",
   "DL.CreatureEdit": "Edit Creature",

@@ -19,18 +19,22 @@
         <img class="profile-img" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
       </div>
     {{/if}}
-    <div class="injuredbox">
-      <div class="injured">
+    {{#if system.characteristics.health.injured}}
+      <div class="injured-overlay"></div>
+    {{/if}}
+    <div class="restbox">
+      <div class="rest">
         <input
-                type="checkbox"
-                name="system.characteristics.health.injured"
-                id="system.characteristics.health.injured"
-                class="checkbox"
-          {{checked
-                  system.characteristics.health.injured}}
-        /><label for="system.characteristics.health.injured"/>
+                class="rest-char button"
+                type="button"
+                name="rest-char"
+                id="rest-char"
+                class="button"
+        />
+        <image class="rest-icon"/>
+        <label for="rest-char"/>
       </div>
-      <div class="injuredtext">{{localize "DL.CharHealthInjured"}}</div>
+      <div class="resttext">{{localize "DL.RestAction"}}</div>
     </div>
     <div class="healingratebox" style="cursor: pointer">
       <div class="healingrate">{{system.characteristics.health.healingrate}}</div>
