@@ -529,6 +529,8 @@
   "DL.ModsAfflictions": "Stany",
   "DL.ModsDisableAfflictions": "Wyłączenie wszystkich stanów",
   "DL.ModsDamage": "Efekty obrażeń",
+  "DL.injured": "Ranny",
+  "DL.injuredText": "Jesteś ranny gdy ilość otrzymanych punktów obrażeń wynosi co najmniej połowę Twoich całkowitych Punktów Życia.",
   "DL.incapacitated": "Obezwładnienie",
   "DL.incapacitatedText": "Stworzenie zostaje obezwładniony, gdy suma otrzymanych przez nie obrażeń jest równa jego zdrowiu. Obezwładniona istota liczy się także jako powalona. Pozostaje obezwładniona dopóty, dopóki suma otrzymanych przez nią obrażeń jest równa jej zdrowiu. Jeśli obezwładnione stworzenie otrzyma jakiekolwiek kolejne obrażenia, umiera. Stworzenie inne niż postaci  graczy, które zostaną obezwładnione, umierają od razu lub tracą przytomność na 1K3 godzin – decyzja należy do MG. Postaci graczy jednakże stają się wyeliminowane i wykonują próby przeznaczenia, by ustalić co dalej.",
   "DL.disabled": "Eliminacja",

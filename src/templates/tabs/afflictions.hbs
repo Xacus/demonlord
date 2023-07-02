@@ -55,6 +55,7 @@
   <div class="col-12">{{localize "DL.ModsDamage"}}</div>
 </div>
 <div class="grid-5">
+  {{> dlAffliction name="injured"       value=flags.demonlord.injured       label="DL.injured"       tooltip="DL.injuredText"}}
   {{> dlAffliction name="incapacitated" value=flags.demonlord.incapacitated label="DL.incapacitated" tooltip="DL.incapacitatedText"}}
   {{> dlAffliction name="disabled"      value=flags.demonlord.disabled      label="DL.disabled"      tooltip="DL.disabledText"     }}
   {{> dlAffliction name="dying"         value=flags.demonlord.dying         label="DL.dying"         tooltip="DL.dyingText"        }}
@@ -64,7 +65,7 @@
   <div class="col-12">{{localize "Token"}}</div>
 </div>
 <div class="grid-5">
-  {{> dlAffliction name="invisible"   value=flags.demonlord.invisible   label="EFFECT.StatusInvisible"}}
+  {{> dlAffliction name="invisible"   value=flags.demonlord.invisible   label="EFFECT.StatusInvisible" tooltip="DL.invisibleText"}}
 </div>
 
 <div class="grid-3" style="margin-top: 32px">

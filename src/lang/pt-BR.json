@@ -463,6 +463,8 @@
   "DL.ModsAfflictions": "Aflições",
   "DL.ModsDisableAfflictions": "Desabilitar todas as aflições",
   "DL.ModsDamage": "Efeitos de Dano",
+  "DL.injured": "Ferido",
+  "DL.injuredText": "Você está ferido quando o dano sofrido é igual ou excede a metade de sua Saúde.",
   "DL.incapacitated": "Incapacitado",
   "DL.incapacitatedText": "Uma criatura se torna incapacitada quando o valor de dano (ou seja, o quanto ele já acumulou de dano até então) é igual ao seu valor de Saúde. No momento em que fica incapacitada, a criatura fica prostrada. Uma criatura se mantém incapacitada até que o valor de dano não seja mais igual à sua Saúde. Caso a criatura sofra qualquer dano enquanto estiver incapacitada, ela morre. Caso a criatura incapacitada não seja um dos personagens dos jogadores, ela morre ou fica inconsciente por 1d3 horas, como o Mestre decidir. Personagens dos jogadores, no entanto, ficam inválidos e fazem uma jogada de destino para determinar o que acontecerá com eles.",
   "DL.disabled": "Inválido",

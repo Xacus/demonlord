@@ -42,7 +42,7 @@ export class DLAfflictions {
     if (!actor) return
     const afflictions = actor
       .getEmbeddedCollection('ActiveEffect')
-      .filter(e => e.flags?.core?.statusId)
+      .filter(e => e.statuses.size > 0)
       .map(e => e._id)
     actor.deleteEmbeddedDocuments('ActiveEffect', afflictions)
   }
@@ -380,6 +380,9 @@ export class DLAfflictions {
     effectsDataList.push(_buildBaseAffliction('stabilize', 'systems/demonlord/assets/icons/effects/stabilize.svg'))
 
     // ----------------------- DAMAGE EFFECTS -------------------------- //
+
+    // Injured
+    effectsDataList.push(_buildBaseAffliction('injured', 'icons/svg/blood.svg'))
 
     // Incapacitated
     effectsDataList.push(

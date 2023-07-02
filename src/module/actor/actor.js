@@ -203,7 +203,7 @@ export class DemonlordActor extends Actor {
     if (changed?.level || changed?.system?.level) {
       this._handleEmbeddedDocuments({debugCaller: '_onUpdate'})
     }
-    if (changed.system?.characteristics?.health) this.handleIncapacitated()
+    if (changed.system?.characteristics?.health) this.handleHealthChange()
   }
 
   async _handleEmbeddedDocuments(options = {}) {
@@ -705,17 +705,27 @@ export class DemonlordActor extends Actor {
   async applyHealing(fullHealingRate) {
     let rate = this.system.characteristics.health?.healingrate || 0
     rate = fullHealingRate ? rate : rate / 2
-    return this.increaseDamage(-rate)
+    return await this.increaseDamage(-rate)
   }
 
   async increaseDamage(increment) {
     const health = this.system.characteristics.health
     const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value + increment)))
-    // Recalculate injured
-    const newInjured = (this.system.characteristics.health.max / 2) <= newHp
+
+    if (increment > 0) {
+      // Check if hit is an instant death
+      if (increment >= health.max) {
+        await findAddEffect(this, 'dead', true)
+      }
+
+      // If character is incapacitated, die
+      else if (this.effects.find(e => e.statuses.has("incapacitated"))) {
+        await findAddEffect(this, 'dead', true)
+      }
+    }
+
     return this.update({
-      'data.characteristics.health.value': newHp,
-      'data.characteristics.health.injured': newInjured
+      'data.characteristics.health.value': newHp
     })
   }
 
@@ -742,10 +752,23 @@ export class DemonlordActor extends Actor {
     return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }
 
-  async handleIncapacitated() {
-    if (this.type !== 'character') return
+  async handleHealthChange() {
+    if (this.type === 'vehicle') return // Ignore vehicles
+    if (this.effects.find(e => e.statuses.has("dead"))) return // Character is dead
     const hp = this.system.characteristics.health
-    if (hp.value >= hp.max) findAddEffect(this, 'incapacitated')
-    else findDeleteEffect(this, 'incapacitated')
+
+    // Incapacitated
+    if (hp.value >= hp.max) await findAddEffect(this, 'incapacitated')
+    else await findDeleteEffect(this, 'incapacitated')
+
+    // Injured
+    if (hp.value >= (hp.max / 2)) {
+      await findAddEffect(this, 'injured')
+      await this.update({ 'system.characteristics.health.injured': true})
+    } else {
+      await findDeleteEffect(this, 'injured')
+      await this.update({ 'system.characteristics.health.injured': false})
+    }
+
   }
 }

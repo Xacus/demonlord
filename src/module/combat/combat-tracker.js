@@ -69,7 +69,7 @@ export class DLCombatTracker extends CombatTracker {
       if (!game.user.isGM) return
       const effectUUID = ev.currentTarget.attributes.getNamedItem('data-effect-uuid').value
       fromUuid(effectUUID).then(effect =>
-        effect.getFlag('core', 'statusId') ? effect.delete() : effect.update({disabled: true}),
+        effect.statuses ? effect.delete() : effect.update({disabled: true})
       )
     })
 
