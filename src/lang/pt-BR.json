@@ -499,6 +499,7 @@
   "DL.retreat": "Recuar",
   "DL.rush": "Correr",
   "DL.stabilize": "Estabilizar",
+  "DL.invisibleText": "Uma criatura, ou objeto, que não pode ser vista por outras criaturas utilizando seus sentidos normais. Considera-se como se estivesse completamente obscurecida e pode se esconder em qualquer lugar. Uma criatura invisível faz jogadas de ataque com 1 dádiva contra a Defesa ou Agilidade de uma criatura alvo que não possa vê-la.",
   "DL.GMTools": "Ferramentas do GM",
   "DL.ToogleBarView": "Alternar Visualização",
   "DL.AfflictionsAsleep": "Uma criatura adormecida está prostrada e inconsciente. Qualquer criatura que possa alcançá-la pode utilizar uma ação para acordá-la. A não ser que seja dito o contrário, sofrer dano remove essa aflição.",
