@@ -206,7 +206,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['damageType'] =
     talentData?.vs?.damageactive && talentData?.vs?.damage ? talentData?.vs?.damagetype : talentData?.action?.damagetype
   data['damageTypes'] = talentData?.vs?.damagetypes
-  data['damageExtra20plusFormular'] = talentData?.action?.plus20
+  data['damageExtra20plusFormular'] = talentData?.action?.plus20damage
   data['description'] = talentData?.description
   data['defense'] = talentData?.action?.defense
   data['defenseboonsbanes'] = parseInt(talentData?.action?.defenseboonsbanes)

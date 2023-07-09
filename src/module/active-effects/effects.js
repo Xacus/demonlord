@@ -17,7 +17,7 @@ export function onManageActiveEffect(event, owner) {
       return owner
         .createEmbeddedDocuments('ActiveEffect', [
           {
-            label: isCharacter ? 'New Effect' : owner.name,
+            name: isCharacter ? 'New Effect' : owner.name,
             icon: isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' : owner.img,
             origin: owner.uuid,
             transfer: false,
@@ -48,21 +48,21 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
   let categories = {
     temporary: {
       type: 'temporary',
-      label: 'Temporary Effects',
+      name: 'Temporary Effects',
       showCreateButtons: showCreateButtons,
       showControls: showControls,
       effects: [],
     },
     passive: {
       type: 'passive',
-      label: 'Passive Effects',
+      name: 'Passive Effects',
       showCreateButtons: showCreateButtons,
       showControls: showControls,
       effects: [],
     },
     inactive: {
       type: 'inactive',
-      label: 'Inactive Effects',
+      name: 'Inactive Effects',
       showCreateButtons: showCreateButtons,
       showControls: showControls,
       effects: [],

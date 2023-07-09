@@ -296,7 +296,7 @@ export class DLActiveEffects {
       addEffect('system.bonuses.attack.boons.intellect', action.boonsbanes * action.intellectboonsbanesselect, priority),
       addEffect('system.bonuses.attack.boons.will', action.boonsbanes * action.willboonsbanesselect, priority),
       concatDiceEffect('system.bonuses.attack.damage', action.damage),
-      concatDiceEffect('system.bonuses.attack.plus20Damage', action.plus20),
+      concatDiceEffect('system.bonuses.attack.plus20Damage', action.plus20damage),
       concatString('system.bonuses.attack.extraEffect', action.extraeffect, '\n'),
     ].filter(falsyChangeFilter)
 
