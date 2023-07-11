@@ -220,11 +220,11 @@ export class DemonlordActor extends Actor {
   _onCreateDescendantDocuments(embeddedName, documents, result, options, userId) {
     super._onCreateDescendantDocuments(embeddedName, documents, result, options, userId)
     if (embeddedName === 'Item' && userId === game.userId)
-      this._handleOnCreateEmbedded(documents).then(_ => this.sheet.render())
+      this._handleOnCreateDescendant(documents).then(_ => this.sheet.render())
   }
 
-  async _handleOnCreateEmbedded(documents) {
-    console.log('DEMONLORD | Calling _handleOnCreateEmbedded', documents)
+  async _handleOnCreateDescendant(documents) {
+    console.log('DEMONLORD | Calling _handleOnCreateDescendant', documents)
     for (const doc of documents) {
       // Ancestry and path creations
       if (doc.type === 'ancestry') {
@@ -235,30 +235,30 @@ export class DemonlordActor extends Actor {
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')
     }
-    await this._handleEmbeddedDocuments({debugCaller: `_handleOnCreateEmbedded [${documents.length}]`})
+    await this._handleEmbeddedDocuments({debugCaller: `_handleOnCreateDescendant [${documents.length}]`})
     return Promise.resolve()
   }
 
   /* -------------------------------------------- */
 
-  _onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId) {
-    super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId)
+  _onUpdateDescendantDocuments(embeddedName, documents, result, options, userId) {
+    super._onUpdateDescendantDocuments(embeddedName, documents, result, options, userId)
 
-    // Check if only the flag has changed. If so, we can skip the handling
-    const keys = new Set(result.reduce((prev, r) => prev.concat(Object.keys(r)), []))
-    if (keys.size <= 2 && keys.has('flags')) {
-      // Maybe check if the changed flag is 'levelRequired'?
-      return
-    }
-
-    if (embeddedName === 'Item' && userId === game.userId && !options.noEmbedEffects)
-      this._handleOnUpdateEmbedded(documents).then(_ => this.sheet.render())
+        // Check if only the flag has changed. If so, we can skip the handling
+        const keys = new Set(result.reduce((prev, r) => prev.concat(Object.keys(r)), []))
+        if (keys.size <= 2 && keys.has('flags')) {
+          // Maybe check if the changed flag is 'levelRequired'?
+          return
+        }
+    
+        if (embeddedName === 'Item' && userId === game.userId && !options.noEmbedEffects)
+          this._handleOnUpdateDescendant(documents).then(_ => this.sheet.render())
   }
 
-  async _handleOnUpdateEmbedded(documents) {
-    console.log('DEMONLORD | Calling _handleOnUpdateEmbedded', documents)
+  async _handleOnUpdateDescendant(documents) {
+    console.log('DEMONLORD | Calling _handleOnUpdateDescendant', documents)
     for (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
-    await this._handleEmbeddedDocuments({debugCaller: `_handleOnUpdateEmbedded [${documents.length}]`})
+    await this._handleEmbeddedDocuments({debugCaller: `_handleOnUpdateDescendant [${documents.length}]`})
     return Promise.resolve()
   }
 
