@@ -202,11 +202,11 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
   data['damageFormular'] = talentData?.vs?.damage
     ? talentData?.vs?.damage + actor.system.bonuses.attack.damage || ''
-    : ''
+    : talentData?.action?.damage
   data['damageType'] =
     talentData?.vs?.damageactive && talentData?.vs?.damage ? talentData?.vs?.damagetype : talentData?.action?.damagetype
   data['damageTypes'] = talentData?.vs?.damagetypes
-  data['damageExtra20plusFormular'] = talentData?.action?.plus20damage
+  data['damageExtra20plusFormular'] = talentData?.vs?.plus20damage ? talentData?.vs?.plus20damage : talentData?.action?.plus20damage
   data['description'] = talentData?.description
   data['defense'] = talentData?.action?.defense
   data['defenseboonsbanes'] = parseInt(talentData?.action?.defenseboonsbanes)

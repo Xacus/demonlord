@@ -14,7 +14,7 @@
     <ol class="items-list effects-list" style="margin-top: 0; padding: 0 8px;">
       {{#each effects as |section sid|}}
         <li class="items-header flexrow" data-effect-type="{{section.type}}">
-          <div class="item-name effect-name flexrow">{{localize section.label}}</div>
+          <div class="item-name effect-name flexrow">{{localize section.name}}</div>
           <div class="effect-source">Duration</div>
           <div class="effect-controls flexrow">
             {{#if section.showCreateButtons}}
@@ -37,7 +37,7 @@
                 {{/if}}
                 <h4>{{effect.name}}</h4>
               </div>
-              <div class="effect-duration">{{effect.duration.label}}</div>
+              <div class="effect-duration">{{effect.duration.name}}</div>
               <div class="effect-controls flexrow">
                 {{#if (eq section.showControls 1)}}
                   <a class="effect-control" data-action="toggle" title="{{localize 'DL.EffectToggle'}}">
