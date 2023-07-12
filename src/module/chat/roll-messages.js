@@ -264,6 +264,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   const savingAttribute = spellData?.action?.defense?.toLowerCase()  // displayed as "Defense" in the sheet
   // const challengeAttribute = spellData?.attribute?.toLowerCase() // FIXME
   const targetNumber = actor.getTargetNumber(spell)
+  const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
 
   let uses = parseInt(spellData?.castings?.value)
   let usesMax = parseInt(spellData?.castings?.max)
@@ -318,6 +319,8 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['damageExtra20plusFormular'] = spellData.action?.plus20damage
   data['attribute'] = spellData.attribute
   data['plus20'] = attackRoll?.total >= 20
+  data['isPlus20Roll'] = plus20
+  data['hasTarget'] = targetNumber !== undefined
   data['plus20text'] = spellData.action?.plus20
   data['description'] = spellData.description
   data['spellcastings'] = usesMax
