@@ -53,7 +53,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['damageFormular'] = item.system.action.damage + attacker.system.bonuses.attack.damage
   data['damageType'] = item.system.action.damagetype
   data['damageTypes'] = item.system.action.damagetypes
-  data['damageExtra20plusFormular'] = attacker.system.bonuses.attack.plus20Damage
+  data['damageExtra20plusFormular'] = item.system.action.plus20damage ? item.system.action.plus20damage : attacker.system.bonuses.attack.plus20Damage
   data['description'] = item.system.description
   data['targetname'] = defender?.name || ''
   data['effects'] = attacker.system.bonuses.attack.extraEffect
