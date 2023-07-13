@@ -1,7 +1,7 @@
 <ol class="items-list effects-list">
   {{#each effects as |section sid|}}
     <li class="items-header flexrow" data-effect-type="{{section.type}}">
-      <div class="item-name effect-name flexrow">{{localize section.label}}</div>
+      <div class="item-name effect-name flexrow">{{localize section.name}}</div>
       <div class="effect-source">Duration</div>
       <div class="effect-controls flexrow">
         {{#if section.showCreateButtons}}

@@ -53,7 +53,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['damageFormular'] = item.system.action.damage + attacker.system.bonuses.attack.damage
   data['damageType'] = item.system.action.damagetype
   data['damageTypes'] = item.system.action.damagetypes
-  data['damageExtra20plusFormular'] = attacker.system.bonuses.attack.plus20Damage
+  data['damageExtra20plusFormular'] = item.system.action.plus20damage ? item.system.action.plus20damage : attacker.system.bonuses.attack.plus20Damage
   data['description'] = item.system.description
   data['targetname'] = defender?.name || ''
   data['effects'] = attacker.system.bonuses.attack.extraEffect
@@ -202,11 +202,11 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
   data['damageFormular'] = talentData?.vs?.damage
     ? talentData?.vs?.damage + actor.system.bonuses.attack.damage || ''
-    : ''
+    : talentData?.action?.damage
   data['damageType'] =
     talentData?.vs?.damageactive && talentData?.vs?.damage ? talentData?.vs?.damagetype : talentData?.action?.damagetype
   data['damageTypes'] = talentData?.vs?.damagetypes
-  data['damageExtra20plusFormular'] = talentData?.action?.plus20
+  data['damageExtra20plusFormular'] = talentData?.vs?.plus20damage ? talentData?.vs?.plus20damage : talentData?.action?.plus20damage
   data['description'] = talentData?.description
   data['defense'] = talentData?.action?.defense
   data['defenseboonsbanes'] = parseInt(talentData?.action?.defenseboonsbanes)
@@ -264,6 +264,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   const savingAttribute = spellData?.action?.defense?.toLowerCase()  // displayed as "Defense" in the sheet
   // const challengeAttribute = spellData?.attribute?.toLowerCase() // FIXME
   const targetNumber = actor.getTargetNumber(spell)
+  const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
 
   let uses = parseInt(spellData?.castings?.value)
   let usesMax = parseInt(spellData?.castings?.max)
@@ -318,6 +319,8 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['damageExtra20plusFormular'] = spellData.action?.plus20damage
   data['attribute'] = spellData.attribute
   data['plus20'] = attackRoll?.total >= 20
+  data['isPlus20Roll'] = plus20
+  data['hasTarget'] = targetNumber !== undefined
   data['plus20text'] = spellData.action?.plus20
   data['description'] = spellData.description
   data['spellcastings'] = usesMax

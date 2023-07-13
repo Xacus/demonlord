@@ -139,7 +139,7 @@
                            data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
                   </div>
                   <a
-                    class="item-control damagetype-control"
+                    class="item-control vsdamagetype-control"
                     data-tippy-content="{{localize 'DL.DamageAddType'}}"
                     data-action="delete"
                     data-id="{{id}}"
@@ -150,16 +150,16 @@
             </div>
           </div>
           <div>
-            <!-- TODO: implement talent.vs.plus20damage
+            <!-- TODO: implement talent.vs.plus20damage-->
             <b>{{localize "DL.WeaponAttack20"}}</b>
             <div>
               <div class="dl-new-project-2 nohover">
-                <i class="dl-icon-d20"></i>
+                <i class="dl-icon-d20-plus"></i>
                 <span class="sep"></span>
-                <input type="text" name="system.action.plus20damage" value="{{system.action.plus20damage}}"
+                <input type="text" name="system.vs.plus20damage" value="{{system.vs.plus20damage}}"
                        data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
               </div>
-            </div>-->
+            </div>
           </div>
         </div>
 
