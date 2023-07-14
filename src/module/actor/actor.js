@@ -201,14 +201,14 @@ export class DemonlordActor extends Actor {
     super._onUpdate(changed, options, user)
     if (user !== game.userId) return
     if (changed?.level || changed?.system?.level) {
-      this._handleEmbeddedDocuments({debugCaller: '_onUpdate'})
+      this._handleDescendantDocuments({debugCaller: '_onUpdate'})
     }
     if (changed.system?.characteristics?.health) this.handleHealthChange()
   }
 
-  async _handleEmbeddedDocuments(options = {}) {
+  async _handleDescendantDocuments(options = {}) {
     //TODO: Remove logs when stable
-    console.log(`DEMONLORD | Calling _handleEmbeddedDocuments from ${options?.debugCaller || '??'}`)
+    console.log(`DEMONLORD | Calling _handleDescendantDocuments from ${options?.debugCaller || '??'}`)
     await DLActiveEffects.toggleEffectsByActorRequirements(this)
     await this.setUsesOnSpells()
     await this.setEncumbrance()
@@ -217,9 +217,9 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  _onCreateDescendantDocuments(embeddedName, documents, result, options, userId) {
-    super._onCreateDescendantDocuments(embeddedName, documents, result, options, userId)
-    if (embeddedName === 'Item' && userId === game.userId)
+  _onCreateDescendantDocuments(documentParent, collection, documents, data, options, userId) {
+    super._onCreateDescendantDocuments(documentParent, collection, documents, data, options, userId)
+    if (collection === 'items' && userId === game.userId)
       this._handleOnCreateDescendant(documents).then(_ => this.sheet.render())
   }
 
@@ -235,30 +235,30 @@ export class DemonlordActor extends Actor {
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')
     }
-    await this._handleEmbeddedDocuments({debugCaller: `_handleOnCreateDescendant [${documents.length}]`})
+    await this._handleDescendantDocuments({debugCaller: `_handleOnCreateDescendant [${documents.length}]`})
     return Promise.resolve()
   }
 
   /* -------------------------------------------- */
 
-  _onUpdateDescendantDocuments(embeddedName, documents, result, options, userId) {
-    super._onUpdateDescendantDocuments(embeddedName, documents, result, options, userId)
+  _onUpdateDescendantDocuments(documentParent, collection, documents, data, options, userId) {
+    super._onUpdateDescendantDocuments(documentParent, collection, documents, data, options, userId)
 
-        // Check if only the flag has changed. If so, we can skip the handling
-        const keys = new Set(result.reduce((prev, r) => prev.concat(Object.keys(r)), []))
-        if (keys.size <= 2 && keys.has('flags')) {
-          // Maybe check if the changed flag is 'levelRequired'?
-          return
-        }
-    
-        if (embeddedName === 'Item' && userId === game.userId && !options.noEmbedEffects)
-          this._handleOnUpdateDescendant(documents).then(_ => this.sheet.render())
+    // Check if only the flag has changed. If so, we can skip the handling
+    const keys = new Set(data.reduce((prev, r) => prev.concat(Object.keys(r)), []))
+    if (keys.size <= 2 && keys.has('flags')) {
+      // Maybe check if the changed flag is 'levelRequired'?
+      return
+    }
+
+    if ((collection === 'items' || collection === 'effects') && userId === game.userId && !options.noEmbedEffects)
+      this._handleOnUpdateDescendant(documents).then(_ => this.sheet.render())
   }
 
   async _handleOnUpdateDescendant(documents) {
     console.log('DEMONLORD | Calling _handleOnUpdateDescendant', documents)
     for (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
-    await this._handleEmbeddedDocuments({debugCaller: `_handleOnUpdateDescendant [${documents.length}]`})
+    await this._handleDescendantDocuments({debugCaller: `_handleOnUpdateDescendant [${documents.length}]`})
     return Promise.resolve()
   }
 
