@@ -51,11 +51,11 @@ export class DLCombatTracker extends CombatTracker {
         const match = imgEffectMap.get(img)?.pop()
         if (!match) continue
 
-        let tooltiptext = ': ' + game.i18n.localize('DL.Afflictions' + match.label)
+        let tooltiptext = ': ' + game.i18n.localize('DL.Afflictions' + match.name)
         tooltiptext = tooltiptext.indexOf('DL.Afflictions') === -1 ? tooltiptext : ''
         htmlEffect.outerHTML =
           `<div class="tooltipEffect tracker-effect" data-effect-uuid="${match.uuid}">${htmlEffect.outerHTML}
-            <span class="tooltiptextEffect">${match.label}${tooltiptext}</span>
+            <span class="tooltiptextEffect">${match.name}${tooltiptext}</span>
            </div>`
         // htmlEffect.addEventListener('click', ev => (ev.button == "2") ? match.delete() : null)
         // ^ does not work, probably the event gets intercepted
