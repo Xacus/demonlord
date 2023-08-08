@@ -85,13 +85,14 @@ export class ActionTemplate extends MeasuredTemplate {
     let moveTime = 0
 
     // Update placement (mouse-move)
-    handlers.mm = event => {
+    handlers.mm = async event => {
       event.stopPropagation()
       let now = Date.now() // Apply a 20ms throttle
       if (now - moveTime <= 20) return
       const center = event.data.getLocalPosition(this.layer)
-      const snapped = canvas.grid.getSnappedPosition(center.x, center.y, 2)
-      this.document.updateSource({x: snapped.x, y: snapped.y})
+      const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 2
+      const snapped = canvas.grid.getSnappedPosition(center.x, center.y, interval)
+      await this.document.updateSource({x: snapped.x, y: snapped.y})
       this.refresh()
       this.autoTargeting()
 
@@ -101,7 +102,8 @@ export class ActionTemplate extends MeasuredTemplate {
     // Cancel the workflow (right-click)
     handlers.rc = _event => {
       _event.stopPropagation()
-      this.layer.preview.removeChildren()
+      event.preventDefault()
+      this.layer._onDragLeftCancel(_event)
       canvas.stage.off('mousemove', handlers.mm)
       canvas.stage.off('mousedown', handlers.lc)
       canvas.app.view.oncontextmenu = null
@@ -115,23 +117,24 @@ export class ActionTemplate extends MeasuredTemplate {
       handlers.rc(event)
 
       // Confirm final snapped position
-      const destination = canvas.grid.getSnappedPosition(this.x, this.y, 2)
+      const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 2
+      const destination = canvas.grid.getSnappedPosition(this.document.x, this.document.y, interval)
       await this.document.updateSource(destination)
       const data = this.document.toObject()
       this.autoTargeting()
 
       // Create the template
-      canvas.scene.createEmbeddedDocuments('MeasuredTemplate', [data])
+      await canvas.scene.createEmbeddedDocuments('MeasuredTemplate', [data])
     }
 
     // Rotate the template by 3 degree increments (mouse-wheel)
-    handlers.mw = event => {
+    handlers.mw = async event => {
       if (event.ctrlKey) event.preventDefault() // Avoid zooming the browser window
       event.stopPropagation()
       let delta = canvas.grid.type > CONST.GRID_TYPES.SQUARE ? 30 : 15
       let snap = event.shiftKey ? delta : 5
       // this.direction +=
-      this.document.updateSource({direction: this.document.direction + snap * Math.sign(event.deltaY)})
+      await this.document.updateSource({direction: this.document.direction + snap * Math.sign(event.deltaY)})
       this.refresh()
       this.autoTargeting()
     }
