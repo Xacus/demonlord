@@ -72,7 +72,7 @@ export class DLCharacterGenerater extends FormApplication {
    * @private
    */
   async _updateObject(event, formData) {
-    this.object.update({
+    await this.object.update({
       formData,
     })
     this.object.sheet.render(true)
@@ -107,7 +107,7 @@ export class DLCharacterGenerater extends FormApplication {
     return categories
   }
 
-  showDeleteDialog(title, content, item, liObject) {
+  async showDeleteDialog(title, content, item, liObject) {
     const d = new Dialog({
       title: title,
       content: content,
@@ -115,7 +115,7 @@ export class DLCharacterGenerater extends FormApplication {
         yes: {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize('DL.DialogYes'),
-          callback: () => this.deleteItem(item, liObject),
+          callback: async () => await this.deleteItem(item, liObject),
         },
         no: {
           icon: '<i class="fas fa-times"></i>',

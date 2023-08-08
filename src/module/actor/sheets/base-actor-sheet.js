@@ -44,7 +44,7 @@ export default class DLBaseActorSheet extends ActorSheet {
 
     // Map items by type (used in other operations). Also enrich the items' descriptions
     const m = new Map()
-    for (const item of this.actor.items) {
+    for await (const item of this.actor.items) {
       const type = item.type
       item.system.enrichedDescription =  await enrichHTMLUnrolled(item.system.description)
       m.has(type) ? m.get(type).push(item) : m.set(type, [item])
@@ -93,7 +93,7 @@ export default class DLBaseActorSheet extends ActorSheet {
   /** @override */
   async _onDropItemCreate(itemData) {
     const isAllowed = await this.checkDroppedItem(itemData)
-    if (isAllowed) return super._onDropItemCreate(itemData)
+    if (isAllowed) return await super._onDropItemCreate(itemData)
     console.warn('Wrong item type dragged', this.actor, itemData)
   }
 
@@ -106,7 +106,7 @@ export default class DLBaseActorSheet extends ActorSheet {
 
   /* -------------------------------------------- */
 
-  _onItemCreate(event) {
+  async _onItemCreate(event) {
     event.preventDefault()
     event.stopPropagation()
     const header = event.currentTarget // Get the type of item to create.
@@ -118,7 +118,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
-    return DemonlordItem.create(itemData, {parent: this.actor})
+    return await DemonlordItem.create(itemData, {parent: this.actor})
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -128,17 +128,17 @@ export default class DLBaseActorSheet extends ActorSheet {
     item.sheet.render(true)
   }
 
-  _onItemDelete(event, cls = '.item') {
+  async _onItemDelete(event, cls = '.item') {
     const li = $(event.currentTarget).parents(cls + ', .dl-item-row, [data-item-id]')
-    this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li)
+    await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li)
   }
 
   /* -------------------------------------------- */
 
-  showDeleteDialog(title, content, htmlItem) {
-    const deleteItem = () => {
+  async showDeleteDialog(title, content, htmlItem) {
+    const deleteItem = async () => {
       const id = htmlItem.data('itemId') || htmlItem.data('item-id')
-      Item.deleteDocuments([id], {parent: this.actor})
+      await Item.deleteDocuments([id], {parent: this.actor})
       htmlItem.slideUp(200, () => this.render(false))
     }
 
@@ -149,7 +149,7 @@ export default class DLBaseActorSheet extends ActorSheet {
         yes: {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize('DL.DialogYes'),
-          callback: () => deleteItem(),
+          callback: async () => await deleteItem(),
         },
         no: {
           icon: '<i class="fas fa-times"></i>',
@@ -198,8 +198,8 @@ export default class DLBaseActorSheet extends ActorSheet {
     html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.document))
 
     // Disable Afflictions
-    html.find('.disableafflictions').click(() => {
-      DLAfflictions.clearAfflictions(this.actor)
+    html.find('.disableafflictions').click(async () => {
+      await DLAfflictions.clearAfflictions(this.actor)
     })
 
     // Afflictions checkboxes
@@ -222,7 +222,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Toggle Accordion
-    html.find('.toggleAccordion').click(ev => {
+    html.find('.toggleAccordion').click(async ev => {
       const div = ev.currentTarget
 
       if (div.nextElementSibling.style.display === 'none') {
@@ -236,7 +236,7 @@ export default class DLBaseActorSheet extends ActorSheet {
         const type = capitalize(div.dataset.type)
         const k = 'data.afflictionsTab.hideAction' + type
         const v = !this.actor.system.afflictionsTab[`hide${type}`]
-        this.actor.update({[k]: v})
+        await this.actor.update({[k]: v})
       }
     })
 
@@ -261,20 +261,20 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Clone Inventory Item
-    html.find('.item-clone').click(ev => {
+    html.find('.item-clone').click(async ev => {
       const li = $(ev.currentTarget).parents('.item')
       const item = duplicate(this.actor.items.get(li.data('itemId')))
-      Item.create(item, {parent: this.actor})
+      await Item.create(item, {parent: this.actor})
     })
 
     // Wear item
-    const _itemwear = (ev, bool) => {
+    const _itemwear = async (ev, bool) => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       const item = this.actor.items.get(id)
-      item.update({'data.wear': bool}, {parent: this.actor})
+      await item.update({'data.wear': bool}, {parent: this.actor})
     }
-    html.find('.item-wear').click(ev => _itemwear(ev, false))
-    html.find('.item-wearoff').click(ev => _itemwear(ev, true))
+    html.find('.item-wear').click(async ev => await _itemwear(ev, false))
+    html.find('.item-wearoff').click(async ev => await _itemwear(ev, true))
     html.find('.item-wear').each((i, el) => {
       const itemId = $(el).closest('[data-item-id]').data('itemId')
       const item = this.actor.items.get(itemId)
@@ -288,24 +288,24 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Inventory items CUD
-    html.find('.item-create').click(ev => this._onItemCreate(ev))
-    html.find('.item-edit').click(ev => this._onItemEdit(ev))
-    html.find('.item-delete').click(ev => this._onItemDelete(ev))
+    html.find('.item-create').click(async ev => await this._onItemCreate(ev))
+    html.find('.item-edit').click(async ev => await this._onItemEdit(ev))
+    html.find('.item-delete').click(async ev => await this._onItemDelete(ev))
 
     // Spell CUD
-    html.find('.spell-create').click(ev => this._onItemCreate(ev))
-    html.find('.spell-edit').click(ev => this._onItemEdit(ev))
-    html.find('.spell-delete').click(ev => this._onItemDelete(ev))
+    html.find('.spell-create').click(async ev => await this._onItemCreate(ev))
+    html.find('.spell-edit').click(async ev => await this._onItemEdit(ev))
+    html.find('.spell-delete').click(async ev => await this._onItemDelete(ev))
 
     // Spell uses
-    html.on('mousedown', '.spell-uses', ev => {
+    html.on('mousedown', '.spell-uses', async ev => {
       const li = ev.currentTarget.closest('[data-item-id]')
       const item = this.actor.items.get(li.dataset.itemId)
       let uses = +item.system.castings.value
       const usesmax = +item.system.castings.max
       if (ev.button == 0) uses = uses < usesmax ? uses + 1 : 0
       else if (ev.button == 2) uses = uses > 0 ? uses - 1 : 0
-      item.update({'data.castings.value': uses}, {parent: this.actor})
+      await item.update({'data.castings.value': uses}, {parent: this.actor})
     })
 
     // Rollable Attributes
@@ -323,29 +323,29 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Rollable Talent
-    html.on('mousedown', '.talent-roll', ev => {
+    html.on('mousedown', '.talent-roll', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      if (ev.button == 0) this.actor.rollTalent(id, {event: ev})
-      else if (ev.button == 2) this.actor.deactivateTalent(this.actor.items.get(id), 0)
+      if (ev.button == 0) await this.actor.rollTalent(id, {event: ev})
+      else if (ev.button == 2) await this.actor.deactivateTalent(this.actor.items.get(id), 0)
     })
 
     // Talent uses
-    html.on('mousedown', '.talent-uses', ev => {
+    html.on('mousedown', '.talent-uses', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       const talent = this.actor.items.get(id)
-      if (ev.button == 0) this.actor.activateTalent(talent, true)
-      else if (ev.button == 2) this.actor.deactivateTalent(talent, 1)
+      if (ev.button == 0) await this.actor.activateTalent(talent, true)
+      else if (ev.button == 2) await this.actor.deactivateTalent(talent, 1)
     })
 
 
     // Rollable Attack Spell
-    html.find('.magic-roll').click(ev => {
+    html.find('.magic-roll').click(async ev => {
       const id = ev.currentTarget.closest("[data-item-id]").dataset.itemId
-      this.actor.rollSpell(id, {event: ev})
+      await this.actor.rollSpell(id, {event: ev})
     })
 
     // Rollable (generic)
-    html.find('.rollable, .item-roll').click(event => {
+    html.find('.rollable, .item-roll').click(async event => {
       event.preventDefault()
       const element = event.currentTarget
       const dataset = element.dataset
@@ -358,7 +358,7 @@ export default class DLBaseActorSheet extends ActorSheet {
         })
       } else {
         const id = event.currentTarget.closest("[data-item-id]").dataset.itemId
-        this.actor.useItem(id)
+        await this.actor.useItem(id)
       }
     })
 

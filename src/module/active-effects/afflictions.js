@@ -38,13 +38,13 @@ export class DLAfflictions {
     return isBlocked
   }
 
-  static clearAfflictions(actor) {
+  static async clearAfflictions(actor) {
     if (!actor) return
     const afflictions = actor
       .getEmbeddedCollection('ActiveEffect')
       .filter(e => e.statuses.size > 0)
       .map(e => e._id)
-    actor.deleteEmbeddedDocuments('ActiveEffect', afflictions)
+    await actor.deleteEmbeddedDocuments('ActiveEffect', afflictions)
   }
 
   /**

@@ -40,8 +40,8 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
    * @override */
   async _updateObject(event, formData) {
     const updateData = expandObject(formData)
-    if (this.item.actor && updateData.system?.characteristics?.power) this.item.actor.setUsesOnSpells()
-    return this.object.update(updateData)
+    if (this.item.actor && updateData.system?.characteristics?.power) await this.item.actor.setUsesOnSpells()
+    return await this.object.update(updateData)
   }
 
   /* -------------------------------------------- */
@@ -55,23 +55,23 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     if (!this.options.editable) return
 
     // Radio buttons
-    html.find('.radiotrue').click(_ => this.item.update({'system.level4.option1': true}))
-    html.find('.radiofalse').click(_ => this.item.update({'system.level4.option1': false}))
+    html.find('.radiotrue').click(async _ => await this.item.update({'system.level4.option1': true}))
+    html.find('.radiofalse').click(async _ => await this.item.update({'system.level4.option1': false}))
 
     // Edit ancestry talents
     html
       .find('.edit-ancestrytalents')
-      .click(_ => this.item.update({'data.editTalents': !this.item.system.editTalents}).then(() => this.render()))
+      .click(async _ => await this.item.update({'data.editTalents': !this.item.system.editTalents}).then(() => this.render()))
 
     // Delete ancestry item
-    html.find('.delete-ancestryitem').click(ev => {
+    html.find('.delete-ancestryitem').click(async ev => {
       const itemGroup = $(ev.currentTarget).closest('[data-type]').data('type')
       const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
-      this._deleteItem(itemIndex, itemGroup)
+      await this._deleteItem(itemIndex, itemGroup)
     })
 
     // Nested item transfer checkbox
-    html.find('.dl-item-transfer').click(ev => this._transferItem(ev))
+    html.find('.dl-item-transfer').click(async ev => await this._transferItem(ev))
   }
 
   /* -------------------------------------------- */
@@ -79,14 +79,14 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  _onDrop(ev) {
+  async _onDrop(ev) {
     const $dropTarget = $(ev.originalEvent.target)
     const group = $dropTarget.closest('[data-group]').data('group')
     try {
       const data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'))
       if (data.type === 'Item') {
         $dropTarget.removeClass('drop-hover')
-        this._addItem(data, group)
+        await this._addItem(data, group)
       }
     } catch (e) {
       console.warn(e)
@@ -111,7 +111,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     else if (group === 'language') ancestryData.system.languagelist.push(levelItem)
     else if (group === 'spells4') ancestryData.system.level4.spells.push(levelItem)
     else return
-    this.item.update(ancestryData, {diff: false}).then(_ => this.render)
+    await this.item.update(ancestryData, {diff: false}).then(_ => this.render)
   }
 
   async _deleteItem(itemIndex, itemGroup) {
@@ -120,7 +120,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     else if (itemGroup === 'talent4') itemData.system.level4.talent.splice(itemIndex, 1)
     else if (itemGroup === 'language') itemData.system.languagelist.splice(itemIndex, 1)
     else if (itemGroup === 'spells4') itemData.system.level4.spells.splice(itemIndex, 1)
-    Item.updateDocuments([itemData], {parent: this.actor}).then(_ => this.render())
+    await Item.updateDocuments([itemData], {parent: this.actor}).then(_ => this.render())
   }
 
   /* -------------------------------------------- */
@@ -129,7 +129,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   async _onNestedItemCreate(ev) {
     const item = await super._onNestedItemCreate(ev)
     const group = $(ev.currentTarget).closest('[data-group]').data('group')
-    this._addItem(item.data, group)
+    await this._addItem(item.data, group)
     return item
   }
 
@@ -162,7 +162,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
 
   /** @override */
-  _onNestedItemEdit(ev) {
+  async _onNestedItemEdit(ev) {
     const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
     const ancestryData = this.object.system
     const nestedData =
@@ -170,7 +170,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
       ancestryData.talents.find(i => i._id === itemId) ??
       ancestryData.level4.talent.find(i => i._id === itemId) ??
       ancestryData.level4.spells.find(i => i._id === itemId)
-    getNestedDocument(nestedData).then(d => {
+    await getNestedDocument(nestedData).then(d => {
       if (d.sheet) d.sheet.render(true)
       else ui.notifications.warn('The item is not present in the game and cannot be edited.')
     })

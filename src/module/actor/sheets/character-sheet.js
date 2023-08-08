@@ -128,8 +128,8 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
   async _updateObject(event, formData) {
     const newLevel = formData['system.level']
-    if (newLevel !== this.document.system.level) handleLevelChange(this.document, newLevel)
-    return this.document.update(formData)
+    if (newLevel !== this.document.system.level) await handleLevelChange(this.document, newLevel)
+    return await this.document.update(formData)
   }
 
   /* -------------------------------------------- */
@@ -145,12 +145,12 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html.find('.corruption-roll').click(_ => this.actor.rollCorruption())
 
     // Edit HealthBar, Insanity and Corruption
-    html.find('.bar-edit').click(() => {
+    html.find('.bar-edit').click(async () => {
       const actor = this.actor
       const showEdit = actor.system.characteristics.editbar
       actor.system.characteristics.editbar = !showEdit
 
-      actor
+      await actor
         .update({
           'data.characteristics.editbar': actor.system.characteristics.editbar,
         })
@@ -165,7 +165,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     })
 
     // Insanity bar click
-    html.on('mousedown', '.addInsanity', ev => {
+    html.on('mousedown', '.addInsanity', async ev => {
       let value = parseInt(this.actor.system.characteristics.insanity.value)
       const max = parseInt(this.actor.system.characteristics.insanity.max)
       if (ev.button == 0) {
@@ -175,11 +175,11 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
         if (value <= 0) value = 0
         else value--
       }
-      this.actor.update({ 'data.characteristics.insanity.value': value }).then(_ => this.render())
+      await this.actor.update({ 'data.characteristics.insanity.value': value }).then(_ => this.render())
     })
 
     // Corruption bar click
-    html.on('mousedown', '.addCorruption', ev => {
+    html.on('mousedown', '.addCorruption', async ev => {
       let value = parseInt(this.actor.system.characteristics.corruption)
       const max = parseInt(20)
       if (ev.button == 0) {
@@ -189,7 +189,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
         if (value <= 0) value = 0
         else value--
       }
-      this.actor.update({ 'data.characteristics.corruption': value }).then(_ => this.render())
+      await this.actor.update({ 'data.characteristics.corruption': value }).then(_ => this.render())
     })
 
     // Health bar fill
@@ -214,30 +214,30 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     }
 
     // Ancestry edit
-    html.on('mousedown', '.ancestry-edit', ev => this._onAncestryEdit(ev))
+    html.on('mousedown', '.ancestry-edit', async ev => await this._onAncestryEdit(ev))
 
     // Path edit
-    html.on('mousedown', '.path-edit', ev => this._onPathEdit(ev))
+    html.on('mousedown', '.path-edit', async ev => await this._onPathEdit(ev))
 
     // Wealth edit
     html
       .find('.wealth-edit')
-      .click(_ =>
-        this.actor.update({ 'system.wealth.edit': !this.actor.system.wealth.edit }).then(() => this.render()),
+      .click(async _ =>
+        await this.actor.update({ 'system.wealth.edit': !this.actor.system.wealth.edit }).then(() => this.render()),
       )
     // Languages CRUD + Edit
-    html.find('.languages-edit').click(_ =>
-      this.actor
+    html.find('.languages-edit').click(async _ =>
+      await this.actor
         .update({
           'system.languages.edit': !this.actor.system.languages.edit,
         })
         .then(() => this.render()),
     )
 
-    const _toggleLang = (ev, key) => {
+    const _toggleLang = async (ev, key) => {
       const dev = ev.currentTarget.closest('.language')
       const item = this.actor.items.get(dev.dataset.itemId)
-      item.update({[`system.${key}`]: !item.system[key] }, { parent: this.actor })
+      await item.update({[`system.${key}`]: !item.system[key] }, { parent: this.actor })
     }
     html.find('.language-delete').click(ev => this._onItemDelete(ev, '.language'))
     html.find('.language-toggle-r').click(ev => _toggleLang(ev, 'read'))
@@ -247,22 +247,22 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Religion
     html
       .find('.religion-edit')
-      .click(_ =>
-        this.actor.update({ 'data.religion.edit': !this.actor.system.religion.edit }).then(() => this.render()),
+      .click(async _ =>
+        await this.actor.update({ 'data.religion.edit': !this.actor.system.religion.edit }).then(() => this.render()),
       )
 
     // Ammo uses
-    html.on('mousedown', '.ammo-amount', ev => {
+    html.on('mousedown', '.ammo-amount', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       const item = duplicate(this.actor.items.get(id))
       const amount = item.system.quantity
       if (ev.button == 0 && amount >= 0) item.system.quantity = +amount + 1
       else if (ev.button == 2 && amount > 0) item.system.quantity = +amount - 1
-      Item.updateDocuments([item], { parent: this.actor })
+      await Item.updateDocuments([item], { parent: this.actor })
     })
 
     // Item uses
-    html.on('mousedown', '.item-uses', ev => {
+    html.on('mousedown', '.item-uses', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       const item = duplicate(this.actor.items.get(id))
       if (ev.button == 0) {
@@ -272,7 +272,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
           item.system.quantity--
         }
       }
-      Item.updateDocuments([item], { parent: this.actor })
+      await Item.updateDocuments([item], { parent: this.actor })
     })
 
     // Rest character
@@ -282,7 +282,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html.find('.healingratebox').on('mousedown', ev => this.actor.applyHealing(ev.button === 0))
 
     // Talent: Options
-    html.find('input[type=checkbox][id^="option"]').click(ev => {
+    html.find('input[type=checkbox][id^="option"]').click(async ev => {
       const div = ev.currentTarget.closest('.option')
       const field = ev.currentTarget.name
       const update = {
@@ -290,7 +290,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
         [field]: ev.currentTarget.checked,
       }
 
-      Item.updateDocuments(update, { parent: this.actor })
+      await Item.updateDocuments(update, { parent: this.actor })
     })
   }
 }

@@ -107,7 +107,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     // If a Talent has no uses it's always active
     if (item.type === 'talent') updateData['data.addtonextroll'] = !updateData.data?.uses?.max
 
-    return this.object.update(updateData)
+    return await this.object.update(updateData)
   }
 
   /* -------------------------------------------- */
@@ -172,7 +172,7 @@ export default class DLBaseItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  activateListeners(html) {
+  async activateListeners(html) {
     super.activateListeners(html)
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
@@ -182,11 +182,11 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
 
     // Active effects edit
-    html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.document))
+    html.find('.effect-control').click(async ev => await onManageActiveEffect(ev, this.document))
 
     // Damage types
-    html.find('.damagetype-control').click(ev => this._onManageDamageType(ev, 'action'))
-    html.find('.vsdamagetype-control').click(ev => this._onManageDamageType(ev, 'vs', {diff: false}))
+    html.find('.damagetype-control').click(async ev => await this._onManageDamageType(ev, 'action'))
+    html.find('.vsdamagetype-control').click(async ev => await this._onManageDamageType(ev, 'vs', {diff: false}))
 
     // Collapsable tables
     const collapsableContents = html.find('.collapse-content')
@@ -228,16 +228,16 @@ export default class DLBaseItemSheet extends ItemSheet {
     // Add drag events.
     html
       .find('.drop-area, .dl-drop-zone, .dl-drop-zone *')
-      .on('dragover', this._onDragOver.bind(this))
-      .on('dragleave', this._onDragLeave.bind(this))
-      .on('drop', this._onDrop.bind(this))
+      .on('dragover', await this._onDragOver.bind(this))
+      .on('dragleave', await this._onDragLeave.bind(this))
+      .on('drop', await this._onDrop.bind(this))
 
     // Custom editor
     initDlEditor(html, this)
 
     // Nested item create, edit
-    html.find('.create-nested-item').click((ev) => this._onNestedItemCreate(ev))
-    html.find('.edit-nested-item').click((ev) => this._onNestedItemEdit(ev))
+    html.find('.create-nested-item').click(async (ev) => await this._onNestedItemCreate(ev))
+    html.find('.edit-nested-item').click(async (ev) => await this._onNestedItemEdit(ev))
 
   }
 
@@ -251,7 +251,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     if (isVs) sheetData.item.vsdamagetypes = this.item.system.vs?.damagetypes
   }
 
-  _onManageDamageType(ev, actionKey, options = {}) {
+  async _onManageDamageType(ev, actionKey, options = {}) {
     ev.preventDefault()
     const a = ev.currentTarget
     const damageTypes = this.object.system[actionKey].damagetypes
@@ -259,7 +259,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     if (a.dataset.action === 'create') damageTypes.push(new DamageType())
     else if (a.dataset.action === 'delete') damageTypes.splice(a.dataset.id, 1)
-    this.object.update({[updKey]: damageTypes}, {...options, parent: this.actor}).then(_ => this.render())
+    await this.object.update({[updKey]: damageTypes}, {...options, parent: this.actor}).then(_ => this.render())
   }
 
   /* -------------------------------------------- */

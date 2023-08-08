@@ -143,7 +143,7 @@ export async function getNestedDocument(nestedData) {
   }
   // Look for talents with same id or name inside ALL packs
   if (!entity) {
-    for (const pack of game.packs) {
+    for await (const pack of game.packs) {
       entity = (await pack.getDocument(nestedData.id)) || (await pack.getDocuments({name: nestedData.name}))[0]
       if (entity) break
     }
@@ -194,7 +194,7 @@ export async function getNestedItemData(nestedData) {
 
 export async function getNestedItemsDataList(nestedDataList) {
   const p = []
-  for (const nd of nestedDataList) p.push(await getNestedItemData(nd))
+  for await (const nd of nestedDataList) p.push(await getNestedItemData(nd))
   return p.filter(Boolean)
 }
 
@@ -213,7 +213,7 @@ export async function handleCreatePath(actor, pathItem) {
   const leqLevels = pathData.levels.filter(l => +l.level <= +actorLevel)
 
   // For each level that is <= actor level, add all talents and *selected* nested items
-  for (let level of leqLevels) {
+  for await (let level of leqLevels) {
     await createActorNestedItems(actor, _getLevelItemsToTransfer(level), pathItem.id, level.level)
   }
   return Promise.resolve()
@@ -230,10 +230,10 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
   // If the new level is greater than the old, add stuff
   if (newLevel > curLevel) {
     // Create relevant path levels' nested items
-    for (let path of paths) {
-      path.system.levels
+    for await (let path of paths) {
+      await Promise.all(path.system.levels
         .filter(l => +l.level > curLevel && +l.level <= newLevel)
-        .forEach(level => createActorNestedItems(actor, _getLevelItemsToTransfer(level), path.id, level.level))
+        .map(async level => await createActorNestedItems(actor, _getLevelItemsToTransfer(level), path.id, level.level)))
     }
     // Add ancestry level 4 nested items
     if (ancestry && curLevel < 4 && newLevel >= 4) {
@@ -311,5 +311,5 @@ export async function deleteActorNestedItems(actor, parentItemId = undefined, ne
   } else if (nestedItemId) {
     ids = actorItems.filter(i => i.flags?.demonlord?.nestedItemId === nestedItemId).map(i => i.id)
   }
-  if (ids.length) actor.deleteEmbeddedDocuments('Item', ids)
+  if (ids.length) await actor.deleteEmbeddedDocuments('Item', ids)
 }

@@ -65,11 +65,11 @@ export class DLCombatTracker extends CombatTracker {
       if (endofrounds.length > 0) hasEndOfRoundEffects = true
     })
 
-    html.find('.tracker-effect').click(ev => {
+    html.find('.tracker-effect').click(async ev => {
       if (!game.user.isGM) return
       const effectUUID = ev.currentTarget.attributes.getNamedItem('data-effect-uuid').value
-      fromUuid(effectUUID).then(effect =>
-        effect.statuses ? effect.delete() : effect.update({disabled: true})
+      await fromUuid(effectUUID).then(async effect =>
+        effect.statuses ? await effect.delete() : await effect.update({disabled: true})
       )
     })
 
@@ -117,7 +117,7 @@ export class DLCombatTracker extends CombatTracker {
   }
 }
 
-export function _onUpdateCombat(combatData, _updateData, _options, _userId) {
+export async function _onUpdateCombat(combatData, _updateData, _options, _userId) {
   // TODO: DELETE
   // Do this only if the user is GM to avoid multiple operations
   if (!game.user.isGM && game.user.id !== _userId) return
@@ -130,9 +130,9 @@ export function _onUpdateCombat(combatData, _updateData, _options, _userId) {
     // Deactivate temporary talents if the round has advanced.
     // If the round is decreased, there is no way to determine what to activate
     if (isRoundAdvanced) {
-      actor.items
+      await Promise.all(actor.items
         .filter(i => i.type === 'talent')
-        .forEach(t => actor.deactivateTalent(t, 0, true))
+        .map(async t => await actor.deactivateTalent(t, 0, true)))
     }
   }
 }

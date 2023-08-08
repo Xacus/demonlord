@@ -33,7 +33,7 @@ export class DLCombat extends Combat {
     const initMessages = []
 
     // Iterate over Combatants, performing an initiative draw for each
-    for (const id of ids) {
+    for await (const id of ids) {
       // Get combatant. Skip if not owner or defeated
       const combatant = this.combatants.get(id)
       if (!combatant?.isOwner || combatant.defeated) continue;
@@ -72,7 +72,7 @@ export class DLCombat extends Combat {
    */
   async startCombat() {
     this.combatants.forEach(combatant => this.setInitiative(combatant.id, this.getInitiativeValue(combatant)))
-    return this.update({
+    return await this.update({
       round: 1,
       turn: 1,
     })
@@ -207,7 +207,7 @@ export async function createInitChatMessage(combatant, messageOptions) {
  * @param {string} userId     id of the caller
  * @private
  */
-export function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
+export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
   // Automatically disable active effects, based on their start time and duration
   const autoDelete = game.settings.get('demonlord', 'autoDeleteEffects')
 
@@ -225,7 +225,7 @@ export function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
   else
     currentActors = game.scenes.current.tokens.map(t => t._actor)
 
-  for (let actor of currentActors) {
+  for await (let actor of currentActors) {
     let updateData = []
     let deleteIds = []
 
@@ -252,8 +252,8 @@ export function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
     })
 
     // Finally, update actor's active effects
-    if (deleteIds.length) actor.deleteEmbeddedDocuments('ActiveEffect', deleteIds)
-    if (updateData.length) actor.updateEmbeddedDocuments('ActiveEffect', updateData).then(_ => actor.sheet.render())
+    if (deleteIds.length) await actor.deleteEmbeddedDocuments('ActiveEffect', deleteIds)
+    if (updateData.length) await actor.updateEmbeddedDocuments('ActiveEffect', updateData).then(_ => actor.sheet.render())
   }
 }
 
@@ -301,7 +301,7 @@ export function calcEffectRemainingTurn(e, currentTurn) {
 // -----------------------------------------------------------------------------------------------
 
 // When a combatant is created, get its initiative from the actor
-Hooks.on('preCreateCombatant', (combatant, _data, _options, userId) => {
+Hooks.on('preCreateCombatant', async (combatant, _data, _options, userId) => {
   if (game.userId !== userId) return
-  combatant.updateSource({initiative: game.combat.getInitiativeValue(combatant)})
+  await combatant.updateSource({initiative: game.combat.getInitiativeValue(combatant)})
 })

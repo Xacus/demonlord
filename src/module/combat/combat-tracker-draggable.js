@@ -84,7 +84,7 @@ async function updateCombatant(combatantId, initiative, { diff = 0 } = {}) {
   const turn = combat.turn
   const activeTurn = combat.combatant?.id === combatantId;
 
-  if (!activeTurn) return combat.updateEmbeddedDocuments('Combatant', [{ _id: combatantId, initiative }]);
+  if (!activeTurn) return await combat.updateEmbeddedDocuments('Combatant', [{ _id: combatantId, initiative }]);
 
   const newTurn = diff < 0 ? Math.clamped(turn + 1, 0, combat.turns.length - 1) : turn;
 
@@ -200,7 +200,7 @@ function dragLeaveEvent(ev) {
 /**
  * @param {DragEvent} ev
  */
-function dropEvent(ev) {
+async function dropEvent(ev) {
   if (!dragId) return;
 
   const recordedId = dragId;
@@ -248,5 +248,5 @@ function dropEvent(ev) {
   else
     initDiff = alt ? -1 : 1;
 
-  updateCombatant(droppedCombatant.id, targetCombatant.initiative + initDiff, { diff: initDiff });
+  await updateCombatant(droppedCombatant.id, targetCombatant.initiative + initDiff, { diff: initDiff });
 }
