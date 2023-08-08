@@ -6,14 +6,14 @@ export class TokenManager {
     return [...game.user.targets]
   }
 
-  targetTokens(tokens) {
+  async targetTokens(tokens) {
     if (game.settings.get('demonlord', 'targetingOnSelect')) {
       for (let tokenId of tokens) {
         const token = canvas.tokens.placeables.find(t => t.id === tokenId)
         token.control({ releaseOthers: false })
       }
     } else {
-      game.user.updateTokenTargets(tokens)
+      await game.user.updateTokenTargets(tokens)
     }
   }
 

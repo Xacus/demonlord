@@ -55,7 +55,7 @@ export class DLActiveEffects {
     const toDel = doc.getEmbeddedCollection('ActiveEffect').filter(effect => effect.data?.origin?.includes(originID))
 
     const promises = []
-    for (const e of toDel) {
+    for await (const e of toDel) {
       promises.push(await e.delete({ parent: doc }))
     }
     return Promise.all(promises)

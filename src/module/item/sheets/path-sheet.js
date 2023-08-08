@@ -36,7 +36,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     data.system.selectedLevelIndex = this._selectedLevelIndex || 0
 
     // Fetch contents of nested items
-    for (let i of data.system.levels.keys()) {
+    for await (let i of data.system.levels.keys()) {
       data.system.levels[i].talents = await Promise.all(data.system.levels[i].talents.map(await getNestedItemData))
       data.system.levels[i].talentspick = await Promise.all(data.system.levels[i].talentspick.map(await getNestedItemData))
       data.system.levels[i].spells = await Promise.all(data.system.levels[i].spells.map(await getNestedItemData))
@@ -55,9 +55,9 @@ export default class DLPathSheet extends DLBaseItemSheet {
     if (!this.options.editable) return
 
     // Add level
-    html.find('.add-level').click(ev => {
+    html.find('.add-level').click(async ev => {
       ev.preventDefault()
-      this.item.update({
+      await this.item.update({
         'data.levels': [...(this.item.system.levels || []), new PathLevel()],
       })
     })
@@ -66,7 +66,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     html.find('.delete-level').click(ev => this.showLevelDeleteDialog(ev))
 
     // Delete item
-    html.find('.delete-item').click(ev => this._deleteItem(ev))
+    html.find('.delete-item').click(async ev => await this._deleteItem(ev))
 
     // Display/hide levels on click
     html.find('.dl-path-level-select').click(ev => {
@@ -98,10 +98,10 @@ export default class DLPathSheet extends DLBaseItemSheet {
         yes: {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize('DL.DialogYes'),
-          callback: _ => {
+          callback: async _ => {
             const levels = this.item.system.levels
             levels.splice(itemIndex, 1)
-            this.item.update({'data.levels': levels})
+            await this.item.update({'data.levels': levels})
           },
         },
         no: {
@@ -119,14 +119,14 @@ export default class DLPathSheet extends DLBaseItemSheet {
   }
 
   /** @override */
-  _onDrop(ev) {
+  async _onDrop(ev) {
     const group = $(ev.currentTarget).closest('[data-group]').data('group')
     const level = $(ev.currentTarget).closest('[data-level]').data('level')
     try {
       $(ev.originalEvent.target).removeClass('drop-hover')
       const data = JSON.parse(ev.originalEvent.dataTransfer.getData('text/plain'))
       if (data.type !== 'Item') return
-      this._addItem(data, level, group)
+      await this._addItem(data, level, group)
     } catch (err) {
       console.warn(err)
     }
@@ -149,10 +149,10 @@ export default class DLPathSheet extends DLBaseItemSheet {
     else if (group === 'talentspick') pathData.system.levels[level]?.talentspick.push(levelItem)
     else if (group === 'spells') pathData.system.levels[level]?.spells.push(levelItem)
 
-    this.item.update(pathData)
+    await this.item.update(pathData)
   }
 
-  _deleteItem(ev) {
+  async _deleteItem(ev) {
     const itemLevel = $(ev.currentTarget).closest('[data-level]').data('level')
     const itemGroup = $(ev.currentTarget).closest('[data-group]').data('group')
     const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
@@ -161,7 +161,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     if (itemGroup === 'talents') itemData.system.levels[itemLevel].talents.splice(itemIndex, 1)
     else if (itemGroup === 'talentspick') itemData.system.levels[itemLevel].talentspick.splice(itemIndex, 1)
     else if (itemGroup === 'spells') itemData.system.levels[itemLevel].spells.splice(itemIndex, 1)
-    this.item.update(itemData)
+    await this.item.update(itemData)
   }
 
   /* -------------------------------------------- */
@@ -216,7 +216,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     }
 
 
-    return this.object.update({name: _name, img: formData.img, data: updateData})
+    return await this.object.update({name: _name, img: formData.img, data: updateData})
   }
 
   /* -------------------------------------------- */
@@ -370,7 +370,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
     const data = await this.getData({})
     const nestedData = data.system.levels[level][group].find(i => i._id === itemId)
-    getNestedDocument(nestedData).then(d => {
+    await getNestedDocument(nestedData).then(d => {
       if (d.sheet) d.sheet.render(true)
       else ui.notifications.warn('The item is not present in the game and cannot be edited.')
     })

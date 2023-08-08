@@ -10,7 +10,7 @@ export class DemonlordItem extends Item {
       const rank = updateData?.data?.rank ?? +this.system.rank
       updateData['data.castings.max'] = CONFIG.DL.spelluses[power]?.[rank] ?? updateData?.data?.castings?.max ?? 0
     }
-    return super.update(updateData)
+    return await super.update(updateData)
   }
 
   _onUpdate(changed, options, userId) {
@@ -33,7 +33,7 @@ export class DemonlordItem extends Item {
         data.img = CONFIG.DL.defaultItemIcons.path.novice
       }
     }
-    return super.create(data, options)
+    return await super.create(data, options)
   }
 
   /** @override */
@@ -44,7 +44,7 @@ export class DemonlordItem extends Item {
 
     // Delete Active effects with this origin
     let aes = this.parent.effects.filter(ae => ae?.origin?.includes(this.id))
-    for (const ae of aes) {
+    for await (const ae of aes) {
       try {
         await ae.delete({parent: this.parent})
       } catch (e) {

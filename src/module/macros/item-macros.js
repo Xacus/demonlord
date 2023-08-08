@@ -83,7 +83,7 @@ export function rollWeaponMacro(itemName) {
  * @param {string} itemName
  * @return {Promise}
  */
-export function rollTalentMacro(itemName, state) {
+export async function rollTalentMacro(itemName, state) {
   const speaker = ChatMessage.getSpeaker()
   let actor
   if (speaker.token) actor = game.actors.tokens[speaker.token]
@@ -101,12 +101,12 @@ export function rollTalentMacro(itemName, state) {
     case 'false':
       item.system.uses.value = 0
       item.system.addtonextroll = false
-      actor.updateEmbeddedDocuments('Item', item.data)
+      await actor.updateEmbeddedDocuments('Item', item.data)
       break
 
     case '':
       item.system.addtonextroll = !item.system.addtonextroll
-      actor.updateEmbeddedDocuments('Item', item.data)
+      await actor.updateEmbeddedDocuments('Item', item.data)
 
       if (item.system.addtonextroll) actor.rollTalent(item.id)
       break
@@ -178,7 +178,7 @@ export function rollInitMacro() {
 /**
  * Create a Macro for using a Healing Potion.
  */
-export function healingPotionMacro() {
+export async function healingPotionMacro() {
   const speaker = ChatMessage.getSpeaker()
   let actor
   if (speaker.token) actor = game.actors.tokens[speaker.token]
@@ -191,7 +191,7 @@ export function healingPotionMacro() {
     let newdamage = currentDamage - healingRate
     if (newdamage < 0) newdamage = 0
 
-    Actor.updateDocuments({
+    await Actor.updateDocuments({
       'data.characteristics.health.value': newdamage,
     })
 

@@ -154,7 +154,7 @@ Hooks.once('setup', function () {
 /**
  * Set default values for new actors' tokens
  */
-Hooks.on('createActor', (actor, _options, _id) => {
+Hooks.on('createActor', async (actor, _options, _id) => {
   let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL
   if (actor.type === 'creature') disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
 
@@ -171,7 +171,7 @@ Hooks.on('createActor', (actor, _options, _id) => {
     tokenData.actorLink = true
     // tokenData.dimSight = 5 // Give some squares of dim vision
   }
-  actor.update({token: tokenData})
+  await actor.update({token: tokenData})
 })
 
 Hooks.on('createToken', async _tokenDocument => {
@@ -205,7 +205,7 @@ export async function findAddEffect(actor, effectId, overlay) {
         effect.flags.core.overlay = true
       }
     }
-    return ActiveEffect.create(effect, {parent: actor})
+    return await ActiveEffect.create(effect, {parent: actor})
   }
 }
 
@@ -214,7 +214,7 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
   const statuses = activeEffect.statuses
   const _parent = activeEffect?.parent
   if (statuses?.size > 0 && _parent) {
-    for (const statusId of statuses) {
+    for await (const statusId of statuses) {
       await _parent.setFlag('demonlord', statusId, true)
       
       // If asleep, also add prone and uncoscious
@@ -225,7 +225,7 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
       // If incapacitated, add prone and disabled
       if (statusId === 'incapacitated') {
         await findAddEffect(_parent, 'prone')
-        if (_parent.type === 'character') findAddEffect(_parent, 'disabled')
+        if (_parent.type === 'character') await findAddEffect(_parent, 'disabled')
       }
       // If disabled, add defenseless
       if (statusId === 'disabled') {
@@ -249,7 +249,7 @@ Hooks.on('deleteActiveEffect', async (activeEffect, _, userId) => {
   const statuses = activeEffect.statuses
   const _parent = activeEffect?.parent
   if (statuses?.size > 0 && _parent) {
-    for (const statusId of statuses) {
+    for await (const statusId of statuses) {
       await _parent.unsetFlag('demonlord', statusId)
 
       if (statusId === 'asleep') {
@@ -399,10 +399,10 @@ Hooks.on('DL.ApplyHealing', data => {
   Hooks.call('DL.Action', {type: 'apply-healing', ...data})
 })
 
-Hooks.on('DL.Action', () => {
+Hooks.on('DL.Action', async () => {
   if (!game.settings.get('demonlord', 'templateAutoRemove')) return
   const actionTemplates = canvas.scene.templates.filter(a => a.flags.actionTemplate).map(a => a.id)
-  if (actionTemplates.length > 0) canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
+  if (actionTemplates.length > 0) await canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
 })
 
 Hooks.on('renderDLBaseItemSheet', (app, html, data) => DLBaseItemSheet.onRenderInner(app, html, data))

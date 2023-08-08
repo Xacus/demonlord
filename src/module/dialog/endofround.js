@@ -68,7 +68,7 @@ export class DLEndOfRound extends FormApplication {
    * @private
    */
   async _updateObject(event, formData) {
-    this.object.update({
+    await this.object.update({
       formData,
     })
     this.object.sheet.render(true)

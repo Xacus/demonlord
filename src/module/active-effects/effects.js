@@ -6,7 +6,7 @@
 import {calcEffectRemainingRounds, calcEffectRemainingSeconds, calcEffectRemainingTurn} from "../combat/combat";
 import {i18n} from "../utils/utils";
 
-export function onManageActiveEffect(event, owner) {
+export async function onManageActiveEffect(event, owner) {
   event.preventDefault()
   const a = event.currentTarget
   const li = a.closest('li')
@@ -14,7 +14,7 @@ export function onManageActiveEffect(event, owner) {
   const isCharacter = owner.type === 'character'
   switch (a.dataset.action) {
     case 'create':
-      return owner
+      return await owner
         .createEmbeddedDocuments('ActiveEffect', [
           {
             name: isCharacter ? 'New Effect' : owner.name,
@@ -30,9 +30,9 @@ export function onManageActiveEffect(event, owner) {
     case 'edit':
       return effect.sheet.render(true)
     case 'delete':
-      return effect.delete()
+      return await effect.delete()
     case 'toggle':
-      return effect.update({ disabled: !effect.disabled })
+      return await effect.update({ disabled: !effect.disabled })
   }
 }
 

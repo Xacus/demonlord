@@ -111,21 +111,21 @@ export class PlayerTracker extends FormApplication {
 
     if (!this.options.editable) return
 
-    html.find('.gmnote-control').click(ev => {
+    html.find('.gmnote-control').click(async ev => {
       const a = ev.currentTarget
       const actor = game.actors.get(a.dataset.id)
 
       if (actor) {
         switch (a.dataset.action) {
           case 'edit':
-            return actor
+            return await actor
               .update({
                 'data.gmnoteedit': !actor.system.gmnoteedit,
               })
               .then(() => this.render())
           case 'save': {
             const textarea = html.find('textarea[id="person.' + actor.id + '"]')
-            return actor
+            return await actor
               .update({
                 'data.gmnote': textarea[0].value,
                 'data.gmnoteedit': !actor.system.gmnoteedit,
@@ -146,7 +146,7 @@ export class PlayerTracker extends FormApplication {
   /** @override */
   async _updateObject(event, formData) {
     formData.id = this.object.id
-    return this.document.update(formData)
+    return await this.document.update(formData)
   }
 
   async _onItemCreate(event) {

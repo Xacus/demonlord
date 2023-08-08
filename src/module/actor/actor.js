@@ -189,6 +189,24 @@ export class DemonlordActor extends Actor {
       const result = change.effect.apply(this, change)
       if (result !== null) this.overrides[change.key] = result
     }
+
+    // WIP: Adjust size here
+    // for (let change of effectChanges.filter(e => e.key.includes("size"))) {
+    //   let size = change.value
+    //   let newSize = 0
+
+    //   if (size.includes("/")) {
+    //     const [numerator, denominator] = size.split("/")
+    //     newSize = parseInt(numerator) / parseInt(denominator)
+    //   } else {
+    //     newSize = parseInt(size)
+    //   }
+
+    //   change.value = newSize.toString()
+
+    //   const result = change.effect.apply(this, change)
+    //   if (result !== null) this.overrides[change.key] = result
+    // }
   }
 
   /* -------------------------------------------- */
@@ -197,13 +215,13 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   /** @override */
-  _onUpdate(changed, options, user) {
-    super._onUpdate(changed, options, user)
+  async _onUpdate(changed, options, user) {
+    await super._onUpdate(changed, options, user)
     if (user !== game.userId) return
     if (changed?.level || changed?.system?.level) {
-      this._handleDescendantDocuments({debugCaller: '_onUpdate'})
+      await this._handleDescendantDocuments({debugCaller: '_onUpdate'})
     }
-    if (changed.system?.characteristics?.health) this.handleHealthChange()
+    if (changed.system?.characteristics?.health) await this.handleHealthChange()
   }
 
   async _handleDescendantDocuments(options = {}) {
@@ -217,15 +235,15 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  _onCreateDescendantDocuments(documentParent, collection, documents, data, options, userId) {
-    super._onCreateDescendantDocuments(documentParent, collection, documents, data, options, userId)
+  async _onCreateDescendantDocuments(documentParent, collection, documents, data, options, userId) {
+    await super._onCreateDescendantDocuments(documentParent, collection, documents, data, options, userId)
     if (collection === 'items' && userId === game.userId)
-      this._handleOnCreateDescendant(documents).then(_ => this.sheet.render())
+      await this._handleOnCreateDescendant(documents).then(_ => this.sheet.render())
   }
 
   async _handleOnCreateDescendant(documents) {
     console.log('DEMONLORD | Calling _handleOnCreateDescendant', documents)
-    for (const doc of documents) {
+    for await (const doc of documents) {
       // Ancestry and path creations
       if (doc.type === 'ancestry') {
         await handleCreateAncestry(this, doc)
@@ -241,8 +259,8 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  _onUpdateDescendantDocuments(documentParent, collection, documents, data, options, userId) {
-    super._onUpdateDescendantDocuments(documentParent, collection, documents, data, options, userId)
+  async _onUpdateDescendantDocuments(documentParent, collection, documents, data, options, userId) {
+    await super._onUpdateDescendantDocuments(documentParent, collection, documents, data, options, userId)
 
     // Check if only the flag has changed. If so, we can skip the handling
     const keys = new Set(data.reduce((prev, r) => prev.concat(Object.keys(r)), []))
@@ -252,14 +270,14 @@ export class DemonlordActor extends Actor {
     }
 
     if ((collection === 'items' || collection === 'effects') && userId === game.userId && !options.noEmbedEffects)
-      this._handleOnUpdateDescendant(documents).then(_ => this.sheet.render())
+      await this._handleOnUpdateDescendant(documents).then(_ => this.sheet.render())
   }
 
   async _handleOnUpdateDescendant(documents) {
     console.log('DEMONLORD | Calling _handleOnUpdateDescendant', documents)
-    for (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
+    for await (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
     await this._handleDescendantDocuments({debugCaller: `_handleOnUpdateDescendant [${documents.length}]`})
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 
   /**
@@ -401,7 +419,7 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  rollTalent(itemID, _options = {event: null}) {
+  async rollTalent(itemID, _options = {event: null}) {
     if (DLAfflictions.isActorBlocked(this, 'challenge', 'strength'))
       //FIXME
       return
@@ -415,10 +433,10 @@ export class DemonlordActor extends Actor {
     }
 
     if (item.system?.vs?.attribute)
-      launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), html =>
-        this.useTalent(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async html =>
+        await this.useTalent(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
-    else this.useTalent(item, 0, 0)
+    else await this.useTalent(item, 0, 0)
   }
 
   async useTalent(talent, inputBoons, inputModifier) {
@@ -480,10 +498,10 @@ export class DemonlordActor extends Actor {
     } else await item.update({'system.castings.value': uses + 1}, {parent: this})
 
     if (isAttack && attackAttribute)
-      launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), html =>
-        this.useSpell(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async html =>
+        await this.useSpell(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
-    else this.useSpell(item, 0, 0)
+    else await this.useSpell(item, 0, 0)
   }
 
   async useSpell(spell, inputBoons, inputModifier) {
@@ -659,25 +677,25 @@ export class DemonlordActor extends Actor {
     let uses = talent.system.uses?.value || 0
     const usesmax = talent.system.uses?.max || 0
     if (usesmax > 0 && uses < usesmax)
-      return talent.update({'data.uses.value': ++uses, 'data.addtonextroll': setActive}, {parent: this})
+      return await talent.update({'data.uses.value': ++uses, 'data.addtonextroll': setActive}, {parent: this})
   }
 
   async deactivateTalent(talent, decrement = 0, onlyTemporary = false) {
     if (onlyTemporary && !talent.system.uses?.max) return
     let uses = talent.system.uses?.value || 0
     uses = Math.max(0, uses - decrement)
-    return talent.update({'data.uses.value': uses, 'data.addtonextroll': false}, {parent: this})
+    return await talent.update({'data.uses.value': uses, 'data.addtonextroll': false}, {parent: this})
   }
 
   /* -------------------------------------------- */
 
   async addDamageToTarget(damage) {
-    game.user.targets.forEach(target => {
+    await Promise.all(game.user.targets.map(async target => {
       const currentDamage = parseInt(target.actor.system.characteristics.health.value)
-      target?.actor.update({
+      await target?.actor.update({
         'data.characteristics.health.value': currentDamage + damage,
       })
-    })
+    }))
   }
 
   async restActor() {
@@ -740,7 +758,7 @@ export class DemonlordActor extends Actor {
         const newMax = CONFIG.DL.spelluses[power]?.[rank] ?? 0
         if (currentMax !== newMax) diff.push({_id: s.id, 'data.castings.max': newMax})
       })
-    if (diff.length > 0) return this.updateEmbeddedDocuments('Item', diff)
+    if (diff.length > 0) return await this.updateEmbeddedDocuments('Item', diff)
   }
 
   async setEncumbrance() {

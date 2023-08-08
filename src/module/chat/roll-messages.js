@@ -406,7 +406,7 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
     const tableMarkOfDarkess = compendiumRollTables.find(i => i.name === 'Mark of Darkness')
     const result = await tableMarkOfDarkess.draw()
     let resultText = result.results[0].text
-    actor.createEmbeddedDocuments('Item', [
+    await actor.createEmbeddedDocuments('Item', [
       {
         name: 'Mark of Darkness',
         type: 'feature',

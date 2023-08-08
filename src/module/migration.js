@@ -44,7 +44,7 @@ export const migrateWorld_2_0_0 = async () => {
 
   _migrationStartInfo()
   // Migrate not embedded Items icons
-  for (let item of game.items.values()) {
+  for await (let item of game.items.values()) {
     try {
       console.log('Migrating item', item)
       const newIcon = _getNewImgPath(item.img, migrateNewIcons, item)
@@ -56,7 +56,7 @@ export const migrateWorld_2_0_0 = async () => {
   }
 
   // Migrate actors
-  for (let actor of game.actors.values()) {
+  for await (let actor of game.actors.values()) {
     try {
       const actUpd = actor.data.toObject()
       // Migrate actor icon and religion
@@ -143,7 +143,7 @@ export const migrateWorld_1_7_7 = async function () {
   _migrationStartInfo()
 
   // Migrate World Actors
-  for (const a of game.actors.entities) {
+  for await (const a of game.actors.entities) {
     try {
       const updateData = migrateActorData(a.data)
       if (!isObjectEmpty(updateData)) {
@@ -157,7 +157,7 @@ export const migrateWorld_1_7_7 = async function () {
   }
 
   // Migrate World Items
-  for (const i of game.items.entities) {
+  for await (const i of game.items.entities) {
     try {
       const updateData = migrateItemData(i.data)
       if (!isObjectEmpty(updateData)) {
