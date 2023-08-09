@@ -753,6 +753,8 @@ export class DemonlordActor extends Actor {
     this.items
       .filter(i => i.type === 'spell')
       .map(s => {
+        // The castings on this spell have been set by the user, skip the calculation
+        if (s.system.castings.ignoreCalculation) return
         const rank = s.system.rank
         const currentMax = s.system.castings.max
         const newMax = CONFIG.DL.spelluses[power]?.[rank] ?? 0

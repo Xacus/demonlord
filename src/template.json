@@ -247,7 +247,8 @@
       "effectdice": "",
       "castings": {
         "value": "",
-        "max": ""
+        "max": "",
+        "ignoreCalculation": false
       },
       "duration": "",
       "target": "",
