@@ -11,25 +11,29 @@
             "value": 10,
             "modifier": 0,
             "min": 0,
-            "max": 20
+            "max": 20,
+            "immune": false
           },
           "agility": {
             "value": 10,
             "modifier": 0,
             "min": 0,
-            "max": 20
+            "max": 20,
+            "immune": false
           },
           "intellect": {
             "value": 10,
             "modifier": 0,
             "min": 0,
-            "max": 20
+            "max": 20,
+            "immune": false
           },
           "will": {
             "value": 10,
             "modifier": 0,
             "min": 0,
-            "max": 20
+            "max": 20,
+            "immune": false
           },
           "perception": {
             "value": 10,
@@ -52,7 +56,8 @@
           "insanity": {
             "min": 0,
             "max": 0,
-            "value": 0
+            "value": 0,
+            "immune": false
           },
           "corruption": 0,
           "fortune": 0,

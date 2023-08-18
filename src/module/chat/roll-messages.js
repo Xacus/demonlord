@@ -13,13 +13,17 @@ import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
 export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute) {
   const rollMode = game.settings.get('core', 'rollMode')
 
+  const attackAttributeImmune = attacker?.getAttribute(attackAttribute)?.immune
+  const defenseAttributeImmune = defender?.getAttribute(defenseAttribute)?.immune
+  const voidRoll = attackAttributeImmune || defenseAttributeImmune
+
   const targetNumber =
     defenseAttribute === 'defense'
       ? defender?.system.characteristics.defense
       : defender?.getAttribute(defenseAttribute)?.value || ''
 
   const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
-  const didHit = attackRoll?.total >= targetNumber
+  const didHit = voidRoll ? false : attackRoll?.total >= targetNumber
 
   let diceTotal = attackRoll != null ? attackRoll.total : ''
   let resultText = didHit ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
@@ -29,7 +33,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
     diceTotal = '?'
     resultText = ''
   }
-  const resultBoxClass = resultText === '' ? '' : didHit ? 'SUCCESS' : 'FAILURE'
+  const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : didHit ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = (defender?.type == 'character' || defenseShow) && targetNumber ? targetNumber : '?'
 
@@ -41,15 +45,15 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   }
 
   const data = templateData.data
-  data['diceTotal'] = diceTotal
-  data['diceTotalGM'] = attackRoll?.total ?? ''
+  data['diceTotal'] = attackAttributeImmune ? '-' : diceTotal
+  data['diceTotalGM'] = attackAttributeImmune ? '-' : attackRoll?.total ?? ''
   data['resultText'] = resultText
   data['didHit'] = didHit
   data['resultBoxClass'] = resultBoxClass
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : 'FLAT'
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
-  data['againstNumber'] = againstNumber
-  data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
+  data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
+  data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
   data['damageFormular'] = item.system.action.damage + attacker.system.bonuses.attack.damage
   data['damageType'] = item.system.action.damagetype
   data['damageTypes'] = item.system.action.damagetypes
@@ -92,16 +96,18 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 export function postAttributeToChat(actor, attribute, challengeRoll) {
   const rollMode = game.settings.get('core', 'rollMode')
 
+  const voidRoll = actor.getAttribute(attribute)?.immune
+
   let diceTotal = challengeRoll?.total ?? ''
   let resultTextGM =
-    challengeRoll.total >= 10 ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
+    challengeRoll.total >= 10 && !voidRoll ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
 
   let resultText = resultTextGM
   if (rollMode === 'blindroll') {
     diceTotal = '?'
     resultText = ''
   }
-  const resultBoxClass = resultText === '' ? '' : challengeRoll.total >= 10 ? 'SUCCESS' : 'FAILURE'
+  const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : challengeRoll.total >= 10 ? 'SUCCESS' : 'FAILURE')
   const templateData = {
     actor: actor,
     item: {name: attribute?.toUpperCase()},
@@ -111,8 +117,8 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   const effects = buildAttributeEffectsMessage(actor, attribute)
 
   const data = templateData.data
-  data['diceTotal'] = diceTotal
-  data['diceTotalGM'] = challengeRoll.total
+  data['diceTotal'] = voidRoll ? '-' : diceTotal
+  data['diceTotalGM'] = voidRoll ? '-' : challengeRoll.total
   data['resultText'] = resultText
   data['resultTextGM'] = resultTextGM
   data['resultBoxClass'] = resultBoxClass
@@ -147,6 +153,10 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   const talentData = talent.system
   const rollMode = game.settings.get('core', 'rollMode')
 
+  const attackAttributeImmune = actor.getAttribute(talentData?.vs?.attribute)?.immune
+  const defenseAttributeImmune = target.getAttribute(talentData?.vs?.attribute)?.immune
+  const voidRoll = attackAttributeImmune || defenseAttributeImmune
+
   let usesText = ''
   if (parseInt(talentData?.uses?.value) >= 0 && parseInt(talentData?.uses?.max) > 0) {
     const uses = parseInt(talentData.uses?.value)
@@ -156,7 +166,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
 
   const targetNumber = talentData?.vs?.attribute ? actor.getVSTargetNumber(talent) : ''
   let resultText =
-    attackRoll != null && targetNumber !== undefined && attackRoll.total >= parseInt(targetNumber)
+    !voidRoll && attackRoll != null && targetNumber !== undefined && attackRoll.total >= parseInt(targetNumber)
       ? game.i18n.localize('DL.DiceResultSuccess')
       : game.i18n.localize('DL.DiceResultFailure')
 
@@ -169,7 +179,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
     diceTotal = '?'
     resultText = ''
   }
-  const resultBoxClass = resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE'
+  const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   const againstNumber =
     target?.actor?.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
       ? targetNumber
@@ -189,8 +199,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   const data = templateData.data
   data['id'] = talent.id
   data['roll'] = Boolean(attackRoll)
-  data['diceTotal'] = diceTotal
-  data['diceTotalGM'] = diceTotalGM
+  data['diceTotal'] = attackAttributeImmune ? '-' : diceTotal
+  data['diceTotalGM'] = attackAttributeImmune ? '-' : diceTotalGM
   data['resultText'] = resultText
   data['resultBoxClass'] = resultBoxClass
   data['didHit'] = attackRoll?.total >= targetNumber
@@ -198,8 +208,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['against'] = defenseAttribute
     ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase())
     : ''
-  data['againstNumber'] = againstNumber
-  data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
+  data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
+  data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
   data['damageFormular'] = talentData?.vs?.damage
     ? talentData?.vs?.damage + actor.system.bonuses.attack.damage || ''
     : talentData?.action?.damage
@@ -266,13 +276,17 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   const targetNumber = actor.getTargetNumber(spell)
   const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
 
+  const attackAttributeImmune = actor?.getAttribute(attackAttribute)?.immune
+  const defenseAttributeImmune = target?.getAttribute(defenseAttribute)?.immune
+  const voidRoll = attackAttributeImmune || defenseAttributeImmune
+
   let uses = parseInt(spellData?.castings?.value)
   let usesMax = parseInt(spellData?.castings?.max)
   let usesText = ''
   if (uses >= 0 && usesMax > 0) usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesMax
 
   let resultText =
-    targetNumber && attackRoll?.total >= parseInt(targetNumber)
+    !voidRoll && targetNumber && attackRoll?.total >= parseInt(targetNumber)
       ? game.i18n.localize('DL.DiceResultSuccess')
       : game.i18n.localize('DL.DiceResultFailure')
   let diceTotalGM = attackRoll?.total || ''
@@ -284,7 +298,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
     diceTotal = '?'
     resultText = ''
   }
-  const resultBoxClass = resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE'
+  const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   let againstNumber =
     target?.actor?.type === 'character' || (game.settings.get('demonlord', 'attackShowDefense') && targetNumber)
       ? targetNumber
@@ -305,14 +319,14 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   }
   const data = templateData.data
   data['id'] = spell.id
-  data['diceTotal'] = diceTotal
-  data['diceTotalGM'] = diceTotalGM
+  data['diceTotal'] = attackAttributeImmune ? '-' : diceTotal
+  data['diceTotalGM'] = attackAttributeImmune ? '-' : diceTotalGM
   data['resultText'] = resultText
   data['resultBoxClass'] = resultBoxClass
   data['attack'] = attackAttribute ? game.i18n.localize(CONFIG.DL.attributes[attackAttribute]?.toUpperCase()) : ''
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
-  data['againstNumber'] = againstNumber
-  data['againstNumberGM'] = againstNumber === '?' ? targetNumber : againstNumber
+  data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
+  data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
   data['damageFormular'] = spellData.action?.damage
   data['damageType'] = spellData.action?.damagetype
   data['damageTypes'] = spellData.action?.damagetypes

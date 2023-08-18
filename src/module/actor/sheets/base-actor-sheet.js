@@ -316,6 +316,13 @@ export default class DLBaseActorSheet extends ActorSheet {
       this.actor.rollChallenge(attribute)
     })
 
+    // Set immune on rollable attribute
+    html.find('.attribute .name').contextmenu(async ev => {
+      const div = $(ev.currentTarget)
+      const attributeName = div.data('key')
+      await this.actor.update({ system: { attributes: { [attributeName]: { immune : !this.actor.system.attributes[attributeName].immune } } } })
+    })
+
     // Rollable Attack
     html.find('.attack-roll').click(ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')

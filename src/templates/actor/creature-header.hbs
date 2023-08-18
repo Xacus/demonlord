@@ -23,7 +23,11 @@
     {{#*inline "attribute-partial"}}
       <div class="col-2 attribute" style="margin-top: 8px">
         <label class="name" data-key="{{n}}">{{attr.label}}</label>
-        <input type="Number" name="system.attributes.{{n}}.value" value="{{attr.value}}"/>
+        {{#if attr.immune}}
+          <input type="text" name="system.attributes.{{n}}.value" value="-" disabled="true"/>
+        {{else}}
+          <input type="Number" name="system.attributes.{{n}}.value" value="{{attr.value}}"/>
+        {{/if}}
         <label class="modifier">{{plusify attr.modifier}}</label>
       </div>
     {{/inline}}
