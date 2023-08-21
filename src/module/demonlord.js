@@ -183,7 +183,9 @@ Hooks.on('updateActor', async (actor, updateData) => {
   const isUpdateTurn = typeof updateData?.system?.fastturn !== 'undefined' && updateData?.system?.fastturn !== null
   if (!(isUpdateTurn && (game.user.isGM || actor.isOwner) && game.combat)) return
   const linkedCombatants = game.combat.combatants.filter(c => c.actorId === actor.id)
-  linkedCombatants.forEach(c => game.combat.setInitiative(c.id, game.combat.getInitiativeValue(c)))
+  for await (const c of linkedCombatants) {
+    game.combat.setInitiative(c.id, game.combat.getInitiativeValue(c))
+  }
 })
 
 export async function findAddEffect(actor, effectId, overlay) {
@@ -339,7 +341,7 @@ Hooks.once('dragRuler.ready', SpeedProvider => {
 
     getSpeedModifier(token) {
       const itemsHeavy = token.actor.items.filter(
-        item => Number(item.system.strengthmin) > token.actor.getAttribute("strength").value,
+        item => Number(item.system.requirement.minvalue) > token.actor.getAttribute(item.system.requirement.attribute).value,
       )
       if (itemsHeavy.length > 0) {
         return -2

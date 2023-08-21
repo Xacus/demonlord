@@ -279,7 +279,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html.find('.rest-char').click(_ => this.actor.restActor())
 
     // Healing Rate button
-    html.find('.healingratebox').on('mousedown', ev => this.actor.applyHealing(ev.button === 0))
+    html.find('.healingratebox').on('mousedown', async ev => await this.actor.applyHealing(ev.button === 0))
 
     // Talent: Options
     html.find('input[type=checkbox][id^="option"]').click(async ev => {

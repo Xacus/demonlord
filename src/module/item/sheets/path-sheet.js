@@ -63,7 +63,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     })
 
     // Delete level
-    html.find('.delete-level').click(ev => this.showLevelDeleteDialog(ev))
+    html.find('.delete-level').click(async ev => await this.showLevelDeleteDialog(ev))
 
     // Delete item
     html.find('.delete-item').click(async ev => await this._deleteItem(ev))
@@ -81,7 +81,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     })
 
     // Nested item transfer checkbox
-    html.find('.dl-item-transfer').click(ev => this._transferItem(ev))
+    html.find('.dl-item-transfer').click(async ev => await this._transferItem(ev))
   }
 
   /* -------------------------------------------- */

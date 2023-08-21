@@ -79,7 +79,7 @@ export class DLActiveEffects {
         effectDataList = DLActiveEffects.generateEffectDataFromArmor(doc, actor)
         break
       default:
-        return Promise.resolve(0)
+        return await Promise.resolve(0)
     }
 
     return await DLActiveEffects.addUpdateEffectsToActor(actor, effectDataList, operation)
@@ -108,7 +108,7 @@ export class DLActiveEffects {
       if (effectsToUpd.length > 0) await actor.updateEmbeddedDocuments('ActiveEffect', effectsToUpd)
       if (effectsToDel.length > 0) await actor.deleteEmbeddedDocuments('ActiveEffect', effectsToDel)
     }
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 
   /* -------------------------------------------- */
@@ -365,7 +365,7 @@ export class DLActiveEffects {
         disabled: !effect.disabled,
       }))
     if (notMetEffectsData.length > 0) await actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 
   /* -------------------------------------------- */
@@ -410,6 +410,6 @@ export class DLActiveEffects {
     if (!oldEffect) await ActiveEffect.create(effectData, { parent: actor })
     else if (n !== 0) await oldEffect.update(effectData, { parent: actor })
     else await oldEffect.delete({ parent: actor })
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 }

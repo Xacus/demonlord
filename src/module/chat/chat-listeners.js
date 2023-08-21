@@ -34,7 +34,7 @@ async function _onChatApplyHealing(event) {
     return
   }
 
-  selected.forEach(token => token.actor.applyHealing(isFullRate))
+  await Promise.all(selected.map(async token => await token.actor.applyHealing(isFullRate)))
 
   const actor = _getChatCardActor(li.closest('.demonlord'))
   const sourceToken = tokenManager.getTokenByActorId(actor.id)
@@ -120,7 +120,7 @@ async function _onChatApplyDamage(event) {
     return
   }
 
-  selected.forEach(token => token.actor.increaseDamage(+damage))
+  await Promise.all(selected.map(async token => await token.actor.increaseDamage(+damage)))
 
   const actor = _getChatCardActor(li.closest('.demonlord'))
   const sourceToken = tokenManager.getTokenByActorId(actor.id)
@@ -288,9 +288,9 @@ async function _onChatRequestInitRoll(event) {
     chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
 
     const template = 'systems/demonlord/templates/chat/makeinitroll.hbs'
-    renderTemplate(template, templateData).then(content => {
+    renderTemplate(template, templateData).then(async content => {
       chatData.content = content
-      ChatMessage.create(chatData)
+      await ChatMessage.create(chatData)
     })
   })
 }
@@ -312,7 +312,7 @@ async function _onChatMakeInitRoll(event) {
   }
 
   if (combatantFound) {
-    game.combat.rollInitiative(combatantFound._id)
+    await game.combat.rollInitiative(combatantFound._id)
   }
 }
 

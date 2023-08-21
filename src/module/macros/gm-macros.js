@@ -210,9 +210,9 @@ export function wealthManagerMacro() {
     let cp = html.find("#cp")[0].value;
     let bits = html.find("#bits")[0].value;
     if (playerName == 'everyone') {
-      updateAllWealth(gc, ss, cp, bits);
+      await updateAllWealth(gc, ss, cp, bits);
     } else {
-      updateWealth(playerName, gc, ss, cp, bits);
+      await updateWealth(playerName, gc, ss, cp, bits);
     }
   }
 
@@ -241,9 +241,9 @@ export function wealthManagerMacro() {
     expMessage(actors[0].name, gc, ss, cp, bits);
   }
 
-  function updateAllWealth(gc, ss, cp, bits) {
+  async function updateAllWealth(gc, ss, cp, bits) {
     let players = game.users.filter((t) => t.role !== 4);
-    players.forEach((p) => {
+    await Promise.all(players.forEach(async (p) => {
       const actor = p.character
       if (!actor) return
 
@@ -252,7 +252,7 @@ export function wealthManagerMacro() {
       let currentCP = parseInt(actor.system.wealth.cp);
       let currentBits = parseInt(actor.system.wealth.bits);
 
-      actor.update(
+      await actor.update(
         {
           'data.wealth.gc': currentGC + parseInt(gc),
           'data.wealth.ss': currentSS + parseInt(ss),
@@ -261,7 +261,7 @@ export function wealthManagerMacro() {
         });
 
       expMessage(actor.name, gc, ss, cp, bits);
-    });
+    }));
   }
 
   function checkWealth() {
@@ -332,13 +332,13 @@ export function applyVisionMacro() {
   d.render(true);
 
 
-  function applyVisionToSelectedTokens(visionType) {
+  async function applyVisionToSelectedTokens(visionType) {
     const controlled = canvas.tokens.controlled
     if (!controlled?.length) {
       ui.notifications.warn('No token selected.')
       return
     }
-    Promise.all(controlled.map(t => game.demonlord.macros.applyVisionType(t, visionType))).then(_ =>
+    await Promise.all(controlled.map(async t => await game.demonlord.macros.applyVisionType(t, visionType))).then(_ =>
       ui.notifications.info(`Successfully applied ${visionType} to ${controlled.length} token${controlled.length > 1 ? 's' : ''}.`)
     )
   }
@@ -398,6 +398,6 @@ export async function applyVisionType(token, visionType = undefined, _otherData 
   const actorUuid = token.actor.flags?.core?.sourceId
   const actorSource = await fromUuid(actorUuid)
   if (actorSource) promises.push(actorSource.prototypeToken.update(updateData))
-  return Promise.all(promises)
+  return await Promise.all(promises)
 
 }

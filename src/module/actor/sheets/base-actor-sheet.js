@@ -195,7 +195,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     }
 
     // Effects control
-    html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.document))
+    html.find('.effect-control').click(async ev => await onManageActiveEffect(ev, this.document))
 
     // Disable Afflictions
     html.find('.disableafflictions').click(async () => {
@@ -280,8 +280,9 @@ export default class DLBaseActorSheet extends ActorSheet {
       const item = this.actor.items.get(itemId)
       if (
         item.system.wear &&
-        item.system.strengthmin != '' &&
-        +item.system.strengthmin > +this.actor.getAttribute("strength").value
+        item.system.requirement.minvalue != '' &&
+        item.system.requirement.attribute != '' && 
+        +item.system.requirement.minvalue > +this.actor.getAttribute(item.system.requirement.attribute).value
       ) {
         $(el).addClass('dl-text-red')
       }

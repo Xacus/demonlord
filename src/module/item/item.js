@@ -40,7 +40,7 @@ export class DemonlordItem extends Item {
   async _preDelete(_options, _user) {
     await super._preDelete(_options, _user)
     // Check if item is embedded in Actor
-    if (!(this?.parent instanceof DemonlordActor)) return Promise.resolve()
+    if (!(this?.parent instanceof DemonlordActor)) return await Promise.resolve()
 
     // Delete Active effects with this origin
     let aes = this.parent.effects.filter(ae => ae?.origin?.includes(this.id))
@@ -54,7 +54,7 @@ export class DemonlordItem extends Item {
 
     // Delete nested objects if ancestry or path
     if (['ancestry', 'path'].includes(this.type)) await deleteActorNestedItems(this.parent, this.id, null)
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 
   /**

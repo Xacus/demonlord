@@ -216,7 +216,7 @@ export async function handleCreatePath(actor, pathItem) {
   for await (let level of leqLevels) {
     await createActorNestedItems(actor, _getLevelItemsToTransfer(level), pathItem.id, level.level)
   }
-  return Promise.resolve()
+  return await Promise.resolve()
 }
 
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
@@ -247,7 +247,7 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
     const ids = actorItems.filter(i => i.flags?.demonlord?.levelRequired > newLevel).map(i => i.id)
     if (ids.length) await actor.deleteEmbeddedDocuments('Item', ids)
   }
-  return Promise.resolve()
+  return await Promise.resolve()
 }
 
 /* -------------------------------------------- */

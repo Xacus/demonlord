@@ -69,7 +69,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
       itemBoons = item.system.action.boonsbanes
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.weapon', '')
       defenderBoons += defender?.system.bonuses.defense.boons.weapon || 0
-      if (item.system.wear && +item.system.strengthmin > attacker.getAttribute('strength').value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
+      if (item.system.wear && +item.system.requirement.minvalue > attacker.getAttribute(item.system.requirement.attribute).value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
       break
     case 'talent':
       if (!attackAttribute) return

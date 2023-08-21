@@ -219,18 +219,18 @@ export class DemonlordActor extends Actor {
     await super._onUpdate(changed, options, user)
     if (user !== game.userId) return
     if (changed?.level || changed?.system?.level) {
-      await this._handleDescendantDocuments({debugCaller: '_onUpdate'})
+      await this._handleDescendantDocuments(changed, {debugCaller: '_onUpdate'})
     }
     if (changed.system?.characteristics?.health) await this.handleHealthChange()
   }
 
-  async _handleDescendantDocuments(options = {}) {
+  async _handleDescendantDocuments(changed, options = {}) {
     //TODO: Remove logs when stable
     console.log(`DEMONLORD | Calling _handleDescendantDocuments from ${options?.debugCaller || '??'}`)
     await DLActiveEffects.toggleEffectsByActorRequirements(this)
     await this.setUsesOnSpells()
     await this.setEncumbrance()
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 
   /* -------------------------------------------- */
@@ -253,8 +253,11 @@ export class DemonlordActor extends Actor {
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')
     }
-    await this._handleDescendantDocuments({debugCaller: `_handleOnCreateDescendant [${documents.length}]`})
-    return Promise.resolve()
+    // No need to update if nothing was changed
+    if (documents.length > 0) {
+      await this._handleDescendantDocuments(documents[0].parent, {debugCaller: `_handleOnCreateDescendant [${documents.length}]`})
+    }
+    return await Promise.resolve()
   }
 
   /* -------------------------------------------- */
@@ -276,7 +279,10 @@ export class DemonlordActor extends Actor {
   async _handleOnUpdateDescendant(documents) {
     console.log('DEMONLORD | Calling _handleOnUpdateDescendant', documents)
     for await (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
-    await this._handleDescendantDocuments({debugCaller: `_handleOnUpdateDescendant [${documents.length}]`})
+    // No need to update if nothing was changed
+    if (documents.length > 0) {
+      await this._handleDescendantDocuments(documents[0].parent, {debugCaller: `_handleOnUpdateDescendant [${documents.length}]`})
+    }
     return await Promise.resolve()
   }
 
@@ -347,7 +353,7 @@ export class DemonlordActor extends Actor {
         (defender?.system.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
-    if (item.system.wear && parseInt(item.system.strengthmin) > attacker.getAttribute("strength").value)
+    if (item.system.wear && parseInt(item.system.requirement.minvalue) > attacker.getAttribute(item.system.requirement.attribute).value)
       boons--
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
@@ -624,9 +630,9 @@ export class DemonlordActor extends Actor {
     }
 
     const template = 'systems/demonlord/templates/chat/enchantment.hbs'
-    renderTemplate(template, templateData).then(content => {
+    renderTemplate(template, templateData).then(async content => {
       chatData.content = content
-      ChatMessage.create(chatData)
+      await ChatMessage.create(chatData)
     })
   }
 
@@ -714,9 +720,9 @@ export class DemonlordActor extends Actor {
     }
 
     const template = 'systems/demonlord/templates/chat/rest.hbs'
-    renderTemplate(template, templateData).then(content => {
+    renderTemplate(template, templateData).then(async content => {
       chatData.content = content
-      ChatMessage.create(chatData)
+      await ChatMessage.create(chatData)
     })
   }
 
@@ -767,7 +773,7 @@ export class DemonlordActor extends Actor {
     const armors = this.items.filter(i => i.type === 'armor')
     const notMetItemNames = armors
       .map(a => a.system)
-      .filter(a => a.strengthmin > this.getAttribute("strength").value && a.wear)
+      .filter(a => a.requirement.minvalue > this.getAttribute(a.requirement.attribute).value && a.wear)
       .map(a => a.name)
     return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }

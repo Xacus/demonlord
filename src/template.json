@@ -327,7 +327,10 @@
       "templates": ["base", "action", "enchantment"],
       "hands": "",
       "properties": "",
-      "strengthmin": "",
+      "requirement": {
+        "attribute": "",
+        "minvalue": 0
+      },
       "wear": true,
       "quantity": 1,
       "availability": "",
@@ -339,7 +342,10 @@
       "defense": "",
       "agility": "",
       "fixed": "",
-      "strengthmin": "",
+      "requirement": {
+        "attribute": "",
+        "minvalue": 0
+      },
       "wear": true,
       "isShield": false,
       "quantity": 1,

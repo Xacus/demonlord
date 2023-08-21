@@ -21,8 +21,72 @@ export async function handleMigrations() {
   // 2.0.0 migration
   if (isNewerVersion('2.0.0', currentVersion) && !game.data.release?.generation) await migrateWorld_2_0_0()
 
+  // 3.0.5 migration
+  if (isNewerVersion('3.1.0', currentVersion) && !game.data.release?.generation) await migrateWorld_3_1_0()
+
   // Migration completed
   return game.settings.set('demonlord', 'systemMigrationVersion', game.system.version)
+}
+
+/* -------------------------------------------- */
+/*  3.1.0                                       */
+/* -------------------------------------------- */
+
+export const migrateWorld_3_1_0 = async () => {
+  const dryRun = false
+  let errorsInMigration = false
+
+  // Migrate ActiveEffect.label to ActiveEffect.name
+  // Migrate from strengthmin to { requirement: { attribute: "Strength", minvalue: 10 } }
+  _migrationStartInfo()
+
+  // Non-embedded items
+  for await (let item of game.items.values()) {
+    try {
+      console.log('Migrating item', item)
+      const update = { id: item._id, system: { requirement: { attribute: 'Strength', minvalue: item.system.strengthmin }}}
+      if (item.system.strengthmin) {
+        if (dryRun) {
+          console.log("Dry Migration: ", update)
+        } else {
+          await item.update(update)
+        }
+      }
+    } catch (e) {
+      errorsInMigration = true
+      console.log('Error migrating item', item, e)
+    }
+  }
+
+  // Embedded items
+  for await (let actor of game.actors.values()) {
+    try {
+
+      // Change embedded items icons
+      const embeddedUpdateData = []
+      for await (const item of actor.getEmbeddedCollection('Item')) {
+        console.log('Migrating item', item)
+        if (item.system.strengthmin) {
+          embeddedUpdateData.push({id: item._id, system: { requirement: { attribute: 'Strength', minvalue: item.system.strengthmin } } })
+        }
+      }
+
+      if (embeddedUpdateData.length > 0) {
+        if (dryRun) {
+          console.log("Dry Migration: ", embeddedUpdateData)
+        } else {
+          const u = await actor.updateEmbeddedDocuments('Item', embeddedUpdateData, { noEmbedEffects: true })
+          console.log('Embedded item migration complete with result', u)
+        }
+      }
+    } catch (e) {
+      errorsInMigration = true
+      console.log('Error migrating actor', actor, e)
+    }
+  }
+
+  if (!errorsInMigration) _migrationSuccessInfo()
+  else _migrationErrorInfo()
 }
 
 /* -------------------------------------------- */
