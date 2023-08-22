@@ -4,27 +4,45 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['sheet', 'active-effect-sheet'],
       template: 'systems/demonlord/templates/item/active-effect-config.hbs',
-      width: 560,
+      width: 580,
       height: 'auto',
       tabs: [{ navSelector: '.tabs', contentSelector: 'form', initial: 'details' }],
     })
   }
 
   /** @override */
-  getData() {
+  async getData(options={}) {
+    let context = await super.getData(options)
+    const legacyTransfer = CONFIG.ActiveEffect.legacyTransferral
+
+    const labels = {
+      transfer: {
+        name: game.i18n.localize(`EFFECT.Transfer${legacyTransfer ? "Legacy" : ""}`),
+        hint: game.i18n.localize(`EFFECT.TransferHint${legacyTransfer ? "Legacy" : ""}`)
+      }
+    }
+
     const effect = foundry.utils.deepClone(this.object)
-    return {
+    const data = {
+      labels,
       effect: effect, // Backwards compatibility
       data: effect,
       isActorEffect: this.object.parent.documentName === 'Actor',
       isItemEffect: this.object.parent.documentName === 'Item',
       submitText: 'EFFECT.Submit',
-      availableChangeKeys: DLActiveEffectConfig._availableChangeKeys,
+      descriptionHTML: TextEditor.enrichHTML(this.object.description, {async: true, secrets: this.object.isOwner}),
       modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
         obj[e[1]] = game.i18n.localize('EFFECT.MODE_' + e[0])
         return obj
       }, {}),
     }
+
+    context = foundry.utils.mergeObject(context, data)
+
+    context.descriptionHTML = await TextEditor.enrichHTML(effect.description, { async: true, secrets: effect.isOwner})
+    context.availableChangeKeys = DLActiveEffectConfig._availableChangeKeys
+
+    return context
   }
 
   activateListeners(html) {
