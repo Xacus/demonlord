@@ -4,7 +4,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['sheet', 'active-effect-sheet'],
       template: 'systems/demonlord/templates/item/active-effect-config.hbs',
-      width: 560,
+      width: 580,
       height: 'auto',
       tabs: [{ navSelector: '.tabs', contentSelector: 'form', initial: 'details' }],
     })
@@ -20,6 +20,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       isItemEffect: this.object.parent.documentName === 'Item',
       submitText: 'EFFECT.Submit',
       availableChangeKeys: DLActiveEffectConfig._availableChangeKeys,
+      descriptionHTML: TextEditor.enrichHTML(this.object.description, {async: true, secrets: this.object.isOwner}),
       modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
         obj[e[1]] = game.i18n.localize('EFFECT.MODE_' + e[0])
         return obj
