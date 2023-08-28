@@ -138,7 +138,8 @@
       "descriptor": "",
       "perceptionsenses": "",
       "speedtraits": "",
-      "armor": ""
+      "armor": "",
+      "roles": []
     },
     "vehicle": {
       "templates": ["base", "section"],
@@ -433,6 +434,37 @@
     "affliction": {
       "templates": ["base"]
     },
-    "creaturerole": {}
+    "creaturerole": {
+      "attributes": {
+        "strength": 0,
+        "strengthImmune": false,
+        "agility": 0,
+        "agilityImmune": false,
+        "intellect": 0,
+        "intellectImmune": false,
+        "will": 0,
+        "willImmune": false
+      },
+      "characteristics": {
+        "perceptionmodifier": 0,
+        "healthmodifier": 0,
+        "defensemodifier": 0,
+        "healingratemodifier": 0,
+        "size": "0",
+        "speed": 0,
+        "power": 0,
+        "insanity": 0,
+        "corruption": 0,
+        "difficulty": 0
+      },
+      "frightening": false,
+      "horrifying": false,
+      "languages": "",
+      "talents": [],
+      "weapons": [],
+      "spells": [],
+      "editTalents": false,
+      "editRole": true
+    }
   }
 }

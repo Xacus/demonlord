@@ -58,14 +58,22 @@ export default class DLBaseActorSheet extends ActorSheet {
   prepareItems(sheetData) {
     const m = sheetData._itemsByType
     const actorData = sheetData.actor
-    actorData.weapons = m.get('weapon') || []
-    actorData.spells = m.get('spell') || []
+
+    const actorHasChangeBool = (actor, key) => {
+      return actor.getEmbeddedCollection('ActiveEffect').filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
+    }
+
+    const noAttacks = actorHasChangeBool(actorData, 'system.maluses.noAttacks')
+    const noSpells = actorHasChangeBool(actorData, 'system.maluses.noSpells')
+
+    actorData.weapons = noAttacks ? [] : (m.get('weapon') || [])
+    actorData.spells = noSpells ? [] : (m.get('spell') || [])
     actorData.talents = m.get('talent') || []
     actorData.features = m.get('feature') || []
     // Sort spells in the spellbooks by their rank
     actorData.spells.sort((a, b) => a.system.rank - b.system.rank)
     // Prepare the book (spells divided by tradition)
-    actorData.spellbook = this._prepareBook(actorData.spells, 'tradition', 'spells')
+    actorData.spellbook = noSpells ? [] : this._prepareBook(actorData.spells, 'tradition', 'spells')
   }
 
   /* -------------------------------------------- */

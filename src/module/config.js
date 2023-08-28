@@ -110,4 +110,5 @@ DL.defaultItemIcons = {
     expert: 'systems/demonlord/assets/icons/badges/axe-01.webp',
     master: 'systems/demonlord/assets/icons/badges/helm-01.webp',
   },
+  creaturerole: 'icons/equipment/back/cape-layered-blue-accent.webp',
 }

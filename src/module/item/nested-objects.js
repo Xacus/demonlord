@@ -219,6 +219,13 @@ export async function handleCreatePath(actor, pathItem) {
   return await Promise.resolve()
 }
 
+export async function handleCreateRole(actor, roleItem) {
+  const roleData = roleItem.system
+
+  await createActorNestedItems(actor, roleData.talents.concat(roleData.weapons, roleData.spells), roleItem.id)
+  return await Promise.resolve()
+}
+
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
   curLevel = parseInt(curLevel ?? actor.system.level)
   newLevel = parseInt(newLevel)

@@ -36,9 +36,19 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     super.prepareItems(sheetData)
     const m = sheetData._itemsByType
     const actorData = sheetData.actor
-    actorData.specialactions = m.get('specialaction') || []
-    actorData.endoftheround = m.get('endoftheround') || []
-    actorData.magic = m.get('magic') || []
+
+    const actorHasChangeBool = (actor, key) => {
+      return actor.getEmbeddedCollection('ActiveEffect').filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
+    }
+
+    const noSpecialAttacks = actorHasChangeBool(actorData, 'system.maluses.noSpecialAttacks')
+    const noSpecialActions = actorHasChangeBool(actorData, 'system.maluses.noSpecialActions')
+    const noEndOfRound = actorHasChangeBool(actorData, 'system.maluses.noEndOfRound')
+
+    actorData.talents = noSpecialAttacks ? [] : (m.get('talent') || [])
+    actorData.specialactions = noSpecialActions ? [] : (m.get('specialaction') || [])
+    actorData.endoftheround = noEndOfRound ? [] : (m.get('endoftheround') || [])
+    actorData.roles = m.get('creaturerole') || []
   }
 
   /* -------------------------------------------- */
@@ -56,6 +66,9 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     // Dynamically set the reference tab layout to two column if its height exceeds a certain threshold
     html.find('.sheet-navigation').click(_ => this._resizeAutoColumns(this.element))
     this._resizeAutoColumns(html)
+
+    // Role edit
+    html.on('mousedown', '.role-edit', async ev => await this._onRoleEdit(ev))
   }
 
   _resizeAutoColumns(element) {
@@ -65,4 +78,11 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     })
   }
 
+  async _onRoleEdit(ev) {
+    const div = $(ev.currentTarget)
+    const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+
+    if (ev.button == 0) role.sheet.render(true)
+    else if (ev.button == 2) await role.delete({ parent: this.actor })
+  }
 }

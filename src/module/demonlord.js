@@ -18,6 +18,7 @@ import DLCreatureSheet from './actor/sheets/creature-sheet'
 import DLVehicleSheet from './actor/sheets/vehicle-sheet'
 import DLBaseItemSheet from './item/sheets/base-item-sheet'
 import DLAncestrySheet from './item/sheets/ancestry-sheet'
+import DLRoleSheet from './item/sheets/role-sheet.js'
 import DLPathSheet from './item/sheets/path-sheet'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
@@ -101,6 +102,10 @@ Hooks.once('init', async function () {
   Items.registerSheet('demonlord', DLPathSheet, {
     types: ['path'],
     makeDefault: true,
+  })
+  Items.registerSheet('demonlord', DLRoleSheet, {
+    types: ['creaturerole'],
+    makeDefault: true
   })
 
   preloadHandlebarsTemplates()
@@ -341,7 +346,7 @@ Hooks.once('dragRuler.ready', SpeedProvider => {
 
     getSpeedModifier(token) {
       const itemsHeavy = token.actor.items.filter(
-        item => Number(item.system.requirement.minvalue) > token.actor.getAttribute(item.system.requirement.attribute).value,
+        item => Number(item.system.requirement.minvalue) > token.actor.getAttribute(item.system.requirement.attribute)?.value,
       )
       if (itemsHeavy.length > 0) {
         return -2

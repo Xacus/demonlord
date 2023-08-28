@@ -59,6 +59,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     data.itemEffects = prepareActiveEffectCategories(
       this.actor.effects.filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.sourceType) >= 0),
     )
+    data.itemEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter(effect => effect.flags?.sourceType === 'creaturerole'),
+    )
     this.prepareItems(data)
     return data
   }
@@ -78,6 +81,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     actorData.languages = m.get('language') || ''
     actorData.paths = m.get('path') || []
     actorData.talentbook = this._prepareBook(actorData.talents, 'groupname', 'talents')
+    actorData.roles = m.get('creaturerole') || []
 
     // Sort paths
     actorData.paths = [
@@ -122,6 +126,16 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     if (ev.button == 0) path.sheet.render(true)
     else if (ev.button == 2) await path.delete({ parent: this.actor })
+  }
+
+  /* -------------------------------------------- */
+
+  async _onRoleEdit(ev) {
+    const div = $(ev.currentTarget)
+    const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+
+    if (ev.button == 0) role.sheet.render(true)
+    else if (ev.button == 2) await role.delete({ parent: this.actor })
   }
 
   /* -------------------------------------------- */
@@ -218,6 +232,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Path edit
     html.on('mousedown', '.path-edit', async ev => await this._onPathEdit(ev))
+
+    // Role edit
+    html.on('mousedown', '.role-edit', async ev => await this._onRoleEdit(ev))
 
     // Wealth edit
     html
