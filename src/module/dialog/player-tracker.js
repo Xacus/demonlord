@@ -89,7 +89,7 @@ export class PlayerTracker extends FormApplication {
           player.character?.system.characteristics.insanity.value +
           '/' +
           player.character?.system.characteristics.insanity.max,
-        corruption: player.character?.system.characteristics.corruption,
+        corruption: player.character?.system.characteristics.corruption.value,
         power: player.character?.system.characteristics.power,
         speed: player.character?.system.characteristics.speed,
         fortune: player.character?.system.characteristics.fortune,

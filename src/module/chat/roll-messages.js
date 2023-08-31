@@ -392,13 +392,13 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
   data['diceTotal'] = corruptionRoll.total
   data['actorInfo'] = buildActorInfo(actor)
   data['tagetValueText'] = game.i18n.localize('DL.CharCorruption').toUpperCase()
-  data['targetValue'] = actor.system.characteristics.corruption
+  data['targetValue'] = actor.system.characteristics.corruption.value
   data['resultText'] =
-    corruptionRoll.total >= actor.system.characteristics.corruption
+    corruptionRoll.total >= actor.system.characteristics.corruption.value
       ? game.i18n.localize('DL.DiceResultSuccess')
       : game.i18n.localize('DL.DiceResultFailure')
   data['failureText'] =
-    corruptionRoll.total >= actor.system.characteristics.corruption
+    corruptionRoll.total >= actor.system.characteristics.corruption.value
       ? ''
       : game.i18n.localize('DL.CharRolCorruptionResult')
 
@@ -415,7 +415,7 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
   await ChatMessage.create(chatData)
 
   // Get mark of darkess if roll < corruption value
-  if (corruptionRoll.total < actor.system.characteristics.corruption) {
+  if (corruptionRoll.total < actor.system.characteristics.corruption.value) {
     const compendiumRollTables = await game.packs.get('demonlord.sotdl roll tabels').getDocuments()
     const tableMarkOfDarkess = compendiumRollTables.find(i => i.name === 'Mark of Darkness')
     const result = await tableMarkOfDarkess.draw()

@@ -194,7 +194,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Corruption bar click
     html.on('mousedown', '.addCorruption', async ev => {
-      let value = parseInt(this.actor.system.characteristics.corruption)
+      let value = parseInt(this.actor.system.characteristics.corruption.value)
       const max = parseInt(20)
       if (ev.button == 0) {
         if (value >= max) value = 0
@@ -203,7 +203,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
         if (value <= 0) value = 0
         else value--
       }
-      await this.actor.update({ 'data.characteristics.corruption': value }).then(_ => this.render())
+      await this.actor.update({ 'data.characteristics.corruption.value': value }).then(_ => this.render())
     })
 
     // Health bar fill
@@ -223,7 +223,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Corruption bar fill
     const corruptionbar = html.find('.corruption-fill')
     if (corruptionbar.length > 0) {
-      const corruption = this.actor.system.characteristics.corruption
+      const corruption = this.actor.system.characteristics.corruption.value
       corruptionbar[0].style.width = Math.floor((+corruption / 20) * 100) + '%'
     }
 

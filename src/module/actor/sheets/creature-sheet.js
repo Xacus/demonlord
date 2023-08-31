@@ -69,6 +69,12 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
 
     // Role edit
     html.on('mousedown', '.role-edit', async ev => await this._onRoleEdit(ev))
+
+    html.find('.characteristic .name').contextmenu(async ev => {
+      const div = $(ev.currentTarget)
+      const characteristicName = div.data('key')
+      await this.actor.update({ system: { characteristics: { [characteristicName]: { immune : !this.actor.system.characteristics[characteristicName].immune } } } })
+    })
   }
 
   _resizeAutoColumns(element) {

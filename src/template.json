@@ -59,7 +59,11 @@
             "value": 0,
             "immune": false
           },
-          "corruption": 0,
+          "corruption": {
+            "min": 0,
+            "value": 0,
+            "immune": false
+          },
           "fortune": 0,
           "editbar": false
         },
