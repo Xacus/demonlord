@@ -152,10 +152,10 @@ async function _onChatApplyEffect(event) {
   }
 
   const effectData = activeEffect.toObject()
-  selected.forEach(target => {
-    ActiveEffect.create(effectData, {parent: target.actor})
+  for await (const target of selected) {
+    await ActiveEffect.create(effectData, {parent: target.actor})
       .then(e => ui.notifications.info(`Added "${e.name}" to "${target.actor.name}"`))
-  })
+  }
 }
 
 /* -------------------------------------------- */
