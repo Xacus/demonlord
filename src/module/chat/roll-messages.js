@@ -153,8 +153,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   const talentData = talent.system
   const rollMode = game.settings.get('core', 'rollMode')
 
-  const attackAttributeImmune = actor.getAttribute(talentData?.vs?.attribute)?.immune
-  const defenseAttributeImmune = target.getAttribute(talentData?.vs?.attribute)?.immune
+  const attackAttributeImmune = actor?.getAttribute(talentData?.vs?.attribute)?.immune
+  const defenseAttributeImmune = target?.getAttribute(talentData?.vs?.attribute)?.immune
   const voidRoll = attackAttributeImmune || defenseAttributeImmune
 
   let usesText = ''

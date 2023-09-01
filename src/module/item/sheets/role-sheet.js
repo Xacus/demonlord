@@ -101,7 +101,7 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     let item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
-    levelItem.uuid = item.uuid
+    levelItem.uuid = item.uuid ?? data.uuid
     levelItem.id = item.id
     levelItem.name = item.name
     levelItem.description = item.system.description
