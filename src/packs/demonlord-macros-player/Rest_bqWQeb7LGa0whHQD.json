@@ -1,0 +1,16 @@
+{
+  "_id": "bqWQeb7LGa0whHQD",
+  "name": "Rest",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "script",
+  "flags": {},
+  "scope": "global",
+  "command": "// Rest Actor. Resets all uses on Talent, Spells and heals you for your Healing Rate.\n\nfor (let token of canvas.tokens.controlled) {\n    token.actor.restActor();\n}",
+  "author": "Sd8TaawsSgOTEPU7",
+  "img": "systems/demonlord/assets/icons/skills/time.webp",
+  "actorIds": [],
+  "_key": "!macros!bqWQeb7LGa0whHQD"
+}

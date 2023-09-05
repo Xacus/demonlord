@@ -1,0 +1,27 @@
+{
+  "name": "Scale",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "armor",
+  "data": {
+    "description": "",
+    "defense": "",
+    "agility": "",
+    "fixed": "16",
+    "properties": "",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "13"
+    },
+    "wear": true,
+    "isShield": false,
+    "availability": "U",
+    "value": "2 gc"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/armor/scale.webp",
+  "_id": "7ldV5hUzfUEmpUVd",
+  "_key": "!items!7ldV5hUzfUEmpUVd"
+}

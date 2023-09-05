@@ -1,0 +1,28 @@
+{
+  "_id": "e66KZG4CTH55SedW",
+  "name": "Blowgun",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "One",
+    "properties": "Range (medium), Uses Needles",
+    "availability": "U",
+    "value": "1 ss",
+    "action": {
+      "attack": "Agility",
+      "against": "Defense",
+      "damage": "1d3",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/blowgun.webp",
+  "_key": "!items!e66KZG4CTH55SedW"
+}

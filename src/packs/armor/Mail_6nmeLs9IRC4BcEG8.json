@@ -1,0 +1,27 @@
+{
+  "_id": "6nmeLs9IRC4BcEG8",
+  "name": "Mail",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "armor",
+  "data": {
+    "description": "",
+    "defense": "",
+    "agility": "",
+    "fixed": "15",
+    "properties": "",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "13"
+    },
+    "wear": true,
+    "isShield": false,
+    "availability": "U",
+    "value": "1 gc"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/armor/mail.webp",
+  "_key": "!items!6nmeLs9IRC4BcEG8"
+}

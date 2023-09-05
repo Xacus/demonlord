@@ -1,0 +1,28 @@
+{
+  "name": "Rifle",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Two",
+    "properties": "Misfire, Range (long), Reload, Uses Bullets",
+    "availability": "E",
+    "value": "10 gc",
+    "action": {
+      "attack": "Agility",
+      "against": "Defense",
+      "damage": "3d6",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/rifle.webp",
+  "_id": "yGtiA3qJGtLaeF96",
+  "_key": "!items!yGtiA3qJGtLaeF96"
+}

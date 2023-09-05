@@ -1,0 +1,30 @@
+{
+  "_id": "BE14c3tJFRKX9c1O",
+  "name": "Greatsword",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Two",
+    "properties": "Cumbersome",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "13"
+    },
+    "availability": "R",
+    "value": "2 gc",
+    "action": {
+      "attack": "Strength",
+      "against": "Defense",
+      "damage": "3d6",
+      "boonsbanes": "-1",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/greatsword.webp",
+  "_key": "!items!BE14c3tJFRKX9c1O"
+}

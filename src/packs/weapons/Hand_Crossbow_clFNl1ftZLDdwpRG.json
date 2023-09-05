@@ -1,0 +1,28 @@
+{
+  "_id": "clFNl1ftZLDdwpRG",
+  "name": "Hand Crossbow",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Off",
+    "properties": "Range (short), Reload, Uses Bolts",
+    "availability": "R",
+    "value": "2 gc",
+    "action": {
+      "attack": "Agility",
+      "against": "Defense",
+      "damage": "1d6",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/hand-crossbow.webp",
+  "_key": "!items!clFNl1ftZLDdwpRG"
+}

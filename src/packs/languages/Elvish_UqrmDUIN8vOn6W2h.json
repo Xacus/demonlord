@@ -1,0 +1,23 @@
+{
+  "name": "Elvish",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "language",
+  "data": {
+    "description": "<p>The language used by the elves and other faeries has a soft and musical sound, perfectly suited for singing and reciting poetry. Elvish uses its own script, its characters flowing into one another.</p>",
+    "read": false,
+    "write": false,
+    "speak": true
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.UkSMpWhKl6TCxt2F"
+    }
+  },
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "_id": "UqrmDUIN8vOn6W2h",
+  "_key": "!items!UqrmDUIN8vOn6W2h"
+}

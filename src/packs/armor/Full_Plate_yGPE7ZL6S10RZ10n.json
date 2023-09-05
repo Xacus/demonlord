@@ -1,0 +1,60 @@
+{
+  "_id": "yGPE7ZL6S10RZ10n",
+  "name": "Full Plate",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "armor",
+  "data": {
+    "description": "",
+    "defense": "",
+    "agility": "",
+    "fixed": "18",
+    "properties": "",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "15"
+    },
+    "wear": true,
+    "isShield": false,
+    "availability": "E",
+    "value": "25 gc"
+  },
+  "effects": [
+    {
+      "name": "Heavy Armor",
+      "icon": "systems/demonlord/assets/icons/armor/full plate.webp",
+      "origin": "Compendium.demonlord.armor.Item.yGPE7ZL6S10RZ10n",
+      "transfer": true,
+      "flags": {
+        "sourceType": "language"
+      },
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "_id": "tP2s3RCK1kZXuLZe",
+      "changes": [
+        {
+          "key": "system.characteristics.speed",
+          "mode": 2,
+          "value": "-2"
+        }
+      ],
+      "description": "",
+      "statuses": [],
+      "tint": null,
+      "_key": "!items.effects!yGPE7ZL6S10RZ10n.tP2s3RCK1kZXuLZe"
+    }
+  ],
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/armor/full plate.webp",
+  "_key": "!items!yGPE7ZL6S10RZ10n"
+}

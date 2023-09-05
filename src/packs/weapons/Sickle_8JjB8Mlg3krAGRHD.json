@@ -1,0 +1,28 @@
+{
+  "_id": "8JjB8Mlg3krAGRHD",
+  "name": "Sickle",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "One",
+    "properties": "Finesse",
+    "availability": "C",
+    "value": "1 ss",
+    "action": {
+      "attack": "",
+      "against": "Defense",
+      "damage": "1d6",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/sickle.webp",
+  "_key": "!items!8JjB8Mlg3krAGRHD"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Rapier",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "One",
+    "properties": "Finesse",
+    "availability": "U",
+    "value": "1 gc",
+    "action": {
+      "attack": "",
+      "against": "Defense",
+      "damage": "1d6+1",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/rapier.webp",
+  "_id": "NPO0idodDR7VR1fw",
+  "_key": "!items!NPO0idodDR7VR1fw"
+}

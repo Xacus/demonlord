@@ -1,0 +1,60 @@
+{
+  "_id": "C5A6s8HGjFmquDjc",
+  "name": "Plate and Mail",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "armor",
+  "data": {
+    "description": "",
+    "defense": "",
+    "agility": "",
+    "fixed": "17",
+    "properties": "",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "15"
+    },
+    "wear": true,
+    "isShield": false,
+    "availability": "R",
+    "value": "5 gc"
+  },
+  "effects": [
+    {
+      "name": "Heavy Armor",
+      "icon": "systems/demonlord/assets/icons/armor/plate and mail.webp",
+      "origin": "Compendium.demonlord.armor.Item.C5A6s8HGjFmquDjc",
+      "transfer": true,
+      "flags": {
+        "sourceType": "language"
+      },
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "_id": "cF5LvWCZdtJeuw81",
+      "changes": [
+        {
+          "key": "system.characteristics.speed",
+          "mode": 2,
+          "value": "-2"
+        }
+      ],
+      "description": "",
+      "statuses": [],
+      "tint": null,
+      "_key": "!items.effects!C5A6s8HGjFmquDjc.cF5LvWCZdtJeuw81"
+    }
+  ],
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/armor/plate and mail.webp",
+  "_key": "!items!C5A6s8HGjFmquDjc"
+}

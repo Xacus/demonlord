@@ -1,0 +1,27 @@
+{
+  "name": "Large Shield",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "armor",
+  "data": {
+    "description": "",
+    "defense": "2",
+    "agility": "",
+    "fixed": "",
+    "properties": "Size 1",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "11"
+    },
+    "wear": true,
+    "isShield": true,
+    "availability": "C",
+    "value": "1 ss"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/armor/large shield.webp",
+  "_id": "zricNw1n02pb7xJc",
+  "_key": "!items!zricNw1n02pb7xJc"
+}

@@ -1,0 +1,17 @@
+{
+  "_id": "dOlgELtLo49QcCJc",
+  "name": "Stones",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "ammo",
+  "data": {
+    "description": "",
+    "quantity": "5",
+    "value": "5 cp"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/ammunition/rock.webp",
+  "_key": "!items!dOlgELtLo49QcCJc"
+}

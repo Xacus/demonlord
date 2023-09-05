@@ -1,0 +1,32 @@
+{
+  "_id": "OWqpQB9QH3ywy2v5",
+  "name": "Halberd",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Two",
+    "properties": "Reach +1",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "11"
+    },
+    "availability": "U",
+    "value": "1 gc",
+    "action": {
+      "attack": "Strength",
+      "against": "Defense",
+      "damage": "1d6+2",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/halberd.webp",
+  "_key": "!items!OWqpQB9QH3ywy2v5"
+}

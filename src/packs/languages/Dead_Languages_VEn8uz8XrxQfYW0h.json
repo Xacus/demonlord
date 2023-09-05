@@ -1,0 +1,23 @@
+{
+  "_id": "VEn8uz8XrxQfYW0h",
+  "name": "Dead Languages",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "language",
+  "data": {
+    "description": "<p>Many languages fall out of common usage. The GM can introduce languages from lost peoples and languages that have largely fallen out of favor. Such languages may be important for deciphering ancient scrolls and tomes.</p>",
+    "read": false,
+    "write": false,
+    "speak": true
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.a8gqhSzD8ntKQP9L"
+    }
+  },
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "_key": "!items!VEn8uz8XrxQfYW0h"
+}

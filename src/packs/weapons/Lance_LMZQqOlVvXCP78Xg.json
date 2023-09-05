@@ -1,0 +1,32 @@
+{
+  "name": "Lance",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Two",
+    "properties": "One hand while mounted, Reach +2",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "11"
+    },
+    "availability": "U",
+    "value": "5 ss",
+    "action": {
+      "attack": "Strength",
+      "against": "Defense",
+      "damage": "1d6+1",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/lance.webp",
+  "_id": "LMZQqOlVvXCP78Xg",
+  "_key": "!items!LMZQqOlVvXCP78Xg"
+}

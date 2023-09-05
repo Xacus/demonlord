@@ -1,0 +1,16 @@
+{
+  "_id": "95dWImeE0NQD0A1d",
+  "name": "Roll Initiative",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "script",
+  "flags": {},
+  "scope": "global",
+  "command": "// For player. Execute to choose Fast or Slow turn order.\n\ngame.demonlord.rollInitMacro();",
+  "author": "Sd8TaawsSgOTEPU7",
+  "img": "icons/sundries/gaming/dice-runed-brown.webp",
+  "actorIds": [],
+  "_key": "!macros!95dWImeE0NQD0A1d"
+}

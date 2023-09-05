@@ -1,0 +1,27 @@
+{
+  "_id": "a0owwVjCELqWEzSt",
+  "name": "Soft Leather",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "armor",
+  "data": {
+    "description": "",
+    "defense": "",
+    "agility": "1",
+    "fixed": "",
+    "properties": "",
+    "requirement": {
+      "attribute": "",
+      "minvalue": ""
+    },
+    "wear": true,
+    "isShield": false,
+    "availability": "C",
+    "value": "2 ss"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/armor/soft leather.webp",
+  "_key": "!items!a0owwVjCELqWEzSt"
+}

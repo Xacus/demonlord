@@ -1,0 +1,32 @@
+{
+  "name": "Maul",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Two",
+    "properties": "Cumbersome",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "13"
+    },
+    "availability": "R",
+    "value": "2 gc",
+    "action": {
+      "attack": "Strength",
+      "against": "Defense",
+      "damage": "3d6",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "-1",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/maul.webp",
+  "_id": "wri6QLxtq2dL83tl",
+  "_key": "!items!wri6QLxtq2dL83tl"
+}

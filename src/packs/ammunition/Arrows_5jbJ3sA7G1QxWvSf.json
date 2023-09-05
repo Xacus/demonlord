@@ -1,0 +1,17 @@
+{
+  "_id": "5jbJ3sA7G1QxWvSf",
+  "name": "Arrows",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "ammo",
+  "data": {
+    "description": "",
+    "quantity": "5",
+    "value": "5 cp"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/ammunition/arrows.webp",
+  "_key": "!items!5jbJ3sA7G1QxWvSf"
+}

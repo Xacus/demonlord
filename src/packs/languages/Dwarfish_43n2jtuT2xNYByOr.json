@@ -1,0 +1,23 @@
+{
+  "name": "Dwarfish",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "language",
+  "data": {
+    "description": "<p>The language of the dwarfs has a harsh sound, a precise lexicon, and long, compound words. It uses a runic alphabet.</p>",
+    "read": false,
+    "write": false,
+    "speak": true
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.vZbZ7Nr74PgUOILx"
+    }
+  },
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "_id": "43n2jtuT2xNYByOr",
+  "_key": "!items!43n2jtuT2xNYByOr"
+}
