@@ -13,6 +13,7 @@ DL.pathtype = {
   novice: 'DL.CharPathNovice',
   expert: 'DL.CharPathExpert',
   master: 'DL.CharPathMaster',
+  legendary: 'DL.CharPathLegendary'
 }
 
 // [powerLevel][spellLevel] -> maxCastings

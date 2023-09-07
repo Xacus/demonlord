@@ -29,8 +29,10 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     // Fetch the updated nested items properties (name, description, img)
     const roleData = data.system
     roleData.talents = await Promise.all(roleData.talents.map(await getNestedItemData))
+    roleData.specialActions = await Promise.all(roleData.specialActions.map(await getNestedItemData))
     roleData.spells = await Promise.all(roleData.spells.map(await getNestedItemData))
     roleData.weapons = await Promise.all(roleData.weapons.map(await getNestedItemData))
+    roleData.endOfRound = await Promise.all(roleData.endOfRound.map(await getNestedItemData))
     return data
   }
 

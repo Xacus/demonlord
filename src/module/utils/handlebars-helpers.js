@@ -238,7 +238,7 @@ function _buildBOBAButton(_name, value, loc) {
 
 function _buildPathTypeDropdownList(checkedKey) {
   let html = `<div class="dl-new-project-2-dropdown">`
-  for (let type of ['novice', 'expert', 'master']) {
+  for (let type of ['novice', 'expert', 'master', 'legendary']) {
     const checked = type === checkedKey ? 'checked' : ''
     const label = i18n(`DL.CharPath${capitalize(type)}`)
     html += `<div class="${checked}">

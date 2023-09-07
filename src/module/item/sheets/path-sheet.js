@@ -207,6 +207,8 @@ export default class DLPathSheet extends DLBaseItemSheet {
         case 'master':
           autoLevels = [7, 10];
           break
+        case 'legendary':
+          autoLevels = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
       }
       updateData.levels = updateData.levels ?? []
       for (let index of autoLevels.keys()) {

@@ -88,6 +88,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       ...actorData.paths.filter(p => p.system.type === 'novice'),
       ...actorData.paths.filter(p => p.system.type === 'expert'),
       ...actorData.paths.filter(p => p.system.type === 'master'),
+      ...actorData.paths.filter(p => p.system.type === 'legendary')
     ]
   }
 

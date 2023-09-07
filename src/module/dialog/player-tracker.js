@@ -78,6 +78,9 @@ export class PlayerTracker extends FormApplication {
           master: player.character?.items
             .filter(e => e.type === 'path' && e.system.type === 'master')
             .map(e => e.name),
+          legendary: player.character?.items
+            .filter(e => e.type === 'path' && e.system.type === 'legendary')
+            .map(e => e.name),
         },
         professions: player.character?.items.filter(e => e.type === 'profession'),
         defense: player.character?.system.characteristics.defense,

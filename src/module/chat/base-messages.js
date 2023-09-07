@@ -34,6 +34,7 @@ export function buildActorInfo(actor) {
       pathsData.find(p => p.type === 'novice')?.name ||
       pathsData.find(p => p.type === 'expert')?.name ||
       pathsData.find(p => p.type === 'master')?.name ||
+      pathsData.find(p => p.type === 'legendary')?.name ||
       ''
     info = ancestry + (path ? ', ' + path : '')
   } else {
