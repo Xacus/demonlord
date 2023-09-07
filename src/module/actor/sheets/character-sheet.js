@@ -95,7 +95,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   /** @override */
   async checkDroppedItem(itemData) {
     const type = itemData.type
-    if (['specialaction', 'endoftheround'].includes(type)) return false
+    if (['specialaction', 'endoftheround', 'creaturerole'].includes(type)) return false
 
     if (type === 'ancestry') {
       const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)

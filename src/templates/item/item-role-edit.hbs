@@ -170,9 +170,9 @@
 
 <div class="dl-item-section-section margin">
   <div class="dl-item-section-section-title">
-    <b>{{localize "DL.FeaturesTitle"}} ({{localize "CONTROLS.Drop"}})</b>
-    <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="feature"
-      data-group="talent" data-folder-loc="FeaturesTitle">
+    <b>{{localize "DL.TalentTitle"}} ({{localize "CONTROLS.Drop"}})</b>
+    <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="talent"
+      data-group="talent" data-folder-loc="TalentTitle">
       <i class="fas fa-plus"></i>
     </a>
   </div>
@@ -233,6 +233,30 @@
       <img src="{{item.img}}">
       <span class="edit-nested-item dl-clickable">{{item.name}}</span>
       <a class="delete-roleitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="spell">
+        <i class="fas fa-times"></i>
+      </a>
+    </div>
+    {{/each}}
+  </div>
+</div>
+
+<div class="dl-item-section-section margin">
+  <div class="dl-item-section-section-title">
+    <b>{{localize "DL.CreatureSpecialEndRound"}} ({{localize "CONTROLS.Drop"}})</b>
+    <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}" data-type="endoftheround"
+      data-group="endoftheround" data-folder-loc="CreatureSpecialEndRound">
+      <i class="fas fa-plus"></i>
+    </a>
+  </div>
+  <div class="dl-drop-zone dl-drop-zone-col-2" data-group="endoftheround" data-level="{{id}}">
+    {{#each system.endOfRound as |item index|}}
+    <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
+    {{#if item.system.enrichedDescriptionUnrolled}}
+      data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"
+    {{/if}}>
+      <img src="{{item.img}}">
+      <span class="edit-nested-item dl-clickable">{{item.name}}</span>
+      <a class="delete-roleitem" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="endoftheround">
         <i class="fas fa-times"></i>
       </a>
     </div>

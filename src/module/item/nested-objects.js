@@ -225,7 +225,7 @@ export async function handleCreatePath(actor, pathItem) {
 export async function handleCreateRole(actor, roleItem) {
   const roleData = roleItem.system
 
-  await createActorNestedItems(actor, roleData.talents.concat(roleData.weapons, roleData.spells), roleItem.id)
+  await createActorNestedItems(actor, roleData.talents.concat(roleData.weapons, roleData.spells, roleData.specialActions, roleData.endOfRound), roleItem.id)
   return await Promise.resolve()
 }
 

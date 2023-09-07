@@ -463,10 +463,11 @@
       },
       "frightening": false,
       "horrifying": false,
-      "languages": "",
       "talents": [],
+      "specialActions": [],
       "weapons": [],
       "spells": [],
+      "endOfRound": [],
       "editTalents": false,
       "editRole": true
     }

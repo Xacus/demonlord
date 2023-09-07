@@ -294,6 +294,7 @@ export class DemonlordActor extends Actor {
    * @param attributeName                    Localized name
    */
   getAttribute(attributeName) {
+    if (!attributeName) return ""
     const attributes = {
       [game.i18n.localize("DL.AttributeStrength").toLowerCase()]: "strength",
       [game.i18n.localize("DL.AttributeAgility").toLowerCase()]: "agility",

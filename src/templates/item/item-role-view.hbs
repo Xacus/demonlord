@@ -113,6 +113,12 @@
 </div>
 {{/if}}
 
+{{#if system.endOfRound.length}}
+<div class="dl-item-section-section margin">
+  {{> dlDropZoneView collection=system.endOfRound dataGroup='endoftheround' title="DL.CreatureSpecialEndRound" col2=true}}
+</div>
+{{/if}}
+
 
 
 
