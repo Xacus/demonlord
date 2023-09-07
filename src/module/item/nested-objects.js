@@ -138,10 +138,19 @@ export async function getNestedDocument(nestedData) {
   }
   // Look for talents with same id or name inside ALL packs
   if (!entity?.sheet) {
+    // First id
     for await (const pack of game.packs) {
-      entity = (await pack.getDocument(nestedData.id)) || (await pack.getDocuments({name: nestedData.name}))[0]
+      entity = (await pack.getDocument(id))
       if (entity) break
     }
+
+    if (!entity?.sheet) {
+      for await (const pack of game.packs) {
+        entity = await pack.getDocuments({name: nestedData.name})
+        if (entity) break
+      }
+    }
+    // Then name
     method = entity ? 'FB-PACKS' : method
   }
 
