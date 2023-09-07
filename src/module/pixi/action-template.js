@@ -148,7 +148,7 @@ export class ActionTemplate extends MeasuredTemplate {
 
   isTokenInside(token) {
     const gridSize = canvas.scene.grid.size,
-      templatePos = { x: this.x, y: this.y }
+      templatePos = { x: this.document.x, y: this.document.y }
     // Check for center of  each square the token uses.
     // e.g. for large tokens all 4 squares
     const startX = token.width >= 1 ? 0.5 : token.width / 2
