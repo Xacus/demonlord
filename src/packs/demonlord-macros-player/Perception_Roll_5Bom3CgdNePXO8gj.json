@@ -1,0 +1,16 @@
+{
+  "_id": "5Bom3CgdNePXO8gj",
+  "name": "Perception Roll",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "script",
+  "flags": {},
+  "scope": "global",
+  "command": "// Select your token and execute to roll Perception Challenge Roll\r\ngame.demonlord.rollAttributeMacro(\"perception\");",
+  "author": "Sd8TaawsSgOTEPU7",
+  "img": "systems/demonlord/assets/icons/skills/perception.webp",
+  "actorIds": [],
+  "_key": "!macros!5Bom3CgdNePXO8gj"
+}

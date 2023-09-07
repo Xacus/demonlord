@@ -1,0 +1,16 @@
+{
+  "_id": "m3RJhHOGDUTIQkuU",
+  "name": "Request Initiative Roll",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "script",
+  "flags": {},
+  "scope": "global",
+  "command": "// GM Tool\n// Lets you request a Initiative Roll from the selected tokens. Each token owner gets a whisper message asking them to make a roll.\n\ngame.demonlord.macros.requestInitiativeRollMacro()",
+  "author": "Sd8TaawsSgOTEPU7",
+  "img": "icons/sundries/gaming/dice-runed-brown.webp",
+  "actorIds": [],
+  "_key": "!macros!m3RJhHOGDUTIQkuU"
+}

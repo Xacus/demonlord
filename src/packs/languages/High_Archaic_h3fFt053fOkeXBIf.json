@@ -1,0 +1,23 @@
+{
+  "name": "High Archaic",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "language",
+  "data": {
+    "description": "<p>The language of scholarship and magic, few people use High Archaic in conversation. It uses the same alphabet as the Common Tongue.</p>",
+    "read": false,
+    "write": false,
+    "speak": true
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.M7LCJoJfTGP1hXY6"
+    }
+  },
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "_id": "h3fFt053fOkeXBIf",
+  "_key": "!items!h3fFt053fOkeXBIf"
+}

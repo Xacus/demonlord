@@ -1,0 +1,28 @@
+{
+  "_id": "J1MvAxuwCVhdLK3G",
+  "name": "Dart",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Off",
+    "properties": "Finesse, Thrown, Range (short)",
+    "availability": "C",
+    "value": "1 cp",
+    "action": {
+      "attack": "",
+      "against": "Defense",
+      "damage": "1",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/dart.webp",
+  "_key": "!items!J1MvAxuwCVhdLK3G"
+}

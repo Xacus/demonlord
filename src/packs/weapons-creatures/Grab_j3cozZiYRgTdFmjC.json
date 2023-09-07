@@ -1,0 +1,28 @@
+{
+  "_id": "j3cozZiYRgTdFmjC",
+  "name": "Grab",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "",
+    "properties": "",
+    "action": {
+      "active": true,
+      "attack": "",
+      "against": "",
+      "damage": "",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanesactive": true,
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/skills/grab.webp",
+  "_key": "!items!j3cozZiYRgTdFmjC"
+}

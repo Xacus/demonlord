@@ -1,0 +1,28 @@
+{
+  "_id": "W8X2w0TgdWsZdi5T",
+  "name": "Bow",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Two",
+    "properties": "Range (long), Uses Arrows",
+    "availability": "C",
+    "value": "5 ss",
+    "action": {
+      "attack": "Agility",
+      "against": "Defense",
+      "damage": "1d6",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/bow.webp",
+  "_key": "!items!W8X2w0TgdWsZdi5T"
+}

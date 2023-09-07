@@ -1,0 +1,32 @@
+{
+  "name": "Morning Star",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "One",
+    "properties": "",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "11"
+    },
+    "availability": "U",
+    "value": "5 ss",
+    "action": {
+      "attack": "Strength",
+      "against": "Defense",
+      "damage": "1d6+2",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/morning star.webp",
+  "_id": "1ys7FcbZD2uHmwr1",
+  "_key": "!items!1ys7FcbZD2uHmwr1"
+}

@@ -1,0 +1,28 @@
+{
+  "_id": "h0gVDEUWFOMXTQqW",
+  "name": "Fangs",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "",
+    "properties": "",
+    "action": {
+      "active": true,
+      "attack": "",
+      "against": "",
+      "damage": "",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanesactive": true,
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/skills/fangs.webp",
+  "_key": "!items!h0gVDEUWFOMXTQqW"
+}

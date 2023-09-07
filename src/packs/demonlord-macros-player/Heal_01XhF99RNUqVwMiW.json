@@ -1,0 +1,16 @@
+{
+  "_id": "01XhF99RNUqVwMiW",
+  "name": "Heal",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "script",
+  "flags": {},
+  "scope": "global",
+  "command": "// Heals the selected player token with Healing Rate or half Healing Rate.\nlet applyChanges = false;\nnew Dialog({\n    title: game.i18n.localize('DL.MacroHealTitle'),\n    content: `\n    <form>\n      <div class=\"form-group\">\n        <label>` + game.i18n.localize('DL.MacroHealChoose') + `</label><br/>\n</div>\n<div class=\"form-group\">\n<table>\n<tr>\n<td>\n<input type=\"radio\" name=\"healingrate\" id=\"true\" checked />\n                        <label for=\"true\">` + game.i18n.localize('DL.MacroHealHealingRate') + `</label>\n<td/>\n</tr>\n<tr>\n<td>\n<input type=\"radio\" name=\"healingrate\" id=\"false\" />\n                        <label for=\"false\">` + game.i18n.localize('DL.MacroHealHalfHealingRate') + `</label>\n<td/>\n</tr>\n</table>\n                        \n                        \n</div>\n    </form>\n    `,\n    buttons: {\n        yes: {\n            icon: \"<i class='fas fa-check'></i>\",\n            label: game.i18n.localize('DL.MacroHealApplyHealing'),\n            callback: () => applyChanges = true\n        },\n        no: {\n            icon: \"<i class='fas fa-times'></i>\",\n            label: game.i18n.localize('DL.MacroCancel')\n        },\n    },\n    default: \"yes\",\n    close: html => {\n        if (applyChanges) {\n            let fullHealingRate = html.find('[name=\"healingrate\"]')[0].checked || false;\n            canvas.tokens.controlled.forEach(t => t.actor.applyHealing(fullHealingRate))\n        }\n    }\n}).render(true);",
+  "author": "Sd8TaawsSgOTEPU7",
+  "img": "systems/demonlord/assets/icons/skills/heal.webp",
+  "actorIds": [],
+  "_key": "!macros!01XhF99RNUqVwMiW"
+}

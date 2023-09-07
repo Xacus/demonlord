@@ -1,0 +1,27 @@
+{
+  "_id": "Y2Wzy0ald2PBMz01",
+  "name": "Hard Leather",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "armor",
+  "data": {
+    "description": "",
+    "defense": "",
+    "agility": "2",
+    "fixed": "",
+    "properties": "",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "11"
+    },
+    "wear": true,
+    "isShield": false,
+    "availability": "C",
+    "value": "5 ss"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/armor/hard leather.webp",
+  "_key": "!items!Y2Wzy0ald2PBMz01"
+}

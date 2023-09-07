@@ -1,0 +1,43 @@
+{
+  "name": "Bastard Sword, One-handed",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "active": true,
+    "attack": "",
+    "against": "",
+    "damageactive": true,
+    "boonsbanesactive": true,
+    "plus20active": true,
+    "plus20": "",
+    "plus20damage": "",
+    "defense": "",
+    "defenseboonsbanes": "",
+    "hands": "One",
+    "properties": "Cumbersome",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "13"
+    },
+    "wear": true,
+    "availability": "R",
+    "value": "1 gc",
+    "action": {
+      "attack": "Strength",
+      "against": "Defense",
+      "damage": "2d6",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "-1",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/bastard%20sword.webp",
+  "_id": "dWSkLyPzkr2cXs9H",
+  "_key": "!items!dWSkLyPzkr2cXs9H"
+}

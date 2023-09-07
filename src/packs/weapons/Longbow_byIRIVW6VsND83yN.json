@@ -1,0 +1,32 @@
+{
+  "_id": "byIRIVW6VsND83yN",
+  "name": "Longbow",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Two",
+    "properties": "Size 1, Range (long), Uses Arrows",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "9"
+    },
+    "availability": "U",
+    "value": "1 gc",
+    "action": {
+      "attack": "Agility",
+      "against": "Defense",
+      "damage": "1d6+1",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/longbow.webp",
+  "_key": "!items!byIRIVW6VsND83yN"
+}

@@ -1,0 +1,23 @@
+{
+  "_id": "GNSiOvlxJHMmDspR",
+  "name": "Common Tongue",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "language",
+  "data": {
+    "description": "<p>The dominant language in the ruined lands of the Empire, merchants cobbled the Common Tongue (or just Common) from local languages to facilitate trade. It uses its own alphabet.</p>",
+    "read": false,
+    "write": false,
+    "speak": true
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.HSttEvVzFPPv2avf"
+    }
+  },
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "_key": "!items!GNSiOvlxJHMmDspR"
+}

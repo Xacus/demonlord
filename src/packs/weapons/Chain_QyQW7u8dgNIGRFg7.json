@@ -1,0 +1,28 @@
+{
+  "_id": "QyQW7u8dgNIGRFg7",
+  "name": "Chain",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Off",
+    "properties": "Finesse",
+    "availability": "U",
+    "value": "5 ss",
+    "action": {
+      "attack": "Strength",
+      "against": "Defense",
+      "damage": "1d6",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/chain.webp",
+  "_key": "!items!QyQW7u8dgNIGRFg7"
+}

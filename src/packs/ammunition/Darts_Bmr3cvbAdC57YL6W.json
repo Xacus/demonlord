@@ -1,0 +1,17 @@
+{
+  "_id": "Bmr3cvbAdC57YL6W",
+  "name": "Darts",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "ammo",
+  "data": {
+    "description": "",
+    "quantity": "5",
+    "value": "5 cp"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/dart.webp",
+  "_key": "!items!Bmr3cvbAdC57YL6W"
+}

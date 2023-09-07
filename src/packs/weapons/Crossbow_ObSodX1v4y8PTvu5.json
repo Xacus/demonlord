@@ -1,0 +1,28 @@
+{
+  "_id": "ObSodX1v4y8PTvu5",
+  "name": "Crossbow",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Two",
+    "properties": "Range (long), Reload, Uses Bolts",
+    "availability": "C",
+    "value": "1 gc",
+    "action": {
+      "attack": "Agility",
+      "against": "Defense",
+      "damage": "2d6",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/crossbow.webp",
+  "_key": "!items!ObSodX1v4y8PTvu5"
+}

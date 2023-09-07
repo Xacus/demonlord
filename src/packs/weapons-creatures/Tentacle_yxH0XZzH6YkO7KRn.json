@@ -1,0 +1,28 @@
+{
+  "_id": "yxH0XZzH6YkO7KRn",
+  "name": "Tentacle",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "",
+    "properties": "",
+    "action": {
+      "active": true,
+      "attack": "",
+      "against": "",
+      "damage": "",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanesactive": true,
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/skills/tentacle.webp",
+  "_key": "!items!yxH0XZzH6YkO7KRn"
+}

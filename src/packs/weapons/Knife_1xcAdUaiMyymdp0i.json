@@ -1,0 +1,28 @@
+{
+  "_id": "1xcAdUaiMyymdp0i",
+  "name": "Knife",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Off",
+    "properties": "Finesse, Thrown, Range (short)",
+    "availability": "C",
+    "value": "5 cp",
+    "action": {
+      "attack": "",
+      "against": "Defense",
+      "damage": "1d3",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/knife.webp",
+  "_key": "!items!1xcAdUaiMyymdp0i"
+}

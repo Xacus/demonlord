@@ -1,0 +1,27 @@
+{
+  "name": "Small Shield",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "armor",
+  "data": {
+    "description": "",
+    "defense": "1",
+    "agility": "",
+    "fixed": "",
+    "properties": "",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "9"
+    },
+    "wear": true,
+    "isShield": true,
+    "availability": "C",
+    "value": "5 cp"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/armor/small shield.webp",
+  "_id": "Ny2JO5w4gpG8huJT",
+  "_key": "!items!Ny2JO5w4gpG8huJT"
+}

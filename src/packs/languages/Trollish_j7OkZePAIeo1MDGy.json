@@ -1,0 +1,23 @@
+{
+  "name": "Trollish",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "language",
+  "data": {
+    "description": "<p>The language of the trolls is as ugly as Elvish is beautiful. It belongs almost exclusively to trolls and giants, and it sounds like a mixture of grunts and barks. It uses a runic alphabet similar to Dwarfish.</p>",
+    "read": false,
+    "write": false,
+    "speak": true
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.ngBw1M2k39IPJok7"
+    }
+  },
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "_id": "j7OkZePAIeo1MDGy",
+  "_key": "!items!j7OkZePAIeo1MDGy"
+}

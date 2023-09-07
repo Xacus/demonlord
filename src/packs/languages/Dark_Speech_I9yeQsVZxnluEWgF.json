@@ -1,0 +1,23 @@
+{
+  "_id": "I9yeQsVZxnluEWgF",
+  "name": "Dark Speech",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "language",
+  "data": {
+    "description": "<p>A guttural language filled with hard consonants, Dark Speech originated centuries ago in Gog, the accursed kingdom that spread across the lands of R&ucirc;l and was cast down and destroyed by the Empire&rsquo;s founders. Beastmen, cultists, and others seeking forbidden knowledge learn and use this language.</p>",
+    "read": false,
+    "write": false,
+    "speak": true
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.PHUCXIDVGuZ0DCJR"
+    }
+  },
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "_key": "!items!I9yeQsVZxnluEWgF"
+}

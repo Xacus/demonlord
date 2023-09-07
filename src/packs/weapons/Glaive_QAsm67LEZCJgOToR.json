@@ -1,0 +1,32 @@
+{
+  "_id": "QAsm67LEZCJgOToR",
+  "name": "Glaive",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "weapon",
+  "data": {
+    "description": "",
+    "hands": "Two",
+    "properties": "Reach +1",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "11"
+    },
+    "availability": "U",
+    "value": "1 gc",
+    "action": {
+      "attack": "Strength",
+      "against": "Defense",
+      "damage": "1d6+2",
+      "damagetype": "",
+      "damagetypes": [],
+      "boonsbanes": "",
+      "plus20": ""
+    }
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/weapons/glaive.webp",
+  "_key": "!items!QAsm67LEZCJgOToR"
+}

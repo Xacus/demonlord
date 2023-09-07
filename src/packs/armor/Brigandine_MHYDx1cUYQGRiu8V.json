@@ -1,0 +1,27 @@
+{
+  "name": "Brigandine",
+  "permission": {
+    "default": 0,
+    "Sd8TaawsSgOTEPU7": 3
+  },
+  "type": "armor",
+  "data": {
+    "description": "",
+    "defense": "",
+    "agility": "",
+    "fixed": "13",
+    "properties": "",
+    "requirement": {
+      "attribute": "Strength",
+      "minvalue": "11"
+    },
+    "wear": true,
+    "isShield": false,
+    "availability": "C",
+    "value": "5 ss"
+  },
+  "flags": {},
+  "img": "systems/demonlord/assets/icons/armor/brigandine.webp",
+  "_id": "MHYDx1cUYQGRiu8V",
+  "_key": "!items!MHYDx1cUYQGRiu8V"
+}
