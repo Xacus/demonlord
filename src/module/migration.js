@@ -93,7 +93,7 @@ export const migrateWorld_3_1_0 = async () => {
   }
 
   // Go through all items in compendia and check for strengthmin
-  for await (const compendium of game.packs.filter(p => p.metadata.type === 'Item')) {
+  for await (const compendium of game.packs.filter(p => !p.locked && p.metadata.type === 'Item')) {
     await compendium.getIndex({ fields: ['system.strengthmin'] })
     const compendiumUpdates = []
     for await (const item of compendium.index.values()) {
@@ -159,7 +159,7 @@ export const migrateWorld_3_1_0 = async () => {
   }
 
   try {
-    for await (const compendium of game.packs.filter(p => p.metadata.type === 'Actor')) {
+    for await (const compendium of game.packs.filter(p => !p.locked && p.metadata.type === 'Actor')) {
       await compendium.getIndex({ fields: ['system.characteristics.corruption'] })
       const compendiumUpdates = []
       for await (const actorIndexEntry of compendium.index.values()) {
