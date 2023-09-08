@@ -32,63 +32,63 @@
       "name": "weapons",
       "label": "Weapons",
       "system": "demonlord",
-      "path": "packs/weapons.db",
+      "path": "packs/weapons",
       "type": "Item"
     },
     {
       "name": "armor",
       "label": "Armor",
       "system": "demonlord",
-      "path": "packs/armor.db",
+      "path": "packs/armor",
       "type": "Item"
     },
     {
       "name": "ammunition",
       "label": "Ammunition",
       "system": "demonlord",
-      "path": "packs/ammunition.db",
+      "path": "packs/ammunition",
       "type": "Item"
     },
     {
       "name": "weapons creature",
       "label": "Weapons Creature",
       "system": "demonlord",
-      "path": "packs/weapons-creatures.db",
+      "path": "packs/weapons-creatures",
       "type": "Item"
     },
     {
       "name": "languages",
       "label": "Languages",
       "system": "demonlord",
-      "path": "packs/languages.db",
+      "path": "packs/languages",
       "type": "Item"
     },
     {
       "name": "demonlord macros gm",
       "label": "Demonlord Macros - GM",
       "system": "demonlord",
-      "path": "packs/demonlord-macros-gm.db",
+      "path": "packs/demonlord-macros-gm",
       "type": "Macro"
     },
     {
       "name": "demonlord macros player",
       "label": "Demonlord Macros - Player",
       "system": "demonlord",
-      "path": "packs/demonlord-macros-player.db",
+      "path": "packs/demonlord-macros-player",
       "type": "Macro"
     },
     {
       "name": "sotdl system guide",
       "label": "SotDL System Guide",
       "system": "demonlord",
-      "path": "packs/sotdl-system-guide.db",
+      "path": "packs/sotdl-system-guide",
       "type": "JournalEntry"
     },
     {
       "name": "sotdl roll tabels",
       "label": "Demonlord - Roll Tables",
       "system": "demonlord",
-      "path": "packs/roll-tables.db",
+      "path": "packs/roll-tables",
       "type": "RollTable"
     }
   ],

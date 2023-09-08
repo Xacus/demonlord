@@ -2,7 +2,9 @@
   <!-- Effect Header -->
   <header class="sheet-header">
     <img class="effect-icon" src="{{ data.icon }}" data-edit="icon"/>
-    <h1 class="effect-title">{{ data.name }}</h1>
+    <h1 class="effect-title" contenteditable="true">
+      <input name="name" type="text" value="{{ data.name }}" placeholder="{{localize "EFFECT.Name"}}"/>
+    </h1>
   </header>
 
   <!-- Effect Configuration Tabs -->
@@ -14,7 +16,7 @@
 
   <!-- Details Tab -->
   <section class="tab" data-tab="details">
-    <div class="form-group">
+    {{!-- <div class="form-group">
       <label>{{ localize "EFFECT.Name" }}</label>
       <div class="form-fields">
         <input type="text" name="label" value="{{ data.name }}"/>
@@ -27,14 +29,19 @@
         {{filePicker target="icon" type="image"}}
         <input class="image" type="text" name="icon" placeholder="path/image.webp" value="{{data.icon}}"/>
       </div>
-    </div>
+    </div> --}}
 
     <div class="form-group">
       <label>{{ localize "EFFECT.IconTint" }}</label>
       <div class="form-fields">
         <input class="color" type="text" name="tint" value="{{data.tint}}"/>
-        <input type="color" value="{{data.tint}}" data-edit="tint"/>
+        <input type="color" value="{{#if data.tint}}{{data.tint}}{{else}}#000000{{/if}}" data-edit="tint"/>
       </div>
+    </div>
+
+    <div class="form-group stacked">
+      <label>{{ localize "EFFECT.Description" }}</label>
+      {{editor descriptionHTML target="description" button=false editable=editable engine="prosemirror" collaborate=false}}
     </div>
 
     <div class="form-group">

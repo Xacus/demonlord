@@ -82,13 +82,7 @@
           <div>
             <b>{{localize "DL.SpellRequirements"}}</b>
             <div>
-              <div class="dl-new-project-2" data-tippy-content="{{localize "DL.ArmorStrengthRequiremet"}}">
-                <i class="dl-icon-strength"></i>
-                <span class="sep"></span>
-                <span>{{localize "DL.AttributeStrength"}}</span>
-                <span class="sep"></span>
-                <input type="number" name="system.strengthmin" value="{{system.strengthmin}}" placeholder="-" autosize/>
-              </div>
+              {{dlDropdownValue "system.requirement.attribute" system.requirement.attribute "system.requirement.minvalue" system.requirement.minvalue }}
             </div>
           </div>
         </div>

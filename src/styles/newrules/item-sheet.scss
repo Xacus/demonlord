@@ -155,6 +155,18 @@
       }
     }
 
+    & > div.dl-column-grid {
+      display: grid;
+      align-content: space-around;
+      justify-content: space-around;
+      align-items: center;
+      justify-items: center;
+
+      &.column-3 {
+        grid-template-columns: auto auto auto;
+      }
+    }
+
     .dl-item-damage-container {
       flex-direction: column;
       align-items: flex-end !important;

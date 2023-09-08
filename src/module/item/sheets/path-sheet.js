@@ -63,7 +63,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     })
 
     // Delete level
-    html.find('.delete-level').click(ev => this.showLevelDeleteDialog(ev))
+    html.find('.delete-level').click(async ev => await this.showLevelDeleteDialog(ev))
 
     // Delete item
     html.find('.delete-item').click(async ev => await this._deleteItem(ev))
@@ -81,7 +81,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     })
 
     // Nested item transfer checkbox
-    html.find('.dl-item-transfer').click(ev => this._transferItem(ev))
+    html.find('.dl-item-transfer').click(async ev => await this._transferItem(ev))
   }
 
   /* -------------------------------------------- */
@@ -136,9 +136,9 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const levelItem = new PathLevelItem()
     const pathData = duplicate(this.item)
     const item = await getNestedItemData(data)
-    if (!item || ['ancestry', 'path'].includes(item.type)) return
+    if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
-    levelItem.uuid = item.uuid
+    levelItem.uuid = item.uuid ?? data.uuid
     levelItem.id = item.id
     levelItem.name = item.name
     levelItem.description = item.system.description
@@ -207,6 +207,8 @@ export default class DLPathSheet extends DLBaseItemSheet {
         case 'master':
           autoLevels = [7, 10];
           break
+        case 'legendary':
+          autoLevels = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
       }
       updateData.levels = updateData.levels ?? []
       for (let index of autoLevels.keys()) {

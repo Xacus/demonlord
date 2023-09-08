@@ -18,3 +18,5 @@ Icons / SVGs
 - <a href="https://www.flaticon.com/free-icons/money" title="money icons">Money icons created by Those Icons - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/shield" title="shield icons">Shield icons created by IwitoStudio - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by iconmas - Flaticon</a>
+- <a href="https://thenounproject.com/icon/level-4300479" title="level icons">Level icons created by darkassbola - Noun Project</a>
+- <a href="https://thenounproject.com/icon/exclamation-mark-1755431/" title="exclamation mark icons">Exclamation Mark icons created by heri sugianto - Noun Project</a>

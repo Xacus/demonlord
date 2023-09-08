@@ -95,6 +95,11 @@ export class DLCharacterGenerater extends FormApplication {
         label: game.i18n.localize('DL.CharPathMaster'),
         paths: [],
       },
+      legendary: {
+        type: 'legendary',
+        label: game.i18n.lozalize('DL.CharPathLegendary'),
+        paths: []
+      }
     }
 
     for (const path of paths) {
@@ -102,7 +107,9 @@ export class DLCharacterGenerater extends FormApplication {
         categories.novice.paths.push(path)
       } else if (path.data.data.type == 'expert') {
         categories.expert.paths.push(path)
-      } else categories.master.paths.push(path)
+      } else if (path.data.data.type === 'master') {
+        categories.master.paths.push(path)
+      } else categories.legendary.paths.push(path)
     }
     return categories
   }

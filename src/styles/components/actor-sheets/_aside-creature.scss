@@ -119,6 +119,29 @@ form {
       margin-top: -10px;
     }
   }
+
+  .dl-side-tab-container {
+    position: absolute;
+    top: 200px;
+    pointer-events: none;
+  }
+
+  .dl-side-tab {
+    transition: left 200ms ease-in-out;
+    position: relative;
+    background-color: var(--demonlord-red);
+    width: 100px;
+    height: 32px;
+    border-radius: 0 5px 5px 0;
+    line-height: 32px;
+    text-align: center;
+    left: -80px;
+    pointer-events: initial;
+  }
+
+  .dl-side-tab:hover {
+    left: -20px;
+  }
 }
 
 .editmode {

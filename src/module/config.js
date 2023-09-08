@@ -13,6 +13,7 @@ DL.pathtype = {
   novice: 'DL.CharPathNovice',
   expert: 'DL.CharPathExpert',
   master: 'DL.CharPathMaster',
+  legendary: 'DL.CharPathLegendary'
 }
 
 // [powerLevel][spellLevel] -> maxCastings
@@ -110,4 +111,5 @@ DL.defaultItemIcons = {
     expert: 'systems/demonlord/assets/icons/badges/axe-01.webp',
     master: 'systems/demonlord/assets/icons/badges/helm-01.webp',
   },
+  creaturerole: 'icons/equipment/back/cape-layered-blue-accent.webp',
 }

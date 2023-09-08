@@ -77,10 +77,10 @@
           <div class="corruptiontext">{{localize "DL.CharCorruption"}}</div>
           <div class="corruptionedit">
             <input
-                    name="system.characteristics.corruption"
+                    name="system.characteristics.corruption.value"
                     type="number"
-                    value="{{system.characteristics.corruption}}"
-                    placeholder="{{system.characteristics.corruption}}"
+                    value="{{system.characteristics.corruption.value}}"
+                    placeholder="{{system.characteristics.corruption.value}}"
                     style="color: white; border: none; box-shadow: none"
                     min="0"
             />
@@ -110,7 +110,7 @@
           <span class="corruption-fill"></span>
         </div>
         <div class="corruptionmax">20</div>
-        <div class="corruptionvalue">{{system.characteristics.corruption}}</div>
+        <div class="corruptionvalue">{{system.characteristics.corruption.value}}</div>
         <a class="corruption-roll" title="{{localize 'DL.CharRolCorruption'}}"><i class="fas fa-dice-d20"></i></a>
       </div>
     {{/if}}

@@ -158,7 +158,7 @@ export function rollAttributeMacro(attributeName) {
 /**
  * Create a Macro from an Attribute.
  */
-export function rollInitMacro() {
+export async function rollInitMacro() {
   if (!game.combat) return
   const speaker = ChatMessage.getSpeaker()
   let combatantFound = null
@@ -172,7 +172,7 @@ export function rollInitMacro() {
     }
   }
 
-  if (combatantFound) game.combat.rollInitiative(combatantFound.id)
+  if (combatantFound) await game.combat.rollInitiative(combatantFound.id)
 }
 
 /**

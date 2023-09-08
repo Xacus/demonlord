@@ -82,9 +82,9 @@
               <b>{{localize "DL.WeaponProperties"}}:</b> {{system.properties}}
             </div>
           {{/if}}
-          {{#if system.strengthmin}}
+          {{#if system.requirement.minvalue}}
             <div>
-              <b>{{localize "DL.ArmorStrengthRequiremet"}}:</b> {{system.strengthmin}}
+              <b>{{localize "DL.ArmorStrengthRequiremet"}}:</b> {{system.requirement.minvalue}}
             </div>
           {{/if}}
           {{#if system.hands}}

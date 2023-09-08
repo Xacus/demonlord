@@ -7,7 +7,7 @@ import {
   PathLevelItem
 } from '../nested-objects'
 
-export default class DLAncestrySheet extends DLBaseItemSheet {
+export default class DLRoleSheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
   /*  Data                                        */
 
@@ -24,14 +24,15 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   /** @override */
   async getData(options) {
     const data = await super.getData(options)
-    data.item.editAncestry = false
+    data.item.editRole = false
 
     // Fetch the updated nested items properties (name, description, img)
-    const ancestryData = data.system
-    ancestryData.languagelist = await Promise.all(ancestryData.languagelist.map(await getNestedItemData))
-    ancestryData.talents = await Promise.all(ancestryData.talents.map(await getNestedItemData))
-    ancestryData.level4.talent = await Promise.all(ancestryData.level4.talent.map(await getNestedItemData))
-    ancestryData.level4.spells = await Promise.all(ancestryData.level4.spells?.map(await getNestedItemData))
+    const roleData = data.system
+    roleData.talents = await Promise.all(roleData.talents.map(await getNestedItemData))
+    roleData.specialActions = await Promise.all(roleData.specialActions.map(await getNestedItemData))
+    roleData.spells = await Promise.all(roleData.spells.map(await getNestedItemData))
+    roleData.weapons = await Promise.all(roleData.weapons.map(await getNestedItemData))
+    roleData.endOfRound = await Promise.all(roleData.endOfRound.map(await getNestedItemData))
     return data
   }
 
@@ -54,17 +55,13 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     super.activateListeners(html)
     if (!this.options.editable) return
 
-    // Radio buttons
-    html.find('.radiotrue').click(async _ => await this.item.update({'system.level4.option1': true}))
-    html.find('.radiofalse').click(async _ => await this.item.update({'system.level4.option1': false}))
-
-    // Edit ancestry talents
+    // Edit role talents
     html
-      .find('.edit-ancestrytalents')
+      .find('.edit-roletalents')
       .click(async _ => await this.item.update({'data.editTalents': !this.item.system.editTalents}).then(() => this.render()))
 
-    // Delete ancestry item
-    html.find('.delete-ancestryitem').click(async ev => {
+    // Delete role item
+    html.find('.delete-roleitem').click(async ev => {
       const itemGroup = $(ev.currentTarget).closest('[data-type]').data('type')
       const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
       await this._deleteItem(itemIndex, itemGroup)
@@ -72,6 +69,13 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
     // Nested item transfer checkbox
     html.find('.dl-item-transfer').click(async ev => await this._transferItem(ev))
+
+    // Set immune on rollable attribute
+    html.find('.attribute .name').contextmenu(async ev => {
+      const div = $(ev.currentTarget)
+      const keyName = `${div.data('key')}Immune`
+      await this.item.update({ system: { attributes: { [keyName]: !this.item.system.attributes[keyName] } } })
+    })
   }
 
   /* -------------------------------------------- */
@@ -95,7 +99,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   async _addItem(data, group) {
     const levelItem = new PathLevelItem()
-    const ancestryData = duplicate(this.item)
+    const roleData = duplicate(this.item)
     let item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
@@ -106,20 +110,18 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     levelItem.pack = data.pack ? data.pack : ''
     levelItem.data = item
 
-    if (group === 'talent') ancestryData.system.talents.push(levelItem)
-    else if (group === 'talent4') ancestryData.system.level4.talent.push(levelItem)
-    else if (group === 'language') ancestryData.system.languagelist.push(levelItem)
-    else if (group === 'spells4') ancestryData.system.level4.spells.push(levelItem)
+    if (group === 'talent') roleData.system.talents.push(levelItem)
+    else if (group === 'weapon') roleData.system.weapons.push(levelItem)
+    else if (group === 'spell') roleData.system.spells.push(levelItem)
     else return
-    await this.item.update(ancestryData, {diff: false}).then(_ => this.render)
+    await this.item.update(roleData, {diff: false}).then(_ => this.render)
   }
 
   async _deleteItem(itemIndex, itemGroup) {
     const itemData = duplicate(this.item)
     if (itemGroup === 'talent') itemData.system.talents.splice(itemIndex, 1)
-    else if (itemGroup === 'talent4') itemData.system.level4.talent.splice(itemIndex, 1)
-    else if (itemGroup === 'language') itemData.system.languagelist.splice(itemIndex, 1)
-    else if (itemGroup === 'spells4') itemData.system.level4.spells.splice(itemIndex, 1)
+    else if (itemGroup === 'weapon') itemData.system.weapons.splice(itemIndex, 1)
+    else if (itemGroup === 'spell') itemData.system.spells.splice(itemIndex, 1)
     await Item.updateDocuments([itemData], {parent: this.actor}).then(_ => this.render())
   }
 
@@ -140,22 +142,24 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
 
     // Based on the group, index and id, update the nested item to selected
-    const ancestryData = this.document.system
+    const roleData = this.document.system
     let nestedItemData = undefined
-    if (itemGroup === 'talent4')
-      nestedItemData = ancestryData.level4.talent[itemIndex]
-    else if (itemGroup === 'spells4')
-      nestedItemData = ancestryData.level4.spells[itemIndex]
+    if (itemGroup === 'talent')
+      nestedItemData = roleData.talents[itemIndex]
+    else if (itemGroup === 'weapon')
+      nestedItemData = roleData.weapons[itemIndex]
+    else if (itemGroup === 'spell')
+      nestedItemData = roleData.spells[itemIndex]
     else return
 
     let selected = nestedItemData.selected = !nestedItemData.selected
-    await this.document.update({data: ancestryData})
+    await this.document.update({data: roleData})
 
-    // If the ancestry is inside a character, and the actor's level is >= 4, add or remove the item to the actor
+    // If the role is inside a character, add or remove the item to the actor
     const actor = this.document.parent
-    if (!actor || actor.type !== 'character') return
-    if (parseInt(actor.system.level) >= 4 && selected)
-      await createActorNestedItems(actor, [nestedItemData], this.document.id, 4)
+    if (!actor) return
+    if (selected)
+      await createActorNestedItems(actor, [nestedItemData], this.document.id)
     else
       await deleteActorNestedItems(actor, null, itemId)
   }
@@ -164,12 +168,11 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   /** @override */
   async _onNestedItemEdit(ev) {
     const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-    const ancestryData = this.object.system
+    const roleData = this.object.system
     const nestedData =
-      ancestryData.languagelist.find(i => i._id === itemId) ??
-      ancestryData.talents.find(i => i._id === itemId) ??
-      ancestryData.level4.talent.find(i => i._id === itemId) ??
-      ancestryData.level4.spells.find(i => i._id === itemId)
+      roleData.talents.find(i => i._id === itemId) ??
+      roleData.weapons.find(i => i._id === itemId) ?? 
+      roleData.spells.find(i => i._id === itemId)
     await getNestedDocument(nestedData).then(d => {
       if (d.sheet) d.sheet.render(true)
       else ui.notifications.warn('The item is not present in the game and cannot be edited.')

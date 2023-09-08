@@ -78,8 +78,11 @@ export class DLActiveEffects {
       case 'armor':
         effectDataList = DLActiveEffects.generateEffectDataFromArmor(doc, actor)
         break
+      case 'creaturerole':
+        effectDataList = DLActiveEffects.generateEffectDataFromRole(doc)
+        break
       default:
-        return Promise.resolve(0)
+        return await Promise.resolve(0)
     }
 
     return await DLActiveEffects.addUpdateEffectsToActor(actor, effectDataList, operation)
@@ -108,7 +111,7 @@ export class DLActiveEffects {
       if (effectsToUpd.length > 0) await actor.updateEmbeddedDocuments('ActiveEffect', effectsToUpd)
       if (effectsToDel.length > 0) await actor.deleteEmbeddedDocuments('ActiveEffect', effectsToDel)
     }
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 
   /* -------------------------------------------- */
@@ -261,6 +264,55 @@ export class DLActiveEffects {
 
   /* -------------------------------------------- */
 
+  static generateEffectDataFromRole(item) {
+    const priority = 5
+    const data = item.system
+
+    const effectData = {
+      name: item.name,
+      icon: item.img,
+      origin: item.uuid,
+      disabled: false,
+      transfer: false,
+      duration: { startTime: 0 },
+      flags: {
+        sourceType: 'creaturerole',
+        levelRequired: 0,
+        notDeletable: true,
+        notEditable: true,
+        notToggleable: true,
+        permanent: true,
+        slug: `role-${item.name.toLowerCase()}`,
+      },
+      changes: [
+        addEffect('system.attributes.strength.value', data.attributes.strength, priority),
+        addEffect('system.attributes.strength.immune', data.attributes.strengthImmune, priority),
+        addEffect('system.attributes.agility.value', data.attributes.agility, priority),
+        addEffect('system.attributes.agility.immune', data.attributes.agilityImmune, priority),
+        addEffect('system.attributes.intellect.value', data.attributes.intellect, priority),
+        addEffect('system.attributes.intellect.immune', data.attributes.intellectImmune, priority),
+        addEffect('system.attributes.will.value', data.attributes.will, priority),
+        addEffect('system.attributes.will.immune', data.attributes.willImmune, priority),
+        addEffect('system.attributes.perception.value', data.characteristics.perceptionmodifier, priority),
+        addEffect('system.characteristics.defense', data.characteristics.defensemodifier, priority),
+        addEffect('system.characteristics.health.max', data.characteristics.healthmodifier, priority),
+        addEffect('system.characteristics.health.healingrate', data.characteristics.healingratemodifier, priority),
+        addEffect('system.characteristics.power', data.characteristics.power, priority),
+        addEffect('system.characteristics.speed', data.characteristics.speed, priority),
+        addEffect('system.characteristics.corruption', data.characteristics.corruption, priority),
+        addEffect('system.characteristics.insanity', data.characteristics.insanity, priority),
+        addEffect('system.difficulty', data.difficulty, priority),
+        overrideEffect('system.characteristics.size', data.characteristics.size, priority),
+        overrideEffect('system.frightening', data.frightening ? 1 : 0, priority),
+        overrideEffect('system.horrifying', data.horrifying ? 1 : 0, priority),
+      ].filter(falsyChangeFilter),
+    }
+
+    return [effectData]
+  }
+
+  /* -------------------------------------------- */
+
   static generateEffectDataFromTalent(item) {
     const priority = 3
     const talentData = item.system
@@ -365,7 +417,7 @@ export class DLActiveEffects {
         disabled: !effect.disabled,
       }))
     if (notMetEffectsData.length > 0) await actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 
   /* -------------------------------------------- */
@@ -410,6 +462,6 @@ export class DLActiveEffects {
     if (!oldEffect) await ActiveEffect.create(effectData, { parent: actor })
     else if (n !== 0) await oldEffect.update(effectData, { parent: actor })
     else await oldEffect.delete({ parent: actor })
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 }

@@ -39,11 +39,22 @@
           </select>
         </div>
         <div>
-          <label>{{paths.master.label}}</master>
+          <label>{{paths.master.label}}</label>
             <select name="actor.data.paths.master" data-dtype="String">
               {{#select actor.data.paths.master}}
                 <option value="">—</option>
                 {{#each paths.master.paths as |path id|}}
+                  <option value="{{path.name}}">{{path.name}}</option>
+                {{/each}}
+              {{/select}}
+            </select>
+        </div>
+        <div>
+          <label>{{paths.legendary.label}}</label>
+            <select name="actor.data.paths.legendary" data-dtype="String">
+              {{#select actor.data.paths.legendary}}
+                <option value="">—</option>
+                {{#each paths.legendary.paths as |path id|}}
                   <option value="{{path.name}}">{{path.name}}</option>
                 {{/each}}
               {{/select}}

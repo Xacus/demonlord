@@ -107,6 +107,14 @@ form {
         top: 143px;
         left: 35px;
 
+        .rest {
+          pointer-events: none;
+
+          .rest-char {
+            pointer-events: auto;
+          }
+        }
+
         .rest,
         .healingrate,
         .frightening,

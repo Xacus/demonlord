@@ -59,6 +59,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     data.itemEffects = prepareActiveEffectCategories(
       this.actor.effects.filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.sourceType) >= 0),
     )
+    data.itemEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter(effect => effect.flags?.sourceType === 'creaturerole'),
+    )
     this.prepareItems(data)
     return data
   }
@@ -78,12 +81,14 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     actorData.languages = m.get('language') || ''
     actorData.paths = m.get('path') || []
     actorData.talentbook = this._prepareBook(actorData.talents, 'groupname', 'talents')
+    actorData.roles = m.get('creaturerole') || []
 
     // Sort paths
     actorData.paths = [
       ...actorData.paths.filter(p => p.system.type === 'novice'),
       ...actorData.paths.filter(p => p.system.type === 'expert'),
       ...actorData.paths.filter(p => p.system.type === 'master'),
+      ...actorData.paths.filter(p => p.system.type === 'legendary')
     ]
   }
 
@@ -91,7 +96,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   /** @override */
   async checkDroppedItem(itemData) {
     const type = itemData.type
-    if (['specialaction', 'endoftheround'].includes(type)) return false
+    if (['specialaction', 'endoftheround', 'creaturerole'].includes(type)) return false
 
     if (type === 'ancestry') {
       const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
@@ -122,6 +127,16 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     if (ev.button == 0) path.sheet.render(true)
     else if (ev.button == 2) await path.delete({ parent: this.actor })
+  }
+
+  /* -------------------------------------------- */
+
+  async _onRoleEdit(ev) {
+    const div = $(ev.currentTarget)
+    const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+
+    if (ev.button == 0) role.sheet.render(true)
+    else if (ev.button == 2) await role.delete({ parent: this.actor })
   }
 
   /* -------------------------------------------- */
@@ -180,7 +195,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Corruption bar click
     html.on('mousedown', '.addCorruption', async ev => {
-      let value = parseInt(this.actor.system.characteristics.corruption)
+      let value = parseInt(this.actor.system.characteristics.corruption.value)
       const max = parseInt(20)
       if (ev.button == 0) {
         if (value >= max) value = 0
@@ -189,7 +204,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
         if (value <= 0) value = 0
         else value--
       }
-      await this.actor.update({ 'data.characteristics.corruption': value }).then(_ => this.render())
+      await this.actor.update({ 'data.characteristics.corruption.value': value }).then(_ => this.render())
     })
 
     // Health bar fill
@@ -209,7 +224,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Corruption bar fill
     const corruptionbar = html.find('.corruption-fill')
     if (corruptionbar.length > 0) {
-      const corruption = this.actor.system.characteristics.corruption
+      const corruption = this.actor.system.characteristics.corruption.value
       corruptionbar[0].style.width = Math.floor((+corruption / 20) * 100) + '%'
     }
 
@@ -218,6 +233,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Path edit
     html.on('mousedown', '.path-edit', async ev => await this._onPathEdit(ev))
+
+    // Role edit
+    html.on('mousedown', '.role-edit', async ev => await this._onRoleEdit(ev))
 
     // Wealth edit
     html
@@ -279,7 +297,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html.find('.rest-char').click(_ => this.actor.restActor())
 
     // Healing Rate button
-    html.find('.healingratebox').on('mousedown', ev => this.actor.applyHealing(ev.button === 0))
+    html.find('.healingratebox').on('mousedown', async ev => await this.actor.applyHealing(ev.button === 0))
 
     // Talent: Options
     html.find('input[type=checkbox][id^="option"]').click(async ev => {

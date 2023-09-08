@@ -12,9 +12,9 @@
 
   <div class="row-10">
     {{#*inline "attribute-partial"}}
-      <div class="col-2 attribute">
+      <div class="col-2 attribute" style="margin-top: 8px">
         <label class="name" data-key="{{n}}">{{attr.label}}</label>
-        <input type="Number" name="system.attributes.{{n}}.value" value="{{attr.value}}" readonly/>
+        <input type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.value" value="{{ifThen attr.immune "-" attr.value}}" {{disabled attr.immune}}/>
         <label class="modifier">{{plusify attr.modifier}}</label>
       </div>
     {{/inline}}

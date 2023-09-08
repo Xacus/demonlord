@@ -29,7 +29,12 @@ export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
   get template() {
     const path = 'systems/demonlord/templates/item'
-    return `${path}/item-${this.item.type}-sheet.hbs`
+
+    const map = {
+      'creaturerole': 'role'
+    }
+
+    return `${path}/item-${map[this.item.type] ?? this.item.type}-sheet.hbs`
   }
 
   /** @override */
@@ -188,6 +193,9 @@ export default class DLBaseItemSheet extends ItemSheet {
     html.find('.damagetype-control').click(async ev => await this._onManageDamageType(ev, 'action'))
     html.find('.vsdamagetype-control').click(async ev => await this._onManageDamageType(ev, 'vs', {diff: false}))
 
+    // Max castings
+    html.find('.max-castings-control').change(async ev => await this._onManageMaxCastings(ev, this))
+
     // Collapsable tables
     const collapsableContents = html.find('.collapse-content')
     const collapsableTitles = html.find('.collapse-title')
@@ -260,6 +268,19 @@ export default class DLBaseItemSheet extends ItemSheet {
     if (a.dataset.action === 'create') damageTypes.push(new DamageType())
     else if (a.dataset.action === 'delete') damageTypes.splice(a.dataset.id, 1)
     await this.object.update({[updKey]: damageTypes}, {...options, parent: this.actor}).then(_ => this.render())
+  }
+
+  async _onManageMaxCastings (ev, sheet) {
+    // Set the flag if textbox has been modified. Clear if blank.
+    const target = ev.currentTarget
+    const spell = sheet.object
+    console.log(ev);
+    console.log(spell);
+    if (target.value === "") {
+      await spell.update({ system: { castings: { ignoreCalculation: false }}})
+    } else {
+      await spell.update({ system: { castings: { ignoreCalculation: true }}})
+    }
   }
 
   /* -------------------------------------------- */

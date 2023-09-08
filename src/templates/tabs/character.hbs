@@ -74,11 +74,21 @@
                 style="top: 19px; left: 0px; height: 42px; width: 42px; clip-path: circle(50% at 50% 50%);"
               />
             </div>
+          {{/if}} {{#if (eq path.system.type "legendary")}}
+            <div class="path-frame">
+              <img class="border-small" src="systems/demonlord/assets/ui/shields/mage-shield.webp"/>
+              <img
+                class="icon"
+                src="{{path.img}}"
+                style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)"
+              />
+            </div>
           {{/if}} {{/if}}
           <div class="type">
             {{#if (eq path.system.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}}
             {{#if (eq path.system.type "expert")}}{{localize "DL.CharPathExpert"}}{{/if}}
             {{#if (eq path.system.type "master")}}{{localize "DL.CharPathMaster"}}{{/if}}
+            {{#if (eq path.system.type "legendary")}}{{localize "DL.CharPathLegendary"}}{{/if}}
           </div>
           <div class="name">{{path.name}}</div>
         </div>

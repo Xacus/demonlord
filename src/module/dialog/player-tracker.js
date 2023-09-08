@@ -78,6 +78,9 @@ export class PlayerTracker extends FormApplication {
           master: player.character?.items
             .filter(e => e.type === 'path' && e.system.type === 'master')
             .map(e => e.name),
+          legendary: player.character?.items
+            .filter(e => e.type === 'path' && e.system.type === 'legendary')
+            .map(e => e.name),
         },
         professions: player.character?.items.filter(e => e.type === 'profession'),
         defense: player.character?.system.characteristics.defense,
@@ -89,7 +92,7 @@ export class PlayerTracker extends FormApplication {
           player.character?.system.characteristics.insanity.value +
           '/' +
           player.character?.system.characteristics.insanity.max,
-        corruption: player.character?.system.characteristics.corruption,
+        corruption: player.character?.system.characteristics.corruption.value,
         power: player.character?.system.characteristics.power,
         speed: player.character?.system.characteristics.speed,
         fortune: player.character?.system.characteristics.fortune,

@@ -39,7 +39,8 @@ export function registerHandlebarsHelpers() {
   )
 
   Handlebars.registerHelper('dlRadioBoxes', (groupName, checkedKey) => _buildRadioBoxes(groupName, checkedKey))
-  Handlebars.registerHelper('dlDropdown', (groupName, checkedKey) => _buildDropdownItem(groupName, checkedKey))
+  Handlebars.registerHelper('dlDropdown', (groupName, checkedKey) => _buildDropdownItem(groupName, checkedKey,))
+  Handlebars.registerHelper('dlDropdownValue', (groupName, checkedKey, valueName, valueKey) => _buildDropdownItemWithValue(groupName, checkedKey, valueName, valueKey))
   Handlebars.registerHelper('dlCheckboxes', (groupName, checkedKey, data) => _buildCheckboxes(groupName, checkedKey, data))
   Handlebars.registerHelper('dlBOBAButton', (_name, value, loc = undefined) => _buildBOBAButton(_name, value, loc))
   Handlebars.registerHelper('dlEditor', (options) => handlebarsBuildEditor(options))
@@ -64,6 +65,8 @@ function _getAttributes(groupName) {
     attributes = ['', 'one', 'two', 'off']
   } else if (groupName === 'system.availability') {
     attributes = ['', 'C', 'U', 'R', 'E']
+  } else if (groupName === 'system.requirement.attribute') {
+    attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
   }
   return attributes
 }
@@ -111,6 +114,41 @@ function _buildDropdownItem(groupName, checkedKey) {
                 <i class="${icon}"></i>
                 <span class="sep"></span>
                 <span>${label}</span>
+            </div>`
+    break
+  }
+  if (html === '') html =
+    `<div class="dl-new-project-2 dropdown" name="${groupName}" value="">
+        <span style="margin-left: 4px;">${i18n('DL.None')}</span>
+    </div>`
+
+  return new Handlebars.SafeString(html)
+}
+
+function _buildDropdownItemWithValue(groupName, checkedKey, valueName, valueKey) {
+  let attributes = _getAttributes(groupName)
+  let html = ""
+  checkedKey = checkedKey === 'null' ? '' : checkedKey
+
+  for (let attribute of attributes) {
+    const attributeLabel = capitalize(attribute)
+    const checked = attributeLabel === checkedKey ? 'checked' : ''
+    if (!checked) continue
+    if (attributeLabel === '') {
+      html += `<div class="dl-new-project-2 dropdown" name="${groupName}" value="">
+                  <span style="margin-left: 4px;">${i18n('DL.None')}</span>
+               </div>`
+      continue
+    }
+
+    const label = i18n(`DL.Attribute${attributeLabel}`)
+    const icon = `dl-icon-${attribute}`
+    html += `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${attributeLabel}">
+                <i class="${icon}"></i>
+                <span class="sep"></span>
+                <span>${label}</span>
+                <span class="sep"></span>
+                <input type="number" name="${valueName}" value="${valueKey}" placeholder="-" autosize/>
             </div>`
     break
   }
@@ -200,7 +238,7 @@ function _buildBOBAButton(_name, value, loc) {
 
 function _buildPathTypeDropdownList(checkedKey) {
   let html = `<div class="dl-new-project-2-dropdown">`
-  for (let type of ['novice', 'expert', 'master']) {
+  for (let type of ['novice', 'expert', 'master', 'legendary']) {
     const checked = type === checkedKey ? 'checked' : ''
     const label = i18n(`DL.CharPath${capitalize(type)}`)
     html += `<div class="${checked}">

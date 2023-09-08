@@ -11,25 +11,29 @@
             "value": 10,
             "modifier": 0,
             "min": 0,
-            "max": 20
+            "max": 20,
+            "immune": false
           },
           "agility": {
             "value": 10,
             "modifier": 0,
             "min": 0,
-            "max": 20
+            "max": 20,
+            "immune": false
           },
           "intellect": {
             "value": 10,
             "modifier": 0,
             "min": 0,
-            "max": 20
+            "max": 20,
+            "immune": false
           },
           "will": {
             "value": 10,
             "modifier": 0,
             "min": 0,
-            "max": 20
+            "max": 20,
+            "immune": false
           },
           "perception": {
             "value": 10,
@@ -52,9 +56,14 @@
           "insanity": {
             "min": 0,
             "max": 0,
-            "value": 0
+            "value": 0,
+            "immune": false
           },
-          "corruption": 0,
+          "corruption": {
+            "min": 0,
+            "value": 0,
+            "immune": false
+          },
           "fortune": 0,
           "editbar": false
         },
@@ -112,7 +121,8 @@
         "edit": false,
         "novice": "",
         "expert": "",
-        "master": ""
+        "master": "",
+        "legendary": ""
       },
       "appearance": {
         "age": "",
@@ -133,7 +143,8 @@
       "descriptor": "",
       "perceptionsenses": "",
       "speedtraits": "",
-      "armor": ""
+      "armor": "",
+      "roles": []
     },
     "vehicle": {
       "templates": ["base", "section"],
@@ -247,7 +258,8 @@
       "effectdice": "",
       "castings": {
         "value": "",
-        "max": ""
+        "max": "",
+        "ignoreCalculation": false
       },
       "duration": "",
       "target": "",
@@ -321,7 +333,10 @@
       "templates": ["base", "action", "enchantment"],
       "hands": "",
       "properties": "",
-      "strengthmin": "",
+      "requirement": {
+        "attribute": "",
+        "minvalue": 0
+      },
       "wear": true,
       "quantity": 1,
       "availability": "",
@@ -333,7 +348,10 @@
       "defense": "",
       "agility": "",
       "fixed": "",
-      "strengthmin": "",
+      "requirement": {
+        "attribute": "",
+        "minvalue": 0
+      },
       "wear": true,
       "isShield": false,
       "quantity": 1,
@@ -421,6 +439,38 @@
     "affliction": {
       "templates": ["base"]
     },
-    "creaturerole": {}
+    "creaturerole": {
+      "attributes": {
+        "strength": 0,
+        "strengthImmune": false,
+        "agility": 0,
+        "agilityImmune": false,
+        "intellect": 0,
+        "intellectImmune": false,
+        "will": 0,
+        "willImmune": false
+      },
+      "characteristics": {
+        "perceptionmodifier": 0,
+        "healthmodifier": 0,
+        "defensemodifier": 0,
+        "healingratemodifier": 0,
+        "size": "0",
+        "speed": 0,
+        "power": 0,
+        "insanity": 0,
+        "corruption": 0,
+        "difficulty": 0
+      },
+      "frightening": false,
+      "horrifying": false,
+      "talents": [],
+      "specialActions": [],
+      "weapons": [],
+      "spells": [],
+      "endOfRound": [],
+      "editTalents": false,
+      "editRole": true
+    }
   }
 }

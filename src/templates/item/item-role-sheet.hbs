@@ -1,0 +1,43 @@
+<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
+  <header class="sheet-header itemsheet-header">
+    <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    <div class="header-fields">
+      <div class="gridrow">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Armor Name"/>
+      </div>
+    </div>
+    <div class="template-type">{{item.type}}</div>
+    {{#if isGM}}
+      <div class="togglegm">
+        <label class="switchBig">
+          <input type="checkbox" id="system.editRole" name="system.editRole" {{checked system.editRole}} />
+          <div class="slider round"><span class="on">Edit</span><span class="off">View</span></div>
+        </label>
+      </div>
+    {{else}} {{/if}}
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
+    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+    <a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{!-- Attributes Tab --}}
+      <div class="tab paths" data-group="primary" data-tab="attributes">
+        {{#if system.editRole}}
+          {{> "systems/demonlord/templates/item/item-role-edit.hbs"}}
+        {{else}}
+          {{> "systems/demonlord/templates/item/item-role-view.hbs"}}
+        {{/if}}
+      </div>
+
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+      {{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}
+    </section>
+  </section>
+</form>

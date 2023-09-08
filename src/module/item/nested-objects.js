@@ -118,38 +118,47 @@ export async function getNestedDocument(nestedData) {
   }
 
   // Look into packs, then into the game items by ID
-  if (nestedData.pack) {
-    const pack = game.packs.get(nestedData.pack)
-    if (pack.documentName !== 'Item') return
-    entity = await pack.getDocument(id)
-    method = 'PACK'
-  } else if (id) {
-    entity = game.items.get(id)
-    method = 'ITEMS'
-  }
-
-
-  // If the data was already stored, use it
-  if (!entity) {
-    entity = nestedData
-    method = 'DATA-OBJ'
+  if (!entity?.sheet) {
+    if (nestedData.pack) {
+      const pack = game.packs.get(nestedData.pack)
+      if (pack.documentName !== 'Item') return
+      entity = await pack.getDocument(id)
+      method = 'PACK'
+    } else if (id) {
+      entity = game.items.get(id)
+      method = 'ITEMS'
+    }
   }
 
   // -- Fallbacks
   // Look for talents with same name inside items
-  if (!entity) {
+  if (!entity?.sheet) {
     entity = game.items.find(i => i.name === nestedData.name)
     method = entity ? 'FB-ITEMS' : method
   }
   // Look for talents with same id or name inside ALL packs
-  if (!entity) {
+  if (!entity?.sheet) {
+    // First id
     for await (const pack of game.packs) {
-      entity = (await pack.getDocument(nestedData.id)) || (await pack.getDocuments({name: nestedData.name}))[0]
+      entity = (await pack.getDocument(id))
       if (entity) break
     }
+
+    if (!entity?.sheet) {
+      for await (const pack of game.packs) {
+        entity = await pack.getDocuments({name: nestedData.name})
+        if (entity) break
+      }
+    }
+    // Then name
     method = entity ? 'FB-PACKS' : method
   }
 
+  // Item is not in the game, just return the embedded data
+  if (!entity?.sheet) {
+    entity = nestedData
+    method = 'DATA-OBJ'
+  }
 
   if (!entity) {
     console.error('DEMONLORD | Nested object not found', nestedData)
@@ -164,14 +173,17 @@ export async function getNestedItemData(nestedData) {
 
   // Get the item data OBJECT. If the item is not an item, then it has been retreived using the data saved in the nested
   let itemData = undefined
-  if (entity instanceof Item)
-    itemData = entity.toObject()
-  else {
+  if (entity instanceof Item) {
+    itemData = entity.toObject() 
+    // Add some things that may come useful later
+    itemData.uuid = itemData.uuid ?? nestedData.uuid
+    itemData._id = itemData._id ?? nestedData._id
+  } else {
     // Here we have an entity which is fetched using fallback methods, so we must construct it properly to v10 specs
     const ed = entity.system ?? entity.data ?? entity
     const sys = entity.system ?? ed.system ?? ed
     itemData = {
-      uuid: entity.uuid || ed.uuid,
+      uuid: entity.uuid || ed.uuid || nestedData.uuid,
       _id: entity._id || ed._id,
       type: entity.type || ed.type,
       name: entity.name || ed.name,
@@ -216,7 +228,14 @@ export async function handleCreatePath(actor, pathItem) {
   for await (let level of leqLevels) {
     await createActorNestedItems(actor, _getLevelItemsToTransfer(level), pathItem.id, level.level)
   }
-  return Promise.resolve()
+  return await Promise.resolve()
+}
+
+export async function handleCreateRole(actor, roleItem) {
+  const roleData = roleItem.system
+
+  await createActorNestedItems(actor, roleData.talents.concat(roleData.weapons, roleData.spells, roleData.specialActions, roleData.endOfRound), roleItem.id)
+  return await Promise.resolve()
 }
 
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
@@ -247,7 +266,7 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
     const ids = actorItems.filter(i => i.flags?.demonlord?.levelRequired > newLevel).map(i => i.id)
     if (ids.length) await actor.deleteEmbeddedDocuments('Item', ids)
   }
-  return Promise.resolve()
+  return await Promise.resolve()
 }
 
 /* -------------------------------------------- */

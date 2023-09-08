@@ -21,8 +21,191 @@ export async function handleMigrations() {
   // 2.0.0 migration
   if (isNewerVersion('2.0.0', currentVersion) && !game.data.release?.generation) await migrateWorld_2_0_0()
 
+  // 3.1.0 migration
+  if (isNewerVersion('3.1.0', currentVersion)) await migrateWorld_3_1_0()
+
   // Migration completed
   return game.settings.set('demonlord', 'systemMigrationVersion', game.system.version)
+}
+
+/* -------------------------------------------- */
+/*  3.1.0                                       */
+/* -------------------------------------------- */
+
+export const migrateWorld_3_1_0 = async () => {
+  const dryRun = false
+  let errorsInMigration = false
+
+  // Migrate from strengthmin to { requirement: { attribute: "Strength", minvalue: 10 } }
+  // Migrate from corruption to { corruption: { value: 0, immune: false }}
+  _migrationStartInfo()
+
+  // Non-embedded items
+  const itemUpdates = []
+
+  try {
+    for await (let item of game.items.values()) {
+      console.log('Migrating item', item)
+      if (item.system.strengthmin) {
+        itemUpdates.push({ _id: item._id, system: { requirement: { attribute: 'Strength', minvalue: item.system.strengthmin } } })
+      }
+    }
+    if (itemUpdates.length > 0) {
+      if (dryRun) {
+        console.log("Dry Migration: ", itemUpdates)
+      } else {
+        await Item.updateDocuments(itemUpdates)
+      }
+    }
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating items', e)
+  }
+
+  // Embedded items
+  try {
+    for await (let actor of game.actors.values()) {
+      const embeddedUpdateData = []
+      for await (const item of actor.getEmbeddedCollection('Item')) {
+        console.log('Migrating item', item)
+        if (item.system.strengthmin) {
+          embeddedUpdateData.push({ _id: item._id, system: { requirement: { attribute: 'Strength', minvalue: item.system.strengthmin } } })
+        }
+      }
+
+      if (embeddedUpdateData.length > 0) {
+        if (dryRun) {
+          console.log("Dry Migration: ", embeddedUpdateData)
+        } else {
+          try {
+            const u = await actor.updateEmbeddedDocuments('Item', embeddedUpdateData, { noEmbedEffects: true })
+            console.log('Embedded item migration complete with result', u)
+          } catch (e) {
+            errorsInMigration = true
+            console.log('Error migrating embedded items in actor', actor, e)
+          }
+        }
+      }
+    }
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating actors', e)
+  }
+
+  // Go through all items in compendia and check for strengthmin
+  for await (const compendium of game.packs.filter(p => p.metadata.type === 'Item')) {
+    await compendium.getIndex({ fields: ['system.strengthmin'] })
+    const compendiumUpdates = []
+    for await (const item of compendium.index.values()) {
+      if (item.system?.strengthmin) {
+        compendiumUpdates.push({ _id: item._id, system: { requirement: { attribute: 'Strength', minvalue: item.system.strengthmin } } })
+      }
+    }
+
+    if (compendiumUpdates.length > 0) {
+      if (dryRun) {
+        console.log("Dry Migration: ", compendiumUpdates)
+      } else {
+        try {
+          await Item.updateDocuments(compendiumUpdates, { pack: compendium.metadata.id })
+        } catch (e) {
+          errorsInMigration = true
+          console.log('Error migrating items in compendia', e)
+        }
+      }
+    }
+  }
+
+  // Convert corruption: 0 to corruption: { value: 0, immune: false }
+  const actorUpdates = []
+  try {
+    for await (const actor of game.actors.values()) {
+      const corruptionValue = actor.system.characteristics.corruption ?? 0
+      actorUpdates.push({ _id: actor._id, system: { characteristics: { corruption: { value: corruptionValue, immune: false } } } })
+
+      const embeddedUpdateData = []
+      for await (const item of actor.getEmbeddedCollection('Item')) {
+        console.log('Migrating item', item)
+        if (item.system.strengthmin) {
+          embeddedUpdateData.push({ _id: item._id, system: { requirement: { attribute: 'Strength', minvalue: item.system.strengthmin } } })
+        }
+      }
+
+      if (embeddedUpdateData.length > 0) {
+        if (dryRun) {
+          console.log("Dry Migration: ", embeddedUpdateData)
+        } else {
+          try {
+            const u = await actor.updateEmbeddedDocuments('Item', embeddedUpdateData, { noEmbedEffects: true })
+            console.log('Embedded item migration complete with result', u)
+          } catch (e) {
+            errorsInMigration = true
+            console.log('Error migrating items in actor', actor, e)
+          }
+        }
+      }
+    }
+
+    if (actorUpdates.length > 0) {
+      if (dryRun) {
+        console.log("Dry Migration: ", actorUpdates)
+      } else {
+        await Actor.updateDocuments(actorUpdates)
+      }
+    }
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating actors', e)
+  }
+
+  try {
+    for await (const compendium of game.packs.filter(p => p.metadata.type === 'Actor')) {
+      await compendium.getIndex({ fields: ['system.characteristics.corruption'] })
+      const compendiumUpdates = []
+      for await (const actorIndexEntry of compendium.index.values()) {
+        if (actorIndexEntry.system.characteristics.corruption?.value) continue // Already converted
+        const actor = await compendium.getDocument(actorIndexEntry._id)
+
+        // Convert corruption
+        const corruptionValue = actor.system.characteristics.corruption ?? 0
+        compendiumUpdates.push({ _id: actor._id, system: { characteristics: { corruption: { value: corruptionValue, immune: false } } } })
+
+        // While we're at it, update items if strengthmin is present
+        const embeddedUpdateData = []
+        for await (const item of actor.getEmbeddedCollection('Item')) {
+          console.log('Migrating item', item)
+          if (item.system.strengthmin) {
+            embeddedUpdateData.push({ _id: item._id, system: { requirement: { attribute: 'Strength', minvalue: item.system.strengthmin } } })
+          }
+        }
+
+        if (embeddedUpdateData.length > 0) {
+          if (dryRun) {
+            console.log("Dry Migration: ", embeddedUpdateData)
+          } else {
+            try {
+              const u = await actor.updateEmbeddedDocuments('Item', embeddedUpdateData, { noEmbedEffects: true })
+              console.log('Embedded item migration complete with result', u)
+            } catch (e) {
+              errorsInMigration = true
+              console.log('Error migrating items in actor', actor, e)
+            }
+          }
+        }
+
+      }
+
+      if (compendiumUpdates.length > 0) {
+        await Actor.updateDocuments(compendiumUpdates, { pack: compendium.metadata.id })
+      }
+    }
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating actors', e)
+  }
+
+  if (!errorsInMigration) _migrationSuccessInfo()
+  else _migrationErrorInfo()
 }
 
 /* -------------------------------------------- */

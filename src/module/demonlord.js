@@ -18,6 +18,7 @@ import DLCreatureSheet from './actor/sheets/creature-sheet'
 import DLVehicleSheet from './actor/sheets/vehicle-sheet'
 import DLBaseItemSheet from './item/sheets/base-item-sheet'
 import DLAncestrySheet from './item/sheets/ancestry-sheet'
+import DLRoleSheet from './item/sheets/role-sheet.js'
 import DLPathSheet from './item/sheets/path-sheet'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
@@ -102,6 +103,10 @@ Hooks.once('init', async function () {
     types: ['path'],
     makeDefault: true,
   })
+  Items.registerSheet('demonlord', DLRoleSheet, {
+    types: ['creaturerole'],
+    makeDefault: true
+  })
 
   preloadHandlebarsTemplates()
   registerHandlebarsHelpers()
@@ -111,7 +116,7 @@ Hooks.once('ready', async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => macros.createDemonlordMacro(data, slot))
   // Migration
-  handleMigrations()
+  await handleMigrations()
 })
 
 /**
@@ -183,7 +188,9 @@ Hooks.on('updateActor', async (actor, updateData) => {
   const isUpdateTurn = typeof updateData?.system?.fastturn !== 'undefined' && updateData?.system?.fastturn !== null
   if (!(isUpdateTurn && (game.user.isGM || actor.isOwner) && game.combat)) return
   const linkedCombatants = game.combat.combatants.filter(c => c.actorId === actor.id)
-  linkedCombatants.forEach(c => game.combat.setInitiative(c.id, game.combat.getInitiativeValue(c)))
+  for await (const c of linkedCombatants) {
+    game.combat.setInitiative(c.id, game.combat.getInitiativeValue(c))
+  }
 })
 
 export async function findAddEffect(actor, effectId, overlay) {
@@ -339,7 +346,7 @@ Hooks.once('dragRuler.ready', SpeedProvider => {
 
     getSpeedModifier(token) {
       const itemsHeavy = token.actor.items.filter(
-        item => Number(item.system.strengthmin) > token.actor.getAttribute("strength").value,
+        item => Number(item.system.requirement.minvalue) > token.actor.getAttribute(item.system.requirement.attribute)?.value,
       )
       if (itemsHeavy.length > 0) {
         return -2

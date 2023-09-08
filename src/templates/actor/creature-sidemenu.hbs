@@ -69,15 +69,17 @@
         </div>
       </div>
       <div class="chars grid grid-2col">
-        <div class="speedbox">
-          <div class="speedtext">{{localize "DL.CreatureInsanity"}}</div>
-          <div class="speed"><input name="system.characteristics.insanity.value" type="number"
-                                    value="{{system.characteristics.insanity.value}}" data-dtype="Number"/></div>
+        <div class="speedbox characteristic">
+          <div class="speedtext name" data-key="insanity">{{localize "DL.CreatureInsanity"}}</div>
+          <div class="speed">
+            <input name="system.characteristics.insanity.value" type="{{ifThen system.characteristics.insanity.immune "Text" "number"}}" value="{{ifThen system.characteristics.insanity.immune "-" system.characteristics.insanity.value}}" data-dtype="Number" {{disabled system.characteristics.insanity.immune}}/>
+          </div>
         </div>
-        <div class="speedbox">
-          <div class="speedtext">{{localize "DL.CreatureCorruption"}}</div>
-          <div class="speed"><input name="system.characteristics.corruption" type="number"
-                                    value="{{system.characteristics.corruption}}" data-dtype="Number"/></div>
+        <div class="speedbox characteristic">
+          <div class="speedtext name" data-key="corruption">{{localize "DL.CreatureCorruption"}}</div>
+          <div class="speed">
+            <input name="system.characteristics.corruption.value" type="{{ifThen system.characteristics.corruption.immune "Text" "number"}}" value="{{ifThen system.characteristics.corruption.immune "-" system.characteristics.corruption.value}}" data-dtype="Number" {{disabled system.characteristics.corruption.immune}}/>
+          </div>
         </div>
       </div>
     </div>
@@ -97,5 +99,12 @@
         </div>
       </label>
     </div>
+  </div>
+  <div class="dl-side-tab-container">
+    {{#each actor.roles}}
+      <div class="dl-side-tab role-edit" data-item-id="{{this.id}}">
+        {{this.name}}
+      </div>
+    {{/each}}
   </div>
 </aside>

@@ -58,14 +58,22 @@ export default class DLBaseActorSheet extends ActorSheet {
   prepareItems(sheetData) {
     const m = sheetData._itemsByType
     const actorData = sheetData.actor
-    actorData.weapons = m.get('weapon') || []
-    actorData.spells = m.get('spell') || []
+
+    const actorHasChangeBool = (actor, key) => {
+      return actor.getEmbeddedCollection('ActiveEffect').filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
+    }
+
+    const noAttacks = actorHasChangeBool(actorData, 'system.maluses.noAttacks')
+    const noSpells = actorHasChangeBool(actorData, 'system.maluses.noSpells')
+
+    actorData.weapons = noAttacks ? [] : (m.get('weapon') || [])
+    actorData.spells = noSpells ? [] : (m.get('spell') || [])
     actorData.talents = m.get('talent') || []
     actorData.features = m.get('feature') || []
     // Sort spells in the spellbooks by their rank
     actorData.spells.sort((a, b) => a.system.rank - b.system.rank)
     // Prepare the book (spells divided by tradition)
-    actorData.spellbook = this._prepareBook(actorData.spells, 'tradition', 'spells')
+    actorData.spellbook = noSpells ? [] : this._prepareBook(actorData.spells, 'tradition', 'spells')
   }
 
   /* -------------------------------------------- */
@@ -195,7 +203,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     }
 
     // Effects control
-    html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.document))
+    html.find('.effect-control').click(async ev => await onManageActiveEffect(ev, this.document))
 
     // Disable Afflictions
     html.find('.disableafflictions').click(async () => {
@@ -280,8 +288,9 @@ export default class DLBaseActorSheet extends ActorSheet {
       const item = this.actor.items.get(itemId)
       if (
         item.system.wear &&
-        item.system.strengthmin != '' &&
-        +item.system.strengthmin > +this.actor.getAttribute("strength").value
+        item.system.requirement.minvalue != '' &&
+        item.system.requirement.attribute != '' && 
+        +item.system.requirement.minvalue > +this.actor.getAttribute(item.system.requirement.attribute)?.value
       ) {
         $(el).addClass('dl-text-red')
       }
@@ -314,6 +323,13 @@ export default class DLBaseActorSheet extends ActorSheet {
       const attributeName = div.data('key')
       const attribute = this.actor.getAttribute(attributeName)
       this.actor.rollChallenge(attribute)
+    })
+
+    // Set immune on rollable attribute
+    html.find('.attribute .name').contextmenu(async ev => {
+      const div = $(ev.currentTarget)
+      const attributeName = div.data('key')
+      await this.actor.update({ system: { attributes: { [attributeName]: { immune : !this.actor.system.attributes[attributeName].immune } } } })
     })
 
     // Rollable Attack
