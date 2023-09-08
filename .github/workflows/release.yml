@@ -10,7 +10,7 @@ on:
 
 env:
   package_type: system
-  node_version: 14
+  node_version: 18
 
 jobs:
   lint:

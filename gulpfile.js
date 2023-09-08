@@ -1,4 +1,4 @@
-const { rollup } = require('rollup');
+const {rollup} = require('rollup');
 const argv = require('yargs').argv;
 const chalk = require('chalk');
 const fs = require('fs-extra');
@@ -6,7 +6,8 @@ const gulp = require('gulp');
 const path = require('path');
 const rollupConfig = require('./rollup.config');
 const semver = require('semver');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
+const cp = require('child_process');
 sass.compiler = require('sass');
 
 /********************/
@@ -19,8 +20,12 @@ const distDirectory = './dist';
 const stylesDirectory = `${sourceDirectory}/styles`;
 const stylesExtension = 'scss';
 const sourceFileExtension = 'js';
-const staticFiles = ['assets', 'fonts', 'lang', 'packs', 'templates', 'system.json', 'template.json', 'lib'];
+const staticFiles = ['assets', 'fonts', 'lang', 'templates', 'system.json', 'template.json', 'lib'];
+const compendiaDirectory = `${sourceDirectory}/packs`
+const compendiaExtension = 'json'
 const getDownloadURL = (version) => `https://host/path/to/${version}.zip`;
+const packageType = "System"  // System or Module (capital case)
+const packageId = getPackageId()
 
 /********************/
 /*      BUILD       */
@@ -30,7 +35,7 @@ const getDownloadURL = (version) => `https://host/path/to/${version}.zip`;
  * Build the distributable JavaScript code
  */
 async function buildCode() {
-  const build = await rollup({ input: rollupConfig.input, plugins: rollupConfig.plugins });
+  const build = await rollup({input: rollupConfig.input, plugins: rollupConfig.plugins});
   return build.write(rollupConfig.output);
 }
 
@@ -59,13 +64,47 @@ async function copyFiles() {
  * Watch for changes for each build step
  */
 function buildWatch() {
-  gulp.watch(`${sourceDirectory}/**/*.${sourceFileExtension}`, { ignoreInitial: false }, buildCode);
-  gulp.watch(`${stylesDirectory}/**/*.${stylesExtension}`, { ignoreInitial: false }, buildStyles);
+  gulp.watch(`${sourceDirectory}/**/*.${sourceFileExtension}`, {ignoreInitial: false}, buildCode);
+  gulp.watch(`${stylesDirectory}/**/*.${stylesExtension}`, {ignoreInitial: false}, buildStyles);
+  gulp.watch(`${compendiaDirectory}/**/*.${compendiaExtension}`, {ignoreInitial: true})
+    .on('ready', buildCompendia)
+    .on('change', buildCompendium)
+    .on('add', buildCompendium)
+    .on('unlink', buildCompendium)
   gulp.watch(
     staticFiles.map((file) => `${sourceDirectory}/${file}`),
-    { ignoreInitial: false },
+    {ignoreInitial: false},
     copyFiles,
   );
+}
+
+async function buildCompendia() {
+
+  const compendia = fs.readdirSync(`${compendiaDirectory}`, {withFileTypes: true})
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+  console.log("Compendia list: ", compendia)
+  for (const compendium of compendia) {
+    await buildCompendium(compendium)
+  }
+}
+
+/**
+ * Builds a single compendium from .json to LevelDb
+ * @param compendium {string} the compendium name. Should be a folder in src/packs/{compendium}.
+ *  If the name contains a .json, then it is treated as a path to a single compendium entry.
+ * @return {Promise<void>}
+ */
+async function buildCompendium(compendium) {
+  // If name includes json, treat it as a path and get the parent dir as the compendium name
+  if (compendium.includes('json')) {
+    const dirName = path.dirname(compendium);
+    const parts = dirName.split(path.sep);
+    compendium = parts.at(-1);
+  }
+
+  const command = `fvtt package pack  --type ${packageType} --id ${packageId} -n "${compendium}" --in "${compendiaDirectory}/${compendium}" --out "${distDirectory}/packs"`
+  console.log(cp.execSync(command).toString());
 }
 
 /********************/
@@ -196,16 +235,16 @@ function bumpVersion(cb) {
     console.log(`Updating version number to '${targetVersion}'`);
 
     packageJson.version = targetVersion;
-    fs.writeJSONSync('package.json', packageJson, { spaces: 2 });
+    fs.writeJSONSync('package.json', packageJson, {spaces: 2});
 
     if (packageLockJson) {
       packageLockJson.version = targetVersion;
-      fs.writeJSONSync('package-lock.json', packageLockJson, { spaces: 2 });
+      fs.writeJSONSync('package-lock.json', packageLockJson, {spaces: 2});
     }
 
     manifest.file.version = targetVersion;
     manifest.file.download = getDownloadURL(targetVersion);
-    fs.writeJSONSync(`${sourceDirectory}/${manifest.name}`, manifest.file, { spaces: 2 });
+    fs.writeJSONSync(`${sourceDirectory}/${manifest.name}`, manifest.file, {spaces: 2});
 
     return cb();
   } catch (err) {
@@ -225,11 +264,15 @@ function setDownloadURL(cb) {
   cb()
 }
 
+function getPackageId() {
+  const systemJson = fs.readJSONSync(`src/${packageType.toLowerCase()}.json`);
+  return systemJson.id
+}
 /********************/
 /*      EXPORTS     */
 /********************/
 
-const execBuild = gulp.parallel(buildCode, buildStyles, copyFiles);
+const execBuild = gulp.parallel(buildCode, buildStyles, copyFiles, buildCompendia);
 
 exports.build = gulp.series(clean, execBuild);
 exports.watch = buildWatch;
