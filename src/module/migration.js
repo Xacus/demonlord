@@ -120,8 +120,11 @@ export const migrateWorld_3_1_0 = async () => {
   const actorUpdates = []
   try {
     for await (const actor of game.actors.values()) {
-      const corruptionValue = actor.system.characteristics.corruption ?? 0
-      actorUpdates.push({ _id: actor._id, system: { characteristics: { corruption: { value: corruptionValue, immune: false } } } })
+      if (isNumeric(actor.system.characteristics.corruption)) {
+        // Need to convert
+        const corruptionValue = actor.system.characteristics.corruption ?? 0
+        actorUpdates.push({ _id: actor._id, system: { characteristics: { corruption: { value: corruptionValue, immune: false } } } })
+      }
 
       const embeddedUpdateData = []
       for await (const item of actor.getEmbeddedCollection('Item')) {
@@ -163,7 +166,7 @@ export const migrateWorld_3_1_0 = async () => {
       await compendium.getIndex({ fields: ['system.characteristics.corruption'] })
       const compendiumUpdates = []
       for await (const actorIndexEntry of compendium.index.values()) {
-        if (actorIndexEntry.system.characteristics.corruption?.value) continue // Already converted
+        if (!isNumeric(actorIndexEntry.system.characteristics.corruption)) continue // Already converted
         const actor = await compendium.getDocument(actorIndexEntry._id)
 
         // Convert corruption
@@ -429,6 +432,10 @@ function _nullToUndefined(data, recDepth) {
     }
   })
   return data
+}
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n)
 }
 
 /* -------------------------------------------- */
