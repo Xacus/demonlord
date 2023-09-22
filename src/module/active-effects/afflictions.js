@@ -1,4 +1,5 @@
 import { addEffect, downgradeEffect, overrideEffect } from './item-effects'
+import { capitalize } from '../utils/utils'
 
 const effectPriority = 110
 
@@ -15,6 +16,7 @@ const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
     ...flags,
   },
   changes: changes,
+  description: game.i18n.localize('DL.Afflictions' + capitalize(label))
 })
 
 export class DLAfflictions {
