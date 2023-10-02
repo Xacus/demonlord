@@ -357,7 +357,7 @@ export class DemonlordActor extends Actor {
         (defender?.system.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
-    if (item.system.wear && parseInt(item.system.requirement?.minvalue) > attacker.getAttribute(item.system.requirement.attribute)?.value)
+    if (item.system.wear && parseInt(item.system.requirement?.minvalue) > attacker.getAttribute(item.system.requirement?.attribute)?.value)
       boons--
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
@@ -777,7 +777,7 @@ export class DemonlordActor extends Actor {
     const armors = this.items.filter(i => i.type === 'armor')
     const notMetItemNames = armors
       .map(a => a.system)
-      .filter(a => a.requirement.minvalue > this.getAttribute(a.requirement.attribute)?.value && a.wear)
+      .filter(a => a.requirement?.minvalue > this.getAttribute(a.requirement?.attribute)?.value && a.wear)
       .map(a => a.name)
     return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }

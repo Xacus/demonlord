@@ -346,7 +346,7 @@ Hooks.once('dragRuler.ready', SpeedProvider => {
 
     getSpeedModifier(token) {
       const itemsHeavy = token.actor.items.filter(
-        item => Number(item.system.requirement.minvalue) > token.actor.getAttribute(item.system.requirement.attribute)?.value,
+        item => Number(item.system.requirement?.minvalue) > token.actor.getAttribute(item.system.requirement?.attribute)?.value,
       )
       if (itemsHeavy.length > 0) {
         return -2
