@@ -15,7 +15,7 @@ export function injectDraggable(html, combattracker) {
   html.find('li.combatant').each((_, el) => {
     const id = el.dataset.combatantId
     if (!id) return
-    const combatant = currentCombat.combatants.get(id)
+    const combatant = currentCombat?.combatants.get(id)
     if (!combatant) throw "Combatant not found in draggable injection"
     el.setAttribute('data-combatant-type', combatant.actor.type)
     el.setAttribute('data-combatant-fast', combatant.actor.system.fastturn)
@@ -25,7 +25,7 @@ export function injectDraggable(html, combattracker) {
   if (game.user.isGM)
     html.find('li.combatant').addClass('draggable').attr('draggable', true);
   else {
-    const ownedIds = currentCombat.combatants.filter(c => c.isOwner).map(c => c._id)
+    const ownedIds = currentCombat?.combatants?.filter(c => c.isOwner).map(c => c._id)
     html.find('li.combatant')
       .filter((_, el) => ownedIds.includes(el.dataset.combatantId))
       .addClass('draggable').attr('draggable', true)
