@@ -74,7 +74,7 @@ export class DLCombat extends Combat {
     this.combatants.forEach(combatant => this.setInitiative(combatant.id, this.getInitiativeValue(combatant)))
     return await this.update({
       round: 1,
-      turn: 1,
+      turn: 0,
     })
   }
 
