@@ -54,6 +54,7 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/item/partial/item-activation.hbs',
     'systems/demonlord/templates/item/partial/item-description.hbs',
     'systems/demonlord/templates/item/partial/item-effects.hbs',
+    'systems/demonlord/templates/item/partial/item-sheet-header.hbs',
     'systems/demonlord/templates/item/item-ancestry-edit.hbs',
     'systems/demonlord/templates/item/item-ancestry-view.hbs',
     'systems/demonlord/templates/item/item-path-edit.hbs',

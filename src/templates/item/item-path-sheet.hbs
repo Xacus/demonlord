@@ -1,21 +1,5 @@
 <form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
-  <header class="sheet-header itemsheet-header">
-    <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-    <div class="header-fields">
-      <div class="gridrow">
-        <input name="name" type="text" value="{{item.name}}" placeholder="Ammo Name"/>
-      </div>
-    </div>
-    <div class="template-type">{{item.type}}</div>
-    {{#if isGM}}
-      <div class="togglegm">
-        <label class="switchBig">
-          <input type="checkbox" id="system.editPath" name="system.editPath" {{checked system.editPath}} />
-          <div class="slider round"><span class="on">Edit</span><span class="off">View</span></div>
-        </label>
-      </div>
-    {{/if}}
-  </header>
+  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="Path Name" isEditable=true isGM=isGM edit=system.editPath editId="system.editPath"}}
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
