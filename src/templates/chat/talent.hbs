@@ -155,14 +155,6 @@
       </div>
     </div>
   {{/if}}
-  {{#if data.defense}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellTypeDefense"}}</div>
-      <div class="body">{{localize "DL.ChallengeRoll"}}: {{data.defense}}
-        {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
-      </div>
-    </div>
-  {{/if}}
   {{#if data.healing}}
     <div class="talentactions roll-healing">
       <div class="header" data-item-id="{{data.id}}" data-healing="1">
