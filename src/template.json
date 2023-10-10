@@ -179,7 +179,7 @@
       "action": {
         "action": {
           "active": true,
-          "attack": "",
+          "attribute": "",
           "against": "",
           "damageactive": true,
           "damage": "",
@@ -197,6 +197,9 @@
           "intellectboonsbanesselect": false,
           "willboonsbanesselect": false,
           "perceptionboonsbanesselect": false,
+          "extraboonsbanes": "",
+          "extradamage": "",
+          "extraplus20damage": "",
           "extraeffect": ""
         },
         "activatedEffect": {
@@ -297,17 +300,6 @@
         "intellectboonsbanesselect": false,
         "willboonsbanesselect": false,
         "perceptionboonsbanesselect": false
-      },
-      "vs": {
-        "active": true,
-        "attribute": "",
-        "against": "",
-        "damageactive": true,
-        "damage": "",
-        "damagetype": "",
-        "boonsbanesactive": true,
-        "boonsbanes": "",
-        "damagetypes": []
       },
       "healing": {
         "healactive": true,

@@ -50,7 +50,7 @@
             <b>{{localize "DL.AttackRollBonuses"}}</b>
             <div>
               {{dlCheckboxes "talent-action-bonus" '' system}}
-              {{dlBOBAButton "system.action.boonsbanes" system.action.boonsbanes "DL.TalentAddBoonsBanesBonus"}}
+              {{dlBOBAButton "system.action.extraboonsbanes" system.action.extraboonsbanes "DL.TalentAddBoonsBanesBonus"}}
             </div>
           </div>
           <div>
@@ -60,7 +60,7 @@
                    data-tippy-content="{{localize 'DL.TalentAddDamageToYourAttackRoll'}}">
                 <i class="dl-icon-d20"></i>
                 <span class="sep"></span>
-                <input type="text" name="system.action.damage" value="{{system.action.damage}}"
+                <input type="text" name="system.action.extradamage" value="{{system.action.extradamage}}"
                        data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
               </div>
             </div>
@@ -71,7 +71,7 @@
               <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponAttack20"}}">
                 <i class="dl-icon-d20-plus"></i>
                 <span class="sep"></span>
-                <input type="text" name="system.action.plus20damage" value="{{system.action.plus20damage}}"
+                <input type="text" name="system.action.extraplus20damage" value="{{system.action.extraplus20damage}}"
                        data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
               </div>
             </div>
@@ -88,92 +88,7 @@
 
         <hr>
 
-        <div class="dl-item-section-section margin">
-          <div>
-            <b>{{localize "DL.AttackRoll"}}</b>
-            <div>
-              {{dlDropdown "system.vs.attribute" system.vs.attribute}}
-              <span style="font-size: 11px">VS</span>
-              {{dlDropdown "system.vs.against" system.vs.against}}
-              {{dlBOBAButton "system.vs.boonsbanes" system.vs.boonsbanes ""}}
-            </div>
-          </div>
-          <div>
-            <b style="align-self: flex-start">{{localize "DL.WeaponDamage"}}</b>
-            <div class="dl-item-damage-container">
-              <div>
-                <div class="dl-new-project-2 nohover">
-                  <i class="dl-icon-d20"></i>
-                  <span class="sep"></span>
-                  <input type="text" name="system.vs.damage" value="{{system.vs.damage}}"
-                         data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
-                  <span class="sep"></span>
-                  <input type="text" name="system.vs.damagetype" value="{{system.vs.damagetype}}"
-                         data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
-                </div>
-                <a
-                  class="dl-clickable vsdamagetype-control"
-                  style="align-self: center;"
-                  data-tippy-content="{{localize 'DL.DamageAddType'}}"
-                  data-action="create"
-                ><i class="fas fa-plus"></i>
-                </a>
-              </div>
-              {{#each system.vs.damagetypes as |damagetype id|}}
-                <div>
-                  <div class="dl-new-project-2 nohover">
-                    <i class="dl-icon-d20"></i>
-                    <span class="sep"></span>
-                    <input type="text" name="altdamage" value="{{damagetype.damage}}"
-                           data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
-                    <span class="sep"></span>
-                    <input type="text" name="altdamagetype" value="{{damagetype.damagetype}}"
-                           data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
-                  </div>
-                  <a
-                    class="item-control vsdamagetype-control"
-                    data-tippy-content="{{localize 'DL.DamageAddType'}}"
-                    data-action="delete"
-                    data-id="{{id}}"
-                  ><i class="fas fa-times"></i>
-                  </a>
-                </div>
-              {{/each}}
-            </div>
-          </div>
-          <div>
-            <!-- TODO: implement talent.vs.plus20damage-->
-            <b>{{localize "DL.WeaponAttack20"}}</b>
-            <div>
-              <div class="dl-new-project-2 nohover">
-                <i class="dl-icon-d20-plus"></i>
-                <span class="sep"></span>
-                <input type="text" name="system.vs.plus20damage" value="{{system.vs.plus20damage}}"
-                       data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <hr>
-
-        <div class="dl-item-section-section margin">
-          <div>
-            <b>{{localize "DL.ChallengeRequestRollText"}}</b>
-            <div>
-              {{dlDropdown "system.action.defense" system.action.defense}}
-              {{dlBOBAButton "system.action.defenseboonsbanes" system.action.defenseboonsbanes ""}}
-            </div>
-          </div>
-          <div>
-            <b>{{localize "DL.TalentHealingOptions"}}</b>
-            <div class="dl-new-project-radio {{checked system.healing.healing}}"
-                 data-tippy-content="{{localize "DL.TalentHealingOptions"}}">
-              <input type="checkbox" name="system.healing.healing" id="healingoptions" {{checked system.healing.healing}}/>
-              <i class="dl-icon-healing"></i>
-            </div>
-          </div>
-        </div>
+        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action" healing=system.healing.healing healingId="system.healing.healing"}}
 
         <hr>
 

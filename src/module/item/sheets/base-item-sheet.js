@@ -71,8 +71,7 @@ export default class DLBaseItemSheet extends ItemSheet {
         ? prepareActiveEffectCategories(this.document.effects, !data.document.isEmbedded, effControls)
         : null
 
-    if (data.item.type === 'weapon' || data.item.type === 'spell') this._prepareDamageTypes(data)
-    else if (data.item.type === 'talent') this._prepareDamageTypes(data, true)
+    if (data.item.type === 'weapon' || data.item.type === 'spell' || data.item.type === 'talent') this._prepareDamageTypes(data)
 
     this.sectionStates = this.sectionStates || new Map()
 
@@ -90,10 +89,10 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     if (['talent', 'weapon', 'spell'].includes(item.type)) {
       // Set the update key based on type
-      const damageKey = item.type === 'talent' ? 'system.vs.damagetypes' : 'system.action.damagetypes'
+      const damageKey = 'system.action.damagetypes'
       // Grab damages from form
-      let altdamage = updateData.altdamage || updateData.altdamagevs
-      let altdamagetype = updateData.altdamagetype || updateData.altdamagetypevs
+      let altdamage = updateData.altdamage
+      let altdamagetype = updateData.altdamagetype
       altdamage = Array.isArray(altdamage) ? altdamage : [altdamage]
       altdamagetype = Array.isArray(altdamagetype) ? altdamagetype : [altdamagetype]
 
@@ -190,8 +189,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     html.find('.effect-control').click(async ev => await onManageActiveEffect(ev, this.document))
 
     // Damage types
-    html.find('.damagetype-control').click(async ev => await this._onManageDamageType(ev, 'action'))
-    html.find('.vsdamagetype-control').click(async ev => await this._onManageDamageType(ev, 'vs', {diff: false}))
+    html.find('.damagetype-control').click(async ev => await this._onManageDamageType(ev))
 
     // Max castings
     html.find('.max-castings-control').change(async ev => await this._onManageMaxCastings(ev, this))
@@ -254,16 +252,15 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
 
-  _prepareDamageTypes(sheetData, isVs = false) {
+  _prepareDamageTypes(sheetData) {
     sheetData.item.damagetypes = this.item.system.action?.damagetypes
-    if (isVs) sheetData.item.vsdamagetypes = this.item.system.vs?.damagetypes
   }
 
-  async _onManageDamageType(ev, actionKey, options = {}) {
+  async _onManageDamageType(ev, options = {}) {
     ev.preventDefault()
     const a = ev.currentTarget
-    const damageTypes = this.object.system[actionKey].damagetypes
-    const updKey = `data.${actionKey}.damagetypes`
+    const damageTypes = this.object.system.action.damagetypes
+    const updKey = `data.action.damagetypes`
 
     if (a.dataset.action === 'create') damageTypes.push(new DamageType())
     else if (a.dataset.action === 'delete') damageTypes.splice(a.dataset.id, 1)

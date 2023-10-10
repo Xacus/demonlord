@@ -66,7 +66,7 @@ export class DemonlordItem extends Item {
   }
 
   hasDamage() {
-    return Boolean(this.system.action?.damage || this.system.vs?.damage)
+    return Boolean(this.system.action?.damage)
   }
 
   hasHealing() {

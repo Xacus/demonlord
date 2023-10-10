@@ -153,8 +153,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   const talentData = talent.system
   const rollMode = game.settings.get('core', 'rollMode')
 
-  const attackAttributeImmune = actor?.getAttribute(talentData?.vs?.attribute)?.immune
-  const defenseAttributeImmune = target?.getAttribute(talentData?.vs?.attribute)?.immune
+  const attackAttributeImmune = actor?.getAttribute(talentData?.action?.attack)?.immune
+  const defenseAttributeImmune = target?.getAttribute(talentData?.action?.attack)?.immune
   const voidRoll = attackAttributeImmune || defenseAttributeImmune
 
   let usesText = ''
@@ -164,7 +164,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
     usesText = game.i18n.localize('DL.TalentUses') + ': ' + uses + ' / ' + usesmax
   }
 
-  const targetNumber = talentData?.vs?.attribute ? actor.getVSTargetNumber(talent) : ''
+  const targetNumber = talentData?.action?.attack ? actor.getTargetNumber(talent) : ''
   let resultText =
     !voidRoll && attackRoll != null && targetNumber !== undefined && attackRoll.total >= parseInt(targetNumber)
       ? game.i18n.localize('DL.DiceResultSuccess')
@@ -185,8 +185,8 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
       ? targetNumber
       : '?'
 
-  const attackAttribute = talentData.vs?.attribute?.toLowerCase() || ''
-  const defenseAttribute = talentData.vs?.against?.toLowerCase() || ''
+  const attackAttribute = talentData.action?.attack?.toLowerCase() || ''
+  const defenseAttribute = talentData.action?.against?.toLowerCase() || ''
   const savingAttribute = talentData?.action?.defense?.toLowerCase() || ''
   const talentEffects = buildTalentEffectsMessage(actor, talent)
   //
@@ -210,13 +210,13 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
     : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  data['damageFormular'] = talentData?.vs?.damage
-    ? talentData?.vs?.damage + actor.system.bonuses.attack.damage || ''
+  data['damageFormular'] = talentData?.action?.damage
+    ? talentData?.action?.damage + actor.system.bonuses.attack.damage || ''
     : talentData?.action?.damage
   data['damageType'] =
-    talentData?.vs?.damageactive && talentData?.vs?.damage ? talentData?.vs?.damagetype : talentData?.action?.damagetype
-  data['damageTypes'] = talentData?.vs?.damagetypes
-  data['damageExtra20plusFormular'] = talentData?.vs?.plus20damage ? talentData?.vs?.plus20damage : talentData?.action?.plus20damage
+    talentData?.action?.damageactive && talentData?.action?.damage ? talentData?.action?.damagetype : talentData?.action?.damagetype
+  data['damageTypes'] = talentData?.action?.damagetypes
+  data['damageExtra20plusFormular'] = talentData?.action?.plus20damage ? talentData?.action?.plus20damage : talentData?.action?.plus20damage
   data['description'] = talentData?.description
   data['defense'] = talentData?.action?.defense
   data['defenseboonsbanes'] = parseInt(talentData?.action?.defenseboonsbanes)
@@ -244,7 +244,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
     chatData.rolls = [attackRoll]
     chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
-  if (talentData?.damage || talentData?.vs?.attribute || (!talentData?.vs?.attribute && !talentData?.damage)) {
+  if (talentData?.damage || talentData?.action?.attack || (!talentData?.action?.attack && !talentData?.damage)) {
     const template = 'systems/demonlord/templates/chat/talent.hbs'
     return renderTemplate(template, templateData).then(content => {
       chatData.content = content
