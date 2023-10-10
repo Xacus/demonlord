@@ -126,69 +126,12 @@
         </div>
         <hr>
 
-        <!-- MEASURED TEMPLATE -->
-        <div class="dl-item-section-section margin">
-          <div class="dl-item-section-section-title">
-            <b>{{localize "DL.MeasuredTemplate"}}</b>
-          </div>
-          <div style="display: flex; justify-content: flex-end; gap: 8px">
-            <div class="dl-new-project-2">
-              <span>{{localize "DL.ActionTargetValue"}} (yd)</span>
-              <span class="sep"></span>
-              <input type="number" name="system.activatedEffect.target.value"
-                     value="{{system.activatedEffect.target.value}}"
-                     placeholder="-" autosize/>
-            </div>
-
-            <div class="dl-new-project-2 nohover">
-              <span>{{localize "DL.ActionTargetType"}}</span>
-              <span class="sep"></span>
-              <select name="system.activatedEffect.target.type">
-                {{#select system.activatedEffect.target.type}}
-                  <option value="">—</option>
-                  {{#each config.actionTargetTypes as |name key|}}
-                    <option value="{{key}}">{{localize name}}</option>
-                  {{/each}}
-                {{/select}}
-              </select>
-            </div>
-            <div style="gap: 0">
-              <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.ActionTexture"}}">
-                <input type="text" name="system.activatedEffect.texture" value="{{system.activatedEffect.texture}}"
-                       autosize
-                       placeholder="path/image.webp"
-                       style="min-width: 120px; max-width: 200px; text-overflow: ellipsis; color: grey !important;
-                       overflow: hidden; direction: rtl;">
-              </div>
-              <button
-                type="button"
-                class="file-picker dl-clickable"
-                data-type="imagevideo"
-                data-target="system.activatedEffect.texture"
-                title="File"
-                tabindex="-1"
-                style="
-                  background-color: rgba(0, 0, 0, 0.02);
-                  height: 22px;
-                  width: 22px;
-                  margin-right: 3px;
-                  font-size: 12px;
-                  padding: 0;
-                  line-height: 7px;
-                  border: 1px solid #0000001a;
-                  margin-left: 2px;
-                  border-radius: 4px;"
-              >
-                <i class="fas fa-file-import fa-fw"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
+        {{> "systems/demonlord/templates/item/partial/item-measured-template.hbs"}}
       </div>
 
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}} {{#if effects}}{{>
-    "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+
+      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
       {{!-- "systems/demonlord/templates/item/partial/item-activation.hbs" --}}
     </section>
   </section>

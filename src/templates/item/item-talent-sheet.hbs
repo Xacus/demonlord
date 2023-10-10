@@ -149,10 +149,14 @@
             </div>
           </div>
         </div>
+        <hr>
+
+        {{> "systems/demonlord/templates/item/partial/item-measured-template.hbs"}}
       </div>
 
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}} {{#if effects}}{{>
-    "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+
+      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
       {{!-- "systems/demonlord/templates/item/partial/item-activation.hbs" --}}
     </section>
   </section>
