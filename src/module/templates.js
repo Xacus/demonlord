@@ -56,6 +56,8 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/item/partial/item-effects.hbs',
     'systems/demonlord/templates/item/partial/item-sheet-header.hbs',
     'systems/demonlord/templates/item/partial/item-attacks.hbs',
+    'systems/demonlord/templates/item/partial/item-challenge.hbs',
+    'systems/demonlord/templates/item/partial/item-healing.hbs',
     'systems/demonlord/templates/item/partial/item-measured-template.hbs',
     'systems/demonlord/templates/item/item-ancestry-edit.hbs',
     'systems/demonlord/templates/item/item-ancestry-view.hbs',

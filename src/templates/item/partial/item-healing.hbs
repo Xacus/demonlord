@@ -1,0 +1,13 @@
+{{!--
+  Variables:
+    - healing (e.g. system.healing.healing)
+    - healingId (e.g. system.healing.healing)
+--}}
+
+<div>
+  <b>{{localize "DL.TalentHealingOptions"}}</b>
+  <div class="dl-new-project-radio {{checked healing}}" data-tippy-content="{{localize " DL.TalentHealingOptions"}}">
+    <input type="checkbox" name="{{healingId}}" id="healingoptions" {{checked healing}} />
+    <i class="dl-icon-healing"></i>
+  </div>
+</div>

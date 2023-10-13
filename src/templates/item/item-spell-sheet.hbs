@@ -60,7 +60,15 @@
         </div>
 
         <hr>
-        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action" healing=system.healing.healing healingId="system.healing.healing"}}
+
+        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action"}}
+
+        <hr>
+
+        <div class="dl-item-section-section margin">
+          {{> "systems/demonlord/templates/item/partial/item-challenge.hbs" action=system.action actionId="system.action"}}
+          {{> "systems/demonlord/templates/item/partial/item-healing.hbs" healing=system.healing.healing healingId="system.healing.healing"}}
+        </div>
 
         <hr>
 

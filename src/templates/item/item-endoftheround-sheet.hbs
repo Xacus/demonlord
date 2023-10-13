@@ -1,7 +1,9 @@
-<form class="{{cssClass}} item-form" autocomplete="off">
+<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
   {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="End of Round Name"}}
 
+  {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
     <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
     {{#if effects}}<a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>{{/if}}
   </nav>
@@ -9,8 +11,28 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     <section class="sheet-content">
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}} {{#if effects}}{{>
-    "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
+      <div class="tab attributes" data-group="primary" data-tab="attributes">
+
+        <div class="dl-item-section-header row">
+          <div class="col-12" style="margin-top: 4px">
+            <b>{{item.name}}</b>
+          </div>
+        </div>
+        <hr>
+
+        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action"}}
+
+        <hr>
+
+        <div class="dl-item-section-section margin">
+          {{> "systems/demonlord/templates/item/partial/item-challenge.hbs" action=system.action actionId="system.action"}}
+        </div>
+
+        {{> "systems/demonlord/templates/item/partial/item-measured-template.hbs"}}
+      </div>
+
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
     </section>
   </section>
 </form>
