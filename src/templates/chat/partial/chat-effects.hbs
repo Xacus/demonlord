@@ -1,0 +1,13 @@
+{{!-- 
+  Variables:
+    - data
+      - itemEffects
+ --}}
+{{#each data.itemEffects as |effect|}}
+  <div class="combatactions apply-effect" data-effect-uuid="{{effect.uuid}}">
+    <div class="header">
+      <img src="{{effect.icon}}" width="15" height="15" />
+      <div>{{effect.name}}</div>
+    </div>
+  </div>
+{{/each}}

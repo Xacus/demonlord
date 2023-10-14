@@ -65,5 +65,12 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/item/item-path-view.hbs',
     'systems/demonlord/templates/item/item-role-edit.hbs',
     'systems/demonlord/templates/item/item-role-view.hbs',
+
+    // Chat Partials
+    'systems/demonlord/templates/chat/partial/chat-challenge.hbs',
+    'systems/demonlord/templates/chat/partial/chat-attack.hbs',
+    'systems/demonlord/templates/chat/partial/chat-damage.hbs',
+    'systems/demonlord/templates/chat/partial/chat-measured-template.hbs',
+    'systems/demonlord/templates/chat/partial/chat-effects.hbs',
   ])
 }

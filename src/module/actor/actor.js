@@ -442,11 +442,13 @@ export class DemonlordActor extends Actor {
       return
     }
 
-    if (item.system?.action?.attack)
+    if (item.system?.action?.attack) {
       launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async html =>
         await this.useTalent(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
-    else await this.useTalent(item, 0, 0)
+    } else {
+      await this.useTalent(item, 0, 0)
+    }
   }
 
   async useTalent(talent, inputBoons, inputModifier) {
@@ -507,11 +509,13 @@ export class DemonlordActor extends Actor {
       return
     } else await item.update({'system.castings.value': uses + 1}, {parent: this})
 
-    if (isAttack && attackAttribute)
+    if (isAttack && attackAttribute) {
       launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async html =>
         await this.useSpell(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
-    else await this.useSpell(item, 0, 0)
+    } else {
+      await this.useSpell(item, 0, 0)
+    }
   }
 
   async useSpell(spell, inputBoons, inputModifier) {
@@ -553,16 +557,55 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  async useItem(itemID) {
-    const item = duplicate(this.items.get(itemID))
-    if (item.type !== 'item') return postItemToChat(this, item)
-    if (item.system.quantity < 1) {
-      ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
-      return
+  async rollItem(itemID, _options = {event: null}) {
+    const item = this.items.get(itemID)
+
+    if (item.system.quantity != null) {
+      if (item.system.quantity < 1) {
+        ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+        return
+      }
+
+      item.system.quantity--
+      await Item.updateDocuments([item], {parent: this})  
     }
-    item.system.quantity--
-    await Item.updateDocuments([item], {parent: this})
-    postItemToChat(this, item)
+
+    if (item.system?.action?.attack) {
+      launchRollDialog(game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async html =>
+        await this.useItem(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      )
+    } else {
+      await this.useItem(item, 0, 0)
+    }
+  }
+
+  async useItem(item, inputBoons, inputModifier) {    
+    const itemData = item.system
+    const targets = tokenManager.targets
+    const target = targets[0]
+    let attackRoll = null
+
+    if (!itemData?.action?.attack) {
+      postItemToChat(this, item, null, null)
+      return
+    } else {
+      const attackAttribute = itemData.action.attack.toLowerCase()
+      const defenseAttribute = itemData.action?.attack?.toLowerCase()
+
+      let modifier = parseInt(inputModifier) + (this.getAttribute(attackAttribute)?.modifier || 0)
+
+      let boons =
+        parseInt(inputBoons) +
+        (this.system.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
+        parseInt(itemData.action?.boonsbanes || 0)
+      if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
+      const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
+
+      attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
+      attackRoll.evaluate({async: false})
+    }
+
+    postItemToChat(this, item, attackRoll, target?.actor)
   }
 
   /* -------------------------------------------- */

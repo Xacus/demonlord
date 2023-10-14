@@ -374,7 +374,7 @@ export default class DLBaseActorSheet extends ActorSheet {
         })
       } else {
         const id = event.currentTarget.closest("[data-item-id]").dataset.itemId
-        await this.actor.useItem(id)
+        await this.actor.rollItem(id, {event: event})
       }
     })
 

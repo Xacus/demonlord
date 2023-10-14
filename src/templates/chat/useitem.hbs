@@ -1,12 +1,11 @@
-<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
-  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}} {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
   <header class="card-header">
     {{#if data.img}}
-      <div class="token-img"><img class="profile-img" src="{{data.img}}" data-edit="img" title="{{actor.name}}"
-                                  height="40" width="40"/></div>
+    <div class="token-img">
+      <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{actor.name}}" height="40" width="40" />
+    </div>
     {{else if token.img}}
-      <div class="token-img"><img class="profile-img" src="{{token.img}}" data-edit="img" title="{{actor.name}}"
-                                  height="40" width="40"/></div>
+    <div class="token-img"><img class="profile-img" src="{{token.img}}" data-edit="img" title="{{actor.name}}"height="40" width="40" /></div>
     {{/if}}
     <div class="attackbox">
       <div class="header">{{localize "DL.DialogUseItem"}}</div>
@@ -14,8 +13,38 @@
     </div>
   </header>
 
+  {{> "systems/demonlord/templates/chat/partial/chat-attack.hbs" data=data diceData=diceData}}
+
   <div class="description">
     <div class="header">{{localize "DL.AttackRollDescription"}}</div>
     <div class="body">{{{data.description.value}}}</div>
   </div>
+
+  {{> "systems/demonlord/templates/chat/partial/chat-challenge.hbs" data=data}}
+
+    {{#if data.isCreature}}
+    <div class="gmonly">
+
+      {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget
+      uuid=item.uuid}}
+
+      {{> "systems/demonlord/templates/chat/partial/chat-damage.hbs" data=data}}
+
+      {{> "systems/demonlord/templates/chat/partial/chat-effects.hbs" data=data}}
+    </div>
+    {{else}}
+    {{#if data.ifBlindedRoll }}
+    <div class="gmonly">
+      {{/if}}
+
+      {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget
+      uuid=item.uuid}}
+
+      {{> "systems/demonlord/templates/chat/partial/chat-damage.hbs" data=data}}
+
+      {{> "systems/demonlord/templates/chat/partial/chat-effects.hbs" data=data}}
+      {{#if data.ifBlindedRoll }}
+    </div>
+    {{/if}}
+    {{/if}}
 </div>
