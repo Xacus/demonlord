@@ -1,13 +1,5 @@
 <form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
-  <header class="sheet-header itemsheet-header">
-    <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-    <div class="header-fields">
-      <div class="gridrow">
-        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'DL.WeaponName'}}"/>
-      </div>
-    </div>
-    <div class="template-type">{{item.type}}</div>
-  </header>
+  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="{{localize 'DL.WeaponName'}}"}}
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
@@ -29,76 +21,14 @@
         </div>
         <hr>
 
-        <div class="dl-item-section-section margin">
-          <div>
-            <b>{{localize "DL.AttackRoll"}}</b>
-            <div>
-              {{dlDropdown "system.action.attack" system.action.attack}}
-              <span style="font-size: 11px">VS</span>
-              {{dlDropdown "system.action.against" system.action.against}}
-              <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
-                <i class="dl-icon-d6"></i>
-                <span class="sep"></span>
-                <input type="number" name="system.action.boonsbanes" value="{{defaultValue system.action.boonsbanes 0}}"/>
-              </div>
-            </div>
-          </div>
+        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action"}}
 
-          <div>
-            <b style="align-self: center">{{localize "DL.WeaponDamage"}}</b>
-            <div class="dl-item-damage-container">
-              <div>
-                <div class="dl-new-project-2 nohover">
-                  <i class="dl-icon-d20"></i>
-                  <span class="sep"></span>
-                  <input type="text" name="system.action.damage" value="{{system.action.damage}}"
-                         data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
-                  <span class="sep"></span>
-                  <input type="text" name="system.action.damagetype" value="{{system.action.damagetype}}"
-                         data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
-                </div>
-                <a
-                  class="dl-clickable damagetype-control"
-                  style="align-self: center;"
-                  data-tippy-content="{{localize 'DL.DamageAddType'}}"
-                  data-action="create"
-                ><i class="fas fa-plus"></i>
-                </a>
-              </div>
-              {{#each system.action.damagetypes as |damagetype id|}}
-                <div>
-                  <div class="dl-new-project-2 nohover">
-                    <i class="dl-icon-d20"></i>
-                    <span class="sep"></span>
-                    <input type="text" name="altdamage" value="{{damagetype.damage}}"
-                           data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
-                    <span class="sep"></span>
-                    <input type="text" name="altdamagetype" value="{{damagetype.damagetype}}"
-                           data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
-                  </div>
-                  <a
-                    class="item-control damagetype-control"
-                    data-tippy-content="{{localize 'DL.DamageAddType'}}"
-                    data-action="delete"
-                    data-id="{{id}}"
-                  ><i class="fas fa-times"></i>
-                  </a>
-                </div>
-              {{/each}}
-            </div>
-          </div>
-          <div>
-            <b>{{localize "DL.WeaponAttack20"}}</b>
-            <div>
-              <div class="dl-new-project-2 nohover">
-                <i class="dl-icon-d20-plus"></i>
-                <span class="sep"></span>
-                <input type="text" name="system.action.plus20damage" value="{{system.action.plus20damage}}"
-                      data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
-              </div>
-            </div>
-          </div>
+        <hr>
+
+        <div class="dl-item-section-section margin">
+          {{> "systems/demonlord/templates/item/partial/item-challenge.hbs" action=system.action actionId="system.action"}}
         </div>
+
         <hr>
 
         <div class="dl-item-section-section margin">
@@ -160,9 +90,12 @@
           </div>
         </div>
 
+        {{> "systems/demonlord/templates/item/partial/item-measured-template.hbs"}}
       </div>
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}} {{#if effects}}{{>
-    "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
+
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+
+      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
     </section>
   </section>
 </form>

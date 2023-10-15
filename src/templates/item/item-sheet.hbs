@@ -8,6 +8,7 @@
     </div>
     <div class="template-type">{{item.type}}</div>
   </header>
+  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="{{localize 'DL.ItemName'}}"}}
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">

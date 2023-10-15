@@ -145,7 +145,9 @@ Hooks.once('setup', function () {
     }
   }
   // Regardless of the setting, add the "invisible" status so that actors can turn invisible
+  // And dead, otherwise can't "kill 'em ded"
   else {
+    effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'))
     effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'))
     effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'))
   }

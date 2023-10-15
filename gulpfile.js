@@ -103,7 +103,7 @@ async function buildCompendium(compendium) {
     compendium = parts.at(-1);
   }
 
-  const command = `fvtt package pack  --type ${packageType} --id ${packageId} -n "${compendium}" --in "${compendiaDirectory}/${compendium}" --out "${distDirectory}/packs"`
+  const command = `fvtt package pack  --type ${packageType} --id ${packageId} -n "${compendium}" --in "${compendiaDirectory}/${compendium}" --out "${distDirectory}/packs/${compendium}"`
   console.log(cp.execSync(command).toString());
 }
 
@@ -272,9 +272,9 @@ function getPackageId() {
 /*      EXPORTS     */
 /********************/
 
-const execBuild = gulp.parallel(buildCode, buildStyles, copyFiles, buildCompendia);
+const execBuild = gulp.parallel(buildCode, buildStyles, buildCompendia);
 
-exports.build = gulp.series(clean, execBuild);
+exports.build = gulp.series(clean, execBuild, copyFiles);
 exports.watch = buildWatch;
 exports.clean = clean;
 exports.link = linkUserData;

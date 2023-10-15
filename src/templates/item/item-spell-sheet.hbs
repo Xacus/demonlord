@@ -1,13 +1,5 @@
 <form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
-  <header class="sheet-header itemsheet-header">
-    <img class="weapon-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-    <div class="header-fields">
-      <div class="gridrow">
-        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'DL.SpellName'}}"/>
-      </div>
-    </div>
-    <div class="template-type">{{item.type}}</div>
-  </header>
+  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="{{localize 'DL.SpellName'}}"}}
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
@@ -65,101 +57,19 @@
               </div>
             </div>
           </div>
-          <div>
-            <b>{{localize "DL.SpellTypeAttack"}}</b>
-            <div>
-              {{dlDropdown "system.action.attack" system.action.attack}}
-              <span style="font-size: 11px">VS</span>
-              {{dlDropdown "system.action.against" system.action.against}}
-              <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
-                <i class="dl-icon-d6"></i>
-                <span class="sep"></span>
-                <input type="number" name="system.action.boonsbanes"
-                       value="{{defaultValue system.action.boonsbanes 0}}"/>
-              </div>
-            </div>
-          </div>
-          <div>
-            <b>{{localize "DL.ChallengeRequestRollText"}}</b>
-            <div>
-              {{dlDropdown "system.action.defense" system.action.defense}}
-              <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.WeaponBoonsBanes"}}">
-                <i class="dl-icon-d6"></i>
-                <span class="sep"></span>
-                <input type="number" name="system.defenseboonsbanes"
-                       value="{{defaultValue system.defenseboonsbanes 0}}"/>
-              </div>
-            </div>
-          </div>
-          <div>
-            <b>{{localize "DL.TalentHealingOptions"}}</b>
-            <div class="dl-new-project-radio {{checked system.healing.healing}}"
-                 data-tippy-content="{{localize "DL.TalentHealingOptions"}}">
-              <input type="checkbox" name="system.healing.healing" id="healingoptions" {{checked
-                system.healing.healing}}/>
-              <i class="dl-icon-healing"></i>
-            </div>
-          </div>
         </div>
 
         <hr>
 
-        <div class="dl-item-section-section dl-column-flex">
-          <div>
-            <b style="align-self: center">{{localize "DL.WeaponDamage"}}</b>
-            <div class="dl-item-damage-container">
-              <div>
-                <div class="dl-new-project-2 nohover">
-                  <i class="dl-icon-d20"></i>
-                  <span class="sep"></span>
-                  <input type="text" name="system.action.damage" value="{{system.action.damage}}"
-                         data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
-                  <span class="sep"></span>
-                  <input type="text" name="system.action.damagetype" value="{{system.action.damagetype}}"
-                         data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
-                </div>
-                <a
-                  class="dl-clickable damagetype-control"
-                  style="align-self: center;"
-                  data-tippy-content="{{localize 'DL.DamageAddType'}}"
-                  data-action="create"
-                ><i class="fas fa-plus"></i>
-                </a>
-              </div>
-              {{#each system.action.damagetypes as |damagetype id|}}
-                <div>
-                  <div class="dl-new-project-2 nohover">
-                    <i class="dl-icon-d20"></i>
-                    <span class="sep"></span>
-                    <input type="text" name="altdamage" value="{{damagetype.damage}}"
-                           data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
-                    <span class="sep"></span>
-                    <input type="text" name="altdamagetype" value="{{damagetype.damagetype}}"
-                           data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" autosize/>
-                  </div>
-                  <a
-                    class="item-control damagetype-control"
-                    data-tippy-content="{{localize 'DL.DamageAddType'}}"
-                    data-action="delete"
-                    data-id="{{id}}"
-                  ><i class="fas fa-times"></i>
-                  </a>
-                </div>
-              {{/each}}
-            </div>
-          </div>
-          <div>
-            <b>{{localize "DL.WeaponAttack20"}}</b>
-            <div>
-              <div class="dl-new-project-2 nohover">
-                <i class="dl-icon-d20"></i>
-                <span class="sep"></span>
-                <input type="text" name="system.action.plus20damage" value="{{system.action.plus20damage}}"
-                       data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" autosize/>
-              </div>
-            </div>
-          </div>
+        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action"}}
+
+        <hr>
+
+        <div class="dl-item-section-section margin">
+          {{> "systems/demonlord/templates/item/partial/item-challenge.hbs" action=system.action actionId="system.action"}}
+          {{> "systems/demonlord/templates/item/partial/item-healing.hbs" healing=system.healing.healing healingId="system.healing.healing"}}
         </div>
+
         <hr>
 
         <div class="dl-item-section-section text-areas">
@@ -224,69 +134,12 @@
         </div>
         <hr>
 
-        <!-- MEASURED TEMPLATE -->
-        <div class="dl-item-section-section margin">
-          <div class="dl-item-section-section-title">
-            <b>{{localize "DL.MeasuredTemplate"}}</b>
-          </div>
-          <div style="display: flex; justify-content: flex-end; gap: 8px">
-            <div class="dl-new-project-2">
-              <span>{{localize "DL.ActionTargetValue"}} (yd)</span>
-              <span class="sep"></span>
-              <input type="number" name="system.activatedEffect.target.value"
-                     value="{{system.activatedEffect.target.value}}"
-                     placeholder="-" autosize/>
-            </div>
-
-            <div class="dl-new-project-2 nohover">
-              <span>{{localize "DL.ActionTargetType"}}</span>
-              <span class="sep"></span>
-              <select name="system.activatedEffect.target.type">
-                {{#select system.activatedEffect.target.type}}
-                  <option value="">—</option>
-                  {{#each config.actionTargetTypes as |name key|}}
-                    <option value="{{key}}">{{localize name}}</option>
-                  {{/each}}
-                {{/select}}
-              </select>
-            </div>
-            <div style="gap: 0">
-              <div class="dl-new-project-2 nohover" data-tippy-content="{{localize "DL.ActionTexture"}}">
-                <input type="text" name="system.activatedEffect.texture" value="{{system.activatedEffect.texture}}"
-                       autosize
-                       placeholder="path/image.webp"
-                       style="min-width: 120px; max-width: 200px; text-overflow: ellipsis; color: grey !important;
-                       overflow: hidden; direction: rtl;">
-              </div>
-              <button
-                type="button"
-                class="file-picker dl-clickable"
-                data-type="imagevideo"
-                data-target="system.activatedEffect.texture"
-                title="File"
-                tabindex="-1"
-                style="
-                  background-color: rgba(0, 0, 0, 0.02);
-                  height: 22px;
-                  width: 22px;
-                  margin-right: 3px;
-                  font-size: 12px;
-                  padding: 0;
-                  line-height: 7px;
-                  border: 1px solid #0000001a;
-                  margin-left: 2px;
-                  border-radius: 4px;"
-              >
-                <i class="fas fa-file-import fa-fw"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
+        {{> "systems/demonlord/templates/item/partial/item-measured-template.hbs"}}
       </div>
 
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}} {{#if effects}}{{>
-    "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+
+      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
       {{!-- "systems/demonlord/templates/item/partial/item-activation.hbs" --}}
     </section>
   </section>

@@ -73,7 +73,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
       break
     case 'talent':
       if (!attackAttribute) return
-      itemBoons = item.system.vs.boonsbanes
+      itemBoons = item.system.action.boonsbanes
       break
     default:
       return

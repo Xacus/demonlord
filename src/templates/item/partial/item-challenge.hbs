@@ -1,0 +1,15 @@
+{{!--
+  Variables:
+    - action (e.g. system.action)
+    - defense
+    - defenseboonsbanes
+    - action.id (e.g. "system.action")
+--}}
+
+<div>
+  <b>{{localize "DL.ChallengeRequestRollText"}}</b>
+  <div>
+    {{dlDropdown (concat actionId ".defense") action.defense}}
+    {{dlBOBAButton (concat actionId ".defenseboonsbanes") action.defenseboonsbanes ""}}
+  </div>
+</div>

@@ -343,12 +343,12 @@ export class DLActiveEffects {
     // --- Attack
     const action = talentData.action
     const attackChanges = [
-      addEffect('system.bonuses.attack.boons.strength', action.boonsbanes * action.strengthboonsbanesselect, priority),
-      addEffect('system.bonuses.attack.boons.agility', action.boonsbanes * action.agilityboonsbanesselect, priority),
-      addEffect('system.bonuses.attack.boons.intellect', action.boonsbanes * action.intellectboonsbanesselect, priority),
-      addEffect('system.bonuses.attack.boons.will', action.boonsbanes * action.willboonsbanesselect, priority),
-      concatDiceEffect('system.bonuses.attack.damage', action.damage),
-      concatDiceEffect('system.bonuses.attack.plus20Damage', action.plus20damage),
+      addEffect('system.bonuses.attack.boons.strength', action.extraboonsbanes * action.strengthboonsbanesselect, priority),
+      addEffect('system.bonuses.attack.boons.agility', action.extraboonsbanes * action.agilityboonsbanesselect, priority),
+      addEffect('system.bonuses.attack.boons.intellect', action.extraboonsbanes * action.intellectboonsbanesselect, priority),
+      addEffect('system.bonuses.attack.boons.will', action.extraboonsbanes * action.willboonsbanesselect, priority),
+      concatDiceEffect('system.bonuses.attack.damage', action.extradamage),
+      concatDiceEffect('system.bonuses.attack.plus20Damage', action.extraplus20damage),
       concatString('system.bonuses.attack.extraEffect', action.extraeffect, '\n'),
     ].filter(falsyChangeFilter)
 

@@ -442,11 +442,13 @@ export class DemonlordActor extends Actor {
       return
     }
 
-    if (item.system?.vs?.attribute)
+    if (item.system?.action?.attack) {
       launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async html =>
         await this.useTalent(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
-    else await this.useTalent(item, 0, 0)
+    } else {
+      await this.useTalent(item, 0, 0)
+    }
   }
 
   async useTalent(talent, inputBoons, inputModifier) {
@@ -455,20 +457,20 @@ export class DemonlordActor extends Actor {
     const target = targets[0]
     let attackRoll = null
 
-    if (!talentData?.vs?.attribute) {
+    if (!talentData?.action?.attack) {
       await this.activateTalent(talent, true)
     } else {
-      await this.activateTalent(talent, Boolean(talentData.vs?.damageActive))
+      await this.activateTalent(talent, Boolean(talentData.action?.damageActive))
 
-      const attackAttribute = talentData.vs.attribute.toLowerCase()
-      const defenseAttribute = talentData.vs?.against?.toLowerCase()
+      const attackAttribute = talentData.action.attack.toLowerCase()
+      const defenseAttribute = talentData.action?.attack?.toLowerCase()
 
       let modifier = parseInt(inputModifier) + (this.getAttribute(attackAttribute)?.modifier || 0)
 
       let boons =
         parseInt(inputBoons) +
         (this.system.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
-        parseInt(talentData.vs?.boonsbanes || 0)
+        parseInt(talentData.action?.boonsbanes || 0)
       if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
@@ -507,11 +509,13 @@ export class DemonlordActor extends Actor {
       return
     } else await item.update({'system.castings.value': uses + 1}, {parent: this})
 
-    if (isAttack && attackAttribute)
+    if (isAttack && attackAttribute) {
       launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async html =>
         await this.useSpell(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
-    else await this.useSpell(item, 0, 0)
+    } else {
+      await this.useSpell(item, 0, 0)
+    }
   }
 
   async useSpell(spell, inputBoons, inputModifier) {
@@ -553,16 +557,55 @@ export class DemonlordActor extends Actor {
 
   /* -------------------------------------------- */
 
-  async useItem(itemID) {
-    const item = duplicate(this.items.get(itemID))
-    if (item.type !== 'item') return postItemToChat(this, item)
-    if (item.system.quantity < 1) {
-      ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
-      return
+  async rollItem(itemID, _options = {event: null}) {
+    const item = this.items.get(itemID)
+
+    if (item.system.quantity != null) {
+      if (item.system.quantity < 1) {
+        ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+        return
+      }
+
+      item.system.quantity--
+      await Item.updateDocuments([item], {parent: this})  
     }
-    item.system.quantity--
-    await Item.updateDocuments([item], {parent: this})
-    postItemToChat(this, item)
+
+    if (item.system?.action?.attack) {
+      launchRollDialog(game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async html =>
+        await this.useItem(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      )
+    } else {
+      await this.useItem(item, 0, 0)
+    }
+  }
+
+  async useItem(item, inputBoons, inputModifier) {    
+    const itemData = item.system
+    const targets = tokenManager.targets
+    const target = targets[0]
+    let attackRoll = null
+
+    if (!itemData?.action?.attack) {
+      postItemToChat(this, item, null, null)
+      return
+    } else {
+      const attackAttribute = itemData.action.attack.toLowerCase()
+      const defenseAttribute = itemData.action?.attack?.toLowerCase()
+
+      let modifier = parseInt(inputModifier) + (this.getAttribute(attackAttribute)?.modifier || 0)
+
+      let boons =
+        parseInt(inputBoons) +
+        (this.system.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
+        parseInt(itemData.action?.boonsbanes || 0)
+      if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
+      const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
+
+      attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
+      attackRoll.evaluate({async: false})
+    }
+
+    postItemToChat(this, item, attackRoll, target?.actor)
   }
 
   /* -------------------------------------------- */
@@ -641,7 +684,7 @@ export class DemonlordActor extends Actor {
   }
 
   getTargetNumber(item) {
-    let tagetNumber
+    let targetNumber
     game.user.targets.forEach(async target => {
       const targetActor = target.actor
       if (targetActor) {
@@ -652,33 +695,14 @@ export class DemonlordActor extends Actor {
         }
 
         if (againstSelectedAttribute == 'defense') {
-          tagetNumber = targetActor.system?.characteristics?.defense
+          targetNumber = targetActor.system?.characteristics?.defense
         } else {
-          tagetNumber = targetActor.system?.attributes[againstSelectedAttribute]?.value
+          targetNumber = targetActor.system?.attributes[againstSelectedAttribute]?.value
         }
       }
     })
 
-    return tagetNumber
-  }
-
-  getVSTargetNumber(talent) {
-    let tagetNumber
-
-    game.user.targets.forEach(async target => {
-      const targetActor = target.actor
-      if (targetActor) {
-        const againstSelectedAttribute = talent.system.vs.against.toLowerCase()
-
-        if (againstSelectedAttribute == 'defense') {
-          tagetNumber = targetActor.system.characteristics.defense
-        } else {
-          tagetNumber = targetActor.getAttribute(againstSelectedAttribute).value
-        }
-      }
-    })
-
-    return tagetNumber
+    return targetNumber
   }
 
   /* -------------------------------------------- */

@@ -54,11 +54,23 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/item/partial/item-activation.hbs',
     'systems/demonlord/templates/item/partial/item-description.hbs',
     'systems/demonlord/templates/item/partial/item-effects.hbs',
+    'systems/demonlord/templates/item/partial/item-sheet-header.hbs',
+    'systems/demonlord/templates/item/partial/item-attacks.hbs',
+    'systems/demonlord/templates/item/partial/item-challenge.hbs',
+    'systems/demonlord/templates/item/partial/item-healing.hbs',
+    'systems/demonlord/templates/item/partial/item-measured-template.hbs',
     'systems/demonlord/templates/item/item-ancestry-edit.hbs',
     'systems/demonlord/templates/item/item-ancestry-view.hbs',
     'systems/demonlord/templates/item/item-path-edit.hbs',
     'systems/demonlord/templates/item/item-path-view.hbs',
     'systems/demonlord/templates/item/item-role-edit.hbs',
     'systems/demonlord/templates/item/item-role-view.hbs',
+
+    // Chat Partials
+    'systems/demonlord/templates/chat/partial/chat-challenge.hbs',
+    'systems/demonlord/templates/chat/partial/chat-attack.hbs',
+    'systems/demonlord/templates/chat/partial/chat-damage.hbs',
+    'systems/demonlord/templates/chat/partial/chat-measured-template.hbs',
+    'systems/demonlord/templates/chat/partial/chat-effects.hbs',
   ])
 }

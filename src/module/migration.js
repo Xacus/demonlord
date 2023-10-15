@@ -24,8 +24,260 @@ export async function handleMigrations() {
   // 3.1.0 migration
   if (isNewerVersion('3.1.0', currentVersion)) await migrateWorld_3_1_0()
 
+  // 3.2.0 migration
+  if (isNewerVersion('3.2.0', currentVersion)) await migrateWorld_3_2_0()
+
   // Migration completed
   return game.settings.set('demonlord', 'systemMigrationVersion', game.system.version)
+}
+
+/* -------------------------------------------- */
+/*  3.2.0                                       */
+/* -------------------------------------------- */
+export const migrateWorld_3_2_0 = async () => {
+  const dryRun = false
+  let errorsInMigration = false
+
+  /**
+   * Combine and standardise talents' system.vs with spells' system.action as follows:
+   * (the direction of the arrow indicates direction of transformation, e.g. A => B means A becomes B)
+   * 
+   * vs.attribute 	 	 => action.attack
+   * vs.against 	 		 => action.against
+   * vs.boonsbanes 	 	 => action.boonsbanes
+   * vs.damage 	 		   => action.damage
+   * vs.damagetype 	 	 => action.damagetype
+   * vs.damagetypes  	 => action.damagetypes
+   * vs.plus20damage 	 => action.plus20damage
+   * 
+   * action.defense 	 ==
+   * defenseboonsbanes <= action.defenseboonsbanes
+   * 
+   * healing.healing 	 ==
+   * 
+   * Additionally, rename the following existing talent properties:
+   * 
+   * system.action.boonsbanes => system.action.extraboonsbanes
+   * system.action.damage => system.action.extradamage
+   * system.action.plus20damage => system.action.extraplus20damage
+   */
+  _migrationStartInfo() 
+
+  // Non-embedded items
+  const itemUpdates = []
+
+  try {
+    for await (let item of game.items.values()) {
+      console.log('Migrating item', item)
+      if (item.type === 'talent') {
+        itemUpdates.push({
+          _id: item._id,
+          system: {
+            action: {
+              extraboonsbanes: item.system.action.boonsbanes,
+              extradamage: item.system.action.damage,
+              extraplus20damage: item.system.action.plus20damage,
+              attack: item.system.vs.attribute,
+              against: item.system.vs.against,
+              boonsbanes: item.system.vs.boonsbanes,
+              damage: item.system.vs.damage,
+              damagetype: item.system.vs.damagetype,
+              damagetypes: item.system.vs.damagetypes,
+              plus20damage: item.system.vs.plus20damage,
+            },
+            vs: undefined
+          }
+        })
+      } else if (item.type === 'spell') {
+        itemUpdates.push({
+          _id: item._id,
+          system: {
+            action: {
+              defenseboonsbanes: item.system.defenseboonsbanes
+            },
+            defenseboonsbanes: undefined
+          }
+        })
+      }
+    }
+    if (itemUpdates.length > 0) {
+      if (dryRun) {
+        console.log("Dry Migration: ", itemUpdates)
+      } else {
+        await Item.updateDocuments(itemUpdates)
+      }
+    }
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating items', e)
+  }
+
+  // Embedded items in actors
+  try {
+    for await (let actor of game.actors.values()) {
+      const embeddedUpdateData = []
+      for await (const item of actor.getEmbeddedCollection('Item')) {
+        console.log('Migrating item', item)
+        if (item.type === 'talent') {
+          embeddedUpdateData.push({
+            _id: item._id,
+            system: {
+              action: {
+                extraboonsbanes: item.system.action.boonsbanes,
+                extradamage: item.system.action.damage,
+                extraplus20damage: item.system.action.plus20damage,
+                attack: item.system.vs.attribute,
+                against: item.system.vs.against,
+                boonsbanes: item.system.vs.boonsbanes,
+                damage: item.system.vs.damage,
+                damagetype: item.system.vs.damagetype,
+                damagetypes: item.system.vs.damagetypes,
+                plus20damage: item.system.vs.plus20damage,
+              },
+              vs: undefined
+            }
+          })
+        } else if (item.type === 'spell') {
+          embeddedUpdateData.push({
+            _id: item._id,
+            system: {
+              action: {
+                defenseboonsbanes: item.system.defenseboonsbanes
+              },
+              defenseboonsbanes: undefined
+            }
+          })
+        }
+      }
+
+      if (embeddedUpdateData.length > 0) {
+        if (dryRun) {
+          console.log("Dry Migration: ", embeddedUpdateData)
+        } else {
+          try {
+            const u = await actor.updateEmbeddedDocuments('Item', embeddedUpdateData, { noEmbedEffects: true })
+            console.log('Embedded item migration complete with result', u)
+          } catch (e) {
+            errorsInMigration = true
+            console.log('Error migrating embedded items in actor', actor, e)
+          }
+        }
+      }
+    }
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating actors', e)
+  }
+
+  // Items in compendia
+  for await (const compendium of game.packs.filter(p => !p.locked && p.metadata.type === 'Item')) {
+    const compendiumUpdates = []
+    for await (const itemEntry of compendium.index.values()) {
+      if (itemEntry.type === 'talent') {
+        const item = await compendium.getDocument(itemEntry._id)
+        compendiumUpdates.push({
+          _id: item._id,
+          system: {
+            action: {
+              extraboonsbanes: item.system.action.boonsbanes,
+              extradamage: item.system.action.damage,
+              extraplus20damage: item.system.action.plus20damage,
+              attack: item.system.vs.attribute,
+              against: item.system.vs.against,
+              boonsbanes: item.system.vs.boonsbanes,
+              damage: item.system.vs.damage,
+              damagetype: item.system.vs.damagetype,
+              damagetypes: item.system.vs.damagetypes,
+              plus20damage: item.system.vs.plus20damage,
+            },
+            vs: undefined
+          }
+        })
+      } else if (itemEntry.type === 'spell') {
+        const item = await compendium.getDocument(itemEntry._id)
+        compendiumUpdates.push({
+          _id: item._id,
+          system: {
+            action: {
+              defenseboonsbanes: item.system.defenseboonsbanes
+            },
+            defenseboonsbanes: undefined
+          }
+        })
+      }
+    }
+
+    if (compendiumUpdates.length > 0) {
+      if (dryRun) {
+        console.log("Dry Migration: ", compendiumUpdates)
+      } else {
+        try {
+          await Item.updateDocuments(compendiumUpdates, { pack: compendium.metadata.id })
+        } catch (e) {
+          errorsInMigration = true
+          console.log('Error migrating items in compendia', e)
+        }
+      }
+    }
+  }
+
+  // Embedded items in actors in compendia
+  for await (const compendium of game.packs.filter(p => !p.locked && p.metadata.type === 'Actor')) {
+    for await (const actorEntry of compendium.index.values()) {
+      const embeddedUpdateData = []
+      const actor = await compendium.getDocument(actorEntry._id)
+      for await (const item of actor.getEmbeddedCollection('Item')) {
+        console.log('Migrating item', item)
+        if (item.type === 'talent') {
+          embeddedUpdateData.push({
+            _id: item._id,
+            system: {
+              action: {
+                extraboonsbanes: item.system.action.boonsbanes,
+                extradamage: item.system.action.damage,
+                extraplus20damage: item.system.action.plus20damage,
+                attack: item.system.vs.attribute,
+                against: item.system.vs.against,
+                boonsbanes: item.system.vs.boonsbanes,
+                damage: item.system.vs.damage,
+                damagetype: item.system.vs.damagetype,
+                damagetypes: item.system.vs.damagetypes,
+                plus20damage: item.system.vs.plus20damage,
+              },
+              vs: undefined
+            }
+          })
+        } else if (item.type === 'spell') {
+          embeddedUpdateData.push({
+            _id: item._id,
+            system: {
+              action: {
+                defenseboonsbanes: item.system.defenseboonsbanes
+              },
+              defenseboonsbanes: undefined
+            }
+          })
+        }
+
+        if (embeddedUpdateData.length > 0) {
+          if (dryRun) {
+            console.log("Dry Migration: ", embeddedUpdateData)
+          } else {
+            try {
+              const u = await actor.updateEmbeddedDocuments('Item', embeddedUpdateData, { pack: compendium.metadata.id, noEmbedEffects: true })
+              console.log('Embedded item migration complete with result', u)
+            } catch (e) {
+              errorsInMigration = true
+              console.log('Error migrating embedded items in actor', actor, e)
+            }
+          }
+        }
+      }
+    }
+  }
+
+  if (!errorsInMigration) _migrationSuccessInfo()
+  else _migrationErrorInfo()
 }
 
 /* -------------------------------------------- */

@@ -55,9 +55,9 @@ export function registerHandlebarsHelpers() {
 
 function _getAttributes(groupName) {
   let attributes = []
-  if (groupName === 'system.action.attack' || groupName === 'system.action.defense' || groupName === 'system.vs.attribute') {
+  if (groupName === 'system.action.attack' || groupName === 'system.action.defense') {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
-  } else if (groupName === 'system.action.against' || groupName === 'system.vs.against') {
+  } else if (groupName === 'system.action.against') {
     attributes = ['', 'defense', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'system.attribute') {
     attributes = ['', 'intellect', 'will']

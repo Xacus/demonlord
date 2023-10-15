@@ -1,0 +1,63 @@
+{{!--
+  Variables:
+    - data
+      - challStrength
+      - challAgility
+      - challIntellect
+      - challWill
+      - challPerception
+      - defenseboonsbanes
+--}}
+
+<div class="gmonly">
+  {{#if data.challStrength}}
+  <div class="challengeaction request-challengeroll">
+    <div class="header" data-attribute="Strength" data-boba="{{data.defenseboonsbanes}}">
+      <div class="challenge-img"></div>
+      <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeStrength"}}
+        {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{#if data.challAgility}}
+  <div class="challengeaction request-challengeroll">
+    <div class="header" data-attribute="Agility" data-boba="{{data.defenseboonsbanes}}">
+      <div class="challenge-img"></div>
+      <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeAgility"}}
+        {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{#if data.challIntellect}}
+  <div class="challengeaction request-challengeroll">
+    <div class="header" data-attribute="Intellect" data-boba="{{data.defenseboonsbanes}}">
+      <div class="challenge-img"></div>
+      <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeIntellect"}}
+        {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{#if data.challWill}}
+  <div class="challengeaction request-challengeroll">
+    <div class="header" data-attribute="Will" data-boba="{{data.defenseboonsbanes}}">
+      <div class="challenge-img"></div>
+      <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributeWill"}}
+        {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{#if data.challPerception}}
+  <div class="challengeaction request-challengeroll">
+    <div class="header" data-attribute="Perception" data-boba="{{data.defenseboonsbanes}}">
+      <div class="challenge-img"></div>
+      <div>{{localize "DL.ChallengeRoll"}}: {{localize "DL.AttributePerception"}}
+        {{#if data.defenseboonsbanes}}({{data.defenseboonsbanes}}){{/if}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+</div>
