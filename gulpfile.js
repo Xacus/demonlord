@@ -103,7 +103,7 @@ async function buildCompendium(compendium) {
     compendium = parts.at(-1);
   }
 
-  const command = `fvtt package pack  --type ${packageType} --id ${packageId} -n "${compendium}" --in "${compendiaDirectory}/${compendium}" --out "${distDirectory}/packs/${compendium}"`
+  const command = `fvtt package pack  --type ${packageType} --id ${packageId} -n "${compendium}" --in "${compendiaDirectory}/${compendium}" --out "${distDirectory}/packs/"`
   console.log(cp.execSync(command).toString());
 }
 
