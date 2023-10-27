@@ -199,6 +199,9 @@ export async function getNestedItemData(nestedData) {
   itemData.selected = nestedData.selected
   itemData.system.enrichedDescriptionUnrolled = await enrichHTMLUnrolled(itemData?.system?.description)
 
+    // Keep the quantity previously stored, if any
+    itemData.system.quantity = nestedData?.system?.quantity ?? itemData.system.quantity
+  
   // Return only the data
   // Warning: here the implicit assertion is that entity is an Item and not an Actor or something else
   return itemData

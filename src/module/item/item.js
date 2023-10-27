@@ -16,10 +16,10 @@ export class DemonlordItem extends Item {
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId)
     // Search for open path/ancestry/role sheets and re-render them. This allows the nested objects to fetch new values
-    if (!['path', 'ancestry', 'creaturerole'].includes(this.type)) {
+    if (!['path', 'ancestry', 'creaturerole', 'item'].includes(this.type)) {
       // eslint-disable-next-line no-prototype-builtins
       let openSheets = Object.entries(ui.windows).map(i => i[1]).filter(i => Item.prototype.isPrototypeOf(i.object))
-      openSheets = openSheets.filter(s => ['path', 'ancestry', 'creaturerole'].includes(s.object.type))
+      openSheets = openSheets.filter(s => ['path', 'ancestry', 'creaturerole', 'item'].includes(s.object.type))
       openSheets.forEach(s => s.render())
     }
   }
@@ -71,5 +71,13 @@ export class DemonlordItem extends Item {
 
   hasHealing() {
     return this.system.healing?.healing ?? false
+  }
+
+  sameItem(item) {
+    const sources = [this.uuid, this._id]
+    if (this.flags?.core?.sourceId != undefined) sources.push(this.flags.core.sourceId)
+    const itemSources = [item.uuid, item._id]
+    if (item.flags?.core?.sourceId != undefined) itemSources.push(item.flags.core.sourceId)
+    return (sources.some(r=> itemSources.includes(r)))
   }
 }

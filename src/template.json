@@ -238,10 +238,13 @@
             "max": 0
           }
         }
+      },
+      "container": {
+        "contents": []
       }
     },
     "item": {
-      "templates": ["base", "action", "enchantment"],
+      "templates": ["base", "action", "enchantment", "container"],
       "quantity": 1,
       "availability": "",
       "value": "",

@@ -46,6 +46,8 @@
         <hr>
         {{/if}}
 
+        {{#if system.contents}}{{>"systems/demonlord/templates/item/partial/item-contents.hbs"}}{{/if}}
+
         <div class="dl-item-section-section margin">
           <div>
             <b>{{localize "DL.Availability"}}</b>

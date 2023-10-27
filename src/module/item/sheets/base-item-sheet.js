@@ -7,6 +7,10 @@ import 'tippy.js/animations/shift-away.css';
 import {initDlEditor} from "../../utils/editor";
 import {DemonlordItem} from "../item";
 import {enrichHTMLUnrolled, i18n} from "../../utils/utils";
+import { 
+  getNestedItemData,
+  getNestedDocument
+} from '../nested-objects';
 
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
@@ -74,6 +78,10 @@ export default class DLBaseItemSheet extends ItemSheet {
     if (data.item.type === 'weapon' || data.item.type === 'spell' || data.item.type === 'talent') this._prepareDamageTypes(data)
 
     this.sectionStates = this.sectionStates || new Map()
+
+    if (data?.system?.contents != undefined && data.system.contents.length > 0) {
+      data.system.contents = await Promise.all(data.system.contents.map(getNestedItemData))
+    }
 
     return data
   }
@@ -231,12 +239,35 @@ export default class DLBaseItemSheet extends ItemSheet {
       } else collapsableTitles.removeClass('active')
     })
 
+    // Contents Quantity Button Info
+    html.find('.dlToggleInfoBtn').click(ev => {
+      const root = $(ev.currentTarget).closest('[data-item-id]')
+      const elem = $(ev.currentTarget)
+      const selector = '.fa-chevron-down, .fa-chevron-up'
+      const chevron = elem.is(selector) ? elem : elem.find(selector);
+      const elements = $(root).find('.dlInfo')
+      elements.each((_, el) => {
+        if (el.style.display === 'none') {
+          $(el).slideDown(100)
+          chevron?.removeClass('fa-chevron-up')
+          chevron?.addClass('fa-chevron-down')
+        } else {
+          $(el).slideUp(100)
+          chevron?.removeClass('fa-chevron-down')
+          chevron?.addClass('fa-chevron-up')
+        }
+      })
+    })
+
     // Add drag events.
     html
       .find('.drop-area, .dl-drop-zone, .dl-drop-zone *')
       .on('dragover', await this._onDragOver.bind(this))
       .on('dragleave', await this._onDragLeave.bind(this))
       .on('drop', await this._onDrop.bind(this))
+
+    // Create nested items by dropping onto item
+    this.form.ondrop = ev => this._onDropItem(ev);
 
     // Custom editor
     initDlEditor(html, this)
@@ -245,6 +276,20 @@ export default class DLBaseItemSheet extends ItemSheet {
     html.find('.create-nested-item').click(async (ev) => await this._onNestedItemCreate(ev))
     html.find('.edit-nested-item').click(async (ev) => await this._onNestedItemEdit(ev))
 
+
+    // Contents item quantity and delete functions
+    html.on('mousedown', '.item-uses', async ev => await this._onUpdateContentsItemQuantity(ev))
+    html.find('.item-delete').click(async ev => await this._onContentsItemDelete(ev))
+
+    if (this.object.parent?.isOwner) {
+      const dragHandler = async ev => await this._onDrag(ev)
+      html.find('.dl-nested-item').each((i, li) => {
+        li.setAttribute('draggable', true)
+        li.addEventListener('dragstart', dragHandler, false)
+        li.addEventListener('dragend', dragHandler, false)
+      })
+    }
+    
   }
 
   /* -------------------------------------------- */
@@ -282,6 +327,21 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
 
+  async _onDrag(ev){
+    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+    const data = await this.getData({})
+    if (ev.type == 'dragend') {
+      if (data.system.contents[itemIndex].system.quantity <= 1) {
+        await this.deleteContentsItem(itemIndex)
+      } else {
+        await this.decreaseContentsItemQuantity(itemIndex)
+      }
+    } else if (ev.type == 'dragstart') {
+      const dragData = { type: 'Item', 'uuid': data.system.contents[itemIndex].uuid }
+      ev.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+    }
+  }
+
   _onDragOver(ev) {
     $(ev.originalEvent.target).addClass('drop-hover')
   }
@@ -292,6 +352,52 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   _onDrop(ev) {
     $(ev.originalEvent.target).removeClass('drop-hover')
+  }
+
+  async _onDropItem(ev) {
+    if (this.item.system?.contents != undefined){
+      try {
+        const itemData = JSON.parse(ev.dataTransfer.getData('text/plain'))
+        if (itemData.type === 'Item') {
+          let actor
+          const item = await fromUuid(itemData.uuid)
+          if (!item || !['ammo', 'armor', 'item', 'weapon'].includes(item.type)) return
+          const itemUpdate = {'_id': item._id}
+          if (itemData.uuid.startsWith('Actor.')) {
+            actor = item.parent
+            /*Since item contents aren't actually embedded we don't want to end up with a reference
+            to a non-existant item. If our item exists outside of the actor-embedded version, use that as our source.
+            Otherwise, create it as a world-level item and update the original's core.sourceId flag accordingly.*/
+            if (item.flags?.core?.sourceId != undefined) {
+              game.items.getName(item.name) ? itemData.uuid = game.items.getName(item.name).uuid : itemData.uuid = item.flags.core.sourceId
+            } else {
+              const newItem = await this.createNestedItem(duplicate(item), `${actor.name}'s Items`)
+              itemUpdate['flags.core.sourceId'] = newItem.uuid;
+              itemData.uuid = newItem.uuid
+            }
+          }
+          if (itemUpdate?.flags?.core?.sourceId == undefined) itemUpdate['flags.core.sourceId'] = itemData.uuid
+
+          //If the item we're adding is the same as the container, bail now
+          if (this.item.sameItem(item)) {
+            ui.notifications.warn("Can't put an item inside itself!")
+            return
+          }
+
+          //If the item was in an Actor's inventory, update the quantity there
+          if (actor != undefined) {
+            if (item.system.quantity > 0) {
+              itemUpdate['system.quantity'] = item.system.quantity-1;
+              await actor.updateEmbeddedDocuments('Item', [itemUpdate])
+            }
+          }
+
+          await this.addContentsItem(itemData)
+        }
+      } catch (e) {
+        console.warn(e)
+      }
+    }
   }
 
   async _onNestedItemCreate(ev) {
@@ -305,19 +411,87 @@ export default class DLBaseItemSheet extends ItemSheet {
       folder = await Folder.create({name:folderName, type: DemonlordItem.documentName})
     }
 
-    const item = await DemonlordItem.create({
+    const item = {
       name: `New ${type.capitalize()}`,
       type: type,
       folder: folder.id,
       data: {},
-    })
+    }
 
+    await this.createNestedItem(item, folderName)
     item.sheet.render(true)
     this.render()
     return item
   }
 
   // eslint-disable-next-line no-unused-vars
-  _onNestedItemEdit(ev) {
+  async _onNestedItemEdit(ev) {
+    const data = await this.getData({})
+    if (!data.item.system.contents) {
+      return
+    }
+    const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+    const nestedData = data.system.contents.find(i => i._id === itemId)
+    await getNestedDocument(nestedData).then(d => {
+      if (d.sheet) d.sheet.render(true)
+      else ui.notifications.warn('The item is not present in the game and cannot be edited.')
+    })
+  }
+
+  async _onUpdateContentsItemQuantity(ev) {
+    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+
+    if (ev.button == 0) {
+      await this.increaseContentsItemQuantity(itemIndex)
+    } else if (ev.button == 2) {
+      await this.decreaseContentsItemQuantity(itemIndex)
+    }
+  }
+
+  async _onContentsItemDelete(ev) {
+    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+    await this.deleteContentsItem(itemIndex)
+
+  }
+
+  async createNestedItem(itemData, folderName) {
+    let folder = game.folders.find(f => f.name === folderName)
+    if (!folder) {
+      folder = await Folder.create({name:folderName, type: DemonlordItem.documentName})
+    }
+    if (itemData?._id != undefined) delete itemData._id;
+    itemData.folder = folder._id
+
+    return await DemonlordItem.create(itemData)
+  }
+
+  async addContentsItem(data) {
+    const item = await getNestedItemData(data)
+    const containerData = duplicate(this.item)
+    containerData.system.contents.push(item)
+    await this.item.update(containerData, {diff: false}).then(_ => this.render)
+  }
+
+  async increaseContentsItemQuantity(itemIndex) {
+    const itemData = duplicate(this.item)
+    itemData.system.contents[itemIndex].system.quantity++
+    await this.item.update(itemData, {diff: false}).then(_ => this.render)
+  }
+
+  async decreaseContentsItemQuantity(itemIndex) {
+    const itemData = duplicate(this.item)
+    if (itemData.system.contents[itemIndex].system.quantity > 0) {
+      itemData.system.contents[itemIndex].system.quantity--
+      await this.item.update(itemData, {diff: false}).then(_ => this.render)
+    } else {
+      return
+    }
+  }
+
+  async deleteContentsItem(itemIndex) {
+    const itemData = duplicate(this.item)
+
+    itemData.system.contents.splice(itemIndex, 1)
+    await this.item.update(itemData)
   }
 }
