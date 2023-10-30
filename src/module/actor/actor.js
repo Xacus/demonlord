@@ -348,6 +348,7 @@ export class DemonlordActor extends Actor {
       (parseInt(item.system.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
       (attacker.system.bonuses.attack.boons[attackAttribute] || 0) +
+      (attacker.system.bonuses.attack.boons.all || 0) +
       (attacker.system.bonuses.attack.boons.weapon || 0)
 
     // The defender banes apply only if the defender is one target
@@ -410,7 +411,7 @@ export class DemonlordActor extends Actor {
   rollAttribute(attribute, inputBoons, inputModifier) {
     attribute = attribute.label.toLowerCase()
     const modifier = parseInt(inputModifier) + (this.getAttribute(attribute)?.modifier || 0)
-    const boons = parseInt(inputBoons) + (this.system.bonuses.challenge.boons[attribute] || 0)
+    const boons = parseInt(inputBoons) + (this.system.bonuses.challenge.boons[attribute] || 0) + (this.system.bonuses.challenge.boons.all || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
     const challengeRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
@@ -468,8 +469,9 @@ export class DemonlordActor extends Actor {
       let modifier = parseInt(inputModifier) + (this.getAttribute(attackAttribute)?.modifier || 0)
 
       let boons =
-        parseInt(inputBoons) +
-        (this.system.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
+        (parseInt(inputBoons) || 0) +
+        (this.system.bonuses.attack.boons[attackAttribute] || 0) +
+        (this.system.bonuses.attack.boons.all || 0) +
         parseInt(talentData.action?.boonsbanes || 0)
       if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
@@ -532,6 +534,7 @@ export class DemonlordActor extends Actor {
         (parseInt(inputBoons) || 0) +
         (parseInt(spellData.action.boonsbanes) || 0) +
         (this.system.bonuses.attack.boons[attackAttribute] || 0) +
+        (this.system.bonuses.attack.boons.all || 0) +
         (this.system.bonuses.attack.boons.spell || 0)
 
       if (targets.length > 0)
@@ -596,7 +599,8 @@ export class DemonlordActor extends Actor {
 
       let boons =
         parseInt(inputBoons) +
-        (this.system.bonuses.attack[attackAttribute] || 0) + // FIXME: is it a challenge or an attack?
+        (this.system.bonuses.attack[attackAttribute] || 0) +
+        (this.system.bonuses.attack.boons.all || 0) +
         parseInt(itemData.action?.boonsbanes || 0)
       if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)

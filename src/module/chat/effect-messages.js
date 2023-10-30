@@ -37,6 +37,16 @@ const changeToMsg = (m, key, title, f=plusify) => {
   return ''
 }
 
+const changeListToMsg = (m, keys, title, f=plusify) => {
+  const changes = []
+  title = title ? `&nbsp;&nbsp;${game.i18n.localize(title)}<br>` : ''
+  keys.forEach(key => {
+    if (m.has(key)) changes.push(m.get(key))
+  })
+
+  return changes.flat(Infinity).reduce((acc, change) => acc + _toMsg(change.name, f(change.value)), title)
+}
+
 /* -------------------------------------------- */
 /* Message builders                             */
 /* -------------------------------------------- */
@@ -80,7 +90,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   }
 
   let boonsMsg =
-    changeToMsg(m, `system.bonuses.attack.boons.${attackAttribute}`, '') +
+    changeListToMsg(m, [`system.bonuses.attack.boons.${attackAttribute}`, "system.bonuses.attack.boons.all"], '') +
     (itemBoons ? _toMsg(item.name, plusify(itemBoons)) : '') +
     otherBoons +
     (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '')
@@ -106,7 +116,7 @@ export function buildAttributeEffectsMessage(actor, attribute) {
   const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
   let m = _remapEffects(actorEffects)
   let result = ''
-  result += changeToMsg(m, `system.bonuses.challenge.boons.${attribute}`, 'DL.TalentChallengeBoonsBanes')
+  result += changeListToMsg(m, [`system.bonuses.challenge.boons.${attribute}`, 'system.bonuses.challenge.boons.all' ], 'DL.TalentChallengeBoonsBanes')
   return result
 }
 
