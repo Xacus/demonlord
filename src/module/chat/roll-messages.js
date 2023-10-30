@@ -240,7 +240,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute)
-  data['talentEffects'] = talentEffects
+  data['effects'] = talentEffects
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['itemEffects'] = talent.effects
@@ -503,10 +503,11 @@ export const postItemToChat = (actor, item, attackRoll, target) => {
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  data['damageFormula'] = itemData.action.damage + actor.system.bonuses.attack.damage
-  data['damageType'] = itemData.action.damagetype
-  data['damageTypes'] = itemData.action.damagetypes
-  data['damageExtra20PlusFormula'] = itemData.action.plus20damage ? item.system.action.plus20damage : actor.system.bonuses.attack.plus20Damage
+  //data['damageFormula'] = itemData.action?.damage + actor.system.bonuses.attack.damage
+  data['damageFormula'] = itemData.action?.damage
+  data['damageType'] = itemData.action?.damagetype
+  data['damageTypes'] = itemData.action?.damagetypes
+  data['damageExtra20PlusFormula'] = itemData.action?.plus20damage ? item.system.action?.plus20damage : actor.system.bonuses.attack.plus20Damage
   data['description'] = itemData.description
   data['defense'] = itemData.action?.defense
   data['defenseboonsbanes'] = parseInt(itemData.action?.defenseboonsbanes)
