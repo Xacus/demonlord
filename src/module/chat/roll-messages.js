@@ -199,8 +199,6 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = (target?.actor?.type === 'character' || defenseShow) && targetNumber ? targetNumber : '?'
 
-  const talentEffects = buildTalentEffectsMessage(actor, talent)
-
   const templateData = {
     actor: actor,
     item: talent,
@@ -240,7 +238,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute)
-  data['effects'] = talentEffects
+  data['effects'] = buildTalentEffectsMessage(actor, talent)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['itemEffects'] = talent.effects
