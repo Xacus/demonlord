@@ -134,6 +134,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.maluses.noSpecialActions': i18n('DL.Malus') + ' - ' + i18n('DL.NoSpecialActions'),
       'system.maluses.noSpells': i18n('DL.Malus') + ' - ' + i18n('DL.NoSpells'),
       'system.maluses.noEndOfRound': i18n('DL.Malus') + ' - ' + i18n('DL.NoEndOfRound'),
+      'system.maluses.affliction': i18n('DL.Malus') + ' - ' + i18n('DL.Afflictions'),
       // Other bonuses
       'system.bonuses.rerollBoon1Dice': i18n('DL.RerollBoons1'),
       // Creature only
