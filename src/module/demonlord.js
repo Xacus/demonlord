@@ -149,6 +149,7 @@ Hooks.once('setup', function () {
   else {
     effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'))
     effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'))
+    effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'))
   }
 
 
