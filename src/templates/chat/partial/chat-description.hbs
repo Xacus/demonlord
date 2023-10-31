@@ -1,0 +1,21 @@
+{{!--
+  Variables:
+    - description
+    - isCreature
+--}}
+
+{{#if description}}
+{{#if isCreature}}
+<div class="gmonly">
+  <div class="description">
+    <div class="header">{{localize "DL.AttackRollDescription"}}</div>
+    <div class="body">{{{description}}}</div>
+  </div>
+</div>
+{{else}}
+<div class="description">
+  <div class="header">{{localize "DL.AttackRollDescription"}}</div>
+  <div class="body">{{{description}}}</div>
+</div>
+{{/if}}
+{{/if}}

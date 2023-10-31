@@ -41,21 +41,8 @@
 
   {{> "systems/demonlord/templates/chat/partial/chat-attack.hbs" data=data diceData=diceData}}
 
-  {{#if data.description}}
-    {{#if data.isCreature}}
-      <div class="gmonly">
-        <div class="description">
-          <div class="header">{{localize "DL.SpellRollDescription"}}</div>
-          <div class="body">{{{data.description}}}</div>
-        </div>
-      </div>
-    {{else}}
-      <div class="description">
-        <div class="header">{{localize "DL.SpellRollDescription"}}</div>
-        <div class="body">{{{data.description}}}</div>
-      </div>
-    {{/if}}
-  {{/if}}
+  {{> "systems/demonlord/templates/chat/partial/chat-description.hbs" description=data.description isCreature=data.isCreature}}
+
   {{#if data.isCreature}}
   <div class="gmonly">
   {{/if}}

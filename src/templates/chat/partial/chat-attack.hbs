@@ -107,13 +107,20 @@
     {{/if}}
   {{/if}}
 
-  {{#if data.talentEffects}}
-  <div class="description">
-    <div class="header">{{localize "DL.TalentRollEffects"}}</div>
-    <div class="body">{{{data.talentEffects}}}
-      <hr>
-    </div>
-  </div>
+  {{#if data.effects}}
+    {{#if data.isCreature}}
+      <div class="gmonly">
+        <div class="description">
+          <div class="header">{{localize "DL.TalentRollEffects"}}</div>
+          <div class="body">{{{data.effects}}}</div>
+        </div>
+      </div>
+    {{else}}
+      <div class="description">
+        <div class="header">{{localize "DL.TalentRollEffects"}}</div>
+        <div class="body">{{{data.effects}}}</div>
+      </div>
+    {{/if}}
   {{/if}}
 
   {{#if data.effectdice}}
