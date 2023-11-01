@@ -171,25 +171,24 @@ export class DemonlordActor extends Actor {
       // And then round down
       system.characteristics.health.healingrate = Math.floor(system.characteristics.health.healingrate)
 
-
       // Insanity
       system.characteristics.insanity.max += system.attributes.will.value
 
       // Armor
       system.characteristics.defense = (system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility) // + system.characteristics.defense // Applied as ActiveEffect further down
-
-      // Final armor computation
-      system.characteristics.defense += system.bonuses.armor.defense
-      system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
-      for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
-        const result = change.effect.apply(this, change)
-        if (result !== null) this.overrides[change.key] = result
-      }
     }
     // --- Creature specific data ---
     else {
       system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
     }    
+
+    // Final armor computation
+    system.characteristics.defense += system.bonuses.armor.defense
+    system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
+    for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
+      const result = change.effect.apply(this, change)
+      if (result !== null) this.overrides[change.key] = result
+    }
 
     // WIP: Adjust size here
     // for (let change of effectChanges.filter(e => e.key.includes("size"))) {
