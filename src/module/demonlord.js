@@ -264,10 +264,6 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
 
 export async function findDeleteEffect(actor, effectId) {
   const effect = actor.effects.find(e => e.statuses?.has(effectId))
-  if (!effect) {
-    ui.notifications.error(game.i18n.localize('DL.UnknownEffect') + ': ' + effectId)
-    return
-  }
   return await effect?.delete()
 }
 
