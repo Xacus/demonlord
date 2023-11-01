@@ -354,6 +354,7 @@ export class DemonlordActor extends Actor {
     if (defendersTokens.length === 1)
       boons -=
         (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) +
+        (defender?.system.bonuses.defense.boons.all || 0) +
         (defender?.system.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
@@ -472,7 +473,7 @@ export class DemonlordActor extends Actor {
         (this.system.bonuses.attack.boons[attackAttribute] || 0) +
         (this.system.bonuses.attack.boons.all || 0) +
         parseInt(talentData.action?.boonsbanes || 0)
-      if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
+      if (targets.length === 1) boons -= ((target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) + (target?.actor?.system.bonuses.defense.boons.all || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
@@ -539,6 +540,7 @@ export class DemonlordActor extends Actor {
       if (targets.length > 0)
         boons -=
           (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
+          (target?.actor?.system.bonuses.defense.boons.all || 0) +
           (target?.actor?.system.bonuses.defense.boons.spell || 0)
 
       const modifier = (parseInt(inputModifier) || 0) + this.getAttribute(attackAttribute).modifier || 0
@@ -601,7 +603,7 @@ export class DemonlordActor extends Actor {
         (this.system.bonuses.attack[attackAttribute] || 0) +
         (this.system.bonuses.attack.boons.all || 0) +
         parseInt(itemData.action?.boonsbanes || 0)
-      if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
+      if (targets.length === 1) boons -= ((target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) + (target?.actor?.system.bonuses.defense.boons.all || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
