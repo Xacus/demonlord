@@ -114,6 +114,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.bonuses.defense.boons.intellect': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
       'system.bonuses.defense.boons.will': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
       'system.bonuses.defense.boons.perception': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
+      'system.bonuses.defense.boons.all': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.AllTitle'),
       // AutoFail challenge malus
       'system.maluses.autoFail.challenge.strength': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeStrength'),
       'system.maluses.autoFail.challenge.agility': i18n('DL.AutoFailChallenges') + ' - ' + i18n('DL.AttributeAgility'),

@@ -65,7 +65,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
   let m = _remapEffects(attackerEffects)
 
-  let defenderBoons = defender?.system.bonuses.defense.boons[defenseAttribute] || 0
+  let defenderBoons = (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) + (defender?.system.bonuses.defense.boons.all || 0)
   const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
   let otherBoons = ''
   let itemBoons

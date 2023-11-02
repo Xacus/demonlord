@@ -171,25 +171,24 @@ export class DemonlordActor extends Actor {
       // And then round down
       system.characteristics.health.healingrate = Math.floor(system.characteristics.health.healingrate)
 
-
       // Insanity
       system.characteristics.insanity.max += system.attributes.will.value
 
       // Armor
       system.characteristics.defense = (system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility) // + system.characteristics.defense // Applied as ActiveEffect further down
-
-      // Final armor computation
-      system.characteristics.defense += system.bonuses.armor.defense
-      system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
-      for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
-        const result = change.effect.apply(this, change)
-        if (result !== null) this.overrides[change.key] = result
-      }
     }
     // --- Creature specific data ---
     else {
       system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
     }    
+
+    // Final armor computation
+    system.characteristics.defense += system.bonuses.armor.defense
+    system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
+    for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
+      const result = change.effect.apply(this, change)
+      if (result !== null) this.overrides[change.key] = result
+    }
 
     // WIP: Adjust size here
     // for (let change of effectChanges.filter(e => e.key.includes("size"))) {
@@ -355,6 +354,7 @@ export class DemonlordActor extends Actor {
     if (defendersTokens.length === 1)
       boons -=
         (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) +
+        (defender?.system.bonuses.defense.boons.all || 0) +
         (defender?.system.bonuses.defense.boons.weapon || 0)
 
     // Check if requirements met
@@ -473,7 +473,7 @@ export class DemonlordActor extends Actor {
         (this.system.bonuses.attack.boons[attackAttribute] || 0) +
         (this.system.bonuses.attack.boons.all || 0) +
         parseInt(talentData.action?.boonsbanes || 0)
-      if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
+      if (targets.length === 1) boons -= ((target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) + (target?.actor?.system.bonuses.defense.boons.all || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
@@ -540,6 +540,7 @@ export class DemonlordActor extends Actor {
       if (targets.length > 0)
         boons -=
           (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
+          (target?.actor?.system.bonuses.defense.boons.all || 0) +
           (target?.actor?.system.bonuses.defense.boons.spell || 0)
 
       const modifier = (parseInt(inputModifier) || 0) + this.getAttribute(attackAttribute).modifier || 0
@@ -602,7 +603,7 @@ export class DemonlordActor extends Actor {
         (this.system.bonuses.attack[attackAttribute] || 0) +
         (this.system.bonuses.attack.boons.all || 0) +
         parseInt(itemData.action?.boonsbanes || 0)
-      if (targets.length > 0) boons -= target?.actor?.system.bonuses.defense[defenseAttribute] || 0
+      if (targets.length === 1) boons -= ((target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) + (target?.actor?.system.bonuses.defense.boons.all || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
