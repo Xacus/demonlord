@@ -213,9 +213,9 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
 
   // if (game.userId !== userId) return FIXME: doesn't work currently due to foundry bug (9/9/22)
   // Dirty fix
-  const activeGMs = game.users.filter(u => u.isGM && u.active);
-  const sortedGMs = activeGMs.sort((a, b) => a.id.localeCompare(b.id));
-  if (game.user !== sortedGMs[0]) return;
+  // const activeGMs = game.users.filter(u => u.isGM && u.active);
+  // const sortedGMs = activeGMs.sort((a, b) => a.id.localeCompare(b.id));
+  if (game.userId !== _userId) return;
 
   // Here we select the actors that are either in the CURRENT SCENE or in the CURRENT COMBAT
   let currentActors
@@ -223,7 +223,7 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
   if (inCombat)
     currentActors = game.combat.combatants.map(c => c.actor)
   else
-    currentActors = game.scenes.current.tokens.map(t => t._actor)
+    currentActors = game.scenes.current.tokens.map(t => t.actor)
 
   for await (let actor of currentActors) {
     let updateData = []
