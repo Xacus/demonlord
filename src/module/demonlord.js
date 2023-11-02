@@ -199,6 +199,10 @@ Hooks.on('updateActor', async (actor, updateData) => {
 export async function findAddEffect(actor, effectId, overlay) {
   if (!actor.effects.find(e => e.statuses?.has(effectId))) {
     const effect = CONFIG.statusEffects.find(e => e.id === effectId)
+    if (!effect) {
+      ui.notifications.error(game.i18n.localize('DL.UnknownEffect') + ': ' + effectId)
+      return
+    }
     effect.statuses = [effectId]
     if (overlay) {
       if (!effect.flags) {
@@ -247,10 +251,23 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
       }
     }
   }
+
+  // If it's an affliction (system.maluses.affliction), add it
+  const changes = activeEffect.changes
+  if (['character', 'creature'].includes(_parent.type)) {
+    for (const affliction of changes.filter(c => c.key === 'system.maluses.affliction')) {
+      await _parent.setFlag('demonlord', affliction.value.toLowerCase(), true)
+      await findAddEffect(_parent, affliction.value.toLowerCase())
+    }
+  }
 })
 
 export async function findDeleteEffect(actor, effectId) {
   const effect = actor.effects.find(e => e.statuses?.has(effectId))
+  if (!effect) {
+    ui.notifications.error(game.i18n.localize('DL.UnknownEffect') + ': ' + effectId)
+    return
+  }
   return await effect?.delete()
 }
 
@@ -275,6 +292,35 @@ Hooks.on('deleteActiveEffect', async (activeEffect, _, userId) => {
       }
       if (statusId === 'dying') {
         await findDeleteEffect(_parent, 'unconscious')
+      }
+    }
+  }
+
+  // If it's an affliction (system.maluses.affliction), remove it
+  const changes = activeEffect.changes
+  if (['character', 'creature'].includes(_parent.type)) {
+    for (const affliction of changes.filter(c => c.key === 'system.maluses.affliction')) {
+      await _parent.setFlag('demonlord', affliction.value.toLowerCase(), false)
+      await findDeleteEffect(_parent, affliction.value.toLowerCase())
+    }
+  }
+})
+
+Hooks.on('updateActiveEffect', async (activeEffect, diff, _, userId) => {
+  if (game.user.id !== userId) return
+  const changes = activeEffect.changes
+  const _parent = activeEffect.parent
+  if (changes?.length > 0 && _parent) {
+    // If it's an affliction (system.maluses.affliction), add it
+    if (['character', 'creature'].includes(_parent.type)) {
+      for (const affliction of changes.filter(c => c.key === 'system.maluses.affliction')) {
+        if (diff.disabled) {
+          await _parent.setFlag('demonlord', affliction.value.toLowerCase(), false)
+          await findDeleteEffect(_parent, affliction.value.toLowerCase())
+        } else {
+          await _parent.setFlag('demonlord', affliction.value.toLowerCase(), true)
+          await findAddEffect(_parent, affliction.value.toLowerCase())
+        }
       }
     }
   }

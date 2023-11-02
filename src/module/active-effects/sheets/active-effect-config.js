@@ -89,6 +89,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.bonuses.attack.boons.intellect': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
       'system.bonuses.attack.boons.will': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
       'system.bonuses.attack.boons.perception': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
+      'system.bonuses.attack.boons.all': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AllTitle'),
       'system.bonuses.attack.damage': i18n('DL.TalentExtraDamage'),
       'system.bonuses.attack.plus20Damage': i18n('DL.TalentExtraDamage20plus'),
       'system.bonuses.attack.extraEffect': i18n('DL.TalentExtraEffect'),
@@ -98,6 +99,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.bonuses.challenge.boons.intellect': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeIntellect'),
       'system.bonuses.challenge.boons.will': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
       'system.bonuses.challenge.boons.perception': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
+      'system.bonuses.challenge.boons.all': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AllTitle'),
       // Armor bonuses
       'system.bonuses.armor.fixed': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.ArmorFixed'),
       'system.bonuses.armor.agility': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeAgility'),
@@ -132,6 +134,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.maluses.noSpecialActions': i18n('DL.Malus') + ' - ' + i18n('DL.NoSpecialActions'),
       'system.maluses.noSpells': i18n('DL.Malus') + ' - ' + i18n('DL.NoSpells'),
       'system.maluses.noEndOfRound': i18n('DL.Malus') + ' - ' + i18n('DL.NoEndOfRound'),
+      'system.maluses.affliction': i18n('DL.Malus') + ' - ' + i18n('DL.Afflictions'),
       // Other bonuses
       'system.bonuses.rerollBoon1Dice': i18n('DL.RerollBoons1'),
       // Creature only

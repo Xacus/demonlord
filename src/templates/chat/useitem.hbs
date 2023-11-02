@@ -15,10 +15,7 @@
 
   {{> "systems/demonlord/templates/chat/partial/chat-attack.hbs" data=data diceData=diceData}}
 
-  <div class="description">
-    <div class="header">{{localize "DL.AttackRollDescription"}}</div>
-    <div class="body">{{{data.description.value}}}</div>
-  </div>
+  {{> "systems/demonlord/templates/chat/partial/chat-description.hbs" description=data.description isCreature=data.isCreature}}
 
   {{> "systems/demonlord/templates/chat/partial/chat-challenge.hbs" data=data}}
 
