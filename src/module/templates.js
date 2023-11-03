@@ -52,6 +52,7 @@ export const preloadHandlebarsTemplates = async function () {
 
     // Item Sheet Partials
     'systems/demonlord/templates/item/partial/item-activation.hbs',
+    'systems/demonlord/templates/item/partial/item-contents.hbs',
     'systems/demonlord/templates/item/partial/item-description.hbs',
     'systems/demonlord/templates/item/partial/item-effects.hbs',
     'systems/demonlord/templates/item/partial/item-sheet-header.hbs',

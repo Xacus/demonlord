@@ -254,6 +254,26 @@
     font-size: $f-size-big-slight;
   }
 
+  .dl-item-section-contents {
+    & > div > b {
+      display: inline-block;
+      font-family: $font-primary;
+      font-weight: bolder;
+      margin-bottom: 4px;
+    }
+
+    & > .dl-item-row-header {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 16px;
+      }
+
+      margin: 4px 0;
+      padding: 0 16px;
+      font-family: $font-primary;
+      font-size: $f-size-big-slight;
+  }
+
   a.create-nested-item {
     margin-right: 7px;
   }
