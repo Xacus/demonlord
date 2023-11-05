@@ -1,6 +1,7 @@
 // Import Modules
 import {DL} from './config.js'
 import {DemonlordActor} from './actor/actor.js'
+import {DemonlordToken} from './actor/token.js'
 import {DemonlordItem} from './item/item.js'
 import {ActionTemplate} from './pixi/action-template.js'
 import {registerSettings} from './settings.js'
@@ -52,6 +53,7 @@ Hooks.once('init', async function () {
   // Define custom Entity classes
   CONFIG.DL = DL
   CONFIG.Actor.documentClass = DemonlordActor
+  CONFIG.Token.objectClass = DemonlordToken
   CONFIG.Item.documentClass = DemonlordItem
   DocumentSheetConfig.registerSheet(ActiveEffect, "demonlord", DLActiveEffectConfig, {makeDefault: true})
   CONFIG.ui.combat = DLCombatTracker
