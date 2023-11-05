@@ -17,7 +17,7 @@
               {{#each creature.endOfRoundEffects as |endOfRoundEffect id|}}
                 <li class="effect" style="margin-bottom: 4px">
                   <div style="font-weight: bold">{{endOfRoundEffect.name}}</div>
-                  <div>{{{endOfRoundEffect.system.description}}}</div>
+                  <div>{{{endOfRoundEffect.system.enrichedDescription}}}</div>
                 </li>
               {{/each}}
             </ol>

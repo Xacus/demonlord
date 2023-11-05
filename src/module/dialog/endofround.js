@@ -22,24 +22,31 @@ export class DLEndOfRound extends FormApplication {
    * Construct and return the data object used to render the HTML template for this form application.
    * @return {Object}
    */
-  getData() {
+  async getData() {
     let creatures = {}
     const currentCombat = game.combat
     const combatants = Array.from(currentCombat.combatants?.values()) || []
 
-    combatants
+    await combatants
       .filter(combatant => !combatant.defeated && combatant.actor.type === 'creature')
       .filter(combatant => combatant.actor.items.filter(i => i.type === 'endoftheround').length > 0)
       .sort((a, b) => (a.initiative > b.initiative ? -1 : 1))
-      .forEach((combatant, index) => {
+      .forEach(async (combatant, index) => {
         creatures[index] = {
           tokenActorId: combatant.token.actorId,
           initiative: combatant.initiative,
           actor: combatant.actor,
           token: combatant.token,
-          endOfRoundEffects: combatant.actor.items.filter(i => i.type === 'endoftheround'),
+          endOfRoundEffects: await combatant.actor.items.filter(i => i.type === 'endoftheround'),
         }
       })
+
+    // Enrich descriptions
+    for (const creature of Object.values(creatures)) {
+      creature.endOfRoundEffects.forEach(async e => {
+        e.system.enrichedDescription = await TextEditor.enrichHTML(e.system.description)
+      })
+    }
 
     return { creatures }
   }
