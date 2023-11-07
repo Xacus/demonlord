@@ -418,10 +418,10 @@ export default class DLBaseItemSheet extends ItemSheet {
       data: {},
     }
 
-    await this.createNestedItem(item, folderName)
-    item.sheet.render(true)
+    const newItem = await this.createNestedItem(item, folderName)
+    newItem.sheet.render(true)
     this.render()
-    return item
+    return newItem
   }
 
   // eslint-disable-next-line no-unused-vars
