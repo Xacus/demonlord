@@ -58,7 +58,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  data['damageFormula'] = itemData.action.damage + attacker.system.bonuses.attack.damage
+  data['damageFormula'] = itemData.action?.damage + attacker.system.bonuses.attack.damage
   data['damageType'] = itemData.action.damagetype
   data['damageTypes'] = itemData.action.damagetypes
   data['damageExtra20PlusFormula'] = itemData.action.plus20damage ? item.system.action.plus20damage : attacker.system.bonuses.attack.plus20Damage
@@ -329,7 +329,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  data['damageFormula'] = spellData.action?.damage
+  data['damageFormula'] = spellData.action?.damage + actor.system.bonuses.attack.damage
   data['damageType'] = spellData.action?.damagetype
   data['damageTypes'] = spellData.action?.damagetypes
   data['damageExtra20PlusFormula'] = spellData.action?.plus20damage
@@ -500,8 +500,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  //data['damageFormula'] = itemData.action?.damage + actor.system.bonuses.attack.damage
-  data['damageFormula'] = itemData.action?.damage
+  data['damageFormula'] = itemData.action?.damage + actor.system.bonuses.attack.damage
   data['damageType'] = itemData.action?.damagetype
   data['damageTypes'] = itemData.action?.damagetypes
   data['damageExtra20PlusFormula'] = itemData.action?.plus20damage ? item.system.action?.plus20damage : actor.system.bonuses.attack.plus20Damage
