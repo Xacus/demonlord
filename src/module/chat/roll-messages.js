@@ -10,7 +10,7 @@ import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
  * @param attackAttribute       string (lowercase)
  * @param defenseAttribute      stromg (lowercase)
  */
-export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute) {
+export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, inputBoons) {
   const itemData = item.system
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -75,7 +75,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['effects'] = attacker.system.bonuses.attack.extraEffect
-  data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute)
+  data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons)
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
   data['ifBlindedRoll'] = rollMode === 'blindroll'
@@ -104,7 +104,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
  * @param attribute         string (lowercase)
  * @param challengeRoll     Roll
  */
-export function postAttributeToChat(actor, attribute, challengeRoll) {
+export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons) {
   const rollMode = game.settings.get('core', 'rollMode')
 
   const voidRoll = actor.getAttribute(attribute)?.immune
@@ -125,7 +125,6 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
     diceData: formatDice(challengeRoll),
     data: {},
   }
-  const effects = buildAttributeEffectsMessage(actor, attribute)
 
   const data = templateData.data
   data['diceTotal'] = voidRoll ? '-' : diceTotal
@@ -134,7 +133,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
   data['resultTextGM'] = resultTextGM
   data['resultBoxClass'] = resultBoxClass
   data['isCreature'] = actor.type === 'creature'
-  data['actionEffects'] = effects
+  data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, inputBoons)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['actorInfo'] = buildActorInfo(actor)
 
@@ -160,7 +159,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll) {
  * @param attackRoll    Roll
  * @param target        DemonlordActor
  */
-export function postTalentToChat(actor, talent, attackRoll, target) {
+export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) {
   const talentData = talent.system
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -237,7 +236,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
   data['hasTarget'] = targetNumber !== undefined
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
-  data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute)
+  data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute, inputBoons)
   data['effects'] = buildTalentEffectsMessage(actor, talent)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
@@ -270,7 +269,7 @@ export function postTalentToChat(actor, talent, attackRoll, target) {
  * @param attackRoll
  * @param target
  */
-export function postSpellToChat(actor, spell, attackRoll, target) {
+export function postSpellToChat(actor, spell, attackRoll, target, inputBoons) {
   const spellData = spell.system
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -362,7 +361,7 @@ export function postSpellToChat(actor, spell, attackRoll, target) {
   data['isPlus20Roll'] = plus20
   data['effectdice'] = effectdice
   data['effects'] = '' // FIXME: what to put in here??
-  data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute)
+  data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute, inputBoons)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['itemEffects'] = spell.effects
@@ -436,7 +435,7 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
   }
 }
 
-export const postItemToChat = (actor, item, attackRoll, target) => {
+export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   const itemData = item.system
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -519,7 +518,7 @@ export const postItemToChat = (actor, item, attackRoll, target) => {
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['effects'] = actor.system.bonuses.attack.extraEffect
-  data['attackEffects'] = buildAttackEffectsMessage(actor, target, item, attackAttribute, defenseAttribute)
+  data['attackEffects'] = buildAttackEffectsMessage(actor, target, item, attackAttribute, defenseAttribute, inputBoons)
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
   data['ifBlindedRoll'] = rollMode === 'blindroll'

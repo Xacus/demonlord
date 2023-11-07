@@ -366,7 +366,7 @@ export class DemonlordActor extends Actor {
     const attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
     attackRoll.evaluate({async: false})
 
-    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
+    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, inputBoons)
 
     const hitTargets = defendersTokens.filter(d => {
       const targetNumber =
@@ -416,7 +416,7 @@ export class DemonlordActor extends Actor {
 
     const challengeRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
     challengeRoll.evaluate({async: false})
-    postAttributeToChat(this, attribute, challengeRoll)
+    postAttributeToChat(this, attribute, challengeRoll, inputBoons)
   }
 
   rollChallenge(attribute) {
@@ -486,7 +486,7 @@ export class DemonlordActor extends Actor {
       itemId: talent.id,
     })
 
-    postTalentToChat(this, talent, attackRoll, target?.actor)
+    postTalentToChat(this, talent, attackRoll, target?.actor, inputBoons)
   }
 
   /* -------------------------------------------- */
@@ -556,7 +556,7 @@ export class DemonlordActor extends Actor {
       itemId: spell.id,
     })
 
-    postSpellToChat(this, spell, attackRoll, target?.actor)
+    postSpellToChat(this, spell, attackRoll, target?.actor, inputBoons)
   }
 
   /* -------------------------------------------- */
@@ -590,7 +590,7 @@ export class DemonlordActor extends Actor {
     let attackRoll = null
 
     if (!itemData?.action?.attack) {
-      postItemToChat(this, item, null, null)
+      postItemToChat(this, item, null, null, null)
       return
     } else {
       const attackAttribute = itemData.action.attack.toLowerCase()
@@ -610,7 +610,7 @@ export class DemonlordActor extends Actor {
       attackRoll.evaluate({async: false})
     }
 
-    postItemToChat(this, item, attackRoll, target?.actor)
+    postItemToChat(this, item, attackRoll, target?.actor, inputBoons)
   }
 
   /* -------------------------------------------- */

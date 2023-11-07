@@ -357,6 +357,7 @@
   "DL.LanguagesReadShort": "R",
   "DL.LanguagesWriteShort": "W",
   "DL.LanguagesSpeakShort": "S",
+  "DL.DialogInput": "Dialog Input",
   "DL.DialogChallengeRoll": "Challenge Roll: ",
   "DL.DialogAttackRoll": "Attack Roll: ",
   "DL.DialogTalentRoll": "Talent Roll: ",

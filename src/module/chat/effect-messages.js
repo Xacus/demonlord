@@ -44,7 +44,8 @@ const changeListToMsg = (m, keys, title, f=plusify) => {
     if (m.has(key)) changes.push(m.get(key))
   })
 
-  return changes.flat(Infinity).reduce((acc, change) => acc + _toMsg(change.name, f(change.value)), title)
+  if (changes.length > 0) return changes.flat(Infinity).reduce((acc, change) => acc + _toMsg(change.name, f(change.value)), title)
+  return ''
 }
 
 /* -------------------------------------------- */
@@ -61,13 +62,14 @@ const changeListToMsg = (m, keys, title, f=plusify) => {
  * @param defenseAttribute
  * @returns {*}
  */
-export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute) {
+export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons) {
   const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
   let m = _remapEffects(attackerEffects)
 
   let defenderBoons = (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) + (defender?.system.bonuses.defense.boons.all || 0)
   const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
   let otherBoons = ''
+  let inputBoonsMsg = (inputBoons && inputBoons !== "0") ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
   let itemBoons
   switch (item.type) {
     case 'spell':
@@ -98,6 +100,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
 
   return (
     boonsMsg +
+    inputBoonsMsg + 
     changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') +
     changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
   )
@@ -112,11 +115,13 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
  * @param attribute
  * @returns {string}
  */
-export function buildAttributeEffectsMessage(actor, attribute) {
+export function buildAttributeEffectsMessage(actor, attribute, inputBoons) {
   const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
   let m = _remapEffects(actorEffects)
+  let inputBoonsMsg = (inputBoons && inputBoons !== "0") ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
   let result = ''
-  result += changeListToMsg(m, [`system.bonuses.challenge.boons.${attribute}`, 'system.bonuses.challenge.boons.all' ], 'DL.TalentChallengeBoonsBanes')
+  result += changeListToMsg(m, [`system.bonuses.challenge.boons.${attribute}`, 'system.bonuses.challenge.boons.all' ], 'DL.TalentChallengeBoonsBanes') +
+  inputBoonsMsg
   return result
 }
 
