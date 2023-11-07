@@ -69,7 +69,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   let defenderBoons = (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) + (defender?.system.bonuses.defense.boons.all || 0)
   const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
   let otherBoons = ''
-  let inputBoonsMsg = (inputBoons && inputBoons !== "0") ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
+  let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
   let itemBoons
   switch (item.type) {
     case 'spell':
@@ -118,7 +118,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
 export function buildAttributeEffectsMessage(actor, attribute, inputBoons) {
   const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
   let m = _remapEffects(actorEffects)
-  let inputBoonsMsg = (inputBoons && inputBoons !== "0") ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
+  let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
   let result = ''
   result += changeListToMsg(m, [`system.bonuses.challenge.boons.${attribute}`, 'system.bonuses.challenge.boons.all' ], 'DL.TalentChallengeBoonsBanes') +
   inputBoonsMsg
