@@ -269,7 +269,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
  * @param attackRoll
  * @param target
  */
-export function postSpellToChat(actor, spell, attackRoll, target, inputBoons) {
+export async function postSpellToChat(actor, spell, attackRoll, target, inputBoons) {
   const spellData = spell.system
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -308,7 +308,7 @@ export function postSpellToChat(actor, spell, attackRoll, target, inputBoons) {
   let effectdice = ''
   if (spellData?.effectdice && spellData?.effectdice !== '') {
     const effectRoll = new Roll(spellData.effectdice, {})
-    effectRoll.evaluate({async: false})
+    await effectRoll.evaluate()
     effectdice = effectRoll.total
   }
 
