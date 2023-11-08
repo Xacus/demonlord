@@ -110,6 +110,7 @@ export class DemonlordActor extends Actor {
       attribute.min = 0
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
+      attribute.key = key
     }
     system.attributes.perception.label = game.i18n.localize(`DL.AttributePerception`)
 
@@ -411,20 +412,19 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   async rollAttribute(attribute, inputBoons, inputModifier) {
-    attribute = attribute.label.toLowerCase()
-    const modifiers = [parseInt(inputModifier), this.getAttribute(attribute)?.modifier || 0]
-    const boons = (parseInt(inputBoons) || 0) + (this.system.bonuses.challenge.boons[attribute] || 0) + (this.system.bonuses.challenge.boons.all || 0)
+    const modifiers = [parseInt(inputModifier), this.getAttribute(attribute.key)?.modifier || 0]
+    const boons = (parseInt(inputBoons) || 0) + (this.system.bonuses.challenge.boons[attribute.key] || 0) + (this.system.bonuses.challenge.boons.all || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
     await challengeRoll.evaluate()
-    postAttributeToChat(this, attribute, challengeRoll, parseInt(inputBoons) || 0)
+    postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0)
   }
 
   rollChallenge(attribute) {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
-    if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.label))
+    if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.key))
       launchRollDialog(this.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2), async html =>
         await this.rollAttribute(attribute, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
