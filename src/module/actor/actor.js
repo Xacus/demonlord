@@ -368,7 +368,7 @@ export class DemonlordActor extends Actor {
     const attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
     await attackRoll.evaluate()
 
-    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, inputBoons)
+    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, parseInt(inputBoons) || 0)
 
     const hitTargets = defendersTokens.filter(d => {
       const targetNumber =
@@ -413,12 +413,12 @@ export class DemonlordActor extends Actor {
   async rollAttribute(attribute, inputBoons, inputModifier) {
     attribute = attribute.label.toLowerCase()
     const modifiers = [parseInt(inputModifier), this.getAttribute(attribute)?.modifier || 0]
-    const boons = parseInt(inputBoons) + (this.system.bonuses.challenge.boons[attribute] || 0) + (this.system.bonuses.challenge.boons.all || 0)
+    const boons = (parseInt(inputBoons) || 0) + (this.system.bonuses.challenge.boons[attribute] || 0) + (this.system.bonuses.challenge.boons.all || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
     await challengeRoll.evaluate()
-    postAttributeToChat(this, attribute, challengeRoll, inputBoons)
+    postAttributeToChat(this, attribute, challengeRoll, parseInt(inputBoons) || 0)
   }
 
   rollChallenge(attribute) {
@@ -488,7 +488,7 @@ export class DemonlordActor extends Actor {
       itemId: talent.id,
     })
 
-    postTalentToChat(this, talent, attackRoll, target?.actor, inputBoons)
+    postTalentToChat(this, talent, attackRoll, target?.actor, parseInt(inputBoons) || 0)
   }
 
   /* -------------------------------------------- */
@@ -558,7 +558,7 @@ export class DemonlordActor extends Actor {
       itemId: spell.id,
     })
 
-    postSpellToChat(this, spell, attackRoll, target?.actor, inputBoons)
+    postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
   }
 
   /* -------------------------------------------- */
@@ -601,7 +601,7 @@ export class DemonlordActor extends Actor {
       let modifiers = [parseInt(inputModifier), (this.getAttribute(attackAttribute)?.modifier || 0)]
 
       let boons =
-        parseInt(inputBoons) +
+        (parseInt(inputBoons) || 0) +
         (this.system.bonuses.attack[attackAttribute] || 0) +
         (this.system.bonuses.attack.boons.all || 0) +
         parseInt(itemData.action?.boonsbanes || 0)
@@ -612,7 +612,7 @@ export class DemonlordActor extends Actor {
       await attackRoll.evaluate()
     }
 
-    postItemToChat(this, item, attackRoll, target?.actor, inputBoons)
+    postItemToChat(this, item, attackRoll, target?.actor, parseInt(inputBoons) || 0)
   }
 
   /* -------------------------------------------- */
