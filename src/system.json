@@ -18,6 +18,7 @@
       "name": "Ferrer"
     }
   ],
+  "background": "systems/demonlord/assets/ui/thumbnail.webp",
   "compatibility": {
     "minimum": 11,
     "verified": 11
