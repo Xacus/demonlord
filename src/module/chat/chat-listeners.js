@@ -61,7 +61,7 @@ async function _onChatRollDamage(event) {
   const itemId = item.dataset.itemId || li.closest('.demonlord').dataset.itemId
 
   const damageRoll = new Roll(damageformula, {})
-  damageRoll.evaluate({async: false})
+  await damageRoll.evaluate()
 
   let totalDamage = ''
   let totalDamageGM = ''
@@ -254,7 +254,7 @@ async function _onChatMakeChallengeRoll(event) {
   const start = li.closest('.demonlord')
   const boonsbanesEntered = start.children[1].children[0].children[0].children[1]?.value
 
-  actor.rollAttribute(attribute, parseInt(boonsbanes) + parseInt(boonsbanesEntered), 0)
+  await actor.rollAttribute(attribute, parseInt(boonsbanes) + parseInt(boonsbanesEntered), 0)
 }
 
 /* -------------------------------------------- */

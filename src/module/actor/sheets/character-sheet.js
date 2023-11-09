@@ -157,7 +157,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     if (!this.options.editable) return
 
     // Corruption Roll
-    html.find('.corruption-roll').click(_ => this.actor.rollCorruption())
+    html.find('.corruption-roll').click(async _ => await this.actor.rollCorruption())
 
     // Edit HealthBar, Insanity and Corruption
     html.find('.bar-edit').click(async () => {

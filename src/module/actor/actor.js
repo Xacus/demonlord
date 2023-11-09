@@ -110,6 +110,7 @@ export class DemonlordActor extends Actor {
       attribute.min = 0
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.label = game.i18n.localize(`DL.Attribute${capitalize(key)}`)
+      attribute.key = key
     }
     system.attributes.perception.label = game.i18n.localize(`DL.AttributePerception`)
 
@@ -185,7 +186,7 @@ export class DemonlordActor extends Actor {
     // Final armor computation
     system.characteristics.defense += system.bonuses.armor.defense
     system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
-    for (let change of effectChanges.filter(e => e.key.includes("defense"))) {
+    for (let change of effectChanges.filter(e => e.key.includes("defense") && !e.key.startsWith("system.characteristics"))) {
       const result = change.effect.apply(this, change)
       if (result !== null) this.overrides[change.key] = result
     }
@@ -309,8 +310,11 @@ export class DemonlordActor extends Actor {
   /*  Rolls and Actions                           */
 
   /* -------------------------------------------- */
-  rollFormula(mod, boba, bobaRerolls) {
-    let rollFormula = '1d20' + plusify(mod)
+  rollFormula(mods, boba, bobaRerolls) {
+    let rollFormula = '1d20'
+    for (const mod of mods) {
+      rollFormula += plusify(mod)
+    }
     if (boba > 0 && parseInt(bobaRerolls) > 0) rollFormula += `+${boba}d6r1kh`
     else if (boba) rollFormula += plusify(boba) + 'd6kh'
     console.log(rollFormula)
@@ -323,7 +327,7 @@ export class DemonlordActor extends Actor {
    * @param inputBoons              Number of boons/banes from the user dialog
    * @param inputModifier           Attack modifier from the user dialog
    */
-  rollAttack(item, inputBoons = 0, inputModifier = 0) {
+  async rollAttack(item, inputBoons = 0, inputModifier = 0) {
     const attacker = this
     const defendersTokens = tokenManager.targets
     const defender = defendersTokens[0]?.actor
@@ -341,8 +345,7 @@ export class DemonlordActor extends Actor {
     // if !target -> ui.notifications.warn(Please select target) ??
 
     // Attack modifier and Boons/Banes
-    const modifier =
-      (attacker.system?.attributes[attackAttribute]?.modifier || 0) + (parseInt(inputModifier) || 0)
+    const modifiers = [attacker.system?.attributes[attackAttribute]?.modifier || 0, parseInt(inputModifier) || 0]
     let boons =
       (parseInt(item.system.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
@@ -363,10 +366,10 @@ export class DemonlordActor extends Actor {
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
     // Roll the attack
-    const attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
-    attackRoll.evaluate({async: false})
+    const attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+    await attackRoll.evaluate()
 
-    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute)
+    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, parseInt(inputBoons) || 0)
 
     const hitTargets = defendersTokens.filter(d => {
       const targetNumber =
@@ -389,7 +392,7 @@ export class DemonlordActor extends Actor {
    * @param itemID          The id of the item
    * @param _options         Additional options
    */
-  rollWeaponAttack(itemID, _options = {event: null}) {
+  async rollWeaponAttack(itemID, _options = {event: null}) {
     const item = this.getEmbeddedDocument('Item', itemID)
 
     // If no attribute to roll, roll without modifiers and boons
@@ -401,30 +404,29 @@ export class DemonlordActor extends Actor {
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
-      launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), html =>
-        this.rollAttack(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async html =>
+        await this.rollAttack(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
   }
 
   /* -------------------------------------------- */
 
-  rollAttribute(attribute, inputBoons, inputModifier) {
-    attribute = attribute.label.toLowerCase()
-    const modifier = parseInt(inputModifier) + (this.getAttribute(attribute)?.modifier || 0)
-    const boons = parseInt(inputBoons) + (this.system.bonuses.challenge.boons[attribute] || 0) + (this.system.bonuses.challenge.boons.all || 0)
+  async rollAttribute(attribute, inputBoons, inputModifier) {
+    const modifiers = [parseInt(inputModifier), this.getAttribute(attribute.key)?.modifier || 0]
+    const boons = (parseInt(inputBoons) || 0) + (this.system.bonuses.challenge.boons[attribute.key] || 0) + (this.system.bonuses.challenge.boons.all || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-    const challengeRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
-    challengeRoll.evaluate({async: false})
-    postAttributeToChat(this, attribute, challengeRoll)
+    const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+    await challengeRoll.evaluate()
+    postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0)
   }
 
   rollChallenge(attribute) {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
-    if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.label))
-      launchRollDialog(this.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2), html =>
-        this.rollAttribute(attribute, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+    if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.key))
+      launchRollDialog(this.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2), async html =>
+        await this.rollAttribute(attribute, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
   }
 
@@ -466,7 +468,7 @@ export class DemonlordActor extends Actor {
       const attackAttribute = talentData.action.attack.toLowerCase()
       const defenseAttribute = talentData.action?.attack?.toLowerCase()
 
-      let modifier = parseInt(inputModifier) + (this.getAttribute(attackAttribute)?.modifier || 0)
+      let modifiers = [parseInt(inputModifier), this.getAttribute(attackAttribute)?.modifier || 0]
 
       let boons =
         (parseInt(inputBoons) || 0) +
@@ -476,8 +478,8 @@ export class DemonlordActor extends Actor {
       if (targets.length === 1) boons -= ((target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) + (target?.actor?.system.bonuses.defense.boons.all || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-      attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
-      attackRoll.evaluate({async: false})
+      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+      await attackRoll.evaluate()
     }
 
     Hooks.call('DL.UseTalent', {
@@ -486,7 +488,7 @@ export class DemonlordActor extends Actor {
       itemId: talent.id,
     })
 
-    postTalentToChat(this, talent, attackRoll, target?.actor)
+    postTalentToChat(this, talent, attackRoll, target?.actor, parseInt(inputBoons) || 0)
   }
 
   /* -------------------------------------------- */
@@ -543,11 +545,11 @@ export class DemonlordActor extends Actor {
           (target?.actor?.system.bonuses.defense.boons.all || 0) +
           (target?.actor?.system.bonuses.defense.boons.spell || 0)
 
-      const modifier = (parseInt(inputModifier) || 0) + this.getAttribute(attackAttribute).modifier || 0
+      const modifiers = [parseInt(inputModifier) || 0, this.getAttribute(attackAttribute).modifier || 0]
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-      attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
-      attackRoll.evaluate({async: false})
+      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+      await attackRoll.evaluate()
     }
 
     Hooks.call('DL.UseSpell', {
@@ -556,7 +558,7 @@ export class DemonlordActor extends Actor {
       itemId: spell.id,
     })
 
-    postSpellToChat(this, spell, attackRoll, target?.actor)
+    postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
   }
 
   /* -------------------------------------------- */
@@ -590,34 +592,34 @@ export class DemonlordActor extends Actor {
     let attackRoll = null
 
     if (!itemData?.action?.attack) {
-      postItemToChat(this, item, null, null)
+      postItemToChat(this, item, null, null, null)
       return
     } else {
       const attackAttribute = itemData.action.attack.toLowerCase()
       const defenseAttribute = itemData.action?.attack?.toLowerCase()
 
-      let modifier = parseInt(inputModifier) + (this.getAttribute(attackAttribute)?.modifier || 0)
+      let modifiers = [parseInt(inputModifier), (this.getAttribute(attackAttribute)?.modifier || 0)]
 
       let boons =
-        parseInt(inputBoons) +
+        (parseInt(inputBoons) || 0) +
         (this.system.bonuses.attack[attackAttribute] || 0) +
         (this.system.bonuses.attack.boons.all || 0) +
         parseInt(itemData.action?.boonsbanes || 0)
       if (targets.length === 1) boons -= ((target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) + (target?.actor?.system.bonuses.defense.boons.all || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-      attackRoll = new Roll(this.rollFormula(modifier, boons, boonsReroll), {})
-      attackRoll.evaluate({async: false})
+      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+      await attackRoll.evaluate()
     }
 
-    postItemToChat(this, item, attackRoll, target?.actor)
+    postItemToChat(this, item, attackRoll, target?.actor, parseInt(inputBoons) || 0)
   }
 
   /* -------------------------------------------- */
 
-  rollCorruption() {
+  async rollCorruption() {
     const corruptionRoll = new Roll('1d20')
-    corruptionRoll.evaluate({async: false})
+    await corruptionRoll.evaluate()
     postCorruptionToChat(this, corruptionRoll)
   }
 

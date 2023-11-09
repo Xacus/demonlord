@@ -333,9 +333,9 @@ export default class DLBaseActorSheet extends ActorSheet {
     })
 
     // Rollable Attack
-    html.find('.attack-roll').click(ev => {
+    html.find('.attack-roll').click(async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      this.actor.rollWeaponAttack(id, {event: ev})
+      await this.actor.rollWeaponAttack(id, {event: ev})
     })
 
     // Rollable Talent
@@ -368,7 +368,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       if (dataset.roll) {
         const roll = new Roll(dataset.roll, this.actor.system)
         const label = dataset.label ? `Rolling ${dataset.label}` : ''
-        roll.roll({async: false}).toMessage({
+        await roll.roll().toMessage({
           speaker: ChatMessage.getSpeaker({actor: this.actor}),
           flavor: label,
         })

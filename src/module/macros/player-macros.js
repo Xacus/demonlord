@@ -3,16 +3,16 @@ export function makeChallengeRollMacro() {
   // Player Tool
 // Lets you choose with attributes you want to make challenge roll for and add bones/banes.
 
-  function makeRoll(attributeName, boonsbanes) {
+  async function makeRoll(attributeName, boonsbanes) {
     var selected = canvas.tokens.controlled;
     if (selected.length === 0) {
       ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
     }
     else {
-      selected.forEach(s => {
+      await Promise.all(selected.forEach(async s => {
         const a = s.actor
-        a.rollAttribute(a.getAttribute(attributeName), boonsbanes, 0)
-      })
+        await a.rollAttribute(a.getAttribute(attributeName), boonsbanes, 0)
+      }))
     }
   }
 
@@ -49,12 +49,12 @@ export function makeChallengeRollMacro() {
       },
     },
     default: "yes",
-    close: html => {
+    close: async html => {
       if (applyChanges) {
         let attribute = html.find('[name="attribute-type"]')[0].value || "none";
         let boonsbanes = html.find('[name="boonsbanes"]')[0].value || "none";
 
-        makeRoll(attribute, boonsbanes);
+        await makeRoll(attribute, boonsbanes);
       }
     }
   }).render(true);

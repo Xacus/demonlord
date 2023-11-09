@@ -65,7 +65,7 @@ async function _createDemonlordItemMacro(item, slot) {
  * @param {string} itemName
  * @return {Promise}
  */
-export function rollWeaponMacro(itemName) {
+export async function rollWeaponMacro(itemName) {
   const speaker = ChatMessage.getSpeaker()
   let actor
   if (speaker.token) actor = game.actors.tokens[speaker.token]
@@ -75,7 +75,7 @@ export function rollWeaponMacro(itemName) {
     return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`)
   }
 
-  return actor.rollWeaponAttack(item.id) //FIXME: boons banes damage bonus ignored?
+  return await actor.rollWeaponAttack(item.id) //FIXME: boons banes damage bonus ignored?
 }
 
 /**
