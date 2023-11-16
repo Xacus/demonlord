@@ -166,6 +166,7 @@
       "language",
       "path",
       "profession",
+      "relic",
       "specialaction",
       "spell",
       "talent",
@@ -253,6 +254,10 @@
     },
     "feature": {
       "templates": ["base"]
+    },
+    "relic": {
+      "templates": ["base", "action", "enchantment"],
+      "healingoption": "false"
     },
     "spell": {
       "tradition": "",

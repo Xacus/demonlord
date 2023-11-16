@@ -1,0 +1,79 @@
+<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
+  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="Relic Name"}}
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
+    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+    {{#if effects}}<a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>{{/if}}
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{!-- Attributes Tab --}}
+      <div class="tab" data-group="primary" data-tab="attributes">
+
+        <div class="dl-item-section-header row">
+          <div class="col-12" style="margin-top: 4px">
+            <b>{{item.name}}</b>
+          </div>
+        </div>
+        <hr>
+
+        <div class="dl-item-section-section margin">
+          <div>
+            <b>{{localize "DL.TalentUses"}}</b>
+            <div>
+              <div class="dl-new-project-2 nohover uses">
+                <input type="number" name="system.uses.value" value="{{system.uses.value}}"
+                       data-tippy-content="{{localize "DL.TalentUses"}}" placeholder="-" min="0" autosize/>
+                <span class="sep"></span>
+                <input type="number" name="system.uses.max" value="{{system.uses.max}}"
+                       data-tippy-content="{{localize "DL.TalentUsesMax"}}" placeholder="-" min="0" autosize/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action"}}
+
+        <hr>
+
+        <div class="dl-item-section-section margin">
+          {{> "systems/demonlord/templates/item/partial/item-challenge.hbs" action=system.action actionId="system.action"}}
+        </div>
+
+        <hr>
+
+        <div class="dl-item-section-section margin">
+          <div>
+            <b>{{localize "DL.SpellRequirements"}}</b>
+            <div>
+              {{dlDropdownValue "system.requirement.attribute" system.requirement.attribute "system.requirement.minvalue" system.requirement.minvalue }}
+            </div>
+          </div>
+        </div>
+        <hr>
+
+        {{#if system.description}}
+          <div class="dl-item-section-description">
+            <div><b>{{localize "DL.TabsDescription"}}</b></div>
+            <div>
+              {{{system.enrichedDescription}}}
+            </div>
+          </div>
+        <hr>
+        {{/if}}
+
+        {{> "systems/demonlord/templates/item/partial/item-measured-template.hbs"}}
+      </div>
+
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+
+      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
+    </section>
+  </section>
+</form>

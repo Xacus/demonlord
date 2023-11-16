@@ -74,6 +74,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     const m = sheetData._itemsByType
     const actorData = sheetData.actor
     actorData.gear = m.get('item') || []
+    actorData.relic = m.get('relic') || []
     actorData.armor = m.get('armor') || []
     actorData.ammo = m.get('ammo') || []
     actorData.ancestry = m.get('ancestry') || []
