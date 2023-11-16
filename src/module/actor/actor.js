@@ -186,7 +186,7 @@ export class DemonlordActor extends Actor {
     // Final armor computation
     system.characteristics.defense += system.bonuses.armor.defense
     system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
-    for (let change of effectChanges.filter(e => e.key.includes("defense") && !e.key.startsWith("system.characteristics"))) {
+    for (let change of effectChanges.filter(e => e.key.includes("defense") && (this.type === 'character' ? e.key.startsWith("system.characteristics") : false))) {
       const result = change.effect.apply(this, change)
       if (result !== null) this.overrides[change.key] = result
     }
