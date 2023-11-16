@@ -246,6 +246,15 @@ export async function handleCreateRole(actor, roleItem) {
   return await Promise.resolve()
 }
 
+export async function handleCreateRelic(actor, relicItem) {
+  const relicData = relicItem.system
+  const talents = await Promise.all(relicData.contents.map(t => {
+    return fromUuid(t.uuid)
+  }))
+  await createActorNestedItems(actor, talents, relicItem.id)
+  return await Promise.resolve()
+}
+
 export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
   curLevel = parseInt(curLevel ?? actor.system.level)
   newLevel = parseInt(newLevel)

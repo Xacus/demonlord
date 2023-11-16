@@ -62,6 +62,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     data.itemEffects = prepareActiveEffectCategories(
       this.actor.effects.filter(effect => effect.flags?.sourceType === 'creaturerole'),
     )
+    data.itemEffects = prepareActiveEffectCategories(
+      this.actor.effects.filter(effect => effect.flags?.sourceType === 'relic'),
+    )
     this.prepareItems(data)
     return data
   }
@@ -74,7 +77,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     const m = sheetData._itemsByType
     const actorData = sheetData.actor
     actorData.gear = m.get('item') || []
-    actorData.relic = m.get('relic') || []
+    actorData.relics = m.get('relic') || []
     actorData.armor = m.get('armor') || []
     actorData.ammo = m.get('ammo') || []
     actorData.ancestry = m.get('ancestry') || []
@@ -133,6 +136,14 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   /* -------------------------------------------- */
 
   async _onRoleEdit(ev) {
+    const div = $(ev.currentTarget)
+    const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+
+    if (ev.button == 0) role.sheet.render(true)
+    else if (ev.button == 2) await role.delete({ parent: this.actor })
+  }
+
+  async _onRelicEdit(ev) {
     const div = $(ev.currentTarget)
     const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
 
@@ -237,6 +248,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Role edit
     html.on('mousedown', '.role-edit', async ev => await this._onRoleEdit(ev))
+
+    // Relic edit
+    html.on('mousedown', '.relic-edit', async ev => await this._onRelicEdit(ev))
 
     // Wealth edit
     html

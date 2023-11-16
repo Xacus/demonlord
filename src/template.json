@@ -256,8 +256,7 @@
       "templates": ["base"]
     },
     "relic": {
-      "templates": ["base", "action", "enchantment"],
-      "healingoption": "false"
+      "templates": ["base", "container"]
     },
     "spell": {
       "tradition": "",

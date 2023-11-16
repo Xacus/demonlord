@@ -14,7 +14,7 @@ import {
   postSpellToChat,
   postTalentToChat,
 } from '../chat/roll-messages'
-import {handleCreateAncestry, handleCreatePath, handleCreateRole } from '../item/nested-objects'
+import {handleCreateAncestry, handleCreatePath, handleCreateRole, handleCreateRelic } from '../item/nested-objects'
 import {TokenManager} from '../pixi/token-manager'
 import {findAddEffect, findDeleteEffect} from "../demonlord";
 
@@ -252,6 +252,8 @@ export class DemonlordActor extends Actor {
         await handleCreatePath(this, doc)
       } else if (doc.type === 'creaturerole') {
         await handleCreateRole(this, doc)
+      } else if (doc.type === 'relic') {
+        await handleCreateRelic(this, doc)
       }
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')

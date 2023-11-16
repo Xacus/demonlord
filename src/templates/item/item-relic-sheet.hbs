@@ -23,33 +23,6 @@
 
         <div class="dl-item-section-section margin">
           <div>
-            <b>{{localize "DL.TalentUses"}}</b>
-            <div>
-              <div class="dl-new-project-2 nohover uses">
-                <input type="number" name="system.uses.value" value="{{system.uses.value}}"
-                       data-tippy-content="{{localize "DL.TalentUses"}}" placeholder="-" min="0" autosize/>
-                <span class="sep"></span>
-                <input type="number" name="system.uses.max" value="{{system.uses.max}}"
-                       data-tippy-content="{{localize "DL.TalentUsesMax"}}" placeholder="-" min="0" autosize/>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <hr>
-
-        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action"}}
-
-        <hr>
-
-        <div class="dl-item-section-section margin">
-          {{> "systems/demonlord/templates/item/partial/item-challenge.hbs" action=system.action actionId="system.action"}}
-        </div>
-
-        <hr>
-
-        <div class="dl-item-section-section margin">
-          <div>
             <b>{{localize "DL.SpellRequirements"}}</b>
             <div>
               {{dlDropdownValue "system.requirement.attribute" system.requirement.attribute "system.requirement.minvalue" system.requirement.minvalue }}
@@ -68,7 +41,41 @@
         <hr>
         {{/if}}
 
-        {{> "systems/demonlord/templates/item/partial/item-measured-template.hbs"}}
+        {{#if system.contents}}
+        <div class="dl-item-section-contents">
+          <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+            <div class="col-11">{{localize "DL.TabsEffects"}}</div>
+          </div>
+          {{#each item.system.contents as |content index|}}
+          <div class="dl-item-row dl-nested-item dropitem" data-item-index="{{index}}" data-item-id="{{content._id}}">
+            <div class="row">
+              <div class="col-11">
+                <img class='dl-clickable edit-nested-item' src="{{content.img}}" title="{{content.name}}" width="32"
+                    height="32"/>
+                <label class="dl-clickable-nored item-roll">{{content.name}}</label>
+                <div class="dl-clickable dlToggleInfoBtn">
+                  <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
+                </div>
+              </div>
+              <div class="col-1 dl-clickable" style="padding-top: 3px">
+                <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteRelic'}}"
+                  style="margin-left: 2px; margin-top: 3px;">
+                  <i class="fas fa-times"></i>
+                </a>
+              </div>
+            </div>
+            {{#if content.system.description}}
+              <div class="row dlInfo" style="display: none; text-align: left">
+                <div class="col-12" style="padding: 2px 4px 4px;">
+                  {{{content.system.enrichedDescription}}}
+                </div>
+              </div>
+            {{/if}}
+          </div>
+          {{/each}}
+        </div>
+        <hr>
+        {{/if}}
       </div>
 
       {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
