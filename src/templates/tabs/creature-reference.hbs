@@ -23,9 +23,9 @@
       <b>{{localize "DL.ArmorDefense"}}</b> {{system.characteristics.defense}}{{#if system.armor}} ({{system.armor}}){{/if}};&nbsp;
       <b>{{localize "DL.CreatureHealth"}}</b> {{system.characteristics.health.max}};&nbsp;
       <b>{{localize "DL.CharInsanity"}}</b> {{#if system.characteristics.insanity.value}} {{system.characteristics.insanity.value}};&nbsp;{{/if}}
-      {{#unless system.characteristics.insanity.value}}-;&nbsp;{{/unless}}
+      {{#unless system.characteristics.insanity.value}}–;&nbsp;{{/unless}}
       <b>{{localize "DL.CharCorruption"}}</b> {{#if system.characteristics.corruption.value}} {{system.characteristics.corruption.value}}&nbsp;{{/if}}
-      {{#unless system.characteristics.corruption.value}}-&nbsp;{{/unless}}      
+      {{#unless system.characteristics.corruption.value}}–&nbsp;{{/unless}}      
     </div>
     <div>
       <b>{{localize "DL.AttributeStrength"}}</b> {{system.attributes.strength.value}} ({{plusify
