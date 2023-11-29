@@ -20,8 +20,12 @@
       {{system.perceptionsenses}}
     </div>
     <div>
-      <b>{{localize "DL.ArmorDefense"}}</b> {{system.characteristics.defense}};&nbsp;
-      <b>{{localize "DL.CreatureHealth"}}</b> {{system.characteristics.health.max}}
+      <b>{{localize "DL.ArmorDefense"}}</b> {{system.characteristics.defense}}{{#if system.armor}} ({{system.armor}}){{/if}};&nbsp;
+      <b>{{localize "DL.CreatureHealth"}}</b> {{system.characteristics.health.max}};&nbsp;
+      <b>{{localize "DL.CharInsanity"}}</b> {{#unless (dlCheckCharacteristicsIsNull system.characteristics.insanity.value)}} {{system.characteristics.insanity.value}};&nbsp;{{/unless}}
+      {{#if (dlCheckCharacteristicsIsNull system.characteristics.insanity.value)}}–;&nbsp;{{/if}}
+      <b>{{localize "DL.CharCorruption"}}</b> {{#unless (dlCheckCharacteristicsIsNull system.characteristics.corruption.value)}} {{system.characteristics.corruption.value}}&nbsp;{{/unless}}
+      {{#if (dlCheckCharacteristicsIsNull system.characteristics.corruption.value)}}–&nbsp;{{/if}} 
     </div>
     <div>
       <b>{{localize "DL.AttributeStrength"}}</b> {{system.attributes.strength.value}} ({{plusify
@@ -35,7 +39,7 @@
       <b>{{localize "DL.AttributeWill"}}</b> {{system.attributes.will.value}} ({{plusify system.attributes.will.modifier}})
     </div>
     <div>
-      <b>{{localize "DL.CharSpeed"}}</b> {{system.characteristics.speed}};
+      <b>{{localize "DL.CharSpeed"}}</b> {{system.characteristics.speed}}
       {{system.speedtraits}}
     </div>
 
@@ -144,4 +148,3 @@
   {{/if}}
 
 </div>
-
