@@ -96,3 +96,39 @@
     {{/if}}
   </div>
 {{/each}}
+
+<!-- RELICS -->
+<div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+  <div class="col-11">{{localize "DL.TabsRelics"}}</div>
+  <div class="col-1">
+    <a class="item-create" title="{{localize 'DL.ItemAddRelic'}}" data-type="relic"><i class="fas fa-plus"></i></a>
+  </div>
+</div>
+
+{{#each actor.relics as |item id|}}
+  <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
+    <div class="row">
+      <div class="col-11">
+        <img class='dl-clickable item-edit' src="{{item.img}}" title="{{item.name}}" width="32"
+             height="32"/>
+        <label class="dl-clickable item-roll">{{item.name}}</label>
+        <div class="dl-clickable dlToggleInfoBtn">
+          <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
+        </div>
+      </div>
+      <div class="col-1 dl-clickable" style="padding-top: 3px">
+        <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteRelic'}}"
+           style="margin-left: 2px; margin-top: 3px;">
+          <i class="fas fa-times"></i>
+        </a>
+      </div>
+    </div>
+    {{#if item.system.description}}
+      <div class="row dlInfo" style="display: none; text-align: left">
+        <div class="col-12" style="padding: 2px 4px 4px;">
+          {{{item.system.description}}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
+{{/each}}

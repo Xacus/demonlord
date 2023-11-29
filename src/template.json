@@ -166,6 +166,7 @@
       "language",
       "path",
       "profession",
+      "relic",
       "specialaction",
       "spell",
       "talent",
@@ -253,6 +254,9 @@
     },
     "feature": {
       "templates": ["base"]
+    },
+    "relic": {
+      "templates": ["base", "container"]
     },
     "spell": {
       "tradition": "",

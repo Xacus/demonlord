@@ -14,7 +14,7 @@ import {
   postSpellToChat,
   postTalentToChat,
 } from '../chat/roll-messages'
-import {handleCreateAncestry, handleCreatePath, handleCreateRole } from '../item/nested-objects'
+import {handleCreateAncestry, handleCreatePath, handleCreateRole, handleCreateRelic } from '../item/nested-objects'
 import {TokenManager} from '../pixi/token-manager'
 import {findAddEffect, findDeleteEffect} from "../demonlord";
 
@@ -186,7 +186,7 @@ export class DemonlordActor extends Actor {
     // Final armor computation
     system.characteristics.defense += system.bonuses.armor.defense
     system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
-    for (let change of effectChanges.filter(e => e.key.includes("defense") && !e.key.startsWith("system.characteristics"))) {
+    for (let change of effectChanges.filter(e => e.key.includes("defense") && (this.type === 'character' ? e.key.startsWith("system.characteristics") : false))) {
       const result = change.effect.apply(this, change)
       if (result !== null) this.overrides[change.key] = result
     }
@@ -252,6 +252,8 @@ export class DemonlordActor extends Actor {
         await handleCreatePath(this, doc)
       } else if (doc.type === 'creaturerole') {
         await handleCreateRole(this, doc)
+      } else if (doc.type === 'relic') {
+        await handleCreateRelic(this, doc)
       }
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')

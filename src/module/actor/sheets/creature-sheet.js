@@ -55,7 +55,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
 
   /** @override */
   async checkDroppedItem(itemData) {
-    if (['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language'].includes(itemData.type)) return false
+    if (['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'relic'].includes(itemData.type)) return false
     return true
   }
 

@@ -361,7 +361,24 @@ export default class DLBaseItemSheet extends ItemSheet {
         if (itemData.type === 'Item') {
           let actor
           const item = await fromUuid(itemData.uuid)
-          if (!item || !['ammo', 'armor', 'item', 'weapon'].includes(item.type)) return
+          
+          let acceptedItemTypes = []
+
+          // Filter drops depending on the item type
+          switch (this.item.type) {
+            case 'item': 
+              acceptedItemTypes = ['ammo', 'armor', 'item', 'weapon']
+              break
+            case 'relic':
+              acceptedItemTypes = ['talent']
+              break
+            default:
+              acceptedItemTypes = []
+              break
+          }
+
+          if (!item && !acceptedItemTypes.includes(item.type)) return
+
           const itemUpdate = {'_id': item._id}
           if (itemData.uuid.startsWith('Actor.')) {
             actor = item.parent

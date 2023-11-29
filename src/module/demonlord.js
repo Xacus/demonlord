@@ -90,6 +90,7 @@ Hooks.once('init', async function () {
       'weapon',
       'armor',
       'ammo',
+      'relic',
       'specialaction',
       'endoftheround',
       'profession',
