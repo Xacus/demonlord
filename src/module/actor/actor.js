@@ -191,23 +191,63 @@ export class DemonlordActor extends Actor {
       if (result !== null) this.overrides[change.key] = result
     }
 
-    // WIP: Adjust size here
-    // for (let change of effectChanges.filter(e => e.key.includes("size"))) {
-    //   let size = change.value
-    //   let newSize = 0
+    // Adjust size here
+    const originalSize = this.data._source.system.characteristics.size
+    let modifiedSize = 0
+    let newSize = "1"
+    if (originalSize.includes("/")) {
+      const [numerator, denominator] = originalSize.split("/")
+      modifiedSize = parseInt(numerator) / parseInt(denominator)
+    } else {
+      modifiedSize = parseInt(originalSize)
+    }
+    for (let change of effectChanges.filter(e => e.key.includes("size"))) {
+      let sizeMod = 0
 
-    //   if (size.includes("/")) {
-    //     const [numerator, denominator] = size.split("/")
-    //     newSize = parseInt(numerator) / parseInt(denominator)
-    //   } else {
-    //     newSize = parseInt(size)
-    //   }
+      if (change.value.includes("/")) {
+        const [numerator, denominator] = change.value.split("/")
+        sizeMod = parseInt(numerator) / parseInt(denominator)
+      } else {
+        sizeMod = parseInt(change.value)
+      }
 
-    //   change.value = newSize.toString()
+      switch (change.mode) {
+        case 0: // CUSTOM
+          break
+        case 1: // MULTIPLY
+          modifiedSize *= sizeMod
+          break
+        case 2: // ADD
+          modifiedSize += sizeMod
+          break
+        case 3: // DOWNGRADE
+          modifiedSize = Math.min(modifiedSize, sizeMod)
+          break
+        case 4: // UPGRADE
+          modifiedSize = Math.max(modifiedSize, sizeMod)
+          break
+        case 5: // OVERRIDE
+          modifiedSize = sizeMod
+          break
+      }
 
-    //   const result = change.effect.apply(this, change)
-    //   if (result !== null) this.overrides[change.key] = result
-    // }
+      // Calculate string if fraction
+      if (modifiedSize >= 1) {
+        newSize = Math.floor(modifiedSize).toString()
+      } else if (modifiedSize >= 0.5) {
+        newSize = "1/2";
+      } else if (modifiedSize >= 0.25) {
+        newSize = "1/4";
+      } else if (modifiedSize >= 0.125) {
+        newSize = "1/8";
+      } else if (modifiedSize >= 0.0625) {
+        newSize = "1/16";
+      } else if (modifiedSize >= 0.03125) {
+        newSize = "1/32";
+      }
+    }
+
+    this.system.characteristics.size = newSize
   }
 
   /* -------------------------------------------- */
