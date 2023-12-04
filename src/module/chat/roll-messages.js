@@ -61,7 +61,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['damageFormula'] = itemData.action?.damage + attacker.system.bonuses.attack.damage
   data['damageType'] = itemData.action.damagetype
   data['damageTypes'] = itemData.action.damagetypes
-  data['damageExtra20PlusFormula'] = itemData.action.plus20damage ? item.system.action.plus20damage : attacker.system.bonuses.attack.plus20Damage
+  data['damageExtra20PlusFormula'] = [itemData.action.plus20damage, attacker.system.bonuses.attack.plus20Damage].filter(Boolean)
   data['description'] = itemData.description
   data['defense'] = itemData.action?.defense
   data['defenseboonsbanes'] = parseInt(itemData.action?.defenseboonsbanes)
@@ -219,7 +219,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   data['damageFormula'] = talentData.action?.damage ? talentData?.action?.damage + actor.system.bonuses.attack.damage || '' : talentData?.action?.damage
   data['damageType'] = talentData.action?.damageactive && talentData?.action?.damage ? talentData?.action?.damagetype : talentData?.action?.damagetype
   data['damageTypes'] = talentData.action?.damagetypes
-  data['damageExtra20PlusFormula'] = talentData.action?.plus20damage ? talentData?.action?.plus20damage : talentData?.action?.plus20damage
+  data['damageExtra20PlusFormula'] = [talentData.action?.plus20damage, actor.system.bonuses?.attack?.plus20Damage].filter(Boolean)
   data['description'] = talentData.description
   data['defense'] = talentData.action?.defense
   data['defenseboonsbanes'] = parseInt(talentData.action?.defenseboonsbanes)
@@ -332,7 +332,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['damageFormula'] = spellData.action?.damage + actor.system.bonuses.attack.damage
   data['damageType'] = spellData.action?.damagetype
   data['damageTypes'] = spellData.action?.damagetypes
-  data['damageExtra20PlusFormula'] = spellData.action?.plus20damage
+  data['damageExtra20PlusFormula'] = [spellData.action?.plus20damage, actor.system.bonuses?.attack?.plus20Damage].filter(Boolean)
   data['description'] = spellData.description
   data['defense'] = spellData.action?.defense
   data['defenseboonsbanes'] = parseInt(spellData.action?.defenseboonsbanes)
@@ -503,7 +503,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   data['damageFormula'] = itemData.action?.damage + actor.system.bonuses.attack.damage
   data['damageType'] = itemData.action?.damagetype
   data['damageTypes'] = itemData.action?.damagetypes
-  data['damageExtra20PlusFormula'] = itemData.action?.plus20damage ? item.system.action?.plus20damage : actor.system.bonuses.attack.plus20Damage
+  data['damageExtra20PlusFormula'] = [itemData.action?.plus20damage, actor.system.bonuses?.attack?.plus20Damage].filter(Boolean)
   data['description'] = itemData.description
   data['defense'] = itemData.action?.defense
   data['defenseboonsbanes'] = parseInt(itemData.action?.defenseboonsbanes)
