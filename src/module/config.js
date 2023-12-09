@@ -54,7 +54,7 @@ DL.actionAreaShape = {
   hemisphere: 'circle',
   line: 'ray',
   sphere: 'circle',
-  square: 'react',
+  square: 'rect',
 }
 
 DL.actionDuration = {
