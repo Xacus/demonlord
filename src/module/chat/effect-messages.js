@@ -62,7 +62,7 @@ const changeListToMsg = (m, keys, title, f=plusify) => {
  * @param defenseAttribute
  * @returns {*}
  */
-export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons) {
+export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20) {
   const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
   let m = _remapEffects(attackerEffects)
 
@@ -84,7 +84,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
       if (item.system.wear && +item.system.requirement?.minvalue > attacker.getAttribute(item.system.requirement?.attribute)?.value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
       break
     case 'talent':
-      if (!attackAttribute) return
+      if (!attackAttribute) break
       itemBoons = item.system.action.boonsbanes
       break
     default:
@@ -98,11 +98,14 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '')
   boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
 
+  const extraDamageMsg = item.system.action?.damage ? changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') : ''
+  // We may want to show the extra damage 
+  const extraDamage20PlusMsg = ((!defender && attackAttribute) || plus20) ? changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus') : ''
   return (
     boonsMsg +
     inputBoonsMsg + 
-    changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') +
-    changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+    extraDamageMsg +
+    extraDamage20PlusMsg
   )
   // + changeToMsg(m, 'system.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
 }

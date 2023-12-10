@@ -1,7 +1,9 @@
 {{!--
   Variables:
     - data
+      - attack
       - damageFormula
+      - extraDamageFormula
       - damageType
       - damageTypes
       - pureDamage
@@ -11,10 +13,10 @@
 
 {{#if data.damageFormula}}
   <div class="combatactions roll-damage">
-    <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageFormula}}"
+    <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageFormula}}{{data.extraDamageFormula}}"
       data-damagetype="{{data.damageType}}">
       <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15" />
-      <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormula}})</div>
+      <div>{{data.damageType}} {{localize "DL.WeaponDamage"}} ({{data.damageFormula}}{{data.extraDamageFormula}})</div>
     </div>
   </div>
 {{/if}}
@@ -36,26 +38,28 @@
     </div>
   </div>
 {{/if}}
-{{#if data.damageExtra20PlusFormula}}
-  {{#if data.hasTarget}}
-    {{#if data.isPlus20Roll}}
-      {{#each data.damageExtra20PlusFormula as |damageExtra20PlusFormula id|}}
+{{#if data.attack}}
+  {{#if data.damageExtra20PlusFormula}}
+    {{#if data.hasTarget}}
+      {{#if data.isPlus20Roll}}
+        {{#if data.damageExtra20PlusFormula}}
+          <div class="combatactions roll-damage">
+            <div class="header" data-item-id="{{data.id}}" data-damage="{{data.damageExtra20PlusFormula}}">
+              <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15" />
+              <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20PlusFormula}})</div>
+            </div>
+          </div>
+        {{/if}}
+      {{/if}}
+    {{else}}
+      {{#if data.damageExtra20PlusFormula }}
         <div class="combatactions roll-damage">
-          <div class="header" data-item-id="{{data.id}}" data-damage="{{damageExtra20PlusFormula}}">
+          <div class="header" data-item-id="{{id}}" data-damage="{{data.damageExtra20PlusFormula}}">
             <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15" />
-            <div>{{localize "DL.TalentExtraDamage20plus"}} ({{damageExtra20PlusFormula}})</div>
+            <div>{{localize "DL.TalentExtraDamage20plus"}} ({{data.damageExtra20PlusFormula}})</div>
           </div>
         </div>
-      {{/each}}
+      {{/if}}
     {{/if}}
-  {{else}}
-    {{#each data.damageExtra20PlusFormula as |damageExtra20PlusFormula id|}}
-      <div class="combatactions roll-damage">
-        <div class="header" data-item-id="{{id}}" data-damage="{{damageExtra20PlusFormula}}">
-          <img src="systems/demonlord/assets/ui/items/damage.webp" width="15" height="15" />
-          <div>{{localize "DL.TalentExtraDamage20plus"}} ({{damageExtra20PlusFormula}})</div>
-        </div>
-      </div>
-    {{/each}}
   {{/if}}
 {{/if}}
