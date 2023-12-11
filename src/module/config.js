@@ -112,4 +112,5 @@ DL.defaultItemIcons = {
     master: 'systems/demonlord/assets/icons/badges/helm-01.webp',
   },
   creaturerole: 'icons/equipment/back/cape-layered-blue-accent.webp',
+  relic: 'icons/commodities/treasure/sceptre-jeweled-gold.webp'
 }
