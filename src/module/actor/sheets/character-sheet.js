@@ -179,7 +179,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
       await actor
         .update({
-          'data.characteristics.editbar': actor.system.characteristics.editbar,
+          'system.characteristics.editbar': actor.system.characteristics.editbar,
         })
         .then(_ => this.render())
     })
@@ -202,7 +202,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
         if (value <= 0) value = 0
         else value--
       }
-      await this.actor.update({ 'data.characteristics.insanity.value': value }).then(_ => this.render())
+      await this.actor.update({ 'system.characteristics.insanity.value': value }).then(_ => this.render())
     })
 
     // Corruption bar click
@@ -216,7 +216,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
         if (value <= 0) value = 0
         else value--
       }
-      await this.actor.update({ 'data.characteristics.corruption.value': value }).then(_ => this.render())
+      await this.actor.update({ 'system.characteristics.corruption.value': value }).then(_ => this.render())
     })
 
     // Health bar fill
@@ -281,7 +281,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     html
       .find('.religion-edit')
       .click(async _ =>
-        await this.actor.update({ 'data.religion.edit': !this.actor.system.religion.edit }).then(() => this.render()),
+        await this.actor.update({ 'system.religion.edit': !this.actor.system.religion.edit }).then(() => this.render()),
       )
 
     // Ammo uses

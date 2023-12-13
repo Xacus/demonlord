@@ -192,7 +192,7 @@ export class DemonlordActor extends Actor {
     }
 
     // Adjust size here
-    const originalSize = this.data._source.system.characteristics.size
+    const originalSize = this._source.system.characteristics.size
     let modifiedSize = 0
     let newSize = "1"
     if (originalSize.includes("/")) {
@@ -760,14 +760,14 @@ export class DemonlordActor extends Actor {
     let uses = talent.system.uses?.value || 0
     const usesmax = talent.system.uses?.max || 0
     if (usesmax > 0 && uses < usesmax)
-      return await talent.update({'data.uses.value': ++uses, 'data.addtonextroll': setActive}, {parent: this})
+      return await talent.update({'system.uses.value': ++uses, 'system.addtonextroll': setActive}, {parent: this})
   }
 
   async deactivateTalent(talent, decrement = 0, onlyTemporary = false) {
     if (onlyTemporary && !talent.system.uses?.max) return
     let uses = talent.system.uses?.value || 0
     uses = Math.max(0, uses - decrement)
-    return await talent.update({'data.uses.value': uses, 'data.addtonextroll': false}, {parent: this})
+    return await talent.update({'system.uses.value': uses, 'system.addtonextroll': false}, {parent: this})
   }
 
   /* -------------------------------------------- */
@@ -776,15 +776,15 @@ export class DemonlordActor extends Actor {
     await Promise.all(game.user.targets.map(async target => {
       const currentDamage = parseInt(target.actor.system.characteristics.health.value)
       await target?.actor.update({
-        'data.characteristics.health.value': currentDamage + damage,
+        'system.characteristics.health.value': currentDamage + damage,
       })
     }))
   }
 
   async restActor() {
     // Reset talent and spell uses
-    const talentData = this.items.filter(i => i.type === 'talent').map(t => ({_id: t.id, 'data.uses.value': 0}))
-    const spellData = this.items.filter(i => i.type === 'spell').map(s => ({_id: s.id, 'data.castings.value': 0}))
+    const talentData = this.items.filter(i => i.type === 'talent').map(t => ({_id: t.id, 'system.uses.value': 0}))
+    const spellData = this.items.filter(i => i.type === 'spell').map(s => ({_id: s.id, 'system.castings.value': 0}))
 
     await this.updateEmbeddedDocuments('Item', [...talentData, ...spellData])
     await this.applyHealing(true)
@@ -826,7 +826,7 @@ export class DemonlordActor extends Actor {
     }
 
     return this.update({
-      'data.characteristics.health.value': newHp
+      'system.characteristics.health.value': newHp
     })
   }
 
@@ -841,7 +841,7 @@ export class DemonlordActor extends Actor {
         const rank = s.system.rank
         const currentMax = s.system.castings.max
         const newMax = CONFIG.DL.spelluses[power]?.[rank] ?? 0
-        if (currentMax !== newMax) diff.push({_id: s.id, 'data.castings.max': newMax})
+        if (currentMax !== newMax) diff.push({_id: s.id, 'system.castings.max': newMax})
       })
     if (diff.length > 0) return await this.updateEmbeddedDocuments('Item', diff)
   }

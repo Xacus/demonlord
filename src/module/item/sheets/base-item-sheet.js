@@ -117,7 +117,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
 
     // If a Talent has no uses it's always active
-    if (item.type === 'talent') updateData['data.addtonextroll'] = !updateData.data?.uses?.max
+    if (item.type === 'talent') updateData['system.addtonextroll'] = !updateData.data?.uses?.max
 
     return await this.object.update(updateData)
   }

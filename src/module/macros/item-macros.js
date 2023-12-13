@@ -192,7 +192,7 @@ export async function healingPotionMacro() {
     if (newdamage < 0) newdamage = 0
 
     await Actor.updateDocuments({
-      'data.characteristics.health.value': newdamage,
+      'system.characteristics.health.value': newdamage,
     })
 
     var templateData = {

@@ -52,7 +52,7 @@ const falsyChangeFilter = change => Boolean(change.value)
 
 export class DLActiveEffects {
   static async removeEffectsByOrigin(doc, originID) {
-    const toDel = doc.getEmbeddedCollection('ActiveEffect').filter(effect => effect.data?.origin?.includes(originID))
+    const toDel = doc.getEmbeddedCollection('ActiveEffect').filter(effect => effect?.origin?.includes(originID))
 
     const promises = []
     for await (const e of toDel) {
