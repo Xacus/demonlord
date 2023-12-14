@@ -29,7 +29,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       actor: this.actor,
       system: this.actor.system,
       effects: true,
-      generalEffects: prepareActiveEffectCategories(this.actor.effects, true),
+      generalEffects: prepareActiveEffectCategories(Array.from(this.actor.allApplicableEffects()), true),
       effectsOverview: buildOverview(this.actor),
       flags: this.actor.flags,
     }
@@ -60,7 +60,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     const actorData = sheetData.actor
 
     const actorHasChangeBool = (actor, key) => {
-      return actor.getEmbeddedCollection('ActiveEffect').filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
+      return Array.from(actor.allApplicableEffects()).filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
     }
 
     const noAttacks = actorHasChangeBool(actorData, 'system.maluses.noAttacks')

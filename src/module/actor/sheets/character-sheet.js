@@ -41,29 +41,29 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Effects categories
     data.ancestryEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.flags?.sourceType === 'ancestry'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'ancestry'),
     )
     delete data.ancestryEffects.temporary
 
     data.pathEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.flags?.sourceType === 'path'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'path'),
     )
     delete data.pathEffects.temporary
 
     data.talentEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.flags?.sourceType === 'talent'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'talent'),
     )
     data.spellEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.flags?.sourceType === 'spell'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'spell'),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.sourceType) >= 0),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.sourceType) >= 0),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.flags?.sourceType === 'creaturerole'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'creaturerole'),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      this.actor.effects.filter(effect => effect.flags?.sourceType === 'relic'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'relic'),
     )
     this.prepareItems(data)
     return data

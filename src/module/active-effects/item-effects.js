@@ -1,3 +1,4 @@
+import { DemonlordActor } from '../actor/actor'
 import { plusify } from '../utils/utils'
 
 export const addEffect = (key, value, priority) => ({
@@ -52,7 +53,7 @@ const falsyChangeFilter = change => Boolean(change.value)
 
 export class DLActiveEffects {
   static async removeEffectsByOrigin(doc, originID) {
-    const toDel = doc.getEmbeddedCollection('ActiveEffect').filter(effect => effect?.origin?.includes(originID))
+    const toDel = (doc instanceof DemonlordActor ? Array.from(doc.allApplicableEffects()) : doc.effects).filter(effect => effect?.origin?.includes(originID))
 
     const promises = []
     for await (const e of toDel) {

@@ -129,7 +129,7 @@ export class DemonlordActor extends Actor {
 
     // We can reapply some active effects if we know they happened
     // We're copying what it's done in applyActiveEffects
-    const effectChanges = this.effects.reduce((changes, e) => {
+    const effectChanges = Array.from(this.allApplicableEffects()).reduce((changes, e) => {
       if (e.disabled || e.isSuppressed) return changes
       return changes.concat(e.changes.map(c => {
         c = foundry.utils.duplicate(c)
