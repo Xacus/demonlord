@@ -35,7 +35,7 @@ export class DLCombatTracker extends CombatTracker {
       // Add Tooltip on Status Effects
       // Group actor effects by image
       const imgEffectMap = new Map()
-      combatant.actor.effects
+      combatant.actor?.effects
         .filter(e => e.isTemporary && !e.disabled)
         .forEach(e => {
           if (imgEffectMap.has(e.icon)) imgEffectMap.get(e.icon).push(e)
