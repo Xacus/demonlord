@@ -38,7 +38,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     const actorData = sheetData.actor
 
     const actorHasChangeBool = (actor, key) => {
-      return actor.getEmbeddedCollection('ActiveEffect').filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
+      return Array.from(actor.allApplicableEffects()).filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
     }
 
     const noSpecialAttacks = actorHasChangeBool(actorData, 'system.maluses.noSpecialAttacks')

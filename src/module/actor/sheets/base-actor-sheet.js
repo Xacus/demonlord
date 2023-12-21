@@ -29,7 +29,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       actor: this.actor,
       system: this.actor.system,
       effects: true,
-      generalEffects: prepareActiveEffectCategories(this.actor.effects, true),
+      generalEffects: prepareActiveEffectCategories(Array.from(this.actor.allApplicableEffects()), true),
       effectsOverview: buildOverview(this.actor),
       flags: this.actor.flags,
     }
@@ -60,7 +60,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     const actorData = sheetData.actor
 
     const actorHasChangeBool = (actor, key) => {
-      return actor.getEmbeddedCollection('ActiveEffect').filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
+      return Array.from(actor.allApplicableEffects()).filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
     }
 
     const noAttacks = actorHasChangeBool(actorData, 'system.maluses.noAttacks')
@@ -242,7 +242,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       }
       if (['action', 'afflictions', 'damage'].includes(div.dataset.type)) {
         const type = capitalize(div.dataset.type)
-        const k = 'data.afflictionsTab.hideAction' + type
+        const k = 'system.afflictionsTab.hideAction' + type
         const v = !this.actor.system.afflictionsTab[`hide${type}`]
         await this.actor.update({[k]: v})
       }
@@ -279,7 +279,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     const _itemwear = async (ev, bool) => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       const item = this.actor.items.get(id)
-      await item.update({'data.wear': bool}, {parent: this.actor})
+      await item.update({'system.wear': bool}, {parent: this.actor})
     }
     html.find('.item-wear').click(async ev => await _itemwear(ev, false))
     html.find('.item-wearoff').click(async ev => await _itemwear(ev, true))
@@ -314,7 +314,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       const usesmax = +item.system.castings.max
       if (ev.button == 0) uses = uses < usesmax ? uses + 1 : 0
       else if (ev.button == 2) uses = uses > 0 ? uses - 1 : 0
-      await item.update({'data.castings.value': uses}, {parent: this.actor})
+      await item.update({'system.castings.value': uses}, {parent: this.actor})
     })
 
     // Rollable Attributes

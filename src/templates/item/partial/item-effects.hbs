@@ -1,17 +1,6 @@
 {{#if effects}}
   <div class="tab" data-group="primary" data-tab="effects">
-    {{#if document.isEmbedded}}
-      <!--    TODO-->
-      <p class="warning" style="margin-bottom: 12px; background: #8d3b3c; border-radius: 8px; padding: 8px;
-      font-size: 14px; border:1px solid black">
-        <b>WARNING:</b><br> As of Foundry 0.8.5 the creation of Active Effects inside Items owned by a Character is
-        unsupported.
-        To edit effects present in the item, please edit the item from the Sidebar.
-      </p>
-
-    {{/if}}
-
-    <ol class="items-list effects-list" style="margin-top: 0; padding: 0 8px;">
+    <ol class="items-list effects-list" style="margin: 0; padding: 0 8px;">
       {{#each effects as |section sid|}}
         <li class="items-header flexrow" data-effect-type="{{section.type}}">
           <div class="item-name effect-name flexrow">{{localize section.name}}</div>
@@ -52,7 +41,7 @@
                 </a>
               {{/if}} {{#if (eq section.showControls 3)}}
                 <a class="effect-control" data-action="toggle" title="{{localize 'DL.EffectToggle'}}">
-                  <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+                  <i class="fas {{ifThen effect.disabled "fa-check" "fa-times"}}"></i>
                 </a>
                 <a class="effect-control" data-action="edit" title="{{localize 'DL.EffectEdit'}}">
                   <i class="fas fa-edit"></i>

@@ -69,11 +69,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     data.system.enrichedDescription = await TextEditor.enrichHTML(this.document.system.description, {async: true});
     data.system.enrichedDescriptionUnrolled = await enrichHTMLUnrolled(this.document.system.description)
 
-    const effControls = data.document.isEmbedded ? -1 : 3
-    data.effects =
-      this.document.effects.size > 0 || !data.document.isEmbedded
-        ? prepareActiveEffectCategories(this.document.effects, !data.document.isEmbedded, effControls)
-        : null
+    data.effects = prepareActiveEffectCategories(this.document.effects, true, true)
 
     if (data.item.type === 'weapon' || data.item.type === 'spell' || data.item.type === 'talent') this._prepareDamageTypes(data)
 
@@ -117,7 +113,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
 
     // If a Talent has no uses it's always active
-    if (item.type === 'talent') updateData['data.addtonextroll'] = !updateData.data?.uses?.max
+    if (item.type === 'talent') updateData['system.addtonextroll'] = !updateData.data?.uses?.max
 
     return await this.object.update(updateData)
   }

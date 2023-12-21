@@ -61,7 +61,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     // Edit ancestry talents
     html
       .find('.edit-ancestrytalents')
-      .click(async _ => await this.item.update({'data.editTalents': !this.item.system.editTalents}).then(() => this.render()))
+      .click(async _ => await this.item.update({'system.editTalents': !this.item.system.editTalents}).then(() => this.render()))
 
     // Delete ancestry item
     html.find('.delete-ancestryitem').click(async ev => {

@@ -233,10 +233,10 @@ export function wealthManagerMacro() {
 
     await actors[0].update(
       {
-        'data.wealth.gc': currentGC + parseInt(gc),
-        'data.wealth.ss': currentSS + parseInt(ss),
-        'data.wealth.cp': currentCP + parseInt(cp),
-        'data.wealth.bits': currentBits + parseInt(bits)
+        'system.wealth.gc': currentGC + parseInt(gc),
+        'system.wealth.ss': currentSS + parseInt(ss),
+        'system.wealth.cp': currentCP + parseInt(cp),
+        'system.wealth.bits': currentBits + parseInt(bits)
       });
     expMessage(actors[0].name, gc, ss, cp, bits);
   }
@@ -254,10 +254,10 @@ export function wealthManagerMacro() {
 
       await actor.update(
         {
-          'data.wealth.gc': currentGC + parseInt(gc),
-          'data.wealth.ss': currentSS + parseInt(ss),
-          'data.wealth.cp': currentCP + parseInt(cp),
-          'data.wealth.bits': currentBits + parseInt(bits)
+          'system.wealth.gc': currentGC + parseInt(gc),
+          'system.wealth.ss': currentSS + parseInt(ss),
+          'system.wealth.cp': currentCP + parseInt(cp),
+          'system.wealth.bits': currentBits + parseInt(bits)
         });
 
       expMessage(actor.name, gc, ss, cp, bits);

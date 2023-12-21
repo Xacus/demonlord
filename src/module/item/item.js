@@ -8,7 +8,7 @@ export class DemonlordItem extends Item {
     if (this.type === 'spell' && this.parent) {
       const power = +this.parent.system?.characteristics.power || 0
       const rank = updateData?.data?.rank ?? +this.system.rank
-      updateData['data.castings.max'] = CONFIG.DL.spelluses[power]?.[rank] ?? updateData?.data?.castings?.max ?? 0
+      updateData['system.castings.max'] = CONFIG.DL.spelluses[power]?.[rank] ?? updateData?.data?.castings?.max ?? 0
     }
     return await super.update(updateData)
   }
