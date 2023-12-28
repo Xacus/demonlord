@@ -60,6 +60,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     const data = await super.getData(options)
     const itemData = data.data
     data.isGM = game.user.isGM
+    data.isOwner = this.actor?.isOwner,
     data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
     data.config = DL
     data.item = itemData
