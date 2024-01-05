@@ -1,5 +1,6 @@
 import {deleteActorNestedItems} from './nested-objects'
 import {DemonlordActor} from '../actor/actor'
+import { DLEndOfRound } from '../dialog/endofround'
 
 export class DemonlordItem extends Item {
   /** @override */
@@ -20,6 +21,12 @@ export class DemonlordItem extends Item {
       // eslint-disable-next-line no-prototype-builtins
       let openSheets = Object.entries(ui.windows).map(i => i[1]).filter(i => Item.prototype.isPrototypeOf(i.object))
       openSheets = openSheets.filter(s => ['path', 'ancestry', 'creaturerole', 'item', 'relic'].includes(s.object.type))
+      openSheets.forEach(s => s.render())
+    }
+
+    // Refresh any open endoftheround dialogs
+    if (this.type === 'endoftheround') {
+      const openSheets = Object.entries(ui.windows).map(i => i[1]).filter(i => i instanceof DLEndOfRound)
       openSheets.forEach(s => s.render())
     }
   }
