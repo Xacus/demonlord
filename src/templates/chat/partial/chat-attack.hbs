@@ -86,53 +86,53 @@
       </div>
     {{/if}}
   </div>
+{{/if}}
 
-  {{#if data.attackEffects}}
-    {{#if data.isCreature}}
-      <div class="gmonly">
-        <div class="description">
-          <div class="header">{{localize "DL.AttackRollBonuses"}}:</div>
-          <div class="body">{{{data.attackEffects}}}
-            <hr>
-          </div>
-        </div>
-      </div>
-    {{else}}
+{{#if data.attackEffects}}
+  {{#if data.isCreature}}
+    <div class="gmonly">
       <div class="description">
         <div class="header">{{localize "DL.AttackRollBonuses"}}:</div>
         <div class="body">{{{data.attackEffects}}}
           <hr>
         </div>
       </div>
-    {{/if}}
-  {{/if}}
-
-  {{#if data.effects}}
-    {{#if data.isCreature}}
-      <div class="gmonly">
-        <div class="description">
-          <div class="header">{{localize "DL.TalentRollEffects"}}</div>
-          <div class="body">{{{data.effects}}}</div>
-        </div>
+    </div>
+  {{else}}
+    <div class="description">
+      <div class="header">{{localize "DL.AttackRollBonuses"}}:</div>
+      <div class="body">{{{data.attackEffects}}}
+        <hr>
       </div>
-    {{else}}
+    </div>
+  {{/if}}
+{{/if}}
+
+{{#if data.effects}}
+  {{#if data.isCreature}}
+    <div class="gmonly">
       <div class="description">
         <div class="header">{{localize "DL.TalentRollEffects"}}</div>
         <div class="body">{{{data.effects}}}</div>
       </div>
-    {{/if}}
+    </div>
+  {{else}}
+    <div class="description">
+      <div class="header">{{localize "DL.TalentRollEffects"}}</div>
+      <div class="body">{{{data.effects}}}</div>
+    </div>
   {{/if}}
+{{/if}}
 
-  {{#if data.effectdice}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellEffectDice"}}</div>
-      <div class="body">{{localize "DL.SpellEffectDiceResult"}} {{data.effectdice}}</div>
-    </div>
-  {{/if}}
-  {{#if data.plus20Text}}
-    <div class="roll20">
-      <div class="header">{{localize "DL.SpellRollPlus20"}}</div>
-      <div class="body">{{data.plus20Text}}</div>
-    </div>
-  {{/if}}
+{{#if data.effectdice}}
+  <div class="roll20">
+    <div class="header">{{localize "DL.SpellEffectDice"}}</div>
+    <div class="body">{{localize "DL.SpellEffectDiceResult"}} {{data.effectdice}}</div>
+  </div>
+{{/if}}
+{{#if data.plus20Text}}
+  <div class="roll20">
+    <div class="header">{{localize "DL.SpellRollPlus20"}}</div>
+    <div class="body">{{data.plus20Text}}</div>
+  </div>
 {{/if}}

@@ -49,6 +49,7 @@ export function registerHandlebarsHelpers() {
     _buildPathAttributeTwoSetViewSelector(attributeName, isSelected, selectedName, selectedValue, idx)
   )
   Handlebars.registerHelper('dlAvailabilityDropdown', (groupName, checkedKey) => _buildAvailabilityDropdownItem(groupName, checkedKey))
+  Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData));  
 }
 
 // ----------------------------------------------------
@@ -91,6 +92,14 @@ function _buildRadioBoxes(groupName, checkedKey) {
 }
 
 // ----------------------------------------------------
+
+function _CheckCharacteristicsIsNull(actorData) {
+    if (actorData === null) {
+        return true
+    } else {
+        return false
+    }
+}
 
 function _buildDropdownItem(groupName, checkedKey) {
   let attributes = _getAttributes(groupName)

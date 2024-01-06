@@ -1,5 +1,6 @@
 import {deleteActorNestedItems} from './nested-objects'
 import {DemonlordActor} from '../actor/actor'
+import { DLEndOfRound } from '../dialog/endofround'
 
 export class DemonlordItem extends Item {
   /** @override */
@@ -8,7 +9,7 @@ export class DemonlordItem extends Item {
     if (this.type === 'spell' && this.parent) {
       const power = +this.parent.system?.characteristics.power || 0
       const rank = updateData?.data?.rank ?? +this.system.rank
-      updateData['data.castings.max'] = CONFIG.DL.spelluses[power]?.[rank] ?? updateData?.data?.castings?.max ?? 0
+      updateData['system.castings.max'] = CONFIG.DL.spelluses[power]?.[rank] ?? updateData?.data?.castings?.max ?? 0
     }
     return await super.update(updateData)
   }
@@ -20,6 +21,12 @@ export class DemonlordItem extends Item {
       // eslint-disable-next-line no-prototype-builtins
       let openSheets = Object.entries(ui.windows).map(i => i[1]).filter(i => Item.prototype.isPrototypeOf(i.object))
       openSheets = openSheets.filter(s => ['path', 'ancestry', 'creaturerole', 'item', 'relic'].includes(s.object.type))
+      openSheets.forEach(s => s.render())
+    }
+
+    // Refresh any open endoftheround dialogs
+    if (this.type === 'endoftheround') {
+      const openSheets = Object.entries(ui.windows).map(i => i[1]).filter(i => i instanceof DLEndOfRound)
       openSheets.forEach(s => s.render())
     }
   }

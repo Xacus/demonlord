@@ -58,7 +58,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     html.find('.add-level').click(async ev => {
       ev.preventDefault()
       await this.item.update({
-        'data.levels': [...(this.item.system.levels || []), new PathLevel()],
+        'system.levels': [...(this.item.system.levels || []), new PathLevel()],
       })
     })
 
@@ -101,7 +101,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
           callback: async _ => {
             const levels = this.item.system.levels
             levels.splice(itemIndex, 1)
-            await this.item.update({'data.levels': levels})
+            await this.item.update({'system.levels': levels})
           },
         },
         no: {
@@ -187,7 +187,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
         const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.path).includes(formData.img)
         if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
           formData.img =
-            CONFIG.DL.defaultItemIcons.path[formData['data.type']] || CONFIG.DL.defaultItemIcons.path.novice
+            CONFIG.DL.defaultItemIcons.path[formData['system.type']] || CONFIG.DL.defaultItemIcons.path.novice
         }
       } else {
         updateData.levels = this._getViewLevelsUpdateData(completeFormData)

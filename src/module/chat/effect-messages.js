@@ -62,8 +62,8 @@ const changeListToMsg = (m, keys, title, f=plusify) => {
  * @param defenseAttribute
  * @returns {*}
  */
-export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons) {
-  const attackerEffects = attacker.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
+export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20) {
+  const attackerEffects = Array.from(attacker.allApplicableEffects()).filter(effect => !effect.disabled)
   let m = _remapEffects(attackerEffects)
 
   let defenderBoons = (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) + (defender?.system.bonuses.defense.boons.all || 0)
@@ -84,7 +84,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
       if (item.system.wear && +item.system.requirement?.minvalue > attacker.getAttribute(item.system.requirement?.attribute)?.value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
       break
     case 'talent':
-      if (!attackAttribute) return
+      if (!attackAttribute) break
       itemBoons = item.system.action.boonsbanes
       break
     default:
@@ -98,11 +98,14 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '')
   boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
 
+  const extraDamageMsg = item.system.action?.damage ? changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') : ''
+  // We may want to show the extra damage 
+  const extraDamage20PlusMsg = ((!defender && attackAttribute) || plus20) ? changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus') : ''
   return (
     boonsMsg +
     inputBoonsMsg + 
-    changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') +
-    changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus')
+    extraDamageMsg +
+    extraDamage20PlusMsg
   )
   // + changeToMsg(m, 'system.bonuses.attack.extraEffect', 'DL.TalentExtraEffect')
 }
@@ -116,7 +119,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
  * @returns {string}
  */
 export function buildAttributeEffectsMessage(actor, attribute, inputBoons) {
-  const actorEffects = actor?.getEmbeddedCollection('ActiveEffect').filter(effect => !effect.disabled)
+  const actorEffects = Array.from(actor.allApplicableEffects()).filter(effect => !effect.disabled)
   let m = _remapEffects(actorEffects)
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
   let result = ''
@@ -134,7 +137,7 @@ export function buildAttributeEffectsMessage(actor, attribute, inputBoons) {
  * @returns {string}
  */
 export function buildTalentEffectsMessage(actor, talent) {
-  const effects = actor.getEmbeddedCollection('ActiveEffect').filter(effect => effect.origin === talent.uuid)
+  const effects = Array.from(actor.allApplicableEffects()).filter(effect => effect.origin === talent.uuid)
 
   let m = _remapEffects(effects)
   const get = (key, strLocalization, prefix = '') => {
@@ -171,7 +174,7 @@ export function buildTalentEffectsMessage(actor, talent) {
 /* -------------------------------------------- */
 
 export function buildOverview(actor) {
-  let m = _remapEffects(actor.effects.filter(e => !e.disabled)) // <changeKey> : [{label, type, value}, ]
+  let m = _remapEffects(Array.from(actor.allApplicableEffects()).filter(e => !e.disabled)) // <changeKey> : [{label, type, value}, ]
   m.delete('')
   const sections = []
 

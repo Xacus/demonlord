@@ -129,7 +129,7 @@ export class DemonlordActor extends Actor {
 
     // We can reapply some active effects if we know they happened
     // We're copying what it's done in applyActiveEffects
-    const effectChanges = this.effects.reduce((changes, e) => {
+    const effectChanges = Array.from(this.allApplicableEffects()).reduce((changes, e) => {
       if (e.disabled || e.isSuppressed) return changes
       return changes.concat(e.changes.map(c => {
         c = foundry.utils.duplicate(c)
@@ -191,23 +191,63 @@ export class DemonlordActor extends Actor {
       if (result !== null) this.overrides[change.key] = result
     }
 
-    // WIP: Adjust size here
-    // for (let change of effectChanges.filter(e => e.key.includes("size"))) {
-    //   let size = change.value
-    //   let newSize = 0
+    // Adjust size here
+    const originalSize = this._source.system.characteristics.size
+    let modifiedSize = 0
+    let newSize = "1"
+    if (originalSize.includes("/")) {
+      const [numerator, denominator] = originalSize.split("/")
+      modifiedSize = parseInt(numerator) / parseInt(denominator)
+    } else {
+      modifiedSize = parseInt(originalSize)
+    }
+    for (let change of effectChanges.filter(e => e.key.includes("size"))) {
+      let sizeMod = 0
 
-    //   if (size.includes("/")) {
-    //     const [numerator, denominator] = size.split("/")
-    //     newSize = parseInt(numerator) / parseInt(denominator)
-    //   } else {
-    //     newSize = parseInt(size)
-    //   }
+      if (change.value.includes("/")) {
+        const [numerator, denominator] = change.value.split("/")
+        sizeMod = parseInt(numerator) / parseInt(denominator)
+      } else {
+        sizeMod = parseInt(change.value)
+      }
 
-    //   change.value = newSize.toString()
+      switch (change.mode) {
+        case 0: // CUSTOM
+          break
+        case 1: // MULTIPLY
+          modifiedSize *= sizeMod
+          break
+        case 2: // ADD
+          modifiedSize += sizeMod
+          break
+        case 3: // DOWNGRADE
+          modifiedSize = Math.min(modifiedSize, sizeMod)
+          break
+        case 4: // UPGRADE
+          modifiedSize = Math.max(modifiedSize, sizeMod)
+          break
+        case 5: // OVERRIDE
+          modifiedSize = sizeMod
+          break
+      }
 
-    //   const result = change.effect.apply(this, change)
-    //   if (result !== null) this.overrides[change.key] = result
-    // }
+      // Calculate string if fraction
+      if (modifiedSize >= 1) {
+        newSize = Math.floor(modifiedSize).toString()
+      } else if (modifiedSize >= 0.5) {
+        newSize = "1/2";
+      } else if (modifiedSize >= 0.25) {
+        newSize = "1/4";
+      } else if (modifiedSize >= 0.125) {
+        newSize = "1/8";
+      } else if (modifiedSize >= 0.0625) {
+        newSize = "1/16";
+      } else if (modifiedSize >= 0.03125) {
+        newSize = "1/32";
+      }
+    }
+
+    this.system.characteristics.size = newSize
   }
 
   /* -------------------------------------------- */
@@ -720,14 +760,14 @@ export class DemonlordActor extends Actor {
     let uses = talent.system.uses?.value || 0
     const usesmax = talent.system.uses?.max || 0
     if (usesmax > 0 && uses < usesmax)
-      return await talent.update({'data.uses.value': ++uses, 'data.addtonextroll': setActive}, {parent: this})
+      return await talent.update({'system.uses.value': ++uses, 'system.addtonextroll': setActive}, {parent: this})
   }
 
   async deactivateTalent(talent, decrement = 0, onlyTemporary = false) {
     if (onlyTemporary && !talent.system.uses?.max) return
     let uses = talent.system.uses?.value || 0
     uses = Math.max(0, uses - decrement)
-    return await talent.update({'data.uses.value': uses, 'data.addtonextroll': false}, {parent: this})
+    return await talent.update({'system.uses.value': uses, 'system.addtonextroll': false}, {parent: this})
   }
 
   /* -------------------------------------------- */
@@ -736,15 +776,15 @@ export class DemonlordActor extends Actor {
     await Promise.all(game.user.targets.map(async target => {
       const currentDamage = parseInt(target.actor.system.characteristics.health.value)
       await target?.actor.update({
-        'data.characteristics.health.value': currentDamage + damage,
+        'system.characteristics.health.value': currentDamage + damage,
       })
     }))
   }
 
   async restActor() {
     // Reset talent and spell uses
-    const talentData = this.items.filter(i => i.type === 'talent').map(t => ({_id: t.id, 'data.uses.value': 0}))
-    const spellData = this.items.filter(i => i.type === 'spell').map(s => ({_id: s.id, 'data.castings.value': 0}))
+    const talentData = this.items.filter(i => i.type === 'talent').map(t => ({_id: t.id, 'system.uses.value': 0}))
+    const spellData = this.items.filter(i => i.type === 'spell').map(s => ({_id: s.id, 'system.castings.value': 0}))
 
     await this.updateEmbeddedDocuments('Item', [...talentData, ...spellData])
     await this.applyHealing(true)
@@ -786,7 +826,7 @@ export class DemonlordActor extends Actor {
     }
 
     return this.update({
-      'data.characteristics.health.value': newHp
+      'system.characteristics.health.value': newHp
     })
   }
 
@@ -801,7 +841,7 @@ export class DemonlordActor extends Actor {
         const rank = s.system.rank
         const currentMax = s.system.castings.max
         const newMax = CONFIG.DL.spelluses[power]?.[rank] ?? 0
-        if (currentMax !== newMax) diff.push({_id: s.id, 'data.castings.max': newMax})
+        if (currentMax !== newMax) diff.push({_id: s.id, 'system.castings.max': newMax})
       })
     if (diff.length > 0) return await this.updateEmbeddedDocuments('Item', diff)
   }

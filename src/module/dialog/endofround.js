@@ -66,6 +66,33 @@ export class DLEndOfRound extends FormApplication {
         _parent.children[2].style.display = 'none'
       }
     })
+
+    html.find('.item-edit').click(async event => {
+      const itemId = event.currentTarget.closest("[data-item-id]").dataset.itemId
+      const actorId = event.currentTarget.closest("[data-actor-id]").dataset.actorId
+      const actor = this.object.combatants.find(c => c.actor._id === actorId).actor
+      const item = actor.items.get(itemId)
+      item.sheet.render(true)
+    })
+
+    html.find('.rollable, .item-roll').click(async event => {
+      event.preventDefault()
+      const element = event.currentTarget
+      const dataset = element.dataset
+      if (dataset.roll) {
+        const roll = new Roll(dataset.roll, this.actor.system)
+        const label = dataset.label ? `Rolling ${dataset.label}` : ''
+        await roll.roll().toMessage({
+          speaker: ChatMessage.getSpeaker({actor: this.actor}),
+          flavor: label,
+        })
+      } else {
+        const itemId = event.currentTarget.closest("[data-item-id]").dataset.itemId
+        const actorId = event.currentTarget.closest("[data-actor-id]").dataset.actorId
+        const actor = this.object.combatants.find(c => c.actor._id === actorId).actor
+        await actor.rollItem(itemId, {event: event})
+      }
+    })
   }
 
   /**

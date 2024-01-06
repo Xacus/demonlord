@@ -58,7 +58,7 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     // Edit role talents
     html
       .find('.edit-roletalents')
-      .click(async _ => await this.item.update({'data.editTalents': !this.item.system.editTalents}).then(() => this.render()))
+      .click(async _ => await this.item.update({'system.editTalents': !this.item.system.editTalents}).then(() => this.render()))
 
     // Delete role item
     html.find('.delete-roleitem').click(async ev => {

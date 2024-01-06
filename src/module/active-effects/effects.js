@@ -3,14 +3,16 @@
  * @param {MouseEvent} event      The left-click event on the effect control
  * @param {Actor|Item} owner      The owning entity which manages this effect
  */
+import { DemonlordActor } from "../actor/actor";
 import {calcEffectRemainingRounds, calcEffectRemainingSeconds, calcEffectRemainingTurn} from "../combat/combat";
+import { DemonlordItem } from "../item/item";
 import {i18n} from "../utils/utils";
 
 export async function onManageActiveEffect(event, owner) {
   event.preventDefault()
   const a = event.currentTarget
   const li = a.closest('li')
-  const effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null
+  const effect = li.dataset.effectId ? (owner instanceof DemonlordActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === li.dataset.effectId) : owner.effects.get(li.dataset.effectId)) : null
   const isCharacter = owner.type === 'character'
   switch (a.dataset.action) {
     case 'create':
@@ -43,34 +45,37 @@ export async function onManageActiveEffect(event, owner) {
  * @param {Integer} showControls      What controls to show
  * @return {object}                   Data for rendering
  */
-export function prepareActiveEffectCategories(effects, showCreateButtons = false, showControls = 3) {
+export function prepareActiveEffectCategories(effects, showCreateButtons = false, ownerIsItem = false) {
   // Define effect header categories
   let categories = {
     temporary: {
       type: 'temporary',
       name: 'Temporary Effects',
       showCreateButtons: showCreateButtons,
-      showControls: showControls,
+      showControls: 3,
       effects: [],
     },
     passive: {
       type: 'passive',
       name: 'Passive Effects',
       showCreateButtons: showCreateButtons,
-      showControls: showControls,
+      showControls: 3,
       effects: [],
     },
     inactive: {
       type: 'inactive',
       name: 'Inactive Effects',
       showCreateButtons: showCreateButtons,
-      showControls: showControls,
+      showControls: 3,
       effects: [],
     },
   }
 
   // Iterate over active effects, classifying them into categories.
   for (let e of effects) {
+    // First thing, set notEditable flag on effects that come from items where !ownerIsItem
+    e.flags.notDeletable = e.flags.notDeletable ?? (e.parent instanceof DemonlordItem && !ownerIsItem)
+
     // Also set the 'remaining time' in seconds or rounds depending on if in combat
     if (e.isTemporary && (e.duration.seconds || e.duration.rounds || e.duration.turns)) {
       if (game.combat) {

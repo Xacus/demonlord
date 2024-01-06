@@ -25,7 +25,9 @@
         {{else}}
           <input type="Number" name="system.attributes.{{n}}.value" value="{{attr.value}}"/>
         {{/if}}
-        <label class="modifier">{{plusify attr.modifier}}</label>
+        {{#unless attr.immune}}
+          <label class="modifier">{{plusify attr.modifier}}</label>
+        {{/unless}}
       </div>
     {{/inline}}
 

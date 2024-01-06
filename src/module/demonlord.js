@@ -78,6 +78,9 @@ Hooks.once('init', async function () {
   CONFIG.Combat.documentClass = DLCombat
   CONFIG.time.roundTime = 10
   // CONFIG.debug.hooks = true
+  
+  // Move to new ActiveEffect transferral
+  CONFIG.ActiveEffect.legacyTransferral = false;
 
   // Register data models
   CONFIG.Actor.dataModels.character = CharacterDataModel
