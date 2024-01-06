@@ -2,10 +2,12 @@ import {
   makeIntField,
   makeStringField,
   makeHtmlField,
-  makeBoolField
+  makeBoolField,
 } from '../helpers.js'
-import SpellDataModel from './SpellDataModel.js'
-import TalentDataModel from './TalentDataModel.js'
+import { levelItem } from '../common.js'
+import { makeLanguageSchema } from './LanguageDataModel.js'
+import { makeSpellSchema } from './SpellDataModel.js'
+import { makeTalentSchema } from './TalentDataModel.js'
 
 export default class AncestryDataModel extends foundry.abstract.DataModel {
   static defineSchema() {
@@ -34,7 +36,7 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
           max: makeIntField(20)
         }),
       }),
-      charactaristics: new foundry.data.fields.SchemaField({
+      characteristics: new foundry.data.fields.SchemaField({
         perceptionmodifier: makeIntField(),
         healthmodifier: makeIntField(),
         defensemodifier: makeIntField(),
@@ -46,17 +48,47 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
         corruption: makeIntField()
       }),
       level4: new foundry.data.fields.SchemaField({
-        healthbonuse: makeIntField(),
+        healthbonuses: makeIntField(),
         option1: makeBoolField(true),
         option1text: makeStringField(),
-        talent: new foundry.data.fields.ArrayField(TalentDataModel.schema),
-        spells: new foundry.data.fields.ArrayField(SpellDataModel.schema),
-        pickedTalents: new foundry.data.fields.ArrayField(TalentDataModel.schema),
+        talent: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+        spells: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
+          system: makeSpellSchema(),
+          description: new foundry.data.fields.SchemaField({
+            value: makeStringField()
+          }),
+          id: makeStringField(),
+          name: makeStringField(),
+          pack: makeStringField(),
+          selected: makeBoolField(),
+          uuid: makeStringField()
+        })),
+        pickedTalents: new foundry.data.fields.ArrayField(new foundry.data.fields.ArrayField(levelItem(makeTalentSchema))),
         picks: makeIntField(1)
       }),
       languages: makeStringField(),
-      talents: new foundry.data.fields.ArrayField(TalentDataModel.schema),
-      languagelist: new foundry.data.fields.ArrayField(makeStringField()),
+      talents: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
+        system: makeTalentSchema(),
+        description: new foundry.data.fields.SchemaField({
+          value: makeStringField()
+        }),
+        id: makeStringField(),
+        name: makeStringField(),
+        pack: makeStringField(),
+        selected: makeBoolField(),
+        uuid: makeStringField()
+      })),
+      languagelist: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
+        system: makeLanguageSchema(),
+        description: new foundry.data.fields.SchemaField({
+          value: makeStringField()
+        }),
+        id: makeStringField(),
+        name: makeStringField(),
+        pack: makeStringField(),
+        selected: makeBoolField(),
+        uuid: makeStringField()
+      })),
       editTalents: makeBoolField(),
       editAncestry: makeBoolField(true)
     }

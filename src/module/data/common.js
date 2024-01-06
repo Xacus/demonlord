@@ -26,7 +26,7 @@ export function characteristics() {
 export function action() {
   return new foundry.data.fields.SchemaField({
     active: makeBoolField(true),
-    attributes: makeStringField(),
+    attribute: makeStringField(),
     against: makeStringField(),
     damageactive: makeBoolField(true),
     damage: makeStringField(),
@@ -35,6 +35,7 @@ export function action() {
     boonsbanes: makeStringField(),
     plus20active: makeBoolField(true),
     plus20: makeStringField(),
+    plus20damage: makeStringField(),
     defense: makeStringField(),
     defenseboonsbanes: makeStringField(),
     damagetypes: new foundry.data.fields.ArrayField(makeStringField()),
@@ -92,4 +93,18 @@ export function enchantment() {
 
 export function contents() {
   return new foundry.data.fields.ArrayField(makeStringField())
+}
+
+export function levelItem(makeDataSchema) {
+  return new foundry.data.fields.SchemaField({
+    system: makeDataSchema(),
+    description: new foundry.data.fields.SchemaField({
+      value: makeStringField()
+    }),
+    id: makeStringField(),
+    name: makeStringField(),
+    pack: makeStringField(),
+    selected: makeBoolField(),
+    uuid: makeStringField()
+  })
 }

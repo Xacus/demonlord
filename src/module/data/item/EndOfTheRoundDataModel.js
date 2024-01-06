@@ -14,3 +14,11 @@ export default class EndOfTheRoundDataModel extends foundry.abstract.DataModel {
     }
   }
 }
+
+export function makeEndOfTheRoundSchema() {
+  return new foundry.data.fields.SchemaField({
+    description: makeHtmlField(),
+    enrichedDescription: makeHtmlField(),
+    action: action()
+  })
+}

@@ -1,9 +1,14 @@
 import {
-    makeIntField,
-    makeStringField,
-    makeHtmlField,
-    makeBoolField
-  } from '../helpers.js'
+  makeIntField,
+  makeStringField,
+  makeHtmlField,
+  makeBoolField
+} from '../helpers.js'
+import { levelItem } from '../common.js'
+import { makeTalentSchema } from './TalentDataModel.js'
+import { makeSpellSchema } from './SpellDataModel.js'
+import { makeWeaponSchema } from './WeaponDataModel.js'
+import { makeEndOfTheRoundSchema } from './EndOfTheRoundDataModel.js'
   
   export default class CreatureRoleDataModel extends foundry.abstract.DataModel {
     static defineSchema() {
@@ -20,7 +25,7 @@ import {
           will: makeIntField(),
           willImmune: makeBoolField(),
         }),
-        charactaristics: new foundry.data.fields.SchemaField({
+        characteristics: new foundry.data.fields.SchemaField({
           perceptionmodifier: makeIntField(),
           healthmodifier: makeIntField(),
           defensemodifier: makeIntField(),
@@ -34,11 +39,11 @@ import {
         }),
         frightening: makeBoolField(),
         horrifying: makeBoolField(),
-        talents: new foundry.data.fields.ArrayField(makeStringField()),
-        specialActions: new foundry.data.fields.ArrayField(makeStringField()),
-        weapons: new foundry.data.fields.ArrayField(makeStringField()),
-        spells: new foundry.data.fields.ArrayField(makeStringField()),
-        endOfRound: new foundry.data.fields.ArrayField(makeStringField()),
+        talents: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+        specialActions: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+        weapons: new foundry.data.fields.ArrayField(levelItem(makeWeaponSchema)),
+        spells: new foundry.data.fields.ArrayField(levelItem(makeSpellSchema)),
+        endOfRound: new foundry.data.fields.ArrayField(levelItem(makeEndOfTheRoundSchema)),
         editTalents: makeBoolField(),
         editRole: makeBoolField(true)
       }
