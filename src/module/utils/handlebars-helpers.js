@@ -56,7 +56,7 @@ export function registerHandlebarsHelpers() {
 
 function _getAttributes(groupName) {
   let attributes = []
-  if (groupName === 'system.action.attack' || groupName === 'system.action.defense') {
+  if (groupName === 'system.action.attribute' || groupName === 'system.action.defense') {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'system.action.against') {
     attributes = ['', 'defense', 'strength', 'agility', 'intellect', 'will', 'perception']

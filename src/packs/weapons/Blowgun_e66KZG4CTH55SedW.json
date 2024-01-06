@@ -13,7 +13,7 @@
     "availability": "U",
     "value": "1 ss",
     "action": {
-      "attack": "Agility",
+      "attribute": "Agility",
       "against": "Defense",
       "damage": "1d3",
       "damagetype": "",

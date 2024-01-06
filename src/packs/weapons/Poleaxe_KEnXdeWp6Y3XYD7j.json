@@ -16,7 +16,7 @@
     "availability": "U",
     "value": "1 gc",
     "action": {
-      "attack": "Strength",
+      "attribute": "Strength",
       "against": "Defense",
       "damage": "1d6+2",
       "damagetype": "",
