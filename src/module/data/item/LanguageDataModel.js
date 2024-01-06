@@ -12,10 +12,12 @@ export default class LanguageDataModel extends foundry.abstract.DataModel {
   }
 }
 
-export const makeLanguageSchema = () => new foundry.data.fields.SchemaField({
-  description: makeHtmlField(),
-  enrichedDescription: makeHtmlField(),
-  read: makeBoolField(),
-  write: makeBoolField(),
-  speak: makeBoolField(true)
-})
+export function makeLanguageSchema() {
+  return new foundry.data.fields.SchemaField({
+    description: makeHtmlField(),
+    enrichedDescription: makeHtmlField(),
+    read: makeBoolField(),
+    write: makeBoolField(),
+    speak: makeBoolField(true)
+  })
+}
