@@ -194,13 +194,14 @@ export class DemonlordActor extends Actor {
     // Adjust size here
     const originalSize = this._source.system.characteristics.size
     let modifiedSize = 0
-    let newSize = "1"
+    let newSize = originalSize
     if (originalSize.includes("/")) {
       const [numerator, denominator] = originalSize.split("/")
       modifiedSize = parseInt(numerator) / parseInt(denominator)
     } else {
       modifiedSize = parseInt(originalSize)
     }
+
     for (let change of effectChanges.filter(e => e.key.includes("size"))) {
       let sizeMod = 0
 
