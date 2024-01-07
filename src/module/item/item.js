@@ -43,6 +43,17 @@ export class DemonlordItem extends Item {
     return await super.create(data, options)
   }
 
+   /** @override */
+   async _preCreate(_data, _options, _user) {
+    await super._preCreate(_data, _options, _user)
+
+    switch (_data.type) {
+      case 'ancestry': 
+        await this._rollAncestryFormulae(_data)
+        break
+    }
+  }
+
   /** @override */
   async _preDelete(_options, _user) {
     await super._preDelete(_options, _user)
@@ -86,5 +97,71 @@ export class DemonlordItem extends Item {
     const itemSources = [item.uuid, item._id]
     if (item.flags?.core?.sourceId != undefined) itemSources.push(item.flags.core.sourceId)
     return (sources.some(r=> itemSources.includes(r)))
+  }
+
+  /** Item specific functions */
+
+  async _rollAncestryFormulae(ancestry) {
+    // Before adding the item, roll any formulas and apply the values
+    // Attributes
+    let newStrength = ancestry.system.attributes.strength.value
+    let newAgility = ancestry.system.attributes.agility.value
+    let newIntellect = ancestry.system.attributes.intellect.value
+    let newWill = ancestry.system.attributes.will.value
+    let newInsanity = ancestry.system.characteristics.insanity.value
+    let newCorruption = ancestry.system.characteristics.corruption.value
+
+    if (ancestry.system.attributes.strength.formula) {
+      const roll = new Roll(ancestry.system.attributes.strength.formula)
+      newStrength = (await roll.evaluate()).total
+    }
+    if (ancestry.system.attributes.agility.formula) {
+      const roll = new Roll(ancestry.system.attributes.agility.formula)
+      newAgility = (await roll.evaluate()).total
+    }
+    if (ancestry.system.attributes.intellect.formula) {
+      const roll = new Roll(ancestry.system.attributes.intellect.formula)
+      newIntellect = (await roll.evaluate()).total
+    }
+    if (ancestry.system.attributes.will.formula) {
+      const roll = new Roll(ancestry.system.attributes.will.formula)
+      newWill = (await roll.evaluate()).total
+    }
+
+    if (ancestry.system.characteristics.insanity.formula) {
+      const roll = new Roll(ancestry.system.characteristics.insanity.formula)
+      newInsanity = (await roll.evaluate()).total
+    }
+
+    if (ancestry.system.characteristics.corruption.formula) {
+      const roll = new Roll(ancestry.system.characteristics.corruption.formula)
+      newCorruption = (await roll.evaluate()).total
+    }
+
+    await this.updateSource({
+      'system.attributes': {
+        strength: {
+          value: newStrength
+        },
+        agility: {
+          value: newAgility
+        },
+        intellect: {
+          value: newIntellect
+        },
+        will: {
+          value: newWill
+        },
+      },
+
+      'system.characteristics': {
+        insanity: {
+          value: newInsanity
+        },
+        corruption: {
+          value: newCorruption
+        }
+      }
+    })
   }
 }

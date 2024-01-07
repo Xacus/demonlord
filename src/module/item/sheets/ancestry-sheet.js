@@ -7,6 +7,8 @@ import {
   PathLevelItem
 } from '../nested-objects'
 
+import { DLStatEditor } from '../../dialog/stat-editor'
+
 export default class DLAncestrySheet extends DLBaseItemSheet {
   /* -------------------------------------------- */
   /*  Data                                        */
@@ -54,14 +56,15 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     super.activateListeners(html)
     if (!this.options.editable) return
 
+    // Edit dialogs
+    html.find('.editable-stat').contextmenu(async ev => await this._onStatEdit(ev))
+
     // Radio buttons
     html.find('.radiotrue').click(async _ => await this.item.update({'system.level4.option1': true}))
     html.find('.radiofalse').click(async _ => await this.item.update({'system.level4.option1': false}))
 
     // Edit ancestry talents
-    html
-      .find('.edit-ancestrytalents')
-      .click(async _ => await this.item.update({'system.editTalents': !this.item.system.editTalents}).then(() => this.render()))
+    html.find('.edit-ancestrytalents').click(async _ => await this.item.update({'system.editTalents': !this.item.system.editTalents}).then(() => this.render()))
 
     // Delete ancestry item
     html.find('.delete-ancestryitem').click(async ev => {
@@ -176,4 +179,14 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     })
   }
 
+
+  async _onStatEdit(ev) {
+    const div = $(ev.currentTarget)
+    const statType = div.data('statType')
+    const statName = div.data('statName')
+    new DLStatEditor({ ancestry: this.object, statType: statType, statName: statName }, {
+      top: 50,
+      right: 700,
+    }).render(true)
+  }
 }

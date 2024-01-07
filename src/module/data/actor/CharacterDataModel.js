@@ -19,7 +19,7 @@ export default class CharacterDataModel extends foundry.abstract.DataModel {
       enrichedDescription: makeHtmlField(),
       attributes: attributes(),
       characteristics: characteristics(type),
-
+      isPC: makeBoolField(true),
       level: makeIntField(),
       ancestry: makeStringField(), // Unused
       religion: new foundry.data.fields.SchemaField({
@@ -69,10 +69,6 @@ export default class CharacterDataModel extends foundry.abstract.DataModel {
       gmnote: makeStringField(),
       gmnoteedit: makeBoolField(),
     }
-  }
-
-  get isPC() {
-    return true
   }
 
   get type() {

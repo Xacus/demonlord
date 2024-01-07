@@ -4,16 +4,19 @@ export const makeBoolField = (init = false) => new foundry.data.fields.BooleanFi
   initial: init
 })
 
-export const makeNumberField = (init = 1) => new foundry.data.fields.NumberField({
+export const makeNumberField = (init = 1, max = 20, min = 0) => new foundry.data.fields.NumberField({
   required: true,
   initial: init,
   //positive: true
+  min: min,
+  max: max,
 })
 
-export const makeIntField = (init = 0) => new foundry.data.fields.NumberField({
+export const makeIntField = (init = 0, max = 20, min = 0) => new foundry.data.fields.NumberField({
   required: true,
   initial: init,
-  min: 0,
+  min: min,
+  max: max,
   integer: true,
   clean: true
 })
