@@ -200,3 +200,22 @@
 .tooltipEffect:hover .tooltiptextEffect {
   visibility: visible;
 }
+
+.stat-editor {
+  button {
+    border: 1px groove var(--color-border-dark-5);
+  }
+
+  input[type='number'] {
+    font-size: 50px;
+    height: 60px;
+    text-align: center;
+  }
+
+  input[type='text'] {
+    font-size: 13px;
+    margin-bottom: 0;
+    margin-right: 2px;
+    height: 32px;
+  }
+}

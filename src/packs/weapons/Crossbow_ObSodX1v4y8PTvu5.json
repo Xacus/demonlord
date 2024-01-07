@@ -13,7 +13,7 @@
     "availability": "C",
     "value": "1 gc",
     "action": {
-      "attack": "Agility",
+      "attribute": "Agility",
       "against": "Defense",
       "damage": "2d6",
       "damagetype": "",

@@ -21,6 +21,24 @@ import DLBaseItemSheet from './item/sheets/base-item-sheet'
 import DLAncestrySheet from './item/sheets/ancestry-sheet'
 import DLRoleSheet from './item/sheets/role-sheet.js'
 import DLPathSheet from './item/sheets/path-sheet'
+import CharacterDataModel from './data/actor/CharacterDataModel.js'
+import CreatureDataModel from './data/actor/CreatureDataModel.js'
+import VehicleDataModel from './data/actor/VehicleDataModel.js'
+import AmmoDataModel from './data/item/AmmoDataModel.js'
+import AncestryDataModel from './data/item/AncestryDataModel.js'
+import ArmorDataModel from './data/item/ArmorDataModel.js'
+import CreatureRoleDataModel from './data/item/CreatureRoleDataModel.js'
+import EndOfTheRoundDataModel from './data/item/EndOfTheRoundDataModel.js'
+import FeatureDataModel from './data/item/FeatureDataModel.js'
+import ItemDataModel from './data/item/ItemDataModel.js'
+import LanguageDataModel from './data/item/LanguageDataModel.js'
+import PathDataModel from './data/item/PathDataModel.js'
+import ProfessionDataModel from './data/item/ProfessionDataModel.js'
+import RelicDataModel from './data/item/RelicDataModel.js'
+import SpecialActionDataModel from './data/item/SpecialActionDataModel.js'
+import SpellDataModel from './data/item/SpellDataModel.js'
+import TalentDataModel from './data/item/TalentDataModel.js'
+import WeaponDataModel from './data/item/WeaponDataModel.js'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
 import 'tippy.js/dist/tippy.css';
@@ -63,6 +81,26 @@ Hooks.once('init', async function () {
   
   // Move to new ActiveEffect transferral
   CONFIG.ActiveEffect.legacyTransferral = false;
+
+  // Register data models
+  CONFIG.Actor.dataModels.character = CharacterDataModel
+  CONFIG.Actor.dataModels.creature = CreatureDataModel
+  CONFIG.Actor.dataModels.vehicle = VehicleDataModel
+  CONFIG.Item.dataModels.ammo = AmmoDataModel
+  CONFIG.Item.dataModels.ancestry = AncestryDataModel
+  CONFIG.Item.dataModels.armor = ArmorDataModel
+  CONFIG.Item.dataModels.creaturerole = CreatureRoleDataModel
+  CONFIG.Item.dataModels.endoftheround = EndOfTheRoundDataModel
+  CONFIG.Item.dataModels.feature = FeatureDataModel
+  CONFIG.Item.dataModels.item = ItemDataModel
+  CONFIG.Item.dataModels.language = LanguageDataModel
+  CONFIG.Item.dataModels.path = PathDataModel
+  CONFIG.Item.dataModels.profession = ProfessionDataModel
+  CONFIG.Item.dataModels.relic = RelicDataModel
+  CONFIG.Item.dataModels.specialaction = SpecialActionDataModel
+  CONFIG.Item.dataModels.spell = SpellDataModel
+  CONFIG.Item.dataModels.talent = TalentDataModel
+  CONFIG.Item.dataModels.weapon = WeaponDataModel
 
   registerSettings()
 

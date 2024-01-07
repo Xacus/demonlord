@@ -17,7 +17,7 @@
     "availability": "C",
     "value": "5 ss",
     "action": {
-      "attack": "Strength",
+      "attribute": "Strength",
       "against": "Defense",
       "damage": "1d6",
       "damagetype": "",

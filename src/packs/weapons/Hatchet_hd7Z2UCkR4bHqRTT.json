@@ -13,7 +13,7 @@
     "availability": "C",
     "value": "1 ss",
     "action": {
-      "attack": "Strength",
+      "attribute": "Strength",
       "against": "Defense",
       "damage": "1d3",
       "damagetype": "",

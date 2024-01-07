@@ -9,8 +9,6 @@
   "data": {
     "description": "",
     "active": true,
-    "attack": "",
-    "against": "",
     "damageactive": true,
     "boonsbanesactive": true,
     "damagetype": "",
@@ -31,7 +29,7 @@
     "availability": "R",
     "value": "1 gc",
     "action": {
-      "attack": "Strength",
+      "attribute": "Strength",
       "against": "Defense",
       "damage": "2d6",
       "damagetype": "",
