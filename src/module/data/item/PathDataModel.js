@@ -50,9 +50,7 @@ export default class PathDataModel extends foundry.abstract.DataModel {
         talentsChooseOne: makeBoolField(false),
         talentsSelected: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
           system: makeTalentSchema(),
-          description: new foundry.data.fields.SchemaField({
-            value: makeStringField()
-          }),
+          description: makeStringField(),
           id: makeStringField(),
           name: makeStringField(),
           pack: makeStringField(),
@@ -61,9 +59,7 @@ export default class PathDataModel extends foundry.abstract.DataModel {
         })),
         talents: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
           system: makeTalentSchema(),
-          description: new foundry.data.fields.SchemaField({
-            value: makeStringField()
-          }),
+          description: makeStringField(),
           id: makeStringField(),
           name: makeStringField(),
           pack: makeStringField(),
@@ -72,9 +68,7 @@ export default class PathDataModel extends foundry.abstract.DataModel {
         })),
         spells: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
           system: makeSpellSchema(),
-          description: new foundry.data.fields.SchemaField({
-            value: makeStringField()
-          }),
+          description: makeStringField(),
           id: makeStringField(),
           name: makeStringField(),
           pack: makeStringField(),
@@ -83,9 +77,7 @@ export default class PathDataModel extends foundry.abstract.DataModel {
         })),
         talentspick: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
           system: makeTalentSchema(),
-          description: new foundry.data.fields.SchemaField({
-            value: makeStringField()
-          }),
+          description: makeStringField(),
           id: makeStringField(),
           name: makeStringField(),
           pack: makeStringField(),
@@ -94,9 +86,7 @@ export default class PathDataModel extends foundry.abstract.DataModel {
         })),
         languages: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
           system: makeLanguageSchema(),
-          description: new foundry.data.fields.SchemaField({
-            value: makeStringField()
-          }),
+          description: makeStringField(),
           id: makeStringField(),
           name: makeStringField(),
           pack: makeStringField(),

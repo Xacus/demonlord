@@ -39,7 +39,7 @@ export function registerHandlebarsHelpers() {
   )
 
   Handlebars.registerHelper('dlRadioBoxes', (groupName, checkedKey) => _buildRadioBoxes(groupName, checkedKey))
-  Handlebars.registerHelper('dlDropdown', (groupName, checkedKey) => _buildDropdownItem(groupName, checkedKey,))
+  Handlebars.registerHelper('dlDropdown', (groupName, checkedKey) => _buildDropdownItem(groupName, checkedKey))
   Handlebars.registerHelper('dlDropdownValue', (groupName, checkedKey, valueName, valueKey) => _buildDropdownItemWithValue(groupName, checkedKey, valueName, valueKey))
   Handlebars.registerHelper('dlCheckboxes', (groupName, checkedKey, data) => _buildCheckboxes(groupName, checkedKey, data))
   Handlebars.registerHelper('dlBOBAButton', (_name, value, loc = undefined) => _buildBOBAButton(_name, value, loc))
@@ -56,7 +56,7 @@ export function registerHandlebarsHelpers() {
 
 function _getAttributes(groupName) {
   let attributes = []
-  if (groupName === 'system.action.attribute' || groupName === 'system.action.defense') {
+  if (groupName === 'system.action.attack' || groupName === 'system.action.defense') {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'system.action.against') {
     attributes = ['', 'defense', 'strength', 'agility', 'intellect', 'will', 'perception']

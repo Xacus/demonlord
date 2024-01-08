@@ -1,7 +1,7 @@
 {{!--
   Variables:
     - action (e.g. system.action)
-      - attribute
+      - attack
       - against
       - boonsbanes
       - damage
@@ -17,7 +17,7 @@
   <div>
     <b>{{localize "DL.AttackRoll"}}</b>
     <div>
-      {{dlDropdown (concat actionId ".attribute") action.attribute}}
+      {{dlDropdown (concat actionId ".attack") action.attack}}
       <span style="font-size: 11px">VS</span>
       {{dlDropdown (concat actionId ".against") action.against}}
       {{dlBOBAButton (concat actionId ".boonsbanes") action.boonsbanes ""}}

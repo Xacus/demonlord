@@ -13,7 +13,7 @@
     "availability": "C",
     "value": "5 cp",
     "action": {
-      "attribute": "Agility",
+      "attack": "Agility",
       "against": "Defense",
       "damage": "1d3",
       "damagetype": "",

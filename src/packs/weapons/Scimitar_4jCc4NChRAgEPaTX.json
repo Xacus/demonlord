@@ -12,7 +12,7 @@
     "availability": "U",
     "value": "1 gc",
     "action": {
-      "attribute": "",
+      "attack": "",
       "against": "Defense",
       "damage": "1d6+1",
       "damagetype": "",

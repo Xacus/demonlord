@@ -13,7 +13,7 @@
     "availability": "U",
     "value": "5 ss",
     "action": {
-      "attribute": "",
+      "attack": "",
       "against": "Defense",
       "damage": "1",
       "damagetype": "",

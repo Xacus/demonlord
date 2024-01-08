@@ -12,7 +12,7 @@
     "availability": "U",
     "value": "5 ss",
     "action": {
-      "attribute": "Strength",
+      "attack": "Strength",
       "against": "Defense",
       "damage": "1d6",
       "damagetype": "",

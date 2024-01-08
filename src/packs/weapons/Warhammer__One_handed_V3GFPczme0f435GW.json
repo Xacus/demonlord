@@ -26,7 +26,7 @@
     "availability": "R",
     "value": "1 gc",
     "action": {
-      "attribute": "Strength",
+      "attack": "Strength",
       "against": "Defense",
       "damage": "2d6",
       "damagetype": "",

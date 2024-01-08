@@ -26,11 +26,9 @@ export const makeStringField = (init = '', blank = true) => new foundry.data.fie
   blank: blank
 })
 
-export const makeHtmlField = (init = '') => new foundry.data.fields.SchemaField({
-  value: new foundry.data.fields.HTMLField({
-    initial: init,
-    textSearch: true // Allow it to be searched in the Search Bar
-  })
+export const makeHtmlField = (init = '') => new foundry.data.fields.HTMLField({
+  initial: init,
+  textSearch: true // Allow it to be searched in the Search Bar
 })
 
 export function makeAttribute(attribute) {
