@@ -148,8 +148,8 @@ export class DLActiveEffects {
         addEffect('system.attributes.intellect.immune', dataL0.attributes.intellect.immune, priority),
         addEffect('system.attributes.will.immune', dataL0.attributes.will.immune, priority),
 
-        addEffect('system.characteristics.insanity.value', dataL0.characteristics.insanity.value, priority),
-        addEffect('system.characteristics.corruption.value', dataL0.characteristics.corruption.value, priority),
+        //addEffect('system.characteristics.insanity.value', dataL0.characteristics.insanity.value, priority),
+        //addEffect('system.characteristics.corruption.value', dataL0.characteristics.corruption.value, priority),
         addEffect('system.characteristics.insanity.immune', dataL0.characteristics.insanity.immune, priority),
         addEffect('system.characteristics.corruption.immune', dataL0.characteristics.corruption.immune, priority),
         addEffect('system.characteristics.defense', dataL0.characteristics.defensemodifier, priority),
