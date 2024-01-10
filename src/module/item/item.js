@@ -49,8 +49,7 @@ export class DemonlordItem extends Item {
 
     switch (_data.type) {
       case 'ancestry': 
-        await this._rollAncestryFormulae(_data)
-        break
+        return await this._rollAncestryFormulae(_data)
     }
   }
 
@@ -138,7 +137,7 @@ export class DemonlordItem extends Item {
       newCorruption = (await roll.evaluate()).total
     }
 
-    await this.updateSource({
+    return await this.updateSource({
       'system.attributes': {
         strength: {
           value: newStrength
