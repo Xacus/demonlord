@@ -26,7 +26,7 @@ export function characteristics() {
 export function action() {
   return new foundry.data.fields.SchemaField({
     active: makeBoolField(true),
-    attribute: makeStringField(),
+    attack: makeStringField(),
     against: makeStringField(),
     damageactive: makeBoolField(true),
     damage: makeStringField(),

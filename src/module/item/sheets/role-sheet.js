@@ -70,6 +70,8 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     // Nested item transfer checkbox
     html.find('.dl-item-transfer').click(async ev => await this._transferItem(ev))
 
+    html.find('.dl-stat-toggle').click(async ev => await this._toggleStat(ev))
+
     // Set immune on rollable attribute
     html.find('.attribute .name').contextmenu(async ev => {
       const div = $(ev.currentTarget)
@@ -162,6 +164,13 @@ export default class DLRoleSheet extends DLBaseItemSheet {
       await createActorNestedItems(actor, [nestedItemData], this.document.id)
     else
       await deleteActorNestedItems(actor, null, itemId)
+  }
+
+  async _toggleStat(ev) {
+    let path = $(ev.currentTarget).closest('[data-toggle-name').data('toggleName').trim()
+    const currentValue = $(ev.currentTarget).hasClass('checked')
+
+    await this.document.update({[path]: !currentValue})
   }
 
 

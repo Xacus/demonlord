@@ -16,7 +16,7 @@
       <span class="sep"></span>
       <span class="name" data-key="strength" style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AttributeStrength"}}</span>
       <span class="sep"></span>
-      <input type="{{ifThen system.attributes.strengthImmune "text" "Number"}}" name="system.attributes.strength" value="{{ifThen system.attributes.strengthImmune "-" system.attributes.strength}}" {{disabled system.attributes.strengthImmune}}
+      <input class="editable-stat-input" type="{{ifThen system.attributes.strengthImmune "text" "Number"}}" name="system.attributes.strength" value="{{ifThen system.attributes.strengthImmune "-" system.attributes.strength}}" {{disabled system.attributes.strengthImmune}}
         placeholder="0" autosize />
     </div>
 
@@ -25,7 +25,7 @@
       <span class="sep"></span>
       <span class="name" data-key="agility" style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AttributeAgility"}}</span>
       <span class="sep"></span>
-      <input type="{{ifThen system.attributes.agilityImmune "text" "Number"}}" name="system.attributes.agility" value="{{ifThen system.attributes.agilityImmune "-" system.attributes.agility}}" {{disabled system.attributes.agilityImmune}}
+      <input class="editable-stat-input" type="{{ifThen system.attributes.agilityImmune "text" "Number"}}" name="system.attributes.agility" value="{{ifThen system.attributes.agilityImmune "-" system.attributes.agility}}" {{disabled system.attributes.agilityImmune}}
         placeholder="0" autosize />
     </div>
 
@@ -34,7 +34,7 @@
       <span class="sep"></span>
       <span class="name" data-key="intellect" style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AttributeIntellect"}}</span>
       <span class="sep"></span>
-      <input type="{{ifThen system.attributes.intellectImmune "text" "Number"}}" name="system.attributes.intellect" value="{{ifThen system.attributes.intellectImmune "-" system.attributes.intellect}}" {{disabled system.attributes.intellectImmune}}
+      <input class="editable-stat-input" type="{{ifThen system.attributes.intellectImmune "text" "Number"}}" name="system.attributes.intellect" value="{{ifThen system.attributes.intellectImmune "-" system.attributes.intellect}}" {{disabled system.attributes.intellectImmune}}
         placeholder="0" autosize />
     </div>
 
@@ -43,7 +43,7 @@
       <span class="sep"></span>
       <span class="name" data-key="will" style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AttributeWill"}}</span>
       <span class="sep"></span>
-      <input type="{{ifThen system.attributes.willImmune "text" "Number"}}" name="system.attributes.will" value="{{ifThen system.attributes.willImmune "-" system.attributes.will}}" {{disabled system.attributes.willImmune}}
+      <input class="editable-stat-input" type="{{ifThen system.attributes.willImmune "text" "Number"}}" name="system.attributes.will" value="{{ifThen system.attributes.willImmune "-" system.attributes.will}}" {{disabled system.attributes.willImmune}}
         placeholder="0" autosize />
     </div>
   </div>
@@ -148,19 +148,21 @@
       <input type="number" name="system.difficulty" value="{{system.difficulty}}"
         placeholder="0" />
     </div>
-    <div class="dl-new-project-2 nohover">
+    <div class="dl-new-project-2 editable-stat nohover">
       <i class="dl-icon-frightening"></i>
       <span class="sep"></span>
       <span>{{localize "DL.CreatureFrightening"}}</span>
       <span class="sep"></span>
-      <input type="checkbox" name="system.frightening" {{checked system.frightening}} />
+      {{!-- <input type="checkbox" name="system.frightening" {{checked system.frightening}} /> --}}
+      <div class="dl-custom-checkbox dl-stat-toggle {{checked system.frightening}}" data-toggle-name="system.frightening"></div>
     </div>
-    <div class="dl-new-project-2 nohover">
+    <div class="dl-new-project-2 editable-stat nohover">
       <i class="dl-icon-horrifying"></i>
       <span class="sep"></span>
       <span>{{localize "DL.CreatureHorrifying"}}</span>
       <span class="sep"></span>
-      <input type="checkbox" name="system.horrifying" {{checked system.horrifying}} />
+      {{!-- <input type="checkbox" name="system.horrifying" {{checked system.horrifying}} /> --}}
+      <div class="dl-custom-checkbox dl-stat-toggle {{checked system.horrifying}}" data-toggle-name="system.horrifying"></div>
     </div>
   </div>
 

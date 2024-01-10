@@ -265,7 +265,7 @@
     min-width: 24px;
     color: black !important;
 
-    &[type='text'] {
+    &[type='text']:not(.editable-stat-input) {
       width: fit-content !important;
     }
 
@@ -391,6 +391,12 @@
   width: 14px;
   height: 14px;
   padding: 0;
+
+  .editable-stat & {
+    /* Parent is editable-stat */
+    margin-left: 3px;
+    top: -2px;
+  }
 
   &.checked {
     background: rgba(105, 105, 105, 0.61);

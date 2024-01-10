@@ -17,8 +17,7 @@ export const makeIntField = (init = 0, max = 20, min = 0) => new foundry.data.fi
   initial: init,
   min: min,
   max: max,
-  integer: true,
-  clean: true
+  integer: true
 })
 
 export const makeStringField = (init = '', blank = true) => new foundry.data.fields.StringField({

@@ -113,12 +113,6 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-
-      & > div:last-child {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
     }
 
     &.dl-column-flex {
@@ -263,15 +257,15 @@
     }
 
     & > .dl-item-row-header {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        grid-gap: 16px;
-      }
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-gap: 16px;
+    }
 
-      margin: 4px 0;
-      padding: 0 16px;
-      font-family: $font-primary;
-      font-size: $f-size-big-slight;
+    margin: 4px 0;
+    padding: 0 16px;
+    font-family: $font-primary;
+    font-size: $f-size-big-slight;
   }
 
   a.create-nested-item {

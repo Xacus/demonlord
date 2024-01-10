@@ -16,8 +16,7 @@
       <span class="sep"></span>
       <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AttributeStrength"}}</span>
       <span class="sep"></span>
-      <input type="number" name="system.attributes.strength.value" value="{{system.attributes.strength.value}}"
-             placeholder="0" autosize/>
+      <input class="editable-stat-input" type="{{ifThen system.attributes.strength.immune "text" "Number"}}" name="system.attributes.strength.value" value="{{ifThen system.attributes.strength.immune "-" system.attributes.strength.value}}" {{disabled system.attributes.strength.immune}} placeholder="0" autosize/>
     </div>
 
     <div class="dl-new-project-2 editable-stat" data-tippy-content="{{localize "DL.AttributeAgility"}}" data-stat-type="attributes" data-stat-name="agility">
@@ -25,9 +24,7 @@
       <span class="sep"></span>
       <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AttributeAgility"}}</span>
       <span class="sep"></span>
-      <input type="number" name="system.attributes.agility.value" value="{{system.attributes.agility.value}}"
-             placeholder="0"
-             autosize/>
+      <input class="editable-stat-input" type="{{ifThen system.attributes.agility.immune "text" "Number"}}" name="system.attributes.agility.value" value="{{ifThen system.attributes.agility.immune "-" system.attributes.agility.value}}" {{disabled system.attributes.agility.immune}} placeholder="0" autosize/>
     </div>
 
     <div class="dl-new-project-2 editable-stat" data-tippy-content="{{localize "DL.AttributeIntellect"}}" data-stat-type="attributes" data-stat-name="intellect">
@@ -35,8 +32,7 @@
       <span class="sep"></span>
       <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AttributeIntellect"}}</span>
       <span class="sep"></span>
-      <input type="number" name="system.attributes.intellect.value" value="{{system.attributes.intellect.value}}"
-             placeholder="0" autosize/>
+      <input class="editable-stat-input" type="{{ifThen system.attributes.intellect.immune "text" "Number"}}" name="system.attributes.intellect.value" value="{{ifThen system.attributes.intellect.immune "-" system.attributes.intellect.value}}" {{disabled system.attributes.intellect.immune}} placeholder="0" autosize/>
     </div>
 
     <div class="dl-new-project-2 editable-stat" data-tippy-content="{{localize "DL.AttributeWill"}}" data-stat-type="attributes" data-stat-name="will">
@@ -44,8 +40,7 @@
       <span class="sep"></span>
       <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AttributeWill"}}</span>
       <span class="sep"></span>
-      <input type="number" name="system.attributes.will.value" value="{{system.attributes.will.value}}" placeholder="0"
-             autosize/>
+      <input class="editable-stat-input" type="{{ifThen system.attributes.will.immune "text" "Number"}}" name="system.attributes.will.value" value="{{ifThen system.attributes.will.immune "-" system.attributes.will.value}}" {{disabled system.attributes.will.immune}} placeholder="0"/>
     </div>
   </div>
 </div>
@@ -123,8 +118,7 @@
         <span class="sep"></span>
         <span>{{localize "DL.CharInsanity"}}</span>
         <span class="sep"></span>
-        <input type="number" name="system.characteristics.insanity.value" value="{{system.characteristics.insanity.value}}"
-               placeholder="0"/>
+        <input class="editable-stat-input" type="{{ifThen system.characteristics.insanity.immune "text" "Number"}}" name="system.characteristics.insanity.value" value="{{ifThen system.characteristics.insanity.immune "-" system.characteristics.insanity.value}}" {{disabled system.characteristics.insanity.immune}} placeholder="0"/>
       </div>
 
       <div class="dl-new-project-2 editable-stat" data-tippy-content="{{localize "DL.CharCorruption"}}" data-stat-type="characteristics" data-stat-name="corruption">
@@ -132,8 +126,7 @@
         <span class="sep"></span>
         <span>{{localize "DL.CharCorruption"}}</span>
         <span class="sep"></span>
-        <input type="number" name="system.characteristics.corruption.value" value="{{system.characteristics.corruption.value}}"
-               placeholder="0"/>
+        <input class="editable-stat-input" type="{{ifThen system.characteristics.corruption.immune "text" "Number"}}" name="system.characteristics.corruption.value" value="{{ifThen system.characteristics.corruption.immune "-" system.characteristics.corruption.value}}" {{disabled system.characteristics.corruption.immune}} placeholder="0"/>
       </div>
     </div>
 
