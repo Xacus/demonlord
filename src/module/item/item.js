@@ -101,6 +101,10 @@ export class DemonlordItem extends Item {
   /** Item specific functions */
 
   async _rollAncestryFormulae(ancestry) {
+    // If no system data exists, we're creating it anew, don't roll anything
+    if (!ancestry.system) {
+      return ancestry
+    }
     // Before adding the item, roll any formulas and apply the values
     // Attributes
     let newStrength = ancestry.system.attributes.strength.value
