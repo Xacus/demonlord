@@ -1,4 +1,4 @@
-import { makeBoolField, makeIntField, makeStringField, makeAttribute, makeHealth, makeInsanity, makeCorruption } from './helpers.js'
+import { makeBoolField, makeIntField, makeStringField, makeObjectField, makeAttribute, makeHealth, makeInsanity, makeCorruption } from './helpers.js'
 
 export function attributes() {
   return new foundry.data.fields.SchemaField({
@@ -92,7 +92,7 @@ export function enchantment() {
 }
 
 export function contents() {
-  return new foundry.data.fields.ArrayField(makeStringField())
+  return new foundry.data.fields.ArrayField(makeObjectField())
 }
 
 export function levelItem(makeDataSchema) {

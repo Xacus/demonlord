@@ -1,34 +1,50 @@
 import { capitalize } from "../utils/utils"
 
-export const makeBoolField = (init = false) => new foundry.data.fields.BooleanField({
-  initial: init
-})
+export function makeBoolField(init = false) {
+  return new foundry.data.fields.BooleanField({
+    initial: init
+  })
+}
 
-export const makeNumberField = (init = 1, max = 20, min = 0) => new foundry.data.fields.NumberField({
-  required: true,
-  initial: init,
-  //positive: true
-  min: min,
-  max: max,
-})
+export function makeNumberField(init = 1, max = 20, min = 0) {
+  return new foundry.data.fields.NumberField({
+    required: true,
+    initial: init,
+    //positive: true
+    min: min,
+    max: max,
+  })
+}
 
-export const makeIntField = (init = 0, max = 20, min = 0) => new foundry.data.fields.NumberField({
-  required: true,
-  initial: init,
-  min: min,
-  max: max,
-  integer: true
-})
+export function makeIntField(init = 0, max = 20, min = 0) {
+  return new foundry.data.fields.NumberField({
+    required: true,
+    initial: init,
+    min: min,
+    max: max,
+    integer: true
+  })
+}
 
-export const makeStringField = (init = '', blank = true) => new foundry.data.fields.StringField({
-  initial: init,
-  blank: blank
-})
+export function makeStringField(init = '', blank = true) {
+  return new foundry.data.fields.StringField({
+    initial: init,
+    blank: blank
+  })
+}
 
-export const makeHtmlField = (init = '') => new foundry.data.fields.HTMLField({
-  initial: init,
-  textSearch: true // Allow it to be searched in the Search Bar
-})
+export function makeHtmlField(init = '') {
+  return new foundry.data.fields.HTMLField({
+    initial: init,
+    textSearch: true // Allow it to be searched in the Search Bar
+  })
+}
+
+export function makeObjectField() {
+  return new foundry.data.fields.ObjectField({
+
+  })
+}
 
 export function makeAttribute(attribute) {
   return new foundry.data.fields.SchemaField({
