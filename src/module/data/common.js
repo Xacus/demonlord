@@ -38,7 +38,10 @@ export function action() {
     plus20damage: makeStringField(),
     defense: makeStringField(),
     defenseboonsbanes: makeStringField(),
-    damagetypes: new foundry.data.fields.ArrayField(makeStringField()),
+    damagetypes: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
+      damage: makeStringField(),
+      damagetype: makeStringField()
+    })),
     strengthboonsbanesselect: makeBoolField(),
     agilityboonsbanesselect: makeBoolField(),
     intellectboonsbanesselect: makeBoolField(),

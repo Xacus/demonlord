@@ -92,7 +92,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     const item = this.object
     const updateData = expandObject(formData)
 
-    if (['talent', 'weapon', 'spell'].includes(item.type)) {
+    if (['talent', 'weapon', 'spell', 'endoftheround'].includes(item.type)) {
       // Set the update key based on type
       const damageKey = 'system.action.damagetypes'
       // Grab damages from form
