@@ -115,6 +115,7 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     if (group === 'talent') roleData.system.talents.push(levelItem)
     else if (group === 'weapon') roleData.system.weapons.push(levelItem)
     else if (group === 'spell') roleData.system.spells.push(levelItem)
+    else if (group === 'endoftheround') roleData.system.endOfRound.push(levelItem)
     else return
     await this.item.update(roleData, {diff: false}).then(_ => this.render)
   }
@@ -124,6 +125,7 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     if (itemGroup === 'talent') itemData.system.talents.splice(itemIndex, 1)
     else if (itemGroup === 'weapon') itemData.system.weapons.splice(itemIndex, 1)
     else if (itemGroup === 'spell') itemData.system.spells.splice(itemIndex, 1)
+    else if (itemGroup === 'endoftheround') itemData.system.endOfRound.splice(itemIndex, 1)
     await Item.updateDocuments([itemData], {parent: this.actor}).then(_ => this.render())
   }
 
@@ -152,6 +154,8 @@ export default class DLRoleSheet extends DLBaseItemSheet {
       nestedItemData = roleData.weapons[itemIndex]
     else if (itemGroup === 'spell')
       nestedItemData = roleData.spells[itemIndex]
+    else if (itemGroup === 'endoftheround')
+      nestedItemData = roleData.endOfRound[itemIndex]
     else return
 
     let selected = nestedItemData.selected = !nestedItemData.selected
@@ -181,7 +185,8 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     const nestedData =
       roleData.talents.find(i => i._id === itemId) ??
       roleData.weapons.find(i => i._id === itemId) ?? 
-      roleData.spells.find(i => i._id === itemId)
+      roleData.spells.find(i => i._id === itemId) ??
+      roleData.endOfRound.find(i => i._id === itemId)
     await getNestedDocument(nestedData).then(d => {
       if (d.sheet) d.sheet.render(true)
       else ui.notifications.warn('The item is not present in the game and cannot be edited.')

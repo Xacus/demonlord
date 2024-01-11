@@ -72,7 +72,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     data.effects = prepareActiveEffectCategories(this.document.effects, true, true)
 
-    if (data.item.type === 'weapon' || data.item.type === 'spell' || data.item.type === 'talent') this._prepareDamageTypes(data)
+    if (data.item.type === 'weapon' || data.item.type === 'spell' || data.item.type === 'talent' || data.item.type === 'endoftheround') this._prepareDamageTypes(data)
 
     this.sectionStates = this.sectionStates || new Map()
 
