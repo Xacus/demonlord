@@ -113,6 +113,12 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+
+      & > div:last-child:not(.attribute) {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
     }
 
     &.dl-column-flex {
