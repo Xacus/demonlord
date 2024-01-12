@@ -107,36 +107,36 @@ export class DemonlordItem extends Item {
     }
     // Before adding the item, roll any formulas and apply the values
     // Attributes
-    let newStrength = ancestry.system.attributes.strength.value
-    let newAgility = ancestry.system.attributes.agility.value
-    let newIntellect = ancestry.system.attributes.intellect.value
-    let newWill = ancestry.system.attributes.will.value
-    let newInsanity = ancestry.system.characteristics.insanity.value
-    let newCorruption = ancestry.system.characteristics.corruption.value
+    let newStrength = ancestry.system.attributes.strength?.value ?? 10
+    let newAgility = ancestry.system.attributes.agility?.value ?? 10
+    let newIntellect = ancestry.system.attributes.intellect?.value ?? 10
+    let newWill = ancestry.system.attributes.will?.value ?? 10
+    let newInsanity = ancestry.system.characteristics.insanity?.value ?? 0
+    let newCorruption = ancestry.system.characteristics.corruption?.value ?? 0
 
-    if (ancestry.system.attributes.strength.formula) {
+    if (ancestry.system.attributes.strength?.formula) {
       const roll = new Roll(ancestry.system.attributes.strength.formula)
       newStrength = (await roll.evaluate()).total
     }
-    if (ancestry.system.attributes.agility.formula) {
+    if (ancestry.system.attributes.agility?.formula) {
       const roll = new Roll(ancestry.system.attributes.agility.formula)
       newAgility = (await roll.evaluate()).total
     }
-    if (ancestry.system.attributes.intellect.formula) {
+    if (ancestry.system.attributes.intellect?.formula) {
       const roll = new Roll(ancestry.system.attributes.intellect.formula)
       newIntellect = (await roll.evaluate()).total
     }
-    if (ancestry.system.attributes.will.formula) {
+    if (ancestry.system.attributes.will?.formula) {
       const roll = new Roll(ancestry.system.attributes.will.formula)
       newWill = (await roll.evaluate()).total
     }
 
-    if (ancestry.system.characteristics.insanity.formula) {
+    if (ancestry.system.characteristics.insanity?.formula) {
       const roll = new Roll(ancestry.system.characteristics.insanity.formula)
       newInsanity = (await roll.evaluate()).total
     }
 
-    if (ancestry.system.characteristics.corruption.formula) {
+    if (ancestry.system.characteristics.corruption?.formula) {
       const roll = new Roll(ancestry.system.characteristics.corruption.formula)
       newCorruption = (await roll.evaluate()).total
     }
