@@ -20,6 +20,7 @@ export default class CharacterDataModel extends foundry.abstract.DataModel {
       attributes: attributes(),
       characteristics: characteristics(type),
       isPC: makeBoolField(true),
+      fastturn: makeBoolField(),
       level: makeIntField(),
       ancestry: makeStringField(), // Unused
       religion: new foundry.data.fields.SchemaField({

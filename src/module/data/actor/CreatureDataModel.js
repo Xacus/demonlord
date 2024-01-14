@@ -19,7 +19,7 @@ export default class CreatureDataModel extends foundry.abstract.DataModel {
       enrichedDescription: makeHtmlField(),
       attributes: attributes(),
       characteristics: characteristics(type),
-
+      fastturn: makeBoolField(),
       difficulty: makeIntField(),
       frightening: makeBoolField(),
       horrifying: makeBoolField(),
