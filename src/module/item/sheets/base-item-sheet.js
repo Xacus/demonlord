@@ -60,6 +60,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     const data = await super.getData(options)
     const itemData = data.data
     data.isGM = game.user.isGM
+    data.isOwner = this.actor?.isOwner,
     data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
     data.config = DL
     data.item = itemData
@@ -71,7 +72,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     data.effects = prepareActiveEffectCategories(this.document.effects, true, true)
 
-    if (data.item.type === 'weapon' || data.item.type === 'spell' || data.item.type === 'talent') this._prepareDamageTypes(data)
+    if (data.item.type === 'weapon' || data.item.type === 'spell' || data.item.type === 'talent' || data.item.type === 'endoftheround') this._prepareDamageTypes(data)
 
     this.sectionStates = this.sectionStates || new Map()
 
@@ -91,7 +92,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     const item = this.object
     const updateData = expandObject(formData)
 
-    if (['talent', 'weapon', 'spell'].includes(item.type)) {
+    if (['talent', 'weapon', 'spell', 'endoftheround'].includes(item.type)) {
       // Set the update key based on type
       const damageKey = 'system.action.damagetypes'
       // Grab damages from form

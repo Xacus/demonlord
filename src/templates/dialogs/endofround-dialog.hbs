@@ -2,7 +2,7 @@
   <div class="form-block">
     <ol class="creature-list">
       {{#each creatures as |creature id|}}
-        <li class="creature-entry combatant actor">
+        <li class="creature-entry combatant actor" data-actor-id="{{creature.actor._id}}">
           <div class="header">
             <img class="token-image" src="{{creature.actor.img}}" title="{{creature.token.name}}"/>
             <h3 style="font-weight:bold; border: none">{{creature.token.name}}</h3>
@@ -16,7 +16,10 @@
             <ol class="effects">
               {{#each creature.endOfRoundEffects as |endOfRoundEffect id|}}
                 <li class="effect" style="margin-bottom: 4px">
-                  <div style="font-weight: bold">{{endOfRoundEffect.name}}</div>
+                  <div style="display: flex; align-items: center;" data-item-id="{{endOfRoundEffect._id}}">
+                    <img class='dl-clickable-nored item-edit' src="{{endOfRoundEffect.img}}" title="{{endOfRoundEffect.name}}" width="15" height="15"/>
+                    <label class="dl-clickable item-roll" style="padding-left: 5px;">{{endOfRoundEffect.name}}</label>
+                  </div>
                   <div>{{{endOfRoundEffect.system.enrichedDescription}}}</div>
                 </li>
               {{/each}}

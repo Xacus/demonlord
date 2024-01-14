@@ -201,6 +201,7 @@ export class DemonlordActor extends Actor {
     } else {
       modifiedSize = parseInt(originalSize)
     }
+
     for (let change of effectChanges.filter(e => e.key.includes("size"))) {
       let sizeMod = 0
 

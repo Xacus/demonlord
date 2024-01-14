@@ -1,5 +1,6 @@
 import {deleteActorNestedItems} from './nested-objects'
 import {DemonlordActor} from '../actor/actor'
+import { DLEndOfRound } from '../dialog/endofround'
 
 export class DemonlordItem extends Item {
   /** @override */
@@ -22,6 +23,12 @@ export class DemonlordItem extends Item {
       openSheets = openSheets.filter(s => ['path', 'ancestry', 'creaturerole', 'item', 'relic'].includes(s.object.type))
       openSheets.forEach(s => s.render())
     }
+
+    // Refresh any open endoftheround dialogs
+    if (this.type === 'endoftheround') {
+      const openSheets = Object.entries(ui.windows).map(i => i[1]).filter(i => i instanceof DLEndOfRound)
+      openSheets.forEach(s => s.render())
+    }
   }
 
   /** @override */
@@ -34,6 +41,16 @@ export class DemonlordItem extends Item {
       }
     }
     return await super.create(data, options)
+  }
+
+   /** @override */
+   async _preCreate(_data, _options, _user) {
+    await super._preCreate(_data, _options, _user)
+
+    switch (_data.type) {
+      case 'ancestry': 
+        return await this._rollAncestryFormulae(_data)
+    }
   }
 
   /** @override */
@@ -79,5 +96,75 @@ export class DemonlordItem extends Item {
     const itemSources = [item.uuid, item._id]
     if (item.flags?.core?.sourceId != undefined) itemSources.push(item.flags.core.sourceId)
     return (sources.some(r=> itemSources.includes(r)))
+  }
+
+  /** Item specific functions */
+
+  async _rollAncestryFormulae(ancestry) {
+    // If no system data exists, we're creating it anew, don't roll anything
+    if (!ancestry.system) {
+      return ancestry
+    }
+    // Before adding the item, roll any formulas and apply the values
+    // Attributes
+    let newStrength = ancestry.system.attributes.strength?.value ?? 10
+    let newAgility = ancestry.system.attributes.agility?.value ?? 10
+    let newIntellect = ancestry.system.attributes.intellect?.value ?? 10
+    let newWill = ancestry.system.attributes.will?.value ?? 10
+    let newInsanity = ancestry.system.characteristics.insanity?.value ?? 0
+    let newCorruption = ancestry.system.characteristics.corruption?.value ?? 0
+
+    if (ancestry.system.attributes.strength?.formula) {
+      const roll = new Roll(ancestry.system.attributes.strength.formula)
+      newStrength = (await roll.evaluate()).total
+    }
+    if (ancestry.system.attributes.agility?.formula) {
+      const roll = new Roll(ancestry.system.attributes.agility.formula)
+      newAgility = (await roll.evaluate()).total
+    }
+    if (ancestry.system.attributes.intellect?.formula) {
+      const roll = new Roll(ancestry.system.attributes.intellect.formula)
+      newIntellect = (await roll.evaluate()).total
+    }
+    if (ancestry.system.attributes.will?.formula) {
+      const roll = new Roll(ancestry.system.attributes.will.formula)
+      newWill = (await roll.evaluate()).total
+    }
+
+    if (ancestry.system.characteristics.insanity?.formula) {
+      const roll = new Roll(ancestry.system.characteristics.insanity.formula)
+      newInsanity = (await roll.evaluate()).total
+    }
+
+    if (ancestry.system.characteristics.corruption?.formula) {
+      const roll = new Roll(ancestry.system.characteristics.corruption.formula)
+      newCorruption = (await roll.evaluate()).total
+    }
+
+    return await this.updateSource({
+      'system.attributes': {
+        strength: {
+          value: newStrength
+        },
+        agility: {
+          value: newAgility
+        },
+        intellect: {
+          value: newIntellect
+        },
+        will: {
+          value: newWill
+        },
+      },
+
+      'system.characteristics': {
+        insanity: {
+          value: newInsanity
+        },
+        corruption: {
+          value: newCorruption
+        }
+      }
+    })
   }
 }

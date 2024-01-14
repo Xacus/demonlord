@@ -6,7 +6,7 @@
     <span class="sep"></span>
     <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
     <span class="sep"></span>
-    <span style="width: {{defaultValue width "16px"}};text-align: center;margin-left: 4px;">{{value}}</span>
+    <span style="width: {{defaultValue width "16px"}};text-align: center;margin-left: 4px;">{{ifThen immune '-' value}}</span>
   </div>
 {{/inline}}
 
@@ -51,10 +51,10 @@
     <b>{{localize "DL.AncestryStartingAttributes"}}</b>
   </div>
   <div class="dl-column-flex">
-    {{> dlAttributeField attribute="strength"  value=system.attributes.strength.value  loc="DL.AttributeStrength"}}
-    {{> dlAttributeField attribute="agility"   value=system.attributes.agility.value   loc="DL.AttributeAgility"}}
-    {{> dlAttributeField attribute="intellect" value=system.attributes.intellect.value loc="DL.AttributeIntellect"}}
-    {{> dlAttributeField attribute="will"      value=system.attributes.will.value      loc="DL.AttributeWill"}}
+    {{> dlAttributeField attribute="strength"  value=system.attributes.strength.value  immune=system.attributes.strength.immune  loc="DL.AttributeStrength"}}
+    {{> dlAttributeField attribute="agility"   value=system.attributes.agility.value   immune=system.attributes.agility.immune   loc="DL.AttributeAgility"}}
+    {{> dlAttributeField attribute="intellect" value=system.attributes.intellect.value immune=system.attributes.intellect.immune loc="DL.AttributeIntellect"}}
+    {{> dlAttributeField attribute="will"      value=system.attributes.will.value      immune=system.attributes.will.immune      loc="DL.AttributeWill"}}
   </div>
 </div>
 <hr>
@@ -70,8 +70,8 @@
     {{> dlModField attribute="healing"     value=system.characteristics.healingratemodifier  loc="DL.CharHealthHealingRating"}}
     {{> dlModField attribute="perception"  value=system.characteristics.perceptionmodifier   loc="DL.AttributePerception"}}
     {{> dlModField attribute="defense"     value=system.characteristics.defensemodifier      loc="DL.AttributeDefense"}}
-    {{> dlModField attribute="insanity"    value=system.characteristics.insanity             loc="DL.CharInsanity"}}
-    {{> dlModField attribute="corruption"  value=system.characteristics.corruption           loc="DL.CharCorruption"}}
+    {{> dlModField attribute="insanity"    value=system.characteristics.insanity.value       loc="DL.CharInsanity"}}
+    {{> dlModField attribute="corruption"  value=system.characteristics.corruption.value     loc="DL.CharCorruption"}}
     {{> dlModField attribute="power"       value=system.characteristics.power                loc="DL.CharPower"}}
   </div>
   <span class="grid-sep"></span>

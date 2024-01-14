@@ -101,11 +101,19 @@ export default class DLBaseActorSheet extends ActorSheet {
   /** @override */
   async _onDropItemCreate(itemData) {
     const isAllowed = await this.checkDroppedItem(itemData)
-    if (isAllowed) return await super._onDropItemCreate(itemData)
-    console.warn('Wrong item type dragged', this.actor, itemData)
+    if (isAllowed) {
+      const createdItems = await super._onDropItemCreate(itemData)
+      await this.postDropItemCreate(createdItems[0])
+    } else {
+      console.warn('Wrong item type dragged', this.actor, itemData)
+    }
   }
 
   async checkDroppedItem(_itemData) {
+    return true
+  }
+
+  async postDropItemCreate(_itemData) {
     return true
   }
 

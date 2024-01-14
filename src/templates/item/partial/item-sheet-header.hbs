@@ -16,7 +16,7 @@
 </div>
 <div class="template-type">{{item.type}}</div>
 {{#if isEditable}}
-    {{#if isGM}}
+    {{#if (or isGM isOwner)}}
         <div class="togglegm">
         <label class="switchBig">
             <input type="checkbox" id="{{editId}}" name="{{editId}}" {{checked edit}} />

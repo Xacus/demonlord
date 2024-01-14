@@ -7,7 +7,7 @@ export class DLCombat extends Combat {
    * @param {number} offset       Adds an offset to the value
    */
   getInitiativeValue(combatant, isFast = undefined, offset = 0) {
-    const isPc = combatant.actor.type === 'character'
+    const isPc = combatant.actor.system.isPC ?? 0
     isFast = isFast ?? combatant.actor.system.fastturn
     return (isPc * 20) + isFast * 50 + offset
   }
