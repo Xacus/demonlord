@@ -68,43 +68,13 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
         option1: makeBoolField(true),
         option1text: makeStringField(),
         talent: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
-        spells: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeSpellSchema(),
-          description: new foundry.data.fields.SchemaField({
-            value: makeStringField()
-          }),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        })),
+        spells: new foundry.data.fields.ArrayField(levelItem(makeSpellSchema)),
         pickedTalents: new foundry.data.fields.ArrayField(new foundry.data.fields.ArrayField(levelItem(makeTalentSchema))),
         picks: makeIntField(1)
       }),
       languages: makeStringField(),
-      talents: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-        system: makeTalentSchema(),
-        description: new foundry.data.fields.SchemaField({
-          value: makeStringField()
-        }),
-        id: makeStringField(),
-        name: makeStringField(),
-        pack: makeStringField(),
-        selected: makeBoolField(),
-        uuid: makeStringField()
-      })),
-      languagelist: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-        system: makeLanguageSchema(),
-        description: new foundry.data.fields.SchemaField({
-          value: makeStringField()
-        }),
-        id: makeStringField(),
-        name: makeStringField(),
-        pack: makeStringField(),
-        selected: makeBoolField(),
-        uuid: makeStringField()
-      })),
+      talents: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+      languagelist: new foundry.data.fields.ArrayField(levelItem(makeLanguageSchema)),
       editTalents: makeBoolField(),
       editAncestry: makeBoolField(true)
     }

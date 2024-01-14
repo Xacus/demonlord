@@ -10,17 +10,48 @@ export function attributes() {
   })
 }
 
-export function characteristics() {
-  return new foundry.data.fields.SchemaField({
-    defense: makeIntField(),
-    health: makeHealth(),
-    insanity: makeInsanity(),
-    corruption: makeCorruption(),
-    power: makeIntField(),
-    size: makeStringField(),
-    speed: makeIntField(10),
-    fortune: makeIntField()
-  })
+export function characteristics(actorType) {
+  switch (actorType) {
+    case 'character':
+      return new foundry.data.fields.SchemaField({
+        defense: makeIntField(),
+        health: makeHealth(),
+        insanity: makeInsanity(),
+        corruption: makeCorruption(),
+        power: makeIntField(),
+        size: makeStringField(),
+        speed: makeIntField(10),
+        fortune: makeIntField()
+      })
+    case 'creature':
+      return new foundry.data.fields.SchemaField({
+        defense: makeIntField(),
+        health: makeHealth(),
+        insanity: makeInsanity(),
+        corruption: makeCorruption(),
+        power: makeIntField(),
+        size: makeStringField(),
+        speed: makeIntField(10),
+        speedtraits: makeStringField(),
+        difficulty: makeIntField(),
+        descriptor: makeStringField(),
+        perceptionsenses: makeStringField(),
+        frightening: makeBoolField(),
+        horrifying: makeBoolField()
+        
+      })
+    case 'vehicle':
+      return new foundry.data.fields.SchemaField({
+        defense: makeIntField(),
+        health: makeHealth(),
+        size: makeStringField(),
+        speed: makeIntField(10),
+        speedtraits: makeStringField(),
+        descriptor: makeStringField("object (vehicle)"),
+        price: makeStringField('0 gc'),
+        cargo: makeIntField(0)
+      })
+  }
 }
 
 export function action() {
