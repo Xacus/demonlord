@@ -81,8 +81,6 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
   }
 
   static migrateData(source) {
-    console.log(source)
-
     if (parseInt(source.characteristics?.insanity)) {
       const insanity = parseInt(source.characteristics.insanity)
       source.characteristics.insanity = {
