@@ -6,7 +6,7 @@ export function attributes() {
     agility: makeAttribute('agility'),
     intellect: makeAttribute('intellect'),
     will: makeAttribute('will'),
-    perception: makeAttribute('perception')
+    perception: makeAttribute('perception', 25)
   })
 }
 
@@ -19,7 +19,7 @@ export function characteristics(actorType) {
         insanity: makeInsanity(),
         corruption: makeCorruption(),
         power: makeIntField(),
-        size: makeStringField(),
+        size: makeStringField("1"),
         speed: makeIntField(10),
         fortune: makeIntField()
       })
@@ -30,7 +30,7 @@ export function characteristics(actorType) {
         insanity: makeInsanity(),
         corruption: makeCorruption(),
         power: makeIntField(),
-        size: makeStringField(),
+        size: makeStringField("1"),
         speed: makeIntField(10),
         speedtraits: makeStringField(),
         difficulty: makeIntField(),
@@ -44,7 +44,7 @@ export function characteristics(actorType) {
       return new foundry.data.fields.SchemaField({
         defense: makeIntField(),
         health: makeHealth(),
-        size: makeStringField(),
+        size: makeStringField("1"),
         speed: makeIntField(10),
         speedtraits: makeStringField(),
         descriptor: makeStringField("object (vehicle)"),

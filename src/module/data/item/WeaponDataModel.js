@@ -1,4 +1,4 @@
-import { action } from '../common.js'
+import { action, activatedEffect } from '../common.js'
 import { makeBoolField, makeHtmlField, makeIntField, makeStringField } from '../helpers.js'
 
 export default class WeaponDataModel extends foundry.abstract.DataModel {
@@ -6,6 +6,7 @@ export default class WeaponDataModel extends foundry.abstract.DataModel {
     return {
       description: makeHtmlField(),
       action: action(),
+      activatedEffect: activatedEffect(),
       enrichedDescription: makeHtmlField(),
       hands: makeStringField(),
       properties: makeStringField(),
@@ -25,6 +26,7 @@ export function makeWeaponSchema() {
   return new foundry.data.fields.SchemaField({
     description: makeHtmlField(),
     action: action(),
+    activatedEffect: activatedEffect(),
     enrichedDescription: makeHtmlField(),
     hands: makeStringField(),
     properties: makeStringField(),

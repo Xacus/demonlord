@@ -18,7 +18,7 @@ export class TokenManager {
   }
 
   getTokenByActorId(actorId) {
-    return canvas.tokens.placeables.find(token => token.actor.id === actorId)
+    return canvas.tokens.placeables.find(token => token?.actor?.id === actorId)
   }
 
   warnNotSelected() {

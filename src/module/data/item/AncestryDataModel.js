@@ -64,7 +64,7 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
         })
       }),
       level4: new foundry.data.fields.SchemaField({
-        healthbonuses: makeIntField(),
+        healthbonus: makeIntField(),
         option1: makeBoolField(true),
         option1text: makeStringField(),
         talent: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
@@ -81,8 +81,6 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
   }
 
   static migrateData(source) {
-    console.log(source)
-
     if (parseInt(source.characteristics?.insanity)) {
       const insanity = parseInt(source.characteristics.insanity)
       source.characteristics.insanity = {

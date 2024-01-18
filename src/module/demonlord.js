@@ -207,6 +207,7 @@ Hooks.once('setup', function () {
  * Set default values for new actors' tokens
  */
 Hooks.on('createActor', async (actor, _options, _id) => {
+  if (!actor.isOwner) return
   let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL
   if (actor.type === 'creature') disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
 
@@ -231,6 +232,7 @@ Hooks.on('createToken', async _tokenDocument => {
 })
 
 Hooks.on('updateActor', async (actor, updateData) => {
+  if (!actor.isOwner) return
   // Update the combat initiative if the actor has changed its turn speed
   const isUpdateTurn = typeof updateData?.system?.fastturn !== 'undefined' && updateData?.system?.fastturn !== null
   if (!(isUpdateTurn && (game.user.isGM || actor.isOwner) && game.combat)) return

@@ -1,5 +1,5 @@
 
-import { action } from '../common.js'
+import { action, activatedEffect } from '../common.js'
 
 import {
   makeHtmlField,
@@ -10,7 +10,8 @@ export default class EndOfTheRoundDataModel extends foundry.abstract.DataModel {
     return {
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
-      action: action()
+      action: action(),
+      activatedEffect: activatedEffect(),
     }
   }
 }
@@ -19,6 +20,7 @@ export function makeEndOfTheRoundSchema() {
   return new foundry.data.fields.SchemaField({
     description: makeHtmlField(),
     enrichedDescription: makeHtmlField(),
-    action: action()
+    action: action(),
+    activatedEffect: activatedEffect(),
   })
 }

@@ -4,6 +4,7 @@ import {
 } from '../common.js'
 
 import {
+  makeBoolField,
   makeIntField,
   makeStringField,
   makeHtmlField
@@ -18,7 +19,7 @@ export default class VehicleDataModel extends foundry.abstract.DataModel {
       enrichedDescription: makeHtmlField(),
       attributes: attributes(),
       characteristics: characteristics(type),
-
+      fastturn: makeBoolField(),
       descriptor: makeStringField(),
       speedtraits: makeStringField(),
       price: makeStringField(),

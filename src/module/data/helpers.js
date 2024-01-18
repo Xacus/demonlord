@@ -6,7 +6,7 @@ export function makeBoolField(init = false) {
   })
 }
 
-export function makeNumberField(init = 1, max = 20, min = 0) {
+export function makeNumberField(init = 1, max, min) {
   return new foundry.data.fields.NumberField({
     required: true,
     initial: init,
@@ -16,7 +16,7 @@ export function makeNumberField(init = 1, max = 20, min = 0) {
   })
 }
 
-export function makeIntField(init = 0, max = 20, min = 0) {
+export function makeIntField(init = 0, max, min) {
   return new foundry.data.fields.NumberField({
     required: true,
     initial: init,
@@ -46,14 +46,14 @@ export function makeObjectField() {
   })
 }
 
-export function makeAttribute(attribute) {
+export function makeAttribute(attribute, max = 20) {
   return new foundry.data.fields.SchemaField({
     key: makeStringField(attribute),
     label: makeStringField(game.i18n.localize(`DL.Attribute${capitalize(attribute)}`)),
-    value: makeIntField(10),
+    value: makeIntField(10, max, 1),
     modifier: makeIntField(),
     min: makeIntField(),
-    max: makeIntField(20),
+    max: makeIntField(max),
     immune: makeBoolField()
   })
 }
@@ -61,7 +61,7 @@ export function makeAttribute(attribute) {
 export function makeHealth() {
   return new foundry.data.fields.SchemaField({
     max: makeIntField(),
-    value: makeIntField(),
+    value: makeIntField(0),
     injured: makeBoolField(),
     healingrate: makeIntField()
   })
