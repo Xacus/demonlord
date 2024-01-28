@@ -70,7 +70,7 @@ export function makeHealth() {
 export function makeInsanity() {
   return new foundry.data.fields.SchemaField({
     min: makeIntField(),
-    max: makeIntField(20),
+    max: makeIntField(),
     value: makeIntField(),
     immune: makeBoolField()
   })
