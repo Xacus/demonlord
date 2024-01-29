@@ -64,8 +64,8 @@ nav.sheet-subnavigation {
       resize: vertical;
       height: 200px;
 
-      &:focus,
-      &:active {
+      &:focus:not([readonly]),
+      &:active:not([readonly]) {
         box-shadow: 0 0 5px red;
         border: 1px solid #7a7971;
         outline: 0;

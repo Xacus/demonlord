@@ -278,8 +278,8 @@
       width: 14px;
     }
 
-    &:hover,
-    &:focus {
+    &:hover:not([readonly]),
+    &:focus:not([readonly]) {
       cursor: text;
       box-shadow: 0 0 2px 1px #a22223b0 !important;
       background-color: transparent !important;

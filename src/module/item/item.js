@@ -8,8 +8,11 @@ export class DemonlordItem extends Item {
     // Set spell uses
     if (this.type === 'spell' && this.parent) {
       const power = +this.parent.system?.characteristics.power || 0
-      const rank = updateData?.data?.rank ?? +this.system.rank
-      updateData['system.castings.max'] = CONFIG.DL.spelluses[power]?.[rank] ?? updateData?.data?.castings?.max ?? 0
+      const rank = updateData?.system?.rank ?? +this.system.rank
+      const calculatedCastings = CONFIG.DL.spelluses[power]?.[rank] ?? 0
+      if (updateData.system?.castings?.ignoreCalculation === false || (updateData.system?.castings?.ignoreCalculation === undefined && !this.system.castings.ignoreCalculation)) {
+        updateData.system.castings.max = calculatedCastings
+      }
     }
     return await super.update(updateData)
   }
