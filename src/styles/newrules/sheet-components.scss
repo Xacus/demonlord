@@ -96,6 +96,7 @@
   border-radius: 0;
   border: none;
   font-family: $font-header;
+  min-height: 15px;
 
   & > div:not(:first-child) {
     @extend .dl-hcenter;
