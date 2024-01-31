@@ -76,6 +76,8 @@
 
   .editor {
     height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--demonlord-red) transparent;
   }
 }
 

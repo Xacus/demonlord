@@ -51,6 +51,8 @@ nav.sheet-subnavigation {
   font-size: 12px;
   margin-top: 0;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--demonlord-red) transparent;
 
   .descriptionblock {
     margin: 10px 5px 0 5px;
