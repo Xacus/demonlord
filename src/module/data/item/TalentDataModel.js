@@ -27,7 +27,7 @@ export default class TalentDataModel extends foundry.abstract.DataModel {
         perceptionboonsbanesselect: makeBoolField(),
       }),
       healing: new foundry.data.fields.SchemaField({
-        healingactive: makeBoolField(true),
+        healactive: makeBoolField(true),
         healing: makeBoolField(),
         rate: makeStringField()
       }),
@@ -74,7 +74,7 @@ export function makeTalentSchema() {
       perceptionboonsbanesselect: makeBoolField(),
     }),
     healing: new foundry.data.fields.SchemaField({
-      healingactive: makeBoolField(true),
+      healactive: makeBoolField(true),
       healing: makeBoolField(),
       rate: makeStringField()
     }),

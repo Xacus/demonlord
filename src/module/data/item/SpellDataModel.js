@@ -30,7 +30,7 @@ export default class SpellDataModel extends foundry.abstract.DataModel {
       triggered: makeStringField(),
       roundsleft: makeIntField(),
       healing: new foundry.data.fields.SchemaField({
-        healingactive: makeBoolField(true),
+        healactive: makeBoolField(true),
         healing: makeBoolField(),
         rate: makeStringField()
       }),
@@ -67,7 +67,7 @@ export function makeSpellSchema() {
     triggered: makeStringField(),
     roundsleft: makeIntField(),
     healing: new foundry.data.fields.SchemaField({
-      healingactive: makeBoolField(true),
+      healactive: makeBoolField(true),
       healing: makeBoolField(),
       rate: makeStringField()
     }),
