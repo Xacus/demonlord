@@ -146,7 +146,13 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     const ancestry = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
 
     if (ev.button == 0) ancestry.sheet.render(true)
-    else if (ev.button == 2) await ancestry.delete({ parent: this.actor })
+    else if (ev.button == 2) {
+      if (this.actor.system.level > 0 && game.settings.get('demonlord', 'confirmAncestryPathRemoval')) {
+          await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteAncestryText'), div)
+      } else {
+        await ancestry.delete({ parent: this.actor })
+      }
+    }
   }
 
   /* -------------------------------------------- */
@@ -156,18 +162,26 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     const path = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
 
     if (ev.button == 0) path.sheet.render(true)
-    else if (ev.button == 2) await path.delete({ parent: this.actor })
+    else if (ev.button == 2) {
+      if (this.actor.system.level > 0 && game.settings.get('demonlord', 'confirmAncestryPathRemoval')) {
+        await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeletePathText'), div)
+      } else {
+        await path.delete({ parent: this.actor })
+      }
+    }
   }
 
   /* -------------------------------------------- */
-
+  
   async _onRoleEdit(ev) {
     const div = $(ev.currentTarget)
     const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
-
+    
     if (ev.button == 0) role.sheet.render(true)
     else if (ev.button == 2) await role.delete({ parent: this.actor })
-  }
+}
+
+  /* -------------------------------------------- */
 
   async _onRelicEdit(ev) {
     const div = $(ev.currentTarget)
@@ -178,12 +192,14 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   }
 
   /* -------------------------------------------- */
-
+  
   async _updateObject(event, formData) {
     const newLevel = formData['system.level']
     if (newLevel !== this.document.system.level) await handleLevelChange(this.document, newLevel)
     return await this.document.update(formData)
   }
+
+  /* -------------------------------------------- */
 
   /* -------------------------------------------- */
   /*  Listeners                                   */
