@@ -46,7 +46,7 @@ form {
     .sidebar {
       margin: 0 23px 0 30px;
       height: 650px;
-      overflow: hidden scroll;
+      overflow: hidden;
       scrollbar-width: thin;
       scrollbar-color: var(--demonlord-red) transparent;
 
@@ -289,7 +289,7 @@ form {
         }
 
         .healingratetext {
-          left: -43px;
+          left: -20px;
         }
       }
 
@@ -325,7 +325,7 @@ form {
         .corruptionmax {
           float: right;
           margin-top: -13px;
-          padding-right: 5px;
+          padding-right: 10px;
           color: #000;
         }
 
@@ -342,6 +342,7 @@ form {
           float: right;
           position: relative;
           top: -28px;
+          right: 5px;
         }
       }
 
@@ -360,10 +361,6 @@ form {
           background-color: #6f58c9;
         }
       }
-    }
-
-    .sidebar::-webkit-scrollbar-track {
-      box-shadow: none;
     }
   }
 

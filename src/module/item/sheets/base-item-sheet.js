@@ -114,7 +114,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
 
     // If a Talent has no uses it's always active
-    if (item.type === 'talent') updateData['system.addtonextroll'] = !updateData.data?.uses?.max
+    if (item.type === 'talent') updateData.system.addtonextroll = !updateData.system?.uses?.max
 
     return await this.object.update(updateData)
   }
@@ -198,6 +198,7 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     // Max castings
     html.find('.max-castings-control').change(async ev => await this._onManageMaxCastings(ev, this))
+    html.find('.max-castings-control').contextmenu(async ev => await this._onToggleMaxCastingsCalculation(ev, this))
 
     // Collapsable tables
     const collapsableContents = html.find('.collapse-content')
@@ -315,11 +316,27 @@ export default class DLBaseItemSheet extends ItemSheet {
     const spell = sheet.object
     console.log(ev);
     console.log(spell);
-    if (target.value === "") {
-      await spell.update({ system: { castings: { ignoreCalculation: false }}})
-    } else {
-      await spell.update({ system: { castings: { ignoreCalculation: true }}})
-    }
+    await spell.update({
+      system: {
+        castings: {
+          max: target.value
+        }
+      }
+    })
+  }
+  
+  async _onToggleMaxCastingsCalculation (ev, sheet) {
+    // Set the flag if textbox has been modified. Clear if blank.
+    const spell = sheet.object
+    console.log(ev);
+    console.log(spell);
+    await spell.update({
+      system: {
+        castings: {
+          ignoreCalculation: !spell.system.castings.ignoreCalculation
+        }
+      }
+    })
   }
 
   /* -------------------------------------------- */

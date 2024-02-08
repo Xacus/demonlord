@@ -38,6 +38,8 @@
       font-size: 12px;
       margin-top: 0;
       overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--demonlord-red) transparent;
     }
   }
 }

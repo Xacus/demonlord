@@ -15,7 +15,7 @@
           <div class="effectInfo" style="display: none">
             <ol class="effects">
               {{#each creature.endOfRoundEffects as |endOfRoundEffect id|}}
-                <li class="effect" style="margin-bottom: 4px">
+                <li class="effect">
                   <div style="display: flex; align-items: center;" data-item-id="{{endOfRoundEffect._id}}">
                     <img class='dl-clickable-nored item-edit' src="{{endOfRoundEffect.img}}" title="{{endOfRoundEffect.name}}" width="15" height="15"/>
                     <label class="dl-clickable item-roll" style="padding-left: 5px;">{{endOfRoundEffect.name}}</label>

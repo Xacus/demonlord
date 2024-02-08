@@ -195,22 +195,12 @@ export class DemonlordActor extends Actor {
     const originalSize = this._source.system.characteristics.size
     let modifiedSize = 0
     let newSize = originalSize
-    if (originalSize.includes("/")) {
-      const [numerator, denominator] = originalSize.split("/")
-      modifiedSize = parseInt(numerator) / parseInt(denominator)
-    } else {
-      modifiedSize = parseInt(originalSize)
-    }
+    modifiedSize = this.getSizeFromString(originalSize)
 
     for (let change of effectChanges.filter(e => e.key.includes("size"))) {
       let sizeMod = 0
 
-      if (change.value.includes("/")) {
-        const [numerator, denominator] = change.value.split("/")
-        sizeMod = parseInt(numerator) / parseInt(denominator)
-      } else {
-        sizeMod = parseInt(change.value)
-      }
+      sizeMod = this.getSizeFromString(change.value)
 
       switch (change.mode) {
         case 0: // CUSTOM
@@ -232,20 +222,7 @@ export class DemonlordActor extends Actor {
           break
       }
 
-      // Calculate string if fraction
-      if (modifiedSize >= 1) {
-        newSize = Math.floor(modifiedSize).toString()
-      } else if (modifiedSize >= 0.5) {
-        newSize = "1/2";
-      } else if (modifiedSize >= 0.25) {
-        newSize = "1/4";
-      } else if (modifiedSize >= 0.125) {
-        newSize = "1/8";
-      } else if (modifiedSize >= 0.0625) {
-        newSize = "1/16";
-      } else if (modifiedSize >= 0.03125) {
-        newSize = "1/32";
-      }
+      newSize = this.getSizeFromNumber(modifiedSize)
     }
 
     this.system.characteristics.size = newSize
@@ -264,6 +241,7 @@ export class DemonlordActor extends Actor {
       await this._handleDescendantDocuments(changed, {debugCaller: '_onUpdate'})
     }
     if (changed.system?.characteristics?.health) await this.handleHealthChange()
+    if (changed.system?.characteristics?.size) await this.handleSizeChange()
   }
 
   async _handleDescendantDocuments(changed, options = {}) {
@@ -873,6 +851,53 @@ export class DemonlordActor extends Actor {
       await findDeleteEffect(this, 'injured')
       await this.update({ 'system.characteristics.health.injured': false})
     }
+  }
 
+  async handleSizeChange() {
+    if (this.type === 'creature') {
+      const fixedSize = this.getSizeFromNumber(this.getSizeFromString(this.system.characteristics.size))
+      await this.update({ 'system.characteristics.size': fixedSize})
+    }
+  }
+
+  getSizeFromString(sizeString) {
+    let result = 0
+    if (sizeString.includes("/")) {
+      const [numerator, denominator] = sizeString.split("/")
+      result = parseInt(numerator) / parseInt(denominator)
+    } else if (['½', '¼', '⅛'].includes(sizeString)) {
+      switch (sizeString) {
+        case '½':
+          result = 0.5
+          break
+        case '¼':
+          result = 0.25
+          break
+          case '⅛':
+            result = 0.125
+          break
+      }
+    } else {
+      result = parseFloat(sizeString)
+    }
+
+    return result
+  }
+
+  getSizeFromNumber(sizeNumber) {
+    // Calculate string if fraction
+    if (sizeNumber >= 1) {
+      return Math.floor(sizeNumber).toString()
+    } else if (sizeNumber >= 0.5) {
+      return "1/2";
+    } else if (sizeNumber >= 0.25) {
+      return "1/4";
+    } else if (sizeNumber >= 0.125) {
+      return "1/8";
+    } else if (sizeNumber >= 0.0625) {
+      return "1/16";
+    } else if (sizeNumber >= 0.03125) {
+      return "1/32";
+    }
   }
 }

@@ -2,13 +2,6 @@
   --demonlord-red: #a22223;
 }
 
-::-webkit-scrollbar-thumb {
-  outline: none;
-  border-radius: 3px;
-  background: var(--demonlord-red);
-  border: 1px solid #8d3b3c;
-}
-
 .window-app .window-header {
   font-family: $font-header;
   font-size: 14px;
@@ -96,13 +89,35 @@
   font-size: 14px;
 }
 
-/* Compendoum */
+.sidebar-tab .directory-list {
+  scrollbar-color: var(--demonlord-red) transparent;
+}
+
+/* Compendium */
 #compendium h3 {
   border: 0;
   background: var(--demonlord-red);
   color: white;
   font-family: $font-header;
   font-size: 16px;
+}
+
+/* Tables */
+.table-results tbody {
+  scrollbar-width: thin;
+  scrollbar-color: var(--demonlord-red) transparent;
+}
+
+/* Editor */
+.editor {
+  scrollbar-width: thin;
+  scrollbar-color: var(--demonlord-red) transparent;
+}
+
+/* Cards */
+.cards {
+  scrollbar-width: thin;
+  scrollbar-color: var(--demonlord-red) transparent;
 }
 
 /* Chat */
@@ -141,6 +156,8 @@
 
 #chat-log {
   margin-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--demonlord-red) transparent;
 }
 
 #chat-log .message {
@@ -150,6 +167,12 @@
 #chat-log .message .message-header .message-sender,
 #chat-log .message .message-header .message-metadata {
   font-family: $font-header;
+}
+
+/* Scrollbars */
+.scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: var(--demonlord-red) transparent;
 }
 
 /* Hotbar */
@@ -302,4 +325,15 @@
   font-family: 'IM Fell English SC', serif;
   font-size: 32px;
   text-shadow: 0 3px 5px rgba(0, 0, 0, 1);
+}
+
+/* File Selector */
+.paths {
+  scrollbar-width: thin;
+  scrollbar-color: var(--demonlord-red) transparent;
+}
+
+.folders-list {
+  scrollbar-width: thin;
+  scrollbar-color: var(--demonlord-red) transparent;
 }
