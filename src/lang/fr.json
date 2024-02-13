@@ -427,16 +427,16 @@
   "DL.MacroMakeChallengeRollRoll": "Lancer",
   "DL.MacroMakeChallengeRollTitle": "Fait un jet de test",
   "DL.MacroWealthManager": {
-    "AddSubtract": "Ajouter/Soustraire la richesse:",
+    "AddSubtract": "Ajouter/Soustraire la richesse :",
     "ButtonApply": "Appliquer",
-    "ButtonCancel": "Effacer",
-    "Character": "Caractéristique:",
+    "ButtonCancel": "Annuler",
+    "Character": "Personnage :",
     "Choose": "Choisissez",
     "CoinsBits": "éclats",
-    "CoinsCP": "CP",
-    "CoinsGC": "GC",
-    "CoinsSS": "SS",
-    "CurrentWealth": "La richesse actuelle",
+    "CoinsCP": "PC",
+    "CoinsGC": "CO",
+    "CoinsSS": "SA",
+    "CurrentWealth": "Richesse actuelle",
     "DialogTitle": "Gestionnaire de patrimoine",
     "Everyone": "tout le monde"
   },
@@ -738,5 +738,4 @@
   "DL.WeaponTitle": "Armes",
   "DL.WeaponWear": "Équiper",
   "DL.With": "avec"
-
 }
