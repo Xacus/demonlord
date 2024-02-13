@@ -44,6 +44,7 @@ export class DemonlordActor extends Actor {
       system.attributes.perception.value = system.attributes.intellect.value || 10
       system.characteristics.defense = 0  // assume defense = agility
       system.characteristics.health.max = 0
+      system.characteristics.insanity.max = 0 // Set base insanity max
     }
 
     setProperty(system, 'bonuses', {
