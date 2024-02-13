@@ -2,7 +2,7 @@
   {{#each effects as |section sid|}}
     <li class="items-header flexrow" data-effect-type="{{section.type}}">
       <div class="item-name effect-name flexrow">{{localize section.name}}</div>
-      <div class="effect-source">Duration</div>
+      <div class="effect-source">{{localize "DL.EffectDuration"}}</div>
       <div class="effect-controls flexrow">
         {{#if section.showCreateButtons}}
           <a class="effect-control" data-action="create" title="{{localize 'DL.EffectCreate'}}">
