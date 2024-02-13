@@ -7,6 +7,7 @@ name: Checks
 on:
   - push
   - pull_request
+  - workflow_dispatch
 
 env:
   node_version: 18
