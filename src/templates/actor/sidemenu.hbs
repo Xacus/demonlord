@@ -7,7 +7,7 @@
     <div class="isPC">
       <label class="switch">
         <input type="checkbox" id="system.isPC" name="system.isPC" {{checked system.isPC}} />
-        <div class="slider round"><span class="on">PC</span><span class="off">NPC</span></div>
+        <div class="slider round"><span class="on">{{localize "DL.ActorTypePC"}}</span><span class="off">{{localize "DL.ActorTypeNPC"}}</span></div>
       </label>
     </div>
     {{#if system.isPC}}
@@ -41,7 +41,7 @@
       <div class="healingratetext">{{localize "DL.CharHealthHealingRating"}}</div>
     </div>
     <div class="editBars">
-      <a class="bar-edit" title="{{localize 'DL.ToogleBarView'}}"><i class="fas fa-edit"></i></a>
+      <a class="bar-edit" title="{{localize 'DL.ToggleBarView'}}"><i class="fas fa-edit"></i></a>
     </div>
     {{#if system.characteristics.editbar}}
       <div class="barboxes">

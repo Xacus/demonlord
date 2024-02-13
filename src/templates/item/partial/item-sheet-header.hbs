@@ -20,7 +20,10 @@
         <div class="togglegm">
         <label class="switchBig">
             <input type="checkbox" id="{{editId}}" name="{{editId}}" {{checked edit}} />
-            <div class="slider round"><span class="on">Edit</span><span class="off">View</span></div>
+        <div class="slider round">
+            <span class="on">{{localize "DL.ButtonEdit"}}</span>
+            <span class="off">{{localize "DL.ButtonView"}}</span>
+        </div>
         </label>
         </div>
     {{/if}}

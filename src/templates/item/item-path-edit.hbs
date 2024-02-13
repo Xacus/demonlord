@@ -47,7 +47,7 @@
            {{#if item.system.enrichedDescriptionUnrolled}}data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"{{/if}}>
         <img src="{{item.img}}">
         <span class="edit-nested-item dl-clickable">{{item.name}}</span>
-        <a class="delete-item" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="{{type}}"
+        <a class="delete-item" data-tippy-content="{{localize 'DL.Delete'}}" data-type="{{type}}"
            style="align-self: center; margin-left: auto; margin-right: 4px">
           <i class="fas fa-times"></i>
         </a>
@@ -181,7 +181,7 @@
       <div class="dl-item-section-section">
         <div class="dl-item-section-section-title">
           <b>{{localize "DL.TalentTitle"}}</b>
-          <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+          <a class="create-nested-item" data-tippy-content="{{localize 'DL.TalentAdd'}}"
              data-type="talent" data-group="talents" data-folder-loc="TalentTitle" data-level="{{index}}">
             <i class="fas fa-plus"></i>
           </a>
@@ -192,7 +192,7 @@
       <div class="dl-item-section-section">
         <div class="dl-item-section-section-title">
           <b>{{localize "DL.TalentTitle"}} ({{localize 'DL.PathsLevelTalentChooseOne'}})</b>
-          <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+          <a class="create-nested-item" data-tippy-content="{{localize 'DL.TalentAdd'}}"
              data-type="talent" data-group="talentspick" data-folder-loc="TalentTitle" data-level="{{index}}">
             <i class="fas fa-plus"></i>
           </a>
@@ -203,7 +203,7 @@
     <div class="dl-item-section-section">
       <div class="dl-item-section-section-title">
         <b>{{localize "DL.MagicSpellsTitle"}}</b>
-        <a class="create-nested-item" data-tippy-content="{{localize 'DL.ItemAddItem'}}"
+        <a class="create-nested-item" data-tippy-content="{{localize 'DL.MagicAddSpell'}}"
            data-type="spell" data-group="spells" data-folder-loc="MagicSpellsTitle" data-level="{{index}}">
           <i class="fas fa-plus"></i>
         </a>
