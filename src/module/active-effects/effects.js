@@ -50,21 +50,21 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
   let categories = {
     temporary: {
       type: 'temporary',
-      name: 'Temporary Effects',
+      name: game.i18n.localize('DL.EffectTemporary'),
       showCreateButtons: showCreateButtons,
       showControls: 3,
       effects: [],
     },
     passive: {
       type: 'passive',
-      name: 'Passive Effects',
+      name: game.i18n.localize('DL.EffectPassive'),
       showCreateButtons: showCreateButtons,
       showControls: 3,
       effects: [],
     },
     inactive: {
       type: 'inactive',
-      name: 'Inactive Effects',
+      name: game.i18n.localize('DL.EffectInactive'),
       showCreateButtons: showCreateButtons,
       showControls: 3,
       effects: [],
