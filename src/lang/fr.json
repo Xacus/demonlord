@@ -24,6 +24,7 @@
     }
   },
   "DL.Action": "Action",
+  "DL.Actions": "Actions",
   "DL.ActionActivationCost": "Coût d'activation",
   "DL.ActionActivationCostAmount": "Montant",
   "DL.ActionActivationCostType": "Type",
@@ -54,7 +55,6 @@
   "DL.ActionRangeSight": "À vue",
   "DL.ActionRangeType": "Type",
   "DL.ActionRangeValue": "Unités",
-  "DL.Actions": "Actions",
   "DL.ActionTarget": "Cible",
   "DL.ActionTargetType": "Type",
   "DL.ActionTargetTypesCircle": "Cercle",
