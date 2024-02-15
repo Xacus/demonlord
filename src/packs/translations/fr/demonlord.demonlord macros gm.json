@@ -1,0 +1,24 @@
+{
+  "label": "Demonlord Macros - MJ",
+  "mapping": {
+    "command": "system.description"
+  },
+  "entries": {
+    "Change Token Vision": {
+      "name": "Changer la vision du token",
+      "command": "// Outils MJ\n// Modifie les paramètres de vision pour tous les tokens sélectionnés.\n\n game.demonlord.macros.applyVisionMacro()"
+    },
+    "Request Challenge Roll": {
+      "name": "Demander un jet de test",
+      "command": "// Outils MJ\n// Permet de demander un jet de test aux tokens sélectionnés. Chaque joueur reçoit un message privé lui demandant d'effectuer un jet.\n\ngame.demonlord.macros.requestChallengeRollMacro()"
+    },
+    "Request Initiative Roll": {
+      "name": "Demander un jet d'initiative",
+      "command": "// Outils MJ\n// Permet de demander un jet d'initiative aux tokens sélectionnés. Chaque joueur reçoit un message privé lui demandant d'effectuer un jet.\n\ngame.demonlord.macros.requestInitiativeRollMacro()"
+    },
+    "Wealth Manager": {
+      "name": "Gestionnaire de ressources",
+      "command": "//Gestionnaire de ressources\ngame.demonlord.macros.wealthManagerMacro()"
+    }
+  }
+}

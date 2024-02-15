@@ -25,6 +25,7 @@ module.exports = {
   },
 
   globals: {
-      "DocumentSheetConfig": true
+      "DocumentSheetConfig": true,
+      "Babele": true
   }
 }

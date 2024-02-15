@@ -1,0 +1,82 @@
+{
+  "label": "Armes des créatures",
+  "mapping": {
+    "description": "system.description",
+    "properties": "system.properties",
+    "value": "system.value"
+  },
+  "entries": {
+    "Beak": {
+      "name": "Bec",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Boulder and Rock": {
+      "name": "Rocher",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Breath": {
+      "name": "Souffle",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Claws": {
+      "name": "Griffes",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Fangs": {
+      "name": "Crocs",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Grab": {
+      "name": "Empoignade",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Horns": {
+      "name": "Cornes",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Poison": {
+      "name": "Poison",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Sonic Shout": {
+      "name": "Hurlement",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Stinger": {
+      "name": "Dard",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Tentacle": {
+      "name": "Tentacule",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Touch": {
+      "name": "Touché",
+      "description": "",
+      "properties": "",
+      "value": ""
+    }
+  }
+}

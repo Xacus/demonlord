@@ -1,0 +1,31 @@
+{
+  "label": "Tables aléatoires",
+  "entries": {
+    "Mark of Darkness": {
+      "name": "Marques des ténèbres",
+      "description": "",
+      "results": {
+        "1-1": "Vous n'avez plus de reflet dans les miroirs.",
+        "2-2": "Vous avez une toux rauque et expulsez parfois des asticots sanguinolents lors d'une quinte de toux.",
+        "3-3": "Votre ombre apparaît énorme et monstrueuse, ne correspondant jamais tout à fait à vos mouvements.",
+        "4-4": "Vous ne pouvez manger que des aliments pourris et avariés ; vous vomissez tout le reste en quelques minutes.",
+        "5-5": "Les symboles sacrés brûlent votre peau, infligeant 1 dégât par round de contact.",
+        "6-6": "Les noms inversés des dieux de la Vieille Foi apparaissent juste sous la surface de votre peau, formant un cercle autour de votre bras gauche.",
+        "7-7": "Une paire de cornes pousse sur votre front.",
+        "8-8": "Un œil rouge larmoyant apparaît dans la paume de chacune de vos mains.",
+        "9-9": "Lorsque vous parlez, un faible cri accompagne vos paroles, comme s'il s'agissait d'une âme en peine.",
+        "10-10": "Vous pleurez du sang.",
+        "11-11": "Une vilaine blessure sur vôtre flanc suinte une boue noire et puante chaque fois que vous vous mettez en colère. Cette blessure ne guérit jamais.",
+        "12-12": "Il vous pousse un sixième doigt à chaque main et un sixième orteil à chaque pied.",
+        "13-13": "Votre nez pourrit, laissant un cratère sombre dans votre visage qui laisse échapper des mucosités sanglantes.",
+        "14-14": "Vos yeux deviennent des mares de ténèbres ; dans l'obscurité, ils brillent d'une lumière rouge maléfique.",
+        "15-15": "Les animaux sont toujours hostiles à votre égard et vous attaquent dès que vous vous approchez à moins de 5 mètres d'eux.",
+        "16-16": "Vos organes reproducteurs se ratatinent et se détachent ou sortent de votre corps.",
+        "17-17": "Une seconde rangée de dents pousse dans vôtre bouche et une nouvelle rangée de dents apparaît à un endroit inattendu.",
+        "18-18": "Un pentagramme argenté apparaît au centre de votre front.",
+        "19-19": "Votre peau se gonfle et devient fiévreuse au toucher. Lorsque vous transpirez, vous dégagez un musc nauséabond et sucré.",
+        "20-20": "Une fois par semaine, un enfant situé à 1,5 kilomètre de vous tombe malade et meurt."
+      }
+    }
+  }
+}

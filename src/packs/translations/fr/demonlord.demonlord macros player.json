@@ -1,0 +1,41 @@
+{
+  "label": "Demonlord Macros - PJ",
+  "entries": {
+    "Agility Roll": {
+      "name": "Jet d'Agilité",
+      "command": "// Sélectionnez votre token et lancer le jet du test d'Agilité.\ngame.demonlord.rollAttributeMacro(\"agility\");"
+    },
+    "Challenge Roll": {
+      "name": "Jet de test",
+      "command": "// Outils joueurs\n// Vous permet de choisir l'attribut pour lesquels vous voulez faire un jet de test et d'ajouter des avantages/désavantages.\n\ngame.demonlord.macros.makeChallengeRollMacro()"
+    },
+    "Heal": {
+      "name": "Heal",
+      "command": "// Soigne le token sélectionné avec la vitesse de guérison ou la moitié de la vitesse de guérison.\nlet applyChanges = false;\nnew Dialog({\n    title: game.i18n.localize('DL.MacroHealTitle'),\n    content: `\n    <form>\n      <div class=\"form-group\">\n        <label>` + game.i18n.localize('DL.MacroHealChoose') + `</label><br/>\n</div>\n<div class=\"form-group\">\n<table>\n<tr>\n<td>\n<input type=\"radio\" name=\"healingrate\" id=\"true\" checked />\n                        <label for=\"true\">` + game.i18n.localize('DL.MacroHealHealingRate') + `</label>\n<td/>\n</tr>\n<tr>\n<td>\n<input type=\"radio\" name=\"healingrate\" id=\"false\" />\n                        <label for=\"false\">` + game.i18n.localize('DL.MacroHealHalfHealingRate') + `</label>\n<td/>\n</tr>\n</table>\n                        \n                        \n</div>\n    </form>\n    `,\n    buttons: {\n        yes: {\n            icon: \"<i class='fas fa-check'></i>\",\n            label: game.i18n.localize('DL.MacroHealApplyHealing'),\n            callback: () => applyChanges = true\n        },\n        no: {\n            icon: \"<i class='fas fa-times'></i>\",\n            label: game.i18n.localize('DL.MacroCancel')\n        },\n    },\n    default: \"yes\",\n    close: html => {\n        if (applyChanges) {\n            let fullHealingRate = html.find('[name=\"healingrate\"]')[0].checked || false;\n            canvas.tokens.controlled.forEach(t => t.actor.applyHealing(fullHealingRate))\n        }\n    }\n}).render(true);"
+    },
+    "Intellect Roll": {
+      "name": "Intellect Roll",
+      "command": "// Sélectionnez votre token et lancer le jet du test d'Intellect.\ngame.demonlord.rollAttributeMacro(\"intellect\");"
+    },
+    "Perception Roll": {
+      "name": "Perception Roll",
+      "command": "// Sélectionnez votre token et lancer le jet de test de Perception.\r\ngame.demonlord.rollAttributeMacro(\"perception\");"
+    },
+    "Rest": {
+      "name": "Rest",
+      "command": "// Repos. Réinitialise toutes les utilisations de talents et de sorts et vous soigne de votre vitesse de guérison.\n\nfor (let token of canvas.tokens.controlled) {\n    token.actor.restActor();\n}"
+    },
+    "Roll Initiative": {
+      "name": "Roll Initiative",
+      "command": "// Pour le joueur. Lance l'initiative pour choisir l'ordre du tour rapide ou lent.\n\ngame.demonlord.rollInitMacro();"
+    },
+    "Strength Roll": {
+      "name": "Strength Roll",
+      "command": "// Sélectionnez votre token et lancer le jet du test dede Force.\ngame.demonlord.rollAttributeMacro(\"strength\");"
+    },
+    "Will Roll": {
+      "name": "Will Roll",
+      "command": "// Sélectionnez votre token et lancer le jet du test de Volonté.\r\ngame.demonlord.rollAttributeMacro(\"will\");"
+    }
+  }
+}

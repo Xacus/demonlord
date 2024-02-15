@@ -1,0 +1,310 @@
+{
+  "label": "Armes",
+  "mapping": {
+    "description": "system.description",
+    "properties": "system.properties",
+    "value": "system.value"
+  },
+  "entries": {
+    "Axe": {
+      "name": "Hache",
+      "description": "",
+      "properties": "",
+      "value": "1 CA"
+    },
+    "Bastard Sword, One-handed": {
+      "name": "Épée bâtarde, à une main",
+      "description": "",
+      "properties": "Encombrante",
+      "value": "1 CO"
+    },
+    "Bastard Sword, Two-handed": {
+      "name": "Épée bâtarde, à deux mains",
+      "description": "",
+      "properties": "Encombrante",
+      "value": "1 CO"
+    },
+    "Battleaxe": {
+      "name": "Hache de guerre",
+      "description": "",
+      "properties": "",
+      "value": "5 CA"
+    },
+    "Blowgun": {
+      "name": "Sarbacane",
+      "description": "",
+      "properties": "Portée (moyenne), utilise des aiguilles",
+      "value": "1 CA"
+    },
+    "Bow": {
+      "name": "Arc",
+      "description": "",
+      "properties": "Portée (longue), utilise des flèches",
+      "value": "5 CA"
+    },
+    "Chain": {
+      "name": "Chaines",
+      "description": "",
+      "properties": "Finesse",
+      "value": "5 CA"
+    },
+    "Club": {
+      "name": "Massue",
+      "description": "",
+      "properties": "",
+      "value": "5 SC"
+    },
+    "Crossbow": {
+      "name": "Arbalète",
+      "description": "",
+      "properties": "Portée (longue), rechargement, utilise des carreaux",
+      "value": "1 CO"
+    },
+    "Cutlass": {
+      "name": "Coutelas",
+      "description": "",
+      "properties": "Finesse",
+      "value": "5 CA"
+    },
+    "Dagger": {
+      "name": "Dague",
+      "description": "",
+      "properties": "Finesse, de jet, portée (courte)",
+      "value": "5 SC"
+    },
+    "Dart": {
+      "name": "Fléchette",
+      "description": "",
+      "properties": "Finesse, de jet, portée (courte)",
+      "value": "1 SC"
+    },
+    "Flail": {
+      "name": "Fléau",
+      "description": "",
+      "properties": "Finesse",
+      "value": "5 CA"
+    },
+    "Glaive": {
+      "name": "Glaive",
+      "description": "",
+      "properties": "Allonge + 1",
+      "value": "1 CO"
+    },
+    "Greataxe": {
+      "name": "Grande hache",
+      "description": "",
+      "properties": "Encombrante",
+      "value": "2 CO"
+    },
+    "Greatsword": {
+      "name": "Épée à deux mains",
+      "description": "",
+      "properties": "Encombrante",
+      "value": "2 CO"
+    },
+    "Halberd": {
+      "name": "Hallebarde",
+      "description": "",
+      "properties": "Allonge + 1",
+      "value": "1 CO"
+    },
+    "Hammer": {
+      "name": "Marteau",
+      "description": "",
+      "properties": "De jet, portée (courte)",
+      "value": "1 CA"
+    },
+    "Hand Crossbow": {
+      "name": "Arbalète de poing",
+      "description": "",
+      "properties": "Portée (courte), rechargement, utilise des carreaux",
+      "value": "2 CO"
+    },
+    "Hatchet": {
+      "name": "Hachette",
+      "description": "",
+      "properties": "De jet, portée (courte)",
+      "value": "1 CA"
+    },
+    "Javelin": {
+      "name": "Javelot",
+      "description": "",
+      "properties": "Finesse, de jet, portée (moyenne)",
+      "value": "1 CA"
+    },
+    "Knife": {
+      "name": "Couteau",
+      "description": "",
+      "properties": "Finesse, de jet, portée (courte)",
+      "value": "5 SC"
+    },
+    "Lance": {
+      "name": "Lance d'arçon",
+      "description": "",
+      "properties": "Une main si à cheval, allonge + 2",
+      "value": "5 CA"
+    },
+    "Large Shield": {
+      "name": "Grand bouclier",
+      "description": "",
+      "properties": "Gabarit 1, Défensif +2",
+      "value": "1 CA"
+    },
+    "Long Knife": {
+      "name": "Long couteau",
+      "description": "",
+      "properties": "Finesse",
+      "value": "5 CA"
+    },
+    "Longbow": {
+      "name": "Arc long",
+      "description": "",
+      "properties": "Gabarit 1, portée (longue), utilise des flèches",
+      "value": "1 CO"
+    },
+    "Mace": {
+      "name": "Masse d’armes",
+      "description": "",
+      "properties": "",
+      "value": "5 CA"
+    },
+    "Maul": {
+      "name": "Maillet d'arme",
+      "description": "",
+      "properties": "Encombrante",
+      "value": "2 CO"
+    },
+    "Morning Star": {
+      "name": "Morgenstern",
+      "description": "",
+      "properties": "",
+      "value": "5 CA"
+    },
+    "Pick": {
+      "name": "Pioche",
+      "description": "",
+      "properties": "",
+      "value": "5 CA"
+    },
+    "Pike": {
+      "name": "Pique",
+      "description": "",
+      "properties": "Gabarit 1, allonge + 2",
+      "value": "5 CA"
+    },
+    "Pistol": {
+      "name": "Pistolet",
+      "description": "",
+      "properties": "Enrayé, portée (moyenne), rechargement, utilise des balles",
+      "value": "5 CO"
+    },
+    "Poleaxe": {
+      "name": "Hache d'armes",
+      "description": "",
+      "properties": "Allonge + 1",
+      "value": "1 CO"
+    },
+    "Rapier": {
+      "name": "Rapière",
+      "description": "",
+      "properties": "Finesse",
+      "value": "1 CO"
+    },
+    "Rifle": {
+      "name": "Fusil",
+      "description": "",
+      "properties": "Enrayé, portée (longue), rechargement, utilise des balles",
+      "value": "10 CO"
+    },
+    "Saber": {
+      "name": "Sabre",
+      "description": "",
+      "properties": "Finesse",
+      "value": "1 CO"
+    },
+    "Scimitar": {
+      "name": "Cimeterre",
+      "description": "",
+      "properties": "Finesse",
+      "value": "1 CO"
+    },
+    "Scourge": {
+      "name": "Fouet à lanières",
+      "description": "",
+      "properties": "Finesse",
+      "value": "5 CA"
+    },
+    "Sickle": {
+      "name": "Faucille",
+      "description": "",
+      "properties": "Finesse",
+      "value": "1 CA"
+    },
+    "Sling": {
+      "name": "Fronde",
+      "description": "",
+      "properties": "Portée (moyenne), utilise des pierres.",
+      "value": "5 SC"
+    },
+    "Small Shield": {
+      "name": "Petit bouclier",
+      "description": "",
+      "properties": "Défensif + 1",
+      "value": "5 SC"
+    },
+    "Small Sword": {
+      "name": "Petite épée",
+      "description": "",
+      "properties": "Finesse",
+      "value": "5 CA"
+    },
+    "Spear": {
+      "name": "Lance",
+      "description": "",
+      "properties": "Finesse, de jet, portée (courte)",
+      "value": "1 CA"
+    },
+    "Staff": {
+      "name": "Bâton",
+      "description": "",
+      "properties": "Finesse",
+      "value": "5 SC"
+    },
+    "Sword": {
+      "name": "Épée",
+      "description": "",
+      "properties": "",
+      "value": "5 CA"
+    },
+    "Trident": {
+      "name": "Trident",
+      "description": "",
+      "properties": "De jet, portée (courte)",
+      "value": "5 CA"
+    },
+    "Unarmed strike": {
+      "name": "À mains nues",
+      "description": "",
+      "properties": "Finesse",
+      "value": "-"
+    },
+    "Warhammer, One-handed": {
+      "name": "Marteau de guerre, à une main",
+      "description": "",
+      "properties": "Encombrante",
+      "value": "1 CO"
+    },
+    "Warhammer, Two-handed": {
+      "name": "Marteau de guerre, à deux mains",
+      "description": "",
+      "properties": "Encombrante",
+      "value": "1 CO"
+    },
+    "Whip": {
+      "name": "Fouet",
+      "description": "",
+      "properties": "Finesse, allonge + 1",
+      "value": "5 SC"
+    }
+  }
+}

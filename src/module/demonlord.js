@@ -154,6 +154,11 @@ Hooks.once('init', async function () {
 
   preloadHandlebarsTemplates()
   registerHandlebarsHelpers()
+
+  // Support Babele translations
+  if (typeof Babele !== 'undefined') {
+    Babele.get().setSystemTranslationsDir('packs/translations')
+  }
 })
 
 Hooks.once('ready', async function () {
