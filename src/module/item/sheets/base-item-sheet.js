@@ -402,7 +402,7 @@ export default class DLBaseItemSheet extends ItemSheet {
             if (item.flags?.core?.sourceId != undefined) {
               game.items.getName(item.name) ? itemData.uuid = game.items.getName(item.name).uuid : itemData.uuid = item.flags.core.sourceId
             } else {
-              const newItem = await this.createNestedItem(duplicate(item), `${actor.name}'s Items`)
+              const newItem = await this.createNestedItem(duplicate(item), `${actor.name}'s Items (${this.item.name})`)
               itemUpdate['flags.core.sourceId'] = newItem.uuid;
               itemData.uuid = newItem.uuid
             }
@@ -492,6 +492,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
     if (itemData?._id != undefined) delete itemData._id;
     itemData.folder = folder._id
+    if (itemData?.system?.quantity != undefined) itemData.system.quantity = 1
 
     return await DemonlordItem.create(itemData)
   }

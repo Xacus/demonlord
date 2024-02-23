@@ -24,7 +24,7 @@ export class DemonlordItem extends Item {
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId)
     // Search for open path/ancestry/role sheets and re-render them. This allows the nested objects to fetch new values
-    if (!['path', 'ancestry', 'creaturerole', 'item', 'relic'].includes(this.type)) {
+    if (!['path', 'ancestry', 'creaturerole', 'relic'].includes(this.type)) {
       // eslint-disable-next-line no-prototype-builtins
       let openSheets = Object.entries(ui.windows).map(i => i[1]).filter(i => Item.prototype.isPrototypeOf(i.object))
       openSheets = openSheets.filter(s => ['path', 'ancestry', 'creaturerole', 'item', 'relic'].includes(s.object.type))
