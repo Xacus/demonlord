@@ -20,7 +20,7 @@ const distDirectory = './dist';
 const stylesDirectory = `${sourceDirectory}/styles`;
 const stylesExtension = 'scss';
 const sourceFileExtension = 'js';
-const staticFiles = ['assets', 'fonts', 'lang', 'templates', 'system.json', 'template.json', 'lib'];
+const staticFiles = ['assets', 'fonts', 'lang', 'templates', 'system.json', 'template.json', 'lib', 'packs/translations'];
 const compendiaDirectory = `${sourceDirectory}/packs`
 const compendiaExtension = 'json'
 const getDownloadURL = (version) => `https://host/path/to/${version}.zip`;

@@ -1,0 +1,24 @@
+{
+  "label": "Demonlord Macros - MJ",
+  "mapping": {
+    "command": "system.description"
+  },
+  "entries": {
+    "Change Token Vision": {
+      "name": "Cambiar la visión de una ficha",
+      "command": "// Herramientas MJ\n// Modifica los parámetros de visión de todas las fichas seleccionadas.\n\n game.demonlord.macros.applyVisionMacro()"
+    },
+    "Request Challenge Roll": {
+      "name": "Pedir una tirada de prueba",
+      "command": "// Herramientas MJ\n// Pide una tirada de prueba de las fichas seleccionadas. Cada jugador recibe un mensaje privado pidiendo que efectúen una tirada.\n\ngame.demonlord.macros.requestChallengeRollMacro()"
+    },
+    "Request Initiative Roll": {
+      "name": "Pedir una tirada de iniciativa",
+      "command": "// Herramientas MJ\n// Pide una tirada de iniciativa de las fichas seleccionadas. Cada jugador recibe un mensaje privado pidiendo que efectúen una tirada.\n\ngame.demonlord.macros.requestInitiativeRollMacro()"
+    },
+    "Wealth Manager": {
+      "name": "Gestionar recursos",
+      "command": "//Gestionar recursos\ngame.demonlord.macros.wealthManagerMacro()"
+    }
+  }
+}

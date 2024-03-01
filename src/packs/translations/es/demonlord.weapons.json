@@ -1,0 +1,310 @@
+{
+  "label": "Armas",
+  "mapping": {
+    "description": "system.description",
+    "properties": "system.properties",
+    "value": "system.value"
+  },
+  "entries": {
+    "Axe": {
+      "name": "Hacha",
+      "description": "",
+      "properties": "",
+      "value": "1 cp"
+    },
+    "Bastard Sword, One-handed": {
+      "name": "Espada Bastarda, Una Mano",
+      "description": "",
+      "properties": "Engorrosa",
+      "value": "1 co"
+    },
+    "Bastard Sword, Two-handed": {
+      "name": "Espada Bastarda, Dos Manos",
+      "description": "",
+      "properties": "Engorrosa",
+      "value": "1 co"
+    },
+    "Battleaxe": {
+      "name": "Hacha de Guerra",
+      "description": "",
+      "properties": "",
+      "value": "5 cp"
+    },
+    "Blowgun": {
+      "name": "Cerbatana",
+      "description": "",
+      "properties": "Rango (medio), Usa Agujas",
+      "value": "1 cp"
+    },
+    "Bow": {
+      "name": "Arco",
+      "description": "",
+      "properties": "Rango (largo), Usa Flechas",
+      "value": "5 cp"
+    },
+    "Chain": {
+      "name": "Cadena",
+      "description": "",
+      "properties": "Precisión",
+      "value": "5 cp"
+    },
+    "Club": {
+      "name": "Clava",
+      "description": "",
+      "properties": "",
+      "value": "5 pc"
+    },
+    "Crossbow": {
+      "name": "Ballesta",
+      "description": "",
+      "properties": "Rango (largo), Recarga, Usa Virotes",
+      "value": "1 co"
+    },
+    "Cutlass": {
+      "name": "Alfanje",
+      "description": "",
+      "properties": "Precisión",
+      "value": "5 cp"
+    },
+    "Dagger": {
+      "name": "Daga",
+      "description": "",
+      "properties": "Precisión, Lanzada, Rango (corto)",
+      "value": "5 pc"
+    },
+    "Dart": {
+      "name": "Dardo",
+      "description": "",
+      "properties": "Precisión,Lanzado, Rango (corto)",
+      "value": "1 pc"
+    },
+    "Flail": {
+      "name": "Mayal",
+      "description": "",
+      "properties": "Precisión",
+      "value": "5 cp"
+    },
+    "Glaive": {
+      "name": "Archa",
+      "description": "",
+      "properties": "Alcance + 1",
+      "value": "1 co"
+    },
+    "Greataxe": {
+      "name": "Hacha Grande",
+      "description": "",
+      "properties": "Engorrosa",
+      "value": "2 co"
+    },
+    "Greatsword": {
+      "name": "Montante",
+      "description": "",
+      "properties": "Engorrosa",
+      "value": "2 co"
+    },
+    "Halberd": {
+      "name": "Alabarda",
+      "description": "",
+      "properties": "Alcance + 1",
+      "value": "1 co"
+    },
+    "Hammer": {
+      "name": "Martillo",
+      "description": "",
+      "properties": "Lanzada, Rango (corto)",
+      "value": "1 cp"
+    },
+    "Hand Crossbow": {
+      "name": "Ballesta de Mano",
+      "description": "",
+      "properties": "Rango (corto), Recarga, Usa Virotes",
+      "value": "2 co"
+    },
+    "Hatchet": {
+      "name": "Destral",
+      "description": "",
+      "properties": "Lanzada, Rango (corto)",
+      "value": "1 cp"
+    },
+    "Javelin": {
+      "name": "Javalina",
+      "description": "",
+      "properties": "Precisión, Lanzada, Rango (medio)",
+      "value": "1 cp"
+    },
+    "Knife": {
+      "name": "Cuchillo",
+      "description": "",
+      "properties": "Precisión, Lanzada, Rango (corto)",
+      "value": "5 pc"
+    },
+    "Lance": {
+      "name": "Lanza",
+      "description": "",
+      "properties": "Una mano montado, Alcance + 2",
+      "value": "5 cp"
+    },
+    "Large Shield": {
+      "name": "Escudo Grande",
+      "description": "",
+      "properties": "Tamaño 1, Defensivo +2",
+      "value": "1 cp"
+    },
+    "Long Knife": {
+      "name": "Cuchillo Largo",
+      "description": "",
+      "properties": "Precisión",
+      "value": "5 cp"
+    },
+    "Longbow": {
+      "name": "Arco Largo",
+      "description": "",
+      "properties": "Tamaño 1, Rango (largo), Use FLechas",
+      "value": "1 co"
+    },
+    "Mace": {
+      "name": "Maza",
+      "description": "",
+      "properties": "",
+      "value": "5 cp"
+    },
+    "Maul": {
+      "name": "Martillo de Guerra",
+      "description": "",
+      "properties": "Engorrosa",
+      "value": "2 co"
+    },
+    "Morning Star": {
+      "name": "Lucero del Alba",
+      "description": "",
+      "properties": "",
+      "value": "5 cp"
+    },
+    "Pick": {
+      "name": "Pico",
+      "description": "",
+      "properties": "",
+      "value": "5 cp"
+    },
+    "Pike": {
+      "name": "Pica",
+      "description": "",
+      "properties": "Tamaño 1, Alcance + 2",
+      "value": "5 cp"
+    },
+    "Pistol": {
+      "name": "Pistola",
+      "description": "",
+      "properties": "Fallo, Rango (medio), Recarga, Usa Balas",
+      "value": "5 co"
+    },
+    "Poleaxe": {
+      "name": "Hacha de Petos",
+      "description": "",
+      "properties": "Alcance + 1",
+      "value": "1 co"
+    },
+    "Rapier": {
+      "name": "Espada Ropera",
+      "description": "",
+      "properties": "Precisión",
+      "value": "1 co"
+    },
+    "Rifle": {
+      "name": "Rifle",
+      "description": "",
+      "properties": "Fallo, Rango (largo), Recarga, Usa Balas",
+      "value": "10 co"
+    },
+    "Saber": {
+      "name": "Sable",
+      "description": "",
+      "properties": "Precisión",
+      "value": "1 co"
+    },
+    "Scimitar": {
+      "name": "Cimitarra",
+      "description": "",
+      "properties": "Precisión",
+      "value": "1 co"
+    },
+    "Scourge": {
+      "name": "Flagelador",
+      "description": "",
+      "properties": "Precisión",
+      "value": "5 cp"
+    },
+    "Sickle": {
+      "name": "Hoz",
+      "description": "",
+      "properties": "Precisión",
+      "value": "1 cp"
+    },
+    "Sling": {
+      "name": "Honda",
+      "description": "",
+      "properties": "Rango (medio), Usa Piedras",
+      "value": "5 pc"
+    },
+    "Small Shield": {
+      "name": "Escudo Pequeño",
+      "description": "",
+      "properties": "Defensivo + 1",
+      "value": "5 pc"
+    },
+    "Small Sword": {
+      "name": "Espada Pequeña",
+      "description": "",
+      "properties": "Precisión",
+      "value": "5 cp"
+    },
+    "Spear": {
+      "name": "Lanza",
+      "description": "",
+      "properties": "Precisión, Lanzada, Rango (corto)",
+      "value": "1 cp"
+    },
+    "Staff": {
+      "name": "Bastón",
+      "description": "",
+      "properties": "Precisión",
+      "value": "5 pc"
+    },
+    "Sword": {
+      "name": "Espada",
+      "description": "",
+      "properties": "",
+      "value": "5 cp"
+    },
+    "Trident": {
+      "name": "Tridente",
+      "description": "",
+      "properties": "Lanzada, Rango (corto)",
+      "value": "5 cp"
+    },
+    "Unarmed strike": {
+      "name": "Golpe desarmado",
+      "description": "",
+      "properties": "Precisión",
+      "value": "-"
+    },
+    "Warhammer, One-handed": {
+      "name": "Martillo de Guerra, Una Mano",
+      "description": "",
+      "properties": "Engorrosa",
+      "value": "1 co"
+    },
+    "Warhammer, Two-handed": {
+      "name": "Martillo de Guerra, Dos Manos",
+      "description": "",
+      "properties": "Engorrosa",
+      "value": "1 co"
+    },
+    "Whip": {
+      "name": "Látigo",
+      "description": "",
+      "properties": "Precisión, Alcance + 1",
+      "value": "5 pc"
+    }
+  }
+}

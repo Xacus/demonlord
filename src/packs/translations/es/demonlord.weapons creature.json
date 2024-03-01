@@ -1,0 +1,82 @@
+{
+  "label": "Armas de Criaturas",
+  "mapping": {
+    "description": "system.description",
+    "properties": "system.properties",
+    "value": "system.value"
+  },
+  "entries": {
+    "Beak": {
+      "name": "Pico",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Boulder and Rock": {
+      "name": "Roca",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Breath": {
+      "name": "Aliento",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Claws": {
+      "name": "Garras",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Fangs": {
+      "name": "Colmillos",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Grab": {
+      "name": "Agarre",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Horns": {
+      "name": "Cuernos",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Poison": {
+      "name": "Veneno",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Sonic Shout": {
+      "name": "Grito Sónico",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Stinger": {
+      "name": "Aguijón",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Tentacle": {
+      "name": "Tentáculo",
+      "description": "",
+      "properties": "",
+      "value": ""
+    },
+    "Touch": {
+      "name": "Tacto",
+      "description": "",
+      "properties": "",
+      "value": ""
+    }
+  }
+}

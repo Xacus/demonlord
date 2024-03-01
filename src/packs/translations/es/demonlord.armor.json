@@ -1,0 +1,70 @@
+{
+  "label": "Armaduras",
+  "mapping": {
+    "description": "system.description",
+    "properties": "system.properties",
+    "value": "system.value"
+  },
+  "entries": {
+    "Brigandine": {
+      "name": "Brigantina",
+      "description": "",
+      "properties": "",
+      "value": "5 cp"
+    },
+    "Clothing": {
+      "name": "Ropa",
+      "description": "",
+      "properties": "",
+      "value": "Variable"
+    },
+    "Full Plate": {
+      "name": "Armadura Completa",
+      "description": "",
+      "properties": "",
+      "value": "25 co"
+    },
+    "Hard Leather": {
+      "name": "Cuero Duro",
+      "description": "",
+      "properties": "",
+      "value": "5 cp"
+    },
+    "Large Shield": {
+      "name": "Escudo Grande",
+      "description": "",
+      "properties": "",
+      "value": "1 cp"
+    },
+    "Mail": {
+      "name": "Cota de Malla",
+      "description": "",
+      "properties": "",
+      "value": "1 co"
+    },
+    "Plate and Mail": {
+      "name": "Coda de Malla y Placas",
+      "description": "",
+      "properties": "",
+      "value": "5 co"
+    },
+    "Scale": {
+      "name": "Escamas",
+      "description": "",
+      "properties": "",
+      "value": "2 co"
+    },
+    "Small Shield": {
+      "name": "Escudo Pequeño",
+      "description": "",
+      "properties": "",
+      "value": "5 pc"
+    },
+    "Soft Leather": {
+      "name": "Cuero Suave",
+      "description": "",
+      "properties": "",
+      "value": "2 cp"
+    }
+  }
+}
