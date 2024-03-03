@@ -303,7 +303,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     ev.preventDefault()
     const a = ev.currentTarget
     const damageTypes = this.object.system.action.damagetypes
-    const updKey = `data.action.damagetypes`
+    const updKey = `system.action.damagetypes`
 
     if (a.dataset.action === 'create') damageTypes.push(new DamageType())
     else if (a.dataset.action === 'delete') damageTypes.splice(a.dataset.id, 1)

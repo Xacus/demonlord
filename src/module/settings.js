@@ -121,7 +121,7 @@ export const registerSettings = function () {
   game.settings.register('demonlord', 'confirmAncestryPathRemoval', {
     name: game.i18n.localize('DL.SettingConfirmAncestryPathRemoval'),
     hint: game.i18n.localize('DL.SettingConfirmAncestryPathRemovalHint'),
-    default: false,
+    default: true,
     scope: 'world',
     type: Boolean,
     config: true,

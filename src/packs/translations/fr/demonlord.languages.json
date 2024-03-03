@@ -1,0 +1,40 @@
+{
+  "label": "Langues",
+  "mapping": {
+    "description": "system.description"
+  },
+  "entries": {
+    "Common Tongue": {
+      "name": "Langue commune",
+      "description": "Langue dominante dans les terres en ruine de l'Empire, les marchands ont créé la langue commune (ou simplement Commun) à partir des langues locales pour faciliter le commerce. Elle utilise son propre alphabet."
+    },
+    "Dark Speech": {
+      "name": "Sombre parler",
+      "description": "Langue gutturale remplie de consonnes dures, le Sombre parler est né il y a des siècles à Gog, le royaume maudit qui s'étendait sur les terres de Rûl et qui a été renversé et détruit par les fondateurs de l'Empire. Les hommes-bêtes, les cultistes et tous ceux qui recherchent des connaissances interdites apprennent et utilisent cette langue."
+    },
+    "Dead Languages": {
+      "name": "Langues mortes",
+      "description": "De nombreuses langues tombent dans l'oubli. Le MJ peut introduire des langues de peuples disparus et des langues qui sont largement tombées en désuétude. Ces langues peuvent être importantes pour déchiffrer d'anciens parchemins ou grimoires."
+    },
+    "Dwarfish": {
+      "name": "Nain",
+      "description": "La langue des nains a une sonorité rude, un lexique précis et des mots longs et composés. Elle utilise un alphabet runique."
+    },
+    "Elvish": {
+      "name": "Elfique",
+      "description": "La langue utilisée par les elfes et les autres fées a une sonorité douce et musicale, parfaitement adaptée au chant et à la poésie. L'elfique utilise son propre alphabet, ses lettres se fondant les unes dans les autres."
+    },
+    "High Archaic": {
+      "name": "Haut archaïque",
+      "description": "Langue de l'érudition et de la magie, le haut archaïque est peu utilisé dans les conversations. Il utilise le même alphabet que la langue commune."
+    },
+    "Secret Language": {
+      "name": "Langue secrète",
+      "description": "De nombreuses organisations utilisent des langues secrètes pour communiquer. Les druides, les assassins, les voleurs et même les gardes forestiers utilisent de tels langages."
+    },
+    "Trollish": {
+      "name": "Trolléen",
+      "description": "La langue des trolls est aussi laide que l'elfique est beau. Elle n'est presque exclusivement utilisée que par les trolls et aux géants et ressemble à un mélange de grognements et d'aboiements. Elle utilise un alphabet runique semblable à celui du nain."
+    }
+  }
+}

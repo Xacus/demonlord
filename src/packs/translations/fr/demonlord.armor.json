@@ -1,0 +1,70 @@
+{
+  "label": "Armures",
+  "mapping": {
+    "description": "system.description",
+    "properties": "system.properties",
+    "value": "system.value"
+  },
+  "entries": {
+    "Brigandine": {
+      "name": "Brigandine",
+      "description": "",
+      "properties": "",
+      "value": "5 CA"
+    },
+    "Clothing": {
+      "name": "Vêtements",
+      "description": "",
+      "properties": "",
+      "value": "Variable"
+    },
+    "Full Plate": {
+      "name": "Harnois",
+      "description": "",
+      "properties": "",
+      "value": "25 CO"
+    },
+    "Hard Leather": {
+      "name": "Cuir bouilli",
+      "description": "",
+      "properties": "",
+      "value": "5 CA"
+    },
+    "Large Shield": {
+      "name": "Grand bouclier",
+      "description": "",
+      "properties": "",
+      "value": "1 CA"
+    },
+    "Mail": {
+      "name": "Mailles",
+      "description": "",
+      "properties": "",
+      "value": "1 CO"
+    },
+    "Plate and Mail": {
+      "name": "Plate et mailles",
+      "description": "",
+      "properties": "",
+      "value": "5 CO"
+    },
+    "Scale": {
+      "name": "Écailles",
+      "description": "",
+      "properties": "",
+      "value": "2 CO"
+    },
+    "Small Shield": {
+      "name": "Petit bouclier",
+      "description": "",
+      "properties": "",
+      "value": "5 SC"
+    },
+    "Soft Leather": {
+      "name": "Cuir souple",
+      "description": "",
+      "properties": "",
+      "value": "2 CA"
+    }
+  }
+}

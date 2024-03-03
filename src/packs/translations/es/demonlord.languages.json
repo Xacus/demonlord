@@ -1,0 +1,40 @@
+{
+  "label": "Lenguas",
+  "mapping": {
+    "description": "system.description"
+  },
+  "entries": {
+    "Common Tongue": {
+      "name": "Lengua Común",
+      "description": "Lengua dominante en las tierras en ruinas del Imperio, los mercaderes improvisaron la Lengua Común (o simplemente Común) a partir de las lenguas locales para facilitar el comercio. Utiliza su propio alfabeto."
+    },
+    "Dark Speech": {
+      "name": "Habla Oscura",
+      "description": "El Habla Oscura, una lengua gutural llena de consonantes duras, se originó hace siglos en Gog, el reino maldito que se extendió por las tierras de Rûl y que fue derribado y destruido por los fundadores del Imperio. Hombres bestia, cultistas y otros buscadores de conocimientos prohibidos aprenden y utilizan esta lengua."
+    },
+    "Dead Languages": {
+      "name": "Lenguas Muertas",
+      "description": "Muchas lenguas caen en desuso. El MJ puede introducir lenguas de pueblos perdidos y lenguas que han caído en desuso. Estas lenguas pueden ser importantes para descifrar pergaminos y tomos antiguos."
+    },
+    "Dwarfish": {
+      "name": "Enano",
+      "description": "La lengua de los enanos tiene un sonido áspero, un léxico preciso y palabras largas y compuestas. Utiliza un alfabeto rúnico."
+    },
+    "Elvish": {
+      "name": "Élfico",
+      "description": "La lengua de los elfos y otras hadas tiene un sonido suave y musical, perfecto para cantar y recitar poesía. El élfico utiliza una escritura propia, cuyos caracteres se funden entre sí."
+    },
+    "High Archaic": {
+      "name": "Alto Arcaico",
+      "description": "La lengua de los eruditos y de la magia. Pocas personas utilizan el alto arcaico en sus conversaciones. Utiliza el mismo alfabeto que la lengua común."
+    },
+    "Secret Language": {
+      "name": "Lenguaje Secreto",
+      "description": "Muchas organizaciones utilizan lenguajes secretos para comunicarse. Druidas, asesinos, ladrones e incluso guardabosques utilizan este tipo de lenguas."
+    },
+    "Trollish": {
+      "name": "Troll",
+      "description": "El idioma de los trolls es tan feo como bello es el élfico. Pertenece casi exclusivamente a trolls y gigantes, y suena como una mezcla de gruñidos y ladridos. Utiliza un alfabeto rúnico similar al enano."
+    }
+  }
+}

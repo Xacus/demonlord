@@ -1,0 +1,40 @@
+{
+  "label": "Munición",
+  "mapping": {
+    "description": "system.description",
+    "properties": "system.properties",
+    "value": "system.value"
+  },
+  "entries": {
+    "Arrows": {
+      "name": "Flechas",
+      "description": "",
+      "properties": "",
+      "value": "5 pc"
+    },
+    "Bolts": {
+      "name": "Virotes",
+      "description": "",
+      "properties": "",
+      "value": "5 pc"
+    },
+    "Bullets": {
+      "name": "Balas",
+      "description": "",
+      "properties": "",
+      "value": "1 cp"
+    },
+    "Darts": {
+      "name": "Dardos",
+      "description": "",
+      "properties": "",
+      "value": "5 pc"
+    },
+    "Stones": {
+      "name": "Piedras",
+      "description": "",
+      "properties": "",
+      "value": "5 pc"
+    }
+  }
+}

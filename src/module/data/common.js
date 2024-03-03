@@ -112,7 +112,7 @@ export function activatedEffect() {
 export function enchantment() {
   return new foundry.data.fields.SchemaField({
     attackbonus: makeIntField(),
-    challengebonuse: makeIntField(),
+    challengebonus: makeIntField(),
     damage: makeStringField(),
     defense: makeIntField(),
     speed: makeIntField(),

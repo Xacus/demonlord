@@ -1,0 +1,31 @@
+{
+  "label": "Tablas aleatorias",
+  "entries": {
+    "Mark of Darkness": {
+      "name": "Marcas de la Oscuridad",
+      "description": "",
+      "results": {
+        "1-1": "Nunca te reflejas en los espejos.",
+        "2-2": "Tiene una tos traqueteante y a veces expulsa gusanos sanguinolentos en un ataque de tos.",
+        "3-3": "Tu sombra parece enorme y monstruosa, sin llegar nunca a coincidir con tus movimientos.",
+        "4-4": "Sólo puedes comer comida podrida y en mal estado; vomitas cualquier otra cosa en cuestión de minutos.",
+        "5-5": "Los símbolos sagrados queman tu piel, infligiendo 1 de daño por asalto de contacto.",
+        "6-6": "Los nombres invertidos de los Dioses de la Antigua Fe aparecen justo bajo la superficie de tu piel en una banda alrededor de tu brazo izquierdo.",
+        "7-7": "Te crecen un par de cuernos en la frente.",
+        "8-8": "Un ojo rojo lloroso aparece en la palma de cada una de tus manos.",
+        "9-9": "Cuando hablas, un débil llanto acompaña tus palabras, como si de un alma en pena se tratara.",
+        "10-10": "Lloras sangre.",
+        "11-11": "Te haces una fea herida en el costado que rezuma un lodo negro y apestoso cada vez que te enfadas. Esta herida nunca se cura.",
+        "12-12": "Te crece un sexto dedo en cada mano y un sexto dedo en cada pie.",
+        "13-13": "Tu nariz se pudre, dejando un cráter oscuro en tu cara que gotea mucosidad sanguinolenta.",
+        "14-14": "Tus ojos se convierten en charcos de oscuridad; en la oscuridad, brillan con una luz roja maligna.",
+        "15-15": "Los animales siempre te son hostiles y te atacan cuando te acercas a menos de 6 metros de ellos.",
+        "16-16": "Sus órganos reproductores se arrugan y se caen o salen de su cuerpo.",
+        "17-17": "Te crece una segunda fila de dientes en la boca y una nueva fila de dientes en un lugar inesperado.",
+        "18-18": "Un pentagrama de plata aparece en el centro de tu frente.",
+        "19-19": "Tu piel se hincha y se vuelve febril al tacto. Cuando transpiras, desprendes un almizcle fétido y dulzón.",
+        "20-20": "Una vez a la semana, enferma y muere un niño en un radio de 1,5 km."
+      }
+    }
+  }
+}

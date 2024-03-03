@@ -1,0 +1,40 @@
+{
+  "label": "Munitions",
+  "mapping": {
+    "description": "system.description",
+    "properties": "system.properties",
+    "value": "system.value"
+  },
+  "entries": {
+    "Arrows": {
+      "name": "Flèches",
+      "description": "",
+      "properties": "",
+      "value": "5 SC"
+    },
+    "Bolts": {
+      "name": "Carreaux",
+      "description": "",
+      "properties": "",
+      "value": "5 SC"
+    },
+    "Bullets": {
+      "name": "Balles",
+      "description": "",
+      "properties": "",
+      "value": "1 CA"
+    },
+    "Darts": {
+      "name": "Fléchettes",
+      "description": "",
+      "properties": "",
+      "value": "5 SC"
+    },
+    "Stones": {
+      "name": "Pierres",
+      "description": "",
+      "properties": "",
+      "value": "5 SC"
+    }
+  }
+}
