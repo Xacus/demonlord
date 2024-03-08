@@ -67,7 +67,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     data.system = this.document.system
 
     // Enrich the description
-    data.system.enrichedDescription = await TextEditor.enrichHTML(this.document.system.description, {async: true});
+    data.system.enrichedDescription = await TextEditor.enrichHTML(this.document.system.description);
     data.system.enrichedDescriptionUnrolled = await enrichHTMLUnrolled(this.document.system.description)
 
     data.effects = prepareActiveEffectCategories(this.document.effects, true, true)
