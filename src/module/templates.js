@@ -74,5 +74,13 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/chat/partial/chat-measured-template.hbs',
     'systems/demonlord/templates/chat/partial/chat-effects.hbs',
     'systems/demonlord/templates/chat/partial/chat-description.hbs',
+
+    // Compendium Browser Partials
+    'systems/demonlord/templates/dialogs/partial/tab-ancestries.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-paths.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-spells.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-creatures.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-characters.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-creatureroles.hbs',
   ])
 }

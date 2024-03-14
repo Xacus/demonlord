@@ -161,6 +161,14 @@ Hooks.once('init', async function () {
   }
 })
 
+Hooks.once('renderCompendiumDirectory', async function(app, html, data) {
+  const button = document.createElement('input')
+  button.setAttribute('type', 'button')
+  button.innerText = game.i18n.localize('DL.CompendiumBrowser')
+  html.append(button)
+  console.log(data)
+})
+
 Hooks.once('ready', async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => macros.createDemonlordMacro(data, slot))
