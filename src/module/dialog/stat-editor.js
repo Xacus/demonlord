@@ -49,7 +49,7 @@ export class DLStatEditor extends FormApplication {
       const div = ev.currentTarget
       const target = div.parentElement.parentElement.firstElementChild
       const formula = div.previousElementSibling.value
-      const roll = new Roll(formula, {})
+      const roll = new Roll(formula, this.system)
       await roll.evaluate()
       target.value = roll.total
     })

@@ -60,7 +60,7 @@ async function _onChatRollDamage(event) {
   const selected = tokenManager.targets
   const itemId = item.dataset.itemId || li.closest('.demonlord').dataset.itemId
 
-  const damageRoll = new Roll(damageformula, {})
+  const damageRoll = new Roll(damageformula, actor.system)
   await damageRoll.evaluate()
 
   let totalDamage = ''

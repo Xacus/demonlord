@@ -388,7 +388,7 @@ export class DemonlordActor extends Actor {
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
     // Roll the attack
-    const attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+    const attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), attacker.system)
     await attackRoll.evaluate()
 
     postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, parseInt(inputBoons) || 0)
@@ -438,7 +438,7 @@ export class DemonlordActor extends Actor {
     const boons = (parseInt(inputBoons) || 0) + (this.system.bonuses.challenge.boons[attribute.key] || 0) + (this.system.bonuses.challenge.boons.all || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-    const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+    const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
     await challengeRoll.evaluate()
     postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0)
   }
@@ -500,7 +500,7 @@ export class DemonlordActor extends Actor {
       if (targets.length === 1) boons -= ((target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) + (target?.actor?.system.bonuses.defense.boons.all || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
     }
 
@@ -570,7 +570,7 @@ export class DemonlordActor extends Actor {
       const modifiers = [parseInt(inputModifier) || 0, this.getAttribute(attackAttribute).modifier || 0]
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
     }
 
@@ -630,7 +630,7 @@ export class DemonlordActor extends Actor {
       if (targets.length === 1) boons -= ((target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) + (target?.actor?.system.bonuses.defense.boons.all || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), {})
+      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
     }
 
