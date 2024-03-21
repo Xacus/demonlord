@@ -588,14 +588,17 @@ export class DemonlordActor extends Actor {
   async rollItem(itemID, _options = {event: null}) {
     const item = this.items.get(itemID)
 
-    if (item.system.quantity != null) {
-      if (item.system.quantity < 1) {
-        ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+    if (item.system.quantity != null && item.system.consumabletype) {
+      if (item.system.quantity === 1 && item.system.autoDestroy) {
+        await item.delete()
         return
       }
 
-      item.system.quantity--
-      await Item.updateDocuments([item], {parent: this})  
+      if (item.system.quantity < 1 ) {
+        return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+      }      
+
+      await item.update({'system.quantity': --item.system.quantity}, {parent: this})
     }
 
     if (item.system?.action?.attack) {

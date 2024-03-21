@@ -250,7 +250,9 @@
       "availability": "",
       "value": "",
       "wear": true,
-      "healingoption": false
+      "healingoption": false,
+      "autoDestroy" : false,
+      "consumabletype": ""
     },
     "feature": {
       "templates": ["base"]
