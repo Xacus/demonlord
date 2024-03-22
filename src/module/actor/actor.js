@@ -406,6 +406,7 @@ export class DemonlordActor extends Actor {
       targets: defendersTokens,
       itemId: item.id,
       hitTargets: hitTargets,
+      attackRoll: attackRoll
     })
   }
 
@@ -441,6 +442,7 @@ export class DemonlordActor extends Actor {
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
     await challengeRoll.evaluate()
     postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0)
+    return challengeRoll
   }
 
   rollChallenge(attribute) {
@@ -508,9 +510,11 @@ export class DemonlordActor extends Actor {
       sourceToken: this.token || tokenManager.getTokenByActorId(this.id),
       targets: targets,
       itemId: talent.id,
+      attackRoll: attackRoll
     })
 
     postTalentToChat(this, talent, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+    return attackRoll
   }
 
   /* -------------------------------------------- */
@@ -578,9 +582,11 @@ export class DemonlordActor extends Actor {
       sourceToken: this.token || tokenManager.getTokenByActorId(this.id),
       targets: targets,
       itemId: spell.id,
+      attackRoll: attackRoll
     })
 
     postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+    return attackRoll
   }
 
   /* -------------------------------------------- */
@@ -638,6 +644,7 @@ export class DemonlordActor extends Actor {
     }
 
     postItemToChat(this, item, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+    return attackRoll
   }
 
   /* -------------------------------------------- */
