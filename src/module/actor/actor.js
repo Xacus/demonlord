@@ -593,11 +593,11 @@ export class DemonlordActor extends Actor {
 
   async rollItem(itemID, _options = {event: null}) {
     const item = this.items.get(itemID)
+    let deleteItem = false
 
     if (item.system.quantity != null && item.system.consumabletype) {
       if (item.system.quantity === 1 && item.system.autoDestroy) {
-        await item.delete()
-        return
+        deleteItem = true
       }
 
       if (item.system.quantity < 1 ) {
@@ -614,6 +614,9 @@ export class DemonlordActor extends Actor {
     } else {
       await this.useItem(item, 0, 0)
     }
+
+    if (deleteItem) item.delete()
+
   }
 
   async useItem(item, inputBoons, inputModifier) {    
