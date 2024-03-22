@@ -145,7 +145,7 @@ export async function getNestedDocument(nestedData) {
     // Then name
     if (!entity?.sheet) {
       pack = game.packs.find(p => p.index.find(i => i.name.toLowerCase() === nestedData.name.toLowerCase()))
-      entity = await pack?.getDocument(i => i.name.toLowerCase() === nestedData.name.toLowerCase())
+      entity = await pack?.getDocument(pack.index.find(i => i.name.toLowerCase() === nestedData.name.toLowerCase())?._id)
     }
     method = entity ? 'FB-PACKS' : method
   }
