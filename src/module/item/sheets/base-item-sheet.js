@@ -191,7 +191,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
 
     // Item autoDestroy checkbox
-    html.find('.dl-autodestroy').click(async ev => {
+    html.find('.dl-autodestroy').click(async _ => {
         await this.document.update({'system.autoDestroy': !this.document.system.autoDestroy})
     })
     

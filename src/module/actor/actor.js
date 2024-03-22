@@ -601,7 +601,7 @@ export class DemonlordActor extends Actor {
       }
 
       if (item.system.quantity < 1 ) {
-        return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+        if (item.system.autoDestroy) {await item.delete()} else return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
       }      
 
       await item.update({'system.quantity': --item.system.quantity}, {parent: this})
@@ -615,7 +615,7 @@ export class DemonlordActor extends Actor {
       await this.useItem(item, 0, 0)
     }
 
-    if (deleteItem) item.delete()
+    if (deleteItem) await item.delete()
 
   }
 
