@@ -190,6 +190,11 @@ export default class DLBaseItemSheet extends ItemSheet {
       inputs.focus(ev => ev.currentTarget.select())
     }
 
+    // Item autoDestroy checkbox
+    html.find('.dl-autodestroy').click(async ev => {
+        await this.document.update({'system.autoDestroy': !this.document.system.autoDestroy})
+    })
+    
     // Active effects edit
     html.find('.effect-control').click(async ev => await onManageActiveEffect(ev, this.document))
 

@@ -231,12 +231,6 @@ function _buildCheckboxes(groupName, checkedKey, data) {
               </div>`
 
     }
-  } else if (groupName === 'item-destroy') {
-    const checked = data.autoDestroy ? 'checked' : ''
-    html += `<div class="dl-new-project-radio ${checked}">
-              <input type="checkbox" name="system.autoDestroy" ${checked}/>
-              <i class="dl-icon-check"></i>
-            </div>`
   }
   return new Handlebars.SafeString(html)
 }
