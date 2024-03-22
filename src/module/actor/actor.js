@@ -601,7 +601,11 @@ export class DemonlordActor extends Actor {
       }
 
       if (item.system.quantity < 1 ) {
-        if (item.system.autoDestroy) {await item.delete()} else return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+        if (item.system.autoDestroy) {
+          return await item.delete()
+        } else { 
+          return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+        }  
       }      
 
       await item.update({'system.quantity': --item.system.quantity}, {parent: this})
