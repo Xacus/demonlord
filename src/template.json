@@ -160,6 +160,7 @@
       "ammo",
       "ancestry",
       "armor",
+      "creaturerole",      
       "endoftheround",
       "feature",
       "item",
@@ -170,8 +171,7 @@
       "specialaction",
       "spell",
       "talent",
-      "weapon",
-      "creaturerole"
+      "weapon"
     ],
     "templates": {
       "base": {

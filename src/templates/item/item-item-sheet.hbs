@@ -42,11 +42,7 @@
           {{#if system.consumabletype}}
             <div>
               <b>{{localize "DL.ConsumableDestroyOnEmpty"}}</b>
-              {{#if system.autoDestroy}}
-                <div class="dl-custom-checkbox dl-autodestroy checked"> </div>
-              {{else}}
-                <div class="dl-custom-checkbox dl-autodestroy"> </div>
-              {{/if}}
+              <div class="dl-custom-checkbox dl-autodestroy {{checked system.autoDestroy}}"> </div>
             </div>
             {{/if}}
           </div>        
