@@ -593,15 +593,22 @@ export class DemonlordActor extends Actor {
 
   async rollItem(itemID, _options = {event: null}) {
     const item = this.items.get(itemID)
+    let deleteItem = false
 
-    if (item.system.quantity != null) {
-      if (item.system.quantity < 1) {
-        ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
-        return
+    if (item.system.quantity != null && item.system.consumabletype) {
+      if (item.system.quantity === 1 && item.system.autoDestroy) {
+        deleteItem = true
       }
 
-      item.system.quantity--
-      await Item.updateDocuments([item], {parent: this})  
+      if (item.system.quantity < 1 ) {
+        if (item.system.autoDestroy) {
+          return await item.delete()
+        } else { 
+          return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+        }  
+      }      
+
+      await item.update({'system.quantity': --item.system.quantity}, {parent: this})
     }
 
     if (item.system?.action?.attack) {
@@ -611,6 +618,9 @@ export class DemonlordActor extends Actor {
     } else {
       await this.useItem(item, 0, 0)
     }
+
+    if (deleteItem) await item.delete()
+
   }
 
   async useItem(item, inputBoons, inputModifier) {    

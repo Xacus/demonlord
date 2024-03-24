@@ -25,7 +25,9 @@ export default class ItemDataModel extends foundry.abstract.DataModel {
       availability: makeStringField(),
       value: makeStringField(),
       wear: makeBoolField(true),
-      healingoption: makeBoolField()
+      healingoption: makeBoolField(),
+      autoDestroy :  makeBoolField(false),
+      consumabletype: makeStringField()
     }
   }
 }

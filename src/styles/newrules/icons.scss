@@ -150,6 +150,10 @@ i.dl-icon-horrifying {
   @include dl-icon('../assets/ui/other-svg/horrifying.svg');
 }
 
+i.dl-icon-check {
+  @include dl-icon('../assets/ui/other-svg/check.svg');
+}
+
 // Afflictions
 $afflictions-demonlord: 'concentrate', 'defend', 'help', 'prepare', 'reload', 'retreat', 'rush', 'stabilize', 'charmed',
   'compelled', 'defenseless', 'diseased', 'fatigued', 'horrified', 'grabbed', 'immobilized', 'impaired', 'surprised',
