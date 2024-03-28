@@ -97,21 +97,21 @@
         <div class="damage">{{system.characteristics.health.value}}</div>
       </div>
       <div class="insanity">
-        <div class="addInsanity">{{localize "DL.CharInsanity"}}</div>
+        <div class={{ifThen system.characteristics.insanity.immune "Insanity"  "addInsanity"}}>{{localize "DL.CharInsanity"}}</div>
         <div class="healthbar">
-          <span class="insanity-fill"></span>
+          <span class={{ifThen system.characteristics.insanity.immune "insanity-empty" "insanity-fill"}}></span>
         </div>
-        <div class="insanitymax">{{system.characteristics.insanity.max}}</div>
-        <div class="insanityvalue">{{system.characteristics.insanity.value}}</div>
+        <div class="insanitymax">{{#if system.characteristics.insanity.immune}} – {{else}} {{system.characteristics.insanity.max}} {{/if}}</div>
+        <div class="insanityvalue">{{#if system.characteristics.insanity.immune}} – {{else}} {{system.characteristics.insanity.value}} {{/if}}</div>
       </div>
       <div class="corruption">
-        <div class="addCorruption">{{localize "DL.CharCorruption"}}</div>
+        <div class={{ifThen system.characteristics.corruption.immune "Corruption"  "addCorruption"}}>{{localize "DL.CharCorruption"}}</div>
         <div class="healthbar">
-          <span class="corruption-fill"></span>
+          <span class={{ifThen system.characteristics.corruption.immune "corruption-empty" "corruption-fill"}}></span>
         </div>
-        <div class="corruptionmax">20</div>
-        <div class="corruptionvalue">{{system.characteristics.corruption.value}}</div>
-        <a class="corruption-roll" title="{{localize 'DL.CharRolCorruption'}}"><i class="fas fa-dice-d20"></i></a>
+        <div class="corruptionmax">{{#if system.characteristics.corruption.immune}} – {{else}} 20 {{/if}}</div>
+        <div class="corruptionvalue">{{#if system.characteristics.corruption.immune}} – {{else}} {{system.characteristics.corruption.value}} {{/if}}</div>
+        {{#unless system.characteristics.corruption.immune}} <a class="corruption-roll" title="{{localize 'DL.CharRolCorruption'}}"><i class="fas fa-dice-d20"></i></a> {{/unless}}
       </div>
     {{/if}}
     <div class="chars grid grid-2col">
