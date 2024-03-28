@@ -65,11 +65,12 @@
             <input
                     name="system.characteristics.insanity.value"
                     type="number"
-                    value="{{system.characteristics.insanity.value}}"
-                    placeholder="{{system.characteristics.insanity.value}}"
+                    value={{#if system.characteristics.insanity.immune}} – {{else}} {{system.characteristics.insanity.value}} {{/if}}
+                    placeholder={{#if system.characteristics.insanity.immune}} – {{else}} {{system.characteristics.insanity.value}} {{/if}}
                     style="color: white; border: none; box-shadow: none"
                     min="{{system.characteristics.insanity.min}}"
                     max="{{system.characteristics.insanity.max}}"
+                    {{#if system.characteristics.insanity.immune}} disabled {{/if}}
             />
           </div>
         </div>
@@ -79,10 +80,11 @@
             <input
                     name="system.characteristics.corruption.value"
                     type="number"
-                    value="{{system.characteristics.corruption.value}}"
-                    placeholder="{{system.characteristics.corruption.value}}"
+                    value={{#if system.characteristics.corruption.immune}} – {{else}} {{system.characteristics.corruption.value}} {{/if}}
+                    placeholder={{#if system.characteristics.corruption.immune}} – {{else}} {{system.characteristics.corruption.value}} {{/if}}
                     style="color: white; border: none; box-shadow: none"
                     min="0"
+                    {{#if system.characteristics.corruption.immune}} disabled {{/if}}
             />
           </div>
         </div>
@@ -101,17 +103,26 @@
         <div class="healthbar">
           <span class={{ifThen system.characteristics.insanity.immune "insanity-empty" "insanity-fill"}}></span>
         </div>
-        <div class="insanitymax">{{#if system.characteristics.insanity.immune}} – {{else}} {{system.characteristics.insanity.max}} {{/if}}</div>
-        <div class="insanityvalue">{{#if system.characteristics.insanity.immune}} – {{else}} {{system.characteristics.insanity.value}} {{/if}}</div>
+        {{#unless system.characteristics.insanity.immune}}
+          <div class="insanitymax">{{system.characteristics.insanity.max}}</div>
+          <div class="insanityvalue">{{system.characteristics.insanity.value}}</div>
+        {{else}}
+          <div class="insanitymiddle">–</div>
+        {{/unless}}
       </div>
       <div class="corruption">
         <div class={{ifThen system.characteristics.corruption.immune "Corruption"  "addCorruption"}}>{{localize "DL.CharCorruption"}}</div>
         <div class="healthbar">
           <span class={{ifThen system.characteristics.corruption.immune "corruption-empty" "corruption-fill"}}></span>
         </div>
-        <div class="corruptionmax">{{#if system.characteristics.corruption.immune}} – {{else}} 20 {{/if}}</div>
-        <div class="corruptionvalue">{{#if system.characteristics.corruption.immune}} – {{else}} {{system.characteristics.corruption.value}} {{/if}}</div>
-        {{#unless system.characteristics.corruption.immune}} <a class="corruption-roll" title="{{localize 'DL.CharRolCorruption'}}"><i class="fas fa-dice-d20"></i></a> {{/unless}}
+        {{#unless system.characteristics.corruption.immune}}
+          <div class="corruptionmax">20</div>
+          <div class="corruptionvalue">{{system.characteristics.corruption.value}}</div>
+          <div class="insanityvalue">{{system.characteristics.insanity.value}}</div>
+          <a class="corruption-roll" title="{{localize 'DL.CharRolCorruption'}}"><i class="fas fa-dice-d20"></i></a>          
+        {{else}}
+          <div class="corruptionmiddle">–</div>
+        {{/unless}}
       </div>
     {{/if}}
     <div class="chars grid grid-2col">
