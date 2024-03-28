@@ -329,6 +329,20 @@ form {
           color: #000;
         }
 
+        .insanitymiddle,
+        .corruptionmiddle {
+          margin-top: -13px;
+          color: #000;
+          text-align: center;          
+        }        
+
+        .insanity-empty,
+        .corruption-empty {
+          display: block;
+          height: 12px;
+          border-radius: 3px;
+        }        
+
         .damage,
         .insanityvalue,
         .corruptionvalue {
