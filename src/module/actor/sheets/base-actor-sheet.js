@@ -330,7 +330,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       const div = $(ev.currentTarget)
       const attributeName = div.data('key')
       const attribute = this.actor.getAttribute(attributeName)
-      this.actor.rollChallenge(attribute)
+      if (!attribute.immune) this.actor.rollChallenge(attribute)
     })
 
     // Set immune on rollable attribute
