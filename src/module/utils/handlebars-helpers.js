@@ -1,3 +1,4 @@
+/* global fromUuidSync */
 import {capitalize, enrichHTMLUnrolled, i18n} from "./utils";
 import {handlebarsBuildEditor} from "./editor";
 
