@@ -164,7 +164,7 @@ export default class DLBaseItemSheet extends ItemSheet {
     })
     tippy('.dl-new-project-2.dropdown', {
       content(reference) {
-        html = buildDropdownList(reference.attributes.name.value, reference.attributes.value.value)
+        html = buildDropdownList(reference.attributes.name.value, reference.attributes.value.value, data)
         return html
       },
       allowHTML: true,
@@ -189,6 +189,14 @@ export default class DLBaseItemSheet extends ItemSheet {
       const inputs = html.find('input')
       inputs.focus(ev => ev.currentTarget.select())
     }
+
+    // Weapon ammo required checkbox
+    html.find('.dl-ammorequired').click(async _ => {
+      await this.document.update({
+         'system.consume.ammorequired': !this.document.system.consume.ammorequired,
+         'system.consume.ammoitemid' : ''
+      })
+   })
 
     // Item autoDestroy checkbox
     html.find('.dl-autodestroy').click(async _ => {

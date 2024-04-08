@@ -50,7 +50,9 @@ export function registerHandlebarsHelpers() {
   )
   Handlebars.registerHelper('dlAvailabilityDropdown', (groupName, checkedKey) => _buildAvailabilityDropdownItem(groupName, checkedKey))
   Handlebars.registerHelper('dlConsumableDropdown', (groupName, checkedKey) => _buildConsumableDropdownItem(groupName, checkedKey))
-  Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData));  
+  Handlebars.registerHelper('dlAmmoDropdown', (groupName, checkedKey, weapon) => _buildAmmoDropdownItem(groupName, checkedKey, weapon))
+  Handlebars.registerHelper('dlCheckItemOnActor', (data) => _CheckItemOnActor(data))  
+  Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData));
 }
 
 // ----------------------------------------------------
@@ -72,7 +74,7 @@ function _getAttributes(groupName) {
   }
   else if (groupName === 'system.consumabletype') {
     attributes = ['', 'D', 'F', 'P', 'V', 'T']
-  }  
+  }
   return attributes
 }
 
@@ -102,7 +104,15 @@ function _CheckCharacteristicsIsNull(actorData) {
         return true
     } else {
         return false
-    }
+  }
+}
+
+function _CheckItemOnActor(data) {
+  if (data.indexOf("Actor.") === -1) {
+      return false
+  } else {
+      return true
+  }
 }
 
 function _buildDropdownItem(groupName, checkedKey) {
@@ -174,7 +184,7 @@ function _buildDropdownItemWithValue(groupName, checkedKey, valueName, valueKey)
 }
 
 
-export function buildDropdownList(groupName, checkedKey) {
+export function buildDropdownList(groupName, checkedKey, data) {
   let labelPrefix = 'DL.Attribute'
   let iconPrefix = 'dl-icon-'
   let useIcon = true
@@ -182,6 +192,7 @@ export function buildDropdownList(groupName, checkedKey) {
   if (groupName === 'path-type') return _buildPathTypeDropdownList(checkedKey)
   if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
   if (groupName.startsWith('level.attributeSelectTwoSet')) return _buildPathAttributeTwoSetDropdownList(groupName, checkedKey)
+  if (groupName === 'system.consume.ammoitemid') return _buildAmmoDropdownList (groupName, checkedKey, data)  
   if (groupName === 'system.hands') {labelPrefix = 'DL.WeaponHands'; useIcon = false}
   if (groupName === 'system.consumabletype') {labelPrefix = 'DL.ConsumableType'; useIcon = false}
   if (groupName === 'system.availability') {labelPrefix = 'DL.Availability', iconPrefix = 'dl-icon-availability-'}
@@ -336,6 +347,28 @@ function _buildPathAttributeTwoSetViewSelector(attributeName, isSelected, select
   return new Handlebars.SafeString(html)
 }
 
+function _buildAmmoDropdownList(groupName, checkedKey, data) {
+  let attributes = [{id: '', name: i18n('DL.None')}]
+  let html = `<div class="dl-new-project-2-dropdown">`
+    if (!data.document) return ""
+    let baseItemUuid = data.document.uuid
+    let actor = fromUuidSync(baseItemUuid.substr(0,baseItemUuid.search(".Item.")))
+    actor.items.forEach((item) => {
+    if (item.type === "ammo") attributes.push({id: item._id, name: item.name})
+    });
+  for (let attribute of attributes) {
+    const value = attribute.id
+    const checked = value === checkedKey ? 'checked' : ''
+    const label = value ? attribute.name : i18n('DL.None')
+    html += `<div class="${checked}">
+                <input type="radio" name="${groupName}" value="${value}" ${checked}/>
+                <span>${label}</span>
+            </div>`
+  }
+  html += `</div>`
+  return new Handlebars.SafeString(html)
+}
+
 // ----------------------------------------------------
 
 function _buildAvailabilityDropdownItem(groupName, checkedKey) {
@@ -362,6 +395,28 @@ function _buildConsumableDropdownItem(groupName, checkedKey) {
     let html =
       `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
             <span style="width: 120px; text-align: center; text-overflow: ellipsis">${label} </span>
+       </div>`
+    return new Handlebars.SafeString(html)
+  }
+}
+
+function _buildAmmoDropdownItem(groupName, checkedKey, weapon) {
+  let actorUuid = weapon.parent.uuid
+  let actor = fromUuidSync(actorUuid.substr(0,actorUuid.search(".Item.")))
+  let attributes = [{id: "", name: ""}]
+
+  actor.items.forEach((item) => {
+    if (item.type === "ammo") attributes.push({id: item._id, name: item.name})
+  });
+
+  if (!attributes.find ((x) => x.id === checkedKey)) checkedKey = ''
+
+  for (let attribute of attributes) {
+    if (checkedKey != attribute.id) continue
+    const label = attribute.id === '' ? i18n("DL.None") : attribute.name
+    let html =
+      `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
+            <span style="width: 200px; text-align: center; overflow: hidden; text-overflow: ellipsis;">${label} </span>
        </div>`
     return new Handlebars.SafeString(html)
   }

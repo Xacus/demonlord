@@ -727,6 +727,7 @@
   "DL.WealthLifestyle": "Lifestyle: ",
   "DL.WealthTitle": "Wealth",
   "DL.WeaponAdd": "Add weapon",
+  "DL.WeaponAmmoRequired": "Ammunition required",
   "DL.WeaponAttack20": "Extra Damage 20+",
   "DL.WeaponAttack20Text": "Attack Roll 20+",
   "DL.WeaponAttackModifier": "Attack Modifier",
@@ -744,6 +745,9 @@
   "DL.WeaponModifiers": "Modifiers",
   "DL.WeaponName": "Weapon name",
   "DL.WeaponProperties": "Properties",
+  "DL.WeaponResourceComsumption": "Resource consumption",
+  "DL.WeaponRunOutOfAmmo": "{weaponName} has run out of its ammunition.",
+  "DL.WeaponNoAmmo": "{weaponName} has no assigned ammunition.",
   "DL.WeaponTitle": "Weapons",
   "DL.WeaponWear": "Equip weapon",
   "DL.With": "with"
