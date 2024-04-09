@@ -53,7 +53,7 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlConsumableDropdown', (groupName, checkedKey) => _buildConsumableDropdownItem(groupName, checkedKey))
   Handlebars.registerHelper('dlAmmoDropdown', (groupName, checkedKey, weapon) => _buildAmmoDropdownItem(groupName, checkedKey, weapon))
   Handlebars.registerHelper('dlCheckItemOnActor', (data) => _CheckItemOnActor(data))  
-  Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData));
+  Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData))
 }
 
 // ----------------------------------------------------
@@ -72,8 +72,7 @@ function _getAttributes(groupName) {
     attributes = ['', 'C', 'U', 'R', 'E']
   } else if (groupName === 'system.requirement.attribute') {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
-  }
-  else if (groupName === 'system.consumabletype') {
+  } else if (groupName === 'system.consumabletype') {
     attributes = ['', 'D', 'F', 'P', 'V', 'T']
   }
   return attributes
@@ -101,18 +100,18 @@ function _buildRadioBoxes(groupName, checkedKey) {
 // ----------------------------------------------------
 
 function _CheckCharacteristicsIsNull(actorData) {
-    if (actorData === null) {
-        return true
-    } else {
-        return false
+  if (actorData === null) {
+    return true
+  } else {
+    return false
   }
 }
 
 function _CheckItemOnActor(data) {
-  if (data.indexOf("Actor.") === -1) {
-      return false
+  if (data.indexOf('Actor.') === -1) {
+    return false
   } else {
-      return true
+    return true
   }
 }
 
@@ -349,14 +348,14 @@ function _buildPathAttributeTwoSetViewSelector(attributeName, isSelected, select
 }
 
 function _buildAmmoDropdownList(groupName, checkedKey, data) {
-  let attributes = [{id: '', name: i18n('DL.None')}]
+  let attributes = [{ id: '', name: i18n('DL.None') }]
   let html = `<div class="dl-new-project-2-dropdown">`
-    if (!data.document) return ""
-    let baseItemUuid = data.document.uuid
-    let actor = fromUuidSync(baseItemUuid.substr(0,baseItemUuid.search(".Item.")))
-    actor.items.forEach((item) => {
-    if (item.type === "ammo") attributes.push({id: item._id, name: item.name})
-    });
+  if (!data.document) return ''
+  let baseItemUuid = data.document.uuid
+  let actor = fromUuidSync(baseItemUuid.substr(0, baseItemUuid.search('.Item.')))
+  actor.items.forEach(item => {
+    if (item.type === 'ammo') attributes.push({ id: item._id, name: item.name })
+  })
   for (let attribute of attributes) {
     const value = attribute.id
     const checked = value === checkedKey ? 'checked' : ''
@@ -392,9 +391,8 @@ function _buildConsumableDropdownItem(groupName, checkedKey) {
   const attributes = ['', 'D', 'F', 'P', 'V', 'T']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n("DL.ConsumableNone") : i18n(`DL.ConsumableType${attribute}`)
-    let html =
-      `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
+    const label = attribute === '' ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
+    let html = `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
             <span style="width: 120px; text-align: center; text-overflow: ellipsis">${label} </span>
        </div>`
     return new Handlebars.SafeString(html)
@@ -403,20 +401,19 @@ function _buildConsumableDropdownItem(groupName, checkedKey) {
 
 function _buildAmmoDropdownItem(groupName, checkedKey, weapon) {
   let actorUuid = weapon.parent.uuid
-  let actor = fromUuidSync(actorUuid.substr(0,actorUuid.search(".Item.")))
-  let attributes = [{id: "", name: ""}]
+  let actor = fromUuidSync(actorUuid.substr(0, actorUuid.search('.Item.')))
+  let attributes = [{ id: '', name: '' }]
 
-  actor.items.forEach((item) => {
-    if (item.type === "ammo") attributes.push({id: item._id, name: item.name})
-  });
+  actor.items.forEach(item => {
+    if (item.type === 'ammo') attributes.push({ id: item._id, name: item.name })
+  })
 
-  if (!attributes.find ((x) => x.id === checkedKey)) checkedKey = ''
+  if (!attributes.find(x => x.id === checkedKey)) checkedKey = ''
 
   for (let attribute of attributes) {
     if (checkedKey != attribute.id) continue
-    const label = attribute.id === '' ? i18n("DL.None") : attribute.name
-    let html =
-      `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
+    const label = attribute.id === '' ? i18n('DL.None') : attribute.name
+    let html = `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
             <span style="width: 200px; text-align: center; overflow: hidden; text-overflow: ellipsis;">${label} </span>
        </div>`
     return new Handlebars.SafeString(html)
