@@ -17,7 +17,12 @@ export default class WeaponDataModel extends foundry.abstract.DataModel {
       wear: makeBoolField(true),
       quantity: makeIntField(1),
       availability: makeStringField(),
-      value: makeStringField()
+      value: makeStringField(),
+      consume: new foundry.data.fields.SchemaField({
+        ammorequired: makeBoolField(false),
+        amount: makeIntField(1),
+        ammoitemid: makeStringField()
+      }),      
     }
   }
 }
@@ -37,6 +42,11 @@ export function makeWeaponSchema() {
     wear: makeBoolField(true),
     quantity: makeIntField(1),
     availability: makeStringField(),
-    value: makeStringField()
+    value: makeStringField(),
+    consume: new foundry.data.fields.SchemaField({
+      ammorequired: makeBoolField(false),
+      amount: makeIntField(1),
+      ammoitemid: makeStringField()
+    }),    
   })
 }

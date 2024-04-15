@@ -66,6 +66,31 @@
         </div>
         <hr>
 
+        <div class="dl-item-section-section margin">
+          <div>
+              <b>{{localize "DL.WeaponAmmoRequired"}}</b>
+              <div class="dl-custom-checkbox dl-ammorequired {{checked system.consume.ammorequired}}"> </div>
+          </div>
+          {{#if (dlCheckItemOnActor system.parent.uuid)}}
+          {{#if system.consume.ammorequired}}
+          <div>
+              <b>{{localize "DL.WeaponResourceComsumption"}}</b>
+            <div>
+              <div class="dl-new-project-2">
+                <i class="dl-icon-amount"></i>
+                <span class="sep"></span>
+                <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AmmoAmount"}}</span>
+                <span class="sep"></span>
+                <input type="number" name="system.consume.amount" value="{{system.consume.amount}}" placeholder="1"/>
+              </div>
+              {{dlAmmoDropdown "system.consume.ammoitemid" system.consume.ammoitemid system}}
+          </div>
+            </div>
+          {{/if}}
+          {{/if}}
+        </div>
+        <hr>
+
         {{#if system.description}}
           <div class="dl-item-section-description">
             <div><b>{{localize "DL.TabsDescription"}}</b></div>

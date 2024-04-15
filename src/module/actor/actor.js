@@ -417,6 +417,27 @@ export class DemonlordActor extends Actor {
    */
   async rollWeaponAttack(itemID, _options = {event: null}) {
     const item = this.getEmbeddedDocument('Item', itemID)
+    let ammoItem
+
+    // Check if there is an ammo for weapon
+    if (item.system.consume.ammorequired) {
+      ammoItem = await this.ammo.find(x => x.id === item.system.consume.ammoitemid)
+      if (ammoItem) {
+        if (ammoItem.system.quantity === 0) {
+          return ui.notifications.warn(
+            game.i18n.format('DL.WeaponRunOutOfAmmo', {
+              weaponName: item.name,
+            }),
+          )
+        }
+      } else {
+        return ui.notifications.warn(
+          game.i18n.format('DL.WeaponNoAmmo', {
+            weaponName: item.name,
+          }),
+        )
+      }
+    }
 
     // If no attribute to roll, roll without modifiers and boons
     const attribute = item.system.action?.attack
@@ -427,11 +448,16 @@ export class DemonlordActor extends Actor {
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
-      launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async html =>
-        await this.rollAttack(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
-      )
+      launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async html => {
+        await this.rollAttack(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val())
+        // Decrease ammo quantity
+        if (item.system.consume.ammorequired) {
+          await ammoItem.update({
+            'system.quantity': ammoItem.system.quantity - item.system.consume.amount,
+          })
+        }
+      })
   }
-
   /* -------------------------------------------- */
 
   async rollAttribute(attribute, inputBoons, inputModifier) {
