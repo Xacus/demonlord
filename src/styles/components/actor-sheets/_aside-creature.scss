@@ -130,17 +130,18 @@ form {
     transition: left 200ms ease-in-out;
     position: relative;
     background-color: var(--demonlord-red);
-    width: 100px;
+    width: 150px;
     height: 32px;
     border-radius: 0 5px 5px 0;
     line-height: 32px;
     text-align: center;
-    left: -80px;
+    left: -130px;
     pointer-events: initial;
   }
 
   .dl-side-tab:hover {
     left: -20px;
+    margin-left: 20px;
   }
 }
 
