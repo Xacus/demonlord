@@ -134,4 +134,18 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register("demonlord", "diagonalMovement", {
+    name: "DL.Setting.DiagonalRule",
+    hint: "DL.Setting.DiagonalRuleHint",
+    scope: "world",
+    config: true,
+    default: "111",
+    type: String,
+    choices: {
+      111: "DL.Setting.DiagonalRuleStd",
+      121: "DL.Setting.DiagonalRuleAlt",
+      EUCL: "DL.Setting.DiagonalRuleEuc"
+    },
+    onChange: rule => canvas.grid.diagonalRule = rule
+  });  
 }
