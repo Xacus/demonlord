@@ -499,6 +499,8 @@
   "DL.SettingtargetingOnSelectHint": "Sustituye el elegir como objetivo con simplemente seleccionar el token para las acciones de chat.",
   "DL.SettingReplaceIcons": "Reemplazar iconos por defecto",
   "DL.SettingReplaceIconsHint": "Reemplaza los iconos por defecto al crear un elemento.",
+  "DL.SettingConvertIntoBadge": "Convertir en insignia.",
+  "DL.SettingConvertIntoBadgeHint": "Rodear los icono de linaje y senda con un fondo de insignia.",
   "DL.SettingConfirmAncestryPathRemoval": "Confirmar eliminación de linaje/senda",
   "DL.SettingConfirmAncestryPathRemovalHint": "Muestra un diálogo de confirmación al intentar borrar un linaje o una senda de un personaje de nivel 1 o mayor.",
   "DL.DialogInitiative": "Iniciativa",
