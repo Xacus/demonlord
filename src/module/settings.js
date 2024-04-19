@@ -78,6 +78,14 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'convertIntoBadge', {
+    name: game.i18n.localize('DL.SettingConvertIntoBadge'),
+    hint: game.i18n.localize('DL.SettingConvertIntoBadgeHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })
   game.settings.register('demonlord', 'gmEffectsControls', {
     name: game.i18n.localize('DL.SettingGMEffectsControls'),
     hint: game.i18n.localize('DL.SettingGMEffectsControlsHint'),

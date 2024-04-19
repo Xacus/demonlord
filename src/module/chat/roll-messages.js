@@ -39,7 +39,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   }
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : didHit ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
-  const againstNumber = (defender?.type === 'character' || defenseShow) && targetNumber ? targetNumber : '?'
+  const againstNumber = ((defender?.type === 'character' && defender?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
   const templateData = {
     actor: attacker,
@@ -197,7 +197,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   }
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
-  const againstNumber = (target?.actor?.type === 'character' || defenseShow) && targetNumber ? targetNumber : '?'
+  const againstNumber = ((target?.actor?.type === 'character' && target?.actor?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
   const templateData = {
     actor: actor,
@@ -305,7 +305,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   }
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
-  const againstNumber = (target?.actor?.type === 'character' || defenseShow) && targetNumber ? targetNumber : '?'
+  const againstNumber = ((target?.actor?.type === 'character' && target?.actor?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
   let effectdice = ''
   if (spellData?.effectdice && spellData?.effectdice !== '') {
@@ -475,7 +475,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   }
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
-  const againstNumber = (target?.actor?.type === 'character' || defenseShow) && targetNumber ? targetNumber : '?'
+  const againstNumber = ((target?.actor?.type === 'character' && target?.actor?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
   const templateData = {
     actor,
