@@ -144,7 +144,8 @@ export const registerSettings = function () {
     choices: {
       111: "DL.Setting.DiagonalRuleStd",
       121: "DL.Setting.DiagonalRuleAlt",
-      EUCL: "DL.Setting.DiagonalRuleEuc"
+      EUCL: "DL.Setting.DiagonalRuleEuc",
+      MANH: "DL.Setting.DiagonalRuleManh"
     },
     onChange: rule => canvas.grid.diagonalRule = rule
   });  

@@ -31,6 +31,11 @@ export function measureDistances(segments, options = {}) {
       return Math.hypot(nx, ny) * canvas.scene.grid.distance
     }
 
+    // Manhattan / Taxicab Distance
+    else if (rule === 'MANH') {
+      return ((Math.abs(r.A.x - r.B.x) + Math.abs(r.A.y - r.B.y)) / d.size) * canvas.scene.grid.distance
+    }
+
     // Standard PHB Movement
     else return (ns + nd) * canvas.scene.grid.distance
   })
