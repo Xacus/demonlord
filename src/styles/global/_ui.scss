@@ -301,10 +301,11 @@
 }
 
 #logo {
-  content: url('../assets/ui/demonlord-logo.png');
-  width: 150px;
-  -webkit-filter: drop-shadow(0px 2px 6px #222);
-  filter: drop-shadow(0px 2px 6px #222);
+  content: url('../assets/ui/demonlord-logo-red.png');
+  max-width: 86px;
+  max-height: 50px;
+  -webkit-filter: drop-shadow(0px 2px 1px #222);
+  filter: drop-shadow(0px 2px 1px #222);
 }
 
 #pause {
