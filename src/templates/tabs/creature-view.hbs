@@ -96,10 +96,17 @@
             <span class="dl-clickable dlToggleInfoBtn">
               <i class="fas fa-chevron-up"></i>
             </span>
-            <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureDeleteEndRound'}}"
-               style="margin-left: 2px; margin-top: 3px;">
-              <i class="fas fa-times"></i>
-            </a>
+            {{#if (dlIsNestedItem item)}}
+              <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureNestedItem'}} {{dlGetParentNameFromItem item}}"
+                style="margin-left: 2px; margin-top: 3px;">
+                <i class="fa-solid fa-link"></i>
+              </a>              
+            {{else}}
+              <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureDeleteEndRound'}}"
+                style="margin-left: 2px; margin-top: 3px;">
+                <i class="fas fa-times"></i>
+              </a>
+            {{/if}}
           </div>
         </div>
         {{#if item.system.description}}
@@ -138,9 +145,15 @@
             <span class="dl-clickable dlToggleInfoBtn">
               <i class="fas fa-chevron-up"></i>
             </span>
-            <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureDeleteAttackOptions'}}">
-              <i class="fas fa-times"></i>
-            </a>
+            {{#if (dlIsNestedItem item)}}
+              <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureNestedItem'}} {{dlGetParentNameFromItem item}}">
+                <i class="fa-solid fa-link"></i>
+              </a>            
+            {{else}}           
+              <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureDeleteAttackOptions'}}">
+                <i class="fas fa-times"></i>
+              </a>
+            {{/if}}
           </div>
         </div>
         <div class="dlInfo dl-item-info" style="display: none; text-align: left">
@@ -213,8 +226,13 @@
             <span class="dl-clickable dlToggleInfoBtn">
               <i class="fas fa-chevron-up"></i>
             </span>
-            <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureDeleteSpecialAttacks'}}"><i
-              class="fas fa-times"></i></a>
+            {{#if (dlIsNestedItem talent)}}
+              <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureNestedItem'}} {{dlGetParentNameFromItem talent}}"><i
+                class="fa-solid fa-link"></i></a>
+            {{else}}
+              <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureDeleteSpecialAttacks'}}"><i
+                class="fas fa-times"></i></a>
+            {{/if}}
           </div>
         </div>
         <!-- Toggleable Info -->

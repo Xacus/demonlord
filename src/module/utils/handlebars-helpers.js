@@ -54,6 +54,8 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlAmmoDropdown', (groupName, checkedKey, weapon) => _buildAmmoDropdownItem(groupName, checkedKey, weapon))
   Handlebars.registerHelper('dlCheckItemOnActor', (data) => _CheckItemOnActor(data))  
   Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData))
+  Handlebars.registerHelper('dlIsNestedItem', (item) => _IsNestedItem(item))
+  Handlebars.registerHelper('dlGetParentNameFromItem', (item) => _GetParentNameFromItem(item))
 }
 
 // ----------------------------------------------------
@@ -98,6 +100,33 @@ function _buildRadioBoxes(groupName, checkedKey) {
 }
 
 // ----------------------------------------------------
+
+function _IsNestedItem(item) {
+  return item?.getFlag('demonlord', 'parentItemId')
+}
+
+function _GetParentNameFromItem(item) {
+  let itemUuid = item.uuid
+  let parentItemId = item.getFlag('demonlord', 'parentItemId')
+  let tokenActor = fromUuidSync(itemUuid.substr(0, itemUuid.search('.Item.')))
+  let pItem = tokenActor.items.find(x => x._id === parentItemId)
+  let type
+
+  switch (pItem?.type) {
+    case 'creaturerole':
+      type = i18n(`TYPES.Item.creaturerole`)
+      break
+    case 'path':
+      type = i18n(`TYPES.Item.path`)
+      break
+    case 'ancestry':
+      type = i18n(`TYPES.Item.ancestry`)
+      break
+    default:
+      type = pItem?.type
+  }
+  return `${pItem?.name} ${type.toLowerCase()}.`
+}
 
 function _CheckCharacteristicsIsNull(actorData) {
   if (actorData === null) {

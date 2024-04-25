@@ -262,6 +262,7 @@
   "DL.CreatureInsanity": "Insanity",
   "DL.CreatureIntellect": "Intellect",
   "DL.CreatureName": "Name",
+  "DL.CreatureNestedItem": "From",  
   "DL.CreaturePerception": "Perception",
   "DL.CreaturePerceptionSenses": "Senses",
   "DL.CreatureSave": "Save Creature",

@@ -45,8 +45,13 @@
           {{/if}}
         </div>
         <div class="col-1">
+        {{#if (dlIsNestedItem spell)}}
+          <a class="dl-clickable spell-delete" title="{{localize 'DL.CreatureNestedItem'}} {{dlGetParentNameFromItem spell}}"><i
+            class="fa-solid fa-link"></i></a>
+        {{else}}
           <a class="dl-clickable spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i
             class="fas fa-times"></i></a>
+        {{/if}}
         </div>
       </div>
 
