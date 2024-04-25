@@ -55,7 +55,7 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlCheckItemOnActor', (data) => _CheckItemOnActor(data))  
   Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData))
   Handlebars.registerHelper('dlIsNestedItem', (item) => _IsNestedItem(item))
-  Handlebars.registerHelper('dlGetParentNameFromItem', (item) => _GetParentNameFromItem(item))
+  Handlebars.registerHelper('dlGetNestedItemSource', (item) => _GetNestedItemSource(item))
 }
 
 // ----------------------------------------------------
@@ -105,27 +105,29 @@ function _IsNestedItem(item) {
   return item?.getFlag('demonlord', 'parentItemId')
 }
 
-function _GetParentNameFromItem(item) {
+function _GetNestedItemSource(item) {
   let itemUuid = item.uuid
   let parentItemId = item.getFlag('demonlord', 'parentItemId')
   let tokenActor = fromUuidSync(itemUuid.substr(0, itemUuid.search('.Item.')))
   let pItem = tokenActor.items.find(x => x._id === parentItemId)
-  let type
+  let stringName
 
   switch (pItem?.type) {
     case 'creaturerole':
-      type = i18n(`TYPES.Item.creaturerole`)
+      stringName = 'DL.RoleNestedItem'
       break
     case 'path':
-      type = i18n(`TYPES.Item.path`)
+      stringName = 'DL.PathNestedItem'
       break
     case 'ancestry':
-      type = i18n(`TYPES.Item.ancestry`)
+      stringName = 'DL.AncestryNestedItem'
       break
     default:
-      type = pItem?.type
+      stringName = 'DL.DefaultNestedItem'
   }
-  return `${pItem?.name} ${type.toLowerCase()}.`
+
+  return game.i18n.format(stringName, { itemName: pItem?.name })
+
 }
 
 function _CheckCharacteristicsIsNull(actorData) {

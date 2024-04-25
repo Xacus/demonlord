@@ -252,7 +252,7 @@
           <img src="{{item.img}}">
           <span class="item-edit dl-clickable">{{item.name}}</span>
           {{#if (dlIsNestedItem item)}}
-            <a class="dl-clickable item-delete" style="margin-right: 4px; margin-left: auto; margin-top: 1px;" title="{{localize 'DL.CreatureNestedItem'}} {{dlGetParentNameFromItem item}}">
+            <a class="dl-clickable item-delete" style="margin-right: 4px; margin-left: auto; margin-top: 1px;" title="{{dlGetNestedItemSource item}}">
               <i class="fa-solid fa-link"></i>
             </a>          
           {{else}}

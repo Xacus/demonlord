@@ -40,7 +40,7 @@
         <div class="col-1">
           <div class="col-1">
           {{#if (dlIsNestedItem talent)}}
-            <a class="dl-clickable item-delete" title="{{localize 'DL.CreatureNestedItem'}} {{dlGetParentNameFromItem talent}}"><i
+            <a class="dl-clickable item-delete" title="{{dlGetNestedItemSource talent}}"><i
               class="fa-solid fa-link"></i></a>
           {{else}}
             <a class="dl-clickable item-delete" title="{{localize 'DL.TalentDelete'}}"><i
