@@ -251,9 +251,15 @@
              {{#if item.system.description}}data-tippy-html="{{item.system.enrichedDescription}}"{{/if}}>
           <img src="{{item.img}}">
           <span class="item-edit dl-clickable">{{item.name}}</span>
-          <a class="dl-clickable item-delete" style="margin-right: 4px; margin-left: auto; margin-top: 1px;">
-            <i class="fas fa-times"></i>
-          </a>
+          {{#if (dlIsNestedItem item)}}
+            <a class="dl-clickable item-delete" style="margin-right: 4px; margin-left: auto; margin-top: 1px;" title="{{localize 'DL.CreatureNestedItem'}} {{dlGetParentNameFromItem item}}">
+              <i class="fa-solid fa-link"></i>
+            </a>          
+          {{else}}
+            <a class="dl-clickable item-delete" style="margin-right: 4px; margin-left: auto; margin-top: 1px;">
+              <i class="fas fa-times"></i>
+            </a>
+          {{/if}}
         </div>
       {{/each}}
     </div>
