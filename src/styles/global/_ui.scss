@@ -1,5 +1,12 @@
 :root {
   --demonlord-red: #a22223;
+
+  // Foundry color overrides
+  --color-shadow-primary: #a22223;
+  --color-shadow-highlight: #d22d2d;
+  --color-border-highlight: #d22d2d;
+  --color-border-highlight-alt: #a22223;
+  --color-text-hyperlink: #d22d2d;
 }
 
 .window-app .window-header {
@@ -236,8 +243,8 @@
 #controls .control-tool.active,
 #controls .scene-control:hover,
 #controls .control-tool:hover {
-  box-shadow: 0 0 10px red !important;
-  border: 1px solid var(--demonlord-red) !important;
+  box-shadow: 0 0 10px red;
+  border: 1px solid var(--demonlord-red);
 }
 
 #controls .scene-control,
