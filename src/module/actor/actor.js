@@ -101,6 +101,7 @@ export class DemonlordActor extends Actor {
           perception: 0,
         },
       },
+      halfSpeed: 0,
       noFastTurn: 0,
     })
 
@@ -147,6 +148,9 @@ export class DemonlordActor extends Actor {
       attribute.value = Math.min(attribute.max, Math.max(attribute.min, attribute.value))
       attribute.modifier = attribute.value - 10
     }
+
+    // Maluses
+    if (system.maluses.halfSpeed) system.characteristics.speed = Math.floor(system.characteristics.speed / 2)
 
     // --- Character specific data ---
     if (this.type === 'character') {
@@ -314,11 +318,11 @@ export class DemonlordActor extends Actor {
   getAttribute(attributeName) {
     if (!attributeName) return ""
     const attributes = {
-      [game.i18n.localize('DL.AttributeStrength').toLowerCase()]: 'strength',
-      [game.i18n.localize('DL.AttributeAgility').toLowerCase()]: 'agility',
-      [game.i18n.localize('DL.AttributeIntellect').toLowerCase()]: 'intellect',
-      [game.i18n.localize('DL.AttributeWill').toLowerCase()]: 'will',
-      [game.i18n.localize('DL.AttributePerception').toLowerCase()]: 'perception',
+      [game.i18n.localize("DL.AttributeStrength").toLowerCase()]: "strength",
+      [game.i18n.localize("DL.AttributeAgility").toLowerCase()]: "agility",
+      [game.i18n.localize("DL.AttributeIntellect").toLowerCase()]: "intellect",
+      [game.i18n.localize("DL.AttributeWill").toLowerCase()]: "will",
+      [game.i18n.localize("DL.AttributePerception").toLowerCase()]: "perception",
     }
     const normalizedName = attributes[attributeName.toLowerCase()] || attributeName.toLowerCase()
     return getProperty(this.system, `attributes.${normalizedName}`, this.system[attributeName])

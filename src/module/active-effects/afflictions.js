@@ -1,4 +1,4 @@
-import { addEffect, downgradeEffect, multiplyEffect, overrideEffect } from './item-effects'
+import { addEffect, downgradeEffect, overrideEffect } from './item-effects'
 import { capitalize } from '../utils/utils'
 
 const effectPriority = 110
@@ -243,7 +243,7 @@ export class DLAfflictions {
     effectsDataList.push(
       _buildBaseAffliction('slowed', 'systems/demonlord/assets/icons/effects/slowed.svg', [
         overrideEffect('system.maluses.noFastTurn', 1, effectPriority),
-        multiplyEffect('system.characteristics.speed', 0.5, effectPriority),
+        overrideEffect('system.maluses.halfSpeed', 1, effectPriority),
       ]),
     )
 

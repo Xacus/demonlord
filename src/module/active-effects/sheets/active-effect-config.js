@@ -128,6 +128,7 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.maluses.autoFail.action.will': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeWill'),
       'system.maluses.autoFail.action.perception': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributePerception'),
       // Other maluses
+      'system.maluses.halfSpeed': i18n('DL.Malus') + ' - ' + i18n('DL.HalfSpeed'),
       'system.maluses.noFastTurn': i18n('DL.Malus') + ' - ' + i18n('DL.NoFastTurns'),
       'system.maluses.noAttacks': i18n('DL.Malus') + ' - ' + i18n('DL.NoAttacks'),
       'system.maluses.noSpecialAttacks': i18n('DL.Malus') + ' - ' + i18n('DL.NoSpecialAttacks'),
