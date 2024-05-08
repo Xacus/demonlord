@@ -550,6 +550,8 @@
   "DL.SettingConfirmAncestryPathRemovalHint": "Afficher une boîte de dialogue de confirmation lors de la suppression d'une ascendance ou d'une voie d'un personnage de niveau 1 ou supérieur.",
   "DL.SettingGMEffectsControls": "Commandes d'effets du MJ",
   "DL.SettingGMEffectsControlsHint": "Toujours montrer au MJ les commandes d'effets actives dans les feuilles de personnage (basculer, modifier et supprimer), quel que soit le type d'effet.",
+  "DL.SettingHorrifyingBane": "Désavantage contre les créatures terrifiantes",
+  "DL.SettingHorrifyingBaneHint": "Appliquer un désavantage à tous les jets d'attaque qui ciblent une créature terrifiante, sauf si l'attaquant a le trait effrayant ou terrifiant.",
   "DL.SettingInitMessage": "Messages d'initiative",
   "DL.SettingInitMessageHint": "Indiquer si le joueur choisit un tour rapide ou lent dans le journal de chat.",
   "DL.SettingInitRandomize": "Initiative aléatoire",

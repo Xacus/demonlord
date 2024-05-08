@@ -66,7 +66,12 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   const attackerEffects = Array.from(attacker.allApplicableEffects()).filter(effect => !effect.disabled)
   let m = _remapEffects(attackerEffects)
 
-  let defenderBoons = (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) + (defender?.system.bonuses.defense.boons.all || 0)
+  const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
+
+  let defenderBoons = (
+    (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) +
+    (defender?.system.bonuses.defense.boons.all || 0) +
+    (horrifyingBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0))
   const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
   let otherBoons = ''
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''

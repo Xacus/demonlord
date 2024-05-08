@@ -568,6 +568,8 @@
   "DL.Setting.DiagonalRuleManh": "Manhattan / Taxicab",
   "DL.SettingGMEffectsControls": "GM Effects Controls",
   "DL.SettingGMEffectsControlsHint": "Always show the active effects controls in the character sheets (toggle, edit and delete) to the Game Master, regardless of the effect type.",
+  "DL.SettingHorrifyingBane": "Bane against horrifying creatures",
+  "DL.SettingHorrifyingBaneHint": "Apply a bane on all attack rolls targeting a horrifying creature, unless the attacker has the frightening or horrifying trait.",
   "DL.SettingInitMessage": "Initiative Messages",
   "DL.SettingInitMessageHint": "Show if player chooses Fast or Slow turn in Chat Log.",
   "DL.SettingInitRandomize": "Initiative Randomize",
