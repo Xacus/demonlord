@@ -69,7 +69,7 @@ export class DemonlordActor extends Actor {
           perception: 0,
         },
       },
-      armor: {fixed: 0, agility: 0, defense: 0, override: 0},
+      armor: {fixed: 0, agility: 0, defense: 0, override: 0},  // TODO: Remove override for v12
       defense: {
         boons: {
           spell: 0,
@@ -101,7 +101,7 @@ export class DemonlordActor extends Actor {
           perception: 0,
         },
       },
-      halfSpeed: 0,
+      halfSpeed: 0,  // TODO: Remove for v12
       noFastTurn: 0,
     })
 
@@ -150,7 +150,7 @@ export class DemonlordActor extends Actor {
     }
 
     // Maluses
-    if (system.maluses.halfSpeed) system.characteristics.speed = Math.floor(system.characteristics.speed / 2)
+    if (system.maluses.halfSpeed) system.characteristics.speed = Math.floor(system.characteristics.speed / 2)  // TODO: Remove for v12
 
     // --- Character specific data ---
     if (this.type === 'character') {
@@ -186,7 +186,7 @@ export class DemonlordActor extends Actor {
 
     // Final armor computation
     system.characteristics.defense += system.bonuses.armor.defense
-    system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense
+    system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense // TODO: Remove for v12
     for (let change of effectChanges.filter(e => e.key.includes("defense") && (this.type === 'character' ? e.key.startsWith("system.characteristics") : false))) {
       const result = change.effect.apply(this, change)
       if (result !== null) this.overrides[change.key] = result
