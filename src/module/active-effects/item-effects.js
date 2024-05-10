@@ -1,6 +1,13 @@
 import { DemonlordActor } from '../actor/actor'
 import { plusify } from '../utils/utils'
 
+export const multiplyEffect = (key, value, priority) => ({
+  key: key,
+  value: parseFloat(value),
+  mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+  priority: priority
+})
+
 export const addEffect = (key, value, priority) => ({
   key: key,
   value: plusify(value),

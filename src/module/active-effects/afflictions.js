@@ -1,4 +1,4 @@
-import { addEffect, downgradeEffect, overrideEffect } from './item-effects'
+import { multiplyEffect, addEffect, downgradeEffect, overrideEffect } from './item-effects'
 import { capitalize } from '../utils/utils'
 
 const effectPriority = 110
@@ -117,7 +117,7 @@ export class DLAfflictions {
         'defenseless',
         'systems/demonlord/assets/icons/effects/defenseless.svg',
         [
-          overrideEffect('system.bonuses.armor.override', 5, effectPriority),
+          overrideEffect('system.characteristics.defense', 5, effectPriority),
           overrideEffect('system.maluses.autoFail.challenge.strength', 1, effectPriority),
           overrideEffect('system.maluses.autoFail.challenge.agility', 1, effectPriority),
           overrideEffect('system.maluses.autoFail.challenge.intellect', 1, effectPriority),
@@ -135,28 +135,15 @@ export class DLAfflictions {
       ),
     )
 
-    const challengeBane = [
-      addEffect('system.bonuses.challenge.boons.strength', -1, effectPriority),
-      addEffect('system.bonuses.challenge.boons.agility', -1, effectPriority),
-      addEffect('system.bonuses.challenge.boons.intellect', -1, effectPriority),
-      addEffect('system.bonuses.challenge.boons.will', -1, effectPriority),
-      addEffect('system.bonuses.challenge.boons.perception', -1, effectPriority),
-    ]
-
-    const attackBane = [
-      addEffect('system.bonuses.attack.boons.strength', -1, effectPriority),
-      addEffect('system.bonuses.attack.boons.agility', -1, effectPriority),
-      addEffect('system.bonuses.attack.boons.intellect', -1, effectPriority),
-      addEffect('system.bonuses.attack.boons.will', -1, effectPriority),
-      addEffect('system.bonuses.attack.boons.perception', -1, effectPriority),
-    ]
-
-    // Defenseless
+    // Diseased
     effectsDataList.push(
       _buildBaseAffliction(
         'diseased',
         'systems/demonlord/assets/icons/effects/diseased.svg',
-        [].concat(challengeBane, attackBane),
+        [
+          addEffect('system.bonuses.challenge.boons.all', -1, effectPriority),
+          addEffect('system.bonuses.attack.boons.all', -1, effectPriority),
+        ]
       ),
     )
 
@@ -165,7 +152,10 @@ export class DLAfflictions {
       _buildBaseAffliction(
         'fatigued',
         'systems/demonlord/assets/icons/effects/fatigued.svg',
-        [].concat(challengeBane, attackBane),
+        [
+          addEffect('system.bonuses.challenge.boons.all', -1, effectPriority),
+          addEffect('system.bonuses.attack.boons.all', -1, effectPriority),
+        ]
       ),
     )
 
@@ -174,7 +164,10 @@ export class DLAfflictions {
       _buildBaseAffliction(
         'frightened',
         'icons/svg/terror.svg',
-        [overrideEffect('system.maluses.noFastTurn', 1)].concat(challengeBane, attackBane), //FIXME: can take fast turns?
+        [
+          addEffect('system.bonuses.challenge.boons.all', -1, effectPriority),
+          addEffect('system.bonuses.attack.boons.all', -1, effectPriority),
+        ]
       ),
     )
 
@@ -184,16 +177,8 @@ export class DLAfflictions {
     // Horrified
     effectsDataList.push(
       _buildBaseAffliction('horrified', 'systems/demonlord/assets/icons/effects/horrified.svg', [
-        addEffect('system.bonuses.challenge.boons.strength', -3, effectPriority),
-        addEffect('system.bonuses.challenge.boons.agility', -3, effectPriority),
-        addEffect('system.bonuses.challenge.boons.intellect', -3, effectPriority),
-        addEffect('system.bonuses.challenge.boons.will', -3, effectPriority),
-        addEffect('system.bonuses.challenge.boons.perception', -3, effectPriority),
-        addEffect('system.bonuses.attack.boons.strength', -3, effectPriority),
-        addEffect('system.bonuses.attack.boons.agility', -3, effectPriority),
-        addEffect('system.bonuses.attack.boons.intellect', -3, effectPriority),
-        addEffect('system.bonuses.attack.boons.will', -3, effectPriority),
-        addEffect('system.bonuses.attack.boons.perception', -3, effectPriority),
+        addEffect('system.bonuses.challenge.boons.all', -3, effectPriority),
+        addEffect('system.bonuses.attack.boons.all', -3, effectPriority),
       ]),
     )
 
@@ -215,12 +200,18 @@ export class DLAfflictions {
       _buildBaseAffliction(
         'impaired',
         'systems/demonlord/assets/icons/effects/impaired.svg',
-        [].concat(challengeBane, attackBane),
+        [
+          addEffect('system.bonuses.challenge.boons.all', -1, effectPriority),
+          addEffect('system.bonuses.attack.boons.all', -1, effectPriority),
+        ]
       ),
     )
 
     // Poisoned
-    effectsDataList.push(_buildBaseAffliction('poisoned', 'icons/svg/poison.svg', [].concat(challengeBane, attackBane)))
+    effectsDataList.push(_buildBaseAffliction('poisoned', 'icons/svg/poison.svg', [
+      addEffect('system.bonuses.challenge.boons.all', -1, effectPriority),
+      addEffect('system.bonuses.attack.boons.all', -1, effectPriority),
+    ]))
 
     // Prone
     effectsDataList.push(
@@ -243,7 +234,7 @@ export class DLAfflictions {
     effectsDataList.push(
       _buildBaseAffliction('slowed', 'systems/demonlord/assets/icons/effects/slowed.svg', [
         overrideEffect('system.maluses.noFastTurn', 1, effectPriority),
-        overrideEffect('system.maluses.halfSpeed', 1, effectPriority),
+        multiplyEffect('system.characteristics.speed', 0.5, effectPriority),
       ]),
     )
 
@@ -292,7 +283,7 @@ export class DLAfflictions {
           overrideEffect('system.maluses.autoFail.action.intellect', 1, effectPriority),
           overrideEffect('system.maluses.autoFail.action.will', 1, effectPriority),
           overrideEffect('system.maluses.autoFail.action.perception', 1, effectPriority),
-          downgradeEffect('system.characteristics.speed', -1, effectPriority),
+          downgradeEffect('system.characteristics.speed', 0, effectPriority),
         ],
         {
           warningMessage: game.i18n.localize('DL.DialogWarningSurprisedFailer'),
@@ -317,7 +308,7 @@ export class DLAfflictions {
           overrideEffect('system.maluses.autoFail.action.will', 1, effectPriority),
           overrideEffect('system.maluses.autoFail.action.perception', 1, effectPriority),
           downgradeEffect('system.characteristics.speed', 0, effectPriority),
-          overrideEffect('system.bonuses.armor.override', 5, effectPriority),
+          overrideEffect('system.characteristics.defense', 5, effectPriority),
         ],
         {
           warningMessage: game.i18n.localize('DL.DialogWarningUnconsciousFailer'),
