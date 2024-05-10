@@ -8,21 +8,17 @@
     {{/if}}
     <div class="restbox">
       <div class="frightening">
-        <input type="checkbox" name="system.frightening"
-               id="system.frightening" class="checkbox"
-               class="checkinput"
-          {{checked system.frightening}} /><label
-              for="system.frightening"/>
+        <label>
+          <input type="checkbox" name="system.frightening" id="system.frightening" {{checked system.frightening}} />
+          </label>
       </div>
       <div class="resttext">{{localize "DL.CreatureFrightening"}}</div>
     </div>
     <div class="restboxright">
       <div class="horrifying">
-        <input type="checkbox" name="system.horrifying"
-               id="system.horrifying" class="checkbox"
-               class="checkinput"
-          {{checked system.horrifying}} /><label
-              for="system.horrifying"/>
+        <label>
+          <input type="checkbox" name="system.horrifying" id="system.horrifying" {{checked system.horrifying}} >
+        </label>
       </div>
       <div class="resttext">{{localize "DL.CreatureHorrifying"}}</div>
     </div>
