@@ -134,6 +134,14 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register("demonlord", "horrifyingBane", {
+    name: game.i18n.localize('DL.SettingHorrifyingBane'),
+    hint: game.i18n.localize('DL.SettingHorrifyingBaneHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })
   game.settings.register("demonlord", "diagonalMovement", {
     name: "DL.Setting.DiagonalRule",
     hint: "DL.Setting.DiagonalRuleHint",
