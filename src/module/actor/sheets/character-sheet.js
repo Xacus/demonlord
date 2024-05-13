@@ -1,6 +1,7 @@
 import DLBaseActorSheet from './base-actor-sheet'
 import { prepareActiveEffectCategories } from '../../active-effects/effects'
 import { handleLevelChange } from '../../item/nested-objects'
+import launchRestDialog from '../../dialog/rest-dialog'
 
 export default class DLCharacterSheet extends DLBaseActorSheet {
   /** @override */
@@ -351,7 +352,16 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     })
 
     // Rest character
-    html.find('.rest-char').click(_ => this.actor.restActor())
+    html.find('.rest-char').click(_ =>
+      launchRestDialog(game.i18n.localize('DL.DialogRestTitle'), (dHtml, restTime) => {
+        this.actor.restActor(
+          restTime,
+          !dHtml.find("input[id='noMagicRecovery']")[0].checked,
+          !dHtml.find("input[id='noTalentRecovery']")[0].checked,
+          !dHtml.find("input[id='noHealing']")[0].checked,
+        )
+      }),
+    )
 
     // Healing Rate button
     html.find('.healingratebox').on('mousedown', async ev => await this.actor.applyHealing(ev.button === 0))

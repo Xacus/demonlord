@@ -824,19 +824,32 @@ export class DemonlordActor extends Actor {
     }))
   }
 
-  async restActor() {
+  async restActor(restTime, magicRecovery, talentRecovery, healing) {
     // Reset talent and spell uses
-    const talentData = this.items.filter(i => i.type === 'talent').map(t => ({_id: t.id, 'system.uses.value': 0}))
-    const spellData = this.items.filter(i => i.type === 'spell').map(s => ({_id: s.id, 'system.castings.value': 0}))
-
+    let talentData = this.items.filter(i => i.type === 'talent')
+    let spellData = this.items.filter(i => i.type === 'spell')
+    if(talentRecovery) talentData = talentData.map(t => ({_id: t.id, 'system.uses.value': 0}))
+    if(magicRecovery) spellData = spellData.map(s => ({_id: s.id, 'system.castings.value': 0}))
     await this.updateEmbeddedDocuments('Item', [...talentData, ...spellData])
-    await this.applyHealing(true)
 
-    var templateData = {actor: this}
+    if(healing) {
+      await this.applyHealing(true)
+      if (restTime === 24) this.applyHealing(true)
+    }
+
+    // Advance time according to the duration of the rest.
+    await game.time.advance(restTime * 60 * 60)
+
+    var templateData = { actor: this, restTime, magicRecovery, talentRecovery, healing }
 
     const chatData = {
       user: game.user.id,
       speaker: {actor: this.id, token: this.token, alias: this.name},
+    }
+
+    const rollMode = game.settings.get('core', 'rollMode')
+    if (['gmroll', 'blindroll'].includes(rollMode)) {
+      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
 
     const template = 'systems/demonlord/templates/chat/rest.hbs'

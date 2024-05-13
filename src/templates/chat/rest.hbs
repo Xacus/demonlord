@@ -3,7 +3,12 @@
   <div class="showlessinfo"></div>
   <header class="init-header">
     <div class="inittext">
-      {{localize "DL.DialogRest"}}
+      {{localize "DL.DialogRest"}} ({{#if (eq restTime 8)}}{{localize "DL.DialogRest8hrs"}}{{/if}}{{#if (eq restTime 24)}}{{localize "DL.DialogRest24hrs"}}{{/if}})
     </div>
   </header>
+  <ul>
+    {{#unless talentRecovery}} <li>{{localize "DL.DialogRestNoTalentChat"}}</li> {{/unless}}
+    {{#unless magicRecovery}} <li>{{localize "DL.DialogRestNoMagicChat"}}</li> {{/unless}}
+    {{#unless healing}} <li>{{localize "DL.DialogRestNoHealingChat"}}</li> {{/unless}}
+  </ul>
 </div>

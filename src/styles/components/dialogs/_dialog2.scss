@@ -85,6 +85,16 @@
   }
 }
 
+.restdialog {
+  padding: 2px 0 5px 0;
+
+  .inputContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 .affliction {
   height: 18px;
 
