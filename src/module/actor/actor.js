@@ -837,9 +837,6 @@ export class DemonlordActor extends Actor {
       if (restTime === 24) this.applyHealing(true)
     }
 
-    // Advance time according to the duration of the rest.
-    await game.time.advance(restTime * 60 * 60)
-
     var templateData = { actor: this, restTime, magicRecovery, talentRecovery, healing }
 
     const chatData = {
