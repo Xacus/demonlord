@@ -66,7 +66,7 @@ export class DLCombat extends Combat {
   }
 
   /**
-   * Begin the combat encounter, advancing to round 1 and turn 1
+   * Begin the combat encounter, advancing to round 1 and turn 0
    * @returns {Promise<Combat>}
    * @override
    */
@@ -118,7 +118,7 @@ export class DLCombat extends Combat {
         const passedRounds = this.round - e.duration?.startRound
         const isRoundActive = e.duration.rounds !== null
           ? (0 <= passedRounds) && (passedRounds <= e.duration.rounds)
-          : true
+          : false
         const disabled = !isRoundActive || calcEffectRemainingTurn(e, this.turn) <= 0
         if (disabled !== e.disabled)
           updateData.push({_id: e._id, disabled: disabled})
