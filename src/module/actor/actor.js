@@ -47,7 +47,7 @@ export class DemonlordActor extends Actor {
       system.characteristics.insanity.max = 0 // Set base insanity max
     }
 
-    setProperty(system, 'bonuses', {
+    foundry.utils.setProperty(system, 'bonuses', {
       attack: {
         boons: {
           strength: 0,
@@ -84,7 +84,7 @@ export class DemonlordActor extends Actor {
       },
     })
 
-    setProperty(system, 'maluses', {
+    foundry.utils.setProperty(system, 'maluses', {
       autoFail: {
         challenge: {
           strength: 0,
@@ -325,7 +325,7 @@ export class DemonlordActor extends Actor {
       [game.i18n.localize("DL.AttributePerception").toLowerCase()]: "perception",
     }
     const normalizedName = attributes[attributeName.toLowerCase()] || attributeName.toLowerCase()
-    return getProperty(this.system, `attributes.${normalizedName}`, this.system[attributeName])
+    return foundry.utils.getProperty(this.system, `attributes.${normalizedName}`, this.system[attributeName])
   }
 
   /* -------------------------------------------- */
@@ -717,7 +717,7 @@ export class DemonlordActor extends Actor {
     // Get the type of item to create.
     const type = header.dataset.type
     // Grab any data associated with this control.
-    const data = duplicate(header.dataset)
+    const data = foundry.utils.duplicate(header.dataset)
     // Prepare the item object.
     const itemData = {
       name: `New ${type.capitalize()}`,

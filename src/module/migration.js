@@ -9,23 +9,23 @@ export async function handleMigrations() {
 
   // Compatibility warning
   const COMPATIBLE_MIGRATION_VERSION = 0.8
-  if (currentVersion && isNewerVersion(COMPATIBLE_MIGRATION_VERSION, currentVersion) && !game.data.release?.generation) {
+  if (currentVersion && foundry.utils.isNewerVersion(COMPATIBLE_MIGRATION_VERSION, currentVersion) && !game.data.release?.generation) {
     const warning =
       'Your Demonlord system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.'
     ui.notifications.error(warning, { permanent: true })
   }
 
   // 1.7.7 migration
-  if (isNewerVersion('1.7.7', currentVersion) && !game.data.release?.generation) await migrateWorld_1_7_7()
+  if (foundry.utils.isNewerVersion('1.7.7', currentVersion) && !game.data.release?.generation) await migrateWorld_1_7_7()
 
   // 2.0.0 migration
-  if (isNewerVersion('2.0.0', currentVersion) && !game.data.release?.generation) await migrateWorld_2_0_0()
+  if (foundry.utils.isNewerVersion('2.0.0', currentVersion) && !game.data.release?.generation) await migrateWorld_2_0_0()
 
   // 3.1.0 migration
-  if (isNewerVersion('3.1.0', currentVersion)) await migrateWorld_3_1_0()
+  if (foundry.utils.isNewerVersion('3.1.0', currentVersion)) await migrateWorld_3_1_0()
 
   // 3.2.0 migration
-  if (isNewerVersion('3.2.0', currentVersion)) await migrateWorld_3_2_0()
+  if (foundry.utils.isNewerVersion('3.2.0', currentVersion)) await migrateWorld_3_2_0()
 
   // Migration completed
   return game.settings.set('demonlord', 'systemMigrationVersion', game.system.version)
@@ -625,7 +625,7 @@ export const migrateActorData = function (actor) {
 
   const model = game.system.model.Actor[actor.type]
   actor.data = _nullToUndefined(actor.data, 5)
-  updateData.data = mergeObject(actor.data, model, {
+  updateData.data = foundry.utils.mergeObject(actor.data, model, {
     insertKeys: true,
     insertValues: true,
     overwrite: false,
@@ -643,7 +643,7 @@ export const migrateActorData = function (actor) {
     // Update the Owned Item
     if (!isObjectEmpty(itemUpdate)) {
       hasItemUpdates = true
-      return mergeObject(i, itemUpdate, { enforceTypes: false, inplace: false })
+      return foundry.utils.mergeObject(i, itemUpdate, { enforceTypes: false, inplace: false })
     } else return i
   })
   if (hasItemUpdates) updateData.items = items
@@ -671,7 +671,7 @@ export const migrateItemData = function (item) {
 
 /**
  * Converts all properties with value null to value undefined,
- * in order to let the mergeObject function replace these values.
+ * in order to let the foundry.utils.mergeObject function replace these values.
  * @private
  */
 

@@ -130,7 +130,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     const itemData = {
       name: `New ${type.capitalize()}`,
       type: type,
-      data: duplicate(header.dataset),
+      data: foundry.utils.duplicate(header.dataset),
     }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
@@ -279,7 +279,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     // Clone Inventory Item
     html.find('.item-clone').click(async ev => {
       const li = $(ev.currentTarget).parents('.item')
-      const item = duplicate(this.actor.items.get(li.data('itemId')))
+      const item = foundry.utils.duplicate(this.actor.items.get(li.data('itemId')))
       await Item.create(item, {parent: this.actor})
     })
 

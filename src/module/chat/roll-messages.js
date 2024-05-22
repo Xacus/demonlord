@@ -87,7 +87,6 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   const chatData = getChatBaseData(attacker, rollMode)
   if (attackRoll) {
     chatData.rolls = [attackRoll]
-    chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
   const template = 'systems/demonlord/templates/chat/combat.hbs'
   return renderTemplate(template, templateData).then(content => {
@@ -141,7 +140,6 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons)
   const chatData = getChatBaseData(actor, rollMode)
   if (challengeRoll) {
     chatData.rolls = [challengeRoll]
-    chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
   const template = 'systems/demonlord/templates/chat/challenge.hbs'
   renderTemplate(template, templateData).then(content => {
@@ -248,7 +246,6 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   const chatData = getChatBaseData(actor, rollMode)
   if (attackRoll) {
     chatData.rolls = [attackRoll]
-    chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
   if (talentData?.damage || talentData?.action?.attack || (!talentData?.action?.attack && !talentData?.damage)) {
     const template = 'systems/demonlord/templates/chat/talent.hbs'
@@ -373,7 +370,6 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   const chatData = getChatBaseData(actor, rollMode)
   if (attackRoll) {
     chatData.rolls = [attackRoll]
-    chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
   const template = 'systems/demonlord/templates/chat/spell.hbs'
   renderTemplate(template, templateData).then(content => {
@@ -411,7 +407,6 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
   const chatData = getChatBaseData(actor, rollMode)
   if (corruptionRoll) {
     chatData.rolls = [corruptionRoll]
-    chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
   }
   const template = 'systems/demonlord/templates/chat/corruption.hbs'
 
@@ -531,8 +526,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
 
   const chatData = getChatBaseData(actor, rollMode)
   if (attackRoll) {
-    chatData.rolls = [attackRoll],
-    chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
+    chatData.rolls = [attackRoll]
   }
   const template = 'systems/demonlord/templates/chat/useitem.hbs'
   return renderTemplate(template, templateData).then(content => {

@@ -3,7 +3,7 @@ import DLBaseActorSheet from './base-actor-sheet'
 export default class DLCreatureSheet extends DLBaseActorSheet {
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['creature', 'sheet', 'actor', 'dl-sheet'],
       template: 'systems/demonlord/templates/actor/creature-sheet.hbs',
       width: 900,
