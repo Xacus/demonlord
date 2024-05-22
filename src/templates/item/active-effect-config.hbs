@@ -1,7 +1,7 @@
 <form autocomplete="off">
   <!-- Effect Header -->
   <header class="sheet-header">
-    <img class="effect-icon" src="{{ data.icon }}" data-edit="icon"/>
+    <img class="effect-icon" src="{{ data.img }}" data-edit="icon"/>
     <h1 class="effect-title" contenteditable="true">
       <input name="name" type="text" value="{{ data.name }}" placeholder="{{localize "EFFECT.Name"}}"/>
     </h1>
@@ -24,10 +24,10 @@
     </div>
 
     <div class="form-group">
-      <label>{{ localize "EFFECT.Icon" }}</label>
+      <label>{{ localize "EFFECT.img" }}</label>
       <div class="form-fields">
         {{filePicker target="icon" type="image"}}
-        <input class="image" type="text" name="icon" placeholder="path/image.webp" value="{{data.icon}}"/>
+        <input class="image" type="text" name="icon" placeholder="path/image.webp" value="{{data.img}}"/>
       </div>
     </div> --}}
 
