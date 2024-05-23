@@ -62,7 +62,6 @@
   "dependencies": {
     "dotenv-cli": "^4.0.0",
     "jszip-cli": "^1.4.24",
-    "lodash.isequal": "^4.5.0",
     "rollup-plugin-import-css": "^3.0.3",
     "tippy.js": "^6.3.7"
   }

@@ -4,7 +4,7 @@
 
 import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
 import {TokenManager} from '../pixi/token-manager'
-import isEqual from 'lodash.isequal'
+import { changesMatch } from '../utils/chat'
 
 const tokenManager = new TokenManager()
 
@@ -155,14 +155,16 @@ async function _onChatApplyEffect(event) {
   const effectData = activeEffect.toObject()
   for await (const target of selected) {
     // First check if the actor already has this effect
-    const matchingEffects = target.actor.effects.filter(e => isEqual(e.name, effectData.name))
+    const matchingEffects = target.actor.effects.filter(e => e.name === effectData.name && changesMatch(e.changes, effectData.changes))
 
     if (matchingEffects.length > 0) {
-      await matchingEffects[0].update({ disabled: false }).then(_ => ui.notifications.info(`Activated "${matchingEffects[0].name}" in "${target.actor.name}"`))
-    } else {
-      await ActiveEffect.create(effectData, {parent: target.actor})
-        .then(e => ui.notifications.info(`Added "${e.name}" to "${target.actor.name}"`))
+      // Delete all matching effects
+      for await (const e of matchingEffects) {
+        await e.delete()
+      }
     }
+
+    await ActiveEffect.create(effectData, {parent: target.actor}).then(e => ui.notifications.info(`Added "${e.name}" to "${target.actor.name}"`))
   }
 }
 
