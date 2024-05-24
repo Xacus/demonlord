@@ -11,7 +11,7 @@ export class DLStatEditor extends FormApplication {
 
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['charactergenerator', 'sheet', 'actor'],
       width: 300,
       height: 208,

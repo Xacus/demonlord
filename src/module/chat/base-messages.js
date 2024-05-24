@@ -67,7 +67,7 @@ export function formatDice(diceRoll) {
     }
 
     for (let i = 0; i < diceRoll.terms.length; i++) {
-      if (diceRoll.terms[i] instanceof Die) {
+      if (diceRoll.terms[i] instanceof foundry.dice.terms.Die) {
         let pool = diceRoll.terms[i].results
         let faces = diceRoll.terms[i].faces
 
@@ -79,7 +79,7 @@ export function formatDice(diceRoll) {
           }
         })
         // eslint-disable-next-line no-undef
-      } else if (diceRoll.terms[i] instanceof OperatorTerm) {
+      } else if (diceRoll.terms[i] instanceof foundry.dice.terms.OperatorTerm) {
         const operatorTerm = diceRoll.terms[i]
         diceData.dice.push({
           img: null,
@@ -87,7 +87,7 @@ export function formatDice(diceRoll) {
           dice: false,
         })
         // eslint-disable-next-line no-undef
-      } else if (diceRoll.terms[i] instanceof NumericTerm) {
+      } else if (diceRoll.terms[i] instanceof foundry.dice.terms.NumericTerm) {
         const numericTerm = diceRoll.terms[i]
         diceData.dice.push({
           img: null,

@@ -91,8 +91,7 @@ async function _onChatRollDamage(event) {
 
   const chatData = getChatBaseData(actor, rollMode)
   if (damageRoll) {
-    chatData.rolls = [damageRoll],
-    chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
+    chatData.rolls = [damageRoll]
   }
   const template = 'systems/demonlord/templates/chat/damage.hbs'
   renderTemplate(template, templateData).then(content => {

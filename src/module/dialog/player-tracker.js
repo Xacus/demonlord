@@ -2,7 +2,7 @@ import { capitalize } from '../utils/utils'
 
 export class PlayerTracker extends FormApplication {
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       id: 'sheet-modifiers',
       classes: ['playertracker', 'sheet', 'actor'],
       template: 'systems/demonlord/templates/dialogs/player-tracker.hbs',
@@ -156,7 +156,7 @@ export class PlayerTracker extends FormApplication {
     event.preventDefault()
     const header = event.currentTarget
     const type = header.dataset.type
-    const data = duplicate(header.dataset)
+    const data = foundry.utils.duplicate(header.dataset)
 
     const itemData = {
       name: `New ${capitalize(type)}`,

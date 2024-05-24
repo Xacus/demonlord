@@ -17,7 +17,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       width: 650,
       height: 700,
     })
@@ -98,7 +98,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
 
   async _addItem(data, group) {
     const levelItem = new PathLevelItem()
-    const ancestryData = duplicate(this.item)
+    const ancestryData = foundry.utils.duplicate(this.item)
     let item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
@@ -118,7 +118,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   }
 
   async _deleteItem(itemIndex, itemGroup) {
-    const itemData = duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.item)
     if (itemGroup === 'talent') itemData.system.talents.splice(itemIndex, 1)
     else if (itemGroup === 'talent4') itemData.system.level4.talent.splice(itemIndex, 1)
     else if (itemGroup === 'language') itemData.system.languagelist.splice(itemIndex, 1)

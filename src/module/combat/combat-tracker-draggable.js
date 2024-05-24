@@ -86,7 +86,7 @@ async function updateCombatant(combatantId, initiative, { diff = 0 } = {}) {
 
   if (!activeTurn) return await combat.updateEmbeddedDocuments('Combatant', [{ _id: combatantId, initiative }]);
 
-  const newTurn = diff < 0 ? Math.clamped(turn + 1, 0, combat.turns.length - 1) : turn;
+  const newTurn = diff < 0 ? Math.clamp(turn + 1, 0, combat.turns.length - 1) : turn;
 
   await combat.update({
     turn: newTurn,
