@@ -10,7 +10,7 @@ import {
 export default class DLPathSheet extends DLBaseItemSheet {
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       width: 700,
       height: 680,
     })
@@ -134,7 +134,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
 
   async _addItem(data, level, group) {
     const levelItem = new PathLevelItem()
-    const pathData = duplicate(this.item)
+    const pathData = foundry.utils.duplicate(this.item)
     const item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
@@ -156,7 +156,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     const itemLevel = $(ev.currentTarget).closest('[data-level]').data('level')
     const itemGroup = $(ev.currentTarget).closest('[data-group]').data('group')
     const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
-    const itemData = duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.item)
 
     if (itemGroup === 'talents') itemData.system.levels[itemLevel].talents.splice(itemIndex, 1)
     else if (itemGroup === 'talentspick') itemData.system.levels[itemLevel].talentspick.splice(itemIndex, 1)

@@ -184,7 +184,7 @@ export async function createInitChatMessage(combatant, messageOptions) {
 
   const template = 'systems/demonlord/templates/chat/init.hbs'
   const content = await renderTemplate(template, templateData)
-  return mergeObject(messageOptions, {
+  return foundry.utils.mergeObject(messageOptions, {
     speaker: {
       scene: canvas.scene.id,
       actor: c.actor ? c.actor.id : null,

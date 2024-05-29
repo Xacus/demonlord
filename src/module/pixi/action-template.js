@@ -9,7 +9,7 @@ const tokenManager = new TokenManager()
  */
 export class ActionTemplate extends MeasuredTemplate {
   static fromItem(item) {
-    const target = getProperty(item, 'system.activatedEffect.target') || {}
+    const target = foundry.utils.getProperty(item, 'system.activatedEffect.target') || {}
     const templateShape = DL.actionAreaShape[target.type]
     if (!templateShape) return null
 

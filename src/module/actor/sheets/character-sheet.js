@@ -6,7 +6,7 @@ import launchRestDialog from '../../dialog/rest-dialog'
 export default class DLCharacterSheet extends DLBaseActorSheet {
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['demonlord', 'sheet', 'actor', 'dl-sheet'],
       width: 875,
       height: 700,
@@ -330,7 +330,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Ammo uses
     html.on('mousedown', '.ammo-amount', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      const item = duplicate(this.actor.items.get(id))
+      const item = foundry.utils.duplicate(this.actor.items.get(id))
       const amount = item.system.quantity
       if (ev.button == 0 && amount >= 0) item.system.quantity = +amount + 1
       else if (ev.button == 2 && amount > 0) item.system.quantity = +amount - 1
@@ -340,7 +340,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Item uses
     html.on('mousedown', '.item-uses', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      const item = duplicate(this.actor.items.get(id))
+      const item = foundry.utils.duplicate(this.actor.items.get(id))
       if (ev.button == 0) {
         item.system.quantity++
       } else if (ev.button == 2) {

@@ -27,7 +27,7 @@ export class DemonlordToken extends Token {
 
     _drawDamageBar(number, bar, data) {
         const { value, max } = data
-        const colorPct = Math.clamped(value, 0, max) / max
+        const colorPct = Math.clamp(value, 0, max) / max
         const damageColor = DemonlordToken.getDamageColor(value, max)
 
         // Determine the container size (logic borrowed from core)
@@ -35,7 +35,7 @@ export class DemonlordToken extends Token {
         let h = Math.max(canvas.dimensions.size / 12, 8)
         if (this.document.height >= 2)
             h *= 1.6
-        const stroke = Math.clamped(h / 8, 1, 2)
+        const stroke = Math.clamp(h / 8, 1, 2)
 
         // Set up bar container
         this._resetVitalsBar(bar, w, h, stroke)

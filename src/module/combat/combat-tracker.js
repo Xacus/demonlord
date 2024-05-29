@@ -38,8 +38,8 @@ export class DLCombatTracker extends CombatTracker {
       combatant.actor?.effects
         .filter(e => e.isTemporary && !e.disabled)
         .forEach(e => {
-          if (imgEffectMap.has(e.icon)) imgEffectMap.get(e.icon).push(e)
-          else imgEffectMap.set(e.icon, [e])
+          if (imgEffectMap.has(e.img)) imgEffectMap.get(e.img).push(e)
+          else imgEffectMap.set(e.img, [e])
         })
 
       // Get effects displayed in the combat tracker and add the relevant data to the html,

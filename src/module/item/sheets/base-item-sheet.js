@@ -15,7 +15,7 @@ import {
 export default class DLBaseItemSheet extends ItemSheet {
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['demonlord', 'sheet', 'item'],
       width: 600,
       height: 650,
@@ -415,7 +415,7 @@ export default class DLBaseItemSheet extends ItemSheet {
             if (item.flags?.core?.sourceId != undefined) {
               game.items.getName(item.name) ? itemData.uuid = game.items.getName(item.name).uuid : itemData.uuid = item.flags.core.sourceId
             } else {
-              const newItem = await this.createNestedItem(duplicate(item), `${actor.name}'s Items (${this.item.name})`)
+              const newItem = await this.createNestedItem(foundry.utils.duplicate(item), `${actor.name}'s Items (${this.item.name})`)
               itemUpdate['flags.core.sourceId'] = newItem.uuid;
               itemData.uuid = newItem.uuid
             }
@@ -512,19 +512,19 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   async addContentsItem(data) {
     const item = await getNestedItemData(data)
-    const containerData = duplicate(this.item)
+    const containerData = foundry.utils.duplicate(this.item)
     containerData.system.contents.push(item)
     await this.item.update(containerData, {diff: false}).then(_ => this.render)
   }
 
   async increaseContentsItemQuantity(itemIndex) {
-    const itemData = duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.item)
     itemData.system.contents[itemIndex].system.quantity++
     await this.item.update(itemData, {diff: false}).then(_ => this.render)
   }
 
   async decreaseContentsItemQuantity(itemIndex) {
-    const itemData = duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.item)
     if (itemData.system.contents[itemIndex].system.quantity > 0) {
       itemData.system.contents[itemIndex].system.quantity--
       await this.item.update(itemData, {diff: false}).then(_ => this.render)
@@ -534,7 +534,7 @@ export default class DLBaseItemSheet extends ItemSheet {
   }
 
   async deleteContentsItem(itemIndex) {
-    const itemData = duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.item)
 
     itemData.system.contents.splice(itemIndex, 1)
     await this.item.update(itemData)

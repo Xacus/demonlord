@@ -190,7 +190,7 @@ Hooks.once('setup', function () {
       effects.push({
         id: effect.id,
         name: effect.name,
-        icon: effect.icon,
+        img: effect.img,
       })
     }
   }
@@ -514,5 +514,5 @@ Hooks.on('renderDLBaseActorSheet', (app, html, data) => DLBaseActorSheet.onRende
 
 Hooks.on('canvasInit', gameCanvas => {
   gameCanvas.grid.diagonalRule = game.settings.get('demonlord', 'diagonalMovement')
-  SquareGrid.prototype.measureDistances = canvasUtils.measureDistances
+  foundry.grid.SquareGrid.prototype.measureDistances = canvasUtils.measureDistances
 })
