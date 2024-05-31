@@ -425,7 +425,7 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
         name: 'Mark of Darkness',
         type: 'feature',
         img: 'icons/magic/death/skull-energy-light-purple.webp',
-        data: {
+        system: {
           description: resultText,
         },
       },

@@ -161,7 +161,7 @@ export class PlayerTracker extends FormApplication {
     const itemData = {
       name: `New ${capitalize(type)}`,
       type: type,
-      data: data,
+      system: data,
     }
 
     // Remove the type from the dataset since it's in the itemData.type prop.

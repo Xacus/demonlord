@@ -51,7 +51,7 @@
       "type": "Item"
     },
     {
-      "name": "weapons creature",
+      "name": "weapons-creature",
       "label": "Weapons Creature",
       "system": "demonlord",
       "path": "packs/weapons-creatures",
@@ -65,28 +65,28 @@
       "type": "Item"
     },
     {
-      "name": "demonlord macros gm",
+      "name": "demonlord-macros-gm",
       "label": "Demonlord Macros - GM",
       "system": "demonlord",
       "path": "packs/demonlord-macros-gm",
       "type": "Macro"
     },
     {
-      "name": "demonlord macros player",
+      "name": "demonlord-macros-player",
       "label": "Demonlord Macros - Player",
       "system": "demonlord",
       "path": "packs/demonlord-macros-player",
       "type": "Macro"
     },
     {
-      "name": "sotdl system guide",
+      "name": "sotdl-system-guide",
       "label": "SotDL System Guide",
       "system": "demonlord",
       "path": "packs/sotdl-system-guide",
       "type": "JournalEntry"
     },
     {
-      "name": "sotdl roll tabels",
+      "name": "sotdl-roll-tables",
       "label": "Demonlord - Roll Tables",
       "system": "demonlord",
       "path": "packs/roll-tables",
@@ -135,8 +135,10 @@
       "path": "lang/pl.json"
     }
   ],
-  "gridDistance": 1,
-  "gridUnits": "yd",
+  "grid": {
+    "distance": 1,
+    "units": "yd"
+  },
   "primaryTokenAttribute": "characteristics.health",
   "secondaryTokenAttribute": null,
   "socket": true,

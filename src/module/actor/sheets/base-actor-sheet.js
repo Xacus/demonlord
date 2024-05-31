@@ -130,7 +130,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     const itemData = {
       name: `New ${type.capitalize()}`,
       type: type,
-      data: foundry.utils.duplicate(header.dataset),
+      system: foundry.utils.duplicate(header.dataset),
     }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
