@@ -41,7 +41,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
    * Sets actor's spell uses when power changes
    * @override */
   async _updateObject(event, formData) {
-    const updateData = expandObject(formData)
+    const updateData = foundry.utils.expandObject(formData)
     if (this.item.actor && updateData.system?.characteristics?.power) await this.item.actor.setUsesOnSpells()
     return await this.object.update(updateData)
   }
@@ -152,7 +152,7 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     else return
 
     let selected = nestedItemData.selected = !nestedItemData.selected
-    await this.document.update({data: ancestryData})
+    await this.document.update({system: ancestryData})
 
     // If the ancestry is inside a character, and the actor's level is >= 4, add or remove the item to the actor
     const actor = this.document.parent

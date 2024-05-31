@@ -218,7 +218,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
     }
 
 
-    return await this.object.update({name: _name, img: formData.img, data: updateData})
+    return await this.object.update({name: _name, img: formData.img, system: updateData})
   }
 
   /* -------------------------------------------- */
@@ -311,7 +311,7 @@ export default class DLPathSheet extends DLBaseItemSheet {
           obj[_name] = input.value ?? input.getAttribute('value')
         }
       })
-      objLevels.push(expandObject(obj).level)
+      objLevels.push(foundry.utils.expandObject(obj).level)
     }
     return objLevels
   }

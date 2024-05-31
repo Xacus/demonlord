@@ -90,7 +90,7 @@ export default class DLBaseItemSheet extends ItemSheet {
    * @override */
   async _updateObject(event, formData) {
     const item = this.object
-    const updateData = expandObject(formData)
+    const updateData = foundry.utils.expandObject(formData)
 
     if (['talent', 'weapon', 'spell', 'endoftheround'].includes(item.type)) {
       // Set the update key based on type
@@ -459,7 +459,7 @@ export default class DLBaseItemSheet extends ItemSheet {
       name: `New ${type.capitalize()}`,
       type: type,
       folder: folder.id,
-      data: {},
+      system: {},
     }
 
     const newItem = await this.createNestedItem(item, folderName)

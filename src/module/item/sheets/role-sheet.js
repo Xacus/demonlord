@@ -40,7 +40,7 @@ export default class DLRoleSheet extends DLBaseItemSheet {
    * Sets actor's spell uses when power changes
    * @override */
   async _updateObject(event, formData) {
-    const updateData = expandObject(formData)
+    const updateData = foundry.utils.expandObject(formData)
     if (this.item.actor && updateData.system?.characteristics?.power) await this.item.actor.setUsesOnSpells()
     return await this.object.update(updateData)
   }
@@ -159,7 +159,7 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     else return
 
     let selected = nestedItemData.selected = !nestedItemData.selected
-    await this.document.update({data: roleData})
+    await this.document.update({system: roleData})
 
     // If the role is inside a character, add or remove the item to the actor
     const actor = this.document.parent

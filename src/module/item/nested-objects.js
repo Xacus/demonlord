@@ -186,7 +186,6 @@ export async function getNestedItemData(nestedData) {
       img: entity.img || ed.img,
       description: entity.description || sys.description,
       pack: entity.pack,
-      data: sys || ed,
       system: sys || ed,
     }
   }
