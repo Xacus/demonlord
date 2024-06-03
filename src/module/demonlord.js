@@ -45,7 +45,6 @@ import 'tippy.js/dist/tippy.css';
 import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
 import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
-import * as canvasUtils from "./utils/canvas.js";
 
 
 Hooks.once('init', async function () {
@@ -511,8 +510,3 @@ Hooks.on('DL.Action', async () => {
 
 Hooks.on('renderDLBaseItemSheet', (app, html, data) => DLBaseItemSheet.onRenderInner(app, html, data))
 Hooks.on('renderDLBaseActorSheet', (app, html, data) => DLBaseActorSheet.onRenderInner(app, html, data))
-
-Hooks.on('canvasInit', gameCanvas => {
-  gameCanvas.grid.diagonalRule = game.settings.get('demonlord', 'diagonalMovement')
-  foundry.grid.SquareGrid.prototype.measureDistances = canvasUtils.measureDistances
-})
