@@ -1,6 +1,8 @@
+const { DialogV2 } = foundry.applications.api
+
 export default function launchRestDialog(dialogTitle, callback) {
-    const d = new Dialog({
-      title: dialogTitle,
+    const d = new DialogV2({
+      window: { title: dialogTitle },
       content: `
   <div class="restdialog">
     <div class="inputContainer">
@@ -17,22 +19,25 @@ export default function launchRestDialog(dialogTitle, callback) {
     </div>
   </div>
   `,
-      buttons: {
-        rest8h: {
+      buttons: [
+        {
+          action: 'rest8h',
           label: game.i18n.localize('DL.DialogRest8hrs'),
+          //default: true,
           callback: html => callback(html, 8),
         },
-        rest24h: {
+        {
+          action: 'rest24h',
           label: game.i18n.localize('DL.DialogRest24hrs'),
           callback: html => callback(html, 24),
         },
-        cancel: {
-          icon: '<i class="fas fa-times"></i>',
+        {
+          action: 'cancel',
+          icon: 'fas fa-times',
           label: game.i18n.localize('DL.DialogCancel'),
           callback: () => {},
         },
-      },
-      default: 'rest8h',
+      ],
       close: () => {},
     })
     d.render(true)
