@@ -1,6 +1,83 @@
 import { capitalize } from "../utils/utils"
 
-export class DLStatEditor extends FormApplication {
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+
+export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
+  static DEFAULT_OPTIONS = {
+    tag: 'form',
+    form: {
+      handler: this.onSubmit,
+      submitOnChange: false,
+      closeOnSubmit: true
+    },
+    classes: ['sheet', 'actor', 'stat-editor'],
+    actions: {
+      rollStat: this.rollStat
+    },
+    position: {
+      width: 300,
+      height: 230,
+    }
+  }
+
+  static PARTS = {
+    form: {
+      template: 'systems/demonlord/templates/dialogs/stat-editor.hbs'
+    }
+  }
+
+  /** @inheritDoc */
+  get title() {
+    return `${game.i18n.localize('DL.StatEditor')}: ${capitalize(this.statName)}`
+  }
+
+/**
+ * Prepare application rendering context data for a given render request.
+ * @param {RenderOptions} options                 Options which configure application rendering behavior
+ * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
+ * @protected
+ */
+  async _prepareContext(options) { // eslint-disable-line no-unused-vars
+    return this.ancestry.system[this.statType][this.statName]
+  }
+
+   /**
+   * Process form submission for the sheet
+   * @this {MyApplication}                      The handler is called with the application as its bound scope
+   * @param {SubmitEvent} event                   The originating form submission event
+   * @param {HTMLFormElement} form                The form element that was submitted
+   * @param {FormDataExtended} formData           Processed data for the submitted form
+   * @returns {Promise<void>}
+   */
+  static async onSubmit(event, form, formData) {
+    console.log(this.ancestry)
+    await this.ancestry.update({
+      system: {
+        [this.statType]: {
+          [this.statName]: {
+            value: formData.object.value,
+            formula: formData.object.formula,
+            immune: formData.object.immune
+          }
+        }
+      }
+    })
+
+    this.ancestry.sheet.render(true)
+  }
+
+  /**
+   * 
+   * @param {SubmitEvent} event 
+   * @param {HtmlElement} target 
+   */
+  static async rollStat(event, target) { // eslint-disable-line no-unused-vars
+    const divTarget = document.getElementById('stat-editor-roll-target')
+    const formula = document.getElementById('stat-editor-roll-formula').value
+    const roll = new Roll(formula, this.ancestry.system)
+    await roll.evaluate()
+    divTarget.value = roll.total
+  }
 
   constructor(object, options) {
     super(options)
@@ -9,72 +86,11 @@ export class DLStatEditor extends FormApplication {
     this.statName = object.statName
   }
 
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['charactergenerator', 'sheet', 'actor'],
-      width: 300,
-      height: 208,
-    })
-  }
-
-  /** @override */
-  get template() {
-    return 'systems/demonlord/templates/dialogs/stat-editor.hbs'
-  }
-
-  /* -------------------------------------------- */
-  /**
-   * Add the Entity name into the window title
-   * @type {String}
-   */
-  get title() {
-    return `${game.i18n.localize('DL.StatEditor')}: ${capitalize(this.statName)}`
-  }
-
-  /**
-   * Construct and return the data object used to render the HTML template for this form application.
-   * @return {Object}
-   */
-  getData() {
-    return this.ancestry.system[this.statType][this.statName]
-  }
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html)
-
-    // Enable roll formula
-    html.find('.stat-editor-roll-button').click(async ev => {
-      const div = ev.currentTarget
-      const target = div.parentElement.parentElement.firstElementChild
-      const formula = div.previousElementSibling.value
-      const roll = new Roll(formula, this.system)
-      await roll.evaluate()
-      target.value = roll.total
-    })
-  }
-
-  /**
- * This method is called upon form submission after form data is validated
- * @param event {Event}       The initial triggering submission event
- * @param formData {Object}   The object of validated form data with which to update the object
- * @private
- */
-  async _updateObject(event, formData) {
-    console.log(this.ancestry)
-    await this.ancestry.update({
-      system: {
-        [this.statType]: {
-          [this.statName]: {
-            value: formData.value,
-            formula: formData.formula,
-            immune: formData.immune
-          }
-        }
-      }
-    })
-
-    this.ancestry.sheet.render(true)
-  }
+  // /**
+  //  * Construct and return the data object used to render the HTML template for this form application.
+  //  * @return {Object}
+  //  */
+  // getData() {
+  //   return this.ancestry.system[this.statType][this.statName]
+  // }
 }
