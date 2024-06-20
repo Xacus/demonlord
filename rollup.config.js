@@ -16,7 +16,7 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     nodeResolve(),
-    css(),
+    css({ output: 'bundle.css' }),
     commonjs(),
   ],
 }
