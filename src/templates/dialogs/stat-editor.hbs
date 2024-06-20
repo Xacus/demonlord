@@ -1,20 +1,18 @@
-<form autocomplete="off" class="stat-editor">
-    <div class="form-block">
-        <input class="stat-editor-roll-target" type="number" name="value" value="{{value}}">
-        <div class="form-group">
-            <input type="text" name="formula" value="{{formula}}">
-            <button class="stat-editor-roll-button" type="button">
-                <i class="fas fa-dice"></i>
-                {{localize "DL.DialogRoll"}}
-            </button>
-        </div>
-        <div class="form-group">
-            <label>{{localize "DL.ImmuneAttribute"}}</label>
-            <input type="checkbox" name="immune" {{checked immune}}>
-        </div>
-        <button class="DL.Button" type="submit" name="submit">
-            <i class="fas fa-save"></i>
-            {{localize "DL.ModsSaveChanges"}}
+<div class="form-block">
+    <input id="stat-editor-roll-target" type="number" name="value" value="{{value}}">
+    <div class="form-group">
+        <input id="stat-editor-roll-formula" type="text" name="formula" value="{{formula}}">
+        <button class="stat-editor-roll-button" type="button" data-action="rollStat">
+            <i class="fas fa-dice"></i>
+            {{localize "DL.DialogRoll"}}
         </button>
     </div>
-</form>
+    <div class="form-group">
+        <label>{{localize "DL.ImmuneAttribute"}}</label>
+        <input id="stat-editor-immune" type="checkbox" name="immune" {{checked immune}}>
+    </div>
+    <button class="DL.Button" type="submit" name="submit">
+        <i class="fas fa-save"></i>
+        {{localize "DL.ModsSaveChanges"}}
+    </button>
+</div>

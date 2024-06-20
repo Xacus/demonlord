@@ -27,8 +27,171 @@ export async function handleMigrations() {
   // 3.2.0 migration
   if (foundry.utils.isNewerVersion('3.2.0', currentVersion)) await migrateWorld_3_2_0()
 
+  // 4.1.0 migration
+  if (foundry.utils.isNewerVersion('4.1.0', currentVersion)) await migrateWorld_4_1_0()
+
   // Migration completed
   return game.settings.set('demonlord', 'systemMigrationVersion', game.system.version)
+}
+
+/* -------------------------------------------- */
+/*  4.1.0                                       */
+/* -------------------------------------------- */
+export const migrateWorld_4_1_0 = async () => {
+  const dryRun = false
+  let errorsInMigration = false
+
+  /**
+   * Move from single type of extra damage an 20 plus damage to granular options:
+   * 
+   * system.bonuses.attack.damage -> system.bonuses.attack.damage.all
+   * system.bonuses.attack.plus20Damage -> system.bonuses.attack.plus20Damage.all
+   */
+  _migrationStartInfo()
+
+  const itemEffects = []
+  const actorEffects = []
+  const actorItemEffects = []
+  const compendiaItemEffects = []
+  const compendiaActorEffects = []
+  const compendiaActorItemEffects = []
+
+  async function updateEffect(e) {
+    const matchingChanges = e.changes.filter(c => ['system.bonuses.attack.damage', 'system.bonuses.attack.plus20Damage'].includes(c.key))
+
+    if (!matchingChanges.length) return null
+
+    const changes = matchingChanges.map(c => {
+      c.key = c.key.replace('system.bonuses.attack.damage', 'system.bonuses.attack.damage.all').replace('system.bonuses.attack.plus20Damage', 'system.bonuses.attack.plus20Damage.all')
+      return c
+    })
+
+    if (!changes?.length) return null
+
+    const update = {
+      _id: e._id,
+      changes: changes
+    }
+
+    if (dryRun) {
+      console.log("Dry Migration: ", update)
+    } else { 
+      console.log('Migrating active effects of', e.parent)
+      return e.update(update)
+    }
+  }
+
+  // Non-embedded items
+  try {
+    for (let item of game.items.values()) {
+      itemEffects.push(item.effects.map(updateEffect).filter(Boolean))
+    }
+    itemEffects.flat(Infinity).filter(Boolean)
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating active effects in items', e)
+  }
+
+  // Actors and embedded items)
+  try {
+    for (let actor of game.actors.values()) {
+      for (const item of actor.getEmbeddedCollection('Item')) {
+        actorItemEffects.push(item.effects.map(updateEffect).filter(Boolean))
+      }
+
+      actorEffects.push(actor.getEmbeddedCollection('ActiveEffect').map(updateEffect).filter(Boolean))
+    }
+
+    actorItemEffects.flat(Infinity).filter(Boolean)
+    actorEffects.flat(Infinity).filter(Boolean)
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating active effects in actors and embedded items', e)
+  }
+
+  // Items in compendia
+  try {
+    for await (const compendium of game.packs.filter(p => !p.locked && p.metadata.type === 'Item')) {
+      for await (const itemEntry of compendium.index.values()) {
+        const item = await compendium.getDocument(itemEntry._id)
+        compendiaItemEffects.push(item.effects.map(updateEffect).filter(Boolean))
+      }
+    }
+
+    compendiaItemEffects.flat(Infinity).filter(Boolean)
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating active effects in items in compendia', e)
+  }
+
+  // Actors and embedded items in compendia
+  try {
+    for await (const compendium of game.packs.filter(p => !p.locked && p.metadata.type === 'Actor')) {
+      for await (const actorEntry of compendium.index.values()) {
+        const actor = await compendium.getDocument(actorEntry._id)
+
+        for (const item of actor.getEmbeddedCollection('Item')) {
+          compendiaActorItemEffects.push(item.effects.map(updateEffect).filter(Boolean))
+        }
+
+        compendiaActorEffects.push(actor.effects.map(updateEffect).filter(Boolean))
+      }
+    } 
+
+    compendiaActorEffects.flat(Infinity).filter(Boolean)
+    compendiaActorItemEffects.flat(Infinity).filter(Boolean)
+  } catch (e) {
+    errorsInMigration = true
+    console.log('Error migrating active effects in actors and embedded items in compendia', e)
+  }
+
+  await Promise.allSettled([
+    Promise.all(itemEffects)
+    .then(_ => {
+      console.log('Migration of active effects in items completed')
+    })
+    .catch(e => {
+      console.log('Error migrating active effects in items', e)
+    }),
+    Promise.all(actorItemEffects)
+    .then(_ => {
+      console.log('Migration of active effects in embedded items completed')
+    })
+    .catch(e => {
+      console.log('Error migrating active effects in embedded items', e)
+    }),
+    Promise.all(actorEffects)
+    .then(_ => {
+      console.log('Migration of active effects in actors completed')
+    })
+    .catch(e => {
+      console.log('Error migrating active effects in actors', e)
+    }),
+    Promise.all(compendiaItemEffects)
+    .then(_ => {
+      console.log('Migration of active effects in items in compendia completed')
+    })
+    .catch(e => {
+      console.log('Error migrating active effects in items in compendia', e)
+    }),
+    Promise.all(compendiaActorEffects)
+    .then(_ => {
+      console.log('Migration of active effects in actors in compendia completed')
+    })
+    .catch(e => {
+      console.log('Error migrating active effects in actors in compendia', e)
+    }),
+    Promise.all(compendiaActorItemEffects)
+    .then(_ => {
+      console.log('Migration of active effects in embedded items in compendia completed')
+    })
+    .catch(e => {
+      console.log('Error migrating active effects in embedded items in compendia', e)
+    })
+  ])
+
+  if (!errorsInMigration) _migrationSuccessInfo()
+  else _migrationErrorInfo()
 }
 
 /* -------------------------------------------- */
@@ -61,7 +224,7 @@ export const migrateWorld_3_2_0 = async () => {
    * system.action.damage => system.action.extradamage
    * system.action.plus20damage => system.action.extraplus20damage
    */
-  _migrationStartInfo() 
+  _migrationStartInfo()
 
   // Non-embedded items
   const itemUpdates = []

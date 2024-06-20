@@ -356,9 +356,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       launchRestDialog(game.i18n.localize('DL.DialogRestTitle'), (dHtml, restTime) => {
         this.actor.restActor(
           restTime,
-          !dHtml.find("input[id='noMagicRecovery']")[0].checked,
-          !dHtml.find("input[id='noTalentRecovery']")[0].checked,
-          !dHtml.find("input[id='noHealing']")[0].checked,
+          !dHtml.currentTarget.querySelector("input[id='noMagicRecovery']").checked,
+          !dHtml.currentTarget.querySelector("input[id='noTalentRecovery']").checked,
+          !dHtml.currentTarget.querySelector("input[id='noHealing']").checked,
         )
       }),
     )

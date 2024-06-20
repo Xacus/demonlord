@@ -590,6 +590,7 @@
   "DL.rush": "Apresurado",
   "DL.stabilize": "Estabilizando",
   "DL.encumbered": "Sobrecargado",
+  "DL.StatEditor": "Editor de Estadística",
   "DL.GMTools": "Herramientas del DJ",
   "DL.ToogleBarView": "Activar/Desactivar vista de barra.",
   "DL.AfflictionsAsleep": "Una criatura dormida se considera derribada e inconsciente. Cualquiera que pueda alcanzarla tendrá la opción de despertarla. A menos que se indique lo contrario, sufrir daño elimina la aflicción.",
