@@ -178,6 +178,8 @@ export default class DLPathSheet extends DLBaseItemSheet {
     updateData.description = formData['system.description'] || this.object.system.description
     updateData.type = formData['system.type']
 
+    if (!updateData.type) delete updateData.type
+
     if (completeFormData.length > 0) {
       if (this.object.system.editPath) {
         updateData.levels = this._getEditLevelsUpdateData(completeFormData)
@@ -216,7 +218,6 @@ export default class DLPathSheet extends DLBaseItemSheet {
         else updateData.levels[index].level = autoLevels[index]
       }
     }
-
 
     return await this.object.update({name: _name, img: formData.img, system: updateData})
   }
