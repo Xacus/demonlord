@@ -5,6 +5,7 @@ import {DemonlordToken} from './actor/token.js'
 import {DemonlordItem} from './item/item.js'
 import {ActionTemplate} from './pixi/action-template.js'
 import {registerSettings} from './settings.js'
+import {registerVisionModes} from './vision.js'
 import {DLCombatTracker} from './combat/combat-tracker.js'
 import {preloadHandlebarsTemplates} from './templates.js'
 import * as migrations from './migration.js'
@@ -101,6 +102,9 @@ Hooks.once('init', async function () {
   CONFIG.Item.dataModels.spell = SpellDataModel
   CONFIG.Item.dataModels.talent = TalentDataModel
   CONFIG.Item.dataModels.weapon = WeaponDataModel
+
+  // Vision modes
+  registerVisionModes()
 
   registerSettings()
 

@@ -364,24 +364,26 @@ export async function applyVisionType(token, visionType = undefined, _otherData 
   }
   if (visionType === 'darksight') {
     updateData.sight.range = 20
-    updateData.sight.visionMode = 'darkvision'
+    updateData.sight.visionMode = 'darksight'
     updateData.detectionModes[0].range = 20
   } else if (visionType === 'shadowsight') {
-    // Pass, waiting for foundry to implement shadow vision
-    ui.notifications.warn('In foundry v10 Shadowsight works the same as Basic sight, since no options for dim light exist yet.')
+    updateData.sight.range = 0
+    updateData.sight.visionMode = 'shadowsight'
+    updateData.detectionModes[0].range = 0
   } else if (visionType === 'sightless') {
     updateData.sight.range = 100
-    updateData.sight.visionMode = 'tremorsense'
+    updateData.sight.visionMode = 'sightless'
     updateData.detectionModes[0].enabled = false
     updateData.detectionModes.push({
-      id: 'feelTremor',
+      id: 'senseAll',
       enabled: true,
       range: 100,
     })
 
   } else if (visionType === 'truesight') {
-    updateData.sight.range = 100
+    updateData.sight.range = null
     updateData.detectionModes[0].enabled = false
+    updateData.sight.visionMode = 'truesight'
     updateData.detectionModes.push({
       id: 'seeAll',
       enabled: true,

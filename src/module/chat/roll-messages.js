@@ -41,6 +41,9 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = ((defender?.type === 'character' && defender?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
+  let extraDamage = (attacker.system.bonuses.attack.damage.weapon ?? '') + (attacker.system.bonuses.attack.damage.all ?? '')
+  let extraDamage20Plus = (attacker.system.bonuses.attack.plus20Damage.weapon ?? '') + (attacker.system.bonuses.attack.plus20Damage.all ?? '')
+
   const templateData = {
     actor: attacker,
     item: {id: item._id, data: item, name: item.name, uuid: item.uuid},
@@ -59,10 +62,10 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
   data['damageFormula'] = itemData?.action?.damage
-  data['extraDamageFormula'] = attacker.system.bonuses.attack.damage
+  data['extraDamageFormula'] = extraDamage
   data['damageType'] = itemData.action.damagetype
   data['damageTypes'] = itemData.action.damagetypes
-  data['damageExtra20PlusFormula'] = itemData.action?.plus20damage + attacker.system.bonuses?.attack?.plus20Damage
+  data['damageExtra20PlusFormula'] = itemData.action?.plus20damage + extraDamage20Plus
   data['description'] = itemData.description
   data['defense'] = itemData.action?.defense
   data['defenseboonsbanes'] = parseInt(itemData.action?.defenseboonsbanes)
@@ -197,6 +200,9 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = ((target?.actor?.type === 'character' && target?.actor?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
+  let extraDamage = (actor.system.bonuses.attack.damage.talent ?? '') + (actor.system.bonuses.attack.damage.all ?? '')
+  let extraDamage20Plus = (actor.system.bonuses.attack.plus20Damage.talent ?? '') + (actor.system.bonuses.attack.plus20Damage.all ?? '')
+
   const templateData = {
     actor: actor,
     item: talent,
@@ -216,10 +222,10 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
   data['damageFormula'] = talentData?.action?.damage
-  data['extraDamageFormula'] = actor.system.bonuses.attack.damage
+  data['extraDamageFormula'] = extraDamage
   data['damageType'] = talentData.action?.damageactive && talentData?.action?.damage ? talentData?.action?.damagetype : talentData?.action?.damagetype
   data['damageTypes'] = talentData.action?.damagetypes
-  data['damageExtra20PlusFormula'] = talentData.action?.plus20damage + actor.system.bonuses?.attack?.plus20Damage
+  data['damageExtra20PlusFormula'] = talentData.action?.plus20damage + extraDamage20Plus
   data['description'] = talentData.description
   data['defense'] = talentData.action?.defense
   data['defenseboonsbanes'] = parseInt(talentData.action?.defenseboonsbanes)
@@ -311,6 +317,9 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
     effectdice = effectRoll.total
   }
 
+  let extraDamage = (actor.system.bonuses.attack.damage.spell ?? '') + (actor.system.bonuses.attack.damage.all ?? '')
+  let extraDamage20Plus = (actor.system.bonuses.attack.plus20Damage.spell ?? '') + (actor.system.bonuses.attack.plus20Damage.all ?? '')
+
   const templateData = {
     actor: actor,
     item: spell,
@@ -329,10 +338,10 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
   data['damageFormula'] = spellData?.action?.damage
-  data['extraDamageFormula'] = actor.system.bonuses.attack.damage
+  data['extraDamageFormula'] = extraDamage
   data['damageType'] = spellData.action?.damagetype
   data['damageTypes'] = spellData.action?.damagetypes
-  data['damageExtra20PlusFormula'] = spellData.action?.plus20damage + actor.system.bonuses?.attack?.plus20Damage
+  data['damageExtra20PlusFormula'] = spellData.action?.plus20damage + extraDamage20Plus
   data['description'] = spellData.description
   data['defense'] = spellData.action?.defense
   data['defenseboonsbanes'] = parseInt(spellData.action?.defenseboonsbanes)
@@ -472,6 +481,9 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = ((target?.actor?.type === 'character' && target?.actor?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
+  let extraDamage = (actor.system.bonuses.attack.damage.weapon ?? '') + (actor.system.bonuses.attack.damage.all ?? '')
+  let extraDamage20Plus = (actor.system.bonuses.attack.plus20Damage.weapon ?? '') + (actor.system.bonuses.attack.plus20Damage.all ?? '')
+
   const templateData = {
     actor,
     token: actor.token,
@@ -499,10 +511,10 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
   data['damageFormula'] = itemData?.action?.damage
-  data['extraDamageFormula'] = actor.system.bonuses.attack.damage
+  data['extraDamageFormula'] = extraDamage
   data['damageType'] = itemData.action?.damagetype
   data['damageTypes'] = itemData.action?.damagetypes
-  data['damageExtra20PlusFormula'] = itemData.action?.plus20damage + actor.system.bonuses?.attack?.plus20Damage
+  data['damageExtra20PlusFormula'] = itemData.action?.plus20damage + extraDamage20Plus
   data['description'] = itemData.description
   data['defense'] = itemData.action?.defense
   data['defenseboonsbanes'] = parseInt(itemData.action?.defenseboonsbanes)
