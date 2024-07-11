@@ -51,58 +51,6 @@
     }
   }
 
-  .form-line {
-    width: 100%;
-    height: 22px;
-
-    .bold {
-      font-weight: bold;
-    }
-
-    .disable {
-      float: left;
-      width: 150px;
-      height: 16px;
-      margin: -2px 0 0 0;
-    }
-
-    .form-fields {
-      float: left;
-      margin-top: -3px;
-      padding-top: 2px;
-
-      div {
-        float: left;
-        margin-left: 5px;
-      }
-
-      select,
-      input {
-        margin-top: 2px;
-        font-size: 11px;
-        height: 16px;
-      }
-
-      input[type='checkbox'] {
-        width: 15px;
-        margin-top: -1px;
-      }
-
-      .number {
-        input {
-          width: 30px;
-          text-align: right;
-        }
-      }
-    }
-
-    .item-controls {
-      float: right;
-      width: 15px;
-      margin-top: 2px;
-    }
-  }
-
   .creature-list {
     margin: 0;
     padding: 0;
@@ -210,12 +158,6 @@
 
 .challengeaction {
   background: #999;
-}
-
-.gmonly {
-}
-
-.sheet-footer {
 }
 
 .dice {

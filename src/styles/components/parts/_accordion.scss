@@ -89,17 +89,8 @@
         margin-top: -15px;
       }
 
-      .spellnameheader {
-        float: left;
-        margin: 10px 0 3px 0;
-      }
-
       li.item {
         display: block;
-
-        .featurename {
-          font-weight: bold;
-        }
 
         .spellinfo {
           display: block;
@@ -123,30 +114,6 @@
             margin-top: 0;
           }
         }
-
-        .enditemtext {
-          margin-top: -5px;
-        }
-      }
-
-      li.tradition-header {
-        display: block;
-        font-weight: bold;
-      }
-    }
-  }
-
-  .featurelist {
-    .items-list {
-      .item {
-        border: unset;
-      }
-
-      .item-controls {
-        float: right;
-        flex: 0 0 40px;
-        text-align: right;
-        font-size: 12px;
       }
     }
   }
@@ -159,11 +126,6 @@
   .change::after {
     content: '\f078';
   }
-}
-
-.accordionMain {
-  overflow-y: unset;
-  margin: 0 10px 0 0;
 }
 
 .collapse-title {
@@ -194,7 +156,4 @@
     text-align: right;
     margin-right: 4px;
   }
-}
-
-.collapse-content {
 }

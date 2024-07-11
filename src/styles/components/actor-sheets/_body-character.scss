@@ -1,9 +1,4 @@
 .features {
-  .featureheader {
-    width: 100%;
-    font-size: 12px;
-  }
-
   .items-list {
     margin-right: 0;
   }
@@ -19,171 +14,10 @@
   }
 }
 
-.responsive-table {
-  padding: 0 10px 0 0;
-  margin: 0;
-
-  li {
-    display: flex;
-  }
-
-  .table-header {
-    margin-bottom: 4px;
-    height: 16px;
-    border-bottom: 1px solid var(--demonlord-red);
-    font-weight: bold;
-    font-family: 'IM Fell English SC', serif;
-    font-size: 10px;
-    text-transform: uppercase;
-  }
-
-  .table-row {
-    margin-bottom: 4px;
-    border-bottom: 1px solid #333;
-  }
-
-  .col-1 {
-    flex-basis: 60%;
-
-    .item-image {
-      float: left;
-      margin-right: 5px;
-    }
-
-    .spellinfo {
-      margin-top: 10px;
-    }
-  }
-
-  .col-2 {
-    flex-basis: 15%;
-    text-align: center;
-  }
-
-  .col-3 {
-    flex-basis: 12%;
-    text-align: right;
-    padding-right: 10px;
-  }
-
-  .col-4 {
-    flex-basis: 13%;
-    text-align: right;
-    font-size: 12px;
-
-    .item-wearoff {
-      color: #999;
-    }
-  }
-
-  @media all and (max-width: 100%) {
-    .table-header {
-      display: none;
-    }
-    .table-row {
-    }
-    li {
-      display: block;
-    }
-    .col {
-      flex-basis: 100%;
-    }
-    .col {
-      display: flex;
-
-      &:before {
-        padding-right: 10px;
-        content: attr(data-label);
-        flex-basis: 50%;
-        text-align: right;
-      }
-    }
-  }
-}
-
 .items-list {
   list-style: none;
   padding: 0;
   margin: 5px 10px 20px 0;
-
-  .tradition-header {
-    margin-top: 15px;
-    font-weight: bold;
-    font-family: $font-header;
-    font-size: 13px;
-  }
-
-  .item-header {
-    height: 16px;
-    border-bottom: 1px solid var(--demonlord-red);
-    font-weight: bold;
-    font-family: $font-header;
-    font-size: 11px;
-    text-transform: uppercase;
-
-    .item-controls {
-      height: 0;
-    }
-
-    .weaponnameheader {
-      float: left;
-      width: 300px;
-    }
-
-    .damageheader {
-      float: left;
-      width: 70px;
-      margin-right: 10px;
-    }
-
-    .bonesbanesheader {
-      float: left;
-      width: 50px;
-      margin-right: 10px;
-    }
-
-    .spelltypeheader {
-      float: left;
-      width: 50px;
-    }
-
-    .spellcastingsheader {
-      float: left;
-      width: 50px;
-    }
-
-    .propertiesheader {
-      float: left;
-      width: 230px;
-    }
-
-    .defenseheader {
-      float: left;
-      width: 100px;
-      margin-right: 10px;
-    }
-
-    .itemname {
-      float: left;
-      margin-right: 15px;
-    }
-
-    .spellnameheader {
-      float: left;
-      width: 270px;
-    }
-
-    .traditionnameheader {
-      float: left;
-      width: 380px;
-    }
-
-    .item-inv {
-      float: right;
-      width: 50px;
-      height: 16px;
-    }
-  }
 
   .item-list {
     list-style: none;
@@ -272,13 +106,6 @@
 
     .ammo-amount {
       width: 50px;
-    }
-
-    .bonesbanes {
-      float: left;
-      width: 50px;
-      margin-right: 10px;
-      padding-left: 5px;
     }
 
     .properties {
@@ -384,16 +211,6 @@
     font-size: 11px;
     margin-top: 10px;
 
-    .featurename {
-      height: 14px;
-      font-weight: bold;
-    }
-
-    .featurediscription {
-      width: 100%;
-      height: auto;
-    }
-
     .item-controls {
       float: right;
     }
@@ -495,65 +312,8 @@
   }
 }
 
-.listitems {
-  margin-top: -10px;
-}
-
 .colright .items-list {
   margin-top: 0;
-}
-
-.professionslist,
-.featureslist {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-
-  .item,
-  .feature {
-    padding: 3px 0;
-    border-bottom: 1px solid #333;
-    font-size: 12px;
-
-    label {
-      font-weight: bold;
-      padding-right: 15px;
-    }
-
-    div {
-      margin-right: 15px;
-    }
-  }
-
-  .editprofession,
-  .editfeature {
-    height: 130px;
-
-    input {
-      margin-bottom: 5px;
-    }
-
-    textarea {
-      background: rgba(0, 0, 0, 0.1);
-      border: 0;
-      border-radius: 0;
-      font-family: 'Gelasio', 'Signika', Georgia, serif;
-      font-size: 12px;
-
-      &:focus,
-      &:hover {
-        background: rgba(0, 0, 0, 0.3);
-      }
-    }
-
-    .item-controls {
-      float: right;
-      width: 15px;
-      margin: 0;
-      margin-top: 1px;
-    }
-  }
 }
 
 .isPC {

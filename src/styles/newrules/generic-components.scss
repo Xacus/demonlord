@@ -9,45 +9,6 @@
   justify-content: flex-end;
 }
 
-.dl-editor-box-old {
-  min-height: 64px;
-  display: block !important;
-
-  .editor {
-    min-height: 64px;
-  }
-
-  .editor-content {
-    height: fit-content !important;
-    min-height: 64px;
-  }
-
-  .editor .tox-tinymce {
-    height: inherit !important;
-    background: #0000000d;
-    border: none;
-    border-radius: 2px;
-
-    iframe {
-      width: 98%;
-    }
-
-    .tox-toolbar__primary {
-      background: #00000021 none !important;
-      border-bottom: 2px solid rgb(34, 47, 62);
-    }
-  }
-
-  .editor .editor-edit {
-    background-color: lightgray;
-    margin: 6px 8px;
-  }
-
-  .dl-editor .dl-editor-toolbar {
-    display: none;
-  }
-}
-
 .dl-editor-box {
   font-family: $font-primary;
   height: 100%;
