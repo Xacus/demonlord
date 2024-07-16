@@ -91,7 +91,7 @@ export class ActionTemplate extends MeasuredTemplate {
       if (now - moveTime <= 20) return
       const center = event.data.getLocalPosition(this.layer)
       const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 2
-      const snapped = canvas.grid.getSnappedPosition(center.x, center.y, interval)
+      const snapped = canvas.grid.getSnappedPoint(center, { mode: 1, resolution: interval })
       await this.document.updateSource({x: snapped.x, y: snapped.y})
       this.refresh()
       this.autoTargeting()
@@ -118,7 +118,7 @@ export class ActionTemplate extends MeasuredTemplate {
 
       // Confirm final snapped position
       const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 2
-      const destination = canvas.grid.getSnappedPosition(this.document.x, this.document.y, interval)
+      const destination = canvas.grid.getSnappedPoint(this.document, {mode: 1, resolution: interval})
       await this.document.updateSource(destination)
       const data = this.document.toObject()
       this.autoTargeting()
@@ -159,7 +159,7 @@ export class ActionTemplate extends MeasuredTemplate {
           x: token.x + x * gridSize - templatePos.x,
           y: token.y + y * gridSize - templatePos.y,
         }
-        const contains = this.shape.contains(currGrid.x, currGrid.y)
+        const contains = this.shape?.contains(currGrid.x, currGrid.y)
         if (contains) return true
       }
     }

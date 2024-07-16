@@ -23,7 +23,7 @@
       <div class="resttext">{{localize "DL.CreatureHorrifying"}}</div>
     </div>
     <div class="charsstat">
-      <div class="chars grid grid-2col">
+      <div class="chars grid grid-2">
         <div class="speedbox">
           <div class="speedtext">{{localize "DL.TalentDamage"}}</div>
           <div class="speed">
@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="chars grid grid-2col">
+      <div class="chars grid grid-2">
         <div class="speedbox">
           <div class="speedtext">{{localize "DL.AttributeDefense"}}</div>
           <div class="speed"><input name="system.characteristics.defense" type="number"
@@ -51,7 +51,7 @@
                                     value="{{system.characteristics.power}}" data-dtype="Number" placeholder=""/></div>
         </div>
       </div>
-      <div class="chars grid grid-2col">
+      <div class="chars grid grid-2">
         <div class="speedbox">
           <div class="speedtext">{{localize "DL.CharSize"}}</div>
           <div class="speed"><input name="system.characteristics.size" type="text"
@@ -64,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="chars grid grid-2col">
+      <div class="chars grid grid-2">
         <div class="speedbox characteristic">
           <div class="speedtext name" data-key="insanity">{{localize "DL.CreatureInsanity"}}</div>
           <div class="speed">
@@ -89,7 +89,7 @@
     </div>
     <div class="turnmode">
       <label class="switchTurn">
-        <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}}>
+        <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}} {{disabled system.maluses.noFastTurn}}>
         <div class="slider round">
           <span class="on">{{localize "DL.TurnFastButton"}}</span>
           <span class="off">{{localize "DL.TurnSlowButton"}}</span>

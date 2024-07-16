@@ -23,7 +23,7 @@ form {
         height: 40px;
         background-image: url('../assets/ui/bloodstain.webp');
         position: relative;
-        top: -14px;
+        top: -5px;
         left: -7px;
       }
     }
@@ -154,6 +154,11 @@ form {
       -webkit-transform: translateX(116px);
       -ms-transform: translateX(116px);
       transform: translateX(116px);
+    }
+
+    input:disabled + .slider:before {
+      content: '';
+      background-image: url('../assets/ui/bloodstain.webp');
     }
   }
 }
