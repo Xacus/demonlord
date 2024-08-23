@@ -586,7 +586,7 @@
   "DL.SpellName": "Nom du sort",
   "DL.SpellPermanence": "Permanence",
   "DL.SpellRank": "Rang",
-  "DL.SpellRequirements": "Conditions",
+  "DL.Requirements": "Conditions",
   "DL.SpellRollArea": "Zone d'effet",
   "DL.SpellRollDescription": "Description",
   "DL.SpellRollDuration": "Durée",
