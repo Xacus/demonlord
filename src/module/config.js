@@ -9,7 +9,7 @@ DL.attributes = {
   defense: 'DL.AttributeDefense',
 }
 
-DL.pathtype = {
+DL.pathType = {
   novice: 'DL.CharPathNovice',
   expert: 'DL.CharPathExpert',
   master: 'DL.CharPathMaster',
@@ -17,7 +17,7 @@ DL.pathtype = {
 }
 
 // [powerLevel][spellLevel] -> maxCastings
-DL.spelluses = {
+DL.spellUses = {
   0: { 0: 1, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
   1: { 0: 2, 1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
   2: { 0: 3, 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
@@ -86,7 +86,7 @@ DL.actionTargetTypes = {
   square: 'DL.ActionTargetTypesSquare',
 }
 
-DL.ActiveEffectsMenuTypes = {
+DL.activeEffectsMenuTypes = {
   NONE: 0,
   TOGGLE: 1,
   EDIT: 2,

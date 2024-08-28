@@ -9,7 +9,7 @@ export class DemonlordItem extends Item {
     if (this.type === 'spell' && this.parent) {
       const power = +this.parent.system?.characteristics.power || 0
       const rank = updateData?.system?.rank ?? +this.system.rank
-      const calculatedCastings = CONFIG.DL.spelluses[power]?.[rank] ?? 0
+      const calculatedCastings = CONFIG.DL.spellUses[power]?.[rank] ?? 0
       if (updateData.system?.castings?.ignoreCalculation === false || (updateData?.system?.castings?.ignoreCalculation === undefined && !this.system.castings.ignoreCalculation)) {
         if (updateData?.system?.castings !== undefined) {
           updateData.system.castings.max = calculatedCastings
