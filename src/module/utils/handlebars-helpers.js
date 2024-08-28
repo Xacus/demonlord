@@ -1,6 +1,5 @@
 /* global fromUuidSync */
 import {capitalize, enrichHTMLUnrolled, i18n} from "./utils";
-import {handlebarsBuildEditor} from "./editor";
 
 export function registerHandlebarsHelpers() {
 
@@ -44,7 +43,6 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlDropdownValue', (groupName, checkedKey, valueName, valueKey) => _buildDropdownItemWithValue(groupName, checkedKey, valueName, valueKey))
   Handlebars.registerHelper('dlCheckboxes', (groupName, checkedKey, data) => _buildCheckboxes(groupName, checkedKey, data))
   Handlebars.registerHelper('dlBOBAButton', (_name, value, loc = undefined) => _buildBOBAButton(_name, value, loc))
-  Handlebars.registerHelper('dlEditor', (options) => handlebarsBuildEditor(options))
   Handlebars.registerHelper('dlPathAttributeTwoSet', (groupName, checkedKey) => _buildPathAttributeTwoSetDropdown(groupName, checkedKey))
   Handlebars.registerHelper('dlPathAttributeTwoSetViewSelector', (attributeName, isSelected, selectedName, selectedValue, idx) =>
     _buildPathAttributeTwoSetViewSelector(attributeName, isSelected, selectedName, selectedValue, idx)
