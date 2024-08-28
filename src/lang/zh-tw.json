@@ -441,7 +441,7 @@
   "DL.ModsRoundsLeft": "剩餘。",
   "DL.ModsListBoonsBanes": "優勢/劣勢",
   "DL.ModsListDamage": "傷害",
-  "DL.ModsListAttack": "攻擊",
+  "DL.Attack": "攻擊",
   "DL.ModsListChallenge": "檢定",
   "DL.ModsListDefense": "防禦",
   "DL.ModsListHealth": "生命值",

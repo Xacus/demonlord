@@ -450,7 +450,7 @@
   "DL.ModsRoundsLeft": " verbleibend",
   "DL.ModsListBoonsBanes": "Boni/Mali",
   "DL.ModsListDamage": "Schaden",
-  "DL.ModsListAttack": "Angriff",
+  "DL.Attack": "Angriff",
   "DL.ModsListChallenge": "Probe",
   "DL.ModsListDefense": "Verteidigung",
   "DL.ModsListHealth": "Lebenspunkte",
