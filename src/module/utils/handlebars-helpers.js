@@ -100,7 +100,7 @@ function _buildRadioBoxes(groupName, checkedKey) {
 // ----------------------------------------------------
 
 function _IsNestedItem(item) {
-  return item?.getFlag('demonlord', 'parentItemId')
+  return item?.getFlag('demonlord', 'parentItemId') && item?.getFlag('demonlord', 'nestedItemId')
 }
 
 function _GetNestedItemSource(item) {

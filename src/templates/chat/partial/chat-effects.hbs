@@ -4,10 +4,12 @@
       - itemEffects
  --}}
 {{#each data.itemEffects as |effect|}}
-  <div class="combatactions apply-effect" data-effect-uuid="{{effect.uuid}}">
-    <div class="header">
-      <img src="{{effect.img}}" width="15" height="15" />
-      <div>{{effect.name}}</div>
+  {{#unless effect.transfer}}
+    <div class="combatactions apply-effect" data-effect-uuid="{{effect.uuid}}">
+      <div class="header">
+        <img src="{{effect.img}}" width="15" height="15" />
+        <div>{{effect.name}}</div>
+      </div>
     </div>
-  </div>
+  {{/unless}}    
 {{/each}}

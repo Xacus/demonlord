@@ -244,8 +244,8 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
       else
         disabled = calcEffectRemainingSeconds(e, worldTime) <= 0
 
-      // Delete effects that come from spells, characters or afflictions
-      if (autoDelete && disabled && ['spell', 'character', 'affliction'].includes(eType))
+      // Delete effects that come from spells, talents, characters or afflictions
+      if (autoDelete && disabled && ['spell', 'talent', 'character', 'affliction'].includes(eType))
         deleteIds.push(e._id)
       else if (disabled !== e.disabled)
         updateData.push({_id: e._id, disabled: disabled})
