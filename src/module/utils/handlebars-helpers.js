@@ -221,7 +221,7 @@ export function buildDropdownList(groupName, checkedKey, data) {
   if (groupName === 'path-type') return _buildPathTypeDropdownList(checkedKey)
   if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
   if (groupName.startsWith('level.attributeSelectTwoSet')) return _buildPathAttributeTwoSetDropdownList(groupName, checkedKey)
-  if (groupName === 'system.consume.ammoitemid') return _buildAmmoDropdownList (groupName, checkedKey, data)  
+  if (groupName === 'system.consume.ammoitemid') return _buildAmmoDropdownList (groupName, checkedKey, data.document)  
   if (groupName === 'system.hands') {labelPrefix = 'DL.WeaponHands'; useIcon = false}
   if (groupName === 'system.consumabletype') {labelPrefix = 'DL.ConsumableType'; useIcon = false}
   if (groupName === 'system.availability') {labelPrefix = 'DL.Availability', iconPrefix = 'dl-icon-availability-'}
@@ -379,8 +379,8 @@ function _buildPathAttributeTwoSetViewSelector(attributeName, isSelected, select
 function _buildAmmoDropdownList(groupName, checkedKey, data) {
   let attributes = [{ id: '', name: i18n('DL.None') }]
   let html = `<div class="dl-new-project-2-dropdown">`
-  if (!data.document) return ''
-  let baseItemUuid = data.document.uuid
+  if (!data) return ''
+  let baseItemUuid = data.uuid
   let actor = fromUuidSync(baseItemUuid.substr(0, baseItemUuid.search('.Item.')))
   actor.items.forEach(item => {
     if (item.type === 'ammo') attributes.push({ id: item._id, name: item.name })
