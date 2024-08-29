@@ -414,7 +414,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
     // Max castings
     e.querySelector('.max-castings-control')?.addEventListener('change', async ev => await this._onManageMaxCastings(ev, this))
-    e.querySelector('.max-castings-control')?.addEventListener('contextmenu', async ev => await this._onToggleMaxCastingsCalculation(ev, this))
+    e.querySelector('.item-group-spell-castings')?.addEventListener('contextmenu', async ev => await this._onToggleMaxCastingsCalculation(ev, this))
 
     // Contents item quantity and delete functions
     e.querySelectorAll('.item-uses')?.forEach(el => el.addEventListener('mousedown', async ev => await this._onUpdateContentsItemQuantity(ev)))
@@ -498,9 +498,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   async _onManageMaxCastings (ev, sheet) {
     // Set the flag if textbox has been modified. Clear if blank.
     const target = ev.currentTarget
-    const spell = sheet.object
-    console.log(ev);
-    console.log(spell);
+    const spell = sheet.document
     await spell.update({
       system: {
         castings: {
@@ -512,9 +510,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   
   async _onToggleMaxCastingsCalculation (ev, sheet) {
     // Set the flag if textbox has been modified. Clear if blank.
-    const spell = sheet.object
-    console.log(ev);
-    console.log(spell);
+    const spell = sheet.document
     await spell.update({
       system: {
         castings: {
