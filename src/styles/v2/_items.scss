@@ -1,0 +1,59 @@
+.dl-item-section-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2px;
+  font-family: 'Linux Libertine Capitals', 'IM Fell English SC', serif;
+  font-size: 14px;
+}
+
+.dl-item-section {
+  b {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    line-height: 22px;
+  }
+
+  .dl-item-section-group {
+    display: flex;
+    max-width: 70%;
+  }
+
+  .dl-item-section-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .dl-item-section-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+}
+
+.dl-item-section.expandable {
+  height: auto;
+  align-items: flex-start;
+}
+
+.item-properties {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  margin: 5px 0;
+
+  .item-properties-textbox {
+    margin-left: 10px;
+    margin-right: 4px;
+    height: 100%;
+
+    &.spell {
+      width: 80%;
+    }
+  }
+}
+
+.language-checkboxes {
+  justify-content: space-evenly;
+}

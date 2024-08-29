@@ -1,0 +1,131 @@
+<!-- START OF TEMPLATES -->
+
+{{#*inline "dlAttributeField"}}
+  <div class="dl-new-project-2 nohover">
+    <i class="dl-icon-{{attribute}}"></i>
+    <span class="sep"></span>
+    <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
+    <span class="sep"></span>
+    <span style="width: {{defaultValue width "16px"}};text-align: center;margin-left: 4px;">{{ifThen immune '-' value}}</span>
+  </div>
+{{/inline}}
+
+{{#* inline "dlModField"}}
+  {{#if value}}
+    <div class="dl-column-flex">{{> dlAttributeField attribute=attribute  value=value  loc=loc width="24px"}}</div>
+  {{/if}}
+{{/inline}}
+
+{{#* inline "dlDropZoneView"}}
+  {{#if collection.length}}
+    {{#if title}}
+      <div class="dl-item-section-section-title"><b>{{localize title}}</b></div>
+    {{/if}}
+    <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}" data-group="{{dataGroup}}">
+      {{#each collection as |item index|}}
+        <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
+             {{#if item.system.enrichedDescriptionUnrolled}}data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"{{/if}}>
+          <img src="{{item.img}}">
+          <span class="edit-nested-item dl-clickable" data-action="editNestedItem">{{item.name}}</span>
+          {{#if ../selectable}}
+            <div class="dl-custom-checkbox dl-item-transfer {{#if item.selected}}checked{{/if}}"
+                 data-tippy-content="{{localize "DL.TransferItem"}}"></div>
+          {{/if}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+{{/inline}}
+
+<!-- END OF TEMPLATES -->
+
+<div class="dl-item-section-header row">
+  <div class="col-4" style="margin-top: 4px">
+    <b>{{item.name}}</b>
+  </div>
+</div>
+<hr>
+
+<div class="dl-item-section-section margin left">
+  <div class="dl-item-section-section-title">
+    <b>{{localize "DL.AncestryStartingAttributes"}}</b>
+  </div>
+  <div class="dl-column-flex">
+    {{> dlAttributeField attribute="strength"  value=system.attributes.strength.value  immune=system.attributes.strength.immune  loc="DL.AttributeStrength"}}
+    {{> dlAttributeField attribute="agility"   value=system.attributes.agility.value   immune=system.attributes.agility.immune   loc="DL.AttributeAgility"}}
+    {{> dlAttributeField attribute="intellect" value=system.attributes.intellect.value immune=system.attributes.intellect.immune loc="DL.AttributeIntellect"}}
+    {{> dlAttributeField attribute="will"      value=system.attributes.will.value      immune=system.attributes.will.immune      loc="DL.AttributeWill"}}
+  </div>
+</div>
+<hr>
+
+<div class="grid-2-sep">
+  <div class="dl-item-section-section margin dl-characteristics-container">
+    <div class="dl-item-section-section-title">
+      <b>{{localize "DL.WeaponModifiers"}}</b>
+    </div>
+    {{> dlModField attribute="size"        value=system.characteristics.size                 loc="DL.CharSize"}}
+    {{> dlModField attribute="speed"       value=system.characteristics.speed                loc="DL.CharSpeed"}}
+    {{> dlModField attribute="health"      value=system.characteristics.healthmodifier       loc="DL.CharHealth"}}
+    {{> dlModField attribute="healing"     value=system.characteristics.healingratemodifier  loc="DL.CharHealthHealingRating"}}
+    {{> dlModField attribute="perception"  value=system.characteristics.perceptionmodifier   loc="DL.AttributePerception"}}
+    {{> dlModField attribute="defense"     value=system.characteristics.defensemodifier      loc="DL.AttributeDefense"}}
+    {{> dlModField attribute="insanity"    value=system.characteristics.insanity.value       loc="DL.CharInsanity"}}
+    {{> dlModField attribute="corruption"  value=system.characteristics.corruption.value     loc="DL.CharCorruption"}}
+    {{> dlModField attribute="power"       value=system.characteristics.power                loc="DL.CharPower"}}
+  </div>
+  <span class="grid-sep"></span>
+  <div class="dl-item-section-section margin">
+    {{#if system.languages}}
+      <div class="dl-item-section-section-title">
+        <b>{{localize "DL.PathsLevelLanguages"}}</b>
+      </div>
+      <div>
+        {{system.languages}}
+      </div>
+    {{/if}}
+    {{> dlDropZoneView collection=system.languagelist title="DL.LanguagesTitle"}}
+  </div>
+</div>
+<hr>
+
+{{#if system.talents.length}}
+  <div class="dl-item-section-section margin">
+    {{> dlDropZoneView collection=system.talents title="DL.FeaturesTitle" col2=true}}
+  </div>
+  <hr>
+{{/if}}
+
+<div class="dl-item-section-header center">
+  <b>{{localize "DL.AncestryLevel4"}} {{item.name}}</b>
+</div>
+<div class="dl-item-section-section margin">
+  <div class="dl-column-flex">
+    {{> dlAttributeField attribute="health"  value=system.level4.healthbonus  loc="DL.CharHealth"}}
+  </div>
+</div>
+
+<!-- IF both level 4 spells and talents, use two col layout, otherwise 1-->
+{{#if (and system.level4.spells.length system.level4.talent.length)}}
+  <div class="grid-2">
+    <div class="dl-item-section-section margin">
+      {{> dlDropZoneView collection=system.level4.spells dataGroup='spells4' title="DL.AncestryLearnSpell" selectable=true}}
+    </div>
+    <div class="dl-item-section-section margin">
+      {{> dlDropZoneView collection=system.level4.talent dataGroup='talent4' title="DL.AncestryLearnTalent" selectable=true}}
+    </div>
+  </div>
+{{else if system.level4.spells.length}}
+  <div class="dl-item-section-section margin">
+    {{> dlDropZoneView collection=system.level4.spells dataGroup='spells4' title="DL.AncestryLearnSpell" col2=true selectable=true}}
+  </div>
+{{else if system.level4.talent.length}}
+  <div class="dl-item-section-section margin">
+    {{> dlDropZoneView collection=system.level4.talent dataGroup='talent4' title="DL.AncestryLearnTalent" col2=true selectable=true}}
+  </div>
+{{/if}}
+
+
+
+
+

@@ -4,7 +4,6 @@ import {DamageType} from '../nested-objects'
 import tippy from "tippy.js";
 import {buildDropdownList} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
-import {initDlEditor} from "../../utils/editor";
 import {DemonlordItem} from "../item";
 import {enrichHTMLUnrolled, i18n} from "../../utils/utils";
 import { 
@@ -279,9 +278,6 @@ export default class DLBaseItemSheet extends ItemSheet {
 
     // Create nested items by dropping onto item
     this.form.ondrop = ev => this._onDropItem(ev);
-
-    // Custom editor
-    initDlEditor(html, this)
 
     // Nested item create, edit
     html.find('.create-nested-item').click(async (ev) => await this._onNestedItemCreate(ev))

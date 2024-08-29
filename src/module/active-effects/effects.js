@@ -38,6 +38,38 @@ export async function onManageActiveEffect(event, owner) {
   }
 }
 
+export async function onCreateEffect(listItem, owner) {
+  const isCharacter = owner.type === 'character'
+  return await owner
+        .createEmbeddedDocuments('ActiveEffect', [
+          {
+            name: isCharacter ? 'New Effect' : owner.name,
+            icon: isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' : owner.img,
+            origin: owner.uuid,
+            transfer: false,
+            flags: { sourceType: owner.type },
+            'duration.rounds': listItem.dataset.effectType === 'temporary' ? 1 : undefined,
+            disabled: listItem.dataset.effectType === 'inactive',
+          },
+        ])
+        .then(effects => effects[0].sheet.render(true))
+}
+
+export async function onEditEffect(listItem, owner) {
+  const effect = listItem.dataset.effectId ? (owner instanceof DemonlordActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === listItem.dataset.effectId) : owner.effects.get(listItem.dataset.effectId)) : null
+  return effect.sheet.render(true)
+}
+
+export async function onDeleteEffect(listItem, owner) {
+    const effect = listItem.dataset.effectId ? (owner instanceof DemonlordActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === listItem.dataset.effectId) : owner.effects.get(listItem.dataset.effectId)) : null
+  return await effect.delete()
+}
+
+export async function onToggleEffect(listItem, owner) {
+  const effect = listItem.dataset.effectId ? (owner instanceof DemonlordActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === listItem.dataset.effectId) : owner.effects.get(listItem.dataset.effectId)) : null
+  return await effect.update({ disabled: !effect.disabled })
+}
+
 /**
  * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
  * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for

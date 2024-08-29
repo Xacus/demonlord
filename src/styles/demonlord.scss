@@ -87,3 +87,14 @@
 }
 
 @import 'src/styles/components/dialogs/dialog2';
+
+/*****************/
+/*   V2 Styles   */
+/*****************/
+.demonlord-v2-sheet {
+  @import 'src/styles/v2/sheets';
+}
+
+.demonlord-v2-item {
+  @import 'src/styles/v2/items';
+}

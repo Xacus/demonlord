@@ -1,0 +1,35 @@
+<div class="dl-item-section">
+  <b>{{localize "DL.MeasuredTemplate"}}</b>
+  <div class="dl-item-section-row">
+    <div class="item-group-measured-template-value">
+      <div class="input-group">
+        <span class="text">{{localize "DL.ActionTargetValue"}} (yd)</span>
+        <span class="sep"></span>
+        <input type="number" class="input-group-textbox" name="system.activatedEffect.target.value"
+          value="{{system.activatedEffect.target.value}}" placeholder="-">
+      </div>
+    </div>
+
+    <div class="item-group-measured-template-target">
+      <div class="input-group">
+        <span>{{localize "DL.ActionTargetType"}}</span>
+        <span class="sep"></span>
+        <select class="input-group-dropdown" name="system.activatedEffect.target.type">
+          {{selectOptions config.actionTargetTypes selected=system.activatedEffect.target.type blank="—" localize=true}}
+        </select>
+      </div>
+    </div>
+
+    <div class="item-group-measured-template-texture">
+      <div class="input-group" data-tippy-content="{{localize "DL.ActionTexture"}}">
+        <input type="text" class="input-group-textbox" name="system.activatedEffect.texture"
+          value="{{system.activatedEffect.texture}}" placeholder="path/image.webp">
+        <span class="sep"></span>
+        <a class="dl-clickable file-picker input-group-button" data-type="imagevideo"
+          data-target="system.activatedEffect.texture" title="File" tabindex="-1">
+          <i class="icon-file-import themed-icon"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,6 @@ import {buildOverview} from '../../chat/effect-messages'
 import {capitalize, enrichHTMLUnrolled} from '../../utils/utils'
 import {DemonlordItem} from '../../item/item'
 import {DLAfflictions} from '../../active-effects/afflictions'
-import {initDlEditor} from "../../utils/editor";
 import DLBaseItemSheet from "../../item/sheets/base-item-sheet";
 import tippy from "tippy.js";
 
@@ -395,8 +394,5 @@ export default class DLBaseActorSheet extends ActorSheet {
         li.addEventListener('dragstart', handler, false)
       })
     }
-
-    // Custom editor
-    initDlEditor(html, this)
   }
 }

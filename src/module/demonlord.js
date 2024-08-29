@@ -22,6 +22,9 @@ import DLBaseItemSheet from './item/sheets/base-item-sheet'
 import DLAncestrySheet from './item/sheets/ancestry-sheet'
 import DLRoleSheet from './item/sheets/role-sheet.js'
 import DLPathSheet from './item/sheets/path-sheet'
+
+import DLBaseItemSheetV2 from './item/sheets/base-item-sheet-v2.js'
+
 import CharacterDataModel from './data/actor/CharacterDataModel.js'
 import CreatureDataModel from './data/actor/CreatureDataModel.js'
 import VehicleDataModel from './data/actor/VehicleDataModel.js'
@@ -142,6 +145,22 @@ Hooks.once('init', async function () {
       'language',
     ],
     makeDefault: true,
+  })
+  Items.registerSheet('demonlord', DLBaseItemSheetV2, {
+    types: [
+      'ammo',
+      'armor',
+      'endoftheround',
+      'feature',
+      'item',
+      'language',
+      'profession',
+      'relic',
+      'specialaction',
+      'spell',
+      'talent',
+      'weapon'
+    ],
   })
   Items.registerSheet('demonlord', DLAncestrySheet, {
     types: ['ancestry'],

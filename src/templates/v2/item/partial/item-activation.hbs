@@ -1,0 +1,172 @@
+<div class="tab activated-effect" data-group="primary" data-tab="activated-effect">
+  {{!-- Activation Cost --}}
+  <div class="item-tab-sub-header">
+    <div>{{localize "DL.ActionActivationCost"}}</div>
+  </div>
+  <div class="item-table indent">
+    <div class="row">
+      <div class="col-6">
+        <label class="resource-label">{{localize "DL.ActionActivationCostAmount"}}</label>
+        <input
+                type="text"
+                name="data.activatedEffect.activationCost.cost"
+                value="{{data.activatedEffect.activationCost.cost}}"
+                data-dtype="Number"
+        />
+      </div>
+      <div class="col-6">
+        <label class="resource-label">{{localize "DL.ActionActivationCostType"}}</label>
+        <select name="data.activatedEffect.activationCost.type" data-dtype="String">
+          {{#select data.activatedEffect.activationCost.type}}
+            <option value="">—</option>
+            {{#each config.actionActivationTypes as |name key|}}
+              <option value="{{key}}">{{localize name}}</option>
+            {{/each}} {{/select}}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Action Target --}}
+  <div class="item-tab-sub-header">
+    <div>{{localize "DL.ActionTarget"}}</div>
+  </div>
+  <div class="item-table indent">
+    <div class="row">
+      <div class="col-6">
+        <label class="resource-label">{{localize "DL.ActionTargetValue"}}</label>
+        <input
+                type="text"
+                name="data.activatedEffect.target.value"
+                value="{{data.activatedEffect.target.value}}"
+                data-dtype="Number"
+        />
+      </div>
+      <div class="col-6">
+        <label class="resource-label">{{localize "DL.ActionTargetType"}}</label>
+        <select name="data.activatedEffect.target.type" data-dtype="String">
+          {{#select data.activatedEffect.target.type}}
+            <option value="">—</option>
+            {{#each config.actionTargetTypes as |name key|}}
+              <option value="{{key}}">{{localize name}}</option>
+            {{/each}} {{/select}}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Action Range --}}
+  <div class="item-tab-sub-header">
+    <div>{{localize "DL.ActionRange"}}</div>
+  </div>
+  <div class="item-table indent">
+    <div class="row">
+      <div class="col-12">
+        <select name="data.activatedEffect.range" data-dtype="String">
+          {{#select data.activatedEffect.range}}
+            <option value="">—</option>
+            {{#each config.actionRange as |name key|}}
+              <option value="{{key}}">{{localize name}}</option>
+            {{/each}} {{/select}}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Action Duration --}}
+  <div class="item-tab-sub-header">
+    <div>{{localize "DL.ActionDuration"}}</div>
+  </div>
+  <div class="item-table indent">
+    <div class="row">
+      <div class="col-6">
+        <label class="resource-label">{{localize "DL.ActionDurationValue"}}</label>
+        <input
+                type="text"
+                name="data.activatedEffect.duration.value"
+                value="{{data.activatedEffect.duration.value}}"
+                data-dtype="Number"
+        />
+      </div>
+      <div class="col-6">
+        <label class="resource-label">{{localize "DL.ActionDurationType"}}</label>
+        <select name="data.activatedEffect.duration.type" data-dtype="String">
+          {{#select data.activatedEffect.duration.type}}
+            <option value="">—</option>
+            {{#each config.actionDuration as |name key|}}
+              <option value="{{key}}">{{localize name}}</option>
+            {{/each}} {{/select}}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Action Limited Uses --}}
+  <div class="item-tab-sub-header">
+    <div>{{localize "DL.ActionLimitedUses"}}</div>
+  </div>
+  <div class="item-table indent">
+    <div class="row">
+      <div class="col-4">
+        <label class="resource-label">{{localize "DL.ActionLimitedUsesValue"}}</label>
+        <input
+                type="text"
+                name="data.activatedEffect.uses.value"
+                value="{{data.activatedEffect.uses.value}}"
+                data-dtype="Number"
+        />
+      </div>
+      <div class="col-4">
+        <label class="resource-label">{{localize "DL.ActionLimitedUsesMax"}}</label>
+        <input
+                type="text"
+                name="data.activatedEffect.uses.max"
+                value="{{data.activatedEffect.uses.max}}"
+                data-dtype="Number"
+        />
+      </div>
+      <div class="col-4">
+        <label class="resource-label">{{localize "DL.ActionLimitedUsesType"}}</label>
+        <select name="data.activatedEffect.uses.type" data-dtype="String">
+          {{#select data.activatedEffect.uses.type}}
+            <option value="">—</option>
+            {{#each config.actionLimitedUsePeriods as |name key|}}
+              <option value="{{key}}">{{localize name}}</option>
+            {{/each}} {{/select}}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Action Texture --}}
+  <div class="item-tab-sub-header">
+    <div>{{localize "DL.ActionLimitedUses"}}</div>
+  </div>
+  <div class="item-table indent">
+    <div class="row">
+      <div class="col-10">
+        <input
+                class="image"
+                type="text"
+                name="data.activatedEffect.texture"
+                placeholder="path/image.webp"
+                value="{{data.activatedEffect.texture}}"
+                data-dtype="String"
+        />
+      </div>
+      <div class="col-2">
+        <button
+                type="button"
+                class="file-picker"
+                data-type="imagevideo"
+                data-target="data.activatedEffect.texture"
+                title="File"
+                tabindex="-1"
+                style="height: 24px; width: 24px; font-size: 12px; padding: 0; line-height: 7px"
+        >
+          <i class="fas fa-file-import fa-fw"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

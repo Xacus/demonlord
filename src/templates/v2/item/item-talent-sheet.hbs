@@ -1,0 +1,118 @@
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="talent">
+
+  <div class="dl-item-section-header">
+    <b>{{item.name}}</b>
+    <div class="dl-item-section-group item-group-talent-info">
+      <input type="text" class="input-group-textbox talent-group" name="system.groupname" value="{{system.groupname}}" placeholder="{{localize 'DL.TalentGroupname'}}"/>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize "DL.TalentUses"}}</b>
+    <div class="dl-item-section-group">
+      <div class="item-group-talent-uses">
+        <input type="number" class="input-group-textbox" name="system.uses.value" value="{{system.uses.value}}" data-tippy-content="{{localize "DL.TalentUses"}}" placeholder="-" min="0"/>
+        <span class="sep"></span>
+        <input type="number" class="input-group-textbox" name="system.uses.max" value="{{system.uses.max}}" data-tippy-content="{{localize "DL.TalentUsesMax"}}" placeholder="-" min="0"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize "DL.ChallengeRollBonus"}}</b>
+    <div class="dl-item-section-group">
+      {{Checkboxes "talent-challenge-bonus" '' system}}
+      {{BOBAButton 'system.challenge.boonsbanes' system.challenge.boonsbanes 'DL.TalentAddBoonsBanesToAttribute'}}
+    </div>
+  </div>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.AttackRollBonuses'}}</b>
+    <div class="dl-item-section-group">
+      {{Checkboxes 'talent-action-bonus' '' system}}
+      {{BOBAButton 'system.action.extraboonsbanes' system.action.extraboonsbanes 'DL.TalentAddBoonsBanesBonus'}}
+    </div>
+  </div>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.TalentAddDamageToYourAttackRoll'}}</b>
+    <div class="dl-item-section-group">
+      <div class="item-group-talent-damage" data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]">
+        <i class="icon-d20 themed-icon"></i>
+        <span class="sep"></span>
+        <input type="text" class="input-group-textbox" name="system.action.extradamage" value="{{system.action.extradamage}}" placeholder="-"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.TalentExtraDamage'}}</b>
+    <div class="item-group-talent-damage" data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]">
+      <i class="icon-d20-plus themed-icon"></i>
+      <span class="sep"></span>
+      <input type="text" class="input-group-textbox" name="system.action.extraplus20damage" value="{{system.action.extraplus20damage}}" placeholder="-"/>
+    </div>
+  </div>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.TalentExtraEffect'}}</b>
+    <input type="text" class="item-properties-textbox spell" name="system.action.extraeffect" placeholder="―" value="{{system.action.extraeffect}}" >
+  </div>
+
+  <hr>
+
+  {{> 'systems/demonlord/templates/v2/item/partial/item-attacks.hbs' action=system.action actionId='system.action'}}
+  <hr>
+
+  {{> 'systems/demonlord/templates/v2/item/partial/item-challenge.hbs' action=system.action actionId='system.action'}}
+  {{> 'systems/demonlord/templates/v2/item/partial/item-healing.hbs' healing=system.healing.healing healingId='system.healing.healing'}}
+
+  <hr>
+
+  {{> "systems/demonlord/templates/v2/item/partial/item-description.hbs" description=system.description enrichedDescription=system.enrichedDescription}}
+
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize "DL.TalentAddBonusesToYourCharacteristics"}}</b>
+    <div class="dl-item-section-group">
+      <div class="item-group-talent-bonus" data-tippy-content="{{localize "DL.AttributeDefense"}}">
+        <i class="icon-defense themed-icon"></i>
+        <span class="sep"></span>
+        <input type="number" class="input-group-textbox" name="system.bonuses.defense" value="{{system.bonuses.defense}}" placeholder="0"/>
+      </div>
+      <div class="item-group-talent-bonus" data-tippy-content="{{localize "DL.CharHealth"}}">
+        <i class="icon-health themed-icon"></i>
+        <span class="sep"></span>
+        <input type="number" class="input-group-textbox" name="system.bonuses.health" value="{{system.bonuses.health}}" placeholder="0"/>
+      </div>
+      <div class="item-group-talent-bonus" data-tippy-content="{{localize "DL.CharSpeed"}}">
+        <i class="icon-speed themed-icon"></i>
+        <span class="sep"></span>
+        <input type="number" class="input-group-textbox" name="system.bonuses.speed" value="{{system.bonuses.speed}}" placeholder="0"/>
+      </div>
+      <div class="item-group-talent-bonus" data-tippy-content="{{localize "DL.CharPower"}}">
+        <i class="icon-power themed-icon"></i>
+        <span class="sep"></span>
+        <input type="number" class="input-group-textbox" name="system.bonuses.power" value="{{system.bonuses.power}}" placeholder="0"/>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize "DL.TalentMakeADamageRoll"}}</b>
+    <div class="item-group-straight-damage" data-tippy-content="{{localize 'DL.WeaponDamage'}}">
+      <i class="icon-d20 themed-icon"></i>
+      <span class="sep"></span>
+      <input type="text" class="input-group-textbox" name="system.damage" value="{{system.damage}}" data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-"/>
+      <span class="sep"></span>
+      <input type="text" class="input-group-textbox" name="system.damagetype" value="{{system.damagetype}}" data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-"/>
+    </div>
+  </div>
+  <hr>
+
+  {{> "systems/demonlord/templates/v2/item/partial/item-measured-template.hbs"}}
+</div>

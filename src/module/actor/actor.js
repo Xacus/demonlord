@@ -893,7 +893,7 @@ export class DemonlordActor extends Actor {
         if (s.system.castings.ignoreCalculation) return
         const rank = s.system.rank
         const currentMax = s.system.castings.max
-        const newMax = CONFIG.DL.spelluses[power]?.[rank] ?? 0
+        const newMax = CONFIG.DL.spellUses[power]?.[rank] ?? 0
         if (currentMax !== newMax) diff.push({_id: s.id, 'system.castings.max': newMax})
       })
     if (diff.length > 0) return await this.updateEmbeddedDocuments('Item', diff)

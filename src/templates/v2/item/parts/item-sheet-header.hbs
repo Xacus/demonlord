@@ -1,0 +1,39 @@
+{{!--
+    Variables:
+    - item
+    - placeholderName (e.g. "Ancestry Name")
+    - isEditable
+    - isGM
+    - edit
+    - editId (e.g. "system.editAncestry")
+--}}
+<div class="demonlord-v2-item-sheet-header-container">
+<header class="demonlord-v2-item-sheet-header">
+    <img class="demonlord-v2-header-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="demonlord-v2-header-fields">
+        <div class="demonlord-v2-header-name">
+            <input name="name" type="text" value="{{item.name}}" placeholder="{{localize placeholderName}}" />
+        </div>
+        <div class="demonlord-v2-header-type">{{item.type}}</div>
+    </div>
+    {{#if (and isEditable (or isGM isOwner))}}
+    <div class="togglegm">
+        <label class="switchBig">
+            <input type="checkbox" id="{{editId}}" name="{{editId}}" {{checked edit}} />
+            <div class="slider round">
+                <span class="on">{{localize "DL.ButtonEdit"}}</span>
+                <span class="off">{{localize "DL.ButtonView"}}</span>
+            </div>
+        </label>
+    </div>
+    {{/if}}
+</header>
+<nav class="sheet-tabs tabs" aria-role="{{localize 'SHEETS.FormNavLabel'}}">
+    {{#each tabs as |tab|}}
+    <a class="{{tab.cssClass}}" data-action="tab" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+        <i class="{{tab.icon}}"></i>
+        <label>{{localize tab.label}}</label>
+    </a>
+    {{/each}}
+</nav>
+</div>
