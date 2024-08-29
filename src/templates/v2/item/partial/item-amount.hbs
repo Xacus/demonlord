@@ -1,0 +1,26 @@
+{{!--
+Variables:
+  - action (e.g. system.action)
+  - attack
+  - against
+  - boonsbanes
+  - damage
+  - damagetype
+  - damagetypes
+  - plus20damage
+
+  - defense
+  - defenseboonsbanes
+  - action.id (e.g. "system.action")
+--}}
+<div class="dl-item-section item-properties">
+  <b>{{localize "DL.WeaponProperties"}}</b>
+  <input type="text" class="input-group-textbox" name="system.properties" placeholder="―" value="{{system.properties}}">
+  <div class="item-group-amount">
+    <div class="input-group" data-tippy-content="{{localize "DL.ItemAmount"}}">
+      <i class="icon-amount themed-icon"></i>
+      <span class="sep"></span>
+      <input type="number" class="input-group-textbox" name="system.quantity" value="{{system.quantity}}" placeholder="0" />
+    </div>
+  </div>
+</div>

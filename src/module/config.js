@@ -31,6 +31,11 @@ DL.spellUses = {
   10: { 0: 11, 1: 3, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1, 10: 1 },
 }
 
+DL.spellTypes = {
+  attack: 'DL.SpellTypeAttack',
+  utility: 'DL.SpellTypeUtility'
+}
+
 DL.actionActivationTypes = {
   action: 'DL.Action',
   triggeredaction: 'DL.TriggeredAction',
@@ -84,6 +89,12 @@ DL.actionTargetTypes = {
   line: 'DL.ActionTargetTypesLine',
   sphere: 'DL.ActionTargetTypesSphere',
   square: 'DL.ActionTargetTypesSquare',
+}
+
+DL.weaponHandsTypes = {
+  one: 'DL.WeaponHandsOne',
+  two: 'DL.WeaponHandsTwo',
+  off: 'DL.WeaponHandsOff'
 }
 
 DL.activeEffectsMenuTypes = {

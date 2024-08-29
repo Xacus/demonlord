@@ -1,0 +1,667 @@
+.window-content:has(.demonlord-v2-item-sheet-header-container) {
+  padding: 0;
+}
+
+.demonlord-v2-item-sheet-header-container {
+  background: var(--demonlord-header-background);
+}
+
+.demonlord-v2-item-sheet-header {
+  height: 64px;
+  padding: 1rem 1rem 0.3rem 1rem;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  color: var(--demonlord-color-text-inverted-primary);
+
+  .demonlord-v2-header-img {
+    cursor: pointer;
+    height: 64px;
+  }
+
+  .demonlord-v2-header-fields {
+    width: 100%;
+    margin-left: 10px;
+  }
+
+  .demonlord-v2-header-type {
+    text-transform: capitalize;
+  }
+
+  .demonlord-v2-header-name {
+    input {
+      color: var(--demonlord-color-input-inverted);
+    }
+  }
+}
+
+.tabs > [data-tab].active {
+  border-bottom: 3px solid var(--demonlord-red);
+  margin-bottom: -3px; // Stop border-bottom from pushing text upwards
+}
+
+nav.sheet-tabs {
+  border: none;
+  color: var(--demonlord-color-text-inverted-primary);
+
+  > [data-tab] {
+    padding: 4px 6px;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 13px;
+    text-transform: uppercase;
+  }
+}
+
+.demonlord-v2-tab {
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+  height: 100%;
+  --scroll-margin: 0; // Prevent hidden scrollbar
+  padding-right: 0.5rem !important;
+
+  .description-container {
+    padding-bottom: 1rem;
+    height: 100%;
+
+    .description-label {
+      font-family: 'Linux Libertine Capitals', 'IM Fell English SC', serif;
+      font-size: 12px;
+    }
+  }
+}
+
+.editor-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--demonlord-red) transparent;
+}
+
+hr {
+  // Remove Foundry styles
+  background-image: none;
+
+  border: none;
+  border-top: 1px solid var(--demonlord-color-hr);
+  border-bottom: 1px solid var(--demonlord-color-hr-highlight);
+  margin: 5px 0;
+}
+
+/*******************/
+/* Items List      */
+/*******************/
+.items-list {
+  list-style: none;
+  padding: 0;
+  margin: 5px 10px 20px 0;
+
+  .item-list {
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+
+    h4 {
+      font-family: 'IM Fell English SC', serif;
+      font-size: 14px;
+      font-weight: 400;
+      text-shadow: none;
+      color: var(--demonlord-color-text-primary);
+    }
+  }
+
+  .items-header {
+    border-bottom: 1px solid var(--demonlord-red);
+    font-weight: bold;
+    font-family: $font-header;
+    text-transform: uppercase;
+    height: 16px;
+    margin: 2px 0;
+    padding: 0;
+    align-items: center;
+
+    > * {
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .item-name {
+      flex: 2;
+      font-size: 10px;
+    }
+
+    .effect-controls {
+      text-align: right;
+      flex: 0 0 60px;
+      justify-content: space-between;
+    }
+
+    .effect-name {
+      font-size: 12px;
+    }
+  }
+
+  .itemamount {
+    float: right;
+    margin-right: 15px;
+  }
+
+  .itemvalue {
+    float: right;
+    margin-right: 15px;
+  }
+
+  .itemline {
+    margin-right: 15px;
+  }
+
+  .item {
+    padding: 3px 0;
+    border-bottom: 1px solid #333;
+    font-size: 12px;
+    overflow-y: auto;
+
+    .item-image {
+      float: left;
+      margin-right: 5px;
+      width: 30px;
+    }
+
+    img {
+      display: block;
+    }
+
+    .item-name {
+      color: #000;
+      flex: 2;
+
+      .item-image {
+        flex: 0 0 30px;
+        height: 30px;
+        background-size: 30px;
+        border: none;
+        margin-right: 5px;
+      }
+
+      .item-image-small {
+        flex: 0 0 15px;
+        height: 15px;
+        background-size: 15px;
+        border: none;
+        margin-right: 5px;
+      }
+
+      h4 {
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+
+    .effect-source,
+    .effect-duration,
+    .effect-controls {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .effect-source {
+      text-transform: capitalize;
+    }
+
+    .effect-controls {
+      border: none;
+      flex: 0 0 60px;
+      justify-content: space-between;
+
+      .effect-control {
+        margin: 0;
+        height: 14px;
+      }
+    }
+  }
+
+  .item-align {
+    width: 100%;
+  }
+
+  .item-name {
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+
+    input {
+      width: 200px;
+    }
+  }
+}
+
+/*******************/
+/* Icons           */
+/*******************/
+
+@mixin demonlord-icon($src) {
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  display: inline-block;
+
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
+
+.icon-strength {
+  @include demonlord-icon('../assets/ui/attributes/strength.svg');
+}
+
+.icon-agility {
+  @include demonlord-icon('../assets/ui/attributes/agility.svg');
+}
+
+.icon-intellect {
+  @include demonlord-icon('../assets/ui/attributes/intellect.svg');
+}
+
+.icon-will {
+  @include demonlord-icon('../assets/ui/attributes/will.svg');
+}
+
+.icon-perception {
+  @include demonlord-icon('../assets/ui/attributes/perception.svg');
+}
+
+.icon-defense {
+  @include demonlord-icon('../assets/ui/attributes/defense.svg');
+}
+
+.icon-healing {
+  @include demonlord-icon('../assets/ui/other-svg/healing.svg');
+}
+
+.icon-minus {
+  @include demonlord-icon('../assets/ui/other-svg/minus.svg');
+}
+
+.icon-nothing {
+  @include demonlord-icon('../assets/ui/other-svg/nothing.svg');
+}
+
+.icon-health {
+  @include demonlord-icon('../assets/ui/other-svg/health.svg');
+}
+
+.icon-size {
+  @include demonlord-icon('../assets/ui/other-svg/size.svg');
+}
+
+.icon-speed {
+  @include demonlord-icon('../assets/ui/other-svg/speed.svg');
+}
+
+.icon-power {
+  @include demonlord-icon('../assets/ui/other-svg/power.svg');
+}
+
+.icon-insanity {
+  @include demonlord-icon('../assets/ui/other-svg/insanity.svg');
+}
+
+.icon-corruption {
+  @include demonlord-icon('../assets/ui/other-svg/corruption.svg');
+}
+
+.icon-d6 {
+  @include demonlord-icon('../assets/ui/other-svg/d6.svg');
+}
+
+.icon-d20 {
+  @include demonlord-icon('../assets/ui/other-svg/d20.svg');
+}
+
+.icon-d20-plus {
+  @include demonlord-icon('../assets/ui/other-svg/d20-plus.svg');
+}
+
+.icon-amount {
+  @include demonlord-icon('../assets/ui/other-svg/amount.svg');
+}
+
+.icon-price {
+  @include demonlord-icon('../assets/ui/availability/price.svg');
+}
+
+.icon-availability- {
+  @include demonlord-icon('../assets/ui/other-svg/minus.svg');
+}
+
+.icon-availability-C {
+  @include demonlord-icon('../assets/ui/availability/common.svg');
+}
+
+.icon-availability-U {
+  @include demonlord-icon('../assets/ui/availability/uncommon.svg');
+}
+
+.icon-availability-R {
+  @include demonlord-icon('../assets/ui/availability/rare.svg');
+}
+
+.icon-availability-E {
+  @include demonlord-icon('../assets/ui/availability/exotic.svg');
+}
+
+.icon-consumable- {
+  @include demonlord-icon('../assets/ui/other-svg/minus.svg');
+}
+
+.icon-consumable-D {
+  @include demonlord-icon('../assets/ui/consumables/drink.svg');
+}
+
+.icon-consumable-F {
+  @include demonlord-icon('../assets/ui/consumables/food.svg');
+}
+
+.icon-consumable-P {
+  @include demonlord-icon('../assets/ui/consumables/potion.svg');
+}
+
+.icon-consumable-V {
+  @include demonlord-icon('../assets/ui/consumables/poison.svg');
+}
+
+.icon-consumable-T {
+  @include demonlord-icon('../assets/ui/consumables/trinket.svg');
+}
+
+.icon-shield {
+  @include demonlord-icon('../assets/ui/other-svg/shield.svg');
+}
+
+.icon-defense-fixed {
+  @include demonlord-icon('../assets/ui/other-svg/defense-fixed.svg');
+}
+
+.icon-file-import {
+  @include demonlord-icon('../assets/ui/other-svg/file-import.svg');
+}
+
+.icon-add {
+  @include demonlord-icon('../assets/ui/other-svg/add.svg');
+}
+
+.icon-delete {
+  @include demonlord-icon('../assets/ui/other-svg/add.svg');
+  transform: rotate(45deg);
+}
+
+.icon-destroy {
+  @include demonlord-icon('../assets/ui/other-svg/destroy.svg');
+}
+
+.icon-speak {
+  @include demonlord-icon('../assets/ui/other-svg/speak.svg');
+}
+
+.icon-read {
+  @include demonlord-icon('../assets/ui/other-svg/read.svg');
+}
+
+.icon-write {
+  @include demonlord-icon('../assets/ui/other-svg/write.svg');
+}
+
+.icon-ammo {
+  @include demonlord-icon('../assets/ui/other-svg/ammo.svg');
+}
+
+/*******************/
+/* Groups          */
+/*******************/
+
+span.text-vs {
+  font-size: 11px;
+  line-height: 22px;
+}
+
+@mixin input-group-container {
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  border: 1px solid var(--demonlord-color-border);
+  margin: 0 4px;
+  height: 22px;
+  background-color: var(--demonlord-color-input-background);
+  width: 120px;
+  min-width: 120px;
+
+  // Always hide checkboxes
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  .input-group {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 2px;
+  }
+
+  i {
+    width: 16px;
+    height: 16px;
+    margin: 2px;
+    flex-shrink: 0;
+  }
+
+  span.sep {
+    border-left: 1px solid var(--demonlord-color-border);
+    padding-left: 2px;
+    margin: 2px;
+    height: 20px; // Minimum height needed
+  }
+
+  span.text {
+    width: 100%;
+    padding: 0 0.5rem;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+  }
+
+  input.input-group-textbox {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    text-align: center;
+  }
+
+  a.input-group-button {
+    height: 20px;
+  }
+
+  a.input-group-button:hover {
+    filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+  }
+
+  .input-group-dropdown {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    text-align: center;
+  }
+
+  &:hover {
+    box-shadow: 0 0 5px var(--demonlord-red);
+  }
+}
+
+.item-group-ammo {
+  @include input-group-container();
+}
+
+.item-group-availability {
+  @include input-group-container();
+}
+
+.item-group-price {
+  @include input-group-container();
+}
+
+.item-group-amount {
+  @include input-group-container();
+}
+
+.item-group-consumable-type {
+  @include input-group-container();
+  width: 150px;
+}
+
+.item-group-consumable-destroy {
+  @include input-group-container();
+}
+
+.item-group-agility-bonus {
+  @include input-group-container();
+}
+
+.item-group-defense-bonus {
+  @include input-group-container();
+}
+
+.item-group-fixed-armor {
+  @include input-group-container();
+}
+
+.item-group-shield {
+  @include input-group-container();
+}
+
+.item-group-checkbox {
+  @include input-group-container();
+  width: auto;
+  min-width: auto;
+}
+
+.item-group-boba {
+  @include input-group-container();
+  width: 70px;
+  min-width: auto;
+}
+
+.item-group-damage {
+  @include input-group-container();
+  width: 200px;
+  margin: 2px 4px;
+}
+
+.item-group-dropdown {
+  @include input-group-container();
+}
+
+.item-group-measured-template-value {
+  @include input-group-container();
+}
+
+.item-group-measured-template-target {
+  @include input-group-container();
+  width: auto;
+}
+
+.item-group-measured-template-texture {
+  @include input-group-container();
+  width: auto;
+}
+
+.item-group-language {
+  @include input-group-container();
+}
+
+.item-group-spell-castings {
+  @include input-group-container();
+}
+
+.item-group-spell-info {
+  @include input-group-container();
+  display: flex;
+  width: 60%;
+  font-weight: bold;
+  font-family: 'Linux Libertine Capitals', 'IM Fell English SC', serif;
+  font-size: 14px;
+
+  .spell-type {
+    height: auto; // FIXME: Unable to centre dropdown text, workaround shows larger outline on focus
+  }
+
+  .input-group-textbox.spell-rank {
+    width: 20%;
+  }
+}
+
+.item-group-talent-info {
+  @include input-group-container();
+  width: 30%;
+}
+
+.item-group-talent-uses {
+  @include input-group-container();
+}
+
+.item-group-talent-damage {
+  @include input-group-container();
+}
+
+.item-group-extra-damage {
+  @include input-group-container();
+}
+
+.item-group-straight-damage {
+  @include input-group-container();
+}
+
+.item-group-talent-bonus {
+  @include input-group-container();
+  width: 70px;
+  min-width: auto;
+}
+
+.item-group-attack-bonus {
+  @include input-group-container();
+}
+
+.item-group-weapon-hands {
+  @include input-group-container();
+}
+
+.item-group-ammo-required {
+  @include input-group-container();
+  width: auto;
+  min-width: auto;
+}
+
+.checkable:not(.checked):not(:hover) {
+  color: var(--demonlord-color-text-dim);
+  border: 1px solid var(--demonlord-color-text-dim);
+
+  span.sep {
+    border-left: 1px solid var(--demonlord-color-text-dim);
+  }
+}
+
+/*******************/
+/* Themed          */
+/*******************/
+.themed-icon {
+  background-color: var(--demonlord-color-icon);
+}
+
+.themed-icon.inactive {
+  background-color: var(--demonlord-color-text-dim);
+}
+
+.checkable:not(.checked):not(:hover) {
+  .themed-icon {
+    background-color: var(--demonlord-color-text-dim);
+  }
+}

@@ -1,0 +1,78 @@
+{{!--
+Variables:
+  - action (e.g. system.action)
+  - attack
+  - against
+  - boonsbanes
+  - damage
+  - damagetype
+  - damagetypes
+  - plus20damage
+
+  - defense
+  - defenseboonsbanes
+  - action.id (e.g. "system.action")
+--}}
+<div class="dl-item-section item-properties">
+  <b>{{localize "DL.AttackRoll"}}</b>
+  <div class="dl-item-section-group">
+    {{Dropdown (concat actionId ".attack") action.attack "DL.Attack"}}
+    <span class="text-vs">VS</span>
+    {{Dropdown (concat actionId ".against") action.against "DL.AttributeDefense"}}
+    {{BOBAButton (concat actionId ".boonsbanes") action.boonsbanes ""}}
+  </div>
+</div>
+<div class="dl-item-section item-properties expandable">
+
+  <b>{{localize "DL.WeaponDamage"}}</b>
+
+  <div class="dl-item-section-column">
+    <div class="item-group-damage">
+      <div class="input-group">
+        <i class="icon-d20 themed-icon"></i>
+        <span class="sep"></span>
+        <input type="text" class="input-group-textbox" name="{{actionId}}.damage" value="{{action.damage}}"
+          data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" />
+        <span class="sep"></span>
+        <input type="text" class="input-group-textbox" name="{{actionId}}.damagetype" value="{{action.damagetype}}"
+          data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" />
+        <span class="sep"></span>
+        <a class="dl-clickable damagetype-control input-group-button"
+          data-tippy-content="{{localize 'DL.DamageAddType'}}" data-action="createDamage">
+          <i class="icon-add themed-icon"></i>
+        </a>
+      </div>
+    </div>
+
+    {{#each action.damagetypes as |damagetype id|}}
+    <div class="item-group-damage">
+      <div class="input-group">
+        <i class="icon-d20 themed-icon"></i>
+        <span class="sep"></span>
+        <input type="text" class="input-group-textbox" name="altdamage" value="{{damagetype.damage}}"
+          data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]" placeholder="-" />
+        <span class="sep"></span>
+        <input type="text" class="input-group-textbox" name="altdamagetype" value="{{damagetype.damagetype}}"
+          data-tippy-content="{{localize "DL.ActionTargetType"}}" placeholder="-" />
+        <span class="sep"></span>
+        <a class="dl-clickable damagetype-control input-group-button"
+          data-tippy-content="{{localize 'DL.DamageDeleteType'}}" data-action="deleteDamage" data-id="{{id}}">
+          <i class="icon-delete themed-icon"></i>
+        </a>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+</div>
+
+<div class="dl-item-section item-properties">
+  <b>{{localize "DL.WeaponAttack20"}}</b>
+  <div class="item-group-damage">
+    <div class="input-group" data-tippy-content="{{localize "DL.DamageRollText"}} [xdY+z]">
+      <i class="icon-d20-plus themed-icon"></i>
+      <span class="sep"></span>
+      <input type="text" class="input-group-textbox" name="{{actionId}}.plus20damage" value="{{action.plus20damage}}" placeholder="-" />
+    </div>
+  </div>
+</div>

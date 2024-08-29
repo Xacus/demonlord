@@ -1,0 +1,14 @@
+{{!--
+Variables:
+  - description (e.g. system.description)
+  - enrichedDescription (e.g. system.enrichedDescription)
+--}}
+{{#if description}}
+<div class="dl-item-section description">
+  <div><b>{{localize "DL.TabsDescription"}}</b></div>
+  <div>
+    {{{enrichedDescription}}}
+  </div>
+</div>
+<hr>
+{{/if}}

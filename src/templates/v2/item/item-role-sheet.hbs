@@ -1,0 +1,27 @@
+<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
+  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="Role Name" isEditable=true isGM=isGM edit=system.editRole editId="system.editRole"}}
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
+    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
+    <a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{!-- Attributes Tab --}}
+      <div class="tab paths" data-group="primary" data-tab="attributes">
+        {{#if system.editRole}}
+          {{> "systems/demonlord/templates/item/item-role-edit.hbs"}}
+        {{else}}
+          {{> "systems/demonlord/templates/item/item-role-view.hbs"}}
+        {{/if}}
+      </div>
+
+      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+      {{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}
+    </section>
+  </section>
+</form>
