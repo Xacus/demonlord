@@ -10,7 +10,6 @@ function changeBobDieColour (attackRoll)
     if (game.modules.get('dice-so-nice')?.active) {
       if (attackRoll._formula.includes('d6kh') || attackRoll._formula.includes('d6r1kh')) {
         let operator = attackRoll.terms[attackRoll.terms.length - 2].operator
-        let dieIndex = 0
 
         if (operator === '+') bgColor = '#104f09'
 
