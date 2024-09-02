@@ -1,6 +1,32 @@
 import {buildAttackEffectsMessage, buildAttributeEffectsMessage, buildTalentEffectsMessage} from './effect-messages'
 import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
 
+function changeBobDieColour (attackRoll)
+{
+  if (attackRoll === null || attackRoll === undefined ) return attackRoll
+  if (game.settings.get('demonlord', 'colourBoBDieDSN')) {
+    let d6Index = 0
+    let bgColor = '#bf0202'      
+    if (game.modules.get('dice-so-nice')?.active) {
+      if (attackRoll._formula.includes('d6kh') || attackRoll._formula.includes('d6r1kh')) {
+        let operator = attackRoll.terms[attackRoll.terms.length - 2].operator
+
+        if (operator === '+') bgColor = '#104f09'
+
+        for (let die of attackRoll.dice) {
+          if (die._faces === 6) d6Index++
+        }        
+
+        attackRoll.dice[d6Index].options.appearance = {
+          background: bgColor,
+          outline: bgColor,
+        }          
+      }
+    }
+  }
+  return attackRoll
+}
+
 /**
  * Generates and sends the chat message for an ATTACK
  * @param attacker              DemonlordActor
@@ -11,6 +37,9 @@ import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
  * @param defenseAttribute      stromg (lowercase)
  */
 export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, inputBoons) {
+
+  attackRoll = changeBobDieColour (attackRoll)
+
   const itemData = item.system
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -108,6 +137,9 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
  * @param challengeRoll     Roll
  */
 export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons) {
+
+  challengeRoll = changeBobDieColour (challengeRoll)  
+
   const rollMode = game.settings.get('core', 'rollMode')
 
   const voidRoll = actor.getAttribute(attribute)?.immune
@@ -162,6 +194,9 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons)
  * @param target        DemonlordActor
  */
 export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) {
+
+  attackRoll = changeBobDieColour (attackRoll)
+
   const talentData = talent.system
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -275,6 +310,9 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
  * @param target
  */
 export async function postSpellToChat(actor, spell, attackRoll, target, inputBoons) {
+
+  attackRoll = changeBobDieColour (attackRoll)
+
   const spellData = spell.system
   const rollMode = game.settings.get('core', 'rollMode')
 

@@ -76,7 +76,7 @@ export function formatDice(diceRoll) {
             pushDice(diceData, pooldie.result, faces, '#777')
           } else {
             let color = 'white'
-            if (diceRoll._formula.includes('d6kh') && faces === 6) {
+            if ((diceRoll._formula.includes('d6kh') || diceRoll._formula.includes('d6r1kh')) && faces === 6) {
               let operator = diceRoll.terms[diceRoll.terms.length - 2].operator
               if (operator === '+') color = '#006400'
               if (operator === '-') color = '#a22223'

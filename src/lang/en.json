@@ -568,6 +568,8 @@
   "DL.SettingAttackShowEnemyAttributeHint": "Show the Creatures target number you are rolling against in the chat.",
   "DL.SettingAutoDeleteEffects": "Auto delete Active Effects",
   "DL.SettingAutoDeleteEffectsHint": "Automatically delete Active Effects from non-player items when they expire.",
+  "DL.SettingColourBoBDieDSNMessage": "Add Colour to Boon/Bane Die",
+  "DL.SettingColourBoBDieDSNMessageHint": "Add colour to used die (green for banes, red for boons) in Dice So Nice!.",
   "DL.SettingConfirmAncestryPathRemoval": "Confirm ancestry/path removal",
   "DL.SettingConfirmAncestryPathRemovalHint": "Show a confirmation dialog when attempting to remove an ancestry or path from a character of level 1 or higher.",
   "DL.SettingGMEffectsControls": "GM Effects Controls",

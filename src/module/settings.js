@@ -14,6 +14,14 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'colourBoBDieDSN', {
+    name: game.i18n.localize('DL.SettingColourBoBDieDSNMessage'),
+    hint: game.i18n.localize('DL.SettingColourBoBDieDSNMessageHint'),
+    default: false,
+    scope: 'client',
+    type: Boolean,
+    config: true,
+  })  
   game.settings.register('demonlord', 'initMessage', {
     name: game.i18n.localize('DL.SettingInitMessage'),
     hint: game.i18n.localize('DL.SettingInitMessageHint'),
