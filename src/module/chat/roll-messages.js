@@ -6,12 +6,12 @@ function changeBobDieColour (attackRoll)
   if (attackRoll === null || attackRoll === undefined ) return attackRoll
   if (game.settings.get('demonlord', 'colourBoBDieDSN')) {
     let d6Index = 0
-    let bgColor = '#bf0202'      
+    let bgColor = game.settings.get('demonlord', 'baneColour')
     if (game.modules.get('dice-so-nice')?.active) {
       if (attackRoll._formula.includes('d6kh') || attackRoll._formula.includes('d6r1kh')) {
         let operator = attackRoll.terms[attackRoll.terms.length - 2].operator
 
-        if (operator === '+') bgColor = '#104f09'
+        if (operator === '+') bgColor = game.settings.get('demonlord', 'boonColour')
 
         for (let die of attackRoll.dice) {
           if (die._faces === 6) d6Index++

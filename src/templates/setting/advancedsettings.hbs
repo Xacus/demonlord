@@ -1,0 +1,28 @@
+<form autocomplete="off">
+
+    <div class="form-group">
+        <label>{{localize "DL.SettingDSNColourDie"}}</label>
+        <input type="checkbox" name="colourBoBDieDSN" {{checked colourBoBDieDSN}} data-dtype="Boolean"/>
+    </div>
+    <hr>
+    <div class="form-group">
+        <label>{{localize "DL.SettingDSNBoonDieColour"}}</label>
+        <input type="color" name="boonColour" data-dtype="string" value="{{colourBoon}}"/>
+        <p class="notes">{{localize "DL.SettingDSNBoonDieColourHint"}}</p>        
+    </div>    
+    <div class="form-group">
+        <label>{{localize "DL.SettingDSNBaneDieColour"}}</label>
+        <input type="color" name="baneColour" data-dtype="string" value="{{colourBane}}"/>
+        <p class="notes">{{localize "DL.SettingDSNBaneDieColourHint"}}</p>        
+    </div>
+	<footer class="sheet-footer flexrow">
+		<button type="submit" name="submit">
+			<i class="far fa-save"></i>
+			{{localize "SETTINGS.Save"}}
+		</button>
+		<button type="button" data-action="reset">
+			<i class="fas fa-undo"></i>
+			{{localize "SETTINGS.Reset"}}
+		</button>
+	</footer>
+</form>
