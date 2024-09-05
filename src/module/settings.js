@@ -1,4 +1,90 @@
+export class AdvancedSettings extends FormApplication {
+    constructor() {
+        super();
+    }
+
+    static get defaultOptions() {
+        return foundry.utils.mergeObject(super.defaultOptions, {
+            id: "advanced-settings",
+            title: game.i18n.localize("DL.SettingDSNLabel"),
+            template: 'systems/demonlord/templates/setting/advancedsettings.hbs',
+            width: 520
+        });
+    }
+
+    getData() {
+        return {
+            colourBoBDieDSN: game.settings.get('demonlord', 'colourBoBDieDSN'),
+            colourBane: game.settings.get('demonlord', 'baneColour'),
+            colourBoon: game.settings.get('demonlord', 'boonColour')
+          };
+    }
+
+    async resetToDefault(key) {
+      const defaultValue = game.settings.settings.get(`demonlord.${key}`).default;
+      await game.settings.set("demonlord", key, defaultValue);
+    }
+  
+    async _updateObject(event, formData) {
+      for (let [k, v] of Object.entries(foundry.utils.flattenObject(formData))) {
+        let s = game.settings.settings.get(`demonlord.${k}`);
+        let current = game.user.isGM
+          ? game.settings.get('demonlord', s.key)
+          : game.user.getFlag('demonlord', k);
+        if (v === current) continue;
+        await game.settings.set('demonlord', s.key, v);
+      }
+    }
+
+    async activateListeners(html) {
+      super.activateListeners(html);
+      html.find('button').on('click', async (event) => {
+        if (event.currentTarget?.dataset?.action === 'reset') {
+          const keys = ['colourBoBDieDSN', 'boonColour','baneColour'];
+            await Promise.all(
+              keys.map(async (key) => {
+                await this.resetToDefault(key);
+              })
+            );
+          this.close();
+        }
+      });
+    }
+}
+
 export const registerSettings = function () {
+  game.settings.registerMenu('demonlord', 'advancedSettings', {
+    name: game.i18n.localize("DL.SettingDSNName"),
+    label: game.i18n.localize("DL.SettingDSNLabel"),
+    hint: game.i18n.localize("DL.SettingDSNNameHint"),
+    icon: "fas fa-sliders-h",
+    type: AdvancedSettings
+  });
+
+  game.settings.register('demonlord', 'colourBoBDieDSN', {
+    name: game.i18n.localize('DL.SettingColourBoBDieDSNMessage'),
+    hint: game.i18n.localize('DL.SettingColourBoBDieDSNMessageHint'),
+    default: false,
+    scope: 'client',
+    type: Boolean,
+    config: false,
+  })
+
+  game.settings.register('demonlord', 'boonColour', {
+    name: game.i18n.localize('DL.SettingBoonDieColour'),
+    scope: 'client',
+    type: new foundry.data.fields.ColorField({ required: true, blank: false }),
+    default: '#104f09',
+    config: false
+  })
+  game.settings.register('demonlord', 'baneColour', {
+    name: game.i18n.localize('DL.SettingBaneDieColour'),
+    scope: 'client',
+    type: new foundry.data.fields.ColorField({ required: true, blank: false }),
+    default: '#bf0202',
+    config: false
+  })
+
   game.settings.register('demonlord', 'systemMigrationVersion', {
     name: 'System Migration Version',
     scope: 'world',
@@ -14,14 +100,6 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
-  game.settings.register('demonlord', 'colourBoBDieDSN', {
-    name: game.i18n.localize('DL.SettingColourBoBDieDSNMessage'),
-    hint: game.i18n.localize('DL.SettingColourBoBDieDSNMessageHint'),
-    default: false,
-    scope: 'client',
-    type: Boolean,
-    config: true,
-  })  
   game.settings.register('demonlord', 'initMessage', {
     name: game.i18n.localize('DL.SettingInitMessage'),
     hint: game.i18n.localize('DL.SettingInitMessageHint'),
