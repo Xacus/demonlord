@@ -440,6 +440,13 @@ Hooks.once('diceSoNiceReady', dice3d => {
     ],
     system: 'demonlord',
   })
+  if (game.settings.get('demonlord', 'replaced3')) {
+    dice3d.addDicePreset({
+      type: 'd3',
+      labels: ['I', 'II', 'systems/demonlord/assets/ui/icons/logo.png'],
+      system: 'demonlord',
+    })
+  }  
   dice3d.addColorset({
     name: 'demonlord',
     description: 'Special',
