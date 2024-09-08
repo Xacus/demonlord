@@ -56,10 +56,80 @@ async function _onChatRollDamage(event) {
   const token = li.closest('.demonlord')
   const actor = _getChatCardActor(token)
   const item = li.children[0]
-  const damageformula = item.dataset.damage
+  var damageformula = item.dataset.damage
   const damagetype = item.dataset.damagetype
   const selected = tokenManager.targets
   const itemId = item.dataset.itemId || li.closest('.demonlord').dataset.itemId
+
+  if (game.settings.get('demonlord', 'optinalRuleConsistentDamage')) {
+    function flattenTree(root) {
+      const list = []
+
+      function flattenNode(node) {
+        if (node.class !== 'Node') {
+          list.push(node)
+          return
+        }
+
+        const [left, right] = node.operands
+        flattenNode(left)
+        list.push({
+          class: 'OperatorTerm',
+          operator: node.operator,
+          evaluated: false,
+        })
+        flattenNode(right)
+      }
+
+      flattenNode(root)
+      return list
+    }
+
+    let tree = foundry.dice.RollGrammar.parse(damageformula)
+    let damageFormulaNew = ''
+
+    let rollFlattened = flattenTree(tree)
+
+    for (const element of rollFlattened) {
+      switch (element.class) {
+        case 'DiceTerm':
+          switch (element.formula) {
+            case '1d3':
+              damageFormulaNew = '2'
+              break
+            case '2d3':
+              damageFormulaNew = '4'
+              break
+            case '1d6':
+              damageFormulaNew = '3'
+              break
+            case '2d6':
+              damageFormulaNew = '7'
+              break
+            default:
+              let nrDie = Array.from(element.formula)[0]
+              let remainder = nrDie % 2
+              let result = Math.floor(nrDie / 2)
+              for (let i = 0; i < result; i++) {
+                if (i) damageFormulaNew += '+7'
+                else {
+                  damageFormulaNew += '7'
+                }
+              }
+              if (remainder) damageFormulaNew += '+3'
+          }
+          break
+        case 'OperatorTerm':
+          damageFormulaNew += element.operator
+          break
+        case 'NumericTerm':
+          damageFormulaNew += element.number
+          break
+      }
+    }
+
+    damageformula = damageFormulaNew
+  }
 
   const damageRoll = new Roll(damageformula, actor.system)
   await damageRoll.evaluate()

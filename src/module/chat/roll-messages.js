@@ -8,7 +8,7 @@ function changeBobDieColour (attackRoll)
     let d6Index = 0
     let bgColor = game.settings.get('demonlord', 'baneColour')
     if (game.modules.get('dice-so-nice')?.active) {
-      if (attackRoll._formula.includes('d6kh') || attackRoll._formula.includes('d6r1kh')) {
+      if (attackRoll._formula.includes('d6kh') || attackRoll._formula.includes('d6r1kh') || attackRoll._formula.includes('d3kh') || attackRoll._formula.includes('d3r1kh')) {
         let operator = attackRoll.terms[attackRoll.terms.length - 2].operator
 
         if (operator === '+') bgColor = game.settings.get('demonlord', 'boonColour')
@@ -138,6 +138,10 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
  */
 export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons) {
 
+  let targetNumber = 10
+
+  if (game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b') targetNumber = 11
+
   challengeRoll = changeBobDieColour (challengeRoll)  
 
   const rollMode = game.settings.get('core', 'rollMode')
@@ -146,14 +150,14 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons)
 
   let diceTotal = challengeRoll?.total ?? ''
   let resultTextGM =
-    challengeRoll.total >= 10 && !voidRoll ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
+    challengeRoll.total >= targetNumber && !voidRoll ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
 
   let resultText = resultTextGM
   if (rollMode === 'blindroll') {
     diceTotal = '?'
     resultText = ''
   }
-  const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : challengeRoll.total >= 10 ? 'SUCCESS' : 'FAILURE')
+  const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : challengeRoll.total >= targetNumber ? 'SUCCESS' : 'FAILURE')
   const templateData = {
     actor: actor,
     item: {name: attribute?.toUpperCase()},
@@ -171,6 +175,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons)
   data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, inputBoons)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['actorInfo'] = buildActorInfo(actor)
+  data['targetNumber'] = targetNumber
 
   const chatData = getChatBaseData(actor, rollMode)
   if (challengeRoll) {

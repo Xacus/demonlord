@@ -339,6 +339,27 @@ export class DemonlordActor extends Actor {
     }
     if (boba > 0 && parseInt(bobaRerolls) > 0) rollFormula += `+${boba}d6r1kh`
     else if (boba) rollFormula += plusify(boba) + 'd6kh'
+    
+    if (boba !== 0 && game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 's') {
+      let staticBoonsAndBanes = 2 + Math.abs(boba)
+      if (staticBoonsAndBanes > 5) staticBoonsAndBanes = 5
+      rollFormula = '1d20'
+      if (boba > 0) {
+        rollFormula += plusify(staticBoonsAndBanes)
+      } else {
+        rollFormula += `-${staticBoonsAndBanes}`
+      }
+      for (const mod of mods) {
+        rollFormula += plusify(mod)
+      }
+    }
+
+    if (game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b') {
+      rollFormula = rollFormula.replace('d6r1kh', 'd3r1kh')
+      rollFormula = rollFormula.replace('d6kh', 'd3kh')
+      rollFormula = rollFormula.replace('1d20', '3d6')
+    }
+
     console.log(rollFormula)
     return rollFormula
   }
