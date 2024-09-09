@@ -62,10 +62,10 @@ async function _onChatRollDamage(event) {
   const itemId = item.dataset.itemId || li.closest('.demonlord').dataset.itemId
 
   if (game.settings.get('demonlord', 'optinalRuleConsistentDamage')) {
-    function flattenTree(root) {
+    var flattenTree = function(root) {
       const list = []
 
-      function flattenNode(node) {
+      var flattenNode = function (node) {
         if (node.class !== 'Node') {
           list.push(node)
           return
@@ -86,9 +86,11 @@ async function _onChatRollDamage(event) {
     }
 
     let tree = foundry.dice.RollGrammar.parse(damageformula)
-    let damageFormulaNew = ''
-
     let rollFlattened = flattenTree(tree)
+    let damageFormulaNew = ''
+    let nrDie
+    let remainder
+    let result
 
     for (const element of rollFlattened) {
       switch (element.class) {
@@ -107,9 +109,9 @@ async function _onChatRollDamage(event) {
               damageFormulaNew = '7'
               break
             default:
-              let nrDie = Array.from(element.formula)[0]
-              let remainder = nrDie % 2
-              let result = Math.floor(nrDie / 2)
+              nrDie = Array.from(element.formula)[0]
+              remainder = nrDie % 2
+              result = Math.floor(nrDie / 2)
               for (let i = 0; i < result; i++) {
                 if (i) damageFormulaNew += '+7'
                 else {
