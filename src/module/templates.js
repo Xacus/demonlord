@@ -77,7 +77,6 @@ export const preloadHandlebarsTemplates = async function () {
 
     // New ones
     'systems/demonlord/templates/v2/item/parts/item-sheet-header.hbs',
-    'systems/demonlord/templates/v2/item/parts/item-tabs.hbs',
     'systems/demonlord/templates/v2/item/parts/item-description.hbs',
     'systems/demonlord/templates/v2/item/parts/item-effects.hbs',
     'systems/demonlord/templates/v2/item/item-ammo-sheet.hbs',
