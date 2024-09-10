@@ -44,7 +44,8 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
       toggleWrite: this.onToggleWrite,
       toggleHealing: this.onToggleHealing,
       toggleAttackBonus: this.onToggleAttackBonus,
-      toggleChallengeBonus: this.onToggleChallengeBonus
+      toggleChallengeBonus: this.onToggleChallengeBonus,
+      editImage: this.onEditImage
     },
     window: {
       resizable: true
@@ -361,6 +362,31 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     const property = `system.challenge.${attribute}boonsbanesselect`
     await this.document.update({[property]: !this.document[property]})
   }
+
+  /**
+   * Handle changing a Document's image.
+   * @param {MouseEvent} event  The click event.
+   * @returns {Promise}
+   * @protected
+   * Credit to Ethanks from the League of Extraordinary FoundryVTT Developers
+   */
+  static async onEditImage(event, target) {
+    const attr = target.dataset.edit
+    const documentData = this.document.toObject()
+    const current = foundry.utils.getProperty(documentData, attr)
+    const { img } = this.document.constructor.getDefaultArtwork?.(documentData) ?? {}
+    const fp = new FilePicker({
+        current,
+        type: "image",
+        redirectToRoot: img ? [img] : [],
+        callback: (path) => {
+            this.document.update({ [attr]: path })
+        },
+        top: this.position.top + 40,
+        left: this.position.left + 10,
+    });
+    return fp.browse()
+}
 
   /* -------------------------------------------- */
   /*  Listeners                                   */
