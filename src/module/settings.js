@@ -16,7 +16,8 @@ export class AdvancedSettings extends FormApplication {
         return {
             colourBoBDieDSN: game.settings.get('demonlord', 'colourBoBDieDSN'),
             colourBane: game.settings.get('demonlord', 'baneColour'),
-            colourBoon: game.settings.get('demonlord', 'boonColour')
+            colourBoon: game.settings.get('demonlord', 'boonColour'),
+            replaced3: game.settings.get('demonlord', 'replaced3'),
           };
     }
 
@@ -40,7 +41,7 @@ export class AdvancedSettings extends FormApplication {
       super.activateListeners(html);
       html.find('button').on('click', async (event) => {
         if (event.currentTarget?.dataset?.action === 'reset') {
-          const keys = ['colourBoBDieDSN', 'boonColour','baneColour'];
+          const keys = ['colourBoBDieDSN', 'boonColour','baneColour','replaced3'];
             await Promise.all(
               keys.map(async (key) => {
                 await this.resetToDefault(key);
@@ -52,12 +53,69 @@ export class AdvancedSettings extends FormApplication {
     }
 }
 
+export class OptionalRulesSettings extends FormApplication {
+  constructor() {
+    super()
+  }
+
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id: 'optionalrules-settings',
+      title: game.i18n.localize('DL.SettingOptionalRulesLabel'),
+      template: 'systems/demonlord/templates/setting/optionalrules.hbs',
+      width: 720,
+    })
+  }
+
+  getData() {
+    return {
+      optinalRuleConsistentDamage: game.settings.get('demonlord', 'optinalRuleConsistentDamage'),
+      optionalRuleDieRollsMode: game.settings.get('demonlord', 'optionalRuleDieRollsMode'),
+      selectedDieRollsDropDrown: game.settings.get('demonlord', 'optionalRuleDieRollsMode'),
+      dieRollsDropDrown: {
+        d: game.i18n.localize('DL.SettingOptionalRuleBellStandardRolls'),
+        b: game.i18n.localize('DL.SettingOptionalRuleBellCurveRolls'),        
+        s: game.i18n.localize('DL.SettingOptionalRuleStaticBoonsAndBanes'),
+      },
+    }
+  }
+
+  async resetToDefault(key) {
+    const defaultValue = game.settings.settings.get(`demonlord.${key}`).default
+    await game.settings.set('demonlord', key, defaultValue)
+  }
+
+  async _updateObject(event, formData) {
+    for (let [k, v] of Object.entries(foundry.utils.flattenObject(formData))) {
+      let s = game.settings.settings.get(`demonlord.${k}`)
+      let current = game.settings.get('demonlord', s.key)
+      if (v === current) continue
+      await game.settings.set('demonlord', s.key, v)
+    }
+  }
+
+  async activateListeners(html) {
+    super.activateListeners(html)
+    html.find('button').on('click', async event => {
+      if (event.currentTarget?.dataset?.action === 'reset') {
+        const keys = ['optinalRuleConsistentDamage', 'optionalRuleDieRollsMode']
+        await Promise.all(
+          keys.map(async key => {
+            await this.resetToDefault(key)
+          }),
+        )
+        this.close()
+      }
+    })
+  }
+}
+
 export const registerSettings = function () {
   game.settings.registerMenu('demonlord', 'advancedSettings', {
-    name: game.i18n.localize("DL.SettingDSNName"),
-    label: game.i18n.localize("DL.SettingDSNLabel"),
-    hint: game.i18n.localize("DL.SettingDSNNameHint"),
-    icon: "fas fa-sliders-h",
+    name: game.i18n.localize('DL.SettingDSN'),
+    label: game.i18n.localize('Configure'),
+    hint: game.i18n.localize("DL.SettingDSNHint"),
+    icon: 'fas fa-sliders-h',
     type: AdvancedSettings
   });
 
@@ -83,6 +141,46 @@ export const registerSettings = function () {
     type: new foundry.data.fields.ColorField({ required: true, blank: false }),
     default: '#bf0202',
     config: false
+  })
+  game.settings.register('demonlord', 'replaced3', {
+    name: game.i18n.localize('DL.SettingDSN3d'),
+    scope: 'client',
+    type: Boolean,
+    default: false,
+    config: false,
+    onChange: foundry.utils.debouncedReload
+  })
+
+
+  game.settings.registerMenu('demonlord', 'optinalRulesSettings', {
+    name: game.i18n.localize('DL.SettingOptionalRules'),
+    label: game.i18n.localize('Configure'),
+    hint: game.i18n.localize('DL.SettingOptionalRulesHint'),
+    icon: 'fas fa-sliders-h',
+    type: OptionalRulesSettings,
+    restricted: true
+  })
+
+  game.settings.register('demonlord', 'optinalRuleConsistentDamage', {
+    name: game.i18n.localize('DL.SettingOptionalRuleConsistentDamage'),
+    hint: game.i18n.localize('DL.SettingOptionalRuleConsistentDamageHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: false,
+  })
+
+  game.settings.register('demonlord', 'optionalRuleDieRollsMode', {
+    name: game.i18n.localize('DL.SettingOptionalRuleDieRollsMode'),
+    scope: 'world',
+    type: String,
+    config: false,
+    default: 'd',
+    choices: {
+      d: game.i18n.localize('DL.disabled'),
+      s: game.i18n.localize('DL.SettingOptionalRuleStaticBoonsAndBanes'),
+      b: game.i18n.localize('DL.SettingOptionalRuleBellCurveRolls'),
+    },
   })
 
   game.settings.register('demonlord', 'systemMigrationVersion', {
