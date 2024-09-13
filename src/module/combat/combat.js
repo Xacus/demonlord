@@ -234,6 +234,11 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
     const enabledEffects = actor.effects
     const tempEffects = enabledEffects.filter(e => e.duration?.rounds > 0 || e.duration?.seconds > 0)
     tempEffects.forEach(e => {
+      // Ignore effects with specialDuration
+      if (inCombat) {
+        let specialDuration = foundry.utils.getProperty(e, 'flags.specialDuration')
+        if (specialDuration !== 'None' && specialDuration !== undefined) return
+      }
       const eType = e.flags?.sourceType
       const isSpell1Round = eType === 'spell' && e.duration.rounds === 1
 
@@ -304,4 +309,107 @@ export function calcEffectRemainingTurn(e, currentTurn) {
 Hooks.on('preCreateCombatant', async (combatant, _data, _options, userId) => {
   if (game.userId !== userId) return
   await combatant.updateSource({initiative: game.combat.getInitiativeValue(combatant)})
+})
+
+// Delete Effects with specialDuration
+async function deleteSpecialdurationEffects(combatant) {
+  let actor = fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
+  for (let effect of actor.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, "flags.specialDuration")
+      if (!(specialDuration?.length > 0)) continue
+      if (specialDuration !== "None" && specialDuration !== undefined) await effect?.delete()
+  }
+}
+
+Hooks.on('deleteCombat', async (combat, update, options, user) => {
+	for (let turn of combat.turns) {
+		let testActor = turn.actor
+		if (!testActor) continue
+		for (let effect of testActor.appliedEffects) {
+			const specialDuration = foundry.utils.getProperty(effect, "flags.specialDuration")
+			if (!(specialDuration?.length > 0)) continue
+			if (specialDuration !== "None" && specialDuration !== undefined) await effect?.delete()
+		}
+	}
+})
+
+Hooks.on('createCombatant', async (combatant) => {
+  await deleteSpecialdurationEffects(combatant)
+})
+
+Hooks.on('deleteCombatant', async (combatant) => {
+          await deleteSpecialdurationEffects(combatant)
+})
+
+Hooks.on('updateCombat', async (combat, update, options, user) => {
+  if (!game.users.activeGM?.isSelf) return
+  // SOURCE type expirations
+  for (let turn of combat.turns) {
+    let testActor = turn.actor
+    if (!testActor) continue
+    for (let effect of testActor.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      if (!(specialDuration?.length > 0)) continue
+      if (
+        effect.origin?.startsWith(combat.turns.find(x => x._id === combat.previous.combatantId)?.actor.uuid) &&
+        specialDuration === 'TurnEndSource'
+      ) {
+        console.warn(
+          `Effect "${effect.name}" deleted on ${testActor.name}, reason: ${
+            combat.turns.find(x => x._id === combat.previous.combatantId).actor.name
+          } ending its turn.`,
+        )
+        // Do not delete effects which are created in the same turn and round.
+        if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1) continue
+        await effect?.delete()
+        continue
+      }
+      if (
+        effect.origin?.startsWith(combat.turns.find(x => x._id === combat.current.combatantId).actor.uuid) &&
+        specialDuration === 'TurnStartSource'
+      ) {
+        console.warn(
+          `Effect "${effect.name}" deleted on ${testActor.name}, reason: ${
+            combat.turns.find(x => x._id === combat.current.combatantId).actor.name
+          } starting its turn.`,
+        )
+        await effect?.delete()
+        continue
+      }
+    }
+  }
+
+  // TARGET type expirations
+  let currentActor = combat.turns.find(x => x._id === combat.current.combatantId).actor
+  let previousActor = combat.turns.find(x => x._id === combat.previous.combatantId)?.actor
+
+  for (let effect of currentActor.allApplicableEffects()) {
+    const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+    if (specialDuration?.length > 0) {
+      if (specialDuration === 'TurnStart') {
+        console.warn(
+          `Effect "${effect.name}" deleted on ${currentActor.name}, reason: ${currentActor.name} starting its turn.`,
+        )
+        await effect?.delete()
+        continue
+      }
+    }
+  }
+
+  if (previousActor !== undefined) {
+    for (let effect of previousActor?.allApplicableEffects()) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      if (specialDuration?.length > 0) {
+        if (specialDuration === 'TurnEnd') {
+          // Do not delete effects which are created in the same turn and round. PreviousActor startTurn+1!
+            if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1) continue
+          console.warn(
+            `Effect "${effect.name}" deleted on ${previousActor.name}, reason: ${previousActor.name} ending its turn.`,
+          )
+          await effect?.delete()
+          continue
+        }
+      }
+    }
+  }
 })

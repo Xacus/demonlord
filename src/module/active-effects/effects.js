@@ -130,11 +130,91 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
       e.dlRemaining = e.duration.label
     }
 
+    let specialDuration = foundry.utils.getProperty(e, 'flags.specialDuration')
+    let tokenName
+    if (specialDuration !== 'None' && specialDuration !== undefined) {
+      tokenName = fromUuidSync(e.origin.substr(0, e.origin.search('.Actor.')))?.name
+      switch (specialDuration) {
+        case 'TurnEndSource':
+          e.dlRemaining = `TrunEnd [${tokenName}]`
+          break
+        case 'TurnStartSource':
+          e.dlRemaining = `TrunStart [${tokenName}]`
+          break
+        case 'TurnEnd':
+          e.dlRemaining = specialDuration
+          break
+        case 'TurnStart':
+          e.dlRemaining = specialDuration
+          break
+      }
+    }
 
-    if (e.disabled) categories.inactive.effects.push(e)
-    else if (e.isTemporary) categories.temporary.effects.push(e)
-    else categories.passive.effects.push(e)
+    if (e.disabled) {
+      categories.inactive.effects.push(e)
+      continue
+    }
+
+    if (e.isTemporary) {
+      categories.temporary.effects.push(e)
+      continue
+    }
+
+    if (specialDuration !== 'None' && specialDuration !== undefined) {
+      categories.temporary.effects.push(e)
+      continue
+    }
+
+    categories.passive.effects.push(e)
+
   }
 
   return categories
 }
+
+Hooks.on('renderActiveEffectConfig', (app, html) => {
+  if (!game.user.isGM) return
+
+  var dropDownConfig = function ({ parent, app, default_value, values, hint }) {
+    let flags = app.object.flags
+
+    const formGroup = document.createElement('div')
+    formGroup.classList.add('form-group')
+    parent.append(formGroup)
+
+    const formFields = document.createElement('div')
+    formFields.classList.add('form-fields')
+    formGroup.append(formFields)
+
+    const cur = flags?.['specialDuration'] ?? default_value
+    const input = document.createElement('select')
+    input.name = 'flags.specialDuration'
+
+    for (let o of values) {
+      let opt = document.createElement('option')
+      opt.value = o
+      opt.text = game.i18n.localize('DL.SpecialDuration' + o)
+      if (cur === o) opt.classList.add('selected')
+      input.append(opt)
+    }
+    input.value = cur
+
+    formFields.append(input)
+  }
+
+  const parent = document.createElement('fieldset')
+  const legend = document.createElement('legend')
+  legend.textContent = game.i18n.localize('DL.SpecialDurationLabel')
+  parent.append(legend)
+
+  dropDownConfig({
+    parent,
+    app,
+    specialDuration: 'specialDuration',
+    values: ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource'],
+    default_value: 'None',
+  })
+
+  html[0].querySelector("section[data-tab='duration']").append(parent)
+  app.setPosition()
+})
