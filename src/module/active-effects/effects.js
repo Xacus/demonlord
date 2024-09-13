@@ -1,3 +1,4 @@
+/* global fromUuidSync */
 /**
  * Manage Active Effect instances through the Actor Sheet via effect control buttons.
  * @param {MouseEvent} event      The left-click event on the effect control
@@ -175,12 +176,12 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
 Hooks.on('renderActiveEffectConfig', (app, html) => {
   if (!game.user.isGM) return
 
-  var dropDownConfig = function ({ parent, app, default_value, values, hint }) {
+  var dropDownConfig = function ({ default_value, values }) {
     let flags = app.object.flags
 
     const formGroup = document.createElement('div')
     formGroup.classList.add('form-group')
-    parent.append(formGroup)
+    parentN.append(formGroup)
 
     const formFields = document.createElement('div')
     formFields.classList.add('form-fields')
@@ -202,19 +203,17 @@ Hooks.on('renderActiveEffectConfig', (app, html) => {
     formFields.append(input)
   }
 
-  const parent = document.createElement('fieldset')
+  const parentN = document.createElement('fieldset')
   const legend = document.createElement('legend')
   legend.textContent = game.i18n.localize('DL.SpecialDurationLabel')
-  parent.append(legend)
+  parentN.append(legend)
 
   dropDownConfig({
-    parent,
-    app,
     specialDuration: 'specialDuration',
     values: ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource'],
     default_value: 'None',
   })
 
-  html[0].querySelector("section[data-tab='duration']").append(parent)
+  html[0].querySelector("section[data-tab='duration']").append(parentN)
   app.setPosition()
 })

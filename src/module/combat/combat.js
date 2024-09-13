@@ -1,3 +1,4 @@
+/* global fromUuidSync */
 export class DLCombat extends Combat {
 
   /**
@@ -321,7 +322,7 @@ async function deleteSpecialdurationEffects(combatant) {
   }
 }
 
-Hooks.on('deleteCombat', async (combat, update, options, user) => {
+Hooks.on('deleteCombat', async (combat) => {
 	for (let turn of combat.turns) {
 		let testActor = turn.actor
 		if (!testActor) continue
@@ -341,7 +342,7 @@ Hooks.on('deleteCombatant', async (combatant) => {
           await deleteSpecialdurationEffects(combatant)
 })
 
-Hooks.on('updateCombat', async (combat, update, options, user) => {
+Hooks.on('updateCombat', async (combat) => {
   if (!game.users.activeGM?.isSelf) return
   // SOURCE type expirations
   for (let turn of combat.turns) {
@@ -360,7 +361,7 @@ Hooks.on('updateCombat', async (combat, update, options, user) => {
           } ending its turn.`,
         )
         // Do not delete effects which are created in the same turn and round.
-        if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1) continue
+        if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1 || game.combat.current.round === effect.duration.startRound+1 && game.combat.current.turn ===0) continue
         await effect?.delete()
         continue
       }
@@ -397,12 +398,12 @@ Hooks.on('updateCombat', async (combat, update, options, user) => {
   }
 
   if (previousActor !== undefined) {
-    for (let effect of previousActor?.allApplicableEffects()) {
+    for (let effect of previousActor.allApplicableEffects()) {
       const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
       if (specialDuration?.length > 0) {
         if (specialDuration === 'TurnEnd') {
           // Do not delete effects which are created in the same turn and round. PreviousActor startTurn+1!
-            if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1) continue
+            if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1 || game.combat.current.round === effect.duration.startRound+1 && game.combat.current.turn ===0) continue
           console.warn(
             `Effect "${effect.name}" deleted on ${previousActor.name}, reason: ${previousActor.name} ending its turn.`,
           )
