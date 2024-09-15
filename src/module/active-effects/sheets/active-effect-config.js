@@ -71,6 +71,8 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.attributes.intellect.immune': i18n('DL.ImmuneAttribute') + ' - ' + i18n('DL.AttributeIntellect'),
       'system.attributes.will.immune': i18n('DL.ImmuneAttribute') + ' - ' + i18n('DL.AttributeWill'),
       'system.attributes.perception.immune': i18n('DL.ImmuneAttribute') + ' - ' + i18n('DL.AttributePerception'),
+      // Immune
+      'system.bonuses.immune.affliction': i18n('DL.ImmuneAffliction'),
       // Characteristics
       'system.characteristics.speed': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSpeed'),
       'system.characteristics.defense': i18n('DL.Characteristics') + ' - ' + i18n('DL.AttributeDefense'),

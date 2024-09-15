@@ -223,6 +223,10 @@ export default class DLBaseActorSheet extends ActorSheet {
       const checked = input.checked
       const afflictionId = $(ev.currentTarget).data('name')
       if (checked) {
+        if (this.actor.isImmuneToAffliction(afflictionId)) {
+          ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'));
+          return false;
+        }
         const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
         if (!affliction) return false
         affliction['statuses'] = [affliction.id]
