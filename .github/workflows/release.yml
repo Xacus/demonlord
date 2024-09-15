@@ -62,7 +62,7 @@ jobs:
 
       - name: Extract tag version number
         id: get_version
-        uses: drewg13/get-version-action@v1
+        uses: drewg13/get-version-action@1.0.0
 
       - name: Substitute Manifest and Download Links For Versioned Ones
         id: sub_manifest_link_version
@@ -79,7 +79,7 @@ jobs:
         run: npm run build
 
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
