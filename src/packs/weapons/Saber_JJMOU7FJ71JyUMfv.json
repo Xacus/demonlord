@@ -10,6 +10,10 @@
     "description": "",
     "hands": "One",
     "properties": "Finesse",
+    "requirement": {
+      "attribute": "Agility",
+      "minvalue": "11"
+    },
     "availability": "U",
     "value": "1 gc",
     "action": {

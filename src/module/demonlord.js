@@ -271,7 +271,7 @@ Hooks.on('updateActor', async (actor, updateData) => {
 })
 
 export async function findAddEffect(actor, effectId, overlay) {
-  if (!actor.effects.find(e => e.statuses?.has(effectId))) {
+  if (!actor.effects.find(e => e.statuses?.has(effectId)) && !actor.isImmuneToAffliction(effectId)) {
     const effect = CONFIG.statusEffects.find(e => e.id === effectId)
     if (!effect) {
       ui.notifications.error(game.i18n.localize('DL.UnknownEffect') + ': ' + effectId)
@@ -303,6 +303,9 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
   const _parent = activeEffect?.parent
   if (statuses?.size > 0 && _parent) {
     for await (const statusId of statuses) {
+      // Skip immunities
+      if (_parent.isImmuneToAffliction(statusId)) continue
+
       await _parent.setFlag('demonlord', statusId, true)
       
       // If asleep, also add prone and uncoscious
@@ -330,8 +333,10 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
   const changes = activeEffect.changes
   if (['character', 'creature'].includes(_parent.type)) {
     for (const affliction of changes.filter(c => c.key === 'system.maluses.affliction')) {
-      await _parent.setFlag('demonlord', affliction.value.toLowerCase(), true)
-      await findAddEffect(_parent, affliction.value.toLowerCase())
+      if (!parent.isImmuneToAffliction(affliction.value.toLowerCase())) {
+        await _parent.setFlag('demonlord', affliction.value.toLowerCase(), true)
+        await findAddEffect(_parent, affliction.value.toLowerCase())
+      }
     }
   }
 })
@@ -384,7 +389,7 @@ Hooks.on('updateActiveEffect', async (activeEffect, diff, _, userId) => {
     // If it's an affliction (system.maluses.affliction), add it
     if (['character', 'creature'].includes(_parent.type)) {
       for (const affliction of changes.filter(c => c.key === 'system.maluses.affliction')) {
-        if (diff.disabled) {
+        if (diff.disabled || _parent.isImmuneToAffliction(affliction.value.toLowerCase())) {
           await _parent.setFlag('demonlord', affliction.value.toLowerCase(), false)
           await findDeleteEffect(_parent, affliction.value.toLowerCase())
         } else {
