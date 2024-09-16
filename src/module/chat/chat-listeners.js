@@ -1,3 +1,4 @@
+/* globals fromUuidSync */
 /* -------------------------------------------- */
 /*  Chat methods                                */
 /* -------------------------------------------- */
@@ -97,16 +98,16 @@ async function _onChatRollDamage(event) {
         case 'DiceTerm':
           switch (element.formula) {
             case '1d3':
-              damageFormulaNew = '2'
+              damageFormulaNew += '2'
               break
             case '2d3':
-              damageFormulaNew = '4'
+              damageFormulaNew += '4'
               break
             case '1d6':
-              damageFormulaNew = '3'
+              damageFormulaNew += '3'
               break
             case '2d6':
-              damageFormulaNew = '7'
+              damageFormulaNew += '7'
               break
             default:
               nrDie = Array.from(element.formula)[0]
@@ -234,6 +235,18 @@ async function _onChatApplyEffect(event) {
         await e.delete()
       }
     }
+
+
+  //Repace origin with Item UUID, otherwise effect cannot be removed
+  //specialDuration: TurnStartSource, TurnEndSource
+
+  let aeUuid = activeEffect.uuid
+  let effectOrigin = aeUuid.substr(0, aeUuid.search('.ActiveEffect.'))
+  let effectOriginName = fromUuidSync(effectOrigin).name
+  if (activeEffect.origin.startsWith('Compendium')) {
+    effectData.origin = effectOrigin
+  }
+  if (effectData.name !== effectOriginName)  effectData.name = `${effectData.name} [${effectOriginName}]`
 
     await ActiveEffect.create(effectData, {parent: target.actor}).then(e => ui.notifications.info(`Added "${e.name}" to "${target.actor.name}"`))
   }

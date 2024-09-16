@@ -73,6 +73,8 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   let extraDamage = (attacker.system.bonuses.attack.damage.weapon ?? '') + (attacker.system.bonuses.attack.damage.all ?? '')
   let extraDamage20Plus = (attacker.system.bonuses.attack.plus20Damage.weapon ?? '') + (attacker.system.bonuses.attack.plus20Damage.all ?? '')
 
+  if (extraDamage.charAt(0).search(/[0-9]/i) === 0) extraDamage = '+' + extraDamage
+
   const templateData = {
     actor: attacker,
     item: {id: item._id, data: item, name: item.name, uuid: item.uuid},
@@ -243,6 +245,8 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   let extraDamage = (actor.system.bonuses.attack.damage.talent ?? '') + (actor.system.bonuses.attack.damage.all ?? '')
   let extraDamage20Plus = (actor.system.bonuses.attack.plus20Damage.talent ?? '') + (actor.system.bonuses.attack.plus20Damage.all ?? '')
 
+  if (extraDamage.charAt(0).search(/[0-9]/i) === 0) extraDamage = '+' + extraDamage
+
   const templateData = {
     actor: actor,
     item: talent,
@@ -362,6 +366,8 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
 
   let extraDamage = (actor.system.bonuses.attack.damage.spell ?? '') + (actor.system.bonuses.attack.damage.all ?? '')
   let extraDamage20Plus = (actor.system.bonuses.attack.plus20Damage.spell ?? '') + (actor.system.bonuses.attack.plus20Damage.all ?? '')
+
+  if (extraDamage.charAt(0).search(/[0-9]/i) === 0) extraDamage = '+' + extraDamage
 
   const templateData = {
     actor: actor,
@@ -526,6 +532,8 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
 
   let extraDamage = (actor.system.bonuses.attack.damage.weapon ?? '') + (actor.system.bonuses.attack.damage.all ?? '')
   let extraDamage20Plus = (actor.system.bonuses.attack.plus20Damage.weapon ?? '') + (actor.system.bonuses.attack.plus20Damage.all ?? '')
+
+  if (extraDamage.charAt(0).search(/[0-9]/i) === 0) extraDamage = '+' + extraDamage
 
   const templateData = {
     actor,
