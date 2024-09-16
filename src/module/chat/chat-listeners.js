@@ -245,8 +245,7 @@ async function _onChatApplyEffect(event) {
   if (activeEffect.origin.startsWith('Compendium')) {
     effectData.origin = effectOrigin
   }
-  effectData.name = `${effectData.name} [${effectOriginName}]`
-
+  if (effectData.name !== effectOriginName)  effectData.name = `${effectData.name} [${effectOriginName}]`
 
     await ActiveEffect.create(effectData, {parent: target.actor}).then(e => ui.notifications.info(`Added "${e.name}" to "${target.actor.name}"`))
   }
