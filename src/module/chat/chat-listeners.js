@@ -239,10 +239,13 @@ async function _onChatApplyEffect(event) {
   //Repace origin with Item UUID, otherwise effect cannot be removed
   //specialDuration: TurnStartSource, TurnEndSource
 
+  let aeUuid = activeEffect.uuid
+  let effectOrigin = aeUuid.substr(0, aeUuid.search('.ActiveEffect.'))
+  let effectOriginName = fromUuidSync(effectOrigin).name
   if (activeEffect.origin.startsWith('Compendium')) {
-    let aeUuid = activeEffect.uuid
-    effectData.origin = aeUuid.substr(0, aeUuid.search('.ActiveEffect.'))
+    effectData.origin = effectOrigin
   }
+  effectData.name = `${effectData.name} [${effectOriginName}]`
 
 
     await ActiveEffect.create(effectData, {parent: target.actor}).then(e => ui.notifications.info(`Added "${e.name}" to "${target.actor.name}"`))
