@@ -354,13 +354,13 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   static async onToggleAttackBonus (event) {
     const attribute = event.target.closest('div').dataset.attribute
     const property = `system.action.${attribute}boonsbanesselect`
-    await this.document.update({[property]: !this.document[property]})
+    await this.document.update({[property]: !foundry.utils.getProperty(this.document, property) })
   }
 
   static async onToggleChallengeBonus (event) {
     const attribute = event.target.closest('div').dataset.attribute
     const property = `system.challenge.${attribute}boonsbanesselect`
-    await this.document.update({[property]: !this.document[property]})
+    await this.document.update({[property]: !foundry.utils.getProperty(this.document, property) })
   }
 
   /**
