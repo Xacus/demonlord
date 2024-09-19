@@ -41,13 +41,13 @@ export class DLCombatTracker extends CombatTracker {
       {
         let groupID = combatant.flags?.group
         switch (groupID) {
-          case 0:
+          case 2:
             el.style.borderLeft = "thick solid " + '#009E60' //greenish
             break;
-          case 1:
+          case 0:
             el.style.borderLeft = "thick solid " + '#FFC300 ' //yellow
             break;
-          case 2:
+          case 1:
             el.style.borderLeft = "thick solid " + '#005a87'  //blueish
             break;
         }

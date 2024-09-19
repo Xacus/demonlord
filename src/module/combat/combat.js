@@ -111,7 +111,7 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
 		if (allCombatantUpdates.find(x => x._id === id)) continue
 
 		currentGroup = combatant.flags.group
-		groupInitiative = game.combat.combatants.find(x => x.flags.group === currentGroup)?.initiative
+		groupInitiative = game.combat.combatants.find(x => x.flags.group === currentGroup && x.initiative != null)?.initiative
 
     // Check if a group member already has initative, we do not rull just reuse
 		if (!groupInitiative) {
@@ -122,15 +122,15 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
 
 			// Set the initiative all the group members
 			const combatantsInGroup = this.combatants.filter(x => x.flags.group === currentGroup)
-			for (const combatant of combatantsInGroup) {
-				if (combatant.actor.system.maluses.noFastTurn)
+			for (const c of combatantsInGroup) {
+				if (c.actor.system.maluses.noFastTurn)
 					combatantUpdates.push({
-						_id: combatant._id,
+						_id: c._id,
 						initiative: 0
 					})
 				else
 					combatantUpdates.push({
-						_id: combatant._id,
+						_id: c._id,
 						initiative: initValue
 					})
 			}
@@ -168,9 +168,9 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
 		} else {
       //A group member already has initative, we reuse it
 			const combatantsInGroup = this.combatants.filter(x => x.flags.group === currentGroup)
-			combatantsInGroup.forEach(combatant => {
+			combatantsInGroup.forEach(c => {
 				allCombatantUpdates.push({
-					_id: combatant._id,
+					_id: c._id,
 					initiative: groupInitiative
 				})
 			})
@@ -528,8 +528,8 @@ Hooks.on("createCombatant", async combatant => {
   await setCombatantGroup(combatant)
   // Check if a combatant within a group has initiative, if yes new combatant use the same initiative
 	let currentGroup = combatant.flags.group
-	if (currentGroup !== undefined && game.settings.get("demonlord", "optionalRuleInitiative") === "h") {
-		let groupInitiative = game.combat.combatants.find(x => x.flags.group === currentGroup)?.initiative
+	if (currentGroup !== undefined && game.settings.get("demonlord", "optionalRuleInitiativeMode") === "h") {
+		let groupInitiative = game.combat.combatants.find(x => x.flags.group === currentGroup && x.initiative !=null )?.initiative
 		if (groupInitiative) await combatant.update({ initiative: groupInitiative })
 	}
   // No Fast turn malus -> at the end of the round
