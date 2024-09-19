@@ -9,7 +9,11 @@ export class DLCombatTracker extends CombatTracker {
   }
 
   async getData() {
-    return await super.getData()
+    const context = await super.getData()
+    context.turns.forEach(turn => {
+      if (turn.initiative >= 0) {turn.initiative = Math.floor(turn.initiative)} else {turn.initiative = Math.ceil(turn.initiative)}
+    })
+    return context
   }
 
   /** @override */
@@ -19,6 +23,7 @@ export class DLCombatTracker extends CombatTracker {
     const currentCombat = this.getCurrentCombat()
     const combatants = currentCombat?.combatants
 
+    let initiativeMethod = game.settings.get('demonlord', 'optionalRuleInitiativeMode')
     html.find('.combatant').each((i, el) => {
       // For each combatant in the tracker, change the initiative selector
       const combId = el.getAttribute('data-combatant-id')
@@ -29,8 +34,25 @@ export class DLCombatTracker extends CombatTracker {
         ? game.i18n.localize('DL.TurnFast')
         : game.i18n.localize('DL.TurnSlow')
 
-      el.getElementsByClassName('token-initiative')[0].innerHTML =
+      if (initiativeMethod === 's') el.getElementsByClassName('token-initiative')[0].innerHTML =
         `<a class="combatant-control dlturnorder" title="${i18n('DL.TurnChangeTurn')}">${init}</a>`
+
+      if (initiativeMethod === 'h' && game.user.isGM)
+      {
+        let groupID = combatant.flags?.group
+        switch (groupID) {
+          case 0:
+            el.style.borderLeft = "thick solid " + '#009E60' //greenish
+            break;
+          case 1:
+            el.style.borderLeft = "thick solid " + '#FFC300 ' //yellow
+            break;
+          case 2:
+            el.style.borderLeft = "thick solid " + '#005a87'  //blueish
+            break;
+        }
+        if (combatant.actor.system.maluses.noFastTurn) {el.style.borderLeft = "thick solid " + '#f93e3e'}
+      }
 
       // Add Tooltip on Status Effects
       // Group actor effects by image
