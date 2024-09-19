@@ -333,7 +333,7 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
   const changes = activeEffect.changes
   if (['character', 'creature'].includes(_parent.type)) {
     for (const affliction of changes.filter(c => c.key === 'system.maluses.affliction')) {
-      if (!parent.isImmuneToAffliction(affliction.value.toLowerCase())) {
+      if (!_parent.isImmuneToAffliction(affliction.value.toLowerCase())) {
         await _parent.setFlag('demonlord', affliction.value.toLowerCase(), true)
         await findAddEffect(_parent, affliction.value.toLowerCase())
       }
