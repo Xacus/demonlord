@@ -142,12 +142,8 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
         case 'TurnStartSource':
           e.dlRemaining = `TrunStart [${tokenName}]`
           break
-        case 'TurnEnd':
+        default:
           e.dlRemaining = specialDuration
-          break
-        case 'TurnStart':
-          e.dlRemaining = specialDuration
-          break
       }
     }
 
@@ -210,7 +206,7 @@ Hooks.on('renderActiveEffectConfig', (app, html) => {
 
   dropDownConfig({
     specialDuration: 'specialDuration',
-    values: ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource'],
+    values: ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource','NextD20Roll'],
     default_value: 'None',
   })
 

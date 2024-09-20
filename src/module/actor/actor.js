@@ -425,6 +425,12 @@ export class DemonlordActor extends Actor {
       return attackRoll?.total >= targetNumber
     })
 
+  for (let effect of this.appliedEffects) {
+    const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+    if (!(specialDuration?.length > 0)) continue
+    if (specialDuration === 'NextD20Roll') await effect?.delete()
+  }
+
     Hooks.call('DL.RollAttack', {
       sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
       targets: defendersTokens,
@@ -492,6 +498,13 @@ export class DemonlordActor extends Actor {
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
     await challengeRoll.evaluate()
     postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0)
+
+    for (let effect of this.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      if (!(specialDuration?.length > 0)) continue
+      if (specialDuration === 'NextD20Roll') await effect?.delete()
+    }
+
     return challengeRoll
   }
 
@@ -561,6 +574,13 @@ export class DemonlordActor extends Actor {
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
+
+      for (let effect of this.appliedEffects) {
+        const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+        if (!(specialDuration?.length > 0)) continue
+        if (specialDuration === 'NextD20Roll' && attackAttribute !== '' ) await effect?.delete()
+      }
+
     }
 
     Hooks.call('DL.UseTalent', {
@@ -646,6 +666,13 @@ export class DemonlordActor extends Actor {
     })
 
     postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+
+    for (let effect of this.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      if (!(specialDuration?.length > 0)) continue
+      if (specialDuration === 'NextD20Roll' && (attackAttribute !== '' || challengeAttribute !== '')) await effect?.delete()
+    }
+
     return attackRoll
   }
 
@@ -718,6 +745,13 @@ export class DemonlordActor extends Actor {
     }
 
     postItemToChat(this, item, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+
+    for (let effect of this.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      if (!(specialDuration?.length > 0)) continue
+      if (specialDuration === 'NextD20Roll' && attackAttribute !== '' ) await effect?.delete()
+    }
+
     return attackRoll
   }
 
