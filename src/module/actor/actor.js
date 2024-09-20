@@ -670,9 +670,29 @@ export class DemonlordActor extends Actor {
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
       if (!(specialDuration?.length > 0)) continue
-      if (specialDuration === 'NextD20Roll' && (attackAttribute !== '' || challengeAttribute !== '')) await effect?.delete()
+      if (specialDuration === 'NextD20Roll' && attackAttribute !== '' ) await effect?.delete()
     }
 
+    // Add concentration if it's in the spell duration
+    const concentrate = CONFIG.statusEffects.find(e => e.id === 'concentrate')
+    if (
+      spell.system.duration.toLowerCase().includes('concentration') &&
+      this.effects.find(e => e.statuses?.has('concentrate')) === undefined
+    ) {
+      let result = spell.system.duration.match(/\d+/)
+      if (result) {
+        if (spell.system.duration.toLowerCase().includes('minute')) {
+          concentrate['duration.rounds'] = result[0] * 6
+          concentrate['duration.seconds'] = result[0] * 60
+        } // hour
+        else {
+          concentrate['duration.rounds'] = result[0] * 360
+          concentrate['duration.seconds'] = result[0] * 3600
+        }
+      }
+      concentrate['statuses'] = [concentrate.id]
+      ActiveEffect.create(concentrate, {parent: this});
+    }
     return attackRoll
   }
 
@@ -742,16 +762,14 @@ export class DemonlordActor extends Actor {
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
-    }
 
+      for (let effect of this.appliedEffects) {
+        const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+        if (!(specialDuration?.length > 0)) continue
+        if (specialDuration === 'NextD20Roll' && attackAttribute !== '' ) await effect?.delete()
+      }  
+    }
     postItemToChat(this, item, attackRoll, target?.actor, parseInt(inputBoons) || 0)
-
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
-      if (!(specialDuration?.length > 0)) continue
-      if (specialDuration === 'NextD20Roll' && attackAttribute !== '' ) await effect?.delete()
-    }
-
     return attackRoll
   }
 
