@@ -346,6 +346,16 @@ export async function findDeleteEffect(actor, effectId) {
   return await effect?.delete()
 }
 
+ Hooks.on('preUpdateActiveEffect', async (activeEffect, changes, _, userId ) => {
+    // Set specialDuration effects to temporary
+    if (game.user.id !== userId) return
+    const specialDuration = foundry.utils.getProperty(changes, "flags.specialDuration")
+    if (specialDuration !== "None" && specialDuration !== undefined)
+    {
+      changes.duration.rounds = 1
+    }
+})
+
 Hooks.on('deleteActiveEffect', async (activeEffect, _, userId) => {
   if (game.user.id !== userId) return
   const statuses = activeEffect.statuses
