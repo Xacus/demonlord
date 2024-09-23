@@ -677,7 +677,8 @@ export class DemonlordActor extends Actor {
     const concentrate = CONFIG.statusEffects.find(e => e.id === 'concentrate')
     if (
       spell.system.duration.toLowerCase().includes('concentration') &&
-      this.effects.find(e => e.statuses?.has('concentrate')) === undefined
+      this.effects.find(e => e.statuses?.has('concentrate')) === undefined &&
+      game.settings.get("demonlord", "concentrationEffect")
     ) {
       let result = spell.system.duration.match(/\d+/)
       if (result) {

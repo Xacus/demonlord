@@ -583,6 +583,8 @@
   "DL.SettingOptionalRulesLabel": "Optional Rule Settings",
   "DL.SettingAutoDeleteEffects": "Auto delete Active Effects",
   "DL.SettingAutoDeleteEffectsHint": "Automatically delete Active Effects from non-player items when they expire.",
+  "DL.SettingConcentrationEffect": "Apply Concentration Status Effect",
+  "DL.SettingConcentrationEffectHint": "Apply effect with duration when casting a spell which requires concentration.",
   "DL.SettingDSN3d": "Use Roman numerals on d3",
   "DL.SettingDSN3dHint": "When using Demonlord dice-set on d3, Arabic numerals are replaced with Roman numerals. Requires reload.",
   "DL.SettingDSNBaneDieColour": "Bane dice",

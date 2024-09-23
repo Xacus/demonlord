@@ -356,4 +356,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register("demonlord", "concentrationEffect", {
+    name: game.i18n.localize('DL.SettingConcentrationEffect'),
+    hint: game.i18n.localize('DL.SettingConcentrationEffectHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })  
 }
