@@ -11,7 +11,17 @@
             {{selectOptions dieRollsDropDrown selected=selectedDieRollsDropDrown localize=true}}
         </select>
     </div>
-
+    <hr>
+	<div class="form-group">
+        <label>{{localize "DL.SettingOptionalRuleInitiative"}}</label>
+        <select name="optionalRuleInitiativeMode">
+            {{selectOptions initiativeMethodDropDrown selected=selectedInitiativeMethodDropDrown localize=true}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.SettingOptinalRuleRollInitEachRound"}}</label>
+        <input type="checkbox" name="optinalRuleRollInitEachRound" {{checked optinalRuleRollInitEachRound}} data-dtype="Boolean"/>
+    </div>
 	<footer class="sheet-footer flexrow">
 		<button type="submit" name="submit">
 		 	<i class="far fa-save"></i>

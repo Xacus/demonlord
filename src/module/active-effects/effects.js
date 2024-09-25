@@ -137,44 +137,27 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
       tokenName = fromUuidSync(e.origin.substr(0, e.origin.search('.Actor.')))?.name
       switch (specialDuration) {
         case 'TurnEndSource':
-          e.dlRemaining = `TrunEnd [${tokenName}]`
+          e.dlRemaining = `TurnEnd [${tokenName}]`
           break
         case 'TurnStartSource':
-          e.dlRemaining = `TrunStart [${tokenName}]`
+          e.dlRemaining = `TurnStart [${tokenName}]`
           break
-        case 'TurnEnd':
+        default:
           e.dlRemaining = specialDuration
-          break
-        case 'TurnStart':
-          e.dlRemaining = specialDuration
-          break
       }
     }
 
-    if (e.disabled) {
-      categories.inactive.effects.push(e)
-      continue
-    }
-
-    if (e.isTemporary) {
-      categories.temporary.effects.push(e)
-      continue
-    }
-
-    if (specialDuration !== 'None' && specialDuration !== undefined) {
-      categories.temporary.effects.push(e)
-      continue
-    }
-
-    categories.passive.effects.push(e)
-
+    if (e.disabled) categories.inactive.effects.push(e)
+      else if (e.isTemporary) categories.temporary.effects.push(e)
+      else categories.passive.effects.push(e)
+    
   }
 
   return categories
 }
 
 Hooks.on('renderActiveEffectConfig', (app, html) => {
-  if (!game.user.isGM) return
+  // if (!game.user.isGM) return
 
   var dropDownConfig = function ({ default_value, values }) {
     let flags = app.object.flags
@@ -210,7 +193,7 @@ Hooks.on('renderActiveEffectConfig', (app, html) => {
 
   dropDownConfig({
     specialDuration: 'specialDuration',
-    values: ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource'],
+    values: ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource','NextD20Roll'],
     default_value: 'None',
   })
 
