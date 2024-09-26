@@ -425,6 +425,12 @@ export class DemonlordActor extends Actor {
       return attackRoll?.total >= targetNumber
     })
 
+  for (let effect of this.appliedEffects) {
+    const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+    if (!(specialDuration?.length > 0)) continue
+    if (specialDuration === 'NextD20Roll' && effect.changes.find((e) => e.key.includes('system.bonuses.attack.boons'))) await effect?.delete()
+  }
+
     Hooks.call('DL.RollAttack', {
       sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
       targets: defendersTokens,
@@ -492,6 +498,13 @@ export class DemonlordActor extends Actor {
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
     await challengeRoll.evaluate()
     postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0)
+
+    for (let effect of this.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      if (!(specialDuration?.length > 0)) continue
+      if (specialDuration === 'NextD20Roll' && effect.changes.find((e) => e.key.includes('system.bonuses.challenge.boons'))) await effect?.delete()        
+    }
+
     return challengeRoll
   }
 
@@ -561,6 +574,13 @@ export class DemonlordActor extends Actor {
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
+
+      for (let effect of this.appliedEffects) {
+        const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+        if (!(specialDuration?.length > 0)) continue
+        if (specialDuration === 'NextD20Roll' && attackAttribute !== '' && effect.changes.find((e) => e.key.includes('system.bonuses.attack.boons'))) await effect?.delete()
+      }
+
     }
 
     Hooks.call('DL.UseTalent', {
@@ -646,6 +666,34 @@ export class DemonlordActor extends Actor {
     })
 
     postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+
+    for (let effect of this.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      if (!(specialDuration?.length > 0)) continue
+      if (specialDuration === 'NextD20Roll' && attackAttribute !== '' && effect.changes.find((e) => e.key.includes('system.bonuses.attack.boons'))) await effect?.delete()
+    }
+
+    // Add concentration if it's in the spell duration
+    const concentrate = CONFIG.statusEffects.find(e => e.id === 'concentrate')
+    if (
+      spell.system.duration.toLowerCase().includes('concentration') &&
+      this.effects.find(e => e.statuses?.has('concentrate')) === undefined &&
+      game.settings.get("demonlord", "concentrationEffect")
+    ) {
+      let result = spell.system.duration.match(/\d+/)
+      if (result) {
+        if (spell.system.duration.toLowerCase().includes('minute')) {
+          concentrate['duration.rounds'] = result[0] * 6
+          concentrate['duration.seconds'] = result[0] * 60
+        } // hour
+        else {
+          concentrate['duration.rounds'] = result[0] * 360
+          concentrate['duration.seconds'] = result[0] * 3600
+        }
+      }
+      concentrate['statuses'] = [concentrate.id]
+      ActiveEffect.create(concentrate, {parent: this});
+    }
     return attackRoll
   }
 
@@ -715,8 +763,13 @@ export class DemonlordActor extends Actor {
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
-    }
 
+      for (let effect of this.appliedEffects) {
+        const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+        if (!(specialDuration?.length > 0)) continue
+        if (specialDuration === 'NextD20Roll' && attackAttribute !== '' && effect.changes.find((e) => e.key.includes('system.bonuses.attack.boons'))) await effect?.delete()
+      }  
+    }
     postItemToChat(this, item, attackRoll, target?.actor, parseInt(inputBoons) || 0)
     return attackRoll
   }

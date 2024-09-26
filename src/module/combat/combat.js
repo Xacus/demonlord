@@ -13,6 +13,176 @@ export class DLCombat extends Combat {
     return (isPc * 20) + isFast * 50 + offset
   }
 
+  async rollInitiative(ids, options) {
+    switch (game.settings.get('demonlord', 'optionalRuleInitiativeMode')) {
+        case "s":
+            await this.rollInitiativeStandard(ids, options)
+            return this
+        case "i":
+            await this.rollInitiativeInduvidual(ids, options)
+            return this
+        case "h":
+            await this.rollInitiativeGroup(ids, options)
+            return this            
+    }
+}
+
+// eslint-disable-next-line no-unused-vars
+async rollInitiativeInduvidual(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
+  console.log("Calling rollInitiativeInduvidual with", ids, formula, updateTurn, messageOptions)
+  // Structure input data
+  ids = typeof ids === 'string' ? [ids] : ids
+  const combatantUpdates = []
+  const initMessages = []
+  let initValue
+
+  // Iterate over Combatants, performing an initiative draw for each
+  for await (const id of ids) {
+    // Get combatant. Skip if not owner or defeated
+    const combatant = this.combatants.get(id)
+    if (!combatant?.isOwner || combatant.defeated) continue;
+
+      let actorMod = combatant.actor.system.attributes.agility.modifier
+      var roll
+      if (!actorMod) roll = new Roll('1d20')
+      else roll = new Roll(`1d20+${actorMod}`)
+
+      await roll.evaluate()
+      initValue = roll._total 
+      if (initValue>=0) initValue += Math.random()
+
+      // No Fast turn malus -> at the end of the round
+      if (combatant.actor.system.maluses.noFastTurn) initValue = -5
+      let messageData = foundry.utils.mergeObject(
+        {
+          speaker: ChatMessage.getSpeaker({
+            actor: combatant.actor,
+            token: combatant.token,
+          }),
+          flavor: game.i18n.format('COMBAT.RollsInitiative', {
+            name: combatant.name,
+          }),
+          flags: {
+            'core.initiativeRoll': true,
+          },
+        },
+        {},
+      )
+      const chatData = await roll.toMessage(messageData, {
+        create: false,
+      })
+
+      chatData.rollMode = combatant.hidden ? CONST.DICE_ROLL_MODES.PRIVATE : CONST.DICE_ROLL_MODES.PUBLIC
+
+      if (game.settings.get('demonlord','initMessage')) await ChatMessage.create(chatData)
+
+    // Push the update and init message
+    combatantUpdates.push({ _id: combatant.id, initiative: initValue })
+    if (game.settings.get('demonlord', 'initMessage')) initMessages.push(await createInitChatMessage(combatant, messageOptions))
+}  
+
+  // Update multiple combatants
+  await this.updateEmbeddedDocuments("Combatant", combatantUpdates)
+  await this.update({turn: 0});
+  return this;
+}
+
+// eslint-disable-next-line no-unused-vars
+async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptions = {} } = {}) {
+	console.log("Calling rollInitiativeGroup with", ids, formula, updateTurn, messageOptions)
+	// Structure input data
+	ids = typeof ids === "string" ? [ids] : ids
+	let combatantUpdates = []
+	let allCombatantUpdates = []
+	const initMessages = []
+	let initValue
+	let groupInitiative
+	let currentGroup
+
+	// Iterate over Combatants, performing an initiative draw for each
+	for await (const id of ids) {
+		// Get combatant. Skip if not owner or defeated
+		const combatant = this.combatants.get(id)
+		if (!combatant?.isOwner || combatant.defeated) continue
+
+		let currentInitiative = this.combatants.get(id).initiative
+		if (currentInitiative != null) continue
+		//Do not overwrite initiative if a combatant already has but not yet updated
+		if (allCombatantUpdates.find(x => x._id === id)) continue
+
+		currentGroup = combatant.flags.group
+		groupInitiative = game.combat.combatants.find(x => x.flags.group === currentGroup && x.initiative != null)?.initiative
+
+    // Check if a group member already has initative, we do not rull just reuse
+		if (!groupInitiative) {
+			let roll = new Roll("1d6")
+			await roll.evaluate()
+			initValue = roll._total
+			if (initValue >= 0) initValue += Math.random()
+
+			// Set the initiative all the group members
+			const combatantsInGroup = this.combatants.filter(x => x.flags.group === currentGroup)
+			for (const c of combatantsInGroup) {
+				if (c.actor.system.maluses.noFastTurn)
+					combatantUpdates.push({
+						_id: c._id,
+						initiative: 0
+					})
+				else
+					combatantUpdates.push({
+						_id: c._id,
+						initiative: initValue
+					})
+			}
+
+			allCombatantUpdates = allCombatantUpdates.concat(combatantUpdates)
+			combatantUpdates = []
+
+			let messageData = foundry.utils.mergeObject(
+				{
+					speaker: ChatMessage.getSpeaker({
+						actor: combatant.actor,
+						token: combatant.token
+					}),
+					flavor: game.i18n.format("COMBAT.RollsInitiative", {
+						name: combatant.name
+					}),
+					flags: {
+						"core.initiativeRoll": true
+					}
+				},
+				{}
+			)
+			const chatData = await roll.toMessage(messageData, {
+				create: false
+			})
+
+			chatData.rollMode = combatant.hidden ? CONST.DICE_ROLL_MODES.PRIVATE : CONST.DICE_ROLL_MODES.PUBLIC
+			if (game.settings.get("demonlord", "initMessage")) await ChatMessage.create(chatData)
+
+			// No Fast turn malus -> at the end of the round
+			if (combatant.actor.system.maluses.noFastTurn === 1) initValue = 0
+			allCombatantUpdates.push({ _id: combatant.id, initiative: initValue })
+			if (game.settings.get("demonlord", "initMessage"))
+				initMessages.push(await createInitChatMessage(combatant, messageOptions))
+		} else {
+      //A group member already has initative, we reuse it
+			const combatantsInGroup = this.combatants.filter(x => x.flags.group === currentGroup)
+			combatantsInGroup.forEach(c => {
+				allCombatantUpdates.push({
+					_id: c._id,
+					initiative: groupInitiative
+				})
+			})
+		}
+	}
+
+	// Update multiple combatants
+	await this.updateEmbeddedDocuments("Combatant", allCombatantUpdates)
+	await this.update({ turn: 0 })
+	return this
+}
+
   /**
    * Roll initiative for one or multiple Combatants within the Combat document
    * @param {string|string[]} ids     A Combatant id or Array of ids for which to roll
@@ -25,7 +195,7 @@ export class DLCombat extends Combat {
    * @returns {Promise<Combat>}       A promise which resolves to the updated Combat document once updates are complete.
    */
   // eslint-disable-next-line no-unused-vars
-  async rollInitiative(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
+  async rollInitiativeStandard(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
     console.log("Calling rollInitiative with", ids, formula, updateTurn, messageOptions)
     // Structure input data
     ids = typeof ids === 'string' ? [ids] : ids
@@ -72,7 +242,7 @@ export class DLCombat extends Combat {
    * @override
    */
   async startCombat() {
-    this.combatants.forEach(combatant => this.setInitiative(combatant.id, this.getInitiativeValue(combatant)))
+    if (game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's') this.combatants.forEach(combatant => this.setInitiative(combatant.id, this.getInitiativeValue(combatant)))
     return await this.update({
       round: 1,
       turn: 0,
@@ -95,6 +265,14 @@ export class DLCombat extends Combat {
 
   /** @override */
   async nextRound() {
+    let initiativeMethod = game.settings.get('demonlord', 'optionalRuleInitiativeMode')
+    if (initiativeMethod !== 's' &&  game.settings.get('demonlord', 'optinalRuleRollInitEachRound')) {
+        await game.combat.resetAll({
+            messageOptions: {
+                rollMode: CONST.DICE_ROLL_MODES.PRIVATE
+            }
+        })
+    }
     const _updatedRound = await super.nextRound()
     await this._handleTurnEffects()
     return _updatedRound
@@ -309,7 +487,10 @@ export function calcEffectRemainingTurn(e, currentTurn) {
 // When a combatant is created, get its initiative from the actor
 Hooks.on('preCreateCombatant', async (combatant, _data, _options, userId) => {
   if (game.userId !== userId) return
-  await combatant.updateSource({initiative: game.combat.getInitiativeValue(combatant)})
+  if (game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's')
+      await combatant.updateSource({initiative: game.combat.getInitiativeValue(combatant)})
+    else
+      await combatant.updateSource({initiative: null})
 })
 
 // Delete Effects with specialDuration
@@ -334,8 +515,33 @@ Hooks.on('deleteCombat', async (combat) => {
 	}
 })
 
-Hooks.on('createCombatant', async (combatant) => {
-  await deleteSpecialdurationEffects(combatant)
+async function setCombatantGroup(combatant) {
+  if (combatant.actor.system.isPC) await combatant.update({flags: {group : 2}})
+    else if (combatant.actor.system.isPC === undefined) await combatant.update({flags: {group : 0}})
+      else await combatant.update({flags: {group : 1}})
+}
+
+Hooks.on("createCombatant", async combatant => {
+	await deleteSpecialdurationEffects(combatant)
+	let optionalRuleInitiative = game.settings.get("demonlord", "optionalRuleInitiativeMode")
+	if (optionalRuleInitiative === "s") return
+  await setCombatantGroup(combatant)
+  // Check if a combatant within a group has initiative, if yes new combatant use the same initiative
+	let currentGroup = combatant.flags.group
+	if (currentGroup !== undefined && game.settings.get("demonlord", "optionalRuleInitiativeMode") === "h") {
+		let groupInitiative = game.combat.combatants.find(x => x.flags.group === currentGroup && x.initiative !=null )?.initiative
+		if (groupInitiative) await combatant.update({ initiative: groupInitiative })
+	}
+  // No Fast turn malus -> at the end of the round
+	if (combatant.actor.system.maluses.noFastTurn === 1 && game.combat.current.turn !== null)
+		switch (optionalRuleInitiative) {
+			case "i":
+				await combatant.update({ initiative: -5 })
+				break
+			case "h":
+				await combatant.update({ initiative: 0 })
+				break
+		}
 })
 
 Hooks.on('deleteCombatant', async (combatant) => {
@@ -344,6 +550,7 @@ Hooks.on('deleteCombatant', async (combatant) => {
 
 Hooks.on('updateCombat', async (combat) => {
   if (!game.users.activeGM?.isSelf) return
+  if (combat.current.combatantId === null) return
   // SOURCE type expirations
   for (let turn of combat.turns) {
     let testActor = turn.actor

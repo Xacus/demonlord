@@ -74,9 +74,17 @@ export class OptionalRulesSettings extends FormApplication {
       selectedDieRollsDropDrown: game.settings.get('demonlord', 'optionalRuleDieRollsMode'),
       dieRollsDropDrown: {
         d: game.i18n.localize('DL.SettingOptionalRuleBellStandardRolls'),
-        b: game.i18n.localize('DL.SettingOptionalRuleBellCurveRolls'),        
+        b: game.i18n.localize('DL.SettingOptionalRuleBellCurveRolls'),
         s: game.i18n.localize('DL.SettingOptionalRuleStaticBoonsAndBanes'),
       },
+      optionalRuleInitiativeMode : game.settings.get('demonlord', 'optionalRuleInitiativeMode'),
+      selectedInitiativeMethodDropDrown : game.settings.get('demonlord', 'optionalRuleInitiativeMode'),
+      initiativeMethodDropDrown: {
+      s: game.i18n.localize('DL.SettingOptionalRuleInitiativeStd'),
+      i: game.i18n.localize('DL.SettingOptionalRuleInitiativeInduvidual'),
+      h: game.i18n.localize('DL.SettingOptionalRuleInitiativeGroup'),
+      },
+      optinalRuleRollInitEachRound: game.settings.get('demonlord', 'optinalRuleRollInitEachRound')
     }
   }
 
@@ -98,7 +106,7 @@ export class OptionalRulesSettings extends FormApplication {
     super.activateListeners(html)
     html.find('button').on('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
-        const keys = ['optinalRuleConsistentDamage', 'optionalRuleDieRollsMode']
+        const keys = ['optinalRuleConsistentDamage', 'optionalRuleDieRollsMode','optionalRuleInitiativeMode','optinalRuleRollInitEachRound']
         await Promise.all(
           keys.map(async key => {
             await this.resetToDefault(key)
@@ -181,6 +189,28 @@ export const registerSettings = function () {
       s: game.i18n.localize('DL.SettingOptionalRuleStaticBoonsAndBanes'),
       b: game.i18n.localize('DL.SettingOptionalRuleBellCurveRolls'),
     },
+  })
+
+  game.settings.register('demonlord', 'optionalRuleInitiativeMode', {
+    name: game.i18n.localize('DL.SettingOptionalRuleInitiative'),
+    scope: 'world',
+    type: String,
+    config: false,
+    default: 's',
+    choices: {
+      s: game.i18n.localize('DL.SettingOptionalRuleInitiativeStd'),
+      i: game.i18n.localize('DL.SettingOptionalRuleInitiativeInduvidual'),
+      h: game.i18n.localize('DL.SettingOptionalRuleInitiativeGroup'),
+    },
+    onChange: foundry.utils.debouncedReload
+  })
+
+  game.settings.register('demonlord', 'optinalRuleRollInitEachRound', {
+    name: game.i18n.localize('DL.SettingOptinalRuleRollInitEachRound'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: false,
   })
 
   game.settings.register('demonlord', 'systemMigrationVersion', {
@@ -326,4 +356,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register("demonlord", "concentrationEffect", {
+    name: game.i18n.localize('DL.SettingConcentrationEffect'),
+    hint: game.i18n.localize('DL.SettingConcentrationEffectHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })  
 }
