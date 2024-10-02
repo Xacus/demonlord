@@ -499,7 +499,7 @@ async function deleteSpecialdurationEffects(combatant) {
   for (let effect of actor.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, "flags.specialDuration")
       if (!(specialDuration?.length > 0)) continue
-      if (specialDuration !== "None" && specialDuration !== undefined) await effect?.delete()
+      if (specialDuration !== "None" && specialDuration !== undefined && specialDuration !== 'RestComplete') await effect?.delete()
   }
 }
 
@@ -510,7 +510,7 @@ Hooks.on('deleteCombat', async (combat) => {
 		for (let effect of testActor.appliedEffects) {
 			const specialDuration = foundry.utils.getProperty(effect, "flags.specialDuration")
 			if (!(specialDuration?.length > 0)) continue
-			if (specialDuration !== "None" && specialDuration !== undefined) await effect?.delete()
+			if (specialDuration !== "None" && specialDuration !== undefined && specialDuration !== 'RestComplete') await effect?.delete()
 		}
 	}
 })
