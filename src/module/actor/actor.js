@@ -428,7 +428,15 @@ export class DemonlordActor extends Actor {
   for (let effect of this.appliedEffects) {
     const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
     if (!(specialDuration?.length > 0)) continue
-    if ((specialDuration === 'NextD20Roll' && effect.changes.find((e) => e.key.includes('system.bonuses.attack.boons'))) || (specialDuration === 'NextD20Roll' && !effect.changes.length)) await effect?.delete()
+      if (specialDuration === 'NextD20Roll') {
+        let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
+        if (
+          effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`))
+        )
+          await effect?.delete()
+      }
   }
 
     Hooks.call('DL.RollAttack', {
@@ -502,7 +510,13 @@ export class DemonlordActor extends Actor {
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
       if (!(specialDuration?.length > 0)) continue
-      if ((specialDuration === 'NextD20Roll' && effect.changes.find((e) => e.key.includes('system.bonuses.challenge.boons'))) || (specialDuration === 'NextD20Roll' && !effect.changes.length)) await effect?.delete()        
+      if (specialDuration === 'NextD20Roll') {
+        if (
+          effect.changes.find(e => e.key.includes('system.bonuses.challenge.boons.all')) || !effect.changes.length ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.challenge.boons.${attribute.key}`))
+        )
+          await effect?.delete()
+      }
     }
 
     return challengeRoll
@@ -578,7 +592,14 @@ export class DemonlordActor extends Actor {
       for (let effect of this.appliedEffects) {
         const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
         if (!(specialDuration?.length > 0)) continue
-        if ((specialDuration === 'NextD20Roll' && attackAttribute !== '' && effect.changes.find((e) => e.key.includes('system.bonuses.attack.boons'))) || (specialDuration === 'NextD20Roll' && !effect.changes.length)) await effect?.delete()
+        if (specialDuration === 'NextD20Roll') {
+          let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
+          if (
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))
+          )
+            await effect?.delete()
+        }
       }
 
     }
@@ -670,7 +691,15 @@ export class DemonlordActor extends Actor {
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
       if (!(specialDuration?.length > 0)) continue
-      if ((specialDuration === 'NextD20Roll' && attackAttribute !== '' && effect.changes.find((e) => e.key.includes('system.bonuses.attack.boons'))) || (specialDuration === 'NextD20Roll' && !effect.changes.length)) await effect?.delete()
+      if (specialDuration === 'NextD20Roll') {
+        let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
+        if (
+          effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.spell`))
+        )
+          await effect?.delete()
+      }
     }
 
     // Add concentration if it's in the spell duration
@@ -748,7 +777,7 @@ export class DemonlordActor extends Actor {
 
       let boons =
         (parseInt(inputBoons) || 0) +
-        (this.system.bonuses.attack[attackAttribute] || 0) +
+        (this.system.bonuses.attack.boons[attackAttribute] || 0) +
         (this.system.bonuses.attack.boons.all || 0) +
         parseInt(itemData.action?.boonsbanes || 0)
 
@@ -767,8 +796,15 @@ export class DemonlordActor extends Actor {
       for (let effect of this.appliedEffects) {
         const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
         if (!(specialDuration?.length > 0)) continue
-        if ((specialDuration === 'NextD20Roll' && attackAttribute !== '' && effect.changes.find((e) => e.key.includes('system.bonuses.attack.boons'))) || (specialDuration === 'NextD20Roll' && !effect.changes.length)) await effect?.delete()
-      }  
+        if (specialDuration === 'NextD20Roll') {
+          let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
+          if (
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))
+          )
+            await effect?.delete()
+        }
+      }
     }
     postItemToChat(this, item, attackRoll, target?.actor, parseInt(inputBoons) || 0)
     return attackRoll
