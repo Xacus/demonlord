@@ -1,59 +1,28 @@
-<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
-  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="Path Name" isEditable=true isGM=isGM edit=system.editPath editId="system.editPath"}}
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="path">
+  <div class="sidebar-content-container">
+    <div class="level-sidebar">
+      {{PathDropdown 'system.type' system.type}}
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="attributes">{{localize "DL.TabsPathSetup"}}</a>
-    <a class="item" data-tab="description">{{localize "DL.TabsPathDescription"}}</a>
-  </nav>
-
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-    <section class="sheet-content" style="padding-top: 0">
-      <div class="tab paths" data-group="primary" data-tab="attributes"
-           style="padding: 0 !important; padding-bottom: 8px">
-        <div class="dl-path-container">
-          <div class="dl-path-sidebar dl-item-section-section">
-            <div class="dl-new-project-2 {{#if system.editPath}}dropdown{{else}}nohover{{/if}}" name="path-type"
-                 value="{{system.type}}">
-              <span style="margin-left: 4px;">
-                {{#if (eq system.type 'novice')}}
-                  {{localize "DL.CharPathNovice"}}
-                {{else if (eq system.type 'expert')}}
-                  {{localize "DL.CharPathExpert"}}
-                {{else if (eq system.type 'master')}}
-                  {{localize "DL.CharPathMaster"}}
-                {{else if (eq system.type 'legendary')}}
-                  {{localize "DL.CharPathLegendary"}}
-                {{else}}
-                  {{localize "DL.PathsPathType"}}
-                {{/if}}
-              </span>
-            </div>
-
-            {{#each system.levels as |level index|}}
-              <div class="dl-clickable dl-path-level-select" data-level-index="{{index}}">
-                {{localize 'DL.PathsLevelsSubTitle'}} {{level.level}}
-              </div>
-            {{/each}}
-            <a class="item-control add-level" data-tippy-content="{{localize 'DL.PathsAddLevel'}}">
-              <i class="fas fa-plus"></i>
-            </a>
-
-          </div>
-
-
-          <div class="dl-path-content">
-            {{#if system.editPath}}
-              {{> "systems/demonlord/templates/item/item-path-edit.hbs"}}
-            {{else}}
-              {{> "systems/demonlord/templates/item/item-path-view.hbs"}}
-            {{/if}}
-          </div>
+      {{#each system.levels as |level index|}}
+        <div class="dl-clickable dl-path-level-select" data-action="selectLevel" data-level-index="{{index}}">
+          {{localize 'DL.PathsLevelsSubTitle'}} {{level.level}}
         </div>
-      </div>
+      {{/each}}
+      {{#if system.editPath}}
+      <a class="item-control add-level" data-action="addLevel" data-tippy-content="{{localize 'DL.PathsAddLevel'}}">
+        <i class="fas fa-plus"></i>
+      </a>
+      {{/if}}
+    </div>
 
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
-    </section>
-  </section>
-</form>
+    <span class="panel-sep"></span>
+
+    <div class="level-content">
+      {{#if system.editPath}}
+        {{> "systems/demonlord/templates/v2/item/item-path-edit.hbs"}}
+      {{else}}
+        {{> "systems/demonlord/templates/v2/item/item-path-view.hbs"}}
+      {{/if}}
+    </div>
+  </div>
+</div>

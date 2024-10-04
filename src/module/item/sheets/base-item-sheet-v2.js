@@ -3,16 +3,19 @@ const { ItemSheetV2 } = foundry.applications.sheets
 
 import {onCreateEffect, onEditEffect, onDeleteEffect, onToggleEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
 import {DL} from '../../config'
-import {DamageType} from '../nested-objects'
 import tippy from "tippy.js";
 import {buildDropdownListHover} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
-import { capitalize } from '../../utils/utils'
-import {DemonlordItem} from "../item";
-import {enrichHTMLUnrolled, i18n} from "../../utils/utils";
+import { DemonlordItem } from "../item";
+import { capitalize, enrichHTMLUnrolled, i18n} from "../../utils/utils";
 import { 
   getNestedItemData,
-  getNestedDocument
+  getNestedDocument,
+  createActorNestedItems,
+  deleteActorNestedItems, 
+  PathLevel,
+  PathLevelItem,
+  DamageType
 } from '../nested-objects';
 
 export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSheetV2) {
@@ -45,7 +48,10 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
       toggleHealing: this.onToggleHealing,
       toggleAttackBonus: this.onToggleAttackBonus,
       toggleChallengeBonus: this.onToggleChallengeBonus,
-      editImage: this.onEditImage
+      editImage: this.onEditImage,
+      selectLevel: this.onSelectLevel,
+      addLevel: this.onAddLevel,
+      transferItem: this.onTransferItem
     },
     window: {
       resizable: true
@@ -55,16 +61,17 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
       height: 650,
     },
     scrollY: ['.tab.paths', '.tab.active'],
+    editable: true
   }
 
   static PARTS = {
-
     header: { template: 'systems/demonlord/templates/v2/item/parts/item-sheet-header.hbs' },
     tabs: { template: 'systems/demonlord/templates/v2/generic/tab-navigation.hbs' },
     description: { template: 'systems/demonlord/templates/v2/item/parts/item-description.hbs' },
     effects: { template: 'systems/demonlord/templates/v2/item/parts/item-effects.hbs' },
 
     // Attributes
+    ancestry: { template: 'systems/demonlord/templates/v2/item/item-ancestry-sheet.hbs' },
     ammo: { template: 'systems/demonlord/templates/v2/item/item-ammo-sheet.hbs' },
     armor: { template: 'systems/demonlord/templates/v2/item/item-armor-sheet.hbs' },
     creaturerole: { template: 'systems/demonlord/templates/v2/item/item-role-sheet.hbs'},
@@ -72,6 +79,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     feature: { template: 'systems/demonlord/templates/v2/item/item-feature-sheet.hbs' }, // Empty
     item: { template: 'systems/demonlord/templates/v2/item/item-item-sheet.hbs' },
     language: { template: 'systems/demonlord/templates/v2/item/item-language-sheet.hbs' },
+    path: { template: 'systems/demonlord/templates/v2/item/item-path-sheet.hbs' },
     profession: { template: 'systems/demonlord/templates/v2/item/item-profession-sheet.hbs' }, // Empty
     relic: { template: 'systems/demonlord/templates/v2/item/item-relic-sheet.hbs' },
     specialaction: { template: 'systems/demonlord/templates/v2/item/item-specialaction-sheet.hbs' }, // Empty
@@ -82,6 +90,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
   // Default tab
   static PARTS_MAP = {
+    'ancestry': 'ancestry',
     'ammo': 'ammo',
     'armor': 'armor',
     'creaturerole': 'role',
@@ -89,12 +98,29 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     'feature': 'description',
     'item': 'item',
     'language': 'language',
+    'path': 'path',
     'profession': 'description',
     'relic': 'relic',
     'specialaction': 'description',
     'spell': 'spell',
     'talent': 'talent',
     'weapon': 'weapon'
+  }
+
+  get isEditable() {
+    let editable = this.options.editable && (this.document.isOwner || this.document.isGM)
+
+    // Only some types can be toggled edit
+    if (!['ancestry', 'creaturerole', 'path'].includes(this.document.type)) {
+      editable = false
+    }
+
+    if (this.document.pack) {
+      const pack = game.packs.get(this.document.pack)
+      if (pack.locked) editable = false
+    }
+
+    return editable
   }
 
   /**
@@ -119,15 +145,32 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
     // Add the rest of the tabs
     options.parts.push('description', 'effects')
+
+    // Finally, adjust the window position according to the type
+    this._adjustSizeByItemType(this.item.type, this.position)
   }
 
   /** @override */
-  static setPosition(options = {}) {
+  static  (options = {}) {
     const position = super.setPosition(options)
     const sheetBody = this.element.find('.sheet-body')
     const bodyHeight = position.height - 125
     sheetBody.css('height', bodyHeight)
     return position
+  }
+
+  _adjustSizeByItemType(type, position) {
+    switch (type) {
+      case 'ancestry':
+        position.width = 700
+        position.height = 700
+        break
+      case 'path':
+        position.width = 700
+        position.height = 700
+        break
+      default: break
+    }
   }
 
   /* -------------------------------------------- */
@@ -144,8 +187,18 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     context.config = DL
     context.item = this.item
     context.system = this.document.system
+
     if (options.isFirstRender) {
       this.tabGroups['primary'] = this.tabGroups['primary'] ?? options.parts.find(p => Object.values(DLBaseItemSheetV2.PARTS_MAP).includes(p))
+    }
+
+    // Retrieve data for nested items
+    if (['ancestry', 'creaturerole', 'path'].includes(this.item.type)) {
+      for await (let i of context.item.system.levels.keys()) {
+        context.item.system.levels[i].talents = await Promise.all(context.item.system.levels[i].talents.map(await getNestedItemData))
+        context.item.system.levels[i].talentspick = await Promise.all(context.item.system.levels[i].talentspick.map(await getNestedItemData))
+        context.item.system.levels[i].spells = await Promise.all(context.item.system.levels[i].spells.map(await getNestedItemData))
+      }
     }
 
     context.tabs = this._getTabs(options.parts)
@@ -173,6 +226,10 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
     switch (partId) {
       case 'header':
+        context.isEditable = this.isEditable
+        context.edit = this.item.system[`edit${capitalize(context.item.type)}`]
+        context.editId = `system.edit${capitalize(context.item.type)}`
+        break
       case 'feature':
       case 'specialaction':
       case 'profession':
@@ -191,6 +248,13 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
         context.active = context.tab.active
+        break
+      case 'ancestry':
+      case 'path':
+        context.tab = context.tabs[partId]
+        context.cssClass = context.tab.cssClass
+        context.active = context.tab.active
+        context.system.selectedLevelIndex = this._selectedLevelIndex || 0
         break
     }
 
@@ -230,7 +294,62 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     // If a Talent has no uses it's always active
     if (item.type === 'talent') updateData.system.addtonextroll = !updateData.system?.uses?.max
 
-    return await item.update(updateData)
+    // Path
+    if (item.type === 'path') {
+      const system = {}
+      formData = formData.object
+      const completeFormData = this._getPathDataFromForm()
+
+      system.editPath = formData['system.editPath'] ?? item.system.editPath
+      system.description = formData['system.description'] || item.system.description
+      system.type = formData['system.type']
+
+      if (!system.type) delete system.type
+
+      if (completeFormData.length > 0) {
+        if (item.system.editPath) {
+          system.levels = this._getEditLevelsUpdateData(completeFormData)
+          system.levels.sort(this._sortLevels)
+  
+          // Set default image based on new path type
+          const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.path).includes(formData.img)
+          if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
+            updateData.img = CONFIG.DL.defaultItemIcons.path[formData['system.type']] || CONFIG.DL.defaultItemIcons.path.novice
+          }
+        } else {
+          system.levels = this._getViewLevelsUpdateData(completeFormData)
+        }
+      }
+      
+      // Change the levels based on the path type
+      if (system.type && item.system.editPath && system.type !== item.system.type) {
+        let autoLevels = []
+        switch (system.type) {
+          case 'novice':
+            autoLevels = [1, 2, 5, 8];
+            break
+          case 'expert':
+            autoLevels = [3, 6, 9];
+            break
+          case 'master':
+            autoLevels = [7, 10];
+            break
+          case 'legendary':
+            autoLevels = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        }
+        system.levels = system.levels ?? []
+        for (let index of autoLevels.keys()) {
+          if (!system.levels[index]) system.levels[index] = new PathLevel({level: autoLevels[index]})
+          else system.levels[index].level = autoLevels[index]
+        }
+      }
+
+      updateData.system = system
+      if (updateData.level) delete updateData.level
+    }
+
+    await item.update(updateData)
+    this.render()
   }
 
   /* -------------------------------------------- */
@@ -319,20 +438,48 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
   static async onEditNestedItem(event) {
     const data = await this.document
-    if (!data.system.contents) {
-      return
+
+    const group = event.target.closest('[data-group]')?.dataset?.group
+    const level = event.target.closest('[data-level]')?.dataset?.level
+    const itemId = event.target.closest('[data-item-id]')?.dataset?.itemId
+    let nestedData
+
+    if (level) {
+      // Path or ancestry item
+      nestedData = data.system.levels[level][group].find(i => i._id === itemId)
+    } else {
+      // No contents, what did we even click
+      if (!data.system.contents) return
+
+      nestedData = data.system.contents.find(i => i._id === itemId)
     }
-    const itemId = event.target.closest('[data-item-id]').dataset.itemId
-    const nestedData = data.system.contents.find(i => i._id === itemId)
+
     await getNestedDocument(nestedData).then(d => {
       if (d.sheet) d.sheet.render(true)
       else ui.notifications.warn('The item is not present in the game and cannot be edited.')
     })
+
   }
 
   static async onDeleteItem(event) {
-    const itemIndex = event.target.closest('[data-item-index]').dataset.itemIndex
-    await this.deleteContentsItem(itemIndex)
+    const itemLevel = event.target.closest('[data-level]')?.dataset?.level
+    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
+    const itemGroup = event.target.closest('[data-group]')?.dataset?.group
+    const itemIndex = event.target.closest('[data-item-index]')?.dataset?.itemIndex
+
+    if (itemLevel ?? levelIndex) {
+      // Part of path or ancestry
+      const itemData = foundry.utils.duplicate(this.item)
+  
+      if (itemGroup === 'talents') itemData.system.levels[itemLevel].talents.splice(itemIndex, 1)
+      else if (itemGroup === 'talentspick') itemData.system.levels[itemLevel].talentspick.splice(itemIndex, 1)
+      else if (itemGroup === 'spells') itemData.system.levels[itemLevel].spells.splice(itemIndex, 1)
+      else if (itemGroup === 'primary') itemData.system.levels.splice(levelIndex, 1) // Deleting a level
+      await this.item.update(itemData)
+    } else { 
+      // Item contents
+      await this.deleteContentsItem(itemIndex)
+    }
   }
 
   static async onToggleSpeak () {
@@ -386,7 +533,48 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
         left: this.position.left + 10,
     });
     return fp.browse()
-}
+  }
+
+  static async onSelectLevel(event, target) {
+    // Display/hide levels on click
+    const levelIndex = $(target).closest('[data-level-index]').data('levelIndex')
+    const form = $(target).closest("form")
+    this._selectedLevelIndex = levelIndex
+    form.find('.dl-path-level').each((_, pl) => {
+      pl = $(pl)
+      if (pl.data('levelIndex') === levelIndex) pl.show()
+      else pl.hide()
+    })
+  }
+
+  static async onAddLevel() {
+    await this.item.update({
+      'system.levels': [...(this.item.system.levels || []), new PathLevel()],
+    })
+  }
+
+  static async onTransferItem(event) {
+    // Grab data from the event
+    const itemIndex = event.target.closest('[data-item-index]').dataset.itemIndex
+    const itemGroup = event.target.closest('[data-group]').dataset.group
+    const itemId = event.target.closest('[data-item-id]').dataset.itemId
+    const itemLevelIndex = event.target.closest('[data-level]').dataset.level
+
+    // Grab the nested item data
+    const itemData = this.item.toObject()
+    const nestedItemData = itemData.system.levels[itemLevelIndex][itemGroup][itemIndex]
+    let selected = nestedItemData.selected = !nestedItemData.selected
+    await this.document.update({ system: itemData.system })
+
+    // If the item is inside a character, and the actor level matches the item level, add it to the actor
+    const actor = this.document.parent
+    if (!actor || actor.type !== 'character') return
+    const levelRequired = itemData.system.levels[itemLevelIndex].level
+    if (parseInt(actor.system.level) >= levelRequired && selected)
+      await createActorNestedItems(actor, [nestedItemData], this.document.id, levelRequired)
+    else
+      await deleteActorNestedItems(actor, null,  itemId)
+  }
 
   /* -------------------------------------------- */
   /*  Listeners                                   */
@@ -421,22 +609,15 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
 
     // Add drag events.
-    e.querySelectorAll('.drop-area, .dl-drop-zone, .dl-drop-zone *').forEach(el => {
+    e.querySelectorAll('.drop-area, .drop-zone, .drop-zone *').forEach(el => {
 
       el.addEventListener('dragover', this._onDragOver.bind(this))
-      .addEventListener('dragleave', this._onDragLeave.bind(this))
-      .addEventListener('drop', this._onDrop.bind(this))
+      el.addEventListener('dragleave', this._onDragLeave.bind(this))
+      el.addEventListener('drop', this._onDrop.bind(this))
     })
 
     // Create nested items by dropping onto item
     this.element.addEventListener('drop', ev => this._onDropItem(ev))
-
-    // Nested item create, edit
-    //e.querySelectorAll('.create-nested-item')?.forEach(el => el.addEventListener('click', async (ev) => await this._onNestedItemCreate(ev)))
-    //e.querySelectorAll('.edit-nested-item')?.forEach(el => el.addEventListener('click', async (ev) => await this._onNestedItemEdit(ev)))
-
-    // Delete list items (active effects, contents, etc.)
-    //e.querySelectorAll('.item-delete')?.forEach(el => el.addEventListener('click', async ev => await this._onContentsItemDelete(ev)))
 
     // Max castings
     e.querySelector('.max-castings-control')?.addEventListener('change', async ev => await this._onManageMaxCastings(ev, this))
@@ -447,7 +628,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
     if (this.document.parent?.isOwner) {
       const dragHandler = async ev => await this._onDrag(ev)
-      e.querySelectorAll('.dl-nested-item').forEach(el => {
+      e.querySelectorAll('.nested-item').forEach(el => {
         el.setAttribute('draggable', true)
         el.addEventListener('dragstart', dragHandler, false)
         el.addEventListener('dragend', dragHandler, false)
@@ -513,12 +694,12 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   async _onManageDamageType(ev, options = {}) {
     ev.preventDefault()
     const a = ev.currentTarget
-    const damageTypes = this.object.system.action.damagetypes
+    const damageTypes = this.document.system.action.damagetypes
     const updKey = `system.action.damagetypes`
 
     if (a.dataset.action === 'create') damageTypes.push(new DamageType())
     else if (a.dataset.action === 'delete') damageTypes.splice(a.dataset.id, 1)
-    await this.object.update({[updKey]: damageTypes}, {...options, parent: this.actor}).then(_ => this.render())
+    await this.document.update({[updKey]: damageTypes}, {...options, parent: this.actor}).then(_ => this.render())
   }
 
   async _onManageMaxCastings (ev, sheet) {
@@ -546,6 +727,157 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     })
   }
 
+  _getPathDataFromForm() {
+    // Get all html elements that are 'path-level' and group their inputs by path-level
+    const htmlLevels = []
+    $(this.element)
+      .find('.dl-path-level')
+      .each((i, pl) => {
+        htmlLevels.push($(pl).find("*[name^='level']"))
+      })
+
+    // From the htmlLevels, construct the levels array based on the input names and values
+    const objLevels = []
+    for (const hl of htmlLevels) {
+      const obj = {}
+      hl.each((i, input) => {
+        const _name = input.getAttribute('name')
+        if (input.tagName === 'SELECT') {
+          obj[_name] = input.options[input?.selectedIndex]?.getAttribute('value')
+        } else if (input.tagName === 'LABEL') {
+          // Check first child for checkbox or radio
+          if (input.children[0].type === 'checkbox') {
+            obj[_name] = input.children[0].checked || false
+          } else if (input.children[0].type === 'radio') {
+            if (_name.startsWith('level.attributeSelectTwoSet')) {
+              obj[_name] = input.children[0].checked
+            } else {
+              obj[_name] = input.children[0].value === 'true'
+            }
+          }
+        } else if (input.type === 'checkbox') {
+          obj[_name] = input.checked || false
+        } else if (input.type === 'radio') {
+          if (input.checked) {
+            if (_name === 'level.attributeSelect') {
+              obj[_name] = input.getAttribute('value')
+            } else {
+              obj[_name] = input.value === 'true'
+            }
+          }
+          if (_name.startsWith('level.attributeSelectTwoSetSelectedValue') && input.checked) {
+            obj[_name] = (input.getAttribute('value') ?? input.value) === 'true'
+          }
+        } else {
+          obj[_name] = input.value ?? input.getAttribute('value')
+        }
+      })
+
+      // Set value of level.attributeSelectTwoSetSelectedValue1 and 2 based on the selected sets
+      if (obj['level.attributeSelect'] === "twosets") {
+        obj['level.attributeSelectTwoSetSelectedValue1'] = obj['level.attributeSelectTwoSet2Selected'] || false
+        obj['level.attributeSelectTwoSetSelectedValue2'] = obj['level.attributeSelectTwoSet4Selected'] || false
+        
+        delete obj['level.attributeSelectTwoSet1Selected']
+        delete obj['level.attributeSelectTwoSet2Selected']
+        delete obj['level.attributeSelectTwoSet3Selected']
+        delete obj['level.attributeSelectTwoSet4Selected']
+      }
+
+      objLevels.push(foundry.utils.expandObject(obj).level)
+    }
+    return objLevels
+  }
+
+  _mergeLevels(currentLevels, formLevels) {
+    const warn = () => ui.notifications.warn('More attributes selected than allowed') // FIXME: localize
+
+    let index = 0
+    formLevels.sort(this._sortLevels)
+    currentLevels.sort(this._sortLevels).forEach(currentLevel => {
+      // Check if attribute select is none or fixed, if so skip the merging
+      if (['', 'fixed'].includes(currentLevel)) {
+        index++
+        return
+      }
+
+      // Convert new level to map
+      const newLevel = new Map(Object.entries(formLevels[index++]))
+
+      // Get number of choices
+      let newChoices = 0
+      newLevel.forEach((v, k) => {
+        if (k.includes('attribute') && v === true) newChoices++
+      })
+
+      if (currentLevel.attributeSelectIsTwoSet) {
+        currentLevel.attributeSelectTwoSetSelectedValue1 = newLevel.get('attributeSelectTwoSetSelectedValue1')
+        currentLevel.attributeSelectTwoSetSelectedValue2 = newLevel.get('attributeSelectTwoSetSelectedValue2')
+      } else if (currentLevel.attributeSelectIsChooseTwo) {
+        if (newChoices > 2) return warn()
+        newLevel.forEach((v, k) => (currentLevel[k] = v))
+      } else if (currentLevel.attributeSelectIsChooseThree) {
+        if (newChoices > 3) return warn()
+        newLevel.forEach((v, k) => (currentLevel[k] = v))
+      }
+    })
+
+    return currentLevels
+  }
+
+
+  _getViewLevelsUpdateData(completeFormData) {
+    return this._mergeLevels(this.document.system.levels, completeFormData)
+  }
+
+  _getEditLevelsUpdateData(completeFormData) {
+    const newLevels = completeFormData.map(cf => new PathLevel(cf))
+
+    // Check duplicate levels in new data
+    const hasDuplicates = new Set(newLevels.map(l => l.level)).size !== newLevels.length
+    if (hasDuplicates) {
+      ui.notifications.warn('Path items must not have duplicate levels')
+      return this.document.system.levels
+    }
+
+    // Match the new levels with the old ones and keep the nested items
+    const oldLevels = this.item.toObject().system.levels
+    const notFound = [] // stores path levels that do not have been found in the current levels
+    newLevels.forEach(newLevel => {
+      const foundIndex = oldLevels.findIndex(l => +l.level === +newLevel.level)
+      if (foundIndex >= 0) {
+        // if index is found, remove the relative level from the list of old levels and keep the nested items
+        const foundLevel = oldLevels.splice(foundIndex, 1)[0]
+        this._keepNestedItems(newLevel, foundLevel)
+        // Keep also the chosen user attributes
+        if (newLevel.attributeSelectIsChooseTwo === foundLevel.attributeSelectIsChooseTwo || newLevel.attributeSelectIsChooseThree === foundLevel.attributeSelectIsChooseThree) {
+          newLevel.attributeStrengthSelected = foundLevel.attributeStrengthSelected
+          newLevel.attributeAgilitySelected = foundLevel.attributeAgilitySelected
+          newLevel.attributeIntellectSelected = foundLevel.attributeIntellectSelected
+          newLevel.attributeWillSelected = foundLevel.attributeWillSelected
+        }
+      } else notFound.push(newLevel)
+    })
+    // Assert that there is only one level not matching.
+    // Not matching levels happen when a path level level changes so there should only be one
+    if ((oldLevels.length > 1 && notFound.length > 1) || oldLevels.length !== notFound.length) {
+      throw new Error('Error in path level matching')
+    } else if (notFound.length === 1) {
+      this._keepNestedItems(notFound[0], oldLevels[0])
+    }
+    return newLevels
+  }
+
+  _keepNestedItems(newLevelData, oldLevelData) {
+    newLevelData.talentsSelected = oldLevelData?.talentsSelected || []
+    newLevelData.talentspick = oldLevelData?.talentspick || []
+    newLevelData.languages = oldLevelData?.languages || []
+    newLevelData.talents = oldLevelData?.talents || []
+    newLevelData.spells = oldLevelData?.spells || []
+  }
+
+  _sortLevels = (a, b) => (+a.level > +b.level ? 1 : -1)
+
   /* -------------------------------------------- */
 
   async _onDrag(ev){
@@ -563,16 +895,61 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     }
   }
 
-  _onDragOver(ev) {
-    $(ev.originalEvent.target).addClass('drop-hover')
+  async _addItem(data, level, group) {
+    const levelItem = new PathLevelItem()
+    const pathData = foundry.utils.duplicate(this.item)
+    const item = await getNestedItemData(data)
+    if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
+
+    levelItem.uuid = item.uuid ?? data.uuid
+    levelItem.id = item.id || item._id
+    levelItem._id = item.id || item._id
+    levelItem.name = item.name
+    levelItem.description = item.system.description
+    levelItem.pack = data.pack ? data.pack : ''
+    levelItem.data = item
+    levelItem.img = item.img
+
+    if (group === 'talents') pathData.system.levels[level]?.talents.push(levelItem)
+    else if (group === 'talentspick') pathData.system.levels[level]?.talentspick.push(levelItem)
+    else if (group === 'spells') pathData.system.levels[level]?.spells.push(levelItem)
+
+    await this.item.update(pathData)
   }
 
-  _onDragLeave(ev) {
-    $(ev.originalEvent.target).removeClass('drop-hover')
+  async _deleteItem(ev) {
+    const itemLevel = $(ev.currentTarget).closest('[data-level]').data('level')
+    const itemGroup = $(ev.currentTarget).closest('[data-group]').data('group')
+    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+    const itemData = foundry.utils.duplicate(this.item)
+
+    if (itemGroup === 'talents') itemData.system.levels[itemLevel].talents.splice(itemIndex, 1)
+    else if (itemGroup === 'talentspick') itemData.system.levels[itemLevel].talentspick.splice(itemIndex, 1)
+    else if (itemGroup === 'spells') itemData.system.levels[itemLevel].spells.splice(itemIndex, 1)
+    await this.item.update(itemData)
   }
 
-  _onDrop(ev) {
-    $(ev.originalEvent.target).removeClass('drop-hover')
+  _onDragOver(event) {
+    $(event.target).addClass('drop-hover')
+  }
+
+  _onDragLeave(event) {
+    $(event.target).removeClass('drop-hover')
+  }
+
+  async _onDrop(event) {
+    $(event.target).removeClass('drop-hover')
+
+    const group = event.target.closest('[data-group]').dataset.group
+    const level = event.target.closest('[data-level]').dataset.level
+    try {
+      $(event.target).removeClass('drop-hover')
+      const data = JSON.parse(event.dataTransfer.getData('text/plain'))
+      if (data.type !== 'Item') return
+      await this._addItem(data, level, group)
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
   async _onDropItem(ev) {
@@ -638,29 +1015,29 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     }
   }
 
-  // async _onNestedItemCreate(ev) {
-  //   const type = $(ev.currentTarget).closest('[data-type]').data('type')
+  async _onNestedItemCreate(ev) {
+    const type = $(ev.currentTarget).closest('[data-type]').data('type')
 
-  //   // Create a folder for the quick item to be stored in
-  //   const folderLoc = $(ev.currentTarget).closest('[data-folder-loc]').data('folderLoc')
-  //   const folderName = i18n("DL." + folderLoc)
-  //   let folder = game.folders.find(f => f.name === folderName)
-  //   if (!folder) {
-  //     folder = await Folder.create({name:folderName, type: DemonlordItem.documentName})
-  //   }
+    // Create a folder for the quick item to be stored in
+    const folderLoc = $(ev.currentTarget).closest('[data-folder-loc]').data('folderLoc')
+    const folderName = i18n("DL." + folderLoc)
+    let folder = game.folders.find(f => f.name === folderName)
+    if (!folder) {
+      folder = await Folder.create({name:folderName, type: DemonlordItem.documentName})
+    }
 
-  //   const item = {
-  //     name: `New ${type.capitalize()}`,
-  //     type: type,
-  //     folder: folder.id,
-  //     system: {},
-  //   }
+    const item = {
+      name: `New ${type.capitalize()}`,
+      type: type,
+      folder: folder.id,
+      system: {},
+    }
 
-  //   const newItem = await this.createNestedItem(item, folderName)
-  //   newItem.sheet.render(true)
-  //   this.render()
-  //   return newItem
-  // }
+    const newItem = await this.createNestedItem(item, folderName)
+    newItem.sheet.render(true)
+    this.render()
+    return newItem
+  }
 
   // eslint-disable-next-line no-unused-vars
   // async _onNestedItemEdit(ev) {

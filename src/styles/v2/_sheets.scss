@@ -85,6 +85,21 @@ hr {
   margin: 5px 0;
 }
 
+span.vertical-rule {
+  width: 2px;
+  background-image: none;
+  border: none;
+  border-left: 1px solid var(--demonlord-color-hr);
+  border-right: 1px solid var(--demonlord-color-hr-highlight);
+  margin: 0 10px;
+}
+
+.panel-sep {
+  border-left: 1px solid var(--demonlord-color-hr);
+  border-right: 1px solid var(--demonlord-color-hr-highlight);
+  margin: 0 10px;
+}
+
 /*******************/
 /* Items List      */
 /*******************/
@@ -433,8 +448,12 @@ span.text-vs {
   width: 120px;
   min-width: 120px;
 
-  // Always hide checkboxes
+  // Always hide checkboxes and radio buttons
   input[type='checkbox'] {
+    display: none;
+  }
+
+  input[type='radio'] {
     display: none;
   }
 
@@ -492,9 +511,15 @@ span.text-vs {
     text-align: center;
   }
 
-  &:hover {
+  &:hover:not(.display-only) {
     box-shadow: 0 0 5px var(--demonlord-red);
   }
+}
+
+.input-group-value {
+  @include input-group-container();
+  width: 50px;
+  min-width: 0;
 }
 
 .item-group-ammo {
@@ -541,13 +566,13 @@ span.text-vs {
 .item-group-checkbox {
   @include input-group-container();
   width: auto;
-  min-width: auto;
+  min-width: 0;
 }
 
 .item-group-boba {
   @include input-group-container();
   width: 70px;
-  min-width: auto;
+  min-width: 0;
 }
 
 .item-group-damage {
@@ -623,7 +648,7 @@ span.text-vs {
 .item-group-talent-bonus {
   @include input-group-container();
   width: 70px;
-  min-width: auto;
+  min-width: 0;
 }
 
 .item-group-attack-bonus {
@@ -637,10 +662,51 @@ span.text-vs {
 .item-group-ammo-required {
   @include input-group-container();
   width: auto;
-  min-width: auto;
+  min-width: 0;
 }
 
-.checkable:not(.checked):not(:hover) {
+.item-group-attribute-value {
+  @include input-group-container();
+  margin: 2px;
+}
+
+.item-group-characteristic-value {
+  @include input-group-container();
+  margin: 2px;
+}
+
+.item-group-path-type {
+  @include input-group-container();
+}
+
+.item-group-path-level {
+  @include input-group-container();
+}
+
+.item-group-path-level {
+  @include input-group-container();
+}
+
+.item-group-attribute-select {
+  @include input-group-container();
+  margin-bottom: 3px;
+}
+
+.item-group-icon-dropdown {
+  @include input-group-container();
+  width: 22px;
+  min-width: 0;
+  margin: 0 10px;
+}
+
+.item-group-icon-checkbox {
+  @include input-group-container();
+  width: 22px;
+  min-width: 0;
+  margin: 0 10px;
+}
+
+.checkable:not(:has(input:checked)):not(:hover) {
   color: var(--demonlord-color-text-dim);
   border: 1px solid var(--demonlord-color-text-dim);
 
@@ -660,8 +726,82 @@ span.text-vs {
   background-color: var(--demonlord-color-text-dim);
 }
 
-.checkable:not(.checked):not(:hover) {
+.checkable:not(:has(input:checked)):not(:hover) {
   .themed-icon {
     background-color: var(--demonlord-color-text-dim);
+  }
+}
+
+/*******************/
+/* Toggle          */
+/*******************/
+
+.edit-toggle {
+  --transition-duration: 0.2s;
+
+  position: absolute;
+  right: 17px;
+  top: 90px;
+
+  .switch {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .toggleInput {
+    display: none;
+  }
+
+  .toggleFill {
+    width: 50px;
+    height: 14px;
+    border-radius: 10px;
+    background: transparent;
+    border: solid 1px var(--demonlord-red);
+    box-shadow: 0 0 5px var(--demonlord-red);
+  }
+
+  .toggleFill:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 2px;
+    width: 10px;
+    height: 10px;
+    background: var(--demonlord-color-text-inverted-primary);
+    border-radius: 5px;
+    transition: transform var(--transition-duration);
+  }
+
+  .toggleInput:checked ~ .toggleFill:after {
+    transform: translateX(35px);
+  }
+
+  .toggleText {
+    position: absolute;
+    top: 0;
+    font-size: 12px;
+    transition: opacity var(--transition-duration);
+
+    &.on {
+      opacity: 0;
+      left: 10px;
+    }
+
+    &.off {
+      opacity: 1;
+      right: 10px;
+    }
+  }
+
+  .toggleInput:checked ~ .toggleText {
+    &.on {
+      opacity: 1;
+    }
+
+    &.off {
+      opacity: 0;
+    }
   }
 }
