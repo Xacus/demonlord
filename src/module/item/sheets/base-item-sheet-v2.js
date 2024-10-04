@@ -107,7 +107,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     'weapon': 'weapon'
   }
 
-  get isEditable() {
+  get canEdit() {
     let editable = this.options.editable && (this.document.isOwner || this.document.isGM)
 
     // Only some types can be toggled edit
@@ -151,7 +151,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   }
 
   /** @override */
-  static  (options = {}) {
+  static setPosition(options = {}) {
     const position = super.setPosition(options)
     const sheetBody = this.element.find('.sheet-body')
     const bodyHeight = position.height - 125
@@ -226,7 +226,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
     switch (partId) {
       case 'header':
-        context.isEditable = this.isEditable
+        context.isEditable = this.canEdit
         context.edit = this.item.system[`edit${capitalize(context.item.type)}`]
         context.editId = `system.edit${capitalize(context.item.type)}`
         break
@@ -645,7 +645,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
 
-    if (this.isEditable) {
+    if (this.canEdit) {
       const inputs = html.find('input')
       inputs.focus(ev => ev.currentTarget.select())
     }
