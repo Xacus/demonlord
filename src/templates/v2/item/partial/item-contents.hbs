@@ -7,7 +7,7 @@
       <div class="col-2">{{localize "DL.ItemValue"}}</div>
     </div>
       {{#each item.system.contents as |content index|}}
-      <div class="dl-item-row dl-nested-item dropitem" data-item-index="{{index}}" data-item-id="{{content._id}}">
+      <div class="dl-item-row nested-item dropitem" data-item-index="{{index}}" data-item-id="{{content._id}}">
         <div class="row">
           <div class="col-7">
             <img class="dl-clickable-nored edit-nested-item" data-action="editNestedItem" src="{{content.img}}" title="{{content.name}}" width="32"
