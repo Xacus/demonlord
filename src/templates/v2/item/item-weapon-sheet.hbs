@@ -38,7 +38,7 @@
 
   <div class="dl-item-section item-properties">
     <b>{{localize 'DL.AmmoTitle'}}</b>
-    <div class="item-group-ammo-required checkable {{ifThen system.consume.ammorequired 'checked' ''}}" data-action="toggleAmmoRequired" data-tippy-content="{{localize 'DL.WeaponAmmoRequired'}}">
+    <div class="item-group-ammo-required checkable" data-action="toggleAmmoRequired" data-tippy-content="{{localize 'DL.WeaponAmmoRequired'}}">
       <input type="checkbox" name="system.consume.ammorequired" {{checked system.consume.ammorequired}} />
       <i class="icon-ammo themed-icon"></i>
     </div>

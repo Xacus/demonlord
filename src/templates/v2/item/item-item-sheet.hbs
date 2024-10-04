@@ -20,7 +20,7 @@
     <b>{{localize "DL.ConsumableType"}}</b>
     <div class="dl-item-section-group">
       {{ConsumableDropdown "system.consumabletype" system.consumabletype}}
-      <div class="item-group-consumable-destroy checkable {{ifThen system.autoDestroy "checked" ""}}" data-action="toggleAutoDestroy">
+      <div class="item-group-consumable-destroy checkable" data-action="toggleAutoDestroy">
         <div class="input-group" data-tippy-content="{{localize "DL.ConsumableDestroyOnEmpty"}}">
           <input type="checkbox" name="system.autoDestroy" {{checked system.autoDestroy}}>
           <i class="icon-destroy themed-icon"></i>

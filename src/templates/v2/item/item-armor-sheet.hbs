@@ -8,7 +8,7 @@
   <div class="dl-item-section item-properties">
     <b>{{localize "DL.WeaponProperties"}}</b>
     <input type="text" class="item-properties-textbox" name="system.properties" placeholder="―" value="{{system.properties}}">
-    <div class="item-group-shield checkable {{ifThen system.isShield "checked" ""}}" data-action="toggleShield">
+    <div class="item-group-shield checkable" data-action="toggleShield">
       <div class="input-group" data-tippy-content="{{localize "DL.ArmorIsShield"}}">
         <input type="checkbox" name="system.isShield" {{checked system.isShield}}>
         <i class="icon-shield themed-icon"></i>
