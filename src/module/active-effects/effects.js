@@ -193,7 +193,7 @@ Hooks.on('renderActiveEffectConfig', (app, html) => {
 
   dropDownConfig({
     specialDuration: 'specialDuration',
-    values: ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource','NextD20Roll','RestComplete'],
+    values: ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource','NextD20Roll','NextDamageRoll','RestComplete'],
     default_value: 'None',
   })
 

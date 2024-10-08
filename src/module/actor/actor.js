@@ -427,7 +427,7 @@ export class DemonlordActor extends Actor {
 
   for (let effect of this.appliedEffects) {
     const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
-    if (!(specialDuration?.length > 0)) continue
+    // if (!(specialDuration?.length > 0)) continue
       if (specialDuration === 'NextD20Roll') {
         let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
         if (
@@ -509,7 +509,7 @@ export class DemonlordActor extends Actor {
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
-      if (!(specialDuration?.length > 0)) continue
+      // if (!(specialDuration?.length > 0)) continue
       if (specialDuration === 'NextD20Roll') {
         if (
           effect.changes.find(e => e.key.includes('system.bonuses.challenge.boons.all')) || !effect.changes.length ||
@@ -591,7 +591,7 @@ export class DemonlordActor extends Actor {
 
       for (let effect of this.appliedEffects) {
         const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
-        if (!(specialDuration?.length > 0)) continue
+        // if (!(specialDuration?.length > 0)) continue
         if (specialDuration === 'NextD20Roll') {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
           if (
@@ -690,7 +690,7 @@ export class DemonlordActor extends Actor {
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
-      if (!(specialDuration?.length > 0)) continue
+      // if (!(specialDuration?.length > 0)) continue
       if (specialDuration === 'NextD20Roll') {
         let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
         if (
@@ -795,7 +795,7 @@ export class DemonlordActor extends Actor {
 
       for (let effect of this.appliedEffects) {
         const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
-        if (!(specialDuration?.length > 0)) continue
+        // if (!(specialDuration?.length > 0)) continue
         if (specialDuration === 'NextD20Roll') {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
           if (
@@ -949,7 +949,7 @@ export class DemonlordActor extends Actor {
 
 		for (let effect of this.appliedEffects) {
 			const specialDuration = foundry.utils.getProperty(effect, "flags.specialDuration")
-			if (!(specialDuration?.length > 0)) continue
+			// if (!(specialDuration?.length > 0)) continue
 			if (specialDuration === 'RestComplete') await effect?.delete()
 		}
 
