@@ -103,7 +103,8 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
     levelItem.uuid = item.uuid ?? data.uuid
-    levelItem.id = item.id
+    levelItem.id = item.id ?? item._id
+    levelItem._id = item._id ?? item.id
     levelItem.name = item.name
     levelItem.description = item.system.description
     levelItem.pack = data.pack ? data.pack : ''
@@ -143,16 +144,16 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
 
     // Based on the group, index and id, update the nested item to selected
-    const ancestryData = this.document.system
+    const ancestryData = this.document.toObject()
     let nestedItemData = undefined
     if (itemGroup === 'talent4')
-      nestedItemData = ancestryData.level4.talent[itemIndex]
+      nestedItemData = ancestryData.system.level4.talent[itemIndex]
     else if (itemGroup === 'spells4')
-      nestedItemData = ancestryData.level4.spells[itemIndex]
+      nestedItemData = ancestryData.system.level4.spells[itemIndex]
     else return
 
     let selected = nestedItemData.selected = !nestedItemData.selected
-    await this.document.update({system: ancestryData})
+    await this.document.update({system: ancestryData.system})
 
     // If the ancestry is inside a character, and the actor's level is >= 4, add or remove the item to the actor
     const actor = this.document.parent

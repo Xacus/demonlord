@@ -106,7 +106,8 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
     levelItem.uuid = item.uuid ?? data.uuid
-    levelItem.id = item.id
+    levelItem.id = item.id ?? item._id
+    levelItem._id = item._id ?? item.id
     levelItem.name = item.name
     levelItem.description = item.system.description
     levelItem.pack = data.pack ? data.pack : ''
@@ -146,20 +147,20 @@ export default class DLRoleSheet extends DLBaseItemSheet {
     const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
 
     // Based on the group, index and id, update the nested item to selected
-    const roleData = this.document.system
+    const roleData = this.document.toObject()
     let nestedItemData = undefined
     if (itemGroup === 'talent')
-      nestedItemData = roleData.talents[itemIndex]
+      nestedItemData = roleData.system.talents[itemIndex]
     else if (itemGroup === 'weapon')
-      nestedItemData = roleData.weapons[itemIndex]
+      nestedItemData = roleData.system.weapons[itemIndex]
     else if (itemGroup === 'spell')
-      nestedItemData = roleData.spells[itemIndex]
+      nestedItemData = roleData.system.spells[itemIndex]
     else if (itemGroup === 'endoftheround')
-      nestedItemData = roleData.endOfRound[itemIndex]
+      nestedItemData = roleData.system.endOfRound[itemIndex]
     else return
 
     let selected = nestedItemData.selected = !nestedItemData.selected
-    await this.document.update({system: roleData})
+    await this.document.update({system: roleData.system})
 
     // If the role is inside a character, add or remove the item to the actor
     const actor = this.document.parent
