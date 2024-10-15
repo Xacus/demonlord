@@ -56,6 +56,12 @@ async function _onChatRollDamage(event) {
   const li = event.currentTarget
   const token = li.closest('.demonlord')
   const actor = _getChatCardActor(token)
+
+  for (let effect of tokenManager.getTokenByActorId(actor.id).actor.appliedEffects) {
+    const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+    if (specialDuration === 'NextDamageRoll') await effect?.delete()
+  }
+
   const item = li.children[0]
   var damageformula = item.dataset.damage
   const damagetype = item.dataset.damagetype
@@ -225,6 +231,17 @@ async function _onChatApplyEffect(event) {
   }
 
   const effectData = activeEffect.toObject()
+  //Repace origin with Item UUID, otherwise effect cannot be removed
+  //specialDuration: TurnStartSource, TurnEndSource
+
+  let aeUuid = activeEffect.uuid
+  let effectOrigin = aeUuid.substr(0, aeUuid.search('.ActiveEffect.'))
+  let effectOriginName = fromUuidSync(effectOrigin).name
+  if (activeEffect.origin.startsWith('Compendium')) {
+    effectData.origin = effectOrigin
+  }
+  if (effectData.name !== effectOriginName)  effectData.name = `${effectData.name} [${effectOriginName}]`  
+  
   for await (const target of selected) {
     // First check if the actor already has this effect
     const matchingEffects = target.actor.effects.filter(e => e.name === effectData.name && changesMatch(e.changes, effectData.changes))
@@ -235,18 +252,6 @@ async function _onChatApplyEffect(event) {
         await e.delete()
       }
     }
-
-
-  //Repace origin with Item UUID, otherwise effect cannot be removed
-  //specialDuration: TurnStartSource, TurnEndSource
-
-  let aeUuid = activeEffect.uuid
-  let effectOrigin = aeUuid.substr(0, aeUuid.search('.ActiveEffect.'))
-  let effectOriginName = fromUuidSync(effectOrigin).name
-  if (activeEffect.origin.startsWith('Compendium')) {
-    effectData.origin = effectOrigin
-  }
-  if (effectData.name !== effectOriginName)  effectData.name = `${effectData.name} [${effectOriginName}]`
 
     await ActiveEffect.create(effectData, {parent: target.actor}).then(e => ui.notifications.info(`Added "${e.name}" to "${target.actor.name}"`))
   }

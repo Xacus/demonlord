@@ -631,6 +631,8 @@
   "DL.SpecialDurationTurnStart": "Turn Start: Expires at the start of the targets's next turn (in combat)",
   "DL.SpecialDurationTurnStartSource": "Turn Start: Expires at the start of the source actor's next turn (in combat)",
   "DL.SpecialDurationNextD20Roll": "Next d20 Roll: Expires at the targets's next Challenge/Attack Roll",
+  "DL.SpecialDurationNextDamageRoll": "Next Damage Roll: Expires at the targets's next Damage Roll",
+  "DL.SpecialDurationRestComplete": "Rest Complete: Expires when the targets complete rest",  
   "DL.SpellAftereffect": "Aftereffect",
   "DL.SpellArea": "Area",
   "DL.SpellAttribute": "Attribute",
