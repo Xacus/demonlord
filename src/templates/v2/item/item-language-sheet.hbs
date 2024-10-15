@@ -4,7 +4,7 @@
   </div>
 
   <div class="dl-item-section">
-    {{#*inline "dlLangType"}}
+    {{#*inline "LangType"}}
       <div class="item-group-language checkable" data-action="{{action}}">
         <div class="input-group">
           <input type="checkbox" name="system.{{name}}" {{checked selected}} />
@@ -16,9 +16,9 @@
     {{/inline}}
 
     <div class="item-properties language-checkboxes">
-      {{> dlLangType name="speak" selected=system.speak loc="DL.LanguagesSpeak" action="toggleSpeak"}}
-      {{> dlLangType name="read"  selected=system.read  loc="DL.LanguagesRead" action="toggleRead"}}
-      {{> dlLangType name="write" selected=system.write loc="DL.LanguagesWrite" action="toggleWrite"}}
+      {{> LangType name="speak" selected=system.speak loc="DL.LanguagesSpeak" action="toggleSpeak"}}
+      {{> LangType name="read"  selected=system.read  loc="DL.LanguagesRead" action="toggleRead"}}
+      {{> LangType name="write" selected=system.write loc="DL.LanguagesWrite" action="toggleWrite"}}
     </div>
   </div>
 
