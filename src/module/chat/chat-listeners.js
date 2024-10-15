@@ -5,6 +5,7 @@
 
 import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
 import {TokenManager} from '../pixi/token-manager'
+import {DLAfflictions} from '../active-effects/afflictions'
 import { changesMatch } from '../utils/chat'
 
 const tokenManager = new TokenManager()
@@ -353,7 +354,9 @@ async function _onChatMakeChallengeRoll(event) {
   const start = li.closest('.demonlord')
   const boonsbanesEntered = start.children[1].children[0].children[0].children[1]?.value
 
-  await actor.rollAttribute(attribute, parseInt(boonsbanes) + parseInt(boonsbanesEntered), 0)
+  if (!DLAfflictions.isActorBlocked(actor, 'challenge', attributeName)) {
+    await actor.rollAttribute(attribute, parseInt(boonsbanes) + parseInt(boonsbanesEntered), 0)
+  }
 }
 
 /* -------------------------------------------- */
