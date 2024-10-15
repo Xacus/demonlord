@@ -139,7 +139,8 @@ export default class DLPathSheet extends DLBaseItemSheet {
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
     levelItem.uuid = item.uuid ?? data.uuid
-    levelItem.id = item.id
+    levelItem.id = item.id ?? item._id
+    levelItem._id = item._id ?? item.id
     levelItem.name = item.name
     levelItem.description = item.system.description
     levelItem.pack = data.pack ? data.pack : ''
