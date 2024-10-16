@@ -101,27 +101,27 @@
 </div>
 <div class="dl-item-section-section margin">
   <div class="dl-column-flex">
-    {{> dlAttributeField attribute="health"  value=system.level4.healthbonus  loc="DL.CharHealth"}}
+    {{> dlAttributeField attribute="health"  value=system.levels.[0].healthbonus  loc="DL.CharHealth"}}
   </div>
 </div>
 
 <!-- IF both level 4 spells and talents, use two col layout, otherwise 1-->
-{{#if (and system.level4.spells.length system.level4.talent.length)}}
+{{#if (and system.levels.[0].spells.length system.levels.[0].talents.length)}}
   <div class="grid-2">
     <div class="dl-item-section-section margin">
-      {{> dlDropZoneView collection=system.level4.spells dataGroup='spells4' title="DL.AncestryLearnSpell" selectable=true}}
+      {{> dlDropZoneView collection=system.levels.[0].spells dataGroup='spells4' title="DL.AncestryLearnSpell" selectable=true}}
     </div>
     <div class="dl-item-section-section margin">
-      {{> dlDropZoneView collection=system.level4.talent dataGroup='talent4' title="DL.AncestryLearnTalent" selectable=true}}
+      {{> dlDropZoneView collection=system.levels.[0].talents dataGroup='talent4' title="DL.AncestryLearnTalent" selectable=true}}
     </div>
   </div>
 {{else if system.level4.spells.length}}
   <div class="dl-item-section-section margin">
-    {{> dlDropZoneView collection=system.level4.spells dataGroup='spells4' title="DL.AncestryLearnSpell" col2=true selectable=true}}
+    {{> dlDropZoneView collection=system.levels.[0].spells dataGroup='spells4' title="DL.AncestryLearnSpell" col2=true selectable=true}}
   </div>
 {{else if system.level4.talent.length}}
   <div class="dl-item-section-section margin">
-    {{> dlDropZoneView collection=system.level4.talent dataGroup='talent4' title="DL.AncestryLearnTalent" col2=true selectable=true}}
+    {{> dlDropZoneView collection=system.levels.[0].talents dataGroup='talent4' title="DL.AncestryLearnTalent" col2=true selectable=true}}
   </div>
 {{/if}}
 

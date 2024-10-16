@@ -148,12 +148,15 @@ Hooks.once('init', async function () {
   })
   Items.registerSheet('demonlord', DLBaseItemSheetV2, {
     types: [
+      'ancestry',
       'ammo',
       'armor',
+      'creaturerole',
       'endoftheround',
       'feature',
       'item',
       'language',
+      'path',
       'profession',
       'relic',
       'specialaction',

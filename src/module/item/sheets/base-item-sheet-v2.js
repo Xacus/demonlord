@@ -200,6 +200,11 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
         context.item.system.levels[i].spells = await Promise.all(context.item.system.levels[i].spells.map(await getNestedItemData))
       }
     }
+    
+    if (this.item.type === 'ancestry') {
+      context.item.system.talents = await Promise.all(context.item.system.talents.map(await getNestedItemData))
+      context.item.system.languagelist = await Promise.all(context.item.system.languagelist.map(await getNestedItemData))
+    }
 
     context.tabs = this._getTabs(options.parts)
 
@@ -250,6 +255,11 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
         context.active = context.tab.active
         break
       case 'ancestry':
+        context.tab = context.tabs[partId]
+        context.cssClass = context.tab.cssClass
+        context.active = context.tab.active
+        context.system.selectedLevelIndex = this._selectedLevelIndex || -1
+        break
       case 'path':
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
@@ -540,7 +550,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     const levelIndex = $(target).closest('[data-level-index]').data('levelIndex')
     const form = $(target).closest("form")
     this._selectedLevelIndex = levelIndex
-    form.find('.dl-path-level').each((_, pl) => {
+    form.find('.level-selector').each((_, pl) => {
       pl = $(pl)
       if (pl.data('levelIndex') === levelIndex) pl.show()
       else pl.hide()
@@ -634,21 +644,9 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
         el.addEventListener('dragend', dragHandler, false)
       })
     }
-  }
 
-  /* -------------------------------------------- */
-
-  /** @override */
-  async activateListeners(html) {
-    super.activateListeners(html)
-
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return
-
-    if (this.canEdit) {
-      const inputs = html.find('input')
-      inputs.focus(ev => ev.currentTarget.select())
-    }
+    // Autoselect text in inputs when focused
+    e.querySelectorAll('input')?.forEach(el => el.addEventListener('focus', ev => ev.currentTarget.select()))
   }
 
   /* -------------------------------------------- */
@@ -731,7 +729,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     // Get all html elements that are 'path-level' and group their inputs by path-level
     const htmlLevels = []
     $(this.element)
-      .find('.dl-path-level')
+      .find('.level-selector')
       .each((i, pl) => {
         htmlLevels.push($(pl).find("*[name^='level']"))
       })
@@ -897,7 +895,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
   async _addItem(data, level, group) {
     const levelItem = new PathLevelItem()
-    const pathData = foundry.utils.duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.item)
     const item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
@@ -910,11 +908,16 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     levelItem.data = item
     levelItem.img = item.img
 
-    if (group === 'talents') pathData.system.levels[level]?.talents.push(levelItem)
-    else if (group === 'talentspick') pathData.system.levels[level]?.talentspick.push(levelItem)
-    else if (group === 'spells') pathData.system.levels[level]?.spells.push(levelItem)
+    if (item.type === 'ancestry' && level === 0) {
+      if (group === 'feature') itemData.system.talents.push(levelItem)
+      else if (group === 'languagelist') itemData.system.languagelist.push(levelItem)
+    } else {
+      if (group === 'talents') itemData.system.levels[level]?.talents.push(levelItem)
+      else if (group === 'talentspick') itemData.system.levels[level]?.talentspick.push(levelItem)
+      else if (group === 'spells') itemData.system.levels[level]?.spells.push(levelItem)
+    }
 
-    await this.item.update(pathData)
+    await this.item.update(itemData)
   }
 
   async _deleteItem(ev) {

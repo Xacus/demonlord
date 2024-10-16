@@ -10,7 +10,7 @@
 {{/inline}}
 
 {{#*inline "AttributeViewer"}}
-  {{#if (and (not optional) value)}}
+  {{#if (and (not mandatory) value)}}
   <div class="item-group-attribute-value display-only" data-tippy-content="{{localize loc}}">
     <i class="icon-{{icon}} themed-icon"></i>
     <span class="sep"></span>
@@ -47,7 +47,7 @@
 <!-- END OF TEMPLATES -->
 
 {{#each system.levels as |level index|}}
-  <div class="dl-path-level" data-level-index="{{index}}" {{#if (ne index ../system.selectedLevelIndex)}}style="display: none"{{/if}}>
+  <div class="level-selector" data-level-index="{{index}}" {{#if (ne index ../system.selectedLevelIndex)}}style="display: none"{{/if}}>
     <div name="level.level" value="{{level.level}}" style="display: none"></div>
     <div class="dl-item-section-header row">
       <div class="path-level-control">

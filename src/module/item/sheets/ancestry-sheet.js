@@ -32,8 +32,8 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const ancestryData = data.system
     ancestryData.languagelist = await Promise.all(ancestryData.languagelist.map(await getNestedItemData))
     ancestryData.talents = await Promise.all(ancestryData.talents.map(await getNestedItemData))
-    ancestryData.level4.talent = await Promise.all(ancestryData.level4.talent.map(await getNestedItemData))
-    ancestryData.level4.spells = await Promise.all(ancestryData.level4.spells?.map(await getNestedItemData))
+    ancestryData.levels[0].talents = await Promise.all(ancestryData.levels[0]?.talents?.map(await getNestedItemData))
+    ancestryData.levels[0].spells = await Promise.all(ancestryData.levels[0]?.spells?.map(await getNestedItemData))
     return data
   }
 
@@ -111,9 +111,9 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     levelItem.data = item
 
     if (group === 'talent') ancestryData.system.talents.push(levelItem)
-    else if (group === 'talent4') ancestryData.system.level4.talent.push(levelItem)
+    else if (group === 'talent4') ancestryData.system.levels[0].talents.push(levelItem)
     else if (group === 'language') ancestryData.system.languagelist.push(levelItem)
-    else if (group === 'spells4') ancestryData.system.level4.spells.push(levelItem)
+    else if (group === 'spells4') ancestryData.system.levels[0].spells.push(levelItem)
     else return
     await this.item.update(ancestryData, {diff: false}).then(_ => this.render)
   }
@@ -121,9 +121,9 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
   async _deleteItem(itemIndex, itemGroup) {
     const itemData = foundry.utils.duplicate(this.item)
     if (itemGroup === 'talent') itemData.system.talents.splice(itemIndex, 1)
-    else if (itemGroup === 'talent4') itemData.system.level4.talent.splice(itemIndex, 1)
+    else if (itemGroup === 'talent4') itemData.system.levels[0].talents.splice(itemIndex, 1)
     else if (itemGroup === 'language') itemData.system.languagelist.splice(itemIndex, 1)
-    else if (itemGroup === 'spells4') itemData.system.level4.spells.splice(itemIndex, 1)
+    else if (itemGroup === 'spells4') itemData.system.levels[0].spells.splice(itemIndex, 1)
     await Item.updateDocuments([itemData], {parent: this.actor}).then(_ => this.render())
   }
 
@@ -147,9 +147,9 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const ancestryData = this.document.toObject()
     let nestedItemData = undefined
     if (itemGroup === 'talent4')
-      nestedItemData = ancestryData.system.level4.talent[itemIndex]
+      nestedItemData = ancestryData.system.levels[0].talents[itemIndex]
     else if (itemGroup === 'spells4')
-      nestedItemData = ancestryData.system.level4.spells[itemIndex]
+      nestedItemData = ancestryData.system.levels[0].spells[itemIndex]
     else return
 
     let selected = nestedItemData.selected = !nestedItemData.selected
@@ -172,8 +172,8 @@ export default class DLAncestrySheet extends DLBaseItemSheet {
     const nestedData =
       ancestryData.languagelist.find(i => i._id === itemId) ??
       ancestryData.talents.find(i => i._id === itemId) ??
-      ancestryData.level4.talent.find(i => i._id === itemId) ??
-      ancestryData.level4.spells.find(i => i._id === itemId)
+      ancestryData.levels[0].talents.find(i => i._id === itemId) ??
+      ancestryData.levels[0].spells.find(i => i._id === itemId)
     await getNestedDocument(nestedData).then(d => {
       if (d.sheet) d.sheet.render(true)
       else ui.notifications.warn('The item is not present in the game and cannot be edited.')

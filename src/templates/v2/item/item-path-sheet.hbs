@@ -4,7 +4,7 @@
       {{PathDropdown 'system.type' system.type}}
 
       {{#each system.levels as |level index|}}
-        <div class="dl-clickable dl-path-level-select" data-action="selectLevel" data-level-index="{{index}}">
+        <div class="dl-clickable" data-action="selectLevel" data-level-index="{{index}}">
           {{localize 'DL.PathsLevelsSubTitle'}} {{level.level}}
         </div>
       {{/each}}

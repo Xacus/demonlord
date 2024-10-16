@@ -26,7 +26,7 @@
 <!-- END OF TEMPLATES -->
 
 {{#each system.levels as |level index|}}
-  <div class="dl-path-level" data-level-index="{{index}}" {{#if (ne index ../system.selectedLevelIndex)}}style="display: none"{{/if}}>
+  <div class="level-selector" data-level-index="{{index}}" {{#if (ne index ../system.selectedLevelIndex)}}style="display: none"{{/if}}>
     <div name="level.level" value="{{level.level}}" style="display: none"></div>
     <div class="dl-item-section-header item-properties">
       <div class="path-level-control">
