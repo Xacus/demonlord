@@ -428,6 +428,16 @@ span.vertical-rule {
   @include demonlord-icon('../assets/ui/other-svg/ammo.svg');
 }
 
+.icon-difficulty {
+  @include demonlord-icon('../assets/ui/other-svg/difficulty.svg');
+}
+.icon-frightening {
+  @include demonlord-icon('../assets/ui/other-svg/frightening.svg');
+}
+.icon-horrifying {
+  @include demonlord-icon('../assets/ui/other-svg/horrifying.svg');
+}
+
 /*******************/
 /* Groups          */
 /*******************/

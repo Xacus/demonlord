@@ -46,6 +46,7 @@ export default class PathDataModel extends foundry.abstract.DataModel {
         languagesText: makeStringField(),
         equipmentText: makeStringField(),
         magicText: makeStringField(),
+        optionsText: makeStringField(),
         talentsSelect: makeStringField(),
         talentsChooseOne: makeBoolField(false),
         talentsSelected: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({

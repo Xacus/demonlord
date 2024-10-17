@@ -1,8 +1,8 @@
 <!-- START OF TEMPLATES -->
 
 {{#*inline "AttributeSelector"}}
-  <label class="item-group-attribute-value checkable" for="{{name}}" data-tippy-content="{{localize loc}}">
-    <input type="checkbox" id={{name}} name="{{name}}" {{checked selected}} />
+  <label class="item-group-attribute-value checkable" for="{{id}}" data-tippy-content="{{localize loc}}">
+    <input type="checkbox" id={{id}} name="{{name}}" {{checked selected}} />
     <i class="icon-{{icon}} themed-icon"></i>
     <span class="sep"></span>
     <span class="text">{{plusify value}}</span>
@@ -149,10 +149,10 @@
           </div>
 
           {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree)}}
-            {{> AttributeSelector icon="strength"   value=level.attributeStrength  name="level.attributeStrengthSelected"  selected=level.attributeStrengthSelected  loc="DL.AttributeStrength"}}
-            {{> AttributeSelector icon="agility"    value=level.attributeAgility   name="level.attributeAgilitySelected"   selected=level.attributeAgilitySelected   loc="DL.AttributeAgility"}}
-            {{> AttributeSelector icon="intellect"  value=level.attributeIntellect name="level.attributeIntellectSelected" selected=level.attributeIntellectSelected loc="DL.AttributeIntellect"}}
-            {{> AttributeSelector icon="will"       value=level.attributeWill      name="level.attributeWillSelected"      selected=level.attributeWillSelected      loc="DL.AttributeWill"}}
+            {{> AttributeSelector icon="strength"   value=level.attributeStrength  id=(concat "L" level.level ".attributeStrengthSelected") name="level.attributeStrengthSelected"  selected=level.attributeStrengthSelected  loc="DL.AttributeStrength"}}
+            {{> AttributeSelector icon="agility"    value=level.attributeAgility   id=(concat "L" level.level ".attributeAgilitySelected") name="level.attributeAgilitySelected"   selected=level.attributeAgilitySelected   loc="DL.AttributeAgility"}}
+            {{> AttributeSelector icon="intellect"  value=level.attributeIntellect id=(concat "L" level.level ".attributeIntellectSelected") name="level.attributeIntellectSelected" selected=level.attributeIntellectSelected loc="DL.AttributeIntellect"}}
+            {{> AttributeSelector icon="will"       value=level.attributeWill      id=(concat "L" level.level ".attributeWillSelected") name="level.attributeWillSelected"      selected=level.attributeWillSelected      loc="DL.AttributeWill"}}
           {{else if level.attributeSelectIsFixed}}
             {{> AttributeViewer icon="strength"     value=level.attributeStrength  name="level.attributeStrength"  loc="DL.AttributeStrength"}}
             {{> AttributeViewer icon="agility"      value=level.attributeAgility   name="level.attributeAgility"   loc="DL.AttributeAgility"}}
@@ -222,6 +222,15 @@
         </div>
         <div class="text-areas">
           <div>{{level.magicText}}</div>
+        </div>
+      {{/if}}
+
+      {{#if level.optionsText}}
+        <div class="dl-item-section-header">
+          <b>{{localize "DL.OptionsText"}}</b>
+        </div>
+        <div class="text-areas">
+          <div>{{level.optionsText}}</div>
         </div>
       {{/if}}
     </div>

@@ -100,6 +100,7 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
         languagesText: makeStringField(),
         equipmentText: makeStringField(),
         magicText: makeStringField(),
+        optionsText: makeStringField(),
         talentsSelect: makeStringField(),
         talentsChooseOne: makeBoolField(false),
         talentsSelected: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
@@ -135,20 +136,24 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
     }
 
     // Update from level4 to any number of levels
-    if (source.level4) {
-      source.levels = [
+    if (source.level4 && !source.levels) {
+
+      if (!source.levels) source.levels = []
+
+      source.levels = source.levels.concat([
         {
           level: '4',
           attributeselect: '',
           characteristicsHealth: source.level4.healthbonus,
           // option1 is not in use
-          // option1text is not in use
+          // option1text is not in use, but let's add it anyways
+          optionsText: source.option1text,
           talents: source.level4.talent,
           spells: source.level4.spells,
           talentsSelected: source.level4.pickedTalents,
           // picks is not in use
         }
-      ]
+      ])
     }
 
     return super.migrateData(source)

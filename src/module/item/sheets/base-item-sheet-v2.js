@@ -133,14 +133,10 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     options.parts = [ 'header' ]
 
     // Optionally add the main tab (attributes)
-    const map = {
-      'creaturerole': 'role'
-    }
-
     const ignoredParts = [ 'feature', 'profession', 'specialaction' ] // Ideally temporary
-
+    
     if (!ignoredParts.includes(this.item.type)) {
-      options.parts.push(map[this.item.type] || this.item.type)
+      options.parts.push(this.item.type)
     }
 
     // Add the rest of the tabs
@@ -189,11 +185,11 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     context.system = this.document.system
 
     if (options.isFirstRender) {
-      this.tabGroups['primary'] = this.tabGroups['primary'] ?? options.parts.find(p => Object.values(DLBaseItemSheetV2.PARTS_MAP).includes(p))
+      this.tabGroups['primary'] = this.tabGroups['primary'] ?? options.parts.find(p => Object.keys(DLBaseItemSheetV2.PARTS_MAP).includes(p))
     }
 
     // Retrieve data for nested items
-    if (['ancestry', 'creaturerole', 'path'].includes(this.item.type)) {
+    if (['ancestry', 'path'].includes(this.item.type)) {
       for await (let i of context.item.system.levels.keys()) {
         context.item.system.levels[i].talents = await Promise.all(context.item.system.levels[i].talents.map(await getNestedItemData))
         context.item.system.levels[i].talentspick = await Promise.all(context.item.system.levels[i].talentspick.map(await getNestedItemData))
@@ -204,6 +200,14 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     if (this.item.type === 'ancestry') {
       context.item.system.talents = await Promise.all(context.item.system.talents.map(await getNestedItemData))
       context.item.system.languagelist = await Promise.all(context.item.system.languagelist.map(await getNestedItemData))
+    }
+
+    if (this.item.type === 'creaturerole') {
+      context.item.system.talents = await Promise.all(context.item.system.talents.map(await getNestedItemData))
+      context.item.system.spells = await Promise.all(context.item.system.spells.map(await getNestedItemData))
+      context.item.system.weapons = await Promise.all(context.item.system.weapons.map(await getNestedItemData))
+      context.item.system.specialActions = await Promise.all(context.item.system.specialActions.map(await getNestedItemData))
+      context.item.system.endOfRound = await Promise.all(context.item.system.endOfRound.map(await getNestedItemData))
     }
 
     context.tabs = this._getTabs(options.parts)
@@ -232,8 +236,8 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     switch (partId) {
       case 'header':
         context.isEditable = this.canEdit
-        context.edit = this.item.system[`edit${capitalize(context.item.type)}`]
-        context.editId = `system.edit${capitalize(context.item.type)}`
+        context.edit = this.item.system[`edit${capitalize(DLBaseItemSheetV2.PARTS_MAP[context.item.type])}`]
+        context.editId = `system.edit${capitalize(DLBaseItemSheetV2.PARTS_MAP[context.item.type])}`
         break
       case 'feature':
       case 'specialaction':
@@ -250,6 +254,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
       case 'weapon':
       case 'description':
       case 'effects':
+      case 'creaturerole':
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
         context.active = context.tab.active
@@ -258,13 +263,13 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
         context.active = context.tab.active
-        context.system.selectedLevelIndex = this._selectedLevelIndex || -1
+        context.system.selectedLevelIndex = this._selectedLevelIndex ?? -1
         break
       case 'path':
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
         context.active = context.tab.active
-        context.system.selectedLevelIndex = this._selectedLevelIndex || 0
+        context.system.selectedLevelIndex = this._selectedLevelIndex ?? 0
         break
     }
 
@@ -351,6 +356,37 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
         for (let index of autoLevels.keys()) {
           if (!system.levels[index]) system.levels[index] = new PathLevel({level: autoLevels[index]})
           else system.levels[index].level = autoLevels[index]
+        }
+      }
+
+      updateData.system = system
+      if (updateData.level) delete updateData.level
+    } else if (item.type === 'ancestry') {
+      const system = {}
+      formData = formData.object
+      const completeFormData = this._getPathDataFromForm()
+
+      // Remove first level 0, as it's not relevant for this
+      completeFormData.splice(0, 1)
+
+      system.editAncestry = formData['system.editAncestry'] ?? item.system.editAncestry
+      system.description = formData['system.description'] || item.system.description
+      system.type = formData['system.type']
+
+      if (!system.type) delete system.type
+
+      if (completeFormData.length > 0) {
+        if (item.system.editAncestry) {
+          system.levels = this._getEditLevelsUpdateData(completeFormData)
+          system.levels.sort(this._sortLevels)
+  
+          // Set default image based on new ancestry type
+          const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.ancestry).includes(formData.img)
+          if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
+            updateData.img = CONFIG.DL.defaultItemIcons.ancestry[formData['system.type']]
+          }
+        } else {
+          system.levels = this._getViewLevelsUpdateData(completeFormData)
         }
       }
 
@@ -908,9 +944,14 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     levelItem.data = item
     levelItem.img = item.img
 
-    if (item.type === 'ancestry' && level === 0) {
+    if (this.item.type === 'ancestry' && level === 0) {
       if (group === 'feature') itemData.system.talents.push(levelItem)
       else if (group === 'languagelist') itemData.system.languagelist.push(levelItem)
+    } else if (this.item.type === 'creaturerole') {
+      if (group === 'talents') itemData.system.talents.push(levelItem)
+      else if (group === 'weapons') itemData.system.weapons.push(levelItem)
+      else if (group === 'spells') itemData.system.spells.push(levelItem)
+      else if (group === 'endOfRound') itemData.system.endOfRound.push(levelItem)
     } else {
       if (group === 'talents') itemData.system.levels[level]?.talents.push(levelItem)
       else if (group === 'talentspick') itemData.system.levels[level]?.talentspick.push(levelItem)
