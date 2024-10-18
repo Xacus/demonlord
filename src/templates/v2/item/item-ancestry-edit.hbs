@@ -1,10 +1,10 @@
 <!-- START OF TEMPLATES -->
 {{#*inline "AttributeInput"}}
   <div class="item-group-attribute-value">
-    <div class="input-group" data-tippy-content="{{localize loc}}">
+    <div class="input-group {{#if editableStat}}editable-stat{{/if}}" data-tippy-content="{{localize loc}}" data-stat-type="{{statType}}" data-stat-name="{{statName}}">
       <i class="icon-{{icon}} themed-icon"></i>
       <span class="sep"></span>
-      <input type="number {{#if editableStat}}editable-stat{{/if}}" class="input-group-textbox" name="{{name}}" value="{{value}}" placeholder="0" />
+      <input type="number" class="input-group-textbox" name="{{name}}" value="{{value}}" placeholder="0" />
     </div>
   </div>
 {{/inline}}
@@ -42,10 +42,10 @@
     <div class="half-panel">
       <b>{{localize "DL.AncestryStartingAttributes"}}</b>
       <div class="attribute-select-container">
-        {{> AttributeInput icon="strength"   value=system.attributes.strength.value  name="system.attributes.strength.value"  loc="DL.AttributeStrength" editableStat=true}}
-        {{> AttributeInput icon="agility"    value=system.attributes.agility.value   name="system.attributes.agility.value"   loc="DL.AttributeAgility" editableStat=true}}
-        {{> AttributeInput icon="intellect"  value=system.attributes.intellect.value name="system.attributes.intellect.value" loc="DL.AttributeIntellect" editableStat=true}}
-        {{> AttributeInput icon="will"       value=system.attributes.will.value      name="system.attributes.will.value"      loc="DL.AttributeWill" editableStat=true}}
+        {{> AttributeInput icon="strength"   value=system.attributes.strength.value  name="system.attributes.strength.value"  loc="DL.AttributeStrength" editableStat=true statType="attributes" statName="strength"}}
+        {{> AttributeInput icon="agility"    value=system.attributes.agility.value   name="system.attributes.agility.value"   loc="DL.AttributeAgility" editableStat=true statType="attributes" statName="agility"}}
+        {{> AttributeInput icon="intellect"  value=system.attributes.intellect.value name="system.attributes.intellect.value" loc="DL.AttributeIntellect" editableStat=true statType="attributes" statName="intellect"}}
+        {{> AttributeInput icon="will"       value=system.attributes.will.value      name="system.attributes.will.value"      loc="DL.AttributeWill" editableStat=true statType="attributes" statName="will"}}
       </div>
     </div>
 
@@ -55,8 +55,8 @@
     <div class="half-panel">
       <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
       <div class="characteristics-container">
-        {{> AttributeInput icon="health" value=system.characteristics.healthmodifier name="system.characteristics.healthmodifier" loc="DL.CharHealth" editableStat=true}}
-        {{> AttributeInput icon="healing" value=system.characteristics.healingratemodifier name="system.characteristics.healingratemodifier" loc="DL.CharHealthHealingRating" editableStat=true}}
+        {{> AttributeInput icon="health" value=system.characteristics.healthmodifier name="system.characteristics.healthmodifier" loc="DL.CharHealth"}}
+        {{> AttributeInput icon="healing" value=system.characteristics.healingratemodifier name="system.characteristics.healingratemodifier" loc="DL.CharHealthHealingRating"}}
         <div class="item-group-characteristic-value">
           <div class="input-group" data-tippy-content="{{localize "DL.CharSize"}}">
             <i class="icon-size themed-icon"></i>
@@ -64,9 +64,9 @@
             <input type="text" class="input-group-textbox" name="system.characteristics.size" value="{{system.characteristics.size}}" placeholder="0" />
           </div>
         </div>
-        {{> AttributeInput icon="defense" value=system.characteristics.defensemodifier name="system.characteristics.defensemodifier" loc="DL.AttributeDefense" editableStat=true}}
-        {{> AttributeInput icon="perception" value=system.characteristics.perceptionmodifier name="system.characteristics.perceptionmodifier" loc="DL.AttributePerception" editableStat=true}}
-        {{> AttributeInput icon="speed" value=system.characteristics.speed name="system.characteristics.speed" loc="DL.CharSpeed" editableStat=true}}
+        {{> AttributeInput icon="defense" value=system.characteristics.defensemodifier name="system.characteristics.defensemodifier" loc="DL.AttributeDefense"}}
+        {{> AttributeInput icon="perception" value=system.characteristics.perceptionmodifier name="system.characteristics.perceptionmodifier" loc="DL.AttributePerception"}}
+        {{> AttributeInput icon="speed" value=system.characteristics.speed name="system.characteristics.speed" loc="DL.CharSpeed"}}
         <div class="item-group-characteristic-value">
           <div class="input-group editable-stat" data-tippy-content="{{localize "DL.CharInsanity"}}">
             <i class="icon-insanity themed-icon"></i>
@@ -148,10 +148,10 @@
           {{AttributeSelectDropdown "level.attributeSelect" level.attributeSelect}}
 
           {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree level.attributeSelectIsFixed)}}
-            {{> AttributeInput icon="strength"   value=level.attributeStrength  name="level.attributeStrength"  loc="DL.AttributeStrength" editableStat=false}}
-            {{> AttributeInput icon="agility"    value=level.attributeAgility   name="level.attributeAgility"   loc="DL.AttributeAgility" editableStat=false}}
-            {{> AttributeInput icon="intellect"  value=level.attributeIntellect name="level.attributeIntellect" loc="DL.AttributeIntellect" editableStat=false}}
-            {{> AttributeInput icon="will"       value=level.attributeWill      name="level.attributeWill"      loc="DL.AttributeWill" editableStat=false}}
+            {{> AttributeInput icon="strength"   value=level.attributeStrength  name="level.attributeStrength"  loc="DL.AttributeStrength"}}
+            {{> AttributeInput icon="agility"    value=level.attributeAgility   name="level.attributeAgility"   loc="DL.AttributeAgility"}}
+            {{> AttributeInput icon="intellect"  value=level.attributeIntellect name="level.attributeIntellect" loc="DL.AttributeIntellect"}}
+            {{> AttributeInput icon="will"       value=level.attributeWill      name="level.attributeWill"      loc="DL.AttributeWill"}}
           {{else if level.attributeSelectIsTwoSet}}
             <div class="attribute-set-container">
               {{LevelAttributeTwoSet 'level.attributeSelectTwoSet1' level.attributeSelectTwoSet1 }}
@@ -178,13 +178,13 @@
       <div class="half-panel">
         <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
         <div class="characteristics-container">
-          {{> AttributeInput icon="health" value=level.characteristicsHealth name="level.characteristicsHealth" loc="DL.CharHealth" editableStat=false}}
-          {{> AttributeInput icon="defense" value=level.characteristicsDefense name="level.characteristicsDefense" loc="DL.AttributeDefense" editableStat=false}}
-          {{> AttributeInput icon="perception" value=level.characteristicsPerception name="level.characteristicsPerception" loc="DL.AttributePerception" editableStat=false}}
-          {{> AttributeInput icon="speed" value=level.characteristicsSpeed name="level.characteristicsSpeed" loc="DL.CharSpeed" editableStat=false}}
-          {{> AttributeInput icon="insanity" value=level.characteristicsInsanity name="level.characteristicsInsanity" loc="DL.CharInsanity" editableStat=false}}
-          {{> AttributeInput icon="corruption" value=level.characteristicsCorruption name="level.characteristicsCorruption" loc="DL.CharCorruption" editableStat=false}}
-          {{> AttributeInput icon="power" value=level.characteristicsPower name="level.characteristicsPower" loc="DL.CharPower" editableStat=false}}
+          {{> AttributeInput icon="health" value=level.characteristicsHealth name="level.characteristicsHealth" loc="DL.CharHealth"}}
+          {{> AttributeInput icon="defense" value=level.characteristicsDefense name="level.characteristicsDefense" loc="DL.AttributeDefense"}}
+          {{> AttributeInput icon="perception" value=level.characteristicsPerception name="level.characteristicsPerception" loc="DL.AttributePerception"}}
+          {{> AttributeInput icon="speed" value=level.characteristicsSpeed name="level.characteristicsSpeed" loc="DL.CharSpeed"}}
+          {{> AttributeInput icon="insanity" value=level.characteristicsInsanity name="level.characteristicsInsanity" loc="DL.CharInsanity"}}
+          {{> AttributeInput icon="corruption" value=level.characteristicsCorruption name="level.characteristicsCorruption" loc="DL.CharCorruption"}}
+          {{> AttributeInput icon="power" value=level.characteristicsPower name="level.characteristicsPower" loc="DL.CharPower"}}
         </div>
       </div>
     </div>    

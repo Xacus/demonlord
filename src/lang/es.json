@@ -593,6 +593,7 @@
   "DL.reload": "Recargando",
   "DL.retreat": "En Retirada",
   "DL.rush": "Apresurado",
+  "DL.RollFormula": "Fórmula de tirada",
   "DL.stabilize": "Estabilizando",
   "DL.encumbered": "Sobrecargado",
   "DL.StatEditor": "Editor de Estadística",
@@ -715,5 +716,6 @@
   "DL.NoFastTurns": "Sin turnos rápidos",
   "DL.HalfSpeed": "Mitad de la Velocidad",
   "DL.Override": "Reemplazar",
+  "DL.OptionsText": "Opciones",
   "DL.ChallengeRollBonus": "Bonos Prueba"
 }

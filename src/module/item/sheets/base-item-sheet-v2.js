@@ -17,6 +17,7 @@ import {
   PathLevelItem,
   DamageType
 } from '../nested-objects';
+import { DLStatEditor } from '../../dialog/stat-editor'
 
 export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSheetV2) {
   /** @override */
@@ -665,6 +666,9 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     // Create nested items by dropping onto item
     this.element.addEventListener('drop', ev => this._onDropItem(ev))
 
+    // Stat editor
+    e.querySelectorAll('.editable-stat').forEach(el => el.addEventListener('contextmenu', async ev => await this._onStatEdit(ev)))
+
     // Max castings
     e.querySelector('.max-castings-control')?.addEventListener('change', async ev => await this._onManageMaxCastings(ev, this))
     e.querySelector('.item-group-spell-castings')?.addEventListener('contextmenu', async ev => await this._onToggleMaxCastingsCalculation(ev, this))
@@ -759,6 +763,16 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
         }
       }
     })
+  }
+
+  async _onStatEdit(ev) {
+    const div = $(ev.currentTarget)
+    const statType = div.data('statType')
+    const statName = div.data('statName')
+    new DLStatEditor({ ancestry: this.item, statType: statType, statName: statName }, {
+      top: 50,
+      right: 700,
+    }).render(true)
   }
 
   _getPathDataFromForm() {
