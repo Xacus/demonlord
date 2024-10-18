@@ -58,9 +58,13 @@ async function _onChatRollDamage(event) {
   const token = li.closest('.demonlord')
   const actor = _getChatCardActor(token)
 
-  for (let effect of tokenManager.getTokenByActorId(actor.id).actor.appliedEffects) {
-    const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
-    if (specialDuration === 'NextDamageRoll') await effect?.delete()
+  const appliedEffects = tokenManager.getTokenByActorId(actor.id)?.actor?.appliedEffects
+  
+  if (appliedEffects?.length) {
+    for (let effect of appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      if (specialDuration === 'NextDamageRoll') await effect?.delete()
+    }
   }
 
   const item = li.children[0]
