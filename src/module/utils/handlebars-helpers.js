@@ -451,7 +451,7 @@ function _buildAvailabilityDropdownItem(groupName, checkedKey) {
   const attributes = ['', 'C', 'U', 'R', 'E']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n("DL.None") : i18n(`DL.Availability${attribute}`)
+    const label = !attribute ? i18n("DL.None") : i18n(`DL.Availability${attribute}`)
     let html =
       `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
             <i class="dl-icon-availability-${attribute}"></i>
@@ -467,7 +467,7 @@ function _buildConsumableDropdownItem(groupName, checkedKey) {
   const attributes = ['', 'D', 'F', 'P', 'V', 'T']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
+    const label = !attribute ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
     let html = `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
             <span style="width: 120px; text-align: center; text-overflow: ellipsis">${label} </span>
        </div>`
@@ -582,7 +582,7 @@ function _buildAvailabilityDropdown(groupName, checkedKey) {
   const attributes = ['', 'C', 'U', 'R', 'E']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n("DL.None") : i18n(`DL.Availability${attribute}`)
+    const label = !attribute ? i18n("DL.None") : i18n(`DL.Availability${attribute}`)
     const icon = `icon-availability-${attribute}`
     let html =
       `<div class="item-group-availability dropdown-group" name="${groupName}" value="${checkedKey}">
@@ -639,7 +639,7 @@ function _buildConsumableDropdown(groupName, checkedKey) {
   const attributes = ['', 'D', 'F', 'P', 'V', 'T']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
+    const label = !attribute ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
     const icon = `icon-consumable-${attribute}`
     let html =
     `<div class="item-group-consumable-type dropdown-group" name="${groupName}" value="${checkedKey}">
@@ -679,7 +679,7 @@ function _buildPathDropdown(groupName, checkedKey) {
   const attributes = ['', 'novice', 'expert', 'master', 'legendary']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n('DL.None') : i18n(`DL.CharPath${capitalize(attribute)}`)
+    const label = !attribute ? i18n('DL.None') : i18n(`DL.CharPath${capitalize(attribute)}`)
     let html =
     `<div class="item-group-path-type dropdown-group" name="${groupName}" value="${checkedKey}">
       <div class="input-group">
@@ -695,7 +695,7 @@ function _buildPathAttributeSelectDropdown(groupName, checkedKey) {
   const attributes = ['', 'choosetwo', 'choosethree', 'fixed', 'twosets']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n('DL.None') : i18n(`DL.PathsLevelAttributes${capitalize(attribute)}`)
+    const label = !attribute ? i18n('DL.None') : i18n(`DL.PathsLevelAttributes${capitalize(attribute)}`)
     let html =
     `<div class="item-group-attribute-select dropdown-group" name="${groupName}" value="${checkedKey}">
       <div class="input-group">

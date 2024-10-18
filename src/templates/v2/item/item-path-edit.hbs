@@ -112,39 +112,39 @@
     <div class="drop-zones-container">
       <div class="dl-item-section split">
         <div class="half-panel">
-          <div class="dl-item-section-title">
+          <div class="dl-item-section-header">
             <b>{{localize "DL.TalentTitle"}}</b>
             <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.TalentAdd'}}"
-                data-type="talent" data-group="talents" data-folder-loc="TalentTitle" data-level="{{index}}">
+                data-type="talent" data-group="talents" data-folder-loc="TalentTitle" data-level-index="{{index}}">
               <i class="fas fa-plus"></i>
             </a>
           </div>
-          {{> DropZoneEdit collection=level.talents dataGroup="talents" dataLevel=index}}
+          {{> DropZoneEdit collection=level.talents dataGroup="talents" dataLevel=level.level}}
         </div>
 
         <span class="panel-sep"></span>
       
         <div class="half-panel">
-          <div class="dl-item-section-title">
+          <div class="dl-item-section-header">
             <b>{{localize "DL.TalentTitle"}} ({{localize 'DL.PathsLevelTalentChooseOne'}})</b>
             <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.TalentAdd'}}"
-              data-type="talent" data-group="talentspick" data-folder-loc="TalentTitle" data-level="{{index}}">
+              data-type="talent" data-group="talentspick" data-folder-loc="TalentTitle" data-level-index="{{index}}">
               <i class="fas fa-plus"></i>
             </a>
           </div>
-          {{> DropZoneEdit collection=level.talentspick dataGroup="talentspick" dataLevel=index}}
+          {{> DropZoneEdit collection=level.talentspick dataGroup="talentspick" dataLevel=level.level}}
         </div>
       </div>
 
       <div class="dl-item-section">
-        <div class="dl-item-section-title">
+        <div class="dl-item-section-header">
           <b>{{localize "DL.MagicSpellsTitle"}}</b>
           <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.MagicAddSpell'}}"
-            data-type="spell" data-group="spells" data-folder-loc="MagicSpellsTitle" data-level="{{index}}">
+            data-type="spell" data-group="spells" data-folder-loc="MagicSpellsTitle" data-level-index="{{index}}">
             <i class="fas fa-plus"></i>
           </a>
         </div>
-        {{> DropZoneEdit collection=level.spells dataGroup="spells" dataLevel=index}}
+        {{> DropZoneEdit collection=level.spells dataGroup="spells" dataLevel=level.level}}
       </div>
     </div>
   </div>

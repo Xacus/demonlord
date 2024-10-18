@@ -34,10 +34,10 @@
 <div class="dl-item-section">
   <b>{{localize "DL.Attributes"}}</b>
   <div class="role-attributes-container">
-    {{> AttributeInput icon='strength' value=system.attributes.strength immune=system.attributes.strengthImmune loc='DL.AttributeStrength'}}
-    {{> AttributeInput icon='agility' value=system.attributes.agility immune=system.attributes.agilityImmune loc='DL.AttributeAgility'}}
-    {{> AttributeInput icon='intellect' value=system.attributes.intellect immune=system.attributes.intellectImmune loc='DL.AttributeIntellect'}}
-    {{> AttributeInput icon='will' value=system.attributes.will immune=system.attributes.willImmune loc='DL.AttributeWill'}}
+    {{> AttributeInput icon='strength' value=system.attributes.strength name="system.attributes.strength" immune=system.attributes.strengthImmune loc='DL.AttributeStrength'}}
+    {{> AttributeInput icon='agility' value=system.attributes.agility name="system.attributes.agility" immune=system.attributes.agilityImmune loc='DL.AttributeAgility'}}
+    {{> AttributeInput icon='intellect' value=system.attributes.intellect name="system.attributes.intellect" immune=system.attributes.intellectImmune loc='DL.AttributeIntellect'}}
+    {{> AttributeInput icon='will' value=system.attributes.will name="system.attributes.will" immune=system.attributes.willImmune loc='DL.AttributeWill'}}
   </div>
 </div>
 
@@ -47,18 +47,18 @@
 <div class="dl-item-section">
     <b>{{localize "DL.WeaponModifiers"}}</b>
   <div class="characteristics-container">
-    {{> AttributeInput icon='health' value=system.characteristics.healthmodifier loc='DL.CharHealth'}}
-    {{> AttributeInput icon='healing' value=system.characteristics.healingratemodifier loc='DL.CharHealthHealingRating'}}
-    {{> AttributeInput icon='size' value=system.characteristics.size loc='DL.CharSize'}}
-    {{> AttributeInput icon='defense' value=system.characteristics.defensemodifier loc='DL.AttributeDefense'}}
-    {{> AttributeInput icon='perception' value=system.characteristics.perceptionmodifier loc='DL.AttributePerception'}}
-    {{> AttributeInput icon='speed' value=system.characteristics.speed loc='DL.CharSpeed'}}
-    {{> AttributeInput icon='insanity' value=system.characteristics.insanity loc='DL.CharInsanity'}}
-    {{> AttributeInput icon='corruption' value=system.characteristics.corruption loc='DL.CharCorruption'}}
-    {{> AttributeInput icon='power' value=system.characteristics.power loc='DL.CharPower'}}
-    {{> AttributeInput icon='difficulty' value=system.difficulty loc='DL.CreatureDifficulty'}}
-    {{> AttributeInput icon='frightening' value=system.frightening loc='DL.CreatureFrightening'}}
-    {{> AttributeInput icon='horrifying' value=system.horrifying loc='DL.CreatureHorrifying'}}
+    {{> AttributeInput icon='health' value=system.characteristics.healthmodifier name="system.characteristics.healthmodifier" loc='DL.CharHealth'}}
+    {{> AttributeInput icon='healing' value=system.characteristics.healingratemodifier name="system.characteristics.healingratemodifier" loc='DL.CharHealthHealingRating'}}
+    {{> AttributeInput icon='size' value=system.characteristics.size name="system.characteristics.size" loc='DL.CharSize'}}
+    {{> AttributeInput icon='defense' value=system.characteristics.defensemodifier name="system.characteristics.defensemodifier" loc='DL.AttributeDefense'}}
+    {{> AttributeInput icon='perception' value=system.characteristics.perceptionmodifier name="system.characteristics.perceptionmodifier" loc='DL.AttributePerception'}}
+    {{> AttributeInput icon='speed' value=system.characteristics.speed name="system.characteristics.speed" loc='DL.CharSpeed'}}
+    {{> AttributeInput icon='insanity' value=system.characteristics.insanity name="system.characteristics.insanity" loc='DL.CharInsanity'}}
+    {{> AttributeInput icon='corruption' value=system.characteristics.corruption name="system.characteristics.corruption" loc='DL.CharCorruption'}}
+    {{> AttributeInput icon='power' value=system.characteristics.power name="system.characteristics.power" loc='DL.CharPower'}}
+    {{> AttributeInput icon='difficulty' value=system.difficulty name="system.difficulty" loc='DL.CreatureDifficulty'}}
+    {{> AttributeInput icon='frightening' value=system.frightening name="system.frightening" loc='DL.CreatureFrightening'}}
+    {{> AttributeInput icon='horrifying' value=system.horrifying name="system.horrifying" loc='DL.CreatureHorrifying'}}
   </div>
 </div>
 
@@ -66,46 +66,46 @@
 
 <div class="drop-zones-container">
   <div class="dl-item-section">
-    <div class="dl-item-section-title">
+    <div class="dl-item-section-header">
       <b>{{localize "DL.TalentTitle"}}</b>
       <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.TalentAdd'}}"
-          data-type="talent" data-group="talents" data-folder-loc="TalentTitle" data-level="0">
+          data-type="talent" data-group="talents" data-folder-loc="TalentTitle">
         <i class="fas fa-plus"></i>
       </a>
     </div>
-{{> DropZoneEdit collection=system.talents dataGroup="talents" dataLevel=0}}
+{{> DropZoneEdit collection=system.talents dataGroup="talents"}}
   </div>
 
   <div class="dl-item-section">
-    <div class="dl-item-section-title">
+    <div class="dl-item-section-header">
       <b>{{localize "DL.WeaponTitle"}}</b>
       <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.WeaponAdd'}}"
-        data-type="weapon" data-group="weapons" data-folder-loc="WeaponTitle" data-level="0">
+        data-type="weapon" data-group="weapons" data-folder-loc="WeaponTitle">
         <i class="fas fa-plus"></i>
       </a>
     </div>
-    {{> DropZoneEdit collection=system.weapons dataGroup="weapons" dataLevel=0}}
+    {{> DropZoneEdit collection=system.weapons dataGroup="weapons"}}
   </div>
 
   <div class="dl-item-section">
-    <div class="dl-item-section-title">
+    <div class="dl-item-section-header">
       <b>{{localize "DL.MagicSpellsTitle"}}</b>
       <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.SpellAdd'}}"
-        data-type="spell" data-group="spells" data-folder-loc="MagicSpellsTitle" data-level="0">
+        data-type="spell" data-group="spells" data-folder-loc="MagicSpellsTitle">
         <i class="fas fa-plus"></i>
       </a>
     </div>
-    {{> DropZoneEdit collection=system.spells dataGroup="spells" dataLevel=0}}
+    {{> DropZoneEdit collection=system.spells dataGroup="spells"}}
   </div>
 
   <div class="dl-item-section">
-    <div class="dl-item-section-title">
+    <div class="dl-item-section-header">
       <b>{{localize "DL.CreatureSpecialEndRound"}}</b>
       <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.CreatureAddEndRound'}}"
-        data-type="endoftheround" data-group="endOfRound" data-folder-loc="CreatureSpecialEndRound" data-level="0">
+        data-type="endoftheround" data-group="endOfRound" data-folder-loc="CreatureSpecialEndRound">
         <i class="fas fa-plus"></i>
       </a>
     </div>
-    {{> DropZoneEdit collection=system.endOfRound dataGroup="endOfRound" dataLevel=0}}
+    {{> DropZoneEdit collection=system.endOfRound dataGroup="endOfRound"}}
   </div>
 </div>

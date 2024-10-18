@@ -10,7 +10,7 @@
 {{/inline}}
 
 {{#*inline "AttributeViewer"}}
-  {{#if (and (not mandatory) value)}}
+  {{#if (or mandatory value)}}
   <div class="item-group-attribute-value display-only" data-tippy-content="{{localize loc}}">
     <i class="icon-{{icon}} themed-icon"></i>
     <span class="sep"></span>

@@ -136,15 +136,15 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     // Optionally add the main tab (attributes)
     const ignoredParts = [ 'feature', 'profession', 'specialaction' ] // Ideally temporary
     
-    if (!ignoredParts.includes(this.item.type)) {
-      options.parts.push(this.item.type)
+    if (!ignoredParts.includes(this.document.type)) {
+      options.parts.push(this.document.type)
     }
 
     // Add the rest of the tabs
     options.parts.push('description', 'effects')
 
     // Finally, adjust the window position according to the type
-    this._adjustSizeByItemType(this.item.type, this.position)
+    this._adjustSizeByItemType(this.document.type, this.position)
   }
 
   /** @override */
@@ -182,7 +182,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     context.isOwner = this.actor?.isOwner,
     context.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
     context.config = DL
-    context.item = this.item
+    context.item = this.document
     context.system = this.document.system
 
     if (options.isFirstRender) {
@@ -190,7 +190,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     }
 
     // Retrieve data for nested items
-    if (['ancestry', 'path'].includes(this.item.type)) {
+    if (['ancestry', 'path'].includes(this.document.type)) {
       for await (let i of context.item.system.levels.keys()) {
         context.item.system.levels[i].talents = await Promise.all(context.item.system.levels[i].talents.map(await getNestedItemData))
         context.item.system.levels[i].talentspick = await Promise.all(context.item.system.levels[i].talentspick.map(await getNestedItemData))
@@ -198,12 +198,12 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
       }
     }
     
-    if (this.item.type === 'ancestry') {
+    if (this.document.type === 'ancestry') {
       context.item.system.talents = await Promise.all(context.item.system.talents.map(await getNestedItemData))
       context.item.system.languagelist = await Promise.all(context.item.system.languagelist.map(await getNestedItemData))
     }
 
-    if (this.item.type === 'creaturerole') {
+    if (this.document.type === 'creaturerole') {
       context.item.system.talents = await Promise.all(context.item.system.talents.map(await getNestedItemData))
       context.item.system.spells = await Promise.all(context.item.system.spells.map(await getNestedItemData))
       context.item.system.weapons = await Promise.all(context.item.system.weapons.map(await getNestedItemData))
@@ -237,7 +237,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     switch (partId) {
       case 'header':
         context.isEditable = this.canEdit
-        context.edit = this.item.system[`edit${capitalize(DLBaseItemSheetV2.PARTS_MAP[context.item.type])}`]
+        context.edit = this.document.system[`edit${capitalize(DLBaseItemSheetV2.PARTS_MAP[context.item.type])}`]
         context.editId = `system.edit${capitalize(DLBaseItemSheetV2.PARTS_MAP[context.item.type])}`
         break
       case 'feature':
@@ -280,12 +280,13 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   /* -------------------------------------------- */
 
   /**
-   * Handles the damage types updates
+   * Handles all specific item changes
    * @override */
   static async onSubmit(event, form, formData) {
-    const item = this.item
+    const item = this.document
     const updateData = foundry.utils.expandObject(formData.object)
 
+    // Handles the damage types updates
     if (['talent', 'weapon', 'spell', 'endoftheround'].includes(item.type)) {
       // Set the update key based on type
       const damageKey = 'system.action.damagetypes'
@@ -310,7 +311,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     // If a Talent has no uses it's always active
     if (item.type === 'talent') updateData.system.addtonextroll = !updateData.system?.uses?.max
 
-    // Path
+    // Item specific handling
     if (item.type === 'path') {
       const system = {}
       formData = formData.object
@@ -378,6 +379,10 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
       if (completeFormData.length > 0) {
         if (item.system.editAncestry) {
+          system.attributes = updateData.system.attributes
+          system.characteristics = updateData.system.characteristics
+          system.equipment = updateData.system.equipment
+          system.languages = updateData.system.languages
           system.levels = this._getEditLevelsUpdateData(completeFormData)
           system.levels.sort(this._sortLevels)
   
@@ -460,7 +465,9 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   }
   
   static async onCreateNestedItem(event) {
-    const type = event.target.closest('[data-type]').dataset.type
+    const itemType = event.target.closest('[data-type]')?.dataset?.type
+    const itemGroup = event.target.closest('[data-group]')?.dataset?.group
+    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
 
     // Create a folder for the quick item to be stored in
     const folderLoc = event.target.closest('[data-folder-loc]').dataset.folderLoc
@@ -471,13 +478,14 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     }
 
     const item = {
-      name: `New ${type.capitalize()}`,
-      type: type,
+      name: `New ${itemType.capitalize()}`,
+      type: itemType,
       folder: folder.id,
       system: {},
     }
 
     const newItem = await this.createNestedItem(item, folderName)
+    await this._addItem(newItem, levelIndex, itemGroup)
     newItem.sheet.render(true)
     this.render()
     return newItem
@@ -486,19 +494,21 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   static async onEditNestedItem(event) {
     const data = await this.document
 
-    const group = event.target.closest('[data-group]')?.dataset?.group
-    const level = event.target.closest('[data-level]')?.dataset?.level
+    const itemGroup = event.target.closest('[data-group]')?.dataset?.group
+    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
     const itemId = event.target.closest('[data-item-id]')?.dataset?.itemId
     let nestedData
 
-    if (level) {
-      // Path or ancestry item
-      nestedData = data.system.levels[level][group].find(i => i._id === itemId)
+    if (levelIndex) {
+      if (levelIndex === '-1' && data.type === 'ancestry') {
+        nestedData = data.system[itemGroup].find(i => i._id === itemId)
+      } else {
+        // Path or ancestry item (except for ancestry's level 0)
+        nestedData = data.system.levels[levelIndex][itemGroup].find(i => i._id === itemId)
+      }
     } else {
-      // No contents, what did we even click
-      if (!data.system.contents) return
-
-      nestedData = data.system.contents.find(i => i._id === itemId)
+      // Anything without levels
+      nestedData = data.system[itemGroup].find(i => i._id === itemId)
     }
 
     await getNestedDocument(nestedData).then(d => {
@@ -509,23 +519,28 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   }
 
   static async onDeleteItem(event) {
-    const itemLevel = event.target.closest('[data-level]')?.dataset?.level
     const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
     const itemGroup = event.target.closest('[data-group]')?.dataset?.group
     const itemIndex = event.target.closest('[data-item-index]')?.dataset?.itemIndex
 
-    if (itemLevel ?? levelIndex) {
+    if (this.document.type === 'ancestry' || this.document.type === 'path') {
       // Part of path or ancestry
-      const itemData = foundry.utils.duplicate(this.item)
-  
-      if (itemGroup === 'talents') itemData.system.levels[itemLevel].talents.splice(itemIndex, 1)
-      else if (itemGroup === 'talentspick') itemData.system.levels[itemLevel].talentspick.splice(itemIndex, 1)
-      else if (itemGroup === 'spells') itemData.system.levels[itemLevel].spells.splice(itemIndex, 1)
-      else if (itemGroup === 'primary') itemData.system.levels.splice(levelIndex, 1) // Deleting a level
-      await this.item.update(itemData)
-    } else { 
-      // Item contents
-      await this.deleteContentsItem(itemIndex)
+      const itemData = foundry.utils.duplicate(this.document)
+
+      if (levelIndex === '-1' && this.document.type === 'ancestry') {
+        // It's an ancestry deleting from level 0
+        itemData.system[itemGroup].splice(itemIndex, 1)
+      } else {
+        if (['talents', 'talentspick', 'spells'].includes(itemGroup)) itemData.system.levels[levelIndex][itemGroup].splice(itemIndex, 1)
+        else if (itemGroup === 'primary') itemData.system.levels.splice(levelIndex, 1) // Deleting a level
+      }
+      await this.document.update(itemData)
+    } else {
+      // Anything without levels
+      const itemData = foundry.utils.duplicate(this.document)
+
+      itemData.system[itemGroup].splice(itemIndex, 1)
+      await this.document.update(itemData)
     }
   }
 
@@ -595,8 +610,8 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   }
 
   static async onAddLevel() {
-    await this.item.update({
-      'system.levels': [...(this.item.system.levels || []), new PathLevel()],
+    await this.document.update({
+      'system.levels': [...(this.document.system.levels || []), new PathLevel()],
     })
   }
 
@@ -608,7 +623,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     const itemLevelIndex = event.target.closest('[data-level]').dataset.level
 
     // Grab the nested item data
-    const itemData = this.item.toObject()
+    const itemData = this.document.toObject()
     const nestedItemData = itemData.system.levels[itemLevelIndex][itemGroup][itemIndex]
     let selected = nestedItemData.selected = !nestedItemData.selected
     await this.document.update({ system: itemData.system })
@@ -726,7 +741,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   }
 
   _prepareDamageTypes(sheetData) {
-    sheetData.item.damagetypes = this.item.system.action?.damagetypes
+    sheetData.item.damagetypes = this.document.system.action?.damagetypes
   }
 
   async _onManageDamageType(ev, options = {}) {
@@ -769,7 +784,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     const div = $(ev.currentTarget)
     const statType = div.data('statType')
     const statName = div.data('statName')
-    new DLStatEditor({ ancestry: this.item, statType: statType, statName: statName }, {
+    new DLStatEditor({ ancestry: this.document, statType: statType, statName: statName }, {
       top: 50,
       right: 700,
     }).render(true)
@@ -889,7 +904,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     }
 
     // Match the new levels with the old ones and keep the nested items
-    const oldLevels = this.item.toObject().system.levels
+    const oldLevels = this.document.toObject().system.levels
     const notFound = [] // stores path levels that do not have been found in the current levels
     newLevels.forEach(newLevel => {
       const foundIndex = oldLevels.findIndex(l => +l.level === +newLevel.level)
@@ -945,7 +960,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
   async _addItem(data, level, group) {
     const levelItem = new PathLevelItem()
-    const itemData = foundry.utils.duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.document)
     const item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
@@ -958,33 +973,19 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
     levelItem.data = item
     levelItem.img = item.img
 
-    if (this.item.type === 'ancestry' && level === 0) {
-      if (group === 'feature') itemData.system.talents.push(levelItem)
-      else if (group === 'languagelist') itemData.system.languagelist.push(levelItem)
-    } else if (this.item.type === 'creaturerole') {
-      if (group === 'talents') itemData.system.talents.push(levelItem)
-      else if (group === 'weapons') itemData.system.weapons.push(levelItem)
-      else if (group === 'spells') itemData.system.spells.push(levelItem)
-      else if (group === 'endOfRound') itemData.system.endOfRound.push(levelItem)
+    if (this.document.type === 'ancestry' || this.document.type === 'path') {
+      if (level === '-1') {
+        if (group === 'feature') itemData.system.talents.push(levelItem)
+        else itemData.system[group].push(levelItem)
+      } else {
+        itemData.system.levels[level][group].push(levelItem)
+      }
     } else {
-      if (group === 'talents') itemData.system.levels[level]?.talents.push(levelItem)
-      else if (group === 'talentspick') itemData.system.levels[level]?.talentspick.push(levelItem)
-      else if (group === 'spells') itemData.system.levels[level]?.spells.push(levelItem)
+      // Anything without levels
+      itemData.system[group].push(levelItem)
     }
 
-    await this.item.update(itemData)
-  }
-
-  async _deleteItem(ev) {
-    const itemLevel = $(ev.currentTarget).closest('[data-level]').data('level')
-    const itemGroup = $(ev.currentTarget).closest('[data-group]').data('group')
-    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
-    const itemData = foundry.utils.duplicate(this.item)
-
-    if (itemGroup === 'talents') itemData.system.levels[itemLevel].talents.splice(itemIndex, 1)
-    else if (itemGroup === 'talentspick') itemData.system.levels[itemLevel].talentspick.splice(itemIndex, 1)
-    else if (itemGroup === 'spells') itemData.system.levels[itemLevel].spells.splice(itemIndex, 1)
-    await this.item.update(itemData)
+    await this.document.update(itemData)
   }
 
   _onDragOver(event) {
@@ -998,8 +999,8 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   async _onDrop(event) {
     $(event.target).removeClass('drop-hover')
 
-    const group = event.target.closest('[data-group]').dataset.group
-    const level = event.target.closest('[data-level]').dataset.level
+    const group = event.target.closest('[data-group]')?.dataset?.group
+    const level = event.target.closest('[data-level]')?.dataset?.level
     try {
       $(event.target).removeClass('drop-hover')
       const data = JSON.parse(event.dataTransfer.getData('text/plain'))
@@ -1011,7 +1012,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
   }
 
   async _onDropItem(ev) {
-    if (this.item.system?.contents != undefined){
+    if (this.document.system?.contents != undefined){
       try {
         const itemData = JSON.parse(ev.dataTransfer.getData('text/plain'))
         if (itemData.type === 'Item') {
@@ -1021,7 +1022,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
           let acceptedItemTypes = []
 
           // Filter drops depending on the item type
-          switch (this.item.type) {
+          switch (this.document.type) {
             case 'item': 
               acceptedItemTypes = ['ammo', 'armor', 'item', 'weapon']
               break
@@ -1044,7 +1045,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
             if (item.flags?.core?.sourceId != undefined) {
               game.items.getName(item.name) ? itemData.uuid = game.items.getName(item.name).uuid : itemData.uuid = item.flags.core.sourceId
             } else {
-              const newItem = await this.createNestedItem(foundry.utils.duplicate(item), `${actor.name}'s Items (${this.item.name})`)
+              const newItem = await this.createNestedItem(foundry.utils.duplicate(item), `${actor.name}'s Items (${this.document.name})`)
               itemUpdate['flags.core.sourceId'] = newItem.uuid;
               itemData.uuid = newItem.uuid
             }
@@ -1052,7 +1053,7 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
           if (itemUpdate?.flags?.core?.sourceId == undefined) itemUpdate['flags.core.sourceId'] = itemData.uuid
 
           //If the item we're adding is the same as the container, bail now
-          if (this.item.sameItem(item)) {
+          if (this.document.sameItem(item)) {
             ui.notifications.warn("Can't put an item inside itself!")
             return
           }
@@ -1071,30 +1072,6 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
         console.warn(e)
       }
     }
-  }
-
-  async _onNestedItemCreate(ev) {
-    const type = $(ev.currentTarget).closest('[data-type]').data('type')
-
-    // Create a folder for the quick item to be stored in
-    const folderLoc = $(ev.currentTarget).closest('[data-folder-loc]').data('folderLoc')
-    const folderName = i18n("DL." + folderLoc)
-    let folder = game.folders.find(f => f.name === folderName)
-    if (!folder) {
-      folder = await Folder.create({name:folderName, type: DemonlordItem.documentName})
-    }
-
-    const item = {
-      name: `New ${type.capitalize()}`,
-      type: type,
-      folder: folder.id,
-      system: {},
-    }
-
-    const newItem = await this.createNestedItem(item, folderName)
-    newItem.sheet.render(true)
-    this.render()
-    return newItem
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -1140,31 +1117,31 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
 
   async addContentsItem(data) {
     const item = await getNestedItemData(data)
-    const containerData = foundry.utils.duplicate(this.item)
+    const containerData = foundry.utils.duplicate(this.document)
     containerData.system.contents.push(item)
-    await this.item.update(containerData, {diff: false}).then(_ => this.render)
+    await this.document.update(containerData, {diff: false}).then(_ => this.render)
   }
 
   async increaseContentsItemQuantity(itemIndex) {
-    const itemData = foundry.utils.duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.document)
     itemData.system.contents[itemIndex].system.quantity++
-    await this.item.update(itemData, {diff: false}).then(_ => this.render)
+    await this.document.update(itemData, {diff: false}).then(_ => this.render)
   }
 
   async decreaseContentsItemQuantity(itemIndex) {
-    const itemData = foundry.utils.duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.document)
     if (itemData.system.contents[itemIndex].system.quantity > 0) {
       itemData.system.contents[itemIndex].system.quantity--
-      await this.item.update(itemData, {diff: false}).then(_ => this.render)
+      await this.document.update(itemData, {diff: false}).then(_ => this.render)
     } else {
       return
     }
   }
 
   async deleteContentsItem(itemIndex) {
-    const itemData = foundry.utils.duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.document)
 
     itemData.system.contents.splice(itemIndex, 1)
-    await this.item.update(itemData)
+    await this.document.update(itemData)
   }
 }

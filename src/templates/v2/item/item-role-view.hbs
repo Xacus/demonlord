@@ -1,6 +1,6 @@
 <!-- START OF TEMPLATES -->
 {{#*inline "AttributeViewer"}}
-  {{#if (and (not mandatory) value)}}
+  {{#if (or mandatory value)}}
   <div class="item-group-attribute-value display-only" data-tippy-content="{{localize loc}}">
     <i class="icon-{{icon}} themed-icon"></i>
     <span class="sep"></span>
@@ -10,7 +10,7 @@
 {{/inline}}
 
 {{#* inline "DropZoneView"}}
-  <div class="drop-zone-view" data-group="{{dataGroup}}" data-level="{{dataLevel}}">
+  <div class="drop-zone-view" data-group="{{dataGroup}}">
     {{#each collection as |item index|}}
       <div class="nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}" {{#if item.system.enrichedDescriptionUnrolled}}data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"{{/if}}>
         <img src="{{item.img}}">
@@ -36,10 +36,10 @@
 <div class="dl-item-section">
   <b>{{localize "DL.Attributes"}}</b>
   <div class="role-attributes-container">
-    {{> AttributeViewer icon='strength' value=system.attributes.strength immune=system.attributes.strengthImmune loc='DL.AttributeStrength'}}
-    {{> AttributeViewer icon='agility' value=system.attributes.agility immune=system.attributes.agilityImmune loc='DL.AttributeAgility'}}
-    {{> AttributeViewer icon='intellect' value=system.attributes.intellect immune=system.attributes.intellectImmune loc='DL.AttributeIntellect'}}
-    {{> AttributeViewer icon='will' value=system.attributes.will immune=system.attributes.willImmune loc='DL.AttributeWill'}}
+    {{> AttributeViewer icon='strength' value=system.attributes.strength immune=system.attributes.strengthImmune loc='DL.AttributeStrength' mandatory=true}}
+    {{> AttributeViewer icon='agility' value=system.attributes.agility immune=system.attributes.agilityImmune loc='DL.AttributeAgility' mandatory=true}}
+    {{> AttributeViewer icon='intellect' value=system.attributes.intellect immune=system.attributes.intellectImmune loc='DL.AttributeIntellect' mandatory=true}}
+    {{> AttributeViewer icon='will' value=system.attributes.will immune=system.attributes.willImmune loc='DL.AttributeWill' mandatory=true}}
   </div>
 </div>
 
@@ -67,47 +67,38 @@
 <hr>
 
 <div class="drop-zones-container">
+  {{#if system.talents.length}}
   <div class="dl-item-section">
-    <div class="dl-item-section-title">
+    <div class="dl-item-section-header">
       <b>{{localize "DL.TalentTitle"}}</b>
-      <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.TalentAdd'}}"
-          data-type="talent" data-group="talents" data-folder-loc="TalentTitle" data-level="0">
-        <i class="fas fa-plus"></i>
-      </a>
     </div>
-    {{> DropZoneView collection=system.talents dataGroup="talents" dataLevel=0}}
+    {{> DropZoneView collection=system.talents dataGroup="talents"}}
   </div>
+  {{/if}}
 
+  {{#if system.weapons.length}}
   <div class="dl-item-section">
-    <div class="dl-item-section-title">
+    <div class="dl-item-section-header">
       <b>{{localize "DL.WeaponTitle"}}</b>
-      <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.WeaponAdd'}}"
-        data-type="weapon" data-group="weapons" data-folder-loc="WeaponTitle" data-level="0">
-        <i class="fas fa-plus"></i>
-      </a>
     </div>
-    {{> DropZoneView collection=system.weapons dataGroup="weapons" dataLevel=0}}
+    {{> DropZoneView collection=system.weapons dataGroup="weapons"}}
   </div>
+  {{/if}}
 
+  {{#if system.spells.length}}
   <div class="dl-item-section">
-    <div class="dl-item-section-title">
+    <div class="dl-item-section-header">
       <b>{{localize "DL.MagicSpellsTitle"}}</b>
-      <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.SpellAdd'}}"
-        data-type="spell" data-group="spells" data-folder-loc="MagicSpellsTitle" data-level="0">
-        <i class="fas fa-plus"></i>
-      </a>
     </div>
-    {{> DropZoneView collection=system.spells dataGroup="spells" dataLevel=0}}
+    {{> DropZoneView collection=system.spells dataGroup="spells"}}
   </div>
+  {{/if}}
 
+  {{#if system.endOfRound.length}}
   <div class="dl-item-section">
-    <div class="dl-item-section-title">
+    <div class="dl-item-section-header">
       <b>{{localize "DL.CreatureSpecialEndRound"}}</b>
-      <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.CreatureAddEndRound'}}"
-        data-type="endoftheround" data-group="endOfRound" data-folder-loc="CreatureSpecialEndRound" data-level="0">
-        <i class="fas fa-plus"></i>
-      </a>
-    </div>
-    {{> DropZoneView collection=system.endOfRound dataGroup="endOfRound" dataLevel=0}}
+    {{> DropZoneView collection=system.endOfRound dataGroup="endOfRound"}}
   </div>
+  {{/if}}
 </div>
