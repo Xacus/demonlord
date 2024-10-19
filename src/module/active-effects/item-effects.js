@@ -8,9 +8,9 @@ export const multiplyEffect = (key, value, priority) => ({
   priority: priority
 })
 
-export const addEffect = (key, value, priority) => ({
+export const addEffect = (key, value, priority, noPlusify=false) => ({
   key: key,
-  value: plusify(value),
+  value: noPlusify ? value : plusify(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
   priority: priority
 })
@@ -27,16 +27,9 @@ export const concatString = (key, value, separator = '') => ({
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
 })
 
-export const overrideEffect = (key, value, priority) => ({
+export const overrideEffect = (key, value, priority, noParse=false) => ({
   key: key,
-  value: parseInt(value),
-  mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-  priority: priority
-})
-
-export const overrideValue = (key, value, priority) => ({
-  key: key,
-  value: value,
+  value: noParse ? value : parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
   priority: priority
 })
@@ -364,13 +357,13 @@ export class DLActiveEffects {
       },
       changes: [
         addEffect('system.attributes.strength.value', data.attributes.strength, priority),
-        addEffect('system.attributes.strength.immune', data.attributes.strengthImmune, priority),
+        addEffect('system.attributes.strength.immune', data.attributes.strengthImmune, priority, true),
         addEffect('system.attributes.agility.value', data.attributes.agility, priority),
-        addEffect('system.attributes.agility.immune', data.attributes.agilityImmune, priority),
+        addEffect('system.attributes.agility.immune', data.attributes.agilityImmune, priority, true),
         addEffect('system.attributes.intellect.value', data.attributes.intellect, priority),
-        addEffect('system.attributes.intellect.immune', data.attributes.intellectImmune, priority),
+        addEffect('system.attributes.intellect.immune', data.attributes.intellectImmune, priority, true),
         addEffect('system.attributes.will.value', data.attributes.will, priority),
-        addEffect('system.attributes.will.immune', data.attributes.willImmune, priority),
+        addEffect('system.attributes.will.immune', data.attributes.willImmune, priority, true),
         addEffect('system.attributes.perception.value', data.characteristics.perceptionmodifier, priority),
         addEffect('system.characteristics.defense', data.characteristics.defensemodifier, priority),
         addEffect('system.characteristics.health.max', data.characteristics.healthmodifier, priority),
@@ -381,8 +374,8 @@ export class DLActiveEffects {
         addEffect('system.characteristics.insanity', data.characteristics.insanity, priority),
         addEffect('system.difficulty', data.difficulty, priority),
         overrideEffect('system.characteristics.size', data.characteristics.size, priority),
-        overrideValue('system.frightening', data.frightening, priority),
-        overrideValue('system.horrifying', data.horrifying, priority),
+        overrideEffect('system.frightening', data.frightening, priority, true),
+        overrideEffect('system.horrifying', data.horrifying, priority, true),
       ].filter(falsyChangeFilter),
     }
 

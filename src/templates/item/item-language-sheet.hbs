@@ -1,55 +1,27 @@
-<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
-  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="Language Name"}}
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="language">
+  <div class="dl-item-section-header">
+    <b>{{item.name}}</b>
+  </div>
 
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
-    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
-    {{#if effects}}<a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>{{/if}}
-  </nav>
-
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-    <section class="sheet-content">
-      <div class="tab weapons" data-group="primary" data-tab="attributes">
-
-        <div class="dl-item-section-header row">
-          <div class="col-12" style="margin-top: 4px">
-            <b>{{item.name}}</b>
-          </div>
+  <div class="dl-item-section">
+    {{#*inline "LangType"}}
+      <div class="item-group-language checkable" data-action="{{action}}">
+        <div class="input-group">
+          <input type="checkbox" name="system.{{name}}" {{checked selected}} />
+          <i class="icon-{{name}} themed-icon"></i>
+          <span class="sep"></span>
+          <span class="text">{{localize loc}}</span>
         </div>
-        <hr>
-
-
-        <div class="dl-item-section-section margin">
-          {{#*inline "dlLangType"}}
-            <div class="dl-new-project-2 selectable {{#if selected}}selected{{/if}}">
-              <input type="checkbox" name="system.{{name}}" {{checked selected}} />
-              <i class="dl-icon-{{name}}"></i>
-              <span class="sep"></span>
-              <span style="width: 64px; text-align: center; text-overflow: ellipsis; height: 16px">{{localize loc}}</span>
-            </div>
-          {{/inline}}
-
-          <div class="dl-column-flex" style="padding: 0 15%">
-            {{> dlLangType name="speak" selected=system.speak loc="DL.LanguagesSpeak"}}
-            {{> dlLangType name="read"  selected=system.read  loc="DL.LanguagesRead"}}
-            {{> dlLangType name="write" selected=system.write loc="DL.LanguagesWrite"}}
-          </div>
-        </div>
-        <hr>
-
-        {{#if system.description}}
-          <div class="dl-item-section-description">
-            <div><b>{{localize "DL.TabsDescription"}}</b></div>
-            <div>
-              {{{system.enrichedDescription}}}
-            </div>
-          </div>
-        {{/if}}
-
       </div>
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
-      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
-    </section>
-  </section>
-</form>
+    {{/inline}}
+
+    <div class="item-properties language-checkboxes">
+      {{> LangType name="speak" selected=system.speak loc="DL.LanguagesSpeak" action="toggleSpeak"}}
+      {{> LangType name="read"  selected=system.read  loc="DL.LanguagesRead" action="toggleRead"}}
+      {{> LangType name="write" selected=system.write loc="DL.LanguagesWrite" action="toggleWrite"}}
+    </div>
+  </div>
+
+  {{> "systems/demonlord/templates/item/partial/item-description.hbs" description=system.description enrichedDescription=system.enrichedDescription}}
+
+</div>

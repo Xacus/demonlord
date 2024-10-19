@@ -4,10 +4,10 @@
     - healingId (e.g. system.healing.healing)
 --}}
 
-<div>
+<div class="dl-item-section item-properties">
   <b>{{localize "DL.TalentHealingOptions"}}</b>
-  <div class="dl-new-project-radio {{checked healing}}" data-tippy-content="{{localize "DL.TalentHealingOptions"}}">
+  <div class="item-group-checkbox checkable" data-action="toggleHealing" data-tippy-content="{{localize "DL.TalentHealingOptions"}}">
     <input type="checkbox" name="{{healingId}}" id="healingoptions" {{checked healing}} />
-    <i class="dl-icon-healing"></i>
+    <i class="icon-healing themed-icon"></i>
   </div>
 </div>

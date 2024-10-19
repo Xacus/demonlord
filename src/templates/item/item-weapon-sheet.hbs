@@ -1,126 +1,71 @@
-<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
-  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="{{localize 'DL.WeaponName'}}"}}
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="weapon">
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
-    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
-    {{#if effects}}<a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>{{/if}}
-  </nav>
+  <div class="dl-item-section-header">
+    <b>{{item.name}}</b>
+  </div>
+  <hr>
 
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-    <section class="sheet-content">
-      {{!-- Attributes Tab --}}
-      <div class="tab" data-group="primary" data-tab="attributes">
+  {{> 'systems/demonlord/templates/item/partial/item-attacks.hbs' action=system.action actionId='system.action'}}
 
-        <div class="dl-item-section-header row">
-          <div class="col-12" style="margin-top: 4px">
-            <b>{{item.name}}</b>
-          </div>
-        </div>
-        <hr>
+  <hr>
 
-        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action"}}
+  {{> 'systems/demonlord/templates/item/partial/item-challenge.hbs' action=system.action actionId='system.action'}}
 
-        <hr>
+  <hr>
 
-        <div class="dl-item-section-section margin">
-          {{> "systems/demonlord/templates/item/partial/item-challenge.hbs" action=system.action actionId="system.action"}}
-        </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.Requirements'}}</b>
+    {{DropdownValue "system.requirement.attribute" system.requirement.attribute "system.requirement.minvalue" system.requirement.minvalue }}
+  </div>
 
-        <hr>
-
-        <div class="dl-item-section-section margin">
-          <div>
-            <b>{{localize "DL.Requirements"}}</b>
-            <div>
-              {{dlDropdownValue "system.requirement.attribute" system.requirement.attribute "system.requirement.minvalue" system.requirement.minvalue }}
-            </div>
-          </div>
-
-          <div>
-            <b>{{localize "DL.WeaponHands"}}</b>
-            <div>
-              <div class="dl-new-project-2 dropdown" name="system.hands" value="{{system.hands}}">
-                <span>
-                  {{#if (eq system.hands "One")}}
-                    {{localize "DL.WeaponHandsOne"}}
-                  {{else if (eq system.hands "Two")}}
-                    {{localize "DL.WeaponHandsTwo"}}
-                  {{else if (eq system.hands "Off")}}
-                    {{localize "DL.WeaponHandsOff"}}
-                  {{else}}
-                    -
-                  {{/if}}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="dl-item-section-section text-areas">
-          <div>
-            <b>{{localize "DL.WeaponProperties"}}</b>
-            <textarea name="system.properties" placeholder="―" autosize>{{system.properties}}</textarea>
-          </div>
-        </div>
-        <hr>
-
-        <div class="dl-item-section-section margin">
-          <div>
-              <b>{{localize "DL.WeaponAmmoRequired"}}</b>
-              <div class="dl-custom-checkbox dl-ammorequired {{checked system.consume.ammorequired}}"> </div>
-          </div>
-          {{#if (dlCheckItemOnActor system.parent.uuid)}}
-          {{#if system.consume.ammorequired}}
-          <div>
-              <b>{{localize "DL.WeaponResourceComsumption"}}</b>
-            <div>
-              <div class="dl-new-project-2">
-                <i class="dl-icon-amount"></i>
-                <span class="sep"></span>
-                <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize "DL.AmmoAmount"}}</span>
-                <span class="sep"></span>
-                <input type="number" name="system.consume.amount" value="{{system.consume.amount}}" placeholder="1"/>
-              </div>
-              {{dlAmmoDropdown "system.consume.ammoitemid" system.consume.ammoitemid system}}
-          </div>
-            </div>
-          {{/if}}
-          {{/if}}
-        </div>
-        <hr>
-
-        {{#if system.description}}
-          <div class="dl-item-section-description">
-            <div><b>{{localize "DL.TabsDescription"}}</b></div>
-            <div>
-              {{{system.enrichedDescription}}}
-            </div>
-          </div>
-        <hr>
-        {{/if}}
-
-        <div class="dl-item-section-section margin">
-          <div>
-            <b>{{localize "DL.Availability"}}</b>
-            <div>
-              {{dlAvailabilityDropdown "system.availability" system.availability}}
-              <div class="dl-new-project-2" data-tippy-content="{{localize "DL.ItemValue"}}">
-                <i class="dl-icon-price"></i>
-                <span class="sep"></span>
-                <input type="text" name="system.value" value="{{system.value}}" autosize/>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {{> "systems/demonlord/templates/item/partial/item-measured-template.hbs"}}
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.WeaponHands'}}</b>
+    <div class="item-group-weapon-hands">
+      <div class="input-group">
+        <select class="input-group-dropdown" name="system.hands">
+            {{selectOptions config.weaponHandsTypes selected=system.hands blank="—" localize=true}}
+        </select>
       </div>
+    </div>
+  </div>
 
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.WeaponProperties'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.properties" placeholder="―" value="{{system.properties}}">
+  </div>
 
-      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
-    </section>
-  </section>
-</form>
+  <hr>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.AmmoTitle'}}</b>
+    <div class="item-group-ammo-required checkable" data-action="toggleAmmoRequired" data-tippy-content="{{localize 'DL.WeaponAmmoRequired'}}">
+      <input type="checkbox" name="system.consume.ammorequired" {{checked system.consume.ammorequired}} />
+      <i class="icon-ammo themed-icon"></i>
+    </div>
+  </div>
+  {{#if (dlCheckItemOnActor system.parent.uuid)}}
+  {{#if system.consume.ammorequired}}
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.WeaponResourceComsumption'}}</b>
+    <div class="dl-item-section-group">
+      <div class="item-group-amount">
+        <div class="input-group" data-tippy-content="{{localize "DL.ItemAmount"}}">
+          <i class="icon-amount themed-icon"></i>
+          <span class="sep"></span>
+          <input type="number" class="input-group-textbox" name="system.quantity" value="{{system.quantity}}" placeholder="0" />
+        </div>
+      </div>
+      {{AmmoDropdown 'system.consume.ammoitemid' system.consume.ammoitemid system}}
+    </div>
+  </div>
+  {{/if}}
+  {{/if}}
+
+  <hr>
+
+  {{> 'systems/demonlord/templates/item/partial/item-description.hbs' description=system.description enrichedDescription=system.enrichedDescription}}
+
+  {{> 'systems/demonlord/templates/item/partial/item-availability.hbs' availability=system.availability availabilityName='system.availability' value=system.value valueName='system.value'}}
+
+  {{> 'systems/demonlord/templates/item/partial/item-measured-template.hbs'}}
+</div>
