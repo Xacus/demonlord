@@ -34,6 +34,13 @@ export const overrideEffect = (key, value, priority) => ({
   priority: priority
 })
 
+export const overrideValue = (key, value, priority) => ({
+  key: key,
+  value: value,
+  mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+  priority: priority
+})
+
 export const upgradeEffect = (key, value, priority) => ({
   key: key,
   value: parseInt(value),
@@ -374,8 +381,8 @@ export class DLActiveEffects {
         addEffect('system.characteristics.insanity', data.characteristics.insanity, priority),
         addEffect('system.difficulty', data.difficulty, priority),
         overrideEffect('system.characteristics.size', data.characteristics.size, priority),
-        overrideEffect('system.frightening', data.frightening ? 1 : 0, priority),
-        overrideEffect('system.horrifying', data.horrifying ? 1 : 0, priority),
+        overrideValue('system.frightening', data.frightening, priority),
+        overrideValue('system.horrifying', data.horrifying, priority),
       ].filter(falsyChangeFilter),
     }
 

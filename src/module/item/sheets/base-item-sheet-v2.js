@@ -52,7 +52,9 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
       editImage: this.onEditImage,
       selectLevel: this.onSelectLevel,
       addLevel: this.onAddLevel,
-      transferItem: this.onTransferItem
+      transferItem: this.onTransferItem,
+      toggleFrightening: this.onToggleFrightening,
+      toggleHorrifying: this.onToggleHorrifying
     },
     window: {
       resizable: true
@@ -636,6 +638,14 @@ export default class DLBaseItemSheetV2 extends HandlebarsApplicationMixin(ItemSh
       await createActorNestedItems(actor, [nestedItemData], this.document.id, levelRequired)
     else
       await deleteActorNestedItems(actor, null,  itemId)
+  }
+
+  static async onToggleFrightening() {
+    await this.document.update({'system.frightening': !this.document.system.frightening})
+  }
+
+  static async onToggleHorrifying() {
+    await this.document.update({'system.horrifying': !this.document.system.horrifying})
   }
 
   /* -------------------------------------------- */
