@@ -352,7 +352,7 @@
   "DL.DialogUseTalent": "Use Talent",
   "DL.DialogWarningActorsNotSelected": "Actor(s) not selected",
   "DL.DialogWarningActorsNotTargeted": "Actor(s) not targeted",
-  "DL.DialogWarningActorImmune": "You're immune to that status.",
+  "DL.DialogWarningActorImmune": "You're immune to that affliction.",
   "DL.DialogWarningBlindedChallengeFailer": "You're blinded and perception challenge rolls result in failure.",
   "DL.DialogWarningCreatureArmor": "You can't add armor to a creature. Change the Defense value manually.",
   "DL.DialogWarningDazedFailer": "You're dazed and cannot use actions.",

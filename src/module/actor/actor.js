@@ -1051,7 +1051,7 @@ export class DemonlordActor extends Actor {
   }
 
   isImmuneToAffliction(affliction) {
-    return this.effects.filter(e => !e.disabled).some(e => e.changes.some(c => c.key == 'system.bonuses.immune.affliction' && c.value == affliction))
+    return this.appliedEffects.filter(e => !e.disabled).some(e => e.changes.some(c => c.key == 'system.bonuses.immune.affliction' && c.value == affliction))
   }
 
   getSizeFromString(sizeString) {
