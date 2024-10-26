@@ -56,12 +56,16 @@
     {{#if data.isCreature}}
       <div class="gmonly">
     {{/if}}
-      {{#if item.system.action.extraeffect}}
-      <div class="description">
-        <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
-        <div class="body">{{{item.system.action.extraeffect}}}</div>
-      </div>
+
+      {{#if actor.system.bonuses.attack.extraEffect}}
+        <div class="description">
+          <div class="header">{{localize "DL.TalentExtraEffect"}}</div>
+          <div class="body">{{{actor.system.bonuses.attack.extraEffect}}}</div>
+        </div>
       {{/if}}
+
+      {{> "systems/demonlord/templates/chat/partial/chat-extra-effects.hbs" extraEffect=item.system.action.extraEffect extraEffect20=item.system.action.extraEffect20 isPlus20Roll=data.isPlus20Roll}}
+
       {{#if data.defense}}
       <div class="roll20">
         <div class="header">{{localize "DL.SpellTypeDefense"}}</div>
@@ -105,15 +109,14 @@
     <div class="gmonly">
       {{/if}}
 
-      {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget
-      uuid=item.uuid}}
+      {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget uuid=item.uuid}}
 
       {{> "systems/demonlord/templates/chat/partial/chat-damage.hbs" data=data}}
 
       {{> "systems/demonlord/templates/chat/partial/chat-effects.hbs" data=data}}
       {{#if data.ifBlindedRoll }}
-    </div>
-    {{/if}}
+        </div>
+      {{/if}}
     {{/if}}
   </div>
 </section>

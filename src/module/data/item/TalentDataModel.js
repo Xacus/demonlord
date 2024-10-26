@@ -80,6 +80,7 @@ export function makeTalentSchema() {
     }),
     damage: makeStringField(),
     damagetype: makeStringField(),
+    extraeffect: makeStringField(),
     bonuses: new foundry.data.fields.SchemaField({
       defenseactive: makeBoolField(true),
       defense: makeStringField(),

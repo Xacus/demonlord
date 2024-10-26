@@ -46,6 +46,9 @@
   {{#if data.isCreature}}
   <div class="gmonly">
   {{/if}}
+
+  {{> "systems/demonlord/templates/chat/partial/chat-extra-effects.hbs" extraEffect=item.system.action.extraEffect extraEffect20=item.system.action.extraEffect20 isPlus20Roll=data.isPlus20Roll}}
+  
   {{#if data.defense}}
     <div class="roll20">
       <div class="header">{{localize "DL.SpellTypeDefense"}}</div>

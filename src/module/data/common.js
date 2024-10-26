@@ -81,7 +81,8 @@ export function action() {
     extraboonsbanes: makeStringField(),
     extradamage: makeStringField(),
     extraplus20damage: makeStringField(),
-    extraeffect: makeStringField()
+    extraEffect: makeStringField(),
+    extraEffect20: makeStringField()
   })
 }
 

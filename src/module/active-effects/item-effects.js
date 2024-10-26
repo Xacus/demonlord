@@ -420,7 +420,7 @@ export class DLActiveEffects {
       addEffect('system.bonuses.attack.boons.will', action.extraboonsbanes * action.willboonsbanesselect, priority),
       concatDiceEffect('system.bonuses.attack.damage', action.extradamage),
       concatDiceEffect('system.bonuses.attack.plus20Damage', action.extraplus20damage),
-      concatString('system.bonuses.attack.extraEffect', action.extraeffect, '\n'),
+      concatString('system.bonuses.attack.extraEffect', talentData.extraeffect, '\n'),
     ].filter(falsyChangeFilter)
 
     if (attackChanges.length > 0) effectData.changes = effectData.changes.concat(attackChanges)
