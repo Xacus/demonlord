@@ -1,0 +1,18 @@
+{{!-- 
+  Variables:
+    - extraEffect
+    - extraEffect20
+    - isPlus20Roll
+ --}}
+{{#if extraEffect}}
+  <div class="description">
+    <div class="header">{{localize "DL.ExtraEffect"}}</div>
+    <div class="body">{{{extraEffect}}}</div>
+  </div>
+{{/if}}
+{{#if (and extraEffect20 isPlus20Roll)}}
+  <div class="description">
+    <div class="header">{{localize "DL.ExtraEffect20"}}</div>
+    <div class="body">{{{extraEffect20}}}</div>
+  </div>
+{{/if}}

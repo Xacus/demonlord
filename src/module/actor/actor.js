@@ -303,7 +303,17 @@ export class DemonlordActor extends Actor {
 
   async _handleOnUpdateDescendant(documents) {
     console.log('DEMONLORD | Calling _handleOnUpdateDescendant', documents)
-    for await (const doc of documents) await DLActiveEffects.embedActiveEffects(this, doc, 'update')
+    
+    // Delete all effects created by this item and re-add them
+    const effectsToDelete = []
+
+    for await (const doc of documents) {
+      effectsToDelete.push(...doc.parent.effects.filter(e => e.origin === doc.uuid).map(e => e.id))
+      await DLActiveEffects.embedActiveEffects(this, doc, 'update')
+    }
+    
+    await this.deleteEmbeddedDocuments('ActiveEffect', effectsToDelete)
+
     // No need to update if nothing was changed
     if (documents.length > 0) {
       await this._handleDescendantDocuments(documents[0].parent, {debugCaller: `_handleOnUpdateDescendant [${documents.length}]`})
@@ -1051,7 +1061,7 @@ export class DemonlordActor extends Actor {
   }
 
   isImmuneToAffliction(affliction) {
-    return this.effects.filter(e => !e.disabled).some(e => e.changes.some(c => c.key == 'system.bonuses.immune.affliction' && c.value == affliction))
+    return this.appliedEffects.filter(e => !e.disabled).some(e => e.changes.some(c => c.key == 'system.bonuses.immune.affliction' && c.value == affliction))
   }
 
   getSizeFromString(sizeString) {

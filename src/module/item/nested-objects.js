@@ -266,11 +266,12 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
         .filter(l => +l.level > curLevel && +l.level <= newLevel)
         .map(async level => await createActorNestedItems(actor, _getLevelItemsToTransfer(level), path.id, level.level)))
     }
-    // Add ancestry level 4 nested items
-    if (ancestry && curLevel < 4 && newLevel >= 4) {
-      const ancestryData = ancestry.system
-      let chosenNestedItems = [...ancestryData.level4.talent, ...ancestryData.level4.spells].filter(i => Boolean(i.selected))
-      await createActorNestedItems(actor, chosenNestedItems, ancestry.id, 4)
+
+    // Also ancestry levels' nested items
+    if (ancestry) {
+      await Promise.all(ancestry.system.levels
+        .filter(l => +l.level > curLevel && +l.level <= newLevel)
+        .map(async level => await createActorNestedItems(actor, _getLevelItemsToTransfer(level), ancestry.id, level.level)))
     }
   }
   // Otherwise delete items with levelRequired > newLevel
@@ -285,13 +286,17 @@ export async function handleLevelChange(actor, newLevel, curLevel = undefined) {
 
 export async function handleCreateAncestry(actor, ancestryItem) {
   const ancestryData = ancestryItem.system
+  const actorLevel = parseInt(actor.system.level)
   let nestedItems = [...ancestryData.talents, ...ancestryData.languagelist]
   let createdItems = await createActorNestedItems(actor, nestedItems, ancestryItem.id, 0)
+  const leqLevels = ancestryData.levels.filter(l => +l.level <= +actorLevel)
+
   // If character level >= 4, add chosen nested items
-  if (actor.system.level >= 4) {
-    let chosenNestedItems = [...ancestryData.level4.talent, ...ancestryData.level4.spells].filter(i => Boolean(i.selected))
-    createdItems = createdItems.concat(await createActorNestedItems(actor, chosenNestedItems, ancestryItem.id, 4))
+  for await (let level of leqLevels) {
+    let chosenNestedItems = [...level.talents, ...level.spells].filter(i => Boolean(i.selected))
+    createdItems = createdItems.concat(await createActorNestedItems(actor, chosenNestedItems, ancestryItem.id, level.level))
   }
+
   return createdItems
 }
 

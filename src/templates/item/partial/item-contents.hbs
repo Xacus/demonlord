@@ -1,5 +1,5 @@
 <!--div class="tab" data-group="primary" data-tab="contents"-->
-  <div class="dl-item-section-contents">
+  <div class="dl-item-section-contents" data-group="contents">
     <div><b>{{localize "DL.ContentsTitle"}}</b></div>
     <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
       <div class="col-7">{{localize "DL.TabsItems"}}</div>
@@ -7,13 +7,13 @@
       <div class="col-2">{{localize "DL.ItemValue"}}</div>
     </div>
       {{#each item.system.contents as |content index|}}
-      <div class="dl-item-row dl-nested-item dropitem" data-item-index="{{index}}" data-item-id="{{content._id}}">
+      <div class="dl-item-row nested-item dropitem" data-item-index="{{index}}" data-item-id="{{content._id}}">
         <div class="row">
           <div class="col-7">
-            <img class='dl-clickable-nored edit-nested-item' src="{{content.img}}" title="{{content.name}}" width="32"
+            <img class="dl-clickable-nored edit-nested-item" data-action="editNestedItem" src="{{content.img}}" title="{{content.name}}" width="32"
                 height="32"/>
             <label class="dl-clickable-nored item-roll">{{content.name}}</label>
-            <div class="dl-clickable dlToggleInfoBtn">
+            <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
               <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
             </div>
           </div>
@@ -23,9 +23,8 @@
           <div class="col-2">
             {{defaultValue system.value "―"}}
           </div>
-          <div class="col-1 dl-clickable" style="padding-top: 3px">
-            <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
-              style="margin-left: 2px; margin-top: 3px;">
+          <div class="col-1 dl-clickable" style="padding-top: 3px" data-action="deleteItem">
+            <a class="dl-clickable" data-action="deleteItem" title="{{localize 'DL.ItemDeleteItem'}}" style="margin-left: 2px; margin-top: 3px;">
               <i class="fas fa-times"></i>
             </a>
           </div>

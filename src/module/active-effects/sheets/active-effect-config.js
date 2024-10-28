@@ -112,7 +112,6 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.bonuses.armor.fixed': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.ArmorFixed'),
       'system.bonuses.armor.agility': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeAgility'),
       'system.bonuses.armor.defense': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeDefense'),
-      'system.bonuses.armor.override': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Override') + " (DEPRECATED)",  // TODO: Remove for v12
       // Defense
       'system.bonuses.defense.boons.spell': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.MagicSpellsTitle'),
       'system.bonuses.defense.boons.weapon': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.WeaponTitle'),
@@ -136,7 +135,6 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.maluses.autoFail.action.will': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeWill'),
       'system.maluses.autoFail.action.perception': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributePerception'),
       // Other maluses
-      'system.maluses.halfSpeed': i18n('DL.Malus') + ' - ' + i18n('DL.HalfSpeed') + " (DEPRECATED)",  // TODO: Remove for v12
       'system.maluses.noFastTurn': i18n('DL.Malus') + ' - ' + i18n('DL.NoFastTurns'),
       'system.maluses.noAttacks': i18n('DL.Malus') + ' - ' + i18n('DL.NoAttacks'),
       'system.maluses.noSpecialAttacks': i18n('DL.Malus') + ' - ' + i18n('DL.NoSpecialAttacks'),

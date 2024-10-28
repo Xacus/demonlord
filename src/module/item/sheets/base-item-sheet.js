@@ -1,52 +1,175 @@
-import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
+const { HandlebarsApplicationMixin } = foundry.applications.api
+const { ItemSheetV2 } = foundry.applications.sheets
+
+import {onCreateEffect, onEditEffect, onDeleteEffect, onToggleEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
 import {DL} from '../../config'
-import {DamageType} from '../nested-objects'
 import tippy from "tippy.js";
-import {buildDropdownList} from "../../utils/handlebars-helpers";
+import {buildDropdownListHover} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
-import {DemonlordItem} from "../item";
-import {enrichHTMLUnrolled, i18n} from "../../utils/utils";
+import { DemonlordItem } from "../item";
+import { capitalize, enrichHTMLUnrolled, i18n} from "../../utils/utils";
 import { 
   getNestedItemData,
-  getNestedDocument
+  getNestedDocument,
+  createActorNestedItems,
+  deleteActorNestedItems, 
+  PathLevel,
+  PathLevelItem,
+  DamageType
 } from '../nested-objects';
+import { DLStatEditor } from '../../dialog/stat-editor'
 
-export default class DLBaseItemSheet extends ItemSheet {
+export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
   /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['demonlord', 'sheet', 'item'],
+  static DEFAULT_OPTIONS = {
+    tag: 'form',
+    form: {
+      handler: this.onSubmit,
+      submitOnChange: true,
+      closeOnSubmit: false
+    },
+    classes: ['demonlord-v2-sheet', 'demonlord-v2-item'],
+    actions: {
+      toggleAmmoRequired: this.onToggleArmorRequired,
+      toggleAutoDestroy: this.onToggleAutoDestroy,
+      toggleShield: this.onToggleShield,
+      createEffect: this.onManageEffect,
+      editEffect: this.onManageEffect,
+      toggleEffect: this.onManageEffect,
+      deleteEffect: this.onManageEffect,
+      createDamage: this.onEditDamage,
+      deleteDamage: this.onEditDamage,
+      toggleInfo: this.onToggleInfo,
+      createNestedItem: this.onCreateNestedItem,
+      editNestedItem: this.onEditNestedItem,
+      deleteItem: this.onDeleteItem,
+      toggleSpeak: this.onToggleSpeak,
+      toggleRead: this.onToggleRead,
+      toggleWrite: this.onToggleWrite,
+      toggleHealing: this.onToggleHealing,
+      toggleAttackBonus: this.onToggleAttackBonus,
+      toggleChallengeBonus: this.onToggleChallengeBonus,
+      editImage: this.onEditImage,
+      selectLevel: this.onSelectLevel,
+      addLevel: this.onAddLevel,
+      transferItem: this.onTransferItem,
+      toggleFrightening: this.onToggleFrightening,
+      toggleHorrifying: this.onToggleHorrifying
+    },
+    window: {
+      resizable: true
+    },
+    position: {
       width: 600,
       height: 650,
-      tabs: [
-        {
-          navSelector: '.sheet-tabs',
-          contentSelector: '.sheet-body',
-          initial: 'attributes',
-        },
-      ],
-      scrollY: ['.tab.paths', '.tab.active'],
-    })
+    },
+    scrollY: ['.tab.paths', '.tab.active'],
+    editable: true
   }
 
-  /** @override */
-  get template() {
-    const path = 'systems/demonlord/templates/item'
+  static PARTS = {
+    header: { template: 'systems/demonlord/templates/item/parts/item-sheet-header.hbs' },
+    tabs: { template: 'systems/demonlord/templates/generic/tab-navigation.hbs' },
+    description: { template: 'systems/demonlord/templates/item/parts/item-description.hbs' },
+    effects: { template: 'systems/demonlord/templates/item/parts/item-effects.hbs' },
 
-    const map = {
-      'creaturerole': 'role'
+    // Attributes
+    ancestry: { template: 'systems/demonlord/templates/item/item-ancestry-sheet.hbs' },
+    ammo: { template: 'systems/demonlord/templates/item/item-ammo-sheet.hbs' },
+    armor: { template: 'systems/demonlord/templates/item/item-armor-sheet.hbs' },
+    creaturerole: { template: 'systems/demonlord/templates/item/item-role-sheet.hbs'},
+    endoftheround: { template: 'systems/demonlord/templates/item/item-endoftheround-sheet.hbs' },
+    feature: { template: 'systems/demonlord/templates/item/item-feature-sheet.hbs' }, // Empty
+    item: { template: 'systems/demonlord/templates/item/item-item-sheet.hbs' },
+    language: { template: 'systems/demonlord/templates/item/item-language-sheet.hbs' },
+    path: { template: 'systems/demonlord/templates/item/item-path-sheet.hbs' },
+    profession: { template: 'systems/demonlord/templates/item/item-profession-sheet.hbs' }, // Empty
+    relic: { template: 'systems/demonlord/templates/item/item-relic-sheet.hbs' },
+    specialaction: { template: 'systems/demonlord/templates/item/item-specialaction-sheet.hbs' }, // Empty
+    spell: { template: 'systems/demonlord/templates/item/item-spell-sheet.hbs' },
+    talent: { template: 'systems/demonlord/templates/item/item-talent-sheet.hbs' },
+    weapon: { template: 'systems/demonlord/templates/item/item-weapon-sheet.hbs' }
+  }
+
+  // Default tab
+  static PARTS_MAP = {
+    'ancestry': 'ancestry',
+    'ammo': 'ammo',
+    'armor': 'armor',
+    'creaturerole': 'role',
+    'endoftheround': 'endoftheround',
+    'feature': 'description',
+    'item': 'item',
+    'language': 'language',
+    'path': 'path',
+    'profession': 'description',
+    'relic': 'relic',
+    'specialaction': 'description',
+    'spell': 'spell',
+    'talent': 'talent',
+    'weapon': 'weapon'
+  }
+
+  get canEdit() {
+    let editable = this.options.editable && (this.document.isOwner || this.document.isGM)
+
+    // Only some types can be toggled edit
+    if (!['ancestry', 'creaturerole', 'path'].includes(this.document.type)) {
+      editable = false
     }
 
-    return `${path}/item-${map[this.item.type] ?? this.item.type}-sheet.hbs`
+    if (this.document.pack) {
+      const pack = game.packs.get(this.document.pack)
+      if (pack.locked) editable = false
+    }
+
+    return editable
+  }
+
+  /**
+   * @override
+   */
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+
+    // These parts are always rendered
+    options.parts = [ 'header' ]
+
+    // Optionally add the main tab (attributes)
+    const ignoredParts = [ 'feature', 'profession', 'specialaction' ] // Ideally temporary
+    
+    if (!ignoredParts.includes(this.document.type)) {
+      options.parts.push(this.document.type)
+    }
+
+    // Add the rest of the tabs
+    options.parts.push('description', 'effects')
+
+    // Finally, adjust the window position according to the type
+    this._adjustSizeByItemType(this.document.type, this.position)
   }
 
   /** @override */
-  setPosition(options = {}) {
+  static setPosition(options = {}) {
     const position = super.setPosition(options)
     const sheetBody = this.element.find('.sheet-body')
     const bodyHeight = position.height - 125
     sheetBody.css('height', bodyHeight)
     return position
+  }
+
+  _adjustSizeByItemType(type, position) {
+    switch (type) {
+      case 'ancestry':
+        position.width = 700
+        position.height = 700
+        break
+      case 'path':
+        position.width = 700
+        position.height = 700
+        break
+      default: break
+    }
   }
 
   /* -------------------------------------------- */
@@ -55,42 +178,117 @@ export default class DLBaseItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  async getData(options) {
-    const data = await super.getData(options)
-    const itemData = data.data
-    data.isGM = game.user.isGM
-    data.isOwner = this.actor?.isOwner,
-    data.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
-    data.config = DL
-    data.item = itemData
-    data.system = this.document.system
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options)
+    context.isGM = game.user.isGM
+    context.isOwner = this.actor?.isOwner,
+    context.lockAncestry = game.settings.get('demonlord', 'lockAncestry')
+    context.config = DL
+    context.item = this.document
+    context.system = this.document.system
+
+    if (options.isFirstRender) {
+      this.tabGroups['primary'] = this.tabGroups['primary'] ?? options.parts.find(p => Object.keys(DLBaseItemSheet.PARTS_MAP).includes(p)) ?? DLBaseItemSheet.PARTS_MAP[this.document.type]
+    }
+
+    // Retrieve data for nested items
+    if (['ancestry', 'path'].includes(this.document.type)) {
+      for await (let i of context.item.system.levels.keys()) {
+        context.item.system.levels[i].talents = await Promise.all(context.item.system.levels[i].talents.map(await getNestedItemData))
+        context.item.system.levels[i].talentspick = await Promise.all(context.item.system.levels[i].talentspick.map(await getNestedItemData))
+        context.item.system.levels[i].spells = await Promise.all(context.item.system.levels[i].spells.map(await getNestedItemData))
+      }
+    }
+    
+    if (this.document.type === 'ancestry') {
+      context.item.system.talents = await Promise.all(context.item.system.talents.map(await getNestedItemData))
+      context.item.system.languagelist = await Promise.all(context.item.system.languagelist.map(await getNestedItemData))
+    }
+
+    if (this.document.type === 'creaturerole') {
+      context.item.system.talents = await Promise.all(context.item.system.talents.map(await getNestedItemData))
+      context.item.system.spells = await Promise.all(context.item.system.spells.map(await getNestedItemData))
+      context.item.system.weapons = await Promise.all(context.item.system.weapons.map(await getNestedItemData))
+      context.item.system.specialActions = await Promise.all(context.item.system.specialActions.map(await getNestedItemData))
+      context.item.system.endOfRound = await Promise.all(context.item.system.endOfRound.map(await getNestedItemData))
+    }
+
+    context.tabs = this._getTabs(options.parts)
 
     // Enrich the description
-    data.system.enrichedDescription = await TextEditor.enrichHTML(this.document.system.description);
-    data.system.enrichedDescriptionUnrolled = await enrichHTMLUnrolled(this.document.system.description)
+    context.system.enrichedDescription = await TextEditor.enrichHTML(this.document.system.description);
+    context.system.enrichedDescriptionUnrolled = await enrichHTMLUnrolled(this.document.system.description)
 
-    data.effects = prepareActiveEffectCategories(this.document.effects, true, true)
+    context.effects = prepareActiveEffectCategories(this.document.effects, true, true)
 
-    if (data.item.type === 'weapon' || data.item.type === 'spell' || data.item.type === 'talent' || data.item.type === 'endoftheround') this._prepareDamageTypes(data)
+    if (context.item.type === 'weapon' || context.item.type === 'spell' || context.item.type === 'talent' || context.item.type === 'endoftheround') this._prepareDamageTypes(context)
 
     this.sectionStates = this.sectionStates || new Map()
 
-    if (data?.system?.contents != undefined && data.system.contents.length > 0) {
-      data.system.contents = await Promise.all(data.system.contents.map(getNestedItemData))
+    if (context?.system?.contents != undefined && context.system.contents.length > 0) {
+      context.system.contents = await Promise.all(context.system.contents.map(getNestedItemData))
     }
 
-    return data
+    return context
+  }
+
+  /** @override */
+  async _preparePartContext(partId, context, options) {
+    await super._preparePartContext(partId, context, options)
+
+    switch (partId) {
+      case 'header':
+        context.isEditable = this.canEdit
+        context.edit = this.document.system[`edit${capitalize(DLBaseItemSheet.PARTS_MAP[context.item.type])}`]
+        context.editId = `system.edit${capitalize(DLBaseItemSheet.PARTS_MAP[context.item.type])}`
+        break
+      case 'feature':
+      case 'specialaction':
+      case 'profession':
+        break
+      case 'ammo':
+      case 'armor':
+      case 'endoftheround':
+      case 'item':
+      case 'language':
+      case 'relic':
+      case 'spell':
+      case 'talent':
+      case 'weapon':
+      case 'description':
+      case 'effects':
+      case 'creaturerole':
+        context.tab = context.tabs[partId]
+        context.cssClass = context.tab.cssClass
+        context.active = context.tab.active
+        break
+      case 'ancestry':
+        context.tab = context.tabs[partId]
+        context.cssClass = context.tab.cssClass
+        context.active = context.tab.active
+        context.system.selectedLevelIndex = this._selectedLevelIndex ?? -1
+        break
+      case 'path':
+        context.tab = context.tabs[partId]
+        context.cssClass = context.tab.cssClass
+        context.active = context.tab.active
+        context.system.selectedLevelIndex = this._selectedLevelIndex ?? 0
+        break
+    }
+
+    return context
   }
 
   /* -------------------------------------------- */
 
   /**
-   * Handles the damage types updates
+   * Handles all specific item changes
    * @override */
-  async _updateObject(event, formData) {
-    const item = this.object
-    const updateData = foundry.utils.expandObject(formData)
+  static async onSubmit(event, form, formData) {
+    const item = this.document
+    const updateData = foundry.utils.expandObject(formData.object)
 
+    // Handles the damage types updates
     if (['talent', 'weapon', 'spell', 'endoftheround'].includes(item.type)) {
       // Set the update key based on type
       const damageKey = 'system.action.damagetypes'
@@ -115,56 +313,361 @@ export default class DLBaseItemSheet extends ItemSheet {
     // If a Talent has no uses it's always active
     if (item.type === 'talent') updateData.system.addtonextroll = !updateData.system?.uses?.max
 
-    return await this.object.update(updateData)
+    // Item specific handling
+    if (item.type === 'path') {
+      const system = {}
+      formData = formData.object
+      const completeFormData = this._getPathDataFromForm()
+
+      system.editPath = formData['system.editPath'] ?? item.system.editPath
+      system.description = formData['system.description'] || item.system.description
+      system.type = formData['system.type']
+
+      if (!system.type) delete system.type
+
+      if (completeFormData.length > 0) {
+        if (item.system.editPath) {
+          system.levels = this._getEditLevelsUpdateData(completeFormData)
+          system.levels.sort(this._sortLevels)
+  
+          // Set default image based on new path type
+          const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.path).includes(formData.img)
+          if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
+            updateData.img = CONFIG.DL.defaultItemIcons.path[formData['system.type']] || CONFIG.DL.defaultItemIcons.path.novice
+          }
+        } else {
+          system.levels = this._getViewLevelsUpdateData(completeFormData)
+        }
+      }
+      
+      // Change the levels based on the path type
+      if (system.type && item.system.editPath && system.type !== item.system.type) {
+        let autoLevels = []
+        switch (system.type) {
+          case 'novice':
+            autoLevels = [1, 2, 5, 8];
+            break
+          case 'expert':
+            autoLevels = [3, 6, 9];
+            break
+          case 'master':
+            autoLevels = [7, 10];
+            break
+          case 'legendary':
+            autoLevels = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        }
+        system.levels = system.levels ?? []
+        for (let index of autoLevels.keys()) {
+          if (!system.levels[index]) system.levels[index] = new PathLevel({level: autoLevels[index]})
+          else system.levels[index].level = autoLevels[index]
+        }
+      }
+
+      updateData.system = system
+      if (updateData.level) delete updateData.level
+    } else if (item.type === 'ancestry') {
+      const system = {}
+      formData = formData.object
+      const completeFormData = this._getPathDataFromForm()
+
+      // Remove first level 0, as it's not relevant for this
+      completeFormData.splice(0, 1)
+
+      system.editAncestry = formData['system.editAncestry'] ?? item.system.editAncestry
+      system.description = formData['system.description'] || item.system.description
+      system.type = formData['system.type']
+
+      if (!system.type) delete system.type
+
+      if (completeFormData.length > 0) {
+        if (item.system.editAncestry) {
+          system.attributes = updateData.system.attributes
+          system.characteristics = updateData.system.characteristics
+          system.equipment = updateData.system.equipment
+          system.languages = updateData.system.languages
+          system.levels = this._getEditLevelsUpdateData(completeFormData)
+          system.levels.sort(this._sortLevels)
+  
+          // Set default image based on new ancestry type
+          const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.ancestry).includes(formData.img)
+          if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
+            updateData.img = CONFIG.DL.defaultItemIcons.ancestry[formData['system.type']]
+          }
+        } else {
+          system.levels = this._getViewLevelsUpdateData(completeFormData)
+        }
+      }
+
+      updateData.system = system
+      if (updateData.level) delete updateData.level
+    }
+
+    await item.update(updateData)
+    this.render()
+  }
+
+  /* -------------------------------------------- */
+  /*  Actions                                     */
+  /* -------------------------------------------- */
+  static async onToggleArmorRequired() {
+    await this.document.update({
+      'system.consume.ammorequired': !this.document.system.consume.ammorequired,
+      'system.consume.ammoitemid' : ''
+   })
+  }
+
+  static async onToggleAutoDestroy() {
+    await this.document.update({'system.autoDestroy': !this.document.system.autoDestroy})
+  }
+
+  static async onToggleShield() {
+    await this.document.update({'system.isShield': !this.document.system.isShield})
+  }
+
+  static async onManageEffect(event) {
+    const a = event.target.closest('a')
+    const li = event.target.closest('li')
+
+    switch (a.dataset.action) {
+      case 'createEffect': return onCreateEffect(li, this.document)
+      case 'editEffect': return onEditEffect(li, this.document)
+      case 'deleteEffect': return onDeleteEffect(li, this.document)
+      case 'toggleEffect': return onToggleEffect(li, this.document)
+    }    
+  }
+
+  static async onEditDamage(event) {
+    event.preventDefault()
+    const a = event.target.closest('a')
+    const damageTypes = this.document.system.action.damagetypes
+    const updKey = `system.action.damagetypes`
+
+    if (a.dataset.action === 'createDamage') damageTypes.push(new DamageType())
+    else if (a.dataset.action === 'deleteDamage') damageTypes.splice(a.dataset.id, 1)
+    await this.document.update({[updKey]: damageTypes}, {parent: this.actor}).then(_ => this.render())
+  }
+
+  static async onToggleInfo(event) {
+    const elem = $(event.target)
+    const root = elem.closest('[data-item-id]')
+    const selector = '.fa-chevron-down, .fa-chevron-up'
+    const chevron = elem.is(selector) ? elem : elem.find(selector);
+    const elements = $(root).find('.dlInfo')
+    elements.each((_, el) => {
+      if (el.style.display === 'none') {
+        $(el).slideDown(100)
+        chevron?.removeClass('fa-chevron-up')
+        chevron?.addClass('fa-chevron-down')
+      } else {
+        $(el).slideUp(100)
+        chevron?.removeClass('fa-chevron-down')
+        chevron?.addClass('fa-chevron-up')
+      }
+    })
+  }
+  
+  static async onCreateNestedItem(event) {
+    const itemType = event.target.closest('[data-type]')?.dataset?.type
+    const itemGroup = event.target.closest('[data-group]')?.dataset?.group
+    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
+
+    // Create a folder for the quick item to be stored in
+    const folderLoc = event.target.closest('[data-folder-loc]').dataset.folderLoc
+    const folderName = i18n("DL." + folderLoc)
+    let folder = game.folders.find(f => f.name === folderName)
+    if (!folder) {
+      folder = await Folder.create({name:folderName, type: DemonlordItem.documentName})
+    }
+
+    const item = {
+      name: `New ${itemType.capitalize()}`,
+      type: itemType,
+      folder: folder.id,
+      system: {},
+    }
+
+    const newItem = await this.createNestedItem(item, folderName)
+    await this._addItem(newItem, levelIndex, itemGroup)
+    newItem.sheet.render(true)
+    this.render()
+    return newItem
+  }
+
+  static async onEditNestedItem(event) {
+    const data = await this.document
+
+    const itemGroup = event.target.closest('[data-group]')?.dataset?.group
+    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
+    const itemId = event.target.closest('[data-item-id]')?.dataset?.itemId
+    let nestedData
+
+    if (levelIndex) {
+      if (levelIndex === '-1' && data.type === 'ancestry') {
+        nestedData = data.system[itemGroup].find(i => i._id === itemId)
+      } else {
+        // Path or ancestry item (except for ancestry's level 0)
+        nestedData = data.system.levels[levelIndex][itemGroup].find(i => i._id === itemId)
+      }
+    } else {
+      // Anything without levels
+      nestedData = data.system[itemGroup].find(i => i._id === itemId)
+    }
+
+    await getNestedDocument(nestedData).then(d => {
+      if (d.sheet) d.sheet.render(true)
+      else ui.notifications.warn('The item is not present in the game and cannot be edited.')
+    })
+
+  }
+
+  static async onDeleteItem(event) {
+    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
+    const itemGroup = event.target.closest('[data-group]')?.dataset?.group
+    const itemIndex = event.target.closest('[data-item-index]')?.dataset?.itemIndex
+
+    if (this.document.type === 'ancestry' || this.document.type === 'path') {
+      // Part of path or ancestry
+      const itemData = foundry.utils.duplicate(this.document)
+
+      if (levelIndex === '-1' && this.document.type === 'ancestry') {
+        // It's an ancestry deleting from level 0
+        itemData.system[itemGroup].splice(itemIndex, 1)
+      } else {
+        if (['talents', 'talentspick', 'spells'].includes(itemGroup)) itemData.system.levels[levelIndex][itemGroup].splice(itemIndex, 1)
+        else if (itemGroup === 'primary') itemData.system.levels.splice(levelIndex, 1) // Deleting a level
+      }
+      await this.document.update(itemData)
+    } else {
+      // Anything without levels
+      const itemData = foundry.utils.duplicate(this.document)
+
+      itemData.system[itemGroup].splice(itemIndex, 1)
+      await this.document.update(itemData)
+    }
+  }
+
+  static async onToggleSpeak () {
+    await this.document.update({'system.speak': !this.document.system.speak})
+  }
+
+  static async onToggleRead () {
+    await this.document.update({'system.read': !this.document.system.read})
+  }
+
+  static async onToggleWrite () {
+    await this.document.update({'system.write': !this.document.system.write})
+  }
+
+  static async onToggleHealing () {
+    await this.document.update({'system.healing.healing': !this.document.system.healing.healing})
+  }
+
+  static async onToggleAttackBonus (event) {
+    const attribute = event.target.closest('div').dataset.attribute
+    const property = `system.action.${attribute}boonsbanesselect`
+    await this.document.update({[property]: !foundry.utils.getProperty(this.document, property) })
+  }
+
+  static async onToggleChallengeBonus (event) {
+    const attribute = event.target.closest('div').dataset.attribute
+    const property = `system.challenge.${attribute}boonsbanesselect`
+    await this.document.update({[property]: !foundry.utils.getProperty(this.document, property) })
+  }
+
+  /**
+   * Handle changing a Document's image.
+   * @param {MouseEvent} event  The click event.
+   * @returns {Promise}
+   * @protected
+   * Credit to Ethanks from the League of Extraordinary FoundryVTT Developers
+   */
+  static async onEditImage(event, target) {
+    const attr = target.dataset.edit
+    const documentData = this.document.toObject()
+    const current = foundry.utils.getProperty(documentData, attr)
+    const { img } = this.document.constructor.getDefaultArtwork?.(documentData) ?? {}
+    const fp = new FilePicker({
+        current,
+        type: "image",
+        redirectToRoot: img ? [img] : [],
+        callback: (path) => {
+            this.document.update({ [attr]: path })
+        },
+        top: this.position.top + 40,
+        left: this.position.left + 10,
+    });
+    return fp.browse()
+  }
+
+  static async onSelectLevel(event, target) {
+    // Display/hide levels on click
+    const levelIndex = $(target).closest('[data-level-index]').data('levelIndex')
+    const form = $(target).closest("form")
+    this._selectedLevelIndex = levelIndex
+    form.find('.level-selector').each((_, pl) => {
+      pl = $(pl)
+      if (pl.data('levelIndex') === levelIndex) pl.show()
+      else pl.hide()
+    })
+  }
+
+  static async onAddLevel() {
+    await this.document.update({
+      'system.levels': [...(this.document.system.levels || []), new PathLevel()],
+    })
+  }
+
+  static async onTransferItem(event) {
+    // Grab data from the event
+    const itemIndex = event.target.closest('[data-item-index]').dataset.itemIndex
+    const itemGroup = event.target.closest('[data-group]').dataset.group
+    const itemId = event.target.closest('[data-item-id]').dataset.itemId
+    const itemLevelIndex = event.target.closest('[data-level]').dataset.level
+
+    // Grab the nested item data
+    const itemData = this.document.toObject()
+    const nestedItemData = itemData.system.levels[itemLevelIndex][itemGroup][itemIndex]
+    let selected = nestedItemData.selected = !nestedItemData.selected
+    await this.document.update({ system: itemData.system })
+
+    // If the item is inside a character, and the actor level matches the item level, add it to the actor
+    const actor = this.document.parent
+    if (!actor || actor.type !== 'character') return
+    const levelRequired = itemData.system.levels[itemLevelIndex].level
+    if (parseInt(actor.system.level) >= levelRequired && selected)
+      await createActorNestedItems(actor, [nestedItemData], this.document.id, levelRequired)
+    else
+      await deleteActorNestedItems(actor, null,  itemId)
+  }
+
+  static async onToggleFrightening() {
+    await this.document.update({'system.frightening': !this.document.system.frightening})
+  }
+
+  static async onToggleHorrifying() {
+    await this.document.update({'system.horrifying': !this.document.system.horrifying})
   }
 
   /* -------------------------------------------- */
   /*  Listeners                                   */
-
   /* -------------------------------------------- */
 
-  // eslint-disable-next-line no-unused-vars
-  static onRenderInner(app, html, data) {
-
-    const autoresize = (el) => {
-      const jEl = $(el)
-      if (jEl.prop("tagName") === 'INPUT') {
-        const setSize = () => {
-          let size = Math.max(1, (el.value?.length || el.placeholder?.length))
-          let ff = jEl.css('font-family')
-          if (ff.includes('Libertine')) {
-            el.style.width = (size + 4)+ 'ch'
-          } else {
-            el.size = size
-          }
-        }
-        setSize()
-        el.oninput = setSize
-      } else if (jEl.prop("tagName") === 'TEXTAREA') {
-        const getHeight = () => Math.max(0, el?.scrollHeight)
-        jEl.height(0)
-        jEl.height(getHeight() + 'px')
-        el.oninput = () => {
-          jEl.height(0)
-          jEl.height(getHeight() + 'px')
-        }
-      }
-    }
-
-    html.find('[autosize]').each((_, el) => autoresize(el))
-
-    // Icons tooltip
-    tippy('[data-tippy-content]')
-    tippy('[data-tippy-html]', {
+  /** @override */
+  async _onRender (context, options) { // eslint-disable-line no-unused-vars
+    let e = this.element
+    // Tooltips
+    tippy(e.querySelectorAll('[data-tippy-content]'))
+    tippy(e.querySelectorAll('[data-tippy-html]'), {
       content(reference) {
         return $(reference).data('tippyHtml')
       },
       allowHTML: true
     })
-    tippy('.dl-new-project-2.dropdown', {
+
+    // Dropdowns
+    tippy(e.querySelectorAll('.dropdown-group'), {
       content(reference) {
-        html = buildDropdownList(reference.attributes.name.value, reference.attributes.value.value, data)
-        return html
+        return buildDropdownListHover(reference.attributes.name.value, reference.attributes.value.value, context.item)
       },
       allowHTML: true,
       interactive: true,
@@ -175,128 +678,43 @@ export default class DLBaseItemSheet extends ItemSheet {
       theme: 'demonlord-dropdown',
       animation: 'shift-away',
     })
-  }
 
-  /* -------------------------------------------- */
-
-  /** @override */
-  async activateListeners(html) {
-    super.activateListeners(html)
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return
-    if (this.isEditable) {
-      const inputs = html.find('input')
-      inputs.focus(ev => ev.currentTarget.select())
-    }
-
-    // Weapon ammo required checkbox
-    html.find('.dl-ammorequired').click(async _ => {
-      await this.document.update({
-         'system.consume.ammorequired': !this.document.system.consume.ammorequired,
-         'system.consume.ammoitemid' : ''
-      })
-   })
-
-    // Item autoDestroy checkbox
-    html.find('.dl-autodestroy').click(async _ => {
-        await this.document.update({'system.autoDestroy': !this.document.system.autoDestroy})
-    })
-    
-    // Active effects edit
-    html.find('.effect-control').click(async ev => await onManageActiveEffect(ev, this.document))
-
-    // Damage types
-    html.find('.damagetype-control').click(async ev => await this._onManageDamageType(ev))
-
-    // Max castings
-    html.find('.max-castings-control').change(async ev => await this._onManageMaxCastings(ev, this))
-    html.find('.max-castings-control').contextmenu(async ev => await this._onToggleMaxCastingsCalculation(ev, this))
-
-    // Collapsable tables
-    const collapsableContents = html.find('.collapse-content')
-    const collapsableTitles = html.find('.collapse-title')
-
-    // Sections init
-    if (this.sectionStates.size === 0) {
-      // If the state of the sections are not defined, set it all to true and hide the sections
-      for (let i = 0; i < collapsableContents.length; i++) this.sectionStates.set(i, true)
-      collapsableContents.hide()
-    } else {
-      // Else if the state is defined, set the visibility of the content and the class of the title
-      this.sectionStates.forEach((val, key) => {
-        if (val) $(collapsableContents[key]).hide()
-        else $(collapsableTitles[key]).addClass('active')
-      })
-    }
-
-    collapsableTitles.click(ev => {
-      const title = $(ev.currentTarget)
-      const content = title.next('.collapse-content')
-      // Get the index of the current clicked section title
-      const index = collapsableTitles
-        .map((i, ct) => ct.innerText)
-        .toArray()
-        .indexOf(title[0].innerText)
-      // Hide all contents and set their state to true (meaning hid)
-      collapsableContents.slideUp()
-      this.sectionStates.forEach((v, k) => this.sectionStates.set(k, true))
-
-      if (!title.is('.active')) {
-        this.sectionStates.set(index, false) // Save the state of the current section
-        collapsableTitles.removeClass('active')
-        title.addClass('active')
-        content.slideDown()
-      } else collapsableTitles.removeClass('active')
-    })
-
-    // Contents Quantity Button Info
-    html.find('.dlToggleInfoBtn').click(ev => {
-      const root = $(ev.currentTarget).closest('[data-item-id]')
-      const elem = $(ev.currentTarget)
-      const selector = '.fa-chevron-down, .fa-chevron-up'
-      const chevron = elem.is(selector) ? elem : elem.find(selector);
-      const elements = $(root).find('.dlInfo')
-      elements.each((_, el) => {
-        if (el.style.display === 'none') {
-          $(el).slideDown(100)
-          chevron?.removeClass('fa-chevron-up')
-          chevron?.addClass('fa-chevron-down')
-        } else {
-          $(el).slideUp(100)
-          chevron?.removeClass('fa-chevron-down')
-          chevron?.addClass('fa-chevron-up')
-        }
-      })
-    })
 
     // Add drag events.
-    html
-      .find('.drop-area, .dl-drop-zone, .dl-drop-zone *')
-      .on('dragover', await this._onDragOver.bind(this))
-      .on('dragleave', await this._onDragLeave.bind(this))
-      .on('drop', await this._onDrop.bind(this))
+    e.querySelectorAll('.drop-area, .drop-zone, .drop-zone *').forEach(el => {
+
+      el.addEventListener('dragover', this._onDragOver.bind(this))
+      el.addEventListener('dragleave', this._onDragLeave.bind(this))
+      el.addEventListener('drop', this._onDrop.bind(this))
+    })
 
     // Create nested items by dropping onto item
-    this.form.ondrop = ev => this._onDropItem(ev);
+    this.element.addEventListener('drop', ev => this._onDropItem(ev))
 
-    // Nested item create, edit
-    html.find('.create-nested-item').click(async (ev) => await this._onNestedItemCreate(ev))
-    html.find('.edit-nested-item').click(async (ev) => await this._onNestedItemEdit(ev))
+    // Stat editor
+    e.querySelectorAll('.editable-stat').forEach(el => el.addEventListener('contextmenu', async ev => await this._onStatEdit(ev)))
 
+    // Set immune on nullable attributes/characteristics
+    e.querySelectorAll('.nullable-stat').forEach(el => el.addEventListener('contextmenu', async ev => await this._onNullifyStat(ev)))
+
+    // Max castings
+    e.querySelector('.max-castings-control')?.addEventListener('change', async ev => await this._onManageMaxCastings(ev, this))
+    e.querySelector('.item-group-spell-castings')?.addEventListener('contextmenu', async ev => await this._onToggleMaxCastingsCalculation(ev, this))
 
     // Contents item quantity and delete functions
-    html.on('mousedown', '.item-uses', async ev => await this._onUpdateContentsItemQuantity(ev))
-    html.find('.item-delete').click(async ev => await this._onContentsItemDelete(ev))
+    e.querySelectorAll('.item-uses')?.forEach(el => el.addEventListener('mousedown', async ev => await this._onUpdateContentsItemQuantity(ev)))
 
-    if (this.object.parent?.isOwner) {
+    if (this.document.parent?.isOwner) {
       const dragHandler = async ev => await this._onDrag(ev)
-      html.find('.dl-nested-item').each((i, li) => {
-        li.setAttribute('draggable', true)
-        li.addEventListener('dragstart', dragHandler, false)
-        li.addEventListener('dragend', dragHandler, false)
+      e.querySelectorAll('.nested-item').forEach(el => {
+        el.setAttribute('draggable', true)
+        el.addEventListener('dragstart', dragHandler, false)
+        el.addEventListener('dragend', dragHandler, false)
       })
     }
-    
+
+    // Autoselect text in inputs when focused
+    e.querySelectorAll('input')?.forEach(el => el.addEventListener('focus', ev => ev.currentTarget.select()))
   }
 
   /* -------------------------------------------- */
@@ -304,27 +722,56 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
 
+  _getTabs(parts) {
+    const tabGroup = 'primary'
+
+    const tabs = {}
+
+    for (const partId of parts) {
+      const tab = {
+        id: '',
+        group: tabGroup,
+        label: 'DL.Tabs',
+      }
+
+      if (DLBaseItemSheet.PARTS_MAP[partId]) {
+        tab.id = partId
+        tab.label += 'Attributes'
+      } else if (['description', 'effects'].includes(partId)) {
+        tab.id = partId,
+        tab.label += capitalize(partId)
+      } else {
+        continue
+      }
+
+      tab.active = this.tabGroups[tab.group] === tab.id
+      tab.cssClass = tab.active ? 'active': ''
+
+      tabs[partId] = tab
+    }
+
+    return tabs
+  }
+
   _prepareDamageTypes(sheetData) {
-    sheetData.item.damagetypes = this.item.system.action?.damagetypes
+    sheetData.item.damagetypes = this.document.system.action?.damagetypes
   }
 
   async _onManageDamageType(ev, options = {}) {
     ev.preventDefault()
     const a = ev.currentTarget
-    const damageTypes = this.object.system.action.damagetypes
+    const damageTypes = this.document.system.action.damagetypes
     const updKey = `system.action.damagetypes`
 
     if (a.dataset.action === 'create') damageTypes.push(new DamageType())
     else if (a.dataset.action === 'delete') damageTypes.splice(a.dataset.id, 1)
-    await this.object.update({[updKey]: damageTypes}, {...options, parent: this.actor}).then(_ => this.render())
+    await this.document.update({[updKey]: damageTypes}, {...options, parent: this.actor}).then(_ => this.render())
   }
 
   async _onManageMaxCastings (ev, sheet) {
     // Set the flag if textbox has been modified. Clear if blank.
     const target = ev.currentTarget
-    const spell = sheet.object
-    console.log(ev);
-    console.log(spell);
+    const spell = sheet.document
     await spell.update({
       system: {
         castings: {
@@ -336,9 +783,7 @@ export default class DLBaseItemSheet extends ItemSheet {
   
   async _onToggleMaxCastingsCalculation (ev, sheet) {
     // Set the flag if textbox has been modified. Clear if blank.
-    const spell = sheet.object
-    console.log(ev);
-    console.log(spell);
+    const spell = sheet.document
     await spell.update({
       system: {
         castings: {
@@ -348,10 +793,177 @@ export default class DLBaseItemSheet extends ItemSheet {
     })
   }
 
+  async _onStatEdit(event) {
+    const div = event.currentTarget
+    const statType = div.dataset.statType
+    const statName = div.dataset.statName
+    new DLStatEditor({ ancestry: this.document, statType: statType, statName: statName }, {
+      top: 50,
+      right: 700,
+    }).render(true)
+  }
+
+  async _onNullifyStat(event) {
+    const key = event.target.closest('[data-key]').dataset.key
+    const keyName = `${key}Immune`
+    await this.item.update({ system: { attributes: { [keyName]: !this.item.system.attributes[keyName] }}})
+  }
+
+  _getPathDataFromForm() {
+    // Get all html elements that are 'path-level' and group their inputs by path-level
+    const htmlLevels = []
+    $(this.element)
+      .find('.level-selector')
+      .each((i, pl) => {
+        htmlLevels.push($(pl).find("*[name^='level']"))
+      })
+
+    // From the htmlLevels, construct the levels array based on the input names and values
+    const objLevels = []
+    for (const hl of htmlLevels) {
+      const obj = {}
+      hl.each((i, input) => {
+        const _name = input.getAttribute('name')
+        if (input.tagName === 'SELECT') {
+          obj[_name] = input.options[input?.selectedIndex]?.getAttribute('value')
+        } else if (input.tagName === 'LABEL') {
+          // Check first child for checkbox or radio
+          if (input.children[0].type === 'checkbox') {
+            obj[_name] = input.children[0].checked || false
+          } else if (input.children[0].type === 'radio') {
+            if (_name.startsWith('level.attributeSelectTwoSet')) {
+              obj[_name] = input.children[0].checked
+            } else {
+              obj[_name] = input.children[0].value === 'true'
+            }
+          }
+        } else if (input.type === 'checkbox') {
+          obj[_name] = input.checked || false
+        } else if (input.type === 'radio') {
+          if (input.checked) {
+            if (_name === 'level.attributeSelect') {
+              obj[_name] = input.getAttribute('value')
+            } else {
+              obj[_name] = input.value === 'true'
+            }
+          }
+          if (_name.startsWith('level.attributeSelectTwoSetSelectedValue') && input.checked) {
+            obj[_name] = (input.getAttribute('value') ?? input.value) === 'true'
+          }
+        } else {
+          obj[_name] = input.value ?? input.getAttribute('value')
+        }
+      })
+
+      // Set value of level.attributeSelectTwoSetSelectedValue1 and 2 based on the selected sets
+      if (obj['level.attributeSelect'] === "twosets") {
+        obj['level.attributeSelectTwoSetSelectedValue1'] = obj['level.attributeSelectTwoSet2Selected'] || false
+        obj['level.attributeSelectTwoSetSelectedValue2'] = obj['level.attributeSelectTwoSet4Selected'] || false
+        
+        delete obj['level.attributeSelectTwoSet1Selected']
+        delete obj['level.attributeSelectTwoSet2Selected']
+        delete obj['level.attributeSelectTwoSet3Selected']
+        delete obj['level.attributeSelectTwoSet4Selected']
+      }
+
+      objLevels.push(foundry.utils.expandObject(obj).level)
+    }
+    return objLevels
+  }
+
+  _mergeLevels(currentLevels, formLevels) {
+    const warn = () => ui.notifications.warn('More attributes selected than allowed') // FIXME: localize
+
+    let index = 0
+    formLevels.sort(this._sortLevels)
+    currentLevels.sort(this._sortLevels).forEach(currentLevel => {
+      // Check if attribute select is none or fixed, if so skip the merging
+      if (['', 'fixed'].includes(currentLevel)) {
+        index++
+        return
+      }
+
+      // Convert new level to map
+      const newLevel = new Map(Object.entries(formLevels[index++]))
+
+      // Get number of choices
+      let newChoices = 0
+      newLevel.forEach((v, k) => {
+        if (k.includes('attribute') && v === true) newChoices++
+      })
+
+      if (currentLevel.attributeSelectIsTwoSet) {
+        currentLevel.attributeSelectTwoSetSelectedValue1 = newLevel.get('attributeSelectTwoSetSelectedValue1')
+        currentLevel.attributeSelectTwoSetSelectedValue2 = newLevel.get('attributeSelectTwoSetSelectedValue2')
+      } else if (currentLevel.attributeSelectIsChooseTwo) {
+        if (newChoices > 2) return warn()
+        newLevel.forEach((v, k) => (currentLevel[k] = v))
+      } else if (currentLevel.attributeSelectIsChooseThree) {
+        if (newChoices > 3) return warn()
+        newLevel.forEach((v, k) => (currentLevel[k] = v))
+      }
+    })
+
+    return currentLevels
+  }
+
+
+  _getViewLevelsUpdateData(completeFormData) {
+    return this._mergeLevels(this.document.system.levels, completeFormData)
+  }
+
+  _getEditLevelsUpdateData(completeFormData) {
+    const newLevels = completeFormData.map(cf => new PathLevel(cf))
+
+    // Check duplicate levels in new data
+    const hasDuplicates = new Set(newLevels.map(l => l.level)).size !== newLevels.length
+    if (hasDuplicates) {
+      ui.notifications.warn('Path items must not have duplicate levels')
+      return this.document.system.levels
+    }
+
+    // Match the new levels with the old ones and keep the nested items
+    const oldLevels = this.document.toObject().system.levels
+    const notFound = [] // stores path levels that do not have been found in the current levels
+    newLevels.forEach(newLevel => {
+      const foundIndex = oldLevels.findIndex(l => +l.level === +newLevel.level)
+      if (foundIndex >= 0) {
+        // if index is found, remove the relative level from the list of old levels and keep the nested items
+        const foundLevel = oldLevels.splice(foundIndex, 1)[0]
+        this._keepNestedItems(newLevel, foundLevel)
+        // Keep also the chosen user attributes
+        if (newLevel.attributeSelectIsChooseTwo === foundLevel.attributeSelectIsChooseTwo || newLevel.attributeSelectIsChooseThree === foundLevel.attributeSelectIsChooseThree) {
+          newLevel.attributeStrengthSelected = foundLevel.attributeStrengthSelected
+          newLevel.attributeAgilitySelected = foundLevel.attributeAgilitySelected
+          newLevel.attributeIntellectSelected = foundLevel.attributeIntellectSelected
+          newLevel.attributeWillSelected = foundLevel.attributeWillSelected
+        }
+      } else notFound.push(newLevel)
+    })
+    // Assert that there is only one level not matching.
+    // Not matching levels happen when a path level level changes so there should only be one
+    if ((oldLevels.length > 1 && notFound.length > 1) || oldLevels.length !== notFound.length) {
+      throw new Error('Error in path level matching')
+    } else if (notFound.length === 1) {
+      this._keepNestedItems(notFound[0], oldLevels[0])
+    }
+    return newLevels
+  }
+
+  _keepNestedItems(newLevelData, oldLevelData) {
+    newLevelData.talentsSelected = oldLevelData?.talentsSelected || []
+    newLevelData.talentspick = oldLevelData?.talentspick || []
+    newLevelData.languages = oldLevelData?.languages || []
+    newLevelData.talents = oldLevelData?.talents || []
+    newLevelData.spells = oldLevelData?.spells || []
+  }
+
+  _sortLevels = (a, b) => (+a.level > +b.level ? 1 : -1)
+
   /* -------------------------------------------- */
 
   async _onDrag(ev){
-    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+    const itemIndex = ev.currentTarget.closest('[data-item-index]').dataset.itemIndex
     const data = await this.getData({})
     if (ev.type == 'dragend') {
       if (data.system.contents[itemIndex].system.quantity <= 1) {
@@ -365,20 +977,61 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
   }
 
-  _onDragOver(ev) {
-    $(ev.originalEvent.target).addClass('drop-hover')
+  async _addItem(data, level, group) {
+    const levelItem = new PathLevelItem()
+    const itemData = foundry.utils.duplicate(this.document)
+    const item = await getNestedItemData(data)
+    if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
+
+    levelItem.uuid = item.uuid ?? data.uuid
+    levelItem.id = item.id || item._id
+    levelItem._id = item.id || item._id
+    levelItem.name = item.name
+    levelItem.description = item.system.description
+    levelItem.pack = data.pack ? data.pack : ''
+    levelItem.data = item
+    levelItem.img = item.img
+
+    if (this.document.type === 'ancestry' || this.document.type === 'path') {
+      if (level === '-1') {
+        if (group === 'feature') itemData.system.talents.push(levelItem)
+        else itemData.system[group].push(levelItem)
+      } else {
+        itemData.system.levels[level][group].push(levelItem)
+      }
+    } else {
+      // Anything without levels
+      itemData.system[group].push(levelItem)
+    }
+
+    await this.document.update(itemData)
   }
 
-  _onDragLeave(ev) {
-    $(ev.originalEvent.target).removeClass('drop-hover')
+  _onDragOver(event) {
+    $(event.target).addClass('drop-hover')
   }
 
-  _onDrop(ev) {
-    $(ev.originalEvent.target).removeClass('drop-hover')
+  _onDragLeave(event) {
+    $(event.target).removeClass('drop-hover')
+  }
+
+  async _onDrop(event) {
+    $(event.target).removeClass('drop-hover')
+
+    const group = event.target.closest('[data-group]')?.dataset?.group
+    const level = event.target.closest('[data-level]')?.dataset?.level
+    try {
+      $(event.target).removeClass('drop-hover')
+      const data = JSON.parse(event.dataTransfer.getData('text/plain'))
+      if (data.type !== 'Item') return
+      await this._addItem(data, level, group)
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
   async _onDropItem(ev) {
-    if (this.item.system?.contents != undefined){
+    if (this.document.system?.contents != undefined){
       try {
         const itemData = JSON.parse(ev.dataTransfer.getData('text/plain'))
         if (itemData.type === 'Item') {
@@ -388,7 +1041,7 @@ export default class DLBaseItemSheet extends ItemSheet {
           let acceptedItemTypes = []
 
           // Filter drops depending on the item type
-          switch (this.item.type) {
+          switch (this.document.type) {
             case 'item': 
               acceptedItemTypes = ['ammo', 'armor', 'item', 'weapon']
               break
@@ -411,7 +1064,7 @@ export default class DLBaseItemSheet extends ItemSheet {
             if (item.flags?.core?.sourceId != undefined) {
               game.items.getName(item.name) ? itemData.uuid = game.items.getName(item.name).uuid : itemData.uuid = item.flags.core.sourceId
             } else {
-              const newItem = await this.createNestedItem(foundry.utils.duplicate(item), `${actor.name}'s Items (${this.item.name})`)
+              const newItem = await this.createNestedItem(foundry.utils.duplicate(item), `${actor.name}'s Items (${this.document.name})`)
               itemUpdate['flags.core.sourceId'] = newItem.uuid;
               itemData.uuid = newItem.uuid
             }
@@ -419,7 +1072,7 @@ export default class DLBaseItemSheet extends ItemSheet {
           if (itemUpdate?.flags?.core?.sourceId == undefined) itemUpdate['flags.core.sourceId'] = itemData.uuid
 
           //If the item we're adding is the same as the container, bail now
-          if (this.item.sameItem(item)) {
+          if (this.document.sameItem(item)) {
             ui.notifications.warn("Can't put an item inside itself!")
             return
           }
@@ -440,46 +1093,22 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
   }
 
-  async _onNestedItemCreate(ev) {
-    const type = $(ev.currentTarget).closest('[data-type]').data('type')
-
-    // Create a folder for the quick item to be stored in
-    const folderLoc = $(ev.currentTarget).closest('[data-folder-loc]').data('folderLoc')
-    const folderName = i18n("DL." + folderLoc)
-    let folder = game.folders.find(f => f.name === folderName)
-    if (!folder) {
-      folder = await Folder.create({name:folderName, type: DemonlordItem.documentName})
-    }
-
-    const item = {
-      name: `New ${type.capitalize()}`,
-      type: type,
-      folder: folder.id,
-      system: {},
-    }
-
-    const newItem = await this.createNestedItem(item, folderName)
-    newItem.sheet.render(true)
-    this.render()
-    return newItem
-  }
-
   // eslint-disable-next-line no-unused-vars
-  async _onNestedItemEdit(ev) {
-    const data = await this.getData({})
-    if (!data.item.system.contents) {
-      return
-    }
-    const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-    const nestedData = data.system.contents.find(i => i._id === itemId)
-    await getNestedDocument(nestedData).then(d => {
-      if (d.sheet) d.sheet.render(true)
-      else ui.notifications.warn('The item is not present in the game and cannot be edited.')
-    })
-  }
+  // async _onNestedItemEdit(ev) {
+  //   const data = await this.document
+  //   if (!data.system.contents) {
+  //     return
+  //   }
+  //   const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+  //   const nestedData = data.system.contents.find(i => i._id === itemId)
+  //   await getNestedDocument(nestedData).then(d => {
+  //     if (d.sheet) d.sheet.render(true)
+  //     else ui.notifications.warn('The item is not present in the game and cannot be edited.')
+  //   })
+  // }
 
   async _onUpdateContentsItemQuantity(ev) {
-    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+    const itemIndex = ev.currentTarget.closest('[data-item-index]').dataset.itemIndex
 
     if (ev.button == 0) {
       await this.increaseContentsItemQuantity(itemIndex)
@@ -488,11 +1117,10 @@ export default class DLBaseItemSheet extends ItemSheet {
     }
   }
 
-  async _onContentsItemDelete(ev) {
-    const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
-    await this.deleteContentsItem(itemIndex)
-
-  }
+  // async _onContentsItemDelete(ev) {
+  //   const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+  //   await this.deleteContentsItem(itemIndex)
+  // }
 
   async createNestedItem(itemData, folderName) {
     let folder = game.folders.find(f => f.name === folderName)
@@ -508,31 +1136,31 @@ export default class DLBaseItemSheet extends ItemSheet {
 
   async addContentsItem(data) {
     const item = await getNestedItemData(data)
-    const containerData = foundry.utils.duplicate(this.item)
+    const containerData = foundry.utils.duplicate(this.document)
     containerData.system.contents.push(item)
-    await this.item.update(containerData, {diff: false}).then(_ => this.render)
+    await this.document.update(containerData, {diff: false}).then(_ => this.render)
   }
 
   async increaseContentsItemQuantity(itemIndex) {
-    const itemData = foundry.utils.duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.document)
     itemData.system.contents[itemIndex].system.quantity++
-    await this.item.update(itemData, {diff: false}).then(_ => this.render)
+    await this.document.update(itemData, {diff: false}).then(_ => this.render)
   }
 
   async decreaseContentsItemQuantity(itemIndex) {
-    const itemData = foundry.utils.duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.document)
     if (itemData.system.contents[itemIndex].system.quantity > 0) {
       itemData.system.contents[itemIndex].system.quantity--
-      await this.item.update(itemData, {diff: false}).then(_ => this.render)
+      await this.document.update(itemData, {diff: false}).then(_ => this.render)
     } else {
       return
     }
   }
 
   async deleteContentsItem(itemIndex) {
-    const itemData = foundry.utils.duplicate(this.item)
+    const itemData = foundry.utils.duplicate(this.document)
 
     itemData.system.contents.splice(itemIndex, 1)
-    await this.item.update(itemData)
+    await this.document.update(itemData)
   }
 }

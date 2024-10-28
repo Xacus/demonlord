@@ -1,25 +1,29 @@
-<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
-  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="Ancestry Name" isEditable=true isGM=isGM edit=system.editAncestry editId="system.editAncestry"}}
-
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
-    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
-  </nav>
-
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-    <section class="sheet-content">
-      {{!-- Attributes Tab --}}
-      <div class="tab paths" data-group="primary" data-tab="attributes">
-        {{#if system.editAncestry}}
-          {{> "systems/demonlord/templates/item/item-ancestry-edit.hbs"}}
-        {{else}}
-          {{> "systems/demonlord/templates/item/item-ancestry-view.hbs"}}
-        {{/if}}
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="ancestry">
+  <div class="sidebar-content-container">
+    <div class="level-sidebar">
+      <div class="dl-clickable" data-action="selectLevel" data-level-index="-1">
+        {{localize 'DL.PathsLevelsSubTitle'}} 0
       </div>
+      {{#each system.levels as |level index|}}
+        <div class="dl-clickable dl-path-level-select" data-action="selectLevel" data-level-index="{{index}}">
+          {{localize 'DL.PathsLevelsSubTitle'}} {{level.level}}
+        </div>
+      {{/each}}
+      {{#if system.editAncestry}}
+      <a class="item-control add-level" data-action="addLevel" data-tippy-content="{{localize 'DL.PathsAddLevel'}}">
+        <i class="fas fa-plus"></i>
+      </a>
+      {{/if}}
+    </div>
 
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
-    </section>
-  </section>
-</form>
+    <span class="panel-sep"></span>
+
+    <div class="level-content">
+      {{#if system.editAncestry}}
+        {{> "systems/demonlord/templates/item/item-ancestry-edit.hbs"}}
+      {{else}}
+        {{> "systems/demonlord/templates/item/item-ancestry-view.hbs"}}
+      {{/if}}
+    </div>
+  </div>
+</div>

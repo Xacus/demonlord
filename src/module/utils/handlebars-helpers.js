@@ -63,6 +63,9 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('DropdownValue', (groupName, checkedKey, valueName, valueKey) => _buildDropdownWithValue(groupName, checkedKey, valueName, valueKey))
   Handlebars.registerHelper('ConsumableDropdown', (groupName, checkedKey) => _buildConsumableDropdown(groupName, checkedKey))
   Handlebars.registerHelper('AmmoDropdown', (groupName, checkedKey, weapon) => _buildAmmoDropdown(groupName, checkedKey, weapon))
+  Handlebars.registerHelper('PathDropdown', (groupName, checkedKey, weapon) => _buildPathDropdown(groupName, checkedKey, weapon))
+  Handlebars.registerHelper('AttributeSelectDropdown', (groupName, checkedKey) => _buildPathAttributeSelectDropdown(groupName, checkedKey))
+  Handlebars.registerHelper('LevelAttributeTwoSet', (groupName, checkedKey) => _buildLevelAttributeTwoSetDropdown(groupName, checkedKey))
 }
 
 // ----------------------------------------------------
@@ -83,6 +86,8 @@ function _getAttributes(groupName) {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'system.consumabletype') {
     attributes = ['', 'D', 'F', 'P', 'V', 'T']
+  } else if (groupName === 'level.attributeSelect') {
+    attributes = ['', 'choosetwo', 'choosethree', 'fixed', 'twosets']
   }
   return attributes
 }
@@ -252,13 +257,16 @@ export function buildDropdownList(groupName, checkedKey, data) {
   return new Handlebars.SafeString(html)
 }
 
+// New for ApplicationV2
 export function buildDropdownListHover(groupName, checkedKey, data) {
   let labelPrefix = 'DL.Attribute'
   let iconPrefix = 'icon-'
   let useIcon = true
+  let useCapitalize = true
 
-  if (groupName === 'path-type') return _buildPathTypeDropdownList(checkedKey)
-  if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
+  if (groupName === 'system.type') return _buildPathTypeDropdownList(checkedKey)
+  //if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
+  if (groupName === 'level.attributeSelect') {labelPrefix = 'DL.PathsLevelAttributes'; useIcon = false; useCapitalize = false}
   if (groupName.startsWith('level.attributeSelectTwoSet')) return _buildPathAttributeTwoSetDropdownList(groupName, checkedKey)
   if (groupName === 'system.consume.ammoitemid') return _buildAmmoDropdownList(groupName, checkedKey, data)  
   if (groupName === 'system.hands') {labelPrefix = 'DL.WeaponHands'; useIcon = false}
@@ -268,9 +276,9 @@ export function buildDropdownListHover(groupName, checkedKey, data) {
 
   let html = `<div class="dl-new-project-2-dropdown">`
   for (let attribute of attributes) {
-    const value = capitalize(attribute)
+    const value = useCapitalize ? capitalize(attribute) : attribute
     const checked = value === checkedKey ? 'checked' : ''
-    const label = value ? i18n(`${labelPrefix}${value}`) : i18n('DL.None')
+    const label = value ? i18n(`${labelPrefix}${capitalize(attribute)}`) : i18n('DL.None')
     const icon = value ? `${iconPrefix}${attribute}` : 'icon-minus'
     const iconHtml = useIcon ? `<i class="${icon}"></i><span class="sep"></span>` : ''
     html += `<div class="${checked}">
@@ -443,7 +451,7 @@ function _buildAvailabilityDropdownItem(groupName, checkedKey) {
   const attributes = ['', 'C', 'U', 'R', 'E']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n("DL.None") : i18n(`DL.Availability${attribute}`)
+    const label = !attribute ? i18n("DL.None") : i18n(`DL.Availability${attribute}`)
     let html =
       `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
             <i class="dl-icon-availability-${attribute}"></i>
@@ -459,7 +467,7 @@ function _buildConsumableDropdownItem(groupName, checkedKey) {
   const attributes = ['', 'D', 'F', 'P', 'V', 'T']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
+    const label = !attribute ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
     let html = `<div class="dl-new-project-2 dropdown" name="${groupName}" value="${checkedKey}">
             <span style="width: 120px; text-align: center; text-overflow: ellipsis">${label} </span>
        </div>`
@@ -550,7 +558,7 @@ function _buildCheckboxesV2(groupName, checkedKey, data) {
       const label = i18n(`DL.Attribute${capitalize(attribute)}`)
       const _name = `${attribute}boonsbanesselect`
       const checked = data.action[_name] ? 'checked' : ''
-      html += `<div class="item-group-checkbox checkable ${checked}" data-action="toggleAttackBonus" data-attribute="${attribute}" data-tippy-content="${label}">
+      html += `<div class="item-group-checkbox checkable" data-action="toggleAttackBonus" data-attribute="${attribute}" data-tippy-content="${label}">
                 <input type="checkbox" name="system.action.${_name}" ${checked}/>
                 <i class="icon-${attribute} themed-icon"></i>
               </div>`
@@ -561,7 +569,7 @@ function _buildCheckboxesV2(groupName, checkedKey, data) {
       const label = i18n(`DL.Attribute${capitalize(attribute)}`)
       const _name = `${attribute}boonsbanesselect`
       const checked = data.challenge[_name] ? 'checked' : ''
-      html += `<div class="item-group-checkbox checkable ${checked}" data-action="toggleChallengeBonus" data-attribute="${attribute}" data-tippy-content="${label}">
+      html += `<div class="item-group-checkbox checkable" data-action="toggleChallengeBonus" data-attribute="${attribute}" data-tippy-content="${label}">
                 <input type="checkbox" name="system.challenge.${_name}" ${checked}/>
                 <i class="icon-${attribute} themed-icon"></i>
               </div>`
@@ -574,7 +582,7 @@ function _buildAvailabilityDropdown(groupName, checkedKey) {
   const attributes = ['', 'C', 'U', 'R', 'E']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n("DL.None") : i18n(`DL.Availability${attribute}`)
+    const label = !attribute ? i18n("DL.None") : i18n(`DL.Availability${attribute}`)
     const icon = `icon-availability-${attribute}`
     let html =
       `<div class="item-group-availability dropdown-group" name="${groupName}" value="${checkedKey}">
@@ -631,7 +639,7 @@ function _buildConsumableDropdown(groupName, checkedKey) {
   const attributes = ['', 'D', 'F', 'P', 'V', 'T']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
-    const label = attribute === '' ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
+    const label = !attribute ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
     const icon = `icon-consumable-${attribute}`
     let html =
     `<div class="item-group-consumable-type dropdown-group" name="${groupName}" value="${checkedKey}">
@@ -665,4 +673,54 @@ function _buildAmmoDropdown(groupName, checkedKey, weapon) {
                 </div>`
     return new Handlebars.SafeString(html)
   }
+}
+
+function _buildPathDropdown(groupName, checkedKey) {
+  const attributes = ['', 'novice', 'expert', 'master', 'legendary']
+  for (let attribute of attributes) {
+    if (checkedKey != attribute) continue
+    const label = !attribute ? i18n('DL.None') : i18n(`DL.CharPath${capitalize(attribute)}`)
+    let html =
+    `<div class="item-group-path-type dropdown-group" name="${groupName}" value="${checkedKey}">
+      <div class="input-group">
+        <span class="text">${label}</span>
+      </div>
+    </div>`
+
+    return new Handlebars.SafeString(html)
+  }
+}
+
+function _buildPathAttributeSelectDropdown(groupName, checkedKey) {
+  const attributes = ['', 'choosetwo', 'choosethree', 'fixed', 'twosets']
+  for (let attribute of attributes) {
+    if (checkedKey != attribute) continue
+    const label = !attribute ? i18n('DL.None') : i18n(`DL.PathsLevelAttributes${capitalize(attribute)}`)
+    let html =
+    `<div class="item-group-attribute-select dropdown-group" name="${groupName}" value="${checkedKey}">
+      <div class="input-group">
+        <span class="text">${label}</span>
+      </div>
+    </div>`
+
+    return new Handlebars.SafeString(html)
+  }
+}
+
+function _buildLevelAttributeTwoSetDropdown(groupName, checkedKey) {
+  const attributes = ['strength', 'agility', 'intellect', 'will']
+  let html = ''
+  checkedKey = checkedKey || 'strength'
+
+  for (let attribute of attributes) {
+    const checked = attribute === checkedKey ? 'checked' : ''
+    const tooltip = i18n(`DL.Attribute${capitalize(attribute)}`)
+    if (!checked) continue
+    html += 
+    `<div class="item-group-icon-dropdown dropdown-group" name="${groupName}" value="${attribute}">
+      <i class="icon-${attribute} themed-icon" data-tippy-content="${tooltip}"></i>
+    </div>`
+    break
+  }
+  return new Handlebars.SafeString(html)
 }

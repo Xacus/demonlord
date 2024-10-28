@@ -6,10 +6,10 @@
     - action.id (e.g. "system.action")
 --}}
 
-<div>
+<div class="dl-item-section item-properties">
   <b>{{localize "DL.ChallengeRequestRollText"}}</b>
-  <div>
-    {{dlDropdown (concat actionId ".defense") action.defense}}
-    {{dlBOBAButton (concat actionId ".defenseboonsbanes") action.defenseboonsbanes ""}}
+  <div class="dl-item-section-group">
+    {{Dropdown (concat actionId ".defense") action.defense "DL.AttributeDefense"}}
+    {{BOBAButton (concat actionId ".defenseboonsbanes") action.defenseboonsbanes ""}}
   </div>
 </div>

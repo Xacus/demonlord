@@ -54,7 +54,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
       ? defender?.system.characteristics.defense
       : defender?.getAttribute(defenseAttribute)?.value || ''
 
-  const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
+  const plus20 = attackRoll?.total >= 20 && (targetNumber ? attackRoll?.total > targetNumber + 5 : true)
   const didHit = voidRoll ? false : attackRoll?.total >= targetNumber
 
   let diceTotalGM = attackRoll?.total ?? ''
@@ -77,7 +77,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   const templateData = {
     actor: attacker,
-    item: {id: item._id, data: item, name: item.name, uuid: item.uuid},
+    item: item,
     data: {},
     diceData: formatDice(attackRoll),
   }
@@ -223,7 +223,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   }
 
   const targetNumber = talentData?.action?.attack ? actor.getTargetNumber(talent) : ''
-  const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
+  const plus20 = attackRoll?.total >= 20 && (targetNumber ? attackRoll?.total > targetNumber + 5 : true)
 
   let resultText =
     !voidRoll && attackRoll != null && targetNumber !== undefined && attackRoll.total >= parseInt(targetNumber)
@@ -339,7 +339,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   if (uses >= 0 && usesMax > 0) usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesMax
 
   const targetNumber = actor.getTargetNumber(spell)
-  const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
+  const plus20 = attackRoll?.total >= 20 && (targetNumber ? attackRoll?.total > targetNumber + 5 : true)
 
   let resultText =
     !voidRoll && targetNumber && attackRoll?.total >= parseInt(targetNumber)
@@ -418,7 +418,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['isCreature'] = actor.type === 'creature'
   data['isPlus20Roll'] = plus20
   data['effectdice'] = effectdice
-  data['effects'] = '' // FIXME: what to put in here??
+  data['effects'] = actor.system.bonuses.attack.extraEffect
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute, inputBoons, plus20)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
@@ -511,7 +511,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   }*/
 
   const targetNumber = itemData?.action?.attack ? actor.getTargetNumber(item) : ''
-  const plus20 = attackRoll?.total >= 20 && attackRoll?.total > targetNumber + 5
+  const plus20 = attackRoll?.total >= 20 && (targetNumber ? attackRoll?.total > targetNumber + 5 : true)
 
   let resultText =
     !voidRoll && attackRoll != null && targetNumber !== undefined && attackRoll.total >= parseInt(targetNumber)

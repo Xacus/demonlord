@@ -17,6 +17,8 @@
 
   {{> "systems/demonlord/templates/chat/partial/chat-description.hbs" description=data.description isCreature=data.isCreature}}
 
+  {{> "systems/demonlord/templates/chat/partial/chat-extra-effects.hbs" extraEffect=item.system.action.extraEffect extraEffect20=item.system.action.extraEffect20 isPlus20Roll=data.isPlus20Roll}}
+
   {{> "systems/demonlord/templates/chat/partial/chat-challenge.hbs" data=data}}
 
     {{#if data.isCreature}}

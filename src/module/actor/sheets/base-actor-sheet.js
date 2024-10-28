@@ -3,7 +3,7 @@ import {buildOverview} from '../../chat/effect-messages'
 import {capitalize, enrichHTMLUnrolled} from '../../utils/utils'
 import {DemonlordItem} from '../../item/item'
 import {DLAfflictions} from '../../active-effects/afflictions'
-import DLBaseItemSheet from "../../item/sheets/base-item-sheet";
+import { buildDropdownList } from '../../utils/handlebars-helpers'
 import tippy from "tippy.js";
 
 export default class DLBaseActorSheet extends ActorSheet {
@@ -186,7 +186,56 @@ export default class DLBaseActorSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   static onRenderInner(app, html, data) {
-    DLBaseItemSheet.onRenderInner(app, html, data)  // Call onRenderInner of base item sheet, since it's the same
+    const autoresize = (el) => {
+      const jEl = $(el)
+      if (jEl.prop("tagName") === 'INPUT') {
+        const setSize = () => {
+          let size = Math.max(1, (el.value?.length || el.placeholder?.length))
+          let ff = jEl.css('font-family')
+          if (ff.includes('Libertine')) {
+            el.style.width = (size + 4)+ 'ch'
+          } else {
+            el.size = size
+          }
+        }
+        setSize()
+        el.oninput = setSize
+      } else if (jEl.prop("tagName") === 'TEXTAREA') {
+        const getHeight = () => Math.max(0, el?.scrollHeight)
+        jEl.height(0)
+        jEl.height(getHeight() + 'px')
+        el.oninput = () => {
+          jEl.height(0)
+          jEl.height(getHeight() + 'px')
+        }
+      }
+    }
+
+    html.find('[autosize]').each((_, el) => autoresize(el))
+
+    // Icons tooltip
+    tippy('[data-tippy-content]')
+    tippy('[data-tippy-html]', {
+      content(reference) {
+        return $(reference).data('tippyHtml')
+      },
+      allowHTML: true
+    })
+    tippy('.dl-new-project-2.dropdown', {
+      content(reference) {
+        html = buildDropdownList(reference.attributes.name.value, reference.attributes.value.value, data)
+        return html
+      },
+      allowHTML: true,
+      interactive: true,
+      trigger: 'click',
+      placement: 'bottom',
+      arrow: false,
+      offset: [0, 0],
+      theme: 'demonlord-dropdown',
+      animation: 'shift-away',
+    })
+    
     tippy('[data-tab="afflictions"] [data-tippy-affliction]', {
       content(reference) {
         return $(reference).data('tippyAffliction')

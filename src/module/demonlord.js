@@ -18,12 +18,7 @@ import {DLActiveEffectConfig} from './active-effects/sheets/active-effect-config
 import DLCharacterSheet from './actor/sheets/character-sheet'
 import DLCreatureSheet from './actor/sheets/creature-sheet'
 import DLVehicleSheet from './actor/sheets/vehicle-sheet'
-import DLBaseItemSheet from './item/sheets/base-item-sheet'
-import DLAncestrySheet from './item/sheets/ancestry-sheet'
-import DLRoleSheet from './item/sheets/role-sheet.js'
-import DLPathSheet from './item/sheets/path-sheet'
-
-import DLBaseItemSheetV2 from './item/sheets/base-item-sheet-v2.js'
+import DLBaseItemSheet from './item/sheets/base-item-sheet.js'
 
 import CharacterDataModel from './data/actor/CharacterDataModel.js'
 import CreatureDataModel from './data/actor/CreatureDataModel.js'
@@ -131,29 +126,15 @@ Hooks.once('init', async function () {
   Items.unregisterSheet('core', ItemSheet)
   Items.registerSheet('demonlord', DLBaseItemSheet, {
     types: [
-      'item',
-      'feature',
-      'spell',
-      'talent',
-      'weapon',
-      'armor',
-      'ammo',
-      'relic',
-      'specialaction',
-      'endoftheround',
-      'profession',
-      'language',
-    ],
-    makeDefault: true,
-  })
-  Items.registerSheet('demonlord', DLBaseItemSheetV2, {
-    types: [
+      'ancestry',
       'ammo',
       'armor',
+      'creaturerole',
       'endoftheround',
       'feature',
       'item',
       'language',
+      'path',
       'profession',
       'relic',
       'specialaction',
@@ -161,17 +142,6 @@ Hooks.once('init', async function () {
       'talent',
       'weapon'
     ],
-  })
-  Items.registerSheet('demonlord', DLAncestrySheet, {
-    types: ['ancestry'],
-    makeDefault: true,
-  })
-  Items.registerSheet('demonlord', DLPathSheet, {
-    types: ['path'],
-    makeDefault: true,
-  })
-  Items.registerSheet('demonlord', DLRoleSheet, {
-    types: ['creaturerole'],
     makeDefault: true
   })
 
@@ -553,5 +523,4 @@ Hooks.on('DL.Action', async () => {
   if (actionTemplates.length > 0) await canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
 })
 
-Hooks.on('renderDLBaseItemSheet', (app, html, data) => DLBaseItemSheet.onRenderInner(app, html, data))
 Hooks.on('renderDLBaseActorSheet', (app, html, data) => DLBaseActorSheet.onRenderInner(app, html, data))

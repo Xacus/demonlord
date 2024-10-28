@@ -8,9 +8,9 @@ export const multiplyEffect = (key, value, priority) => ({
   priority: priority
 })
 
-export const addEffect = (key, value, priority) => ({
+export const addEffect = (key, value, priority, noPlusify=false) => ({
   key: key,
-  value: plusify(value),
+  value: noPlusify ? value : plusify(value),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
   priority: priority
 })
@@ -27,9 +27,9 @@ export const concatString = (key, value, separator = '') => ({
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
 })
 
-export const overrideEffect = (key, value, priority) => ({
+export const overrideEffect = (key, value, priority, noParse=false) => ({
   key: key,
-  value: parseInt(value),
+  value: noParse ? value : parseInt(value),
   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
   priority: priority
 })
@@ -126,9 +126,9 @@ export class DLActiveEffects {
 
   static generateEffectDataFromAncestry(item, actor = null) {
     const priority = 1
-    const dataL0 = item.system
+    const ancestryData = item.system
 
-    const effectDataL0 = {
+    const effectDataList = [{
       name: `${item.name} (${game.i18n.localize('DL.CharLevel')} 0)`,
       icon: item.img,
       origin: item.uuid,
@@ -145,55 +145,109 @@ export class DLActiveEffects {
         slug: `ancestry-${item.name.toLowerCase()}-L0`,
       },
       changes: [
-        addEffect('system.attributes.strength.value', dataL0.attributes.strength.value - 10, priority),
-        addEffect('system.attributes.agility.value', dataL0.attributes.agility.value - 10, priority),
-        addEffect('system.attributes.intellect.value', dataL0.attributes.intellect.value - 10, priority),
-        addEffect('system.attributes.will.value', dataL0.attributes.will.value - 10, priority),
-        addEffect('system.attributes.perception.value', dataL0.characteristics.perceptionmodifier, priority),
-        addEffect('system.attributes.strength.immune', dataL0.attributes.strength.immune, priority),
-        addEffect('system.attributes.agility.immune', dataL0.attributes.agility.immune, priority),
-        addEffect('system.attributes.intellect.immune', dataL0.attributes.intellect.immune, priority),
-        addEffect('system.attributes.will.immune', dataL0.attributes.will.immune, priority),
+        addEffect('system.attributes.strength.value', ancestryData.attributes.strength.value - 10, priority),
+        addEffect('system.attributes.agility.value', ancestryData.attributes.agility.value - 10, priority),
+        addEffect('system.attributes.intellect.value', ancestryData.attributes.intellect.value - 10, priority),
+        addEffect('system.attributes.will.value', ancestryData.attributes.will.value - 10, priority),
+        addEffect('system.attributes.perception.value', ancestryData.characteristics.perceptionmodifier, priority),
+        addEffect('system.attributes.strength.immune', ancestryData.attributes.strength.immune, priority),
+        addEffect('system.attributes.agility.immune', ancestryData.attributes.agility.immune, priority),
+        addEffect('system.attributes.intellect.immune', ancestryData.attributes.intellect.immune, priority),
+        addEffect('system.attributes.will.immune', ancestryData.attributes.will.immune, priority),
 
-        //addEffect('system.characteristics.insanity.value', dataL0.characteristics.insanity.value, priority),
-        //addEffect('system.characteristics.corruption.value', dataL0.characteristics.corruption.value, priority),
-        addEffect('system.characteristics.insanity.immune', dataL0.characteristics.insanity.immune, priority),
-        addEffect('system.characteristics.corruption.immune', dataL0.characteristics.corruption.immune, priority),
-        addEffect('system.characteristics.defense', dataL0.characteristics.defensemodifier, priority),
-        addEffect('system.characteristics.health.max', dataL0.characteristics.healthmodifier, priority),
-        addEffect('system.characteristics.health.healingrate', dataL0.characteristics.healingratemodifier, priority),
-        addEffect('system.characteristics.power', dataL0.characteristics.power, priority),
-        addEffect('system.characteristics.speed', dataL0.characteristics.speed - 10, priority),
+        //addEffect('system.characteristics.insanity.value', ancestryData.characteristics.insanity.value, priority),
+        //addEffect('system.characteristics.corruption.value', ancestryData.characteristics.corruption.value, priority),
+        addEffect('system.characteristics.insanity.immune', ancestryData.characteristics.insanity.immune, priority),
+        addEffect('system.characteristics.corruption.immune', ancestryData.characteristics.corruption.immune, priority),
+        addEffect('system.characteristics.defense', ancestryData.characteristics.defensemodifier, priority),
+        addEffect('system.characteristics.health.max', ancestryData.characteristics.healthmodifier, priority),
+        addEffect('system.characteristics.health.healingrate', ancestryData.characteristics.healingratemodifier, priority),
+        addEffect('system.characteristics.power', ancestryData.characteristics.power, priority),
+        addEffect('system.characteristics.speed', ancestryData.characteristics.speed - 10, priority),
         {
           key: 'system.characteristics.size',
-          value: dataL0.characteristics.size,
+          value: ancestryData.characteristics.size,
           mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           priority: priority,
         },
         // overrideEffect('system.characteristics.size', dataL0.characteristics.size, priority)
       ].filter(falsyChangeFilter),
-    }
+    }]
 
-    const dataL4 = item.system.level4
-    const effectDataL4 = {
-      name: `${item.name} (${game.i18n.localize('DL.CharLevel')} 4)`,
-      icon: item.img,
-      origin: item.uuid,
-      disabled: actor.system.level < 4,
-      transfer: false,
-      duration: { startTime: 0 },
-      flags: {
-        sourceType: 'ancestry',
-        levelRequired: 4,
-        permanent: true,
-        notDeletable: true,
-        notEditable: true,
-        notToggleable: true,
-        slug: `ancestry-${item.name.toLowerCase()}-L4`,
-      },
-      changes: [addEffect('system.characteristics.health.max', dataL4.healthbonus, priority)].filter(falsyChangeFilter),
-    }
-    return [effectDataL0, effectDataL4]
+    ancestryData.levels.forEach(ancestryLevel => {
+      const levelEffectData = {
+        name: `${item.name} (${game.i18n.localize('DL.CharLevel')} ${ancestryLevel.level})`,
+        icon: item.img,
+        origin: item.uuid,
+        disabled: actor.system.level < ancestryLevel.level,
+        transfer: false,
+        duration: { startTime: 0 },
+        flags: {
+          sourceType: 'ancestry',
+          levelRequired: parseInt(ancestryLevel.level),
+          permanent: true,
+          notDeletable: true,
+          notEditable: true,
+          notToggleable: true,
+          slug: `ancestry-${item.name.toLowerCase()}-L${ancestryLevel.level}`,
+        },
+        changes: [
+          // Characteristics
+          addEffect('system.characteristics.health.max', ancestryLevel.characteristicsHealth, priority),
+          addEffect('system.characteristics.power', ancestryLevel.characteristicsPower, priority),
+          addEffect('system.attributes.perception.value', ancestryLevel.characteristicsPerception, priority),
+          addEffect('system.characteristics.speed', ancestryLevel.characteristicsSpeed, priority),
+          addEffect('system.characteristics.defense', ancestryLevel.characteristicsDefense, priority),
+
+          // FIXME
+          // addEffect('system.characteristics.insanityModifier', pathLevel.characteristicsInsanity, priority),
+          // addEffect('system.characteristics.corruptionModifier', pathLevel.characteristicsCorruption, priority),
+
+          // Selected checkbox (select two, three, fixed)
+          addEffect(
+            'system.attributes.strength.value',
+            ancestryLevel.attributeStrength * (ancestryLevel.attributeStrengthSelected || ancestryLevel.attributeSelectIsFixed),
+            priority
+          ),
+          addEffect(
+            'system.attributes.agility.value',
+            ancestryLevel.attributeAgility * (ancestryLevel.attributeAgilitySelected || ancestryLevel.attributeSelectIsFixed),
+            priority
+          ),
+          addEffect(
+            'system.attributes.intellect.value',
+            ancestryLevel.attributeIntellect * (ancestryLevel.attributeIntellectSelected || ancestryLevel.attributeSelectIsFixed),
+            priority
+          ),
+          addEffect(
+            'system.attributes.will.value',
+            ancestryLevel.attributeWill * (ancestryLevel.attributeWillSelected || ancestryLevel.attributeSelectIsFixed),
+            priority
+          ),
+        ].filter(falsyChangeFilter),
+      }
+
+      // Two set attributes
+      if (ancestryLevel.attributeSelectIsTwoSet) {
+        const attributeOne = ancestryLevel.attributeSelectTwoSetSelectedValue1
+          ? ancestryLevel.attributeSelectTwoSet1
+          : ancestryLevel.attributeSelectTwoSet2
+        const attributeTwo = ancestryLevel.attributeSelectTwoSetSelectedValue2
+          ? ancestryLevel.attributeSelectTwoSet3
+          : ancestryLevel.attributeSelectTwoSet4
+
+        levelEffectData.changes = levelEffectData.changes.concat(
+          [
+            addEffect(`system.attributes.${attributeOne}.value`, ancestryLevel.attributeSelectTwoSetValue1, priority),
+            addEffect(`system.attributes.${attributeTwo}.value`, ancestryLevel.attributeSelectTwoSetValue2, priority),
+          ].filter(falsyChangeFilter),
+        )
+      }
+
+      effectDataList.push(levelEffectData)
+    })
+
+    return effectDataList
   }
 
   /* -------------------------------------------- */
@@ -303,13 +357,13 @@ export class DLActiveEffects {
       },
       changes: [
         addEffect('system.attributes.strength.value', data.attributes.strength, priority),
-        addEffect('system.attributes.strength.immune', data.attributes.strengthImmune, priority),
+        addEffect('system.attributes.strength.immune', data.attributes.strengthImmune, priority, true),
         addEffect('system.attributes.agility.value', data.attributes.agility, priority),
-        addEffect('system.attributes.agility.immune', data.attributes.agilityImmune, priority),
+        addEffect('system.attributes.agility.immune', data.attributes.agilityImmune, priority, true),
         addEffect('system.attributes.intellect.value', data.attributes.intellect, priority),
-        addEffect('system.attributes.intellect.immune', data.attributes.intellectImmune, priority),
+        addEffect('system.attributes.intellect.immune', data.attributes.intellectImmune, priority, true),
         addEffect('system.attributes.will.value', data.attributes.will, priority),
-        addEffect('system.attributes.will.immune', data.attributes.willImmune, priority),
+        addEffect('system.attributes.will.immune', data.attributes.willImmune, priority, true),
         addEffect('system.attributes.perception.value', data.characteristics.perceptionmodifier, priority),
         addEffect('system.characteristics.defense', data.characteristics.defensemodifier, priority),
         addEffect('system.characteristics.health.max', data.characteristics.healthmodifier, priority),
@@ -320,8 +374,8 @@ export class DLActiveEffects {
         addEffect('system.characteristics.insanity', data.characteristics.insanity, priority),
         addEffect('system.difficulty', data.difficulty, priority),
         overrideEffect('system.characteristics.size', data.characteristics.size, priority),
-        overrideEffect('system.frightening', data.frightening ? 1 : 0, priority),
-        overrideEffect('system.horrifying', data.horrifying ? 1 : 0, priority),
+        overrideEffect('system.frightening', data.frightening, priority, true),
+        overrideEffect('system.horrifying', data.horrifying, priority, true),
       ].filter(falsyChangeFilter),
     }
 
@@ -366,7 +420,7 @@ export class DLActiveEffects {
       addEffect('system.bonuses.attack.boons.will', action.extraboonsbanes * action.willboonsbanesselect, priority),
       concatDiceEffect('system.bonuses.attack.damage', action.extradamage),
       concatDiceEffect('system.bonuses.attack.plus20Damage', action.extraplus20damage),
-      concatString('system.bonuses.attack.extraEffect', action.extraeffect, '\n'),
+      concatString('system.bonuses.attack.extraEffect', talentData.extraeffect, '\n'),
     ].filter(falsyChangeFilter)
 
     if (attackChanges.length > 0) effectData.changes = effectData.changes.concat(attackChanges)
