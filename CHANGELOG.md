@@ -1,6 +1,297 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [4.5.0]
+### Added
+- Migrate all item sheets to ApplicationV2
+- Support for powerful ancestries (or any combination of ancestry levels)
+- Support for extra effects on weapons and talents
+
+### Fixed
+- Binary active effects (i.e. Frightening, Horrifying, Immune)
+- Error when rolling damage for a token not present in scene
+- Auto-removal of embedded items when removing parent item from actor
+- Auto-embedding of items when created from parent item
+- Duplicate effects when renaming embedded item
+- Affliction immunity for effects from embedded items
+
+## [4.4.6]
+### Added
+- New special duration: RestComplete
+
+### Fixed
+- Logic of SpecialDuration:EndOfRound
+- Logic of SpecialDuration:NextD20Roll
+
+## [4.4.4]
+### Added
+- Individual and group initiatives
+- Next roll duration
+- Automate concentration
+
+## [4.4.1]
+### Added
+- Forbidden Rules Support (consistent damage, static boons/banes and bell curve rolls)
+- Roman numerals on d3
+- Active effect for affliction immunity
+
+### Fixed
+- Restore requirements to swift weapons
+
+## [4.3.1-4.3.2]
+### Added
+- Colouring of Dice So Nice! boon/bane dice
+- Settings for dice colour selection
+
+## [4.3.0]
+### Added
+- Optional new item sheets (excluding ancestries, paths and creature roles)
+
+## [4.2.3]
+### Added
+- Colour to used die (green for boons, red for banes)
+
+## [4.2.2]
+### Added
+- Hide active effects from talent when marked "Apply Effect to Actor"
+
+## [4.2.0]
+### Added
+- System-specific vision modes
+
+## [4.1.2]
+### Fixed
+- Path stuck on novice
+
+## [4.1.1]
+### Added
+- Ability to limit extra damage to weapons, spells talents or all
+- Move StatEditor and RestDialog to ApplicationV2 (new UI)
+
+## [4.0.0]
+### Added
+- Support for v12
+
+## [3.10.1]
+### Added
+- Delete matching active effect when reapplying from chat message
+
+## [3.9.9]
+### Added
+- Improve rest dialog and chat message
+
+## [3.9.7-3.9.8]
+### Added
+- Simplify afflictions
+- Banes on attack rolls against horrifying creatures
+
+### Fixed
+- Afflictions not being removed correctly from creatures
+- Frightening and Horrifying checkboxes modifying the wrong creature
+
+## [3.9.1-3.9.6]
+### Added
+- Manhattan distance for movement calculation
+- Replace Demon Lord icon and logo
+- Theme UI
+- Indicator for nested items' source
+
+## [3.9.0]
+### Added
+- Setting to use ancestry and path icons as is
+- Hide target number for rolls with an NPC as its target
+
+### Fixed
+- Broken vehicle stats
+
+## [3.8.7-3.8.9]
+### Added
+- Ability to assign ammo to weapons
+- Diagonal movement calculation options
+
+### Fixed
+- Display glitch on creature role tabs
+
+## [3.8.6]
+### Added
+- Prevent challenge roll if actor's attribute set to immune
+- Prevent changing insanity and corruption and hide values if set to immune
+
+## [3.8.3]
+### Added
+- Improve roll reporting on `actor.use*` functions
+
+
+## [3.8.1]
+### Added
+- Display number of content items on inventory items
+
+## [3.8.0]
+### Added
+- Attributes in rolls (e.g. `1d6 + @level`)
+- Default image to system languages
+
+## [3.7.6]
+### Added
+- Support Babele translations for system compendia
+
+## [3.7.4]
+### Added
+- French translation
+- Improvements to I18N system
+
+## [3.7.2]
+### Added
+- Fractions and decimals in actor size
+- Right click toggle for auto-calculation of max spell castings
+- Setting for confirmation of ancestry and path removal
+
+### Fixed
+- Correct default max insanity
+- Restore healing options
+
+## [3.7.1]
+### Fixed
+- Combat turn selection
+- Restore creature sizes
+- Incorrect upper limit on some characteristics
+
+## [3.7.0]
+### Added
+- Allow players to edit ancestries and paths of owned characters
+- Make items in the end of round dialog clickable
+- Rollable attributes and characteristics to ancestry
+- Differentiate between PCs and NPCs for initiative purposes
+
+## [3.6.0]
+### Added
+- Normalise appearance of attach messages and damage buttons across item types
+- Allow 20+ damage from multiple sources
+- Support active effects that affect size
+- Hide modifier label for immune attributes
+- Support grandchild active effects
+- Include special action, special attack and end of round talents to creature reference tab even if the creature has no attack options
+
+### Fixed
+- Square measured templates
+
+## [3.5.1]
+### Added
+- Relics
+- Background image for system
+- Armor, insanity and corruption to creature reference tab
+
+### Fixed
+- Defense calculation
+
+## [3.4.1]
+### Added
+- Recolour damage bar (green to red as it fills up)
+- Make roll evaluation async
+- Show roll modifiers individually
+
+### Fixed
+- Input boons not showing in chat message
+- Enrich End of the Round dialog descriptions
+- Restore extra damage from active effects on spells and items
+
+## [3.4.0]
+### Added
+- Support for containers
+
+## [3.3.1]
+### Added
+- Defense boons for all
+- Improve support for defense calculation of creatures
+
+### Fixed
+- Delete effects on expiration
+
+## [3.3.0]
+### Added
+- Active effects for afflictions
+- Active effects for boon/bane on all attacks/challenges
+
+### Fixed
+- Remove duplicate "Attack Roll Bonus" from chat message
+- Inline rolls clipping in creature reference tab
+- Restore Roll Special Action functionality
+- Enriched description for creature's Combat tab
+
+## [3.2.0]
+### Added
+- Measured templates to talents and weapons
+- Challenge rolls to weapons
+- Attack, damage, challenge rolls and measured templates to end of round items
+
+## [3.1.4]
+### Fixed
+- Restore Dead icon when default Foundry effects are removed
+
+## [3.1.3]
+### Fixed
+- Combat skipping first combatant
+
+## [3.1.2]
+### Fixed
+- Improve item load performance (parallelised nested-item-search)
+- Restore DragRuler funcionality
+- Localised descriptions to affliction active effects
+
+## [3.1.0]
+### Added
+- Null attributes and some null characteristics
+- Allow disabling auto-calculation of spells (per-actor setting)
+- Creature roles
+- Legendary paths
+
+### Fixed
+- Restore compatibility with Firefox
+- Template not being placed with auto-target option active
+
+
+## [3.0.4]
+### Fixed
+- Level-up issue where talents were being removed
+- Remove lingeging shadow after placing a measured template
+- Bane from Cumbersome to Greatsword
+
+## [3.0.2]
+### Fixed
+- Stuck delete on damage types
+- Fall back to different damage values if main damage not present in talent
+- 20+ damage box to talent and weapon
+
+## [3.0.0]
+### Added
+- Injured affliction and UI indicator
+- Automatic calculation of injured affliction
+- Rest button
+- Invisible tooltip
+
+### Fixed
+- French turn types
+
+## [2.2.9]
+### Added
+- Text field for vehicle size
+
+### Fixed
+- Healing rate calculation
+- Missing attribute bonuse in creature reference sheet
+- Talent damage not rolling
+
+## [2.2.8]
+### Added
+- Support for vehicles
+- active effects tab to items, languages and professions
+- Automatically update injured condition when taking/healing damage
+
+### Fixed
+- Item description in Firefox
+- Active effects for healingrate
+
 ## [2.2.3]
 ### Fixed
 - Boons incorrectly being always rerolled
