@@ -516,7 +516,6 @@ span.text-vs {
   .input-group-dropdown {
     height: 100%;
     width: 100%;
-    background-color: transparent;
     border: none;
     text-align: center;
   }
@@ -621,12 +620,13 @@ span.text-vs {
   @include input-group-container();
   display: flex;
   width: 60%;
+  height: 26px;
   font-weight: bold;
   font-family: 'Linux Libertine Capitals', 'IM Fell English SC', serif;
   font-size: 14px;
 
   .spell-type {
-    height: auto; // FIXME: Unable to centre dropdown text, workaround shows larger outline on focus
+    height: auto;
   }
 
   .input-group-textbox.spell-rank {

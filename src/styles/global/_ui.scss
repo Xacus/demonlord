@@ -41,6 +41,12 @@ body.theme-light {
   // Inverted
   --demonlord-color-text-inverted-primary: var(--color-light-2);
   --demonlord-color-input-inverted: var(--color-light-3);
+
+  // Override select background
+  // TODO: Find a more elegant way?
+  select.input-group-dropdown {
+    background: transparent;
+  }
 }
 
 .window-app .window-header {
