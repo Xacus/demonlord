@@ -4,13 +4,15 @@
       <li class="creature-entry combatant actor" data-actor-id="{{creature.actor._id}}">
         <div class="header">
           <img class="token-image" src="{{creature.actor.img}}" title="{{creature.token.name}}"/>
-          <h3 style="font-weight:bold; border: none">{{creature.token.name}}</h3>
+          <div>
+          <h4 style="font-weight:bold; border: none">{{creature.token.name}}</h4>
           <div class="headerbody">
             {{localize 'DL.CreatureSize'}} {{creature.actor.system.characteristics.size}}
             {{creature.actor.system.descriptor}}
           </div>
+          </div>
         </div>
-        <div class="toggleEffectInfo" data-action="toggleSpellInfo"><i class="fas fa-angle-right"></i> {{localize "DL.DialogShowEffects"}}</div>
+        <div class="toggleEffectInfo" data-action="toggleEffectInfo"><i class="fas fa-angle-right"></i> {{localize "DL.DialogShowEffects"}}</div>
         <div class="effectInfo" style="display: none">
           <ol class="effects">
             {{#each creature.endOfRoundEffects as |endOfRoundEffect id|}}
