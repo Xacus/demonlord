@@ -503,7 +503,8 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
     if (levelIndex) {
       if (levelIndex === '-1' && data.type === 'ancestry') {
-        nestedData = data.system[itemGroup].find(i => i._id === itemId)
+        if (itemGroup === 'feature') nestedData = data.system.talents.find(i => i._id === itemId)
+        else nestedData = data.system[itemGroup].find(i => i._id === itemId)
       } else {
         // Path or ancestry item (except for ancestry's level 0)
         nestedData = data.system.levels[levelIndex][itemGroup].find(i => i._id === itemId)
@@ -530,8 +531,9 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       const itemData = foundry.utils.duplicate(this.document)
 
       if (levelIndex === '-1' && this.document.type === 'ancestry') {
-        // It's an ancestry deleting from level 0
-        itemData.system[itemGroup].splice(itemIndex, 1)
+        // It's an ancestry deleting from level 0        
+        if (itemGroup === 'feature') itemData.system.talents.splice(itemIndex, 1)
+        else itemData.system[itemGroup].splice(itemIndex, 1)
       } else {
         if (['talents', 'talentspick', 'spells'].includes(itemGroup)) itemData.system.levels[levelIndex][itemGroup].splice(itemIndex, 1)
         else if (itemGroup === 'primary') itemData.system.levels.splice(levelIndex, 1) // Deleting a level
@@ -1019,12 +1021,12 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     $(event.target).removeClass('drop-hover')
 
     const group = event.target.closest('[data-group]')?.dataset?.group
-    const level = event.target.closest('[data-level]')?.dataset?.level
+    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
     try {
       $(event.target).removeClass('drop-hover')
       const data = JSON.parse(event.dataTransfer.getData('text/plain'))
       if (data.type !== 'Item') return
-      await this._addItem(data, level, group)
+      await this._addItem(data, levelIndex, group)
     } catch (err) {
       console.warn(err)
     }

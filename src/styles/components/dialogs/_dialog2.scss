@@ -1,3 +1,5 @@
+@import 'global/ui';
+
 .window-content {
   // background: url(../assets/ui/paper.webp);
 
@@ -30,6 +32,8 @@
           h4 {
             font-family: 'IM Fell English SC', serif;
             font-size: 14px;
+            color: var(--demonlord-color-text-primary);
+            text-shadow: none;
           }
 
           .headerbody {
@@ -40,6 +44,7 @@
         .toggleEffectInfo {
           height: 13px;
           width: 200px;
+          margin-left: 60px;
         }
 
         .effectInfo {

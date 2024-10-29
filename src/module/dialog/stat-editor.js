@@ -50,7 +50,6 @@ export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
    * @returns {Promise<void>}
    */
   static async onSubmit(event, form, formData) {
-    console.log(this.ancestry)
     await this.ancestry.update({
       system: {
         [this.statType]: {
@@ -85,12 +84,4 @@ export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
     this.statType = object.statType
     this.statName = object.statName
   }
-
-  // /**
-  //  * Construct and return the data object used to render the HTML template for this form application.
-  //  * @return {Object}
-  //  */
-  // getData() {
-  //   return this.ancestry.system[this.statType][this.statName]
-  // }
 }
