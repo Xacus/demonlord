@@ -32,8 +32,8 @@ DL.spellUses = {
 }
 
 DL.spellTypes = {
-  attack: 'DL.SpellTypeAttack',
-  utility: 'DL.SpellTypeUtility'
+  Attack: 'DL.SpellTypeAttack',
+  Utility: 'DL.SpellTypeUtility'
 }
 
 DL.actionActivationTypes = {

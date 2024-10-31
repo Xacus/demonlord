@@ -17,8 +17,8 @@ export function injectDraggable(html, combattracker) {
     if (!id) return
     const combatant = currentCombat?.combatants.get(id)
     if (!combatant) throw "Combatant not found in draggable injection"
-    el.setAttribute('data-combatant-type', combatant.actor.type)
-    el.setAttribute('data-combatant-fast', combatant.actor.system.fastturn)
+    el.setAttribute('data-combatant-type', combatant.actor?.type)
+    el.setAttribute('data-combatant-fast', combatant.actor?.system?.fastturn)
   })
 
   // If GM, everything is draggable, for players only controlled combatants

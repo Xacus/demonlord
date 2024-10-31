@@ -83,7 +83,7 @@ export class DLCombatTracker extends CombatTracker {
         // ^ does not work, probably the event gets intercepted
       }
 
-      const endofrounds = combatant.actor.getEmbeddedCollection('Item').filter(e => e.type === 'endoftheround')
+      const endofrounds = combatant.actor?.getEmbeddedCollection('Item')?.filter(e => e.type === 'endoftheround') ?? []
       if (endofrounds.length > 0) hasEndOfRoundEffects = true
     })
 
