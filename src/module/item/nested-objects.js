@@ -55,6 +55,7 @@ export class PathLevel {
     this.languagesText = obj.languagesText || ''
     this.equipmentText = obj.equipmentText || ''
     this.magicText = obj.magicText || ''
+    this.optionsText = obj.optionsText || ''
 
     this.talentsSelect = obj.talentsSelect || ''
     this.talentsChooseOne = obj.talentsChooseOne || false

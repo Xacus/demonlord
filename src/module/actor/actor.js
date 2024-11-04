@@ -297,11 +297,14 @@ export class DemonlordActor extends Actor {
       return
     }
 
+    // Don't need to update anything if the only change is the edit item state
+    const isNameChange = documents.length === 1 && data[0].name !== undefined
+
     if ((collection === 'items' || collection === 'effects') && userId === game.userId && !options.noEmbedEffects)
-      await this._handleOnUpdateDescendant(documents).then(_ => this.sheet.render())
+      await this._handleOnUpdateDescendant(documents, isNameChange).then(_ => this.sheet.render())
   }
 
-  async _handleOnUpdateDescendant(documents) {
+  async _handleOnUpdateDescendant(documents, isNameChange) {
     console.log('DEMONLORD | Calling _handleOnUpdateDescendant', documents)
     
     // Delete all effects created by this item and re-add them
@@ -312,7 +315,9 @@ export class DemonlordActor extends Actor {
       await DLActiveEffects.embedActiveEffects(this, doc, 'update')
     }
     
-    await this.deleteEmbeddedDocuments('ActiveEffect', effectsToDelete)
+    if (isNameChange) {
+      await this.deleteEmbeddedDocuments('ActiveEffect', effectsToDelete)
+    }
 
     // No need to update if nothing was changed
     if (documents.length > 0) {
