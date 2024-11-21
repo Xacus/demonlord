@@ -603,6 +603,8 @@
   "DL.SettingConfirmAncestryPathRemovalHint": "Show a confirmation dialog when attempting to remove an ancestry or path from a character of level 1 or higher.",
   "DL.SettingGMEffectsControls": "GM Effects Controls",
   "DL.SettingGMEffectsControlsHint": "Always show the active effects controls in the character sheets (toggle, edit and delete) to the Game Master, regardless of the effect type.",
+  "DL.SettingHideActorInfo": "Hide actor info from chat messages",
+  "DL.SettingHideActorInfoHint": "Actor info (ancestry, path, size, frightening/horrifying traits) will be displayed to owner and GM only.",
   "DL.SettingHorrifyingBane": "Bane against horrifying creatures",
   "DL.SettingHorrifyingBaneHint": "Apply a bane on all attack rolls targeting a horrifying creature, unless the attacker has the frightening or horrifying trait.",
   "DL.SettingInitMessage": "Initiative Messages",
