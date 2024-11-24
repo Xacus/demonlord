@@ -389,6 +389,8 @@ Hooks.on('renderChatMessage', async (app, html, _msg) => {
   if (!game.user.isGM) {
     html.find('.gmonly').remove()
     html.find('.gmonlyzero').remove()
+    let messageActor = app.speaker.actor
+    if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideActorInfo')) html.find('.showlessinfo').remove()
   } else html.find('.gmremove').remove()
 })
 

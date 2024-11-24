@@ -31,10 +31,10 @@ export function buildActorInfo(actor) {
     const ancestry = actor.items.find(i => i.type === 'ancestry')?.name || ''
     const pathsData = actor.items.filter(i => i.type === 'path').map(p => p.system)
     const path =
-      pathsData.find(p => p.type === 'novice')?.name ||
-      pathsData.find(p => p.type === 'expert')?.name ||
-      pathsData.find(p => p.type === 'master')?.name ||
-      pathsData.find(p => p.type === 'legendary')?.name ||
+      pathsData.find(p => p.type === 'novice')?.parent.name ||
+      pathsData.find(p => p.type === 'expert')?.parent.name ||
+      pathsData.find(p => p.type === 'master')?.parent.name ||
+      pathsData.find(p => p.type === 'legendary')?.parent.name ||
       ''
     info = ancestry + (path ? ', ' + path : '')
   } else {
