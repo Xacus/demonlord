@@ -140,6 +140,7 @@ export function levelItem(makeDataSchema) {
     name: makeStringField(),
     pack: makeStringField(),
     selected: makeBoolField(),
-    uuid: makeStringField()
+    uuid: makeStringField(),
+    img: makeStringField()
   })
 }

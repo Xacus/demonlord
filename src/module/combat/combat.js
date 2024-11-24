@@ -83,7 +83,7 @@ async rollInitiativeInduvidual(ids, {formula = null, updateTurn = true, messageO
 
   // Update multiple combatants
   await this.updateEmbeddedDocuments("Combatant", combatantUpdates)
-  await this.update({turn: 0});
+  await this.update({ turn: 0 });
   return this;
 }
 
@@ -228,7 +228,7 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
 
     // Ensure the turn order remains with the same combatant
     if (updateTurn && currentId) {
-      await this.update({turn: this.turns.findIndex(t => t.id === currentId)});
+      await this.update({ turn: this.turns.findIndex(t => t.id === currentId) });
     }
 
     // Create multiple chat messages

@@ -1,9 +1,6 @@
 <div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="ancestry">
   <div class="sidebar-content-container">
     <div class="level-sidebar">
-      <div class="dl-clickable" data-action="selectLevel" data-level-index="-1">
-        {{localize 'DL.PathsLevelsSubTitle'}} 0
-      </div>
       {{#each system.levels as |level index|}}
         <div class="dl-clickable dl-path-level-select" data-action="selectLevel" data-level-index="{{index}}">
           {{localize 'DL.PathsLevelsSubTitle'}} {{level.level}}

@@ -1,3 +1,4 @@
+import deepmerge from 'deepmerge'
 const { HandlebarsApplicationMixin } = foundry.applications.api
 const { ItemSheetV2 } = foundry.applications.sheets
 
@@ -174,7 +175,6 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
   /* -------------------------------------------- */
   /*  Data                                        */
-
   /* -------------------------------------------- */
 
   /** @override */
@@ -193,16 +193,12 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
     // Retrieve data for nested items
     if (['ancestry', 'path'].includes(this.document.type)) {
-      for await (let i of context.item.system.levels.keys()) {
+      for await (const i of context.item.system.levels.keys()) {
         context.item.system.levels[i].talents = await Promise.all(context.item.system.levels[i].talents.map(await getNestedItemData))
         context.item.system.levels[i].talentspick = await Promise.all(context.item.system.levels[i].talentspick.map(await getNestedItemData))
         context.item.system.levels[i].spells = await Promise.all(context.item.system.levels[i].spells.map(await getNestedItemData))
+        context.item.system.levels[i].languages = await Promise.all(context.item.system.levels[i].languages.map(await getNestedItemData))
       }
-    }
-    
-    if (this.document.type === 'ancestry') {
-      context.item.system.talents = await Promise.all(context.item.system.talents.map(await getNestedItemData))
-      context.item.system.languagelist = await Promise.all(context.item.system.languagelist.map(await getNestedItemData))
     }
 
     if (this.document.type === 'creaturerole') {
@@ -263,12 +259,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
         context.active = context.tab.active
         break
       case 'ancestry':
-        context.tab = context.tabs[partId]
-        context.cssClass = context.tab.cssClass
-        context.active = context.tab.active
-        context.system.selectedLevelIndex = this._selectedLevelIndex ?? -1
-        break
-      case 'path':
+        case 'path':
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
         context.active = context.tab.active
@@ -370,9 +361,6 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       formData = formData.object
       const completeFormData = this._getPathDataFromForm()
 
-      // Remove first level 0, as it's not relevant for this
-      completeFormData.splice(0, 1)
-
       system.editAncestry = formData['system.editAncestry'] ?? item.system.editAncestry
       system.description = formData['system.description'] || item.system.description
       system.type = formData['system.type']
@@ -381,10 +369,6 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
       if (completeFormData.length > 0) {
         if (item.system.editAncestry) {
-          system.attributes = updateData.system.attributes
-          system.characteristics = updateData.system.characteristics
-          system.equipment = updateData.system.equipment
-          system.languages = updateData.system.languages
           system.levels = this._getEditLevelsUpdateData(completeFormData)
           system.levels.sort(this._sortLevels)
   
@@ -502,13 +486,9 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     let nestedData
 
     if (levelIndex) {
-      if (levelIndex === '-1' && data.type === 'ancestry') {
-        if (itemGroup === 'feature') nestedData = data.system.talents.find(i => i._id === itemId)
-        else nestedData = data.system[itemGroup].find(i => i._id === itemId)
-      } else {
-        // Path or ancestry item (except for ancestry's level 0)
-        nestedData = data.system.levels[levelIndex][itemGroup].find(i => i._id === itemId)
-      }
+      // Path or ancestry item
+      if (itemGroup === 'feature') nestedData = data.system.levels[levelIndex].talents.find(i => i._id === itemId)
+      else nestedData = data.system.levels[levelIndex][itemGroup].find(i => i._id === itemId)
     } else {
       // Anything without levels
       nestedData = data.system[itemGroup].find(i => i._id === itemId)
@@ -522,23 +502,19 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   }
 
   static async onDeleteItem(event) {
-    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
     const itemGroup = event.target.closest('[data-group]')?.dataset?.group
+    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
     const itemIndex = event.target.closest('[data-item-index]')?.dataset?.itemIndex
 
     if (this.document.type === 'ancestry' || this.document.type === 'path') {
       // Part of path or ancestry
-      const itemData = foundry.utils.duplicate(this.document)
+      const data = foundry.utils.duplicate(this.document)
 
-      if (levelIndex === '-1' && this.document.type === 'ancestry') {
-        // It's an ancestry deleting from level 0        
-        if (itemGroup === 'feature') itemData.system.talents.splice(itemIndex, 1)
-        else itemData.system[itemGroup].splice(itemIndex, 1)
-      } else {
-        if (['talents', 'talentspick', 'spells'].includes(itemGroup)) itemData.system.levels[levelIndex][itemGroup].splice(itemIndex, 1)
-        else if (itemGroup === 'primary') itemData.system.levels.splice(levelIndex, 1) // Deleting a level
-      }
-      await this.document.update(itemData)
+      if (itemGroup === 'feature') data.system.levels[levelIndex].talents.splice(itemIndex, 1)
+      else if (itemGroup === 'primary') data.system.levels.splice(levelIndex, 1) // Deleting a level
+      else data.system.levels[levelIndex][itemGroup].splice(itemIndex, 1)
+
+      await this.document.update(data)
     } else {
       // Anything without levels
       const itemData = foundry.utils.duplicate(this.document)
@@ -799,7 +775,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const div = event.currentTarget
     const statType = div.dataset.statType
     const statName = div.dataset.statName
-    new DLStatEditor({ ancestry: this.document, statType: statType, statName: statName }, {
+    new DLStatEditor({ item: this.document, statType: statType, statName: statName }, {
       top: 50,
       right: 700,
     }).render(true)
@@ -886,23 +862,33 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       }
 
       // Convert new level to map
-      const newLevel = new Map(Object.entries(formLevels[index++]))
+      const newLevel = formLevels[index++]
+      const newLevelMap = new Map(Object.entries(newLevel))
+
 
       // Get number of choices
       let newChoices = 0
-      newLevel.forEach((v, k) => {
-        if (k.includes('attribute') && v === true) newChoices++
-      })
+      if (newLevel.attributes) {
+        for (const a of Object.keys(newLevel.attributes)) {
+          if (newLevel.attributes[a].selected) newChoices++
+        }
+        
+        if (newChoices > 2 && currentLevel.attributeSelectIsChooseTwo || newChoices > 3 && currentLevel.attributeSelectIsChooseThree) {
+          return warn()
+        }
+      }
 
       if (currentLevel.attributeSelectIsTwoSet) {
-        currentLevel.attributeSelectTwoSetSelectedValue1 = newLevel.get('attributeSelectTwoSetSelectedValue1')
-        currentLevel.attributeSelectTwoSetSelectedValue2 = newLevel.get('attributeSelectTwoSetSelectedValue2')
-      } else if (currentLevel.attributeSelectIsChooseTwo) {
-        if (newChoices > 2) return warn()
-        newLevel.forEach((v, k) => (currentLevel[k] = v))
-      } else if (currentLevel.attributeSelectIsChooseThree) {
-        if (newChoices > 3) return warn()
-        newLevel.forEach((v, k) => (currentLevel[k] = v))
+        currentLevel.attributeSelectTwoSetSelectedValue1 = newLevelMap.get('attributeSelectTwoSetSelectedValue1')
+        currentLevel.attributeSelectTwoSetSelectedValue2 = newLevelMap.get('attributeSelectTwoSetSelectedValue2')
+      } else if (currentLevel.attributeSelectIsChooseTwo || currentLevel.attributeSelectIsChooseThree) {
+        newLevelMap.forEach((v, k) => {
+          if (v instanceof Object) {
+            if (newLevel[k]) currentLevel[k] = deepmerge(currentLevel[k], newLevel[k])
+          } else {
+            currentLevel[k] = v
+          }
+        })
       }
     })
 
@@ -927,7 +913,8 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     // Match the new levels with the old ones and keep the nested items
     const oldLevels = this.document.toObject().system.levels
     const notFound = [] // stores path levels that do not have been found in the current levels
-    newLevels.forEach(newLevel => {
+
+    for (const newLevel of newLevels) {
       const foundIndex = oldLevels.findIndex(l => +l.level === +newLevel.level)
       if (foundIndex >= 0) {
         // if index is found, remove the relative level from the list of old levels and keep the nested items
@@ -935,13 +922,14 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
         this._keepNestedItems(newLevel, foundLevel)
         // Keep also the chosen user attributes
         if (newLevel.attributeSelectIsChooseTwo === foundLevel.attributeSelectIsChooseTwo || newLevel.attributeSelectIsChooseThree === foundLevel.attributeSelectIsChooseThree) {
-          newLevel.attributeStrengthSelected = foundLevel.attributeStrengthSelected
-          newLevel.attributeAgilitySelected = foundLevel.attributeAgilitySelected
-          newLevel.attributeIntellectSelected = foundLevel.attributeIntellectSelected
-          newLevel.attributeWillSelected = foundLevel.attributeWillSelected
+          newLevel.attributes.strength.selected = foundLevel.attributes.strength.selected
+          newLevel.attributes.agility.selected = foundLevel.attributes.agility.selected
+          newLevel.attributes.intellect.selected = foundLevel.attributes.intellect.selected
+          newLevel.attributes.will.selected = foundLevel.attributes.will.selected
         }
       } else notFound.push(newLevel)
-    })
+    }
+
     // Assert that there is only one level not matching.
     // Not matching levels happen when a path level level changes so there should only be one
     if ((oldLevels.length > 1 && notFound.length > 1) || oldLevels.length !== notFound.length) {
@@ -987,7 +975,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
     levelItem.uuid = item.uuid ?? data.uuid
     levelItem.id = item.id || item._id
-    levelItem._id = item.id || item._id
+    levelItem._id = item._id || item.id
     levelItem.name = item.name
     levelItem.description = item.system.description
     levelItem.pack = data.pack ? data.pack : ''
@@ -995,9 +983,9 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     levelItem.img = item.img
 
     if (this.document.type === 'ancestry' || this.document.type === 'path') {
-      if (level === '-1') {
-        if (group === 'feature') itemData.system.talents.push(levelItem)
-        else itemData.system[group].push(levelItem)
+      if (level === '0') {
+        if (group === 'feature') itemData.system.levels[level].talents.push(levelItem)
+        else itemData.system.levels[level][group].push(levelItem)
       } else {
         itemData.system.levels[level][group].push(levelItem)
       }

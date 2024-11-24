@@ -128,51 +128,7 @@ export class DLActiveEffects {
     const priority = 1
     const ancestryData = item.system
 
-    const effectDataList = [{
-      name: `${item.name} (${game.i18n.localize('DL.CharLevel')} 0)`,
-      icon: item.img,
-      origin: item.uuid,
-      disabled: false,
-      transfer: false,
-      duration: { startTime: 0 },
-      flags: {
-        sourceType: 'ancestry',
-        levelRequired: 0,
-        notDeletable: true,
-        notEditable: true,
-        notToggleable: true,
-        permanent: true,
-        slug: `ancestry-${item.name.toLowerCase()}-L0`,
-      },
-      changes: [
-        addEffect('system.attributes.strength.value', ancestryData.attributes.strength.value - 10, priority),
-        addEffect('system.attributes.agility.value', ancestryData.attributes.agility.value - 10, priority),
-        addEffect('system.attributes.intellect.value', ancestryData.attributes.intellect.value - 10, priority),
-        addEffect('system.attributes.will.value', ancestryData.attributes.will.value - 10, priority),
-        addEffect('system.attributes.perception.value', ancestryData.characteristics.perceptionmodifier, priority),
-        addEffect('system.attributes.strength.immune', ancestryData.attributes.strength.immune, priority),
-        addEffect('system.attributes.agility.immune', ancestryData.attributes.agility.immune, priority),
-        addEffect('system.attributes.intellect.immune', ancestryData.attributes.intellect.immune, priority),
-        addEffect('system.attributes.will.immune', ancestryData.attributes.will.immune, priority),
-
-        //addEffect('system.characteristics.insanity.value', ancestryData.characteristics.insanity.value, priority),
-        //addEffect('system.characteristics.corruption.value', ancestryData.characteristics.corruption.value, priority),
-        addEffect('system.characteristics.insanity.immune', ancestryData.characteristics.insanity.immune, priority),
-        addEffect('system.characteristics.corruption.immune', ancestryData.characteristics.corruption.immune, priority),
-        addEffect('system.characteristics.defense', ancestryData.characteristics.defensemodifier, priority),
-        addEffect('system.characteristics.health.max', ancestryData.characteristics.healthmodifier, priority),
-        addEffect('system.characteristics.health.healingrate', ancestryData.characteristics.healingratemodifier, priority),
-        addEffect('system.characteristics.power', ancestryData.characteristics.power, priority),
-        addEffect('system.characteristics.speed', ancestryData.characteristics.speed - 10, priority),
-        {
-          key: 'system.characteristics.size',
-          value: ancestryData.characteristics.size,
-          mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-          priority: priority,
-        },
-        // overrideEffect('system.characteristics.size', dataL0.characteristics.size, priority)
-      ].filter(falsyChangeFilter),
-    }]
+    const effectDataList = []
 
     ancestryData.levels.forEach(ancestryLevel => {
       const levelEffectData = {
@@ -193,38 +149,42 @@ export class DLActiveEffects {
         },
         changes: [
           // Characteristics
-          addEffect('system.characteristics.health.max', ancestryLevel.characteristicsHealth, priority),
-          addEffect('system.characteristics.power', ancestryLevel.characteristicsPower, priority),
-          addEffect('system.attributes.perception.value', ancestryLevel.characteristicsPerception, priority),
-          addEffect('system.characteristics.speed', ancestryLevel.characteristicsSpeed, priority),
-          addEffect('system.characteristics.defense', ancestryLevel.characteristicsDefense, priority),
+          addEffect('system.characteristics.health.max', ancestryLevel.characteristics.health, priority),
+          addEffect('system.characteristics.health.healingrate', ancestryLevel.characteristics.healingRate, priority),
+          overrideEffect('system.characteristics.size', ancestryLevel.characteristics.size, priority, true),
+          addEffect('system.characteristics.power', ancestryLevel.characteristics.power, priority),
+          addEffect('system.attributes.perception.value', ancestryLevel.characteristics.perception, priority),
+          addEffect('system.characteristics.speed', ancestryLevel.characteristics.speed, priority),
+          addEffect('system.characteristics.defense', ancestryLevel.characteristics.defense, priority),
+          addEffect('system.characteristics.insanity.immune', ancestryLevel.characteristics.insanity.immune, priority),
+          addEffect('system.characteristics.corruption.immune', ancestryLevel.characteristics.corruption.immune, priority),
 
           // FIXME
-          // addEffect('system.characteristics.insanityModifier', pathLevel.characteristicsInsanity, priority),
-          // addEffect('system.characteristics.corruptionModifier', pathLevel.characteristicsCorruption, priority),
+          //addEffect('system.characteristics.insanity.value', ancestryLevel.characteristics.insanity.value, priority),
+          //addEffect('system.characteristics.corruption.value', ancestryLevel.characteristics.corruption.value, priority),
 
-          // Selected checkbox (select two, three, fixed)
-          addEffect(
-            'system.attributes.strength.value',
-            ancestryLevel.attributeStrength * (ancestryLevel.attributeStrengthSelected || ancestryLevel.attributeSelectIsFixed),
-            priority
-          ),
-          addEffect(
-            'system.attributes.agility.value',
-            ancestryLevel.attributeAgility * (ancestryLevel.attributeAgilitySelected || ancestryLevel.attributeSelectIsFixed),
-            priority
-          ),
-          addEffect(
-            'system.attributes.intellect.value',
-            ancestryLevel.attributeIntellect * (ancestryLevel.attributeIntellectSelected || ancestryLevel.attributeSelectIsFixed),
-            priority
-          ),
-          addEffect(
-            'system.attributes.will.value',
-            ancestryLevel.attributeWill * (ancestryLevel.attributeWillSelected || ancestryLevel.attributeSelectIsFixed),
-            priority
-          ),
-        ].filter(falsyChangeFilter),
+          // Starting attributes or selected checkbox (select two, three, fixed)
+          (ancestryLevel.level === '0' ? [
+            addEffect('system.attributes.strength.value', ancestryLevel.attributes.strength.value - 10, priority),
+            addEffect('system.attributes.strength.immune', ancestryLevel.attributes.strength.immune, priority),
+          ] : addEffect('system.attributes.strength.value', ancestryLevel.attributes.strength.value * (ancestryLevel.attributes.strength.selected || ancestryLevel.attributeSelectIsFixed), priority)),
+
+          (ancestryLevel.level === '0' ? [
+            addEffect('system.attributes.agility.value', ancestryLevel.attributes.agility.value - 10, priority),
+            addEffect('system.attributes.agility.immune', ancestryLevel.attributes.agility.immune, priority),
+          ] : addEffect('system.attributes.agility.value', ancestryLevel.attributes.agility.value * (ancestryLevel.attributes.agility.selected || ancestryLevel.attributeSelectIsFixed), priority)),
+
+          (ancestryLevel.level === '0' ? [
+            addEffect('system.attributes.intellect.value', ancestryLevel.attributes.intellect.value - 10, priority),
+            addEffect('system.attributes.intellect.immune', ancestryLevel.attributes.intellect.immune, priority),
+          ] : addEffect('system.attributes.intellect.value', ancestryLevel.attributes.intellect.value * (ancestryLevel.attributes.intellect.selected || ancestryLevel.attributeSelectIsFixed), priority)),
+
+          (ancestryLevel.level === '0' ? [
+            addEffect('system.attributes.will.value', ancestryLevel.attributes.will.value - 10, priority),
+            addEffect('system.attributes.will.immune', ancestryLevel.attributes.will.immune, priority),
+          ] : addEffect('system.attributes.will.value', ancestryLevel.attributes.will.value * (ancestryLevel.attributes.will.selected || ancestryLevel.attributeSelectIsFixed), priority
+          )),
+        ].flat().filter(falsyChangeFilter),
       }
 
       // Two set attributes
@@ -276,35 +236,35 @@ export class DLActiveEffects {
         },
         changes: [
           // Characteristics
-          addEffect('system.characteristics.health.max', pathLevel.characteristicsHealth, priority),
-          addEffect('system.characteristics.power', pathLevel.characteristicsPower, priority),
-          addEffect('system.attributes.perception.value', pathLevel.characteristicsPerception, priority),
-          addEffect('system.characteristics.speed', pathLevel.characteristicsSpeed, priority),
-          addEffect('system.characteristics.defense', pathLevel.characteristicsDefense, priority),
+          addEffect('system.characteristics.health.max', pathLevel.characteristics.health, priority),
+          addEffect('system.characteristics.power', pathLevel.characteristics.power, priority),
+          addEffect('system.attributes.perception.value', pathLevel.characteristics.perception, priority),
+          addEffect('system.characteristics.speed', pathLevel.characteristics.speed, priority),
+          addEffect('system.characteristics.defense', pathLevel.characteristics.defense, priority),
 
           // FIXME
-          // addEffect('system.characteristics.insanityModifier', pathLevel.characteristicsInsanity, priority),
-          // addEffect('system.characteristics.corruptionModifier', pathLevel.characteristicsCorruption, priority),
+          // addEffect('system.characteristics.insanity.value', pathLevel.characteristics.insanity.value, priority),
+          // addEffect('system.characteristics.corruption.value', pathLevel.characteristics.corruption.value, priority),
 
           // Selected checkbox (select two, three, fixed)
           addEffect(
             'system.attributes.strength.value',
-            pathLevel.attributeStrength * (pathLevel.attributeStrengthSelected || pathLevel.attributeSelectIsFixed),
+            pathLevel.attributes.strength * (pathLevel.attributes.strength.selected || pathLevel.attributeSelectIsFixed),
             priority
           ),
           addEffect(
             'system.attributes.agility.value',
-            pathLevel.attributeAgility * (pathLevel.attributeAgilitySelected || pathLevel.attributeSelectIsFixed),
+            pathLevel.attributes.agility * (pathLevel.attributes.agility.selected || pathLevel.attributeSelectIsFixed),
             priority
           ),
           addEffect(
             'system.attributes.intellect.value',
-            pathLevel.attributeIntellect * (pathLevel.attributeIntellectSelected || pathLevel.attributeSelectIsFixed),
+            pathLevel.attributes.intellect * (pathLevel.attributes.intellect.selected || pathLevel.attributeSelectIsFixed),
             priority
           ),
           addEffect(
             'system.attributes.will.value',
-            pathLevel.attributeWill * (pathLevel.attributeWillSelected || pathLevel.attributeSelectIsFixed),
+            pathLevel.attributes.will * (pathLevel.attributes.will.selected || pathLevel.attributeSelectIsFixed),
             priority
           ),
         ].filter(falsyChangeFilter),
@@ -357,21 +317,24 @@ export class DLActiveEffects {
       },
       changes: [
         addEffect('system.attributes.strength.value', data.attributes.strength, priority),
-        addEffect('system.attributes.strength.immune', data.attributes.strengthImmune, priority, true),
+        addEffect('system.attributes.strength.immune', data.attributes.strength.immune, priority, true),
         addEffect('system.attributes.agility.value', data.attributes.agility, priority),
-        addEffect('system.attributes.agility.immune', data.attributes.agilityImmune, priority, true),
+        addEffect('system.attributes.agility.immune', data.attributes.agility.immune, priority, true),
         addEffect('system.attributes.intellect.value', data.attributes.intellect, priority),
-        addEffect('system.attributes.intellect.immune', data.attributes.intellectImmune, priority, true),
+        addEffect('system.attributes.intellect.immune', data.attributes.intellect.immune, priority, true),
         addEffect('system.attributes.will.value', data.attributes.will, priority),
-        addEffect('system.attributes.will.immune', data.attributes.willImmune, priority, true),
-        addEffect('system.attributes.perception.value', data.characteristics.perceptionmodifier, priority),
-        addEffect('system.characteristics.defense', data.characteristics.defensemodifier, priority),
-        addEffect('system.characteristics.health.max', data.characteristics.healthmodifier, priority),
-        addEffect('system.characteristics.health.healingrate', data.characteristics.healingratemodifier, priority),
+        addEffect('system.attributes.will.immune', data.attributes.will.immune, priority, true),
+        addEffect('system.attributes.perception.value', data.characteristics.perception, priority),
+        addEffect('system.characteristics.defense', data.characteristics.defense, priority),
+        addEffect('system.characteristics.health.max', data.characteristics.health, priority),
+        addEffect('system.characteristics.health.healingrate', data.characteristics.healingRate, priority),
         addEffect('system.characteristics.power', data.characteristics.power, priority),
         addEffect('system.characteristics.speed', data.characteristics.speed, priority),
-        addEffect('system.characteristics.corruption', data.characteristics.corruption, priority),
-        addEffect('system.characteristics.insanity', data.characteristics.insanity, priority),
+
+        // FIXME
+        // addEffect('system.characteristics.corruption.value', data.characteristics.corruption.value, priority),
+        // addEffect('system.characteristics.insanity.value', data.characteristics.insanity.value, priority),
+        
         addEffect('system.difficulty', data.difficulty, priority),
         overrideEffect('system.characteristics.size', data.characteristics.size, priority),
         overrideEffect('system.frightening', data.frightening, priority, true),

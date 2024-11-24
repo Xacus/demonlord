@@ -25,226 +25,225 @@
 {{/inline}}
 <!-- END OF TEMPLATES -->
 
-<div class="level-selector" data-level-index="-1" {{#if (ne -1 system.selectedLevelIndex)}}style="display: none"{{/if}}>
-  <div name="level.level" value="0" style="display: none"></div>
-  <div class="dl-item-section-header item-properties">
-    <div class="path-level-control">
-      <b>{{localize 'DL.PathsLevelsSubTitle'}} 0</b>
-    </div>
-    <a class="dl-clickable delete-level" data-action="deleteItem" data-tippy-content="{{localize 'DL.PathsDeleteLevel'}}">
-      <i style="margin-top: 6px;" class="fas fa-times"></i>
-    </a>
-  </div>
-
-  <hr>
-  <!-- STARTING ATTRIBUTES  -->
-  <div class="dl-item-section split">
-    <div class="half-panel">
-      <b>{{localize "DL.AncestryStartingAttributes"}}</b>
-      <div class="attribute-select-container">
-        {{> AttributeInput icon="strength"   value=system.attributes.strength.value  name="system.attributes.strength.value"  loc="DL.AttributeStrength" editableStat=true statType="attributes" statName="strength"}}
-        {{> AttributeInput icon="agility"    value=system.attributes.agility.value   name="system.attributes.agility.value"   loc="DL.AttributeAgility" editableStat=true statType="attributes" statName="agility"}}
-        {{> AttributeInput icon="intellect"  value=system.attributes.intellect.value name="system.attributes.intellect.value" loc="DL.AttributeIntellect" editableStat=true statType="attributes" statName="intellect"}}
-        {{> AttributeInput icon="will"       value=system.attributes.will.value      name="system.attributes.will.value"      loc="DL.AttributeWill" editableStat=true statType="attributes" statName="will"}}
-      </div>
-    </div>
-
-    <span class="panel-sep"></span>
-
-    <!-- CHARACTERISTICS MODIFIER  -->
-    <div class="half-panel">
-      <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
-      <div class="characteristics-container">
-        {{> AttributeInput icon="health" value=system.characteristics.healthmodifier name="system.characteristics.healthmodifier" loc="DL.CharHealth"}}
-        {{> AttributeInput icon="healing" value=system.characteristics.healingratemodifier name="system.characteristics.healingratemodifier" loc="DL.CharHealthHealingRating"}}
-        <div class="item-group-characteristic-value">
-          <div class="input-group" data-tippy-content="{{localize "DL.CharSize"}}">
-            <i class="icon-size themed-icon"></i>
-            <span class="sep"></span>
-            <input type="text" class="input-group-textbox" name="system.characteristics.size" value="{{system.characteristics.size}}" placeholder="0" />
-          </div>
-        </div>
-        {{> AttributeInput icon="defense" value=system.characteristics.defensemodifier name="system.characteristics.defensemodifier" loc="DL.AttributeDefense"}}
-        {{> AttributeInput icon="perception" value=system.characteristics.perceptionmodifier name="system.characteristics.perceptionmodifier" loc="DL.AttributePerception"}}
-        {{> AttributeInput icon="speed" value=system.characteristics.speed name="system.characteristics.speed" loc="DL.CharSpeed"}}
-        <div class="item-group-characteristic-value">
-          <div class="input-group editable-stat" data-tippy-content="{{localize "DL.CharInsanity"}}">
-            <i class="icon-insanity themed-icon"></i>
-            <span class="sep"></span>
-            <input type="{{ifThen system.characteristics.insanity.immune "text" "number"}}" class="input-group-textbox" name="system.characteristics.insanity.value" value="{{ifThen system.characteristics.insanity.immune "-" system.characteristics.insanity.value}}" {{disabled system.characteristics.insanity.immune}} placeholder="0" />
-          </div>
-        </div>
-        <div class="item-group-characteristic-value">
-          <div class="input-group editable-stat" data-tippy-content="{{localize "DL.CharCorruption"}}">
-            <i class="icon-corruption themed-icon"></i>
-            <span class="sep"></span>
-            <input type="{{ifThen system.characteristics.corruption.immune "text" "number"}}" class="input-group-textbox" name="system.characteristics.corruption.value" value="{{ifThen system.characteristics.corruption.immune "-" system.characteristics.corruption.value}}" {{disabled system.characteristics.corruption.immune}} placeholder="0" />
-          </div>
-        </div>
-        {{> AttributeInput icon="power" value=system.characteristics.power name="system.characteristics.power" loc="DL.CharPower"}}
-      </div>
-    </div>
-  </div>
-
-  <div class="text-inputs-container">
-    <div class="dl-item-section">
-      <b>{{localize "DL.PathsLevelLanguages"}}</b>
-      <input type="text" class="path-textbox" name="system.languages" value="{{system.languages}}" />
-    </div>
-    <div class="dl-item-section">
-      <b>{{localize "DL.PathsLevelEquipment"}}</b>
-      <input type="text" class="path-textbox" name="system.equipment" value="{{system.equipment}}" />
-    </div>
-  </div>
-
-  <hr>
-
-  <div class="drop-zones-container">
-    <div class="dl-item-section split">
-      <div class="half-panel">
-        <div class="dl-item-section-header">
-          <b>{{localize "DL.FeaturesTitle"}}</b>
-          <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.FeatureAdd'}}" data-type="feature" data-group="talents" data-folder-loc="FeaturesTitle">
-            <i class="fas fa-plus"></i>
-          </a>
-        </div>
-        {{> DropZoneEdit collection=system.talents dataGroup="feature" dataLevel=0}}
-      </div>
-
-      <span class="panel-sep"></span>
-    
-      <div class="half-panel">
-        <div class="dl-item-section-header">
-          <b>{{localize "DL.LanguagesTitle"}} </b>
-          <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.ItemAddLanguage'}}" data-type="language" data-group="languagelist" data-folder-loc="LanguagesTitle">
-            <i class="fas fa-plus"></i>
-          </a>
-        </div>
-        {{> DropZoneEdit collection=system.languagelist dataGroup="languagelist" dataLevel=0}}
-      </div>
-    </div>
-  </div>
-</div>
-
 {{#each system.levels as |level index|}}
   <div class="level-selector" data-level-index="{{index}}" {{#if (ne index ../system.selectedLevelIndex)}}style="display: none"{{/if}}>
     <div name="level.level" value="{{level.level}}" style="display: none"></div>
-    <div class="dl-item-section-header item-properties">
-      <div class="path-level-control">
-        <b>{{localize 'DL.PathsLevelsSubTitle'}}</b>
-        <input type="number" class="path-level-input" name="level.level" value="{{level.level}}" min="0" max="20"/>
-      </div>
-      <a class="dl-clickable delete-level" data-action="deleteItem" data-tippy-content="{{localize 'DL.PathsDeleteLevel'}}">
-        <i style="margin-top: 6px;" class="fas fa-times"></i>
-      </a>
-    </div>
-
-    <hr>
-
-    <div class="dl-item-section split">
-      <div class="half-panel">
-        <b>{{localize "DL.PathsLevelAttributesSubtitle"}}</b>
-        <div class="attribute-select-container">
-          {{AttributeSelectDropdown "level.attributeSelect" level.attributeSelect}}
-
-          {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree level.attributeSelectIsFixed)}}
-            {{> AttributeInput icon="strength"   value=level.attributeStrength  name="level.attributeStrength"  loc="DL.AttributeStrength"}}
-            {{> AttributeInput icon="agility"    value=level.attributeAgility   name="level.attributeAgility"   loc="DL.AttributeAgility"}}
-            {{> AttributeInput icon="intellect"  value=level.attributeIntellect name="level.attributeIntellect" loc="DL.AttributeIntellect"}}
-            {{> AttributeInput icon="will"       value=level.attributeWill      name="level.attributeWill"      loc="DL.AttributeWill"}}
-          {{else if level.attributeSelectIsTwoSet}}
-            <div class="attribute-set-container">
-              {{LevelAttributeTwoSet 'level.attributeSelectTwoSet1' level.attributeSelectTwoSet1 }}
-              <span class="text-vs">{{localize "DL.PathsLevelAttributesSelectOr"}}</span>
-              {{LevelAttributeTwoSet 'level.attributeSelectTwoSet2' level.attributeSelectTwoSet2 }}
-              <div class="input-group-value">
-                <input type="number" class="input-group-textbox" name="level.attributeSelectTwoSetValue1" value="{{level.attributeSelectTwoSetValue1}}"/>
-              </div>
-            </div>
-            <div class="attribute-set-container">
-              {{LevelAttributeTwoSet 'level.attributeSelectTwoSet3' level.attributeSelectTwoSet3}}
-              <span class="text-vs">{{localize "DL.PathsLevelAttributesSelectOr"}}</span>
-              {{LevelAttributeTwoSet 'level.attributeSelectTwoSet4' level.attributeSelectTwoSet4}}
-              <div class="input-group-value">
-                <input type="number" class="input-group-textbox" name="level.attributeSelectTwoSetValue2" value="{{level.attributeSelectTwoSetValue2}}"/>
-              </div>
-            </div>
-          {{/if}}
+    {{#if (eq level.level '0')}}
+      <div class="dl-item-section-header item-properties">
+        <div class="path-level-control">
+          <b>{{localize 'DL.PathsLevelsSubTitle'}} 0</b>
         </div>
+        <a class="dl-clickable delete-level" data-action="deleteItem" data-tippy-content="{{localize 'DL.PathsDeleteLevel'}}">
+          <i style="margin-top: 6px;" class="fas fa-times"></i>
+        </a>
       </div>
 
-      <span class="panel-sep"></span>
-
-      <div class="half-panel">
-        <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
-        <div class="characteristics-container">
-          {{> AttributeInput icon="health" value=level.characteristicsHealth name="level.characteristicsHealth" loc="DL.CharHealth"}}
-          {{> AttributeInput icon="defense" value=level.characteristicsDefense name="level.characteristicsDefense" loc="DL.AttributeDefense"}}
-          {{> AttributeInput icon="perception" value=level.characteristicsPerception name="level.characteristicsPerception" loc="DL.AttributePerception"}}
-          {{> AttributeInput icon="speed" value=level.characteristicsSpeed name="level.characteristicsSpeed" loc="DL.CharSpeed"}}
-          {{> AttributeInput icon="insanity" value=level.characteristicsInsanity name="level.characteristicsInsanity" loc="DL.CharInsanity"}}
-          {{> AttributeInput icon="corruption" value=level.characteristicsCorruption name="level.characteristicsCorruption" loc="DL.CharCorruption"}}
-          {{> AttributeInput icon="power" value=level.characteristicsPower name="level.characteristicsPower" loc="DL.CharPower"}}
-        </div>
-      </div>
-    </div>    
-
-    <div class="text-inputs-container">
-      <div class="dl-item-section">
-        <b>{{localize "DL.PathsLevelLanguages"}}</b>
-        <input type="text" class="path-textbox" name="level.languagesText" value="{{level.languagesText}}" />
-      </div>
-      <div class="dl-item-section">
-        <b>{{localize "DL.PathsLevelEquipment"}}</b>
-        <input type="text" class="path-textbox" name="level.equipmentText" value="{{level.equipmentText}}" />
-      </div>
-      <div class="dl-item-section">
-        <b>{{localize "DL.TabsMagic"}}</b>
-        <input type="text" class="path-textbox" name="level.magicText" value="{{level.magicText}}" />
-      </div>
-      <div class="dl-item-section">
-        <b>{{localize "DL.OptionsText"}}</b>
-        <input type="text" class="path-textbox" name="level.optionsText" value="{{level.optionsText}}" />
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="drop-zones-container">
+      <hr>
+      <!-- STARTING ATTRIBUTES  -->
       <div class="dl-item-section split">
         <div class="half-panel">
-          <div class="dl-item-section-header">
-            <b>{{localize "DL.TalentTitle"}}</b>
-            <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.TalentAdd'}}" data-type="talent" data-group="talents" data-folder-loc="TalentTitle" data-level-index="{{index}}">
-              <i class="fas fa-plus"></i>
-            </a>
+          <b>{{localize "DL.AncestryStartingAttributes"}}</b>
+          <div class="attribute-select-container">
+            {{> AttributeInput icon="strength"   value=level.attributes.strength.value  name="level.attributes.strength.value"  loc="DL.AttributeStrength" editableStat=true statType="attributes" statName="strength"}}
+            {{> AttributeInput icon="agility"    value=level.attributes.agility.value   name="level.attributes.agility.value"   loc="DL.AttributeAgility" editableStat=true statType="attributes" statName="agility"}}
+            {{> AttributeInput icon="intellect"  value=level.attributes.intellect.value name="level.attributes.intellect.value" loc="DL.AttributeIntellect" editableStat=true statType="attributes" statName="intellect"}}
+            {{> AttributeInput icon="will"       value=level.attributes.will.value      name="level.attributes.will.value"      loc="DL.AttributeWill" editableStat=true statType="attributes" statName="will"}}
           </div>
-          {{> DropZoneEdit collection=level.talents dataGroup="talents" dataLevel=level.level}}
         </div>
 
         <span class="panel-sep"></span>
-      
+
+        <!-- CHARACTERISTICS MODIFIER  -->
         <div class="half-panel">
-          <div class="dl-item-section-header">
-            <b>{{localize "DL.TalentTitle"}} ({{localize 'DL.PathsLevelTalentChooseOne'}})</b>
-            <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.TalentAdd'}}" data-type="talent" data-group="talentspick" data-folder-loc="TalentTitle" data-level-index="{{index}}">
-              <i class="fas fa-plus"></i>
-            </a>
+          <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
+          <div class="characteristics-container">
+            {{> AttributeInput icon="health" value=level.characteristics.health name="level.characteristics.health" loc="DL.CharHealth"}}
+            {{> AttributeInput icon="healing" value=level.characteristics.healingRate name="level.characteristics.healingRate" loc="DL.CharHealthHealingRating"}}
+            <div class="item-group-attribute-value">
+              <div class="input-group" data-tippy-content="{{localize "DL.CharSize"}}">
+                <i class="icon-size themed-icon"></i>
+                <span class="sep"></span>
+                <input type="text" class="input-group-textbox" name="level.characteristics.size" value="{{level.characteristics.size}}" placeholder="0" />
+              </div>
+            </div>
+            {{> AttributeInput icon="defense" value=level.characteristics.defense name="level.characteristics.defense" loc="DL.AttributeDefense"}}
+            {{> AttributeInput icon="perception" value=level.characteristics.perception name="level.characteristics.perception" loc="DL.AttributePerception"}}
+            {{> AttributeInput icon="speed" value=level.characteristics.speed name="level.characteristics.speed" loc="DL.CharSpeed"}}
+            <div class="item-group-attribute-value">
+              <div class="input-group editable-stat" data-tippy-content="{{localize "DL.CharInsanity"}}">
+                <i class="icon-insanity themed-icon"></i>
+                <span class="sep"></span>
+                <input type="{{ifThen level.characteristics.insanity.immune "text" "number"}}" class="input-group-textbox" name="level.characteristics.insanity.value" value="{{ifThen level.characteristics.insanity.immune "-" level.characteristics.insanity.value}}" {{disabled level.characteristics.insanity.immune}} placeholder="0" />
+              </div>
+            </div>
+            <div class="item-group-attribute-value">
+              <div class="input-group editable-stat" data-tippy-content="{{localize "DL.CharCorruption"}}">
+                <i class="icon-corruption themed-icon"></i>
+                <span class="sep"></span>
+                <input type="{{ifThen level.characteristics.corruption.immune "text" "number"}}" class="input-group-textbox" name="level.characteristics.corruption.value" value="{{ifThen level.characteristics.corruption.immune "-" level.characteristics.corruption.value}}" {{disabled level.characteristics.corruption.immune}} placeholder="0" />
+              </div>
+            </div>
+            {{> AttributeInput icon="power" value=level.characteristics.power name="level.characteristics.power" loc="DL.CharPower"}}
           </div>
-          {{> DropZoneEdit collection=level.talentspick dataGroup="talentspick" dataLevel=level.level}}
         </div>
       </div>
 
-      <div class="dl-item-section">
-        <div class="dl-item-section-header">
-          <b>{{localize "DL.MagicSpellsTitle"}}</b>
-          <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.MagicAddSpell'}}"
-            data-type="spell" data-group="spells" data-folder-loc="MagicSpellsTitle" data-level-index="{{index}}">
-            <i class="fas fa-plus"></i>
-          </a>
+      <div class="text-inputs-container">
+        <div class="dl-item-section">
+          <b>{{localize "DL.PathsLevelLanguages"}}</b>
+          <input type="text" class="path-textbox" name="level.languagesText" value="{{level.languagesText}}" />
         </div>
-        {{> DropZoneEdit collection=level.spells dataGroup="spells" dataLevel=level.level}}
+        <div class="dl-item-section">
+          <b>{{localize "DL.PathsLevelEquipment"}}</b>
+          <input type="text" class="path-textbox" name="level.equipmentText" value="{{level.equipmentText}}" />
+        </div>
       </div>
-    </div>
+
+      <hr>
+
+      <div class="drop-zones-container">
+        <div class="dl-item-section split">
+          <div class="half-panel">
+            <div class="dl-item-section-header">
+              <b>{{localize "DL.FeaturesTitle"}}</b>
+              <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.FeatureAdd'}}" data-type="feature" data-group="talents" data-folder-loc="FeaturesTitle">
+                <i class="fas fa-plus"></i>
+              </a>
+            </div>
+            {{> DropZoneEdit collection=level.talents dataGroup="feature" dataLevel=level.level}}
+          </div>
+
+          <span class="panel-sep"></span>
+        
+          <div class="half-panel">
+            <div class="dl-item-section-header">
+              <b>{{localize "DL.LanguagesTitle"}} </b>
+              <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.ItemAddLanguage'}}" data-type="language" data-group="languagelist" data-folder-loc="LanguagesTitle">
+                <i class="fas fa-plus"></i>
+              </a>
+            </div>
+            {{> DropZoneEdit collection=level.languages dataGroup="languages" dataLevel=level.level}}
+          </div>
+        </div>
+      </div>
+    {{else}}
+      <div class="dl-item-section-header item-properties">
+        <div class="path-level-control">
+          <b>{{localize 'DL.PathsLevelsSubTitle'}}</b>
+          <input type="number" class="path-level-input" name="level.level" value="{{level.level}}" min="0" max="20"/>
+        </div>
+        <a class="dl-clickable delete-level" data-action="deleteItem" data-tippy-content="{{localize 'DL.PathsDeleteLevel'}}">
+          <i style="margin-top: 6px;" class="fas fa-times"></i>
+        </a>
+      </div>
+
+      <hr>
+
+      <div class="dl-item-section split">
+        <div class="half-panel">
+          <b>{{localize "DL.PathsLevelAttributesSubtitle"}}</b>
+          <div class="attribute-select-container">
+            {{AttributeSelectDropdown "level.attributeSelect" level.attributeSelect}}
+
+            {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree level.attributeSelectIsFixed)}}
+              {{> AttributeInput icon="strength"   value=level.attributes.strength.value  name="level.attributes.strength.value"  loc="DL.AttributeStrength"}}
+              {{> AttributeInput icon="agility"    value=level.attributes.agility.value   name="level.attributes.agility.value"   loc="DL.AttributeAgility"}}
+              {{> AttributeInput icon="intellect"  value=level.attributes.intellect.value name="level.attributes.intellect.value" loc="DL.AttributeIntellect"}}
+              {{> AttributeInput icon="will"       value=level.attributes.will.value      name="level.attributes.will.value"      loc="DL.AttributeWill"}}
+            {{else if level.attributeSelectIsTwoSet}}
+              <div class="attribute-set-container">
+                {{LevelAttributeTwoSet 'level.attributeSelectTwoSet1' level.attributeSelectTwoSet1 }}
+                <span class="text-vs">{{localize "DL.PathsLevelAttributesSelectOr"}}</span>
+                {{LevelAttributeTwoSet 'level.attributeSelectTwoSet2' level.attributeSelectTwoSet2 }}
+                <div class="input-group-value">
+                  <input type="number" class="input-group-textbox" name="level.attributeSelectTwoSetValue1" value="{{level.attributeSelectTwoSetValue1}}"/>
+                </div>
+              </div>
+              <div class="attribute-set-container">
+                {{LevelAttributeTwoSet 'level.attributeSelectTwoSet3' level.attributeSelectTwoSet3}}
+                <span class="text-vs">{{localize "DL.PathsLevelAttributesSelectOr"}}</span>
+                {{LevelAttributeTwoSet 'level.attributeSelectTwoSet4' level.attributeSelectTwoSet4}}
+                <div class="input-group-value">
+                  <input type="number" class="input-group-textbox" name="level.attributeSelectTwoSetValue2" value="{{level.attributeSelectTwoSetValue2}}"/>
+                </div>
+              </div>
+            {{/if}}
+          </div>
+        </div>
+
+        <span class="panel-sep"></span>
+
+        <div class="half-panel">
+          <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
+          <div class="characteristics-container">
+            {{> AttributeInput icon="health" value=level.characteristics.health name="level.characteristics.health" loc="DL.CharHealth"}}
+            {{> AttributeInput icon="defense" value=level.characteristics.defense name="level.characteristics.defense" loc="DL.AttributeDefense"}}
+            {{> AttributeInput icon="perception" value=level.characteristics.perception name="level.characteristics.perception" loc="DL.AttributePerception"}}
+            {{> AttributeInput icon="speed" value=level.characteristics.speed name="level.characteristics.speed" loc="DL.CharSpeed"}}
+            {{> AttributeInput icon="insanity" value=level.characteristics.insanity.value name="level.characteristics.insanity.value" loc="DL.CharInsanity"}}
+            {{> AttributeInput icon="corruption" value=level.characteristics.corruption.value name="level.characteristics.corruption.value" loc="DL.CharCorruption"}}
+            {{> AttributeInput icon="power" value=level.characteristics.power name="level.characteristics.power" loc="DL.CharPower"}}
+          </div>
+        </div>
+      </div>    
+
+      <div class="text-inputs-container">
+        <div class="dl-item-section">
+          <b>{{localize "DL.PathsLevelLanguages"}}</b>
+          <input type="text" class="path-textbox" name="level.languagesText" value="{{level.languagesText}}" />
+        </div>
+        <div class="dl-item-section">
+          <b>{{localize "DL.PathsLevelEquipment"}}</b>
+          <input type="text" class="path-textbox" name="level.equipmentText" value="{{level.equipmentText}}" />
+        </div>
+        <div class="dl-item-section">
+          <b>{{localize "DL.TabsMagic"}}</b>
+          <input type="text" class="path-textbox" name="level.magicText" value="{{level.magicText}}" />
+        </div>
+        <div class="dl-item-section">
+          <b>{{localize "DL.OptionsText"}}</b>
+          <input type="text" class="path-textbox" name="level.optionsText" value="{{level.optionsText}}" />
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="drop-zones-container">
+        <div class="dl-item-section split">
+          <div class="half-panel">
+            <div class="dl-item-section-header">
+              <b>{{localize "DL.TalentTitle"}}</b>
+              <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.TalentAdd'}}" data-type="talent" data-group="talents" data-folder-loc="TalentTitle" data-level-index="{{index}}">
+                <i class="fas fa-plus"></i>
+              </a>
+            </div>
+            {{> DropZoneEdit collection=level.talents dataGroup="talents" dataLevel=level.level}}
+          </div>
+
+          <span class="panel-sep"></span>
+        
+          <div class="half-panel">
+            <div class="dl-item-section-header">
+              <b>{{localize "DL.TalentTitle"}} ({{localize 'DL.PathsLevelTalentChooseOne'}})</b>
+              <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.TalentAdd'}}" data-type="talent" data-group="talentspick" data-folder-loc="TalentTitle" data-level-index="{{index}}">
+                <i class="fas fa-plus"></i>
+              </a>
+            </div>
+            {{> DropZoneEdit collection=level.talentspick dataGroup="talentspick" dataLevel=level.level}}
+          </div>
+        </div>
+
+        <div class="dl-item-section">
+          <div class="dl-item-section-header">
+            <b>{{localize "DL.MagicSpellsTitle"}}</b>
+            <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.MagicAddSpell'}}"
+              data-type="spell" data-group="spells" data-folder-loc="MagicSpellsTitle" data-level-index="{{index}}">
+              <i class="fas fa-plus"></i>
+            </a>
+          </div>
+          {{> DropZoneEdit collection=level.spells dataGroup="spells" dataLevel=level.level}}
+        </div>
+      </div>
+    {{/if}}
   </div>
 {{/each}}

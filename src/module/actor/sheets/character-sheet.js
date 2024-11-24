@@ -120,10 +120,10 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     if (item.type === 'ancestry') {
 
       // Add insanity and corruption values
-      const insanityImmune = this.actor.system.characteristics.insanity.immune || item.system.characteristics.insanity.immune
-      const corruptionImmune = this.actor.system.characteristics.corruption.immune || item.system.characteristics.corruption.immune
-      const newInsanity = this.actor.system.characteristics.insanity.value + item.system.characteristics.insanity.value
-      const newCorruption = this.actor.system.characteristics.corruption.value + item.system.characteristics.corruption.value
+      const insanityImmune = this.actor.system.characteristics.insanity.immune || item.system.levels.filter(l => l.characteristics.insanity.immune).length > 0
+      const corruptionImmune = this.actor.system.characteristics.corruption.immune || item.system.levels.filter(l => l.characteristics.corruption.immune).length > 0
+      const newInsanity = this.actor.system.characteristics.insanity.value + item.system.levels.reduce((s, l) => s + l.characteristics.insanity.value, 0)
+      const newCorruption = this.actor.system.characteristics.corruption.value + item.system.levels.reduce((s, l) => s + l.characteristics.corruption.value, 0)
 
       await this.actor.update({
         'system.characteristics': {

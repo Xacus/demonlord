@@ -1,6 +1,7 @@
 import {deleteActorNestedItems} from './nested-objects'
 import {DemonlordActor} from '../actor/actor'
 import { DLEndOfRound } from '../dialog/endofround'
+import { getChatBaseData } from '../chat/base-messages'
 
 export class DemonlordItem extends Item {
   /** @override */
@@ -114,63 +115,79 @@ export class DemonlordItem extends Item {
     }
     // Before adding the item, roll any formulas and apply the values
     // Attributes
-    let newStrength = ancestry.system.attributes.strength?.value ?? 10
-    let newAgility = ancestry.system.attributes.agility?.value ?? 10
-    let newIntellect = ancestry.system.attributes.intellect?.value ?? 10
-    let newWill = ancestry.system.attributes.will?.value ?? 10
-    let newInsanity = ancestry.system.characteristics.insanity?.value ?? 0
-    let newCorruption = ancestry.system.characteristics.corruption?.value ?? 0
+    let newStrength = ancestry.system.levels[0].attributes.strength?.value ?? 10
+    let newAgility = ancestry.system.levels[0].attributes.agility?.value ?? 10
+    let newIntellect = ancestry.system.levels[0].attributes.intellect?.value ?? 10
+    let newWill = ancestry.system.levels[0].attributes.will?.value ?? 10
+    let newInsanity = ancestry.system.levels[0].characteristics.insanity?.value ?? 0
+    let newCorruption = ancestry.system.levels[0].characteristics.corruption?.value ?? 0
 
-    if (ancestry.system.attributes.strength?.formula) {
-      const roll = new Roll(ancestry.system.attributes.strength.formula)
+    const rolls = []
+
+    if (ancestry.system.levels[0].attributes.strength?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].attributes.strength.formula)
       newStrength = (await roll.evaluate()).total
+      rolls.push({property: 'strength', roll: roll })
     }
-    if (ancestry.system.attributes.agility?.formula) {
-      const roll = new Roll(ancestry.system.attributes.agility.formula)
+    if (ancestry.system.levels[0].attributes.agility?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].attributes.agility.formula)
       newAgility = (await roll.evaluate()).total
+      rolls.push({property: 'agility', roll: roll })
     }
-    if (ancestry.system.attributes.intellect?.formula) {
-      const roll = new Roll(ancestry.system.attributes.intellect.formula)
+    if (ancestry.system.levels[0].attributes.intellect?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].attributes.intellect.formula)
       newIntellect = (await roll.evaluate()).total
+      rolls.push({property: 'intellect', roll: roll })
     }
-    if (ancestry.system.attributes.will?.formula) {
-      const roll = new Roll(ancestry.system.attributes.will.formula)
+    if (ancestry.system.levels[0].attributes.will?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].attributes.will.formula)
       newWill = (await roll.evaluate()).total
+      rolls.push({property: 'will', roll: roll })
     }
 
-    if (ancestry.system.characteristics.insanity?.formula) {
-      const roll = new Roll(ancestry.system.characteristics.insanity.formula)
+    if (ancestry.system.levels[0].characteristics.insanity?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].characteristics.insanity.formula)
       newInsanity = (await roll.evaluate()).total
+      rolls.push({property: 'insanity', roll: roll })
     }
 
-    if (ancestry.system.characteristics.corruption?.formula) {
-      const roll = new Roll(ancestry.system.characteristics.corruption.formula)
+    if (ancestry.system.levels[0].characteristics.corruption?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].characteristics.corruption.formula)
       newCorruption = (await roll.evaluate()).total
+      rolls.push({property: 'corruption', roll: roll })
     }
+
+    // Send a message to chat with all the rolls
+    if (rolls.length > 0) {
+      const templateData = {
+        item: ancestry,
+        rolls,
+      }
+
+      const actor = game.user.character ?? canvas.tokens.controlled[0].actor
+      const rollMode = game.settings.get('core', 'rollMode')
+
+      const chatData = getChatBaseData(actor, rollMode)
+
+      const template = 'systems/demonlord/templates/chat/formulaeroll.hbs'
+      renderTemplate(template, templateData).then(async content => {
+        chatData.content = content
+        chatData.sound = CONFIG.sounds.dice
+        await ChatMessage.create(chatData)
+      })
+    }
+
+    const l0 = this.system.levels.find(l => l.level === '0')
+    l0.attributes.strength.value = newStrength
+    l0.attributes.agility.value = newAgility
+    l0.attributes.intellect.value = newIntellect
+    l0.attributes.will.value = newWill
+    l0.characteristics.insanity.value = newInsanity
+    l0.characteristics.corruption.value = newCorruption
 
     return await this.updateSource({
-      'system.attributes': {
-        strength: {
-          value: newStrength
-        },
-        agility: {
-          value: newAgility
-        },
-        intellect: {
-          value: newIntellect
-        },
-        will: {
-          value: newWill
-        },
-      },
-
-      'system.characteristics': {
-        insanity: {
-          value: newInsanity
-        },
-        corruption: {
-          value: newCorruption
-        }
+      system: {
+        levels: this.system.levels
       }
     })
   }

@@ -38,7 +38,7 @@ export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
  * @protected
  */
   async _prepareContext(options) { // eslint-disable-line no-unused-vars
-    return this.ancestry.system[this.statType][this.statName]
+    return this.item.system.levels[0][this.statType][this.statName]
   }
 
    /**
@@ -50,19 +50,21 @@ export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
    * @returns {Promise<void>}
    */
   static async onSubmit(event, form, formData) {
-    await this.ancestry.update({
+    const levels = this.item.system.levels
+    
+    levels.find(l => l.level === '0')[this.statType][this.statName] = {
+      value: formData.object.value,
+      formula: formData.object.formula,
+      immune: formData.object.immune
+    };
+
+    await this.item.update({
       system: {
-        [this.statType]: {
-          [this.statName]: {
-            value: formData.object.value,
-            formula: formData.object.formula,
-            immune: formData.object.immune
-          }
-        }
+        levels: levels
       }
     })
 
-    this.ancestry.sheet.render(true)
+    this.item.sheet.render(true)
   }
 
   /**
@@ -73,14 +75,14 @@ export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
   static async rollStat(event, target) { // eslint-disable-line no-unused-vars
     const divTarget = document.getElementById('stat-editor-roll-target')
     const formula = document.getElementById('stat-editor-roll-formula').value
-    const roll = new Roll(formula, this.ancestry.system)
+    const roll = new Roll(formula, this.item.system)
     await roll.evaluate()
     divTarget.value = roll.total
   }
 
   constructor(object, options) {
     super(options)
-    this.ancestry = object.ancestry
+    this.item = object.item
     this.statType = object.statType
     this.statName = object.statName
   }

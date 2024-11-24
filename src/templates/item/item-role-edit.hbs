@@ -47,14 +47,14 @@
 <div class="dl-item-section">
     <b>{{localize "DL.WeaponModifiers"}}</b>
   <div class="characteristics-container">
-    {{> AttributeInput icon='health' value=system.characteristics.healthmodifier name="system.characteristics.healthmodifier" loc='DL.CharHealth'}}
-    {{> AttributeInput icon='healing' value=system.characteristics.healingratemodifier name="system.characteristics.healingratemodifier" loc='DL.CharHealthHealingRating'}}
+    {{> AttributeInput icon='health' value=system.characteristics.health name="system.characteristics.health" loc='DL.CharHealth'}}
+    {{> AttributeInput icon='healing' value=system.characteristics.healingRate name="system.characteristics.healingRate" loc='DL.CharHealthHealingRating'}}
     {{> AttributeInput icon='size' value=system.characteristics.size name="system.characteristics.size" loc='DL.CharSize'}}
-    {{> AttributeInput icon='defense' value=system.characteristics.defensemodifier name="system.characteristics.defensemodifier" loc='DL.AttributeDefense'}}
-    {{> AttributeInput icon='perception' value=system.characteristics.perceptionmodifier name="system.characteristics.perceptionmodifier" loc='DL.AttributePerception'}}
+    {{> AttributeInput icon='defense' value=system.characteristics.defense name="system.characteristics.defense" loc='DL.AttributeDefense'}}
+    {{> AttributeInput icon='perception' value=system.characteristics.perception name="system.characteristics.perception" loc='DL.AttributePerception'}}
     {{> AttributeInput icon='speed' value=system.characteristics.speed name="system.characteristics.speed" loc='DL.CharSpeed'}}
-    {{> AttributeInput icon='insanity' value=system.characteristics.insanity name="system.characteristics.insanity" loc='DL.CharInsanity'}}
-    {{> AttributeInput icon='corruption' value=system.characteristics.corruption name="system.characteristics.corruption" loc='DL.CharCorruption'}}
+    {{> AttributeInput icon='insanity' value=system.characteristics.insanity.value name="system.characteristics.insanity.value" loc='DL.CharInsanity'}}
+    {{> AttributeInput icon='corruption' value=system.characteristics.corruption.value name="system.characteristics.corruption.value" loc='DL.CharCorruption'}}
     {{> AttributeInput icon='power' value=system.characteristics.power name="system.characteristics.power" loc='DL.CharPower'}}
     {{> AttributeInput icon='difficulty' value=system.difficulty name="system.difficulty" loc='DL.CreatureDifficulty'}}
     <div class="item-group-attribute-value checkable" data-action="toggleFrightening">
