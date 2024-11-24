@@ -34,6 +34,7 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/chat/spell.hbs',
     'systems/demonlord/templates/chat/talent.hbs',
     'systems/demonlord/templates/chat/useitem.hbs',
+    'systems/demonlord/templates/chat/formulaeroll.hbs',
     'systems/demonlord/templates/actor/actor-sheet.hbs',
     'systems/demonlord/templates/actor/limited-sheet.hbs',
     'systems/demonlord/templates/actor/sidemenu.hbs',

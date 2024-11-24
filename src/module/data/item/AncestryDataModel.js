@@ -14,55 +14,6 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
     return {
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
-      attributes: new foundry.data.fields.SchemaField({
-        strength: new foundry.data.fields.SchemaField({
-          value: makeIntField(10),
-          min: makeIntField(),
-          max: makeIntField(20),
-          formula: makeStringField(),
-          immune: makeBoolField()
-        }),
-        agility: new foundry.data.fields.SchemaField({
-          value: makeIntField(10),
-          min: makeIntField(),
-          max: makeIntField(20),
-          formula: makeStringField(),
-          immune: makeBoolField()
-        }),
-        intellect: new foundry.data.fields.SchemaField({
-          value: makeIntField(10),
-          min: makeIntField(),
-          max: makeIntField(20),
-          formula: makeStringField(),
-          immune: makeBoolField()
-        }),
-        will: new foundry.data.fields.SchemaField({
-          value: makeIntField(10),
-          min: makeIntField(),
-          max: makeIntField(20),
-          formula: makeStringField(),
-          immune: makeBoolField()
-        }),
-      }),
-      characteristics: new foundry.data.fields.SchemaField({
-        perceptionmodifier: makeIntField(),
-        healthmodifier: makeIntField(),
-        defensemodifier: makeIntField(),
-        healingratemodifier: makeIntField(),
-        size: makeStringField('1'),
-        speed: makeIntField(10),
-        power: makeIntField(),
-        insanity: new foundry.data.fields.SchemaField({
-          value: makeIntField(),
-          formula: makeStringField(),
-          immune: makeBoolField()
-        }),
-        corruption: new foundry.data.fields.SchemaField({
-          value: makeIntField(),
-          formula: makeStringField(),
-          immune: makeBoolField()
-        })
-      }),
       levels: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
         level: makeStringField('1'),
         attributeSelect: makeStringField('choosetwo'),
@@ -82,21 +33,51 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
         attributeSelectTwoSetValue2: makeIntField(),
         attributeSelectTwoSetSelectedValue1: makeBoolField(true),
         attributeSelectTwoSetSelectedValue2: makeBoolField(true),
-        attributeStrength: makeIntField(1),
-        attributeAgility: makeIntField(1),
-        attributeIntellect: makeIntField(1),
-        attributeWill: makeIntField(1),
-        attributeStrengthSelected: makeBoolField(false),
-        attributeAgilitySelected: makeBoolField(false),
-        attributeIntellectSelected: makeBoolField(false),
-        attributeWillSelected: makeBoolField(false),
-        characteristicsPerception: makeIntField(),
-        characteristicsDefense: makeIntField(),
-        characteristicsPower: makeIntField(),
-        characteristicsSpeed: makeIntField(),
-        characteristicsHealth: makeIntField(),
-        characteristicsCorruption: makeIntField(),
-        characteristicsInsanity: makeIntField(),
+        attributes: new foundry.data.fields.SchemaField({
+          strength: new foundry.data.fields.SchemaField({
+            value: makeIntField(10, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+          agility: new foundry.data.fields.SchemaField({
+            value: makeIntField(10, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+          intellect: new foundry.data.fields.SchemaField({
+            value: makeIntField(10, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+          will: new foundry.data.fields.SchemaField({
+            value: makeIntField(10, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+        }),
+        characteristics: new foundry.data.fields.SchemaField({
+          health: makeIntField(),
+          healingRate: makeIntField(),
+          size: makeStringField(),
+          defense: makeIntField(),
+          perception: makeIntField(),
+          speed: makeIntField(10),
+          power: makeIntField(),
+          insanity: new foundry.data.fields.SchemaField({
+            value: makeIntField(),
+            formula: makeStringField(),
+            immune: makeBoolField()
+          }),
+          corruption: new foundry.data.fields.SchemaField({
+            value: makeIntField(),
+            formula: makeStringField(),
+            immune: makeBoolField()
+          })
+        }),
         languagesText: makeStringField(),
         equipmentText: makeStringField(),
         magicText: makeStringField(),
@@ -109,10 +90,6 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
         talentspick: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
         languages: new foundry.data.fields.ArrayField(levelItem(makeLanguageSchema))
       })),
-      languages: makeStringField(),
-      talents: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
-      languagelist: new foundry.data.fields.ArrayField(levelItem(makeLanguageSchema)),
-      equipment: makeStringField(),
       editTalents: makeBoolField(),
       editAncestry: makeBoolField(true)
     }
@@ -135,9 +112,31 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
       }
     }
 
+    // Move attributes and characteristics into a new level 0
+    if (source.attributes && source.levels?.filter(l => l.level === '0').length === 0) {
+      if (!source.levels) source.levels = []
+
+      source.levels = [{
+        level: '0',
+        attributes: source.attributes,
+        characteristics: {
+          health: source.characteristics.healthmodifier,
+          healingRate: source.characteristics.healingratemodifier,
+          size: source.characteristics.size,
+          defense: source.characteristics.defensemodifier,
+          perception: source.characteristics.perceptionmodifier,
+          speed: source.characteristics.speed,
+          power: source.characteristics.power,
+          insanity: source.characteristics.insanity.value,
+          corruption: source.characteristics.corruption.value,
+        },
+        talents: source.talents,
+        languages: source.languagelist
+      }, ...source.levels]
+    }
+
     // Update from level4 to any number of levels
     if (source.level4 && !source.levels) {
-
       if (!source.levels) source.levels = []
 
       source.levels = source.levels.concat([
@@ -154,6 +153,44 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
           // picks is not in use
         }
       ])
+    }
+
+    // Move separate attribute and characteristics properties into their respective objects
+    if (source.levels[source.levels.length - 1].attributeStrength != undefined) {
+      for (const level of source.levels) {
+        level.attributes = {
+          strength: {
+            value: level.attributes?.strength?.value ?? level.attributeStrength,
+            selected: level.attributes?.strength?.selected ?? level.attributeStrengthSelected
+          },
+          agility: {
+            value: level.attributes?.agility?.value ?? level.attributeAgility,
+            selected: level.attributes?.agility?.selected ?? level.attributeAgilitySelected
+          },
+          intellect: {
+            value: level.attributes?.intellect?.value ?? level.attributeIntellect,
+            selected: level.attributes?.intellect?.selected ?? level.attributeIntellectSelected
+          },
+          will: {
+            value: level.attributes?.will?.value ?? level.attributeWill,
+            selected: level.attributes?.will?.selected ?? level.attributeWillSelected
+          }
+        }
+  
+        level.characteristics = {
+          health: level.characteristics?.health ?? level.characteristicsHealth,
+          defense: level.characteristics?.defense ?? level.characteristicsDefense,
+          perception: level.characteristics?.perception ?? level.characteristicsPerception,
+          speed: level.characteristics?.speed ?? level.characteristicsSpeed,
+          power: level.characteristics?.power ?? level.characteristicsPower,
+          insanity: {
+            value: level.characteristics?.insanity?.value ?? level.characteristicsInsanity,
+          },
+          corruption: {
+            value: level.characteristics?.corruption?.value ?? level.characteristicsCorruption
+          }
+        }
+      }
     }
 
     return super.migrateData(source)

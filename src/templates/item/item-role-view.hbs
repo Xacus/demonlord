@@ -49,14 +49,14 @@
 <div class="dl-item-section">
     <b>{{localize "DL.WeaponModifiers"}}</b>
   <div class="characteristics-container">
-    {{> AttributeViewer icon='health' value=system.characteristics.healthmodifier loc='DL.CharHealth'}}
-    {{> AttributeViewer icon='healing' value=system.characteristics.healingratemodifier loc='DL.CharHealthHealingRating'}}
+    {{> AttributeViewer icon='health' value=system.characteristics.health loc='DL.CharHealth'}}
+    {{> AttributeViewer icon='healing' value=system.characteristics.healingRate loc='DL.CharHealthHealingRating'}}
     {{> AttributeViewer icon='size' value=system.characteristics.size loc='DL.CharSize'}}
-    {{> AttributeViewer icon='defense' value=system.characteristics.defensemodifier loc='DL.AttributeDefense'}}
-    {{> AttributeViewer icon='perception' value=system.characteristics.perceptionmodifier loc='DL.AttributePerception'}}
+    {{> AttributeViewer icon='defense' value=system.characteristics.defense loc='DL.AttributeDefense'}}
+    {{> AttributeViewer icon='perception' value=system.characteristics.perception loc='DL.AttributePerception'}}
     {{> AttributeViewer icon='speed' value=system.characteristics.speed loc='DL.CharSpeed'}}
-    {{> AttributeViewer icon='insanity' value=system.characteristics.insanity loc='DL.CharInsanity'}}
-    {{> AttributeViewer icon='corruption' value=system.characteristics.corruption loc='DL.CharCorruption'}}
+    {{> AttributeViewer icon='insanity' value=system.characteristics.insanity.value loc='DL.CharInsanity'}}
+    {{> AttributeViewer icon='corruption' value=system.characteristics.corruption.value loc='DL.CharCorruption'}}
     {{> AttributeViewer icon='power' value=system.characteristics.power loc='DL.CharPower'}}
     {{> AttributeViewer icon='difficulty' value=system.difficulty loc='DL.CreatureDifficulty'}}
     {{#if system.frightening}}
@@ -110,6 +110,7 @@
   <div class="dl-item-section">
     <div class="dl-item-section-header">
       <b>{{localize "DL.CreatureSpecialEndRound"}}</b>
+    </div>
     {{> DropZoneView collection=system.endOfRound dataGroup="endOfRound"}}
   </div>
   {{/if}}

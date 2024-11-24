@@ -2,7 +2,9 @@ import {
   makeIntField,
   makeStringField,
   makeHtmlField,
-  makeBoolField
+  makeBoolField,
+  makeInsanity,
+  makeCorruption
 } from '../helpers.js'
 import { levelItem } from '../common.js'
 import { makeTalentSchema } from './TalentDataModel.js'
@@ -26,15 +28,15 @@ import { makeEndOfTheRoundSchema } from './EndOfTheRoundDataModel.js'
           willImmune: makeBoolField(),
         }),
         characteristics: new foundry.data.fields.SchemaField({
-          perceptionmodifier: makeIntField(),
-          healthmodifier: makeIntField(),
-          defensemodifier: makeIntField(),
-          healingratemodifier: makeIntField(),
+          perception: makeIntField(),
+          health: makeIntField(),
+          defense: makeIntField(),
+          healingRate: makeIntField(),
           size: makeStringField(),
           speed: makeIntField(10),
           power: makeIntField(),
-          insanity: makeIntField(),
-          corruption: makeIntField(),
+          insanity: makeInsanity(),
+          corruption: makeCorruption(),
           difficulty: makeIntField()
         }),
         frightening: makeBoolField(),

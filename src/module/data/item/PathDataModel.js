@@ -2,6 +2,7 @@ import { makeBoolField, makeHtmlField, makeIntField, makeStringField } from '../
 import { makeLanguageSchema } from './LanguageDataModel.js'
 import { makeSpellSchema } from './SpellDataModel.js'
 import { makeTalentSchema } from './TalentDataModel.js'
+import { levelItem } from '../common.js'
 
 export default class PathDataModel extends foundry.abstract.DataModel {
   static defineSchema() {
@@ -28,74 +29,106 @@ export default class PathDataModel extends foundry.abstract.DataModel {
         attributeSelectTwoSetValue2: makeIntField(),
         attributeSelectTwoSetSelectedValue1: makeBoolField(true),
         attributeSelectTwoSetSelectedValue2: makeBoolField(true),
-        attributeStrength: makeIntField(1),
-        attributeAgility: makeIntField(1),
-        attributeIntellect: makeIntField(1),
-        attributeWill: makeIntField(1),
-        attributeStrengthSelected: makeBoolField(false),
-        attributeAgilitySelected: makeBoolField(false),
-        attributeIntellectSelected: makeBoolField(false),
-        attributeWillSelected: makeBoolField(false),
-        characteristicsPerception: makeIntField(),
-        characteristicsDefense: makeIntField(),
-        characteristicsPower: makeIntField(),
-        characteristicsSpeed: makeIntField(),
-        characteristicsHealth: makeIntField(),
-        characteristicsCorruption: makeIntField(),
-        characteristicsInsanity: makeIntField(),
+        attributes: new foundry.data.fields.SchemaField({
+          strength: new foundry.data.fields.SchemaField({
+            value: makeIntField(10, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+          agility: new foundry.data.fields.SchemaField({
+            value: makeIntField(10, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+          intellect: new foundry.data.fields.SchemaField({
+            value: makeIntField(10, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+          will: new foundry.data.fields.SchemaField({
+            value: makeIntField(10, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+        }),
+        characteristics: new foundry.data.fields.SchemaField({
+          health: makeIntField(),
+          healingrate: makeIntField(),
+          size: makeStringField('1'),
+          defense: makeIntField(),
+          perception: makeIntField(),
+          speed: makeIntField(),
+          power: makeIntField(),
+          insanity: new foundry.data.fields.SchemaField({
+            value: makeIntField(),
+            formula: makeStringField(),
+            immune: makeBoolField()
+          }),
+          corruption: new foundry.data.fields.SchemaField({
+            value: makeIntField(),
+            formula: makeStringField(),
+            immune: makeBoolField()
+          })
+        }),
         languagesText: makeStringField(),
         equipmentText: makeStringField(),
         magicText: makeStringField(),
         optionsText: makeStringField(),
         talentsSelect: makeStringField(),
         talentsChooseOne: makeBoolField(false),
-        talentsSelected: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeTalentSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        })),
-        talents: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeTalentSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        })),
-        spells: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeSpellSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        })),
-        talentspick: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeTalentSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        })),
-        languages: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeLanguageSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        }))
+        talentsSelected: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+        talents: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+        spells: new foundry.data.fields.ArrayField(levelItem(makeSpellSchema)),
+        talentspick: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+        languages: new foundry.data.fields.ArrayField(levelItem(makeLanguageSchema)),
       })),
       editPath: makeBoolField(true)
     }
+  }
+
+  static migrateData(source) {
+  // Move separate attribute and characteristics properties into their respective objects
+  if (source.levels[0].attributeStrength != undefined) {
+    for (const level of source.levels) {
+      level.attributes = {
+        strength: {
+          value: level.attributes?.strength?.value ?? level.attributeStrength,
+          selected: level.attributes?.strength?.selected ?? level.attributeStrengthSelected
+        },
+        agility: {
+          value: level.attributes?.agility?.value ?? level.attributeAgility,
+          selected: level.attributes?.agility?.selected ?? level.attributeAgilitySelected
+        },
+        intellect: {
+          value: level.attributes?.intellect?.value ?? level.attributeIntellect,
+          selected: level.attributes?.intellect?.selected ?? level.attributeIntellectSelected
+        },
+        will: {
+          value: level.attributes?.will?.value ?? level.attributeWill,
+          selected: level.attributes?.will?.selected ?? level.attributeWillSelected
+        }
+      }
+
+      level.characteristics = {
+        health: level.characteristics?.health ?? level.characteristicsHealth,
+        defense: level.characteristics?.defense ?? level.characteristicsDefense,
+        perception: level.characteristics?.perception ?? level.characteristicsPerception,
+        speed: level.characteristics?.speed ?? level.characteristicsSpeed,
+        power: level.characteristics?.power ?? level.characteristicsPower,
+        insanity: {
+          value: level.characteristics?.insanity?.value ?? level.characteristicsInsanity,
+        },
+        corruption: {
+          value: level.characteristics?.corruption?.value ?? level.characteristicsCorruption
+        }
+      }
+    }
+  }
+
+  return super.migrateData(source)
   }
 }
