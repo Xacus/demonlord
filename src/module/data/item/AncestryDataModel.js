@@ -161,18 +161,22 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
         level.attributes = {
           strength: {
             value: level.attributes?.strength?.value ?? level.attributeStrength,
+            formula: level.attributes?.strength.formula,
             selected: level.attributes?.strength?.selected ?? level.attributeStrengthSelected
           },
           agility: {
             value: level.attributes?.agility?.value ?? level.attributeAgility,
+            formula: level.attributes?.agility.formula,
             selected: level.attributes?.agility?.selected ?? level.attributeAgilitySelected
           },
           intellect: {
             value: level.attributes?.intellect?.value ?? level.attributeIntellect,
+            formula: level.attributes?.intellect.formula,
             selected: level.attributes?.intellect?.selected ?? level.attributeIntellectSelected
           },
           will: {
             value: level.attributes?.will?.value ?? level.attributeWill,
+            formula: level.attributes?.will.formula,
             selected: level.attributes?.will?.selected ?? level.attributeWillSelected
           }
         }
@@ -185,9 +189,13 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
           power: level.characteristics?.power ?? level.characteristicsPower,
           insanity: {
             value: level.characteristics?.insanity?.value ?? level.characteristicsInsanity,
+            immune: level.characteristics?.insanity?.immune,
+            formula: level.characteristics?.insanity?.formula
           },
           corruption: {
-            value: level.characteristics?.corruption?.value ?? level.characteristicsCorruption
+            value: level.characteristics?.corruption?.value ?? level.characteristicsCorruption,
+            immune: level.characteristics?.corruption?.immune,
+            formula: level.characteristics?.corruption?.formula
           }
         }
       }
