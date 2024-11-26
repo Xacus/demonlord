@@ -127,8 +127,8 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
           perception: source.characteristics.perceptionmodifier,
           speed: source.characteristics.speed,
           power: source.characteristics.power,
-          insanity: source.characteristics.insanity.value,
-          corruption: source.characteristics.corruption.value,
+          insanity: source.characteristics.insanity,
+          corruption: source.characteristics.corruption
         },
         talents: source.talents,
         languages: source.languagelist
@@ -142,8 +142,10 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
       source.levels = source.levels.concat([
         {
           level: '4',
-          attributeselect: '',
-          characteristicsHealth: source.level4.healthbonus,
+          attributeSelect: '',
+          characteristics: {
+            health: source.level4.healthbonus,
+          },
           // option1 is not in use
           // option1text is not in use, but let's add it anyways
           optionsText: source.option1text,
@@ -156,7 +158,7 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
     }
 
     // Move separate attribute and characteristics properties into their respective objects
-    if (source.levels[source.levels.length - 1].attributeStrength != undefined) {
+    if (source.levels?.length > 0 && source.levels[source.levels.length - 1].attributeStrength != undefined) {
       for (const level of source.levels) {
         level.attributes = {
           strength: {
