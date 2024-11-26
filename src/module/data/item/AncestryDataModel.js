@@ -127,8 +127,8 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
           perception: source.characteristics.perceptionmodifier,
           speed: source.characteristics.speed,
           power: source.characteristics.power,
-          insanity: source.characteristics.insanity.value,
-          corruption: source.characteristics.corruption.value,
+          insanity: source.characteristics.insanity,
+          corruption: source.characteristics.corruption
         },
         talents: source.talents,
         languages: source.languagelist
@@ -142,8 +142,10 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
       source.levels = source.levels.concat([
         {
           level: '4',
-          attributeselect: '',
-          characteristicsHealth: source.level4.healthbonus,
+          attributeSelect: '',
+          characteristics: {
+            health: source.level4.healthbonus,
+          },
           // option1 is not in use
           // option1text is not in use, but let's add it anyways
           optionsText: source.option1text,
@@ -156,23 +158,27 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
     }
 
     // Move separate attribute and characteristics properties into their respective objects
-    if (source.levels[source.levels.length - 1].attributeStrength != undefined) {
+    if (source.levels?.length > 0 && source.levels[source.levels.length - 1].attributeStrength != undefined) {
       for (const level of source.levels) {
         level.attributes = {
           strength: {
             value: level.attributes?.strength?.value ?? level.attributeStrength,
+            formula: level.attributes?.strength.formula,
             selected: level.attributes?.strength?.selected ?? level.attributeStrengthSelected
           },
           agility: {
             value: level.attributes?.agility?.value ?? level.attributeAgility,
+            formula: level.attributes?.agility.formula,
             selected: level.attributes?.agility?.selected ?? level.attributeAgilitySelected
           },
           intellect: {
             value: level.attributes?.intellect?.value ?? level.attributeIntellect,
+            formula: level.attributes?.intellect.formula,
             selected: level.attributes?.intellect?.selected ?? level.attributeIntellectSelected
           },
           will: {
             value: level.attributes?.will?.value ?? level.attributeWill,
+            formula: level.attributes?.will.formula,
             selected: level.attributes?.will?.selected ?? level.attributeWillSelected
           }
         }
@@ -185,9 +191,13 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
           power: level.characteristics?.power ?? level.characteristicsPower,
           insanity: {
             value: level.characteristics?.insanity?.value ?? level.characteristicsInsanity,
+            immune: level.characteristics?.insanity?.immune,
+            formula: level.characteristics?.insanity?.formula
           },
           corruption: {
-            value: level.characteristics?.corruption?.value ?? level.characteristicsCorruption
+            value: level.characteristics?.corruption?.value ?? level.characteristicsCorruption,
+            immune: level.characteristics?.corruption?.immune,
+            formula: level.characteristics?.corruption?.formula
           }
         }
       }

@@ -157,24 +157,27 @@ export class DemonlordItem extends Item {
       rolls.push({property: 'corruption', roll: roll })
     }
 
-    // Send a message to chat with all the rolls
+    const actor = game.user.character ?? canvas.tokens.controlled[0]?.actor
+
+    // If we dropped it into an actor, print the roll data
     if (rolls.length > 0) {
       const templateData = {
         item: ancestry,
         rolls,
       }
 
-      const actor = game.user.character ?? canvas.tokens.controlled[0].actor
-      const rollMode = game.settings.get('core', 'rollMode')
+      if (actor) {
+        const rollMode = game.settings.get('core', 'rollMode')
 
-      const chatData = getChatBaseData(actor, rollMode)
+        const chatData = getChatBaseData(actor, rollMode)
 
-      const template = 'systems/demonlord/templates/chat/formulaeroll.hbs'
-      renderTemplate(template, templateData).then(async content => {
-        chatData.content = content
-        chatData.sound = CONFIG.sounds.dice
-        await ChatMessage.create(chatData)
-      })
+        const template = 'systems/demonlord/templates/chat/formulaeroll.hbs'
+        renderTemplate(template, templateData).then(async content => {
+          chatData.content = content
+          chatData.sound = CONFIG.sounds.dice
+          await ChatMessage.create(chatData)
+        })
+      }
     }
 
     const l0 = this.system.levels.find(l => l.level === '0')
