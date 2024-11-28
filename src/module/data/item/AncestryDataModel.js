@@ -136,7 +136,7 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
     }
 
     // Update from level4 to any number of levels
-    if (source.level4) {
+    if (source.level4 && (!source.levels || source.levels?.filter(l => l.level === '4').length === 0)) {
       if (!source.levels) source.levels = []
 
       source.levels = source.levels.concat([
