@@ -35,25 +35,25 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
         attributeSelectTwoSetSelectedValue2: makeBoolField(true),
         attributes: new foundry.data.fields.SchemaField({
           strength: new foundry.data.fields.SchemaField({
-            value: makeIntField(10, 20, 0),
+            value: makeIntField(0, 20, 0),
             formula: makeStringField(),
             immune: makeBoolField(),
             selected: makeBoolField(),
           }),
           agility: new foundry.data.fields.SchemaField({
-            value: makeIntField(10, 20, 0),
+            value: makeIntField(0, 20, 0),
             formula: makeStringField(),
             immune: makeBoolField(),
             selected: makeBoolField(),
           }),
           intellect: new foundry.data.fields.SchemaField({
-            value: makeIntField(10, 20, 0),
+            value: makeIntField(0, 20, 0),
             formula: makeStringField(),
             immune: makeBoolField(),
             selected: makeBoolField(),
           }),
           will: new foundry.data.fields.SchemaField({
-            value: makeIntField(10, 20, 0),
+            value: makeIntField(0, 20, 0),
             formula: makeStringField(),
             immune: makeBoolField(),
             selected: makeBoolField(),
@@ -65,7 +65,7 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
           size: makeStringField(),
           defense: makeIntField(),
           perception: makeIntField(),
-          speed: makeIntField(10),
+          speed: makeIntField(),
           power: makeIntField(),
           insanity: new foundry.data.fields.SchemaField({
             value: makeIntField(),
@@ -113,7 +113,7 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
     }
 
     // Move attributes and characteristics into a new level 0
-    if (source.attributes && source.levels?.filter(l => l.level === '0').length === 0) {
+    if (source.attributes && (!source.levels || source.levels?.filter(l => l.level === '0').length === 0)) {
       if (!source.levels) source.levels = []
 
       source.levels = [{
@@ -136,7 +136,7 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
     }
 
     // Update from level4 to any number of levels
-    if (source.level4 && !source.levels) {
+    if (source.level4) {
       if (!source.levels) source.levels = []
 
       source.levels = source.levels.concat([
@@ -148,10 +148,11 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
           },
           // option1 is not in use
           // option1text is not in use, but let's add it anyways
-          optionsText: source.option1text,
+          optionsText: source.level4.option1text,
           talents: source.level4.talent,
           spells: source.level4.spells,
           talentsSelected: source.level4.pickedTalents,
+          talentspick: source.level4.pickedTalents,
           // picks is not in use
         }
       ])

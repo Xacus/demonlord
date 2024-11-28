@@ -154,7 +154,10 @@ export class DLActiveEffects {
           overrideEffect('system.characteristics.size', ancestryLevel.characteristics.size, priority, true),
           addEffect('system.characteristics.power', ancestryLevel.characteristics.power, priority),
           addEffect('system.attributes.perception.value', ancestryLevel.characteristics.perception, priority),
-          addEffect('system.characteristics.speed', ancestryLevel.characteristics.speed, priority),
+
+          (ancestryLevel.level === '0' ?
+            overrideEffect('system.characteristics.speed', ancestryLevel.characteristics.speed, priority)
+          : addEffect('system.characteristics.speed', ancestryLevel.characteristics.speed, priority)),
           addEffect('system.characteristics.defense', ancestryLevel.characteristics.defense, priority),
           addEffect('system.characteristics.insanity.immune', ancestryLevel.characteristics.insanity.immune, priority),
           addEffect('system.characteristics.corruption.immune', ancestryLevel.characteristics.corruption.immune, priority),

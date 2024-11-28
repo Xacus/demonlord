@@ -927,6 +927,13 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
           newLevel.attributes.intellect.selected = foundLevel.attributes.intellect.selected
           newLevel.attributes.will.selected = foundLevel.attributes.will.selected
         }
+        
+        // And roll formulas
+        newLevel.attributes.strength.formula = foundLevel.attributes.strength.formula
+        newLevel.attributes.agility.formula = foundLevel.attributes.agility.formula
+        newLevel.attributes.intellect.formula = foundLevel.attributes.intellect.formula
+        newLevel.attributes.will.formula = foundLevel.attributes.will.formula
+
       } else notFound.push(newLevel)
     }
 
