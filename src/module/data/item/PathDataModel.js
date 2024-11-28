@@ -31,25 +31,25 @@ export default class PathDataModel extends foundry.abstract.DataModel {
         attributeSelectTwoSetSelectedValue2: makeBoolField(true),
         attributes: new foundry.data.fields.SchemaField({
           strength: new foundry.data.fields.SchemaField({
-            value: makeIntField(10, 20, 0),
+            value: makeIntField(1, 20, 0),
             formula: makeStringField(),
             immune: makeBoolField(),
             selected: makeBoolField(),
           }),
           agility: new foundry.data.fields.SchemaField({
-            value: makeIntField(10, 20, 0),
+            value: makeIntField(1, 20, 0),
             formula: makeStringField(),
             immune: makeBoolField(),
             selected: makeBoolField(),
           }),
           intellect: new foundry.data.fields.SchemaField({
-            value: makeIntField(10, 20, 0),
+            value: makeIntField(1, 20, 0),
             formula: makeStringField(),
             immune: makeBoolField(),
             selected: makeBoolField(),
           }),
           will: new foundry.data.fields.SchemaField({
-            value: makeIntField(10, 20, 0),
+            value: makeIntField(1, 20, 0),
             formula: makeStringField(),
             immune: makeBoolField(),
             selected: makeBoolField(),
