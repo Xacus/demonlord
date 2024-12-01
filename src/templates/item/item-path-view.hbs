@@ -68,10 +68,10 @@
           </div>
 
           {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree)}}
-            {{> AttributeSelector icon="strength"   value=level.attributes.strength.value  id=(concat "L" level.level ".attributes.strength.selected") name="level.attributes.strength.selected"  selected=level.attributes.strength.selected  loc="DL.AttributeStrength"}}
-            {{> AttributeSelector icon="agility"    value=level.attributes.agility.value   id=(concat "L" level.level ".attributes.agility.selected") name="level.attributes.agility.selected"   selected=level.attributes.agility.selected   loc="DL.AttributeAgility"}}
-            {{> AttributeSelector icon="intellect"  value=level.attributes.intellect.value id=(concat "L" level.level ".attributes.intellect.selected") name="level.attributes.intellect.selected" selected=level.attributes.intellect.selected loc="DL.AttributeIntellect"}}
-            {{> AttributeSelector icon="will"       value=level.attributes.will.value      id=(concat "L" level.level ".attributes.will.selected") name="level.attributes.will.selected"      selected=level.attributes.will.selected      loc="DL.AttributeWill"}}
+            {{> AttributeSelector icon="strength"   value=level.attributes.strength.value  id=(concat "L" level.level ".attributes.strength.selected." ../item.id) name="level.attributes.strength.selected"  selected=level.attributes.strength.selected  loc="DL.AttributeStrength"}}
+            {{> AttributeSelector icon="agility"    value=level.attributes.agility.value   id=(concat "L" level.level ".attributes.agility.selected." ../item.id) name="level.attributes.agility.selected"   selected=level.attributes.agility.selected   loc="DL.AttributeAgility"}}
+            {{> AttributeSelector icon="intellect"  value=level.attributes.intellect.value id=(concat "L" level.level ".attributes.intellect.selected." ../item.id) name="level.attributes.intellect.selected" selected=level.attributes.intellect.selected loc="DL.AttributeIntellect"}}
+            {{> AttributeSelector icon="will"       value=level.attributes.will.value      id=(concat "L" level.level ".attributes.will.selected." ../item.id) name="level.attributes.will.selected"      selected=level.attributes.will.selected      loc="DL.AttributeWill"}}
           {{else if level.attributeSelectIsFixed}}
             {{> AttributeViewer icon="strength"   value=level.attributes.strength.value  name="level.attributes.strength.value"  loc="DL.AttributeStrength"}}
             {{> AttributeViewer icon="agility"    value=level.attributes.agility.value   name="level.attributes.agility.value"   loc="DL.AttributeAgility"}}
