@@ -235,6 +235,17 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   /** @override */
+  async toggleStatusEffect(statusId, options) {
+    // Check we're not immune to this condition
+    if (this.isImmuneToAffliction(statusId)) {
+      ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'));
+      return false;
+    } else {
+      return await super.toggleStatusEffect(statusId, options)
+    }
+  }
+
+  /** @override */
   async _onUpdate(changed, options, user) {
     await super._onUpdate(changed, options, user)
     if (user !== game.userId) return
