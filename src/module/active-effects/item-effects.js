@@ -252,22 +252,22 @@ export class DLActiveEffects {
           // Selected checkbox (select two, three, fixed)
           addEffect(
             'system.attributes.strength.value',
-            pathLevel.attributes.strength * (pathLevel.attributes.strength.selected || pathLevel.attributeSelectIsFixed),
+            pathLevel.attributes.strength.value * (pathLevel.attributes.strength.selected || pathLevel.attributeSelectIsFixed),
             priority
           ),
           addEffect(
             'system.attributes.agility.value',
-            pathLevel.attributes.agility * (pathLevel.attributes.agility.selected || pathLevel.attributeSelectIsFixed),
+            pathLevel.attributes.agility.value * (pathLevel.attributes.agility.selected || pathLevel.attributeSelectIsFixed),
             priority
           ),
           addEffect(
             'system.attributes.intellect.value',
-            pathLevel.attributes.intellect * (pathLevel.attributes.intellect.selected || pathLevel.attributeSelectIsFixed),
+            pathLevel.attributes.intellect.value * (pathLevel.attributes.intellect.selected || pathLevel.attributeSelectIsFixed),
             priority
           ),
           addEffect(
             'system.attributes.will.value',
-            pathLevel.attributes.will * (pathLevel.attributes.will.selected || pathLevel.attributeSelectIsFixed),
+            pathLevel.attributes.will.value * (pathLevel.attributes.will.selected || pathLevel.attributeSelectIsFixed),
             priority
           ),
         ].filter(falsyChangeFilter),
