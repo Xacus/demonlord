@@ -223,7 +223,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   }
 
   const targetNumber = talentData?.action?.attack ? actor.getTargetNumber(talent) : ''
-  const plus20 = attackRoll?.total >= 20 && (targetNumber ? attackRoll?.total > targetNumber + 5 : true)
+  const plus20 = attackRoll?.total >= 20 && (targetNumber ? attackRoll?.total >= targetNumber + 5 : true)
 
   let resultText =
     !voidRoll && attackRoll != null && targetNumber !== undefined && attackRoll.total >= parseInt(targetNumber)
