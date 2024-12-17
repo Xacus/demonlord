@@ -1,5 +1,6 @@
 import {buildAttackEffectsMessage, buildAttributeEffectsMessage, buildTalentEffectsMessage} from './effect-messages'
-import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
+import { buildActorInfo, formatDice, getChatBaseData } from './base-messages'
+import { optinalRuleExceedsByFive } from './settings.js'
 
 function changeBobDieColour (attackRoll)
 {
