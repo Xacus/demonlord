@@ -85,7 +85,9 @@ export class OptionalRulesSettings extends FormApplication {
       h: game.i18n.localize('DL.SettingOptionalRuleInitiativeGroup'),
       },
       optinalRuleRollInitEachRound: game.settings.get('demonlord', 'optinalRuleRollInitEachRound'),
-      optinalRuleExceedsByFive: game.settings.get('demonlord', 'optinalRuleExceedsByFive')
+      optinalRuleExceedsByFive: game.settings.get('demonlord', 'optinalRuleExceedsByFive'),
+      horrifyingBane: game.settings.get("demonlord", "horrifyingBane"),      
+      optinalRuleLevelDependentBane: game.settings.get('demonlord', 'optinalRuleLevelDependentBane')
     }
   }
 
@@ -182,6 +184,15 @@ export const registerSettings = function () {
   game.settings.register('demonlord', 'optinalRuleExceedsByFive', {
     name: game.i18n.localize('DL.SettingOptinalRuleExceedsByFive'),
     hint: game.i18n.localize('DL.SettingOptinalRuleExceedsByFiveDamageHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: false,
+  })
+
+  game.settings.register('demonlord', 'optinalRuleLevelDependentBane', {
+    name: game.i18n.localize('DL.SettingOptinalRuleLevelDependentBane'),
+    hint: game.i18n.localize('DL.SettingOptinalRuleLevelDependentBaneHint'),
     default: false,
     scope: 'world',
     type: Boolean,
@@ -372,7 +383,7 @@ export const registerSettings = function () {
     default: true,
     scope: 'world',
     type: Boolean,
-    config: true,
+    config: false,
   })
   game.settings.register("demonlord", "concentrationEffect", {
     name: game.i18n.localize('DL.SettingConcentrationEffect'),
