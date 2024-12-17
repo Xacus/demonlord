@@ -84,7 +84,8 @@ export class OptionalRulesSettings extends FormApplication {
       i: game.i18n.localize('DL.SettingOptionalRuleInitiativeInduvidual'),
       h: game.i18n.localize('DL.SettingOptionalRuleInitiativeGroup'),
       },
-      optinalRuleRollInitEachRound: game.settings.get('demonlord', 'optinalRuleRollInitEachRound')
+      optinalRuleRollInitEachRound: game.settings.get('demonlord', 'optinalRuleRollInitEachRound'),
+      optinalRuleExceedsByFive: game.settings.get('demonlord', 'optinalRuleExceedsByFive')
     }
   }
 
@@ -172,6 +173,15 @@ export const registerSettings = function () {
   game.settings.register('demonlord', 'optinalRuleConsistentDamage', {
     name: game.i18n.localize('DL.SettingOptionalRuleConsistentDamage'),
     hint: game.i18n.localize('DL.SettingOptionalRuleConsistentDamageHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: false,
+  })
+
+  game.settings.register('demonlord', 'optinalRuleExceedsByFive', {
+    name: game.i18n.localize('DL.SettingOptinalRuleExceedsByFive'),
+    hint: game.i18n.localize('DL.SettingOptinalRuleExceedsByFiveDamageHint'),
     default: false,
     scope: 'world',
     type: Boolean,
