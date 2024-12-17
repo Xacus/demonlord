@@ -568,6 +568,8 @@
   "DL.RollFormula": "Roll formula",
   "DL.SettingAttackReverseDamage": "Reverse Damage/Health",
   "DL.SettingAttackReverseDamageHint": "Substract damage from Health insted of adding damage.",
+  "DL.SettingOptinalRuleExceedsByFive": "20+ rule more than 5",
+  "DL.SettingOptinalRuleExceedsByFiveHint": "Rules of effects of 20+ will require that you exceed the target by more than 5.",
   "DL.SettingAttackShowEnemyAttribute": "Show Creature target number",
   "DL.SettingAttackShowEnemyAttributeAtt": "Show the Creatures attack number",
   "DL.SettingAttackShowEnemyAttributeAttHint": "Show the Creatures attack number you are rolling against in the chat.",
