@@ -423,7 +423,7 @@ export class DemonlordActor extends Actor {
       (attacker.system.bonuses.attack.boons.weapon || 0)
 
     const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-    const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optinalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
+    const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
     // The defender banes apply only if the defender is one target
     if (defendersTokens.length === 1)
       boons -=
@@ -604,7 +604,7 @@ export class DemonlordActor extends Actor {
         parseInt(talentData.action?.boonsbanes || 0)
 
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optinalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
+      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
 
       if (targets.length === 1)
         boons -= (
@@ -691,7 +691,7 @@ export class DemonlordActor extends Actor {
         (this.system.bonuses.attack.boons.spell || 0)
 
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optinalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
+      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
 
       if (targets.length > 0)
         boons -=
@@ -810,7 +810,7 @@ export class DemonlordActor extends Actor {
         parseInt(itemData.action?.boonsbanes || 0)
 
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optinalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
+      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
 
       if (targets.length === 1)
         boons -= (
