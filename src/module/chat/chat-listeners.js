@@ -73,7 +73,7 @@ async function _onChatRollDamage(event) {
   const selected = tokenManager.targets
   const itemId = item.dataset.itemId || li.closest('.demonlord').dataset.itemId
 
-  if (game.settings.get('demonlord', 'optinalRuleConsistentDamage')) {
+  if (game.settings.get('demonlord', 'optionalRuleConsistentDamage')) {
     var flattenTree = function(root) {
       const list = []
 
