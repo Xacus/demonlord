@@ -423,14 +423,14 @@ export class DemonlordActor extends Actor {
       (attacker.system.bonuses.attack.boons.weapon || 0)
 
     const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-
+    const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optinalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
     // The defender banes apply only if the defender is one target
     if (defendersTokens.length === 1)
       boons -=
         (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) +
         (defender?.system.bonuses.defense.boons.all || 0) +
         (defender?.system.bonuses.defense.boons.weapon || 0) +
-        (horrifyingBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
+        (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
 
     // Check if requirements met
     if (item.system.wear && parseInt(item.system.requirement?.minvalue) > attacker.getAttribute(item.system.requirement?.attribute)?.value)
@@ -604,12 +604,13 @@ export class DemonlordActor extends Actor {
         parseInt(talentData.action?.boonsbanes || 0)
 
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
+      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optinalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
 
       if (targets.length === 1)
         boons -= (
           (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
           (target?.actor?.system.bonuses.defense.boons.all || 0) +
-          (horrifyingBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0))
+          (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
@@ -690,13 +691,14 @@ export class DemonlordActor extends Actor {
         (this.system.bonuses.attack.boons.spell || 0)
 
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
+      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optinalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
 
       if (targets.length > 0)
         boons -=
           (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
           (target?.actor?.system.bonuses.defense.boons.all || 0) +
           (target?.actor?.system.bonuses.defense.boons.spell || 0) +
-          (horrifyingBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0)
+          (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0)
 
       const modifiers = [parseInt(inputModifier) || 0, this.getAttribute(attackAttribute).modifier || 0]
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
@@ -808,12 +810,13 @@ export class DemonlordActor extends Actor {
         parseInt(itemData.action?.boonsbanes || 0)
 
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
+      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optinalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
 
       if (targets.length === 1)
         boons -= (
           (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
           (target?.actor?.system.bonuses.defense.boons.all || 0) +
-          (horrifyingBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0))
+          (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)

@@ -1,35 +1,53 @@
 <form autocomplete="off">
 
-    <div class="form-group">
-        <label>{{localize "DL.SettingOptionalRuleConsistentDamage"}}</label>
-        <input type="checkbox" name="optinalRuleConsistentDamage" {{checked optinalRuleConsistentDamage}} data-dtype="Boolean"/>
-    </div>
-    <hr>
-	<div class="form-group">
-        <label>{{localize "DL.SettingOptionalRuleDieRollsMode"}}</label>
-        <select name="optionalRuleDieRollsMode">
-            {{selectOptions dieRollsDropDrown selected=selectedDieRollsDropDrown localize=true}}
-        </select>
-    </div>
-    <hr>
-	<div class="form-group">
-        <label>{{localize "DL.SettingOptionalRuleInitiative"}}</label>
-        <select name="optionalRuleInitiativeMode">
-            {{selectOptions initiativeMethodDropDrown selected=selectedInitiativeMethodDropDrown localize=true}}
-        </select>
-    </div>
-    <div class="form-group">
-        <label>{{localize "DL.SettingOptinalRuleRollInitEachRound"}}</label>
-        <input type="checkbox" name="optinalRuleRollInitEachRound" {{checked optinalRuleRollInitEachRound}} data-dtype="Boolean"/>
-    </div>
-	<footer class="sheet-footer flexrow">
-		<button type="submit" name="submit">
-		 	<i class="far fa-save"></i>
-			{{localize "SETTINGS.Save"}}
-		</button>
-		<button type="button" data-action="reset">
-			<i class="fas fa-undo"></i>
-			{{localize "SETTINGS.Reset"}}
-		</button>
-	</footer>
+  <div class="form-group">
+    <label>{{localize "DL.SettingOptionalRuleConsistentDamage"}}</label>
+    <input type="checkbox" name="optinalRuleConsistentDamage" {{checked optinalRuleConsistentDamage}} data-dtype="Boolean" />
+  </div>
+  <hr>
+  <div class="form-group">
+    <label>{{localize "DL.SettingOptionalRuleDieRollsMode"}}</label>
+    <select name="optionalRuleDieRollsMode">
+      {{selectOptions dieRollsDropDrown selected=selectedDieRollsDropDrown localize=true}}
+    </select>
+  </div>
+  <hr>
+  <div class="form-group">
+    <label>{{localize "DL.SettingOptionalRuleInitiative"}}</label>
+    <select name="optionalRuleInitiativeMode">
+      {{selectOptions initiativeMethodDropDrown selected=selectedInitiativeMethodDropDrown localize=true}}
+    </select>
+  </div>
+  <div class="form-group">
+    <label>{{localize "DL.SettingOptinalRuleRollInitEachRound"}}</label>
+    <input type="checkbox" name="optinalRuleRollInitEachRound" {{checked optinalRuleRollInitEachRound}} data-dtype="Boolean" />
+  </div>
+  <hr>
+  <div class="form-group">
+    <label>{{localize "DL.SettingOptinalRuleExceedsByFive"}}</label>
+    <input type="checkbox" name="optinalRuleExceedsByFive" {{checked optinalRuleExceedsByFive}} data-dtype="Boolean" />
+    <p class="notes">{{localize "DL.SettingOptinalRuleExceedsByFiveHint"}}</p>    
+  </div>
+  <hr>
+  <div class="form-group">
+    <label>{{localize "DL.SettingHorrifyingBane"}}</label>
+    <input type="checkbox" name="horrifyingBane" {{checked horrifyingBane}} data-dtype="Boolean" />
+    <p class="notes">{{localize "DL.SettingHorrifyingBaneHint"}}</p>    
+  </div>  
+  <div class="form-group">
+    <label>{{localize "DL.SettingOptinalRuleLevelDependentBane"}}</label>
+    <input type="checkbox" name="optinalRuleLevelDependentBane" {{checked optinalRuleLevelDependentBane}} data-dtype="Boolean" />
+    <p class="notes">{{localize "DL.SettingOptinalRuleLevelDependentBaneHint"}}</p>
+    <a style="font-size: var(--font-size-12); color: var(--color-text-dark-secondary)" href='https://somniacdelusions.wordpress.com/2019/04/17/sotdl-house-rules/'>https://somniacdelusions.wordpress.com/2019/04/17/sotdl-house-rules</a>
+  </div>
+  <footer class="sheet-footer flexrow">
+    <button type="submit" name="submit">
+      <i class="far fa-save"></i>
+      {{localize "SETTINGS.Save"}}
+    </button>
+    <button type="button" data-action="reset">
+      <i class="fas fa-undo"></i>
+      {{localize "SETTINGS.Reset"}}
+    </button>
+  </footer>
 </form>
