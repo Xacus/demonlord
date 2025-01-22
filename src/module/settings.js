@@ -234,6 +234,15 @@ export const registerSettings = function () {
     config: false,
   })
 
+  game.settings.register('demonlord', 'ignoreEncumbrance', {
+    name: game.i18n.localize('DL.SettingIgnoreEncumbrance'),
+    hint: game.i18n.localize('DL.SettingIgnoreEncumbranceHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true
+  })
+
   game.settings.register('demonlord', 'systemMigrationVersion', {
     name: 'System Migration Version',
     scope: 'world',

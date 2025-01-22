@@ -1045,6 +1045,7 @@ export class DemonlordActor extends Actor {
   }
 
   async setEncumbrance() {
+    if (game.settings.get('demonlord', 'ignoreEncumbrance')) return
     const armors = this.items.filter(i => i.type === 'armor')
     const notMetItemNames = armors
       .map(a => a.system)

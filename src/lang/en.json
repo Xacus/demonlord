@@ -633,6 +633,8 @@
   "DL.SettingTemplateAutoTargetingHint": "Automatically targets the tokens inside of your placed Measured Template.",
   "DL.SettingUsingHomebrewMode": "Use Homebrew mode",
   "DL.SettingUsingHomebrewModeHint": "Attributes are not calculated based on Ancestry or Path choices; they must be manually entered on the character sheets. Characteristics are still calculated as normal.",
+  "DL.SettingIgnoreEncumbrance": "Ignore encumbrance",
+  "DL.SettingIgnoreEncumbranceHint": "Ignore encumbrance rules when required attribute is not met.",
   "DL.slowed": "Slowed",
   "DL.SpecialDurationNone": "None",
   "DL.SpecialDurationLabel": "Special Duration",
