@@ -70,14 +70,14 @@
             {{> AttributeInput icon="perception" value=level.characteristics.perception name="level.characteristics.perception" loc="DL.AttributePerception"}}
             {{> AttributeInput icon="speed" value=level.characteristics.speed name="level.characteristics.speed" loc="DL.CharSpeed"}}
             <div class="item-group-attribute-value">
-              <div class="input-group editable-stat" data-tippy-content="{{localize "DL.CharInsanity"}}">
+              <div class="input-group editable-stat" data-tippy-content="{{localize "DL.CharInsanity"}}" data-stat-type="characteristics" data-stat-name="insanity">
                 <i class="icon-insanity themed-icon"></i>
                 <span class="sep"></span>
                 <input type="{{ifThen level.characteristics.insanity.immune "text" "number"}}" class="input-group-textbox" name="level.characteristics.insanity.value" value="{{ifThen level.characteristics.insanity.immune "-" level.characteristics.insanity.value}}" {{disabled level.characteristics.insanity.immune}} placeholder="0" />
               </div>
             </div>
             <div class="item-group-attribute-value">
-              <div class="input-group editable-stat" data-tippy-content="{{localize "DL.CharCorruption"}}">
+              <div class="input-group editable-stat" data-tippy-content="{{localize "DL.CharCorruption"}}" data-stat-type="characteristics" data-stat-name="corruption">
                 <i class="icon-corruption themed-icon"></i>
                 <span class="sep"></span>
                 <input type="{{ifThen level.characteristics.corruption.immune "text" "number"}}" class="input-group-textbox" name="level.characteristics.corruption.value" value="{{ifThen level.characteristics.corruption.immune "-" level.characteristics.corruption.value}}" {{disabled level.characteristics.corruption.immune}} placeholder="0" />
