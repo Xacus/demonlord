@@ -350,7 +350,7 @@ export default class DLBaseActorSheet extends ActorSheet {
         item.system.wear &&
         item.system.requirement?.minvalue != '' &&
         item.system.requirement?.attribute != '' && 
-        +item.system.requirement?.minvalue > +this.actor.getAttribute(item.system.requirement?.attribute)?.value
+        +item.system.requirement?.minvalue > (+this.actor.getAttribute(item.system.requirement?.attribute)?.value + +this.actor.getAttribute(item.system.requirement?.attribute)?.requirementModifier)
       ) {
         $(el).addClass('dl-text-red')
       }

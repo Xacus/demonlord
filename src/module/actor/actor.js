@@ -1049,7 +1049,7 @@ export class DemonlordActor extends Actor {
     const armors = this.items.filter(i => i.type === 'armor')
     const notMetItemNames = armors
       .map(a => a.system)
-      .filter(a => a.requirement?.minvalue > this.getAttribute(a.requirement?.attribute)?.value && a.wear)
+      .filter(a => a.requirement?.minvalue > (this.getAttribute(a.requirement?.attribute)?.value + this.getAttribute(a.requirement?.attribute)?.requirementModifier) && a.wear)
       .map(a => a.name)
     return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }
