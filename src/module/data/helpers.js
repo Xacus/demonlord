@@ -52,6 +52,7 @@ export function makeAttribute(attribute, max = 20) {
     label: makeStringField(game.i18n.localize(`DL.Attribute${capitalize(attribute)}`)),
     value: makeIntField(10, max, 1),
     modifier: makeIntField(),
+    requirementModifier: makeIntField(),
     min: makeIntField(),
     max: makeIntField(max),
     immune: makeBoolField()

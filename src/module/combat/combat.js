@@ -266,7 +266,7 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
   /** @override */
   async nextRound() {
     let initiativeMethod = game.settings.get('demonlord', 'optionalRuleInitiativeMode')
-    if (initiativeMethod !== 's' &&  game.settings.get('demonlord', 'optinalRuleRollInitEachRound')) {
+    if (initiativeMethod !== 's' &&  game.settings.get('demonlord', 'optionalRuleRollInitEachRound')) {
         await game.combat.resetAll({
             messageOptions: {
                 rollMode: CONST.DICE_ROLL_MODES.PRIVATE

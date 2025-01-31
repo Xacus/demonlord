@@ -69,7 +69,7 @@ export class OptionalRulesSettings extends FormApplication {
 
   getData() {
     return {
-      optinalRuleConsistentDamage: game.settings.get('demonlord', 'optinalRuleConsistentDamage'),
+      optionalRuleConsistentDamage: game.settings.get('demonlord', 'optionalRuleConsistentDamage'),
       optionalRuleDieRollsMode: game.settings.get('demonlord', 'optionalRuleDieRollsMode'),
       selectedDieRollsDropDrown: game.settings.get('demonlord', 'optionalRuleDieRollsMode'),
       dieRollsDropDrown: {
@@ -84,10 +84,10 @@ export class OptionalRulesSettings extends FormApplication {
       i: game.i18n.localize('DL.SettingOptionalRuleInitiativeInduvidual'),
       h: game.i18n.localize('DL.SettingOptionalRuleInitiativeGroup'),
       },
-      optinalRuleRollInitEachRound: game.settings.get('demonlord', 'optinalRuleRollInitEachRound'),
-      optinalRuleExceedsByFive: game.settings.get('demonlord', 'optinalRuleExceedsByFive'),
+      optionalRuleRollInitEachRound: game.settings.get('demonlord', 'optionalRuleRollInitEachRound'),
+      optionalRuleExceedsByFive: game.settings.get('demonlord', 'optionalRuleExceedsByFive'),
       horrifyingBane: game.settings.get("demonlord", "horrifyingBane"),      
-      optinalRuleLevelDependentBane: game.settings.get('demonlord', 'optinalRuleLevelDependentBane')
+      optionalRuleLevelDependentBane: game.settings.get('demonlord', 'optionalRuleLevelDependentBane')
     }
   }
 
@@ -109,7 +109,7 @@ export class OptionalRulesSettings extends FormApplication {
     super.activateListeners(html)
     html.find('button').on('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
-        const keys = ['optinalRuleConsistentDamage', 'optionalRuleDieRollsMode','optionalRuleInitiativeMode','optinalRuleRollInitEachRound']
+        const keys = ['optionalRuleConsistentDamage', 'optionalRuleDieRollsMode','optionalRuleInitiativeMode','optionalRuleRollInitEachRound']
         await Promise.all(
           keys.map(async key => {
             await this.resetToDefault(key)
@@ -163,7 +163,7 @@ export const registerSettings = function () {
   })
 
 
-  game.settings.registerMenu('demonlord', 'optinalRulesSettings', {
+  game.settings.registerMenu('demonlord', 'optionalRulesSettings', {
     name: game.i18n.localize('DL.SettingOptionalRules'),
     label: game.i18n.localize('Configure'),
     hint: game.i18n.localize('DL.SettingOptionalRulesHint'),
@@ -172,7 +172,7 @@ export const registerSettings = function () {
     restricted: true
   })
 
-  game.settings.register('demonlord', 'optinalRuleConsistentDamage', {
+  game.settings.register('demonlord', 'optionalRuleConsistentDamage', {
     name: game.i18n.localize('DL.SettingOptionalRuleConsistentDamage'),
     hint: game.i18n.localize('DL.SettingOptionalRuleConsistentDamageHint'),
     default: false,
@@ -181,18 +181,18 @@ export const registerSettings = function () {
     config: false,
   })
 
-  game.settings.register('demonlord', 'optinalRuleExceedsByFive', {
-    name: game.i18n.localize('DL.SettingOptinalRuleExceedsByFive'),
-    hint: game.i18n.localize('DL.SettingOptinalRuleExceedsByFiveDamageHint'),
+  game.settings.register('demonlord', 'optionalRuleExceedsByFive', {
+    name: game.i18n.localize('DL.SettingOptionalRuleExceedsByFive'),
+    hint: game.i18n.localize('DL.SettingOptionalRuleExceedsByFiveDamageHint'),
     default: false,
     scope: 'world',
     type: Boolean,
     config: false,
   })
 
-  game.settings.register('demonlord', 'optinalRuleLevelDependentBane', {
-    name: game.i18n.localize('DL.SettingOptinalRuleLevelDependentBane'),
-    hint: game.i18n.localize('DL.SettingOptinalRuleLevelDependentBaneHint'),
+  game.settings.register('demonlord', 'optionalRuleLevelDependentBane', {
+    name: game.i18n.localize('DL.SettingOptionalRuleLevelDependentBane'),
+    hint: game.i18n.localize('DL.SettingOptionalRuleLevelDependentBaneHint'),
     default: false,
     scope: 'world',
     type: Boolean,
@@ -226,12 +226,21 @@ export const registerSettings = function () {
     onChange: foundry.utils.debouncedReload
   })
 
-  game.settings.register('demonlord', 'optinalRuleRollInitEachRound', {
-    name: game.i18n.localize('DL.SettingOptinalRuleRollInitEachRound'),
+  game.settings.register('demonlord', 'optionalRuleRollInitEachRound', {
+    name: game.i18n.localize('DL.SettingOptionalRuleRollInitEachRound'),
     default: false,
     scope: 'world',
     type: Boolean,
     config: false,
+  })
+
+  game.settings.register('demonlord', 'ignoreEncumbrance', {
+    name: game.i18n.localize('DL.SettingIgnoreEncumbrance'),
+    hint: game.i18n.localize('DL.SettingIgnoreEncumbranceHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true
   })
 
   game.settings.register('demonlord', 'systemMigrationVersion', {

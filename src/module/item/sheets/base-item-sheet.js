@@ -961,7 +961,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
   async _onDrag(ev){
     const itemIndex = ev.currentTarget.closest('[data-item-index]').dataset.itemIndex
-    const data = await this.getData({})
+    const data = this.document
     if (ev.type == 'dragend') {
       if (data.system.contents[itemIndex].system.quantity <= 1) {
         await this.deleteContentsItem(itemIndex)

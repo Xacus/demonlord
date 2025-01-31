@@ -509,6 +509,8 @@
   "DL.SettingConvertIntoBadgeHint": "Rodear los icono de linaje y senda con un fondo de insignia.",
   "DL.SettingConfirmAncestryPathRemoval": "Confirmar eliminación de linaje/senda",
   "DL.SettingConfirmAncestryPathRemovalHint": "Muestra un diálogo de confirmación al intentar borrar un linaje o una senda de un personaje de nivel 1 o mayor.",
+  "DL.SettingIgnoreEncumbrance": "Ignorar Sobrecarga",
+  "DL.SettingIgnoreEncumbranceHint": "Ignorar reglas de sobrecarga cuando los requisitos de un objeto no se cumplen.",
   "DL.DialogInitiative": "Iniciativa",
   "DL.DialogInitiativeTurn": "Ha elegido hacer un turno ",
   "DL.DialogInitiativeTurnEnd": ".",
