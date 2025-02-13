@@ -27,3 +27,4 @@ Icons / SVGs
 - <a href="https://www.flaticon.com/free-icons/box" title="box icons">Box icons created by bqlqn - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/destroyed-planet" title="destroyed planet icons">Destroyed planet icons created by Mayor Icons - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/sharp" title="sharp icons">Sharp icons created by edt.im - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/attack" title="attack icons">Attack icons created by Smashicons - Flaticon</a>

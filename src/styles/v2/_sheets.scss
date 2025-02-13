@@ -431,11 +431,17 @@ span.vertical-rule {
 .icon-difficulty {
   @include demonlord-icon('../assets/ui/other-svg/difficulty.svg');
 }
+
 .icon-frightening {
   @include demonlord-icon('../assets/ui/other-svg/frightening.svg');
 }
+
 .icon-horrifying {
   @include demonlord-icon('../assets/ui/other-svg/horrifying.svg');
+}
+
+.icon-attack {
+  @include demonlord-icon('../assets/ui/other-svg/attack.svg');
 }
 
 /*******************/
@@ -579,6 +585,12 @@ span.text-vs {
 }
 
 .item-group-boba {
+  @include input-group-container();
+  width: 70px;
+  min-width: 0;
+}
+
+.item-group-rollbonus {
   @include input-group-container();
   width: 70px;
   min-width: 0;

@@ -5,7 +5,9 @@ export function capitalize(string) {
 }
 
 export function plusify(x) {
-  if ((typeof x === 'string' || x instanceof String) && x[0] === '+') return x // Ignore plusified strings
+  if (typeof x === 'string' || x instanceof String) {
+    return x[0] === '+' ? x : '+' + x
+  }
   if (x == 0) return ''
   return x > 0 ? '+' + x : x
 }
