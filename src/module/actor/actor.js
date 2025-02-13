@@ -414,7 +414,15 @@ export class DemonlordActor extends Actor {
     // if !target -> ui.notifications.warn(Please select target) ??
 
     // Attack modifier and Boons/Banes
-    const modifiers = [attacker.system?.attributes[attackAttribute]?.modifier || 0, parseInt(inputModifier) || 0]
+    const modifiers = [
+      item.system.action?.rollbonus || 0,
+      attacker.system?.attributes[attackAttribute]?.modifier || 0,
+      attacker.system?.bonuses.attack.modifier[attackAttribute] || 0,
+      attacker.system?.bonuses.attack.modifier.all || 0,
+      attacker.system?.bonuses.attack.modifier.weapon || 0,
+      parseInt(inputModifier) || 0,
+    ]
+
     let boons =
       (parseInt(item.system.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
@@ -451,19 +459,22 @@ export class DemonlordActor extends Actor {
       return attackRoll?.total >= targetNumber
     })
 
-  for (let effect of this.appliedEffects) {
-    const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
-    // if (!(specialDuration?.length > 0)) continue
-      if (specialDuration === 'NextD20Roll') {
-        let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
-        if (
-          effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`))
-        )
-          await effect?.delete()
-      }
-  }
+    for (let effect of this.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      // if (!(specialDuration?.length > 0)) continue
+        if (specialDuration === 'NextD20Roll') {
+          let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
+          if (
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`)) || 
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.weapon`))
+          )
+            await effect?.delete()
+        }
+    }
 
     Hooks.call('DL.RollAttack', {
       sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
@@ -594,8 +605,15 @@ export class DemonlordActor extends Actor {
 
       const attackAttribute = talentData.action.attack.toLowerCase()
       const defenseAttribute = talentData.action?.attack?.toLowerCase()
+      const attacker = this
 
-      let modifiers = [parseInt(inputModifier), this.getAttribute(attackAttribute)?.modifier || 0]
+      const modifiers = [
+        talentData.action?.rollbonus || 0,
+        attacker.system?.attributes[attackAttribute]?.modifier || 0,
+        attacker.system?.bonuses.attack.modifier[attackAttribute] || 0,
+        attacker.system?.bonuses.attack.modifier.all || 0,
+        parseInt(inputModifier) || 0,
+      ]
 
       let boons =
         (parseInt(inputBoons) || 0) +
@@ -623,7 +641,9 @@ export class DemonlordActor extends Actor {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
           if (
             effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))|| 
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`))
           )
             await effect?.delete()
         }
@@ -683,9 +703,20 @@ export class DemonlordActor extends Actor {
 
     let attackRoll
     if (attackAttribute) {
+      const attacker = this
+
+      const modifiers = [
+        spellData.action?.rollbonus || 0,
+        attacker.system?.attributes[attackAttribute]?.modifier || 0,
+        attacker.system?.bonuses.attack.modifier[attackAttribute] || 0,
+        attacker.system?.bonuses.attack.modifier.all || 0,
+        attacker.system?.bonuses.attack.modifier.spell || 0,
+        parseInt(inputModifier) || 0,
+      ]
+
       let boons =
         (parseInt(inputBoons) || 0) +
-        (parseInt(spellData.action.boonsbanes) || 0) +
+        (parseInt(spellData.action?.boonsbanes) || 0) +
         (this.system.bonuses.attack.boons[attackAttribute] || 0) +
         (this.system.bonuses.attack.boons.all || 0) +
         (this.system.bonuses.attack.boons.spell || 0)
@@ -700,7 +731,6 @@ export class DemonlordActor extends Actor {
           (target?.actor?.system.bonuses.defense.boons.spell || 0) +
           (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0)
 
-      const modifiers = [parseInt(inputModifier) || 0, this.getAttribute(attackAttribute).modifier || 0]
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
@@ -724,7 +754,10 @@ export class DemonlordActor extends Actor {
         if (
           effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
           effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.spell`))
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.spell`)) ||
+          effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.spell`))
         )
           await effect?.delete()
       }
@@ -800,8 +833,15 @@ export class DemonlordActor extends Actor {
     } else {
       const attackAttribute = itemData.action.attack.toLowerCase()
       const defenseAttribute = itemData.action?.attack?.toLowerCase()
+      const attacker = this
 
-      let modifiers = [parseInt(inputModifier), (this.getAttribute(attackAttribute)?.modifier || 0)]
+      const modifiers = [
+        item.system.action.rollbonus || 0,
+        attacker.system?.attributes[attackAttribute]?.modifier || 0,
+        attacker.system?.bonuses.attack.modifier[attackAttribute] || 0,
+        attacker.system?.bonuses.attack.modifier.all || 0,
+        parseInt(inputModifier) || 0,
+      ]
 
       let boons =
         (parseInt(inputBoons) || 0) +
@@ -829,7 +869,9 @@ export class DemonlordActor extends Actor {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
           if (
             effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`))
           )
             await effect?.delete()
         }

@@ -58,6 +58,7 @@ export function registerHandlebarsHelpers() {
   // New Handlebars helpers
   Handlebars.registerHelper('Dropdown', (groupName, checkedKey, loc) => _buildDropdown(groupName, checkedKey, loc))
   Handlebars.registerHelper('BOBAButton', (_name, value, loc = undefined) => _buildBOBA(_name, value, loc))
+  Handlebars.registerHelper('RollBonus', (_name, value, loc = undefined) => _buildRollBonus(_name, value, loc))
   Handlebars.registerHelper('Checkboxes', (groupName, checkedKey, data) => _buildCheckboxesV2(groupName, checkedKey, data))
   Handlebars.registerHelper('AvailabilityDropdown', (groupName, checkedKey) => _buildAvailabilityDropdown(groupName, checkedKey))
   Handlebars.registerHelper('DropdownValue', (groupName, checkedKey, valueName, valueKey) => _buildDropdownWithValue(groupName, checkedKey, valueName, valueKey))
@@ -545,6 +546,19 @@ function _buildBOBA(_name, value, loc) {
         <i class="icon-d6 ${value ? '' : 'inactive'} themed-icon"></i>
         <span class="sep"></span>
         <input type="number" class="input-group-textbox" name="${_name}" value="${value}" placeholder="0"/>
+      </div>
+    </div>`
+  return new Handlebars.SafeString(html)
+}
+
+function _buildRollBonus(_name, value, loc) {
+  loc = loc || "DL.AttackRollBonuses"
+  const html = `
+    <div class="item-group-rollbonus">
+      <div class="input-group" data-tippy-content="${i18n(loc)}">
+        <i class="icon-attack ${value ? '' : 'inactive'} themed-icon"></i>
+        <span class="sep"></span>
+        <input type="text" class="input-group-textbox" name="${_name}" value="${value}" placeholder="0"/>
       </div>
     </div>`
   return new Handlebars.SafeString(html)
