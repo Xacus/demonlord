@@ -964,7 +964,7 @@ export class DemonlordActor extends Actor {
     }))
   }
 
-  async spendFortune(awarded = false) {
+  async expendFortune(awarded = false) {
     let value = parseInt(this.system.characteristics.fortune)
     if (awarded) await this.update({ 'system.characteristics.fortune': ++value })
     else {

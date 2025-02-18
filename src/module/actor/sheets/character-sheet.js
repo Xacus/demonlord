@@ -267,11 +267,11 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       let value = parseInt(this.actor.system.characteristics.fortune)
       if (ev.button == 0 && value >= 1) {
         {
-          await this.actor.spendFortune(false)
+          await this.actor.expendFortune(false)
           this.render()
         }
       } else if (ev.button == 2) {
-        await this.actor.spendFortune(true)
+        await this.actor.expendFortune(true)
         this.render()
       }
     })
