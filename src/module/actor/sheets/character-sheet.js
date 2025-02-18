@@ -262,6 +262,20 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       await this.actor.update({ 'system.characteristics.corruption.value': value }).then(_ => this.render())
     })
 
+    // Fortune click
+    html.on('mousedown', '.spendFortune', async ev => {
+      let value = parseInt(this.actor.system.characteristics.fortune)
+      if (ev.button == 0 && value >= 1) {
+        {
+          await this.actor.spendFortune(false)
+          this.render()
+        }
+      } else if (ev.button == 2) {
+        await this.actor.spendFortune(true)
+        this.render()
+      }
+    })
+
     // Health bar fill
     const healthbar = html.find('.healthbar-fill')
     if (healthbar.length > 0) {
