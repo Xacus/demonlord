@@ -13,6 +13,7 @@ import {
   postItemToChat,
   postSpellToChat,
   postTalentToChat,
+  postFortuneToChat
 } from '../chat/roll-messages'
 import {handleCreateAncestry, handleCreatePath, handleCreateRole, handleCreateRelic } from '../item/nested-objects'
 import {TokenManager} from '../pixi/token-manager'
@@ -961,6 +962,16 @@ export class DemonlordActor extends Actor {
         'system.characteristics.health.value': currentDamage + damage,
       })
     }))
+  }
+
+  async expendFortune(awarded = false) {
+    let value = parseInt(this.system.characteristics.fortune)
+    if (awarded) await this.update({ 'system.characteristics.fortune': ++value })
+    else {
+      if (value >= 1) await this.update({ 'system.characteristics.fortune': --value })
+      else return
+    }
+    postFortuneToChat(this, awarded)
   }
 
   async restActor(restTime, magicRecovery, talentRecovery, healing) {

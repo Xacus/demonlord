@@ -310,6 +310,8 @@
   "DL.DialogDeleteSpellText": "The Spell will be permanently deleted.",
   "DL.DialogDeleteTraditionText": "The Tradition and all spells attached will be permanently deleted.",
   "DL.DialogDeleteTraitText": "The Trait will be permanently deleted.",
+  "DL.DialogFortuneAwarded": "Awarded a Fortune point.",
+  "DL.DialogFortuneExpended": "Expended a Fortune point.",
   "DL.DialogHealedFor": "Healed ",
   "DL.DialogHealedForPoints": " points of damage.",
   "DL.DialogInitiative": "Initiative",
