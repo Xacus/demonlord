@@ -1,46 +1,42 @@
+/* globals InteractionLayer */
 import { PlayerTracker } from './dialog/player-tracker.js'
 
-class PlayerTrackerLayer extends CanvasLayer {
-  constructor() {
-    super()
-  }
-
-  setButtons() {
-    sptLayer.newButtons = {
-      name: 'dl-gm-tools',
-      title: 'SotDL GM Tools',
-      layer: 'controls', // TODO: different layer to allow token clicks
-      icon: 'fas fa-book-dead', // More demonic themed :) [old: fa-wrench]
-      visible: true,
-      tools: [
-        {
-          icon: 'fas fas fa-users',
-          name: 'Users',
-          title: 'Player Tracker',
-          onClick: sptLayer.renderPlayerTracker,
-        },
-      ],
-    }
-  }
-
-  initialize() {
-    Hooks.on('getSceneControlButtons', controls => {
-      if (game.user.role === 4) {
-        controls.push(sptLayer.newButtons)
-      }
-    })
-  }
-
-  async renderPlayerTracker() {
-    new PlayerTracker(this.actor, {
-      top: 60,
-      left: 120,
-    }).render(true)
-  }
+function registerLayer () {
+  CONFIG.Canvas.layers.playerTracker = { layerClass: InteractionLayer, group: 'interface' }
 }
 
-const sptLayer = new PlayerTrackerLayer()
-sptLayer.setButtons()
-sptLayer.initialize()
+function registerGetSceneControlButtonsHook () {
+  Hooks.on('getSceneControlButtons', getSceneControlButtons)
+}
 
-GridLayer.prototype.releaseAll = function () {}
+function getSceneControlButtons (controls) {
+  if (canvas === null) {
+    return
+  }
+
+  controls.push({
+    name: 'dl-gm-tools',
+    title: 'SotDL GM Tools',
+    layer: 'controls', // TODO: different layer to allow token clicks
+    icon: 'fas fa-book-dead', // More demonic themed :) [old: fa-wrench]
+    visible: true,
+    tools: [
+      {
+        icon: 'fas fas fa-users',
+        name: 'Users',
+        title: 'Player Tracker',
+        button: true,
+        visible: true,
+        onClick: () => {
+          new PlayerTracker(this.actor, {
+            top: 60,
+            left: 120,
+          }).render(true)
+        }
+      }
+    ],
+  })
+}
+
+registerLayer()
+registerGetSceneControlButtonsHook();
