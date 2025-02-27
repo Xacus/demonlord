@@ -272,6 +272,20 @@ form {
             top: 0;
             width: 100%;
           }
+
+          .spendFortune {
+            position: absolute;
+            text-align: center;
+            left: 0;
+            top: 0;
+            width: 100%;
+          }
+                    .spendFortune:focus,
+          .spendFortune:hover {
+              color: #000;
+              text-shadow: 0 0 10px #fa200b;
+              cursor: pointer;
+          }
         }
 
         .turnmode {

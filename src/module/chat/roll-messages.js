@@ -491,6 +491,22 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
   }
 }
 
+export async function postFortuneToChat(actor, awarded) {
+  const templateData = {
+    actor: actor,
+    data: {},
+  }
+  const data = templateData.data
+  data['actorInfo'] = buildActorInfo(actor)
+  data['awarded'] = awarded
+  
+  const rollMode = game.settings.get('core', 'rollMode')
+  const chatData = getChatBaseData(actor, rollMode)
+  const template = 'systems/demonlord/templates/chat/fortune.hbs'
+  chatData.content = await renderTemplate(template, templateData)  
+  await ChatMessage.create(chatData)
+}
+
 export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   const itemData = item.system
   const rollMode = game.settings.get('core', 'rollMode')
