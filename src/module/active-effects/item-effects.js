@@ -10,7 +10,7 @@ export const multiplyEffect = (key, value, priority) => ({
 
 export const addEffect = (key, value, priority, noPlusify=false) => ({
   key: key,
-  value: noPlusify ? value : plusify(value),
+  value: noPlusify ? value : (value ? plusify(value) : 0),
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
   priority: priority
 })
@@ -433,6 +433,7 @@ export class DLActiveEffects {
         upgradeEffect('system.bonuses.armor.fixed', armorData.fixed, priority),
       ].filter(falsyChangeFilter),
     }
+
     return [effectData]
   }
 
