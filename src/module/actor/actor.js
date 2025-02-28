@@ -639,6 +639,7 @@ export class DemonlordActor extends Actor {
     const item = this.items.get(itemID)
     const uses = parseInt(item.system?.uses?.value) || 0
     const usesMax = parseInt(item.system?.uses?.max) || 0
+    
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
       return
@@ -975,8 +976,8 @@ export class DemonlordActor extends Actor {
   }
 
   showItemInfo(item) {
-    const uses = parseInt(item.system?.enchantment?.uses?.value)
-    const usesmax = parseInt(item.system?.enchantment?.uses?.max)
+    const uses = parseInt(item.system?.enchantment?.uses?.value) || 0
+    const usesmax = parseInt(item.system?.enchantment?.uses?.max) || 0
 
     const usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesmax
 
@@ -1042,8 +1043,9 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   async activateTalent(talent, setActive) {
-    let uses = talent.system.uses?.value || 0
-    const usesmax = talent.system.uses?.max || 0
+    let uses = parseInt(talent.system.uses?.value) || 0
+    const usesmax = parseInt(talent.system.uses?.max) || 0
+
     if (usesmax > 0 && uses < usesmax)
       return await talent.update({'system.uses.value': ++uses, 'system.addtonextroll': setActive}, {parent: this})
   }
