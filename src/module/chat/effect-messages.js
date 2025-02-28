@@ -95,9 +95,6 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
   const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
   let applyHorrifyingBane = (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
-  let defenderBoons = (
-    (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) +
-    (defender?.system.bonuses.defense.boons.all || 0))
   const defenderString = game.i18n.localize('DL.OtherUnknown') + '  [' + game.i18n.localize('DL.SpellTarget') + ']'  
   let otherBoons = ''
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
@@ -106,13 +103,11 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     case 'spell':
       itemBoons = item.system.action.boonsbanes
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.spell', '')
-      defenderBoons += defender?.system.bonuses.defense.boons.spell || 0
       defenderBoonsArray.push('system.bonuses.defense.boons.spell')      
       break
     case 'weapon':
       itemBoons = item.system.action.boonsbanes
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.weapon', '')
-      defenderBoons += defender?.system.bonuses.defense.boons.weapon || 0
       defenderBoonsArray.push('system.bonuses.defense.boons.weapon')
       break
     case 'talent':
@@ -130,7 +125,6 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     (itemBoons ? _toMsg(item.name, plusify(itemBoons)) : '') +
     otherBoons +
     (applyHorrifyingBane ? _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) : '') +
-//    (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '') +
     (playerOnlyMsg ? playerOnlyMsg : '') +
     (gmOnlyMsg ? gmOnlyMsg : '')
   boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
