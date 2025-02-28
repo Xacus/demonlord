@@ -397,7 +397,7 @@ export class DemonlordActor extends Actor {
    * @param inputBoons              Number of boons/banes from the user dialog
    * @param inputModifier           Attack modifier from the user dialog
    */
-  async rollAttack(item, inputBoons = 0, inputModifier = 0) {
+  async rollItemAttack(item, inputBoons = 0, inputModifier = 0) {
     const attacker = this
     const defendersTokens = tokenManager.targets
     const defender = defendersTokens[0]?.actor
@@ -415,7 +415,15 @@ export class DemonlordActor extends Actor {
     // if !target -> ui.notifications.warn(Please select target) ??
 
     // Attack modifier and Boons/Banes
-    const modifiers = [attacker.system?.attributes[attackAttribute]?.modifier || 0, parseInt(inputModifier) || 0]
+    const modifiers = [
+      item.system.action?.rollbonus || 0,
+      attacker.system?.attributes[attackAttribute]?.modifier || 0,
+      attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
+      attacker.system?.bonuses.attack.modifier?.all || 0,
+      attacker.system?.bonuses.attack.modifier?.weapon || 0,
+      parseInt(inputModifier) || 0,
+    ]
+
     let boons =
       (parseInt(item.system.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
@@ -452,19 +460,22 @@ export class DemonlordActor extends Actor {
       return attackRoll?.total >= targetNumber
     })
 
-  for (let effect of this.appliedEffects) {
-    const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
-    // if (!(specialDuration?.length > 0)) continue
-      if (specialDuration === 'NextD20Roll') {
-        let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
-        if (
-          effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`))
-        )
-          await effect?.delete()
-      }
-  }
+    for (let effect of this.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      // if (!(specialDuration?.length > 0)) continue
+        if (specialDuration === 'NextD20Roll') {
+          let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
+          if (
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`)) || 
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.weapon`))
+          )
+            await effect?.delete()
+        }
+    }
 
     Hooks.call('DL.RollAttack', {
       sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
@@ -507,14 +518,14 @@ export class DemonlordActor extends Actor {
     // If no attribute to roll, roll without modifiers and boons
     const attribute = item.system.action?.attack
     /*if (!attribute) {
-      this.rollAttack(item, 0, 0)
+      this.rollItemAttack(item, 0, 0)
       return
     }*/
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
       launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async html => {
-        await this.rollAttack(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val())
+        await this.rollItemAttack(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val())
         // Decrease ammo quantity
         if (item.system.consume.ammorequired) {
           await ammoItem.update({
@@ -525,7 +536,7 @@ export class DemonlordActor extends Actor {
   }
   /* -------------------------------------------- */
 
-  async rollAttribute(attribute, inputBoons, inputModifier) {
+  async rollAttributeChallenge(attribute, inputBoons, inputModifier) {
     const modifiers = [parseInt(inputModifier), this.getAttribute(attribute.key)?.modifier || 0]
     const boons = (parseInt(inputBoons) || 0) + (this.system.bonuses.challenge.boons[attribute.key] || 0) + (this.system.bonuses.challenge.boons.all || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
@@ -553,9 +564,69 @@ export class DemonlordActor extends Actor {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.key))
-      launchRollDialog(this.name + ': ' + game.i18n.localize('DL.DialogChallengeRoll').slice(0, -2), async html =>
-        await this.rollAttribute(attribute, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async html =>
+        await this.rollAttributeChallenge(attribute, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
       )
+  }
+
+  /* -------------------------------------------- */
+
+  async rollAttributeAttack(attribute, defense, inputBoons, inputModifier) {
+
+    const attacker = this
+
+    const modifiers = [
+      parseInt(inputModifier),
+      attacker.system?.attributes[attribute.key]?.modifier || 0,
+      attacker.system?.bonuses?.attack?.modifier?.[attribute.key] || 0,
+      attacker.system?.bonuses?.attack?.modifier?.all || 0,
+    ]
+
+    const boons =
+      (parseInt(inputBoons) || 0) +
+      (attacker.system.bonuses.attack.boons?.[attribute.key] || 0) +
+      (attacker.system.bonuses.attack.boons?.all || 0)
+
+    const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
+
+    // We're sending this to postAttackToChat. Fix at some point
+    const fakeItem = {
+      name: game.i18n.localize('DL.AttributeAttack'),
+      img: this.img,
+      system: {
+        action: { }
+      }
+    }
+
+    const attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
+    await attackRoll.evaluate()
+    postAttackToChat(this, tokenManager.targets[0].actor, fakeItem, attackRoll, attribute.key, defense)
+
+    for (let effect of this.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      // if (!(specialDuration?.length > 0)) continue
+      if (specialDuration === 'NextD20Roll') {
+        if (
+          effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${attribute.key}`)) ||
+          effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${attribute.key}`))
+        )
+          await effect?.delete()
+      }
+    }
+
+    return attackRoll
+  }
+
+  rollAttack(attribute) {
+    if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
+
+    if (!DLAfflictions.isActorBlocked(this, 'attack', attribute.key))
+      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogAttackRoll') + attribute.label, async html =>
+        await this.rollAttributeAttack(attribute, html.find('[id="defense"]').val(), html.find('[id="boonsbanes"]').val(), html.find('[id=modifier]').val()),
+      true
+    )
   }
 
   /* -------------------------------------------- */
@@ -568,6 +639,7 @@ export class DemonlordActor extends Actor {
     const item = this.items.get(itemID)
     const uses = parseInt(item.system?.uses?.value) || 0
     const usesMax = parseInt(item.system?.uses?.max) || 0
+    
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
       return
@@ -595,8 +667,15 @@ export class DemonlordActor extends Actor {
 
       const attackAttribute = talentData.action.attack.toLowerCase()
       const defenseAttribute = talentData.action?.attack?.toLowerCase()
+      const attacker = this
 
-      let modifiers = [parseInt(inputModifier), this.getAttribute(attackAttribute)?.modifier || 0]
+      const modifiers = [
+        talentData.action?.rollbonus || 0,
+        attacker.system?.attributes[attackAttribute]?.modifier || 0,
+        attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
+        attacker.system?.bonuses.attack.modifier?.all || 0,
+        parseInt(inputModifier) || 0,
+      ]
 
       let boons =
         (parseInt(inputBoons) || 0) +
@@ -624,7 +703,9 @@ export class DemonlordActor extends Actor {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
           if (
             effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))|| 
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`))
           )
             await effect?.delete()
         }
@@ -684,9 +765,20 @@ export class DemonlordActor extends Actor {
 
     let attackRoll
     if (attackAttribute) {
+      const attacker = this
+
+      const modifiers = [
+        spellData.action?.rollbonus || 0,
+        attacker.system?.attributes[attackAttribute]?.modifier || 0,
+        attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
+        attacker.system?.bonuses.attack.modifier?.all || 0,
+        attacker.system?.bonuses.attack.modifier?.spell || 0,
+        parseInt(inputModifier) || 0,
+      ]
+
       let boons =
         (parseInt(inputBoons) || 0) +
-        (parseInt(spellData.action.boonsbanes) || 0) +
+        (parseInt(spellData.action?.boonsbanes) || 0) +
         (this.system.bonuses.attack.boons[attackAttribute] || 0) +
         (this.system.bonuses.attack.boons.all || 0) +
         (this.system.bonuses.attack.boons.spell || 0)
@@ -701,7 +793,6 @@ export class DemonlordActor extends Actor {
           (target?.actor?.system.bonuses.defense.boons.spell || 0) +
           (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0)
 
-      const modifiers = [parseInt(inputModifier) || 0, this.getAttribute(attackAttribute).modifier || 0]
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
@@ -725,7 +816,10 @@ export class DemonlordActor extends Actor {
         if (
           effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
           effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.spell`))
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.spell`)) ||
+          effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
+          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.spell`))
         )
           await effect?.delete()
       }
@@ -801,8 +895,15 @@ export class DemonlordActor extends Actor {
     } else {
       const attackAttribute = itemData.action.attack.toLowerCase()
       const defenseAttribute = itemData.action?.attack?.toLowerCase()
+      const attacker = this
 
-      let modifiers = [parseInt(inputModifier), (this.getAttribute(attackAttribute)?.modifier || 0)]
+      const modifiers = [
+        item.system.action.rollbonus || 0,
+        attacker.system?.attributes[attackAttribute]?.modifier || 0,
+        attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
+        attacker.system?.bonuses.attack.modifier?.all || 0,
+        parseInt(inputModifier) || 0,
+      ]
 
       let boons =
         (parseInt(inputBoons) || 0) +
@@ -830,7 +931,9 @@ export class DemonlordActor extends Actor {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
           if (
             effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`))
           )
             await effect?.delete()
         }
@@ -873,8 +976,8 @@ export class DemonlordActor extends Actor {
   }
 
   showItemInfo(item) {
-    const uses = parseInt(item.system?.enchantment?.uses?.value)
-    const usesmax = parseInt(item.system?.enchantment?.uses?.max)
+    const uses = parseInt(item.system?.enchantment?.uses?.value) || 0
+    const usesmax = parseInt(item.system?.enchantment?.uses?.max) || 0
 
     const usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesmax
 
@@ -940,8 +1043,9 @@ export class DemonlordActor extends Actor {
   /* -------------------------------------------- */
 
   async activateTalent(talent, setActive) {
-    let uses = talent.system.uses?.value || 0
-    const usesmax = talent.system.uses?.max || 0
+    let uses = parseInt(talent.system.uses?.value) || 0
+    const usesmax = parseInt(talent.system.uses?.max) || 0
+
     if (usesmax > 0 && uses < usesmax)
       return await talent.update({'system.uses.value': ++uses, 'system.addtonextroll': setActive}, {parent: this})
   }
