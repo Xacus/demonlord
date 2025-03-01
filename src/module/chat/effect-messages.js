@@ -95,7 +95,6 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
   const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
   let applyHorrifyingBane = (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
-  const defenderString = game.i18n.localize('DL.OtherUnknown') + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
   let otherBoons = ''
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
   let itemBoons
