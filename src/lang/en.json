@@ -620,6 +620,8 @@
   "DL.SettingInitRandomizeHint": "Makes your initiative more random and adds a d6 to your initiative value.",
   "DL.SettingOptionalRuleLevelDependentBane": "Character level dependent horrifying bane",
   "DL.SettingOptionalRuleLevelDependentBaneHint": "Creatures lose their frightening or horrifying traits for characters of a certain level or higher, according to the creature’s difficulty.",
+  "DL.SettingOptionalRuleRevealHorrifyingBane": "Reveal Horrifying Bane on attack chat-cards for players.",
+  "DL.SettingOptionalRuleRevealHorrifyingBaneHint": "Otherwise it will be displayed as Other/Unknown",
   "DL.SettingLockAncestrHint": "Remove players access to change modifers, Speed, Insanity, Corruption and Health.",
   "DL.SettingLockAncestry": "Lock fields on Ancestry",
   "DL.SettingReplaceIcons": "Replace default icons",

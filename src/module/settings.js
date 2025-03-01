@@ -87,7 +87,8 @@ export class OptionalRulesSettings extends FormApplication {
       optionalRuleRollInitEachRound: game.settings.get('demonlord', 'optionalRuleRollInitEachRound'),
       optionalRuleExceedsByFive: game.settings.get('demonlord', 'optionalRuleExceedsByFive'),
       horrifyingBane: game.settings.get("demonlord", "horrifyingBane"),      
-      optionalRuleLevelDependentBane: game.settings.get('demonlord', 'optionalRuleLevelDependentBane')
+      optionalRuleLevelDependentBane: game.settings.get('demonlord', 'optionalRuleLevelDependentBane'),
+      optionalRuleRevealHorrifyingBane: game.settings.get('demonlord','optionalRuleRevealHorrifyingBane')
     }
   }
 
@@ -109,7 +110,8 @@ export class OptionalRulesSettings extends FormApplication {
     super.activateListeners(html)
     html.find('button').on('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
-        const keys = ['optionalRuleConsistentDamage', 'optionalRuleDieRollsMode','optionalRuleInitiativeMode','optionalRuleRollInitEachRound']
+        const keys = ['optionalRuleConsistentDamage', 'optionalRuleDieRollsMode','optionalRuleInitiativeMode','optionalRuleRollInitEachRound',
+                      'optionalRuleExceedsByFive', 'horrifyingBane', 'optionalRuleLevelDependentBane','optionalRuleRevealHorrifyingBane']
         await Promise.all(
           keys.map(async key => {
             await this.resetToDefault(key)
@@ -198,6 +200,15 @@ export const registerSettings = function () {
     type: Boolean,
     config: false,
   })
+
+  game.settings.register('demonlord', 'optionalRuleRevealHorrifyingBane', {
+    name: game.i18n.localize('DL.SettingOptionalRuleRevealHorrifyingBane'),
+    hint: game.i18n.localize('DL.SettingOptionalRuleRevealHorrifyingBaneHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: false,
+  })  
 
   game.settings.register('demonlord', 'optionalRuleDieRollsMode', {
     name: game.i18n.localize('DL.SettingOptionalRuleDieRollsMode'),

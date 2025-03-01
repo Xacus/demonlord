@@ -57,9 +57,9 @@ const changeListToMsgDefender = (m, keys, title, anonymize, f = plusify) => {
 			let newChanges = m.get(key)
 			newChanges.forEach(item => {
 				if (anonymize) {
-					item.name = game.i18n.localize("DL.OtherUnknown") + ` [${game.i18n.localize("DL.ActionTarget")}]`
+					item.name = game.i18n.localize('DL.OtherUnknown') + ` [${game.i18n.localize('DL.ActionTarget')}]`
 				} else {
-					item.name = item.name + ` [${game.i18n.localize("DL.ActionTarget")}]`
+					item.name = item.name + ` [${game.i18n.localize('DL.ActionTarget')}]`
           item.value = item.value * -1
 				}
 			})
@@ -121,13 +121,20 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
       return
   }
 
+  let revealHorrifyingBane = game.settings.get('demonlord', 'optionalRuleRevealHorrifyingBane')
+  let horrifyingTextPlayer = revealHorrifyingBane ? '<div class="gmremove">' + _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>' :  
+      '<div class="gmremove">' + _toMsg(`${game.i18n.localize('DL.OtherUnknown')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>'
+
+  let horrifyingTextGM =  '<div class="gmonly">' + _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>'
+
   let gmOnlyMsg = defenderBoonsArray.length ? '<div class="gmonly">' + changeListToMsgDefender(d, defenderBoonsArray, '', false) + '</div>' : ''
   let playerOnlyMsg = defenderBoonsArray.length ? '<div class="gmremove">' +  changeListToMsgDefender(d, defenderBoonsArray, '', true) + '</div>' : ''
   let boonsMsg =
     changeListToMsg(m, [`system.bonuses.attack.boons.${attackAttribute}`, "system.bonuses.attack.boons.all"], '') +
     (itemBoons ? _toMsg(item.name, plusify(itemBoons)) : '') +
     otherBoons +
-    (applyHorrifyingBane ? _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) : '') +
+    (applyHorrifyingBane ? horrifyingTextPlayer : '') +
+    (applyHorrifyingBane ? horrifyingTextGM : '') +
     (playerOnlyMsg ? playerOnlyMsg : '') +
     (gmOnlyMsg ? gmOnlyMsg : '')
   boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
