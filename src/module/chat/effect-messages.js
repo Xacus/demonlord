@@ -90,12 +90,12 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   let m = _remapEffects(attackerEffects)
   const defenderEffects = defender ? Array.from(defender.allApplicableEffects()).filter(effect => !effect.disabled) : []
   let d = _remapEffects(defenderEffects)
-  let defenderBoonsArray = [`system.bonuses.defense.boons.${attackAttribute}`,"system.bonuses.defense.boons.all"]
+  let defenderBoonsArray = [`system.bonuses.defense.boons.${defenseAttribute}`,"system.bonuses.defense.boons.all"]
 
   const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
   const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
   let applyHorrifyingBane = (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
-  const defenderString = game.i18n.localize('DL.OtherUnknown') + '  [' + game.i18n.localize('DL.SpellTarget') + ']'  
+  const defenderString = game.i18n.localize('DL.OtherUnknown') + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
   let otherBoons = ''
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
   let itemBoons
@@ -114,6 +114,9 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
       if (!attackAttribute) break
       itemBoons = item.system.action.boonsbanes
       break
+    case 'attribute':
+      // Nothing to do, just continue with chatcard creation
+      break
     default:
       return
   }
@@ -130,7 +133,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
 
   const extraDamageMsg = item.system.action?.damage ? changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') : ''
-  // We may want to show the extra damage 
+  // We may want to show the extra damage
   const extraDamage20PlusMsg = ((!defender && attackAttribute) || plus20) ? changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus') : ''
   return (
     boonsMsg +

@@ -574,6 +574,10 @@ export class DemonlordActor extends Actor {
   async rollAttributeAttack(attribute, defense, inputBoons, inputModifier) {
 
     const attacker = this
+    const defendersTokens = tokenManager.targets
+    const defender = defendersTokens[0]?.actor
+    const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
+    const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
 
     const modifiers = [
       parseInt(inputModifier),
@@ -582,10 +586,13 @@ export class DemonlordActor extends Actor {
       attacker.system?.bonuses?.attack?.modifier?.all || 0,
     ]
 
-    const boons =
+    let boons =
       (parseInt(inputBoons) || 0) +
       (attacker.system.bonuses.attack.boons?.[attribute.key] || 0) +
       (attacker.system.bonuses.attack.boons?.all || 0)
+
+    if (defendersTokens.length === 1) boons -= (defender?.system.bonuses.defense.boons[defense] || 0) + (defender?.system.bonuses.defense.boons.all || 0) + 
+       (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
 
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
@@ -593,6 +600,7 @@ export class DemonlordActor extends Actor {
     const fakeItem = {
       name: game.i18n.localize('DL.AttributeAttack'),
       img: this.img,
+      type: 'attribute',
       system: {
         action: { }
       }
