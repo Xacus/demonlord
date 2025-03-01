@@ -110,8 +110,16 @@ export class OptionalRulesSettings extends FormApplication {
     super.activateListeners(html)
     html.find('button').on('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
-        const keys = ['optionalRuleConsistentDamage', 'optionalRuleDieRollsMode','optionalRuleInitiativeMode','optionalRuleRollInitEachRound',
-                      'optionalRuleExceedsByFive', 'horrifyingBane', 'optionalRuleLevelDependentBane','optionalRuleRevealHorrifyingBane']
+        const keys = [
+          'optionalRuleConsistentDamage',
+          'optionalRuleDieRollsMode',
+          'optionalRuleInitiativeMode',
+          'optionalRuleRollInitEachRound',
+          'optionalRuleExceedsByFive',
+          'horrifyingBane',
+          'optionalRuleLevelDependentBane',
+          'optionalRuleRevealHorrifyingBane',
+        ]
         await Promise.all(
           keys.map(async key => {
             await this.resetToDefault(key)
