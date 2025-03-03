@@ -8,7 +8,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Two",
+    "hands": "two",
     "properties": "Range (long), Uses Arrows",
     "availability": "C",
     "value": "5 ss",

@@ -7,7 +7,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Off",
+    "hands": "off",
     "properties": "Finesse",
     "requirement": {
       "attribute": "Agility",

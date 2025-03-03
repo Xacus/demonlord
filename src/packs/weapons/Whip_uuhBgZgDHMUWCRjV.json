@@ -8,7 +8,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Off",
+    "hands": "off",
     "properties": "Finesse, Reach +1",
     "requirement": {
       "attribute": "Agility",

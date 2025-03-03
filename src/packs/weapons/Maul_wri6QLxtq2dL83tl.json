@@ -7,7 +7,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Two",
+    "hands": "two",
     "properties": "Cumbersome",
     "requirement": {
       "attribute": "Strength",
