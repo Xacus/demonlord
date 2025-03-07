@@ -127,8 +127,10 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
 
   let horrifyingTextGM =  '<div class="gmonly">' + _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>'
 
-  let gmOnlyMsg = defenderBoonsArray.length ? '<div class="gmonly">' + changeListToMsgDefender(d, defenderBoonsArray, '', false) + '</div>' : ''
-  let playerOnlyMsg = defenderBoonsArray.length ? '<div class="gmremove">' +  changeListToMsgDefender(d, defenderBoonsArray, '', true) + '</div>' : ''
+  let gmOnlyResult = changeListToMsgDefender(d, defenderBoonsArray, '', false)
+  let playerOnlyResult = changeListToMsgDefender(d, defenderBoonsArray, '', true)
+  let gmOnlyMsg = gmOnlyResult ? '<div class="gmonly">' + gmOnlyResult + '</div>' : ''
+  let playerOnlyMsg = playerOnlyResult ? '<div class="gmremove">' +  playerOnlyResult + '</div>' : ''
   let boonsMsg =
     changeListToMsg(m, [`system.bonuses.attack.boons.${attackAttribute}`, "system.bonuses.attack.boons.all"], '') +
     (itemBoons ? _toMsg(item.name, plusify(itemBoons)) : '') +

@@ -497,7 +497,7 @@ export class DemonlordActor extends Actor {
 
     // Check if there is an ammo for weapon
     if (item.system.consume.ammorequired) {
-      ammoItem = await this.ammo.find(x => x.id === item.system.consume.ammoitemid)
+      ammoItem = await this.items.find(x => x.id === item.system.consume.ammoitemid)
       if (ammoItem) {
         if (ammoItem.system.quantity === 0) {
           return ui.notifications.warn(
