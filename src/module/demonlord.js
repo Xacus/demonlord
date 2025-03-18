@@ -6,6 +6,7 @@ import {DemonlordItem} from './item/item.js'
 import {ActionTemplate} from './pixi/action-template.js'
 import {registerSettings} from './settings.js'
 import {registerVisionModes} from './vision.js'
+import KeyState from './key-state.js'
 import {DLCombatTracker} from './combat/combat-tracker.js'
 import {preloadHandlebarsTemplates} from './templates.js'
 import * as migrations from './migration.js'
@@ -159,6 +160,9 @@ Hooks.once('ready', async function () {
   Hooks.on('hotbarDrop', (bar, data, slot) => macros.createDemonlordMacro(data, slot))
   // Migration
   await handleMigrations()
+
+  game.demonlord.KeyState = new KeyState()
+
 })
 
 /**
