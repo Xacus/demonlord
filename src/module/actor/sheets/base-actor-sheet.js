@@ -384,7 +384,7 @@ export default class DLBaseActorSheet extends ActorSheet {
       const attribute = this.actor.getAttribute(attributeName)
       if (!attribute.immune) {
         // Make an attribute attack if a target is selected, otherwise, challenge roll
-        if (game.user.targets?.ids.length) {
+        if (game.user.targets?.ids.length && !(event.ctrlKey || event.metaKey)) {
           this.actor.rollAttack(attribute)
         } else {
           this.actor.rollChallenge(attribute)
