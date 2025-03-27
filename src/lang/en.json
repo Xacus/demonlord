@@ -571,6 +571,8 @@
   "DL.retreat": "Retreat",
   "DL.rush": "Rush",
   "DL.RollFormula": "Roll formula",
+  "DL.SettingAutoSetDefeated": "Automatically set defeated",
+  "DL.SettingAutoSetDefeatedHint": "Set a token to be defeated automatically when its damage greater than or equal to its health.",
   "DL.SettingAttackReverseDamage": "Reverse Damage/Health",
   "DL.SettingAttackReverseDamageHint": "Substract damage from Health insted of adding damage.",
   "DL.SettingOptionalRuleExceedsByFive": "20+ rule more than 5",
