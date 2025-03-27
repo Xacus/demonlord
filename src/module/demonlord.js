@@ -234,10 +234,19 @@ Hooks.on('createToken', async _tokenDocument => {
 })
 
 Hooks.on('updateActor', async (actor, updateData) => {
-  if (!actor.isOwner) return
+  if (!actor.isOwner || !game.combat) return
+
+  let token = actor.token || game.combats?.viewed?.combatants.find(c => c.actor?.id == actor.id)?.token
+  let combatant = token?.combatant
+  let defeated = (actor?.system.characteristics.health.value >= actor?.system.characteristics.health.max) ? true : false
+
+     if (combatant != undefined && combatant.defeated != defeated && game.settings.get('demonlord', 'autoSetDefeated')) {
+         await combatant.update({ defeated: defeated })
+     }
+
   // Update the combat initiative if the actor has changed its turn speed
   const isUpdateTurn = typeof updateData?.system?.fastturn !== 'undefined' && updateData?.system?.fastturn !== null
-  if (!(isUpdateTurn && (game.user.isGM || actor.isOwner) && game.combat)) return
+  if (!(isUpdateTurn && (game.user.isGM || actor.isOwner))) return
   const linkedCombatants = game.combat.combatants.filter(c => c.actorId === actor.id)
   for await (const c of linkedCombatants) {
     game.combat.setInitiative(c.id, game.combat.getInitiativeValue(c))

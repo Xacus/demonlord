@@ -293,6 +293,14 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'autoSetDefeated', {
+    name: game.i18n.localize('DL.SettingAutoSetDefeated'),
+    hint: game.i18n.localize('DL.SettingAutoSetDefeatedHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })  
   game.settings.register('demonlord', 'attackShowAttack', {
     name: game.i18n.localize('DL.SettingAttackShowEnemyAttributeAtt'),
     hint: game.i18n.localize('DL.SettingAttackShowEnemyAttributeAttHint'),
