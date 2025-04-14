@@ -332,6 +332,16 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
+    onChange: foundry.utils.debouncedReload
+  })
+  game.settings.register('demonlord', 'hideDescription', {
+    name: game.i18n.localize('DL.SettingHideCreatureDescription'),
+    hint: game.i18n.localize('DL.SettingHideCreatureDescriptionHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+    onChange: foundry.utils.debouncedReload
   })
   game.settings.register('demonlord', 'statusIcons', {
     name: game.i18n.localize('DL.SettingStatusIcons'),
