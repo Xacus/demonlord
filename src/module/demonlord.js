@@ -404,6 +404,7 @@ Hooks.on('renderChatMessage', async (app, html, _msg) => {
     html.find('.gmonlyzero').remove()
     let messageActor = app.speaker.actor
     if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideActorInfo')) html.find('.showlessinfo').remove()
+    if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideDescription')) html.find('.showdescription').empty()
   } else html.find('.gmremove').remove()
 })
 
