@@ -45,6 +45,7 @@ import 'tippy.js/dist/tippy.css';
 import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
 import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
+import { activateSocketListener } from "./utils/socket.js";
 
 
 Hooks.once('init', async function () {
@@ -153,6 +154,7 @@ Hooks.once('init', async function () {
   if (typeof Babele !== 'undefined') {
     Babele.get().setSystemTranslationsDir('packs/translations')
   }
+  activateSocketListener()
 })
 
 Hooks.once('ready', async function () {
