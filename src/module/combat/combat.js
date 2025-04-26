@@ -408,6 +408,8 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
     let updateData = []
     let deleteIds = []
 
+    await deleteSurroundedStatus(actor)
+
     // For each actor, select effects that are enabled and have a duration (either rounds or secs)
     // const enabledEffects = actor.effects.filter(e => !e.disabled && !e.isSuppressed)
     const enabledEffects = actor.effects
@@ -503,15 +505,23 @@ async function deleteSpecialdurationEffects(combatant) {
   }
 }
 
+// Delete surrounded effects only where duration set
+async function deleteSurroundedStatus(combatant) {
+  let actor = (combatant instanceof Actor) ? combatant : fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
+  let effect = actor.effects.find(e => e.statuses?.has('surrounded') && e.duration.duration !== null)
+  await effect?.delete()
+}
+
 Hooks.on('deleteCombat', async (combat) => {
 	for (let turn of combat.turns) {
-		let testActor = turn.actor
-		if (!testActor) continue
-		for (let effect of testActor.appliedEffects) {
+		let actor = turn.actor
+		if (!actor) continue
+		for (let effect of actor.appliedEffects) {
 			const specialDuration = foundry.utils.getProperty(effect, "flags.specialDuration")
 			if (!(specialDuration?.length > 0)) continue
 			if (specialDuration !== "None" && specialDuration !== undefined && specialDuration !== 'RestComplete') await effect?.delete()
 		}
+    await deleteSurroundedStatus(actor)
 	}
 })
 
@@ -520,6 +530,105 @@ async function setCombatantGroup(combatant) {
     else if (combatant.actor.system.isPC === undefined) await combatant.update({flags: {group : 0}})
       else await combatant.update({flags: {group : 1}})
 }
+
+async function getNumberOfSurrounders(target, targetSize)
+{
+  let allyDispositionArray = []
+  let optionalRuleSurroundingDispositions = await game.settings.get('demonlord', 'optionalRuleSurroundingDispositions')
+
+  switch (optionalRuleSurroundingDispositions) {
+      case 'b':
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.NEUTRAL)
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.SECRET)
+          break;
+      case 'n':
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.NEUTRAL)
+          break;
+      case 's':
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.SECRET)
+          break;
+  }
+
+  let targetDisposition = target.document.disposition
+
+  switch (targetDisposition) {
+      case CONST.TOKEN_DISPOSITIONS.HOSTILE:
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.FRIENDLY)
+          break;
+      case CONST.TOKEN_DISPOSITIONS.FRIENDLY:
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.HOSTILE)
+          break;
+      default:
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.HOSTILE)
+          //allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.FRIENDLY)
+  }
+  const tokensInRange = canvas.tokens.placeables.filter(e => (allyDispositionArray.find(x => x === e.document.disposition) !== undefined) && e.id !== target.id && canvas.grid.measurePath([e.center, target.center]).distance <= targetSize).map(e => (e))
+  
+  let tokensWOAfflictions = 0
+
+  tokensInRange.forEach((token) => {
+    if (!token.actor.effects.find(e => e.statuses?.has('unconscious') || e.statuses?.has('stunned') || e.statuses?.has('prone')  || e.statuses?.has('defenseless') ||  e.statuses?.has('dazed')  || e.statuses?.has('compelled'))) tokensWOAfflictions++
+  });
+
+  if (game.settings.get('demonlord', 'optionalRuleSurroundingExcludeTokens'))
+    return tokensWOAfflictions
+  else
+    return tokensInRange.length
+}
+
+Hooks.on('targetToken', async (user, target, isTargeted) => {
+  if (game.userId !== user._id) return
+  let optionalRuleSurroundingMode = game.settings.get('demonlord', 'optionalRuleSurroundingMode')
+  if (optionalRuleSurroundingMode === 'd' || (optionalRuleSurroundingMode === 'c' && target.document.actor.type !== 'creature')) return
+  if (optionalRuleSurroundingMode === 'n' && target.document.actor.system?.isPC) return
+
+  let effects = target.actor?.effects.filter(e => e.statuses?.has('surrounded'))
+  if (!isTargeted && effects.length !== 0) {
+
+      if (game.user.isGM)
+          await target.actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id))
+      else
+          game.socket.emit('system.demonlord', {
+              request: "deleteEffect",
+              tokenuuid: target.document.uuid,
+              effectData: effects.map(e => e.id)
+          })
+      return
+  }
+
+  let changes = ["weapon"].map(s => ({
+      key: `system.bonuses.defense.boons.${s}`,
+      mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+      value: -1
+  }))
+
+  const effectData = {
+      changes: changes,
+      icon: 'systems/demonlord/assets/icons/effects/surrounded.svg',
+      label: 'Surrounded',
+      disabled: false,
+      description: game.i18n.localize("DL.AfflictionsSurrounded"),
+      duration: {
+          turns: 1
+      },
+      statuses: ['surrounded'],
+  }
+
+  let targetSize = Math.max(target.document.width, target.document.height)
+  let numberOfSurrounders = await getNumberOfSurrounders(target, targetSize)
+
+  if (effects.length === 0 && numberOfSurrounders >= targetSize + 1) {
+      if (game.user.isGM)
+          await target.actor.createEmbeddedDocuments("ActiveEffect", [effectData])
+      else
+          game.socket.emit('system.demonlord', {
+              request: "createEffect",
+              tokenuuid: target.document.uuid,
+              effectData: effectData
+          })
+  }
+})
+
 
 Hooks.on("createCombatant", async combatant => {
 	await deleteSpecialdurationEffects(combatant)
@@ -546,6 +655,7 @@ Hooks.on("createCombatant", async combatant => {
 
 Hooks.on('deleteCombatant', async (combatant) => {
           await deleteSpecialdurationEffects(combatant)
+          await deleteSurroundedStatus(combatant)
 })
 
 Hooks.on('updateCombat', async (combat) => {
@@ -553,9 +663,9 @@ Hooks.on('updateCombat', async (combat) => {
   if (combat.current.combatantId === null) return
   // SOURCE type expirations
   for (let turn of combat.turns) {
-    let testActor = turn.actor
-    if (!testActor) continue
-    for (let effect of testActor.appliedEffects) {
+    let actor = turn.actor
+    if (!actor) continue
+    for (let effect of actor.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
       if (!(specialDuration?.length > 0)) continue
       if (
@@ -563,7 +673,7 @@ Hooks.on('updateCombat', async (combat) => {
         specialDuration === 'TurnEndSource'
       ) {
         console.warn(
-          `Effect "${effect.name}" deleted on ${testActor.name}, reason: ${
+          `Effect "${effect.name}" deleted on ${actor.name}, reason: ${
             combat.turns.find(x => x._id === combat.previous.combatantId).actor.name
           } ending its turn.`,
         )
@@ -577,7 +687,7 @@ Hooks.on('updateCombat', async (combat) => {
         specialDuration === 'TurnStartSource'
       ) {
         console.warn(
-          `Effect "${effect.name}" deleted on ${testActor.name}, reason: ${
+          `Effect "${effect.name}" deleted on ${actor.name}, reason: ${
             combat.turns.find(x => x._id === combat.current.combatantId).actor.name
           } starting its turn.`,
         )

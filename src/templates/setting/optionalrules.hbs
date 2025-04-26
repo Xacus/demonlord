@@ -24,6 +24,30 @@
   </div>
   <hr>
   <div class="form-group">
+    <label>{{localize "DL.SettingOptionalRuleSurroundingMode"}}</label>
+    <select name="optionalRuleSurroundingMode">
+      {{selectOptions SurroundingDropDown selected=selectedSurroundingModeDropDown localize=true}}
+    </select>
+    <p class="notes">{{localize "DL.SettingOptionalRuleSurroundingModeHint"}}</p>
+  </div>
+  <div class="form-group">
+    <label>{{localize "DL.SettingOptionalRuleSurroundingDispositions"}}</label>
+    <select name="optionalRuleSurroundingDispositions">
+      {{selectOptions AllowedDispositionDropDown selected=selectedAllowedDispositionDropDown localize=true}}
+    </select>
+  </div>
+  <div class="form-group">
+    <label>{{localize "DL.SettingOptionalRuleSurroundingExcludeTokens"}}</label>
+    <input type="checkbox" name="optionalRuleSurroundingExcludeTokens" {{checked optionalRuleSurroundingExcludeTokens}} data-dtype="Boolean" />
+    <p class="notes">{{localize "DL.SettingOptionalRuleSurroundingExcludeTokensHint"}}</p>
+  </div>
+  <div class="form-group">
+    <label>{{localize "DL.SettingOptionalRuleSurroundingRevealChatCard"}}</label>
+    <input type="checkbox" name="optionalRuleSurroundingRevealChatCard" {{checked optionalRuleSurroundingRevealChatCard}} data-dtype="Boolean" />
+    <p class="notes">{{localize "DL.SettingOptionalRuleRevealHorrifyingBaneHint"}}</p>
+  </div>  
+  <hr>
+  <div class="form-group">
     <label>{{localize "DL.SettingOptionalRuleExceedsByFive"}}</label>
     <input type="checkbox" name="optionalRuleExceedsByFive" {{checked optionalRuleExceedsByFive}} data-dtype="Boolean" />
     <p class="notes">{{localize "DL.SettingOptionalRuleExceedsByFiveHint"}}</p>    
@@ -44,7 +68,7 @@
     <label>{{localize "DL.SettingOptionalRuleRevealHorrifyingBane"}}</label>
     <input type="checkbox" name="optionalRuleRevealHorrifyingBane" {{checked optionalRuleRevealHorrifyingBane}} data-dtype="Boolean" />
     <p class="notes">{{localize "DL.SettingOptionalRuleRevealHorrifyingBaneHint"}}</p>
-  </div>  
+  </div>
   <footer class="sheet-footer flexrow">
     <button type="submit" name="submit">
       <i class="far fa-save"></i>
