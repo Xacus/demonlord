@@ -736,7 +736,7 @@ export class DemonlordActor extends Actor {
 
   async rollSpell(itemID, _options = {event: null}) {
     const item = this.items.get(itemID)
-    const isAttack = item.system.spelltype === game.i18n.localize('DL.SpellTypeAttack')
+    const isAttack = item.system.spelltype === 'Attack'
     const attackAttribute = item.system?.action?.attack?.toLowerCase()
     const challengeAttribute = item.system?.attribute?.toLowerCase()
 
