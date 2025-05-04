@@ -6,7 +6,7 @@ import {DemonlordItem} from './item/item.js'
 import {ActionTemplate} from './pixi/action-template.js'
 import {registerSettings} from './settings.js'
 import {registerVisionModes} from './vision.js'
-import KeyState from './key-state.js'
+import KeyState from './utils/key-state.js'
 import {DLCombatTracker} from './combat/combat-tracker.js'
 import {preloadHandlebarsTemplates} from './templates.js'
 import * as migrations from './migration.js'
@@ -45,6 +45,7 @@ import 'tippy.js/dist/tippy.css';
 import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
 import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
+import { activateSocketListener } from "./utils/socket.js";
 
 
 Hooks.once('init', async function () {
@@ -153,6 +154,7 @@ Hooks.once('init', async function () {
   if (typeof Babele !== 'undefined') {
     Babele.get().setSystemTranslationsDir('packs/translations')
   }
+  activateSocketListener()
 })
 
 Hooks.once('ready', async function () {
@@ -404,6 +406,7 @@ Hooks.on('renderChatMessage', async (app, html, _msg) => {
     html.find('.gmonlyzero').remove()
     let messageActor = app.speaker.actor
     if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideActorInfo')) html.find('.showlessinfo').remove()
+    if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideDescription')) html.find('.showdescription').empty()
   } else html.find('.gmremove').remove()
 })
 

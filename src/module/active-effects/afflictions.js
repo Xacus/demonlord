@@ -291,6 +291,18 @@ export class DLAfflictions {
       ),
     )
 
+    // Surrounded
+    effectsDataList.push(
+      _buildBaseAffliction(
+        'surrounded',
+        'systems/demonlord/assets/icons/effects/surrounded.svg',
+        [
+          addEffect('system.bonuses.defense.boons.weapon', -1, effectPriority),
+          addEffect('system.bonuses.defense.boons.spell', -1, effectPriority),
+        ],
+      ),
+    )    
+
     // Unconscious
     effectsDataList.push(
       _buildBaseAffliction(

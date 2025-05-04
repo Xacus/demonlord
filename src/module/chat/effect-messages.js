@@ -57,6 +57,7 @@ const changeListToMsgDefender = (m, keys, title, anonymize, f = plusify) => {
 			let newChanges = m.get(key)
 			newChanges.forEach(item => {
 				if (anonymize) {
+          if (!(item.name.startsWith(game.i18n.localize('DL.surrounded')) && game.settings.get('demonlord', 'optionalRuleSurroundingRevealChatCard'))) 
 					item.name = game.i18n.localize('DL.OtherUnknown') + ` [${game.i18n.localize('DL.ActionTarget')}]`
 				} else {
 					item.name = item.name + ` [${game.i18n.localize('DL.ActionTarget')}]`
