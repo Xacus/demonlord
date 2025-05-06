@@ -8,7 +8,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Two",
+    "hands": "two",
     "properties": "Size 1, Range (long), Uses Arrows",
     "requirement": {
       "attribute": "Strength",

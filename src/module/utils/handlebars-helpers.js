@@ -1,5 +1,5 @@
 /* global fromUuidSync */
-import {capitalize, enrichHTMLUnrolled, i18n} from "./utils";
+import {capitalize, i18n} from "./utils";
 
 export function registerHandlebarsHelpers() {
 
@@ -33,7 +33,7 @@ export function registerHandlebarsHelpers() {
     return a ? a : b;
   });
 
-  Handlebars.registerHelper('enrichHTMLUnrolled', (x) => enrichHTMLUnrolled(x))
+  Handlebars.registerHelper('enrichHTMLUnrolled', async (x) => await TextEditor.enrichHTML(x, { unrolled: true }))
   Handlebars.registerHelper('lookupAttributeModifier', (attributeName, actorData) =>
     actorData?.system?.attributes[attributeName.toLowerCase()]?.modifier
   )

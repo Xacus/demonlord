@@ -8,7 +8,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Two",
+    "hands": "two",
     "properties": "Range (long), Reload, Uses Bolts",
     "availability": "C",
     "value": "1 gc",

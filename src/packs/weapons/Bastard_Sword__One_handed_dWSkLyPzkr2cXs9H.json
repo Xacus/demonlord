@@ -15,7 +15,7 @@
     "plus20damage": "",
     "defense": "",
     "defenseboonsbanes": "",
-    "hands": "One",
+    "hands": "one",
     "properties": "Cumbersome",
     "requirement": {
       "attribute": "Strength",

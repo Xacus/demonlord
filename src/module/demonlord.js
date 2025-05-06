@@ -158,6 +158,14 @@ Hooks.once('init', async function () {
 })
 
 Hooks.once('ready', async function () {
+  // If the turn marker is not set, use ours as a themed fallback
+  const combatConfig = game.settings.get('core', 'combatTrackerConfig')
+  if (!combatConfig.turnMarker.src) {
+    combatConfig.turnMarker.src = 'systems/demonlord/assets/ui/turn-marker.png'
+    combatConfig.turnMarker.animation = 'spin'
+    game.settings.set('core', 'combatTrackerConfig', combatConfig)
+  }
+
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => macros.createDemonlordMacro(data, slot))
   // Migration

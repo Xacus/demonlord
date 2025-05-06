@@ -13,7 +13,7 @@
       "attribute": "Agility",
       "minvalue": "11"
     },
-    "hands": "Off",
+    "hands": "off",
     "availability": "U",
     "value": "5 ss",
     "action": {

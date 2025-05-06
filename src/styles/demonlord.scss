@@ -7,8 +7,7 @@
 
 /* Global styles */
 @import 'global/window';
-@import 'global/flex';
-@import 'global/ui';
+@import 'global/ui'; // A combination of global/ui and dialogs/dialog2 breaks v13 sidebar icons
 @import 'global/grid2';
 
 /* Styles limited to demonlord sheets */
@@ -86,7 +85,7 @@
   @import 'src/styles/components/extras/playertracker';
 }
 
-@import 'src/styles/components/dialogs/dialog2';
+@import 'src/styles/components/dialogs/dialog2'; // A combination of global/ui and dialogs/dialog2 breaks v13 sidebar icons
 
 /*****************/
 /*   V2 Styles   */

@@ -8,7 +8,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Off",
+    "hands": "off",
     "properties": "Size 1, Defensive +2",
     "requirement": {
       "attribute": "Strength",
