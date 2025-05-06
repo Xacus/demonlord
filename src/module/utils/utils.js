@@ -32,25 +32,6 @@ export function createInlineFormula(_match, _command, formula, closing, label, .
   return a;
 }
 
-/**
- * enrichHTML but with inline rolls not rolled
- * src: https://gitlab.com/foundryvtt_pathfinder1e/foundryvtt-pathfinder1/-/merge_requests/360/diffs
- */
-export async function enrichHTMLUnrolled(content, {rollData, secrets, rolls, entities} = {}) {
-  let pcontent = await TextEditor.enrichHTML(content, {secrets, rolls, entities, rollData, async:true});
-
-  if (!rolls) {
-    const html = document.createElement("div");
-    html.innerHTML = String(pcontent);
-    const text = await TextEditor._getTextNodes(html);
-    const rgx = /\[\[(\/[a-zA-Z]+\s)?(.*?)([\]]{2,3})(?:{([^}]+)})?/gi;
-    await TextEditor._replaceTextContent(text, rgx, (...args) => createInlineFormula(...args, rollData));
-    pcontent = html.innerHTML;
-  }
-
-  return pcontent;
-}
-
 /** Maps a number from a given range to an equivalent number of another range */
 export function MapRange(num, inMin, inMax, outMin, outMax) {
     if (inMin === inMax || outMin === outMax)

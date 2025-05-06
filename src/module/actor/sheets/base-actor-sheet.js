@@ -1,6 +1,6 @@
 import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
 import {buildOverview} from '../../chat/effect-messages'
-import {capitalize, enrichHTMLUnrolled} from '../../utils/utils'
+import {capitalize} from '../../utils/utils'
 import {DemonlordItem} from '../../item/item'
 import {DLAfflictions} from '../../active-effects/afflictions'
 import { buildDropdownList } from '../../utils/handlebars-helpers'
@@ -45,7 +45,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     const m = new Map()
     for await (const item of this.actor.items) {
       const type = item.type
-      item.system.enrichedDescription =  await enrichHTMLUnrolled(item.system.description)
+      item.system.enrichedDescription =  await TextEditor.enrichHTML(item.system.description, { unrolled: true })
       m.has(type) ? m.get(type).push(item) : m.set(type, [item])
     }
     data._itemsByType = m
@@ -94,7 +94,6 @@ export default class DLBaseActorSheet extends ActorSheet {
 
   /* -------------------------------------------- */
   /*  Drop item event                             */
-
   /* -------------------------------------------- */
 
   /** @override */

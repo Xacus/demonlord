@@ -8,7 +8,7 @@ import tippy from "tippy.js";
 import {buildDropdownListHover} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
 import { DemonlordItem } from "../item";
-import { capitalize, enrichHTMLUnrolled, i18n} from "../../utils/utils";
+import { capitalize, i18n} from "../../utils/utils";
 import { 
   getNestedItemData,
   getNestedDocument,
@@ -213,7 +213,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
     // Enrich the description
     context.system.enrichedDescription = await TextEditor.enrichHTML(this.document.system.description);
-    context.system.enrichedDescriptionUnrolled = await enrichHTMLUnrolled(this.document.system.description)
+    context.system.enrichedDescriptionUnrolled = await TextEditor.enrichHTML(this.document.system.description, { unrolled: true })
 
     context.effects = prepareActiveEffectCategories(this.document.effects, true, true)
 
