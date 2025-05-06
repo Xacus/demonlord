@@ -1,4 +1,4 @@
-import {capitalize, enrichHTMLUnrolled} from '../utils/utils'
+import {capitalize} from '../utils/utils'
 
 /* -------------------------------------------- */
 /*  Class Models                                */
@@ -226,7 +226,7 @@ export async function getNestedItemData(nestedData) {
   itemData.system.enrichedDescription = await TextEditor.enrichHTML(itemData?.system?.description, {
   aync: true})
 
-  itemData.system.enrichedDescriptionUnrolled = await enrichHTMLUnrolled(itemData?.system?.description)
+  itemData.system.enrichedDescriptionUnrolled = await TextEditor.enrichHTML(itemData?.system?.description, { unrolled: true })
 
   // Keep the quantity previously stored, if any
   itemData.system.quantity = nestedData?.system?.quantity ?? itemData.system.quantity
