@@ -408,14 +408,14 @@ Hooks.on("updateWorldTime", _onUpdateWorldTime)
 
 Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
 
-Hooks.on('renderChatMessage', async (app, html, _msg) => {
+Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
   if (!game.user.isGM) {
-    html.find('.gmonly').remove()
-    html.find('.gmonlyzero').remove()
+    html.querySelectorAll('.gmonly').forEach(el => el.remove())
+    html.querySelectorAll('.gmonlyzero').forEach(el => el.remove())
     let messageActor = app.speaker.actor
     if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideActorInfo')) html.find('.showlessinfo').remove()
     if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideDescription')) html.find('.showdescription').empty()
-  } else html.find('.gmremove').remove()
+  } else html.querySelectorAll('.gmremove').forEach(el => el.remove())
 })
 
 Hooks.once('diceSoNiceReady', dice3d => {
