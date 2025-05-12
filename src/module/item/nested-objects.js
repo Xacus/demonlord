@@ -223,10 +223,10 @@ export async function getNestedItemData(nestedData) {
 
   // Remember user selection & enrich description
   itemData.selected = nestedData.selected
-  itemData.system.enrichedDescription = await TextEditor.enrichHTML(itemData?.system?.description, {
+  itemData.system.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(itemData?.system?.description, {
   aync: true})
 
-  itemData.system.enrichedDescriptionUnrolled = await TextEditor.enrichHTML(itemData?.system?.description, { unrolled: true })
+  itemData.system.enrichedDescriptionUnrolled = await foundry.applications.ux.TextEditor.implementation.enrichHTML(itemData?.system?.description, { unrolled: true })
 
   // Keep the quantity previously stored, if any
   itemData.system.quantity = nestedData?.system?.quantity ?? itemData.system.quantity
