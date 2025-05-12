@@ -178,7 +178,7 @@ async function _onChatRollDamage(event) {
     chatData.rolls = [damageRoll]
   }
   const template = 'systems/demonlord/templates/chat/damage.hbs'
-  renderTemplate(template, templateData).then(content => {
+  foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
     chatData.content = content
     chatData.sound = CONFIG.sounds.dice
     ChatMessage.create(chatData)
@@ -336,7 +336,7 @@ async function _onChatRequestChallengeRoll(event) {
     chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
 
     const template = 'systems/demonlord/templates/chat/makechallengeroll.hbs'
-    renderTemplate(template, templateData).then(content => {
+    foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
       chatData.content = content
 
       ChatMessage.create(chatData)
@@ -394,7 +394,7 @@ async function _onChatRequestInitRoll(event) {
     chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
 
     const template = 'systems/demonlord/templates/chat/makeinitroll.hbs'
-    renderTemplate(template, templateData).then(async content => {
+    foundry.applications.handlebars.renderTemplate(template, templateData).then(async content => {
       chatData.content = content
       await ChatMessage.create(chatData)
     })

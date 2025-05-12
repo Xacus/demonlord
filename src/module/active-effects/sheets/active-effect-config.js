@@ -1,4 +1,4 @@
-export class DLActiveEffectConfig extends ActiveEffectConfig {
+export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {

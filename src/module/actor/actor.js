@@ -1020,7 +1020,7 @@ export class DemonlordActor extends Actor {
     }
 
     const template = 'systems/demonlord/templates/chat/enchantment.hbs'
-    renderTemplate(template, templateData).then(async content => {
+    foundry.applications.handlebars.renderTemplate(template, templateData).then(async content => {
       chatData.content = content
       await ChatMessage.create(chatData)
     })
@@ -1118,7 +1118,7 @@ export class DemonlordActor extends Actor {
     }
 
     const template = 'systems/demonlord/templates/chat/rest.hbs'
-    renderTemplate(template, templateData).then(async content => {
+    foundry.applications.handlebars.renderTemplate(template, templateData).then(async content => {
       chatData.content = content
       await ChatMessage.create(chatData)
     })

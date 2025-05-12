@@ -74,7 +74,7 @@ Hooks.once('init', async function () {
   CONFIG.Actor.documentClass = DemonlordActor
   CONFIG.Token.objectClass = DemonlordToken
   CONFIG.Item.documentClass = DemonlordItem
-  DocumentSheetConfig.registerSheet(ActiveEffect, "demonlord", DLActiveEffectConfig, {makeDefault: true})
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(ActiveEffect, "demonlord", DLActiveEffectConfig, {makeDefault: true})
   CONFIG.ui.combat = DLCombatTracker
   CONFIG.Combat.documentClass = DLCombat
   CONFIG.time.roundTime = 10
@@ -109,24 +109,24 @@ Hooks.once('init', async function () {
   registerSettings()
 
   // Register sheet application classes
-  Actors.unregisterSheet('core', ActorSheet)
-  Actors.registerSheet('demonlord', DLCharacterSheet, {
+  foundry.documents.collections.Actors.unregisterSheet('core', foundry.appv1.sheets.ActorSheet)
+  foundry.documents.collections.Actors.registerSheet('demonlord', DLCharacterSheet, {
     types: ['character'],
     makeDefault: true,
   })
 
-  Actors.registerSheet('demonlord', DLCreatureSheet, {
+  foundry.documents.collections.Actors.registerSheet('demonlord', DLCreatureSheet, {
     types: ['creature'],
     makeDefault: false,
   })
 
-  Actors.registerSheet('demonlord', DLVehicleSheet, {
+  foundry.documents.collections.Actors.registerSheet('demonlord', DLVehicleSheet, {
     types: ['vehicle'],
     makeDefault: false,
   })
 
-  Items.unregisterSheet('core', ItemSheet)
-  Items.registerSheet('demonlord', DLBaseItemSheet, {
+  foundry.documents.collections.Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet)
+  foundry.documents.collections.Items.registerSheet('demonlord', DLBaseItemSheet, {
     types: [
       'ancestry',
       'ammo',

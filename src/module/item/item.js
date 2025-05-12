@@ -172,7 +172,7 @@ export class DemonlordItem extends Item {
         const chatData = getChatBaseData(actor, rollMode)
 
         const template = 'systems/demonlord/templates/chat/formulaeroll.hbs'
-        renderTemplate(template, templateData).then(async content => {
+        foundry.applications.handlebars.renderTemplate(template, templateData).then(async content => {
           chatData.content = content
           chatData.sound = CONFIG.sounds.dice
           await ChatMessage.create(chatData)

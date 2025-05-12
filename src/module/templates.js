@@ -4,7 +4,7 @@
  * @return {Promise}
  */
 export const preloadHandlebarsTemplates = async function () {
-  return loadTemplates([
+  return foundry.applications.handlebars.loadTemplates([
     'systems/demonlord/templates/tabs/activeeffects.hbs',
     'systems/demonlord/templates/tabs/afflictions.hbs',
     'systems/demonlord/templates/tabs/background.hbs',
