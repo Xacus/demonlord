@@ -62,7 +62,7 @@ async function _onChatRollDamage(event) {
   
   if (appliedEffects?.length) {
     for (let effect of appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
       if (specialDuration === 'NextDamageRoll') await effect?.delete()
     }
   }
