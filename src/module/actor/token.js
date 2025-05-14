@@ -3,7 +3,7 @@
 import {MapRange} from '../utils/utils.js'
 
 // Shamelessly stolen from Shadow of the Weird Wizard
-export class DemonlordToken extends Token {
+export class DemonlordToken extends foundry.canvas.placeables.Token {
     
     static getDamageColor(current, max) {
         const minDegrees = 30

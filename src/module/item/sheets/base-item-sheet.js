@@ -212,8 +212,8 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     context.tabs = this._getTabs(options.parts)
 
     // Enrich the description
-    context.system.enrichedDescription = await TextEditor.enrichHTML(this.document.system.description);
-    context.system.enrichedDescriptionUnrolled = await TextEditor.enrichHTML(this.document.system.description, { unrolled: true })
+    context.system.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.system.description);
+    context.system.enrichedDescriptionUnrolled = await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.system.description, { unrolled: true })
 
     context.effects = prepareActiveEffectCategories(this.document.effects, true, true)
 

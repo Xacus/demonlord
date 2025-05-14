@@ -3,7 +3,7 @@ import {i18n} from "../utils/utils";
 import {createInitChatMessage} from "./combat";
 import {injectDraggable} from "./combat-tracker-draggable";
 
-export class DLCombatTracker extends CombatTracker {
+export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
   constructor(options) {
     super(options)
   }

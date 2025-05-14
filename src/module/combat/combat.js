@@ -417,7 +417,7 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
     tempEffects.forEach(e => {
       // Ignore effects with specialDuration
       if (inCombat) {
-        let specialDuration = foundry.utils.getProperty(e, 'flags.specialDuration')
+        let specialDuration = foundry.utils.getProperty(e, `flags.${game.system.id}.specialDuration`)
         if (specialDuration !== 'None' && specialDuration !== undefined) return
       }
       const eType = e.flags?.sourceType
@@ -499,7 +499,7 @@ Hooks.on('preCreateCombatant', async (combatant, _data, _options, userId) => {
 async function deleteSpecialdurationEffects(combatant) {
   let actor = fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
   for (let effect of actor.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, "flags.specialDuration")
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
       if (!(specialDuration?.length > 0)) continue
       if (specialDuration !== "None" && specialDuration !== undefined && specialDuration !== 'RestComplete') await effect?.delete()
   }
@@ -517,7 +517,7 @@ Hooks.on('deleteCombat', async (combat) => {
 		let actor = turn.actor
 		if (!actor) continue
 		for (let effect of actor.appliedEffects) {
-			const specialDuration = foundry.utils.getProperty(effect, "flags.specialDuration")
+			const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
 			if (!(specialDuration?.length > 0)) continue
 			if (specialDuration !== "None" && specialDuration !== undefined && specialDuration !== 'RestComplete') await effect?.delete()
 		}
@@ -666,7 +666,7 @@ Hooks.on('updateCombat', async (combat) => {
     let actor = turn.actor
     if (!actor) continue
     for (let effect of actor.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
       if (!(specialDuration?.length > 0)) continue
       if (
         effect.origin?.startsWith(combat.turns.find(x => x._id === combat.previous.combatantId)?.actor.uuid) &&
@@ -702,7 +702,7 @@ Hooks.on('updateCombat', async (combat) => {
   let previousActor = combat.turns.find(x => x._id === combat.previous.combatantId)?.actor
 
   for (let effect of currentActor.allApplicableEffects()) {
-    const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+    const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
     if (specialDuration?.length > 0) {
       if (specialDuration === 'TurnStart') {
         console.warn(
@@ -716,7 +716,7 @@ Hooks.on('updateCombat', async (combat) => {
 
   if (previousActor !== undefined) {
     for (let effect of previousActor.allApplicableEffects()) {
-      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
       if (specialDuration?.length > 0) {
         if (specialDuration === 'TurnEnd') {
           // Do not delete effects which are created in the same turn and round. PreviousActor startTurn+1!

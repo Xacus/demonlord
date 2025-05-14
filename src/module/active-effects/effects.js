@@ -131,7 +131,7 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
       e.dlRemaining = e.duration.label
     }
 
-    let specialDuration = foundry.utils.getProperty(e, 'flags.specialDuration')
+    let specialDuration = foundry.utils.getProperty(e, `flags.${game.system.id}.specialDuration`)
     let tokenName
     if (specialDuration !== 'None' && specialDuration !== undefined) {
       tokenName = fromUuidSync(e.origin.substr(0, e.origin.search('.Actor.')))?.name
@@ -160,7 +160,7 @@ Hooks.on('renderActiveEffectConfig', (app, html) => {
   // if (!game.user.isGM) return
 
   var dropDownConfig = function ({ default_value, values }) {
-    let flags = app.object.flags
+    let flags = app.document.flags
 
     const formGroup = document.createElement('div')
     formGroup.classList.add('form-group')
@@ -172,7 +172,7 @@ Hooks.on('renderActiveEffectConfig', (app, html) => {
 
     const cur = flags?.['specialDuration'] ?? default_value
     const input = document.createElement('select')
-    input.name = 'flags.specialDuration'
+    input.name = `flags.${game.system.id}.specialDuration`
 
     for (let o of values) {
       let opt = document.createElement('option')
@@ -197,6 +197,6 @@ Hooks.on('renderActiveEffectConfig', (app, html) => {
     default_value: 'None',
   })
 
-  html[0].querySelector("section[data-tab='duration']").append(parentN)
+  html.querySelector("section[data-tab='duration']").append(parentN)
   app.setPosition()
 })

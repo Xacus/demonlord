@@ -7,7 +7,7 @@ const tokenManager = new TokenManager()
  * A helper class for building MeasuredTemplates for 5e spells and abilities
  * @extends {MeasuredTemplate}
  */
-export class ActionTemplate extends MeasuredTemplate {
+export class ActionTemplate extends foundry.canvas.placeables.MeasuredTemplate {
   static fromItem(item) {
     const target = foundry.utils.getProperty(item, 'system.activatedEffect.target') || {}
     const templateShape = DL.actionAreaShape[target.type]
