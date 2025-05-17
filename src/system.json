@@ -19,8 +19,8 @@
   ],
   "background": "systems/demonlord/assets/ui/thumbnail.webp",
   "compatibility": {
-    "minimum": 12,
-    "verified": 12
+    "minimum": 13,
+    "verified": 13
   },
   "esmodules": ["module/demonlord.js"],
   "styles": ["styles/demonlord.css", "module/bundle.css"],
