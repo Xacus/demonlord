@@ -1,5 +1,7 @@
 import {capitalize} from '../utils/utils'
 
+const { TextEditor } = foundry.applications.ux //eslint-disable-line no-shadow
+
 /* -------------------------------------------- */
 /*  Class Models                                */
 
@@ -12,29 +14,31 @@ export class PathLevel {
 
     const locAtt = s => game.i18n.localize('DL.Attribute' + capitalize(s))
 
-    this.level = obj.level || 1
-    this.attributeSelect = obj.attributeSelect || ''
-    this.attributeSelectIsChooseTwo = obj.attributeSelectIsChooseTwo || obj.attributeSelect === 'choosetwo' || false
-    this.attributeSelectIsChooseThree = obj.attributeSelectIsChooseThree || obj.attributeSelect === 'choosethree' || false
-    this.attributeSelectIsFixed = obj.attributeSelectIsFixed || obj.attributeSelect === 'fixed' || false
-    this.attributeSelectIsTwoSet = obj.attributeSelectIsTwoSet || obj.attributeSelect === 'twosets' || false
+    const level = {}
 
-    this.attributeSelectTwoSet1 = obj.attributeSelectTwoSet1 || ''
-    this.attributeSelectTwoSet2 = obj.attributeSelectTwoSet2 || ''
-    this.attributeSelectTwoSet3 = obj.attributeSelectTwoSet3 || ''
-    this.attributeSelectTwoSet4 = obj.attributeSelectTwoSet4 || ''
+    level.level = obj.level || 1
+    level.attributeSelect = obj.attributeSelect || ''
+    level.attributeSelectIsChooseTwo = obj.attributeSelectIsChooseTwo || obj.attributeSelect === 'choosetwo' || false
+    level.attributeSelectIsChooseThree = obj.attributeSelectIsChooseThree || obj.attributeSelect === 'choosethree' || false
+    level.attributeSelectIsFixed = obj.attributeSelectIsFixed || obj.attributeSelect === 'fixed' || false
+    level.attributeSelectIsTwoSet = obj.attributeSelectIsTwoSet || obj.attributeSelect === 'twosets' || false
 
-    this.attributeSelectTwoSet1Label = obj.attributeSelectTwoSet1Label || locAtt(this.attributeSelectTwoSet1) || ''
-    this.attributeSelectTwoSet2Label = obj.attributeSelectTwoSet2Label || locAtt(this.attributeSelectTwoSet2) || ''
-    this.attributeSelectTwoSet3Label = obj.attributeSelectTwoSet3Label || locAtt(this.attributeSelectTwoSet3) || ''
-    this.attributeSelectTwoSet4Label = obj.attributeSelectTwoSet4Label || locAtt(this.attributeSelectTwoSet4) || ''
+    level.attributeSelectTwoSet1 = obj.attributeSelectTwoSet1 || ''
+    level.attributeSelectTwoSet2 = obj.attributeSelectTwoSet2 || ''
+    level.attributeSelectTwoSet3 = obj.attributeSelectTwoSet3 || ''
+    level.attributeSelectTwoSet4 = obj.attributeSelectTwoSet4 || ''
 
-    this.attributeSelectTwoSetValue1 = +obj.attributeSelectTwoSetValue1 || 0
-    this.attributeSelectTwoSetValue2 = +obj.attributeSelectTwoSetValue2 || 0
-    this.attributeSelectTwoSetSelectedValue1 = +obj.attributeSelectTwoSetSelectedValue1 || true
-    this.attributeSelectTwoSetSelectedValue2 = +obj.attributeSelectTwoSetSelectedValue2 || true
+    level.attributeSelectTwoSet1Label = obj.attributeSelectTwoSet1Label || locAtt(level.attributeSelectTwoSet1) || ''
+    level.attributeSelectTwoSet2Label = obj.attributeSelectTwoSet2Label || locAtt(level.attributeSelectTwoSet2) || ''
+    level.attributeSelectTwoSet3Label = obj.attributeSelectTwoSet3Label || locAtt(level.attributeSelectTwoSet3) || ''
+    level.attributeSelectTwoSet4Label = obj.attributeSelectTwoSet4Label || locAtt(level.attributeSelectTwoSet4) || ''
 
-    this.attributes = {
+    level.attributeSelectTwoSetValue1 = +obj.attributeSelectTwoSetValue1 || 0
+    level.attributeSelectTwoSetValue2 = +obj.attributeSelectTwoSetValue2 || 0
+    level.attributeSelectTwoSetSelectedValue1 = +obj.attributeSelectTwoSetSelectedValue1 || true
+    level.attributeSelectTwoSetSelectedValue2 = +obj.attributeSelectTwoSetSelectedValue2 || true
+
+    level.attributes = {
       strength: {
         value: +obj.attributes?.strength?.value || 0,
         formula: obj.attributes?.strength?.formula || '',
@@ -61,7 +65,7 @@ export class PathLevel {
       }
     }
 
-    this.characteristics = {
+    level.characteristics = {
       health: +obj.characteristics?.health || 0,
       healingRate: +obj.characteristics?.healingRate || 0,
       size: obj.characteristics?.size || '1',
@@ -81,19 +85,22 @@ export class PathLevel {
       }
     }
 
-    this.languagesText = obj.languagesText || ''
-    this.equipmentText = obj.equipmentText || ''
-    this.magicText = obj.magicText || ''
-    this.optionsText = obj.optionsText || ''
+    level.languagesText = obj.languagesText || ''
+    level.equipmentText = obj.equipmentText || ''
+    level.magicText = obj.magicText || ''
+    level.optionsText = obj.optionsText || ''
 
-    this.talentsSelect = obj.talentsSelect || ''
-    this.talentsChooseOne = obj.talentsChooseOne || false
-    this.talentsSelected = obj.talentsSelected || []
-    this.talents = obj.talents || []
-    this.spells = obj.spells || []
-    this.talentspick = obj.talents || []
-    this.languages = obj.languages || []
+    level.talentsSelect = obj.talentsSelect || ''
+    level.talentsChooseOne = obj.talentsChooseOne || false
+    level.talentsSelected = obj.talentsSelected || []
+    level.talents = obj.talents || []
+    level.spells = obj.spells || []
+    level.talentspick = obj.talents || []
+    level.languages = obj.languages || []
+    
+    return level
   }
+
 }
 
 Handlebars.registerHelper('hasCharacteristics', level => {
@@ -223,10 +230,10 @@ export async function getNestedItemData(nestedData) {
 
   // Remember user selection & enrich description
   itemData.selected = nestedData.selected
-  itemData.system.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(itemData?.system?.description, {
+  itemData.system.enrichedDescription = await TextEditor.implementation.enrichHTML(itemData?.system?.description, {
   aync: true})
 
-  itemData.system.enrichedDescriptionUnrolled = await foundry.applications.ux.TextEditor.implementation.enrichHTML(itemData?.system?.description, { unrolled: true })
+  itemData.system.enrichedDescriptionUnrolled = await TextEditor.implementation.enrichHTML(itemData?.system?.description, { unrolled: true })
 
   // Keep the quantity previously stored, if any
   itemData.system.quantity = nestedData?.system?.quantity ?? itemData.system.quantity

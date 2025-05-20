@@ -9,12 +9,13 @@ import { makeLanguageSchema } from './LanguageDataModel.js'
 import { makeSpellSchema } from './SpellDataModel.js'
 import { makeTalentSchema } from './TalentDataModel.js'
 
-export default class AncestryDataModel extends foundry.abstract.DataModel {
+export default class AncestryDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
+      source: makeHtmlField(),
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
-      levels: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
+      levels: new foundry.data.fields.ArrayField(new foundry.data.fields.ObjectField({
         level: makeStringField('1'),
         attributeSelect: makeStringField('choosetwo'),
         attributeSelectIsChooseTwo: makeBoolField(true),
@@ -95,7 +96,7 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
     }
   }
 
-  static migrateData(source) {
+  /*static migrateData(source) {
     if (parseInt(source.characteristics?.insanity)) {
       const insanity = parseInt(source.characteristics.insanity)
       source.characteristics.insanity = {
@@ -205,5 +206,5 @@ export default class AncestryDataModel extends foundry.abstract.DataModel {
     }
 
     return super.migrateData(source)
-  }
+  }*/
 }

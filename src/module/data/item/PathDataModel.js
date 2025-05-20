@@ -4,13 +4,14 @@ import { makeSpellSchema } from './SpellDataModel.js'
 import { makeTalentSchema } from './TalentDataModel.js'
 import { levelItem } from '../common.js'
 
-export default class PathDataModel extends foundry.abstract.DataModel {
+export default class PathDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
+      source: makeHtmlField(),
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
       type: makeStringField('novice'),
-      levels: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
+      levels: new foundry.data.fields.ArrayField(new foundry.data.fields.ObjectField({
         level: makeStringField('1'),
         attributeSelect: makeStringField('choosetwo'),
         attributeSelectIsChooseTwo: makeBoolField(true),

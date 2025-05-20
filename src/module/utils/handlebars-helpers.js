@@ -1,6 +1,8 @@
 /* global fromUuidSync */
 import {capitalize, i18n} from "./utils";
 
+const { TextEditor } = foundry.applications.ux  //eslint-disable-line no-shadow
+
 export function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper('concat', function () {

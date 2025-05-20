@@ -20,6 +20,8 @@ import {
 } from '../nested-objects';
 import { DLStatEditor } from '../../dialog/stat-editor'
 
+const { TextEditor } = foundry.applications.ux //eslint-disable-line no-shadow
+
 export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -212,8 +214,8 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     context.tabs = this._getTabs(options.parts)
 
     // Enrich the description
-    context.system.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.system.description);
-    context.system.enrichedDescriptionUnrolled = await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.system.description, { unrolled: true })
+    context.system.enrichedDescription = await TextEditor.implementation.enrichHTML(this.document.system.description);
+    context.system.enrichedDescriptionUnrolled = await TextEditor.implementation.enrichHTML(this.document.system.description, { unrolled: true })
 
     context.effects = prepareActiveEffectCategories(this.document.effects, true, true)
 

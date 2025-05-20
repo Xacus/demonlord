@@ -1,3 +1,4 @@
+const TextEditor = foundry.applications.ux //eslint-disable-line no-shadow
 export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
   /** @override */
   static get defaultOptions() {
@@ -30,7 +31,7 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
       isActorEffect: this.object.parent.documentName === 'Actor',
       isItemEffect: this.object.parent.documentName === 'Item',
       submitText: 'EFFECT.Submit',
-      descriptionHTML: foundry.applications.ux.TextEditor.implementation.enrichHTML(this.object.description, {async: true, secrets: this.object.isOwner}),
+      descriptionHTML: TextEditor.implementation.enrichHTML(this.object.description, {async: true, secrets: this.object.isOwner}),
       modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
         obj[e[1]] = game.i18n.localize('EFFECT.MODE_' + e[0])
         return obj
@@ -39,7 +40,7 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
 
     context = foundry.utils.mergeObject(context, data)
 
-    context.descriptionHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, { async: true, secrets: effect.isOwner})
+    context.descriptionHTML = await TextEditor.implementation.enrichHTML(effect.description, { async: true, secrets: effect.isOwner})
     context.availableChangeKeys = DLActiveEffectConfig._availableChangeKeys
 
     return context

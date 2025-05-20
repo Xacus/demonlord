@@ -47,6 +47,9 @@ import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
 import { activateSocketListener } from "./utils/socket.js";
 
+const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
+const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
+
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -109,24 +112,24 @@ Hooks.once('init', async function () {
   registerSettings()
 
   // Register sheet application classes
-  foundry.documents.collections.Actors.unregisterSheet('core', foundry.appv1.sheets.ActorSheet)
-  foundry.documents.collections.Actors.registerSheet('demonlord', DLCharacterSheet, {
+  Actors.unregisterSheet('core', ActorSheet)
+  Actors.registerSheet('demonlord', DLCharacterSheet, {
     types: ['character'],
     makeDefault: true,
   })
 
-  foundry.documents.collections.Actors.registerSheet('demonlord', DLCreatureSheet, {
+  Actors.registerSheet('demonlord', DLCreatureSheet, {
     types: ['creature'],
     makeDefault: false,
   })
 
-  foundry.documents.collections.Actors.registerSheet('demonlord', DLVehicleSheet, {
+  Actors.registerSheet('demonlord', DLVehicleSheet, {
     types: ['vehicle'],
     makeDefault: false,
   })
 
-  foundry.documents.collections.Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet)
-  foundry.documents.collections.Items.registerSheet('demonlord', DLBaseItemSheet, {
+  Items.unregisterSheet('core', ItemSheet)
+  Items.registerSheet('demonlord', DLBaseItemSheet, {
     types: [
       'ancestry',
       'ammo',
