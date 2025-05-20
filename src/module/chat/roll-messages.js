@@ -123,7 +123,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
     chatData.rolls = [attackRoll]
   }
   const template = 'systems/demonlord/templates/chat/combat.hbs'
-  return renderTemplate(template, templateData).then(content => {
+  return foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
     chatData.content = content
     chatData.sound = CONFIG.sounds.dice
     ChatMessage.create(chatData)
@@ -184,7 +184,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons)
     chatData.rolls = [challengeRoll]
   }
   const template = 'systems/demonlord/templates/chat/challenge.hbs'
-  renderTemplate(template, templateData).then(content => {
+  foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
     chatData.content = content
     chatData.sound = CONFIG.sounds.dice
     ChatMessage.create(chatData)
@@ -299,7 +299,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   }
   if (talentData?.damage || talentData?.action?.attack || (!talentData?.action?.attack && !talentData?.damage)) {
     const template = 'systems/demonlord/templates/chat/talent.hbs'
-    return renderTemplate(template, templateData).then(content => {
+    return foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
       chatData.content = content
       if (attackRoll != null) {
         chatData.sound = CONFIG.sounds.dice
@@ -430,7 +430,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
     chatData.rolls = [attackRoll]
   }
   const template = 'systems/demonlord/templates/chat/spell.hbs'
-  renderTemplate(template, templateData).then(content => {
+  foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
     chatData.content = content
     if (attackRoll != null && attackAttribute) {
       chatData.sound = CONFIG.sounds.dice
@@ -468,7 +468,7 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
   }
   const template = 'systems/demonlord/templates/chat/corruption.hbs'
 
-  chatData.content = await renderTemplate(template, templateData)
+  chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)
   chatData.sound = CONFIG.sounds.dice
   await ChatMessage.create(chatData)
 
@@ -503,7 +503,7 @@ export async function postFortuneToChat(actor, awarded) {
   const rollMode = game.settings.get('core', 'rollMode')
   const chatData = getChatBaseData(actor, rollMode)
   const template = 'systems/demonlord/templates/chat/fortune.hbs'
-  chatData.content = await renderTemplate(template, templateData)  
+  chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)  
   await ChatMessage.create(chatData)
 }
 
@@ -608,7 +608,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
     chatData.rolls = [attackRoll]
   }
   const template = 'systems/demonlord/templates/chat/useitem.hbs'
-  return renderTemplate(template, templateData).then(content => {
+  return foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
     chatData.content = content
     if (attackRoll != null) {
       chatData.sound = CONFIG.sounds.dice

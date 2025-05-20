@@ -461,7 +461,7 @@ export class DemonlordActor extends Actor {
     })
 
     for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
       // if (!(specialDuration?.length > 0)) continue
         if (specialDuration === 'NextD20Roll') {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
@@ -546,7 +546,7 @@ export class DemonlordActor extends Actor {
     postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0)
 
     for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
       // if (!(specialDuration?.length > 0)) continue
       if (specialDuration === 'NextD20Roll') {
         if (
@@ -611,7 +611,7 @@ export class DemonlordActor extends Actor {
     postAttackToChat(this, tokenManager.targets[0].actor, fakeItem, attackRoll, attribute.key, defense)
 
     for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
       // if (!(specialDuration?.length > 0)) continue
       if (specialDuration === 'NextD20Roll') {
         if (
@@ -705,7 +705,7 @@ export class DemonlordActor extends Actor {
       await attackRoll.evaluate()
 
       for (let effect of this.appliedEffects) {
-        const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+        const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
         // if (!(specialDuration?.length > 0)) continue
         if (specialDuration === 'NextD20Roll') {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
@@ -817,7 +817,7 @@ export class DemonlordActor extends Actor {
     postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
 
     for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
       // if (!(specialDuration?.length > 0)) continue
       if (specialDuration === 'NextD20Roll') {
         let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
@@ -933,7 +933,7 @@ export class DemonlordActor extends Actor {
       await attackRoll.evaluate()
 
       for (let effect of this.appliedEffects) {
-        const specialDuration = foundry.utils.getProperty(effect, 'flags.specialDuration')
+        const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
         // if (!(specialDuration?.length > 0)) continue
         if (specialDuration === 'NextD20Roll') {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
@@ -1020,7 +1020,7 @@ export class DemonlordActor extends Actor {
     }
 
     const template = 'systems/demonlord/templates/chat/enchantment.hbs'
-    renderTemplate(template, templateData).then(async content => {
+    foundry.applications.handlebars.renderTemplate(template, templateData).then(async content => {
       chatData.content = content
       await ChatMessage.create(chatData)
     })
@@ -1100,7 +1100,7 @@ export class DemonlordActor extends Actor {
     }
 
 		for (let effect of this.appliedEffects) {
-			const specialDuration = foundry.utils.getProperty(effect, "flags.specialDuration")
+			const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
 			// if (!(specialDuration?.length > 0)) continue
 			if (specialDuration === 'RestComplete') await effect?.delete()
 		}
@@ -1118,7 +1118,7 @@ export class DemonlordActor extends Actor {
     }
 
     const template = 'systems/demonlord/templates/chat/rest.hbs'
-    renderTemplate(template, templateData).then(async content => {
+    foundry.applications.handlebars.renderTemplate(template, templateData).then(async content => {
       chatData.content = content
       await ChatMessage.create(chatData)
     })

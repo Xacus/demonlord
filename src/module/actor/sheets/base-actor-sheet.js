@@ -6,7 +6,7 @@ import {DLAfflictions} from '../../active-effects/afflictions'
 import { buildDropdownList } from '../../utils/handlebars-helpers'
 import tippy from "tippy.js";
 
-export default class DLBaseActorSheet extends ActorSheet {
+export default class DLBaseActorSheet extends foundry.appv1.sheets.ActorSheet {
   /* -------------------------------------------- */
   /*  Data preparation                            */
 
@@ -34,7 +34,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     }
 
     // Enrich HTML
-    data.system.enrichedDescription = await TextEditor.enrichHTML(this.actor.system.description, {async: true});
+    data.system.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.actor.system.description, {async: true});
 
     // Attributes checkbox
     for (const attr of Object.entries(data.system.attributes)) {
@@ -45,7 +45,7 @@ export default class DLBaseActorSheet extends ActorSheet {
     const m = new Map()
     for await (const item of this.actor.items) {
       const type = item.type
-      item.system.enrichedDescription =  await TextEditor.enrichHTML(item.system.description, { unrolled: true })
+      item.system.enrichedDescription =  await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description, { unrolled: true })
       m.has(type) ? m.get(type).push(item) : m.set(type, [item])
     }
     data._itemsByType = m
