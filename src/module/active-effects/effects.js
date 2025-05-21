@@ -24,7 +24,7 @@ export async function onManageActiveEffect(event, owner) {
             icon: isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' : owner.img,
             origin: owner.uuid,
             transfer: false,
-            flags: { sourceType: owner.type },
+            flags: { demonlord: { sourceType: owner.type } },
             'duration.rounds': li.dataset.effectType === 'temporary' ? 1 : undefined,
             disabled: li.dataset.effectType === 'inactive',
           },
@@ -48,7 +48,7 @@ export async function onCreateEffect(listItem, owner) {
             icon: isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' : owner.img,
             origin: owner.uuid,
             transfer: false,
-            flags: { sourceType: owner.type },
+            flags: { demonlord: {sourceType: owner.type } },
             'duration.rounds': listItem.dataset.effectType === 'temporary' ? 1 : undefined,
             disabled: listItem.dataset.effectType === 'inactive',
           },
@@ -106,8 +106,13 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
 
   // Iterate over active effects, classifying them into categories.
   for (let e of effects) {
-    // First thing, set notEditable flag on effects that come from items where !ownerIsItem
-    e.flags.notDeletable = e.flags.notDeletable ?? (e.parent instanceof DemonlordItem && !ownerIsItem)
+    // First thing, create flags if not present
+    if (!e.flags.demonlord) {
+      e.flags.demonlord = {}
+    }
+
+    // Set notEditable flag on effects that come from items where !ownerIsItem
+    e.flags.demonlord.notDeletable = e.flags.demonlord?.notDeletable ?? (e.parent instanceof DemonlordItem && !ownerIsItem)
 
     // Also set the 'remaining time' in seconds or rounds depending on if in combat
     if (e.isTemporary && (e.duration.seconds || e.duration.rounds || e.duration.turns)) {
@@ -170,7 +175,7 @@ Hooks.on('renderActiveEffectConfig', (app, html) => {
     formFields.classList.add('form-fields')
     formGroup.append(formFields)
 
-    const cur = flags?.['specialDuration'] ?? default_value
+    const cur = flags?.demonlord?.['specialDuration'] ?? default_value
     const input = document.createElement('select')
     input.name = `flags.${game.system.id}.specialDuration`
 

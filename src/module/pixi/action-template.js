@@ -24,7 +24,9 @@ export class ActionTemplate extends foundry.canvas.placeables.MeasuredTemplate {
       fillColor: game.user.color,
       texture: item.system.activatedEffect.texture,
       flags: {
+        demonlord: {
         actionTemplate: true,
+        }
       },
     }
 

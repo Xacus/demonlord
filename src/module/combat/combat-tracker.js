@@ -39,7 +39,7 @@ export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTra
 
       if (initiativeMethod === 'h' && game.user.isGM)
       {
-        let groupID = combatant.flags?.group
+        let groupID = combatant.flags?.demonlord?.group
         switch (groupID) {
           case 2:
             el.style.borderLeft = "thick solid " + '#009E60' //greenish

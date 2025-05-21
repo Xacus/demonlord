@@ -107,7 +107,7 @@ export class DLActiveEffects {
       const effectsToDel = []
 
       for (const effectData of effectDataList) {
-        const u = currentEffects.find(ce => ce.flags?.slug === effectData?.flags?.slug)
+        const u = currentEffects.find(ce => ce.flags?.demonlord?.slug === effectData?.flags?.demonlord?.slug)
         if (u) {
           effectData._id = u._id
           if (effectData.changes.length > 0) effectsToUpd.push(effectData)
@@ -139,13 +139,15 @@ export class DLActiveEffects {
         transfer: false,
         duration: { startTime: 0 },
         flags: {
-          sourceType: 'ancestry',
-          levelRequired: parseInt(ancestryLevel.level),
-          permanent: true,
-          notDeletable: true,
-          notEditable: true,
-          notToggleable: true,
-          slug: `ancestry-${item.name.toLowerCase()}-L${ancestryLevel.level}`,
+          demonlord: {
+            sourceType: 'ancestry',
+            levelRequired: parseInt(ancestryLevel.level),
+            permanent: true,
+            notDeletable: true,
+            notEditable: true,
+            notToggleable: true,
+            slug: `ancestry-${item.name.toLowerCase()}-L${ancestryLevel.level}`,
+          }
         },
         changes: [
           // Characteristics
@@ -229,13 +231,15 @@ export class DLActiveEffects {
         transfer: false,
         duration: { startTime: 0 },
         flags: {
-          sourceType: 'path',
-          levelRequired: parseInt(pathLevel.level),
-          permanent: true,
-          notDeletable: true,
-          notEditable: true,
-          notToggleable: true,
-          slug: `path-${item.name.toLowerCase()}-L${pathLevel.level}`,
+          demonlord: {
+            sourceType: 'path',
+            levelRequired: parseInt(pathLevel.level),
+            permanent: true,
+            notDeletable: true,
+            notEditable: true,
+            notToggleable: true,
+            slug: `path-${item.name.toLowerCase()}-L${pathLevel.level}`,
+          }
         },
         changes: [
           // Characteristics
@@ -310,13 +314,15 @@ export class DLActiveEffects {
       transfer: false,
       duration: { startTime: 0 },
       flags: {
-        sourceType: 'creaturerole',
-        levelRequired: 0,
-        notDeletable: true,
-        notEditable: true,
-        notToggleable: true,
-        permanent: true,
-        slug: `role-${item.name.toLowerCase()}`,
+        demonlord: {
+          sourceType: 'creaturerole',
+          levelRequired: 0,
+          notDeletable: true,
+          notEditable: true,
+          notToggleable: true,
+          permanent: true,
+          slug: `role-${item.name.toLowerCase()}`,
+        }
       },
       changes: [
         addEffect('system.attributes.strength.value', data.attributes.strength, priority),
@@ -361,13 +367,15 @@ export class DLActiveEffects {
       transfer: false,
       duration: { startTime: 0, rounds: 1 * !!talentData.uses.max },
       flags: {
-        sourceType: 'talent',
-        // levelRequired: parseInt(pathLevelItem.level), TODO
-        permanent: false,
-        notDeletable: true,
-        notEditable: true,
-        notToggleable: false,
-        slug: `talent-${item.name.toLowerCase()}`,
+        demonlord: {
+          sourceType: 'talent',
+          // levelRequired: parseInt(pathLevelItem.level), TODO
+          permanent: false,
+          notDeletable: true,
+          notEditable: true,
+          notToggleable: false,
+          slug: `talent-${item.name.toLowerCase()}`,
+        }
       },
       changes: [
         // Bonuses - Characteristics
@@ -419,13 +427,15 @@ export class DLActiveEffects {
       disabled: !armorData.wear,
       duration: { startTime: 0 },
       flags: {
-        sourceType: 'armor',
-        //levelRequired: 0,
-        permanent: false,
-        notDeletable: true,
-        notEditable: true,
-        notToggleable: true,
-        slug: `armor-${item.name.toLowerCase()}`,
+        demonlord: {
+          sourceType: 'armor',
+          //levelRequired: 0,
+          permanent: false,
+          notDeletable: true,
+          notEditable: true,
+          notToggleable: true,
+          slug: `armor-${item.name.toLowerCase()}`,
+        }
       },
       changes: [
         addEffect('system.bonuses.armor.agility', armorData.agility, priority),
@@ -447,8 +457,8 @@ export class DLActiveEffects {
     const notMetEffectsData = actor.effects
       .filter(
         effect =>
-          (effect.flags?.levelRequired > actor.system.level && !effect.disabled) ||
-          (effect.flags?.levelRequired <= actor.system.level && effect.disabled),
+          (effect.flags?.demonlord?.levelRequired > actor.system.level && !effect.disabled) ||
+          (effect.flags?.demonlord?.levelRequired <= actor.system.level && effect.disabled),
       )
       .map(effect => ({
         _id: effect._id,
@@ -480,13 +490,15 @@ export class DLActiveEffects {
       transfer: false,
       duration: { startTime: 0 },
       flags: {
-        sourceItemsLength: itemNames.length,
-        sourceType: 'encumbrance',
-        permanent: true,
-        notDeletable: true,
-        notEditable: true,
-        notToggleable: false,
-        slug: `encumbrance-${effectName.toLowerCase()}`,
+        demonlord: {
+          sourceItemsLength: itemNames.length,
+          sourceType: 'encumbrance',
+          permanent: true,
+          notDeletable: true,
+          notEditable: true,
+          notToggleable: false,
+          slug: `encumbrance-${effectName.toLowerCase()}`,
+        }
       },
       changes: [
         addEffect('system.bonuses.attack.boons.strength', n, priority),

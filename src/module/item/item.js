@@ -5,7 +5,9 @@ import { getChatBaseData } from '../chat/base-messages'
 
 export class DemonlordItem extends Item {
   /** @override */
-  async update(updateData) {
+  async _preUpdate(updateData, options, user) {
+    await super._preUpdate(updateData, options, user)
+
     // Set spell uses
     if (this.type === 'spell' && this.parent) {
       const power = +this.parent.system?.characteristics.power || 0
@@ -19,7 +21,6 @@ export class DemonlordItem extends Item {
         }
       }
     }
-    return await super.update(updateData)
   }
 
   _onUpdate(changed, options, userId) {
