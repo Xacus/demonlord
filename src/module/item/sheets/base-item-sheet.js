@@ -349,10 +349,15 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
           case 'legendary':
             autoLevels = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
         }
-        system.levels = system.levels ?? []
-        for (let index of autoLevels.keys()) {
-          if (!system.levels[index]) system.levels[index] = new PathLevel({level: autoLevels[index]})
-          else system.levels[index].level = autoLevels[index]
+        const oldLevels = system.levels
+        system.levels = []
+        for (let levelNumber of autoLevels) {
+          const oldLevel = oldLevels.find(l => l.level === levelNumber)
+          if (oldLevel) {
+            system.levels.push(oldLevel);
+          } else {
+            system.levels.push(new PathLevel({level: levelNumber}))
+          }
         }
       }
 

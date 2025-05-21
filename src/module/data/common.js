@@ -70,7 +70,7 @@ export function action() {
     plus20damage: makeStringField(),
     defense: makeStringField(),
     defenseboonsbanes: makeStringField(),
-    damagetypes: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
+    damagetypes: new foundry.data.fields.ArrayField(new foundry.data.fields.ObjectField({
       damage: makeStringField(),
       damagetype: makeStringField()
     })),
@@ -132,7 +132,7 @@ export function contents() {
 }
 
 export function levelItem(makeDataSchema) {
-  return new foundry.data.fields.SchemaField({
+  return new foundry.data.fields.ObjectField({
     system: makeDataSchema(),
     description: new foundry.data.fields.SchemaField({
       value: makeStringField()
