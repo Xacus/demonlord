@@ -7,9 +7,10 @@ import {
   makeBoolField
 } from '../helpers.js'
 
-export default class ArmorDataModel extends foundry.abstract.DataModel {
+export default class ArmorDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
+      source: makeHtmlField(),
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
       enchantment: enchantment(),

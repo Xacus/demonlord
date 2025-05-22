@@ -1,8 +1,8 @@
-/* globals InteractionLayer */
 import { PlayerTracker } from './dialog/player-tracker.js'
+const InteractionLayer = foundry.canvas.layers.InteractionLayer
 
 function registerLayer () {
-  CONFIG.Canvas.layers.playerTracker = { name: 'sotdl', layerClass: foundry.canvas.layers.InteractionLayer, group: 'interface' }
+  CONFIG.Canvas.layers.playerTracker = { name: 'sotdl', layerClass: InteractionLayer, group: 'interface' }
 
 }
 

@@ -1,8 +1,8 @@
 {
   "id": "demonlord",
   "title": "Shadow of the Demon Lord",
-  "description": "The Shadow of the Demonlord system for FoundryVTT",
-  "version": "4.0.0",
+  "description": "The Shadow of the Demonlord system for Foundry VTT",
+  "version": "5.0.0",
   "authors": [
     {
       "name": "Xacus"

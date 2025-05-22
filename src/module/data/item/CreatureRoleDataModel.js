@@ -12,9 +12,10 @@ import { makeSpellSchema } from './SpellDataModel.js'
 import { makeWeaponSchema } from './WeaponDataModel.js'
 import { makeEndOfTheRoundSchema } from './EndOfTheRoundDataModel.js'
   
-  export default class CreatureRoleDataModel extends foundry.abstract.DataModel {
+  export default class CreatureRoleDataModel extends foundry.abstract.TypeDataModel {
     static defineSchema() {
       return {
+        source: makeHtmlField(),
         description: makeHtmlField(),
         enrichedDescription: makeHtmlField(),
         attributes: new foundry.data.fields.SchemaField({

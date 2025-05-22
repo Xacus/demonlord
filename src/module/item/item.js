@@ -1,17 +1,18 @@
-import {deleteActorNestedItems} from './nested-objects'
+import {deleteActorNestedItems, PathLevel} from './nested-objects'
 import {DemonlordActor} from '../actor/actor'
 import { DLEndOfRound } from '../dialog/endofround'
 import { getChatBaseData } from '../chat/base-messages'
 
 export class DemonlordItem extends Item {
   /** @override */
-  async update(updateData) {
+  async _preUpdate(updateData, options, user) {
+    
     // Set spell uses
-    if (this.type === 'spell' && this.parent) {
-      const power = +this.parent.system?.characteristics.power || 0
-      const rank = updateData?.system?.rank ?? +this.system.rank
+    if (updateData.type === 'spell' && updateData.parent) {
+      const power = +updateData.parent.system?.characteristics.power || 0
+      const rank = updateData?.system?.rank ?? +updateData.system.rank
       const calculatedCastings = CONFIG.DL.spellUses[power]?.[rank] ?? 0
-      if (updateData.system?.castings?.ignoreCalculation === false || (updateData?.system?.castings?.ignoreCalculation === undefined && !this.system.castings.ignoreCalculation)) {
+      if (updateData.system?.castings?.ignoreCalculation === false || (updateData?.system?.castings?.ignoreCalculation === undefined && !updateData.system.castings.ignoreCalculation)) {
         if (updateData?.system?.castings !== undefined) {
           updateData.system.castings.max = calculatedCastings
         } else {
@@ -19,7 +20,8 @@ export class DemonlordItem extends Item {
         }
       }
     }
-    return await super.update(updateData)
+    
+    return await super._preUpdate(updateData, options, user)
   }
 
   _onUpdate(changed, options, userId) {
@@ -39,8 +41,10 @@ export class DemonlordItem extends Item {
     }
   }
 
-  /** @override */
-  static async create(data, options = {}) {
+   /** @override */
+   async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user)
+
     // Add default image
     if (!data?.img && game.settings.get('demonlord', 'replaceIcons')) {
       data.img = CONFIG.DL.defaultItemIcons[data.type] || 'icons/svg/item-bag.svg'
@@ -48,17 +52,38 @@ export class DemonlordItem extends Item {
         data.img = CONFIG.DL.defaultItemIcons.path.novice
       }
     }
-    return await super.create(data, options)
-  }
 
-   /** @override */
-   async _preCreate(_data, _options, _user) {
-    await super._preCreate(_data, _options, _user)
-
-    switch (_data.type) {
+    switch (data.type) {
       case 'ancestry': 
-        return await this._rollAncestryFormulae(_data)
+        if (!data.system) {
+          // Add ancestry levels
+          data.system = {
+              levels: [
+              new PathLevel({ level: '0'}),
+              new PathLevel({ level: '4'})
+            ]
+          }
+        }
+
+        data = await this._rollAncestryFormulae(data)
+        break
+      case 'path':
+        if (!data.system) {
+          // Add novice path levels
+          data.system = {
+            type: 'novice',
+            levels: [
+              new PathLevel({ level: '1'}),
+              new PathLevel({ level: '2'}),
+              new PathLevel({ level: '5'}),
+              new PathLevel({ level: '8'}),
+            ]
+          }
+        }
+        break
     }
+
+    return await this.updateSource(data)
   }
 
   /** @override */
@@ -180,7 +205,7 @@ export class DemonlordItem extends Item {
       }
     }
 
-    const l0 = this.system.levels.find(l => l.level === '0')
+    const l0 = ancestry.system.levels.find(l => l.level === '0')
     l0.attributes.strength.value = newStrength
     l0.attributes.agility.value = newAgility
     l0.attributes.intellect.value = newIntellect
@@ -188,10 +213,6 @@ export class DemonlordItem extends Item {
     l0.characteristics.insanity.value = newInsanity
     l0.characteristics.corruption.value = newCorruption
 
-    return await this.updateSource({
-      system: {
-        levels: this.system.levels
-      }
-    })
+    return ancestry
   }
 }

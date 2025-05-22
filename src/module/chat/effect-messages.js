@@ -17,7 +17,7 @@ function _remapEffects(effects) {
     effect.changes.forEach(change => {
       const obj = {
         name: effect.name,
-        type: effect.flags?.sourceType,
+        type: effect.flags?.demonlord?.sourceType,
         value: change.value,
       }
       if (!m.has(change.key)) m.set(change.key, [obj])

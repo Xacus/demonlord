@@ -110,8 +110,8 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
 		//Do not overwrite initiative if a combatant already has but not yet updated
 		if (allCombatantUpdates.find(x => x._id === id)) continue
 
-		currentGroup = combatant.flags.group
-		groupInitiative = game.combat.combatants.find(x => x.flags.group === currentGroup && x.initiative != null)?.initiative
+		currentGroup = combatant.flags.demonlord.group
+		groupInitiative = game.combat.combatants.find(x => x.flags.demonlord.group === currentGroup && x.initiative != null)?.initiative
 
     // Check if a group member already has initative, we do not rull just reuse
 		if (!groupInitiative) {
@@ -121,7 +121,7 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
 			if (initValue >= 0) initValue += Math.random()
 
 			// Set the initiative all the group members
-			const combatantsInGroup = this.combatants.filter(x => x.flags.group === currentGroup)
+			const combatantsInGroup = this.combatants.filter(x => x.flags.demonlord.group === currentGroup)
 			for (const c of combatantsInGroup) {
 				if (c.actor.system.maluses.noFastTurn)
 					combatantUpdates.push({
@@ -167,7 +167,7 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
 				initMessages.push(await createInitChatMessage(combatant, messageOptions))
 		} else {
       //A group member already has initative, we reuse it
-			const combatantsInGroup = this.combatants.filter(x => x.flags.group === currentGroup)
+			const combatantsInGroup = this.combatants.filter(x => x.flags.demonlord.group === currentGroup)
 			combatantsInGroup.forEach(c => {
 				allCombatantUpdates.push({
 					_id: c._id,
@@ -420,7 +420,7 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
         let specialDuration = foundry.utils.getProperty(e, `flags.${game.system.id}.specialDuration`)
         if (specialDuration !== 'None' && specialDuration !== undefined) return
       }
-      const eType = e.flags?.sourceType
+      const eType = e.flags?.demonlord?.sourceType
       const isSpell1Round = eType === 'spell' && e.duration.rounds === 1
 
       // If in combat, handle the duration in rounds, otherwise handle the duration in seconds
@@ -526,9 +526,9 @@ Hooks.on('deleteCombat', async (combat) => {
 })
 
 async function setCombatantGroup(combatant) {
-  if (combatant.actor.system.isPC) await combatant.update({flags: {group : 2}})
-    else if (combatant.actor.system.isPC === undefined) await combatant.update({flags: {group : 0}})
-      else await combatant.update({flags: {group : 1}})
+  if (combatant.actor.system.isPC) await combatant.update({ flags: { demonlord: { group : 2 } } })
+    else if (combatant.actor.system.isPC === undefined) await combatant.update({ flags: { demonlord: { group : 0 } } })
+      else await combatant.update({ flags: { demonlord: { group : 1 } } })
 }
 
 async function getNumberOfSurrounders(target, targetSize)
@@ -636,9 +636,9 @@ Hooks.on("createCombatant", async combatant => {
 	if (optionalRuleInitiative === "s") return
   await setCombatantGroup(combatant)
   // Check if a combatant within a group has initiative, if yes new combatant use the same initiative
-	let currentGroup = combatant.flags.group
+	let currentGroup = combatant.flags.demonlord.group
 	if (currentGroup !== undefined && game.settings.get("demonlord", "optionalRuleInitiativeMode") === "h") {
-		let groupInitiative = game.combat.combatants.find(x => x.flags.group === currentGroup && x.initiative !=null )?.initiative
+		let groupInitiative = game.combat.combatants.find(x => x.flags.demonlord.group === currentGroup && x.initiative !=null )?.initiative
 		if (groupInitiative) await combatant.update({ initiative: groupInitiative })
 	}
   // No Fast turn malus -> at the end of the round

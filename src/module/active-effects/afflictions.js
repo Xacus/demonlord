@@ -11,9 +11,11 @@ const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
   transfer: true,
   duration: {},
   flags: {
-    sourceType: 'affliction',
-    permanent: false,
-    ...flags,
+    demonlord: {
+      sourceType: 'affliction',
+      permanent: false,
+      ...flags,
+    }
   },
   changes: changes,
   description: game.i18n.localize('DL.Afflictions' + capitalize(label))
@@ -32,8 +34,8 @@ export class DLAfflictions {
     const isBlocked = actor.system.maluses.autoFail[actionType]?.[actionAttribute] > 0
     if (isBlocked) {
       // TODO: more precise message? Currently it picks the first message
-      let msg = Array.from(actor.allApplicableEffects()).find(effect => Boolean(effect.flags?.warningMessage))
-        ?.flags.warningMessage
+      let msg = Array.from(actor.allApplicableEffects()).find(effect => Boolean(effect.flags?.demonlord?.warningMessage))
+        ?.flags.demonlord?.warningMessage
       msg = msg ?? game.i18n.localize(`DL.AutoFail${actionType.capitalize()}s`)
       ui.notifications.error(msg)
     }

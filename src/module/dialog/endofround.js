@@ -1,5 +1,7 @@
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
+const { TextEditor } = foundry.applications.ux //eslint-disable-line no-shadow
+
 export class DLEndOfRound extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
     tag: 'form',

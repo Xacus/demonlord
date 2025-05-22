@@ -42,29 +42,29 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Effects categories
     data.ancestryEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'ancestry'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'ancestry'),
     )
     delete data.ancestryEffects.temporary
 
     data.pathEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'path'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'path'),
     )
     delete data.pathEffects.temporary
 
     data.talentEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'talent'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'talent'),
     )
     data.spellEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'spell'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'spell'),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.sourceType) >= 0),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.demonlord?.sourceType) >= 0),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'creaturerole'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'creaturerole'),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'relic'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'relic'),
     )
     this.prepareItems(data)
     return data

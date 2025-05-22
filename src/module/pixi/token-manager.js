@@ -13,7 +13,7 @@ export class TokenManager {
         token.control({ releaseOthers: false })
       }
     } else {
-      await game.user.updateTokenTargets(tokens)
+      await canvas.tokens.setTargets(tokens)
     }
   }
 

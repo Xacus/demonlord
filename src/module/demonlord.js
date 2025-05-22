@@ -47,6 +47,9 @@ import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
 import { activateSocketListener } from "./utils/socket.js";
 
+const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
+const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
+
 
 Hooks.once('init', async function () {
   game.demonlord = {
@@ -109,24 +112,24 @@ Hooks.once('init', async function () {
   registerSettings()
 
   // Register sheet application classes
-  foundry.documents.collections.Actors.unregisterSheet('core', foundry.appv1.sheets.ActorSheet)
-  foundry.documents.collections.Actors.registerSheet('demonlord', DLCharacterSheet, {
+  Actors.unregisterSheet('core', ActorSheet)
+  Actors.registerSheet('demonlord', DLCharacterSheet, {
     types: ['character'],
     makeDefault: true,
   })
 
-  foundry.documents.collections.Actors.registerSheet('demonlord', DLCreatureSheet, {
+  Actors.registerSheet('demonlord', DLCreatureSheet, {
     types: ['creature'],
     makeDefault: false,
   })
 
-  foundry.documents.collections.Actors.registerSheet('demonlord', DLVehicleSheet, {
+  Actors.registerSheet('demonlord', DLVehicleSheet, {
     types: ['vehicle'],
     makeDefault: false,
   })
 
-  foundry.documents.collections.Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet)
-  foundry.documents.collections.Items.registerSheet('demonlord', DLBaseItemSheet, {
+  Items.unregisterSheet('core', ItemSheet)
+  Items.registerSheet('demonlord', DLBaseItemSheet, {
     types: [
       'ancestry',
       'ammo',
@@ -408,14 +411,14 @@ Hooks.on("updateWorldTime", _onUpdateWorldTime)
 
 Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
 
-Hooks.on('renderChatMessage', async (app, html, _msg) => {
+Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
   if (!game.user.isGM) {
-    html.find('.gmonly').remove()
-    html.find('.gmonlyzero').remove()
+    html.querySelectorAll('.gmonly').forEach(el => el.remove())
+    html.querySelectorAll('.gmonlyzero').forEach(el => el.remove())
     let messageActor = app.speaker.actor
     if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideActorInfo')) html.find('.showlessinfo').remove()
     if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideDescription')) html.find('.showdescription').empty()
-  } else html.find('.gmremove').remove()
+  } else html.querySelectorAll('.gmremove').forEach(el => el.remove())
 })
 
 Hooks.once('diceSoNiceReady', dice3d => {
