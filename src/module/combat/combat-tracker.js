@@ -17,14 +17,16 @@ export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTra
   }
 
   /** @override */
-  activateListeners(html) {
+  _onRender(_context, _options) {
     let init
     let hasEndOfRoundEffects = false
     const currentCombat = this.getCurrentCombat()
     const combatants = currentCombat?.combatants
 
     let initiativeMethod = game.settings.get('demonlord', 'optionalRuleInitiativeMode')
-    html.find('.combatant').each((i, el) => {
+    const html = this.element
+
+    html.querySelectorAll('.combatant')?.forEach(el => {
       // For each combatant in the tracker, change the initiative selector
       const combId = el.getAttribute('data-combatant-id')
       const combatant = combatants.get(combId)
@@ -87,7 +89,7 @@ export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTra
       if (endofrounds.length > 0) hasEndOfRoundEffects = true
     })
 
-    html.find('.tracker-effect').click(async ev => {
+    html.querySelector('.tracker-effect')?.addEventListener('click', async ev => {
       if (!game.user.isGM) return
       const effectUUID = ev.currentTarget.attributes.getNamedItem('data-effect-uuid').value
       await fromUuid(effectUUID).then(async effect =>
@@ -95,9 +97,7 @@ export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTra
       )
     })
 
-    super.activateListeners(html)
-
-    html.find('.dlturnorder').click(async ev => {
+    html.querySelector('.dlturnorder')?.addEventListener('click', async ev => {
       const li = ev.currentTarget.closest('li')
       const combId = li.dataset.combatantId
       const combatant = combatants.get(combId)
@@ -113,17 +113,17 @@ export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTra
     // Add "End of the Round" to the Combat Tracker
     if (hasEndOfRoundEffects && game.user.isGM) {
       html
-        .find('#combat-tracker')
-        .append(
+        .querySelector('.combat-tracker.plain')
+        ?.insertAdjacentHTML('beforeend',
           `<li id="combat-endofround" class="combatant actor directory-item flexrow">
              <img class="token-image" src="systems/demonlord/assets/ui/icons/pentragram.webp"/>
-             <div class="token-name flexcol"><h4>${i18n("DL.CreatureSpecialEndRound")}</h4></div>
+             <div class="token-name flexcol"><strong>${i18n("DL.CreatureSpecialEndRound")}</strong></div>
            </li>`,
         )
     }
 
     // End of the round click
-    html.find('#combat-endofround').click(_ev => {
+    html.querySelector('#combat-endofround')?.addEventListener('click', _ev => {
       new DLEndOfRound(this.getCurrentCombat(), {
         top: 50,
         right: 700,
