@@ -12,7 +12,7 @@
 export function injectDraggable(html, combattracker) {
   // For each combatant in the list, add the attributes "type" and "fastturn" for faster handling
   const currentCombat = combattracker.getCurrentCombat()
-  html.find('li.combatant').each((_, el) => {
+  html.querySelectorAll('li.combatant').forEach(el => {
     const id = el.dataset.combatantId
     if (!id) return
     const combatant = currentCombat?.combatants.get(id)
@@ -23,16 +23,19 @@ export function injectDraggable(html, combattracker) {
 
   // If GM, everything is draggable, for players only controlled combatants
   if (game.user.isGM)
-    html.find('li.combatant').addClass('draggable').attr('draggable', true);
+    html.querySelectorAll('li.combatant').forEach(el => {
+      el.classList.add('draggable')
+      el.setAttribute('draggable', true)
+    })
   else {
     const ownedIds = currentCombat?.combatants?.filter(c => c.isOwner).map(c => c._id)
-    html.find('li.combatant')
+    html.querySelector('li.combatant')
       .filter((_, el) => ownedIds.includes(el.dataset.combatantId))
       .addClass('draggable').attr('draggable', true)
   }
 
   // Add the drag event listeners
-  const listing = html.find('.directory-list').get(0);
+  const listing = html.querySelector('.combat-tracker.plain');
   if (!listing) return console.error('User listing not found in combat tracker');
   listing.addEventListener('dragover', dragOverEvent, { passive: true });
   listing.addEventListener('dragleave', dragLeaveEvent, { passive: true });
