@@ -638,7 +638,7 @@ Hooks.on("createCombatant", async combatant => {
   // Check if a combatant within a group has initiative, if yes new combatant use the same initiative
 	let currentGroup = combatant.flags.demonlord.group
 	if (currentGroup !== undefined && game.settings.get("demonlord", "optionalRuleInitiativeMode") === "h") {
-		let groupInitiative = game.combat.combatants.find(x => x.flags.demonlord.group === currentGroup && x.initiative !=null )?.initiative
+		let groupInitiative = game.combat.combatants.find(x => x.flags?.demonlord?.group === currentGroup && x.initiative !=null )?.initiative
 		if (groupInitiative) await combatant.update({ initiative: groupInitiative })
 	}
   // No Fast turn malus -> at the end of the round

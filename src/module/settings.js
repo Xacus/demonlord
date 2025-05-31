@@ -301,6 +301,7 @@ export const registerSettings = function () {
       n: game.i18n.localize('DL.SettingOptionalRuleSurroundingDispositionsAllowNeutral'),
       s: game.i18n.localize('DL.SettingOptionalRuleSurroundingDispositionsAllowSecret'),
     },
+    onChange: foundry.utils.debouncedReload
   })
 
   game.settings.register('demonlord', 'optionalRuleSurroundingExcludeTokens', {
@@ -366,6 +367,15 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
+  })
+  game.settings.register('demonlord', 'showEncounterDifficulty', {
+    name: game.i18n.localize('DL.SettingShowEncounterDifficulty'),
+    hint: game.i18n.localize('DL.SettingShowEncounterDifficultyHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+    onChange: foundry.utils.debouncedReload
   })  
   game.settings.register('demonlord', 'attackShowAttack', {
     name: game.i18n.localize('DL.SettingAttackShowEnemyAttributeAtt'),
