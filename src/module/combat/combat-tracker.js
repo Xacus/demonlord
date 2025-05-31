@@ -280,8 +280,8 @@ calculateEncounterDifficulty(combatants) {
       if (endofrounds.length > 0) hasEndOfRoundEffects = true
     })
 
-    html.querySelectorAll('.tracker-effect').forEach(effect => 
-      effect.addEventListener('click', async ev => {
+    html.querySelectorAll('.tracker-effect').forEach(combatTrackerEffect => 
+      combatTrackerEffect.addEventListener('click', async ev => {
       ev.stopPropagation()
       ev.preventDefault()
       if (!game.user.isGM) return
