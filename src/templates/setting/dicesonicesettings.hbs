@@ -1,34 +1,21 @@
-<form autocomplete="off">
-
+<div class="standard-form">
     <div class="form-group">
         <label>{{localize "DL.SettingDSNColourDie"}}</label>
         <input type="checkbox" name="colourBoBDieDSN" {{checked colourBoBDieDSN}} data-dtype="Boolean"/>
     </div>
-    <hr>
     <div class="form-group">
         <label>{{localize "DL.SettingDSNBoonDieColour"}}</label>
         <input type="color" name="boonColour" data-dtype="string" value="{{colourBoon}}"/>
-        <p class="notes">{{localize "DL.SettingDSNBoonDieColourHint"}}</p>
+        <p class="hint">{{localize "DL.SettingDSNBoonDieColourHint"}}</p>
     </div>
     <div class="form-group">
         <label>{{localize "DL.SettingDSNBaneDieColour"}}</label>
         <input type="color" name="baneColour" data-dtype="string" value="{{colourBane}}"/>
-        <p class="notes">{{localize "DL.SettingDSNBaneDieColourHint"}}</p>
+        <p class="hint">{{localize "DL.SettingDSNBaneDieColourHint"}}</p>
     </div>
-    <hr>
     <div class="form-group">
         <label>{{localize "DL.SettingDSN3d"}}</label>
         <input type="checkbox" name="replaced3" {{checked replaced3}} data-dtype="Boolean"/>
-        <p class="notes">{{localize "DL.SettingDSN3dHint"}}</p>
+        <p class="hint">{{localize "DL.SettingDSN3dHint"}}</p>
     </div>
-	<footer class="sheet-footer flexrow">
-		<button type="submit" name="submit">
-			<i class="far fa-save"></i>
-			{{localize "SETTINGS.Save"}}
-		</button>
-		<button type="button" data-action="reset">
-			<i class="fas fa-undo"></i>
-			{{localize "SETTINGS.Reset"}}
-		</button>
-	</footer>
-</form>
+</div>
