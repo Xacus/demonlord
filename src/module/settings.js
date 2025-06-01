@@ -1,4 +1,4 @@
-const { DialogV2, HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api
+const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api
 
 async function resetToDefault(key) {
   const defaultValue = game.settings.settings.get(`demonlord.${key}`).default
@@ -44,6 +44,7 @@ export class DiceSoNiceSettings extends HandlebarsApplicationMixin(ApplicationV2
     return `${game.i18n.format('DL.SettingDSNLabel')}`
   }
 
+  // eslint-disable-next-line no-unused-vars  
   _prepareContext(options) {
     return {
       colourBoBDieDSN: game.settings.get('demonlord', 'colourBoBDieDSN'),
@@ -67,6 +68,7 @@ export class DiceSoNiceSettings extends HandlebarsApplicationMixin(ApplicationV2
     }
   }
 
+  // eslint-disable-next-line no-unused-vars  
   _onRender(context, options) {
     const html = $(this.element)
     html.find('button').on('click', async event => {
@@ -132,6 +134,7 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
     return `${game.i18n.format('DL.SettingOptionalRulesLabel')}`
   }
 
+  // eslint-disable-next-line no-unused-vars
   _prepareContext(options) {
     return {
       optionalRuleConsistentDamage: game.settings.get('demonlord', 'optionalRuleConsistentDamage'),
@@ -187,6 +190,7 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   _onRender(context, options) {
     const html = $(this.element)
     html.find('button').on('click', async event => {
@@ -465,6 +469,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
+    // eslint-disable-next-line no-unused-vars
     onChange: value => {
       ui.combat.render()
     },

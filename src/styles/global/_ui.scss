@@ -259,18 +259,18 @@ body.theme-light {
   text-shadow: 0 -1px 0 rgba(0,0,0,0.25);    
 }
 
-.encounter-difficulty[rating="easy"] {
+.encounter-difficulty[data-rating="easy"] {
     background-color: #478948;
 }
 
-.encounter-difficulty[rating="average"] {
+.encounter-difficulty[data-rating="average"] {
     background-color: #3b88ae;
 }
 
-.encounter-difficulty[rating="challenging"] {
+.encounter-difficulty[data-rating="challenging"] {
     background-color: #f99305;
 }
 
-.encounter-difficulty[rating="hard"] {
+.encounter-difficulty[data-rating="hard"] {
     background-color: #ba4b49;
 }

@@ -157,9 +157,9 @@ calculateEncounterDifficulty(combatants) {
     }
 
     if (difficultyTotal < difficulty.Average) encounterDifficulty = this.EASY
-    if (difficultyTotal < difficulty.Challenging && difficultyTotal >= difficulty.Average) encounterDifficulty = this.AVERAGE
-    if (difficultyTotal < difficulty.Hard && difficultyTotal >= difficulty.Challenging) encounterDifficulty = this.CHALLENGING
-    if (difficultyTotal >= difficulty.Hard) encounterDifficulty = this.HARD
+    else if (difficultyTotal < difficulty.Challenging) encounterDifficulty = this.AVERAGE
+    else if (difficultyTotal < difficulty.Hard) encounterDifficulty = this.CHALLENGING
+    else if (difficultyTotal >= difficulty.Hard) encounterDifficulty = this.HARD
 
     // Demon Lord page 189
     if (allies * 2 <= enemies && encounterDifficulty != this.HARD) encounterDifficulty++
@@ -212,7 +212,7 @@ calculateEncounterDifficulty(combatants) {
                       encounterRating = "hard"
               }
             let difficultyText = game.i18n.localize(encounterDifficultyText)
-            el.innerHTML = el.innerHTML + `<div class="encounter-controls combat"><strong class="encounter-difficulty" rating="${encounterRating}">${difficultyText} – ${encounter.difficultyTotal}</strong></div>`
+            el.innerHTML = el.innerHTML + `<div class="encounter-controls combat"><strong class="encounter-difficulty" data-rating="${encounterRating}">${difficultyText} – ${encounter.difficultyTotal}</strong></div>`
         }
       }
     }
