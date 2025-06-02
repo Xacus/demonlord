@@ -6,7 +6,169 @@ import {injectDraggable} from "./combat-tracker-draggable";
 export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
   constructor(options) {
     super(options)
+    this.ENCOUNTERDIFFICULTY = [
+    {
+      Level: 0,
+      Average: 4,
+      Challenging: 16,
+      Hard: 31,
+    },
+    {
+      Level: 1,
+      Average: 8,
+      Challenging: 21,
+      Hard: 41,
+    },
+    {
+      Level: 2,
+      Average: 11,
+      Challenging: 31,
+      Hard: 51,
+    },
+    {
+      Level: 3,
+      Average: 16,
+      Challenging: 35,
+      Hard: 51,
+    },
+    {
+      Level: 4,
+      Average: 21,
+      Challenging: 41,
+      Hard: 89,
+    },
+    {
+      Level: 5,
+      Average: 26,
+      Challenging: 46,
+      Hard: 109,
+    },
+    {
+      Level: 6,
+      Average: 31,
+      Challenging: 51,
+      Hard: 126,
+    },
+    {
+      Level: 7,
+      Average: 36,
+      Challenging: 70,
+      Hard: 145,
+    },
+    {
+      Level: 8,
+      Average: 41,
+      Challenging: 89,
+      Hard: 164,
+    },
+    {
+      Level: 9,
+      Average: 46,
+      Challenging: 108,
+      Hard: 183,
+    },
+    {
+      Level: 10,
+      Average: 51,
+      Challenging: 126,
+      Hard: 201,
+    },
+  ]
+  this.EASY = 0
+  this.AVERAGE = 1
+  this.CHALLENGING = 2
+  this.HARD = 3
+  this.initiativeMethod = game.settings.get('demonlord', 'optionalRuleInitiativeMode')
+  this.optionalRuleSurroundingDispositions = game.settings.get('demonlord', 'optionalRuleSurroundingDispositions')
   }
+
+  getActorDifficulty(actor) {
+  if (actor.system.difficulty !== undefined) return actor.system.difficulty
+  else {
+    // DemonLord page 266
+    if (actor.system.level === 0) return 1
+    else if (actor.system.level === 1 || actor.system.level === 2) return 5
+    else if (actor.system.level === 3 || actor.system.level === 4) return 10
+    else if (actor.system.level === 5 || actor.system.level === 6) return 25
+    else if (actor.system.level === 7 || actor.system.level === 8) return 50
+    else if (actor.system.level >= 9) return 100
+  }
+}
+
+calculateEncounterDifficulty(combatants) {
+    let allies = 0
+    let enemies = 0
+    let difficultyTotal = 0
+    let partyLevel = 0
+    let encounterDifficulty
+
+    for (let combatant of combatants) {
+        if (combatant.token.actor.effects.find(e => e.statuses?.has('dead')) || combatant.actor.type === 'vehicle') continue
+
+        if (combatant.actor.type === 'character' && combatant.actor?.system.isPC) {
+            allies++
+            partyLevel = combatant.actor.system.level
+        } else {
+            switch (combatant.token.disposition) {
+                case CONST.TOKEN_DISPOSITIONS.HOSTILE:
+                    enemies++
+                    difficultyTotal = difficultyTotal + this.getActorDifficulty(combatant.actor)
+                    break
+                case CONST.TOKEN_DISPOSITIONS.FRIENDLY:
+                    allies++
+                    break
+                case CONST.TOKEN_DISPOSITIONS.NEUTRAL:
+                    switch (this.optionalRuleSurroundingDispositions) {
+                        case 'b':
+                            allies++
+                            break;
+                        case 'n':
+                            allies++
+                            break;
+                        default:
+                            enemies++
+                            difficultyTotal = difficultyTotal + this.getActorDifficulty(combatant.actor)
+                    }
+                    break
+                case CONST.TOKEN_DISPOSITIONS.SECRET:
+                    switch (this.optionalRuleSurroundingDispositions) {
+                        case 'b':
+                            allies++
+                            break;
+                        case 's':
+                            allies++
+                            break;
+                        default:
+                            enemies++
+                            difficultyTotal = difficultyTotal + this.getActorDifficulty(combatant.actor)
+                    }
+                    break
+            }
+        }
+    }
+
+    let difficulty = deepClone(this.ENCOUNTERDIFFICULTY.find(x => x.Level === partyLevel))
+
+    // Demon Lord page 189
+    if (allies !== 4) {
+        difficulty.Average = Math.ceil((difficulty.Average * allies) / 4)
+        difficulty.Challenging = Math.ceil((difficulty.Challenging * allies) / 4)
+        difficulty.Hard = Math.ceil((difficulty.Hard * allies) / 4)
+    }
+
+    if (difficultyTotal < difficulty.Average) encounterDifficulty = this.EASY
+    else if (difficultyTotal < difficulty.Challenging) encounterDifficulty = this.AVERAGE
+    else if (difficultyTotal < difficulty.Hard) encounterDifficulty = this.CHALLENGING
+    else if (difficultyTotal >= difficulty.Hard) encounterDifficulty = this.HARD
+
+    // Demon Lord page 189
+    if (allies * 2 <= enemies && encounterDifficulty != this.HARD) encounterDifficulty++
+
+    return {
+        encounterDifficulty: encounterDifficulty,
+        difficultyTotal: difficultyTotal
+    }
+}
 
   async getData() {
     const context = await super.getData()
@@ -22,9 +184,38 @@ export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTra
     let hasEndOfRoundEffects = false
     const currentCombat = this.getCurrentCombat()
     const combatants = currentCombat?.combatants
-
-    let initiativeMethod = game.settings.get('demonlord', 'optionalRuleInitiativeMode')
     const html = this.element
+    let encounterDifficultyText
+    let encounterRating
+
+    if (combatants && game.user.isGM) {
+      if (game.settings.get('demonlord', 'showEncounterDifficulty'))
+        {
+          let encounter = this.calculateEncounterDifficulty(combatants)
+          if (encounter.difficultyTotal > 0) {
+              const el = html.querySelector(".combat-tracker-header")
+              switch (encounter.encounterDifficulty) {
+                  case this.EASY:
+                      encounterDifficultyText = 'DL.EncounterEasy'
+                      encounterRating = "easy"
+                      break
+                  case this.AVERAGE:
+                      encounterDifficultyText = 'DL.EncounterAverage'
+                      encounterRating = "average"
+                      break
+                  case this.CHALLENGING:
+                      encounterDifficultyText = 'DL.EncounterChallenging'
+                      encounterRating = "challenging"
+                      break
+                  default:
+                      encounterDifficultyText = 'DL.EncounterHard'
+                      encounterRating = "hard"
+              }
+            let difficultyText = game.i18n.localize(encounterDifficultyText)
+            el.innerHTML = el.innerHTML + `<div class="encounter-controls combat"><strong class="encounter-difficulty" data-rating="${encounterRating}">${difficultyText} – ${encounter.difficultyTotal}</strong></div>`
+        }
+      }
+    }
 
     html.querySelectorAll('.combatant')?.forEach(el => {
       // For each combatant in the tracker, change the initiative selector
@@ -36,10 +227,10 @@ export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTra
         ? game.i18n.localize('DL.TurnFast')
         : game.i18n.localize('DL.TurnSlow')
 
-      if (initiativeMethod === 's') el.getElementsByClassName('token-initiative')[0].innerHTML =
+      if (this.initiativeMethod === 's') el.getElementsByClassName('token-initiative')[0].innerHTML =
         `<a class="combatant-control dlturnorder" title="${i18n('DL.TurnChangeTurn')}">${init}</a>`
 
-      if (initiativeMethod === 'h' && game.user.isGM)
+      if (this.initiativeMethod === 'h' && game.user.isGM)
       {
         let groupID = combatant.flags?.demonlord?.group
         switch (groupID) {
@@ -89,26 +280,32 @@ export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTra
       if (endofrounds.length > 0) hasEndOfRoundEffects = true
     })
 
-    html.querySelector('.tracker-effect')?.addEventListener('click', async ev => {
+    html.querySelectorAll('.tracker-effect').forEach(combatTrackerEffect => 
+      combatTrackerEffect.addEventListener('click', async ev => {
+      ev.stopPropagation()
+      ev.preventDefault()
       if (!game.user.isGM) return
       const effectUUID = ev.currentTarget.attributes.getNamedItem('data-effect-uuid').value
       await fromUuid(effectUUID).then(async effect =>
         effect.statuses ? await effect.delete() : await effect.update({disabled: true})
       )
-    })
+    }))
 
-    html.querySelector('.dlturnorder')?.addEventListener('click', async ev => {
+    html.querySelectorAll('.dlturnorder').forEach(dlTurnorder => 
+      dlTurnorder.addEventListener('click', async ev => {
+      ev.stopPropagation()
+      ev.preventDefault()
       const li = ev.currentTarget.closest('li')
       const combId = li.dataset.combatantId
       const combatant = combatants.get(combId)
       if (!combatant) return
-
+      
       if (game.user.isGM || combatant.actor.isOwner) {
         await combatant.actor.update({'system.fastturn': !combatant.actor.system.fastturn})
         const initChatMessage = await createInitChatMessage(combatant, {})
         if (initChatMessage) ChatMessage.create(initChatMessage)
       }
-    })
+    }))
 
     // Add "End of the Round" to the Combat Tracker
     if (hasEndOfRoundEffects && game.user.isGM) {
