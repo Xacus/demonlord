@@ -613,4 +613,13 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'integrateTokenRuler', {
+    name: game.i18n.localize('DL.SettingIntegrateTokenRuler'),
+    hint: game.i18n.localize('DL.SettingIntegrateTokenRulerHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+    onChange: foundry.utils.debouncedReload,
+  })
 }
