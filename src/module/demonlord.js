@@ -45,7 +45,8 @@ import 'tippy.js/dist/tippy.css';
 import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
 import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
-import { activateSocketListener } from "./utils/socket.js";
+import { activateSocketListener } from "./utils/socket.js"
+import TokenRulerDemonLord from "./utils/token-ruler.js"
 
 const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
 const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
@@ -158,6 +159,19 @@ Hooks.once('init', async function () {
     Babele.get().setSystemTranslationsDir('packs/translations')
   }
   activateSocketListener()
+
+  // Token Ruler
+  if (game.settings.get('demonlord', 'integrateTokenRuler')) {
+    delete CONFIG.Token.movement.actions.blink
+    delete CONFIG.Token.movement.actions.jump
+    delete CONFIG.Token.movement.actions.burrow
+    delete CONFIG.Token.movement.actions.climb.getCostFunction
+    delete CONFIG.Token.movement.actions.crawl.getCostFunction
+    delete CONFIG.Token.movement.actions.fly.getCostFunction
+    delete CONFIG.Token.movement.actions.swim.getCostFunction
+    CONFIG.Token.movement.actions.fly.canSelect = token => token?.actor?.system.canFly
+    CONFIG.Token.rulerClass = TokenRulerDemonLord
+  }
 })
 
 Hooks.once('ready', async function () {
