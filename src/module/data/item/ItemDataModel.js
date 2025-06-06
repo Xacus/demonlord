@@ -16,6 +16,7 @@ export default class ItemDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       source: makeHtmlField(),
+      properties: makeStringField(),
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
       action: action(),
