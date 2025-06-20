@@ -507,6 +507,25 @@ export async function postFortuneToChat(actor, awarded) {
   await ChatMessage.create(chatData)
 }
 
+export async function postRestToChat(actor, restTime, magicRecovery, talentRecovery, healing) {
+  const templateData = {
+    actor: actor,
+    data: {},
+  }
+  const data = templateData.data
+  data['actorInfo'] = buildActorInfo(actor)
+  data['restTime'] = restTime
+  data['magicRecovery'] = magicRecovery  
+  data['talentRecovery'] = talentRecovery
+  data['healing'] = healing
+
+  const rollMode = game.settings.get('core', 'rollMode')
+  const chatData = getChatBaseData(actor, rollMode)
+  const template = 'systems/demonlord/templates/chat/rest.hbs'
+  chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)
+  await ChatMessage.create(chatData)
+}
+
 export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   const itemData = item.system
   const rollMode = game.settings.get('core', 'rollMode')
