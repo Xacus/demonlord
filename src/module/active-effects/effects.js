@@ -164,44 +164,25 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
 Hooks.on('renderActiveEffectConfig', (app, html) => {
   // if (!game.user.isGM) return
 
-  var dropDownConfig = function ({ default_value, values }) {
-    let flags = app.document.flags
+    let specialDuration = ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource', 'NextD20Roll', 'NextDamageRoll', 'RestComplete']
 
-    const formGroup = document.createElement('div')
-    formGroup.classList.add('form-group')
-    parentN.append(formGroup)
+    const element = new foundry.data.fields.SetField(new foundry.data.fields.StringField(), {}).toFormGroup({}, {
+        name: 'flags.demonlord.specialDuration',
+        value: app.document.getFlag('demonlord', 'specialDuration') ?? ["None"],
+        options: specialDuration.map(sd => ({
+            value: sd,
+            label: game.i18n.localize('DL.SpecialDuration' + sd)
+        }))
+    })
 
-    const formFields = document.createElement('div')
-    formFields.classList.add('form-fields')
-    formGroup.append(formFields)
+    let newelement = element.innerHTML
+    newelement = newelement
+        .replace('<label></label>', '')
+        .replace('multi-select', 'select')
 
-    const cur = flags?.demonlord?.['specialDuration'] ?? default_value
-    const input = document.createElement('select')
-    input.name = `flags.${game.system.id}.specialDuration`
+    newelement = '<fieldset><legend><span style="color: var(--color-form-label);font-size: var(--font-size-14);">' + game.i18n.localize('DL.SpecialDurationLabel') + '</span></legend>' + newelement + '</fieldset>'
+    element.innerHTML = newelement
 
-    for (let o of values) {
-      let opt = document.createElement('option')
-      opt.value = o
-      opt.text = game.i18n.localize('DL.SpecialDuration' + o)
-      if (cur === o) opt.classList.add('selected')
-      input.append(opt)
-    }
-    input.value = cur
-
-    formFields.append(input)
-  }
-
-  const parentN = document.createElement('fieldset')
-  const legend = document.createElement('legend')
-  legend.textContent = game.i18n.localize('DL.SpecialDurationLabel')
-  parentN.append(legend)
-
-  dropDownConfig({
-    specialDuration: 'specialDuration',
-    values: ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource','NextD20Roll','NextDamageRoll','RestComplete'],
-    default_value: 'None',
-  })
-
-  html.querySelector("section[data-tab='duration']").append(parentN)
-  app.setPosition()
+    html.querySelector("section[data-tab='duration']").append(element)
+    app.setPosition()
 })
