@@ -68,7 +68,7 @@ function isElementCompatible(el) {
   return (currentType === el.dataset.combatantType && currentFast === el.dataset.combatantFast)
 }
 
-const combatantMatch = '.directory-list .directory-item[data-combatant-id]';
+const combatantMatch = '.combat-tracker.plain .combatant[data-combatant-id]';
 
 let dragId, currentId, currentValidEl, entered = false;
 let currentType, currentFast = false
