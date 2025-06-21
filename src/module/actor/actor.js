@@ -13,7 +13,8 @@ import {
   postItemToChat,
   postSpellToChat,
   postTalentToChat,
-  postFortuneToChat
+  postFortuneToChat,
+  postRestToChat
 } from '../chat/roll-messages'
 import {handleCreateAncestry, handleCreatePath, handleCreateRole, handleCreateRelic } from '../item/nested-objects'
 import {TokenManager} from '../pixi/token-manager'
@@ -1104,24 +1105,7 @@ export class DemonlordActor extends Actor {
 			// if (!(specialDuration?.length > 0)) continue
 			if (specialDuration === 'RestComplete') await effect?.delete()
 		}
-
-    var templateData = { actor: this, restTime, magicRecovery, talentRecovery, healing }
-
-    const chatData = {
-      user: game.user.id,
-      speaker: {actor: this.id, token: this.token, alias: this.name},
-    }
-
-    const rollMode = game.settings.get('core', 'rollMode')
-    if (['gmroll', 'blindroll'].includes(rollMode)) {
-      chatData.whisper = ChatMessage.getWhisperRecipients('GM')
-    }
-
-    const template = 'systems/demonlord/templates/chat/rest.hbs'
-    foundry.applications.handlebars.renderTemplate(template, templateData).then(async content => {
-      chatData.content = content
-      await ChatMessage.create(chatData)
-    })
+    postRestToChat(this, restTime, magicRecovery, talentRecovery, healing)
   }
 
   async applyHealing(fullHealingRate) {

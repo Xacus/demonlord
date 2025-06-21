@@ -622,4 +622,12 @@ export const registerSettings = function () {
     config: true,
     onChange: foundry.utils.debouncedReload,
   })
+  game.settings.register('demonlord', 'chatCardTokenAlias', {
+    name: game.i18n.localize('DL.SettingChatCardTokenAlias'),
+    hint: game.i18n.localize('DL.SettingChatCardTokenAliasHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })  
 }
