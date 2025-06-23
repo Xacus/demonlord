@@ -144,14 +144,16 @@
         <div class="speed">{{system.characteristics.speed}}</div>
       </div>
     </div>
-    <div class="chars grid grid-2">
-      <div class="speedbox">
-        <div class="spendFortune">{{localize "DL.CharFortune"}}</div>
-        <div class="speed">{{system.characteristics.fortune}}</div>
-      </div>
-      <div></div>
-    </div>
     <div class="chars flexrow">
+      <div class="fortune">
+        <label class="switchTurn">
+          <input type="checkbox" id="system.characteristics.fortune" name="system.characteristics.fortune" {{checked system.characteristics.fortune}} {{disabled fortuneAwardPrevented}}/>
+          <div class="slider roundGrey">
+              <span class="on">{{localize "DL.CharFortune"}}</span
+              ><span class="offGrey">{{localize "DL.CharFortune"}}</span>
+          </div>
+        </label>
+      </div>      
       <div class="turnmode">
         <label class="switchTurn">
           <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}} />

@@ -67,6 +67,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'relic'),
     )
     this.prepareItems(data)
+    data['fortuneAwardPrevented']  = (game.settings.get('demonlord', 'fortuneAwardPrevented') && !game.user.isGM && !this.actor.system.characteristics.fortune) ? true : false
     return data
   }
 
@@ -263,18 +264,14 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     })
 
     // Fortune click
-    html.on('mousedown', '.spendFortune', async ev => {
+      html.on('mousedown', '.fortune', async (ev, html) => {
+      // Expending fortune always possible.
+      if (game.settings.get('demonlord', 'fortuneAwardPrevented') && !game.user.isGM && !this.actor.system.characteristics.fortune) return
       let value = parseInt(this.actor.system.characteristics.fortune)
-      if (ev.button == 0 && value >= 1) {
-        {
-          await this.actor.expendFortune(false)
-          this.render()
-        }
-      } else if (ev.button == 2) {
-        await this.actor.expendFortune(true)
-        this.render()
-      }
+      if (value) await this.actor.expendFortune(false)
+      else this.actor.expendFortune(true)
     })
+
 
     // Health bar fill
     const healthbar = html.find('.healthbar-fill')
