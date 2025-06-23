@@ -264,7 +264,8 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     })
 
     // Fortune click
-      html.on('mousedown', '.fortune', async (ev, html) => {
+      // eslint-disable-line no-unused-vars
+      html.on('mousedown', '.fortune', async () => {
       // Expending fortune always possible.
       if (game.settings.get('demonlord', 'fortuneAwardPrevented') && !game.user.isGM && !this.actor.system.characteristics.fortune) return
       let value = parseInt(this.actor.system.characteristics.fortune)
