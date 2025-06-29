@@ -629,5 +629,13 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
+  })
+  game.settings.register('demonlord', 'fortuneAwardPrevented', {
+    name: game.i18n.localize('DL.SettingFortuneAwardPrevented'),
+    hint: game.i18n.localize('DL.SettingFortuneAwardPreventedHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
   })  
 }

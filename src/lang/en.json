@@ -649,6 +649,8 @@
   "DL.SettingOptionalRuleRevealHorrifyingBaneHint": "Otherwise it will be displayed as Other/Unknown.",
   "DL.SettingLockAncestrHint": "Remove players access to change modifers, Speed, Insanity, Corruption and Health.",
   "DL.SettingLockAncestry": "Lock fields on Ancestry",
+  "DL.SettingFortuneAwardPrevented": "Prevent Fortune award from non-GM users",
+  "DL.SettingFortuneAwardPreventedHint": "When checked only GM can award Fortune.",
   "DL.SettingReplaceIcons": "Replace default icons",
   "DL.SettingReplaceIconsHint": "Replace the default icon when creating an Item.",
   "DL.SettingConvertIntoBadge": "Convert icons into badges.",
