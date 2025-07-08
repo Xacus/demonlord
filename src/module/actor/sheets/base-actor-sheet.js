@@ -32,6 +32,7 @@ export default class DLBaseActorSheet extends foundry.appv1.sheets.ActorSheet {
       generalEffects: prepareActiveEffectCategories(Array.from(this.actor.allApplicableEffects()), true),
       effectsOverview: buildOverview(this.actor),
       flags: this.actor.flags,
+      addCreatureInventoryTab: game.settings.get('demonlord', 'addCreatureInventoryTab')
     }
 
     // Enrich HTML

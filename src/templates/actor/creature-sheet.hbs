@@ -4,6 +4,9 @@
   <nav class="sheet-navigation creature" data-group="primary">
     <a class="item" data-tab="creature">{{localize "DL.TabsCombat"}}</a>
     <a class="item" data-tab="magic">{{localize "DL.TabsMagic"}}</a>
+    {{#if addCreatureInventoryTab}}
+      <a class="item" data-tab="items">{{localize "DL.TabsInventory"}}</a>
+    {{/if}}
     <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
     <a class="item" data-tab="reference">{{localize "DL.Reference"}}</a>
     <a class="item" data-tab="afflictions">{{localize "DL.ModsAfflictions"}}</a>
@@ -27,6 +30,10 @@
       {{!-- Reference Tab --}}
       <div class="tab dl-creature-reference-tab" data-group="primary" data-tab="reference">
         {{> systems/demonlord/templates/tabs/creature-reference.hbs}}
+      </div>
+      {{!-- Items Tab --}}
+      <div class="tab items" data-group="primary" data-tab="items">
+        {{> systems/demonlord/templates/tabs/item.hbs}}
       </div>
       {{!-- Description Tab --}}
       <div class="tab" data-group="primary" data-tab="description">

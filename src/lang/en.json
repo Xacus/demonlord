@@ -659,6 +659,7 @@
   "DL.SettingRollCreaturesToGMHint": "When you make a Challenge roll for a creature it's only shown to the GM in the chat.",
   "DL.SettingShowEncounterDifficulty": "Show Encounter Difficulty and Rating",
   "DL.SettingShowEncounterDifficultyHint": "Show Encounter Difficulty and Rating in Combat Tracker to DM.",
+  "DL.SettingAddCreatureInventoryTab" : "Add Inventory tab to the creature sheet",
   "DL.SettingStatusIcons": "Disable Status Icons",
   "DL.SettingStatusIconsHint": "Disable Foundry's default list of Status Effect Icons. (Require refresh)",
   "DL.SettingtargetingOnSelect": "Replace token targeting with token selection",

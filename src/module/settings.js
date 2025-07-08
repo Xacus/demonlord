@@ -637,5 +637,12 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-  })  
+  })
+  game.settings.register('demonlord', 'addCreatureInventoryTab', {
+    name: game.i18n.localize('DL.SettingAddCreatureInventoryTab'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })
 }
