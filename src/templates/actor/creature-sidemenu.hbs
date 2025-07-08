@@ -87,15 +87,17 @@
       <input name="system.speedtraits" type="text" value="{{system.speedtraits}}"
              data-dtype="String" placeholder="{{localize 'DL.CreatureSpeedTraits'}}"/>
     </div>
-    <div class="turnmode">
-      <label class="switchTurn">
-        <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}} {{disabled system.maluses.noFastTurn}}>
-        <div class="slider round">
-          <span class="on">{{localize "DL.TurnFastButton"}}</span>
-          <span class="off">{{localize "DL.TurnSlowButton"}}</span>
-        </div>
-      </label>
-    </div>
+    {{#unless hideTurnMode}}
+      <div class="turnmode">
+        <label class="switchTurn">
+          <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}} {{disabled system.maluses.noFastTurn}}>
+          <div class="slider round">
+            <span class="on">{{localize "DL.TurnFastButton"}}</span>
+            <span class="off">{{localize "DL.TurnSlowButton"}}</span>
+          </div>
+        </label>
+      </div>
+    {{/unless}}
   </div>
   <div class="dl-side-tab-container">
     {{#each actor.roles}}

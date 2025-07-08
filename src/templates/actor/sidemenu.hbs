@@ -153,16 +153,18 @@
               ><span class="offGrey">{{localize "DL.CharFortune"}}</span>
           </div>
         </label>
-      </div>      
-      <div class="turnmode">
-        <label class="switchTurn">
-          <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}} />
-          <div class="slider round">
-              <span class="on">{{localize "DL.TurnFastButton"}}</span
-              ><span class="off">{{localize "DL.TurnSlowButton"}}</span>
-          </div>
-        </label>
       </div>
+      {{#unless hideTurnMode}}
+        <div class="turnmode">
+          <label class="switchTurn">
+            <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}} />
+            <div class="slider round">
+                <span class="on">{{localize "DL.TurnFastButton"}}</span
+                ><span class="off">{{localize "DL.TurnSlowButton"}}</span>
+            </div>
+          </label>
+        </div>
+      {{/unless}}
     </div>
   </div>
 </aside>
