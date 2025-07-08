@@ -286,7 +286,7 @@ export const registerSettings = function () {
     type: Boolean,
     default: false,
     config: false,
-    onChange: foundry.utils.debouncedReload,
+    requiresReload: true,
   })
 
   game.settings.registerMenu('demonlord', 'optionalRulesSettings', {
@@ -358,7 +358,7 @@ export const registerSettings = function () {
       i: game.i18n.localize('DL.SettingOptionalRuleInitiativeInduvidual'),
       h: game.i18n.localize('DL.SettingOptionalRuleInitiativeGroup'),
     },
-    onChange: foundry.utils.debouncedReload,
+    requiresReload: true,
   })
 
   game.settings.register('demonlord', 'optionalRuleRollInitEachRound', {
@@ -395,7 +395,7 @@ export const registerSettings = function () {
       n: game.i18n.localize('DL.SettingOptionalRuleSurroundingDispositionsAllowNeutral'),
       s: game.i18n.localize('DL.SettingOptionalRuleSurroundingDispositionsAllowSecret'),
     },
-    onChange: foundry.utils.debouncedReload,
+    requiresReload: true,
   })
 
   game.settings.register('demonlord', 'optionalRuleSurroundingExcludeTokens', {
@@ -505,7 +505,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-    onChange: foundry.utils.debouncedReload,
+    requiresReload: true,
   })
   game.settings.register('demonlord', 'hideDescription', {
     name: game.i18n.localize('DL.SettingHideCreatureDescription'),
@@ -514,7 +514,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-    onChange: foundry.utils.debouncedReload,
+    requiresReload: true,
   })
   game.settings.register('demonlord', 'statusIcons', {
     name: game.i18n.localize('DL.SettingStatusIcons'),
@@ -523,7 +523,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-    onChange: foundry.utils.debouncedReload,
+    requiresReload: true,
   })
   game.settings.register('demonlord', 'templateAutoTargeting', {
     name: game.i18n.localize('DL.SettingTemplateAutoTargeting'),
@@ -620,7 +620,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-    onChange: foundry.utils.debouncedReload,
+    requiresReload: true,
   })
   game.settings.register('demonlord', 'chatCardTokenAlias', {
     name: game.i18n.localize('DL.SettingChatCardTokenAlias'),
@@ -638,11 +638,21 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'fortuneHide', {
+    name: game.i18n.localize('DL.SettingFortuneHide'),
+    hint: game.i18n.localize('DL.SettingFortuneHideHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+    requiresReload: true
+  })
   game.settings.register('demonlord', 'addCreatureInventoryTab', {
     name: game.i18n.localize('DL.SettingAddCreatureInventoryTab'),
     default: false,
     scope: 'world',
     type: Boolean,
     config: true,
+    requiresReload: true
   })
 }

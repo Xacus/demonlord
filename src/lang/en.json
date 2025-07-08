@@ -588,6 +588,8 @@
   "DL.SettingAttackShowEnemyAttributeAtt": "Show the Creatures attack number",
   "DL.SettingAttackShowEnemyAttributeAttHint": "Show the Creatures attack number you are rolling against in the chat.",
   "DL.SettingAttackShowEnemyAttributeHint": "Show the Creatures target number you are rolling against in the chat.",
+  "DL.SettingFortuneHide" : "Hide Fortune from character sheets",
+  "DL.SettingFortuneHideHint" : "Select when you use alternative method e.g. Fortune Points.",
   "DL.SettingOptionalRuleBellCurveRolls": "Bell Curve Rolls (Attack/Challenge Roll: 3d6, BoB: d3, Challenge target nr.: 11)",
   "DL.SettingOptionalRuleBellStandardRolls": "SotDL Standard (Attack/Challenge Roll: d20, BoB: d6, Challenge target nr.: 10)",
   "DL.SettingOptionalRuleDieRollsMode": "Die Rolls Method",

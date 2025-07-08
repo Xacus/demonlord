@@ -33,7 +33,8 @@ export default class DLBaseActorSheet extends foundry.appv1.sheets.ActorSheet {
       effectsOverview: buildOverview(this.actor),
       flags: this.actor.flags,
       addCreatureInventoryTab: game.settings.get('demonlord', 'addCreatureInventoryTab'),
-      hideTurnMode: game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's' ? false : true
+      hideTurnMode: game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's' ? false : true,
+      hideFortune: game.settings.get('demonlord', 'fortuneHide') ? true : false
     }
 
     // Enrich HTML
