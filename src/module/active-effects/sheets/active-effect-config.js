@@ -1,4 +1,3 @@
-const TextEditor = foundry.applications.ux //eslint-disable-line no-shadow
 export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
   constructor(options) {
       super(options)
@@ -58,8 +57,8 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
     return context
   }
 
+  // eslint-disable-next-line 
   _onRender(context, options) {
-    const html = $(this.element)
     const currTabId = Object.values(context.tabs)?.find(i => i.active)?.id;
     if (currTabId !== "changes") this.position.height = this.element.offsetHeight ?? "auto";
   }
