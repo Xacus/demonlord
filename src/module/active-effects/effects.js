@@ -160,29 +160,3 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
 
   return categories
 }
-
-Hooks.on('renderActiveEffectConfig', (app, html) => {
-  // if (!game.user.isGM) return
-
-    let specialDuration = ['None', 'TurnStart', 'TurnEnd', 'TurnStartSource', 'TurnEndSource', 'NextD20Roll', 'NextDamageRoll', 'RestComplete']
-
-    const element = new foundry.data.fields.SetField(new foundry.data.fields.StringField(), {}).toFormGroup({}, {
-        name: 'flags.demonlord.specialDuration',
-        value: app.document.getFlag('demonlord', 'specialDuration') ?? ["None"],
-        options: specialDuration.map(sd => ({
-            value: sd,
-            label: game.i18n.localize('DL.SpecialDuration' + sd)
-        }))
-    })
-
-    let newelement = element.innerHTML
-    newelement = newelement
-        .replace('<label></label>', '')
-        .replace('multi-select', 'select')
-
-    newelement = '<fieldset><legend><span style="color: var(--color-form-label);font-size: var(--font-size-14);">' + game.i18n.localize('DL.SpecialDurationLabel') + '</span></legend>' + newelement + '</fieldset>'
-    element.innerHTML = newelement
-
-    html.querySelector("section[data-tab='duration']").append(element)
-    app.setPosition()
-})

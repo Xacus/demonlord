@@ -230,6 +230,7 @@ Hooks.once('setup', function () {
 
   // Set active effect keys-labels
   DLActiveEffectConfig.initializeChangeKeys()
+  DLActiveEffectConfig.initializeSpecialDurations()
 })
 
 /**
