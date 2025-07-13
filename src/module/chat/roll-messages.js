@@ -77,6 +77,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   const templateData = {
     actor: attacker,
+    tokenId: attacker.token ? attacker.token.uuid : null,
     item: item,
     data: {},
     diceData: formatDice(attackRoll),
@@ -162,6 +163,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : challengeRoll.total >= targetNumber ? 'SUCCESS' : 'FAILURE')
   const templateData = {
     actor: actor,
+    tokenId: actor.token ? actor.token.uuid : null,
     item: {name: attribute?.toUpperCase()},
     diceData: formatDice(challengeRoll),
     data: {},
@@ -249,6 +251,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
 
   const templateData = {
     actor: actor,
+    tokenId: actor.token ? actor.token.uuid : null,
     item: talent,
     data: {},
     diceData: formatDice(attackRoll || null),
@@ -371,6 +374,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
 
   const templateData = {
     actor: actor,
+    tokenId: actor.token ? actor.token.uuid : null,
     item: spell,
     data: {},
     diceData: formatDice(attackRoll),
