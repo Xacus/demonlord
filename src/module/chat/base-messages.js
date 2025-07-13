@@ -6,13 +6,12 @@
  * @private
  */
 export function getChatBaseData(actor, rollMode) {
-  let alias = game.settings.get('demonlord', 'chatCardTokenAlias') ? actor.token.name : actor.name
   return {
     user: game.user.id,
     speaker: {
       actor: actor.id,
       token: actor.token,
-      alias: alias,
+      alias: actor.name,
     },
     blind: rollMode === 'blindroll',
     whisper:
