@@ -103,13 +103,13 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   let itemBoons
   switch (item.type) {
     case 'spell':
-      itemBoons = item.system.action.boonsbanes
+      itemBoons = parseInt(item.system.action.boonsbanes) || 0
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.spell', '')
       modifiers = changeToMsg(m, 'system.bonuses.attack.modifier.spell','')
       defenderBoonsArray.push('system.bonuses.defense.boons.spell')      
       break
     case 'weapon':
-      itemBoons = item.system.action.boonsbanes
+      itemBoons = parseInt(item.system.action.boonsbanes) || 0
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.weapon', '')
       modifiers = changeToMsg(m, 'system.bonuses.attack.modifier.weapon','')
       defenderBoonsArray.push('system.bonuses.defense.boons.weapon')
@@ -117,7 +117,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
       break
     case 'talent':
       if (!attackAttribute) break
-      itemBoons = item.system.action.boonsbanes
+      itemBoons = parseInt(item.system.action.boonsbanes) || 0
       break
     case 'attribute':
       // Nothing to do, just continue with chatcard creation
