@@ -622,14 +622,6 @@ export const registerSettings = function () {
     config: true,
     requiresReload: true,
   })
-  game.settings.register('demonlord', 'chatCardTokenAlias', {
-    name: game.i18n.localize('DL.SettingChatCardTokenAlias'),
-    hint: game.i18n.localize('DL.SettingChatCardTokenAliasHint'),
-    default: false,
-    scope: 'world',
-    type: Boolean,
-    config: true,
-  })
   game.settings.register('demonlord', 'fortuneAwardPrevented', {
     name: game.i18n.localize('DL.SettingFortuneAwardPrevented'),
     hint: game.i18n.localize('DL.SettingFortuneAwardPreventedHint'),

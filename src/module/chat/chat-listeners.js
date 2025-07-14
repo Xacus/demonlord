@@ -55,8 +55,7 @@ async function _onChatRollDamage(event) {
   event.preventDefault()
   const rollMode = game.settings.get('core', 'rollMode')
   const li = event.currentTarget
-  const token = li.closest('.demonlord')
-  const actor = _getChatCardActor(token)
+  const actor = _getChatCardActor(li.closest('.demonlord'))
 
   const appliedEffects = tokenManager.getTokenByActorId(actor.id)?.actor?.appliedEffects
   
@@ -159,6 +158,7 @@ async function _onChatRollDamage(event) {
 
   var templateData = {
     actor: actor,
+    tokenId: actor.token ? actor.token.uuid : null,
     item: {
       id: itemId,
     },
@@ -265,8 +265,8 @@ async function _onChatApplyEffect(event) {
 /* -------------------------------------------- */
 
 async function _onChatUseTalent(event) {
-  const token = event.currentTarget.closest('.demonlord')
-  const actor = _getChatCardActor(token)
+  const card = event.currentTarget.closest('.demonlord')
+  const actor = _getChatCardActor(card)
   if (!actor) return
 
   const div = event.currentTarget.children[0]
@@ -322,6 +322,7 @@ async function _onChatRequestChallengeRoll(event) {
           value: boonsbanestext,
         },
       },
+      tokenId: token.document.uuid,
     }
 
     const chatData = {
@@ -350,10 +351,10 @@ async function _onChatMakeChallengeRoll(event) {
   event.preventDefault()
   const li = event.currentTarget
   const item = li.children[0]
+  const card = li.closest('.demonlord')
   const attributeName = item.dataset.attribute
   const boonsbanes = item.dataset.boonsbanes
-  const actorId = item.dataset.actorid
-  const actor = game.actors.get(actorId)
+  const actor = fromUuidSync(card.dataset.tokenId).actor
   const attribute = actor.getAttribute(attributeName)
   const start = li.closest('.demonlord')
   const boonsbanesEntered = start.children[1].children[0].children[0].children[1]?.value
@@ -432,15 +433,12 @@ async function _onChatMakeInitRoll(event) {
  */
 function _getChatCardActor(card) {
   // Case 1 - a synthetic actor from a Token
-  const tokenKey = card.dataset.tokenId
-  if (tokenKey) {
-    const [sceneId, tokenId] = tokenKey.split('.')
-    const scene = game.scenes.get(sceneId)
-    if (!scene) return null
-    const tokenData = scene.items.get(tokenId)
-    if (!tokenData) return null
-    const token = new Token(tokenData)
-    return token.actor
+  const tokenUuid = card.dataset.tokenId
+  if (tokenUuid) {
+    let actor = fromUuidSync(tokenUuid).actor
+    if (actor) return actor
+    else
+    return null
   }
 
   // Case 2 - use Actor ID directory
