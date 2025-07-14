@@ -600,8 +600,6 @@
   "DL.SettingOptionalRuleBellStandardRolls": "SotDL Standard (Attack/Challenge Roll: d20, BoB: d6, Challenge target nr.: 10)",
   "DL.SettingOptionalRuleConsistentDamage": "Enable Consistent Damage",
   "DL.SettingOptionalRuleDieRollsMode": "Die Rolls Method",
-  "DL.SettingOptionalRuleExceedsByFive": "20+ rule more than 5",
-  "DL.SettingOptionalRuleExceedsByFiveHint": "Rules of effects of 20+ will require that you exceed the target by more than 5.",
   "DL.SettingOptionalRuleInitiative": "Initiative Method",
   "DL.SettingOptionalRuleInitiativeGroup": "Group Rolls (d6) - PCs, NPCs, Creatures",
   "DL.SettingOptionalRuleInitiativeInduvidual": "Individual Rolls (d20)",
