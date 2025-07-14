@@ -451,7 +451,7 @@ export class DemonlordActor extends Actor {
     const attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), attacker.system)
     await attackRoll.evaluate()
 
-    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, parseInt(inputBoons) || 0)
+    postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     const hitTargets = defendersTokens.filter(d => {
       const targetNumber =
@@ -544,7 +544,7 @@ export class DemonlordActor extends Actor {
 
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
     await challengeRoll.evaluate()
-    postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0)
+    postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
@@ -609,7 +609,7 @@ export class DemonlordActor extends Actor {
 
     const attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
     await attackRoll.evaluate()
-    postAttackToChat(this, tokenManager.targets[0].actor, fakeItem, attackRoll, attribute.key, defense)
+    postAttackToChat(this, tokenManager.targets[0].actor, fakeItem, attackRoll, attribute.key, defense, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)

@@ -36,7 +36,7 @@ function changeBobDieColour (attackRoll)
  * @param attackAttribute       string (lowercase)
  * @param defenseAttribute      stromg (lowercase)
  */
-export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, inputBoons) {
+export function postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, inputBoons, inputModifier) {
 
   attackRoll = changeBobDieColour (attackRoll)
 
@@ -77,6 +77,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   const templateData = {
     actor: attacker,
+    tokenId: attacker.token ? attacker.token.uuid : null,
     item: item,
     data: {},
     diceData: formatDice(attackRoll),
@@ -110,7 +111,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['effects'] = attacker.system.bonuses.attack.extraEffect
-  data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20)
+  data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier)
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
   data['ifBlindedRoll'] = rollMode === 'blindroll'
@@ -138,7 +139,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
  * @param attribute         string (lowercase)
  * @param challengeRoll     Roll
  */
-export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons) {
+export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons, inputModifier = 9) {
 
   let targetNumber = 10
 
@@ -162,6 +163,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons)
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : challengeRoll.total >= targetNumber ? 'SUCCESS' : 'FAILURE')
   const templateData = {
     actor: actor,
+    tokenId: actor.token ? actor.token.uuid : null,
     item: {name: attribute?.toUpperCase()},
     diceData: formatDice(challengeRoll),
     data: {},
@@ -174,7 +176,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons)
   data['resultTextGM'] = resultTextGM
   data['resultBoxClass'] = resultBoxClass
   data['isCreature'] = actor.type === 'creature'
-  data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, inputBoons)
+  data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, inputBoons, inputModifier)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['actorInfo'] = buildActorInfo(actor)
   data['targetNumber'] = targetNumber
@@ -249,6 +251,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
 
   const templateData = {
     actor: actor,
+    tokenId: actor.token ? actor.token.uuid : null,
     item: talent,
     data: {},
     diceData: formatDice(attackRoll || null),
@@ -371,6 +374,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
 
   const templateData = {
     actor: actor,
+    tokenId: actor.token ? actor.token.uuid : null,
     item: spell,
     data: {},
     diceData: formatDice(attackRoll),
