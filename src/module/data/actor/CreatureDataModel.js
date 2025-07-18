@@ -32,6 +32,13 @@ export default class CreatureDataModel extends foundry.abstract.DataModel {
       perceptionsenses: makeStringField(),
       speedtraits: makeStringField(),
       armor: makeStringField(),
+      wealth: new foundry.data.fields.SchemaField({
+        edit: makeBoolField(),
+        bits: makeIntField(),
+        cp: makeIntField(),
+        ss: makeIntField(),
+        gc: makeIntField()
+      }),      
       roles: new foundry.data.fields.ArrayField(makeStringField()) // ?
     }
   }
