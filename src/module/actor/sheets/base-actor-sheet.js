@@ -104,6 +104,7 @@ export default class DLBaseActorSheet extends foundry.appv1.sheets.ActorSheet {
   async _onDropItemCreate(itemData) {
     const isAllowed = await this.checkDroppedItem(itemData)
     if (isAllowed) {
+      await this.preDropItemCreate(itemData)
       const createdItems = await super._onDropItemCreate(itemData)
       await this.postDropItemCreate(createdItems[0])
     } else {
@@ -112,6 +113,10 @@ export default class DLBaseActorSheet extends foundry.appv1.sheets.ActorSheet {
   }
 
   async checkDroppedItem(_itemData) {
+    return true
+  }
+
+  async preDropItemCreate(_itemData) {
     return true
   }
 

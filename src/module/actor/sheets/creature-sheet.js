@@ -51,15 +51,33 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     actorData.roles = m.get('creaturerole') || []
     actorData.gear = m.get('item') || []
     actorData.relics = m.get('relic') || []
+    actorData.armor = m.get('armor') || []
+    actorData.ammo = m.get('ammo') || []
   }
 
   /* -------------------------------------------- */
 
   /** @override */
   async checkDroppedItem(itemData) {
-    let preventedItems = await game.settings.get('demonlord', 'addCreatureInventoryTab') ? ['armor', 'ammo', 'ancestry', 'path', 'profession', 'language'] : ['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'relic']
+    let preventedItems = await game.settings.get('demonlord', 'addCreatureInventoryTab') ? ['ancestry', 'path', 'profession', 'language'] : ['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'relic']
     if (preventedItems.includes(itemData.type)) return false
     return true
+  }
+
+  /**
+   * @override
+   * @param {DemonlordItem} item
+   */
+  async preDropItemCreate (item) {
+    if (item.type === 'armor') item.system.wear = false
+    //Creatures do not benefit from the active effect of specific items
+    const type = item.type
+    if (['armor', 'item', 'relic'].includes(type))
+    {
+      const itemEffects = item.effects
+      if (itemEffects) console.warn('Item effect(s) suspended.', this.actor, item)
+      itemEffects.forEach((effect) => {if (effect.transfer) effect.disabled = true})
+    }
   }
 
   /** @override */
@@ -69,6 +87,13 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     // Dynamically set the reference tab layout to two column if its height exceeds a certain threshold
     html.find('.sheet-navigation').click(_ => this._resizeAutoColumns(this.element))
     this._resizeAutoColumns(html)
+
+    // Wealth edit
+    html
+      .find('.wealth-edit')
+      .click(async _ =>
+        await this.actor.update({ 'system.wealth.edit': !this.actor.system.wealth.edit }).then(() => this.render()),
+      )
 
     // Role edit
     html.on('mousedown', '.role-edit', async ev => await this._onRoleEdit(ev))
