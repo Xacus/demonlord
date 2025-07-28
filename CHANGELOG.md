@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.12]
+### Fixes
+- ChatCard enhancements and Fixes
+- Rollback of ChatCard alias option
+
 ## [5.0.11]
 ### Fixed
 - Active effect config selector
