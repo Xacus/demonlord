@@ -55,6 +55,80 @@
   </div>
 </div>
 
+{{#if isCreature}}
+  <!-- ARMOR -->
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header" style="margin-top: 8px">
+    <div class="col-7">{{localize "DL.ArmorTitle"}}</div>
+    <div class="col-2">{{localize "DL.ItemAmount"}}</div>
+    <div class="col-2">{{localize "DL.ItemValue"}}</div>
+    <div class="col-1">
+      <a class="item-create" title="{{localize 'DL.ArmorAdd'}}" data-type="armor"><i class="fas fa-plus"></i></a>
+    </div>
+  </div>
+
+  {{#each actor.armor as |armor id|}}
+    <div class="dl-item-row dropitem" data-item-id="{{armor._id}}">
+      <div class="row">
+        <div class="col-7 dl-clickable-nored item-edit">
+          <img class="dl-clickable item-edit" src="{{armor.img}}" title="{{armor.name}}" width="32" height="32"/>
+          <div style="font-weight: normal">{{armor.name}}</div>
+          <div>
+            {{#if system.defense}}
+              {{localize "DL.ArmorDefense"}} {{plusify system.defense}}
+            {{/if}}
+            {{#if system.agility}}
+              {{localize "DL.ArmorAgility"}} {{plusify system.agility}}
+            {{/if}}
+            {{#if system.fixed}}
+              {{localize "DL.ArmorFixed"}} {{system.fixed}}
+            {{/if}}
+          </div>
+        </div>
+        <div class="col-2 ammo-amount">
+          {{defaultValue system.quantity "1"}} <i class="fas fa-arrows-alt-v"></i>
+        </div>
+        <div class="col-2">
+          {{defaultValue system.value "―"}}
+        </div>
+        <div class="col-1">
+          <a class="dl-clickable item-delete" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+
+  <!-- AMMUNITION -->
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header" style="margin-top: 8px">
+    <div class="col-7">{{localize "DL.AmmoTitle"}}</div>
+    <div class="col-2">{{localize "DL.AmmoAmount"}}</div>
+    <div class="col-2">{{localize "DL.ItemValue"}}</div>
+    <div class="col-1">
+      <a class="item-create" title="{{localize 'DL.AmmoAdd'}}" data-type="ammo">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </div>
+  {{#each actor.ammo as |ammo id|}}
+    <div class="dl-item-row dropitem" data-item-id="{{ammo._id}}">
+      <div class="row">
+        <div class="col-7 dl-clickable-nored item-edit">
+          <img class="dl-clickable item-edit" src="{{ammo.img}}" title="{{ammo.name}}" width="32" height="32"/>
+          <div style="font-weight: normal">{{ammo.name}}</div>
+        </div>
+        <div class="col-2 ammo-amount">
+          {{system.quantity}} <i class="fas fa-arrows-alt-v"></i>
+        </div>
+          <div class="col-2">
+            {{defaultValue system.value "1"}}
+          </div>
+        <div class="col-1">
+          <a class="dl-clickable item-delete" title="{{localize 'DL.AmmoDelete'}}"><i class="fas fa-times"></i></a>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+{{/if}}
+
 <!-- CONSUMABLES -->
 <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
   <div class="col-7">{{localize "DL.TabsConsumables"}}</div>
