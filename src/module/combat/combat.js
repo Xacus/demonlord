@@ -362,7 +362,7 @@ export async function createInitChatMessage(combatant, messageOptions) {
   }
 
   const template = 'systems/demonlord/templates/chat/init.hbs'
-  const content = await renderTemplate(template, templateData)
+  const content = await foundry.applications.handlebars.renderTemplate(template, templateData)
   return foundry.utils.mergeObject(messageOptions, {
     speaker: {
       scene: canvas.scene.id,
@@ -497,7 +497,8 @@ Hooks.on('preCreateCombatant', async (combatant, _data, _options, userId) => {
 
 // Delete Effects with specialDuration
 async function deleteSpecialdurationEffects(combatant) {
-  let actor = fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
+  let tokenD = fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}`)
+  let actor = tokenD.actorLink ? game.actors.get(combatant.actorId) : fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
   for (let effect of actor.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
       if (!(specialDuration?.length > 0)) continue
