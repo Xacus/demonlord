@@ -1,0 +1,69 @@
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="talents">
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+    <div class="col-9">{{localize "DL.TalentTitle"}}</div>
+    <div class="col-2">{{localize "DL.TalentUsesTitle"}}</div>
+    <div class="col-1">
+      <a class="spell-create" title="{{localize 'DL.TalentAdd'}}" data-type="talent">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </div>
+
+  {{#each actor.talentbook as |talentbook id|}}
+  <!-- Path Header -->
+  {{#if talentbook.groupname}}
+  <div class="dl-text-header-lower">{{talentbook.groupname}}</div>
+  {{/if}}
+  {{#each talentbook.talents as |talent id|}}
+  <div class="dl-item-row dropitem" data-item-id="{{talent._id}}">
+    <div class="row">
+      <div class="col-7">
+        <img class='dl-clickable item-edit' data-action="editItem" src="{{talent.img}}" title="{{talent.name}}" width="32" height="32" />
+        <label class="talent-roll dl-rollable">{{talent.name}}</label>
+        <div class="dl-clickable dlToggleInfoBtn">
+          <i class="fas fa-angle-right"></i> {{localize "DL.TalentShowSpellInfo"}}
+        </div>
+      </div>
+      <div class="col-2 dl-clickable talent-uses">
+        {{#if system.allused}}
+        {{localize 'DL.TalentUsed'}}
+        {{else}} {{#if system.addtonextroll}}
+        {{localize 'DL.TalentActive'}}
+        {{/if}} {{/if}}
+      </div>
+      <div class="col-2 talent-uses">
+        {{#if system.uses.max}}
+        {{defaultValue system.uses.value 0}} / {{system.uses.max}} <i class="fas fa-arrows-alt-v"></i>
+        {{else}}
+        ―
+        {{/if}}
+      </div>
+      <div class="col-1">
+        <div class="col-1">
+          {{#if (dlIsNestedItem talent)}}
+          <a class="dl-clickable item-delete" title="{{dlGetNestedItemSource talent}}"><i
+              class="fa-solid fa-link"></i></a>
+          {{else}}
+          <a class="dl-clickable item-delete" title="{{localize 'DL.TalentDelete'}}"><i class="fas fa-times"></i></a>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    <!-- Toggleable Info -->
+    <div class="dlInfo dl-item-info" style="display: none;">
+      <div class="row dl-item-info-header">
+        <div class="col-12">
+          <b>{{talent.name}}</b>
+        </div>
+      </div>
+      <hr>
+      {{#if system.description}}
+      <div>
+        {{{system.enrichedDescription}}}
+      </div>
+      {{/if}}
+    </div>
+  </div>
+  {{/each}}
+  {{/each}}
+</div>

@@ -1,0 +1,37 @@
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="effects">
+<nav class="sheet-subnavigation grid grid-7" data-group="subpage">
+  <a class="item" data-tab="general">{{localize "DL.TabsGeneral"}}</a>
+  <a class="item" data-tab="ancestry">{{localize "DL.CharAncestry"}}</a>
+  <a class="item" data-tab="paths">{{localize "DL.PathsTitle"}}</a>
+  <a class="item" data-tab="talents">{{localize "DL.TabsTalents"}}</a>
+  <a class="item" data-tab="spells">{{localize "DL.MagicSpellsTitle"}}</a>
+  <a class="item" data-tab="items">{{localize "DL.TabsItems"}}</a>
+  <a class="item" data-tab="overview">{{localize "DL.TabsOverview"}}</a>
+</nav>
+
+<section class="sheet-subbody">
+  <section class="sheet-tabs">
+    {{!-- Effects Tab --}}
+    <div class="tab general" data-group="subpage" data-tab="general">
+      {{> systems/demonlord/templates/actor/tabs/activeeffects.hbs effects=generalEffects}}
+    </div>
+    <div class="tab ancestry" data-group="subpage" data-tab="ancestry">
+      {{> systems/demonlord/templates/actor/tabs/activeeffects.hbs effects=ancestryEffects}}
+    </div>
+    <div class="tab talents" data-group="subpage" data-tab="paths">
+      {{> systems/demonlord/templates/actor/tabs/activeeffects.hbs effects=pathEffects}}
+    </div>
+    <div class="tab talents" data-group="subpage" data-tab="talents">
+      {{> systems/demonlord/templates/actor/tabs/activeeffects.hbs effects=talentEffects}}
+    </div>
+    <div class="tab spells" data-group="subpage" data-tab="spells">
+      {{> systems/demonlord/templates/actor/tabs/activeeffects.hbs effects=spellEffects}}
+    </div>
+    <div class="tab enchantments" data-group="subpage" data-tab="items">
+      {{> systems/demonlord/templates/actor/tabs/activeeffects.hbs effects=itemEffects}}
+    </div>
+    <div class="tab enchantments" data-group="subpage" data-tab="overview">
+      {{> systems/demonlord/templates/actor/tabs/effectsoverview.hbs}}
+    </div>
+  </section>
+</section>

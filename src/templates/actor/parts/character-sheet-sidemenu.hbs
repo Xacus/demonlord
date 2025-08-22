@@ -1,0 +1,169 @@
+<aside class="demonlord-v2-actor-sheet-container demonlord-v2-actor-sheet-sidebar-container">
+  <div class="sidebar" data-group="dashboard" data-tab="sidebar">
+
+    <div class="isPC">
+      <div class="switch-toggle pc-toggle">
+      <label class="switch" for="system.isPC">
+        <input class="toggleInput" type="checkbox" id="system.isPC" name="system.isPC" {{checked system.isPC}}/>
+        <div class="toggleFill"></div>
+        <span class="toggleText off">{{localize "DL.ActorTypeNPC"}}</span>
+        <span class="toggleText on">{{localize 'DL.ActorTypePC'}}</span>
+      </label>
+    </div>
+
+  </div>
+    
+  <div class="frame"{{#unless system.isPC}}class="frame-npc"{{/unless}}>
+    <img class="profile-img" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
+  </div>
+
+  {{#if system.characteristics.health.injured}}
+    <div class="injured-overlay"></div>
+  {{/if}}
+
+  <div class="sidebar-button rest" data-action="restCharacter" >
+    <div class="rest">
+      <input class="rest-char button" type="button" name="rest-char" id="rest-char" />
+      <image class="rest-icon"/>
+      <label for="rest-char"/>
+    </div>
+    <div class="resttext">{{localize 'DL.RestAction'}}</div>
+  </div>
+
+    <div class="sidebar-button healingratebox" style="cursor: pointer">
+      <div class="healingrate">{{system.characteristics.health.healingrate}}</div>
+      <div class="healingratetext">{{localize 'DL.CharHealthHealingRating'}}</div>
+    </div>
+
+    <div class="editBars">
+      <a class="bar-edit" data-action="editStatBar" title="{{localize 'DL.ToggleBarView'}}"><i class="fas fa-edit"></i></a>
+    </div>
+
+      {{#if system.characteristics.editbar}}
+        <div class="barboxes">
+          <div class="barbox">
+            <div class="healthtext">{{localize "DL.TalentDamage"}}</div>
+            <div class="healthedit">
+              <input
+                      name="system.characteristics.health.value"
+                      type="number"
+                      value="{{system.characteristics.health.value}}"
+                      placeholder="{{system.characteristics.health.value}}"
+                      style="color: white; border: none; box-shadow: none"
+                      min="{{system.characteristics.health.min}}"
+                      max="{{system.characteristics.health.max}}"
+              />
+            </div>
+          </div>
+          <div class="barbox">
+            <div class="insanitytext">{{localize "DL.CharInsanity"}}</div>
+            <div class="insanityedit">
+              <input
+                      name="system.characteristics.insanity.value"
+                      type="number"
+                      value={{ifThen system.characteristics.insanity.immune '-' system.characteristics.insanity.value}}
+                      placeholder={{ifThen system.characteristics.insanity.immune '-' system.characteristics.insanity.value}}
+                      style="color: white; border: none; box-shadow: none"
+                      min="{{system.characteristics.insanity.min}}"
+                      max="{{system.characteristics.insanity.max}}"
+                      {{disabled system.characteristics.insanity.immune}}
+              />
+            </div>
+          </div>
+          <div class="barbox">
+            <div class="corruptiontext">{{localize "DL.CharCorruption"}}</div>
+            <div class="corruptionedit">
+              <input
+                      name="system.characteristics.corruption.value"
+                      type="number"
+                      value={{ifThen system.characteristics.corruption.immune '-' system.characteristics.corruption.value}}
+                      placeholder={{ifThen system.characteristics.corruption.immune '-' system.characteristics.corruption.value}}
+                      style="color: white; border: none; box-shadow: none"
+                      min="0"
+                      {{disabled system.characteristics.corruption.immune}}
+              />
+            </div>
+          </div>
+        </div>
+      {{else}}
+        <div class="stat-bar health">
+          <div class="addDamage">{{localize "DL.TalentDamage"}}</div>
+          <div class="healthbar">
+            <span class="healthbar-fill"></span>
+          </div>
+          <div class="healtmax">{{system.characteristics.health.max}}</div>
+          <div class="damage">{{system.characteristics.health.value}}</div>
+        </div>
+        <div class="stat-bar insanity">
+          <div class={{ifThen system.characteristics.insanity.immune "Insanity" "addInsanity"}}>{{localize "DL.CharInsanity"}}</div>
+          <div class="healthbar">
+            <span class={{ifThen system.characteristics.insanity.immune "insanity-empty" "insanity-fill"}}></span>
+          </div>
+          {{#unless system.characteristics.insanity.immune}}
+            <div class="insanitymax">{{system.characteristics.insanity.max}}</div>
+            <div class="insanityvalue">{{system.characteristics.insanity.value}}</div>
+          {{else}}
+            <div class="insanitymiddle">–</div>
+          {{/unless}}
+        </div>
+        <div class="stat-bar corruption">
+          <div class={{ifThen system.characteristics.corruption.immune "Corruption"  "addCorruption"}}>{{localize "DL.CharCorruption"}}</div>
+          <div class="healthbar">
+            <span class={{ifThen system.characteristics.corruption.immune "corruption-empty" "corruption-fill"}}></span>
+          </div>
+          {{#unless system.characteristics.corruption.immune}}
+            <div class="corruptionmax">20</div>
+            <div class="corruptionvalue">{{system.characteristics.corruption.value}}</div>
+            <a class="corruption-roll" data-action="rollCorruption" title="{{localize 'DL.CharRolCorruption'}}"><i class="fas fa-dice-d20"></i></a>          
+          {{else}}
+            <div class="corruptionmiddle">–</div>
+          {{/unless}}
+        </div>
+    {{/if}}
+
+    <div class="char-stats">
+      <div class="stat-box defensebox">
+        <div class="text defensetext">{{localize "DL.AttributeDefense"}}</div>
+        <div class="value defense">{{system.characteristics.defense}}</div>
+      </div>
+      <div class="stat-box powerbox">
+        <div class="text powertext">{{localize "DL.CharPower"}}</div>
+        <div class="value power">{{system.characteristics.power}}</div>
+      </div>
+      <div class="stat-box sizebox">
+        <div class="text speedtext">{{localize "DL.CharSize"}}</div>
+        <div class="value size">{{system.characteristics.size}}</div>
+      </div>
+      <div class="stat-box speedbox">
+        <div class="text speedtext">{{localize "DL.CharSpeed"}}</div>
+        <div class="value speed">{{system.characteristics.speed}}</div>
+      </div>
+    </div>
+
+    <div class="char-toggles">
+
+      <div class="fortune">
+        <div class="switch-toggle fortune-toggle">
+          <label class="switch" for="system.characteristics.fortune">
+            <input class="toggleInput" type="checkbox" id="system.characteristics.fortune" name="system.characteristics.fortune" {{checked system.characteristics.fortune}} />
+            <div class="toggleFill"></div>
+            <span class="toggleText off">{{localize 'DL.CharFortune'}}</span>
+            <span class="toggleText on">{{localize 'DL.CharFortune'}}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="turnmode">
+        <div class="switch-toggle turn-toggle">
+          <label class="switch" for="system.characteristics.fastturn">
+            <input class="toggleInput" type="checkbox" id="system.characteristics.fastturn" name="system.characteristics.fastturn" {{checked system.characteristics.fastturn}} />
+            <div class="toggleFill"></div>
+            <span class="toggleText off">{{localize 'DL.TurnSlowButton'}}</span>
+            <span class="toggleText on">{{localize 'DL.TurnFastButton'}}</span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</aside>

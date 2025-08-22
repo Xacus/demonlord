@@ -1,0 +1,57 @@
+<ol class="items-list effects-list">
+  {{#each effects as |section sid|}}
+    <li class="items-header flexrow" data-effect-type="{{section.type}}">
+      <div class="item-name effect-name flexrow">{{localize section.name}}</div>
+      <div class="effect-source">{{localize "DL.EffectDuration"}}</div>
+      <div class="effect-controls flexrow">
+        {{#if section.showCreateButtons}}
+          <a class="effect-control" data-action="create" title="{{localize 'DL.EffectCreate'}}">
+            <i class="fas fa-plus"></i>
+          </a>
+        {{/if}}
+      </div>
+    </li>
+
+    <ol class="item-list">
+      {{#each section.effects as |effect|}}
+        <li class="item effect flexrow" data-effect-id="{{effect.id}}">
+          <div class="item-name effect-name flexrow">
+            {{#if effect.tint}}
+              <img class="item-image-small" src="{{effect.img}}"/>
+            {{else}}
+              <img class="item-image-small" src="{{effect.img}}"/>
+            {{/if}}
+            <h4>{{effect.name}}</h4>
+          </div>
+          <div class="effect-duration">{{effect.dlRemaining}}</div>
+          <div class="effect-controls flexrow">
+            <a
+                    class="effect-control"
+                    data-action="toggle"
+                    title="{{localize 'DL.EffectToggle'}}"
+                    style="{{hiddenEffect effect.flags.demonlord.notToggleable}}"
+            >
+              <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+            </a>
+            <a
+                    class="effect-control"
+                    data-action="edit"
+                    title="{{localize 'DL.EffectEdit'}}"
+                    style="{{hiddenEffect effect.flags.demonlord.notEditable}}"
+            >
+              <i class="fas fa-edit"></i>
+            </a>
+            <a
+                    class="effect-control"
+                    data-action="delete"
+                    title="{{localize 'DL.EffectDelete'}}"
+                    style="{{hiddenEffect effect.flags.demonlord.notDeletable}}"
+            >
+              <i class="fas fa-times"></i>
+            </a>
+          </div>
+        </li>
+      {{/each}}
+    </ol>
+  {{/each}}
+</ol>

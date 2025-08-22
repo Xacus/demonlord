@@ -261,7 +261,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
         context.active = context.tab.active
         break
       case 'ancestry':
-        case 'path':
+      case 'path':
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
         context.active = context.tab.active
@@ -791,7 +791,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   async _onNullifyStat(event) {
     const key = event.target.closest('[data-key]').dataset.key
     const keyName = `${key}Immune`
-    await this.item.update({ system: { attributes: { [keyName]: !this.item.system.attributes[keyName] }}})
+    await this.document.update({ system: { attributes: { [keyName]: !this.document.system.attributes[keyName] }}})
   }
 
   _getPathDataFromForm() {
@@ -1035,7 +1035,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   }
 
   async _onDropItem(ev) {
-    if (this.document.system?.contents != undefined){
+    if (this.document.system?.contents != undefined) {
       try {
         const itemData = JSON.parse(ev.dataTransfer.getData('text/plain'))
         if (itemData.type === 'Item') {
