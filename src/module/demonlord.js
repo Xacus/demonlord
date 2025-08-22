@@ -166,6 +166,14 @@ Hooks.once('init', async function () {
   activateSocketListener()
 })
 
+Hooks.once('renderCompendiumDirectory', async function(app, html, data) {
+  const button = document.createElement('input')
+  button.setAttribute('type', 'button')
+  button.innerText = game.i18n.localize('DL.CompendiumBrowser')
+  html.append(button)
+  console.log(data)
+})
+
 Hooks.once('ready', async function () {
   // If the turn marker is not set, use ours as a themed fallback
   const combatConfig = game.settings.get('core', 'combatTrackerConfig')
