@@ -81,6 +81,8 @@ export class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV
     resultsweapon: { template: 'systems/demonlord/templates/compendium-browser/results-weapon.hbs' },
   }
 
+  searchType = ''
+
   // #region Data Preparation
 
   /** @override */
@@ -90,13 +92,10 @@ export class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV
     // These parts are always rendered
     options.parts = ['search']
 
-    if (!ignoredParts.includes(this.document.type)) {
-      options.parts.push(this.document.type)
-    }
 
     // Add parts depending on the current selected  type (in search)
-    options.parts.push(`filters${context.search.type}`)
-    options.parts.push(`results${context.search.type}`)
+    options.parts.push(`filters${this.searchType}`)
+    options.parts.push(`results${this.searchType}`)
 
     // Finally, adjust the window position according to the type
     // this._adjustSizeByItemType(this.document.type, this.position) // Maybe not needed
@@ -278,7 +277,7 @@ export class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Search items in sources with filters
-    context.results = await filterItems(context)
+    context.results = await this.filterItems(context)
 
   }
 
@@ -290,6 +289,8 @@ export class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV
   // }
 
   // #endregion
+
+  // #region Other Functions
 
   async indexCompendia(compendia) {
     return await Promise.all(compendia.map(async compendiumId => {
@@ -373,4 +374,6 @@ export class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV
 
     return results
   }
+
+  // #endregion
 }
