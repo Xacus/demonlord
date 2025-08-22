@@ -1,0 +1,124 @@
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="magic">
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+    <div class="col-4">{{localize "DL.MagicTitle"}}</div>
+    <div class="col-2"></div>
+    <div class="col-2">{{localize "DL.SpelltypeHeader"}}</div>
+    <div class="col-1">{{localize "DL.SpellRank"}}</div>
+    <div class="col-1">{{localize "DL.WeaponBoonsBanesShort"}}</div>
+    <div class="col-1">{{localize "DL.TalentUsesTitle"}}</div>
+    <div class="col-1">
+      <a class="spell-create" title="{{localize 'DL.MagicAddSpell'}}" data-type="spell"><i class="fas fa-plus"></i></a>
+    </div>
+  </div>
+
+  {{#each actor.spellbook as |spellbook id|}}
+  <!-- Tradition Header -->
+  {{#if spellbook.tradition}}
+  <div class="dl-text-header-lower">
+    {{localize "DL.MagicTradition"}}: {{spellbook.tradition}}
+  </div>
+  {{/if}}
+
+  {{#each spellbook.spells as |spell id|}}
+  <div class="dl-item-row dropitem" data-item-id="{{spell._id}}">
+
+    <!-- Informations -->
+    <div class="row">
+      <div class="col-6">
+        <img class="dl-clickable item-edit" src="{{spell.img}}" title="{{spell.name}}" width="32" height="32" />
+        <label class="magic-roll dl-rollable">{{spell.name}}</label>
+        <div class="dl-clickable dlToggleInfoBtn">
+          <i class="fas fa-angle-right"></i> {{localize "DL.SpellShowSpellInfo"}}
+        </div>
+      </div>
+
+      <div class="col-2">{{defaultValue system.spelltype "―"}}</div>
+      <div class="col-1">{{system.rank}}</div>
+      <div class="col-1">
+        {{defaultValue (plusify system.action.boonsbanes) 0}}
+      </div>
+      <div class="col-1 spell-uses dl-clickable">
+        {{#if system.castings.max}}
+        {{defaultValue system.castings.value 0}} / {{system.castings.max}}
+        <i class="fas fa-arrows-alt-v"></i>
+        {{/if}}
+      </div>
+      <div class="col-1">
+        {{#if (dlIsNestedItem spell)}}
+        <a class="dl-clickable spell-delete" title="{{dlGetNestedItemSource spell}}"><i
+            class="fa-solid fa-link"></i></a>
+        {{else}}
+        <a class="dl-clickable spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i class="fas fa-times"></i></a>
+        {{/if}}
+      </div>
+    </div>
+
+    <!-- Toggleable Info -->
+    <div class="dlInfo dl-item-info" style="display: none;">
+      <div class="row dl-item-info-header">
+        <div class="col-6">
+          <b>{{spell.name}}</b>
+        </div>
+        <div class="col-6" style="margin-right: 0;">
+          <b>{{spellbook.tradition}} {{system.spelltype}} {{system.rank}}</b>
+        </div>
+      </div>
+      <hr />
+      {{#if system.requirements}}
+      <div>
+        <b>{{localize "DL.Requirements"}}</b> {{system.requirements}}
+      </div>
+      {{/if}}
+      {{#if system.target}}
+      <div>
+        <b>{{localize "DL.SpellTarget"}}</b> {{system.target}}
+      </div>
+      {{/if}}
+      {{#if system.area}}
+      <div>
+        <b>{{localize "DL.SpellArea"}}</b> {{system.area}}
+      </div>
+      {{/if}}
+      {{#if system.duration}}
+      <div>
+        <b>{{localize "DL.SpellDuration"}}</b> {{system.duration}}
+      </div>
+      {{/if}}
+      <hr />
+      {{#if system.description}}
+      <div>
+        {{{system.enrichedDescription}}}
+      </div>
+      {{/if}}
+      {{#if system.sacrifice}}
+      <div>
+        <b>{{localize "DL.SpellSacrifice"}}</b> {{system.sacrifice}}
+      </div>
+      {{/if}}
+      {{#if system.permanence}}
+      <div>
+        <b>{{localize "DL.SpellPermanence"}}</b> {{system.permanence}}
+      </div>
+      {{/if}}
+      {{#if system.triggered}}
+      <div>
+        <b>{{localize "DL.SpellTriggered"}}</b> {{system.triggered}}
+      </div>
+      {{/if}}
+      {{#if system.action.plus20}}
+      <div>
+        <b>{{localize "DL.SpellRollPlus20"}}</b> {{system.action.plus20}}
+      </div>
+      {{/if}}
+      {{#if system.aftereffect}}
+      <div>
+        <b>{{localize "DL.SpellAftereffect"}}</b> {{system.aftereffect}}
+      </div>
+      {{/if}}
+
+    </div>
+  </div>
+
+  {{/each}}
+  {{/each}}
+</div>

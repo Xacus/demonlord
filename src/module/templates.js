@@ -53,6 +53,18 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/actor/vehicle-header.hbs',
     'systems/demonlord/templates/actor/vehicle-sidemenu.hbs',
 
+    // Actor sheet tabs
+    'systems/demonlord/templates/actor/tabs/activeeffects.hbs',
+    'systems/demonlord/templates/actor/tabs/afflictions.hbs',
+    'systems/demonlord/templates/actor/tabs/background.hbs',
+    'systems/demonlord/templates/actor/tabs/character.hbs',
+    'systems/demonlord/templates/actor/tabs/combat.hbs',
+    'systems/demonlord/templates/actor/tabs/effects.hbs',
+    'systems/demonlord/templates/actor/tabs/effectsoverview.hbs',
+    'systems/demonlord/templates/actor/tabs/item.hbs',
+    'systems/demonlord/templates/actor/tabs/magic.hbs',
+    'systems/demonlord/templates/actor/tabs/talents.hbs',
+
     // General templates
     'systems/demonlord/templates/generic/tab-navigation.hbs',
     "systems/demonlord/templates/item/parts/AE-config-details.hbs",

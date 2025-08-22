@@ -17,6 +17,7 @@ import * as playerMacros from './macros/player-macros'
 import {DLAfflictions} from './active-effects/afflictions'
 import {DLActiveEffectConfig} from './active-effects/sheets/active-effect-config'
 import DLCharacterSheet from './actor/sheets/character-sheet'
+import DLCharacterSheetV2 from './actor/sheets/character-sheet-v2.js'
 import DLCreatureSheet from './actor/sheets/creature-sheet'
 import DLVehicleSheet from './actor/sheets/vehicle-sheet'
 import DLBaseItemSheet from './item/sheets/base-item-sheet.js'
@@ -45,8 +46,7 @@ import 'tippy.js/dist/tippy.css';
 import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
 import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
-import { activateSocketListener } from "./utils/socket.js"
-import TokenRulerDemonLord from "./utils/token-ruler.js"
+import { activateSocketListener } from "./utils/socket.js";
 
 const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
 const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
@@ -119,6 +119,11 @@ Hooks.once('init', async function () {
     makeDefault: true,
   })
 
+  Actors.registerSheet('demonlord', DLCharacterSheetV2, {
+    types: ['character'],
+    makeDefault: false,
+  })  
+
   Actors.registerSheet('demonlord', DLCreatureSheet, {
     types: ['creature'],
     makeDefault: false,
@@ -159,19 +164,6 @@ Hooks.once('init', async function () {
     Babele.get().setSystemTranslationsDir('packs/translations')
   }
   activateSocketListener()
-
-  // Token Ruler
-  if (game.settings.get('demonlord', 'integrateTokenRuler')) {
-    delete CONFIG.Token.movement.actions.blink
-    delete CONFIG.Token.movement.actions.jump
-    delete CONFIG.Token.movement.actions.burrow
-    delete CONFIG.Token.movement.actions.climb.getCostFunction
-    delete CONFIG.Token.movement.actions.crawl.getCostFunction
-    delete CONFIG.Token.movement.actions.fly.getCostFunction
-    delete CONFIG.Token.movement.actions.swim.getCostFunction
-    CONFIG.Token.movement.actions.fly.canSelect = token => token?.actor?.system.canFly
-    CONFIG.Token.rulerClass = TokenRulerDemonLord
-  }
 })
 
 Hooks.once('ready', async function () {
