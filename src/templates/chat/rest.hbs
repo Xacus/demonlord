@@ -1,9 +1,14 @@
 <div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
   {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
-  <div class="showlessinfo"></div>
+  <div class="showlessinfo">{{data.actorInfo}}</div>
   <header class="init-header">
     <div class="inittext">
-      {{localize "DL.DialogRest"}}
+      {{localize "DL.DialogRest"}} ({{#if (eq data.restTime 8)}}{{localize "DL.DialogRest8hrs"}}{{/if}}{{#if (eq data.restTime 24)}}{{localize "DL.DialogRest24hrs"}}{{/if}})
     </div>
   </header>
+  <ul>
+    {{#unless data.talentRecovery}} <li>{{localize "DL.DialogRestNoTalentChat"}}</li> {{/unless}}
+    {{#unless data.magicRecovery}} <li>{{localize "DL.DialogRestNoMagicChat"}}</li> {{/unless}}
+    {{#unless data.healing}} <li>{{localize "DL.DialogRestNoHealingChat"}}</li> {{/unless}}
+  </ul>
 </div>

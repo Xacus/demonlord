@@ -53,27 +53,6 @@ nav.sheet-subnavigation {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--demonlord-red) transparent;
-
-  .descriptionblock {
-    margin: 10px 5px 0 5px;
-    height: 100%;
-    font-size: 13px;
-
-    textarea {
-      font-family: $font-primary;
-      border: 1px solid #7a7971;
-      background: rgba(0, 0, 0, 0.05);
-      resize: vertical;
-      height: 200px;
-
-      &:focus:not([readonly]),
-      &:active:not([readonly]) {
-        box-shadow: 0 0 5px red;
-        border: 1px solid #7a7971;
-        outline: 0;
-      }
-    }
-  }
 }
 
 .sheet-body .sheet-content .limited {

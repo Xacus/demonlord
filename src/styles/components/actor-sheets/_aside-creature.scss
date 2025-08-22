@@ -6,31 +6,29 @@ form {
   }
 
   .sidebar {
-    .frightening {
-      input.checkbox + label {
-        top: -4px;
-        left: -2px;
-        width: 26px;
-        height: 26px;
-        border-radius: 16px;
-      }
-
-      input.checkbox:checked + label {
-        background-image: url('../assets/icons/effects/terror.svg');
-      }
-    }
-
+    .frightening,
     .horrifying {
-      input.checkbox + label {
-        top: -3px;
-        left: -2px;
-        width: 26px;
-        height: 26px;
-        border-radius: 16px;
+      input {
+        position: relative;
+        top: -7px;
+        left: -7px;
+        width: 0px;
+        height: 0px;
+
+        // Fix for frightening/horrifying checkbox tick not appearing in Firefox
+        appearance: initial;
+        -moz-appearance: initial;
       }
 
-      input.checkbox:checked + label {
-        background-image: url('../assets/icons/effects/horrified.svg');
+      input:checked::before {
+        display: inline-block;
+        content: '';
+        width: 40px;
+        height: 40px;
+        background-image: url('../assets/ui/bloodstain.webp');
+        position: relative;
+        top: -5px;
+        left: -7px;
       }
     }
 
@@ -130,17 +128,19 @@ form {
     transition: left 200ms ease-in-out;
     position: relative;
     background-color: var(--demonlord-red);
-    width: 100px;
+    width: 150px;
     height: 32px;
     border-radius: 0 5px 5px 0;
     line-height: 32px;
     text-align: center;
-    left: -80px;
+    left: -130px;
     pointer-events: initial;
+    margin-bottom: 2px;
   }
 
   .dl-side-tab:hover {
     left: -20px;
+    margin-left: 20px;
   }
 }
 
@@ -158,6 +158,11 @@ form {
       -webkit-transform: translateX(116px);
       -ms-transform: translateX(116px);
       transform: translateX(116px);
+    }
+
+    input:disabled + .slider:before {
+      content: '';
+      background-image: url('../assets/ui/bloodstain.webp');
     }
   }
 }

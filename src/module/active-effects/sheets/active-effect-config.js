@@ -1,18 +1,30 @@
-export class DLActiveEffectConfig extends ActiveEffectConfig {
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['sheet', 'active-effect-sheet'],
-      template: 'systems/demonlord/templates/item/active-effect-config.hbs',
-      width: 580,
-      height: 'auto',
-      tabs: [{ navSelector: '.tabs', contentSelector: 'form', initial: 'details' }],
-    })
-  }
+export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
+  constructor(options) {
+      super(options)
+    }
+
+  static DEFAULT_OPTIONS = {
+    window: {
+      title: "EFFECT.ConfigTitle",
+      resizable: true
+    },
+    position: {
+      height: "auto",
+      width: 580
+    },
+    classes: ["sheet", "active-effect-sheet"],
+  };
+
+  static PARTS = foundry.utils.mergeObject(super.PARTS ?? {}, {
+    details: { template: "systems/demonlord/templates/item/parts/AE-config-details.hbs"},
+    duration: { template: "systems/demonlord/templates/item/parts/AE-config-duration.hbs"},
+    changes: { template: "systems/demonlord/templates/item/parts/AE-config-changes.hbs"}
+  })
+
 
   /** @override */
-  async getData(options={}) {
-    let context = await super.getData(options)
+  async _prepareContext(options={}) {
+    let context = await super._prepareContext(options)
     const legacyTransfer = CONFIG.ActiveEffect.legacyTransferral
 
     const labels = {
@@ -22,15 +34,14 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       }
     }
 
-    const effect = foundry.utils.deepClone(this.object)
+    const effect = foundry.utils.deepClone(this.document)
     const data = {
       labels,
       effect: effect, // Backwards compatibility
       data: effect,
-      isActorEffect: this.object.parent.documentName === 'Actor',
-      isItemEffect: this.object.parent.documentName === 'Item',
-      submitText: 'EFFECT.Submit',
-      descriptionHTML: TextEditor.enrichHTML(this.object.description, {async: true, secrets: this.object.isOwner}),
+      isActorEffect: this.document.parent.documentName === 'Actor',
+      isItemEffect: this.document.parent.documentName === 'Item',
+      descriptionHTML: foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.description, {async: true, secrets: this.document.isOwner}),
       modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
         obj[e[1]] = game.i18n.localize('EFFECT.MODE_' + e[0])
         return obj
@@ -39,20 +50,31 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
 
     context = foundry.utils.mergeObject(context, data)
 
-    context.descriptionHTML = await TextEditor.enrichHTML(effect.description, { async: true, secrets: effect.isOwner})
+    context.descriptionHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, { async: true, secrets: effect.isOwner})
     context.availableChangeKeys = DLActiveEffectConfig._availableChangeKeys
+    context.specialDurations = DLActiveEffectConfig._specialDurations
 
     return context
   }
 
-  activateListeners(html) {
-    super.activateListeners(html)
-    // Change the duration in rounds based on seconds and vice-versa
-    // const inputSeconds = html.find('input[name="duration.seconds"]')
-    // const inputRounds = html.find('input[name="duration.rounds"]')
-    // inputSeconds.change(_ => inputRounds.val(Math.floor(inputSeconds.val() / 10)))
-    // inputRounds.change(_ => inputSeconds.val(inputRounds.val() * 10))
+  // eslint-disable-next-line 
+  _onRender(context, options) {
+    const currTabId = Object.values(context.tabs)?.find(i => i.active)?.id;
+    if (currTabId !== "changes") this.position.height = this.element.offsetHeight ?? "auto";
   }
+
+static initializeSpecialDurations() {
+    DLActiveEffectConfig._specialDurations = {
+        'None': i18n('DL.SpecialDurationNone'),
+        'TurnStart': i18n('DL.SpecialDurationTurnStart'),
+        'TurnEnd': i18n('DL.SpecialDurationTurnEnd'),
+        'TurnStartSource': i18n('DL.SpecialDurationTurnStartSource'),
+        'TurnEndSource': i18n('DL.SpecialDurationTurnEndSource'),
+        'NextD20Roll': i18n('DL.SpecialDurationNextD20Roll'),
+        'NextDamageRoll': i18n('DL.SpecialDurationNextDamageRoll'),
+        'RestComplete': i18n('DL.SpecialDurationRestComplete')
+    }
+}
 
   static initializeChangeKeys() {
     DLActiveEffectConfig._availableChangeKeys = {
@@ -71,6 +93,14 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.attributes.intellect.immune': i18n('DL.ImmuneAttribute') + ' - ' + i18n('DL.AttributeIntellect'),
       'system.attributes.will.immune': i18n('DL.ImmuneAttribute') + ' - ' + i18n('DL.AttributeWill'),
       'system.attributes.perception.immune': i18n('DL.ImmuneAttribute') + ' - ' + i18n('DL.AttributePerception'),
+      // Attribute requirement modifier
+      'system.attributes.strength.requirementModifier': i18n('DL.Requirements') + ' - ' + i18n('DL.AttributeStrength'),
+      'system.attributes.agility.requirementModifier': i18n('DL.Requirements') + ' - ' + i18n('DL.AttributeAgility'),
+      'system.attributes.intellect.requirementModifier': i18n('DL.Requirements') + ' - ' + i18n('DL.AttributeIntellect'),
+      'system.attributes.will.requirementModifier': i18n('DL.Requirements') + ' - ' + i18n('DL.AttributeWill'),
+      'system.attributes.perception.requirementModifier': i18n('DL.Requirements') + ' - ' + i18n('DL.AttributePerception'),
+      // Immune
+      'system.bonuses.immune.affliction': i18n('DL.ImmuneAffliction'),
       // Characteristics
       'system.characteristics.speed': i18n('DL.Characteristics') + ' - ' + i18n('DL.CharSpeed'),
       'system.characteristics.defense': i18n('DL.Characteristics') + ' - ' + i18n('DL.AttributeDefense'),
@@ -90,8 +120,22 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.bonuses.attack.boons.will': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributeWill'),
       'system.bonuses.attack.boons.perception': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AttributePerception'),
       'system.bonuses.attack.boons.all': i18n('DL.TalentAttackBoonsBanes') + ' - ' + i18n('DL.AllTitle'),
-      'system.bonuses.attack.damage': i18n('DL.TalentExtraDamage'),
-      'system.bonuses.attack.plus20Damage': i18n('DL.TalentExtraDamage20plus'),
+      'system.bonuses.attack.modifier.spell': i18n('DL.AttackRollBonuses') + ' - ' + i18n('DL.MagicSpellsTitle'),
+      'system.bonuses.attack.modifier.weapon': i18n('DL.AttackRollBonuses') + ' - ' + i18n('DL.WeaponTitle'),
+      'system.bonuses.attack.modifier.strength': i18n('DL.AttackRollBonuses') + ' - ' + i18n('DL.AttributeStrength'),
+      'system.bonuses.attack.modifier.agility': i18n('DL.AttackRollBonuses') + ' - ' + i18n('DL.AttributeAgility'),
+      'system.bonuses.attack.modifier.intellect': i18n('DL.AttackRollBonuses') + ' - ' + i18n('DL.AttributeIntellect'),
+      'system.bonuses.attack.modifier.will': i18n('DL.AttackRollBonuses') + ' - ' + i18n('DL.AttributeWill'),
+      'system.bonuses.attack.modifier.perception': i18n('DL.AttackRollBonuses') + ' - ' + i18n('DL.AttributePerception'),
+      'system.bonuses.attack.modifier.all': i18n('DL.AttackRollBonuses') + ' - ' + i18n('DL.AllTitle'),
+      'system.bonuses.attack.damage.spell': i18n('DL.TalentExtraDamage') + ' - ' + i18n('DL.MagicSpellsTitle'),
+      'system.bonuses.attack.damage.weapon': i18n('DL.TalentExtraDamage') + ' - ' + i18n('DL.WeaponTitle'),
+      'system.bonuses.attack.damage.talent': i18n('DL.TalentExtraDamage') + ' - ' + i18n('DL.TalentTitle'),
+      'system.bonuses.attack.damage.all': i18n('DL.TalentExtraDamage') + ' - ' + i18n('DL.AllTitle'),
+      'system.bonuses.attack.plus20Damage.spell': i18n('DL.TalentExtraDamage20plus') + ' - ' + i18n('DL.MagicSpellsTitle'),
+      'system.bonuses.attack.plus20Damage.weapon': i18n('DL.TalentExtraDamage20plus') + ' - ' + i18n('DL.WeaponTitle'),
+      'system.bonuses.attack.plus20Damage.talent': i18n('DL.TalentExtraDamage20plus') + ' - ' + i18n('DL.TalentTitle'),
+      'system.bonuses.attack.plus20Damage.all': i18n('DL.TalentExtraDamage20plus') + ' - ' + i18n('DL.AllTitle'),
       'system.bonuses.attack.extraEffect': i18n('DL.TalentExtraEffect'),
       // Challenge bonuses
       'system.bonuses.challenge.boons.strength': i18n('DL.TalentChallengeBoonsBanes') + ' - ' + i18n('DL.AttributeStrength'),
@@ -104,7 +148,6 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.bonuses.armor.fixed': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.ArmorFixed'),
       'system.bonuses.armor.agility': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeAgility'),
       'system.bonuses.armor.defense': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.AttributeDefense'),
-      'system.bonuses.armor.override': i18n('DL.ArmorTitle') + ' - ' + i18n('DL.Override'),
       // Defense
       'system.bonuses.defense.boons.spell': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.MagicSpellsTitle'),
       'system.bonuses.defense.boons.weapon': i18n('DL.TalentDefenseBoonsBanes') + ' - ' + i18n('DL.WeaponTitle'),
@@ -128,7 +171,6 @@ export class DLActiveEffectConfig extends ActiveEffectConfig {
       'system.maluses.autoFail.action.will': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributeWill'),
       'system.maluses.autoFail.action.perception': i18n('DL.AutoFailActions') + ' - ' + i18n('DL.AttributePerception'),
       // Other maluses
-      'system.maluses.halfSpeed': i18n('DL.Malus') + ' - ' + i18n('DL.HalfSpeed'),
       'system.maluses.noFastTurn': i18n('DL.Malus') + ' - ' + i18n('DL.NoFastTurns'),
       'system.maluses.noAttacks': i18n('DL.Malus') + ' - ' + i18n('DL.NoAttacks'),
       'system.maluses.noSpecialAttacks': i18n('DL.Malus') + ' - ' + i18n('DL.NoSpecialAttacks'),

@@ -20,3 +20,11 @@ Icons / SVGs
 - <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by iconmas - Flaticon</a>
 - <a href="https://thenounproject.com/icon/level-4300479" title="level icons">Level icons created by darkassbola - Noun Project</a>
 - <a href="https://thenounproject.com/icon/exclamation-mark-1755431/" title="exclamation mark icons">Exclamation Mark icons created by heri sugianto - Noun Project</a>
+- <a href="https://www.flaticon.com/free-icons/beer-mug" title="beer mug icons">Beer mug icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/bread" title="bread icons">Bread icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/potion" title="potion icons">Potion icons created by Vector Stall - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/poison" title="poison icons">Poison icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/box" title="box icons">Box icons created by bqlqn - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/destroyed-planet" title="destroyed planet icons">Destroyed planet icons created by Mayor Icons - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/sharp" title="sharp icons">Sharp icons created by edt.im - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/attack" title="attack icons">Attack icons created by Smashicons - Flaticon</a>

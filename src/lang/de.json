@@ -2,7 +2,8 @@
   "TYPES": {
     "Actor": {
       "character": "PC/NPC",
-      "creature": "Kreatur"
+      "creature": "Kreatur",
+      "vehicle": "Fahrzeug"
     },
     "Item": {
       "ammo": "Munition",
@@ -15,6 +16,7 @@
       "language": "Sprache",
       "path": "Pfade",
       "profession": "Berufe",
+      "relic": "Relikt",
       "specialaction": "Spezial aktion",
       "spell": "Zauber",
       "talent": "Talent",
@@ -212,7 +214,7 @@
   "DL.SpellDuration": "Dauer",
   "DL.SpellTarget": "Ziel",
   "DL.SpellArea": "Wirkungsbereich",
-  "DL.SpellRequirements": "Vorraussetzungen",
+  "DL.Requirements": "Vorraussetzungen",
   "DL.SpellSacrifice": "Opfer",
   "DL.SpellPermanence": "Dauerhaft",
   "DL.SpellAftereffect": "Andere Effekte",
@@ -448,7 +450,7 @@
   "DL.ModsRoundsLeft": " verbleibend",
   "DL.ModsListBoonsBanes": "Boni/Mali",
   "DL.ModsListDamage": "Schaden",
-  "DL.ModsListAttack": "Angriff",
+  "DL.Attack": "Angriff",
   "DL.ModsListChallenge": "Probe",
   "DL.ModsListDefense": "Verteidigung",
   "DL.ModsListHealth": "Lebenspunkte",

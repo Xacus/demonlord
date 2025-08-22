@@ -3,7 +3,7 @@ import DLBaseActorSheet from './base-actor-sheet'
 export default class DLVehicleSheet extends DLBaseActorSheet {
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['vehicle', 'sheet', 'actor', 'dl-sheet'],
       template: 'systems/demonlord/templates/actor/vehicle-sheet.hbs',
       width: 900,

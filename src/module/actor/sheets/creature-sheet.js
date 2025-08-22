@@ -3,7 +3,7 @@ import DLBaseActorSheet from './base-actor-sheet'
 export default class DLCreatureSheet extends DLBaseActorSheet {
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['creature', 'sheet', 'actor', 'dl-sheet'],
       template: 'systems/demonlord/templates/actor/creature-sheet.hbs',
       width: 900,
@@ -49,13 +49,16 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     actorData.specialactions = noSpecialActions ? [] : (m.get('specialaction') || [])
     actorData.endoftheround = noEndOfRound ? [] : (m.get('endoftheround') || [])
     actorData.roles = m.get('creaturerole') || []
+    actorData.gear = m.get('item') || []
+    actorData.relics = m.get('relic') || []
   }
 
   /* -------------------------------------------- */
 
   /** @override */
   async checkDroppedItem(itemData) {
-    if (['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'relic'].includes(itemData.type)) return false
+    let preventedItems = await game.settings.get('demonlord', 'addCreatureInventoryTab') ? ['armor', 'ammo', 'ancestry', 'path', 'profession', 'language'] : ['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'relic']
+    if (preventedItems.includes(itemData.type)) return false
     return true
   }
 

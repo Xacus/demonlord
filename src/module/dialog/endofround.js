@@ -1,31 +1,50 @@
-export class DLEndOfRound extends FormApplication {
-  static get defaultOptions() {
-    const options = super.defaultOptions
-    options.id = 'sheet-modifiers'
-    options.classes = ['demonlorddialog', 'dialog']
-    options.template = 'systems/demonlord/templates/dialogs/endofround-dialog.hbs'
-    options.width = 430
-    options.height = 430
-    return options
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+
+const { TextEditor } = foundry.applications.ux //eslint-disable-line no-shadow
+
+export class DLEndOfRound extends HandlebarsApplicationMixin(ApplicationV2) {
+  static DEFAULT_OPTIONS = {
+    tag: 'form',
+    form: {
+      handler: this.onSubmit,
+      submitOnChange: false,
+      closeOnSubmit: true
+    },
+    //id: 'sheet-modifiers',
+    //title: 'End of the Round Effects',
+    classes: ['sheet', 'end-of-round'],
+    actions: {
+      toggleEffectInfo: this.toggleEffectInfo,
+      editItem: this.editItem,
+      rollItem: this.rollItem,
+    },
+    position: {
+      width: 430,
+      height: 430
+    }
   }
-  /* -------------------------------------------- */
-  /**
-   * Add the Entity name into the window title
-   * @type {String}
-   */
+
+  static PARTS = {
+    form: {
+      template: 'systems/demonlord/templates/dialogs/endofround-dialog.hbs'
+    }
+  }
+  
+  /** @inheritDoc */
   get title() {
-    return `End of the Round Effects`
+    return game.i18n.localize('DL.CreatureSpecialEndRound')
   }
-  /* -------------------------------------------- */
 
   /**
-   * Construct and return the data object used to render the HTML template for this form application.
-   * @return {Object}
+   * Prepare application rendering context data for a given render request.
+   * @param {RenderOptions} options                 Options which configure application rendering behavior
+   * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
+   * @protected
    */
-  async getData() {
-    let creatures = {}
-    const currentCombat = game.combat
-    const combatants = Array.from(currentCombat.combatants?.values()) || []
+  async _prepareContext() {
+    const creatures = []
+    //const currentCombat = game.combat
+    const combatants = Array.from(this.currentCombat.combatants?.values()) || []
 
     await combatants
       .filter(combatant => !combatant.defeated && combatant.actor.type === 'creature')
@@ -42,7 +61,7 @@ export class DLEndOfRound extends FormApplication {
       })
 
     // Enrich descriptions
-    for (const creature of Object.values(creatures)) {
+    for (const creature of creatures) {
       creature.endOfRoundEffects.forEach(async e => {
         e.system.enrichedDescription = await TextEditor.enrichHTML(e.system.description)
       })
@@ -50,61 +69,62 @@ export class DLEndOfRound extends FormApplication {
 
     return { creatures }
   }
-  /* -------------------------------------------- */
 
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html)
+  // /* -------------------------------------------- */
 
-    // Toggle Spell Info
-    html.find('.toggleEffectInfo').click(ev => {
-      const div = ev.currentTarget
-      const _parent = div.parentElement
-      if (_parent.children[2].style.display === 'none') {
-        _parent.children[2].style.display = 'block'
-      } else {
-        _parent.children[2].style.display = 'none'
-      }
+   /**
+   * Process form submission for the sheet
+   * @this {MyApplication}                      The handler is called with the application as its bound scope
+   * @param {SubmitEvent} event                   The originating form submission event
+   * @param {HTMLFormElement} form                The form element that was submitted
+   * @param {FormDataExtended} formData           Processed data for the submitted form
+   * @returns {Promise<void>}
+   */
+   static async onSubmit(event, form, formData) {
+    await this.object.update({
+      formData
     })
+    this.object.sheet.render(true)
+  }
 
-    html.find('.item-edit').click(async event => {
-      const itemId = event.currentTarget.closest("[data-item-id]").dataset.itemId
-      const actorId = event.currentTarget.closest("[data-actor-id]").dataset.actorId
-      const actor = this.object.combatants.find(c => c.actor._id === actorId).actor
-      const item = actor.items.get(itemId)
-      item.sheet.render(true)
-    })
+  /**
+   * Toggle Spell Info
+   * @param {*} event 
+   * @param {*} target 
+   */
+  static async toggleEffectInfo(event) {
+    const infoElement = event.target.parentElement.querySelector('.effectInfo')
+    infoElement.style.display = infoElement.style.display === 'none' ? 'block' : 'none'
+  }
 
-    html.find('.rollable, .item-roll').click(async event => {
-      event.preventDefault()
-      const element = event.currentTarget
-      const dataset = element.dataset
+  static async editItem(event) {
+    const itemId = event.target.closest("[data-item-id]").dataset.itemId
+    const actorId = event.target.closest("[data-actor-id]").dataset.actorId
+    const actor = this.object.combatants.find(c => c.actor._id === actorId).actor
+    const item = actor.items.get(itemId)
+    item.sheet.render(true)
+  }
+
+  static async rollItem(event) {
+    event.preventDefault()
+      const dataset = event.target.dataset
       if (dataset.roll) {
         const roll = new Roll(dataset.roll, this.actor.system)
         const label = dataset.label ? `Rolling ${dataset.label}` : ''
         await roll.roll().toMessage({
-          speaker: ChatMessage.getSpeaker({actor: this.actor}),
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
           flavor: label,
         })
       } else {
-        const itemId = event.currentTarget.closest("[data-item-id]").dataset.itemId
-        const actorId = event.currentTarget.closest("[data-actor-id]").dataset.actorId
-        const actor = this.object.combatants.find(c => c.actor._id === actorId).actor
-        await actor.rollItem(itemId, {event: event})
+        const itemId = event.target.closest("[data-item-id]").dataset.itemId
+        const actorId = event.target.closest("[data-actor-id]").dataset.actorId
+        const actor = this.currentCombat.combatants.find(c => c.actor._id === actorId).actor
+        await actor.rollItem(itemId, { event: event })
       }
-    })
   }
 
-  /**
-   * This method is called upon form submission after form data is validated
-   * @param event {Event}       The initial triggering submission event
-   * @param formData {Object}   The object of validated form data with which to update the object
-   * @private
-   */
-  async _updateObject(event, formData) {
-    await this.object.update({
-      formData,
-    })
-    this.object.sheet.render(true)
+  constructor(object, options) {
+    super(options)
+    this.currentCombat = object
   }
 }

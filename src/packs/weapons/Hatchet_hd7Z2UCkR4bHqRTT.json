@@ -8,7 +8,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Off",
+    "hands": "off",
     "properties": "Thrown, Range (short)",
     "availability": "C",
     "value": "1 ss",

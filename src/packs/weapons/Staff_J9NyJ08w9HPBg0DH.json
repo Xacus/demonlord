@@ -8,7 +8,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Two",
+    "hands": "two",
     "properties": "Finesse",
     "availability": "C",
     "value": "5 cp",

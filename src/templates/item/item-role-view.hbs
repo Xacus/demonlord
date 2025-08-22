@@ -1,124 +1,117 @@
 <!-- START OF TEMPLATES -->
+{{#*inline "AttributeViewer"}}
+  {{#if (or mandatory value)}}
+  <div class="item-group-attribute-value display-only" data-tippy-content="{{localize loc}}">
+    <i class="icon-{{icon}} themed-icon"></i>
+    <span class="sep"></span>
+    <span class="text">{{ifThen immune '-' (ifThen noPlusify value (plusify value))}}</span>
+  </div>
+  {{/if}}
+{{/inline}}
 
-{{#*inline "dlAttributeField"}}
-  <div class="dl-new-project-2 nohover">
-    <i class="dl-icon-{{attribute}}"></i>
-    <span class="sep"></span>
-    <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
-    <span class="sep"></span>
-    <span style="width: {{defaultValue width "16px"}};text-align: center;margin-left: 4px;">{{ifThen immune '-' value}}</span>
+{{#* inline "DropZoneView"}}
+  <div class="drop-zone-view" data-group="{{dataGroup}}">
+    {{#each collection as |item index|}}
+      <div class="nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}" {{#if item.system.enrichedDescriptionUnrolled}}data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"{{/if}}>
+        <img src="{{item.img}}">
+        <span class="edit-nested-item dl-clickable" data-action="editNestedItem">{{item.name}}</span>
+        {{#if ../selectable}}
+          <div style="margin-right: 1px;margin-left: auto; align-self: center"
+               data-action="transferItem"
+               class="dl-custom-checkbox dl-item-transfer {{#if item.selected}}checked{{/if}}"
+               data-tippy-content="{{localize "DL.TransferItem"}}"></div>
+        {{/if}}
+      </div>
+    {{/each}}
   </div>
 {{/inline}}
-
-{{#*inline "dlAttributeTag"}}
-  <div class="dl-new-project-2 nohover">
-    <i class="dl-icon-{{attribute}}"></i>
-    <span class="sep"></span>
-    <span style="width: 97px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
-  </div>
-{{/inline}}
-
-{{#* inline "dlModField"}}
-  {{#if value}}
-    <div class="dl-column-flex">{{> dlAttributeField attribute=attribute  value=value  loc=loc width="24px"}}</div>
-  {{/if}}
-{{/inline}}
-
-{{#* inline "dlModTag"}}
-  {{#if value}}
-    <div class="dl-column-flex">{{> dlAttributeTag attribute=attribute loc=loc width="24px"}}</div>
-  {{/if}}
-{{/inline}}
-
-{{#* inline "dlDropZoneView"}}
-  {{#if collection.length}}
-    {{#if title}}
-      <div class="dl-item-section-section-title"><b>{{localize title}}</b></div>
-    {{/if}}
-    <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}" data-group="{{dataGroup}}">
-      {{#each collection as |item index|}}
-        <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
-             {{#if item.system.enrichedDescriptionUnrolled}}data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"{{/if}}>
-          <img src="{{item.img}}">
-          <span class="edit-nested-item dl-clickable">{{item.name}}</span>
-          {{#if ../selectable}}
-            <div class="dl-custom-checkbox dl-item-transfer {{#if item.selected}}checked{{/if}}"
-                 data-tippy-content="{{localize "DL.TransferItem"}}"></div>
-          {{/if}}
-        </div>
-      {{/each}}
-    </div>
-  {{/if}}
-{{/inline}}
-
 <!-- END OF TEMPLATES -->
 
-<div class="dl-item-section-header row">
-  <div class="col-4" style="margin-top: 4px">
-    <b>{{item.name}}</b>
-  </div>
+<div class="dl-item-section-header">
+  <b>{{item.name}}</b>
 </div>
 <hr>
 
-<div class="dl-item-section-section margin left">
-  <div class="dl-item-section-section-title">
-    <b>{{localize "DL.Attributes"}}</b>
-  </div>
-  <div class="dl-column-flex">
-    {{> dlAttributeField attribute="strength"  value=system.attributes.strength  immune=system.attributes.strengthImmune  loc="DL.AttributeStrength"}}
-    {{> dlAttributeField attribute="agility"   value=system.attributes.agility   immune=system.attributes.agilityImmune   loc="DL.AttributeAgility"}}
-    {{> dlAttributeField attribute="intellect" value=system.attributes.intellect immune=system.attributes.intellectImmune loc="DL.AttributeIntellect"}}
-    {{> dlAttributeField attribute="will"      value=system.attributes.will      immune=system.attributes.willImmune      loc="DL.AttributeWill"}}
+<!-- STARTING ATTRIBUTES  -->
+<div class="dl-item-section">
+  <b>{{localize "DL.Attributes"}}</b>
+  <div class="role-attributes-container">
+    {{> AttributeViewer icon='strength' value=system.attributes.strength immune=system.attributes.strengthImmune loc='DL.AttributeStrength' mandatory=true}}
+    {{> AttributeViewer icon='agility' value=system.attributes.agility immune=system.attributes.agilityImmune loc='DL.AttributeAgility' mandatory=true}}
+    {{> AttributeViewer icon='intellect' value=system.attributes.intellect immune=system.attributes.intellectImmune loc='DL.AttributeIntellect' mandatory=true}}
+    {{> AttributeViewer icon='will' value=system.attributes.will immune=system.attributes.willImmune loc='DL.AttributeWill' mandatory=true}}
   </div>
 </div>
+
 <hr>
 
-<div class="dl-item-section-section margin dl-characteristics-container">
-  <div class="dl-item-section-section-title">
+<!-- CHARACTERISTICS MODIFIER  -->
+<div class="dl-item-section">
     <b>{{localize "DL.WeaponModifiers"}}</b>
-  </div>
-  <div class="dl-column-grid column-3">
-    {{> dlModField attribute="size"        value=system.characteristics.size                  loc="DL.CharSize"}}
-    {{> dlModField attribute="speed"       value=system.characteristics.speed                 loc="DL.CharSpeed"}}
-    {{> dlModField attribute="health"      value=system.characteristics.healthmodifier        loc="DL.CharHealth"}}
-    {{> dlModField attribute="healing"     value=system.characteristics.healingratemodifier   loc="DL.CharHealthHealingRating"}}
-    {{> dlModField attribute="perception"  value=system.characteristics.perceptionmodifier    loc="DL.AttributePerception"}}
-    {{> dlModField attribute="defense"     value=system.characteristics.defensemodifier       loc="DL.AttributeDefense"}}
-    {{> dlModField attribute="insanity"    value=system.characteristics.insanity              loc="DL.CharInsanity"}}
-    {{> dlModField attribute="corruption"  value=system.characteristics.corruption            loc="DL.CharCorruption"}}
-    {{> dlModField attribute="power"       value=system.characteristics.power                 loc="DL.CharPower"}}
-    {{> dlModField attribute="difficulty"  value=system.difficulty                            loc="DL.CreatureDifficulty"}}
-    {{> dlModTag   attribute="frightening" value=system.frightening                           loc="DL.CreatureFrightening"}}
-    {{> dlModTag   attribute="horrifying"  value=system.horrifying                            loc="DL.CreatureHorrifying"}}
+  <div class="characteristics-container">
+    {{> AttributeViewer icon='health' value=system.characteristics.health loc='DL.CharHealth'}}
+    {{> AttributeViewer icon='healing' value=system.characteristics.healingRate loc='DL.CharHealthHealingRating'}}
+    {{> AttributeViewer icon='size' value=system.characteristics.size loc='DL.CharSize'}}
+    {{> AttributeViewer icon='defense' value=system.characteristics.defense loc='DL.AttributeDefense'}}
+    {{> AttributeViewer icon='perception' value=system.characteristics.perception loc='DL.AttributePerception'}}
+    {{> AttributeViewer icon='speed' value=system.characteristics.speed loc='DL.CharSpeed'}}
+    {{> AttributeViewer icon='insanity' value=system.characteristics.insanity.value loc='DL.CharInsanity'}}
+    {{> AttributeViewer icon='corruption' value=system.characteristics.corruption.value loc='DL.CharCorruption'}}
+    {{> AttributeViewer icon='power' value=system.characteristics.power loc='DL.CharPower'}}
+    {{> AttributeViewer icon='difficulty' value=system.difficulty loc='DL.CreatureDifficulty'}}
+    {{#if system.frightening}}
+      <div class="item-group-attribute-value display-only" data-tippy-content="{{localize 'DL.IsFrightening'}}">
+        <i class="icon-frightening themed-icon"></i>
+        <span class="sep"></span>
+        <span class="text">{{localize 'DL.CreatureFrightening'}}</span>
+      </div>
+    {{/if}}
+    {{#if system.horrifying}}
+      <div class="item-group-attribute-value display-only" data-tippy-content="{{localize 'DL.IsHorrifying'}}">
+        <i class="icon-horrifying themed-icon"></i>
+        <span class="sep"></span>
+        <span class="text">{{localize 'DL.CreatureHorrifying'}}</span>
+      </div>
+    {{/if}}
   </div>
 </div>
+
 <hr>
 
-{{#if system.talents.length}}
-  <div class="dl-item-section-section margin">
-    {{> dlDropZoneView collection=system.talents title="DL.FeaturesTitle" col2=true}}
+<div class="drop-zones-container">
+  {{#if system.talents.length}}
+  <div class="dl-item-section">
+    <div class="dl-item-section-header">
+      <b>{{localize "DL.TalentTitle"}}</b>
+    </div>
+    {{> DropZoneView collection=system.talents dataGroup="talents"}}
   </div>
-  <hr>
-{{/if}}
+  {{/if}}
 
-{{#if system.weapons.length}}
-<div class="dl-item-section-section margin">
-  {{> dlDropZoneView collection=system.weapons dataGroup='weapons' title="DL.WeaponTitle" col2=true}}
+  {{#if system.weapons.length}}
+  <div class="dl-item-section">
+    <div class="dl-item-section-header">
+      <b>{{localize "DL.WeaponTitle"}}</b>
+    </div>
+    {{> DropZoneView collection=system.weapons dataGroup="weapons"}}
+  </div>
+  {{/if}}
+
+  {{#if system.spells.length}}
+  <div class="dl-item-section">
+    <div class="dl-item-section-header">
+      <b>{{localize "DL.MagicSpellsTitle"}}</b>
+    </div>
+    {{> DropZoneView collection=system.spells dataGroup="spells"}}
+  </div>
+  {{/if}}
+
+  {{#if system.endOfRound.length}}
+  <div class="dl-item-section">
+    <div class="dl-item-section-header">
+      <b>{{localize "DL.CreatureSpecialEndRound"}}</b>
+    </div>
+    {{> DropZoneView collection=system.endOfRound dataGroup="endOfRound"}}
+  </div>
+  {{/if}}
 </div>
-{{/if}}
-
-{{#if system.spells.length}}
-<div class="dl-item-section-section margin">
-  {{> dlDropZoneView collection=system.spells dataGroup='spells' title="DL.MagicSpellsTitle" col2=true}}
-</div>
-{{/if}}
-
-{{#if system.endOfRound.length}}
-<div class="dl-item-section-section margin">
-  {{> dlDropZoneView collection=system.endOfRound dataGroup='endoftheround' title="DL.CreatureSpecialEndRound" col2=true}}
-</div>
-{{/if}}
-
-
-
-

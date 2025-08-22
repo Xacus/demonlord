@@ -1,0 +1,460 @@
+$sidebar-width: 240px;
+
+.window-content:has(.demonlord-v2-actor-sheet-header-container) {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.demonlord-v2-actor-sheet-container {
+  padding: 10px;
+}
+
+/* #region Sidebar */
+
+.demonlord-v2-actor-sheet-sidebar-container {
+  height: 100%;
+  margin-left: 20px;
+  width: $sidebar-width;
+}
+
+aside {
+  background: url(../assets/ui/sidebar.webp) no-repeat top center;
+
+  text-transform: uppercase;
+  text-wrap-mode: nowrap;
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .pc-toggle {
+    position: absolute;
+    top: 5px;
+    left: 180px;
+    width: 50px;
+  }
+
+  .frame {
+    height: 180px;
+    width: 100%;
+    background: url(../assets/ui/image-circle.webp) no-repeat top left;
+    background-size: 180px 180px, cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-img {
+    height: 119px;
+    width: 119px;
+    border-radius: 60px;
+    object-fit: cover;
+    object-position: top;
+    cursor: pointer;
+  }
+
+  .sidebar-button {
+    position: absolute;
+    top: 160px;
+    width: 32px;
+    height: 32px;
+    border: solid 1px var(--demonlord-red);
+    border-radius: 25px;
+    padding: 2px;
+
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: 0 0 10px var(--demonlord-red);
+    }
+
+    input.button {
+      width: 30px;
+      height: 30px;
+      border-radius: 25px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    &.rest {
+      left: 50px;
+
+      .rest {
+        height: 30px;
+      }
+
+      img.rest-icon {
+        top: -30px;
+        position: relative;
+        pointer-events: none;
+        content: url('../../../icons/svg/sleep.svg');
+      }
+    }
+
+    &.healingratebox {
+      left: 200px;
+
+      .healingrate {
+        font-size: 18px;
+        height: 30px;
+        line-height: 24px;
+        text-align: center;
+      }
+
+      .healingratetext {
+        position: relative;
+        right: 64px;
+      }
+    }
+  }
+
+  .editBars {
+    align-self: end;
+    position: relative;
+    left: -20px;
+    top: 25px;
+  }
+
+  .barboxes {
+    .barbox {
+      height: 45px;
+      text-align: center;
+      padding-left: 5px;
+      padding-top: 15px;
+      width: 100%;
+
+      .healthedit,
+      .insanityedit,
+      .corruptionedit {
+        height: 19px;
+        border-radius: 16px;
+        border: none;
+        box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
+        font-weight: 500;
+        font-size: 13px;
+        padding-left: 2px;
+        width: 150px;
+        line-height: 0;
+        padding-top: 0;
+
+        input {
+          background-color: transparent;
+          text-align: center;
+          height: 20px;
+        }
+      }
+
+      .healthtext,
+      .insanitytext,
+      .corruptiontext {
+        width: 150px;
+        text-align: left;
+        padding-bottom: 4px;
+      }
+    }
+  }
+
+  .health,
+  .insanity,
+  .corruption {
+    margin-top: 10px;
+    padding: 5px;
+
+    .healthbar {
+      width: 178px;
+      background-color: #e0e0e0;
+      padding: 1px;
+      margin-top: 3px;
+      border-radius: 3px;
+      box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
+    }
+
+    .healthbar-fill,
+    .insanity-fill,
+    .corruption-fill {
+      display: block;
+      height: 12px;
+      background-color: var(--demonlord-red);
+      border-radius: 3px;
+      transition: width 500ms ease-in-out;
+      max-width: 100%;
+    }
+
+    .healtmax,
+    .insanitymax,
+    .corruptionmax {
+      float: right;
+      position: relative;
+      top: -15px;
+      padding-right: 5px;
+      color: #000;
+    }
+
+    .insanitymiddle,
+    .corruptionmiddle {
+      margin-top: -13px;
+      color: #000;
+      text-align: center;
+    }
+
+    .insanity-empty,
+    .corruption-empty {
+      display: block;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    .damage,
+    .insanityvalue,
+    .corruptionvalue {
+      float: left;
+      position: relative;
+      top: -15px;
+      padding-left: 5px;
+      color: #000;
+    }
+
+    .corruption-roll {
+      position: relative;
+      top: -35px;
+      left: 150px;
+    }
+  }
+
+  .insanity {
+    margin: 4px 0 0 0;
+
+    .insanity-fill {
+      background-color: #3e796a;
+    }
+  }
+
+  .corruption {
+    margin: 4px 0 0 0;
+
+    .corruption-fill {
+      background-color: #6f58c9;
+    }
+  }
+
+  .stat-bar {
+    height: 40px;
+  }
+
+  .char-stats {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+
+    .stat-box {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 0;
+
+      .value {
+        width: 60%;
+        padding: 5px 20px;
+        border-radius: 15px;
+        border: solid 1px var(--demonlord-red);
+        text-align: center;
+      }
+    }
+  }
+
+  .char-toggles {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
+    .fortune,
+    .turnmode {
+      width: 100%;
+      padding: 2px 10px;
+
+      .fortune-toggle,
+      .turn-toggle {
+        position: relative;
+        width: 100%;
+      }
+
+      .fortune-toggle {
+        .toggle-input:checked ~ .toggle-fill:after {
+          opacity: 0.5;
+        }
+
+        .off {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}
+
+/* #endregion */
+
+/* #region Header */
+
+.demonlord-v2-actor-sheet-header-container {
+  padding: 10px;
+  //position: absolute;
+  left: $sidebar-width;
+  width: calc(100% - $sidebar-width - 20px);
+}
+
+/* #endregion */
+
+.demonlord-v2-actor-sheet-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  height: 110px;
+
+  .header-fields {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .header-name {
+      width: 70%;
+    }
+
+    .header-level {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+
+      input[type='number'] {
+        border-radius: 50px;
+        width: 32px;
+        margin: 0 10px;
+        text-align: center;
+      }
+    }
+  }
+
+  .header-fields.attribute-fields {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    margin: 5px 0;
+
+    .attribute {
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-transform: uppercase;
+      font-family: 'IM Fell English SC', serif;
+
+      .name {
+        transition: text-shadow 0.3s;
+
+        &:hover {
+          text-shadow: 0 0 10px var(--demonlord-red);
+        }
+      }
+
+      .value {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        margin: 5px;
+        border: solid 1px var(--demonlord-red);
+        text-align: center;
+        font-size: 18px;
+      }
+
+      .modifier {
+        position: relative;
+        top: -50px;
+        left: 30px;
+      }
+    }
+  }
+}
+
+/* #region Tabs */
+
+.tabs {
+  width: calc(100% - $sidebar-width - 20px);
+
+  i.themed-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.demonlord-v2-tab {
+  height: calc(100% - 177px);
+  width: calc(100% - $sidebar-width - 20px);
+}
+
+/* #endregion */
+
+/* #region Character */
+
+.ancestry-paths {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-around;
+  align-items: center;
+
+  .ancestry-path-group {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .frame {
+    width: 100px;
+  }
+}
+
+.religion {
+  img {
+    position: absolute;
+    width: 40px;
+    right: 15px;
+    top: 365px;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px 0px #a22223;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
+        0 0 8px 3px #a22223;
+    }
+  }
+}
+
+/* #endregion */

@@ -1,3 +1,4 @@
+/* global fromUuidSync */
 export class DLCombat extends Combat {
 
   /**
@@ -12,6 +13,176 @@ export class DLCombat extends Combat {
     return (isPc * 20) + isFast * 50 + offset
   }
 
+  async rollInitiative(ids, options) {
+    switch (game.settings.get('demonlord', 'optionalRuleInitiativeMode')) {
+        case "s":
+            await this.rollInitiativeStandard(ids, options)
+            return this
+        case "i":
+            await this.rollInitiativeInduvidual(ids, options)
+            return this
+        case "h":
+            await this.rollInitiativeGroup(ids, options)
+            return this            
+    }
+}
+
+// eslint-disable-next-line no-unused-vars
+async rollInitiativeInduvidual(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
+  console.log("Calling rollInitiativeInduvidual with", ids, formula, updateTurn, messageOptions)
+  // Structure input data
+  ids = typeof ids === 'string' ? [ids] : ids
+  const combatantUpdates = []
+  const initMessages = []
+  let initValue
+
+  // Iterate over Combatants, performing an initiative draw for each
+  for await (const id of ids) {
+    // Get combatant. Skip if not owner or defeated
+    const combatant = this.combatants.get(id)
+    if (!combatant?.isOwner || combatant.defeated) continue;
+
+      let actorMod = combatant.actor.system.attributes.agility.modifier
+      var roll
+      if (!actorMod) roll = new Roll('1d20')
+      else roll = new Roll(`1d20+${actorMod}`)
+
+      await roll.evaluate()
+      initValue = roll._total 
+      if (initValue>=0) initValue += Math.random()
+
+      // No Fast turn malus -> at the end of the round
+      if (combatant.actor.system.maluses.noFastTurn) initValue = -5
+      let messageData = foundry.utils.mergeObject(
+        {
+          speaker: ChatMessage.getSpeaker({
+            actor: combatant.actor,
+            token: combatant.token,
+          }),
+          flavor: game.i18n.format('COMBAT.RollsInitiative', {
+            name: combatant.name,
+          }),
+          flags: {
+            'core.initiativeRoll': true,
+          },
+        },
+        {},
+      )
+      const chatData = await roll.toMessage(messageData, {
+        create: false,
+      })
+
+      chatData.rollMode = combatant.hidden ? CONST.DICE_ROLL_MODES.PRIVATE : CONST.DICE_ROLL_MODES.PUBLIC
+
+      if (game.settings.get('demonlord','initMessage')) await ChatMessage.create(chatData)
+
+    // Push the update and init message
+    combatantUpdates.push({ _id: combatant.id, initiative: initValue })
+    if (game.settings.get('demonlord', 'initMessage')) initMessages.push(await createInitChatMessage(combatant, messageOptions))
+}  
+
+  // Update multiple combatants
+  await this.updateEmbeddedDocuments("Combatant", combatantUpdates)
+  await this.update({ turn: 0 });
+  return this;
+}
+
+// eslint-disable-next-line no-unused-vars
+async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptions = {} } = {}) {
+	console.log("Calling rollInitiativeGroup with", ids, formula, updateTurn, messageOptions)
+	// Structure input data
+	ids = typeof ids === "string" ? [ids] : ids
+	let combatantUpdates = []
+	let allCombatantUpdates = []
+	const initMessages = []
+	let initValue
+	let groupInitiative
+	let currentGroup
+
+	// Iterate over Combatants, performing an initiative draw for each
+	for await (const id of ids) {
+		// Get combatant. Skip if not owner or defeated
+		const combatant = this.combatants.get(id)
+		if (!combatant?.isOwner || combatant.defeated) continue
+
+		let currentInitiative = this.combatants.get(id).initiative
+		if (currentInitiative != null) continue
+		//Do not overwrite initiative if a combatant already has but not yet updated
+		if (allCombatantUpdates.find(x => x._id === id)) continue
+
+		currentGroup = combatant.flags.demonlord.group
+		groupInitiative = game.combat.combatants.find(x => x.flags.demonlord.group === currentGroup && x.initiative != null)?.initiative
+
+    // Check if a group member already has initative, we do not rull just reuse
+		if (!groupInitiative) {
+			let roll = new Roll("1d6")
+			await roll.evaluate()
+			initValue = roll._total
+			if (initValue >= 0) initValue += Math.random()
+
+			// Set the initiative all the group members
+			const combatantsInGroup = this.combatants.filter(x => x.flags.demonlord.group === currentGroup)
+			for (const c of combatantsInGroup) {
+				if (c.actor.system.maluses.noFastTurn)
+					combatantUpdates.push({
+						_id: c._id,
+						initiative: 0
+					})
+				else
+					combatantUpdates.push({
+						_id: c._id,
+						initiative: initValue
+					})
+			}
+
+			allCombatantUpdates = allCombatantUpdates.concat(combatantUpdates)
+			combatantUpdates = []
+
+			let messageData = foundry.utils.mergeObject(
+				{
+					speaker: ChatMessage.getSpeaker({
+						actor: combatant.actor,
+						token: combatant.token
+					}),
+					flavor: game.i18n.format("COMBAT.RollsInitiative", {
+						name: combatant.name
+					}),
+					flags: {
+						"core.initiativeRoll": true
+					}
+				},
+				{}
+			)
+			const chatData = await roll.toMessage(messageData, {
+				create: false
+			})
+
+			chatData.rollMode = combatant.hidden ? CONST.DICE_ROLL_MODES.PRIVATE : CONST.DICE_ROLL_MODES.PUBLIC
+			if (game.settings.get("demonlord", "initMessage")) await ChatMessage.create(chatData)
+
+			// No Fast turn malus -> at the end of the round
+			if (combatant.actor.system.maluses.noFastTurn === 1) initValue = 0
+			allCombatantUpdates.push({ _id: combatant.id, initiative: initValue })
+			if (game.settings.get("demonlord", "initMessage"))
+				initMessages.push(await createInitChatMessage(combatant, messageOptions))
+		} else {
+      //A group member already has initative, we reuse it
+			const combatantsInGroup = this.combatants.filter(x => x.flags.demonlord.group === currentGroup)
+			combatantsInGroup.forEach(c => {
+				allCombatantUpdates.push({
+					_id: c._id,
+					initiative: groupInitiative
+				})
+			})
+		}
+	}
+
+	// Update multiple combatants
+	await this.updateEmbeddedDocuments("Combatant", allCombatantUpdates)
+	await this.update({ turn: 0 })
+	return this
+}
+
   /**
    * Roll initiative for one or multiple Combatants within the Combat document
    * @param {string|string[]} ids     A Combatant id or Array of ids for which to roll
@@ -24,7 +195,7 @@ export class DLCombat extends Combat {
    * @returns {Promise<Combat>}       A promise which resolves to the updated Combat document once updates are complete.
    */
   // eslint-disable-next-line no-unused-vars
-  async rollInitiative(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
+  async rollInitiativeStandard(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
     console.log("Calling rollInitiative with", ids, formula, updateTurn, messageOptions)
     // Structure input data
     ids = typeof ids === 'string' ? [ids] : ids
@@ -57,7 +228,7 @@ export class DLCombat extends Combat {
 
     // Ensure the turn order remains with the same combatant
     if (updateTurn && currentId) {
-      await this.update({turn: this.turns.findIndex(t => t.id === currentId)});
+      await this.update({ turn: this.turns.findIndex(t => t.id === currentId) });
     }
 
     // Create multiple chat messages
@@ -66,12 +237,12 @@ export class DLCombat extends Combat {
   }
 
   /**
-   * Begin the combat encounter, advancing to round 1 and turn 1
+   * Begin the combat encounter, advancing to round 1 and turn 0
    * @returns {Promise<Combat>}
    * @override
    */
   async startCombat() {
-    this.combatants.forEach(combatant => this.setInitiative(combatant.id, this.getInitiativeValue(combatant)))
+    if (game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's') this.combatants.forEach(combatant => this.setInitiative(combatant.id, this.getInitiativeValue(combatant)))
     return await this.update({
       round: 1,
       turn: 0,
@@ -94,6 +265,14 @@ export class DLCombat extends Combat {
 
   /** @override */
   async nextRound() {
+    let initiativeMethod = game.settings.get('demonlord', 'optionalRuleInitiativeMode')
+    if (initiativeMethod !== 's' &&  game.settings.get('demonlord', 'optionalRuleRollInitEachRound')) {
+        await game.combat.resetAll({
+            messageOptions: {
+                rollMode: CONST.DICE_ROLL_MODES.PRIVATE
+            }
+        })
+    }
     const _updatedRound = await super.nextRound()
     await this._handleTurnEffects()
     return _updatedRound
@@ -118,7 +297,7 @@ export class DLCombat extends Combat {
         const passedRounds = this.round - e.duration?.startRound
         const isRoundActive = e.duration.rounds !== null
           ? (0 <= passedRounds) && (passedRounds <= e.duration.rounds)
-          : true
+          : false
         const disabled = !isRoundActive || calcEffectRemainingTurn(e, this.turn) <= 0
         if (disabled !== e.disabled)
           updateData.push({_id: e._id, disabled: disabled})
@@ -184,7 +363,7 @@ export async function createInitChatMessage(combatant, messageOptions) {
 
   const template = 'systems/demonlord/templates/chat/init.hbs'
   const content = await renderTemplate(template, templateData)
-  return mergeObject(messageOptions, {
+  return foundry.utils.mergeObject(messageOptions, {
     speaker: {
       scene: canvas.scene.id,
       actor: c.actor ? c.actor.id : null,
@@ -229,12 +408,19 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
     let updateData = []
     let deleteIds = []
 
+    await deleteSurroundedStatus(actor)
+
     // For each actor, select effects that are enabled and have a duration (either rounds or secs)
     // const enabledEffects = actor.effects.filter(e => !e.disabled && !e.isSuppressed)
     const enabledEffects = actor.effects
     const tempEffects = enabledEffects.filter(e => e.duration?.rounds > 0 || e.duration?.seconds > 0)
     tempEffects.forEach(e => {
-      const eType = e.flags?.sourceType
+      // Ignore effects with specialDuration
+      if (inCombat) {
+        let specialDuration = foundry.utils.getProperty(e, `flags.${game.system.id}.specialDuration`)
+        if (specialDuration !== 'None' && specialDuration !== undefined) return
+      }
+      const eType = e.flags?.demonlord?.sourceType
       const isSpell1Round = eType === 'spell' && e.duration.rounds === 1
 
       // If in combat, handle the duration in rounds, otherwise handle the duration in seconds
@@ -244,8 +430,8 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
       else
         disabled = calcEffectRemainingSeconds(e, worldTime) <= 0
 
-      // Delete effects that come from spells, characters or afflictions
-      if (autoDelete && disabled && ['spell', 'character', 'affliction'].includes(eType))
+      // Delete effects that come from spells, talents, characters or afflictions
+      if (autoDelete && disabled && ['spell', 'talent', 'character', 'affliction'].includes(eType))
         deleteIds.push(e._id)
       else if (disabled !== e.disabled)
         updateData.push({_id: e._id, disabled: disabled})
@@ -303,5 +489,245 @@ export function calcEffectRemainingTurn(e, currentTurn) {
 // When a combatant is created, get its initiative from the actor
 Hooks.on('preCreateCombatant', async (combatant, _data, _options, userId) => {
   if (game.userId !== userId) return
-  await combatant.updateSource({initiative: game.combat.getInitiativeValue(combatant)})
+  if (game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's')
+      await combatant.updateSource({initiative: game.combat.getInitiativeValue(combatant)})
+    else
+      await combatant.updateSource({initiative: null})
+})
+
+// Delete Effects with specialDuration
+async function deleteSpecialdurationEffects(combatant) {
+  let actor = fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
+  for (let effect of actor.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
+      if (!(specialDuration?.length > 0)) continue
+      if (specialDuration !== "None" && specialDuration !== undefined && specialDuration !== 'RestComplete') await effect?.delete()
+  }
+}
+
+// Delete surrounded effects only where duration set
+async function deleteSurroundedStatus(combatant) {
+  let actor = (combatant instanceof Actor) ? combatant : fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
+  let effect = actor.effects.find(e => e.statuses?.has('surrounded') && e.duration.duration !== null)
+  await effect?.delete()
+}
+
+Hooks.on('deleteCombat', async (combat) => {
+	for (let turn of combat.turns) {
+		let actor = turn.actor
+		if (!actor) continue
+		for (let effect of actor.appliedEffects) {
+			const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
+			if (!(specialDuration?.length > 0)) continue
+			if (specialDuration !== "None" && specialDuration !== undefined && specialDuration !== 'RestComplete') await effect?.delete()
+		}
+    await deleteSurroundedStatus(actor)
+	}
+})
+
+async function setCombatantGroup(combatant) {
+  if (combatant.actor.system.isPC) await combatant.update({ flags: { demonlord: { group : 2 } } })
+    else if (combatant.actor.system.isPC === undefined) await combatant.update({ flags: { demonlord: { group : 0 } } })
+      else await combatant.update({ flags: { demonlord: { group : 1 } } })
+}
+
+async function getNumberOfSurrounders(target, targetSize)
+{
+  let allyDispositionArray = []
+  let optionalRuleSurroundingDispositions = await game.settings.get('demonlord', 'optionalRuleSurroundingDispositions')
+
+  switch (optionalRuleSurroundingDispositions) {
+      case 'b':
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.NEUTRAL)
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.SECRET)
+          break;
+      case 'n':
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.NEUTRAL)
+          break;
+      case 's':
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.SECRET)
+          break;
+  }
+
+  let targetDisposition = target.document.disposition
+
+  switch (targetDisposition) {
+      case CONST.TOKEN_DISPOSITIONS.HOSTILE:
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.FRIENDLY)
+          break;
+      case CONST.TOKEN_DISPOSITIONS.FRIENDLY:
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.HOSTILE)
+          break;
+      default:
+          allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.HOSTILE)
+          //allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.FRIENDLY)
+  }
+  const tokensInRange = canvas.tokens.placeables.filter(e => (allyDispositionArray.find(x => x === e.document.disposition) !== undefined) && e.id !== target.id && canvas.grid.measurePath([e.center, target.center]).distance <= targetSize).map(e => (e))
+  
+  let tokensWOAfflictions = 0
+
+  tokensInRange.forEach((token) => {
+    if (!token.actor.effects.find(e => e.statuses?.has('unconscious') || e.statuses?.has('stunned') || e.statuses?.has('prone')  || e.statuses?.has('defenseless') ||  e.statuses?.has('dazed')  || e.statuses?.has('compelled'))) tokensWOAfflictions++
+  });
+
+  if (game.settings.get('demonlord', 'optionalRuleSurroundingExcludeTokens'))
+    return tokensWOAfflictions
+  else
+    return tokensInRange.length
+}
+
+Hooks.on('targetToken', async (user, target, isTargeted) => {
+  if (game.userId !== user._id) return
+  let optionalRuleSurroundingMode = game.settings.get('demonlord', 'optionalRuleSurroundingMode')
+  if (optionalRuleSurroundingMode === 'd' || (optionalRuleSurroundingMode === 'c' && target.document.actor.type !== 'creature')) return
+  if (optionalRuleSurroundingMode === 'n' && target.document.actor.system?.isPC) return
+
+  let effects = target.actor?.effects.filter(e => e.statuses?.has('surrounded'))
+  if (!isTargeted && effects.length !== 0) {
+
+      if (game.user.isGM)
+          await target.actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id))
+      else
+          game.socket.emit('system.demonlord', {
+              request: "deleteEffect",
+              tokenuuid: target.document.uuid,
+              effectData: effects.map(e => e.id)
+          })
+      return
+  }
+
+  let changes = ["weapon"].map(s => ({
+      key: `system.bonuses.defense.boons.${s}`,
+      mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+      value: -1
+  }))
+
+  const effectData = {
+      changes: changes,
+      icon: 'systems/demonlord/assets/icons/effects/surrounded.svg',
+      label: 'Surrounded',
+      disabled: false,
+      description: game.i18n.localize("DL.AfflictionsSurrounded"),
+      duration: {
+          turns: 1
+      },
+      statuses: ['surrounded'],
+  }
+
+  let targetSize = Math.max(target.document.width, target.document.height)
+  let numberOfSurrounders = await getNumberOfSurrounders(target, targetSize)
+
+  if (effects.length === 0 && numberOfSurrounders >= targetSize + 1) {
+      if (game.user.isGM)
+          await target.actor.createEmbeddedDocuments("ActiveEffect", [effectData])
+      else
+          game.socket.emit('system.demonlord', {
+              request: "createEffect",
+              tokenuuid: target.document.uuid,
+              effectData: effectData
+          })
+  }
+})
+
+
+Hooks.on("createCombatant", async combatant => {
+	await deleteSpecialdurationEffects(combatant)
+	let optionalRuleInitiative = game.settings.get("demonlord", "optionalRuleInitiativeMode")
+	if (optionalRuleInitiative === "s") return
+  await setCombatantGroup(combatant)
+  // Check if a combatant within a group has initiative, if yes new combatant use the same initiative
+	let currentGroup = combatant.flags.demonlord.group
+	if (currentGroup !== undefined && game.settings.get("demonlord", "optionalRuleInitiativeMode") === "h") {
+		let groupInitiative = game.combat.combatants.find(x => x.flags?.demonlord?.group === currentGroup && x.initiative !=null )?.initiative
+		if (groupInitiative) await combatant.update({ initiative: groupInitiative })
+	}
+  // No Fast turn malus -> at the end of the round
+	if (combatant.actor.system.maluses.noFastTurn === 1 && game.combat.current.turn !== null)
+		switch (optionalRuleInitiative) {
+			case "i":
+				await combatant.update({ initiative: -5 })
+				break
+			case "h":
+				await combatant.update({ initiative: 0 })
+				break
+		}
+})
+
+Hooks.on('deleteCombatant', async (combatant) => {
+          await deleteSpecialdurationEffects(combatant)
+          await deleteSurroundedStatus(combatant)
+})
+
+Hooks.on('updateCombat', async (combat) => {
+  if (!game.users.activeGM?.isSelf) return
+  if (combat.current.combatantId === null) return
+  // SOURCE type expirations
+  for (let turn of combat.turns) {
+    let actor = turn.actor
+    if (!actor) continue
+    for (let effect of actor.appliedEffects) {
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
+      if (!(specialDuration?.length > 0)) continue
+      if (
+        effect.origin?.startsWith(combat.turns.find(x => x._id === combat.previous.combatantId)?.actor.uuid) &&
+        specialDuration === 'TurnEndSource'
+      ) {
+        console.warn(
+          `Effect "${effect.name}" deleted on ${actor.name}, reason: ${
+            combat.turns.find(x => x._id === combat.previous.combatantId).actor.name
+          } ending its turn.`,
+        )
+        // Do not delete effects which are created in the same turn and round.
+        if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1 || game.combat.current.round === effect.duration.startRound+1 && game.combat.current.turn ===0) continue
+        await effect?.delete()
+        continue
+      }
+      if (
+        effect.origin?.startsWith(combat.turns.find(x => x._id === combat.current.combatantId).actor.uuid) &&
+        specialDuration === 'TurnStartSource'
+      ) {
+        console.warn(
+          `Effect "${effect.name}" deleted on ${actor.name}, reason: ${
+            combat.turns.find(x => x._id === combat.current.combatantId).actor.name
+          } starting its turn.`,
+        )
+        await effect?.delete()
+        continue
+      }
+    }
+  }
+
+  // TARGET type expirations
+  let currentActor = combat.turns.find(x => x._id === combat.current.combatantId).actor
+  let previousActor = combat.turns.find(x => x._id === combat.previous.combatantId)?.actor
+
+  for (let effect of currentActor.allApplicableEffects()) {
+    const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
+    if (specialDuration?.length > 0) {
+      if (specialDuration === 'TurnStart') {
+        console.warn(
+          `Effect "${effect.name}" deleted on ${currentActor.name}, reason: ${currentActor.name} starting its turn.`,
+        )
+        await effect?.delete()
+        continue
+      }
+    }
+  }
+
+  if (previousActor !== undefined) {
+    for (let effect of previousActor.allApplicableEffects()) {
+      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
+      if (specialDuration?.length > 0) {
+        if (specialDuration === 'TurnEnd') {
+          // Do not delete effects which are created in the same turn and round. PreviousActor startTurn+1!
+            if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1 || game.combat.current.round === effect.duration.startRound+1 && game.combat.current.turn ===0) continue
+          console.warn(
+            `Effect "${effect.name}" deleted on ${previousActor.name}, reason: ${previousActor.name} ending its turn.`,
+          )
+          await effect?.delete()
+          continue
+        }
+      }
+    }
+  }
 })

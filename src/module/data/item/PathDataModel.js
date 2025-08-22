@@ -2,14 +2,16 @@ import { makeBoolField, makeHtmlField, makeIntField, makeStringField } from '../
 import { makeLanguageSchema } from './LanguageDataModel.js'
 import { makeSpellSchema } from './SpellDataModel.js'
 import { makeTalentSchema } from './TalentDataModel.js'
+import { levelItem } from '../common.js'
 
-export default class PathDataModel extends foundry.abstract.DataModel {
+export default class PathDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
+      source: makeHtmlField(),
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
       type: makeStringField('novice'),
-      levels: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
+      levels: new foundry.data.fields.ArrayField(new foundry.data.fields.ObjectField({
         level: makeStringField('1'),
         attributeSelect: makeStringField('choosetwo'),
         attributeSelectIsChooseTwo: makeBoolField(true),
@@ -28,73 +30,66 @@ export default class PathDataModel extends foundry.abstract.DataModel {
         attributeSelectTwoSetValue2: makeIntField(),
         attributeSelectTwoSetSelectedValue1: makeBoolField(true),
         attributeSelectTwoSetSelectedValue2: makeBoolField(true),
-        attributeStrength: makeIntField(1),
-        attributeAgility: makeIntField(),
-        attributeIntellect: makeIntField(1),
-        attributeWill: makeIntField(),
-        attributeStrengthSelected: makeBoolField(false),
-        attributeAgilitySelected: makeBoolField(false),
-        attributeIntellectSelected: makeBoolField(false),
-        attributeWillSelected: makeBoolField(false),
-        characteristicsPerception: makeIntField(),
-        characteristicsDefense: makeIntField(),
-        characteristicsPower: makeIntField(),
-        characteristicsSpeed: makeIntField(),
-        characteristicsHealth: makeIntField(),
-        characteristicsCorruption: makeIntField(),
-        characteristicsInsanity: makeIntField(),
+        attributes: new foundry.data.fields.SchemaField({
+          strength: new foundry.data.fields.SchemaField({
+            value: makeIntField(1, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+          agility: new foundry.data.fields.SchemaField({
+            value: makeIntField(1, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+          intellect: new foundry.data.fields.SchemaField({
+            value: makeIntField(1, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+          will: new foundry.data.fields.SchemaField({
+            value: makeIntField(1, 20, 0),
+            formula: makeStringField(),
+            immune: makeBoolField(),
+            selected: makeBoolField(),
+          }),
+        }),
+        characteristics: new foundry.data.fields.SchemaField({
+          health: makeIntField(),
+          healingrate: makeIntField(),
+          size: makeStringField('1'),
+          defense: makeIntField(),
+          perception: makeIntField(),
+          speed: makeIntField(),
+          power: makeIntField(),
+          insanity: new foundry.data.fields.SchemaField({
+            value: makeIntField(),
+            formula: makeStringField(),
+            immune: makeBoolField()
+          }),
+          corruption: new foundry.data.fields.SchemaField({
+            value: makeIntField(),
+            formula: makeStringField(),
+            immune: makeBoolField()
+          })
+        }),
         languagesText: makeStringField(),
         equipmentText: makeStringField(),
         magicText: makeStringField(),
+        optionsText: makeStringField(),
         talentsSelect: makeStringField(),
         talentsChooseOne: makeBoolField(false),
-        talentsSelected: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeTalentSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        })),
-        talents: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeTalentSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        })),
-        spells: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeSpellSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        })),
-        talentspick: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeTalentSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        })),
-        languages: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
-          system: makeLanguageSchema(),
-          description: makeStringField(),
-          id: makeStringField(),
-          name: makeStringField(),
-          pack: makeStringField(),
-          selected: makeBoolField(),
-          uuid: makeStringField()
-        }))
+        talentsSelected: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+        talents: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+        spells: new foundry.data.fields.ArrayField(levelItem(makeSpellSchema)),
+        talentspick: new foundry.data.fields.ArrayField(levelItem(makeTalentSchema)),
+        languages: new foundry.data.fields.ArrayField(levelItem(makeLanguageSchema)),
       })),
       editPath: makeBoolField(true)
     }
   }
+
+  // static migrateData(source) { }
 }

@@ -1,96 +1,57 @@
 :root {
   --demonlord-red: #a22223;
+
+  // Foundry color overrides
+  --color-shadow-primary: #a22223;
+  --color-shadow-highlight: #d22d2d;
+  --color-border-highlight: #d22d2d;
+  --color-border-highlight-alt: #a22223;
+  --color-text-hyperlink: #d22d2d;
+}
+
+// Themes
+body.theme-dark {
+  --demonlord-color-icon: #f7f3e8;
+  --demonlord-color-text-primary: var(--color-text-light-primary);
+  --demonlord-color-text-dim: #77777760;
+  --demonlord-color-border: transparent;
+  --demonlord-color-input-background: #302831;
+  --demonlord-color-hr: var(--color-border-dark-primary);
+  --demonlord-color-hr-highlight: var(--color-border-dark-highlight);
+
+  // Inverted
+  // --demonlord-color-text-inverted-primary: var(--color-dark-2);
+  // --demonlord-color-input-inverted: var(--color-dark-3);
+  --demonlord-color-text-inverted-primary: var(--color-light-2);
+  --demonlord-color-input-inverted: var(--color-light-3);
+}
+
+body.theme-light {
+  --demonlord-color-icon: #303030;
+  --demonlord-color-text-primary: var(--color-text-dark-primary);
+  --demonlord-color-text-dim: #77777760;
+  --demonlord-color-border: var(--color-dark-6);
+  --demonlord-color-border-dim: #77777730;
+  --demonlord-color-input-background: rgba(0, 0, 0, 0.1);
+  --demonlord-color-hr: var(--color-border-light-primary);
+  --demonlord-color-hr-highlight: var(--color-border-light-highlight);
+
+  --demonlord-header-background: url(../assets/ui/sidebar_background.webp) repeat-x local;
+
+  // Inverted
+  --demonlord-color-text-inverted-primary: var(--color-light-2);
+  --demonlord-color-input-inverted: var(--color-light-3);
+
+  // Override select background
+  // TODO: Find a more elegant way?
+  select.input-group-dropdown {
+    background: transparent;
+  }
 }
 
 .window-app .window-header {
   font-family: $font-header;
   font-size: 14px;
-}
-
-/* Sidebar */
-#sidebar {
-  background: url(../assets/ui/sidebar_background.webp);
-  border-radius: 0;
-}
-
-#sidebar h2 {
-  font-family: $font-header;
-  font-size: 16px;
-  border-bottom: 0;
-  color: var(--demonlord-red);
-  text-transform: uppercase;
-  margin-top: 10px;
-  margin-bottom: 0;
-}
-
-#sidebar button {
-  color: white;
-  background-color: transparent;
-  border-top: 1px solid #666;
-  border-bottom: 1px solid #666;
-  background: none;
-  font-family: $font-header;
-  font-size: 13px;
-}
-
-#sidebar button:hover {
-  box-shadow: none;
-  background-color: var(--demonlord-red);
-  border-color: var(--demonlord-red);
-}
-
-#sidebar-tabs {
-  border-bottom: 1px solid var(--demonlord-red);
-  box-shadow: 0 0 10px darkred;
-}
-
-#sidebar-tabs > .item.active {
-  box-shadow: none;
-  border: 0 solid var(--demonlord-red);
-}
-
-#sidebar .tabs .item.active {
-  text-shadow: none;
-  color: var(--demonlord-red);
-}
-
-#sidebar .directory-header a:hover,
-#chat-controls a:hover {
-  color: white;
-}
-
-#sidebar .directory-header .header-search i {
-  color: var(--demonlord-red);
-}
-
-.sidebar-tab .directory-header .header-search input {
-  background: none;
-  border-radius: 0;
-  border: 1px solid var(--demonlord-red);
-  color: white;
-}
-
-.sidebar-tab .directory-header .header-search input:focus {
-  box-shadow: none;
-  color: white;
-}
-
-.sidebar-tab .directory-list .folder .context {
-  border-color: var(--demonlord-red);
-}
-
-.sidebar-tab .directory-list .directory-item h3 {
-  font-family: $font-header;
-  font-size: 16px;
-}
-
-.sidebar-tab .directory-list .directory-item h4 {
-  font-family: $font-header;
-  font-size: 14px;
-}
-
-.sidebar-tab .directory-list {
-  scrollbar-color: var(--demonlord-red) transparent;
 }
 
 /* Compendium */
@@ -121,47 +82,14 @@
 }
 
 /* Chat */
-#chat-form textarea {
-  background: white;
-  border-radius: 0;
-  border: 1px solid var(--demonlord-red);
-  margin-top: 3px;
-}
-
 #chat-controls {
   border-top: 2px groove var(--demonlord-red);
   padding-top: 5px;
 }
 
-#chat-controls .roll-type-select label i {
-  width: 25px;
-  height: 25px;
-  color: #f0f8ff00;
-  background: url(../assets/ui/icons/pentragram.webp);
-}
-
-#chat-controls div.roll-type-select select {
-  background: none;
-  padding: 0;
-  color: white;
-  border: 1px solid #666;
-  border-radius: 1px;
-  font-family: $font-header;
-}
-
-#chat-controls div.roll-type-select select:hover {
-  border: 1px solid var(--demonlord-red);
-  background-color: var(--demonlord-red);
-}
-
 #chat-log {
-  margin-bottom: 4px;
   scrollbar-width: thin;
   scrollbar-color: var(--demonlord-red) transparent;
-}
-
-#chat-log .message {
-  border: 1px solid #6f6c66;
 }
 
 #chat-log .message .message-header .message-sender,
@@ -178,23 +106,6 @@
 /* Hotbar */
 #hotbar {
   font-family: $font-header;
-}
-
-#hotbar #macro-list {
-  background: url(../assets/ui/sidebar_background.webp);
-  border: 1px solid black;
-}
-
-#hotbar .macro,
-#hotbar .bar-controls,
-#hotbar .macro.inactive {
-  border-radius: 0;
-  box-shadow: none;
-}
-
-#hotbar #hotbar-directory-controls,
-#hotbar #hotbar-page-controls {
-  background: black;
 }
 
 #hotbar .macro:hover,
@@ -236,8 +147,7 @@
 #controls .control-tool.active,
 #controls .scene-control:hover,
 #controls .control-tool:hover {
-  color: var(--demonlord-red);
-  box-shadow: none;
+  box-shadow: 0 0 10px red;
   border: 1px solid var(--demonlord-red);
 }
 
@@ -255,12 +165,10 @@
 
 /* Players */
 #players {
-  background: url(../assets/ui/sidebar_background.webp);
   font-family: $font-header;
   font-size: 11px;
   text-transform: uppercase;
-  border: 1px solid #666;
-  border-radius: 0;
+  //border: 1px solid #666;
 }
 
 #players ol .player-name.self {
@@ -301,10 +209,11 @@
 }
 
 #logo {
-  content: url('../assets/ui/demonlord-logo.png');
-  width: 150px;
-  -webkit-filter: drop-shadow(0px 2px 6px #222);
-  filter: drop-shadow(0px 2px 6px #222);
+  content: url('../assets/ui/demonlord-logo-red.png');
+  max-width: 86px;
+  max-height: 50px;
+  -webkit-filter: drop-shadow(0px 2px 1px #222);
+  filter: drop-shadow(0px 2px 1px #222);
 }
 
 #pause {
@@ -336,4 +245,32 @@
 .folders-list {
   scrollbar-width: thin;
   scrollbar-color: var(--demonlord-red) transparent;
+}
+
+.encounter-difficulty {
+  align-items: center;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: block;
+  flex-basis: 0%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  text-align: center;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.encounter-difficulty[data-rating='easy'] {
+  background-color: #478948;
+}
+
+.encounter-difficulty[data-rating='average'] {
+  background-color: #3b88ae;
+}
+
+.encounter-difficulty[data-rating='challenging'] {
+  background-color: #f99305;
+}
+
+.encounter-difficulty[data-rating='hard'] {
+  background-color: #ba4b49;
 }

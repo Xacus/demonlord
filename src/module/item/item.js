@@ -1,16 +1,18 @@
-import {deleteActorNestedItems} from './nested-objects'
+import {deleteActorNestedItems, PathLevel} from './nested-objects'
 import {DemonlordActor} from '../actor/actor'
 import { DLEndOfRound } from '../dialog/endofround'
+import { getChatBaseData } from '../chat/base-messages'
 
 export class DemonlordItem extends Item {
   /** @override */
-  async update(updateData) {
+  async _preUpdate(updateData, options, user) {
+    
     // Set spell uses
-    if (this.type === 'spell' && this.parent) {
-      const power = +this.parent.system?.characteristics.power || 0
-      const rank = updateData?.system?.rank ?? +this.system.rank
-      const calculatedCastings = CONFIG.DL.spelluses[power]?.[rank] ?? 0
-      if (updateData.system?.castings?.ignoreCalculation === false || (updateData?.system?.castings?.ignoreCalculation === undefined && !this.system.castings.ignoreCalculation)) {
+    if (updateData.type === 'spell' && updateData.parent) {
+      const power = +updateData.parent.system?.characteristics.power || 0
+      const rank = updateData?.system?.rank ?? +updateData.system.rank
+      const calculatedCastings = CONFIG.DL.spellUses[power]?.[rank] ?? 0
+      if (updateData.system?.castings?.ignoreCalculation === false || (updateData?.system?.castings?.ignoreCalculation === undefined && !updateData.system.castings.ignoreCalculation)) {
         if (updateData?.system?.castings !== undefined) {
           updateData.system.castings.max = calculatedCastings
         } else {
@@ -18,7 +20,8 @@ export class DemonlordItem extends Item {
         }
       }
     }
-    return await super.update(updateData)
+    
+    return await super._preUpdate(updateData, options, user)
   }
 
   _onUpdate(changed, options, userId) {
@@ -38,8 +41,10 @@ export class DemonlordItem extends Item {
     }
   }
 
-  /** @override */
-  static async create(data, options = {}) {
+   /** @override */
+   async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user)
+
     // Add default image
     if (!data?.img && game.settings.get('demonlord', 'replaceIcons')) {
       data.img = CONFIG.DL.defaultItemIcons[data.type] || 'icons/svg/item-bag.svg'
@@ -47,17 +52,38 @@ export class DemonlordItem extends Item {
         data.img = CONFIG.DL.defaultItemIcons.path.novice
       }
     }
-    return await super.create(data, options)
-  }
 
-   /** @override */
-   async _preCreate(_data, _options, _user) {
-    await super._preCreate(_data, _options, _user)
-
-    switch (_data.type) {
+    switch (data.type) {
       case 'ancestry': 
-        return await this._rollAncestryFormulae(_data)
+        if (!data.system) {
+          // Add ancestry levels
+          data.system = {
+              levels: [
+              new PathLevel({ level: '0'}),
+              new PathLevel({ level: '4'})
+            ]
+          }
+        }
+
+        data = await this._rollAncestryFormulae(data)
+        break
+      case 'path':
+        if (!data.system) {
+          // Add novice path levels
+          data.system = {
+            type: 'novice',
+            levels: [
+              new PathLevel({ level: '1'}),
+              new PathLevel({ level: '2'}),
+              new PathLevel({ level: '5'}),
+              new PathLevel({ level: '8'}),
+            ]
+          }
+        }
+        break
     }
+
+    return await this.updateSource(data)
   }
 
   /** @override */
@@ -109,69 +135,84 @@ export class DemonlordItem extends Item {
 
   async _rollAncestryFormulae(ancestry) {
     // If no system data exists, we're creating it anew, don't roll anything
-    if (!ancestry.system) {
+    if (!ancestry.system?.levels) {
       return ancestry
     }
     // Before adding the item, roll any formulas and apply the values
     // Attributes
-    let newStrength = ancestry.system.attributes.strength?.value ?? 10
-    let newAgility = ancestry.system.attributes.agility?.value ?? 10
-    let newIntellect = ancestry.system.attributes.intellect?.value ?? 10
-    let newWill = ancestry.system.attributes.will?.value ?? 10
-    let newInsanity = ancestry.system.characteristics.insanity?.value ?? 0
-    let newCorruption = ancestry.system.characteristics.corruption?.value ?? 0
+    let newStrength = ancestry.system.levels[0].attributes.strength?.value ?? 10
+    let newAgility = ancestry.system.levels[0].attributes.agility?.value ?? 10
+    let newIntellect = ancestry.system.levels[0].attributes.intellect?.value ?? 10
+    let newWill = ancestry.system.levels[0].attributes.will?.value ?? 10
+    let newInsanity = ancestry.system.levels[0].characteristics.insanity?.value ?? 0
+    let newCorruption = ancestry.system.levels[0].characteristics.corruption?.value ?? 0
 
-    if (ancestry.system.attributes.strength?.formula) {
-      const roll = new Roll(ancestry.system.attributes.strength.formula)
+    const rolls = []
+
+    if (ancestry.system.levels[0].attributes.strength?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].attributes.strength.formula)
       newStrength = (await roll.evaluate()).total
+      rolls.push({property: 'strength', roll: roll })
     }
-    if (ancestry.system.attributes.agility?.formula) {
-      const roll = new Roll(ancestry.system.attributes.agility.formula)
+    if (ancestry.system.levels[0].attributes.agility?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].attributes.agility.formula)
       newAgility = (await roll.evaluate()).total
+      rolls.push({property: 'agility', roll: roll })
     }
-    if (ancestry.system.attributes.intellect?.formula) {
-      const roll = new Roll(ancestry.system.attributes.intellect.formula)
+    if (ancestry.system.levels[0].attributes.intellect?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].attributes.intellect.formula)
       newIntellect = (await roll.evaluate()).total
+      rolls.push({property: 'intellect', roll: roll })
     }
-    if (ancestry.system.attributes.will?.formula) {
-      const roll = new Roll(ancestry.system.attributes.will.formula)
+    if (ancestry.system.levels[0].attributes.will?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].attributes.will.formula)
       newWill = (await roll.evaluate()).total
+      rolls.push({property: 'will', roll: roll })
     }
 
-    if (ancestry.system.characteristics.insanity?.formula) {
-      const roll = new Roll(ancestry.system.characteristics.insanity.formula)
+    if (ancestry.system.levels[0].characteristics.insanity?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].characteristics.insanity.formula)
       newInsanity = (await roll.evaluate()).total
+      rolls.push({property: 'insanity', roll: roll })
     }
 
-    if (ancestry.system.characteristics.corruption?.formula) {
-      const roll = new Roll(ancestry.system.characteristics.corruption.formula)
+    if (ancestry.system.levels[0].characteristics.corruption?.formula) {
+      const roll = new Roll(ancestry.system.levels[0].characteristics.corruption.formula)
       newCorruption = (await roll.evaluate()).total
+      rolls.push({property: 'corruption', roll: roll })
     }
 
-    return await this.updateSource({
-      'system.attributes': {
-        strength: {
-          value: newStrength
-        },
-        agility: {
-          value: newAgility
-        },
-        intellect: {
-          value: newIntellect
-        },
-        will: {
-          value: newWill
-        },
-      },
+    const actor = game.user.character ?? canvas.tokens.controlled[0]?.actor
 
-      'system.characteristics': {
-        insanity: {
-          value: newInsanity
-        },
-        corruption: {
-          value: newCorruption
-        }
+    // If we dropped it into an actor, print the roll data
+    if (rolls.length > 0) {
+      const templateData = {
+        item: ancestry,
+        rolls,
       }
-    })
+
+      if (actor) {
+        const rollMode = game.settings.get('core', 'rollMode')
+
+        const chatData = getChatBaseData(actor, rollMode)
+
+        const template = 'systems/demonlord/templates/chat/formulaeroll.hbs'
+        foundry.applications.handlebars.renderTemplate(template, templateData).then(async content => {
+          chatData.content = content
+          chatData.sound = CONFIG.sounds.dice
+          await ChatMessage.create(chatData)
+        })
+      }
+    }
+
+    const l0 = ancestry.system.levels.find(l => l.level === '0')
+    l0.attributes.strength.value = newStrength
+    l0.attributes.agility.value = newAgility
+    l0.attributes.intellect.value = newIntellect
+    l0.attributes.will.value = newWill
+    l0.characteristics.insanity.value = newInsanity
+    l0.characteristics.corruption.value = newCorruption
+
+    return ancestry
   }
 }

@@ -144,10 +144,6 @@ form {
             cursor: pointer;
             text-align: center;
           }
-
-          input.checkbox:checked + label {
-            background-image: url('../assets/ui/bloodstain.webp');
-          }
         }
 
         .resttext,
@@ -251,7 +247,8 @@ form {
           }
         }
 
-        .turnmode {
+        .turnmode,
+        .fortune {
           margin-top: 15px;
           text-align: center;
         }

@@ -12,9 +12,11 @@ import {
   makeStringField
 } from '../helpers.js'
 
-export default class ItemDataModel extends foundry.abstract.DataModel {
+export default class ItemDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
+      source: makeHtmlField(),
+      properties: makeStringField(),
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
       action: action(),
@@ -25,7 +27,9 @@ export default class ItemDataModel extends foundry.abstract.DataModel {
       availability: makeStringField(),
       value: makeStringField(),
       wear: makeBoolField(true),
-      healingoption: makeBoolField()
+      healingoption: makeBoolField(),
+      autoDestroy :  makeBoolField(false),
+      consumabletype: makeStringField()
     }
   }
 }

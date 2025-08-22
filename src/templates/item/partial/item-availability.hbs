@@ -1,0 +1,20 @@
+{{!--
+Variables:
+  - availability (e.g. system.availability)
+  - availabilityName (e.g. "system.availability")
+  - value (e.g. system.value)
+  - valueName (e.g. "system.value")
+--}}
+<div class="dl-item-section item-properties">
+  <b>{{localize "DL.Availability"}}</b>
+  <div class="dl-item-section-group">
+    {{AvailabilityDropdown availabilityName availability}}
+    <div class="item-group-price">
+      <div class="input-group" data-tippy-content="{{localize "DL.ItemValue"}}">
+        <i class="icon-price themed-icon"></i>
+        <span class="sep"></span>
+        <input type="text" class="input-group-textbox" name="{{valueName}}" value="{{value}}" />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,10 @@
 import { action, activatedEffect } from '../common.js'
 import { makeBoolField, makeHtmlField, makeStringField } from '../helpers.js'
 
-export default class TalentDataModel extends foundry.abstract.DataModel {
+export default class TalentDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
+      source: makeHtmlField(),
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
       action: action(),
@@ -51,6 +52,7 @@ export default class TalentDataModel extends foundry.abstract.DataModel {
 
 export function makeTalentSchema() {
   return new foundry.data.fields.SchemaField({
+    source: makeHtmlField(),
     description: makeHtmlField(),
     enrichedDescription: makeHtmlField(),
     action: action(),
@@ -80,6 +82,7 @@ export function makeTalentSchema() {
     }),
     damage: makeStringField(),
     damagetype: makeStringField(),
+    extraeffect: makeStringField(),
     bonuses: new foundry.data.fields.SchemaField({
       defenseactive: makeBoolField(true),
       defense: makeStringField(),

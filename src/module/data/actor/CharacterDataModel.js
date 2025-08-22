@@ -10,6 +10,11 @@ import {
   makeHtmlField
 } from '../helpers.js'
 
+import {
+  getRanges,
+  getCanFly
+} from '../../utils/token-ruler.js'
+
 export default class CharacterDataModel extends foundry.abstract.DataModel {
   static defineSchema() {
     const type = 'character'
@@ -74,5 +79,13 @@ export default class CharacterDataModel extends foundry.abstract.DataModel {
 
   get type() {
     return 'character'
+  }
+
+  get ranges() {
+    return getRanges(this)
+  }
+
+  get canFly() {
+    return getCanFly(this)
   }
 }

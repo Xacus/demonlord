@@ -1,54 +1,41 @@
 <!-- START OF TEMPLATES -->
 
-{{#*inline "dlAttributeInput"}}
-  <div class="dl-new-project-2 nohover">
-    <i class="dl-icon-{{icon}}"></i>
+{{#*inline "AttributeSelector"}}
+  <label class="item-group-attribute-value checkable" for="{{id}}" data-tippy-content="{{localize loc}}">
+    <input type="checkbox" id={{id}} name="{{name}}" {{checked selected}} />
+    <i class="icon-{{icon}} themed-icon"></i>
     <span class="sep"></span>
-    <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
-    <span class="sep"></span>
-    <span style="text-align: center; margin-left: 4px">{{plusify value}}</span>
-  </div>
+    <span class="text">{{plusify value}}</span>
+  </label>
 {{/inline}}
 
-{{#*inline "dlAttributeInputCol1"}}
-  <div class="dl-column-flex">
-    {{> dlAttributeInput icon=icon  value=value name=name loc=loc}}
+{{#*inline "AttributeViewer"}}
+  {{#if (or mandatory value)}}
+  <div class="item-group-attribute-value display-only" data-tippy-content="{{localize loc}}">
+    <i class="icon-{{icon}} themed-icon"></i>
+    <span class="sep"></span>
+    <span class="text">{{plusify value}}</span>
   </div>
-{{/inline}}
-
-{{#*inline "dlAttributeInputCol1IF"}}
-  {{#if value}}
-    <div class="dl-column-flex">
-      {{> dlAttributeInput icon=icon  value=value name=name loc=loc}}
-    </div>
   {{/if}}
 {{/inline}}
 
-{{#*inline "dlAttributeSelector"}}
-  {{#if value}}
-    <div class="dl-column-flex">
-      <div class="dl-new-project-2 selectable {{#if selected}}selected{{/if}}">
-        <input type="checkbox" name="{{name}}" {{checked selected}} />
-        <i class="dl-icon-{{icon}}"></i>
-        <span class="sep"></span>
-        <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize loc}}</span>
-        <span class="sep"></span>
-        <span style="text-align: center; margin-left: 4px">{{plusify value}}</span>
-      </div>
-    </div>
-  {{/if}}
+{{#*inline "LevelAttributeTwoSetViewer"}}
+  <label class="item-group-icon-checkbox checkable" for="{{inputName}}" name="{{inputName}}Selected" data-tippy-content="{{localize (concat "DL.Attribute" (capitalize attribute))}}">
+    {{!-- <input type="checkbox" id="{{inputName}}" name="{{inputName}}" {{checked selected}}/> --}}
+    <input type="radio" id="{{inputName}}" name="{{groupName}}" {{checked selected}}/>
+    <i class="icon-{{attribute}} themed-icon" ></i>
+  </label>
 {{/inline}}
 
-{{#* inline "dlDropZoneView"}}
-  <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}"
-       data-group="{{dataGroup}}" data-level="{{dataLevel}}">
+{{#* inline "DropZoneView"}}
+  <div class="drop-zone-view" data-group="{{dataGroup}}" data-level="{{dataLevel}}">
     {{#each collection as |item index|}}
-      <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
-           {{#if item.system.enrichedDescriptionUnrolled}}data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"{{/if}}>
+      <div class="nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}" {{#if item.system.enrichedDescriptionUnrolled}}data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"{{/if}}>
         <img src="{{item.img}}">
-        <span class="edit-nested-item dl-clickable">{{item.name}}</span>
+        <span class="edit-nested-item dl-clickable" data-action="editNestedItem">{{item.name}}</span>
         {{#if ../selectable}}
           <div style="margin-right: 1px;margin-left: auto; align-self: center"
+               data-action="transferItem"
                class="dl-custom-checkbox dl-item-transfer {{#if item.selected}}checked{{/if}}"
                data-tippy-content="{{localize "DL.TransferItem"}}"></div>
         {{/if}}
@@ -57,124 +44,81 @@
   </div>
 {{/inline}}
 
-{{#* inline "dlDropZoneEdit"}}
-  <div class="dl-drop-zone" data-group="{{dataGroup}}" data-level="{{dataLevel}}">
-    {{#each collection as |item index|}}
-      <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}"
-           {{#if item.system.enrichedDescriptionUnrolled}}data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"{{/if}}>
-        <img src="{{item.img}}">
-        <span class="edit-nested-item dl-clickable">{{item.name}}</span>
-        <a class="delete-item" data-tippy-content="{{localize 'DL.ItemDeleteItem'}}" data-type="{{type}}"
-           style="align-self: center; margin-left: auto; margin-right: 4px">
-          <i class="fas fa-times"></i>
-        </a>
-      </div>
-    {{/each}}
-  </div>
-{{/inline}}
 <!-- END OF TEMPLATES -->
 
-
 {{#each system.levels as |level index|}}
-  <div class="dl-path-level" data-level-index="{{index}}"
-       {{#if (ne index ../system.selectedLevelIndex)}}style="display: none"{{/if}}>
+  <div class="level-selector" data-level-index="{{index}}" {{#if (ne index ../system.selectedLevelIndex)}}style="display: none"{{/if}}>
     <div name="level.level" value="{{level.level}}" style="display: none"></div>
-
     <div class="dl-item-section-header row">
-      <div class="col-11" style="margin-top: 4px">
+      <div class="path-level-control">
         <b>{{localize 'DL.PathsLevelsSubTitle'}} {{level.level}}</b>
       </div>
     </div>
+
     <hr>
-    <div class="grid-2-sep">
-      <div class="dl-item-section-section">
-        <div class="dl-item-section-section-title">
-          <b>{{localize "DL.PathsLevelAttributesSubtitle"}}</b>
-        </div>
-        <div class="dl-column-flex" style="margin-bottom: 8px">
-          <div class="dl-new-project-2 nohover">
-              <span style="margin-left: 4px;">
-                {{#if (eq level.attributeSelect 'twosets')}}
-                  {{localize "DL.PathsLevelAttributesTwosets"}}
-                {{else if (eq level.attributeSelect 'choosetwo')}}
-                  {{localize "DL.PathsLevelAttributesChoosetwo"}}
-                {{else if (eq level.attributeSelect 'choosethree')}}
-                  {{localize "DL.PathsLevelAttributesChoosethree"}}
-                {{else if (eq level.attributeSelect 'fixed')}}
-                  {{localize "DL.PathsLevelAttributesFixed"}}
-                {{else}}
-                  {{localize "DL.None"}}
-                {{/if}}
-              </span>
-          </div>
-        </div>
 
-        {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree)}}
-          {{> dlAttributeSelector icon="strength"   value=level.attributeStrength  name="level.attributeStrengthSelected"  selected=level.attributeStrengthSelected  loc="DL.AttributeStrength"}}
-          {{> dlAttributeSelector icon="agility"    value=level.attributeAgility   name="level.attributeAgilitySelected"   selected=level.attributeAgilitySelected   loc="DL.AttributeAgility"}}
-          {{> dlAttributeSelector icon="intellect"  value=level.attributeIntellect name="level.attributeIntellectSelected" selected=level.attributeIntellectSelected loc="DL.AttributeIntellect"}}
-          {{> dlAttributeSelector icon="will"       value=level.attributeWill      name="level.attributeWillSelected"      selected=level.attributeWillSelected      loc="DL.AttributeWill"}}
-
-        {{else if level.attributeSelectIsFixed}}
-          {{> dlAttributeInputCol1 icon="strength"   value=level.attributeStrength  name="level.attributeStrength"  loc="DL.AttributeStrength"}}
-          {{> dlAttributeInputCol1 icon="agility"    value=level.attributeAgility   name="level.attributeAgility"   loc="DL.AttributeAgility"}}
-          {{> dlAttributeInputCol1 icon="intellect"  value=level.attributeIntellect name="level.attributeIntellect" loc="DL.AttributeIntellect"}}
-          {{> dlAttributeInputCol1 icon="will"       value=level.attributeWill      name="level.attributeWill"      loc="DL.AttributeWill"}}
-
-        {{else if level.attributeSelectIsTwoSet}}
-          <div class="dl-column-flex">
-            {{#if level.attributeSelectTwoSetSelectedValue1}}
-              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet1 true "level.attributeSelectTwoSetSelectedValue1" true index}}
-              <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
-              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet2 false "level.attributeSelectTwoSetSelectedValue1" false index}}
-            {{else}}
-              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet1 false "level.attributeSelectTwoSetSelectedValue1" true index}}
-              <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
-              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet2 true "level.attributeSelectTwoSetSelectedValue1" false index}}
-            {{/if}}
-
-            <div class="dl-new-project-2 nohover">
-              <span style="margin-left: 4px">{{plusify level.attributeSelectTwoSetValue1}}</span>
+    <div class="dl-item-section split">
+      <div class="half-panel">
+        <b>{{localize "DL.PathsLevelAttributesSubtitle"}}</b>
+        <div class="attribute-select-container"> 
+          <div class="item-group-attribute-select display-only" name="level.attributeSelect" value="{{level.attributeSelect}}">
+            <div class="input-group">
+              <span class="text">{{localize (ifThen level.attributeSelect (concat 'DL.PathsLevelAttributes' (capitalize level.attributeSelect)) 'DL.None')}}</span>
             </div>
           </div>
 
-          <div class="dl-column-flex">
-            {{#if level.attributeSelectTwoSetSelectedValue2}}
-              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet3 true "level.attributeSelectTwoSetSelectedValue2" true index}}
-              <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
-              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet4 false "level.attributeSelectTwoSetSelectedValue2" false index}}
-            {{else}}
-              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet3 false "level.attributeSelectTwoSetSelectedValue2" true index}}
-              <div style="align-self: center">{{localize "DL.PathsLevelAttributesSelectOr"}}</div>
-              {{dlPathAttributeTwoSetViewSelector level.attributeSelectTwoSet4 true "level.attributeSelectTwoSetSelectedValue2" false index}}
-            {{/if}}
-
-            <div class="dl-new-project-2 nohover">
-              <span style="margin-left: 4px">{{plusify level.attributeSelectTwoSetValue2}}</span>
+          {{#if (or level.attributeSelectIsChooseTwo level.attributeSelectIsChooseThree)}}
+            {{> AttributeSelector icon="strength"   value=level.attributes.strength.value  id=(concat "L" level.level ".attributes.strength.selected." ../item.id) name="level.attributes.strength.selected"  selected=level.attributes.strength.selected  loc="DL.AttributeStrength"}}
+            {{> AttributeSelector icon="agility"    value=level.attributes.agility.value   id=(concat "L" level.level ".attributes.agility.selected." ../item.id) name="level.attributes.agility.selected"   selected=level.attributes.agility.selected   loc="DL.AttributeAgility"}}
+            {{> AttributeSelector icon="intellect"  value=level.attributes.intellect.value id=(concat "L" level.level ".attributes.intellect.selected." ../item.id) name="level.attributes.intellect.selected" selected=level.attributes.intellect.selected loc="DL.AttributeIntellect"}}
+            {{> AttributeSelector icon="will"       value=level.attributes.will.value      id=(concat "L" level.level ".attributes.will.selected." ../item.id) name="level.attributes.will.selected"      selected=level.attributes.will.selected      loc="DL.AttributeWill"}}
+          {{else if level.attributeSelectIsFixed}}
+            {{> AttributeViewer icon="strength"   value=level.attributes.strength.value  name="level.attributes.strength.value"  loc="DL.AttributeStrength"}}
+            {{> AttributeViewer icon="agility"    value=level.attributes.agility.value   name="level.attributes.agility.value"   loc="DL.AttributeAgility"}}
+            {{> AttributeViewer icon="intellect"  value=level.attributes.intellect.value name="level.attributes.intellect.value" loc="DL.AttributeIntellect"}}
+            {{> AttributeViewer icon="will"       value=level.attributes.will.value      name="level.attributes.will.value"      loc="DL.AttributeWill"}}
+          {{else if level.attributeSelectIsTwoSet}}
+            <div class="attribute-set-container">
+              {{> LevelAttributeTwoSetViewer inputName="level.attributeSelectTwoSet1" attribute=level.attributeSelectTwoSet1 groupName="attributeSet1" selected=(not level.attributeSelectTwoSetSelectedValue1)}}
+              <span class="text-vs">{{localize "DL.PathsLevelAttributesSelectOr"}}</span>
+              {{> LevelAttributeTwoSetViewer inputName="level.attributeSelectTwoSet2" attribute=level.attributeSelectTwoSet2 groupName="attributeSet1" selected=level.attributeSelectTwoSetSelectedValue1}}
+              <div class="input-group-value">
+                <input type="number" class="input-group-textbox" name="level.attributeSelectTwoSetValue1" value="{{level.attributeSelectTwoSetValue1}}"/>
+              </div>
             </div>
-          </div>
-        {{/if}}
-
+            <div class="attribute-set-container">
+              {{> LevelAttributeTwoSetViewer inputName="level.attributeSelectTwoSet3" attribute=level.attributeSelectTwoSet3 groupName="attributeSet2" selected=(not level.attributeSelectTwoSetSelectedValue2)}}
+              <span class="text-vs">{{localize "DL.PathsLevelAttributesSelectOr"}}</span>
+              {{> LevelAttributeTwoSetViewer inputName="level.attributeSelectTwoSet4" attribute=level.attributeSelectTwoSet4 groupName="attributeSet2" selected=level.attributeSelectTwoSetSelectedValue2}}
+              <div class="input-group-value">
+                <input type="number" class="input-group-textbox" name="level.attributeSelectTwoSetValue1" value="{{level.attributeSelectTwoSetValue1}}"/>
+              </div>
+            </div>
+          {{/if}}
+        </div>
       </div>
-      <span class="grid-sep"></span>
-      <div class="dl-item-section-section">
-        <div class="dl-item-section-section-title">
-          <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
+
+      <span class="panel-sep"></span>
+
+      <div class="half-panel">
+        <b>{{localize "DL.PathsLevelCharacteristicsSubtitle"}}</b>
+        <div class="characteristics-container">
+          {{> AttributeViewer icon="health"   value=level.characteristics.health  name="level.characteristics.health" loc="DL.CharHealth"}}
+          {{> AttributeViewer icon="defense"   value=level.characteristics.defense  name="level.characteristics.defense" loc="DL.AttributeDefense"}}
+          {{> AttributeViewer icon="perception"   value=level.characteristics.perception  name="level.characteristics.perception" loc="DL.AttributePerception"}}
+          {{> AttributeViewer icon="speed"   value=level.characteristics.speed  name="level.characteristics.speed" loc="DL.CharSpeed"}}
+          {{> AttributeViewer icon="insanity"   value=level.characteristics.insanity.value  name="level.characteristics.insanity.value" loc="DL.CharInsanity"}}
+          {{> AttributeViewer icon="corruption"   value=level.characteristics.corruption.value  name="level.characteristics.corruption.value" loc="DL.CharCorruption"}}
+          {{> AttributeViewer icon="power"   value=level.characteristics.power  name="level.characteristics.power" loc="DL.CharPower"}}
         </div>
-        {{> dlAttributeInputCol1IF icon="health"   value=level.characteristicsHealth  name="level.characteristicsHealth"  loc="DL.CharHealth"}}
-        {{> dlAttributeInputCol1IF icon="defense"   value=level.characteristicsDefense  name="level.characteristicsDefense"  loc="DL.AttributeDefense"}}
-        {{> dlAttributeInputCol1IF icon="perception"   value=level.characteristicsPerception  name="level.characteristicsPerception"  loc="DL.AttributePerception"}}
-        {{> dlAttributeInputCol1IF icon="speed"   value=level.characteristicsSpeed  name="level.characteristicsSpeed"  loc="DL.CharSpeed"}}
-        {{> dlAttributeInputCol1IF icon="insanity"   value=level.characteristicsInsanity  name="level.characteristicsInsanity"  loc="DL.CharInsanity"}}
-        {{> dlAttributeInputCol1IF icon="corruption"   value=level.characteristicsCorruption  name="level.characteristicsCorruption"  loc="DL.CharCorruption"}}
-        {{> dlAttributeInputCol1IF icon="power"   value=level.characteristicsPower  name="level.characteristicsPower"  loc="DL.CharPower"}}
       </div>
     </div>
+
     <hr>
 
-    <div class="dl-item-section-section">
+    <div class="dl-item-section">
       {{#if level.languagesText}}
-        <div class="dl-item-section-section-title">
+        <div class="dl-item-section-header">
           <b>{{localize "DL.PathsLevelLanguages"}}</b>
         </div>
         <div class="text-areas">
@@ -183,7 +127,7 @@
       {{/if}}
 
       {{#if level.equipmentText}}
-        <div class="dl-item-section-section-title">
+        <div class="dl-item-section-header">
           <b>{{localize "DL.PathsLevelEquipment"}}</b>
         </div>
         <div class="text-areas">
@@ -192,45 +136,54 @@
       {{/if}}
 
       {{#if level.magicText}}
-        <div class="dl-item-section-section-title">
+        <div class="dl-item-section-header">
           <b>{{localize "DL.TabsMagic"}}</b>
         </div>
         <div class="text-areas">
           <div>{{level.magicText}}</div>
         </div>
       {{/if}}
+
+      {{#if level.optionsText}}
+        <div class="dl-item-section-header">
+          <b>{{localize "DL.OptionsText"}}</b>
+        </div>
+        <div class="text-areas">
+          <div>{{level.optionsText}}</div>
+        </div>
+      {{/if}}
     </div>
-    {{# if (or level.languagesText level.equipmentText level.magicText)}}
+
+    {{#if (or level.languagesText level.equipmentText level.magicText)}}
       <hr>
     {{/if}}
 
     {{#if level.talents.length}}
-      <div class="dl-item-section-section">
-        <div class="dl-item-section-section-title">
+      <div class="dl-item-section">
+        <div class="dl-item-section-header">
           <b>{{localize "DL.TalentTitle"}}</b>
         </div>
-        {{> dlDropZoneView collection=level.talents dataGroup="talents" dataLevel=index col2=true}}
+        {{> DropZoneView collection=level.talents dataGroup="talents" dataLevel=index}}
       </div>
     {{/if}}
 
     {{#if level.talentspick.length}}
-      <div class="dl-item-section-section">
-        <div class="dl-item-section-section-title">
+      <div class="dl-item-section">
+        <div class="dl-item-section-header">
           <b>{{localize "DL.TalentTitle"}} ({{localize 'DL.PathsLevelTalentChooseOne'}})</b>
         </div>
-        {{> dlDropZoneView collection=level.talentspick dataGroup="talentspick" dataLevel=index col2=true selectable=true}}
+        {{> DropZoneView collection=level.talentspick dataGroup="talentspick" dataLevel=index selectable=true}}
       </div>
     {{/if}}
 
     {{#if level.spells.length}}
-      <div class="dl-item-section-section">
-        <div class="dl-item-section-section-title">
+      <div class="dl-item-section">
+        <div class="dl-item-section-header">
           <b>{{localize "DL.MagicSpellsTitle"}}</b>
         </div>
-        {{> dlDropZoneView collection=level.spells dataGroup="spells" dataLevel=index col2=true selectable=true}}
+        {{> DropZoneView collection=level.spells dataGroup="spells" dataLevel=index selectable=true}}
       </div>
     {{/if}}
-
   </div>
 {{/each}}
 

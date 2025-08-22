@@ -1,9 +1,8 @@
 {
   "id": "demonlord",
   "title": "Shadow of the Demon Lord",
-  "description": "The Shadow of the Demonlord system for FoundryVTT",
-  "version": "3.0.0",
-  "author": "Xacus, ClipplerBlood, PatrickPorto, Ferrer",
+  "description": "The Shadow of the Demonlord system for Foundry VTT",
+  "version": "5.0.0",
   "authors": [
     {
       "name": "Xacus"
@@ -20,11 +19,9 @@
   ],
   "background": "systems/demonlord/assets/ui/thumbnail.webp",
   "compatibility": {
-    "minimum": 11,
-    "verified": 11
+    "minimum": 13,
+    "verified": 13
   },
-  "creators": "Xacus",
-  "localization": "PatrickPorto, Markus Raab, Damaskian, EDgarra, aeciobf, ParvusDomus, Cugi, zeteticl",
   "esmodules": ["module/demonlord.js"],
   "styles": ["styles/demonlord.css", "module/bundle.css"],
   "scripts": [],
@@ -51,7 +48,7 @@
       "type": "Item"
     },
     {
-      "name": "weapons creature",
+      "name": "weapons-creature",
       "label": "Weapons Creature",
       "system": "demonlord",
       "path": "packs/weapons-creatures",
@@ -65,28 +62,28 @@
       "type": "Item"
     },
     {
-      "name": "demonlord macros gm",
+      "name": "demonlord-macros-gm",
       "label": "Demonlord Macros - GM",
       "system": "demonlord",
       "path": "packs/demonlord-macros-gm",
       "type": "Macro"
     },
     {
-      "name": "demonlord macros player",
+      "name": "demonlord-macros-player",
       "label": "Demonlord Macros - Player",
       "system": "demonlord",
       "path": "packs/demonlord-macros-player",
       "type": "Macro"
     },
     {
-      "name": "sotdl system guide",
+      "name": "sotdl-system-guide",
       "label": "SotDL System Guide",
       "system": "demonlord",
       "path": "packs/sotdl-system-guide",
       "type": "JournalEntry"
     },
     {
-      "name": "sotdl roll tabels",
+      "name": "sotdl-roll-tables",
       "label": "Demonlord - Roll Tables",
       "system": "demonlord",
       "path": "packs/roll-tables",
@@ -126,8 +123,13 @@
     },
     {
       "lang": "zh-tw",
-      "name": "Taiwanese Chinese",
+      "name": "Traditional Chinese",
       "path": "lang/zh-tw.json"
+    },
+    {
+      "lang": "zh-cn",
+      "name": "Simplified Chinese",
+      "path": "lang/zh-cn.json"
     },
     {
       "lang": "pl",
@@ -135,8 +137,10 @@
       "path": "lang/pl.json"
     }
   ],
-  "gridDistance": 1,
-  "gridUnits": "yd",
+  "grid": {
+    "distance": 1,
+    "units": "yd"
+  },
   "primaryTokenAttribute": "characteristics.health",
   "secondaryTokenAttribute": null,
   "socket": true,
@@ -146,6 +150,5 @@
   "bugs": "https://github.com/Xacus/demonlord/issues",
   "readme": "https://github.com/Xacus/demonlord/blob/master/README.md",
   "changelog": "https://github.com/Xacus/demonlord/blob/master/CHANGELOG.md",
-  "allowBugReporter": true,
   "license": "LICENSE.txt"
 }

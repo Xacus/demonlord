@@ -1,9 +1,10 @@
 import { action, activatedEffect } from '../common.js'
 import { makeBoolField, makeHtmlField, makeIntField, makeStringField } from '../helpers.js'
 
-export default class WeaponDataModel extends foundry.abstract.DataModel {
+export default class WeaponDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
+      source: makeHtmlField(),
       description: makeHtmlField(),
       action: action(),
       activatedEffect: activatedEffect(),
@@ -17,13 +18,19 @@ export default class WeaponDataModel extends foundry.abstract.DataModel {
       wear: makeBoolField(true),
       quantity: makeIntField(1),
       availability: makeStringField(),
-      value: makeStringField()
+      value: makeStringField(),
+      consume: new foundry.data.fields.SchemaField({
+        ammorequired: makeBoolField(false),
+        amount: makeIntField(1),
+        ammoitemid: makeStringField()
+      }),      
     }
   }
 }
 
 export function makeWeaponSchema() {
   return new foundry.data.fields.SchemaField({
+    source: makeHtmlField(),
     description: makeHtmlField(),
     action: action(),
     activatedEffect: activatedEffect(),
@@ -37,6 +44,11 @@ export function makeWeaponSchema() {
     wear: makeBoolField(true),
     quantity: makeIntField(1),
     availability: makeStringField(),
-    value: makeStringField()
+    value: makeStringField(),
+    consume: new foundry.data.fields.SchemaField({
+      ammorequired: makeBoolField(false),
+      amount: makeIntField(1),
+      ammoitemid: makeStringField()
+    }),    
   })
 }

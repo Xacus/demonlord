@@ -1,11 +1,12 @@
 import DLBaseActorSheet from './base-actor-sheet'
 import { prepareActiveEffectCategories } from '../../active-effects/effects'
 import { handleLevelChange } from '../../item/nested-objects'
+import launchRestDialog from '../../dialog/rest-dialog'
 
 export default class DLCharacterSheet extends DLBaseActorSheet {
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['demonlord', 'sheet', 'actor', 'dl-sheet'],
       width: 875,
       height: 700,
@@ -41,31 +42,32 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Effects categories
     data.ancestryEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'ancestry'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'ancestry'),
     )
     delete data.ancestryEffects.temporary
 
     data.pathEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'path'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'path'),
     )
     delete data.pathEffects.temporary
 
     data.talentEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'talent'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'talent'),
     )
     data.spellEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'spell'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'spell'),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.sourceType) >= 0),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.demonlord?.sourceType) >= 0),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'creaturerole'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'creaturerole'),
     )
     data.itemEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.sourceType === 'relic'),
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'relic'),
     )
     this.prepareItems(data)
+    data['fortuneAwardPrevented']  = (game.settings.get('demonlord', 'fortuneAwardPrevented') && !game.user.isGM && !this.actor.system.characteristics.fortune) ? true : false
     return data
   }
 
@@ -119,10 +121,10 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     if (item.type === 'ancestry') {
 
       // Add insanity and corruption values
-      const insanityImmune = this.actor.system.characteristics.insanity.immune || item.system.characteristics.insanity.immune
-      const corruptionImmune = this.actor.system.characteristics.corruption.immune || item.system.characteristics.corruption.immune
-      const newInsanity = this.actor.system.characteristics.insanity.value + item.system.characteristics.insanity.value
-      const newCorruption = this.actor.system.characteristics.corruption.value + item.system.characteristics.corruption.value
+      const insanityImmune = this.actor.system.characteristics.insanity.immune || item.system.levels.filter(l => l.characteristics.insanity.immune).length > 0
+      const corruptionImmune = this.actor.system.characteristics.corruption.immune || item.system.levels.filter(l => l.characteristics.corruption.immune).length > 0
+      const newInsanity = this.actor.system.characteristics.insanity.value + item.system.levels.reduce((s, l) => s + l.characteristics.insanity.value, 0)
+      const newCorruption = this.actor.system.characteristics.corruption.value + item.system.levels.reduce((s, l) => s + l.characteristics.corruption.value, 0)
 
       await this.actor.update({
         'system.characteristics': {
@@ -261,6 +263,17 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       await this.actor.update({ 'system.characteristics.corruption.value': value }).then(_ => this.render())
     })
 
+    // Fortune click
+      // eslint-disable-line no-unused-vars
+      html.on('mousedown', '.fortune', async () => {
+      // Expending fortune always possible.
+      if (game.settings.get('demonlord', 'fortuneAwardPrevented') && !game.user.isGM && !this.actor.system.characteristics.fortune) return
+      let value = parseInt(this.actor.system.characteristics.fortune)
+      if (value) await this.actor.expendFortune(false)
+      else this.actor.expendFortune(true)
+    })
+
+
     // Health bar fill
     const healthbar = html.find('.healthbar-fill')
     if (healthbar.length > 0) {
@@ -329,7 +342,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Ammo uses
     html.on('mousedown', '.ammo-amount', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      const item = duplicate(this.actor.items.get(id))
+      const item = foundry.utils.duplicate(this.actor.items.get(id))
       const amount = item.system.quantity
       if (ev.button == 0 && amount >= 0) item.system.quantity = +amount + 1
       else if (ev.button == 2 && amount > 0) item.system.quantity = +amount - 1
@@ -339,7 +352,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     // Item uses
     html.on('mousedown', '.item-uses', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      const item = duplicate(this.actor.items.get(id))
+      const item = foundry.utils.duplicate(this.actor.items.get(id))
       if (ev.button == 0) {
         item.system.quantity++
       } else if (ev.button == 2) {
@@ -351,7 +364,16 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     })
 
     // Rest character
-    html.find('.rest-char').click(_ => this.actor.restActor())
+    html.find('.rest-char').click(_ =>
+      launchRestDialog(game.i18n.localize('DL.DialogRestTitle'), (dHtml, restTime) => {
+        this.actor.restActor(
+          restTime,
+          !dHtml.currentTarget.querySelector("input[id='noMagicRecovery']").checked,
+          !dHtml.currentTarget.querySelector("input[id='noTalentRecovery']").checked,
+          !dHtml.currentTarget.querySelector("input[id='noHealing']").checked,
+        )
+      }),
+    )
 
     // Healing Rate button
     html.find('.healingratebox').on('mousedown', async ev => await this.actor.applyHealing(ev.button === 0))

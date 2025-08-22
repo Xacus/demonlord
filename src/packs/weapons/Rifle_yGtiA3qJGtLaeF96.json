@@ -7,7 +7,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Two",
+    "hands": "two",
     "properties": "Misfire, Range (long), Reload, Uses Bullets",
     "availability": "E",
     "value": "10 gc",

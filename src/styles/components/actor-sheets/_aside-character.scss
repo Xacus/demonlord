@@ -149,7 +149,7 @@ form {
             content: url('../../../icons/svg/sleep.svg');
             position: relative;
             left: -1px;
-            top: -36px;
+            top: -33px;
           }
 
           input.checkbox {
@@ -327,6 +327,20 @@ form {
           margin-top: -13px;
           padding-right: 10px;
           color: #000;
+        }
+
+        .insanitymiddle,
+        .corruptionmiddle {
+          margin-top: -13px;
+          color: #000;
+          text-align: center;
+        }
+
+        .insanity-empty,
+        .corruption-empty {
+          display: block;
+          height: 12px;
+          border-radius: 3px;
         }
 
         .damage,

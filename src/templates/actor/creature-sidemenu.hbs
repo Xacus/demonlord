@@ -8,26 +8,22 @@
     {{/if}}
     <div class="restbox">
       <div class="frightening">
-        <input type="checkbox" name="system.frightening"
-               id="system.frightening" class="checkbox"
-               class="checkinput"
-          {{checked system.frightening}} /><label
-              for="system.frightening"/>
+        <label>
+          <input type="checkbox" name="system.frightening" id="system.frightening" {{checked system.frightening}} />
+          </label>
       </div>
       <div class="resttext">{{localize "DL.CreatureFrightening"}}</div>
     </div>
     <div class="restboxright">
       <div class="horrifying">
-        <input type="checkbox" name="system.horrifying"
-               id="system.horrifying" class="checkbox"
-               class="checkinput"
-          {{checked system.horrifying}} /><label
-              for="system.horrifying"/>
+        <label>
+          <input type="checkbox" name="system.horrifying" id="system.horrifying" {{checked system.horrifying}} >
+        </label>
       </div>
       <div class="resttext">{{localize "DL.CreatureHorrifying"}}</div>
     </div>
     <div class="charsstat">
-      <div class="chars grid grid-2col">
+      <div class="chars grid grid-2">
         <div class="speedbox">
           <div class="speedtext">{{localize "DL.TalentDamage"}}</div>
           <div class="speed">
@@ -43,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="chars grid grid-2col">
+      <div class="chars grid grid-2">
         <div class="speedbox">
           <div class="speedtext">{{localize "DL.AttributeDefense"}}</div>
           <div class="speed"><input name="system.characteristics.defense" type="number"
@@ -55,7 +51,7 @@
                                     value="{{system.characteristics.power}}" data-dtype="Number" placeholder=""/></div>
         </div>
       </div>
-      <div class="chars grid grid-2col">
+      <div class="chars grid grid-2">
         <div class="speedbox">
           <div class="speedtext">{{localize "DL.CharSize"}}</div>
           <div class="speed"><input name="system.characteristics.size" type="text"
@@ -68,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="chars grid grid-2col">
+      <div class="chars grid grid-2">
         <div class="speedbox characteristic">
           <div class="speedtext name" data-key="insanity">{{localize "DL.CreatureInsanity"}}</div>
           <div class="speed">
@@ -91,15 +87,17 @@
       <input name="system.speedtraits" type="text" value="{{system.speedtraits}}"
              data-dtype="String" placeholder="{{localize 'DL.CreatureSpeedTraits'}}"/>
     </div>
-    <div class="turnmode">
-      <label class="switchTurn">
-        <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}}>
-        <div class="slider round">
-          <span class="on">{{localize "DL.TurnFastButton"}}</span>
-          <span class="off">{{localize "DL.TurnSlowButton"}}</span>
-        </div>
-      </label>
-    </div>
+    {{#unless hideTurnMode}}
+      <div class="turnmode">
+        <label class="switchTurn">
+          <input type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}} {{disabled system.maluses.noFastTurn}}>
+          <div class="slider round">
+            <span class="on">{{localize "DL.TurnFastButton"}}</span>
+            <span class="off">{{localize "DL.TurnSlowButton"}}</span>
+          </div>
+        </label>
+      </div>
+    {{/unless}}
   </div>
   <div class="dl-side-tab-container">
     {{#each actor.roles}}

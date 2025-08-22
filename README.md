@@ -62,6 +62,21 @@ A huge thanks to Robert Schwalb for letting me do this system.
 
 Icons are licensed to be used only in this application. Any other use is prohibited.
 
+## **Recognition**
+
+Huge thanks to those that helped translate the system:
+
+- PatrickPorto
+- Markus Raab
+- Damaskian
+- EDgarra
+- aeciobf
+- ParvusDomus
+- Cugi
+- zeteticl
+- baixiang
+
+
 ## **Discord**
 
 Please join the Discord Server: https://discord.gg/DUMfrUc

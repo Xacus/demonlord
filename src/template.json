@@ -160,6 +160,7 @@
       "ammo",
       "ancestry",
       "armor",
+      "creaturerole",
       "endoftheround",
       "feature",
       "item",
@@ -170,8 +171,7 @@
       "specialaction",
       "spell",
       "talent",
-      "weapon",
-      "creaturerole"
+      "weapon"
     ],
     "templates": {
       "base": {
@@ -250,7 +250,9 @@
       "availability": "",
       "value": "",
       "wear": true,
-      "healingoption": false
+      "healingoption": false,
+      "autoDestroy": false,
+      "consumabletype": ""
     },
     "feature": {
       "templates": ["base"]
@@ -372,52 +374,7 @@
     },
     "ancestry": {
       "description": "",
-      "attributes": {
-        "strength": {
-          "value": 10,
-          "min": 0,
-          "max": 20
-        },
-        "agility": {
-          "value": 10,
-          "min": 0,
-          "max": 20
-        },
-        "intellect": {
-          "value": 10,
-          "min": 0,
-          "max": 20
-        },
-        "will": {
-          "value": 10,
-          "min": 0,
-          "max": 20
-        }
-      },
-      "characteristics": {
-        "perceptionmodifier": 0,
-        "healthmodifier": 0,
-        "defensemodifier": 0,
-        "healingratemodifier": 0,
-        "size": "1",
-        "speed": 10,
-        "power": 0,
-        "insanity": 0,
-        "corruption": 0
-      },
-      "level4": {
-        "healthbonus": 0,
-        "option1": true,
-        "option1text": "",
-        "talent": [],
-        "spells": [],
-        "pickedTalents": [],
-        "picks": 1
-      },
-      "languages": "",
-      "talents": [],
-      "languagelist": [],
-      "editTalents": false,
+      "levels": [],
       "editAncestry": true
     },
     "profession": {

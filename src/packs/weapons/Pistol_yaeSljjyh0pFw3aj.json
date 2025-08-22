@@ -8,7 +8,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "Off",
+    "hands": "off",
     "properties": "Misfire, Range (medium), Reload, Uses Bullets",
     "availability": "E",
     "value": "5 gc",

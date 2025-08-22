@@ -18,7 +18,7 @@ export function createDemonlordMacro(data, slot) {
 
 async function _createDemonlordItemMacro(item, slot) {
   if (!item) throw "DEMONLORD | Item not found in macro creation"
-  if (item.ownership[game.userId] !== CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+  if (item.ownership[game.userId] < CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER && item.parent?.ownership?.[game.userId] < CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER) {
     return ui.notifications.warn('You can only create macro buttons for owned Items')
   }
 

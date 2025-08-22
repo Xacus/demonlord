@@ -1,3 +1,4 @@
+/* global fromUuidSync */
 /**
  * Manage Active Effect instances through the Actor Sheet via effect control buttons.
  * @param {MouseEvent} event      The left-click event on the effect control
@@ -23,7 +24,7 @@ export async function onManageActiveEffect(event, owner) {
             icon: isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' : owner.img,
             origin: owner.uuid,
             transfer: false,
-            flags: { sourceType: owner.type },
+            flags: { demonlord: { sourceType: owner.type } },
             'duration.rounds': li.dataset.effectType === 'temporary' ? 1 : undefined,
             disabled: li.dataset.effectType === 'inactive',
           },
@@ -36,6 +37,38 @@ export async function onManageActiveEffect(event, owner) {
     case 'toggle':
       return await effect.update({ disabled: !effect.disabled })
   }
+}
+
+export async function onCreateEffect(listItem, owner) {
+  const isCharacter = owner.type === 'character'
+  return await owner
+        .createEmbeddedDocuments('ActiveEffect', [
+          {
+            name: isCharacter ? 'New Effect' : owner.name,
+            icon: isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' : owner.img,
+            origin: owner.uuid,
+            transfer: false,
+            flags: { demonlord: {sourceType: owner.type } },
+            'duration.rounds': listItem.dataset.effectType === 'temporary' ? 1 : undefined,
+            disabled: listItem.dataset.effectType === 'inactive',
+          },
+        ])
+        .then(effects => effects[0].sheet.render(true))
+}
+
+export async function onEditEffect(listItem, owner) {
+  const effect = listItem.dataset.effectId ? (owner instanceof DemonlordActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === listItem.dataset.effectId) : owner.effects.get(listItem.dataset.effectId)) : null
+  return effect.sheet.render(true)
+}
+
+export async function onDeleteEffect(listItem, owner) {
+    const effect = listItem.dataset.effectId ? (owner instanceof DemonlordActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === listItem.dataset.effectId) : owner.effects.get(listItem.dataset.effectId)) : null
+  return await effect.delete()
+}
+
+export async function onToggleEffect(listItem, owner) {
+  const effect = listItem.dataset.effectId ? (owner instanceof DemonlordActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === listItem.dataset.effectId) : owner.effects.get(listItem.dataset.effectId)) : null
+  return await effect.update({ disabled: !effect.disabled })
 }
 
 /**
@@ -73,8 +106,13 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
 
   // Iterate over active effects, classifying them into categories.
   for (let e of effects) {
-    // First thing, set notEditable flag on effects that come from items where !ownerIsItem
-    e.flags.notDeletable = e.flags.notDeletable ?? (e.parent instanceof DemonlordItem && !ownerIsItem)
+    // First thing, create flags if not present
+    if (!e.flags.demonlord) {
+      e.flags.demonlord = {}
+    }
+
+    // Set notEditable flag on effects that come from items where !ownerIsItem
+    e.flags.demonlord.notDeletable = e.flags.demonlord?.notDeletable ?? (e.parent instanceof DemonlordItem && !ownerIsItem)
 
     // Also set the 'remaining time' in seconds or rounds depending on if in combat
     if (e.isTemporary && (e.duration.seconds || e.duration.rounds || e.duration.turns)) {
@@ -98,10 +136,26 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
       e.dlRemaining = e.duration.label
     }
 
+    let specialDuration = foundry.utils.getProperty(e, `flags.${game.system.id}.specialDuration`)
+    let tokenName
+    if (specialDuration !== 'None' && specialDuration !== undefined) {
+      tokenName = fromUuidSync(e.origin.substr(0, e.origin.search('.Actor.')))?.name
+      switch (specialDuration) {
+        case 'TurnEndSource':
+          e.dlRemaining = `TurnEnd [${tokenName}]`
+          break
+        case 'TurnStartSource':
+          e.dlRemaining = `TurnStart [${tokenName}]`
+          break
+        default:
+          e.dlRemaining = specialDuration
+      }
+    }
 
     if (e.disabled) categories.inactive.effects.push(e)
-    else if (e.isTemporary) categories.temporary.effects.push(e)
-    else categories.passive.effects.push(e)
+      else if (e.isTemporary) categories.temporary.effects.push(e)
+      else categories.passive.effects.push(e)
+    
   }
 
   return categories

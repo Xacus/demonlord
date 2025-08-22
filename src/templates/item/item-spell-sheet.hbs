@@ -1,146 +1,100 @@
-<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
-  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="{{localize 'DL.SpellName'}}"}}
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="spell">
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
-    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
-    {{#if effects}}<a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>{{/if}}
-    {{!-- <a class="item" data-tab="activated-effect">{{localize "DL.TabsActivatedEffect"}}</a> --}}
-  </nav>
+  <div class="dl-item-section-header">
+    <b>{{item.name}}</b>
 
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-    <section class="sheet-content">
-      <div class="tab attributes" data-group="primary" data-tab="attributes">
+    <div class="dl-item-section-group item-group-spell-info">
+      <input type="text" class="input-group-textbox spell-tradition" name="system.tradition" value="{{system.tradition}}" placeholder="{{localize 'DL.MagicTradition'}}" data-tippy-content="{{localize 'DL.MagicTradition'}}"/>
+      <span class="sep"></span>
+      <select class="input-group-dropdown spell-type" name="system.spelltype" data-tippy-content="{{localize 'DL.SpellType'}}">
+        {{selectOptions config.spellTypes selected=system.spelltype blank="—" localize=true}}
+      </select>
+      <span class="sep"></span>
+      <input type="number" class="input-group-textbox spell-rank" name="system.rank" value="{{system.rank}}" placeholder="{{localize 'DL.SpellRank'}}" data-tippy-content="{{localize 'DL.SpellRank'}}"/>
+    </div>
+  </div>
 
-        <!-- Header -->
-        <div class="dl-item-section-header flex">
-          <div>
-            <b>{{item.name}}</b>
-          </div>
+  <hr>
 
-          <input name="system.tradition" value="{{system.tradition}}" placeholder="{{localize 'DL.MagicTradition'}}"
-                 autosize/>
-          <div class="select-wrapper">
-            <select name="system.spelltype" style="height: 28px; padding-top: 2px">
-              {{#select system.spelltype}}
-                <option value="">—</option>
-                <option value="Attack">{{localize "DL.SpellTypeAttack"}}</option>
-                <option value="Utility">{{localize "DL.SpellTypeUtility"}}</option>
-              {{/select}}
-            </select>
-          </div>
-          <input name="system.rank" type="number" value="{{system.rank}}" placeholder="{{localize 'DL.SpellRank'}}"
-                 style="padding: 4px" data-tippy-content="{{localize "DL.SpellRank"}}"
-                 autosize/>
-        </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellAttribute'}}</b>
+    <div class="dl-item-section-group">
+      {{Dropdown 'system.attribute' system.attribute 'DL.Attributes'}}
+    </div>
+  </div>
 
-        <hr>
-
-        <div class="dl-item-section-section margin">
-          <div>
-            <b>{{localize "DL.SpellAttribute"}}</b>
-            <div>
-              {{dlDropdown "system.attribute" system.attribute}}
-            </div>
-          </div>
-          <div>
-            <b>{{localize "DL.SpellCastings"}}</b>
-            <div>
-              <div class="dl-new-project-2 nohover">
-                <input type="number" name="system.castings.value" value="{{system.castings.value}}"
-                       data-tippy-content="{{localize "DL.SpellCastingsUses"}}" placeholder="-" min="0" autosize/>
-                <span class="sep"></span>
-                <input type="number" name="system.castings.max" class="max-castings-control {{ifThen system.castings.ignoreCalculation "" "readonly"}}" value="{{system.castings.max}}"
-                       data-tippy-content="{{localize "DL.SpellCastingsMax"}}" placeholder="-" min="0" {{readonly (not system.castings.ignoreCalculation)}} autosize/>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <hr>
-
-        {{> "systems/demonlord/templates/item/partial/item-attacks.hbs" action=system.action actionId="system.action"}}
-
-        <hr>
-
-        <div class="dl-item-section-section margin">
-          {{> "systems/demonlord/templates/item/partial/item-challenge.hbs" action=system.action actionId="system.action"}}
-          {{> "systems/demonlord/templates/item/partial/item-healing.hbs" healing=system.healing.healing healingId="system.healing.healing"}}
-        </div>
-
-        <hr>
-
-        <div class="dl-item-section-section text-areas">
-          <div>
-            <b>{{localize "DL.SpellRequirements"}}</b>
-            <textarea name="system.requirements" placeholder="―" autosize>{{system.requirements}}</textarea>
-          </div>
-          <div>
-            <b>{{localize "DL.SpellTarget"}}</b>
-            <textarea name="system.target" placeholder="―" autosize>{{system.target}}</textarea>
-          </div>
-          <div>
-            <b>{{localize "DL.SpellArea"}}</b>
-            <textarea name="system.area" placeholder="―" autosize>{{system.area}}</textarea>
-          </div>
-          <div>
-            <b>{{localize "DL.SpellDuration"}}</b>
-            <textarea name="system.duration" placeholder="―" autosize>{{system.duration}}</textarea>
-          </div>
-        </div>
-        <hr>
-
-        {{#if system.description}}
-          <div class="dl-item-section-description">
-            <div><b>{{localize "DL.TabsDescription"}}</b></div>
-            <div>
-              {{{system.enrichedDescription}}}
-            </div>
-          </div>
-        {{/if}}
-
-
-        <div class="dl-item-section-section text-areas">
-          <div>
-            <b>{{localize "DL.SpellTriggered"}}</b>
-            <textarea name="system.triggered" placeholder="―" autosize>{{system.triggered}}</textarea>
-          </div>
-          <div>
-            <b>{{localize "DL.SpellSacrifice"}}</b>
-            <textarea name="system.sacrifice" placeholder="―" autosize>{{system.sacrifice}}</textarea>
-          </div>
-          <div>
-            <b>{{localize "DL.SpellPermanence"}}</b>
-            <textarea name="system.permanence" placeholder="―" autosize>{{system.permanence}}</textarea>
-          </div>
-          <div>
-            <b>{{localize "DL.SpellAftereffect"}}</b>
-            <textarea name="system.aftereffect" placeholder="―" autosize>{{system.aftereffect}}</textarea>
-          </div>
-          <div>
-            <b>{{localize "DL.SpellSpecial"}}</b>
-            <textarea name="system.special" placeholder="―" autosize>{{system.special}}</textarea>
-          </div>
-          <div>
-            <b>{{localize "DL.SpellEffectDice"}}</b>
-            <textarea name="system.effectdice" placeholder="―" autosize>{{system.effectdice}}</textarea>
-          </div>
-          <div>
-            <b>{{localize "DL.WeaponAttack20Text"}}</b>
-            <textarea name="system.action.plus20" placeholder="―" autosize>{{system.action.plus20}}</textarea>
-          </div>
-        </div>
-        <hr>
-
-        {{> "systems/demonlord/templates/item/partial/item-measured-template.hbs"}}
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellCastings'}}</b>
+    <div class="dl-item-section-group">
+      <div class="item-group-spell-castings">
+        <input type="number" class="input-group-textbox" name="system.castings.value" value="{{system.castings.value}}" data-tippy-content="{{localize 'DL.SpellCastingsUses'}}" placeholder="-" min="0"/>
+        <span class="sep"></span>
+        <input type="number" class="input-group-textbox max-castings-control {{ifThen system.castings.ignoreCalculation '' 'readonly'}}" name="system.castings.max" value="{{system.castings.max}}" data-tippy-content="{{localize 'DL.SpellCastingsMax'}}" placeholder="-" min="0" {{readonly (not system.castings.ignoreCalculation)}}/>
       </div>
+    </div>
+  </div>
 
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}}
+  <hr>
 
-      {{#if effects}}{{> "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
-      {{!-- "systems/demonlord/templates/item/partial/item-activation.hbs" --}}
-    </section>
-  </section>
-</form>
+  {{> 'systems/demonlord/templates/item/partial/item-attacks.hbs' action=system.action actionId='system.action'}}
+  <hr>
+
+  {{> 'systems/demonlord/templates/item/partial/item-challenge.hbs' action=system.action actionId='system.action'}}
+  {{> 'systems/demonlord/templates/item/partial/item-healing.hbs' healing=system.healing.healing healingId='system.healing.healing'}}
+
+  <hr>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.Requirements'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.requirements" placeholder="―" value="{{system.requirements}}" >
+  </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellTarget'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.target" placeholder="―" value="{{system.target}}" >
+  </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellArea'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.area" placeholder="―" value="{{system.area}}" >
+  </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellDuration'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.duration" placeholder="―" value="{{system.duration}}" >
+  </div>
+  <hr>
+
+  {{> 'systems/demonlord/templates/item/partial/item-description.hbs' description=system.description enrichedDescription=system.enrichedDescription}}
+
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellTriggered'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.triggered" placeholder="―" value="{{system.triggered}}">
+  </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellSacrifice'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.sacrifice" placeholder="―" value="{{system.sacrifice}}">
+  </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellPermanence'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.permanence" placeholder="―" value="{{system.permanence}}">
+  </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellAftereffect'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.aftereffect" placeholder="―" value="{{system.aftereffect}}">
+  </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellSpecial'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.special" placeholder="―" value="{{system.special}}">
+  </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.SpellEffectDice'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.effectdice" placeholder="―" value="{{system.effectdice}}">
+  </div>
+  <div class="dl-item-section item-properties">
+    <b>{{localize 'DL.WeaponAttack20Text'}}</b>
+    <input type="text" class="item-properties-textbox" name="system.action.plus20" placeholder="―" value="{{system.action.plus20}}">
+  </div>
+
+  <hr>
+
+  {{> 'systems/demonlord/templates/item/partial/item-measured-template.hbs'}}
+</div>

@@ -1,46 +1,46 @@
 import { PlayerTracker } from './dialog/player-tracker.js'
+const InteractionLayer = foundry.canvas.layers.InteractionLayer
 
-class PlayerTrackerLayer extends CanvasLayer {
-  constructor() {
-    super()
+function registerLayer () {
+  CONFIG.Canvas.layers.playerTracker = { name: 'sotdl', layerClass: InteractionLayer, group: 'interface' }
+
+}
+
+function registerGetSceneControlButtonsHook () {
+  Hooks.on('getSceneControlButtons', getSceneControlButtons)
+}
+
+function getSceneControlButtons (controls) {
+  if (canvas === null) {
+    return
   }
 
-  setButtons() {
-    sptLayer.newButtons = {
-      name: 'dl-gm-tools',
+  // Only visible to GM
+  if (game.user?.isGM) {
+    controls['sotdl'] = {
+      name: 'sotdl',
       title: 'SotDL GM Tools',
-      layer: 'controls', // TODO: different layer to allow token clicks
+      layer: 'sotdl', // TODO: different layer to allow token clicks
       icon: 'fas fa-book-dead', // More demonic themed :) [old: fa-wrench]
       visible: true,
-      tools: [
-        {
-          icon: 'fas fas fa-users',
-          name: 'Users',
+      tools: {
+        'players': {
+          name: 'players',
           title: 'Player Tracker',
-          onClick: sptLayer.renderPlayerTracker,
-        },
-      ],
-    }
-  }
-
-  initialize() {
-    Hooks.on('getSceneControlButtons', controls => {
-      if (game.user.role === 4) {
-        controls.push(sptLayer.newButtons)
+          icon: 'fas fas fa-users',
+          order: 1,
+          button: true,
+          onClick: () => {
+            new PlayerTracker(this.actor, {
+              top: 60,
+              left: 120,
+            }).render(true)
+          }
+        }
       }
-    })
-  }
-
-  async renderPlayerTracker() {
-    new PlayerTracker(this.actor, {
-      top: 60,
-      left: 120,
-    }).render(true)
+    }
   }
 }
 
-const sptLayer = new PlayerTrackerLayer()
-sptLayer.setButtons()
-sptLayer.initialize()
-
-GridLayer.prototype.releaseAll = function () {}
+registerLayer()
+registerGetSceneControlButtonsHook();

@@ -12,27 +12,30 @@
 export function injectDraggable(html, combattracker) {
   // For each combatant in the list, add the attributes "type" and "fastturn" for faster handling
   const currentCombat = combattracker.getCurrentCombat()
-  html.find('li.combatant').each((_, el) => {
+  html.querySelectorAll('li.combatant').forEach(el => {
     const id = el.dataset.combatantId
     if (!id) return
     const combatant = currentCombat?.combatants.get(id)
     if (!combatant) throw "Combatant not found in draggable injection"
-    el.setAttribute('data-combatant-type', combatant.actor.type)
-    el.setAttribute('data-combatant-fast', combatant.actor.system.fastturn)
+    el.setAttribute('data-combatant-type', combatant.actor?.type)
+    el.setAttribute('data-combatant-fast', combatant.actor?.system?.fastturn)
   })
 
   // If GM, everything is draggable, for players only controlled combatants
   if (game.user.isGM)
-    html.find('li.combatant').addClass('draggable').attr('draggable', true);
+    html.querySelectorAll('li.combatant').forEach(el => {
+      el.classList.add('draggable')
+      el.setAttribute('draggable', true)
+    })
   else {
     const ownedIds = currentCombat?.combatants?.filter(c => c.isOwner).map(c => c._id)
-    html.find('li.combatant')
+    html.querySelector('li.combatant')
       .filter((_, el) => ownedIds.includes(el.dataset.combatantId))
       .addClass('draggable').attr('draggable', true)
   }
 
   // Add the drag event listeners
-  const listing = html.find('.directory-list').get(0);
+  const listing = html.querySelector('.combat-tracker.plain');
   if (!listing) return console.error('User listing not found in combat tracker');
   listing.addEventListener('dragover', dragOverEvent, { passive: true });
   listing.addEventListener('dragleave', dragLeaveEvent, { passive: true });
@@ -65,7 +68,7 @@ function isElementCompatible(el) {
   return (currentType === el.dataset.combatantType && currentFast === el.dataset.combatantFast)
 }
 
-const combatantMatch = '.directory-list .directory-item[data-combatant-id]';
+const combatantMatch = '.combat-tracker.plain .combatant[data-combatant-id]';
 
 let dragId, currentId, currentValidEl, entered = false;
 let currentType, currentFast = false
@@ -86,7 +89,7 @@ async function updateCombatant(combatantId, initiative, { diff = 0 } = {}) {
 
   if (!activeTurn) return await combat.updateEmbeddedDocuments('Combatant', [{ _id: combatantId, initiative }]);
 
-  const newTurn = diff < 0 ? Math.clamped(turn + 1, 0, combat.turns.length - 1) : turn;
+  const newTurn = diff < 0 ? Math.clamp(turn + 1, 0, combat.turns.length - 1) : turn;
 
   await combat.update({
     turn: newTurn,

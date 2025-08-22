@@ -8,7 +8,7 @@
   "type": "weapon",
   "data": {
     "description": "",
-    "hands": "One",
+    "hands": "one",
     "properties": "Range (medium), Uses Needles",
     "availability": "U",
     "value": "1 ss",

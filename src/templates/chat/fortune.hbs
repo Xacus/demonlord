@@ -1,0 +1,13 @@
+<div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
+  {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+  <div class="showlessinfo">{{data.actorInfo}}</div>
+  <header class="init-header">
+    <div class="inittext">
+       {{#if data.awarded}}
+             {{localize "DL.DialogFortuneAwarded"}}
+       {{else}}
+             {{localize "DL.DialogFortuneExpended"}}
+       {{/if}}
+    </div>
+  </header>
+</div>

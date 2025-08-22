@@ -17,7 +17,7 @@ function _remapEffects(effects) {
     effect.changes.forEach(change => {
       const obj = {
         name: effect.name,
-        type: effect.flags?.sourceType,
+        type: effect.flags?.demonlord?.sourceType,
         value: change.value,
       }
       if (!m.has(change.key)) m.set(change.key, [obj])
@@ -48,6 +48,30 @@ const changeListToMsg = (m, keys, title, f=plusify) => {
   return ''
 }
 
+const changeListToMsgDefender = (m, keys, title, anonymize, f = plusify) => {
+	// Boon on defender -> Bane on attacker and vice versa
+	const changes = []
+	title = title ? `&nbsp;&nbsp;${game.i18n.localize(title)}<br>` : ""
+	keys.forEach(key => {
+		if (m.has(key)) {
+			let newChanges = m.get(key)
+			newChanges.forEach(item => {
+				if (anonymize) {
+          if (!(item.name.startsWith(game.i18n.localize('DL.surrounded')) && game.settings.get('demonlord', 'optionalRuleSurroundingRevealChatCard'))) 
+					item.name = game.i18n.localize('DL.OtherUnknown') + ` [${game.i18n.localize('DL.ActionTarget')}]`
+				} else {
+					item.name = item.name + ` [${game.i18n.localize('DL.ActionTarget')}]`
+          item.value = item.value * -1
+				}
+			})
+			changes.push(newChanges)
+		}
+	})
+
+	if (changes.length > 0) return changes.flat(Infinity).reduce((acc, change) => acc + _toMsg(change.name, f(change.value)), title)
+	return ""
+}
+
 /* -------------------------------------------- */
 /* Message builders                             */
 /* -------------------------------------------- */
@@ -62,48 +86,78 @@ const changeListToMsg = (m, keys, title, f=plusify) => {
  * @param defenseAttribute
  * @returns {*}
  */
-export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20) {
+export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier) {
   const attackerEffects = Array.from(attacker.allApplicableEffects()).filter(effect => !effect.disabled)
   let m = _remapEffects(attackerEffects)
+  const defenderEffects = defender ? Array.from(defender.allApplicableEffects()).filter(effect => !effect.disabled) : []
+  let d = _remapEffects(defenderEffects)
+  let defenderBoonsArray = [`system.bonuses.defense.boons.${defenseAttribute}`,"system.bonuses.defense.boons.all"]
 
-  let defenderBoons = (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) + (defender?.system.bonuses.defense.boons.all || 0)
-  const defenderString = defender?.name + '  [' + game.i18n.localize('DL.SpellTarget') + ']'
+  const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
+  const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
+  let applyHorrifyingBane = (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
   let otherBoons = ''
+  let modifiers = ''
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
+  let inputModifierMsg = inputModifier ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputModifier)) : ''
   let itemBoons
   switch (item.type) {
     case 'spell':
-      itemBoons = item.system.action.boonsbanes
+      itemBoons = parseInt(item.system.action.boonsbanes) || 0
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.spell', '')
-      defenderBoons += defender?.system.bonuses.defense.boons.spell || 0
+      modifiers = changeToMsg(m, 'system.bonuses.attack.modifier.spell','')
+      defenderBoonsArray.push('system.bonuses.defense.boons.spell')      
       break
     case 'weapon':
-      itemBoons = item.system.action.boonsbanes
+      itemBoons = parseInt(item.system.action.boonsbanes) || 0
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.weapon', '')
-      defenderBoons += defender?.system.bonuses.defense.boons.weapon || 0
-      if (item.system.wear && +item.system.requirement?.minvalue > attacker.getAttribute(item.system.requirement?.attribute)?.value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon
+      modifiers = changeToMsg(m, 'system.bonuses.attack.modifier.weapon','')
+      defenderBoonsArray.push('system.bonuses.defense.boons.weapon')
+      if (item.system.wear && +item.system.requirement?.minvalue > attacker.getAttribute(item.system.requirement?.attribute)?.value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon      
       break
     case 'talent':
       if (!attackAttribute) break
-      itemBoons = item.system.action.boonsbanes
+      itemBoons = parseInt(item.system.action.boonsbanes) || 0
+      break
+    case 'attribute':
+      // Nothing to do, just continue with chatcard creation
       break
     default:
       return
   }
 
+  let revealHorrifyingBane = game.settings.get('demonlord', 'optionalRuleRevealHorrifyingBane')
+  let horrifyingTextPlayer = revealHorrifyingBane ? '<div class="gmremove">' + _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>' :  
+      '<div class="gmremove">' + _toMsg(`${game.i18n.localize('DL.OtherUnknown')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>'
+
+  let horrifyingTextGM =  '<div class="gmonly">' + _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>'
+
+  let gmOnlyResult = changeListToMsgDefender(d, defenderBoonsArray, '', false)
+  let playerOnlyResult = changeListToMsgDefender(d, defenderBoonsArray, '', true)
+  let gmOnlyMsg = gmOnlyResult ? '<div class="gmonly">' + gmOnlyResult + '</div>' : ''
+  let playerOnlyMsg = playerOnlyResult ? '<div class="gmremove">' +  playerOnlyResult + '</div>' : ''
   let boonsMsg =
     changeListToMsg(m, [`system.bonuses.attack.boons.${attackAttribute}`, "system.bonuses.attack.boons.all"], '') +
     (itemBoons ? _toMsg(item.name, plusify(itemBoons)) : '') +
     otherBoons +
-    (defenderBoons ? _toMsg(defenderString, -defenderBoons) : '')
+    (applyHorrifyingBane ? horrifyingTextPlayer : '') +
+    (applyHorrifyingBane ? horrifyingTextGM : '') +
+    (playerOnlyMsg ? playerOnlyMsg : '') +
+    (gmOnlyMsg ? gmOnlyMsg : '')
   boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
+  
+  let modifiersMsg =
+    changeListToMsg(m, [`system.bonuses.attack.modifier.${attackAttribute}`,"system.bonuses.attack.modifier.all"], '') +
+    modifiers
+  modifiersMsg = modifiersMsg+inputModifierMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackModifiers')}<br>` + modifiersMsg+inputModifierMsg : ''
 
   const extraDamageMsg = item.system.action?.damage ? changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') : ''
-  // We may want to show the extra damage 
+  // We may want to show the extra damage
   const extraDamage20PlusMsg = ((!defender && attackAttribute) || plus20) ? changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus') : ''
   return (
+    modifiersMsg +
     boonsMsg +
-    inputBoonsMsg + 
+    inputBoonsMsg +
     extraDamageMsg +
     extraDamage20PlusMsg
   )
@@ -118,13 +172,24 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
  * @param attribute
  * @returns {string}
  */
-export function buildAttributeEffectsMessage(actor, attribute, inputBoons) {
+export function buildAttributeEffectsMessage(actor, attribute, inputBoons,  inputModifier) {
   const actorEffects = Array.from(actor.allApplicableEffects()).filter(effect => !effect.disabled)
   let m = _remapEffects(actorEffects)
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
-  let result = ''
-  result += changeListToMsg(m, [`system.bonuses.challenge.boons.${attribute}`, 'system.bonuses.challenge.boons.all' ], 'DL.TalentChallengeBoonsBanes') +
-  inputBoonsMsg
+  let inputModifierMsg = inputModifier ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputModifier)) : ''
+  
+  let boonsMsg =
+    changeListToMsg(m, [`system.bonuses.challenge.boons.${attribute}`, 'system.bonuses.challenge.boons.all' ], '')
+    
+  inputModifierMsg = inputModifierMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentChallengeModifiers')}<br>` + inputModifierMsg : ''
+
+  boonsMsg = boonsMsg + inputBoonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentChallengeBoonsBanes')}<br>` + boonsMsg : ''
+    
+   let result = ''
+  result +=  boonsMsg +
+  inputBoonsMsg +
+  inputModifierMsg
+
   return result
 }
 

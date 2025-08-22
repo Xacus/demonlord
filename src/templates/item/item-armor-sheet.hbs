@@ -1,112 +1,59 @@
-<form class="{{cssClass}} item-form dl-item-form" autocomplete="off">
-  {{> "systems/demonlord/templates/item/partial/item-sheet-header.hbs" item=item placeholderName="Armor Name"}}
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="armor">
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="attributes">{{localize "DL.TabsAttributes"}}</a>
-    <a class="item" data-tab="description">{{localize "DL.TabsDescription"}}</a>
-    {{#if effects}}<a class="item" data-tab="effects">{{localize "DL.TabsEffects"}}</a>{{/if}}
-  </nav>
+  <div class="dl-item-section-header">
+    <b>{{item.name}}</b>
+  </div>
+  <hr>
 
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-    <section class="sheet-content">
-      <div class="tab weapons" data-group="primary" data-tab="attributes">
-
-        <div class="dl-item-section-header row">
-          <div class="col-12" style="margin-top: 4px">
-            <b>{{item.name}}</b>
-          </div>
-        </div>
-        <hr>
-
-        <div class="dl-item-section-section text-areas">
-          <div>
-            <b>{{localize "DL.WeaponProperties"}}</b>
-            <textarea name="system.properties" placeholder="―" autosize>{{system.properties}}</textarea>
-            <div style="margin-left: 8px">
-              <div class="dl-new-project-2 selectable {{#if system.isShield}}selected{{/if}}"
-                   data-tippy-content="{{localize "DL.ArmorIsShield"}}">
-                <input type="checkbox" name="system.isShield" {{checked system.isShield}}>
-                <i class="dl-icon-shield"></i>
-                <span class="sep"></span>
-                <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
-                  "DL.ArmorShield"}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="dl-item-section-section">
-          <div>
-            <b>{{localize "DL.TalentRollAttribute"}}</b>
-            <div>
-              <div class="dl-new-project-2">
-                <i class="dl-icon-agility"></i>
-                <span class="sep"></span>
-                <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
-                  "DL.AttributeAgility"}}</span>
-                <span class="sep"></span>
-                <input type="number" name="system.agility" value="{{system.agility}}" placeholder="0"/>
-              </div>
-              <div class="dl-new-project-2">
-                <i class="dl-icon-defense"></i>
-                <span class="sep"></span>
-                <span style="width: 64px; text-align: center; text-overflow: ellipsis">{{localize
-                  "DL.AttributeDefense"}}</span>
-                <span class="sep"></span>
-                <input type="number" name="system.defense" value="{{system.defense}}" placeholder="0"/>
-              </div>
-              <div class="dl-new-project-2">
-                <i class="dl-icon-defense-fixed"></i>
-                <span class="sep"></span>
-                <span style="width: 64px; text-align: center; text-overflow: ellipsis; overflow: hidden">{{localize
-                  "DL.ArmorFixed"}}</span>
-                <span class="sep"></span>
-                <input type="number" name="system.fixed" value="{{system.fixed}}" placeholder="0"/>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr>
-
-        <div class="dl-item-section-section margin">
-          <div>
-            <b>{{localize "DL.SpellRequirements"}}</b>
-            <div>
-              {{dlDropdownValue "system.requirement.attribute" system.requirement.attribute "system.requirement.minvalue" system.requirement.minvalue }}
-            </div>
-          </div>
-        </div>
-        <hr>
-
-        {{#if system.description}}
-          <div class="dl-item-section-description">
-            <div><b>{{localize "DL.TabsDescription"}}</b></div>
-            <div>
-              {{{system.enrichedDescription}}}
-            </div>
-          </div>
-        <hr>
-        {{/if}}
-
-        <div class="dl-item-section-section margin">
-          <div>
-            <b>{{localize "DL.Availability"}}</b>
-            <div>
-              {{dlAvailabilityDropdown "system.availability" system.availability}}
-              <div class="dl-new-project-2" data-tippy-content="{{localize "DL.ItemValue"}}">
-                <i class="dl-icon-price"></i>
-                <span class="sep"></span>
-                <input type="text" name="system.value" value="{{system.value}}" autosize/>
-              </div>
-            </div>
-          </div>
-        </div>
-
+  <div class="dl-item-section item-properties">
+    <b>{{localize "DL.WeaponProperties"}}</b>
+    <input type="text" class="item-properties-textbox" name="system.properties" placeholder="―" value="{{system.properties}}">
+    <div class="item-group-shield checkable" data-action="toggleShield">
+      <div class="input-group" data-tippy-content="{{localize "DL.ArmorIsShield"}}">
+        <input type="checkbox" name="system.isShield" {{checked system.isShield}}>
+        <i class="icon-shield themed-icon"></i>
+        <span class="sep"></span>
+        <span class="text">{{localize "DL.ArmorShield"}}</span>
       </div>
-      {{> "systems/demonlord/templates/item/partial/item-description.hbs"}} {{#if effects}}{{>
-    "systems/demonlord/templates/item/partial/item-effects.hbs"}}{{/if}}
-    </section>
-  </section>
-</form>
+    </div>
+  </div>
+
+  <div class="dl-item-section item-properties armor">
+    <b>{{localize "DL.TalentRollAttribute"}}</b>
+    <div class="dl-item-section-group">
+      <div class="item-group-agility-bonus">
+        <div class="input-group" data-tippy-content="{{localize "DL.AttributeAgility"}}">
+          <i class="icon-agility themed-icon"></i>
+          <span class="sep"></span>
+          <input type="number" class="input-group-textbox" name="system.agility" value="{{system.agility}}" placeholder="0" />
+        </div>
+      </div>
+      <div class="item-group-defense-bonus">
+        <div class="input-group" data-tippy-content="{{localize "DL.AttributeDefense"}}">
+          <i class="icon-defense themed-icon"></i>
+          <span class="sep"></span>
+          <input type="number" class="input-group-textbox" name="system.defense" value="{{system.defense}}" placeholder="0" />
+        </div>
+      </div>
+      <div class="item-group-fixed-armor">
+        <div class="input-group" data-tippy-content="{{localize "DL.ArmorFixed"}}">
+          <i class="icon-defense-fixed themed-icon"></i>
+          <span class="sep"></span>
+          <input type="number" class="input-group-textbox" name="system.fixed" value="{{system.fixed}}" placeholder="0" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <div class="dl-item-section item-properties">
+    <b>{{localize "DL.Requirements"}}</b>
+    {{DropdownValue "system.requirement.attribute" system.requirement.attribute "system.requirement.minvalue" system.requirement.minvalue }}
+  </div>
+  <hr>
+
+  {{> "systems/demonlord/templates/item/partial/item-description.hbs" description=system.description enrichedDescription=system.enrichedDescription}}
+
+  {{> "systems/demonlord/templates/item/partial/item-availability.hbs" availability=system.availability availabilityName="system.availability" value=system.value valueName="system.value"}}
+
+</div>

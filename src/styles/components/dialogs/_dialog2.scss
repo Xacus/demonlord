@@ -1,5 +1,7 @@
+@import 'global/ui';
+
 .window-content {
-  background: url(../assets/ui/paper.webp);
+  // background: url(../assets/ui/paper.webp);
 
   .form-block {
     font-size: 11px;
@@ -30,6 +32,8 @@
           h4 {
             font-family: 'IM Fell English SC', serif;
             font-size: 14px;
+            color: var(--demonlord-color-text-primary);
+            text-shadow: none;
           }
 
           .headerbody {
@@ -40,6 +44,7 @@
         .toggleEffectInfo {
           height: 13px;
           width: 200px;
+          margin-left: 60px;
         }
 
         .effectInfo {
@@ -82,6 +87,16 @@
     border-radius: 0;
     background: #edf2f7;
     font-size: 12px;
+  }
+}
+
+.restdialog {
+  padding: 2px 0 5px 0;
+
+  .inputContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }
 

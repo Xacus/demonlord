@@ -1,0 +1,6 @@
+<h2>Rolling formulae for {{item.name}}</h2>
+<div>
+    {{#each rolls as |roll|}}
+    <p>{{capitalize roll.property}}: <b>{{roll.roll}}</b><p/>
+    {{/each}}
+</div>

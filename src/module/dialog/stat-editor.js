@@ -1,80 +1,89 @@
 import { capitalize } from "../utils/utils"
 
-export class DLStatEditor extends FormApplication {
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
-  constructor(object, options) {
-    super(options)
-    this.ancestry = object.ancestry
-    this.statType = object.statType
-    this.statName = object.statName
-  }
-
-  /** @override */
-  static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
-      classes: ['charactergenerator', 'sheet', 'actor'],
+export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
+  static DEFAULT_OPTIONS = {
+    tag: 'form',
+    form: {
+      handler: this.onSubmit,
+      submitOnChange: false,
+      closeOnSubmit: true
+    },
+    classes: ['sheet', 'actor', 'stat-editor'],
+    actions: {
+      rollStat: this.rollStat
+    },
+    position: {
       width: 300,
-      height: 208,
-    })
+      height: 230,
+    }
   }
 
-  /** @override */
-  get template() {
-    return 'systems/demonlord/templates/dialogs/stat-editor.hbs'
+  static PARTS = {
+    form: {
+      template: 'systems/demonlord/templates/dialogs/stat-editor.hbs'
+    }
   }
 
-  /* -------------------------------------------- */
-  /**
-   * Add the Entity name into the window title
-   * @type {String}
-   */
+  /** @inheritDoc */
   get title() {
     return `${game.i18n.localize('DL.StatEditor')}: ${capitalize(this.statName)}`
   }
 
-  /**
-   * Construct and return the data object used to render the HTML template for this form application.
-   * @return {Object}
-   */
-  getData() {
-    return this.ancestry.system[this.statType][this.statName]
-  }
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html)
-
-    // Enable roll formula
-    html.find('.stat-editor-roll-button').click(async ev => {
-      const div = ev.currentTarget
-      const target = div.parentElement.parentElement.firstElementChild
-      const formula = div.previousElementSibling.value
-      const roll = new Roll(formula, {})
-      await roll.evaluate()
-      target.value = roll.total
-    })
-  }
-
-  /**
- * This method is called upon form submission after form data is validated
- * @param event {Event}       The initial triggering submission event
- * @param formData {Object}   The object of validated form data with which to update the object
- * @private
+/**
+ * Prepare application rendering context data for a given render request.
+ * @param {RenderOptions} options                 Options which configure application rendering behavior
+ * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
+ * @protected
  */
-  async _updateObject(event, formData) {
-    console.log(this.ancestry)
-    await this.ancestry.update({
+  async _prepareContext(options) { // eslint-disable-line no-unused-vars
+    return this.item.system.levels[0][this.statType][this.statName]
+  }
+
+   /**
+   * Process form submission for the sheet
+   * @this {MyApplication}                      The handler is called with the application as its bound scope
+   * @param {SubmitEvent} event                   The originating form submission event
+   * @param {HTMLFormElement} form                The form element that was submitted
+   * @param {FormDataExtended} formData           Processed data for the submitted form
+   * @returns {Promise<void>}
+   */
+  static async onSubmit(event, form, formData) {
+    const levels = this.item.system.levels
+    
+    levels.find(l => l.level === '0')[this.statType][this.statName] = {
+      value: formData.object.value,
+      formula: formData.object.formula,
+      immune: formData.object.immune
+    };
+
+    await this.item.update({
       system: {
-        [this.statType]: {
-          [this.statName]: {
-            value: formData.value,
-            formula: formData.formula,
-            immune: formData.immune
-          }
-        }
+        levels: levels
       }
     })
 
-    this.ancestry.sheet.render(true)
+    this.item.sheet.render(true)
+  }
+
+  /**
+   * 
+   * @param {SubmitEvent} event 
+   * @param {HtmlElement} target 
+   */
+  static async rollStat(event, target) { // eslint-disable-line no-unused-vars
+    const divTarget = document.getElementById('stat-editor-roll-target')
+    const formula = document.getElementById('stat-editor-roll-formula').value
+    const roll = new Roll(formula, this.item.system)
+    await roll.evaluate()
+    divTarget.value = roll.total
+  }
+
+  constructor(object, options) {
+    super(options)
+    this.item = object.item
+    this.statType = object.statType
+    this.statName = object.statName
   }
 }
