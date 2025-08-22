@@ -1,0 +1,26 @@
+{{!--
+  Context:
+  - results
+    - items
+--}}
+<div class="demonlord-compendium-browser-filters">
+    <table>
+        {{!-- Fields info --}}
+        <tr>
+            <th>{{localize 'DL.CompendiumBrowser.Results.Name'}}</th>
+            <th>{{localize 'DL.CompendiumBrowser.Results.Source'}}</th>
+            <th>{{localize 'DL.CompendiumBrowser.Results.Tradition'}}</th>
+            <th>{{localize 'DL.CompendiumBrowser.Results.Rank'}}</th>
+            <th>{{localize 'DL.CompendiumBrowser.Results.Type'}}</th>
+            <th>{{localize 'DL.CompendiumBrowser.Results.Attribute'}}</th>
+
+        </tr>
+
+        {{#each items as |item|}}
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.system.source}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</div>
