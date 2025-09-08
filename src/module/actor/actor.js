@@ -764,75 +764,78 @@ export class DemonlordActor extends Actor {
     }
   }
 
+
   async useSpell(spell, inputBoons, inputModifier) {
     const targets = tokenManager.targets
-    const target = targets[0]
     const spellData = spell.system
 
     const attackAttribute = spellData?.action?.attack?.toLowerCase()
     const defenseAttribute = spellData?.action?.against?.toLowerCase()
-
+    const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
+    const attacker = this
     let attackRoll
-    if (attackAttribute) {
-      const attacker = this
+    let i = 0
 
-      const modifiers = [
-        spellData.action?.rollbonus || 0,
-        attacker.system?.attributes[attackAttribute]?.modifier || 0,
-        attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
-        attacker.system?.bonuses.attack.modifier?.all || 0,
-        attacker.system?.bonuses.attack.modifier?.spell || 0,
-        parseInt(inputModifier) || 0,
-      ]
+    do {
+      let target = targets[i]
+      if (attackAttribute) {
+        let modifiers = [
+          spellData.action?.rollbonus || 0,
+          attacker.system?.attributes[attackAttribute]?.modifier || 0,
+          attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
+          attacker.system?.bonuses.attack.modifier?.all || 0,
+          attacker.system?.bonuses.attack.modifier?.spell || 0,
+          parseInt(inputModifier) || 0,
+        ]
 
-      let boons =
-        (parseInt(inputBoons) || 0) +
-        (parseInt(spellData.action?.boonsbanes) || 0) +
-        (this.system.bonuses.attack.boons[attackAttribute] || 0) +
-        (this.system.bonuses.attack.boons.all || 0) +
-        (this.system.bonuses.attack.boons.spell || 0)
+        let boons =
+          (parseInt(inputBoons) || 0) +
+          (parseInt(spellData.action?.boonsbanes) || 0) +
+          (this.system.bonuses.attack.boons[attackAttribute] || 0) +
+          (this.system.bonuses.attack.boons.all || 0) +
+          (this.system.bonuses.attack.boons.spell || 0)
 
-      const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
       const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
+        if (targets.length > 0)
+          boons -=
+            (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
+            (target?.actor?.system.bonuses.defense.boons.all || 0) +
+            (target?.actor?.system.bonuses.defense.boons.spell || 0) +
+          (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0)            
 
-      if (targets.length > 0)
-        boons -=
-          (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
-          (target?.actor?.system.bonuses.defense.boons.all || 0) +
-          (target?.actor?.system.bonuses.defense.boons.spell || 0) +
-          (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0)
+        let boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
-      const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
-
-      attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
-      await attackRoll.evaluate()
-    }
-
-    Hooks.call('DL.UseSpell', {
-      sourceToken: this.token || tokenManager.getTokenByActorId(this.id),
-      targets: targets,
-      itemId: spell.id,
-      attackRoll: attackRoll
-    })
-
-    postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
-
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      // if (!(specialDuration?.length > 0)) continue
-      if (specialDuration === 'NextD20Roll') {
-        let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
-        if (
-          effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.spell`)) ||
-          effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.spell`))
-        )
-          await effect?.delete()
+        attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
+        await attackRoll.evaluate()
       }
-    }
+
+      Hooks.call('DL.UseSpell', {
+        sourceToken: this.token || tokenManager.getTokenByActorId(this.id),
+        targets: target,
+        itemId: spell.id,
+        attackRoll: attackRoll
+      })
+
+      postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+
+      for (let effect of this.appliedEffects) {
+        const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
+        // if (!(specialDuration?.length > 0)) continue
+        if (specialDuration === 'NextD20Roll') {
+          let nAttackAttribute = attackAttribute.length ? attackAttribute : 'None'
+          if (
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.spell`)) ||
+            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.spell`))
+          )
+            await effect?.delete()
+        }
+      }
+      i++
+    } while (i < tokenManager.targets.length)
 
     // Add concentration if it's in the spell duration
     const concentrate = CONFIG.statusEffects.find(e => e.id === 'concentrate')
@@ -853,7 +856,7 @@ export class DemonlordActor extends Actor {
         }
       }
       concentrate['statuses'] = [concentrate.id]
-      ActiveEffect.create(concentrate, {parent: this});
+      ActiveEffect.create(concentrate, { parent: this })
     }
     return attackRoll
   }
