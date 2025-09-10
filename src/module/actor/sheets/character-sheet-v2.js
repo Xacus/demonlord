@@ -4,23 +4,29 @@ import { handleLevelChange } from '../../item/nested-objects'
 import launchRestDialog from '../../dialog/rest-dialog'
 
 export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
-  static DEFAULT_OPTIONS = mergeObject(super.DEFAULT_OPTIONS, {
-    // All from base
+  static DEFAULT_OPTIONS = {
+    // All from base plus...
+    form: {
+      handler: this.onSubmit
+    },
     actions: {
       rollCorruption: this.onRollCorruption,
       editStatBar: this.onEditStatBar,
       editLanguages: this.onEditLanguages,
       //editReligion: this.onEditReligion // Unused?
 
-      editAncestry: this.onEditAncestry,
-      editPath: this.onEditPath,
-      editRole: this.onEditRole,
-      editRelic: this.onEditRelic,
+      // editAncestry: this.onEditAncestry,
+      // editPath: this.onEditPath,
+      // editRole: this.onEditRole,
+      // editRelic: this.onEditRelic,
 
       restCharacter: this.onRestCharacter,
 
+      toggleSpeak: this.onToggleSpeak,
+      toggleRead: this.onToggleRead,
+      toggleWrite: this.onToggleWrite,
     }
-  })
+  }
 
   static PARTS = {
     // All from base
@@ -39,9 +45,48 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     effects: { template: 'systems/demonlord/templates/actor/tabs/effects.hbs' }
   }
 
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: 'character', icon: 'icon-character', tooltip: 'DL.TabsGeneral'},
+        { id: 'combat', icon: 'icon-combat', tooltip: 'DL.TabsCombat'},
+        { id: 'talents', icon: 'icon-talents', tooltip: 'DL.TabsTalents'},
+        { id: 'magic', icon: 'icon-magic', tooltip: 'DL.TabsMagic'},
+        { id: 'inventory', icon: 'icon-inventory', tooltip: 'DL.TabsInventory'},
+        { id: 'background', icon: 'icon-background', tooltip: 'DL.TabsBackground'},
+        { id: 'afflictions', icon: 'icon-afflictions', tooltip: 'DL.TabsAfflictions'},
+        { id: 'effects', icon: 'icon-effects', tooltip: 'DL.TabsEffects'}
+      ],
+      initial: 'character'
+    },
+    effects: {
+      tabs: [
+        { id: 'general', label: 'DL.TabsGeneral'},
+        { id: 'ancestry', label: 'DL.CharAncestry'},
+        { id: 'paths', label: 'DL.PathsTitle'},
+        { id: 'talentsEffects', label: 'DL.TabsTalents'},
+        { id: 'spells', label: 'DL.MagicSpellsTitle'},
+        { id: 'items', label: 'DL.TabsItems'},
+        { id: 'overview', label: 'DL.TabsOverview'},
+      ],
+      initial: 'general'
+    }
+  }
+
   /* -------------------------------------------- */
   /*  Data preparation                            */
   /* -------------------------------------------- */
+
+    /** @override */
+    _configureRenderOptions(options) {
+      super._configureRenderOptions(options)
+  
+      // This should be configured per sheet type
+      options.parts.push('character', 'combat', 'talents', 'magic', 'inventory', 'background', 'afflictions', 'effects')
+  
+      //this._adjustSizeByType(this.document.type, this.position)
+    }
+
   /** @override */
   async _prepareContext(options) {
     const context = await super._prepareContext(options)
@@ -149,8 +194,11 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
   /*  Auxiliary functions                         */
   /* -------------------------------------------- */
   
-  async _updateObject(event, formData) {
-    const newLevel = formData['system.level']
+  static async onSubmit(event, form, formData) {    
+    super.onSubmit(event, form, formData)
+
+    const updateData = foundry.utils.expandObject(formData.object)
+    const newLevel = updateData.system.level
     if (newLevel !== this.document.system.level) await handleLevelChange(this.document, newLevel)
     return await this.document.update(formData)
   }
@@ -177,6 +225,22 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     await this.actor.update({ 'system.languages.edit': !this.actor.system.languages.edit, }).then(() => this.render())
   }
 
+  
+  static async onToggleSpeak(ev) {
+    const itemId = ev.target.closest('.language').dataset.itemId
+    await this.toggleLanguage(itemId, 'speak')
+  }
+
+  static async onToggleRead(ev) {
+    const itemId = ev.target.closest('.language').dataset.itemId
+    await this.toggleLanguage(itemId, 'read')
+  }
+
+  static async onToggleWrite(ev) {
+    const itemId = ev.target.closest('.language').dataset.itemId
+    await this.toggleLanguage(itemId, 'write')
+  }
+
   /* Unused ?
   static async onEditReligion() {
     await this.actor.update({ 'system.religion.edit': !this.actor.system.religion.edit }).then(() => this.render())
@@ -193,9 +257,9 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     })
   }
 
-  static async onEditAncestry(ev) {
-    const div = $(ev.currentTarget)
-    const ancestry = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+  async onEditAncestry(ev) {
+    const div = ev.target.closest('.ancestry-edit')
+    const ancestry = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
 
     if (ev.button == 0) ancestry.sheet.render(true)
     else if (ev.button == 2) {
@@ -207,9 +271,9 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     }
   }
 
-  static async onEditPath(ev) {
-    const div = $(ev.currentTarget)
-    const path = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+  async onEditPath(ev) {
+    const div = ev.target.closest('.path-edit')
+    const path = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
 
     if (ev.button == 0) path.sheet.render(true)
     else if (ev.button == 2) {
@@ -221,7 +285,7 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     }
   }
   
-  static async onEditRole(ev) {
+  async onEditRole(ev) {
     const div = $(ev.currentTarget)
     const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
     
@@ -229,12 +293,17 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     else if (ev.button == 2) await role.delete({ parent: this.actor })
   }
 
-  static async onEditRelic(ev) {
+  async onEditRelic(ev) {
     const div = $(ev.currentTarget)
     const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
 
     if (ev.button == 0) role.sheet.render(true)
     else if (ev.button == 2) await role.delete({ parent: this.actor })
+  }
+
+  async toggleLanguage(itemId, key) {
+    const item = this.actor.items.get(itemId)
+    await item.update({[`system.${key}`]: !item.system[key] }, { parent: this.actor })
   }
 
   /* -------------------------------------------- */
@@ -316,31 +385,20 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
       corruptionbar.style.width = Math.floor((+corruption / 20) * 100) + '%'
     }
 
-    // // Ancestry edit
-    // e.querySelector('.ancestry-edit')?.addEventListener('mousedown', async ev => await this._onAncestryEdit(ev))
+    // Ancestry edit
+    e.querySelector('.ancestry-edit')?.addEventListener('mousedown', async ev => await this.onEditAncestry(ev))
 
-    // // Path edit
-    // e.querySelectorAll('.path-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this._onPathEdit(ev)))
+    // Path edit
+    e.querySelectorAll('.path-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditPath(ev)))
 
-    // // Role edit
-    // e.querySelectorAll('.role-edit')?.forEach(p => p.addEventListener('mousedown', '.role-edit', async ev => await this._onRoleEdit(ev)))
+    // Role edit
+    e.querySelectorAll('.role-edit')?.forEach(p => p.addEventListener('mousedown', '.role-edit', async ev => await this.onEditRole(ev)))
 
-    // // Relic edit
-    // e.querySelectorAll('.relic-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this._onRelicEdit(ev)))
-    
-    // Languages CRUD
-    const _toggleLang = async (ev, key) => {
-      const dev = ev.currentTarget.closest('.language')
-      const item = this.actor.items.get(dev.dataset.itemId)
-      await item.update({[`system.${key}`]: !item.system[key] }, { parent: this.actor })
-    }
-    e.querySelectorAll('.language-delete')?.forEach(el => el.addEventListener('click', ev => this._onItemDelete(ev, '.language')))
-    e.querySelectorAll('.language-toggle-r')?.forEach(el => el.addEventListener('click', ev => _toggleLang(ev, 'read')))
-    e.querySelectorAll('.language-toggle-w')?.forEach(el => el.addEventListener('click', ev => _toggleLang(ev, 'write')))
-    e.querySelectorAll('.language-toggle-s')?.forEach(el => el.addEventListener('click', ev => _toggleLang(ev, 'speak')))
+    // Relic edit
+    e.querySelectorAll('.relic-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditRelic(ev)))
 
     // Ammo uses
-    e.querySelector('.ammo-amount')?.forEach(el => el.addEventListener('mousedown', async ev => {
+    e.querySelectorAll('.ammo-amount')?.forEach(el => el.addEventListener('mousedown', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       const item = foundry.utils.duplicate(this.actor.items.get(id))
       const amount = item.system.quantity
@@ -350,7 +408,7 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     }))
 
     // Item uses
-    e.querySelector('.item-uses')?.forEach(el => el.addEventListener('mousedown', async ev => {
+    e.querySelectorAll('.item-uses')?.forEach(el => el.addEventListener('mousedown', async ev => {
       const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
       const item = foundry.utils.duplicate(this.actor.items.get(id))
       if (ev.button == 0) {

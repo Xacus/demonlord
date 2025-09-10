@@ -62,6 +62,8 @@
 // Stuff that it's clickable gets highlighted when hovering
 .dl-clickable,
 .dl-rollable {
+  transition: color 0.3s, text-shadow 0.3s;
+
   &:hover,
   &:focus {
     color: #000;

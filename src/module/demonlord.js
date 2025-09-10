@@ -42,11 +42,12 @@ import TalentDataModel from './data/item/TalentDataModel.js'
 import WeaponDataModel from './data/item/WeaponDataModel.js'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
-import 'tippy.js/dist/tippy.css';
-import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
-import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
-import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
-import { activateSocketListener } from "./utils/socket.js";
+import 'tippy.js/dist/tippy.css'
+import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"
+import DLBaseActorSheet from "./actor/sheets/base-actor-sheet"
+import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for styling
+import { activateSocketListener } from "./utils/socket.js"
+import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
 
 const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
 const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
@@ -164,14 +165,6 @@ Hooks.once('init', async function () {
     Babele.get().setSystemTranslationsDir('packs/translations')
   }
   activateSocketListener()
-})
-
-Hooks.once('renderCompendiumDirectory', async function(app, html, data) {
-  const button = document.createElement('input')
-  button.setAttribute('type', 'button')
-  button.innerText = game.i18n.localize('DL.CompendiumBrowser')
-  html.append(button)
-  console.log(data)
 })
 
 Hooks.once('ready', async function () {
@@ -434,6 +427,21 @@ Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
     if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideActorInfo')) html.find('.showlessinfo').remove()
     if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideDescription')) html.find('.showdescription').empty()
   } else html.querySelectorAll('.gmremove').forEach(el => el.remove())
+})
+
+Hooks.on('renderCompendiumDirectory', async (app, html, _data) => {
+  if (html.querySelector('.compendium-browser-button')) return // Prevent duplicates
+  const footer = html.querySelector('.directory-footer')
+  const button = document.createElement('button')
+  button.innerHTML = `<i class="fas fa-search"></i> ${game.i18n.localize('DL.CompendiumBrowser')} `
+  button.classList.add('compendium-browser-button')
+  button.addEventListener('click', () => {
+    new DLCompendiumBrowser({
+      top: 50,
+      right: 700
+    }).render(true)
+  })
+  footer.append(button)
 })
 
 Hooks.once('diceSoNiceReady', dice3d => {

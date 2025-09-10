@@ -69,13 +69,13 @@
   <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
     <div class="row">
       <div class="col-7">
-        <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
+        <img class='dl-clickable-nored item-edit' data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
         {{#if item.system.contents.length}}
         <label class="dl-clickable-nored item-roll">{{item.name}} ({{item.system.contents.length}})</label>
         {{else}}
         <label class="dl-clickable-nored item-roll">{{item.name}}</label>
         {{/if}}
-        <div class="dl-clickable dlToggleInfoBtn">
+        <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
           <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
         </div>
       </div>
@@ -86,7 +86,7 @@
         {{defaultValue system.value "―"}}
       </div>
       <div class="col-1 dl-clickable" style="padding-top: 3px">
-        <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
+        <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.ItemDeleteItem'}}"
           style="margin-left: 2px; margin-top: 3px;">
           <i class="fas fa-times"></i>
         </a>
@@ -119,9 +119,9 @@
   <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
     <div class="row">
       <div class="col-7">
-        <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
+        <img class='dl-clickable-nored item-edit' data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
         <label class="dl-clickable-nored item-roll">{{item.name}} ({{item.system.contents.length}})</label>
-        <div class="dl-clickable dlToggleInfoBtn">
+        <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
           <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
         </div>
       </div>
@@ -132,7 +132,7 @@
         {{defaultValue system.value "―"}}
       </div>
       <div class="col-1 dl-clickable" style="padding-top: 3px">
-        <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
+        <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.ItemDeleteItem'}}"
           style="margin-left: 2px; margin-top: 3px;">
           <i class="fas fa-times"></i>
         </a>
@@ -166,13 +166,13 @@
   <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
     <div class="row">
       <div class="col-7">
-        <img class='dl-clickable-nored item-edit' src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
+        <img class='dl-clickable-nored item-edit' data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
         {{#if item.system.contents.length}}
         <label class="dl-clickable-nored item-roll">{{item.name}} ({{item.system.contents.length}})</label>
         {{else}}
         <label class="dl-clickable-nored item-roll">{{item.name}}</label>
         {{/if}}
-        <div class="dl-clickable dlToggleInfoBtn">
+        <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
           <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
         </div>
       </div>
@@ -183,7 +183,7 @@
         {{defaultValue system.value "―"}}
       </div>
       <div class="col-1 dl-clickable" style="padding-top: 3px">
-        <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteItem'}}"
+        <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.ItemDeleteItem'}}"
           style="margin-left: 2px; margin-top: 3px;">
           <i class="fas fa-times"></i>
         </a>
@@ -213,14 +213,14 @@
   <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
     <div class="row">
       <div class="col-11">
-        <img class='dl-clickable item-edit' src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
+        <img class='dl-clickable item-edit' data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
         <label class="dl-clickable item-roll">{{item.name}}</label>
-        <div class="dl-clickable dlToggleInfoBtn">
+        <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
           <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
         </div>
       </div>
       <div class="col-1 dl-clickable" style="padding-top: 3px">
-        <a class="dl-clickable item-delete" title="{{localize 'DL.ItemDeleteRelic'}}"
+        <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.ItemDeleteRelic'}}"
           style="margin-left: 2px; margin-top: 3px;">
           <i class="fas fa-times"></i>
         </a>

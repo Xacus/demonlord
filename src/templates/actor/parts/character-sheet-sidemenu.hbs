@@ -1,19 +1,17 @@
-<aside class="demonlord-v2-actor-sheet-container demonlord-v2-actor-sheet-sidebar-container">
+<aside class="demonlord-v2-actor-sheet-container demonlord-v2-actor-sheet-sidebar-container {{#unless system.isPC}}npc{{/unless}}">
   <div class="sidebar" data-group="dashboard" data-tab="sidebar">
 
-    <div class="isPC">
-      <div class="switch-toggle pc-toggle">
-      <label class="switch" for="system.isPC">
-        <input class="toggleInput" type="checkbox" id="system.isPC" name="system.isPC" {{checked system.isPC}}/>
-        <div class="toggleFill"></div>
-        <span class="toggleText off">{{localize "DL.ActorTypeNPC"}}</span>
-        <span class="toggleText on">{{localize 'DL.ActorTypePC'}}</span>
-      </label>
-    </div>
+  <div class="switch-toggle pc-toggle">
+  <label class="switch" for="system.isPC">
+    <input class="toggleInput" type="checkbox" id="system.isPC" name="system.isPC" {{checked system.isPC}}/>
+    <div class="toggleFill"></div>
+    <span class="toggleText off">{{localize "DL.ActorTypeNPC"}}</span>
+    <span class="toggleText on">{{localize 'DL.ActorTypePC'}}</span>
+  </label>
 
   </div>
     
-  <div class="frame"{{#unless system.isPC}}class="frame-npc"{{/unless}}>
+  <div class="frame {{#unless system.isPC}}frame-npc{{/unless}}">
     <img class="profile-img" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
   </div>
 

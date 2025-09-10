@@ -30,6 +30,8 @@
 .item-uses,
 .edit-ancestrytalents,
 .show-iteminfo {
+  transition: color 0.3s, text-shadow 0.3s;
+
   &:hover,
   &:focus {
     color: #000;
@@ -40,6 +42,8 @@
 
 .ancestry-edit,
 .path-edit {
+  transition: filter 0.3s, -webkit-filter 0.3s;
+
   &:hover,
   &:focus {
     -webkit-filter: drop-shadow(0px 0px 4px var(--demonlord-red));

@@ -18,7 +18,9 @@
       {{#if actor.ancestry}} {{#each actor.ancestry as |ancestry id|}}
       <div class="ancestry-path-group ancestry-edit" data-action="editAncestry" data-item-id="{{ancestry._id}}">
         {{#if (isBadgeImg ancestry.img)}}
-        <img class="badge" src="{{ancestry.img}}" />
+        <div class="ancestry-frame frame">
+          <img class="badge" src="{{ancestry.img}}" />
+        </div>
         {{else}}
         <div class="ancestry-frame frame">
           <img class="border" src="systems/demonlord/assets/ui/shields/rogue-shield.webp" />
@@ -42,33 +44,40 @@
       <!--  Paths  -->
       {{#if actor.paths}} {{#each actor.paths as |path id|}}
       <div class="ancestry-path-group path-edit" data-action="editPath" data-item-id="{{path._id}}">
-        {{#if (isBadgeImg path.img)}}
-        <img class="badge" src="{{path.img}}" />
-        {{else}} {{#if (eq path.system.type "novice")}}
-        <div class="path-frame frame">
-          <img class="border-small" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp" />
-          <img class="icon" src="{{path.img}}"
-            style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)" />
-        </div>
-        {{/if}} {{#if (eq path.system.type "expert")}}
-        <div class="path-frame frame">
-          <img class="border-small" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
-          <img class="icon" src="{{path.img}}"
-            style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)" />
-        </div>
-        {{/if}} {{#if (eq path.system.type "master")}}
-        <div class="path-frame frame">
-          <img class="border" src="systems/demonlord/assets/ui/shields/demon-shield.webp" />
-          <img class="icon" src="{{path.img}}"
-            style="top: 19px; left: 0px; height: 42px; width: 42px; clip-path: circle(50% at 50% 50%);" />
-        </div>
-        {{/if}} {{#if (eq path.system.type "legendary")}}
-        <div class="path-frame frame">
-          <img class="border-small" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
-          <img class="icon" src="{{path.img}}"
-            style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)" />
-        </div>
-        {{/if}} {{/if}}
+          {{#if (isBadgeImg path.img)}}
+            <div class="path-frame frame">
+              <img class="badge" src="{{path.img}}" />
+            </div>
+          {{else}}
+          {{#if (eq path.system.type "novice")}}
+          <div class="path-frame frame">
+            <img class="border-small" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp" />
+            <img class="icon" src="{{path.img}}"
+              style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)" />
+          </div>
+          {{/if}}
+          {{#if (eq path.system.type "expert")}}
+          <div class="path-frame frame">
+            <img class="border-small" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
+            <img class="icon" src="{{path.img}}"
+              style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)" />
+          </div>
+          {{/if}}
+          {{#if (eq path.system.type "master")}}
+          <div class="path-frame frame">
+            <img class="border" src="systems/demonlord/assets/ui/shields/demon-shield.webp" />
+            <img class="icon" src="{{path.img}}"
+              style="top: 19px; left: 0px; height: 42px; width: 42px; clip-path: circle(50% at 50% 50%);" />
+          </div>
+          {{/if}}
+          {{#if (eq path.system.type "legendary")}}
+          <div class="path-frame frame">
+            <img class="border-small" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
+            <img class="icon" src="{{path.img}}"
+              style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)" />
+          </div>
+          {{/if}}
+        {{/if}}
         <div class="type">
           {{#if (eq path.system.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}}
           {{#if (eq path.system.type "expert")}}{{localize "DL.CharPathExpert"}}{{/if}}
@@ -139,76 +148,32 @@
           <a class="languages-edit" data-action="editLanguages" title="{{localize 'DL.LanguagesEdit'}}"><i class="fas fa-edit"></i></a>
         </div>
         {{#if system.languages.edit}} {{#each actor.languages as |language id|}}
-        <div class="language" data-item-id="{{language._id}}">
-          <div class="languagetitle">{{language.name}} (</div>
-          <a class="language-toggle-s">
-            {{#if language.system.speak}}
-            <div class="charhighlight" data-tippy-content="{{localize " DL.LanguagesSpeak"}}">
-              <i class="dl-icon-speak black" style="width: 10px; height: 10px; margin-right: 4px"
-                data-tippy-content="{{localize " DL.LanguagesSpeak"}}"></i>
-            </div>
-            {{else}}
-            <div class="chardim">
-              <i class="dl-icon-speak gray" style="width: 10px; height: 10px; margin-right: 4px"
-                data-tippy-content="{{localize " DL.LanguagesSpeak"}}"></i>
-            </div>
-            {{/if}}
+        <div class="language dl-nested-item" data-item-id="{{language._id}}">
+          <span class="languagetitle">{{language.name}}</span> (
+          <a class="language-toggle speak" data-action="toggleSpeak" data-tippy-content="{{localize 'DL.LanguagesSpeak'}}">
+            <i class="language-icon icon-speak themed-icon {{#unless language.system.speak}}inactive{{/unless}}"></i>
           </a>
-          <a class="language-toggle-r">
-            {{#if language.system.read}}
-            <div class="charhighlight" data-tippy-content="{{localize " DL.LanguagesRead"}}">
-              <i class="dl-icon-read black" style="width: 10px; height: 10px; margin-right: 4px"
-                data-tippy-content="{{localize " DL.LanguagesRead"}}"></i>
-            </div>
-            {{else}}
-            <div class="chardim">
-              <i class="dl-icon-read gray" style="width: 10px; height: 10px; margin-right: 4px"
-                data-tippy-content="{{localize " DL.LanguagesRead"}}"></i>
-            </div>
-            {{/if}}
+
+          <a class="language-toggle read" data-action="toggleRead" data-tippy-content="{{localize 'DL.LanguagesRead'}}">
+            <i class="language-icon icon-read themed-icon {{#unless language.system.read}}inactive{{/unless}}"></i>
           </a>
-          <a class="language-toggle-w">
-            {{#if language.system.write}}
-            <div class="charhighlight">
-              <i class="dl-icon-write black" style="width: 10px; height: 10px" data-tippy-content="{{localize "
-                DL.LanguagesWrite"}}"></i>
-            </div>
-            {{else}}
-            <div class="chardim">
-              <i class="dl-icon-write gray" style="width: 10px; height: 10px" data-tippy-content="{{localize "
-                DL.LanguagesWrite"}}"></i>
-            </div>
-            {{/if}}
-          </a>)
-          <div class="item-controls">
+
+          <a class="language-toggle write" data-action="toggleWrite" data-tippy-content="{{localize 'DL.LanguagesWrite'}}">
+            <i class="language-icon icon-write themed-icon {{#unless language.system.write}}inactive{{/unless}}"></i>
+          </a>
+          )
+          <span class="item-controls">
             <a class="item-control" data-action="deleteItem" title="{{localize 'DL.LanguageDelete'}}"><i
                 class="fas fa-times"></i></a>
-          </div>
+          </span>
         </div>
         {{/each}} {{else}} {{#each actor.languages as |language id|}}
         <div class="language">
-          <div class="languagetitle">{{language.name}} (</div>
-          {{#if language.system.speak}}
-          <i class="dl-icon-speak black" style="width: 10px; height: 10px" data-tippy-content="{{localize "
-            DL.LanguagesSpeak"}}"></i>
-          {{else}}
-          <i class="dl-icon-speak gray" style="width: 10px; height: 10px" data-tippy-content="{{localize "
-            DL.LanguagesSpeak"}}"></i>
-          {{/if}}
-          {{#if language.system.read}}
-          <i class="dl-icon-read black" style="width: 10px; height: 10px" data-tippy-content="{{localize "
-            DL.LanguagesRead"}}"></i>
-          {{else}}
-          <i class="dl-icon-read gray" style="width: 10px; height: 10px" data-tippy-content="{{localize "
-            DL.LanguagesRead"}}"></i>
-          {{/if}}
-          {{#if language.system.write}}
-          <i class="dl-icon-write black" style="width: 10px; height: 10px" data-tippy-content="{{localize "
-            DL.LanguagesWrite"}}"></i>
-          {{else}}
-          <i class="dl-icon-write gray" style="width: 10px; height: 10px" data-tippy-content="{{localize "
-            DL.LanguagesWrite"}}"></i>
-          {{/if}})
+          <span class="languagetitle">{{language.name}}</span> (
+          <i class="language-icon icon-speak themed-icon {{#unless language.system.speak}}inactive{{/unless}}" data-tippy-content="{{localize 'DL.LanguagesSpeak'}}"></i>
+          <i class="language-icon icon-read themed-icon {{#unless language.system.read}}inactive{{/unless}}" data-tippy-content="{{localize 'DL.LanguagesRead'}}"></i>
+          <i class="language-icon icon-write themed-icon {{#unless language.system.write}}inactive{{/unless}}" data-tippy-content="{{localize 'DL.LanguagesWrite'}}"></i>
+          )
         </div>
         {{/each}} {{/if}} {{else}}
         <input name="system.languages.value" type="text" value="{{data.languages.value}}"
@@ -226,7 +191,7 @@
       <img src="{{item.img}}">
       <span class="dl-clickable" data-action="editItem">{{item.name}}</span>
       {{#if (dlIsNestedItem item)}}
-      <a class="dl-clickable" data-action="deleteItem" style="margin-right: 4px; margin-left: auto; margin-top: 1px;"
+      <a class="dl-clickable" data-action="editItem" style="margin-right: 4px; margin-left: auto; margin-top: 1px;"
         title="{{dlGetNestedItemSource item}}">
         <i class="fa-solid fa-link"></i>
       </a>

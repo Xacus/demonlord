@@ -17,9 +17,9 @@
 
         </tr>
 
-        {{#each items as |item|}}
+        {{#each results as |item|}}
             <tr>
-                <td><img src="{{item.img}}" alt="{{item.name}}"></td>
+                {{!-- <td><img src="{{item.img}}" alt="{{item.name}}"></td> --}}<td></td>
                 <td>{{item.name}}</td>
                 <td>{{item.system.source}}</td>
                 <td>{{item.system.tradition}}</td>
