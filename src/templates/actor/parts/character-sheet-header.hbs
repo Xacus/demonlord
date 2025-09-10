@@ -16,7 +16,7 @@
         <input class="value" type="{{ifThen attr.immune " text" "Number" }}" name="system.attributes.{{n}}.value"
           value="{{ifThen attr.immune "-" attr.value}}" readonly />
         {{#unless attr.immune}}
-        <label class="modifier">{{plusify attr.modifier}}</label>
+          <label class="modifier">{{plusify attr.modifier}}</label>
         {{/unless}}
       </div>
       {{/inline}}
