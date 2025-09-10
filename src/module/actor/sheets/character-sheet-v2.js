@@ -193,14 +193,16 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
   /* -------------------------------------------- */
   /*  Auxiliary functions                         */
   /* -------------------------------------------- */
-  
-  static async onSubmit(event, form, formData) {    
-    super.onSubmit(event, form, formData)
-
+  /**
+   * 
+   * @override
+   */
+  static async onSubmit(event, form, formData) {
     const updateData = foundry.utils.expandObject(formData.object)
     const newLevel = updateData.system.level
     if (newLevel !== this.document.system.level) await handleLevelChange(this.document, newLevel)
-    return await this.document.update(formData)
+
+    return await this.document.update(updateData)
   }
 
   /* -------------------------------------------- */

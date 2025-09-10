@@ -2,13 +2,12 @@
   <div class="sidebar" data-group="dashboard" data-tab="sidebar">
 
   <div class="switch-toggle pc-toggle">
-  <label class="switch" for="system.isPC">
-    <input class="toggleInput" type="checkbox" id="system.isPC" name="system.isPC" {{checked system.isPC}}/>
-    <div class="toggleFill"></div>
-    <span class="toggleText off">{{localize "DL.ActorTypeNPC"}}</span>
-    <span class="toggleText on">{{localize 'DL.ActorTypePC'}}</span>
-  </label>
-
+    <label class="switch" for="system.isPC">
+      <input class="toggleInput" type="checkbox" id="system.isPC" name="system.isPC" {{checked system.isPC}}/>
+      <div class="toggleFill"></div>
+      <span class="toggleText off">{{localize "DL.ActorTypeNPC"}}</span>
+      <span class="toggleText on">{{localize 'DL.ActorTypePC'}}</span>
+    </label>
   </div>
 
   <div class="frame {{#unless system.isPC}}frame-npc{{/unless}}">
@@ -21,17 +20,14 @@
   {{/if}}
 
   <div class="sidebar-button rest" data-action="restCharacter" data-tippy-html="{{localize 'DL.RestAction'}}">
-    <div class="rest">
-      <input class="rest-char button" type="button" name="rest-char" id="rest-char" />
-      <image class="rest-icon"/>
-      <label for="rest-char"/>
-    </div>
+    <input class="rest-char button" type="button" name="rest-char" id="rest-char" />
+    <image class="rest-icon"/>
+    <label for="rest-char"/>
   </div>
 
-    <div class="sidebar-button healingratebox" style="cursor: pointer"
-      data-tippy-html="{{localize 'DL.CharHealthHealingRating'}}">
-      <div class="healingrate">{{system.characteristics.health.healingrate}}</div>
-    </div>
+  <div class="sidebar-button healingratebox" style="cursor: pointer" data-tippy-html="{{localize 'DL.CharHealthHealingRating'}}">
+    <div class="healingrate">{{system.characteristics.health.healingrate}}</div>
+  </div>
 
     <div class="editBars">
       <a class="bar-edit" data-action="editStatBar" title="{{localize 'DL.ToggleBarView'}}"><i class="fas fa-edit"></i></a>

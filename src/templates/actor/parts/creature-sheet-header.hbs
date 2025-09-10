@@ -1,22 +1,18 @@
-<div class="demonlord-v2-actor-sheet-container demonlord-v2-actor-sheet-header-container ">
+<div class="demonlord-v2-actor-sheet-container demonlord-v2-actor-sheet-header-container">
   <header class="demonlord-v2-actor-sheet-header">
   <div class="header-fields">
     <div class="header-name">
       <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CharName'}}"/>
     </div>
-    <div class="header-difficulty ">
+    <div class="header-difficulty">
       <label for="system.difficulty">{{localize "DL.CreatureDifficulty"}}</label>
       <input name="system.difficulty" type="number" value="{{system.difficulty}}" min="1"/>
     </div>
   </div>
 
-  <div class="row creature-descriptors">
-    <div class="col-6">
+  <div class="header-fields creature-descriptors">
       <input name="system.descriptor" value="{{system.descriptor}}" placeholder="{{localize 'DL.CreatureDescriptor'}}"/>
-    </div>
-    <div class="col-6">
-      <input name="system.perceptionsenses" value="{{system.perceptionsenses}}" placeholder="{{localize 'DL.CreaturePerceptionSenses'}}"/>
-    </div>
+      <input class="senses" name="system.perceptionsenses" value="{{system.perceptionsenses}}" placeholder="{{localize 'DL.CreaturePerceptionSenses'}}"/>
   </div>
 
   <div class="header-fields attribute-fields">

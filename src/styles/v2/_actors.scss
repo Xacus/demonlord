@@ -35,6 +35,14 @@ aside {
     background-image: url('../assets/ui/sidebar_npc.webp');
   }
 
+  &.creature {
+    background-image: url('../assets/ui/sidebar_creature.webp');
+  }
+
+  &.vehicle {
+    background-image: url('../assets/ui/sidebar_vehicle.webp');
+  }
+
   .sidebar {
     display: flex;
     flex-direction: column;
@@ -66,6 +74,14 @@ aside {
 
     &.frame-npc {
       background-image: url(../assets/ui/image-circle-npc.webp);
+    }
+
+    &.frame-creature {
+      background-image: url(../assets/ui/image-circle-creature.webp);
+    }
+
+    &.frame-vehicle {
+      background-image: url(../assets/ui/image-circle-vehicle.webp);
     }
   }
 
@@ -118,7 +134,7 @@ aside {
     }
 
     &.healingratebox {
-      left: 165px;
+      right: 25px;
 
       .healingrate {
         font-size: 18px;
@@ -126,6 +142,45 @@ aside {
         line-height: 24px;
         text-align: center;
         font-family: Signika, 'Palatino Linotype', sans-serif;
+      }
+    }
+
+    &.frightening {
+      left: 25px;
+    }
+
+    &.horrifying {
+      right: 25px;
+    }
+
+    &.frightening,
+    &.horrifying {
+      input {
+        position: relative;
+        top: -2px;
+        left: -4px;
+        width: 25px;
+        height: 25px;
+
+        // Fix for frightening/horrifying checkbox tick not appearing in Firefox
+        appearance: initial;
+        -moz-appearance: initial;
+
+        &:after,
+        &:before {
+          content: '';
+        }
+      }
+
+      input:checked::before {
+        display: inline-block;
+        content: '';
+        width: 40px;
+        height: 40px;
+        background-image: url('../assets/ui/bloodstain.webp');
+        position: relative;
+        top: -5px;
+        left: -7px;
       }
     }
   }
@@ -303,6 +358,7 @@ aside {
         border: solid 1px var(--demonlord-red);
         text-align: center;
         font-family: Signika, 'Palatino Linotype', sans-serif;
+        color: var(--demonlord-color-input-inverted);
       }
     }
   }
@@ -366,6 +422,10 @@ aside {
     align-items: center;
     color: var(--demonlord-color-text-inverted-primary);
 
+    input:read-only {
+      background-color: transparent;
+    }
+
     .header-name {
       width: 70%;
 
@@ -374,7 +434,8 @@ aside {
       }
     }
 
-    .header-level {
+    .header-level,
+    .header-difficulty {
       display: flex;
       flex-direction: row;
       align-content: center;
@@ -402,9 +463,10 @@ aside {
       width: 20%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
       text-transform: uppercase;
+      position: relative; // Anchor for children
 
       .name {
         transition: filter 0.3s, -webkit-filter 0.3s;
@@ -429,9 +491,21 @@ aside {
       }
 
       .modifier {
-        position: relative;
-        top: -50px;
-        left: 30px;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
+    }
+  }
+
+  .header-fields.creature-descriptors {
+    input {
+      border: 0;
+      background-color: transparent;
+      color: var(--demonlord-color-input-inverted);
+
+      &.senses {
+        text-align: right;
       }
     }
   }
