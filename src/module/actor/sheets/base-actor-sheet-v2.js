@@ -10,8 +10,10 @@ import tippy from "tippy.js";
 import { buildDropdownListHover } from "../../utils/handlebars-helpers";
 import { DLAfflictions } from '../../active-effects/afflictions'
 
+const { TextEditor } = foundry.applications.ux //eslint-disable-line no-shadow
+
 export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(ActorSheetV2) {
-  static DEFAULT_OPTIONS = mergeObject(super.DEFAULT_OPTIONS, {
+  static DEFAULT_OPTIONS = {
     tag: 'form',
     form: {
       handler: this.onSubmit,
@@ -23,6 +25,8 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
       createItem: this.onCreateItem,
       editItem: this.onEditItem,
       deleteItem: this.onDeleteItem,
+      toggleWear: this.onToggleWear,
+      toggleInfo: this.onToggleInfo,
 
       editWealth: this.onEditWealth,
     },
@@ -35,7 +39,7 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
     },
     scrollY: [],
     editable: true
-  })
+  }
 
   static PARTS = {
     sidebar: { template: 'systems/demonlord/templates/actor/parts/character-sheet-sidemenu.hbs' },
@@ -74,11 +78,6 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
 
     // These parts are always rendered
     options.parts = ['sidebar', 'header', 'tabs']
-
-    // This should be configured per sheet type
-    options.parts.push('character', 'combat', 'talents', 'magic', 'inventory', 'background', 'afflictions', 'effects')
-
-    //this._adjustSizeByType(this.document.type, this.position)
   }
 
   /** @override */
@@ -110,12 +109,15 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
     context.effectsOverview = buildOverview(this.document)
     context.flags = this.document.flags
 
-    if (options.isFirstRender) {
-      // TODO: Set default active tab
-      this.tabGroups['primary'] = this.tabGroups['primary'] ?? 'character'
-    }
+    // if (options.isFirstRender) {
+    //   // TODO: Set default active tab
+    //   this.tabGroups['primary'] = this.tabGroups['primary'] ?? 'character'
+    //   this.tabGroups['subpage'] = this.tabGroups['subpage']
+    // }
 
-    context.tabs = this._getTabs(options.parts)
+    //context.tabs = this._getTabs(options.parts)
+    context.tabs = this._prepareTabs('primary')
+    context.effectsTabs = this._prepareTabs('effects')
 
     // Enrich HTML
     context.system.enrichedDescription = await TextEditor.implementation.enrichHTML(this.document.system.description, { async: true });
@@ -145,6 +147,12 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
       case 'sidebar':
       case 'header':
       case 'tabs':
+        break
+      case 'effects':
+        context.tab = context.tabs[partId]
+        context.cssClass = context.tab.cssClass
+        context.active = context.tab.active
+        context.effectsTab = context.effectsTabs.general
         break
       default:
         context.tab = context.tabs[partId]
@@ -210,7 +218,7 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
   static async onCreateItem(event) {
     event.preventDefault()
     event.stopPropagation()
-    const header = event.target.closest('.item-control') // Get the type of item to create.
+    const header = event.target.closest('[data-type]') // Get the type of item to create.
     const type = header.dataset.type // Grab any data associated with this control.
     const itemData = {
       name: `New ${type.capitalize()}`,
@@ -230,12 +238,37 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
   }
 
   static async onDeleteItem(event) {
-    const li = event.target.closest('.dl-nested-item')
-    await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), $(li))
+    const li = event.target.closest('[data-item-id]')
+    await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteItemText'), li)
   }
 
   static async onEditWealth() {
     await this.actor.update({ 'system.wealth.edit': !this.actor.system.wealth.edit }).then(() => this.render())
+  }
+
+  static async onToggleWear(event) {
+    const id = event.target.closest('[data-item-id]').dataset.itemId
+    const item = this.actor.items.get(id)
+    await item.update({ 'system.wear': !item.system.wear }, { parent: this.actor })
+  }
+
+  static async onToggleInfo(event) {
+    const elem = $(event.target)
+    const root = elem.closest('[data-item-id]')
+    const selector = '.fa-chevron-down, .fa-chevron-up'
+    const chevron = elem.is(selector) ? elem : elem.find(selector);
+    const elements = $(root).find('.dlInfo')
+    elements.each((_, i) => {
+        if (i.style.display === 'none') {
+          $(i).slideDown(100)
+          chevron?.removeClass('fa-chevron-up')
+          chevron?.addClass('fa-chevron-down')
+        } else {
+          $(i).slideUp(100)
+          chevron?.removeClass('fa-chevron-down')
+          chevron?.addClass('fa-chevron-up')
+        }
+      })
   }
 
   /* -------------------------------------------- */
@@ -275,9 +308,9 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
 
   async showDeleteDialog(title, content, htmlItem) {
     const deleteItem = async () => {
-      const id = htmlItem.data('itemId') || htmlItem.data('item-id')
+      const id = htmlItem.dataset.itemId || htmlItem.dataset['item-id']
       await Item.deleteDocuments([id], { parent: this.document })
-      htmlItem.slideUp(200, () => this.render(false))
+      //htmlItem.slideUp(200, () => this.render(false))
     }
 
     const d = new Dialog({
@@ -309,6 +342,8 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
 
   /** @override */
   async _onRender(context, options) { // eslint-disable-line no-unused-vars
+    super._onRender(context, options)
+
     let e = this.element
 
     const autoresize = (el) => {
@@ -371,17 +406,6 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
-
-    // Drag events
-    e.querySelectorAll('.drop-area, .drop-zone, .drop-zone *').forEach(el => {
-
-      el.addEventListener('dragover', this._onDragOver.bind(this))
-      el.addEventListener('dragleave', this._onDragLeave.bind(this))
-      el.addEventListener('drop', this._onDrop.bind(this))
-    })
-
-    // Create nested items by dropping onto item
-    this.element.addEventListener('drop', ev => this._onDropItem(ev))
 
     if (this.document.parent?.isOwner) {
       const dragHandler = async ev => await this._onDrag(ev)
@@ -448,26 +472,6 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
     //   }
     // }))
 
-    // New toggle info
-    e.querySelectorAll('.dlToggleInfoBtn')?.forEach(el => el.addEventListener('click', async ev => {
-      const root = $(ev.currentTarget).closest('[data-item-id]')
-      const elem = $(ev.currentTarget)
-      const selector = '.fa-chevron-down, .fa-chevron-up'
-      const chevron = elem.is(selector) ? elem : elem.find(selector);
-      const elements = $(root).find('.dlInfo')
-      elements.each((_, i) => {
-        if (i.style.display === 'none') {
-          $(i).slideDown(100)
-          chevron?.removeClass('fa-chevron-up')
-          chevron?.addClass('fa-chevron-down')
-        } else {
-          $(i).slideUp(100)
-          chevron?.removeClass('fa-chevron-down')
-          chevron?.addClass('fa-chevron-up')
-        }
-      })
-    }))
-
     // Clone inventory item
     e.querySelectorAll('.item-clone')?.forEach(el => el.addEventListener('click', async ev => {
       const li = $(ev.currentTarget).parents('.item')
@@ -475,15 +479,7 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
       await Item.create(item, { parent: this.actor })
     }))
 
-    // Wear item
-    const itemWear = async (ev, bool) => {
-      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      const item = this.actor.items.get(id)
-      await item.update({ 'system.wear': bool }, { parent: this.actor })
-    }
-
-    e.querySelectorAll('.item-wear')?.forEach(el => el.addEventListener('click', async ev => await itemWear(ev, false)))
-    e.querySelectorAll('.item-wearoff')?.forEach(el => el.addEventListener('click', async ev => await itemWear(ev, true)))
+    // Wear item style
     e.querySelectorAll('.item-wear')?.forEach(el => {
       const itemId = $(el).closest('[data-item-id]').data('itemId')
       const item = this.actor.items.get(itemId)
@@ -604,74 +600,57 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
     }
   }
 
-  /*async _addItem(data, level, group) {
-    const levelItem = new PathLevelItem()
-    const itemData = foundry.utils.duplicate(this.document)
-    const item = await getNestedItemData(data)
-    if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
+  // async _addItem(data, level, group) {
+  //   const levelItem = new PathLevelItem()
+  //   const itemData = foundry.utils.duplicate(this.document)
+  //   const item = await getNestedItemData(data)
+  //   if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
 
-    levelItem.uuid = item.uuid ?? data.uuid
-    levelItem.id = item.id || item._id
-    levelItem._id = item._id || item.id
-    levelItem.name = item.name
-    levelItem.description = item.system.description
-    levelItem.pack = data.pack ? data.pack : ''
-    levelItem.data = item
-    levelItem.img = item.img
+  //   levelItem.uuid = item.uuid ?? data.uuid
+  //   levelItem.id = item.id || item._id
+  //   levelItem._id = item._id || item.id
+  //   levelItem.name = item.name
+  //   levelItem.description = item.system.description
+  //   levelItem.pack = data.pack ? data.pack : ''
+  //   levelItem.data = item
+  //   levelItem.img = item.img
 
-    if (this.document.type === 'ancestry' || this.document.type === 'path') {
-      if (level === '0') {
-        if (group === 'feature') itemData.system.levels[level].talents.push(levelItem)
-        else itemData.system.levels[level][group].push(levelItem)
-      } else {
-        itemData.system.levels[level][group].push(levelItem)
-      }
-    } else {
-      // Anything without levels
-      itemData.system[group].push(levelItem)
-    }
+  //   if (this.document.type === 'ancestry' || this.document.type === 'path') {
+  //     if (level === '0') {
+  //       if (group === 'feature') itemData.system.levels[level].talents.push(levelItem)
+  //       else itemData.system.levels[level][group].push(levelItem)
+  //     } else {
+  //       itemData.system.levels[level][group].push(levelItem)
+  //     }
+  //   } else {
+  //     // Anything without levels
+  //     itemData.system[group].push(levelItem)
+  //   }
 
-    await this.document.update(itemData)
-  }
+  //   await this.document.update(itemData)
+  // }
 
+  /*
   _onDragOver(event) {
     $(event.target).addClass('drop-hover')
   }
 
   _onDragLeave(event) {
     $(event.target).removeClass('drop-hover')
-  }
-
-  async _onDrop(event) {
-    $(event.target).removeClass('drop-hover')
-
-    const group = event.target.closest('[data-group]')?.dataset?.group
-    const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
-    try {
-      $(event.target).removeClass('drop-hover')
-      const data = JSON.parse(event.dataTransfer.getData('text/plain'))
-      if (data.type !== 'Item') return
-      debugger
-      await this._addItem(data, levelIndex, group)
-    } catch (err) {
-      console.warn(err)
-    }
   }*/
 
   /** @override */
-  async _onDropItem(ev, _itemData) {
+  async _onDropItem(ev, _item) {
     try {
-      const itemData = JSON.parse(ev.dataTransfer.getData('text/plain'))
-      if (itemData.type === 'Item') {
-        const item = await fromUuid(itemData.uuid)
-        
-        const isAllowed = await this.checkDroppedItem(item)
-        if (isAllowed) {
-          const createdItems = await super._onDropItem(ev, item)
-          await this.postDropItemCreate(createdItems[0])
-        } else {
-          console.warn('Wrong item type dragged', this.document, item)
-        }
+      const item = _item
+      
+      const isAllowed = await this.checkDroppedItem(_item)
+      if (isAllowed) {
+        const data = foundry.utils.duplicate(item);
+        this.actor.createEmbeddedDocuments('Item', [data])
+        await this.postDropItemCreate(data)
+      } else {
+        console.warn('Wrong item type dragged', this.document, item)
       }
     } catch (err) {
       console.warn(err)

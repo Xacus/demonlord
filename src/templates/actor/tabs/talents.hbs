@@ -3,7 +3,7 @@
     <div class="col-9">{{localize "DL.TalentTitle"}}</div>
     <div class="col-2">{{localize "DL.TalentUsesTitle"}}</div>
     <div class="col-1">
-      <a class="spell-create" title="{{localize 'DL.TalentAdd'}}" data-type="talent">
+      <a class="spell-create" data-action="createItem" title="{{localize 'DL.TalentAdd'}}" data-type="talent">
         <i class="fas fa-plus"></i>
       </a>
     </div>
@@ -20,7 +20,7 @@
       <div class="col-7">
         <img class='dl-clickable item-edit' data-action="editItem" src="{{talent.img}}" title="{{talent.name}}" width="32" height="32" />
         <label class="talent-roll dl-rollable">{{talent.name}}</label>
-        <div class="dl-clickable dlToggleInfoBtn">
+        <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
           <i class="fas fa-angle-right"></i> {{localize "DL.TalentShowSpellInfo"}}
         </div>
       </div>
@@ -41,10 +41,10 @@
       <div class="col-1">
         <div class="col-1">
           {{#if (dlIsNestedItem talent)}}
-          <a class="dl-clickable item-delete" title="{{dlGetNestedItemSource talent}}"><i
+          <a class="dl-clickable item-delete" data-action="editItem" title="{{dlGetNestedItemSource talent}}"><i
               class="fa-solid fa-link"></i></a>
           {{else}}
-          <a class="dl-clickable item-delete" title="{{localize 'DL.TalentDelete'}}"><i class="fas fa-times"></i></a>
+          <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.TalentDelete'}}"><i class="fas fa-times"></i></a>
           {{/if}}
         </div>
       </div>

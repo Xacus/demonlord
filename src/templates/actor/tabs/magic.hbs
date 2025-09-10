@@ -7,7 +7,7 @@
     <div class="col-1">{{localize "DL.WeaponBoonsBanesShort"}}</div>
     <div class="col-1">{{localize "DL.TalentUsesTitle"}}</div>
     <div class="col-1">
-      <a class="spell-create" title="{{localize 'DL.MagicAddSpell'}}" data-type="spell"><i class="fas fa-plus"></i></a>
+      <a class="spell-create" data-action="createItem" title="{{localize 'DL.MagicAddSpell'}}" data-type="spell"><i class="fas fa-plus"></i></a>
     </div>
   </div>
 
@@ -25,9 +25,9 @@
     <!-- Informations -->
     <div class="row">
       <div class="col-6">
-        <img class="dl-clickable item-edit" src="{{spell.img}}" title="{{spell.name}}" width="32" height="32" />
+        <img class="dl-clickable item-edit" data-action="editItem" src="{{spell.img}}" title="{{spell.name}}" width="32" height="32" />
         <label class="magic-roll dl-rollable">{{spell.name}}</label>
-        <div class="dl-clickable dlToggleInfoBtn">
+        <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
           <i class="fas fa-angle-right"></i> {{localize "DL.SpellShowSpellInfo"}}
         </div>
       </div>
@@ -45,10 +45,10 @@
       </div>
       <div class="col-1">
         {{#if (dlIsNestedItem spell)}}
-        <a class="dl-clickable spell-delete" title="{{dlGetNestedItemSource spell}}"><i
+        <a class="dl-clickable spell-delete" data-action="editItem" title="{{dlGetNestedItemSource spell}}"><i
             class="fa-solid fa-link"></i></a>
         {{else}}
-        <a class="dl-clickable spell-delete" title="{{localize 'DL.MagicDeleteSpell'}}"><i class="fas fa-times"></i></a>
+        <a class="dl-clickable spell-delete" data-action="deleteItem" title="{{localize 'DL.MagicDeleteSpell'}}"><i class="fas fa-times"></i></a>
         {{/if}}
       </div>
     </div>

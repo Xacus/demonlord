@@ -2,6 +2,12 @@
   padding: 0;
 }
 
+.window-header {
+  border: 0;
+  background-color: transparent;
+  backdrop-filter: blur(4px);
+}
+
 .demonlord-v2-item-sheet-header-container {
   background: var(--demonlord-header-background);
 }
@@ -36,20 +42,47 @@
   }
 }
 
-.tabs > [data-tab].active {
-  border-bottom: 3px solid var(--demonlord-red);
-  margin-bottom: -3px; // Stop border-bottom from pushing text upwards
-}
-
 nav.sheet-tabs {
   border: none;
-  color: var(--demonlord-color-text-inverted-primary);
+  //color: var(--demonlord-color-text-inverted-primary);
+  color: var(--color-text-light-primary);
 
   > [data-tab] {
     padding: 4px 6px;
     font-family: 'IM Fell English SC', serif;
     font-size: 13px;
     text-transform: uppercase;
+    transition: filter 0.3s, -webkit-filter 0.3s;
+
+    &.active {
+      border-bottom: 3px solid var(--demonlord-red);
+      margin-bottom: -3px; // Stop border-bottom from pushing text upwards
+    }
+
+    &:hover,
+    &:focus {
+      -webkit-filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+      filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+    }
+
+    label {
+      color: #fff;
+    }
+  }
+
+  &.effects {
+    width: 100%;
+
+    > [data-tab] {
+      text-transform: none;
+
+      &.active {
+        border-bottom: 0;
+        margin-bottom: 0;
+        -webkit-filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+        filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+      }
+    }
   }
 }
 
@@ -70,9 +103,13 @@ nav.sheet-tabs {
   }
 }
 
-.editor-content {
-  scrollbar-width: thin;
-  scrollbar-color: var(--demonlord-red) transparent;
+.dl-editor-box {
+  .editor-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--demonlord-red) transparent;
+
+    height: 100%;
+  }
 }
 
 hr {
@@ -118,7 +155,6 @@ span.vertical-rule {
       font-size: 14px;
       font-weight: 400;
       text-shadow: none;
-      color: var(--demonlord-color-text-primary);
     }
   }
 
@@ -807,6 +843,10 @@ span.text-vs {
 /*******************/
 .themed-icon {
   background-color: var(--demonlord-color-icon);
+}
+
+.themed-icon-inverted {
+  background-color: var(--demonlord-color-icon-inverted);
 }
 
 .themed-icon.inactive {

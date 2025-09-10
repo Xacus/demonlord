@@ -20,6 +20,7 @@ body.theme-dark {
   --demonlord-color-hr-highlight: var(--color-border-dark-highlight);
 
   // Inverted
+  --demonlord-color-icon-inverted: #f7f3e8;
   // --demonlord-color-text-inverted-primary: var(--color-dark-2);
   // --demonlord-color-input-inverted: var(--color-dark-3);
   --demonlord-color-text-inverted-primary: var(--color-light-2);
@@ -39,6 +40,7 @@ body.theme-light {
   --demonlord-header-background: url(../assets/ui/sidebar_background.webp) repeat-x local;
 
   // Inverted
+  --demonlord-color-icon-inverted: #f7f3e8;
   --demonlord-color-text-inverted-primary: var(--color-light-2);
   --demonlord-color-input-inverted: var(--color-light-3);
 
