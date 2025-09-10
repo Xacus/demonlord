@@ -80,7 +80,7 @@ aside {
 
   .sidebar-button {
     position: absolute;
-    top: 160px;
+    top: 155px;
     width: 32px;
     height: 32px;
     border: solid 1px var(--demonlord-red);
@@ -126,11 +126,6 @@ aside {
         line-height: 24px;
         text-align: center;
         font-family: Signika, 'Palatino Linotype', sans-serif;
-      }
-
-      .healingratetext {
-        position: relative;
-        right: 64px;
       }
     }
   }
