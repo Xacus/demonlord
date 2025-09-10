@@ -1,3 +1,9 @@
+.theme-light & {
+  background-image: url(../assets/ui/sidebar_background.webp), url(/ui/parchment.jpg);
+  background-size: 500px 144px, cover;
+  background-repeat: repeat-x, repeat-x;
+}
+
 .dl-item-section-header {
   display: flex;
   justify-content: space-between;

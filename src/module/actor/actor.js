@@ -251,7 +251,7 @@ export class DemonlordActor extends Actor {
   async _onUpdate(changed, options, user) {
     await super._onUpdate(changed, options, user)
     if (user !== game.userId) return
-    if (changed?.level || changed?.system?.level) {
+    if (changed?.level != null || changed?.system?.level != null) {
       await this._handleDescendantDocuments(changed, {debugCaller: '_onUpdate'})
     }
     if (changed.system?.characteristics?.health) await this.handleHealthChange()
@@ -525,8 +525,8 @@ export class DemonlordActor extends Actor {
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
-      launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async html => {
-        await this.rollItemAttack(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val())
+      launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async (event, html) => {
+        await this.rollItemAttack(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
         // Decrease ammo quantity
         if (item.system.consume.ammorequired) {
           await ammoItem.update({
@@ -565,8 +565,8 @@ export class DemonlordActor extends Actor {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.key))
-      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async html =>
-        await this.rollAttributeChallenge(attribute, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) =>
+        await this.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       )
   }
 
@@ -632,8 +632,8 @@ export class DemonlordActor extends Actor {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'attack', attribute.key))
-      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogAttackRoll') + attribute.label, async html =>
-        await this.rollAttributeAttack(attribute, html.find('[id="defense"]').val(), html.find('[id="boonsbanes"]').val(), html.find('[id=modifier]').val()),
+      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogAttackRoll') + attribute.label, async (event, html) =>
+        await this.rollAttributeAttack(attribute, html.form.elements.defense.value, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       true
     )
   }
@@ -655,8 +655,8 @@ export class DemonlordActor extends Actor {
     }
 
     if (item.system?.action?.attack) {
-      launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async html =>
-        await this.useTalent(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async (event, html) =>
+        await this.useTalent(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       )
     } else {
       await this.useTalent(item, 0, 0)
@@ -756,8 +756,8 @@ export class DemonlordActor extends Actor {
     } else await item.update({'system.castings.value': uses + 1}, {parent: this})
 
     if (isAttack && attackAttribute) {
-      launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async html =>
-        await this.useSpell(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async (event, html) =>
+        await this.useSpell(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       )
     } else {
       await this.useSpell(item, 0, 0)
@@ -881,8 +881,8 @@ export class DemonlordActor extends Actor {
     }
 
     if (item.system?.action?.attack) {
-      launchRollDialog(game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async html =>
-        await this.useItem(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html) =>
+        await this.useItem(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       )
     } else {
       await this.useItem(item, 0, 0)

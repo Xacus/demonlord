@@ -1,0 +1,13 @@
+  {{!--
+  Context:
+  - search
+    - text
+    - type
+--}}
+<div class="demonlord-compendium-browser-search">
+  <input name="search.text" type="text" value="{{search.text}}" placeholder="{{localize 'DL.SearchText'}}" />
+  <select class="input-group-dropdown search-type" name="search.type" data-tippy-content="{{localize 'DL.SearchType'}}">
+    {{selectOptions typeOptions selected=search.type blank="-" localize=true}}
+  </select>
+  <button type="submit">{{localize 'DL.Search'}}</button>
+</div>

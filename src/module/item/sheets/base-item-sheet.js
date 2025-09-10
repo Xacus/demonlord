@@ -136,7 +136,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     super._configureRenderOptions(options);
 
     // These parts are always rendered
-    options.parts = [ 'header' ]
+    options.parts = [ 'header', 'tabs' ]
 
     // Optionally add the main tab (attributes)
     const ignoredParts = [ 'feature', 'profession', 'specialaction' ] // Ideally temporary

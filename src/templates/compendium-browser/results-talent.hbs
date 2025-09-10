@@ -1,0 +1,22 @@
+{{!--
+  Context:
+  - results
+    - items
+--}}
+<div class="demonlord-compendium-browser-filters">
+    <table>
+        {{!-- Fields info --}}
+        <tr>
+            <th>{{localize 'DL.CompendiumBrowser.Results.Name'}}</th>
+            <th>{{localize 'DL.CompendiumBrowser.Results.Source'}}</th>
+
+        </tr>
+
+        {{#each results as |item|}}
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.system.source}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</div>

@@ -1,9 +1,7 @@
 import DLBaseActorSheetV2 from './base-actor-sheet-v2'
 import { prepareActiveEffectCategories } from '../../active-effects/effects'
-import { handleLevelChange } from '../../item/nested-objects'
-import launchRestDialog from '../../dialog/rest-dialog'
 
-export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
+export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
   static DEFAULT_OPTIONS = {
     // All from base plus...
     form: {
@@ -12,64 +10,35 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     actions: {
       rollCorruption: this.onRollCorruption,
       editStatBar: this.onEditStatBar,
-      editLanguages: this.onEditLanguages,
-      //editReligion: this.onEditReligion // Unused?
-
-      // editAncestry: this.onEditAncestry,
-      // editPath: this.onEditPath,
-      // editRole: this.onEditRole,
-      // editRelic: this.onEditRelic,
-
-      restCharacter: this.onRestCharacter,
-
-      toggleSpeak: this.onToggleSpeak,
-      toggleRead: this.onToggleRead,
-      toggleWrite: this.onToggleWrite,
     }
   }
 
   static PARTS = {
     // All from base
-    sidebar: { template: 'systems/demonlord/templates/actor/parts/character-sheet-sidemenu.hbs' },
-    header: { template: 'systems/demonlord/templates/actor/parts/character-sheet-header.hbs' },
+    sidebar: { template: 'systems/demonlord/templates/actor/parts/creature-sheet-sidemenu.hbs' },
+    header: { template: 'systems/demonlord/templates/actor/parts/creature-sheet-header.hbs' },
     tabs: { template: 'systems/demonlord/templates/generic/tab-navigation.hbs' },
 
     // Tabs
-    character: { template: 'systems/demonlord/templates/actor/tabs/character.hbs' },
-    combat: { template: 'systems/demonlord/templates/actor/tabs/combat.hbs' },
-    talents: { template: 'systems/demonlord/templates/actor/tabs/talents.hbs' },
+    combat: { template: 'systems/demonlord/templates/actor/tabs/creature-combat.hbs' },
     magic: { template: 'systems/demonlord/templates/actor/tabs/magic.hbs' },
     inventory: { template: 'systems/demonlord/templates/actor/tabs/item.hbs' },
-    background: { template: 'systems/demonlord/templates/actor/tabs/background.hbs' },
+    reference: { template: 'systems/demonlord/templates/actor/tabs/creature-reference.hbs' },
     afflictions: { template: 'systems/demonlord/templates/actor/tabs/afflictions.hbs' },
-    effects: { template: 'systems/demonlord/templates/actor/tabs/effects.hbs' }
+    effects: { template: 'systems/demonlord/templates/actor/tabs/creature-effects.hbs' }
   }
 
   static TABS = {
     primary: {
       tabs: [
-        { id: 'character', icon: 'icon-character', tooltip: 'DL.TabsGeneral'},
         { id: 'combat', icon: 'icon-combat', tooltip: 'DL.TabsCombat'},
-        { id: 'talents', icon: 'icon-talents', tooltip: 'DL.TabsTalents'},
         { id: 'magic', icon: 'icon-magic', tooltip: 'DL.TabsMagic'},
         { id: 'inventory', icon: 'icon-inventory', tooltip: 'DL.TabsInventory'},
-        { id: 'background', icon: 'icon-background', tooltip: 'DL.TabsBackground'},
+        { id: 'reference', icon: 'icon-background', tooltip: 'DL.Reference'},
         { id: 'afflictions', icon: 'icon-afflictions', tooltip: 'DL.TabsAfflictions'},
         { id: 'effects', icon: 'icon-effects', tooltip: 'DL.TabsEffects'}
       ],
-      initial: 'character'
-    },
-    effects: {
-      tabs: [
-        { id: 'general', label: 'DL.TabsGeneral'},
-        { id: 'ancestry', label: 'DL.CharAncestry'},
-        { id: 'paths', label: 'DL.PathsTitle'},
-        { id: 'talentsEffects', label: 'DL.TabsTalents'},
-        { id: 'spells', label: 'DL.MagicSpellsTitle'},
-        { id: 'items', label: 'DL.TabsItems'},
-        { id: 'overview', label: 'DL.TabsOverview'},
-      ],
-      initial: 'general'
+      initial: 'combat'
     }
   }
 
@@ -80,10 +49,10 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     /** @override */
     _configureRenderOptions(options) {
       super._configureRenderOptions(options)
-  
+
       // This should be configured per sheet type
-      options.parts.push('character', 'combat', 'talents', 'magic', 'inventory', 'background', 'afflictions', 'effects')
-  
+      options.parts.push('combat', 'magic', 'inventory', 'reference', 'afflictions', 'effects')
+
       //this._adjustSizeByType(this.document.type, this.position)
     }
 
@@ -118,7 +87,6 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
       Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'relic'),
     )
     this._prepareItems(context)
-    context['fortuneAwardPrevented']  = (game.settings.get('demonlord', 'fortuneAwardPrevented') && !game.user.isGM && !this.actor.system.characteristics.fortune) ? true : false
     return context
   }
 
@@ -133,20 +101,10 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     actorData.relics = m.get('relic') || []
     actorData.armor = m.get('armor') || []
     actorData.ammo = m.get('ammo') || []
-    actorData.ancestry = m.get('ancestry') || []
-    actorData.professions = m.get('profession') || []
     actorData.languages = m.get('language') || ''
     actorData.paths = m.get('path') || []
     actorData.talentbook = this._prepareBook(actorData.talents, 'groupname', 'talents')
     actorData.roles = m.get('creaturerole') || []
-
-    // Sort paths
-    actorData.paths = [
-      ...actorData.paths.filter(p => p.system.type === 'novice'),
-      ...actorData.paths.filter(p => p.system.type === 'expert'),
-      ...actorData.paths.filter(p => p.system.type === 'master'),
-      ...actorData.paths.filter(p => p.system.type === 'legendary')
-    ]
   }
 
   /* -------------------------------------------- */
@@ -166,9 +124,9 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
 
   /**
    * @override
-   * @param {DemonlordItem} item 
+   * @param {DemonlordItem} item
    */
-  async postDropItemCreate (item) {     
+  async postDropItemCreate (item) {
     if (item.type === 'ancestry') {
 
       // Add insanity and corruption values
@@ -193,13 +151,11 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
   /* -------------------------------------------- */
   /*  Auxiliary functions                         */
   /* -------------------------------------------- */
-  
-  static async onSubmit(event, form, formData) {    
+
+  static async onSubmit(event, form, formData) {
     super.onSubmit(event, form, formData)
 
-    const updateData = foundry.utils.expandObject(formData.object)
-    const newLevel = updateData.system.level
-    if (newLevel !== this.document.system.level) await handleLevelChange(this.document, newLevel)
+    //const updateData = foundry.utils.expandObject(formData.object)
     return await this.document.update(formData)
   }
 
@@ -207,12 +163,8 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
   /*  Actions                                     */
   /* -------------------------------------------- */
 
-  static async onRollCorruption() {
-    return await this.actor.rollCorruption()
-  }
-
   /** Edit HealthBar, Insanity and Corruption */
-  static async onEditStatBar() {   
+  static async onEditStatBar() {
     const actor = this.actor
     const showEdit = actor.system.characteristics.editbar
     actor.system.characteristics.editbar = !showEdit
@@ -221,74 +173,10 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
     await this.render({parts: ['sidebar']})
   }
 
-  static async onEditLanguages() {
-    await this.actor.update({ 'system.languages.edit': !this.actor.system.languages.edit, }).then(() => this.render())
-  }
-
-  
-  static async onToggleSpeak(ev) {
-    const itemId = ev.target.closest('.language').dataset.itemId
-    await this.toggleLanguage(itemId, 'speak')
-  }
-
-  static async onToggleRead(ev) {
-    const itemId = ev.target.closest('.language').dataset.itemId
-    await this.toggleLanguage(itemId, 'read')
-  }
-
-  static async onToggleWrite(ev) {
-    const itemId = ev.target.closest('.language').dataset.itemId
-    await this.toggleLanguage(itemId, 'write')
-  }
-
-  /* Unused ?
-  static async onEditReligion() {
-    await this.actor.update({ 'system.religion.edit': !this.actor.system.religion.edit }).then(() => this.render())
-  }*/
-
-  static async onRestCharacter() {
-    launchRestDialog(game.i18n.localize('DL.DialogRestTitle'), (dHtml, restTime) => {
-      this.actor.restActor(
-        restTime,
-        !dHtml.currentTarget.querySelector("input[id='noMagicRecovery']").checked,
-        !dHtml.currentTarget.querySelector("input[id='noTalentRecovery']").checked,
-        !dHtml.currentTarget.querySelector("input[id='noHealing']").checked,
-      )
-    })
-  }
-
-  async onEditAncestry(ev) {
-    const div = ev.target.closest('.ancestry-edit')
-    const ancestry = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
-
-    if (ev.button == 0) ancestry.sheet.render(true)
-    else if (ev.button == 2) {
-      if (this.actor.system.level > 0 && game.settings.get('demonlord', 'confirmAncestryPathRemoval')) {
-          await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteAncestryText'), div)
-      } else {
-        await ancestry.delete({ parent: this.actor })
-      }
-    }
-  }
-
-  async onEditPath(ev) {
-    const div = ev.target.closest('.path-edit')
-    const path = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
-
-    if (ev.button == 0) path.sheet.render(true)
-    else if (ev.button == 2) {
-      if (this.actor.system.level > 0 && game.settings.get('demonlord', 'confirmAncestryPathRemoval')) {
-        await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeletePathText'), div)
-      } else {
-        await path.delete({ parent: this.actor })
-      }
-    }
-  }
-  
   async onEditRole(ev) {
     const div = $(ev.currentTarget)
     const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
-    
+
     if (ev.button == 0) role.sheet.render(true)
     else if (ev.button == 2) await role.delete({ parent: this.actor })
   }
@@ -299,11 +187,6 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
 
     if (ev.button == 0) role.sheet.render(true)
     else if (ev.button == 2) await role.delete({ parent: this.actor })
-  }
-
-  async toggleLanguage(itemId, key) {
-    const item = this.actor.items.get(itemId)
-    await item.update({[`system.${key}`]: !item.system[key] }, { parent: this.actor })
   }
 
   /* -------------------------------------------- */
@@ -355,15 +238,6 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
       await this.actor.update({ 'system.characteristics.corruption.value': value })
     })
 
-    // Fortune click
-    e.querySelector('.fortune').addEventListener('mousedown', async () => {
-      // Expending fortune always possible.
-      if (game.settings.get('demonlord', 'fortuneAwardPrevented') && !game.user.isGM && !this.actor.system.characteristics.fortune) return
-      let value = parseInt(this.actor.system.characteristics.fortune)
-      if (value) await this.actor.expendFortune(false)
-      else this.actor.expendFortune(true)
-    })
-
     // Health bar fill
     const healthbar = e.querySelector('.healthbar-fill')
     if (healthbar) {
@@ -384,12 +258,6 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
       const corruption = this.actor.system.characteristics.corruption.value
       corruptionbar.style.width = Math.floor((+corruption / 20) * 100) + '%'
     }
-
-    // Ancestry edit
-    e.querySelector('.ancestry-edit')?.addEventListener('mousedown', async ev => await this.onEditAncestry(ev))
-
-    // Path edit
-    e.querySelectorAll('.path-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditPath(ev)))
 
     // Role edit
     e.querySelectorAll('.role-edit')?.forEach(p => p.addEventListener('mousedown', '.role-edit', async ev => await this.onEditRole(ev)))
@@ -419,21 +287,6 @@ export default class DLCharacterSheetV2 extends DLBaseActorSheetV2 {
         }
       }
       await Item.updateDocuments([item], { parent: this.actor })
-    }))
-
-    // Healing Rate button
-    e.querySelector('.healingratebox').addEventListener('mousedown', async ev => await this.actor.applyHealing(ev.button === 0))
-
-    // Talent: Options
-    e.querySelector('input[type=checkbox][id^="option"]')?.forEach(el => el.addEventListener('click', async ev => {
-      const div = ev.currentTarget.closest('.option')
-      const field = ev.currentTarget.name
-      const update = {
-        id: div.dataset.itemId,
-        [field]: ev.currentTarget.checked,
-      }
-
-      await Item.updateDocuments(update, { parent: this.actor })
     }))
   }
 }

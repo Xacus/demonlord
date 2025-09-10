@@ -15,8 +15,7 @@ import * as macros from './macros/item-macros.js'
 import * as gmMacros from './macros/gm-macros.js'
 import * as playerMacros from './macros/player-macros'
 import {DLAfflictions} from './active-effects/afflictions'
-import {DLActiveEffectConfig} from './active-effects/sheets/active-effect-config'
-import DLCharacterSheet from './actor/sheets/character-sheet'
+import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config'
 import DLCharacterSheetV2 from './actor/sheets/character-sheet-v2.js'
 import DLCreatureSheet from './actor/sheets/creature-sheet'
 import DLVehicleSheet from './actor/sheets/vehicle-sheet'
@@ -42,11 +41,13 @@ import TalentDataModel from './data/item/TalentDataModel.js'
 import WeaponDataModel from './data/item/WeaponDataModel.js'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
-import 'tippy.js/dist/tippy.css';
-import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
-import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
-import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
-import { activateSocketListener } from "./utils/socket.js";
+import 'tippy.js/dist/tippy.css'
+import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"
+import DLBaseActorSheet from "./actor/sheets/base-actor-sheet"
+import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for styling
+import { activateSocketListener } from "./utils/socket.js"
+import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
+import DLCreatureSheetV2 from './actor/sheets/creature-sheet-v2.js'
 
 const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
 const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
@@ -83,7 +84,7 @@ Hooks.once('init', async function () {
   CONFIG.Combat.documentClass = DLCombat
   CONFIG.time.roundTime = 10
   // CONFIG.debug.hooks = true
-  
+
   // Move to new ActiveEffect transferral
   CONFIG.ActiveEffect.legacyTransferral = false;
 
@@ -114,17 +115,17 @@ Hooks.once('init', async function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet)
-  Actors.registerSheet('demonlord', DLCharacterSheet, {
+  Actors.registerSheet('demonlord', DLCharacterSheetV2, {
     types: ['character'],
     makeDefault: true,
   })
 
-  Actors.registerSheet('demonlord', DLCharacterSheetV2, {
-    types: ['character'],
-    makeDefault: false,
-  })  
-
   Actors.registerSheet('demonlord', DLCreatureSheet, {
+    types: ['creature'],
+    makeDefault: false,
+  })
+
+  Actors.registerSheet('demonlord', DLCreatureSheetV2, {
     types: ['creature'],
     makeDefault: false,
   })
@@ -310,7 +311,7 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
       if (_parent.isImmuneToAffliction(statusId)) continue
 
       await _parent.setFlag('demonlord', statusId, true)
-      
+
       // If asleep, also add prone and uncoscious
       if (statusId === 'asleep') {
         await findAddEffect(_parent, 'prone')
@@ -428,6 +429,21 @@ Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
   } else html.querySelectorAll('.gmremove').forEach(el => el.remove())
 })
 
+Hooks.on('renderCompendiumDirectory', async (app, html, _data) => {
+  if (html.querySelector('.compendium-browser-button')) return // Prevent duplicates
+  const footer = html.querySelector('.directory-footer')
+  const button = document.createElement('button')
+  button.innerHTML = `<i class="fas fa-search"></i> ${game.i18n.localize('DL.CompendiumBrowser')} `
+  button.classList.add('compendium-browser-button')
+  button.addEventListener('click', () => {
+    new DLCompendiumBrowser({
+      top: 50,
+      right: 700
+    }).render(true)
+  })
+  footer.append(button)
+})
+
 Hooks.once('diceSoNiceReady', dice3d => {
   dice3d.addSystem({id: 'demonlord', name: 'Demonlord'}, true)
   dice3d.addDicePreset({
@@ -467,7 +483,7 @@ Hooks.once('diceSoNiceReady', dice3d => {
       labels: ['I', 'II', 'systems/demonlord/assets/ui/icons/logo.png'],
       system: 'demonlord',
     })
-  }  
+  }
   dice3d.addColorset({
     name: 'demonlord',
     description: 'Special',
