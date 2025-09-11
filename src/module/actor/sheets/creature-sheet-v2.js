@@ -97,55 +97,29 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
     super._prepareItems(sheetData)
     const m = sheetData._itemsByType
     const actorData = sheetData.actor
+
+    const actorHasChangeBool = (actor, key) => {
+      return Array.from(actor.allApplicableEffects()).filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
+    }
+
+    const noSpecialAttacks = actorHasChangeBool(actorData, 'system.maluses.noSpecialAttacks')
+    const noSpecialActions = actorHasChangeBool(actorData, 'system.maluses.noSpecialActions')
+    const noEndOfRound = actorHasChangeBool(actorData, 'system.maluses.noEndOfRound')
+
+    actorData.talents = noSpecialAttacks ? [] : (m.get('talent') || [])
+    actorData.specialactions = noSpecialActions ? [] : (m.get('specialaction') || [])
+    actorData.endoftheround = noEndOfRound ? [] : (m.get('endoftheround') || [])
+    actorData.roles = m.get('creaturerole') || []
     actorData.gear = m.get('item') || []
     actorData.relics = m.get('relic') || []
-    actorData.armor = m.get('armor') || []
-    actorData.ammo = m.get('ammo') || []
-    actorData.languages = m.get('language') || ''
-    actorData.paths = m.get('path') || []
-    actorData.talentbook = this._prepareBook(actorData.talents, 'groupname', 'talents')
-    actorData.roles = m.get('creaturerole') || []
   }
 
   /* -------------------------------------------- */
   /** @override */
   async checkDroppedItem(itemData) {
-    const type = itemData.type
-    if (['specialaction', 'endoftheround', 'creaturerole'].includes(type)) return false
-
-    if (type === 'ancestry') {
-      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
-      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
-      return true
-    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
-
+    let preventedItems = await game.settings.get('demonlord', 'addCreatureInventoryTab') ? ['armor', 'ammo', 'ancestry', 'path', 'profession', 'language'] : ['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'relic']
+    if (preventedItems.includes(itemData.type)) return false
     return true
-  }
-
-  /**
-   * @override
-   * @param {DemonlordItem} item
-   */
-  async postDropItemCreate (item) {
-    if (item.type === 'ancestry') {
-
-      // Add insanity and corruption values
-      const insanityImmune = this.actor.system.characteristics.insanity.immune || item.system.levels.filter(l => l.characteristics.insanity.immune).length > 0
-      const corruptionImmune = this.actor.system.characteristics.corruption.immune || item.system.levels.filter(l => l.characteristics.corruption.immune).length > 0
-      const newInsanity = this.actor.system.characteristics.insanity.value + item.system.levels.reduce((s, l) => s + l.characteristics.insanity.value, 0)
-      const newCorruption = this.actor.system.characteristics.corruption.value + item.system.levels.reduce((s, l) => s + l.characteristics.corruption.value, 0)
-
-      await this.actor.update({
-        'system.characteristics': {
-          insanity: {
-            value: insanityImmune ? 0 : newInsanity
-          },
-          corruption: {
-            value: corruptionImmune ? 0 : newCorruption
-          }
-        }
-      })
-    }
   }
 
   /* -------------------------------------------- */
@@ -203,62 +177,6 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
 
     let e = this.element
 
-    // Health bar clicks
-    e.querySelector('.addDamage')?.addEventListener('mousedown', ev => {
-      if (ev.button == 0) this.actor.increaseDamage(+1)
-      // Increase damage
-      else if (ev.button == 2) this.actor.increaseDamage(-1) // Decrease damage
-    })
-
-    // Insanity bar click
-    e.querySelector('.addInsanity')?.addEventListener('mousedown', async ev => {
-      let value = parseInt(this.actor.system.characteristics.insanity.value)
-      const max = parseInt(this.actor.system.characteristics.insanity.max)
-      if (ev.button == 0) {
-        if (value >= max) value = 0
-        else value++
-      } else if (ev.button == 2) {
-        if (value <= 0) value = 0
-        else value--
-      }
-      await this.actor.update({ 'system.characteristics.insanity.value': value })
-    })
-
-    // Corruption bar click
-    e.querySelector('.addCorruption')?.addEventListener('mousedown', async ev => {
-      let value = parseInt(this.actor.system.characteristics.corruption.value)
-      const max = parseInt(20)
-      if (ev.button == 0) {
-        if (value >= max) value = 0
-        else value++
-      } else if (ev.button == 2) {
-        if (value <= 0) value = 0
-        else value--
-      }
-      await this.actor.update({ 'system.characteristics.corruption.value': value })
-    })
-
-    // Health bar fill
-    const healthbar = e.querySelector('.healthbar-fill')
-    if (healthbar) {
-      const health = this.actor.system.characteristics.health
-      healthbar.style.width = Math.floor((+health.value / +health.max) * 100) + '%'
-    }
-
-    // Insanity bar fill
-    const insanitybar = e.querySelector('.insanity-fill')
-    if (insanitybar) {
-      const insanity = this.actor.system.characteristics.insanity
-      insanitybar.style.width = Math.floor((+insanity.value / +insanity.max) * 100) + '%'
-    }
-
-    // Corruption bar fill
-    const corruptionbar = e.querySelector('.corruption-fill')
-    if (corruptionbar) {
-      const corruption = this.actor.system.characteristics.corruption.value
-      corruptionbar.style.width = Math.floor((+corruption / 20) * 100) + '%'
-    }
-
     // Role edit
     e.querySelectorAll('.role-edit')?.forEach(p => p.addEventListener('mousedown', '.role-edit', async ev => await this.onEditRole(ev)))
 
@@ -287,6 +205,12 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
         }
       }
       await Item.updateDocuments([item], { parent: this.actor })
+    }))
+
+    e.querySelectorAll('.characteristic .name')?.forEach(el => el.addEventListener('contextmenu', async ev => {
+      const div = $(ev.currentTarget)
+      const characteristicName = div.data('key')
+      await this.actor.update({ system: { characteristics: { [characteristicName]: { immune : !this.actor.system.characteristics[characteristicName].immune } } } })
     }))
   }
 }

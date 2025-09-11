@@ -18,6 +18,7 @@ body.theme-dark {
   --demonlord-color-input-background: #302831;
   --demonlord-color-hr: var(--color-border-dark-primary);
   --demonlord-color-hr-highlight: var(--color-border-dark-highlight);
+  --demonlord-color-background: #00000060;
 
   // Inverted
   --demonlord-color-icon-inverted: #f7f3e8;
@@ -36,6 +37,7 @@ body.theme-light {
   --demonlord-color-input-background: rgba(0, 0, 0, 0.1);
   --demonlord-color-hr: var(--color-border-light-primary);
   --demonlord-color-hr-highlight: var(--color-border-light-highlight);
+  --demonlord-color-background: #00000060;
 
   --demonlord-header-background: url(../assets/ui/sidebar_background.webp) repeat-x local;
 

@@ -36,7 +36,7 @@ aside {
   }
 
   &.creature {
-    background-image: url('../assets/ui/sidebar_creature.webp');
+    background-image: url('../assets/ui/sidebar_creature_long.webp');
   }
 
   &.vehicle {
@@ -78,6 +78,7 @@ aside {
 
     &.frame-creature {
       background-image: url(../assets/ui/image-circle-creature.webp);
+      margin-bottom: 30px;
     }
 
     &.frame-vehicle {
@@ -102,6 +103,7 @@ aside {
     border: solid 1px var(--demonlord-red);
     border-radius: 25px;
     padding: 2px;
+    font-size: 10px;
 
     transition: box-shadow 0.3s;
 
@@ -147,10 +149,22 @@ aside {
 
     &.frightening {
       left: 25px;
+
+      .sidebar-button-text {
+        position: absolute;
+        top: 40px;
+        left: 0px;
+      }
     }
 
     &.horrifying {
       right: 25px;
+
+      .sidebar-button-text {
+        position: absolute;
+        top: 40px;
+        right: 0px;
+      }
     }
 
     &.frightening,
@@ -351,6 +365,10 @@ aside {
       justify-content: center;
       padding: 5px 0;
 
+      .text {
+        font-size: 10px;
+      }
+
       .value {
         width: 60%;
         padding: 5px 20px;
@@ -359,6 +377,17 @@ aside {
         text-align: center;
         font-family: Signika, 'Palatino Linotype', sans-serif;
         color: var(--demonlord-color-input-inverted);
+        background-color: var(--demonlord-color-background);
+      }
+    }
+
+    .text-box {
+      width: 80%;
+      padding: 10px 0;
+
+      input {
+        color: var(--demonlord-color-input-inverted);
+        background-color: var(--demonlord-color-background);
       }
     }
   }
@@ -576,10 +605,20 @@ aside {
   }
 }
 
-.language {
-  .language-icon {
-    width: 10px;
-    height: 10px;
+.languages {
+  position: relative;
+
+  .edit {
+    position: absolute;
+    right: 10px;
+    top: 3px;
+  }
+
+  .language {
+    .language-icon {
+      width: 10px;
+      height: 10px;
+    }
   }
 }
 
