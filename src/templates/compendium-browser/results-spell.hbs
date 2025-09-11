@@ -3,17 +3,17 @@
   - results
     - items
 --}}
-<div class="demonlord-compendium-browser-filters">
+<div class="demonlord-compendium-browser-results  {{#if (eq search.type 'spell')}}active{{/if}}">
     <table>
         {{!-- Fields info --}}
         <tr>
             <th></th>
-            <th>{{localize 'DL.CompendiumBrowser.Results.Name'}}</th>
-            <th>{{localize 'DL.CompendiumBrowser.Results.Source'}}</th>
-            <th>{{localize 'DL.CompendiumBrowser.Results.Tradition'}}</th>
-            <th>{{localize 'DL.CompendiumBrowser.Results.Rank'}}</th>
-            <th>{{localize 'DL.CompendiumBrowser.Results.Type'}}</th>
-            <th>{{localize 'DL.CompendiumBrowser.Results.Attribute'}}</th>
+            <th>{{localize 'DL.CreatureName'}}</th>
+            <th>{{localize 'DL.Source'}}</th>
+            <th>{{localize 'DL.MagicTradition'}}</th>
+            <th>{{localize 'DL.SpellRank'}}</th>
+            <th>{{localize 'DL.SpelltypeHeader'}}</th>
+            <th>{{localize 'DL.SpellAttribute'}}</th>
 
         </tr>
 

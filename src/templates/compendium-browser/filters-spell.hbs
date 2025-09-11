@@ -14,7 +14,7 @@
     - // isCorruption
     - hasChallenge
 --}}
-<div class="demonlord-compendium-browser-filters">
+<div class="demonlord-compendium-browser-filters {{#if (eq search.type 'spell')}}active{{/if}}">
 
   <div class="filter-group">
     <b>{{localize 'DL.MagicTradition'}}</b>
@@ -27,7 +27,7 @@
   </div>
 
   <div class="filter-group">
-    <b>{{localize 'DL.CompendiumBrowser.Filters.Source'}}</b>
+    <b>{{localize 'DL.Source'}}</b>
     <input type="text" class="filter-group-textbox" name="filters.spell.source" value="{{filters.spell.source}}">
     {{!-- Dropdown with all compendia --}}
   </div>
@@ -35,8 +35,8 @@
   <div class="filter-group">
     <b>{{localize 'DL.SpellType'}}</b>
     <select class="filter-group-textbox" name="filters.spell.type" value="{{filters.spell.type}}">
-      <option value="A">{{localize 'DL.CompendiumBrowser.Filters.Type.Attack'}}</option>
-      <option value="U">{{localize 'DL.CompendiumBrowser.Filters.Type.Utility'}}</option>
+      <option value="A">{{localize 'DL.SpellTypeAttack'}}</option>
+      <option value="U">{{localize 'DL.SpellTypeUtility'}}</option>
     </select>
   </div>
 

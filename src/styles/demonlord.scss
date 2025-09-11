@@ -85,6 +85,9 @@
   @import 'src/styles/components/extras/playertracker';
 }
 
+.demonlord-compendium-browser {
+  @import 'src/styles/components/extras/compendium-browser';
+}
 @import 'src/styles/components/dialogs/dialog2'; // A combination of global/ui and dialogs/dialog2 breaks v13 sidebar icons
 
 /*****************/

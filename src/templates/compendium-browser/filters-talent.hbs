@@ -11,10 +11,10 @@
     - hasChallenge
     - hasUses
 --}}
-<div class="demonlord-compendium-browser-filters">
+<div class="demonlord-compendium-browser-filters  {{#if (eq search.type 'talent')}}active{{/if}}">
 
   <div class="filter-group">
-    <b>{{localize 'DL.CompendiumBrowser.Filters.Source'}}</b>
+    <b>{{localize 'DL.Source'}}</b>
     <input type="text" class="filter-group-textbox" name="filters.talent.source" value="{{filters.talent.source}}">
     {{!-- Dropdown with all compendia --}}
   </div>

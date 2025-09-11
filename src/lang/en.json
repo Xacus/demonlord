@@ -545,6 +545,7 @@
   "DL.RestAction": "Rest",
   "DL.RoleNestedItem": "From {itemName} role",
   "DL.RollFormula": "Roll formula",
+  "DL.Search": "Search",
   "DL.SettingAddCreatureInventoryTab": "Add Inventory tab to the creature sheet",
   "DL.SettingAttackReverseDamage": "Reverse Damage/Health",
   "DL.SettingAttackReverseDamageHint": "Substract damage from Health insted of adding damage.",
@@ -643,6 +644,7 @@
   "DL.SettingUsingHomebrewModeHint": "Attributes are not calculated based on Ancestry or Path choices; they must be manually entered on the character sheets. Characteristics are still calculated as normal.",
   "DL.SettingtargetingOnSelect": "Replace token targeting with token selection",
   "DL.SettingtargetingOnSelectHint": "Replace token targeting with token selection on chat log actions.",
+  "DL.Source": "Source",
   "DL.SpecialDurationLabel": "Special Duration",
   "DL.SpecialDurationNextD20Roll": "Next d20 Roll: Expires at the targets's next Challenge/Attack Roll",
   "DL.SpecialDurationNextDamageRoll": "Next Damage Roll: Expires at the targets's next Damage Roll",
@@ -866,5 +868,14 @@
   "DL.stunned": "Stunned",
   "DL.surprised": "Surprised",
   "DL.surrounded": "Surrounded",
-  "DL.unconscious": "Unconscious"
+  "DL.unconscious": "Unconscious",
+  "DL.CompendiumBrowser": {
+    "Filters": {
+      "IsTriggered": "Is Triggered",
+      "IsHealing": "Is Healing",
+      "IsDamage": "Is Damage",
+      "HasChallenge": "Has Challenge",
+      "HasUses": "Has Uses"
+    }
+  }
 }
