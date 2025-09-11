@@ -3,12 +3,12 @@
   - results
     - items
 --}}
-<div class="demonlord-compendium-browser-filters">
+<div class="demonlord-compendium-browser-results  {{#if (eq search.type 'talent')}}active{{/if}}">
     <table>
         {{!-- Fields info --}}
         <tr>
-            <th>{{localize 'DL.CompendiumBrowser.Results.Name'}}</th>
-            <th>{{localize 'DL.CompendiumBrowser.Results.Source'}}</th>
+            <th>{{localize 'DL.CreatureName'}}</th>
+            <th>{{localize 'DL.Source'}}</th>
 
         </tr>
 

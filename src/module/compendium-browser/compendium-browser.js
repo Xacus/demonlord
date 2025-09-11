@@ -247,7 +247,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
   // #region Data Preparation
 
   /** @override */
-  _configureRenderOptions(options) {
+  /*_configureRenderOptions(options) {
     super._configureRenderOptions(options);
 
     // These parts are always rendered
@@ -262,7 +262,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
     // Finally, adjust the window position according to the type
     // this._adjustSizeByItemType(this.document.type, this.position) // Maybe not needed
-  }
+  }*/
 
   /** @override */
   async _prepareContext(options) {
@@ -457,24 +457,16 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
     }
 
-    
+
     // Search items in sources with filters
     context.results = await this.filterItems(this.state.sources, this.state.search, this.state.filters)
-  
+
     return context
   }
-
-  // /** @override */
-  // async _preparePartContext(partId, context, options) {
-  //   await super._preparePartContext(partId, context, options)
-
-  //   return context
-  // }
 
   // #endregion
 
   // #region Actions
-
 
   /**
    * Handles all specific item changes
@@ -488,12 +480,12 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       type: data['search.type'],
       caseSensitive: !!data['search.caseSensitive']
     }
-    
+
     this.state.filters = {
       ...this.state.filters,
     }
 
-    await this.render({ parts: [`results${this.state.search.type}`] })
+    await this.render()
   }
 
   // #endregion
@@ -522,9 +514,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // ...searched text
     if (search.text) {
       if (search.caseSensitive) {
-        results = results.filter(e => e.name.indexOf(search.text) >= 0 || e.description.indexOf(search.text) >= 0)
+        results = results.filter(e => e.name.indexOf(search.text) >= 0 || e.system.description?.indexOf(search.text) >= 0)
       } else {
-        results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()) || e.description.toLowerCase().indexOf(search.text.toLowerCase()) >= 0)
+        results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()) || e.system.description?.toLowerCase()?.indexOf(search.text.toLowerCase()) >= 0)
       }
     }
 

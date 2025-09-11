@@ -1,0 +1,21 @@
+.demonlord-compendium-browser-search,
+.demonlord-compendium-browser-filters {
+  width: 30%;
+  max-width: 300px;
+}
+
+.demonlord-compendium-browser-results {
+  width: 70%;
+  margin-left: 30%;
+  position: absolute;
+}
+
+.demonlord-compendium-browser-filters,
+.demonlord-compendium-browser-results {
+  display: none;
+
+  &.active {
+    display: flex;
+    flex-direction: column;
+  }
+}
