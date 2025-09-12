@@ -1,0 +1,22 @@
+{{!--
+  Context:
+  - results
+    - items
+--}}
+<div class="demonlord-compendium-browser-results scrollable {{#if (eq search.type 'feature')}}active{{/if}}">
+    <table>
+        {{!-- Fields info --}}
+        <tr>
+            <th>{{localize 'DL.CreatureName'}}</th>
+            <th>{{localize 'DL.Source'}}</th>
+
+        </tr>
+
+        {{#each results as |item|}}
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.system.source}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</div>

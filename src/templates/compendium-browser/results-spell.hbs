@@ -1,0 +1,32 @@
+{{!--
+  Context:
+  - results
+    - items
+--}}
+<div class="demonlord-compendium-browser-results scrollable {{#if (eq search.type 'spell')}}active{{/if}}">
+    <table>
+        {{!-- Fields info --}}
+        <tr>
+            <th></th>
+            <th>{{localize 'DL.CreatureName'}}</th>
+            <th>{{localize 'DL.Source'}}</th>
+            <th>{{localize 'DL.MagicTradition'}}</th>
+            <th>{{localize 'DL.SpellRank'}}</th>
+            <th>{{localize 'DL.SpelltypeHeader'}}</th>
+            <th>{{localize 'DL.SpellAttribute'}}</th>
+
+        </tr>
+
+        {{#each results as |item|}}
+            <tr>
+                <td><img src="{{item.img}}" alt="{{item.name}}"></td>
+                <td>{{item.name}}</td>
+                <td>{{item.system.source}}</td>
+                <td>{{item.system.tradition}}</td>
+                <td>{{item.system.rank}}</td>
+                <td>{{item.system.spelltype}}</td>
+                <td>{{item.system.attribute}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</div>

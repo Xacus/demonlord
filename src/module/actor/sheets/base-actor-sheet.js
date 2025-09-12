@@ -45,6 +45,11 @@ export default class DLBaseActorSheet extends foundry.appv1.sheets.ActorSheet {
       attr.isCheckbox = attr.dtype === 'Boolean'
     }
 
+    // Filter out effects from wearable items that are not currently worn
+    //data.generalEffects.temporary.effects = data.generalEffects.temporary.effects.filter(e => this.actor.items.get(e.origin.split('.').pop())?.system?.wear !== false)
+    //data.generalEffects.passive.effects = data.generalEffects.passive.effects.filter(e => this.actor.items.get(e.origin.split('.').pop())?.system?.wear !== false)
+    //data.generalEffects.inactive.effects = data.generalEffects.inactive.effects.filter(e => this.actor.items.get(e.origin.split('.').pop())?.system?.wear !== false)
+
     // Map items by type (used in other operations). Also enrich the items' descriptions
     const m = new Map()
     for await (const item of this.actor.items) {

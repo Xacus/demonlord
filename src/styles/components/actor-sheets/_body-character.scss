@@ -436,8 +436,7 @@ input:checked + .slider:before {
   font-family: Verdana, sans-serif;
 }
 
-.offGrey
- {
+.offGrey {
   color: grey;
   position: absolute;
   transform: translate(-50%, -50%);
@@ -466,7 +465,6 @@ input:checked + .slider .on {
 input:checked + .slider .offGrey {
   display: none;
 }
-
 
 input:checked + .slider .off {
   display: none;

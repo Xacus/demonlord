@@ -1,6 +1,7 @@
-export default function launchDialog(dialogTitle, callback, withAttributeSelect = false) {
-  const d = new Dialog({
-    title: dialogTitle,
+export default async function launchDialog(dialogTitle, callback, withAttributeSelect = false) {
+  await foundry.applications.api.DialogV2.wait({
+    window: { title: dialogTitle },
+    position: { width: 400 },
     content: `
     ${withAttributeSelect ? `
         <div class="challengedialog">
@@ -22,22 +23,21 @@ export default function launchDialog(dialogTitle, callback, withAttributeSelect 
     <div class="challengedialog">
     <input id='modifier' style='width: 50px;margin: 5px;text-align: center' type='number' value=0 data-dtype='Number'/>
     <b>${game.i18n.localize('DL.ModsAdd')}</b>
-    </div>
-    `,
-    buttons: {
-      roll: {
-        icon: '<i class="fas fa-check"></i>',
+    </div>`,
+    buttons: [
+      {
+        action: 'roll',
+        icon: 'fas fa-check',
         label: game.i18n.localize('DL.DialogRoll'),
+        default: true,
         callback: callback,
       },
-      cancel: {
-        icon: '<i class="fas fa-times"></i>',
+      {
+        action: 'cancel',
+        icon: 'fas fa-times',
         label: game.i18n.localize('DL.DialogCancel'),
-        callback: () => { },
+        //callback: () => { },
       },
-    },
-    default: 'roll',
-    close: () => { },
+    ],
   })
-  d.render(true)
 }

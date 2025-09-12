@@ -34,6 +34,9 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('defaultValue', function (a, b) {
     return a ? a : b;
   });
+  Handlebars.registerHelper('contains', function (a, v) {
+    return a?.includes(v);
+  })
 
   Handlebars.registerHelper('enrichHTMLUnrolled', async (x) => await TextEditor.enrichHTML(x, { unrolled: true }))
   Handlebars.registerHelper('lookupAttributeModifier', (attributeName, actorData) =>
@@ -52,7 +55,7 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlAvailabilityDropdown', (groupName, checkedKey) => _buildAvailabilityDropdownItem(groupName, checkedKey))
   Handlebars.registerHelper('dlConsumableDropdown', (groupName, checkedKey) => _buildConsumableDropdownItem(groupName, checkedKey))
   Handlebars.registerHelper('dlAmmoDropdown', (groupName, checkedKey, weapon) => _buildAmmoDropdownItem(groupName, checkedKey, weapon))
-  Handlebars.registerHelper('dlCheckItemOnActor', (data) => _CheckItemOnActor(data))  
+  Handlebars.registerHelper('dlCheckItemOnActor', (data) => _CheckItemOnActor(data))
   Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData))
   Handlebars.registerHelper('dlIsNestedItem', (item) => _IsNestedItem(item))
   Handlebars.registerHelper('dlGetNestedItemSource', (item) => _GetNestedItemSource(item))
@@ -238,7 +241,7 @@ export function buildDropdownList(groupName, checkedKey, data) {
   if (groupName === 'path-type') return _buildPathTypeDropdownList(checkedKey)
   if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
   if (groupName.startsWith('level.attributeSelectTwoSet')) return _buildPathAttributeTwoSetDropdownList(groupName, checkedKey)
-  if (groupName === 'system.consume.ammoitemid') return _buildAmmoDropdownList (groupName, checkedKey, data.document)  
+  if (groupName === 'system.consume.ammoitemid') return _buildAmmoDropdownList(groupName, checkedKey, data.document)
   if (groupName === 'system.hands') {labelPrefix = 'DL.WeaponHands'; useIcon = false}
   if (groupName === 'system.consumabletype') {labelPrefix = 'DL.ConsumableType'; useIcon = false}
   if (groupName === 'system.availability') {labelPrefix = 'DL.Availability', iconPrefix = 'dl-icon-availability-'}
@@ -271,7 +274,7 @@ export function buildDropdownListHover(groupName, checkedKey, data) {
   //if (groupName === 'level.attributeSelect') return _buildPathAttributeSelectDropdownList(checkedKey)
   if (groupName === 'level.attributeSelect') {labelPrefix = 'DL.PathsLevelAttributes'; useIcon = false; useCapitalize = false}
   if (groupName.startsWith('level.attributeSelectTwoSet')) return _buildPathAttributeTwoSetDropdownList(groupName, checkedKey)
-  if (groupName === 'system.consume.ammoitemid') return _buildAmmoDropdownList(groupName, checkedKey, data)  
+  if (groupName === 'system.consume.ammoitemid') return _buildAmmoDropdownList(groupName, checkedKey, data)
   if (groupName === 'system.hands') {labelPrefix = 'DL.WeaponHands'; useIcon = false}
   if (groupName === 'system.consumabletype') {labelPrefix = 'DL.ConsumableType'; iconPrefix = 'icon-consumable-'}
   if (groupName === 'system.availability') {labelPrefix = 'DL.Availability', iconPrefix = 'icon-availability-'}
@@ -732,7 +735,7 @@ function _buildLevelAttributeTwoSetDropdown(groupName, checkedKey) {
     const checked = attribute === checkedKey ? 'checked' : ''
     const tooltip = i18n(`DL.Attribute${capitalize(attribute)}`)
     if (!checked) continue
-    html += 
+    html +=
     `<div class="item-group-icon-dropdown dropdown-group" name="${groupName}" value="${attribute}">
       <i class="icon-${attribute} themed-icon" data-tippy-content="${tooltip}"></i>
     </div>`

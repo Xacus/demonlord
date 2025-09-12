@@ -1,0 +1,41 @@
+.demonlord-compendium-browser-search {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+
+.demonlord-compendium-browser-filters {
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.demonlord-compendium-browser-results {
+  width: 70%;
+  margin-left: 300px;
+  position: absolute;
+  height: 100%;
+  img {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.demonlord-compendium-browser-search,
+.demonlord-compendium-browser-filters {
+  width: 30%;
+  max-width: 300px;
+}
+
+.demonlord-compendium-browser-filters,
+.demonlord-compendium-browser-results {
+  display: none;
+
+  &.active {
+    display: flex;
+    flex-direction: column;
+  }
+}
