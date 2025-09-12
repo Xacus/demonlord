@@ -14,6 +14,9 @@ const indices = {
   table: []
 }
 
+let typeOptions = {} // eslint-disable-line no-unused-vars
+let sourcesOptions = []  // eslint-disable-line no-unused-vars
+
 export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
     id: 'dl-compendium-browser',
@@ -87,11 +90,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     search: {
       text: '',
       type: 'spell',
+      sources: [],
       caseSensitive: false
     },
     filters: {
       character: {
-        source: '',
         description: '',
         ancestry: '',
         path: [],
@@ -102,7 +105,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       creature: {
-        source: '',
         description: '',
         type: '',
         difficulty: null,
@@ -114,7 +116,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       vehicle: {
-        source: '',
         description: '',
         price: null,
         cargo: null,
@@ -122,7 +123,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       ancestry: {
-        source: '',
         description: '',
         levels: null, // 1-X
         isMagic: null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
@@ -130,14 +130,12 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       ammo: {
-        source: '',
         description: '',
         properties: '',
         availability: '', // C/E/R/U
         value: ''
       },
       armor: {
-        source: '',
         description: '',
         properties: '',
         availability: '', // C/E/R/U
@@ -149,7 +147,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         isShield: null
       },
       creaturerole: {
-        source: '',
         description: '',
         isFrightening: null,
         isHorrifying: null,
@@ -157,17 +154,14 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       endoftheround: {
-        source:  '',
         description:  '',
         isHealing:  null, // Whether it has system.healing.healactive
         isDamage:  null, // Whether it has system.action.damage* (any of them)
       },
       feature: {
-        source: '',
         description: '',
       },
       item: {
-        source: '',
         description: '',
         properties: '',
         isConsumable: null,
@@ -177,11 +171,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
       },
       language: {
-        source: '',
         description: '',
       },
       path: {
-        source: '',
         description: '',
         levels: null, // 1-X
         isMagic: null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
@@ -190,20 +182,16 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       profession: {
-        source: '',
         description: '',
       },
       relic: {
-        source: '',
         description: '',
         requirement: [], // TODO [ { attribute: '', min: 0 } ]
       },
       specialaction: {
-        source: '',
         description: '',
       },
       spell: {
-        source: '',
         description: '',
         tradition: '',
         rank: null, // 0-9
@@ -218,7 +206,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
       },
       talent: {
-        source: '',
         description: '',
         isTriggered: null, // Whether it has system.triggered
         isHealing: null, // Whether it has system.healing.healactive
@@ -230,7 +217,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
       },
       weapon: {
-        source: '',
         description: '',
         requirement: [], // TODO [ { attribute: '', min: 0 } ]
         availability: '', // C/E/R/U
@@ -268,25 +254,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
   async _prepareContext(options) {
     const context = await super._prepareContext(options)
 
-    context.typeOptions = {
-      'ammo': game.i18n.localize('TYPES.Item.ammo'),
-      'ancestry': game.i18n.localize('TYPES.Item.ancestry'),
-      'armor': game.i18n.localize('TYPES.Item.armor'),
-      'creaturerole': game.i18n.localize('TYPES.Item.creaturerole'),
-      'endoftheround': game.i18n.localize('TYPES.Item.endoftheround'),
-      'feature': game.i18n.localize('TYPES.Item.feature'),
-      'item': game.i18n.localize('TYPES.Item.item'),
-      'language': game.i18n.localize('TYPES.Item.language'),
-      'path': game.i18n.localize('TYPES.Item.path'),
-      'profession': game.i18n.localize('TYPES.Item.profession'),
-      'relic': game.i18n.localize('TYPES.Item.relic'),
-      'specialaction': game.i18n.localize('TYPES.Item.specialaction'),
-      'spell': game.i18n.localize('TYPES.Item.spell'),
-      'talent': game.i18n.localize('TYPES.Item.talent'),
-      'weapon': game.i18n.localize('TYPES.Item.weapon'),
-    }
-
-    context.isGM = game.user.isGM
     // x.metadata.label includes a user-friendly name
     // Should also be filtered by ownership (i.e. prevent players from seeing compendia where they're not at least observer)
     // Retrieve specific pack with game.packs.get(x.metadata.id)
@@ -296,20 +263,55 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     this.state.sources = await Promise.all(game.packs.filter(p => ['Item', 'Actor', 'RollTable'].includes(p.metadata.type)).map(async p => await game.packs.get(p.metadata.id)))
 
     if (options.isFirstRender) {
+      typeOptions = {
+        'ammo': game.i18n.localize('TYPES.Item.ammo'),
+        'ancestry': game.i18n.localize('TYPES.Item.ancestry'),
+        'armor': game.i18n.localize('TYPES.Item.armor'),
+        'creaturerole': game.i18n.localize('TYPES.Item.creaturerole'),
+        'endoftheround': game.i18n.localize('TYPES.Item.endoftheround'),
+        'feature': game.i18n.localize('TYPES.Item.feature'),
+        'item': game.i18n.localize('TYPES.Item.item'),
+        'language': game.i18n.localize('TYPES.Item.language'),
+        'path': game.i18n.localize('TYPES.Item.path'),
+        'profession': game.i18n.localize('TYPES.Item.profession'),
+        'relic': game.i18n.localize('TYPES.Item.relic'),
+        'specialaction': game.i18n.localize('TYPES.Item.specialaction'),
+        'spell': game.i18n.localize('TYPES.Item.spell'),
+        'talent': game.i18n.localize('TYPES.Item.talent'),
+        'weapon': game.i18n.localize('TYPES.Item.weapon'),
+      }
+
+      sourcesOptions = {
+        'world': game.i18n.localize('PACKAGE.Type.world'),
+        'system': game.i18n.localize('PACKAGE.Type.system'),
+      }
+
+      var uniqueModules = game.packs.filter(p => p.metadata.packageType === 'module') // Modules
+        .map(p => p.metadata.packageName) // Module names
+        .filter((e, i, a) => a.indexOf(e) === i) // Unique
+
+      for (const moduleId of uniqueModules) {
+        sourcesOptions[moduleId] = game.modules.get(moduleId).title
+      }
+
       await this.indexCompendia(this.state.sources)
     }
+    context.typeOptions = typeOptions
+    context.sourcesOptions = sourcesOptions
+
+    context.isGM = game.user.isGM
 
     // Prepare search
     context.search = {
       text: this.state.search.text,
       type: this.state.search.type,
+      sources: this.state.search.sources,
       caseSensitive: this.state.search.caseSensitive,
     }
 
     // Prepare filters (stored per type)
     context.filters = {
       character: {
-        source: this.state.filters?.character?.source || '',
         description: this.state.filters?.character?.description || '',
         ancestry: this.state.filters?.character?.ancestry || '',
         path: this.state.filters?.character?.path || [],
@@ -320,7 +322,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       creature: {
-        source: this.state.filters?.creature?.source ||'',
         description: this.state.filters?.creature?.description ||'',
         type: this.state.filters?.creature?.type ||'',
         difficulty: this.state.filters?.creature?.difficulty ||null,
@@ -332,7 +333,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       vehicle: {
-        source: this.state.filters?.vehicle?.source || '',
         description: this.state.filters?.vehicle?.description || '',
         price: this.state.filters?.vehicle?.price || null,
         cargo: this.state.filters?.vehicle?.cargo || null,
@@ -340,7 +340,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       ancestry: {
-        source: this.state.filters?.ancestry?.source || '',
         description: this.state.filters?.ancestry?.description || '',
         levels: this.state.filters?.ancestry?.levels || null, // 1-X
         isMagic: this.state.filters?.ancestry?.isMagic || null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
@@ -348,14 +347,12 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       ammo: {
-        source: this.state.filters?.ammo?.source || '',
         description: this.state.filters?.ammo?.description || '',
         properties: this.state.filters?.ammo?.properties || '',
         availability: this.state.filters?.ammo?.availability || '', // C/E/R/U
         value: this.state.filters?.ammo?.value || ''
       },
       armor: {
-        source: this.state.filters?.armor?.source ||'',
         description: this.state.filters?.armor?.description ||'',
         properties: this.state.filters?.armor?.properties ||'',
         availability: this.state.filters?.armor?.availability ||'', // C/E/R/U
@@ -367,7 +364,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         isShield: this.state.filters?.armor?.isShield ||null
       },
       creaturerole: {
-        source: this.state.filters?.creaturerole?.source ||'',
         description: this.state.filters?.creaturerole?.description ||'',
         isFrightening: this.state.filters?.creaturerole?.isFrightening ||null,
         isHorrifying: this.state.filters?.creaturerole?.isHorrifying ||null,
@@ -375,17 +371,14 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       endoftheround: {
-        source: this.state.filters?.endoftheround?.source || '',
         description: this.state.filters?.endoftheround?.description || '',
         isHealing: this.state.filters?.endoftheround?.isHealing || null, // Whether it has system.healing.healactive
         isDamage: this.state.filters?.endoftheround?.isDamage || null, // Whether it has system.action.damage* (any of them)
       },
       feature: {
-        source: this.state.filters?.feature?.source ||'',
         description: this.state.filters?.feature?.description ||'',
       },
       item: {
-        source: this.state.filters?.item?.source ||'',
         description: this.state.filters?.item?.description ||'',
         properties: this.state.filters?.item?.properties ||'',
         isConsumable: this.state.filters?.item?.isConsumable ||null,
@@ -395,11 +388,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
       },
       language: {
-        source: this.state.filters?.language?.source || '',
         description: this.state.filters?.language?.description || '',
       },
       path: {
-        source: this.state.filters?.path?.source || '',
         description: this.state.filters?.path?.description || '',
         levels: this.state.filters?.path?.levels || null, // 1-X
         isMagic: this.state.filters?.path?.isMagic || null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
@@ -408,20 +399,16 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       profession: {
-        source: this.state.filters?.profession?.source ||'',
         description: this.state.filters?.profession?.description ||'',
       },
       relic: {
-        source: this.state.filters?.relic?.source || '',
         description: this.state.filters?.relic?.description || '',
         requirement: this.state.filters?.relic?.requirement || [], // TODO [ { attribute: '', min: 0 } ]
       },
       specialaction: {
-        source: this.state.filters?.specialaction?.source ||'',
         description: this.state.filters?.specialaction?.description ||'',
       },
       spell: {
-        source: this.state.filters?.spell?.source || '',
         description: this.state.filters?.spell?.description || '',
         tradition: this.state.filters?.spell?.tradition || '',
         rank: this.state.filters?.spell?.rank || null, // 0-9
@@ -436,7 +423,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
       },
       talent: {
-        source: this.state.filters?.talent?.source || '',
         description: this.state.filters?.talent?.description || '',
         isTriggered: this.state.filters?.talent?.isTriggered || null, // Whether it has system.triggered
         isHealing: this.state.filters?.talent?.isHealing || null, // Whether it has system.healing.healactive
@@ -448,7 +434,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
       },
       weapon: {
-        source: this.state.filters?.weapon?.source || '',
         description: this.state.filters?.weapon?.description || '',
         requirement: this.state.filters?.weapon?.requirement || [], // TODO [ { attribute: '', min: 0 } ]
         availability: this.state.filters?.weapon?.availability || '', // C/E/R/U
@@ -495,11 +480,18 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     }))
   }
 
-  async filterItems(sources, search, filters) {
+  async filterItems(compendia, search, filters) {
     // Deal with quick returns
     if (!search.type) return []
 
-    // Filter sources by search type...
+    // TODO: Filter by source...
+    let sources = compendia.filter(p => search.sources.length === 0 ||
+      (p.metadata.packageType === 'module' && search.sources.includes(p.metadata.packageName)) || // Module selected
+      (p.metadata.packageType === 'world' && search.sources.includes('world')) || // World selected
+      (p.metadata.packageType === 'system' && search.sources.includes('system')) // System selected
+    )
+
+    // ...search type...
     let results = sources.filter(p => p?.index?.filter(Boolean)?.[0]?.type === search.type)
     .flatMap(p => p.index.filter(Boolean))
 

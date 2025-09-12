@@ -12,17 +12,22 @@
   flex-direction: column;
   justify-content: space-evenly;
 }
-.demonlord-compendium-browser-search,
-.demonlord-compendium-browser-filters {
-  width: 30%;
-  max-width: 300px;
-}
 
 .demonlord-compendium-browser-results {
   width: 70%;
   margin-left: 300px;
   position: absolute;
   height: 100%;
+  img {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.demonlord-compendium-browser-search,
+.demonlord-compendium-browser-filters {
+  width: 30%;
+  max-width: 300px;
 }
 
 .demonlord-compendium-browser-filters,
