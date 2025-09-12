@@ -14,7 +14,7 @@
     - // isCorruption
     - hasChallenge
 --}}
-<div class="demonlord-compendium-browser-filters {{#if (eq search.type 'spell')}}active{{/if}}">
+<aside class="demonlord-compendium-browser-filters {{#if (eq search.type 'spell')}}active{{/if}}">
 
   <div class="filter-group">
     <b>{{localize 'DL.MagicTradition'}}</b>
@@ -35,8 +35,9 @@
   <div class="filter-group">
     <b>{{localize 'DL.SpellType'}}</b>
     <select class="filter-group-textbox" name="filters.spell.type" value="{{filters.spell.type}}">
-      <option value="A">{{localize 'DL.SpellTypeAttack'}}</option>
-      <option value="U">{{localize 'DL.SpellTypeUtility'}}</option>
+      <option value=""></option>
+      <option value="Attack">{{localize 'DL.SpellTypeAttack'}}</option>
+      <option value="Utility">{{localize 'DL.SpellTypeUtility'}}</option>
     </select>
   </div>
 
@@ -45,13 +46,14 @@
     <select class="filter-group-textbox" name="filters.spell.attribute" value="{{filters.spell.attribute}}">
       {{!-- <option value="strength">{{localize 'DL.AttributeStrength'}}</option> --}}
       {{!-- <option value="agility">{{localize 'DL.AttributeAgility'}}</option> --}}
+      <option value=""></option>
       <option value="intellect">{{localize 'DL.AttributeIntellect'}}</option>
       <option value="will">{{localize 'DL.AttributeWill'}}</option>
     </select>
   </div>
 
   <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowser.Filters.IsTriggered'}}">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsTriggered'}}">
       <input type="checkbox" name="filters.spell.isTriggered" {{checked filters.spell.isTriggered}}>
       <i class="icon-triggered themed-icon"></i>
       <span class="sep"></span>
@@ -60,7 +62,7 @@
   </div>
 
   <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowser.Filters.IsHealing'}}">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsHealing'}}">
       <input type="checkbox" name="filters.spell.isHealing" {{checked filters.spell.isHealing}}>
       <i class="icon-healing themed-icon"></i>
       <span class="sep"></span>
@@ -69,7 +71,7 @@
   </div>
 
   <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowser.Filters.IsDamage'}}">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsDamage'}}">
       <input type="checkbox" name="filters.spell.isDamage" {{checked filters.spell.isDamage}}>
       <i class="icon-damage themed-icon"></i>
       <span class="sep"></span>
@@ -78,7 +80,7 @@
   </div>
 
   <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowser.Filters.HasChallenge'}}">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.HasChallenge'}}">
       <input type="checkbox" name="filters.spell.hasChallenge" {{checked filters.spell.hasChallenge}}>
       <i class="icon-challenge themed-icon"></i>
       <span class="sep"></span>
@@ -90,4 +92,4 @@
     <b>{{localize 'DL.CharDescription'}}</b>
     <input type="text" class="filter-group-textbox" name="filters.spell.description" value="{{filters.spell.description}}">
   </div>
-</div>
+</aside>

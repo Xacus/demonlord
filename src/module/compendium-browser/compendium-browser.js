@@ -7,7 +7,7 @@ const indices = {
   feature: [],
   item: [ 'system.type', ],
   talent: [],
-  spell: [ 'system.tradition', 'system.rank', 'system.type', 'system.attribute' ],
+  spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute'],
   creature: [],
   character: [],
   vehicle: [],
@@ -31,7 +31,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       resizable: true
     },
     position: {
-      width: 700,
+      width: 1000,
       height: 600,
     },
     scrollY: [],
@@ -472,18 +472,10 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
    * Handles all specific item changes
    * @override */
   static async onSubmit(event, form, formData) {
-    const data = formData.object
+    const data = foundry.utils.expandObject(formData.object)
 
-    this.state.search = {
-      ...this.state.search,
-      text: data['search.text'],
-      type: data['search.type'],
-      caseSensitive: !!data['search.caseSensitive']
-    }
-
-    this.state.filters = {
-      ...this.state.filters,
-    }
+    this.state.search = foundry.utils.mergeObject(this.state.search, data.search)
+    this.state.filters = foundry.utils.mergeObject(this.state.filters, data.filters)
 
     await this.render()
   }
@@ -514,7 +506,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // ...searched text
     if (search.text) {
       if (search.caseSensitive) {
-        results = results.filter(e => e.name.indexOf(search.text) >= 0 || e.system.description?.indexOf(search.text) >= 0)
+        results = results.filter(e => e.name.indexOf(search.text) >= 0 || e.system.description?.indexOf(filters.text) >= 0)
       } else {
         results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()) || e.system.description?.toLowerCase()?.indexOf(search.text.toLowerCase()) >= 0)
       }
@@ -556,7 +548,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         results = results.filter(e => {
           if (filters?.spell?.tradition && e.system.tradition !== filters.spell.tradition) return false
           if (filters?.spell?.rank !== null && e.system.rank !== filters.spell.rank) return false
-          if (filters?.spell?.type && e.system.type !== filters.spell.type) return false
+          if (filters?.spell?.type && e.system.spelltype !== filters.spell.type) return false
           if (filters?.spell?.attribute && e.system.attribute !== filters.spell.attribute) return false
 
           // TODO: Bool filters

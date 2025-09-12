@@ -11,7 +11,7 @@
     - hasChallenge
     - hasUses
 --}}
-<div class="demonlord-compendium-browser-filters  {{#if (eq search.type 'talent')}}active{{/if}}">
+<aside class="demonlord-compendium-browser-filters  {{#if (eq search.type 'talent')}}active{{/if}}">
 
   <div class="filter-group">
     <b>{{localize 'DL.Source'}}</b>
@@ -20,7 +20,7 @@
   </div>
 
   <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowser.Filters.IsTriggered'}}">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsTriggered'}}">
       <input type="checkbox" name="filters.talent.isTriggered" {{checked filters.talent.isTriggered}}>
       <i class="icon-triggered themed-icon"></i>
       <span class="sep"></span>
@@ -29,7 +29,7 @@
   </div>
 
   <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowser.Filters.IsHealing'}}">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsHealing'}}">
       <input type="checkbox" name="filters.talent.isHealing" {{checked filters.talent.isHealing}}>
       <i class="icon-healing themed-icon"></i>
       <span class="sep"></span>
@@ -38,7 +38,7 @@
   </div>
 
   <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowser.Filters.IsDamage'}}">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsDamage'}}">
       <input type="checkbox" name="filters.talent.isDamage" {{checked filters.talent.isDamage}}>
       <i class="icon-damage themed-icon"></i>
       <span class="sep"></span>
@@ -47,7 +47,7 @@
   </div>
 
   <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowser.Filters.HasChallenge'}}">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.HasChallenge'}}">
       <input type="checkbox" name="filters.talent.hasChallenge" {{checked filters.talent.hasChallenge}}>
       <i class="icon-challenge themed-icon"></i>
       <span class="sep"></span>
@@ -56,7 +56,7 @@
   </div>
 
     <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowser.Filters.HasUses'}}">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.HasUses'}}">
       <input type="checkbox" name="filters.talent.hasUses" {{checked filters.talent.hasUses}}>
       <i class="icon-challenge themed-icon"></i>
       <span class="sep"></span>
@@ -68,4 +68,4 @@
     <b>{{localize 'DL.CharDescription'}}</b>
     <input type="text" class="filter-group-textbox" name="filters.talent.description" value="{{filters.talent.description}}">
   </div>
-</div>
+</aside>

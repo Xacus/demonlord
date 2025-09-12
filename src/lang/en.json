@@ -869,13 +869,12 @@
   "DL.surprised": "Surprised",
   "DL.surrounded": "Surrounded",
   "DL.unconscious": "Unconscious",
-  "DL.CompendiumBrowser": {
-    "Filters": {
-      "IsTriggered": "Is Triggered",
-      "IsHealing": "Is Healing",
-      "IsDamage": "Is Damage",
-      "HasChallenge": "Has Challenge",
-      "HasUses": "Has Uses"
-    }
+  "DL.CompendiumBrowser": "Compendium Browser",
+  "DL.CompendiumBrowserFilters": {
+    "IsTriggered": "Is Triggered",
+    "IsHealing": "Is Healing",
+    "IsDamage": "Is Damage",
+    "HasChallenge": "Has Challenge",
+    "HasUses": "Has Uses"
   }
 }
