@@ -28,7 +28,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     },
     classes: ['demonlord-compendium-browser'],
     actions: {
-      //searchCompendia: this.onSearchCompendia
+      editItem: this.onEditItem,
     },
     window: {
       resizable: true
@@ -465,6 +465,52 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     await this.render()
   }
 
+  static async onEditItem(event) {
+    const id = event.target.closest('[data-item-id]').dataset.itemId
+    const item = await fromUuid(id)
+    item.sheet.render(true)
+  }
+
+  /** @override */
+  async _onRender(context, options) {
+    super._onRender(context, options)
+
+    let e = this.element
+
+      e.querySelectorAll('.sortable')?.forEach(function (s) {
+        s.addEventListener('click', function (ev) {
+        const column = ev.currentTarget
+        const sortProperty = column.dataset.sortProperty
+        if (column.classList.contains('asc') || column.classList.contains('desc')) {
+          // Swap the classes around
+          column.classList.toggle('asc')
+          column.classList.toggle('desc')
+        } else {
+          // Remove asc/desc class from other columns and add it on this one
+          e.querySelectorAll('.sortable')?.forEach(ce => {
+            ce.classList.remove('asc')
+            ce.classList.remove('desc')
+          })
+
+          column.classList.add('asc')
+        }
+
+        // Now sort by whether is asc or desc
+        const isAsc = column.classList.contains('asc')
+        
+        // And now sort results by that column
+        context.results = context.results.sort((a, b) => {
+          if (isAsc) {
+            return foundry.utils.getProperty(a, sortProperty) > foundry.utils.getProperty(b, sortProperty) ? -1 : 1
+          } else {
+            return foundry.utils.getProperty(a, sortProperty) > foundry.utils.getProperty(b, sortProperty) ? 1 : 1
+          }
+        })
+
+        this.render({parts: 'results' + context.search.type })
+      })
+    })
+  }
   // #endregion
 
   // #region Other Functions

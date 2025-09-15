@@ -14,13 +14,26 @@
 }
 
 .demonlord-compendium-browser-results {
-  width: 70%;
+  width: 68%;
   margin-left: 300px;
   position: absolute;
   height: 100%;
+
   img {
     width: 25px;
     height: 25px;
+  }
+
+  .sortable {
+    &.asc::after {
+      position: absolute;
+      content: '▲';
+    }
+
+    &.desc::after {
+      position: absolute;
+      content: '▼';
+    }
   }
 }
 
