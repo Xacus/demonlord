@@ -93,11 +93,15 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  data['damageFormula'] = itemData?.action?.damage
-  data['extraDamageFormula'] = extraDamage
-  data['damageType'] = itemData.action.damagetype
-  data['damageTypes'] = itemData.action.damagetypes
-  data['damageExtra20PlusFormula'] = itemData.action?.plus20damage + extraDamage20Plus
+  if ((defender !== undefined && attackRoll?.total >= targetNumber && game.settings.get('demonlord', 'hideDamage')) || defender === undefined || !game.settings.get('demonlord', 'hideDamage'))
+  {
+    data['damageFormula'] = itemData?.action?.damage
+    data['extraDamageFormula'] = extraDamage
+    data['damageType'] = itemData.action.damagetype
+    data['damageTypes'] = itemData.action.damagetypes
+    data['damageExtra20PlusFormula'] = itemData.action?.plus20damage + extraDamage20Plus
+    data['itemEffects'] = item.effects
+  }
   data['description'] = itemData.description
   data['defense'] = itemData.action?.defense
   data['defenseboonsbanes'] = parseInt(itemData.action?.defenseboonsbanes)
@@ -116,7 +120,6 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['afflictionEffects'] = '' //TODO
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = itemData.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
-  data['itemEffects'] = item.effects
   data['actorInfo'] = buildActorInfo(attacker)
 
   const chatData = getChatBaseData(attacker, rollMode)
@@ -268,11 +271,15 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  data['damageFormula'] = talentData?.action?.damage
-  data['extraDamageFormula'] = extraDamage
-  data['damageType'] = talentData.action?.damageactive && talentData?.action?.damage ? talentData?.action?.damagetype : talentData?.action?.damagetype
-  data['damageTypes'] = talentData.action?.damagetypes
-  data['damageExtra20PlusFormula'] = talentData.action?.plus20damage + extraDamage20Plus
+  if ((target !== undefined && attackRoll?.total >= targetNumber && game.settings.get('demonlord', 'hideDamage')) || target === undefined || !game.settings.get('demonlord', 'hideDamage'))
+  {
+    data['damageFormula'] = talentData?.action?.damage
+    data['extraDamageFormula'] = extraDamage
+    data['damageType'] = talentData.action?.damageactive && talentData?.action?.damage ? talentData?.action?.damagetype : talentData?.action?.damagetype
+    data['damageTypes'] = talentData.action?.damagetypes
+    data['damageExtra20PlusFormula'] = talentData.action?.plus20damage + extraDamage20Plus
+    data['itemEffects'] = talent.effects
+  }  
   data['description'] = talentData.description
   data['defense'] = talentData.action?.defense
   data['defenseboonsbanes'] = parseInt(talentData.action?.defenseboonsbanes)
@@ -293,7 +300,6 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   data['effects'] = buildTalentEffectsMessage(actor, talent)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
-  data['itemEffects'] = talent.effects
   data['actorInfo'] = buildActorInfo(actor)
 
   const chatData = getChatBaseData(actor, rollMode)
@@ -390,11 +396,15 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  data['damageFormula'] = spellData?.action?.damage
-  data['extraDamageFormula'] = extraDamage
-  data['damageType'] = spellData.action?.damagetype
-  data['damageTypes'] = spellData.action?.damagetypes
-  data['damageExtra20PlusFormula'] = spellData.action?.plus20damage + extraDamage20Plus
+  if ((target !== undefined && attackRoll?.total >= targetNumber && game.settings.get('demonlord', 'hideDamage')) || target === undefined || !game.settings.get('demonlord', 'hideDamage'))
+  {
+    data['damageFormula'] = spellData?.action?.damage
+    data['extraDamageFormula'] = extraDamage
+    data['damageType'] = spellData.action?.damagetype
+    data['damageTypes'] = spellData.action?.damagetypes
+    data['damageExtra20PlusFormula'] = spellData.action?.plus20damage + extraDamage20Plus
+    data['itemEffects'] = spell.effects
+  }
   data['description'] = spellData.description
   data['defense'] = spellData.action?.defense
   data['defenseboonsbanes'] = parseInt(spellData.action?.defenseboonsbanes)
@@ -426,7 +436,6 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute, inputBoons, plus20)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
-  data['itemEffects'] = spell.effects
   data['actorInfo'] = buildActorInfo(actor)
 
   const chatData = getChatBaseData(actor, rollMode)
@@ -600,11 +609,15 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  data['damageFormula'] = itemData?.action?.damage
-  data['extraDamageFormula'] = extraDamage
-  data['damageType'] = itemData.action?.damagetype
-  data['damageTypes'] = itemData.action?.damagetypes
-  data['damageExtra20PlusFormula'] = itemData.action?.plus20damage + extraDamage20Plus
+  if ((target !== undefined && attackRoll?.total >= targetNumber && game.settings.get('demonlord', 'hideDamage')) || target === undefined || !game.settings.get('demonlord', 'hideDamage'))
+  {
+    data['damageFormula'] = itemData?.action?.damage
+    data['extraDamageFormula'] = extraDamage
+    data['damageType'] = itemData.action?.damagetype
+    data['damageTypes'] = itemData.action?.damagetypes
+    data['damageExtra20PlusFormula'] = itemData.action?.plus20damage + extraDamage20Plus
+    data['itemEffects'] = item.effects
+  }
   data['description'] = itemData.description
   data['defense'] = itemData.action?.defense
   data['defenseboonsbanes'] = parseInt(itemData.action?.defenseboonsbanes)
@@ -623,7 +636,6 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   data['afflictionEffects'] = '' //TODO
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = itemData.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
-  data['itemEffects'] = item.effects
   data['actorInfo'] = buildActorInfo(actor)
 
   const chatData = getChatBaseData(actor, rollMode)

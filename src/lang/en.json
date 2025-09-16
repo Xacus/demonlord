@@ -635,6 +635,8 @@
   "DL.SettingHideActorInfoHint": "Actor info (ancestry, path, size, frightening/horrifying traits) will be displayed to owner and GM only.",
   "DL.SettingHideCreatureDescription": "Hide creature activity descriptions from chat.",
   "DL.SettingHideCreatureDescriptionHint": "Creature activity descriptions will be displayed to GM only.",
+  "DL.SettingHideDamage": "Hide damage/effect buttons from chat messages when attack roll fails.",
+  "DL.SettingHideDamageHint": "If target is not selected damage/effect buttons are always visible.",
   "DL.SettingHorrifyingBane": "Bane against horrifying creatures",
   "DL.SettingHorrifyingBaneHint": "Apply a bane on all attack rolls targeting a horrifying creature, unless the attacker has the frightening or horrifying trait.",
   "DL.SettingInitMessage": "Initiative Messages",
