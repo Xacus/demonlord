@@ -13,6 +13,11 @@
 --}}
 <aside class="demonlord-compendium-browser-filters  {{#if (eq search.type 'talent')}}active{{/if}}">
 
+  <div class="filter-group">
+    <b>{{localize 'DL.TalentGroupname'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.talent.groupname" value="{{filters.talent.groupname}}">
+  </div>
+
   <div class="filter-group checkable">
     <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsTriggered'}}">
       <input type="checkbox" name="filters.talent.isTriggered" {{checked filters.talent.isTriggered}}>

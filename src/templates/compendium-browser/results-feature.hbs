@@ -7,14 +7,16 @@
     <table>
         {{!-- Fields info --}}
         <tr>
-            <th>{{localize 'DL.CreatureName'}}</th>
-            <th>{{localize 'DL.Source'}}</th>
+            <th></th>
+            <th class="sortable {{#if (eq search.sortColumn 'name')}}{{search.sortType}}{{/if}}" data-sort-property="name">{{localize 'DL.CreatureName'}}</th>
+            <th class="sortable {{#if (eq search.sortColumn 'system.source')}}{{search.sortType}}{{/if}}" data-sort-property="system.source">{{localize 'DL.Source'}}</th>
 
         </tr>
 
         {{#each results as |item|}}
-            <tr>
-                <td>{{item.name}}</td>
+            <tr data-item-id="{{item.uuid}}">
+                <td><img src="{{item.img}}" alt="{{item.name}}"></td>
+                <td class="clickable" data-action="editItem">{{item.name}}</td>
                 <td>{{item.system.source}}</td>
             </tr>
         {{/each}}

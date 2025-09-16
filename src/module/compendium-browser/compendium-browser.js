@@ -6,8 +6,8 @@ const indices = {
   path: [],
   feature: [],
   item: [ 'system.type', ],
-  talent: [],
-  spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute'],
+  talent: ['system.groupname', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max'],
+  spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max' ],
   creature: [],
   character: [],
   vehicle: [],
@@ -55,11 +55,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     //filtersarmor: { template: 'systems/demonlord/templates/compendium-browser/filters-armor.hbs' },
     //filterscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/filters-creaturerole.hbs' },
     //filtersendoftheround: { template: 'systems/demonlord/templates/compendium-browser/filters-endoftheround.hbs' },
-    //filtersfeature: { template: 'systems/demonlord/templates/compendium-browser/filters-feature.hbs' },
+    filtersfeature: { template: 'systems/demonlord/templates/compendium-browser/filters-feature.hbs' },
     //filtersitem: { template: 'systems/demonlord/templates/compendium-browser/filters-item.hbs' },
     //filterslanguage: { template: 'systems/demonlord/templates/compendium-browser/filters-language.hbs' },
     //filterspath: { template: 'systems/demonlord/templates/compendium-browser/filters-path.hbs' },
-    //filtersprofession: { template: 'systems/demonlord/templates/compendium-browser/filters-profession.hbs' },
+    filtersprofession: { template: 'systems/demonlord/templates/compendium-browser/filters-profession.hbs' },
     //filtersrelic: { template: 'systems/demonlord/templates/compendium-browser/filters-relic.hbs' },
     //filtersspecialaction: { template: 'systems/demonlord/templates/compendium-browser/filters-specialaction.hbs' },
     filtersspell: { template: 'systems/demonlord/templates/compendium-browser/filters-spell.hbs' },
@@ -75,11 +75,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     //resultsarmor: { template: 'systems/demonlord/templates/compendium-browser/results-armor.hbs' },
     //resultscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/results-creaturerole.hbs' },
     //resultsendoftheround: { template: 'systems/demonlord/templates/compendium-browser/results-endoftheround.hbs' },
-    //resultsfeature: { template: 'systems/demonlord/templates/compendium-browser/results-feature.hbs' },
+    resultsfeature: { template: 'systems/demonlord/templates/compendium-browser/results-feature.hbs' },
     //resultsitem: { template: 'systems/demonlord/templates/compendium-browser/results-item.hbs' },
     //resultslanguage: { template: 'systems/demonlord/templates/compendium-browser/results-language.hbs' },
     //resultspath: { template: 'systems/demonlord/templates/compendium-browser/results-path.hbs' },
-    //resultsprofession: { template: 'systems/demonlord/templates/compendium-browser/results-profession.hbs' },
+    resultsprofession: { template: 'systems/demonlord/templates/compendium-browser/results-profession.hbs' },
     //resultsrelic: { template: 'systems/demonlord/templates/compendium-browser/results-relic.hbs' },
     //resultsspecialaction: { template: 'systems/demonlord/templates/compendium-browser/results-specialaction.hbs' },
     resultsspell: { template: 'systems/demonlord/templates/compendium-browser/results-spell.hbs' },
@@ -211,6 +211,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       talent: {
         description: '',
+        groupname: '',
         isTriggered: null, // Whether it has system.triggered
         isHealing: null, // Whether it has system.healing.healactive
         isDamage: null, // Whether it has system.action.damage* (any of them)
@@ -406,7 +407,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         consumableType: this.state.filters?.item?.consumableType ||'',
         availability: this.state.filters?.item?.availability ||'', // C/E/R/U
         value: this.state.filters?.item?.value ||'',
-
       },
       language: {
         description: this.state.filters?.language?.description || '',
@@ -445,6 +445,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       talent: {
         description: this.state.filters?.talent?.description || '',
+        groupname: this.state.filters?.talent?.groupname || '',
         isTriggered: this.state.filters?.talent?.isTriggered || null, // Whether it has system.triggered
         isHealing: this.state.filters?.talent?.isHealing || null, // Whether it has system.healing.healactive
         isDamage: this.state.filters?.talent?.isDamage || null, // Whether it has system.action.damage* (any of them)
@@ -542,7 +543,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // Deal with quick returns
     if (!search.type) return []
 
-    // TODO: Filter by source...
+    // Filter by source...
     let sources = compendia.filter(p => search.sources.length === 0 ||
       (p.metadata.packageType === 'module' && search.sources.includes(p.metadata.packageName)) || // Module selected
       (p.metadata.packageType === 'world' && search.sources.includes('world')) || // World selected
@@ -603,13 +604,26 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
           if (filters?.spell?.type && e.system.spelltype !== filters.spell.type) return false
           if (filters?.spell?.attribute && e.system.attribute !== filters.spell.attribute) return false
 
-          // TODO: Bool filters
-          //if (filters?.spell?.isTriggered !== null && !e.system.triggered) return false
+          if (filters?.spell?.isTriggered && !e.system.triggered) return false
+          if (filters?.spell?.isHealing && !e.system.healing.healing) return false
+          if (filters?.spell?.isDamage && !e.system.action.damage) return false
+          if (filters?.spell?.hasChallenge && !e.system.action.defense) return false
 
           return true
         })
         break
       case 'talent':
+        results = results.filter(e => {
+          if (filters?.talent?.groupname && e.system.groupname !== filters.talent.groupname) return false
+
+          if (filters?.talent?.isTriggered && !e.system.triggered) return false
+          if (filters?.talent?.isHealing && !e.system.healing.healing) return false
+          if (filters?.talent?.isDamage && !e.system.action.damage) return false
+          if (filters?.talent?.hasChallenge && !e.system.action.defense) return false
+          if (filters?.talent?.hasUses && !e.system.activatedEffect.uses.max) return false
+
+          return true
+        })
         break
       case 'weapon':
         break
