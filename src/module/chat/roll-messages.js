@@ -205,7 +205,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
  * @param attackRoll    Roll
  * @param target        DemonlordActor
  */
-export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) {
+export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, inputModifier) {
 
   attackRoll = changeBobDieColour (attackRoll)
 
@@ -296,7 +296,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
   data['hasTarget'] = targetNumber !== undefined
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
-  data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute, inputBoons, plus20)
+  data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier)
   data['effects'] = buildTalentEffectsMessage(actor, talent)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
@@ -327,7 +327,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons) 
  * @param attackRoll
  * @param target
  */
-export async function postSpellToChat(actor, spell, attackRoll, target, inputBoons) {
+export async function postSpellToChat(actor, spell, attackRoll, target, inputBoons, inputModifier) {
 
   attackRoll = changeBobDieColour (attackRoll)
 
@@ -433,7 +433,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['isPlus20Roll'] = plus20
   data['effectdice'] = effectdice
   data['effects'] = actor.system.bonuses.attack.extraEffect
-  data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute, inputBoons, plus20)
+  data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['actorInfo'] = buildActorInfo(actor)

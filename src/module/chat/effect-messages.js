@@ -144,7 +144,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     (applyHorrifyingBane ? horrifyingTextGM : '') +
     (playerOnlyMsg ? playerOnlyMsg : '') +
     (gmOnlyMsg ? gmOnlyMsg : '')
-  boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
+  boonsMsg = boonsMsg+inputBoonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg+inputBoonsMsg : ''
   
   let modifiersMsg =
     changeListToMsg(m, [`system.bonuses.attack.modifier.${attackAttribute}`,"system.bonuses.attack.modifier.all"], '') +
@@ -155,9 +155,8 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   // We may want to show the extra damage
   const extraDamage20PlusMsg = ((!defender && attackAttribute) || plus20) ? changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus') : ''
   return (
-    modifiersMsg +
     boonsMsg +
-    inputBoonsMsg +
+    modifiersMsg +
     extraDamageMsg +
     extraDamage20PlusMsg
   )

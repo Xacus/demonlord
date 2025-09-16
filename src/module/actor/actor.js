@@ -729,7 +729,7 @@ export class DemonlordActor extends Actor {
       attackRoll: attackRoll
     })
 
-    postTalentToChat(this, talent, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+    postTalentToChat(this, talent, attackRoll, target?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
     return attackRoll
   }
 
@@ -816,7 +816,7 @@ export class DemonlordActor extends Actor {
       attackRoll: attackRoll
     })
 
-    postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+    postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
