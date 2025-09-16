@@ -14,8 +14,10 @@ const indices = {
   table: []
 }
 
-let typeOptions = {} // eslint-disable-line no-unused-vars
-let sourcesOptions = []  // eslint-disable-line no-unused-vars
+let typeOptions = {}
+let sourcesOptions = {}
+let spellTypeOptions = {}
+let spellAttributeOptions = {}
 
 export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
@@ -35,7 +37,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     },
     position: {
       width: 1000,
-      height: 600,
+      height: 700,
     },
     scrollY: [],
     //editable: true
@@ -296,10 +298,25 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         sourcesOptions[moduleId] = game.modules.get(moduleId).title
       }
 
+      spellTypeOptions = {
+        'Attack': game.i18n.localize('DL.SpellTypeAttack'),
+        'Utility': game.i18n.localize('DL.SpellTypeUtility'),
+      }
+
+      spellAttributeOptions = {
+        //'strength': game.i18n.localize('DL.AttributeStrength'),
+        //'agility': game.i18n.localize('DL.AttributeAgility'),
+        'intellect': game.i18n.localize('DL.AttributeIntellect'),
+        'will': game.i18n.localize('DL.AttributeWill'),
+      }
+
       await this.indexCompendia(this.state.sources)
     }
+
     context.typeOptions = typeOptions
     context.sourcesOptions = sourcesOptions
+    context.spellTypeOptions = spellTypeOptions
+    context.spellAttributeOptions = spellAttributeOptions
 
     context.isGM = game.user.isGM
 
@@ -498,7 +515,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         column.classList.add(columnAsc ? 'desc' : 'asc')
 
         // Add the sort properties
-        this.state.search.sortType = columnAsc ? 'asc' : 'desc';
+        this.state.search.sortType = columnAsc ? 'desc' : 'asc';
         this.state.search.sortColumn = column.dataset.sortProperty
 
         // Re-render, we'll sort there
@@ -539,9 +556,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // ...searched text
     if (search.text) {
       if (search.caseSensitive) {
-        results = results.filter(e => e.name.indexOf(search.text) >= 0 || e.system.description?.indexOf(filters.text) >= 0)
+        //results = results.filter(e => e.name.indexOf(search.text) >= 0 || e.system.description?.indexOf(filters.text) >= 0)
+        results = results.filter(e => e.name.indexOf(search.text) >= 0)
       } else {
-        results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()) || e.system.description?.toLowerCase()?.indexOf(search.text.toLowerCase()) >= 0)
+        //results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()) || e.system.description?.toLowerCase()?.indexOf(search.text.toLowerCase()) >= 0)
+        results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()))
       }
     }
 

@@ -28,21 +28,15 @@
 
   <div class="filter-group">
     <b>{{localize 'DL.SpellType'}}</b>
-    <select class="filter-group-textbox" name="filters.spell.type" value="{{filters.spell.type}}">
-      <option value=""></option>
-      <option value="Attack">{{localize 'DL.SpellTypeAttack'}}</option>
-      <option value="Utility">{{localize 'DL.SpellTypeUtility'}}</option>
+    <select class="filter-group-textbox" name="filters.spell.type">
+      {{selectOptions spellTypeOptions selected=filters.spell.type blank="" localize=true}}
     </select>
   </div>
 
   <div class="filter-group">
     <b>{{localize 'DL.SpellAttribute'}}</b>
-    <select class="filter-group-textbox" name="filters.spell.attribute" value="{{filters.spell.attribute}}">
-      {{!-- <option value="strength">{{localize 'DL.AttributeStrength'}}</option> --}}
-      {{!-- <option value="agility">{{localize 'DL.AttributeAgility'}}</option> --}}
-      <option value=""></option>
-      <option value="intellect">{{localize 'DL.AttributeIntellect'}}</option>
-      <option value="will">{{localize 'DL.AttributeWill'}}</option>
+    <select class="filter-group-textbox" name="filters.spell.attribute">
+      {{selectOptions spellAttributeOptions selected=filters.spell.attribute blank="" localize=true}}
     </select>
   </div>
 

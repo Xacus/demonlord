@@ -9,14 +9,12 @@
   <input name="search.text" type="text" value="{{search.text}}" placeholder="{{localize 'DL.CreatureName'}}" />
 
   <select class="input-group-dropdown search-type" name="search.type" data-tippy-content="{{localize 'DL.SearchType'}}">
-    {{selectOptions typeOptions selected=search.type blank="-" localize=true}}
+    {{selectOptions typeOptions selected=search.type blank="" localize=true}}
   </select>
-<multi-select name="search.sources" value="{{search.sources}}" placeholder="{{localize 'DL.Source'}}">
-  {{!-- {{#each sourcesOptions as |source|}}
-  <option value="{{source}}" {{disabled (contains search.sources source)}}>{{source}}</option>
-  {{/each}} --}}
-  {{selectOptions sourcesOptions selected=search.sources blank="-" localize=false multiple=true}}
-</multi-select>
+
+  <multi-select name="search.sources" value="{{search.sources}}" placeholder="{{localize 'DL.Source'}}">
+    {{selectOptions sourcesOptions selected=search.sources localize=false multiple=true}}
+  </multi-select>
 
   <button type="submit">{{localize 'DL.Search'}}</button>
 </aside>

@@ -8,12 +8,12 @@
         {{!-- Fields info --}}
         <tr>
             <th></th>
-            <th class="sortable asc" data-sort-property="name">{{localize 'DL.CreatureName'}}</th>
-            <th class="sortable" data-sort-property="system.source">{{localize 'DL.Source'}}</th>
-            <th class="sortable" data-sort-property="system.tradition">{{localize 'DL.MagicTradition'}}</th>
-            <th class="sortable" data-sort-property="system.rank">{{localize 'DL.SpellRank'}}</th>
-            <th class="sortable" data-sort-property="system.spelltype">{{localize 'DL.SpelltypeHeader'}}</th>
-            <th class="sortable" data-sort-property="system.attribute">{{localize 'DL.SpellAttribute'}}</th>
+            <th class="sortable {{#if (eq search.sortColumn 'name')}}{{search.sortType}}{{/if}}" data-sort-property="name">{{localize 'DL.CreatureName'}}</th>
+            <th class="sortable {{#if (eq search.sortColumn 'system.source')}}{{search.sortType}}{{/if}}" data-sort-property="system.source">{{localize 'DL.Source'}}</th>
+            <th class="sortable {{#if (eq search.sortColumn 'system.tradition')}}{{search.sortType}}{{/if}}" data-sort-property="system.tradition">{{localize 'DL.MagicTradition'}}</th>
+            <th class="sortable {{#if (eq search.sortColumn 'system.rank')}}{{search.sortType}}{{/if}}" data-sort-property="system.rank">{{localize 'DL.SpellRank'}}</th>
+            <th class="sortable {{#if (eq search.sortColumn 'system.spelltype')}}{{search.sortType}}{{/if}}" data-sort-property="system.spelltype">{{localize 'DL.SpelltypeHeader'}}</th>
+            <th class="sortable {{#if (eq search.sortColumn 'system.attribute')}}{{search.sortType}}{{/if}}" data-sort-property="system.attribute">{{localize 'DL.SpellAttribute'}}</th>
 
         </tr>
 
