@@ -51,4 +51,14 @@
     display: flex;
     flex-direction: column;
   }
+  .clickable {
+    transition: color 0.3s, text-shadow 0.3s;
+
+    &:hover,
+    &:focus {
+      color: #000;
+      text-shadow: 0 0 10px #fa200b;
+      cursor: pointer !important;
+    }
+  }
 }

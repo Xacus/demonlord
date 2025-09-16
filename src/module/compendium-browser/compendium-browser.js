@@ -91,7 +91,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       text: '',
       type: 'spell',
       sources: [],
-      caseSensitive: false
+      caseSensitive: false,
+      sortColumn: 'name',
+      sortType: 'asc' // asc/desc
     },
     filters: {
       character: {
@@ -307,6 +309,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       type: this.state.search.type,
       sources: this.state.search.sources,
       caseSensitive: this.state.search.caseSensitive,
+      sortColumn: this.state.search.sortColumn,
+      sortType: this.state.search.sortType
     }
 
     // Prepare filters (stored per type)
@@ -446,6 +450,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // Search items in sources with filters
     context.results = await this.filterItems(this.state.sources, this.state.search, this.state.filters)
 
+    // And sort them
+    context.results = await this.sortItems(context.results, this.state.search)
+
     return context
   }
 
@@ -477,37 +484,25 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
     let e = this.element
 
-      e.querySelectorAll('.sortable')?.forEach(function (s) {
-        s.addEventListener('click', function (ev) {
+    e.querySelectorAll('.sortable')?.forEach(s => {
+      s.addEventListener('click', async ev => {
         const column = ev.currentTarget
-        const sortProperty = column.dataset.sortProperty
-        if (column.classList.contains('asc') || column.classList.contains('desc')) {
-          // Swap the classes around
-          column.classList.toggle('asc')
-          column.classList.toggle('desc')
-        } else {
-          // Remove asc/desc class from other columns and add it on this one
-          e.querySelectorAll('.sortable')?.forEach(ce => {
-            ce.classList.remove('asc')
-            ce.classList.remove('desc')
-          })
+        const columnAsc = column.classList.contains('asc')
 
-          column.classList.add('asc')
-        }
-
-        // Now sort by whether is asc or desc
-        const isAsc = column.classList.contains('asc')
-        
-        // And now sort results by that column
-        context.results = context.results.sort((a, b) => {
-          if (isAsc) {
-            return foundry.utils.getProperty(a, sortProperty) > foundry.utils.getProperty(b, sortProperty) ? -1 : 1
-          } else {
-            return foundry.utils.getProperty(a, sortProperty) > foundry.utils.getProperty(b, sortProperty) ? 1 : 1
-          }
+        // Remove asc/desc class from other columns and add it on this one
+        e.querySelectorAll('.sortable')?.forEach(ce => {
+          ce.classList.remove('asc')
+          ce.classList.remove('desc')
         })
 
-        this.render({parts: 'results' + context.search.type })
+        column.classList.add(columnAsc ? 'desc' : 'asc')
+
+        // Add the sort properties
+        this.state.search.sortType = columnAsc ? 'asc' : 'desc';
+        this.state.search.sortColumn = column.dataset.sortProperty
+
+        // Re-render, we'll sort there
+        await this.render({ parts: ['results' + context.search.type] })
       })
     })
   }
@@ -602,6 +597,27 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     }
 
     return results
+  }
+
+  sortItems(items, search) {
+    const isAsc = search.sortType === 'asc'
+
+    // Sort by column and then by name if they're equal
+    return items.sort((a, b) => {
+      if (isAsc) {
+        if (foundry.utils.getProperty(a, search.sortColumn) === foundry.utils.getProperty(b, search.sortColumn)) {
+          return foundry.utils.getProperty(a, 'name') > foundry.utils.getProperty(b, 'name') ? 1 : -1
+        } else {
+          return foundry.utils.getProperty(a, search.sortColumn) > foundry.utils.getProperty(b, search.sortColumn) ? 1 : -1
+        }
+      } else {
+        if (foundry.utils.getProperty(a, search.sortColumn) === foundry.utils.getProperty(b, search.sortColumn)) {
+          return foundry.utils.getProperty(a, 'name') > foundry.utils.getProperty(b, 'name') ? -1 : 1
+        } else {
+          return foundry.utils.getProperty(a, search.sortColumn) > foundry.utils.getProperty(b, search.sortColumn) ? -1 : 1
+        }
+      }
+    })
   }
 
   // #endregion
