@@ -15,30 +15,32 @@
 
   <div class="ancestry-paths">
       <!--  Ancestry-->
-      {{#if actor.ancestry}} {{#each actor.ancestry as |ancestry id|}}
-      <div class="ancestry-path-group ancestry-edit" data-action="editAncestry" data-item-id="{{ancestry._id}}">
-        {{#if (isBadgeImg ancestry.img)}}
-        <div class="ancestry-frame frame">
-          <img class="badge" src="{{ancestry.img}}" />
+      {{#if actor.ancestry}}
+        {{#each actor.ancestry as |ancestry id|}}
+          <div class="ancestry-path-group ancestry-edit" data-action="editAncestry" data-item-id="{{ancestry._id}}">
+            {{#if (isBadgeImg ancestry.img)}}
+            <div class="ancestry-frame frame">
+              <img class="badge" src="{{ancestry.img}}" />
+            </div>
+            {{else}}
+            <div class="ancestry-frame frame">
+              <img class="border" src="systems/demonlord/assets/ui/shields/rogue-shield.webp" />
+              <img class="icon" src="{{ancestry.img}}"
+                style="top: 15px; left: -1px; clip-path: polygon(51% 0%, 100% 50%, 52% 100%, 0% 48%)" />
+            </div>
+            {{/if}}
+            <div class="type">{{localize 'DL.CharAncestry'}}</div>
+            <div class="name">{{ancestry.name}}</div>
+          </div>
+        {{/each}}
+      {{else}}
+        <div class="ancestry-path-group">
+          <div class="ancestry-frame frame">
+            <img class="border gray" src="systems/demonlord/assets/ui/shields/rogue-shield.webp" />
+          </div>
+          <div class="type">{{localize 'DL.CharAncestry'}}</div>
+          <div class="name"></div>
         </div>
-        {{else}}
-        <div class="ancestry-frame frame">
-          <img class="border" src="systems/demonlord/assets/ui/shields/rogue-shield.webp" />
-          <img class="icon" src="{{ancestry.img}}"
-            style="top: 15px; left: -1px; clip-path: polygon(51% 0%, 100% 50%, 52% 100%, 0% 48%)" />
-        </div>
-        {{/if}}
-        <div class="type">{{localize 'DL.CharAncestry'}}</div>
-        <div class="name">{{ancestry.name}}</div>
-      </div>
-      {{/each}} {{else}}
-      <div class="ancestry-path-group">
-        <div class="ancestry-frame frame">
-          <img class="border gray" src="systems/demonlord/assets/ui/shields/rogue-shield.webp" />
-        </div>
-        <div class="type">{{localize 'DL.CharAncestry'}}</div>
-        <div class="name"></div>
-      </div>
       {{/if}}
 
       <!--  Paths  -->
