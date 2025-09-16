@@ -420,13 +420,20 @@ Hooks.on("updateWorldTime", _onUpdateWorldTime)
 Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
 
 Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
+  let messageActorId = app.speaker.actor
+  let messageActor = game.actors.get(messageActorId)
+
   if (!game.user.isGM) {
-    html.querySelectorAll('.gmonly').forEach(el => el.remove())
-    html.querySelectorAll('.gmonlyzero').forEach(el => el.remove())
-    let messageActor = app.speaker.actor
-    if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideActorInfo')) html.find('.showlessinfo').remove()
-    if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideDescription')) html.find('.showdescription').empty()
-  } else html.querySelectorAll('.gmremove').forEach(el => el.remove())
+    html.querySelectorAll('.gmonly')?.forEach(el => el.remove())
+    html.querySelectorAll('.gmonlyzero')?.forEach(el => el.remove())
+
+    if (!messageActor?.isOwner) {
+
+      html.querySelectorAll('.owneronly')?.forEach(el => el.remove())
+      if (game.settings.get('demonlord', 'hideActorInfo')) html.querySelectorAll('.showlessinfo')?.forEach(el => el.remove())
+      if (game.settings.get('demonlord', 'hideDescription')) html.querySelectorAll('.showdescription')?.forEach(el => $(el).empty())
+    }
+  } else html.querySelectorAll('.gmremove')?.forEach(el => el.remove())
 })
 
 Hooks.on('renderCompendiumDirectory', async (app, html, _data) => {

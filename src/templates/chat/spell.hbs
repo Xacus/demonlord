@@ -31,7 +31,7 @@
   {{/if}}
   {{#if data.uses}}
     {{#if data.isCreature}}
-      <div class="gmonly">
+      <div class="owneronly">
         <div class="chat-uses">{{data.uses}}</div>
       </div>
     {{else}}
@@ -44,11 +44,11 @@
   {{> "systems/demonlord/templates/chat/partial/chat-description.hbs" description=data.description isCreature=data.isCreature}}
 
   {{#if data.isCreature}}
-  <div class="gmonly">
+  <div class="owneronly">
   {{/if}}
 
   {{> "systems/demonlord/templates/chat/partial/chat-extra-effects.hbs" extraEffect=item.system.action.extraEffect extraEffect20=item.system.action.extraEffect20 isPlus20Roll=data.isPlus20Roll}}
-  
+
   {{#if data.defense}}
     <div class="roll20">
       <div class="header">{{localize "DL.SpellTypeDefense"}}</div>
@@ -126,7 +126,7 @@
   {{> "systems/demonlord/templates/chat/partial/chat-challenge.hbs" data=data}}
 
   {{#if data.isCreature}}
-    <div class="gmonly">
+    <div class="owneronly">
 
       {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget uuid=item.uuid}}
 

@@ -14,13 +14,13 @@
         </div>
       </div>
     </header>
-    
+
     {{> "systems/demonlord/templates/chat/partial/chat-attack.hbs" data=data diceData=diceData}}
 
 
     {{#if data.afflictionEffects}}
       {{#if data.isCreature}}
-        <div class="gmonly">
+        <div class="owneronly">
           <div class="description">
             <div class="header">{{localize "DL.Afflictions"}}:</div>
             <div class="body">{{{data.afflictionEffects}}}</div>
@@ -47,12 +47,12 @@
     {{> "systems/demonlord/templates/chat/partial/chat-challenge.hbs" data=data}}
 
     {{#if data.isCreature}}
-      <div class="gmonly">
+      <div class="owneronly">
 
       {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget uuid=item.uuid}}
 
       {{> "systems/demonlord/templates/chat/partial/chat-damage.hbs" data=data}}
-      
+
       {{> "systems/demonlord/templates/chat/partial/chat-effects.hbs" data=data}}
 
       </div>
@@ -60,13 +60,13 @@
       {{#if data.ifBlindedRoll }}
       <div class="gmonly">
       {{/if}}
-      
+
       {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget uuid=item.uuid}}
 
       {{> "systems/demonlord/templates/chat/partial/chat-damage.hbs" data=data}}
-      
+
       {{> "systems/demonlord/templates/chat/partial/chat-effects.hbs" data=data}}
-      
+
       {{#if data.ifBlindedRoll }}
       </div>
       {{/if}}
