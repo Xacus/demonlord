@@ -1,0 +1,44 @@
+{{!--
+  Context:
+  - filters.talent
+    - source
+    - description
+--}}
+<aside class="demonlord-compendium-browser-filters  {{#if (eq search.type 'weapon')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.Availability'}}</b>
+    <select class="filter-group-textbox" name="filters.weapon.availability">
+      {{selectOptions availabilityOptions selected=filters.weapon.availability blank="" localize=true}}
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.ItemValue'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.weapon.value" value="{{filters.weapon.value}}">
+  </div>
+
+  <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.WeaponAmmoRequired'}}">
+      <input type="checkbox" name="filters.weapon.hasRequirement" {{checked filters.weapon.hasRequirement}}>
+      <i class="icon-strength themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.CompendiumBrowserFilters.HasRequirement'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.WeaponAmmoRequired'}}">
+      <input type="checkbox" name="filters.weapon.usesAmmo" {{checked filters.weapon.usesAmmo}}>
+      <i class="icon-ammo themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.CompendiumBrowserFilters.UsesAmmo'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.weapon.description" value="{{filters.weapon.description}}">
+  </div>
+
+</aside>

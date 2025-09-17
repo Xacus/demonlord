@@ -1,0 +1,21 @@
+{{!--
+  Context:
+  - filters.path
+    - source
+    - type
+    - usesMagic
+--}}
+<aside class="demonlord-compendium-browser-filters {{#if (eq search.type 'ancestry')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CompendiumBrowserFilters.UsesMagic'}}</b>
+    <select class="filter-group-textbox" name="filters.ancestry.usesMagic">
+      {{selectOptions magicOptions selected=filters.ancestry.usesMagic blank="" localize=true}}
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.ancestry.description" value="{{filters.ancestry.description}}">
+  </div>
+</aside>

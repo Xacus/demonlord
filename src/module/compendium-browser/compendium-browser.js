@@ -2,12 +2,14 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
 const indices = {
   common: ['name', 'system.description', 'system.source' ],
-  ancestry: [],
-  path: [],
+  ancestry: ['system.magic'],
+  path: ['system.type', 'system.magic'],
+  ammo: ['system.availability'],
   feature: [],
-  item: [ 'system.type', ],
+  item: ['system.type', 'system.availability'],
   talent: ['system.groupname', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max'],
   spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max' ],
+  weapon: ['system.availability', 'system.requirement.attribute'],
   creature: [],
   character: [],
   vehicle: [],
@@ -18,6 +20,10 @@ let typeOptions = {}
 let sourcesOptions = {}
 let spellTypeOptions = {}
 let spellAttributeOptions = {}
+let consumableTypeOptions = {}
+let availabilityOptions = {}
+let magicOptions = {}
+let pathTypeOptions = {}
 
 export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
@@ -50,48 +56,48 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     //filterscharacter: { template: 'systems/demonlord/templates/compendium-browser/filters-character.hbs' },
     //filterscreature: { template: 'systems/demonlord/templates/compendium-browser/filters-creature.hbs' },
     //filtersvehicle: { template: 'systems/demonlord/templates/compendium-browser/filters-vehicle.hbs' },
-    //filtersancestry: { template: 'systems/demonlord/templates/compendium-browser/filters-ancestry.hbs' },
+    filtersancestry: { template: 'systems/demonlord/templates/compendium-browser/filters-ancestry.hbs' },
     //filtersammo: { template: 'systems/demonlord/templates/compendium-browser/filters-ammo.hbs' },
     //filtersarmor: { template: 'systems/demonlord/templates/compendium-browser/filters-armor.hbs' },
     //filterscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/filters-creaturerole.hbs' },
     //filtersendoftheround: { template: 'systems/demonlord/templates/compendium-browser/filters-endoftheround.hbs' },
     filtersfeature: { template: 'systems/demonlord/templates/compendium-browser/filters-feature.hbs' },
     //filtersitem: { template: 'systems/demonlord/templates/compendium-browser/filters-item.hbs' },
-    //filterslanguage: { template: 'systems/demonlord/templates/compendium-browser/filters-language.hbs' },
-    //filterspath: { template: 'systems/demonlord/templates/compendium-browser/filters-path.hbs' },
+    filterslanguage: { template: 'systems/demonlord/templates/compendium-browser/filters-language.hbs' },
+    filterspath: { template: 'systems/demonlord/templates/compendium-browser/filters-path.hbs' },
     filtersprofession: { template: 'systems/demonlord/templates/compendium-browser/filters-profession.hbs' },
     //filtersrelic: { template: 'systems/demonlord/templates/compendium-browser/filters-relic.hbs' },
-    //filtersspecialaction: { template: 'systems/demonlord/templates/compendium-browser/filters-specialaction.hbs' },
+    filtersspecialaction: { template: 'systems/demonlord/templates/compendium-browser/filters-specialaction.hbs' },
     filtersspell: { template: 'systems/demonlord/templates/compendium-browser/filters-spell.hbs' },
     filterstalent: { template: 'systems/demonlord/templates/compendium-browser/filters-talent.hbs' },
-    //filtersweapon: { template: 'systems/demonlord/templates/compendium-browser/filters-weapon.hbs' },
+    filtersweapon: { template: 'systems/demonlord/templates/compendium-browser/filters-weapon.hbs' },
 
     // One part for each result type
     //resultscharacter: { template: 'systems/demonlord/templates/compendium-browser/results-character.hbs' },
     //resultscreature: { template: 'systems/demonlord/templates/compendium-browser/results-creature.hbs' },
     //resultsvehicle: { template: 'systems/demonlord/templates/compendium-browser/results-vehicle.hbs' },
-    //resultsancestry: { template: 'systems/demonlord/templates/compendium-browser/results-ancestry.hbs' },
+    resultsancestry: { template: 'systems/demonlord/templates/compendium-browser/results-ancestry.hbs' },
     //resultsammo: { template: 'systems/demonlord/templates/compendium-browser/results-ammo.hbs' },
     //resultsarmor: { template: 'systems/demonlord/templates/compendium-browser/results-armor.hbs' },
     //resultscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/results-creaturerole.hbs' },
     //resultsendoftheround: { template: 'systems/demonlord/templates/compendium-browser/results-endoftheround.hbs' },
     resultsfeature: { template: 'systems/demonlord/templates/compendium-browser/results-feature.hbs' },
     //resultsitem: { template: 'systems/demonlord/templates/compendium-browser/results-item.hbs' },
-    //resultslanguage: { template: 'systems/demonlord/templates/compendium-browser/results-language.hbs' },
-    //resultspath: { template: 'systems/demonlord/templates/compendium-browser/results-path.hbs' },
+    resultslanguage: { template: 'systems/demonlord/templates/compendium-browser/results-language.hbs' },
+    resultspath: { template: 'systems/demonlord/templates/compendium-browser/results-path.hbs' },
     resultsprofession: { template: 'systems/demonlord/templates/compendium-browser/results-profession.hbs' },
     //resultsrelic: { template: 'systems/demonlord/templates/compendium-browser/results-relic.hbs' },
-    //resultsspecialaction: { template: 'systems/demonlord/templates/compendium-browser/results-specialaction.hbs' },
+    resultsspecialaction: { template: 'systems/demonlord/templates/compendium-browser/results-specialaction.hbs' },
     resultsspell: { template: 'systems/demonlord/templates/compendium-browser/results-spell.hbs' },
     resultstalent: { template: 'systems/demonlord/templates/compendium-browser/results-talent.hbs' },
-    //resultsweapon: { template: 'systems/demonlord/templates/compendium-browser/results-weapon.hbs' },
+    resultsweapon: { template: 'systems/demonlord/templates/compendium-browser/results-weapon.hbs' },
   }
 
   state = {
     sources: [],
     search: {
       text: '',
-      type: 'spell',
+      type: 'path',
       sources: [],
       caseSensitive: false,
       sortColumn: 'name',
@@ -128,8 +134,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       ancestry: {
         description: '',
-        levels: null, // 1-X
-        isMagic: null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
+        usesMagic: null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
         //attributes: ?
         // characteristics: ?
       },
@@ -147,7 +152,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         defense: '',
         agility: '',
         fixed: '',
-        requirement: [], // TODO [ { attribute: '', min: 0 } ]
+        hasRequirement: false, // TODO [ { attribute: '', min: 0 } ]
         isShield: null
       },
       creaturerole: {
@@ -179,9 +184,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       path: {
         description: '',
-        levels: null, // 1-X
-        isMagic: null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
-        pathType: '', // Novice, Expert, Master, Legendary
+        usesMagic: null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
+        type: '', // Novice, Expert, Master, Legendary
         //attributes: ?
         // characteristics: ?
       },
@@ -190,7 +194,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       relic: {
         description: '',
-        requirement: [], // TODO [ { attribute: '', min: 0 } ]
+        hasRequirement: '',
       },
       specialaction: {
         description: '',
@@ -223,9 +227,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       weapon: {
         description: '',
-        requirement: [], // TODO [ { attribute: '', min: 0 } ]
         availability: '', // C/E/R/U
         value: '',
+        hasRequirement: false,
         usesAmmo: null,
       },
     }
@@ -311,6 +315,34 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         'will': game.i18n.localize('DL.AttributeWill'),
       }
 
+      consumableTypeOptions = {
+        'None': game.i18n.localize('DL.ConsumableNone'),
+        'D': game.i18n.localize('DL.ConsumableTypeD'),
+        'F': game.i18n.localize('DL.ConsumableTypeF'),
+        'P': game.i18n.localize('DL.ConsumableTypeP'),
+        'T': game.i18n.localize('DL.ConsumableTypeT'),
+        'V': game.i18n.localize('DL.ConsumableTypeV'),
+      }
+
+      availabilityOptions = {
+        'C': game.i18n.localize('DL.AvailabilityC'),
+        'E': game.i18n.localize('DL.AvailabilityE'),
+        'R': game.i18n.localize('DL.AvailabilityR'),
+        'U': game.i18n.localize('DL.AvailabilityU'),
+      }
+
+      pathTypeOptions = {
+        'novice': game.i18n.localize('DL.CharPathNovice'),
+        'expert': game.i18n.localize('DL.CharPathExpert'),
+        'master': game.i18n.localize('DL.CharPathMaster'),
+        'legendary': game.i18n.localize('DL.CharPathLegendary'),
+      }
+
+      magicOptions = {
+        'yes': game.i18n.localize('DL.DialogYes'),
+        'no': game.i18n.localize('DL.DialogNo'),
+      }
+
       await this.indexCompendia(this.state.sources)
     }
 
@@ -318,6 +350,10 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     context.sourcesOptions = sourcesOptions
     context.spellTypeOptions = spellTypeOptions
     context.spellAttributeOptions = spellAttributeOptions
+    context.consumableTypeOptions = consumableTypeOptions
+    context.availabilityOptions = availabilityOptions
+    context.pathTypeOptions = pathTypeOptions
+    context.magicOptions = magicOptions
 
     context.isGM = game.user.isGM
 
@@ -363,8 +399,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       ancestry: {
         description: this.state.filters?.ancestry?.description || '',
-        levels: this.state.filters?.ancestry?.levels || null, // 1-X
-        isMagic: this.state.filters?.ancestry?.isMagic || null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
+        usesMagic: this.state.filters?.ancestry?.usesMagic || null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
         //attributes: ?
         // characteristics: ?
       },
@@ -403,8 +438,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       item: {
         description: this.state.filters?.item?.description ||'',
         properties: this.state.filters?.item?.properties ||'',
-        isConsumable: this.state.filters?.item?.isConsumable ||null,
-        consumableType: this.state.filters?.item?.consumableType ||'',
+        consumableType: this.state.filters?.item?.consumableType || '',
         availability: this.state.filters?.item?.availability ||'', // C/E/R/U
         value: this.state.filters?.item?.value ||'',
       },
@@ -413,9 +447,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       path: {
         description: this.state.filters?.path?.description || '',
-        levels: this.state.filters?.path?.levels || null, // 1-X
-        isMagic: this.state.filters?.path?.isMagic || null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
-        pathType: this.state.filters?.path?.pathType || '', // Novice, Expert, Master, Legendary
+        usesMagic: this.state.filters?.path?.usesMagic || null, // system.levels.some(l => l.spells.length > 0) or system.levels.some(l => l.magic)
+        type: this.state.filters?.path?.type || '', // Novice, Expert, Master, Legendary
         //attributes: ?
         // characteristics: ?
       },
@@ -424,7 +457,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       relic: {
         description: this.state.filters?.relic?.description || '',
-        requirement: this.state.filters?.relic?.requirement || [], // TODO [ { attribute: '', min: 0 } ]
+        hasRequirement: this.state.filters?.relic?.hasRequirement || [], // TODO [ { attribute: '', min: 0 } ]
       },
       specialaction: {
         description: this.state.filters?.specialaction?.description ||'',
@@ -457,9 +490,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       weapon: {
         description: this.state.filters?.weapon?.description || '',
-        requirement: this.state.filters?.weapon?.requirement || [], // TODO [ { attribute: '', min: 0 } ]
         availability: this.state.filters?.weapon?.availability || '', // C/E/R/U
         value: this.state.filters?.weapon?.value || '',
+        hasRequirement: this.state.filters?.weapon?.hasRequirement || '', // TODO [ { attribute: '', min: 0 } ]
         usesAmmo: this.state.filters?.weapon?.usesAmmo || null,
       },
     }
@@ -574,6 +607,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       case 'vehicle':
         break
       case 'ancestry':
+        results = results.filter(e => {
+          if (!!filters?.ancestry?.usesMagic && (e.system.magic ? filters.ancestry.usesMagic !== 'yes' : filters.ancestry.usesMagic !== 'no')) return false
+
+          return true
+        })
         break
       case 'ammo':
         break
@@ -584,18 +622,29 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       case 'endoftheround':
         break
       case 'feature':
+        // NA
         break
       case 'item':
         break
       case 'language':
+        // NA
         break
       case 'path':
+        results = results.filter(e => {
+          if (filters?.path?.type && e.system.type !== filters.path.type) return false
+
+          if (!!filters?.path?.usesMagic && (e.system.magic ? filters.path.usesMagic !== 'yes' : filters.path.usesMagic !== 'no')) return false
+
+          return true
+        })
         break
       case 'profession':
+        // NA
         break
       case 'relic':
         break
       case 'specialaction':
+        // NA
         break
       case 'spell':
         results = results.filter(e => {
@@ -626,6 +675,15 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         })
         break
       case 'weapon':
+        results = results.filter(e => {
+          if (filters?.weapon?.availability && e.system.availability != filters.weapon.availability) return false
+          if (filters?.weapon?.value && e.system.consume.ammorequired != filters.weapon.value) return false
+
+          if (filters?.weapon?.hasRequirement && !e.system.requirement.attribute) return false
+          if (filters?.weapon?.usesAmmo && !e.system.consume.ammorequired) return false
+
+          return true
+        })
         break
     }
 

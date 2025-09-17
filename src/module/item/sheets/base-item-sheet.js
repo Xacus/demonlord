@@ -9,11 +9,11 @@ import {buildDropdownListHover} from "../../utils/handlebars-helpers";
 import 'tippy.js/animations/shift-away.css';
 import { DemonlordItem } from "../item";
 import { capitalize, i18n} from "../../utils/utils";
-import { 
+import {
   getNestedItemData,
   getNestedDocument,
   createActorNestedItems,
-  deleteActorNestedItems, 
+  deleteActorNestedItems,
   PathLevel,
   PathLevelItem,
   DamageType
@@ -140,7 +140,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
     // Optionally add the main tab (attributes)
     const ignoredParts = [ 'feature', 'profession', 'specialaction' ] // Ideally temporary
-    
+
     if (!ignoredParts.includes(this.document.type)) {
       options.parts.push(this.document.type)
     }
@@ -322,7 +322,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
         if (item.system.editPath) {
           system.levels = this._getEditLevelsUpdateData(completeFormData)
           system.levels.sort(this._sortLevels)
-  
+
           // Set default image based on new path type
           const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.path).includes(formData.img)
           if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
@@ -332,7 +332,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
           system.levels = this._getViewLevelsUpdateData(completeFormData)
         }
       }
-      
+
       // Change the levels based on the path type
       if (system.type && item.system.editPath && system.type !== item.system.type) {
         let autoLevels = []
@@ -378,7 +378,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
         if (item.system.editAncestry) {
           system.levels = this._getEditLevelsUpdateData(completeFormData)
           system.levels.sort(this._sortLevels)
-  
+
           // Set default image based on new ancestry type
           const hasADefaultImage = Object.values(CONFIG.DL.defaultItemIcons.ancestry).includes(formData.img)
           if (game.settings.get('demonlord', 'replaceIcons') && hasADefaultImage) {
@@ -391,6 +391,11 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
       updateData.system = system
       if (updateData.level) delete updateData.level
+    }
+
+    // Update magic bool
+    if (['ancestry', 'path'].includes(item.type)) {
+      updateData.magic = item.system.levels.some(l => l.spells.length > 0) || item.system.levels.some(l => l.magicText)
     }
 
     await item.update(updateData)
@@ -424,7 +429,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       case 'editEffect': return onEditEffect(li, this.document)
       case 'deleteEffect': return onDeleteEffect(li, this.document)
       case 'toggleEffect': return onToggleEffect(li, this.document)
-    }    
+    }
   }
 
   static async onEditDamage(event) {
@@ -456,7 +461,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       }
     })
   }
-  
+
   static async onCreateNestedItem(event) {
     const itemType = event.target.closest('[data-type]')?.dataset?.type
     const itemGroup = event.target.closest('[data-group]')?.dataset?.group
@@ -765,7 +770,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       }
     })
   }
-  
+
   async _onToggleMaxCastingsCalculation (ev, sheet) {
     // Set the flag if textbox has been modified. Clear if blank.
     const spell = sheet.document
@@ -844,7 +849,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       if (obj['level.attributeSelect'] === "twosets") {
         obj['level.attributeSelectTwoSetSelectedValue1'] = obj['level.attributeSelectTwoSet2Selected'] || false
         obj['level.attributeSelectTwoSetSelectedValue2'] = obj['level.attributeSelectTwoSet4Selected'] || false
-        
+
         delete obj['level.attributeSelectTwoSet1Selected']
         delete obj['level.attributeSelectTwoSet2Selected']
         delete obj['level.attributeSelectTwoSet3Selected']
@@ -879,7 +884,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
         for (const a of Object.keys(newLevel.attributes)) {
           if (newLevel.attributes[a].selected) newChoices++
         }
-        
+
         if (newChoices > 2 && currentLevel.attributeSelectIsChooseTwo || newChoices > 3 && currentLevel.attributeSelectIsChooseThree) {
           return warn()
         }
@@ -934,7 +939,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
           newLevel.attributes.intellect.selected = foundLevel.attributes.intellect.selected
           newLevel.attributes.will.selected = foundLevel.attributes.will.selected
         }
-        
+
         // And roll formulas
         newLevel.attributes.strength.formula = foundLevel.attributes.strength.formula
         newLevel.attributes.agility.formula = foundLevel.attributes.agility.formula
@@ -1041,12 +1046,12 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
         if (itemData.type === 'Item') {
           let actor
           const item = await fromUuid(itemData.uuid)
-          
+
           let acceptedItemTypes = []
 
           // Filter drops depending on the item type
           switch (this.document.type) {
-            case 'item': 
+            case 'item':
               acceptedItemTypes = ['ammo', 'armor', 'item', 'weapon']
               break
             case 'relic':
