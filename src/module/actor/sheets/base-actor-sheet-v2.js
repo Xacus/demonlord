@@ -34,8 +34,8 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
       resizable: true
     },
     position: {
-      width: 800,
-      height: 800
+      width: 960,
+      height: 800,
     },
     scrollY: [],
     editable: true

@@ -478,21 +478,27 @@ aside {
       justify-content: center;
       align-items: center;
 
-      input[type='number'] {
+      input {
+        height: 32px;
         border-radius: 50px;
-        width: 32px;
+        border: solid 1px var(--demonlord-red);
         margin: 0 10px;
         text-align: center;
         color: var(--demonlord-color-input-inverted);
       }
+    }
 
-      input[type='text'] {
-        border-radius: 50px;
-        width: 100px;
-        margin: 0 10px;
-        text-align: center;
-        color: var(--demonlord-color-input-inverted);
-      }
+    .header-level input {
+      width: 32px;
+      padding: 5px;
+    }
+
+    .header-difficulty input {
+      width: 56px;
+    }
+
+    .header-price input {
+      width: 128px;
     }
   }
 
