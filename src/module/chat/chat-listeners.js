@@ -149,11 +149,15 @@ async function _onChatRollDamage(event) {
 
   let totalDamage = ''
   let totalDamageGM = ''
-  if (['blindroll'].includes(rollMode)) {
+
+  const attackShow = game.settings.get('demonlord', 'attackShowAttack')
+
+  if (['blindroll'].includes(rollMode) || !attackShow) {
     totalDamage = '?'
     totalDamageGM = damageRoll.total
   } else {
     totalDamage = damageRoll.total
+    totalDamageGM = damageRoll.total
   }
 
   var templateData = {

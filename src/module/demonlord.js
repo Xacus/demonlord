@@ -426,14 +426,14 @@ Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
   if (!game.user.isGM) {
     html.querySelectorAll('.gmonly')?.forEach(el => el.remove())
     html.querySelectorAll('.gmonlyzero')?.forEach(el => el.remove())
+  } else html.querySelectorAll('.gmremove')?.forEach(el => el.remove())
 
-    if (!messageActor?.isOwner) {
+  if (!messageActor?.isOwner) {
 
       html.querySelectorAll('.owneronly')?.forEach(el => el.remove())
       if (game.settings.get('demonlord', 'hideActorInfo')) html.querySelectorAll('.showlessinfo')?.forEach(el => el.remove())
       if (game.settings.get('demonlord', 'hideDescription')) html.querySelectorAll('.showdescription')?.forEach(el => $(el).empty())
-    }
-  } else html.querySelectorAll('.gmremove')?.forEach(el => el.remove())
+  }
 })
 
 Hooks.on('renderCompendiumDirectory', async (app, html, _data) => {
