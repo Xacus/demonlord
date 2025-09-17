@@ -8,7 +8,6 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
       handler: this.onSubmit
     },
     actions: {
-      rollCorruption: this.onRollCorruption,
       editStatBar: this.onEditStatBar,
     }
   }
@@ -23,6 +22,7 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
     combat: { template: 'systems/demonlord/templates/actor/tabs/creature-combat.hbs' },
     magic: { template: 'systems/demonlord/templates/actor/tabs/magic.hbs' },
     inventory: { template: 'systems/demonlord/templates/actor/tabs/item.hbs' },
+    description: { template: 'systems/demonlord/templates/actor/tabs/description.hbs' },
     reference: { template: 'systems/demonlord/templates/actor/tabs/creature-reference.hbs' },
     afflictions: { template: 'systems/demonlord/templates/actor/tabs/afflictions.hbs' },
     effects: { template: 'systems/demonlord/templates/actor/tabs/creature-effects.hbs' }
@@ -34,7 +34,8 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
         { id: 'combat', icon: 'icon-combat', tooltip: 'DL.TabsCombat'},
         { id: 'magic', icon: 'icon-magic', tooltip: 'DL.TabsMagic'},
         { id: 'inventory', icon: 'icon-inventory', tooltip: 'DL.TabsInventory'},
-        { id: 'reference', icon: 'icon-background', tooltip: 'DL.Reference'},
+        { id: 'description', icon: 'icon-background', tooltip: 'DL.TabsDescription' },
+        { id: 'reference', icon: 'icon-talents', tooltip: 'DL.Reference' },
         { id: 'afflictions', icon: 'icon-afflictions', tooltip: 'DL.TabsAfflictions'},
         { id: 'effects', icon: 'icon-effects', tooltip: 'DL.TabsEffects'}
       ],
@@ -51,7 +52,7 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
       super._configureRenderOptions(options)
 
       // This should be configured per sheet type
-      options.parts.push('combat', 'magic', 'inventory', 'reference', 'afflictions', 'effects')
+      options.parts.push('combat', 'magic', 'inventory', 'description', 'reference', 'afflictions', 'effects')
 
       //this._adjustSizeByType(this.document.type, this.position)
     }

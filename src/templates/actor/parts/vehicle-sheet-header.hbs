@@ -1,0 +1,35 @@
+<div class="demonlord-v2-actor-sheet-container demonlord-v2-actor-sheet-header-container">
+  <header class="demonlord-v2-actor-sheet-header">
+  <div class="header-fields">
+    <div class="header-name">
+      <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CharName'}}"/>
+    </div>
+    <div class="header-price">
+      <label for="system.price">{{localize "DL.VehiclePrice"}}</label>
+      <input name="system.price" type="text" value="{{system.price}}"/>
+    </div>
+  </div>
+
+  <div class="header-fields creature-descriptors">
+      <input name="system.descriptor" value="{{system.descriptor}}" placeholder="{{localize 'DL.CreatureDescriptor'}}"/>
+  </div>
+
+  <div class="header-fields attribute-fields">
+    {{#*inline "attribute-partial"}}
+      <div class="attribute">
+        <label class="name" data-key="{{n}}" for="system.attributes.{{n}}.value">{{attr.label}}</label>
+        <input class="value" type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.value"
+          value="{{ifThen attr.immune "-" attr.value}}" {{disabled attr.immune}}/>
+        {{#unless attr.immune}}
+          <label class="modifier">{{plusify attr.modifier}}</label>
+        {{/unless}}
+      </div>
+    {{/inline}}
+
+    {{> attribute-partial attr=system.attributes.strength    n='strength'}}
+    {{> attribute-partial attr=system.attributes.agility     n='agility'}}
+    {{> attribute-partial attr=system.attributes.intellect   n='intellect'}}
+    {{> attribute-partial attr=system.attributes.will        n='will'}}
+  </div>
+  </header>
+</div>

@@ -17,7 +17,8 @@ import * as playerMacros from './macros/player-macros'
 import {DLAfflictions} from './active-effects/afflictions'
 import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config'
 import DLCharacterSheetV2 from './actor/sheets/character-sheet-v2.js'
-import DLCreatureSheet from './actor/sheets/creature-sheet'
+import DLCreatureSheetV2 from './actor/sheets/creature-sheet-v2.js'
+import DLVehicleSheetV2 from './actor/sheets/vehicle-sheet-v2.js'
 import DLVehicleSheet from './actor/sheets/vehicle-sheet'
 import DLBaseItemSheet from './item/sheets/base-item-sheet.js'
 
@@ -47,7 +48,6 @@ import DLBaseActorSheet from "./actor/sheets/base-actor-sheet"
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for styling
 import { activateSocketListener } from "./utils/socket.js"
 import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
-import DLCreatureSheetV2 from './actor/sheets/creature-sheet-v2.js'
 
 const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
 const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
@@ -120,13 +120,13 @@ Hooks.once('init', async function () {
     makeDefault: true,
   })
 
-  Actors.registerSheet('demonlord', DLCreatureSheet, {
-    types: ['creature'],
-    makeDefault: false,
-  })
-
   Actors.registerSheet('demonlord', DLCreatureSheetV2, {
     types: ['creature'],
+    makeDefault: true,
+  })
+
+  Actors.registerSheet('demonlord', DLVehicleSheetV2, {
+    types: ['vehicle'],
     makeDefault: false,
   })
 

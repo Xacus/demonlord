@@ -422,6 +422,7 @@ aside {
         }
       }
     }
+
     .on,
     .off {
       font-family: 'IM Fell English SC', serif;
@@ -469,7 +470,8 @@ aside {
     }
 
     .header-level,
-    .header-difficulty {
+    .header-difficulty,
+    .header-price {
       display: flex;
       flex-direction: row;
       align-content: center;
@@ -479,6 +481,14 @@ aside {
       input[type='number'] {
         border-radius: 50px;
         width: 32px;
+        margin: 0 10px;
+        text-align: center;
+        color: var(--demonlord-color-input-inverted);
+      }
+
+      input[type='text'] {
+        border-radius: 50px;
+        width: 100px;
         margin: 0 10px;
         text-align: center;
         color: var(--demonlord-color-input-inverted);
