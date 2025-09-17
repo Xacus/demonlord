@@ -29,9 +29,12 @@ export function injectDraggable(html, combattracker) {
     })
   else {
     const ownedIds = currentCombat?.combatants?.filter(c => c.isOwner).map(c => c._id)
-    html.querySelector('li.combatant')
-      .filter((_, el) => ownedIds.includes(el.dataset.combatantId))
-      .addClass('draggable').attr('draggable', true)
+    html.querySelectorAll('li.combatant').forEach(el => {
+      if (ownedIds.includes(el.dataset.combatantId)) {
+        el.classList.add('draggable')
+        el.setAttribute('draggable', true)
+      }
+    })
   }
 
   // Add the drag event listeners
