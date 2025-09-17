@@ -399,6 +399,7 @@ aside {
     align-content: center;
     justify-content: center;
     align-items: center;
+    font-family: 'IM Fell English SC', serif;
 
     .fortune,
     .turnmode {
@@ -420,6 +421,10 @@ aside {
           opacity: 0.5;
         }
       }
+    }
+    .on,
+    .off {
+      font-family: 'IM Fell English SC', serif;
     }
   }
 }

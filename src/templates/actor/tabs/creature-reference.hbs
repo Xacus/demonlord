@@ -1,252 +1,149 @@
-<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="reference">
-  <div class="col-1">
-
-    <!-- TRAITS  -->
-    <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
-      <div class="col-10">{{localize "DL.CreatureTraits"}}</div>
-      <div class="col-2">
-        <a class="item-create" data-action="createItem" title="{{localize 'DL.FeatureAdd'}}" data-type="feature"><i class="fas fa-plus"></i></a>
-      </div>
+<div class="tab demonlord-v2-tab scrollable dl-creature-reference-tab {{cssClass}}" data-group="primary" data-tab="reference">
+  <div class="dl-creature-title row">
+    <div class="col-6">{{actor.name}}</div>
+    <div class="col-6" style="margin-right: 0; margin-left: auto">
+      {{localize "DL.CreatureDifficulty"}} {{system.difficulty}}
     </div>
+  </div>
+  <div class="dl-creature-sub-title">
+    {{localize "DL.CharSize"}} {{system.characteristics.size}}
+    {{#if system.horrifying}}{{toLowerCase (localize "DL.CreatureHorrifying")}}{{/if}}
+    {{#if system.frightening}}{{toLowerCase (localize "DL.CreatureFrightening")}}{{/if}}
+    {{system.descriptor}}
+  </div>
 
-    {{#each actor.features as |item id|}}
-      <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
-        <div class="row">
-          <div class="col-10">
-            <img class="dl-clickable-nored item-edit" data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32"
-                 height="32"/>
-            <label class="dl-clickable item-roll">{{item.name}}</label>
-          </div>
-          <div class="col-2" style="padding-top: 3px">
-            <span class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-chevron-up"></i>
-            </span>
-            <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.FeatureDelete'}}"
-               style="margin-left: 2px; margin-top: 3px;">
-              <i class="fas fa-times"></i>
-            </a>
-          </div>
-        </div>
-        {{#if item.system.description}}
-          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
-            <div class="col-12">
-              {{{item.system.enrichedDescription}}}
-            </div>
-          </div>
-        {{/if}}
-      </div>
-    {{/each}}
-
-    <!-- SPECIAL ACTIONS -->
-    <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
-      <div class="col-10">{{localize "DL.CreatureSpecialActions"}}</div>
-      <div class="col-2">
-        <a class="item-create" data-action="createItem" title="{{localize 'DL.CreatureAddSpecialActions'}}" data-type="specialaction"><i
-          class="fas fa-plus"></i></a>
-      </div>
+  <!-- STATS AND TRAITS -->
+  <div class="dl-creature-section-section">
+    <div>
+      <b>{{localize "DL.AttributePerception"}}</b>&nbsp;
+      {{system.attributes.perception.value}} ({{plusify system.attributes.perception.modifier}});
+      {{system.perceptionsenses}}
     </div>
-
-
-    {{#each actor.specialactions as |item id|}}
-      <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
-        <div class="row">
-          <div class="col-10">
-            <img class="dl-clickable-nored item-edit" data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32"
-                 height="32"/>
-            <label class="dl-clickable item-roll">{{item.name}}</label>
-          </div>
-          <div class="col-2" style="padding-top: 3px">
-            <span class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-chevron-up"></i>
-            </span>
-            <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.CreatureDeleteSpecialActions'}}"
-               style="margin-left: 2px; margin-top: 3px;">
-              <i class="fas fa-times"></i>
-            </a>
-          </div>
-        </div>
-        {{#if item.system.description}}
-          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
-            <div class="col-12">
-              {{{item.system.enrichedDescription}}}
-            </div>
-          </div>
-        {{/if}}
-      </div>
-    {{/each}}
-
-    <!-- END OF ROUND -->
-    <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
-      <div class="col-10">{{localize "DL.CreatureSpecialEndRound"}}</div>
-      <div class="col-2">
-        <a class="item-create" data-action="createItem" title="{{localize 'DL.CreatureAddEndRound'}}" data-type="endoftheround"><i
-          class="fas fa-plus"></i></a>
-      </div>
+    <div>
+      <b>{{localize "DL.ArmorDefense"}}</b> {{system.characteristics.defense}}{{#if system.armor}}
+      ({{system.armor}}){{/if}};&nbsp;
+      <b>{{localize "DL.CreatureHealth"}}</b> {{system.characteristics.health.max}};&nbsp;
+      <b>{{localize "DL.CharInsanity"}}</b> {{#unless (dlCheckCharacteristicsIsNull system.characteristics.insanity.value)}}
+      {{system.characteristics.insanity.value}};&nbsp;{{/unless}}
+      {{#if (dlCheckCharacteristicsIsNull system.characteristics.insanity.value)}}–;&nbsp;{{/if}}
+      <b>{{localize "DL.CharCorruption"}}</b> {{#unless (dlCheckCharacteristicsIsNull
+      system.characteristics.corruption.value)}} {{system.characteristics.corruption.value}}&nbsp;{{/unless}}
+      {{#if (dlCheckCharacteristicsIsNull system.characteristics.corruption.value)}}–&nbsp;{{/if}}
     </div>
-
-    {{#each actor.endoftheround as |item id|}}
-      <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
-        <div class="row">
-          <div class="col-10">
-            <img class="dl-clickable-nored item-edit" data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32"
-                 height="32"/>
-            <label class="dl-clickable item-roll">{{item.name}}</label>
-          </div>
-          <div class="col-2" style="padding-top: 3px">
-            <span class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-chevron-up"></i>
-            </span>
-            {{#if (dlIsNestedItem item)}}
-              <a class="dl-clickable item-edit" data-action="editItem" title="{{dlGetNestedItemSource item}}"
-                style="margin-left: 2px; margin-top: 3px;">
-                <i class="fa-solid fa-link"></i>
-              </a>
-            {{else}}
-              <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.CreatureDeleteEndRound'}}"
-                style="margin-left: 2px; margin-top: 3px;">
-                <i class="fas fa-times"></i>
-              </a>
-            {{/if}}
-          </div>
-        </div>
-        {{#if item.system.description}}
-          <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
-            <div class="col-12">
-              {{{item.system.enrichedDescription}}}
-            </div>
-          </div>
-        {{/if}}
+    <div>
+      <b>{{localize "DL.AttributeStrength"}}</b> {{system.attributes.strength.value}} ({{plusify
+      system.attributes.strength.modifier}}),
+      <b>{{localize "DL.AttributeAgility"}}</b> {{system.attributes.agility.value}} ({{plusify
+      system.attributes.agility.modifier}})
+    </div>
+    <div>
+      <b>{{localize "DL.AttributeIntellect"}}</b> {{system.attributes.intellect.value}} ({{plusify
+      system.attributes.intellect.modifier}}),
+      <b>{{localize "DL.AttributeWill"}}</b> {{system.attributes.will.value}} ({{plusify system.attributes.will.modifier}})
+    </div>
+    <div>
+      <b>{{localize "DL.CharSpeed"}}</b> {{system.characteristics.speed}}
+      {{system.speedtraits}}
+    </div>
+{{#each actor.features as |item id|}}
+<div data-item-id="{{item._id}}">
+  <b class="dl-rollable item-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
       </div>
     {{/each}}
   </div>
 
-  <div class="col-1">
-    <!-- ATTACKS -->
-    <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
-      <div class="col-8">{{localize "DL.CreatureAttackOptions"}}</div>
-      <div class="col-2">{{localize "DL.WeaponDamage"}}</div>
-      <div class="col-2">
-        <a class="item-create" data-action="createItem" title="{{localize 'DL.CreatureAddAttackOptions'}}" data-type="weapon"><i class="fas fa-plus"></i></a>
-      </div>
-    </div>
-
-    {{#each actor.weapons as |item id|}}
-      <div class="dl-item-row dropitem .col-6" data-item-id="{{item._id}}">
-        <div class="row">
-          <div class="col-8">
-            <img class="dl-clickable-nored item-edit" data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32"
-                 height="32"/>
-            <label class="dl-rollable attack-roll">{{item.name}}</label>
-          </div>
-          <div class="col-2">
-            {{defaultValue system.action.damage "―"}}{{#if system.action.damagetypes}}∗{{/if}}
-          </div>
-          <div class="col-2" style="padding-top: 3px">
-            <span class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-chevron-up"></i>
-            </span>
-            {{#if (dlIsNestedItem item)}}
-              <a class="dl-clickable item-edit" data-action="editItem" title="{{dlGetNestedItemSource item}}">
-                <i class="fa-solid fa-link"></i>
-              </a>
-            {{else}}
-              <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.CreatureDeleteAttackOptions'}}">
-                <i class="fas fa-times"></i>
-              </a>
-            {{/if}}
-          </div>
-        </div>
-        <div class="dlInfo dl-item-info" style="display: none; text-align: left">
-          <!-- TODO: Action roll info. COPIED FROM COMBAT-TAB -->
+  <!-- ATTACK OPTIONS -->
+  {{#if actor.weapons.length}}
+  <div class="dl-creature-section-header">
+    {{localize "DL.CreatureAttackOptions"}}
+  </div>
+    <div class="dl-creature-section-section">
+      {{#each actor.weapons as |item id|}}
+      <div data-item-id="{{item._id}}">
+        <b class="dl-rollable attack-roll">{{item.name}}</b>
+        <!-- TODO: RANGE-->
+        <!--{{#if system.range}}({{system.range}}){{/if}}-->
+        {{#if system.action.attack}}
+        {{plusify (lookupAttributeModifier system.action.attack item.parent)}}
+        {{/if}}
+          {{#if system.action.boonsbanes}}
+          {{localize "DL.With"}} {{plusify system.action.boonsbanes}}
+          {{toLowerCase (localize "DL.WeaponBoonsBanesShort")}}
+          {{/if}}
           {{#if system.action.damage}}
-            <div>
-              <b>{{localize "DL.WeaponDamage"}}</b> {{system.action.damage}}
-              {{#if system.action.damagetype}}({{system.action.damagetype}}){{/if}}
-              {{#each system.action.damagetypes as |damagetype id|}}
-                | {{damagetype.damage}}{{#if damagetype.damagetype}} ({{damagetype.damagetype}}){{/if}}
-              {{/each}}
-            </div>
+          ({{system.action.damage}})
+          <!-- TODO: EXTRA DAMAGE -->
           {{/if}}
-          {{#if system.properties}}
-            <div>
-              <b>{{localize "DL.WeaponProperties"}}:</b> {{system.properties}}
-            </div>
-          {{/if}}
-          {{#if system.requirement.minvalue}}
-            <div>
-              <b>{{localize "DL.ArmorStrengthRequiremet"}}:</b> {{system.requirement.minvalue}}
-            </div>
-          {{/if}}
-          {{#if system.hands}}
-            <div>
-              <b>{{localize "DL.WeaponHands"}}:</b> {{system.hands}}
-            </div>
-          {{/if}}
-          {{#if item.system.description}}
-            <div>
-              {{{item.system.enrichedDescription}}}
-            </div>
-          {{/if}}
+          | {{{item.system.enrichedDescription}}}
         </div>
-      </div>
-    {{/each}}
-
-    <!--  TALENTS / SPECIAL ATTACKS COPIED FROM TALENTS -->
-    <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
-      <div class="col-8">{{localize "DL.CreatureSpecialAttacks"}}</div>
-      <div class="col-2">{{localize "DL.TalentUsesTitle"}}</div>
-      <div class="col-2">
-        <a class="spell-create" title="{{localize 'DL.CreatureAddSpecialAttacks'}}" data-type="talent">
-          <i class="fas fa-plus"></i>
-        </a>
-      </div>
+        {{/each}}
     </div>
-    {{#each actor.talents as |talent id|}}
-      <div class="dl-item-row dropitem" data-item-id="{{talent._id}}">
-        <div class="row">
-          <div class="col-6">
-            <img class="dl-clickable item-edit" data-action="editItem" src="{{talent.img}}" title="{{talent.name}}" width="32" height="32"/>
-            <label class="talent-roll dl-rollable">{{talent.name}}</label>
-          </div>
-          <div class="col-2 dl-clickable talent-uses">
-            {{#if system.allused}}
-              {{localize 'DL.TalentUsed'}}
-            {{else}} {{#if system.addtonextroll}}
-              {{localize 'DL.TalentActive'}}
-            {{/if}} {{/if}}
-          </div>
-          <div class="col-2 talent-uses">
-            {{#if system.uses.max}}
-              {{defaultValue system.uses.value 0}} / {{system.uses.max}} <i class="fas fa-arrows-alt-v"></i>
-            {{else}}
-              ―
-            {{/if}}
-          </div>
-          <div class="col-2">
-            <span class="dl-clickable dlToggleInfoBtn">
-              <i class="fas fa-chevron-up"></i>
-            </span>
-            {{#if (dlIsNestedItem talent)}}
-              <a class="dl-clickable item-edit" data-action="editItem" title="{{dlGetNestedItemSource talent}}"><i
-                class="fa-solid fa-link"></i></a>
-            {{else}}
-              <a class="dl-clickable item-delete" data-action="editItem" title="{{localize 'DL.CreatureDeleteSpecialAttacks'}}"><i
-                class="fas fa-times"></i></a>
-            {{/if}}
-          </div>
-        </div>
-        <!-- Toggleable Info -->
-        <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
-          <div class="col-12">
-            {{{talent.system.enrichedDescription}}}
-          </div>
-        </div>
+
+  {{/if}}
+<!-- SPECIAL ATTACKS -->
+{{#if actor.talents.length}}
+<div class="dl-creature-section-header">
+  {{localize "DL.CreatureSpecialAttacks"}}
+    </div>
+    <div class="dl-creature-section-section">
+      {{#each actor.talents as |item id|}}
+      <div data-item-id="{{item._id}}">
+        <b class="dl-rollable talent-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
       </div>
-    {{/each}}
+      {{/each}}
+      </div>
+  {{/if}}
+<!-- SPECIAL ACTIONS -->
+{{#if actor.specialactions.length}}
+<div class="dl-creature-section-header">
+  {{localize "DL.CreatureSpecialActions"}}
+    </div>
+    <div class="dl-creature-section-section">
+      {{#each actor.specialactions as |item id|}}
+      <div data-item-id="{{item._id}}">
+        <b class="dl-rollable item-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
+        </div>
+      {{/each}}
+      </div>
+      {{/if}}
+<!-- MAGIC -->
 
-  </div>
+{{#if actor.system.characteristics.power}}
+<div class="dl-creature-section-header">
+  {{localize "DL.TabsMagic"}}
+</div>
+    <div class="dl-creature-section-section">
+      <div>
+        <b>{{localize "DL.CharPower"}}</b> {{actor.system.characteristics.power}}
+        </div>
+      {{#each actor.spellbook as |spellbook id|}}
+      <div>
+          <b>{{spellbook.tradition}}</b>&nbsp;
+          {{#each spellbook.spells as |spell id|}}
+          <span class="dl-rollable magic-roll" data-item-id="{{spell._id}}">{{toLowerCase spell.name}}</span>
+          {{#if system.castings.max}}
+          &nbsp;({{system.castings.max}})
+          {{/if}},
 
+          {{/each}}
 
+        </div>
+      {{/each}}
+      </div>
+  {{/if}}
+<!-- END OF ROUND -->
+{{#if actor.endoftheround.length}}
+<div class="dl-creature-section-header">
+  {{localize "DL.CreatureSpecialEndRound"}}
+    </div>
+    <div class="dl-creature-section-section">
+      {{#each actor.endoftheround as |item id|}}
+      <div data-item-id="{{item._id}}">
+        <b class="dl-rollable item-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
+      </div>
+      {{/each}}
+    </div>
+  {{/if}}
 </div>
 
 
