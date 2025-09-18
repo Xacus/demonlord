@@ -560,6 +560,8 @@
   "DL.SettingAutoDeleteEffectsHint": "Automatically delete Active Effects from non-player items when they expire.",
   "DL.SettingAutoSetDefeated": "Automatically set defeated",
   "DL.SettingAutoSetDefeatedHint": "Set a token to be defeated automatically when its damage greater than or equal to its health.",
+  "DL.SettingAutoSizeTokens": "Automatically size tokens",
+  "DL.SettingAutoSizeTokensHint": "Automatically adjust token size based on actor's size characteristic.",
   "DL.SettingChatCardTokenAlias": "Use token name in chat card as alias",
   "DL.SettingChatCardTokenAliasHint": "When selected token name will be the alias, default is actor name.",
   "DL.SettingConcentrationEffect": "Apply Concentration Status Effect",

@@ -229,6 +229,12 @@ export class DemonlordActor extends Actor {
     }
 
     this.system.characteristics.size = newSize
+
+    // Trigger token update, so that changes are reflected
+    for (const token of game.scenes.active.tokens.filter(t => t.actor.id === this.id)) {
+      token.prepareDerivedData()
+      token.object?.refresh()
+    }
   }
 
   /* -------------------------------------------- */
@@ -255,7 +261,6 @@ export class DemonlordActor extends Actor {
       await this._handleDescendantDocuments(changed, {debugCaller: '_onUpdate'})
     }
     if (changed.system?.characteristics?.health) await this.handleHealthChange()
-    if (changed.system?.characteristics?.size) await this.handleSizeChange()
   }
 
   async _handleDescendantDocuments(changed, options = {}) {
@@ -1171,13 +1176,6 @@ export class DemonlordActor extends Actor {
     } else {
       await findDeleteEffect(this, 'injured')
       await this.update({ 'system.characteristics.health.injured': false})
-    }
-  }
-
-  async handleSizeChange() {
-    if (this.type === 'creature') {
-      const fixedSize = this.getSizeFromNumber(this.getSizeFromString(this.system.characteristics.size))
-      await this.update({ 'system.characteristics.size': fixedSize})
     }
   }
 

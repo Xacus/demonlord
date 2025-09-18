@@ -2,6 +2,7 @@
 import {DL} from './config.js'
 import {DemonlordActor} from './actor/actor.js'
 import {DemonlordToken} from './actor/token.js'
+import { DemonlordTokenDocument } from './actor/token-document.js'
 import {DemonlordItem} from './item/item.js'
 import {ActionTemplate} from './pixi/action-template.js'
 import {registerSettings} from './settings.js'
@@ -78,6 +79,7 @@ Hooks.once('init', async function () {
   CONFIG.DL = DL
   CONFIG.Actor.documentClass = DemonlordActor
   CONFIG.Token.objectClass = DemonlordToken
+  CONFIG.Token.documentClass = DemonlordTokenDocument
   CONFIG.Item.documentClass = DemonlordItem
   foundry.applications.apps.DocumentSheetConfig.registerSheet(ActiveEffect, "demonlord", DLActiveEffectConfig, {makeDefault: true})
   CONFIG.ui.combat = DLCombatTracker

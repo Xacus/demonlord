@@ -557,6 +557,8 @@
   "DL.SettingAutoDeleteEffectsHint": "Borrar Efectos Activos de objetos que no son del jugador automáticamente al final de su duración.",
   "DL.SettingAutoSetDefeated": "Marcar como derrotado autoáticamente",
   "DL.SettingAutoSetDefeatedHint": "Marcar token como derrotado automáticamente cuando su daño es igual o mayor que su Salud.",
+  "DL.SettingAutoSizeTokens": "Automatically size tokens",
+  "DL.SettingAutoSizeTokensHint": "Automatically adjust token size based on actor's size characteristic.",
   "DL.SettingChatCardTokenAlias": "Usar nombre del token como alias en el chat",
   "DL.SettingChatCardTokenAliasHint": "Usar el nombre del token como alias cuando un mensaje se publica en el chat. Por defecto usa el nombre del actor.",
   "DL.SettingConcentrationEffect": "Aplicar Estado Concentración",
