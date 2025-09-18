@@ -62,30 +62,8 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
     const context = await super._prepareContext(options)
 
     // Effects categories
-    context.ancestryEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'ancestry'),
-    )
-    delete context.ancestryEffects.temporary
-
-    context.pathEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'path'),
-    )
-    delete context.pathEffects.temporary
-
-    context.talentEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'talent'),
-    )
-    context.spellEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'spell'),
-    )
-    context.itemEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => ['armor', 'weapon', 'item'].indexOf(effect.flags?.demonlord?.sourceType) >= 0),
-    )
-    context.itemEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'creaturerole'),
-    )
-    context.itemEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'relic'),
+    context.generalEffects = prepareActiveEffectCategories(
+      Array.from(this.actor.allApplicableEffects()),
     )
     this._prepareItems(context)
     return context

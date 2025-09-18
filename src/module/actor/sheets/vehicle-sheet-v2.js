@@ -1,4 +1,5 @@
 import DLCreatureSheetV2 from './creature-sheet-v2'
+import { prepareActiveEffectCategories } from '../../active-effects/effects'
 
 export default class DLVehicleSheetV2 extends DLCreatureSheetV2 {
   static DEFAULT_OPTIONS = {
@@ -50,6 +51,17 @@ export default class DLVehicleSheetV2 extends DLCreatureSheetV2 {
 
       //this._adjustSizeByType(this.document.type, this.position)
     }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options)
+
+    // Effects categories
+    context.generalEffects = prepareActiveEffectCategories(
+      Array.from(this.actor.allApplicableEffects()),
+    )
+    this._prepareItems(context)
+    return context
+  }
 
   /* -------------------------------------------- */
 
