@@ -867,5 +867,16 @@
   "DL.stunned": "Aturdido",
   "DL.surprised": "Sorprendido",
   "DL.surrounded": "Rodeado",
-  "DL.unconscious": "Inconsciente"
+  "DL.unconscious": "Inconsciente",
+  "DL.CompendiumBrowser": "Navegador de Compendios",
+  "DL.CompendiumBrowserFilters": {
+    "IsTriggered": "Tiene Desencadenado",
+    "IsHealing": "Tiene Curación",
+    "IsDamage": "Tiene Daño",
+    "HasChallenge": "Tiene Desafío",
+    "HasUses": "Tiene Usos",
+    "HasRequirement": "Tiene Requisitos",
+    "UsesAmmo": "Usa Munición",
+    "UsesMagic": "Usa Magia"
+  }
 }

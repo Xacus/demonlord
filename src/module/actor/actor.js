@@ -184,7 +184,7 @@ export class DemonlordActor extends Actor {
     // --- Creature specific data ---
     else {
       system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
-    }    
+    }
 
     // Final armor computation
     system.characteristics.defense += system.bonuses.armor.defense
@@ -324,7 +324,7 @@ export class DemonlordActor extends Actor {
 
   async _handleOnUpdateDescendant(documents, isNameChange) {
     console.log('DEMONLORD | Calling _handleOnUpdateDescendant', documents)
-    
+
     // Delete all effects created by this item and re-add them
     const effectsToDelete = []
 
@@ -332,7 +332,7 @@ export class DemonlordActor extends Actor {
       effectsToDelete.push(...doc.parent.effects.filter(e => e.origin === doc.uuid).map(e => e.id))
       await DLActiveEffects.embedActiveEffects(this, doc, 'update')
     }
-    
+
     if (isNameChange) {
       await this.deleteEmbeddedDocuments('ActiveEffect', effectsToDelete)
     }
@@ -372,7 +372,7 @@ export class DemonlordActor extends Actor {
     }
     if (boba > 0 && parseInt(bobaRerolls) > 0) rollFormula += `+${boba}d6r1kh`
     else if (boba) rollFormula += plusify(boba) + 'd6kh'
-    
+
     if (boba !== 0 && game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 's') {
       let staticBoonsAndBanes = 2 + Math.abs(boba)
       if (staticBoonsAndBanes > 5) staticBoonsAndBanes = 5
@@ -474,7 +474,7 @@ export class DemonlordActor extends Actor {
           if (
             effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
             effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`)) || 
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`)) ||
             effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
             effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
             effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.weapon`))
@@ -597,7 +597,7 @@ export class DemonlordActor extends Actor {
       (attacker.system.bonuses.attack.boons?.[attribute.key] || 0) +
       (attacker.system.bonuses.attack.boons?.all || 0)
 
-    if (defendersTokens.length === 1) boons -= (defender?.system.bonuses.defense.boons[defense] || 0) + (defender?.system.bonuses.defense.boons.all || 0) + 
+    if (defendersTokens.length === 1) boons -= (defender?.system.bonuses.defense.boons[defense] || 0) + (defender?.system.bonuses.defense.boons.all || 0) +
        (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
 
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
@@ -653,7 +653,7 @@ export class DemonlordActor extends Actor {
     const item = this.items.get(itemID)
     const uses = parseInt(item.system?.uses?.value) || 0
     const usesMax = parseInt(item.system?.uses?.max) || 0
-    
+
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
       return
@@ -717,7 +717,7 @@ export class DemonlordActor extends Actor {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
           if (
             effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))|| 
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
             effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
             effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`))
           )
@@ -877,10 +877,10 @@ export class DemonlordActor extends Actor {
       if (item.system.quantity < 1 ) {
         if (item.system.autoDestroy) {
           return await item.delete()
-        } else { 
+        } else {
           return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
-        }  
-      }      
+        }
+      }
 
       await item.update({'system.quantity': --item.system.quantity}, {parent: this})
     }
@@ -897,7 +897,7 @@ export class DemonlordActor extends Actor {
 
   }
 
-  async useItem(item, inputBoons, inputModifier) {    
+  async useItem(item, inputBoons, inputModifier) {
     const itemData = item.system
     const targets = tokenManager.targets
     const target = targets[0]

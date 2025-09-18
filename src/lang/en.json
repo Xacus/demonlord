@@ -878,6 +878,9 @@
     "IsHealing": "Is Healing",
     "IsDamage": "Is Damage",
     "HasChallenge": "Has Challenge",
-    "HasUses": "Has Uses"
+    "HasUses": "Has Uses",
+    "HasRequirement": "Has Requirement",
+    "UsesAmmo": "Uses Ammunition",
+    "UsesMagic": "Uses Magic"
   }
 }

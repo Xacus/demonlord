@@ -4,7 +4,7 @@ import {MapRange} from '../utils/utils.js'
 
 // Shamelessly stolen from Shadow of the Weird Wizard
 export class DemonlordToken extends foundry.canvas.placeables.Token {
-    
+
     static getDamageColor(current, max) {
         const minDegrees = 30
         const maxDegrees = 120
@@ -45,11 +45,11 @@ export class DemonlordToken extends foundry.canvas.placeables.Token {
             .beginFill(damageColor, 1.0)
             .lineStyle(stroke, this.blk, 1.0)
             .drawRoundedRect(0, 0, colorPct * w, h, 2)
-        
+
         // Position the bar according to its number
-        this._setVitalsBarPosition(bar, number, h)   
+        this._setVitalsBarPosition(bar, number, h)
     }
-    
+
     _resetVitalsBar(bar, width, height, stroke) {
         bar
             .clear()
@@ -63,4 +63,6 @@ export class DemonlordToken extends foundry.canvas.placeables.Token {
         const posY = order === 0 ? this.h - height : 0
         bar.position.set(0, posY)
     }
+
+
 }
