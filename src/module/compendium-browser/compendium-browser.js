@@ -5,8 +5,9 @@ const indices = {
   ancestry: ['system.magic'],
   path: ['system.type', 'system.magic'],
   ammo: ['system.availability'],
+  armor: ['system.availability', 'system.requirement.attribute', 'system.isShield'],
   feature: [],
-  item: ['system.type', 'system.availability'],
+  item: ['system.consumabletype', 'system.availability'],
   talent: ['system.groupname', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max'],
   spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max' ],
   weapon: ['system.availability', 'system.requirement.attribute'],
@@ -58,11 +59,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     //filtersvehicle: { template: 'systems/demonlord/templates/compendium-browser/filters-vehicle.hbs' },
     filtersancestry: { template: 'systems/demonlord/templates/compendium-browser/filters-ancestry.hbs' },
     //filtersammo: { template: 'systems/demonlord/templates/compendium-browser/filters-ammo.hbs' },
-    //filtersarmor: { template: 'systems/demonlord/templates/compendium-browser/filters-armor.hbs' },
+    filtersarmor: { template: 'systems/demonlord/templates/compendium-browser/filters-armor.hbs' },
     //filterscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/filters-creaturerole.hbs' },
     //filtersendoftheround: { template: 'systems/demonlord/templates/compendium-browser/filters-endoftheround.hbs' },
     filtersfeature: { template: 'systems/demonlord/templates/compendium-browser/filters-feature.hbs' },
-    //filtersitem: { template: 'systems/demonlord/templates/compendium-browser/filters-item.hbs' },
+    filtersitem: { template: 'systems/demonlord/templates/compendium-browser/filters-item.hbs' },
     filterslanguage: { template: 'systems/demonlord/templates/compendium-browser/filters-language.hbs' },
     filterspath: { template: 'systems/demonlord/templates/compendium-browser/filters-path.hbs' },
     filtersprofession: { template: 'systems/demonlord/templates/compendium-browser/filters-profession.hbs' },
@@ -78,11 +79,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     //resultsvehicle: { template: 'systems/demonlord/templates/compendium-browser/results-vehicle.hbs' },
     resultsancestry: { template: 'systems/demonlord/templates/compendium-browser/results-ancestry.hbs' },
     //resultsammo: { template: 'systems/demonlord/templates/compendium-browser/results-ammo.hbs' },
-    //resultsarmor: { template: 'systems/demonlord/templates/compendium-browser/results-armor.hbs' },
+    resultsarmor: { template: 'systems/demonlord/templates/compendium-browser/results-armor.hbs' },
     //resultscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/results-creaturerole.hbs' },
     //resultsendoftheround: { template: 'systems/demonlord/templates/compendium-browser/results-endoftheround.hbs' },
     resultsfeature: { template: 'systems/demonlord/templates/compendium-browser/results-feature.hbs' },
-    //resultsitem: { template: 'systems/demonlord/templates/compendium-browser/results-item.hbs' },
+    resultsitem: { template: 'systems/demonlord/templates/compendium-browser/results-item.hbs' },
     resultslanguage: { template: 'systems/demonlord/templates/compendium-browser/results-language.hbs' },
     resultspath: { template: 'systems/demonlord/templates/compendium-browser/results-path.hbs' },
     resultsprofession: { template: 'systems/demonlord/templates/compendium-browser/results-profession.hbs' },
@@ -121,6 +122,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         isFrightening: null,
         isHorrifying: null,
         roles: [],
+        descriptor: '',
         perceptionSenses: [],
         //attributes: ?
         // characteristics: ?
@@ -152,7 +154,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         defense: '',
         agility: '',
         fixed: '',
-        hasRequirement: false, // TODO [ { attribute: '', min: 0 } ]
+        hasRequirement: false,
         isShield: null
       },
       creaturerole: {
@@ -194,7 +196,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       relic: {
         description: '',
-        hasRequirement: '',
+        hasRequirement: false,
       },
       specialaction: {
         description: '',
@@ -326,9 +328,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
       availabilityOptions = {
         'C': game.i18n.localize('DL.AvailabilityC'),
-        'E': game.i18n.localize('DL.AvailabilityE'),
-        'R': game.i18n.localize('DL.AvailabilityR'),
         'U': game.i18n.localize('DL.AvailabilityU'),
+        'R': game.i18n.localize('DL.AvailabilityR'),
+        'E': game.i18n.localize('DL.AvailabilityE'),
       }
 
       pathTypeOptions = {
@@ -380,13 +382,14 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // characteristics: ?
       },
       creature: {
-        description: this.state.filters?.creature?.description ||'',
-        type: this.state.filters?.creature?.type ||'',
-        difficulty: this.state.filters?.creature?.difficulty ||null,
-        isFrightening: this.state.filters?.creature?.isFrightening ||null,
-        isHorrifying: this.state.filters?.creature?.isHorrifying ||null,
-        roles: this.state.filters?.creature?.roles ||[],
-        perceptionSenses: this.state.filters?.creature?.perceptionSenses ||[],
+        description: this.state.filters?.creature?.description || '',
+        type: this.state.filters?.creature?.type || '',
+        difficulty: this.state.filters?.creature?.difficulty || null,
+        isFrightening: this.state.filters?.creature?.isFrightening || null,
+        isHorrifying: this.state.filters?.creature?.isHorrifying || null,
+        roles: this.state.filters?.creature?.roles || [],
+        descriptor: this.state.filters?.creature?.descriptor || '',
+        perceptionSenses: this.state.filters?.creature?.perceptionSenses || [],
         //attributes: ?
         // characteristics: ?
       },
@@ -410,20 +413,20 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         value: this.state.filters?.ammo?.value || ''
       },
       armor: {
-        description: this.state.filters?.armor?.description ||'',
-        properties: this.state.filters?.armor?.properties ||'',
-        availability: this.state.filters?.armor?.availability ||'', // C/E/R/U
-        value: this.state.filters?.armor?.value ||'',
-        defense: this.state.filters?.armor?.defense ||'',
+        description: this.state.filters?.armor?.description || '',
+        properties: this.state.filters?.armor?.properties || '',
+        availability: this.state.filters?.armor?.availability || '', // C/E/R/U
+        value: this.state.filters?.armor?.value || '',
+        defense: this.state.filters?.armor?.defense || '',
         agility: this.state.filters?.armor?.agility ||'',
-        fixed: this.state.filters?.armor?.fixed ||'',
-        requirement: this.state.filters?.armor?.requirement ||[], // TODO [ { attribute: '', min: 0 } ]
-        isShield: this.state.filters?.armor?.isShield ||null
+        fixed: this.state.filters?.armor?.fixed || '',
+        hasRequirement: this.state.filters?.armor?.hasRequirement || false, // TODO [ { attribute: '', min: 0 } ]
+        isShield: this.state.filters?.armor?.isShield || null
       },
       creaturerole: {
-        description: this.state.filters?.creaturerole?.description ||'',
-        isFrightening: this.state.filters?.creaturerole?.isFrightening ||null,
-        isHorrifying: this.state.filters?.creaturerole?.isHorrifying ||null,
+        description: this.state.filters?.creaturerole?.description || '',
+        isFrightening: this.state.filters?.creaturerole?.isFrightening || null,
+        isHorrifying: this.state.filters?.creaturerole?.isHorrifying || null,
         //attributes: ?
         // characteristics: ?
       },
@@ -436,11 +439,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         description: this.state.filters?.feature?.description ||'',
       },
       item: {
-        description: this.state.filters?.item?.description ||'',
-        properties: this.state.filters?.item?.properties ||'',
+        description: this.state.filters?.item?.description || '',
+        properties: this.state.filters?.item?.properties || '',
         consumableType: this.state.filters?.item?.consumableType || '',
-        availability: this.state.filters?.item?.availability ||'', // C/E/R/U
-        value: this.state.filters?.item?.value ||'',
+        availability: this.state.filters?.item?.availability || '', // C/E/R/U
+        value: this.state.filters?.item?.value || '',
       },
       language: {
         description: this.state.filters?.language?.description || '',
@@ -457,7 +460,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       relic: {
         description: this.state.filters?.relic?.description || '',
-        hasRequirement: this.state.filters?.relic?.hasRequirement || [], // TODO [ { attribute: '', min: 0 } ]
+        hasRequirement: this.state.filters?.relic?.hasRequirement || false,
       },
       specialaction: {
         description: this.state.filters?.specialaction?.description ||'',
@@ -492,7 +495,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         description: this.state.filters?.weapon?.description || '',
         availability: this.state.filters?.weapon?.availability || '', // C/E/R/U
         value: this.state.filters?.weapon?.value || '',
-        hasRequirement: this.state.filters?.weapon?.hasRequirement || '', // TODO [ { attribute: '', min: 0 } ]
+        hasRequirement: this.state.filters?.weapon?.hasRequirement || false,
         usesAmmo: this.state.filters?.weapon?.usesAmmo || null,
       },
     }
@@ -616,6 +619,14 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       case 'ammo':
         break
       case 'armor':
+        results = results.filter(e => {
+          if (filters?.armor?.availability && e.system.availability !== filters.armor.availability) return false
+
+          if (filters?.armor?.hasRequirement && !e.system.requirement.attribute) return false
+          if (filters?.armor?.isShield && !e.system.isShield) return false
+
+          return true
+        })
         break
       case 'creaturerole':
         break
@@ -625,6 +636,12 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // NA
         break
       case 'item':
+        results = results.filter(e => {
+          if (filters?.item?.availability && e.system.availability !== filters.item.availability) return false
+          if (filters?.item?.consumableType && e.system.consumableType !== filters.item.consumableType) return false
+
+          return true
+        })
         break
       case 'language':
         // NA
