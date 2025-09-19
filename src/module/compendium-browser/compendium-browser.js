@@ -4,13 +4,13 @@ const indices = {
   common: ['name', 'system.description', 'system.source' ],
   ancestry: ['system.magic'],
   path: ['system.type', 'system.magic'],
-  ammo: ['system.availability'],
-  armor: ['system.availability', 'system.requirement.attribute', 'system.isShield'],
+  ammo: ['system.availability', 'system.properties', 'system.value'],
+  armor: ['system.availability', 'system.requirement.attribute', 'system.isShield', 'system.properties', 'system.value'],
   feature: [],
-  item: ['system.consumabletype', 'system.availability'],
+  item: ['system.consumabletype', 'system.availability', 'system.properties', 'system.value'],
   talent: ['system.groupname', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max'],
   spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max' ],
-  weapon: ['system.availability', 'system.requirement.attribute'],
+  weapon: ['system.availability', 'system.requirement.attribute', 'system.properties', 'system.value'],
   creature: [],
   character: [],
   vehicle: [],
@@ -58,7 +58,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     //filterscreature: { template: 'systems/demonlord/templates/compendium-browser/filters-creature.hbs' },
     //filtersvehicle: { template: 'systems/demonlord/templates/compendium-browser/filters-vehicle.hbs' },
     filtersancestry: { template: 'systems/demonlord/templates/compendium-browser/filters-ancestry.hbs' },
-    //filtersammo: { template: 'systems/demonlord/templates/compendium-browser/filters-ammo.hbs' },
+    filtersammo: { template: 'systems/demonlord/templates/compendium-browser/filters-ammo.hbs' },
     filtersarmor: { template: 'systems/demonlord/templates/compendium-browser/filters-armor.hbs' },
     //filterscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/filters-creaturerole.hbs' },
     //filtersendoftheround: { template: 'systems/demonlord/templates/compendium-browser/filters-endoftheround.hbs' },
@@ -78,7 +78,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     //resultscreature: { template: 'systems/demonlord/templates/compendium-browser/results-creature.hbs' },
     //resultsvehicle: { template: 'systems/demonlord/templates/compendium-browser/results-vehicle.hbs' },
     resultsancestry: { template: 'systems/demonlord/templates/compendium-browser/results-ancestry.hbs' },
-    //resultsammo: { template: 'systems/demonlord/templates/compendium-browser/results-ammo.hbs' },
+    resultsammo: { template: 'systems/demonlord/templates/compendium-browser/results-ammo.hbs' },
     resultsarmor: { template: 'systems/demonlord/templates/compendium-browser/results-armor.hbs' },
     //resultscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/results-creaturerole.hbs' },
     //resultsendoftheround: { template: 'systems/demonlord/templates/compendium-browser/results-endoftheround.hbs' },
@@ -595,9 +595,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       if (search.caseSensitive) {
         //results = results.filter(e => e.name.indexOf(search.text) >= 0 || e.system.description?.indexOf(filters.text) >= 0)
         results = results.filter(e => e.name.indexOf(search.text) >= 0)
+        results = results.filter(e => e.description.indexOf(filters[search.type].description) >= 0)
       } else {
         //results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()) || e.system.description?.toLowerCase()?.indexOf(search.text.toLowerCase()) >= 0)
         results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()))
+        results = results.filter(e => e.description.toLowerCase().includes(filters[search.type].description.toLowerCase()))
       }
     }
 
@@ -617,6 +619,12 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         })
         break
       case 'ammo':
+        results = results.filter(e => {
+          if (filters?.armor?.availability && e.system.availability !== filters.armor.availability) return false
+
+          if (filters?.armor?.properties && !e.system.properties.toLowerCase().includes(filters.armor.properties.toLowerCase())) return false
+          return true;
+        })
         break
       case 'armor':
         results = results.filter(e => {
@@ -624,6 +632,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
           if (filters?.armor?.hasRequirement && !e.system.requirement.attribute) return false
           if (filters?.armor?.isShield && !e.system.isShield) return false
+          if (filters?.armor?.properties && !e.system.properties.toLowerCase().includes(filters.armor.properties.toLowerCase())) return false
 
           return true
         })
@@ -698,6 +707,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
           if (filters?.weapon?.hasRequirement && !e.system.requirement.attribute) return false
           if (filters?.weapon?.usesAmmo && !e.system.consume.ammorequired) return false
+          if (filters?.weapon?.properties && !e.system.properties.toLowerCase().includes(filters.weapon.properties.toLowerCase())) return false
 
           return true
         })
