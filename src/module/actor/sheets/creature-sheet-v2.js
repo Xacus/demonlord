@@ -1,5 +1,4 @@
 import DLBaseActorSheetV2 from './base-actor-sheet-v2'
-import { prepareActiveEffectCategories } from '../../active-effects/effects'
 
 export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
   static DEFAULT_OPTIONS = {
@@ -61,10 +60,6 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
   async _prepareContext(options) {
     const context = await super._prepareContext(options)
 
-    // Effects categories
-    context.generalEffects = prepareActiveEffectCategories(
-      Array.from(this.actor.allApplicableEffects()),
-    )
     this._prepareItems(context)
     return context
   }
@@ -136,10 +131,10 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
 
   async onEditRelic(ev) {
     const div = $(ev.currentTarget)
-    const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+    const relic = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
 
-    if (ev.button == 0) role.sheet.render(true)
-    else if (ev.button == 2) await role.delete({ parent: this.actor })
+    if (ev.button == 0) relic.sheet.render(true)
+    else if (ev.button == 2) await relic.delete({ parent: this.actor })
   }
 
   /* -------------------------------------------- */

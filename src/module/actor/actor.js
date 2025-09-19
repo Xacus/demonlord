@@ -231,9 +231,11 @@ export class DemonlordActor extends Actor {
     this.system.characteristics.size = newSize
 
     // Trigger token update, so that changes are reflected
-    for (const token of game.scenes.active.tokens.filter(t => t.actor.id === this.id)) {
-      token.prepareDerivedData()
-      token.object?.refresh()
+    if (game.ready) {
+      for (const token of game.scenes.active.tokens.filter(t => t.actor.id === this.id)) {
+        token.prepareDerivedData()
+        token.object?.refresh()
+      }
     }
   }
 
