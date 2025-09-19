@@ -9,6 +9,7 @@ const indices = {
   feature: [],
   item: ['system.consumabletype', 'system.availability', 'system.properties', 'system.value'],
   talent: ['system.groupname', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max'],
+  relic: ['system.requirement.attribute'],
   spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max' ],
   weapon: ['system.availability', 'system.requirement.attribute', 'system.properties', 'system.value'],
   creature: [],
@@ -67,7 +68,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     filterslanguage: { template: 'systems/demonlord/templates/compendium-browser/filters-language.hbs' },
     filterspath: { template: 'systems/demonlord/templates/compendium-browser/filters-path.hbs' },
     filtersprofession: { template: 'systems/demonlord/templates/compendium-browser/filters-profession.hbs' },
-    //filtersrelic: { template: 'systems/demonlord/templates/compendium-browser/filters-relic.hbs' },
+    filtersrelic: { template: 'systems/demonlord/templates/compendium-browser/filters-relic.hbs' },
     filtersspecialaction: { template: 'systems/demonlord/templates/compendium-browser/filters-specialaction.hbs' },
     filtersspell: { template: 'systems/demonlord/templates/compendium-browser/filters-spell.hbs' },
     filterstalent: { template: 'systems/demonlord/templates/compendium-browser/filters-talent.hbs' },
@@ -87,7 +88,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     resultslanguage: { template: 'systems/demonlord/templates/compendium-browser/results-language.hbs' },
     resultspath: { template: 'systems/demonlord/templates/compendium-browser/results-path.hbs' },
     resultsprofession: { template: 'systems/demonlord/templates/compendium-browser/results-profession.hbs' },
-    //resultsrelic: { template: 'systems/demonlord/templates/compendium-browser/results-relic.hbs' },
+    resultsrelic: { template: 'systems/demonlord/templates/compendium-browser/results-relic.hbs' },
     resultsspecialaction: { template: 'systems/demonlord/templates/compendium-browser/results-specialaction.hbs' },
     resultsspell: { template: 'systems/demonlord/templates/compendium-browser/results-spell.hbs' },
     resultstalent: { template: 'systems/demonlord/templates/compendium-browser/results-talent.hbs' },
@@ -668,6 +669,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         // NA
         break
       case 'relic':
+        results = results.filter(e => {
+          if (filters?.relic?.hasRequirement && !e.system.requirement.attribute) return false
+
+          return true
+        })
         break
       case 'specialaction':
         // NA

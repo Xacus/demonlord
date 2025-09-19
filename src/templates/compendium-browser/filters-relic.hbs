@@ -1,0 +1,23 @@
+{{!--
+  Context:
+  - filters.path
+    - source
+    - type
+    - usesMagic
+--}}
+<aside class="demonlord-compendium-browser-filters {{#if (eq search.type 'relic')}}active{{/if}}">
+
+    <div class="filter-group checkable">
+    <div class="input-group">
+      <input type="checkbox" name="filters.relic.hasRequirement" {{checked filters.relic.hasRequirement}}>
+      <i class="icon-strength themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.CompendiumBrowserFilters.HasRequirement'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.relic.description" value="{{filters.relic.description}}">
+  </div>
+</aside>
