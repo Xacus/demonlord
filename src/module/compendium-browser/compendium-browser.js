@@ -6,6 +6,8 @@ const indices = {
   path: ['system.type', 'system.magic'],
   ammo: ['system.availability', 'system.properties', 'system.value'],
   armor: ['system.availability', 'system.requirement.attribute', 'system.isShield', 'system.properties', 'system.value'],
+  creaturerole: ['system.frightening', 'system.horrifying'],
+  endoftheround: ['system.healing.healing', 'system.action.damage'],
   feature: [],
   item: ['system.consumabletype', 'system.availability', 'system.properties', 'system.value'],
   talent: ['system.groupname', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max'],
@@ -61,8 +63,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     filtersancestry: { template: 'systems/demonlord/templates/compendium-browser/filters-ancestry.hbs' },
     filtersammo: { template: 'systems/demonlord/templates/compendium-browser/filters-ammo.hbs' },
     filtersarmor: { template: 'systems/demonlord/templates/compendium-browser/filters-armor.hbs' },
-    //filterscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/filters-creaturerole.hbs' },
-    //filtersendoftheround: { template: 'systems/demonlord/templates/compendium-browser/filters-endoftheround.hbs' },
+    filterscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/filters-creaturerole.hbs' },
+    filtersendoftheround: { template: 'systems/demonlord/templates/compendium-browser/filters-endoftheround.hbs' },
     filtersfeature: { template: 'systems/demonlord/templates/compendium-browser/filters-feature.hbs' },
     filtersitem: { template: 'systems/demonlord/templates/compendium-browser/filters-item.hbs' },
     filterslanguage: { template: 'systems/demonlord/templates/compendium-browser/filters-language.hbs' },
@@ -81,8 +83,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     resultsancestry: { template: 'systems/demonlord/templates/compendium-browser/results-ancestry.hbs' },
     resultsammo: { template: 'systems/demonlord/templates/compendium-browser/results-ammo.hbs' },
     resultsarmor: { template: 'systems/demonlord/templates/compendium-browser/results-armor.hbs' },
-    //resultscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/results-creaturerole.hbs' },
-    //resultsendoftheround: { template: 'systems/demonlord/templates/compendium-browser/results-endoftheround.hbs' },
+    resultscreaturerole: { template: 'systems/demonlord/templates/compendium-browser/results-creaturerole.hbs' },
+    resultsendoftheround: { template: 'systems/demonlord/templates/compendium-browser/results-endoftheround.hbs' },
     resultsfeature: { template: 'systems/demonlord/templates/compendium-browser/results-feature.hbs' },
     resultsitem: { template: 'systems/demonlord/templates/compendium-browser/results-item.hbs' },
     resultslanguage: { template: 'systems/demonlord/templates/compendium-browser/results-language.hbs' },
@@ -639,8 +641,20 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         })
         break
       case 'creaturerole':
+        results = results.filter(e => {
+          if (filters?.creaturerole?.isFrightening && !e.system.frightening) return false
+          if (filters?.creaturerole?.isHorrifying && !e.system.horrifying) return false
+
+          return true
+        })
         break
       case 'endoftheround':
+        results = results.filter(e => {
+          if (filters?.endoftheround?.isHealing && !e.system.healing.healing) return false
+          if (filters?.endoftheround?.isDamage && !e.system.action.damage) return false
+
+          return true
+        })
         break
       case 'feature':
         // NA
