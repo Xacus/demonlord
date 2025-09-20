@@ -1,3 +1,8 @@
+/**
+ * Modified version of the awesome https://github.com/foundryvtt-dcc/dcc/blob/main/module/key-state.js
+ * Big thanks to Tim L. White
+ */
+
 class KeyState {
     /**
      * Construct a KeyState object

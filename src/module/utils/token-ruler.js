@@ -1,3 +1,8 @@
+/**
+ * Modified version of the awesome https://github.com/moo-man/WFRP4e-FoundryVTT/pull/2435
+ * Big thanks to Forien
+ */
+
 export default class TokenRulerDemonLord extends foundry.canvas.placeables.tokens.TokenRuler {
   static STYLES = {
     move: { color: 0x5bcc28 },
