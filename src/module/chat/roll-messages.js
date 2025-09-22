@@ -93,7 +93,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  if ((attackRoll?.total >= targetNumber && game.settings.get('demonlord', 'hideDamage')) || targetNumber === undefined || !game.settings.get('demonlord', 'hideDamage'))
+  if (attackRoll?.total >= targetNumber || targetNumber === undefined || !game.settings.get('demonlord', 'hideDamage'))
   {
     data['damageFormula'] = itemData?.action?.damage
     data['extraDamageFormula'] = extraDamage
@@ -271,7 +271,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  if ((attackRoll?.total >= targetNumber && game.settings.get('demonlord', 'hideDamage')) || targetNumber === undefined || !game.settings.get('demonlord', 'hideDamage'))
+  if (attackRoll?.total >= targetNumber || targetNumber === undefined || !game.settings.get('demonlord', 'hideDamage'))
   {
     data['damageFormula'] = talentData?.action?.damage
     data['extraDamageFormula'] = extraDamage
@@ -396,7 +396,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  if ((attackRoll?.total >= targetNumber && game.settings.get('demonlord', 'hideDamage')) || targetNumber === undefined || !game.settings.get('demonlord', 'hideDamage'))
+  if (attackRoll?.total >= targetNumber || targetNumber === undefined || !game.settings.get('demonlord', 'hideDamage'))
   {
     data['damageFormula'] = spellData?.action?.damage
     data['extraDamageFormula'] = extraDamage
@@ -609,7 +609,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   data['against'] = defenseAttribute ? game.i18n.localize(CONFIG.DL.attributes[defenseAttribute]?.toUpperCase()) : ''
   data['againstNumber'] = defenseAttributeImmune ? '-' : againstNumber
   data['againstNumberGM'] = defenseAttributeImmune ? '-' : (againstNumber === '?' ? targetNumber : againstNumber)
-  if ((attackRoll?.total >= targetNumber && game.settings.get('demonlord', 'hideDamage')) || targetNumber === undefined || !game.settings.get('demonlord', 'hideDamage'))  
+  if (attackRoll?.total >= targetNumber || targetNumber === undefined || !game.settings.get('demonlord', 'hideDamage'))
   {
     data['damageFormula'] = itemData?.action?.damage
     data['extraDamageFormula'] = extraDamage
