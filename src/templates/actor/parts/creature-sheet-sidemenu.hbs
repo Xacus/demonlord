@@ -33,37 +33,47 @@
 
       <div class="stat-box">
         <div class="text">{{localize "DL.CreatureHealth"}}</div>
-        <span class="value display-value">{{system.characteristics.health.max}}</span>
-        <input class="value has-base" name="system.characteristics.health.maxBase" type="number" value="{{system.characteristics.health.maxBase}}"
-          data-dtype="Number" placeholder="" />
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.health.max}}" readonly/>
+          <input class="value has-base" name="system.characteristics.health.maxBase" type="number" value="{{system.characteristics.health.maxBase}}"
+            data-dtype="Number" placeholder="" />
+        </div>
       </div>
 
       <div class="stat-box">
         <div class="text">{{localize "DL.AttributeDefense"}}</div>
-        <span class="value display-value">{{system.characteristics.defense}}</span>
-        <input class="value has-base" name="system.characteristics.defenseBase" type="number"
-          value="{{system.characteristics.defenseBase}}" data-dtype="Number" placeholder="" />
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.defense}}" readonly/>
+          <input class="value has-base" name="system.characteristics.defenseBase" type="number"
+            value="{{system.characteristics.defenseBase}}" data-dtype="Number" placeholder="" />
+        </div>
       </div>
 
       <div class="stat-box">
         <div class="text">{{localize "DL.CharPower"}}</div>
-        <span class="value display-value">{{system.characteristics.power}}</span>
-        <input class="value has-base" name="system.characteristics.powerBase" type="number"
-          value="{{system.characteristics.powerBase}}" data-dtype="Number" placeholder="" />
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.power}}" readonly/>
+          <input class="value has-base" name="system.characteristics.powerBase" type="number"
+            value="{{system.characteristics.powerBase}}" data-dtype="Number" placeholder="" />
+        </div>
       </div>
 
       <div class="stat-box">
         <div class="text">{{localize "DL.CharSize"}}</div>
-        <span class="value display-value">{{system.characteristics.size}}</span>
-        <input class="value has-base" name="system.characteristics.sizeBase" type="text" value="{{system.characteristics.sizeBase}}"
-          data-dtype="String" placeholder="" />
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.size}}" readonly/>
+          <input class="value has-base" name="system.characteristics.sizeBase" type="text" value="{{system.characteristics.sizeBase}}"
+            data-dtype="String" placeholder="" />
+        </div>
       </div>
 
       <div class="stat-box">
         <div class="text">{{localize "DL.CharSpeed"}}</div>
-        <span class="value display-value">{{system.characteristics.speed}}</span>
-        <input class="value has-base" name="system.characteristics.speedBase" type="number"
-            value="{{system.characteristics.speedBase}}" data-dtype="Number" placeholder="" />
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.speed}}" readonly/>
+          <input class="value has-base" name="system.characteristics.speedBase" type="number"
+              value="{{system.characteristics.speedBase}}" data-dtype="Number" placeholder="" />
+          </div>
       </div>
 
       <div class="stat-box characteristic">

@@ -53,7 +53,7 @@ export default class CreatureDataModel extends foundry.abstract.DataModel {
 
   static migrateData(source) {
     // Copy current attributes and characteristics values to their respective base
-    if (Number.isNumeric(source.characteristics.difficulty)) {
+    if (Number.isNumeric(source.difficulty)) {
       source.attributes.strength.base = source.attributes.strength.value
       source.attributes.agility.base = source.attributes.agility.value
       source.attributes.intellect.base = source.attributes.intellect.value
@@ -65,13 +65,12 @@ export default class CreatureDataModel extends foundry.abstract.DataModel {
       source.characteristics.sizeBase = source.characteristics.size
       source.characteristics.speedBase = source.characteristics.speed
 
-      source.characteristics.difficulty = {
+      source.difficulty = {
         base: source.difficulty,
         value: source.difficulty
       }
     }
 
-    console.log(source)
     return super.migrateData(source)
   }
 }

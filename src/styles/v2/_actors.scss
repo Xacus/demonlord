@@ -389,14 +389,20 @@ aside {
         }
       }
 
-      .display-value {
-        position: absolute;
-        opacity: 1;
-        height: 32px;
-        top: 18px;
+      .value-container {
+        position: relative;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
 
-        &:has(+ .value:focus) {
-          opacity: 0;
+        .display-value {
+          position: absolute;
+          opacity: 1;
+
+          &:has(+ .value:focus) {
+            opacity: 0;
+          }
         }
       }
     }
@@ -513,6 +519,10 @@ aside {
     }
 
     .header-difficulty {
+      .container-value {
+        position: relative;
+      }
+
       .value {
         opacity: 1;
       }
@@ -577,6 +587,10 @@ aside {
         }
       }
 
+      .value-container {
+        position: relative;
+      }
+
       .value {
         width: 40px;
         height: 40px;
@@ -595,11 +609,7 @@ aside {
 
       .display-value {
         position: absolute;
-        text-align: center;
-        padding: 0 0.5rem;
-        line-height: 38px;
         pointer-events: none;
-        top: 18px;
         opacity: 1;
 
         &:has(+ .value:focus) {
