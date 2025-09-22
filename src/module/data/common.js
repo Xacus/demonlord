@@ -19,38 +19,34 @@ export function characteristics(actorType) {
         insanity: makeInsanity(),
         corruption: makeCorruption(),
         power: makeIntField(),
-        size: makeStringField("1"),
+        size: makeStringField('1'),
         speed: makeIntField(10),
         fortune: makeIntField()
       })
     case 'creature':
       return new foundry.data.fields.SchemaField({
         defense: makeIntField(),
+        defenseBase: makeIntField(),
         health: makeHealth(),
         insanity: makeInsanity(),
         corruption: makeCorruption(),
         power: makeIntField(),
-        size: makeStringField("1"),
-        speed: makeIntField(10),
-        speedtraits: makeStringField(),
-        difficulty: makeIntField(),
-        descriptor: makeStringField(),
-        perceptionsenses: makeStringField(),
-        frightening: makeBoolField(),
-        horrifying: makeBoolField()
-        
+        powerBase: makeIntField(),
+        size: makeStringField('1'),
+        sizeBase: makeStringField('1'),
+        speed: makeIntField(10),       
+        speedBase: makeIntField(10) 
       })
     case 'vehicle':
       return new foundry.data.fields.SchemaField({
         defense: makeIntField(),
+        defenseBase: makeIntField(),
         health: makeHealth(),
-        size: makeStringField("1"),
+        size: makeStringField('1'),
+        sizeBase: makeStringField('1'),
         speed: makeIntField(10),
-        speedtraits: makeStringField(),
-        descriptor: makeStringField("object (vehicle)"),
-        price: makeStringField('0 gc'),
-        cargo: makeIntField(0)
-      })
+        speedBase: makeIntField(10) 
+    })
   }
 }
 

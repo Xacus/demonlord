@@ -100,12 +100,10 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
   /*  Auxiliary functions                         */
   /* -------------------------------------------- */
 
-  // static async onSubmit(event, form, formData) {
-  //   super.onSubmit(event, form, formData)
-
-  //   //const updateData = foundry.utils.expandObject(formData.object)
-  //   return await this.document.update(formData)
-  // }
+  static async onSubmit(event, form, formData) {
+    const updateData = foundry.utils.expandObject(formData.object)
+    return await this.document.update(updateData)
+  }
 
   /* -------------------------------------------- */
   /*  Actions                                     */

@@ -47,6 +47,21 @@ export class DemonlordActor extends Actor {
       system.characteristics.defense = 0  // assume defense = agility
       system.characteristics.health.max = 0
       system.characteristics.insanity.max = 0 // Set base insanity max
+    } else if (this.type === 'creature' || this.type === 'vehicle') {
+      // Set values to base
+      for (const attribute of Object.values(system.attributes)) {
+        attribute.value = attribute.base
+      }
+
+      system.characteristics.defense = system.characteristics.defenseBase
+      system.characteristics.health.max = system.characteristics.health.maxBase
+      system.characteristics.size = system.characteristics.sizeBase
+      system.characteristics.speed = system.characteristics.speedBase
+
+      if (this.type === 'creature') {
+        system.difficulty.value = system.difficulty.base
+        system.characteristics.power = system.characteristics.powerBase
+      }
     }
 
     foundry.utils.setProperty(system, 'bonuses', {

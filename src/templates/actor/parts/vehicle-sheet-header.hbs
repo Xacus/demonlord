@@ -6,7 +6,7 @@
     </div>
     <div class="header-price">
       <label for="system.price">{{localize "DL.VehiclePrice"}}</label>
-      <input name="system.price" type="text" value="{{system.price}}"/>
+      <input class="value" name="system.price" type="text" value="{{system.price}}"/>
     </div>
   </div>
 
@@ -18,8 +18,9 @@
     {{#*inline "attribute-partial"}}
       <div class="attribute">
         <label class="name" data-key="{{n}}" for="system.attributes.{{n}}.value">{{attr.label}}</label>
-        <input class="value" type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.value"
-          value="{{ifThen attr.immune "-" attr.value}}" {{disabled attr.immune}}/>
+        <span class="value display-value">{{ifThen attr.immune "-" attr.value}}</span>
+        <input class="value" type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.base"
+          value="{{ifThen attr.immune "-" attr.base}}" {{disabled attr.immune}}/>
         {{#unless attr.immune}}
           <label class="modifier">{{plusify attr.modifier}}</label>
         {{/unless}}

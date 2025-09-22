@@ -364,6 +364,7 @@ aside {
       align-items: center;
       justify-content: center;
       padding: 5px 0;
+      position: relative;
 
       .text {
         font-size: 10px;
@@ -378,6 +379,25 @@ aside {
         font-family: Signika, 'Palatino Linotype', sans-serif;
         color: var(--demonlord-color-input-inverted);
         background-color: var(--demonlord-color-background);
+
+        &.has-base {
+          opacity: 0;
+
+          &:focus {
+            opacity: 1;
+          }
+        }
+      }
+
+      .display-value {
+        position: absolute;
+        opacity: 1;
+        height: 32px;
+        top: 18px;
+
+        &:has(+ .value:focus) {
+          opacity: 0;
+        }
       }
     }
 
@@ -478,26 +498,54 @@ aside {
       justify-content: center;
       align-items: center;
 
-      input {
+      .value {
         height: 32px;
         border-radius: 50px;
         border: solid 1px var(--demonlord-red);
         margin: 0 10px;
         text-align: center;
         color: var(--demonlord-color-input-inverted);
+
+        &:focus {
+          opacity: 1;
+        }
       }
     }
 
-    .header-level input {
+    .header-difficulty {
+      .value {
+        opacity: 1;
+      }
+
+      .display-value {
+        position: absolute;
+        pointer-events: none;
+        opacity: 1;
+
+        &:has(+ .value:focus) {
+          opacity: 0;
+        }
+      }
+    }
+
+    .header-level .value,
+    .header-level .display-value {
       width: 32px;
       padding: 5px;
     }
 
-    .header-difficulty input {
+    .header-difficulty .value,
+    .header-level .display-value {
       width: 56px;
     }
 
-    .header-price input {
+    .header-difficulty .display-value {
+      line-height: 30px;
+      right: 10px;
+    }
+
+    .header-price .value,
+    .header-level .display-value {
       width: 128px;
     }
   }
@@ -538,6 +586,25 @@ aside {
         text-align: center;
         font-size: 18px;
         color: var(--demonlord-color-input-inverted);
+        opacity: 0; // To show on select
+
+        &:focus {
+          opacity: 1;
+        }
+      }
+
+      .display-value {
+        position: absolute;
+        text-align: center;
+        padding: 0 0.5rem;
+        line-height: 38px;
+        pointer-events: none;
+        top: 18px;
+        opacity: 1;
+
+        &:has(+ .value:focus) {
+          opacity: 0;
+        }
       }
 
       .modifier {

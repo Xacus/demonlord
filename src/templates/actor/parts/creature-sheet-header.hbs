@@ -6,7 +6,8 @@
     </div>
     <div class="header-difficulty">
       <label for="system.difficulty">{{localize "DL.CreatureDifficulty"}}</label>
-      <input name="system.difficulty" type="number" value="{{system.difficulty}}" min="1"/>
+      <span class="value display-value">{{system.difficulty.value}}</span>
+      <input class="value" name="system.difficulty.base" type="number" value="{{system.difficulty.base}}" min="1"/>
     </div>
   </div>
 
@@ -19,8 +20,9 @@
     {{#*inline "attribute-partial"}}
       <div class="attribute">
         <label class="name" data-key="{{n}}" for="system.attributes.{{n}}.value">{{attr.label}}</label>
-        <input class="value" type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.value"
-          value="{{ifThen attr.immune "-" attr.value}}" {{disabled attr.immune}}/>
+        <span class="value display-value">{{ifThen attr.immune "-" attr.value}}</span>
+        <input class="value" type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.base"
+          value="{{ifThen attr.immune "-" attr.base}}" {{disabled attr.immune}}/>
         {{#unless attr.immune}}
           <label class="modifier">{{plusify attr.modifier}}</label>
         {{/unless}}
