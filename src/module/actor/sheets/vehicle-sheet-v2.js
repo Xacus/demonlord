@@ -4,7 +4,8 @@ export default class DLVehicleSheetV2 extends DLBaseActorSheetV2 {
   static DEFAULT_OPTIONS = {
     // All from base plus...
     form: {
-      handler: this.onSubmit
+      handler: this.onSubmit,
+      submitOnChange: true
     },
     actions: {
     }

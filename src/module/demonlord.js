@@ -20,7 +20,6 @@ import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-conf
 import DLCharacterSheetV2 from './actor/sheets/character-sheet-v2.js'
 import DLCreatureSheetV2 from './actor/sheets/creature-sheet-v2.js'
 import DLVehicleSheetV2 from './actor/sheets/vehicle-sheet-v2.js'
-import DLVehicleSheet from './actor/sheets/vehicle-sheet'
 import DLBaseItemSheet from './item/sheets/base-item-sheet.js'
 
 import CharacterDataModel from './data/actor/CharacterDataModel.js'
@@ -117,6 +116,7 @@ Hooks.once('init', async function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet)
+
   Actors.registerSheet('demonlord', DLCharacterSheetV2, {
     types: ['character'],
     makeDefault: true,
@@ -128,11 +128,6 @@ Hooks.once('init', async function () {
   })
 
   Actors.registerSheet('demonlord', DLVehicleSheetV2, {
-    types: ['vehicle'],
-    makeDefault: false,
-  })
-
-  Actors.registerSheet('demonlord', DLVehicleSheet, {
     types: ['vehicle'],
     makeDefault: false,
   })

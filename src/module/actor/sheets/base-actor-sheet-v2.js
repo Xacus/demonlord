@@ -16,9 +16,9 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
   static DEFAULT_OPTIONS = {
     tag: 'form',
     form: {
-      handler: this.onSubmit,
-      submitOnChange: true,
-      closeOnSubmit: false
+      //handler: this.onSubmit,
+      //submitOnChange: true,
+      //closeOnSubmit: false
     },
     classes: ['demonlord-v2-sheet', 'demonlord-v2-actor'], // TODO: Add actor type to classes: this.type === 'character' ? (this.isPC ? 'pc' : 'npc') : this.type
     actions: {
@@ -204,13 +204,13 @@ export default class DLBaseActorSheetV2 extends HandlebarsApplicationMixin(Actor
   /**
    * Handles all specific item changes
    * @override */
-  static async onSubmit(event, form, formData) {
-    const actor = this.document
-    const updateData = foundry.utils.expandObject(formData.object)
+  // static async onSubmit(event, form, formData) {
+  //   const actor = this.document
+  //   const updateData = foundry.utils.expandObject(formData.object)
 
-    await actor.update(updateData)
-    this.render();
-  }
+  //   await actor.update(updateData)
+  //   this.render();
+  // }
 
   /* -------------------------------------------- */
   /*  Actions                                     */

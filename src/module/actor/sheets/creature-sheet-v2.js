@@ -4,7 +4,8 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
   static DEFAULT_OPTIONS = {
     // All from base plus...
     form: {
-      handler: this.onSubmit
+      handler: this.onSubmit,
+      submitOnChange: true
     },
     actions: {
       editStatBar: this.onEditStatBar,
@@ -46,15 +47,15 @@ export default class DLCreatureSheetV2 extends DLBaseActorSheetV2 {
   /*  Data preparation                            */
   /* -------------------------------------------- */
 
-    /** @override */
-    _configureRenderOptions(options) {
-      super._configureRenderOptions(options)
+  /** @override */
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options)
 
-      // This should be configured per sheet type
-      options.parts.push('combat', 'magic', 'inventory', 'description', 'reference', 'afflictions', 'effects')
+    // This should be configured per sheet type
+    options.parts.push('combat', 'magic', 'inventory', 'description', 'reference', 'afflictions', 'effects')
 
-      //this._adjustSizeByType(this.document.type, this.position)
-    }
+    //this._adjustSizeByType(this.document.type, this.position)
+  }
 
   /** @override */
   async _prepareContext(options) {
