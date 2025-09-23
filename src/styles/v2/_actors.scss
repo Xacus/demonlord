@@ -511,10 +511,6 @@ aside {
         margin: 0 10px;
         text-align: center;
         color: var(--demonlord-color-input-inverted);
-
-        &:focus {
-          opacity: 1;
-        }
       }
     }
 
@@ -525,6 +521,10 @@ aside {
 
       .value {
         opacity: 0;
+
+        &:focus {
+          opacity: 1;
+        }
       }
 
       .display-value {
@@ -547,11 +547,6 @@ aside {
     .header-difficulty .value,
     .header-level .display-value {
       width: 56px;
-    }
-
-    .header-difficulty .display-value {
-      line-height: 30px;
-      right: 10px;
     }
 
     .header-price .value,
@@ -600,10 +595,13 @@ aside {
         text-align: center;
         font-size: 18px;
         color: var(--demonlord-color-input-inverted);
-        opacity: 0; // To show on select
 
-        &:focus {
-          opacity: 1;
+        &.has-base {
+          opacity: 0;
+
+          &:focus {
+            opacity: 1;
+          }
         }
       }
 

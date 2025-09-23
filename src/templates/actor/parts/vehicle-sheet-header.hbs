@@ -20,7 +20,7 @@
         <label class="name" data-key="{{n}}" for="system.attributes.{{n}}.value">{{attr.label}}</label>
         <div class="value-container">
           <input class="value display-value" value="{{ifThen attr.immune "-" attr.value}}" readonly/>
-          <input class="value" type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.base"
+          <input class="value has-base" type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.base"
             value="{{ifThen attr.immune "-" attr.base}}" {{disabled attr.immune}}/>
         </div>
         {{#unless attr.immune}}
