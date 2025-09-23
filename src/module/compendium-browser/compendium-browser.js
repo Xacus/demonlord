@@ -118,6 +118,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         characterType: null,
         level: null, // 0-X
         professions: [],
+        usesMagic: false,
         //attributes: ?
         // characteristics: ?
       },
@@ -127,7 +128,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         frighteningType: null,
         descriptor: '',
         perceptionSenses: '',
-        usesMagic: false,
         //attributes: ?
         // characteristics: ?
       },
@@ -396,6 +396,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         //path: this.state.filters?.character?.path || [],
         characterType: this.state.filters?.character?.characterType || null,
         level: this.state.filters?.character?.level || null, // 0-X
+        usesMagic: this.state.filters?.character?.usesMagic || '',
         //professions: this.state.filters?.character?.professions || [],
         //attributes: ?
         // characteristics: ?
@@ -630,7 +631,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     switch (search.type) {
       case 'character':
         results = results.filter(e => {
-          if (filters?.character.level && e.system.level !== filters.character.level) return false
+          if (filters?.character.level && e.system.level !== parseInt(filters.character.level)) return false
           if (!!filters?.character?.usesMagic && (e.system.characteristics.power > 0 ? filters.character.usesMagic !== 'yes' : filters.character.usesMagic !== 'no')) return false
           if (!!filters?.character.characterType && (e.system.isPC ? filters.character.characterType !== 'pc' : filters.character.characterType !== 'npc')) return false
 
