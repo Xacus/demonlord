@@ -26,7 +26,7 @@
             <div class="ancestry-frame frame">
               <img class="border" src="systems/demonlord/assets/ui/shields/rogue-shield.webp" />
               <img class="icon" src="{{ancestry.img}}"
-                style="top: 15px; left: -1px; clip-path: polygon(51% 0%, 100% 50%, 52% 100%, 0% 48%)" />
+                style="clip-path: polygon(51% 0%, 100% 50%, 52% 100%, 0% 48%)" />
             </div>
             {{/if}}
             <div class="type">{{localize 'DL.CharAncestry'}}</div>
@@ -53,30 +53,30 @@
           {{else}}
           {{#if (eq path.system.type "novice")}}
           <div class="path-frame frame">
-            <img class="border-small" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp" />
+            <img class="border" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp" />
             <img class="icon" src="{{path.img}}"
-              style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)" />
+              style="clip-path: circle(50% at 50% 50%)" />
           </div>
           {{/if}}
           {{#if (eq path.system.type "expert")}}
           <div class="path-frame frame">
-            <img class="border-small" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
+            <img class="border" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
             <img class="icon" src="{{path.img}}"
-              style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)" />
+              style="clip-path: circle(50% at 50% 50%)" />
           </div>
           {{/if}}
           {{#if (eq path.system.type "master")}}
           <div class="path-frame frame">
             <img class="border" src="systems/demonlord/assets/ui/shields/demon-shield.webp" />
             <img class="icon" src="{{path.img}}"
-              style="top: 19px; left: 0px; height: 42px; width: 42px; clip-path: circle(50% at 50% 50%);" />
+              style="width: 50px; height: 50px; top: 25px; left: 25px; clip-path: circle(50% at 50% 50%);" />
           </div>
           {{/if}}
           {{#if (eq path.system.type "legendary")}}
           <div class="path-frame frame">
-            <img class="border-small" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
+            <img class="border" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
             <img class="icon" src="{{path.img}}"
-              style="top: 16px; left: 0px; height: 48px; width: 48px; clip-path: circle(50% at 50% 50%)" />
+              style="clip-path: circle(50% at 50% 50%)" />
           </div>
           {{/if}}
         {{/if}}
