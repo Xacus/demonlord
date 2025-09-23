@@ -1,4 +1,6 @@
 
+const { DialogV2 } = foundry.applications.api
+
 export function makeChallengeRollMacro() {
   // Player Tool
 // Lets you choose with attributes you want to make challenge roll for and add bones/banes.
@@ -17,8 +19,10 @@ export function makeChallengeRollMacro() {
   }
 
   let applyChanges = false;
-  new Dialog({
-    title: game.i18n.localize('DL.MacroMakeChallengeRollTitle'),
+  new DialogV2({
+    window: {
+      title: game.i18n.localize('DL.MacroMakeChallengeRollTitle'),
+    },
     content: `
     <form>
       <div class="form-group">
@@ -37,18 +41,20 @@ export function makeChallengeRollMacro() {
       </div>
     </form>
     `,
-    buttons: {
-      yes: {
-        icon: "<i class='fas fa-check'></i>",
+    buttons: [
+      {
+        action: 'yes',
+        icon: 'fas fa-check',
         label: game.i18n.localize('DL.MacroMakeChallengeRollRoll'),
-        callback: () => applyChanges = true
+        callback: () => applyChanges = true,
+        default: true
       },
-      no: {
-        icon: "<i class='fas fa-times'></i>",
+      {
+        action: 'no',
+        icon: 'fas fa-times',
         label: game.i18n.localize('DL.MacroCancel')
       },
-    },
-    default: "yes",
+    ],
     close: async html => {
       if (applyChanges) {
         let attribute = html.find('[name="attribute-type"]')[0].value || "none";
