@@ -17,11 +17,10 @@ import * as gmMacros from './macros/gm-macros.js'
 import * as playerMacros from './macros/player-macros'
 import {DLAfflictions} from './active-effects/afflictions'
 import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config'
-import DLCharacterSheetV2 from './actor/sheets/character-sheet-v2.js'
-import DLCreatureSheetV2 from './actor/sheets/creature-sheet-v2.js'
-import DLVehicleSheetV2 from './actor/sheets/vehicle-sheet-v2.js'
+import DLCharacterSheet from './actor/sheets/character-sheet.js'
+import DLCreatureSheet from './actor/sheets/creature-sheet.js'
+import DLVehicleSheet from './actor/sheets/vehicle-sheet.js'
 import DLBaseItemSheet from './item/sheets/base-item-sheet.js'
-
 import CharacterDataModel from './data/actor/CharacterDataModel.js'
 import CreatureDataModel from './data/actor/CreatureDataModel.js'
 import VehicleDataModel from './data/actor/VehicleDataModel.js'
@@ -44,7 +43,6 @@ import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
 import 'tippy.js/dist/tippy.css'
 import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"
-import DLBaseActorSheet from "./actor/sheets/base-actor-sheet"
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for styling
 import { activateSocketListener } from "./utils/socket.js"
 import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
@@ -117,17 +115,17 @@ Hooks.once('init', async function () {
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet)
 
-  Actors.registerSheet('demonlord', DLCharacterSheetV2, {
+  Actors.registerSheet('demonlord', DLCharacterSheet, {
     types: ['character'],
     makeDefault: true,
   })
 
-  Actors.registerSheet('demonlord', DLCreatureSheetV2, {
+  Actors.registerSheet('demonlord', DLCreatureSheet, {
     types: ['creature'],
     makeDefault: true,
   })
 
-  Actors.registerSheet('demonlord', DLVehicleSheetV2, {
+  Actors.registerSheet('demonlord', DLVehicleSheet, {
     types: ['vehicle'],
     makeDefault: false,
   })
@@ -578,5 +576,3 @@ Hooks.on('DL.Action', async () => {
   const actionTemplates = canvas.scene.templates.filter(a => a.flags.actionTemplate).map(a => a.id)
   if (actionTemplates.length > 0) await canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
 })
-
-Hooks.on('renderDLBaseActorSheet', (app, html, data) => DLBaseActorSheet.onRenderInner(app, html, data))
