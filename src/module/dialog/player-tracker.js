@@ -1,64 +1,65 @@
+const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api
+
 import { capitalize } from '../utils/utils'
 
-export class PlayerTracker extends FormApplication {
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      id: 'sheet-modifiers',
-      classes: ['playertracker', 'sheet', 'actor'],
-      template: 'systems/demonlord/templates/dialogs/player-tracker.hbs',
-      width: game.users.players.length * 150,
-      height: 'auto',
-      tabs: [
-        {
-          navSelector: '.sheet-tabs',
-          contentSelector: '.sheet-body',
-          initial: 'character',
-        },
-      ],
-      scrollY: ['.tab.active'],
-    })
-  }
 
-  /* -------------------------------------------- */
-  /**
-   * Add the Entity name into the window title
-   * @type {String}
-   */
-  get title() {
-    return `Player Tracker`
-  }
-  /* -------------------------------------------- */
-
-  /**
-   * Extend and override the sheet header buttons
-   * @override
-   */
-  _getHeaderButtons() {
-    let buttons = super._getHeaderButtons()
-    const canConfigure = game.user.isGM
-    if (this.options.editable && canConfigure) {
-      buttons = [
+export class PlayerTracker extends HandlebarsApplicationMixin(ApplicationV2) {
+  static DEFAULT_OPTIONS = {
+    tag: 'form',
+    id: 'sheet-modifiers',
+    classes: ['playertracker', 'sheet', 'actor'],
+    form: {
+      handler: PlayerTracker.handler,
+      closeOnSubmit: false,
+      submitOnChange: false
+    },
+    actions: {
+      updateWindow: this.updateWindow,
+    },
+    position: {
+      top: 60,
+      left: 120,
+      width: 150,
+      height: 'auto'
+    },
+    window: {
+      title: 'Player Tracker',
+      controls: [
         {
-          label: game.i18n.localize('DL.UpdatePlayerTracker'),
+          label: 'DL.UpdatePlayerTracker',
           class: 'update-playertracker',
           icon: 'fas fa-sync-alt',
-          onclick: ev => this._updateWindow(ev),
-        },
-      ].concat(buttons)
-    }
-    return buttons
+          action: 'updateWindow',
+        }
+      ]
+    },
+    scrollY: ['.tab.active'],
   }
 
-  _updateWindow(event) {
+  static PARTS = {
+    body: {
+      template: 'systems/demonlord/templates/dialogs/player-tracker.hbs'
+    }
+  }
+
+  // static TABS = {
+  //   primary: {
+  //     tabs: [
+  //       { id: 'character', icon: 'icon-character', tooltip: 'DL.TabsGeneral'},
+  //     ]
+  //   }
+  // }
+
+  /* -------------------------------------------- */
+
+  static updateWindow(event) {
     event.preventDefault()
     this.render(true)
   }
 
-  /**
-   * Construct and return the data object used to render the HTML template for this form application.
-   * @return {Object}
-   */
-  getData() {
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options)
+
     const players = game.users.players
     const persons = []
 
@@ -102,17 +103,25 @@ export class PlayerTracker extends FormApplication {
       persons.push(person)
     }
 
-    return {
-      persons,
-    }
+    context.persons = persons
+
+    return context
   }
   /* -------------------------------------------- */
 
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options)
+    options.parts = ['body']
+    this.position.width = game.users.players.length * 150
+  }
+
   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html)
+  _onRender(context, options) {
+    super._onRender(context, options)
 
     if (!this.options.editable) return
+
+    const html = $(this.element)
 
     html.find('.gmnote-control').click(async ev => {
       const a = ev.currentTarget
@@ -147,7 +156,7 @@ export class PlayerTracker extends FormApplication {
    * @private
    */
   /** @override */
-  async _updateObject(event, formData) {
+  async handler(event, form, formData) {
     formData.id = this.object.id
     return await this.document.update(formData)
   }
