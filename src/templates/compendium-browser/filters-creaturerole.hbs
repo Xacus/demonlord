@@ -8,22 +8,11 @@
 --}}
 <aside class="demonlord-compendium-browser-filters  {{#if (eq search.type 'creaturerole')}}active{{/if}}">
 
-  <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.IsFrightening'}}">
-      <input type="checkbox" name="filters.creaturerole.isFrightening" {{checked filters.creaturerole.isFrightening}}>
-      <i class="icon-healing themed-icon"></i>
-      <span class="sep"></span>
-      <span class="text">{{localize 'DL.CreatureFrightening'}}</span>
-    </div>
-  </div>
-
-  <div class="filter-group checkable">
-    <div class="input-group" data-tippy-content="{{localize 'DL.IsHorrifying'}}">
-      <input type="checkbox" name="filters.creaturerole.isHorrifying" {{checked filters.creaturerole.isHorrifying}}>
-      <i class="icon-damage themed-icon"></i>
-      <span class="sep"></span>
-      <span class="text">{{localize 'DL.CreatureHorrifying'}}</span>
-    </div>
+  <div class="filter-group">
+    <b>{{localize 'DL.IsFrightening'}}</b>
+    <select class="filter-group-textbox" name="filters.creaturerole.frighteningType">
+      {{selectOptions frighteningOptions selected=filters.creaturerole.frighteningType blank="" localize=true}}
+    </select>
   </div>
 
   <div class="filter-group">

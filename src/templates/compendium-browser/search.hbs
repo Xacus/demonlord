@@ -16,5 +16,11 @@
     {{selectOptions sourcesOptions selected=search.sources localize=false multiple=true}}
   </multi-select>
 
+  <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserSearch.IncludeLocal'}}">
+    <input type="checkbox" name="search.includeLocal" {{checked search.includeLocal}}>
+    <span class="sep"></span>
+    <span class="text">{{localize 'DL.CompendiumBrowserSearch.IncludeLocal'}}</span>
+  </div>
+
   <button type="submit">{{localize 'DL.Search'}}</button>
 </aside>

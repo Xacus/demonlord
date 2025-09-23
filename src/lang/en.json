@@ -126,6 +126,7 @@
   "DL.AncestryOptionTitle": "Option",
   "DL.AncestryPerceptionModifier": "Perception Modifier",
   "DL.AncestryStartingAttributes": "Starting Attributes",
+  "DL.Any": "Any",
   "DL.ArmorAdd": "Add armor",
   "DL.ArmorAgility": "Agility",
   "DL.ArmorBonuses": "Bonuses",
@@ -882,5 +883,8 @@
     "HasRequirement": "Has Requirement",
     "UsesAmmo": "Uses Ammunition",
     "UsesMagic": "Uses Magic"
+  },
+  "DL.CompendiumBrowserSearch": {
+    "IncludeLocal": "Include Local Documents"
   }
 }

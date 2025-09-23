@@ -126,6 +126,7 @@
   "DL.AncestryOptionTitle": "Opción",
   "DL.AncestryPerceptionModifier": "Modificador de Percepción",
   "DL.AncestryStartingAttributes": "Atributos Iniciales",
+  "DL.Any": "Cualquiera",
   "DL.ArmorAdd": "Añadir armadura",
   "DL.ArmorAgility": "Agilidad",
   "DL.ArmorBonuses": "Bonos",
@@ -878,5 +879,8 @@
     "HasRequirement": "Tiene Requisitos",
     "UsesAmmo": "Usa Munición",
     "UsesMagic": "Usa Magia"
+  },
+  "DL.CompendiumBrowserSearch": {
+    "IncludeLocal": "Incluir Documentos Locales"
   }
 }

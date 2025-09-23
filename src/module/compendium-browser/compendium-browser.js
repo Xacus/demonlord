@@ -14,9 +14,9 @@ const indices = {
   relic: ['system.requirement.attribute'],
   spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max' ],
   weapon: ['system.availability', 'system.requirement.attribute', 'system.properties', 'system.value'],
-  creature: [],
-  character: [],
-  vehicle: [],
+  creature: ['system.descriptor', 'system.difficulty', 'system.perceptionsenses', 'system.frightening', 'system.horrifying', 'system.characteristics.power'],
+  character: ['system.descriptor', 'system.characteristics.power', 'system.isPC'],
+  vehicle: ['system.descriptor',],
   table: []
 }
 
@@ -26,8 +26,10 @@ let spellTypeOptions = {}
 let spellAttributeOptions = {}
 let consumableTypeOptions = {}
 let availabilityOptions = {}
-let magicOptions = {}
 let pathTypeOptions = {}
+let magicOptions = {}
+let frighteningOptions = {}
+let characterOptions = {}
 
 export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
@@ -57,9 +59,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     search: { template: 'systems/demonlord/templates/compendium-browser/search.hbs' },
 
     // One part for each filter type
-    //filterscharacter: { template: 'systems/demonlord/templates/compendium-browser/filters-character.hbs' },
-    //filterscreature: { template: 'systems/demonlord/templates/compendium-browser/filters-creature.hbs' },
-    //filtersvehicle: { template: 'systems/demonlord/templates/compendium-browser/filters-vehicle.hbs' },
+    filterscharacter: { template: 'systems/demonlord/templates/compendium-browser/filters-character.hbs' },
+    filterscreature: { template: 'systems/demonlord/templates/compendium-browser/filters-creature.hbs' },
+    filtersvehicle: { template: 'systems/demonlord/templates/compendium-browser/filters-vehicle.hbs' },
     filtersancestry: { template: 'systems/demonlord/templates/compendium-browser/filters-ancestry.hbs' },
     filtersammo: { template: 'systems/demonlord/templates/compendium-browser/filters-ammo.hbs' },
     filtersarmor: { template: 'systems/demonlord/templates/compendium-browser/filters-armor.hbs' },
@@ -77,9 +79,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     filtersweapon: { template: 'systems/demonlord/templates/compendium-browser/filters-weapon.hbs' },
 
     // One part for each result type
-    //resultscharacter: { template: 'systems/demonlord/templates/compendium-browser/results-character.hbs' },
-    //resultscreature: { template: 'systems/demonlord/templates/compendium-browser/results-creature.hbs' },
-    //resultsvehicle: { template: 'systems/demonlord/templates/compendium-browser/results-vehicle.hbs' },
+    resultscharacter: { template: 'systems/demonlord/templates/compendium-browser/results-character.hbs' },
+    resultscreature: { template: 'systems/demonlord/templates/compendium-browser/results-creature.hbs' },
+    resultsvehicle: { template: 'systems/demonlord/templates/compendium-browser/results-vehicle.hbs' },
     resultsancestry: { template: 'systems/demonlord/templates/compendium-browser/results-ancestry.hbs' },
     resultsammo: { template: 'systems/demonlord/templates/compendium-browser/results-ammo.hbs' },
     resultsarmor: { template: 'systems/demonlord/templates/compendium-browser/results-armor.hbs' },
@@ -104,6 +106,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       type: 'path',
       sources: [],
       caseSensitive: false,
+      includeLocal: false,
       sortColumn: 'name',
       sortType: 'asc' // asc/desc
     },
@@ -112,7 +115,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         description: '',
         ancestry: '',
         path: [],
-        isPC: null,
+        characterType: null,
         level: null, // 0-X
         professions: [],
         //attributes: ?
@@ -120,13 +123,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       creature: {
         description: '',
-        type: '',
         difficulty: null,
-        isFrightening: null,
-        isHorrifying: null,
-        roles: [],
+        frighteningType: null,
         descriptor: '',
-        perceptionSenses: [],
+        perceptionSenses: '',
+        usesMagic: false,
         //attributes: ?
         // characteristics: ?
       },
@@ -134,6 +135,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         description: '',
         price: null,
         cargo: null,
+        descriptor: '',
         //attributes: ?
         // characteristics: ?
       },
@@ -268,16 +270,15 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
   async _prepareContext(options) {
     const context = await super._prepareContext(options)
 
-    // x.metadata.label includes a user-friendly name
-    // Should also be filtered by ownership (i.e. prevent players from seeing compendia where they're not at least observer)
-    // Retrieve specific pack with game.packs.get(x.metadata.id)
-    // Filter for specific type with x.filter(p => p.index.some(e => e.type === 'creature'))
-    // Finally, open wanted document with (await game.packs.get(x.pack).getDocument(x._id)).sheet.render()
-    // TODO: Prepare specific indices for each type which allows us to quickly list and filter them
+    // Filter packs by type
     this.state.sources = await Promise.all(game.packs.filter(p => ['Item', 'Actor', 'RollTable'].includes(p.metadata.type)).map(async p => await game.packs.get(p.metadata.id)))
 
     if (options.isFirstRender) {
       typeOptions = {
+        'character': game.i18n.localize('DL.CharacterTitle'),
+        'creature': game.i18n.localize('TYPES.Actor.creature'),
+        'vehicle': game.i18n.localize('TYPES.Actor.vehicle'),
+
         'ammo': game.i18n.localize('TYPES.Item.ammo'),
         'ancestry': game.i18n.localize('TYPES.Item.ancestry'),
         'armor': game.i18n.localize('TYPES.Item.armor'),
@@ -348,6 +349,18 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         'no': game.i18n.localize('DL.DialogNo'),
       }
 
+      frighteningOptions = {
+        'any': game.i18n.localize('DL.Any'),
+        'none': game.i18n.localize('DL.None'),
+        'frightening': game.i18n.localize('DL.CreatureFrightening'),
+        'horrifying': game.i18n.localize('DL.CreatureHorrifying')
+      }
+
+      characterOptions = {
+        'pc': game.i18n.localize('DL.ActorTypePC'),
+        'npc': game.i18n.localize('DL.ActorTypeNPC'),
+      }
+
       await this.indexCompendia(this.state.sources)
     }
 
@@ -359,6 +372,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     context.availabilityOptions = availabilityOptions
     context.pathTypeOptions = pathTypeOptions
     context.magicOptions = magicOptions
+    context.frighteningOptions = frighteningOptions
+    context.characterOptions = characterOptions
 
     context.isGM = game.user.isGM
 
@@ -368,6 +383,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       type: this.state.search.type,
       sources: this.state.search.sources,
       caseSensitive: this.state.search.caseSensitive,
+      includeLocal: this.state.search.includeLocal,
       sortColumn: this.state.search.sortColumn,
       sortType: this.state.search.sortType
     }
@@ -377,10 +393,10 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       character: {
         description: this.state.filters?.character?.description || '',
         ancestry: this.state.filters?.character?.ancestry || '',
-        path: this.state.filters?.character?.path || [],
-        isPC: this.state.filters?.character?.isPC || null,
+        //path: this.state.filters?.character?.path || [],
+        characterType: this.state.filters?.character?.characterType || null,
         level: this.state.filters?.character?.level || null, // 0-X
-        professions: this.state.filters?.character?.professions || [],
+        //professions: this.state.filters?.character?.professions || [],
         //attributes: ?
         // characteristics: ?
       },
@@ -388,11 +404,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         description: this.state.filters?.creature?.description || '',
         type: this.state.filters?.creature?.type || '',
         difficulty: this.state.filters?.creature?.difficulty || null,
-        isFrightening: this.state.filters?.creature?.isFrightening || null,
-        isHorrifying: this.state.filters?.creature?.isHorrifying || null,
-        roles: this.state.filters?.creature?.roles || [],
+        frighteningType: this.state.filters?.creature?.frighteningType || null,
+        roles: this.state.filters?.creature?.roles || '',
         descriptor: this.state.filters?.creature?.descriptor || '',
-        perceptionSenses: this.state.filters?.creature?.perceptionSenses || [],
+        perceptionSenses: this.state.filters?.creature?.perceptionSenses || '',
+        usesMagic: this.state.filters?.creature?.usesMagic || '',
         //attributes: ?
         // characteristics: ?
       },
@@ -428,8 +444,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       },
       creaturerole: {
         description: this.state.filters?.creaturerole?.description || '',
-        isFrightening: this.state.filters?.creaturerole?.isFrightening || null,
-        isHorrifying: this.state.filters?.creaturerole?.isHorrifying || null,
+        frighteningType: this.state.filters?.creaturerole?.frighteningType || null,
         //attributes: ?
         // characteristics: ?
       },
@@ -502,7 +517,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         usesAmmo: this.state.filters?.weapon?.usesAmmo || null,
       },
     }
-
 
     // Search items in sources with filters
     context.results = await this.filterItems(this.state.sources, this.state.search, this.state.filters)
@@ -582,6 +596,12 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // Deal with quick returns
     if (!search.type) return []
 
+    let results = []
+    // Grab all world objects (not in a compendium)
+    if (search.includeLocal) {
+      results = results.concat(game.items.contents, game.actors.contents, game.tables.contents).filter(e => e.type === search.type)
+    }
+
     // Filter by source...
     let sources = compendia.filter(p => search.sources.length === 0 ||
       (p.metadata.packageType === 'module' && search.sources.includes(p.metadata.packageName)) || // Module selected
@@ -590,8 +610,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     )
 
     // ...search type...
-    let results = sources.filter(p => p?.index?.filter(Boolean)?.[0]?.type === search.type)
-    .flatMap(p => p.index.filter(Boolean))
+    results = results.concat(sources.filter(p => p?.index?.filter(Boolean)?.[0]?.type === search.type)
+      .flatMap(p => p.index.filter(Boolean)))
 
     // ...searched text
     if (search.text) {
@@ -609,10 +629,36 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // ...and type-specific filters
     switch (search.type) {
       case 'character':
+        results = results.filter(e => {
+          if (filters?.character.level && e.system.level !== filters.character.level) return false
+          if (!!filters?.character?.usesMagic && (e.system.characteristics.power > 0 ? filters.character.usesMagic !== 'yes' : filters.character.usesMagic !== 'no')) return false
+          if (!!filters?.character.characterType && (e.system.isPC ? filters.character.characterType !== 'pc' : filters.character.characterType !== 'npc')) return false
+
+          return true
+        })
         break
       case 'creature':
+        results = results.filter(e => {
+          if (filters?.creature.difficulty && e.system.difficulty !== filters.creature.difficulty) return false
+          if (filters?.creature.descriptor && !e.system.descriptor.includes(filters.creature.descriptor)) return false
+          if (filters?.creature.perceptionSenses && !e.system.perceptionsenses?.toLowerCase()?.includes(filters.creature.perceptionSenses.toLowerCase())) return false
+          if (!!filters?.creature?.usesMagic && (e.system.characteristics.power > 0 ? filters.creature.usesMagic !== 'yes' : filters.creature.usesMagic !== 'no')) return false
+
+          if (filters?.creature.frighteningType === 'none' && (e.system.frightening || e.system.horrifying)) return false
+          if (filters?.creature.frighteningType === 'any' && (!e.system.frightening && !e.system.horrifying)) return false
+          if (filters?.creature.frighteningType === 'frightening' && !e.system.frightening) return false
+          if (filters?.creature.frighteningType === 'horrifying' && !e.system.horrifying) return false
+
+          return true
+        })
         break
       case 'vehicle':
+        results = results.filter(e => {
+          if (filters?.vehicle.difficulty && e.system.difficulty !== filters.vehicle.difficulty) return false
+          if (filters?.vehicle.descriptor && !e.system.descriptor.includes(filters.vehicle.descriptor)) return false
+
+          return true
+        })
         break
       case 'ancestry':
         results = results.filter(e => {
@@ -642,8 +688,10 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         break
       case 'creaturerole':
         results = results.filter(e => {
-          if (filters?.creaturerole?.isFrightening && !e.system.frightening) return false
-          if (filters?.creaturerole?.isHorrifying && !e.system.horrifying) return false
+          if (filters?.creaturerole.frighteningType === 'none' && (e.system.frightening || e.system.horrifying)) return false
+          if (filters?.creaturerole.frighteningType === 'any' && (!e.system.frightening && !e.system.horrifying)) return false
+          if (filters?.creaturerole.frighteningType === 'frightening' && !e.system.frightening) return false
+          if (filters?.creaturerole.frighteningType === 'horrifying' && !e.system.horrifying) return false
 
           return true
         })
