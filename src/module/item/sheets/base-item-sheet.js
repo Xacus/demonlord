@@ -576,7 +576,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const documentData = this.document.toObject()
     const current = foundry.utils.getProperty(documentData, attr)
     const { img } = this.document.constructor.getDefaultArtwork?.(documentData) ?? {}
-    const fp = new FilePicker({
+    const fp = new foundry.applications.apps.FilePicker.implementation({
         current,
         type: "image",
         redirectToRoot: img ? [img] : [],
