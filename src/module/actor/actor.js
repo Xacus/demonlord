@@ -55,11 +55,12 @@ export class DemonlordActor extends Actor {
 
       system.characteristics.defense = system.characteristics.defenseBase
       system.characteristics.health.max = system.characteristics.health.maxBase
-      system.characteristics.size = system.characteristics.sizeBase
       system.characteristics.speed = system.characteristics.speedBase
+      system.characteristics.size = system.characteristics.sizeBase
+      this._source.system.characteristics.size = system.characteristics.sizeBase // Do source size to allow calculation in prepareDerivedData
 
       if (this.type === 'creature') {
-        system.difficulty.value = system.difficulty.base
+        system.difficulty = system.difficultyBase
         system.characteristics.power = system.characteristics.powerBase
       }
     }

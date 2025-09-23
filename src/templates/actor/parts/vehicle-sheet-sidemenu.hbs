@@ -19,14 +19,20 @@
 
       <div class="stat-box">
         <div class="text">{{localize "DL.CreatureHealth"}}</div>
-          <input class="value" name="system.characteristics.health.max" type="number" value="{{system.characteristics.health.max}}"
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.health.max}}" readonly/>
+          <input class="value has-base" name="system.characteristics.health.maxBase" type="number" value="{{system.characteristics.health.maxBase}}"
             data-dtype="Number" placeholder="" />
+        </div>
       </div>
 
       <div class="stat-box">
         <div class="text">{{localize "DL.AttributeDefense"}}</div>
-        <input class="value" name="system.characteristics.defense" type="number"
-            value="{{system.characteristics.defense}}" data-dtype="Number" placeholder="" />
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.defense}}" readonly/>
+          <input class="value has-base" name="system.characteristics.defenseBase" type="number"
+            value="{{system.characteristics.defenseBase}}" data-dtype="Number" placeholder="" />
+        </div>
       </div>
 
       <div class="stat-box">
@@ -37,8 +43,11 @@
 
       <div class="stat-box">
         <div class="text">{{localize "DL.CharSize"}}</div>
-        <input class="value" name="system.characteristics.size" type="text" value="{{system.characteristics.size}}"
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.size}}" readonly/>
+          <input class="value has-base" name="system.characteristics.sizeBase" type="text" value="{{system.characteristics.sizeBase}}"
             data-dtype="String" placeholder="" />
+        </div>
       </div>
 
       <div class="text-box space">
