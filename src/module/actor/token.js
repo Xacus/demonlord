@@ -63,6 +63,4 @@ export class DemonlordToken extends foundry.canvas.placeables.Token {
         const posY = order === 0 ? this.h - height : 0
         bar.position.set(0, posY)
     }
-
-
 }
