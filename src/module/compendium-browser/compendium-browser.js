@@ -1,4 +1,5 @@
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+const { DragDrop } = foundry.applications.ux //eslint-disable-line no-shadow
 
 const indices = {
   common: ['name', 'system.description', 'system.source' ],
@@ -32,6 +33,8 @@ let frighteningOptions = {}
 let characterOptions = {}
 
 export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
+  #dragDrop
+
   static DEFAULT_OPTIONS = {
     id: 'dl-compendium-browser',
     tag: 'form',
@@ -52,7 +55,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       height: 700,
     },
     scrollY: [],
-    //editable: true
+    //editable: true,
+    dragDrop: [{
+      dragSelector: '[data-drag="true"]',
+      dropSelector: '.drop-zone'
+    }]
   }
 
   static PARTS = {
@@ -240,6 +247,25 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         usesAmmo: null,
       },
     }
+  }
+
+  constructor(options = {}) {
+    super(options)
+    this.#dragDrop = this.#createDragDropHandlers()
+  }
+
+  #createDragDropHandlers() {
+    return this.options.dragDrop.map(d => {
+      d.permissions = {
+        dragtart: this.canDragStart.bind(this),
+        drop: this.canDragDrop.bind(this)
+      }
+      d.callbacks = {
+        dragstart: this.onDragStart.bind(this),
+      }
+
+      return new DragDrop(d)
+    })
   }
 
   get title() {
@@ -550,9 +576,26 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     item.sheet.render(true)
   }
 
+  canDragStart() {
+    return true
+  }
+
+  canDragDrop() {
+    return true
+  }
+
+  onDragStart(ev) {
+    const itemId = ev.currentTarget.closest('[data-item-id]').dataset.itemId
+    if (ev.type == 'dragstart') {
+      const dragData = { type: 'Item', 'uuid': itemId }
+      ev.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+    }
+  }
+
   /** @override */
   async _onRender(context, options) {
     super._onRender(context, options)
+    this.#dragDrop.forEach(d => d.bind(this.element))
 
     let e = this.element
 

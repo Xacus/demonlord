@@ -16,7 +16,7 @@
         </tr>
 
         {{#each results as |item|}}
-            <tr data-item-id="{{item.uuid}}">
+            <tr data-item-id="{{item.uuid}}" data-drag="true">
                 <td><img src="{{item.img}}" alt="{{item.name}}"></td>
                 <td class="clickable" data-action="editItem">{{item.name}}</td>
                 <td>{{item.system.source}}</td>
