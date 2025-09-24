@@ -241,6 +241,11 @@ export class DemonlordActor extends Actor {
           break
       }
 
+      // Round to avoid inconsistent sizees
+      if (modifiedSize > 1) {
+        modifiedSize = Math.floor(modifiedSize)
+      }
+
       newSize = this.getSizeFromNumber(modifiedSize)
     }
 

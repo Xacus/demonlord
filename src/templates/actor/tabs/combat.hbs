@@ -116,7 +116,7 @@
       </div>
       <div class="col-2">
         <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
-        <a class="dl-clickable {{#if system.wear}}item-wear{{else}}item-wearoff{{/if}}"
+        <a class="dl-clickable {{#if system.wear}}item-wear{{else}}item-wearoff{{/if}}" data-action="toggleWear"
           title="{{localize 'DL.ArmorWear'}}">
           <i class="fas fa-shield-alt"></i>
         </a>
