@@ -1,6 +1,7 @@
 import {
   attributes,
   characteristics,
+  wealth
 } from '../common.js'
 
 import {
@@ -37,15 +38,7 @@ export default class CharacterDataModel extends foundry.abstract.DataModel {
         edit: makeBoolField(),
         value: makeStringField()
       }),
-      wealth: new foundry.data.fields.SchemaField({
-        edit: makeBoolField(),
-        lifestyle: makeStringField(),
-        description: makeStringField(),
-        bits: makeIntField(),
-        cp: makeIntField(),
-        ss: makeIntField(),
-        gc: makeIntField()
-      }),
+      wealth: wealth(),
       // Unused
       professions: new foundry.data.fields.SchemaField({
         edit: makeBoolField(),

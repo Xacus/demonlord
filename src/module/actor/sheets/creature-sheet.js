@@ -8,7 +8,6 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
       submitOnChange: true
     },
     actions: {
-      editStatBar: this.onEditStatBar,
     }
   }
 
@@ -52,7 +51,13 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     super._configureRenderOptions(options)
 
     // This should be configured per sheet type
-    options.parts.push('combat', 'magic', 'inventory', 'description', 'reference', 'afflictions', 'effects')
+    options.parts.push('combat', 'magic')
+
+    if (game.settings.get('demonlord', 'addCreatureInventoryTab')) {
+      options.parts.push('inventory')
+    }
+
+    options.parts.push('description', 'reference', 'afflictions', 'effects')
 
   //this._adjustSizeByType(this.document.type, this.position)
   }
@@ -87,12 +92,14 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     actorData.roles = m.get('creaturerole') || []
     actorData.gear = m.get('item') || []
     actorData.relics = m.get('relic') || []
+    actorData.armor = m.get('armor') || []
+    actorData.ammo = m.get('ammo') || []
   }
 
   /* -------------------------------------------- */
   /** @override */
   async checkDroppedItem(itemData) {
-    let preventedItems = await game.settings.get('demonlord', 'addCreatureInventoryTab') ? ['armor', 'ammo', 'ancestry', 'path', 'profession', 'language'] : ['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'relic']
+    let preventedItems = await game.settings.get('demonlord', 'addCreatureInventoryTab') ? ['ancestry', 'path', 'profession', 'language'] : ['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'relic']
     if (preventedItems.includes(itemData.type)) return false
     return true
   }
@@ -109,16 +116,6 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
   /* -------------------------------------------- */
   /*  Actions                                     */
   /* -------------------------------------------- */
-
-  /** Edit HealthBar, Insanity and Corruption */
-  static async onEditStatBar() {
-    const actor = this.actor
-    const showEdit = actor.system.characteristics.editbar
-    actor.system.characteristics.editbar = !showEdit
-
-    await actor.update({ 'system.characteristics.editbar': actor.system.characteristics.editbar })
-    await this.render({ parts: ['sidebar'] })
-  }
 
   async onEditRole(ev) {
     const div = $(ev.currentTarget)

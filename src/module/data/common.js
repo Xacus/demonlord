@@ -34,8 +34,8 @@ export function characteristics(actorType) {
         powerBase: makeIntField(),
         size: makeStringField('1'),
         sizeBase: makeStringField('1'),
-        speed: makeIntField(10),       
-        speedBase: makeIntField(10) 
+        speed: makeIntField(10),
+        speedBase: makeIntField(10)
       })
     case 'vehicle':
       return new foundry.data.fields.SchemaField({
@@ -45,7 +45,7 @@ export function characteristics(actorType) {
         size: makeStringField('1'),
         sizeBase: makeStringField('1'),
         speed: makeIntField(10),
-        speedBase: makeIntField(10) 
+        speedBase: makeIntField(10)
     })
   }
 }
@@ -104,6 +104,16 @@ export function activatedEffect() {
       max: makeIntField(),
       per: makeStringField()
     })
+  })
+}
+
+export function wealth() {
+  return new foundry.data.fields.SchemaField({
+    edit: makeBoolField(),
+    bits: makeIntField(),
+    cp: makeIntField(),
+    ss: makeIntField(),
+    gc: makeIntField()
   })
 }
 

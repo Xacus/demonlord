@@ -108,16 +108,17 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     context.generalEffects = prepareActiveEffectCategories(Array.from(this.document.allApplicableEffects()), true)
     context.effectsOverview = buildOverview(this.document)
     context.flags = this.document.flags
-
-    // if (options.isFirstRender) {
-    //   // TODO: Set default active tab
-    //   this.tabGroups['primary'] = this.tabGroups['primary'] ?? 'character'
-    //   this.tabGroups['subpage'] = this.tabGroups['subpage']
-    // }
+    context.addCreatureInventoryTab = game.settings.get('demonlord', 'addCreatureInventoryTab')
+    context.hideTurnMode = game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's' ? false : true
+    context.hideFortune = game.settings.get('demonlord', 'fortuneHide') ? true : false
 
     //context.tabs = this._getTabs(options.parts)
     context.tabs = this._prepareTabs('primary')
     context.effectsTabs = this._prepareTabs('effects')
+
+    if ((context.isCreature || context.isVehicle) && !context.addCreatureInventoryTab) {
+      context.tabs.inventory.hide = true
+    }
 
     // Enrich HTML
     context.system.enrichedDescription = await TextEditor.implementation.enrichHTML(this.document.system.description, { async: true });

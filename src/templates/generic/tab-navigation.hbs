@@ -1,8 +1,10 @@
 <nav class="sheet-tabs tabs" data-group="{{tab.group}}" aria-role="{{localize 'SHEETS.FormNavLabel'}}">
     {{#each tabs as |tab|}}
-    <a class="{{tab.cssClass}}" data-action="tab" data-group="{{tab.group}}" data-tab="{{tab.id}}" {{#if tab.tooltip}}data-tippy-html="{{localize tab.tooltip}}{{/if}}">
-        <i class="themed-icon themed-icon-inverted {{tab.icon}}"></i>
-        <label>{{localize tab.label}}</label>
-    </a>
+        {{#unless tab.hide}}
+        <a class="{{tab.cssClass}}" data-action="tab" data-group="{{tab.group}}" data-tab="{{tab.id}}" {{#if tab.tooltip}}data-tippy-html="{{localize tab.tooltip}}{{/if}}">
+            <i class="themed-icon themed-icon-inverted {{tab.icon}}"></i>
+            <label>{{localize tab.label}}</label>
+        </a>
+        {{/unless}}
     {{/each}}
 </nav>

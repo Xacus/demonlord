@@ -47,7 +47,13 @@ export default class DLVehicleSheet extends DLBaseActorSheet {
     super._configureRenderOptions(options)
 
     // This should be configured per sheet type
-    options.parts.push('combat', 'inventory', 'description', 'reference', 'effects')
+    options.parts.push('combat')
+
+    if (game.settings.get('demonlord', 'addCreatureInventoryTab')) {
+      options.parts.push('inventory')
+    }
+
+    options.parts.push('description', 'reference', 'effects')
 
     //this._adjustSizeByType(this.document.type, this.position)
   }
@@ -81,12 +87,14 @@ export default class DLVehicleSheet extends DLBaseActorSheet {
     actorData.roles = m.get('creaturerole') || []
     actorData.gear = m.get('item') || []
     actorData.relics = m.get('relic') || []
+    actorData.armor = m.get('armor') || []
+    actorData.ammo = m.get('ammo') || []
   }
 
   /* -------------------------------------------- */
   /** @override */
   async checkDroppedItem(itemData) {
-    let preventedItems = await game.settings.get('demonlord', 'addCreatureInventoryTab') ? ['armor', 'ammo', 'ancestry', 'path', 'profession', 'language'] : ['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'relic']
+    let preventedItems = await game.settings.get('demonlord', 'addCreatureInventoryTab') ? ['ancestry', 'path', 'profession', 'language', 'spell'] : ['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'spell', 'relic']
     if (preventedItems.includes(itemData.type)) return false
     return true
   }

@@ -1,6 +1,7 @@
 import {
   attributes,
   characteristics,
+  wealth
 } from '../common.js'
 
 import {
@@ -33,6 +34,7 @@ export default class CreatureDataModel extends foundry.abstract.DataModel {
       perceptionsenses: makeStringField(),
       speedtraits: makeStringField(),
       armor: makeStringField(),
+      wealth: wealth(),
       roles: new foundry.data.fields.ArrayField(makeStringField()) // ?
     }
   }
