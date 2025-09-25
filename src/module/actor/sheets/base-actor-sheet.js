@@ -201,32 +201,6 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
   }
 
   /* -------------------------------------------- */
-
-  /** @override */
-  async _onDropItemCreate(itemData) {
-    const isAllowed = await this.checkDroppedItem(itemData)
-    if (isAllowed) {
-      await this.preDropItemCreate(itemData)
-      const createdItems = await super._onDropItemCreate(itemData)
-      await this.postDropItemCreate(createdItems[0])
-    } else {
-      console.warn('Wrong item type dragged', this.actor, itemData)
-    }
-  }
-
-  async checkDroppedItem(_itemData) {
-    return true
-  }
-
-  async preDropItemCreate(_itemData) {
-    return true
-  }
-
-  async postDropItemCreate(_itemData) {
-    return true
-  }
-
-  /* -------------------------------------------- */
   /*  Actions                                     */
   /* -------------------------------------------- */
   static async onCreateItem(event) {
