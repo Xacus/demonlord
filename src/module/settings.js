@@ -516,6 +516,14 @@ export const registerSettings = function () {
     config: true,
     requiresReload: true,
   })
+  game.settings.register('demonlord', 'hideDamage', {
+    name: game.i18n.localize('DL.SettingHideDamage'),
+    hint: game.i18n.localize('DL.SettingHideDamageHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })  
   game.settings.register('demonlord', 'statusIcons', {
     name: game.i18n.localize('DL.SettingStatusIcons'),
     hint: game.i18n.localize('DL.SettingStatusIconsHint'),

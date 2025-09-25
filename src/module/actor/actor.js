@@ -767,13 +767,14 @@ export class DemonlordActor extends Actor {
       attackRoll: attackRoll
     })
 
-    postTalentToChat(this, talent, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+    postTalentToChat(this, talent, attackRoll, target?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
     return attackRoll
   }
 
   /* -------------------------------------------- */
 
   async rollSpell(itemID, _options = {event: null}) {
+    const targets = tokenManager.targets
     const item = this.items.get(itemID)
     const isAttack = item.system.spelltype === 'Attack'
     const attackAttribute = item.system?.action?.attack?.toLowerCase()
@@ -794,22 +795,22 @@ export class DemonlordActor extends Actor {
     } else await item.update({'system.castings.value': uses + 1}, {parent: this})
 
     if (isAttack && attackAttribute) {
-      launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async (event, html) =>
-        await this.useSpell(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
-      )
+      launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async html => {
+        for (const target of targets) {
+          await this.useSpell(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val(), target)
+        }
+        if (targets.length === 0 )  await this.useSpell(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val())
+      })
     } else {
       await this.useSpell(item, 0, 0)
     }
   }
 
-  async useSpell(spell, inputBoons, inputModifier) {
-    const targets = tokenManager.targets
-    const target = targets[0]
+  async useSpell(spell, inputBoons, inputModifier, target = null) {
     const spellData = spell.system
-
     const attackAttribute = spellData?.action?.attack?.toLowerCase()
     const defenseAttribute = spellData?.action?.against?.toLowerCase()
-
+    
     let attackRoll
     if (attackAttribute) {
       const attacker = this
@@ -833,7 +834,7 @@ export class DemonlordActor extends Actor {
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
       const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
 
-      if (targets.length > 0)
+      if (target)
         boons -=
           (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
           (target?.actor?.system.bonuses.defense.boons.all || 0) +
@@ -848,12 +849,12 @@ export class DemonlordActor extends Actor {
 
     Hooks.call('DL.UseSpell', {
       sourceToken: this.token || tokenManager.getTokenByActorId(this.id),
-      targets: targets,
+      targets: target,
       itemId: spell.id,
       attackRoll: attackRoll
     })
 
-    postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0)
+    postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
@@ -891,7 +892,7 @@ export class DemonlordActor extends Actor {
         }
       }
       concentrate['statuses'] = [concentrate.id]
-      ActiveEffect.create(concentrate, {parent: this});
+      ActiveEffect.create(concentrate, {parent: this})
     }
     return attackRoll
   }

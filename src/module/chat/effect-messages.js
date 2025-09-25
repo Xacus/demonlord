@@ -4,6 +4,7 @@
 
 import { DLActiveEffectConfig } from '../active-effects/sheets/active-effect-config'
 import { plusify } from '../utils/utils'
+import { capitalize } from '../utils/utils'
 
 /**
  * Groups the effects by change key
@@ -108,6 +109,13 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
       modifiers = changeToMsg(m, 'system.bonuses.attack.modifier.spell','')
       defenderBoonsArray.push('system.bonuses.defense.boons.spell')      
       break
+    case 'endoftheround':
+      itemBoons = parseInt(item.system.action.boonsbanes) || 0
+      otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.weapon', '')
+      modifiers = changeToMsg(m, 'system.bonuses.attack.modifier.weapon','')
+      defenderBoonsArray.push('system.bonuses.defense.boons.weapon')
+      if (item.system.wear && +item.system.requirement?.minvalue > attacker.getAttribute(item.system.requirement?.attribute)?.value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon      
+      break
     case 'weapon':
       itemBoons = parseInt(item.system.action.boonsbanes) || 0
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.weapon', '')
@@ -125,6 +133,10 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     default:
       return
   }
+
+  let attributeMod = attacker.getAttribute(attackAttribute)?.modifier || 0
+  let attributeText = 'DL.Attribute' + capitalize(attackAttribute)
+  let attributeModMsg = attributeMod ? _toMsg(`${game.i18n.localize(attributeText)}`, plusify(attributeMod)) : ''
 
   let revealHorrifyingBane = game.settings.get('demonlord', 'optionalRuleRevealHorrifyingBane')
   let horrifyingTextPlayer = revealHorrifyingBane ? '<div class="gmremove">' + _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>' :  
@@ -144,20 +156,19 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     (applyHorrifyingBane ? horrifyingTextGM : '') +
     (playerOnlyMsg ? playerOnlyMsg : '') +
     (gmOnlyMsg ? gmOnlyMsg : '')
-  boonsMsg = boonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg : ''
+  boonsMsg = boonsMsg+inputBoonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg+inputBoonsMsg : ''
   
   let modifiersMsg =
     changeListToMsg(m, [`system.bonuses.attack.modifier.${attackAttribute}`,"system.bonuses.attack.modifier.all"], '') +
     modifiers
-  modifiersMsg = modifiersMsg+inputModifierMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackModifiers')}<br>` + modifiersMsg+inputModifierMsg : ''
+  modifiersMsg = attributeModMsg+modifiersMsg+inputModifierMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackModifiers')}<br>` + attributeModMsg+modifiersMsg+inputModifierMsg : ''
 
   const extraDamageMsg = item.system.action?.damage ? changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') : ''
   // We may want to show the extra damage
   const extraDamage20PlusMsg = ((!defender && attackAttribute) || plus20) ? changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus') : ''
   return (
-    modifiersMsg +
     boonsMsg +
-    inputBoonsMsg +
+    modifiersMsg +
     extraDamageMsg +
     extraDamage20PlusMsg
   )
@@ -180,8 +191,12 @@ export function buildAttributeEffectsMessage(actor, attribute, inputBoons,  inpu
   
   let boonsMsg =
     changeListToMsg(m, [`system.bonuses.challenge.boons.${attribute}`, 'system.bonuses.challenge.boons.all' ], '')
+
+  let attributeMod = actor.getAttribute(attribute)?.modifier || 0
+  let attributeText = 'DL.Attribute' + capitalize(attribute)
+  let attributeModMsg = attributeMod ? _toMsg(`${game.i18n.localize(attributeText)}`, plusify(attributeMod)) : ''
     
-  inputModifierMsg = inputModifierMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentChallengeModifiers')}<br>` + inputModifierMsg : ''
+  inputModifierMsg = attributeModMsg+inputModifierMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentChallengeModifiers')}<br>` + attributeModMsg + inputModifierMsg : ''
 
   boonsMsg = boonsMsg + inputBoonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentChallengeBoonsBanes')}<br>` + boonsMsg : ''
     
