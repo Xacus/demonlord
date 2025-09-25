@@ -1,0 +1,36 @@
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="effects">
+  <nav class="tabs sheet-tabs effects" data-group="effects">
+    <a class="item" data-action="tab" data-group="effects" data-tab="general">{{localize "DL.TabsGeneral"}}</a>
+    <a class="item" data-action="tab" data-group="effects" data-tab="ancestry">{{localize "DL.CharAncestry"}}</a>
+    <a class="item" data-action="tab" data-group="effects" data-tab="paths">{{localize "DL.PathsTitle"}}</a>
+    <a class="item" data-action="tab" data-group="effects" data-tab="talentsEffects">{{localize "DL.TabsTalents"}}</a>
+    <a class="item" data-action="tab" data-group="effects" data-tab="spells">{{localize "DL.MagicSpellsTitle"}}</a>
+    <a class="item" data-action="tab" data-group="effects" data-tab="items">{{localize "DL.TabsItems"}}</a>
+    <a class="item" data-action="tab" data-group="effects" data-tab="overview">{{localize "DL.TabsOverview"}}</a>
+  </nav>
+
+  <div class="sheet-tabs">
+    {{!-- Effects Tab --}}
+    <div class="tab general {{#if effectsTabs.general.active}}active{{/if}}" data-group="effects" data-tab="general">
+      {{> systems/demonlord/templates/actor/tabs/active-effects.hbs effects=generalEffects}}
+    </div>
+    <div class="tab ancestry {{#if effectsTabs.ancestry.active}}active{{/if}}" data-group="effects" data-tab="ancestry">
+      {{> systems/demonlord/templates/actor/tabs/active-effects.hbs effects=ancestryEffects}}
+    </div>
+    <div class="tab paths {{#if effectsTabs.paths.active}}active{{/if}}" data-group="effects" data-tab="paths">
+      {{> systems/demonlord/templates/actor/tabs/active-effects.hbs effects=pathEffects}}
+    </div>
+    <div class="tab talents {{#if effectsTabs.talentsEffects.active}}active{{/if}}" data-group="effects" data-tab="talentsEffects">
+      {{> systems/demonlord/templates/actor/tabs/active-effects.hbs effects=talentEffects}}
+    </div>
+    <div class="tab spells {{#if effectsTabs.spells.active}}active{{/if}}" data-group="effects" data-tab="spells">
+      {{> systems/demonlord/templates/actor/tabs/active-effects.hbs effects=spellEffects}}
+    </div>
+    <div class="tab items {{#if effectsTabs.items.active}}active{{/if}}" data-group="effects" data-tab="items">
+      {{> systems/demonlord/templates/actor/tabs/active-effects.hbs effects=itemEffects}}
+    </div>
+    <div class="tab overview {{#if effectsTabs.overview.active}}active{{/if}}" data-group="effects" data-tab="overview">
+      {{> systems/demonlord/templates/actor/tabs/effects-overview.hbs}}
+    </div>
+  </div>
+</div>

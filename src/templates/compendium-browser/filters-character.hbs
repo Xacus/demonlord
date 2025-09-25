@@ -1,0 +1,33 @@
+{{!--
+  Context:
+  - filters.character
+    - source
+    - type
+    - usesMagic
+--}}
+<aside class="demonlord-compendium-browser-filters {{#if (eq search.type 'character')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharLevel'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.character.level" value="{{filters.character.level}}">
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CompendiumBrowserFilters.UsesMagic'}}</b>
+    <select class="filter-group-textbox" name="filters.character.usesMagic">
+      {{selectOptions magicOptions selected=filters.character.usesMagic blank="" localize=true}}
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.ActorTypePC'}}</b>
+    <select class="filter-group-textbox" name="filters.character.characterType">
+      {{selectOptions characterOptions selected=filters.character.characterType blank="" localize=true}}
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.character.description" value="{{filters.character.description}}">
+  </div>
+</aside>

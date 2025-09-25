@@ -1,0 +1,127 @@
+<aside class="demonlord-v2-actor-sheet-container demonlord-v2-actor-sheet-sidebar-container creature">
+  <div class="sidebar" data-group="dashboard" data-tab="sidebar">
+
+    <div class="frame frame-creature">
+      <img class="profile-img img-cre" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}"
+        data-edit="img" />
+    </div>
+    {{#if system.characteristics.health.injured}}
+    <div class="injured-overlay"></div>
+    {{/if}}
+
+    <div class="sidebar-button frightening">
+      <label>
+        <input type="checkbox" name="system.frightening" id="system.frightening" {{checked system.frightening}} />
+      </label>
+      <div class="sidebar-button-text">{{localize "DL.CreatureFrightening"}}</div>
+    </div>
+
+    <div class="sidebar-button horrifying">
+      <label>
+        <input type="checkbox" name="system.horrifying" id="system.horrifying" {{checked system.horrifying}}>
+      </label>
+      <div class="sidebar-button-text">{{localize "DL.CreatureHorrifying"}}</div>
+    </div>
+
+    <div class="char-stats">
+
+      <div class="stat-box">
+        <div class="text">{{localize "DL.TalentDamage"}}</div>
+          <input class="value" name="system.characteristics.health.value" type="number"
+            value="{{system.characteristics.health.value}}" data-dtype="Number" placeholder="" />
+      </div>
+
+      <div class="stat-box">
+        <div class="text">{{localize "DL.CreatureHealth"}}</div>
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.health.max}}" readonly/>
+          <input class="value has-base" name="system.characteristics.health.maxBase" type="number" value="{{system.characteristics.health.maxBase}}"
+            data-dtype="Number" placeholder="" />
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="text">{{localize "DL.AttributeDefense"}}</div>
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.defense}}" readonly/>
+          <input class="value has-base" name="system.characteristics.defenseBase" type="number"
+            value="{{system.characteristics.defenseBase}}" data-dtype="Number" placeholder="" />
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="text">{{localize "DL.CharPower"}}</div>
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.power}}" readonly/>
+          <input class="value has-base" name="system.characteristics.powerBase" type="number"
+            value="{{system.characteristics.powerBase}}" data-dtype="Number" placeholder="" />
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="text">{{localize "DL.CharSize"}}</div>
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.size}}" readonly/>
+          <input class="value has-base" name="system.characteristics.sizeBase" type="text" value="{{system.characteristics.sizeBase}}"
+            data-dtype="String" placeholder="" />
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="text">{{localize "DL.CharSpeed"}}</div>
+        <div class="value-container">
+          <input class="value display-value" value="{{system.characteristics.speed}}" readonly/>
+          <input class="value has-base" name="system.characteristics.speedBase" type="number"
+              value="{{system.characteristics.speedBase}}" data-dtype="Number" placeholder="" />
+          </div>
+      </div>
+
+      <div class="stat-box characteristic">
+        <div class="text name" data-key="insanity">{{localize "DL.CreatureInsanity"}}</div>
+          <input class="value" name="system.characteristics.insanity.value" type="{{ifThen system.characteristics.insanity.immune "Text" "number" }}"
+          value="{{ifThen system.characteristics.insanity.immune "-"
+          system.characteristics.insanity.value}}" data-dtype="Number" {{disabled
+          system.characteristics.insanity.immune}} />
+      </div>
+
+      <div class="stat-box characteristic">
+        <div class="text name" data-key="corruption">{{localize "DL.CreatureCorruption"}}</div>
+          <input class="value" name="system.characteristics.corruption.value" type="{{ifThen system.characteristics.corruption.immune
+          "Text" "number" }}" value="{{ifThen system.characteristics.corruption.immune "-"
+          system.characteristics.corruption.value}}" data-dtype="Number" {{disabled
+          system.characteristics.corruption.immune}} />
+      </div>
+
+      <div class="text-box armor">
+        <input name="system.armor" type="text" value="{{system.armor}}" data-dtype="String"
+          placeholder="{{localize 'DL.CreatureArmor'}}" />
+      </div>
+      <div class="text-box speedtraits">
+        <input name="system.speedtraits" type="text" value="{{system.speedtraits}}" data-dtype="String"
+          placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
+      </div>
+
+    </div>
+  {{#unless hideTurnMode}}
+  <div class="char-toggles">
+    <div class="turnmode">
+      <div class="switch-toggle turn-toggle">
+        <label class="switch" for="system.fastturn">
+          <input class="toggleInput" type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}} {{disabled system.maluses.noFastTurn}}/>
+          <div class="toggleFill"></div>
+          <span class="toggleText off">{{localize 'DL.TurnSlowButton'}}</span>
+          <span class="toggleText on">{{localize 'DL.TurnFastButton'}}</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  {{/unless}}
+  </div>
+  <div class="dl-side-tab-container">
+    {{#each actor.roles}}
+    <div class="dl-side-tab role-edit" data-item-id="{{this.id}}">
+      {{this.name}}
+    </div>
+    {{/each}}
+  </div>
+</aside>

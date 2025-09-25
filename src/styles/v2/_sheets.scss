@@ -2,6 +2,12 @@
   padding: 0;
 }
 
+.window-header {
+  border: 0;
+  background-color: transparent;
+  backdrop-filter: blur(4px);
+}
+
 .demonlord-v2-item-sheet-header-container {
   background: var(--demonlord-header-background);
 }
@@ -36,20 +42,47 @@
   }
 }
 
-.tabs > [data-tab].active {
-  border-bottom: 3px solid var(--demonlord-red);
-  margin-bottom: -3px; // Stop border-bottom from pushing text upwards
-}
-
 nav.sheet-tabs {
   border: none;
-  color: var(--demonlord-color-text-inverted-primary);
+  //color: var(--demonlord-color-text-inverted-primary);
+  color: var(--color-text-light-primary);
 
   > [data-tab] {
     padding: 4px 6px;
     font-family: 'IM Fell English SC', serif;
     font-size: 13px;
     text-transform: uppercase;
+    transition: filter 0.3s, -webkit-filter 0.3s;
+
+    &.active {
+      border-bottom: 3px solid var(--demonlord-red);
+      margin-bottom: -3px; // Stop border-bottom from pushing text upwards
+    }
+
+    &:hover,
+    &:focus {
+      -webkit-filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+      filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+    }
+
+    label {
+      color: #fff;
+    }
+  }
+
+  &.effects {
+    width: 100%;
+
+    > [data-tab] {
+      text-transform: none;
+
+      &.active {
+        border-bottom: 0;
+        margin-bottom: 0;
+        -webkit-filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+        filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+      }
+    }
   }
 }
 
@@ -70,9 +103,13 @@ nav.sheet-tabs {
   }
 }
 
-.editor-content {
-  scrollbar-width: thin;
-  scrollbar-color: var(--demonlord-red) transparent;
+.dl-editor-box {
+  .editor-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--demonlord-red) transparent;
+
+    height: 100%;
+  }
 }
 
 hr {
@@ -118,7 +155,6 @@ span.vertical-rule {
       font-size: 14px;
       font-weight: 400;
       text-shadow: none;
-      color: var(--demonlord-color-text-primary);
     }
   }
 
@@ -444,6 +480,67 @@ span.vertical-rule {
   @include demonlord-icon('../assets/ui/other-svg/attack.svg');
 }
 
+.icon-character {
+  @include demonlord-icon('../assets/ui/tabs/character.svg');
+}
+
+.icon-combat {
+  @include demonlord-icon('../assets/ui/tabs/combat.svg');
+}
+
+.icon-talents {
+  @include demonlord-icon('../assets/ui/tabs/talents.svg');
+}
+
+.icon-magic {
+  @include demonlord-icon('../assets/ui/tabs/magic.svg');
+}
+
+.icon-inventory {
+  @include demonlord-icon('../assets/ui/tabs/inventory.svg');
+}
+
+.icon-background {
+  @include demonlord-icon('../assets/ui/tabs/background.svg');
+}
+
+.icon-afflictions {
+  @include demonlord-icon('../assets/icons/effects/fatigued.svg');
+}
+
+.icon-effects {
+  @include demonlord-icon('../assets/ui/tabs/effects.svg');
+}
+
+// Afflictions
+$afflictions-demonlord: 'concentrate', 'defend', 'help', 'prepare', 'reload', 'retreat', 'rush', 'stabilize', 'charmed',
+  'compelled', 'defenseless', 'diseased', 'fatigued', 'horrified', 'grabbed', 'immobilized', 'impaired', 'surprised',
+  'slowed', 'injured', 'incapacitated', 'disabled', 'dying', 'surrounded';
+@each $affliction in $afflictions-demonlord {
+  .icon-#{$affliction} {
+    @include demonlord-icon('../assets/icons/effects/#{$affliction}.svg');
+  }
+}
+
+$afflictions-foundry-icon: (
+  'asleep': 'sleep',
+  'blinded': 'blind',
+  'dazed': 'daze',
+  'deafened': 'deaf',
+  'frightened': 'terror',
+  'poisoned': 'poison',
+  'prone': 'falling',
+  'stunned': 'stoned',
+  'unconscious': 'unconscious',
+  'invisible': 'invisible',
+  'injured': 'blood',
+);
+@each $affliction, $icon in $afflictions-foundry-icon {
+  .icon-#{$affliction} {
+    @include demonlord-icon('/icons/svg/#{$icon}.svg');
+  }
+}
+
 /*******************/
 /* Groups          */
 /*******************/
@@ -728,6 +825,10 @@ span.text-vs {
   margin: 0 10px;
 }
 
+.item-group-affliction {
+  @include input-group-container();
+}
+
 .checkable:not(:has(input:checked)):not(:hover) {
   color: var(--demonlord-color-text-dim);
   border: 1px solid var(--demonlord-color-text-dim);
@@ -744,6 +845,10 @@ span.text-vs {
   background-color: var(--demonlord-color-icon);
 }
 
+.themed-icon-inverted {
+  background-color: var(--demonlord-color-icon-inverted);
+}
+
 .themed-icon.inactive {
   background-color: var(--demonlord-color-text-dim);
 }
@@ -758,16 +863,14 @@ span.text-vs {
 /* Toggle          */
 /*******************/
 
-.edit-toggle {
+.switch-toggle {
   --transition-duration: 0.2s;
-
-  position: absolute;
-  right: 17px;
-  top: 90px;
+  width: 100%;
 
   .switch {
     display: inline-block;
     cursor: pointer;
+    width: 100%;
   }
 
   .toggleInput {
@@ -775,11 +878,15 @@ span.text-vs {
   }
 
   .toggleFill {
-    width: 50px;
+    width: 100%;
     height: 14px;
     border-radius: 10px;
     background: transparent;
     border: solid 1px var(--demonlord-red);
+    transition: box-shadow var(--transition-duration);
+  }
+
+  .toggleFill:hover {
     box-shadow: 0 0 5px var(--demonlord-red);
   }
 
@@ -793,11 +900,11 @@ span.text-vs {
     height: 10px;
     background: var(--demonlord-color-text-inverted-primary);
     border-radius: 5px;
-    transition: transform var(--transition-duration);
+    transition: left var(--transition-duration);
   }
 
   .toggleInput:checked ~ .toggleFill:after {
-    transform: translateX(35px);
+    left: calc(100% - 15px);
   }
 
   .toggleText {
@@ -805,15 +912,15 @@ span.text-vs {
     top: 0;
     font-size: 12px;
     transition: opacity var(--transition-duration);
+    width: 100%;
+    text-align: center;
 
     &.on {
       opacity: 0;
-      left: 10px;
     }
 
     &.off {
       opacity: 1;
-      right: 10px;
     }
   }
 

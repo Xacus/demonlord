@@ -1,0 +1,33 @@
+{{!--
+  Context:
+  - filters.endoftheround
+    - source
+    - description
+    - isHealing
+    - isDamage
+--}}
+<aside class="demonlord-compendium-browser-filters  {{#if (eq search.type 'endoftheround')}}active{{/if}}">
+
+  <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsHealing'}}">
+      <input type="checkbox" name="filters.endoftheround.isHealing" {{checked filters.endoftheround.isHealing}}>
+      <i class="icon-healing themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.TalentHealing'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsDamage'}}">
+      <input type="checkbox" name="filters.endoftheround.isDamage" {{checked filters.endoftheround.isDamage}}>
+      <i class="icon-damage themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.TalentDamage'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.endoftheround.description" value="{{filters.endoftheround.description}}">
+  </div>
+</aside>

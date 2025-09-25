@@ -1,4 +1,6 @@
 /* global fromUuidSync */
+
+const { DialogV2 } = foundry.applications.api
 export class DLCombat extends Combat {
 
   /**
@@ -322,25 +324,29 @@ const selectTurnType = async function (actor, fastturn) {
 
   return new Promise(resolve => {
     const dialogData = {
-      title: `${actor.name}: ${game.i18n.localize('DL.TurnChooseTurn')}`,
+      window: {
+        title: `${actor.name}: ${game.i18n.localize('DL.TurnChooseTurn')}`,
+      },
       content: html,
-      buttons: {
-        cancel: {
-          icon: '<i class="fas"></i>',
+      buttons: [
+        {
+          action: 'cancel',
           label: game.i18n.localize('DL.TurnSlow'),
           callback: _ => (turn = 'slow'),
         },
-      },
+      ],
       close: () => resolve(turn),
     }
 
-    if (!actor.system.maluses.noFastTurn)
-      dialogData.buttons['ok'] = {
-        icon: '<i class="fas"></i>',
+    if (!actor.system.maluses.noFastTurn) {
+      dialogData.buttons.push({
+        action: 'ok',
         label: game.i18n.localize('DL.TurnFast'),
         callback: _ => (turn = 'fast'),
-      }
-    new Dialog(dialogData).render(true)
+      })
+    }
+
+    new DialogV2(dialogData).render(true)
   })
 }
 

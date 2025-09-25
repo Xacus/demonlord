@@ -1,0 +1,13 @@
+{{!--
+  Context:
+  - filters.profession
+    - source
+    - description
+--}}
+<aside class="demonlord-compendium-browser-filters  {{#if (eq search.type 'profession')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.profession.description" value="{{filters.profession.description}}">
+  </div>
+</aside>

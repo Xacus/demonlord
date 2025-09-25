@@ -1,0 +1,68 @@
+.demonlord-compendium-browser-search {
+  //height: 200px;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.demonlord-compendium-browser-filters {
+  //height: 450px;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.demonlord-compendium-browser-results {
+  width: calc(100% - 320px - 20px);
+  margin-left: 320px;
+  position: absolute;
+  height: 100%;
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .sortable {
+    &.asc::after {
+      position: absolute;
+      content: '▲';
+    }
+
+    &.desc::after {
+      position: absolute;
+      content: '▼';
+    }
+  }
+}
+
+.demonlord-compendium-browser-search,
+.demonlord-compendium-browser-filters {
+  width: 300px;
+}
+
+.demonlord-compendium-browser-filters,
+.demonlord-compendium-browser-results {
+  display: none;
+
+  &.active {
+    display: flex;
+    flex-direction: column;
+  }
+  .clickable {
+    transition: color 0.3s, text-shadow 0.3s;
+
+    &:hover,
+    &:focus {
+      color: #000;
+      text-shadow: 0 0 10px #fa200b;
+      cursor: pointer !important;
+    }
+  }
+}
+
+.filter-group {
+  padding: 5px 0;
+}

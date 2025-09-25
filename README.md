@@ -74,6 +74,7 @@ Huge thanks to those that helped translate the system:
 - ParvusDomus
 - Cugi
 - zeteticl
+- baixiang
 
 
 ## **Discord**

@@ -11,6 +11,7 @@ export default class PathDataModel extends foundry.abstract.TypeDataModel {
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
       type: makeStringField('novice'),
+      magic: makeBoolField(false),
       levels: new foundry.data.fields.ArrayField(new foundry.data.fields.ObjectField({
         level: makeStringField('1'),
         attributeSelect: makeStringField('choosetwo'),

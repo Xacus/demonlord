@@ -66,11 +66,11 @@ async function copyFiles() {
 function buildWatch() {
   gulp.watch(`${sourceDirectory}/**/*.${sourceFileExtension}`, {ignoreInitial: false}, buildCode);
   gulp.watch(`${stylesDirectory}/**/*.${stylesExtension}`, {ignoreInitial: false}, buildStyles);
-  gulp.watch(`${compendiaDirectory}/**/*.${compendiaExtension}`, {ignoreInitial: true})
-    .on('ready', buildCompendia)
-    .on('change', buildCompendium)
-    .on('add', buildCompendium)
-    .on('unlink', buildCompendium)
+  // gulp.watch(`${compendiaDirectory}/**/*.${compendiaExtension}`, {ignoreInitial: true})
+  //   .on('ready', buildCompendia)
+  //   .on('change', buildCompendium)
+  //   .on('add', buildCompendium)
+  //   .on('unlink', buildCompendium)
   gulp.watch(
     staticFiles.map((file) => `${sourceDirectory}/${file}`),
     {ignoreInitial: false},
@@ -82,6 +82,7 @@ async function buildCompendia() {
 
   const compendia = fs.readdirSync(`${compendiaDirectory}`, {withFileTypes: true})
     .filter(dirent => dirent.isDirectory())
+    .filter(dirent => !dirent.name.endsWith('translations')) // Ignore translations folder
     .map(dirent => dirent.name);
   console.log("Compendia list: ", compendia)
   for (const compendium of compendia) {

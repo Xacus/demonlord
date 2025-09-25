@@ -1,0 +1,19 @@
+{{!--
+  Context:
+  - filters.vehicle
+    - source
+    - type
+    - usesMagic
+--}}
+<aside class="demonlord-compendium-browser-filters {{#if (eq search.type 'vehicle')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CreatureDescriptor'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.vehicle.descriptor" value="{{filters.vehicle.descriptor}}">
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.vehicle.description" value="{{filters.vehicle.description}}">
+  </div>
+</aside>

@@ -1,0 +1,246 @@
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="character">
+  <div style="height: 0">
+    <svg class="svg">
+      <clipPath id="assassin-shield-clip-path" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0.474 C0.165,0.396,0.167,0.305,0.083,0.208 L0.129,0.188,0.092,0.148 C0.329,-0.094,0.816,0.005,0.905,0.139 l-0.046,0.027,0.049,0.043 c-0.067,0.086,-0.05,0.172,0.092,0.258 c-0.085,0.173,-0.142,0.342,-0.442,0.532 l-0.065,-0.033,-0.064,0.031 C0.23,0.883,0.086,0.707,0,0.474">
+        </path>
+      </clipPath>
+    </svg>
+  </div>
+
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+    <div class="col-12">{{localize "DL.CharacterTitle"}}</div>
+  </div>
+
+  <div class="ancestry-paths">
+      <!--  Ancestry-->
+      {{#if actor.ancestry}}
+        {{#each actor.ancestry as |ancestry id|}}
+          <div class="ancestry-path-group ancestry-edit" data-action="editAncestry" data-item-id="{{ancestry._id}}">
+            {{#if (isBadgeImg ancestry.img)}}
+            <div class="ancestry-frame frame">
+              <img class="badge" src="{{ancestry.img}}" />
+            </div>
+            {{else}}
+            <div class="ancestry-frame frame">
+              <img class="border" src="systems/demonlord/assets/ui/shields/rogue-shield.webp" />
+              <img class="icon" src="{{ancestry.img}}"
+                style="clip-path: polygon(51% 0%, 100% 50%, 52% 100%, 0% 48%)" />
+            </div>
+            {{/if}}
+            <div class="type">{{localize 'DL.CharAncestry'}}</div>
+            <div class="name">{{ancestry.name}}</div>
+          </div>
+        {{/each}}
+      {{else}}
+        <div class="ancestry-path-group">
+          <div class="ancestry-frame frame">
+            <img class="border gray" src="systems/demonlord/assets/ui/shields/rogue-shield.webp" />
+          </div>
+          <div class="type">{{localize 'DL.CharAncestry'}}</div>
+          <div class="name"></div>
+        </div>
+      {{/if}}
+
+      <!--  Paths  -->
+      {{#if actor.paths}} {{#each actor.paths as |path id|}}
+      <div class="ancestry-path-group path-edit" data-action="editPath" data-item-id="{{path._id}}">
+          {{#if (isBadgeImg path.img)}}
+            <div class="path-frame frame">
+              <img class="badge" src="{{path.img}}" />
+            </div>
+          {{else}}
+          {{#if (eq path.system.type "novice")}}
+          <div class="path-frame frame">
+            <img class="border" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp" />
+            <img class="icon" src="{{path.img}}"
+              style="clip-path: circle(50% at 50% 50%)" />
+          </div>
+          {{/if}}
+          {{#if (eq path.system.type "expert")}}
+          <div class="path-frame frame">
+            <img class="border" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
+            <img class="icon" src="{{path.img}}"
+              style="clip-path: circle(50% at 50% 50%)" />
+          </div>
+          {{/if}}
+          {{#if (eq path.system.type "master")}}
+          <div class="path-frame frame">
+            <img class="border" src="systems/demonlord/assets/ui/shields/demon-shield.webp" />
+            <img class="icon" src="{{path.img}}"
+              style="width: 50px; height: 50px; top: 25px; left: 25px; clip-path: circle(50% at 50% 50%);" />
+          </div>
+          {{/if}}
+          {{#if (eq path.system.type "legendary")}}
+          <div class="path-frame frame">
+            <img class="border" src="systems/demonlord/assets/ui/shields/mage-shield.webp" />
+            <img class="icon" src="{{path.img}}"
+              style="clip-path: circle(50% at 50% 50%)" />
+          </div>
+          {{/if}}
+        {{/if}}
+        <div class="type">
+          {{#if (eq path.system.type "novice")}}{{localize "DL.CharPathNovice"}}{{/if}}
+          {{#if (eq path.system.type "expert")}}{{localize "DL.CharPathExpert"}}{{/if}}
+          {{#if (eq path.system.type "master")}}{{localize "DL.CharPathMaster"}}{{/if}}
+          {{#if (eq path.system.type "legendary")}}{{localize "DL.CharPathLegendary"}}{{/if}}
+        </div>
+        <div class="name">{{path.name}}</div>
+      </div>
+      {{/each}} {{else}}
+      <div class="ancestry-path-group">
+        <div class="path-frame frame">
+          <img class="border-small gray" src="systems/demonlord/assets/ui/shields/barbarian-shield.webp" />
+        </div>
+        <div class="type">{{localize 'DL.TabsPath'}}</div>
+        <div class="name"></div>
+      </div>
+      {{/if}}
+  </div>
+
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+    <div class="col-12">{{localize "DL.CharDescription"}}</div>
+  </div>
+
+  <!--  Description-->
+  {{#*inline "resourcePartial"}}
+  <label class="resource-label" for="{{res}}">{{localize loc}}</label>
+  <input name="{{res}}" type="text" value="{{val}}" placeholder="{{localize loc}}" />
+  {{/inline}}
+
+  <div class="char-description">
+    <div class="row">
+      <div class="col-3">
+        {{> resourcePartial res="system.appearance.sex" val=system.appearance.sex loc="DL.CharGender"}}
+      </div>
+      <div class="col-3">
+        {{> resourcePartial res="system.appearance.age" val=system.appearance.age loc="DL.CharAge"}}
+      </div>
+      <div class="col-6 religion">
+        <label class="resource-label" for="system.religion.value">{{localize 'DL.CharReligion'}}</label>
+        <input name="system.religion.value" type="text" value="{{system.religion.value}}"
+          placeholder="{{localize 'DL.CharReligion'}}" />
+        <img src="{{system.religion.image}}" alt="{{system.religion.value}}" title="{{localize 'DL.CharReligion'}}"
+          data-action="editImage" data-edit="system.religion.image" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-3">
+        {{> resourcePartial res="system.appearance.eyes" val=system.appearance.eyes loc="DL.CharEyes"}}
+      </div>
+      <div class="col-3">
+        {{> resourcePartial res="system.appearance.hair" val=system.appearance.hair loc="DL.CharHair"}}
+      </div>
+      <div class="col-3">
+        {{> resourcePartial res="system.appearance.height" val=system.appearance.height loc="DL.CharHeight"}}
+      </div>
+      <div class="col-3">
+        {{> resourcePartial res="system.appearance.weight" val=system.appearance.weight loc="DL.CharWeight"}}
+      </div>
+    </div>
+
+    <!-- Languages   -->
+    <div class="row">
+      <div class="col-12 languages">
+        <label class="resource-label" for="system.appearance.age">{{localize 'DL.LanguagesTitle'}}</label>
+        {{#if actor.languages}}
+        <div class="edit">
+          <a class="languages-edit" data-action="editLanguages" title="{{localize 'DL.LanguagesEdit'}}"><i class="fas fa-edit"></i></a>
+        </div>
+        {{#if system.languages.edit}} {{#each actor.languages as |language id|}}
+        <div class="language dl-nested-item" data-item-id="{{language._id}}">
+          <span class="languagetitle">{{language.name}}</span> (
+          <a class="language-toggle speak" data-action="toggleSpeak" data-tippy-content="{{localize 'DL.LanguagesSpeak'}}">
+            <i class="language-icon icon-speak themed-icon {{#unless language.system.speak}}inactive{{/unless}}"></i>
+          </a>
+
+          <a class="language-toggle read" data-action="toggleRead" data-tippy-content="{{localize 'DL.LanguagesRead'}}">
+            <i class="language-icon icon-read themed-icon {{#unless language.system.read}}inactive{{/unless}}"></i>
+          </a>
+
+          <a class="language-toggle write" data-action="toggleWrite" data-tippy-content="{{localize 'DL.LanguagesWrite'}}">
+            <i class="language-icon icon-write themed-icon {{#unless language.system.write}}inactive{{/unless}}"></i>
+          </a>
+          )
+          <span class="item-controls">
+            <a class="item-control" data-action="deleteItem" title="{{localize 'DL.LanguageDelete'}}"><i
+                class="fas fa-times"></i></a>
+          </span>
+        </div>
+        {{/each}} {{else}} {{#each actor.languages as |language id|}}
+        <div class="language">
+          <span class="languagetitle">{{language.name}}</span> (
+          <i class="language-icon icon-speak themed-icon {{#unless language.system.speak}}inactive{{/unless}}" data-tippy-content="{{localize 'DL.LanguagesSpeak'}}"></i>
+          <i class="language-icon icon-read themed-icon {{#unless language.system.read}}inactive{{/unless}}" data-tippy-content="{{localize 'DL.LanguagesRead'}}"></i>
+          <i class="language-icon icon-write themed-icon {{#unless language.system.write}}inactive{{/unless}}" data-tippy-content="{{localize 'DL.LanguagesWrite'}}"></i>
+          )
+        </div>
+        {{/each}} {{/if}} {{else}}
+        <input name="system.languages.value" type="text" value="{{data.languages.value}}"
+          placeholder="{{localize 'DL.LanguagesTitle'}}" />
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  {{#* inline "dlDropZoneView"}}
+  <div class="dl-drop-zone-view {{#if col2}}dl-drop-zone-col-2{{/if}}">
+    {{#each collection as |item index|}}
+    <div class="dl-nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}" {{#if
+      item.system.description}}data-tippy-html="{{item.system.enrichedDescription}}" {{/if}}>
+      <img src="{{item.img}}">
+      <span class="dl-clickable" data-action="editItem">{{item.name}}</span>
+      {{#if (dlIsNestedItem item)}}
+      <a class="dl-clickable" data-action="editItem" style="margin-right: 4px; margin-left: auto; margin-top: 1px;"
+        title="{{dlGetNestedItemSource item}}">
+        <i class="fa-solid fa-link"></i>
+      </a>
+      {{else}}
+      <a class="dl-clickable" data-action="deleteItem" style="margin-right: 4px; margin-left: auto; margin-top: 1px;">
+        <i class="fas fa-times"></i>
+      </a>
+      {{/if}}
+    </div>
+    {{/each}}
+  </div>
+  {{/inline}}
+
+  <!-- TODO: Use .row .col here -->
+  <div class="grid grid-2 chardetail">
+    <div class="colleft">
+      <div class="features">
+        <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+          <div class="col-10">{{localize "DL.FeaturesTitle"}}</div>
+          <div class="col-2">
+            <a class="item-control" data-action="createItem" title="{{localize 'DL.FeatureAdd'}}" data-type="feature">
+              <i class="fas fa-plus"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        {{> dlDropZoneView collection=actor.features}}
+      </div>
+    </div>
+
+    <div class="colright">
+      <div class="professions">
+        <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+          <div class="col-10">{{localize "DL.ProfessionsTitle"}}</div>
+          <div class="col-2">
+            <a class="item-control" data-action="createItem" title="{{localize 'DL.ProfessionsAdd'}}" data-type="profession">
+              <i class="fas fa-plus"></i>
+            </a>
+          </div>
+        </div>
+        <div class="body">
+          {{> dlDropZoneView collection=actor.professions}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>

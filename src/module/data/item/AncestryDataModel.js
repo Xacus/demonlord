@@ -15,6 +15,7 @@ export default class AncestryDataModel extends foundry.abstract.TypeDataModel {
       source: makeHtmlField(),
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
+      magic: makeBoolField(false),
       levels: new foundry.data.fields.ArrayField(new foundry.data.fields.ObjectField({
         level: makeStringField('1'),
         attributeSelect: makeStringField('choosetwo'),

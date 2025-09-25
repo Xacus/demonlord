@@ -47,6 +47,22 @@ export class DemonlordActor extends Actor {
       system.characteristics.defense = 0  // assume defense = agility
       system.characteristics.health.max = 0
       system.characteristics.insanity.max = 0 // Set base insanity max
+    } else if (this.type === 'creature' || this.type === 'vehicle') {
+      // Set values to base
+      for (const attribute of Object.values(system.attributes)) {
+        attribute.value = attribute.base
+      }
+
+      system.characteristics.defense = system.characteristics.defenseBase
+      system.characteristics.health.max = system.characteristics.health.maxBase
+      system.characteristics.speed = system.characteristics.speedBase
+      system.characteristics.size = system.characteristics.sizeBase
+      this._source.system.characteristics.size = system.characteristics.sizeBase // Do source size to allow calculation in prepareDerivedData
+
+      if (this.type === 'creature') {
+        system.difficulty = system.difficultyBase
+        system.characteristics.power = system.characteristics.powerBase
+      }
     }
 
     foundry.utils.setProperty(system, 'bonuses', {
@@ -184,7 +200,7 @@ export class DemonlordActor extends Actor {
     // --- Creature specific data ---
     else {
       system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
-    }    
+    }
 
     // Final armor computation
     system.characteristics.defense += system.bonuses.armor.defense
@@ -225,10 +241,33 @@ export class DemonlordActor extends Actor {
           break
       }
 
+      // Round to avoid inconsistent sizees
+      if (modifiedSize > 1) {
+        modifiedSize = Math.floor(modifiedSize)
+      }
+
       newSize = this.getSizeFromNumber(modifiedSize)
     }
 
     this.system.characteristics.size = newSize
+
+    // Trigger token update, so that changes are reflected
+    if (game.ready && game.settings.get('demonlord', 'autoSizeTokens')) {
+      for (const token of this.getActiveTokens(true, true)) {
+
+        let scale = Math.max(modifiedSize, 0.5) // Foundry can't handle token scales smaller than 0.5, so we need to adjust the texture scale further
+        let textureScale = 1
+
+        if (modifiedSize < 0.5) {
+            textureScale = modifiedSize * 2;
+        }
+
+        token.resize({width: scale, height: scale}, { animate: true })
+        token.update({ texture: { scaleX: textureScale, scaleY: textureScale }})
+        //token.prepareDerivedData()
+        //token.object?.refresh()
+      }
+    }
   }
 
   /* -------------------------------------------- */
@@ -251,11 +290,10 @@ export class DemonlordActor extends Actor {
   async _onUpdate(changed, options, user) {
     await super._onUpdate(changed, options, user)
     if (user !== game.userId) return
-    if (changed?.level || changed?.system?.level) {
+    if (changed?.level != null || changed?.system?.level != null) {
       await this._handleDescendantDocuments(changed, {debugCaller: '_onUpdate'})
     }
     if (changed.system?.characteristics?.health) await this.handleHealthChange()
-    if (changed.system?.characteristics?.size) await this.handleSizeChange()
   }
 
   async _handleDescendantDocuments(changed, options = {}) {
@@ -319,7 +357,7 @@ export class DemonlordActor extends Actor {
 
   async _handleOnUpdateDescendant(documents, isNameChange) {
     console.log('DEMONLORD | Calling _handleOnUpdateDescendant', documents)
-    
+
     // Delete all effects created by this item and re-add them
     const effectsToDelete = []
 
@@ -327,7 +365,7 @@ export class DemonlordActor extends Actor {
       effectsToDelete.push(...doc.parent.effects.filter(e => e.origin === doc.uuid).map(e => e.id))
       await DLActiveEffects.embedActiveEffects(this, doc, 'update')
     }
-    
+
     if (isNameChange) {
       await this.deleteEmbeddedDocuments('ActiveEffect', effectsToDelete)
     }
@@ -367,7 +405,7 @@ export class DemonlordActor extends Actor {
     }
     if (boba > 0 && parseInt(bobaRerolls) > 0) rollFormula += `+${boba}d6r1kh`
     else if (boba) rollFormula += plusify(boba) + 'd6kh'
-    
+
     if (boba !== 0 && game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 's') {
       let staticBoonsAndBanes = 2 + Math.abs(boba)
       if (staticBoonsAndBanes > 5) staticBoonsAndBanes = 5
@@ -469,7 +507,7 @@ export class DemonlordActor extends Actor {
           if (
             effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
             effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`)) || 
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`)) ||
             effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
             effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
             effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.weapon`))
@@ -525,8 +563,8 @@ export class DemonlordActor extends Actor {
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
-      launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async html => {
-        await this.rollItemAttack(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val())
+      launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async (event, html) => {
+        await this.rollItemAttack(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
         // Decrease ammo quantity
         if (item.system.consume.ammorequired) {
           await ammoItem.update({
@@ -565,8 +603,8 @@ export class DemonlordActor extends Actor {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.key))
-      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async html =>
-        await this.rollAttributeChallenge(attribute, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) =>
+        await this.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       )
   }
 
@@ -592,7 +630,7 @@ export class DemonlordActor extends Actor {
       (attacker.system.bonuses.attack.boons?.[attribute.key] || 0) +
       (attacker.system.bonuses.attack.boons?.all || 0)
 
-    if (defendersTokens.length === 1) boons -= (defender?.system.bonuses.defense.boons[defense] || 0) + (defender?.system.bonuses.defense.boons.all || 0) + 
+    if (defendersTokens.length === 1) boons -= (defender?.system.bonuses.defense.boons[defense] || 0) + (defender?.system.bonuses.defense.boons.all || 0) +
        (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
 
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
@@ -632,8 +670,8 @@ export class DemonlordActor extends Actor {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'attack', attribute.key))
-      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogAttackRoll') + attribute.label, async html =>
-        await this.rollAttributeAttack(attribute, html.find('[id="defense"]').val(), html.find('[id="boonsbanes"]').val(), html.find('[id=modifier]').val()),
+      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogAttackRoll') + attribute.label, async (event, html) =>
+        await this.rollAttributeAttack(attribute, html.form.elements.defense.value, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       true
     )
   }
@@ -648,15 +686,15 @@ export class DemonlordActor extends Actor {
     const item = this.items.get(itemID)
     const uses = parseInt(item.system?.uses?.value) || 0
     const usesMax = parseInt(item.system?.uses?.max) || 0
-    
+
     if (usesMax !== 0 && uses >= usesMax) {
       ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
       return
     }
 
     if (item.system?.action?.attack) {
-      launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async html =>
-        await this.useTalent(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async (event, html) =>
+        await this.useTalent(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       )
     } else {
       await this.useTalent(item, 0, 0)
@@ -712,7 +750,7 @@ export class DemonlordActor extends Actor {
           let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
           if (
             effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`))|| 
+            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
             effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
             effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`))
           )
@@ -873,17 +911,17 @@ export class DemonlordActor extends Actor {
       if (item.system.quantity < 1 ) {
         if (item.system.autoDestroy) {
           return await item.delete()
-        } else { 
+        } else {
           return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
-        }  
-      }      
+        }
+      }
 
       await item.update({'system.quantity': --item.system.quantity}, {parent: this})
     }
 
     if (item.system?.action?.attack) {
-      launchRollDialog(game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async html =>
-        await this.useItem(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val()),
+      launchRollDialog(game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html) =>
+        await this.useItem(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       )
     } else {
       await this.useItem(item, 0, 0)
@@ -893,7 +931,7 @@ export class DemonlordActor extends Actor {
 
   }
 
-  async useItem(item, inputBoons, inputModifier) {    
+  async useItem(item, inputBoons, inputModifier) {
     const itemData = item.system
     const targets = tokenManager.targets
     const target = targets[0]
@@ -1172,13 +1210,6 @@ export class DemonlordActor extends Actor {
     } else {
       await findDeleteEffect(this, 'injured')
       await this.update({ 'system.characteristics.health.injured': false})
-    }
-  }
-
-  async handleSizeChange() {
-    if (this.type === 'creature') {
-      const fixedSize = this.getSizeFromNumber(this.getSizeFromString(this.system.characteristics.size))
-      await this.update({ 'system.characteristics.size': fixedSize})
     }
   }
 

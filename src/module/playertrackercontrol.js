@@ -3,7 +3,6 @@ const InteractionLayer = foundry.canvas.layers.InteractionLayer
 
 function registerLayer () {
   CONFIG.Canvas.layers.playerTracker = { name: 'sotdl', layerClass: InteractionLayer, group: 'interface' }
-
 }
 
 function registerGetSceneControlButtonsHook () {
@@ -23,6 +22,7 @@ function getSceneControlButtons (controls) {
       layer: 'sotdl', // TODO: different layer to allow token clicks
       icon: 'fas fa-book-dead', // More demonic themed :) [old: fa-wrench]
       visible: true,
+      activeTool: 'players',
       tools: {
         'players': {
           name: 'players',
@@ -30,11 +30,14 @@ function getSceneControlButtons (controls) {
           icon: 'fas fas fa-users',
           order: 1,
           button: true,
-          onClick: () => {
-            new PlayerTracker(this.actor, {
-              top: 60,
-              left: 120,
-            }).render(true)
+          // TODO: Should be fixed in v14 once this is live (https://github.com/foundryvtt/foundryvtt/issues/12966)
+          onChange: (event, active) => {
+            if (active) {
+              new PlayerTracker(this.actor, {
+                top: 60,
+                left: 120,
+              }).render({ force: true })
+            }
           }
         }
       }

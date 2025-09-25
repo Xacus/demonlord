@@ -1,6 +1,7 @@
 import {
   attributes,
   characteristics,
+  wealth
 } from '../common.js'
 
 import {
@@ -31,8 +32,8 @@ export default class VehicleDataModel extends foundry.abstract.DataModel {
       cargo: makeIntField(),
       space: makeStringField(),
       maximumspeed: makeStringField(),
-      crew: makeStringField()
-
+      crew: makeStringField(),
+      wealth: wealth(),
     }
   }
 

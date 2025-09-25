@@ -2,6 +2,173 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.12]
+### Fixes
+- ChatCard enhancements and Fixes
+- Rollback of ChatCard alias option
+
+## [5.0.11]
+### Fixed
+- Active effect config selector
+
+## [5.0.10]
+### Added
+- Option to add inventory tab to creature sheet
+- Option to hide fortune in character sheets
+
+## [5.0.9]
+- Make fortune a toggle
+
+## [5.0.8]
+### Added
+- Chat card alias option to use actor or token name
+
+### Fixed
+- Combatant drag and drop
+- Standardise rest chat card functions
+
+## [5.0.7]
+### Fixed
+- Properties text in items not saving
+
+## [5.0.6]
+### Added
+- TokenRuler integration
+
+## [5.0.5]
+### Added
+- Option for encounter difficulty in tracker
+
+## [5.0.4]
+### Fixed
+- Combat tracker
+
+## [5.0.3]
+### Fixed
+- Flag fixes for v13
+
+## [5.0.2]
+### Fixed
+- Update minimum version in manifest
+
+## [5.0.1]
+### Fixed
+- Special duration fixed for v13
+- Remove a bunch of deprecation warnings
+
+## [5.0.0]
+### Added
+- Upgrade to v13
+- Default turn marker
+
+### Fixed
+- Add hands to weapons in compendium
+- Improve descriptions for injured, disabled and dying conditions
+
+## [4.8.8]
+### Fixed
+- Attack roll dialog for non-English locales
+
+## [4.8.7]
+### Added
+- Optional Rule: Surrounded
+
+## [4.8.6]
+### Added
+- Option to toggle visibility of creature activity descriptions
+
+## [4.8.5]
+### Added
+- Option to automatically mark tokens as defeated in combat tracker
+
+## [4.8.4]
+### Added
+- Option to roll challenge roll when using Ctrl+Click on attribute
+
+## [4.8.2-4.8.3]
+### Added
+- Enhancements to attack chat card
+
+## [4.8.1]
+### Fixed
+- Only plusify truthy values when creating add effects
+- Ensure uses are compared as numbers in all cases
+
+## [4.8.0]
+### Added
+- Ability to roll modifiers on attacks
+- Ability to make attribute attacks
+
+### Fixed
+- Player tracker not re-opening
+
+## [4.7.1]
+### Added
+- Make fortune a counter
+
+## [4.7.0]
+### Added
+- Setting to ignore encumbrance rules
+- Active effect for requirement modifier, which is added to attribute value during encumbrance calculation
+
+### Fixed
+- Restore content drag from item sheet
+- Display issue in frightening/horrifying checkbox in Firefox
+- Restore corruption and insanity formula editor
+
+## [4.6.7]
+### Added
+- Ignore frightened/horrifying bane for characters above a certain level
+
+## [4.6.5-4.6.6]
+### Added
+- Option to interpred 20+ exceeds by 5 to mean "more than 5"
+
+## [4.6.4]
+### Fixed
+- Create language button on ancestry
+- Path effects not applying
+- Wrong item being saved when multiple sheets are open
+
+## [4.6.3]
+### Fixed
+- Prevent creation of double level 4 on ancestry migration
+
+## [4.6.2]
+### Fixed
+- Ensure roll formulas are copied when level is edited
+
+## [4.6.1]
+### Fixed
+- Ancestry import
+
+## [4.6.0]
+### Added
+- Migrate ancestry to use levels
+
+
+## [4.5.4]
+### Added
+- Option to hide actor info (i.e. name, ancestry) from chat messages
+
+## [4.5.3]
+### Fixed
+- Options text not sticking to level
+- Delete effects when modifying an embedded item update if the item name was changed
+
+## [4.5.2]
+### Fixed
+- Correct missing spell type
+- Prevent errors when combatant is deleted
+
+## [4.5.1]
+### Added
+- Expand item macro creation to embedded and observed items
+
+### Fixed
+- Restore end of round dialog
+- Path and ancestry sheets not accepting embedded items
+
 ## [4.5.0]
 ### Added
 - Migrate all item sheets to ApplicationV2

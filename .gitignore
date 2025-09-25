@@ -10,7 +10,7 @@ npm-debug.log
 foundryconfig.json
 
 # Distribution files
-dist
+/dist
 system.zip
 
 # ESLint

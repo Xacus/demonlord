@@ -1,0 +1,70 @@
+{{!--
+  Context:
+  - filters.talent
+    - source
+    - isTriggered
+    - description
+    - isHealing
+    - isDamage
+    - // isInsanity
+    - // isCorruption
+    - hasChallenge
+    - hasUses
+--}}
+<aside class="demonlord-compendium-browser-filters  {{#if (eq search.type 'talent')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.TalentGroupname'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.talent.groupname" value="{{filters.talent.groupname}}">
+  </div>
+
+  <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsTriggered'}}">
+      <input type="checkbox" name="filters.talent.isTriggered" {{checked filters.talent.isTriggered}}>
+      <i class="icon-triggered themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.SpellTriggered'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsHealing'}}">
+      <input type="checkbox" name="filters.talent.isHealing" {{checked filters.talent.isHealing}}>
+      <i class="icon-healing themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.TalentHealing'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.IsDamage'}}">
+      <input type="checkbox" name="filters.talent.isDamage" {{checked filters.talent.isDamage}}>
+      <i class="icon-damage themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.TalentDamage'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.HasChallenge'}}">
+      <input type="checkbox" name="filters.talent.hasChallenge" {{checked filters.talent.hasChallenge}}>
+      <i class="icon-challenge themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.ChallengeRoll'}}</span>
+    </div>
+  </div>
+
+    <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserFilters.HasUses'}}">
+      <input type="checkbox" name="filters.talent.hasUses" {{checked filters.talent.hasUses}}>
+      <i class="icon-challenge themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.TalentUses'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.talent.description" value="{{filters.talent.description}}">
+  </div>
+</aside>

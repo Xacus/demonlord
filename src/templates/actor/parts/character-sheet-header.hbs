@@ -1,0 +1,31 @@
+<div class="demonlord-v2-actor-sheet-container demonlord-v2-actor-sheet-header-container">
+  <header class="demonlord-v2-actor-sheet-header">
+    <div class="header-fields">
+      <div class="header-name">
+        <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DL.CharName'}}" />
+      </div>
+      <div class="header-level">
+        <label for="system.level">{{localize 'DL.CharLevel'}}</label>
+        <input class="value" name="system.level" type="number" value="{{system.level}}" data-dtype="{{attribute.dtype}}" min="0" />
+      </div>
+    </div>
+    <div class="header-fields attribute-fields">
+      {{#*inline "attribute-partial"}}
+      <div class="attribute">
+        <label class="name" data-key="{{n}}" for="system.attributes.{{n}}.value">{{attr.label}}</label>
+        <input class="value" type="{{ifThen attr.immune "text" "Number"}}"
+          value="{{ifThen attr.immune "-" attr.value}}" readonly />
+        {{#unless attr.immune}}
+          <label class="modifier">{{plusify attr.modifier}}</label>
+        {{/unless}}
+      </div>
+      {{/inline}}
+
+      {{> attribute-partial attr=system.attributes.strength n="strength"}}
+      {{> attribute-partial attr=system.attributes.agility n="agility"}}
+      {{> attribute-partial attr=system.attributes.intellect n="intellect"}}
+      {{> attribute-partial attr=system.attributes.will n="will"}}
+      {{> attribute-partial attr=system.attributes.perception n="perception"}}
+    </div>
+  </header>
+</div>

@@ -655,4 +655,12 @@ export const registerSettings = function () {
     config: true,
     requiresReload: true
   })
+  game.settings.register('demonlord', 'autoSizeTokens', {
+    name: game.i18n.localize('DL.SettingAutoSizeTokens'),
+    hint: game.i18n.localize('DL.SettingAutoSizeTokensHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true
+  })
 }

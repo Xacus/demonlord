@@ -1,3 +1,5 @@
+const { DialogV2 } = foundry.applications.api
+
 export function requestInitiativeRollMacro() {
   function requestInitRoll(token) {
     const actor = token.actor;
@@ -95,8 +97,10 @@ export function requestChallengeRollMacro() {
   }
 
   let applyChanges = false;
-  new Dialog({
-    title: game.i18n.localize('DL.MacroChallengeTitle'),
+  new DialogV2({
+    window: {
+      title: game.i18n.localize('DL.MacroChallengeTitle'),
+    },
     content: `
     <form>
       <div class="form-group">
@@ -115,18 +119,20 @@ export function requestChallengeRollMacro() {
       </div>
     </form>
     `,
-    buttons: {
-      yes: {
-        icon: "<i class='fas fa-check'></i>",
+    buttons: [
+      {
+        action: 'yes',
+        icon: 'fas fa-check',
         label: game.i18n.localize('DL.MacroChallengeRequestRoll'),
-        callback: () => applyChanges = true
+        callback: () => applyChanges = true,
+        default: true,
       },
-      no: {
-        icon: "<i class='fas fa-times'></i>",
+      {
+        action: 'no',
+        icon: 'fas fa-times',
         label: game.i18n.localize('DL.MacroCancel')
       },
-    },
-    default: "yes",
+    ],
     close: html => {
       if (applyChanges) {
         for (let token of canvas.tokens.controlled) {
@@ -186,20 +192,24 @@ export function wealthManagerMacro() {
   </ul>
   `;
 
-    new Dialog({
-      title: game.i18n.localize('DL.MacroWealthManager.DialogTitle'),
+    new DialogV2({
+      window: {
+        title: game.i18n.localize('DL.MacroWealthManager.DialogTitle'),
+      },
       content: template,
-      buttons: {
-        ok: {
+      buttons: [
+        {
+          action: 'ok',
           label: game.i18n.localize('DL.MacroWealthManager.ButtonApply'),
           callback: async (html) => {
             coinmanager(html);
           },
         },
-        cancel: {
+        {
+          action: 'cancel',
           label: game.i18n.localize('DL.MacroWealthManager.ButtonCancel'),
         },
-      },
+      ],
     }).render(true);
   }
 
@@ -303,31 +313,38 @@ export function applyVisionMacro() {
     return
   }
 
-  let d = new Dialog({
-    title: "Change token vision type",
-    buttons: {
-      basic: {
+  let d = new DialogV2({
+    window: {
+      title: "Change token vision type",
+    },
+    buttons: [
+      {
+        action: 'basic',
         label: "Basic",
-        callback: () => applyVisionToSelectedTokens('basic')
+        callback: () => applyVisionToSelectedTokens('basic'),
+        default: true
       },
-      shadowsight: {
+      {
+        action: 'shadowsight',
         label: "Shadowsight",
         callback: () => applyVisionToSelectedTokens('shadowsight')
       },
-      darksight: {
+      {
+        action: 'darksight',
         label: "Darksight",
         callback: () => applyVisionToSelectedTokens('darksight')
       },
-      sightless: {
+      {
+        action: 'sightless',
         label: "Sightless",
         callback: () => applyVisionToSelectedTokens('sightless')
       },
-      truesight: {
+      {
+        action: 'truesight',
         label: "Truesight",
         callback: () => applyVisionToSelectedTokens('truesight')
       }
-    },
-    default: "basic",
+    ],
   });
   d.render(true);
 

@@ -16,19 +16,19 @@
           <div class="gmonlyzero">{{data.diceTotalGM}}</div>
         </div>
         {{#if data.isCreature}}
-          <div class="gmonly">
-                    <span class="tooltiptext">
-                      {{#each diceData.dice}}
-                        <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
-                            <label style="color:{{this.color}};">
-                              {{this.result}}
-                            </label>
-                          {{#if this.img}}
-                            <img src='{{this.img}}'/>
-                          {{/if}}
-                        </div>
-                      {{/each}}
-                    </span>
+          <div class="owneronly">
+            <span class="tooltiptext">
+              {{#each diceData.dice}}
+              <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                <label style="color:{{this.color}};">
+                  {{this.result}}
+                </label>
+                {{#if this.img}}
+                <img src='{{this.img}}' />
+                {{/if}}
+                </div>
+                {{/each}}
+                </span>
           </div>
         {{else}}
           {{#if data.ifBlindedRoll }}
@@ -37,13 +37,13 @@
           <span class="tooltiptext">
             {{#each diceData.dice}}
               <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
-                        <label style="color:{{this.color}};">
-                          {{this.result}}
-                        </label>
+                <label style="color:{{this.color}};">
+                  {{this.result}}
+                </label>
                 {{#if this.img}}
                   <img src='{{this.img}}'/>
                 {{/if}}
-                    </div>
+              </div>
             {{/each}}
           </span>
           {{#if data.ifBlindedRoll }}
@@ -64,7 +64,7 @@
   </div>
   {{#if data.actionEffects}}
     {{#if data.isCreature}}
-      <div class="gmonly">
+      <div class="owneronly">
         <div class="description">
           <div class="header">{{localize "DL.TalentRollActions"}}</div>
           <div class="body">{{{data.actionEffects}}}</div>

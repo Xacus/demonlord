@@ -15,12 +15,11 @@ import * as macros from './macros/item-macros.js'
 import * as gmMacros from './macros/gm-macros.js'
 import * as playerMacros from './macros/player-macros'
 import {DLAfflictions} from './active-effects/afflictions'
-import {DLActiveEffectConfig} from './active-effects/sheets/active-effect-config'
-import DLCharacterSheet from './actor/sheets/character-sheet'
-import DLCreatureSheet from './actor/sheets/creature-sheet'
-import DLVehicleSheet from './actor/sheets/vehicle-sheet'
+import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config'
+import DLCharacterSheet from './actor/sheets/character-sheet.js'
+import DLCreatureSheet from './actor/sheets/creature-sheet.js'
+import DLVehicleSheet from './actor/sheets/vehicle-sheet.js'
 import DLBaseItemSheet from './item/sheets/base-item-sheet.js'
-
 import CharacterDataModel from './data/actor/CharacterDataModel.js'
 import CreatureDataModel from './data/actor/CreatureDataModel.js'
 import VehicleDataModel from './data/actor/VehicleDataModel.js'
@@ -41,12 +40,11 @@ import TalentDataModel from './data/item/TalentDataModel.js'
 import WeaponDataModel from './data/item/WeaponDataModel.js'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
-import 'tippy.js/dist/tippy.css';
-import {registerHandlebarsHelpers} from "./utils/handlebars-helpers";
-import DLBaseActorSheet from "./actor/sheets/base-actor-sheet";
-import {_onUpdateWorldTime, DLCombat} from "./combat/combat"; // optional for styling
+import 'tippy.js/dist/tippy.css'
+import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"
+import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for styling
 import { activateSocketListener } from "./utils/socket.js"
-import TokenRulerDemonLord from "./utils/token-ruler.js"
+import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
 
 const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
 const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
@@ -83,7 +81,7 @@ Hooks.once('init', async function () {
   CONFIG.Combat.documentClass = DLCombat
   CONFIG.time.roundTime = 10
   // CONFIG.debug.hooks = true
-  
+
   // Move to new ActiveEffect transferral
   CONFIG.ActiveEffect.legacyTransferral = false;
 
@@ -114,6 +112,7 @@ Hooks.once('init', async function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet)
+
   Actors.registerSheet('demonlord', DLCharacterSheet, {
     types: ['character'],
     makeDefault: true,
@@ -121,7 +120,7 @@ Hooks.once('init', async function () {
 
   Actors.registerSheet('demonlord', DLCreatureSheet, {
     types: ['creature'],
-    makeDefault: false,
+    makeDefault: true,
   })
 
   Actors.registerSheet('demonlord', DLVehicleSheet, {
@@ -159,19 +158,6 @@ Hooks.once('init', async function () {
     Babele.get().setSystemTranslationsDir('packs/translations')
   }
   activateSocketListener()
-
-  // Token Ruler
-  if (game.settings.get('demonlord', 'integrateTokenRuler')) {
-    delete CONFIG.Token.movement.actions.blink
-    delete CONFIG.Token.movement.actions.jump
-    delete CONFIG.Token.movement.actions.burrow
-    delete CONFIG.Token.movement.actions.climb.getCostFunction
-    delete CONFIG.Token.movement.actions.crawl.getCostFunction
-    delete CONFIG.Token.movement.actions.fly.getCostFunction
-    delete CONFIG.Token.movement.actions.swim.getCostFunction
-    CONFIG.Token.movement.actions.fly.canSelect = token => token?.actor?.system.canFly
-    CONFIG.Token.rulerClass = TokenRulerDemonLord
-  }
 })
 
 Hooks.once('ready', async function () {
@@ -318,7 +304,7 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
       if (_parent.isImmuneToAffliction(statusId)) continue
 
       await _parent.setFlag('demonlord', statusId, true)
-      
+
       // If asleep, also add prone and uncoscious
       if (statusId === 'asleep') {
         await findAddEffect(_parent, 'prone')
@@ -427,13 +413,35 @@ Hooks.on("updateWorldTime", _onUpdateWorldTime)
 Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
 
 Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
+  let messageActorId = app.speaker.actor
+  let messageActor = game.actors.get(messageActorId)
+
   if (!game.user.isGM) {
-    html.querySelectorAll('.gmonly').forEach(el => el.remove())
-    html.querySelectorAll('.gmonlyzero').forEach(el => el.remove())
-    let messageActor = app.speaker.actor
-    if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideActorInfo')) html.find('.showlessinfo').remove()
-    if (!game.actors.get(messageActor)?.isOwner && game.settings.get('demonlord', 'hideDescription')) html.find('.showdescription').empty()
-  } else html.querySelectorAll('.gmremove').forEach(el => el.remove())
+    html.querySelectorAll('.gmonly')?.forEach(el => el.remove())
+    html.querySelectorAll('.gmonlyzero')?.forEach(el => el.remove())
+  } else html.querySelectorAll('.gmremove')?.forEach(el => el.remove())
+
+  if (!messageActor?.isOwner) {
+
+      html.querySelectorAll('.owneronly')?.forEach(el => el.remove())
+      if (game.settings.get('demonlord', 'hideActorInfo')) html.querySelectorAll('.showlessinfo')?.forEach(el => el.remove())
+      if (game.settings.get('demonlord', 'hideDescription')) html.querySelectorAll('.showdescription')?.forEach(el => $(el).empty())
+  }
+})
+
+Hooks.on('renderCompendiumDirectory', async (app, html, _data) => {
+  if (html.querySelector('.compendium-browser-button')) return // Prevent duplicates
+  const footer = html.querySelector('.directory-footer')
+  const button = document.createElement('button')
+  button.innerHTML = `<i class="fas fa-search"></i> ${game.i18n.localize('DL.CompendiumBrowser')} `
+  button.classList.add('compendium-browser-button')
+  button.addEventListener('click', () => {
+    new DLCompendiumBrowser({
+      top: 50,
+      right: 700
+    }).render(true)
+  })
+  footer.append(button)
 })
 
 Hooks.once('diceSoNiceReady', dice3d => {
@@ -475,7 +483,7 @@ Hooks.once('diceSoNiceReady', dice3d => {
       labels: ['I', 'II', 'systems/demonlord/assets/ui/icons/logo.png'],
       system: 'demonlord',
     })
-  }  
+  }
   dice3d.addColorset({
     name: 'demonlord',
     description: 'Special',
@@ -566,5 +574,3 @@ Hooks.on('DL.Action', async () => {
   const actionTemplates = canvas.scene.templates.filter(a => a.flags.actionTemplate).map(a => a.id)
   if (actionTemplates.length > 0) await canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
 })
-
-Hooks.on('renderDLBaseActorSheet', (app, html, data) => DLBaseActorSheet.onRenderInner(app, html, data))

@@ -1,0 +1,158 @@
+<div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="combat">
+  <!-- WEAPONS -->
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+    <div class="col-7">{{localize "DL.WeaponTitle"}}</div>
+    <div class="col-2">{{localize "DL.WeaponDamage"}}</div>
+    <div class="col-1">{{localize "DL.WeaponBoonsBanesShort"}}</div>
+    <div class="col-2">
+      <a class="item-control" data-action="createItem" title="{{localize 'DL.WeaponAdd'}}" data-type="weapon">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </div>
+
+
+  {{#each actor.weapons as |weapon id|}}
+  <div class="dl-item-row dropitem dl-nested-item" data-item-id="{{weapon._id}}">
+    <div class="row">
+      <div class="col-7">
+        <img class="dl-clickable item-edit" data-action="editItem" src="{{weapon.img}}" title="{{weapon.name}}" width="32" height="32" />
+        {{#if system.wear}}
+        <label class="dl-rollable attack-roll">{{weapon.name}}</label>
+        {{else}}
+        <label style="font-weight: normal">{{weapon.name}}</label>
+        {{/if}}
+        <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
+          <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
+        </div>
+      </div>
+      <div class="col-2">
+        {{defaultValue system.action.damage "―"}}{{#if system.action.damagetypes}}∗{{/if}}
+      </div>
+      <div class="col-1">
+        {{defaultValue (plusify system.action.boonsbanes) 0}}
+      </div>
+      <div class="col-2">
+        <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-times"></i></a>
+        <a class="dl-clickable {{#if system.wear}}item-wear{{else}}item-wearoff{{/if}}" data-action="toggleWear"
+          title="{{localize 'DL.WeaponWear'}}">
+          <i class="fas fa-shield-alt"></i>
+        </a>
+      </div>
+    </div>
+    <div class="dlInfo dl-item-info" style="display: none">
+      <!-- TODO: Action roll info -->
+      <div class="row dl-item-info-header">
+        <div class="col-12">
+          <b>{{weapon.name}}</b>
+        </div>
+      </div>
+      <hr>
+      {{#if system.action.damage}}
+      <div>
+        <b>{{localize "DL.WeaponDamage"}}</b> {{system.action.damage}}
+        {{#if system.action.damagetype}}({{system.action.damagetype}}){{/if}}
+        {{#each system.action.damagetypes as |damagetype id|}}
+        | {{damagetype.damage}}{{#if damagetype.damagetype}} ({{damagetype.damagetype}}){{/if}}
+        {{/each}}
+      </div>
+      {{/if}}
+      {{#if system.properties}}
+      <div>
+        <b>{{localize "DL.WeaponProperties"}}</b> {{system.properties}}
+      </div>
+      {{/if}}
+      {{#if system.requirement.minvalue}}
+      <div>
+        <b>{{localize "DL.ArmorStrengthRequiremet"}}</b> {{system.requirement.minvalue}}
+      </div>
+      {{/if}}
+      {{#if system.hands}}
+      <div>
+        <b>{{localize "DL.WeaponHands"}}</b> {{system.hands}}
+      </div>
+      {{/if}}
+      {{#if system.description}}
+      <hr>
+      <div>
+        {{{system.enrichedDescription}}}
+      </div>
+      {{/if}}
+    </div>
+  </div>
+  {{/each}}
+
+  <!-- ARMOR -->
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header" style="margin-top: 8px">
+    <div class="col-10">{{localize "DL.ArmorTitle"}}</div>
+    <div class="col-2">
+      <a class="item-create" data-action="createItem" title="{{localize 'DL.ArmorAdd'}}" data-type="armor">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </div>
+
+  {{#each actor.armor as |armor id|}}
+  <div class="dl-item-row dropitem" data-item-id="{{armor._id}}">
+    <div class="row">
+      <div class="col-10 dl-clickable-nored item-edit">
+        <img class="dl-clickable item-edit" data-action="editItem" src="{{armor.img}}" title="{{armor.name}}" width="32" height="32" />
+        <div style="font-weight: normal">{{armor.name}}</div>
+        {{!-- TODO: Add dlInfo (see above)
+        <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
+          <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
+        </div> --}}
+        <div>
+          {{#if system.defense}}
+          {{localize "DL.ArmorDefense"}} {{plusify system.defense}}
+          {{/if}}
+          {{#if system.agility}}
+          {{localize "DL.ArmorAgility"}} {{plusify system.agility}}
+          {{/if}}
+          {{#if system.fixed}}
+          {{localize "DL.ArmorFixed"}} {{system.fixed}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="col-2">
+        <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
+        <a class="dl-clickable {{#if system.wear}}item-wear{{else}}item-wearoff{{/if}}" data-action="toggleWear"
+          title="{{localize 'DL.ArmorWear'}}">
+          <i class="fas fa-shield-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+
+  <!-- AMMUNITION -->
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header" style="margin-top: 8px">
+    <div class="col-8">{{localize "DL.AmmoTitle"}}</div>
+    <div class="col-2">{{localize "DL.AmmoAmount"}}</div>
+    <div class="col-2">
+      <a class="item-create" data-action="createItem" title="{{localize 'DL.AmmoAdd'}}" data-type="ammo">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </div>
+  {{#each actor.ammo as |ammo id|}}
+  <div class="dl-item-row dropitem" data-item-id="{{ammo._id}}">
+    <div class="row">
+      <div class="col-8 dl-clickable-nored item-edit">
+        <img class="dl-clickable item-edit" data-action="editItem" src="{{ammo.img}}" title="{{ammo.name}}" width="32" height="32" />
+        <div style="font-weight: normal">{{ammo.name}}</div>
+        {{!-- TODO: Add dlInfo (see above)
+        <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
+          <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
+        </div> --}}
+      </div>
+      <div class="col-2 ammo-amount">
+        {{system.quantity}} <i class="fas fa-arrows-alt-v"></i>
+      </div>
+      <div class="col-2">
+        <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.AmmoDelete'}}"><i class="fas fa-times"></i></a>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>

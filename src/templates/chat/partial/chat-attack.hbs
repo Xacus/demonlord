@@ -1,4 +1,4 @@
-{{!-- 
+{{!--
   Variables:
     - data
       - roll
@@ -35,7 +35,7 @@
           <div class="gmonlyzero">{{data.diceTotalGM}}</div>
         </div>
         {{#if data.isCreature}}
-          <div class="gmonly">
+          <div class="owneronly">
             <span class="tooltiptext">
               {{#each diceData.dice}}
                 <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
@@ -90,7 +90,7 @@
 
 {{#if data.attackEffects}}
   {{#if data.isCreature}}
-    <div class="gmonly">
+    <div class="owneronly">
       <div class="description">
         <div class="header">{{localize "DL.AttackRollBonuses"}}:</div>
         <div class="body">{{{data.attackEffects}}}
@@ -110,7 +110,7 @@
 
 {{#if data.effects}}
   {{#if data.isCreature}}
-    <div class="gmonly">
+    <div class="owneronly">
       <div class="description">
         <div class="header">{{localize "DL.TalentRollEffects"}}</div>
         <div class="body">{{{data.effects}}}</div>

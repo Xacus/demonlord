@@ -15,12 +15,12 @@ function changeBobDieColour (attackRoll)
 
         for (let die of attackRoll.dice) {
           if (die._faces === 6) d6Index++
-        }        
+        }
 
         attackRoll.dice[d6Index].options.appearance = {
           background: bgColor,
           outline: bgColor,
-        }          
+        }
       }
     }
   }
@@ -148,7 +148,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
 
   if (game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b') targetNumber = 11
 
-  challengeRoll = changeBobDieColour (challengeRoll)  
+  challengeRoll = changeBobDieColour(challengeRoll)
 
   const rollMode = game.settings.get('core', 'rollMode')
 
@@ -178,7 +178,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
   data['resultText'] = resultText
   data['resultTextGM'] = resultTextGM
   data['resultBoxClass'] = resultBoxClass
-  data['isCreature'] = actor.type === 'creature'
+  data['isCreature'] = actor.type === 'creature' || actor.type === 'vehicle'
   data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, inputBoons, inputModifier)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['actorInfo'] = buildActorInfo(actor)
@@ -429,7 +429,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['spellspecial'] = spellData?.special
   data['spelltriggered'] = spellData?.triggered
   data['targetName'] = target?.name || ''
-  data['isCreature'] = actor.type === 'creature'
+  data['isCreature'] = actor.type === 'creature' || actor.type === 'vehicle'
   data['isPlus20Roll'] = plus20
   data['effectdice'] = effectdice
   data['effects'] = actor.system.bonuses.attack.extraEffect
@@ -512,11 +512,11 @@ export async function postFortuneToChat(actor, awarded) {
   const data = templateData.data
   data['actorInfo'] = buildActorInfo(actor)
   data['awarded'] = awarded
-  
+
   const rollMode = game.settings.get('core', 'rollMode')
   const chatData = getChatBaseData(actor, rollMode)
   const template = 'systems/demonlord/templates/chat/fortune.hbs'
-  chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)  
+  chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)
   await ChatMessage.create(chatData)
 }
 
@@ -528,7 +528,7 @@ export async function postRestToChat(actor, restTime, magicRecovery, talentRecov
   const data = templateData.data
   data['actorInfo'] = buildActorInfo(actor)
   data['restTime'] = restTime
-  data['magicRecovery'] = magicRecovery  
+  data['magicRecovery'] = magicRecovery
   data['talentRecovery'] = talentRecovery
   data['healing'] = healing
 

@@ -1,0 +1,22 @@
+{{!--
+  Context:
+  - filters.creaturerole
+    - source
+    - description
+    - isHealing
+    - isDamage
+--}}
+<aside class="demonlord-compendium-browser-filters  {{#if (eq search.type 'creaturerole')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.IsFrightening'}}</b>
+    <select class="filter-group-textbox" name="filters.creaturerole.frighteningType">
+      {{selectOptions frighteningOptions selected=filters.creaturerole.frighteningType blank="" localize=true}}
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.creaturerole.description" value="{{filters.creaturerole.description}}">
+  </div>
+</aside>

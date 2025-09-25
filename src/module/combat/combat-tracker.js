@@ -4,8 +4,15 @@ import {createInitChatMessage} from "./combat";
 import {injectDraggable} from "./combat-tracker-draggable";
 
 export class DLCombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
+
+  static DEFAULT_OPTIONS = {
+    actions: {
+      toggleActed: this.onToggleActed
+    }
+  }
+
   constructor(options) {
-    super(options)
+    super(options),
     this.ENCOUNTERDIFFICULTY = [
     {
       Level: 0,
@@ -276,6 +283,18 @@ calculateEncounterDifficulty(combatants) {
         // ^ does not work, probably the event gets intercepted
       }
 
+      // If user is GM, allow them to toggle has-acted class on click
+      if (game.user.isGM) {
+        const hasActedButton = document.createElement('button')
+        hasActedButton.type = 'button'
+        hasActedButton.className = 'inline-control combatant-control icon fa-solid fa-hourglass-start'
+        hasActedButton.setAttribute('data-action', 'toggleActed')
+        hasActedButton.setAttribute('data-tooltip', '')
+        hasActedButton.setAttribute('aria-label', game.i18n.localize('DL.ToggleActed'))
+        let tokenEffectsElement = el.querySelector('.token-effects')
+        el.querySelector('.combatant-controls').insertBefore(hasActedButton, tokenEffectsElement)
+      }
+
       const endofrounds = combatant.actor?.getEmbeddedCollection('Item')?.filter(e => e.type === 'endoftheround') ?? []
       if (endofrounds.length > 0) hasEndOfRoundEffects = true
     })
@@ -333,6 +352,15 @@ calculateEncounterDifficulty(combatants) {
 
   getCurrentCombat() {
     return this.viewed
+  }
+
+  static async onToggleActed(event) {
+    const button = event.target.closest('.inline-control')
+    const combatant = event.target.closest('.combatant')
+
+    button.classList.toggle('fa-hourglass-start')
+    button.classList.toggle('fa-hourglass-end')
+    combatant.classList.toggle('hide')
   }
 }
 

@@ -42,18 +42,18 @@
   @import 'src/styles/components/item-sheets/items2';
 }
 
-.creature {
-  @import 'src/styles/components/actor-sheets/aside-creature';
-  @import 'src/styles/components/actor-sheets/body-character';
-  @import 'components/chat';
-  @import 'src/styles/components/dialogs/dialog';
-  @import 'components/forms';
-  @import 'components/general';
-  @import 'src/styles/components/parts/resource';
-  @import 'src/styles/components/parts/tabs';
-  @import 'src/styles/components/actor-sheets/body-creature';
-  @import 'src/styles/components/parts/accordion';
-}
+// .creature {
+//   @import 'src/styles/components/actor-sheets/aside-creature';
+//   @import 'src/styles/components/actor-sheets/body-character';
+//   @import 'components/chat';
+//   @import 'src/styles/components/dialogs/dialog';
+//   @import 'components/forms';
+//   @import 'components/general';
+//   @import 'src/styles/components/parts/resource';
+//   @import 'src/styles/components/parts/tabs';
+//   @import 'src/styles/components/actor-sheets/body-creature';
+//   @import 'src/styles/components/parts/accordion';
+// }
 
 .creature.actor {
   @import 'src/styles/components/actor-sheets/header-creature';
@@ -85,6 +85,9 @@
   @import 'src/styles/components/extras/playertracker';
 }
 
+.demonlord-compendium-browser {
+  @import 'src/styles/components/extras/compendium-browser';
+}
 @import 'src/styles/components/dialogs/dialog2'; // A combination of global/ui and dialogs/dialog2 breaks v13 sidebar icons
 
 /*****************/
@@ -92,6 +95,10 @@
 /*****************/
 .demonlord-v2-sheet {
   @import 'src/styles/v2/sheets';
+}
+
+.demonlord-v2-actor {
+  @import 'src/styles/v2/actors';
 }
 
 .demonlord-v2-item {

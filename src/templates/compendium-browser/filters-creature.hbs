@@ -1,0 +1,43 @@
+{{!--
+  Context:
+  - filters.creature
+    - source
+    - type
+    - usesMagic
+--}}
+<aside class="demonlord-compendium-browser-filters {{#if (eq search.type 'creature')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CreatureDifficulty'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.creature.difficulty" value="{{filters.creature.difficulty}}">
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CreatureDescriptor'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.creature.descriptor" value="{{filters.creature.descriptor}}">
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CreaturePerceptionSenses'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.creature.perceptionSenses" value="{{filters.creature.perceptionSenses}}">
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CompendiumBrowserFilters.UsesMagic'}}</b>
+    <select class="filter-group-textbox" name="filters.creature.usesMagic">
+      {{selectOptions magicOptions selected=filters.creature.usesMagic blank="" localize=true}}
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.IsFrightening'}}</b>
+    <select class="filter-group-textbox" name="filters.creature.frighteningType">
+      {{selectOptions frighteningOptions selected=filters.creature.frighteningType blank="" localize=true}}
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.creature.description" value="{{filters.creature.description}}">
+  </div>
+</aside>

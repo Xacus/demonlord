@@ -50,6 +50,7 @@ export function makeAttribute(attribute, max = 20) {
   return new foundry.data.fields.SchemaField({
     key: makeStringField(attribute),
     label: makeStringField(game.i18n.localize(`DL.Attribute${capitalize(attribute)}`)),
+    base: makeIntField(10, max, 1),
     value: makeIntField(10, max, 1),
     modifier: makeIntField(),
     requirementModifier: makeIntField(),
@@ -62,6 +63,7 @@ export function makeAttribute(attribute, max = 20) {
 export function makeHealth() {
   return new foundry.data.fields.SchemaField({
     max: makeIntField(),
+    maxBase: makeIntField(),
     value: makeIntField(0),
     injured: makeBoolField(),
     healingrate: makeIntField()

@@ -1,0 +1,26 @@
+{{!--
+  Context:
+  - filters.path
+    - source
+    - type
+    - usesMagic
+--}}
+<aside class="demonlord-compendium-browser-filters {{#if (eq search.type 'ammo')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.Availability'}}</b>
+    <select class="filter-group-textbox" name="filters.ammo.availability">
+      {{selectOptions availabilityOptions selected=filters.ammo.availability blank="" localize=true}}
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.WeaponProperties'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.ammo.properties" value="{{filters.ammo.properties}}">
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.ammo.description" value="{{filters.ammo.description}}">
+  </div>
+</aside>

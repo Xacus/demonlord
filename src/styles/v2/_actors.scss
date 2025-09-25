@@ -1,0 +1,734 @@
+$sidebar-width: 240px;
+
+.theme-light & {
+  background-image: url(../assets/ui/sidebar_background.webp), url(/ui/parchment.jpg);
+  background-size: 500px 215px, cover;
+  background-repeat: repeat-x, repeat-x;
+}
+
+.window-content:has(.demonlord-v2-actor-sheet-header-container) {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.demonlord-v2-actor-sheet-container {
+  padding: 10px;
+}
+
+/* #region Sidebar */
+
+.demonlord-v2-actor-sheet-sidebar-container {
+  height: 100%;
+  margin-left: 20px;
+  width: $sidebar-width;
+}
+
+aside {
+  background: url('../assets/ui/sidebar.webp') no-repeat top center;
+
+  text-transform: uppercase;
+  text-wrap-mode: nowrap;
+
+  &.npc {
+    background-image: url('../assets/ui/sidebar_npc.webp');
+  }
+
+  &.creature {
+    background-image: url('../assets/ui/sidebar_creature_long.webp');
+  }
+
+  &.vehicle {
+    background-image: url('../assets/ui/sidebar_vehicle_long.webp');
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'IM Fell English SC', serif;
+    color: var(--demonlord-color-text-inverted-primary);
+    position: relative; // Let all children (even those with position: absolute) use this element as anchor
+  }
+
+  .pc-toggle {
+    position: absolute;
+    top: -5px;
+    left: 150px;
+    width: 50px;
+  }
+
+  .frame {
+    height: 180px;
+    width: 100%;
+    background: url(../assets/ui/image-circle.webp) no-repeat top left;
+    background-size: 180px 180px, cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.frame-npc {
+      background-image: url(../assets/ui/image-circle-npc.webp);
+    }
+
+    &.frame-creature {
+      background-image: url(../assets/ui/image-circle-creature.webp);
+      margin-bottom: 30px;
+    }
+
+    &.frame-vehicle {
+      background-image: url(../assets/ui/image-circle-vehicle.webp);
+    }
+  }
+
+  .profile-img {
+    height: 119px;
+    width: 119px;
+    border-radius: 60px;
+    object-fit: cover;
+    object-position: top;
+    cursor: pointer;
+  }
+
+  .sidebar-button {
+    position: absolute;
+    top: 155px;
+    width: 32px;
+    height: 32px;
+    border: solid 1px var(--demonlord-red);
+    border-radius: 25px;
+    padding: 2px;
+    font-size: 10px;
+
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: 0 0 10px var(--demonlord-red);
+    }
+
+    input.button {
+      width: 30px;
+      height: 30px;
+      border-radius: 25px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    &.rest {
+      left: 25px;
+
+      .rest {
+        height: 30px;
+      }
+
+      img.rest-icon {
+        top: -30px;
+        position: relative;
+        pointer-events: none;
+        content: url('../../../icons/svg/sleep.svg');
+      }
+    }
+
+    &.healingratebox {
+      right: 25px;
+
+      .healingrate {
+        font-size: 18px;
+        height: 30px;
+        line-height: 24px;
+        text-align: center;
+        font-family: Signika, 'Palatino Linotype', sans-serif;
+      }
+    }
+
+    &.frightening {
+      left: 25px;
+
+      .sidebar-button-text {
+        position: absolute;
+        top: 40px;
+        left: 0px;
+      }
+    }
+
+    &.horrifying {
+      right: 25px;
+
+      .sidebar-button-text {
+        position: absolute;
+        top: 40px;
+        right: 0px;
+      }
+    }
+
+    &.frightening,
+    &.horrifying {
+      input {
+        position: relative;
+        top: -2px;
+        left: -4px;
+        width: 25px;
+        height: 25px;
+
+        // Fix for frightening/horrifying checkbox tick not appearing in Firefox
+        appearance: initial;
+        -moz-appearance: initial;
+
+        &:after,
+        &:before {
+          content: '';
+        }
+      }
+
+      input:checked::before {
+        display: inline-block;
+        content: '';
+        width: 40px;
+        height: 40px;
+        background-image: url('../assets/ui/bloodstain.webp');
+        position: relative;
+        top: -5px;
+        left: -7px;
+      }
+    }
+  }
+
+  .editBars {
+    align-self: end;
+    position: relative;
+    left: -20px;
+    top: 25px;
+  }
+
+  .barboxes {
+    .barbox {
+      height: 45px;
+      text-align: center;
+      padding-left: 5px;
+      padding-top: 15px;
+      width: 100%;
+
+      .healthedit,
+      .insanityedit,
+      .corruptionedit {
+        height: 19px;
+        border-radius: 16px;
+        border: none;
+        box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
+        font-weight: 500;
+        font-size: 13px;
+        padding-left: 2px;
+        width: 150px;
+        line-height: 0;
+        padding-top: 0;
+
+        input {
+          background-color: transparent;
+          text-align: center;
+          height: 20px;
+        }
+      }
+
+      .healthtext,
+      .insanitytext,
+      .corruptiontext {
+        width: 150px;
+        text-align: left;
+        padding-bottom: 4px;
+      }
+    }
+  }
+
+  .health,
+  .insanity,
+  .corruption {
+    margin-top: 10px;
+    padding: 5px;
+
+    .healthbar {
+      width: 178px;
+      background-color: #e0e0e0;
+      padding: 1px;
+      margin-top: 3px;
+      border-radius: 3px;
+      box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px #a22223;
+    }
+
+    .healthbar-fill,
+    .insanity-fill,
+    .corruption-fill {
+      display: block;
+      height: 12px;
+      background-color: var(--demonlord-red);
+      border-radius: 3px;
+      transition: width 500ms ease-in-out;
+      max-width: 100%;
+    }
+
+    .healtmax,
+    .insanitymax,
+    .corruptionmax {
+      float: right;
+      position: relative;
+      top: -15px;
+      padding-right: 5px;
+      color: #000;
+    }
+
+    .insanitymiddle,
+    .corruptionmiddle {
+      margin-top: -13px;
+      color: #000;
+      text-align: center;
+    }
+
+    .insanity-empty,
+    .corruption-empty {
+      display: block;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    .damage,
+    .insanityvalue,
+    .corruptionvalue {
+      float: left;
+      position: relative;
+      top: -15px;
+      padding-left: 5px;
+      color: #000;
+    }
+
+    .corruption-roll {
+      position: relative;
+      top: -35px;
+      left: 150px;
+      transition: filter 0.3s, -webkit-filter 0.3s;
+
+      &:hover {
+        -webkit-filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+        filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+      }
+    }
+  }
+
+  .insanity {
+    margin: 4px 0 0 0;
+
+    .insanity-fill {
+      background-color: #3e796a;
+    }
+  }
+
+  .corruption {
+    margin: 4px 0 0 0;
+
+    .corruption-fill {
+      background-color: #6f58c9;
+    }
+  }
+
+  .stat-bar {
+    height: 40px;
+
+    .healtmax,
+    .damage,
+    .insanitymax,
+    .insanityvalue,
+    .corruptionmax,
+    .corruptionvalue {
+      font-family: Signika, 'Palatino Linotype', sans-serif;
+    }
+  }
+
+  .char-stats {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+
+    .stat-box {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 0;
+      position: relative;
+
+      .text {
+        font-size: 10px;
+      }
+
+      .value {
+        width: 60%;
+        padding: 5px 0px;
+        border-radius: 15px;
+        border: solid 1px var(--demonlord-red);
+        text-align: center;
+        font-family: Signika, 'Palatino Linotype', sans-serif;
+        color: var(--demonlord-color-input-inverted);
+        background-color: var(--demonlord-color-background);
+
+        &.has-base {
+          opacity: 0;
+
+          &:focus {
+            opacity: 1;
+          }
+        }
+      }
+
+      .value-container {
+        position: relative;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+
+        .display-value {
+          position: absolute;
+          opacity: 1;
+
+          &:has(+ .value:focus) {
+            opacity: 0;
+          }
+        }
+      }
+    }
+
+    .text-box {
+      width: 80%;
+      padding: 10px 0;
+
+      input {
+        color: var(--demonlord-color-input-inverted);
+        background-color: var(--demonlord-color-background);
+      }
+    }
+  }
+
+  .char-toggles {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    font-family: 'IM Fell English SC', serif;
+
+    .fortune,
+    .turnmode {
+      width: 100%;
+      padding: 2px 10px;
+
+      .fortune-toggle,
+      .turn-toggle {
+        position: relative;
+        width: 100%;
+      }
+
+      .fortune-toggle {
+        .toggle-input:checked ~ .toggle-fill:after {
+          opacity: 0.5;
+        }
+
+        .off {
+          opacity: 0.5;
+        }
+      }
+    }
+
+    .on,
+    .off {
+      font-family: 'IM Fell English SC', serif;
+    }
+  }
+}
+
+/* #endregion */
+
+/* #region Header */
+
+.demonlord-v2-actor-sheet-header-container {
+  padding: 10px;
+  //position: absolute;
+  left: $sidebar-width;
+  width: calc(100% - $sidebar-width - 20px);
+}
+
+/* #endregion */
+
+.demonlord-v2-actor-sheet-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  height: 110px;
+
+  .header-fields {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--demonlord-color-text-inverted-primary);
+
+    input:read-only {
+      background-color: transparent;
+    }
+
+    .header-name {
+      width: 70%;
+
+      input[type='text'] {
+        color: var(--demonlord-color-input-inverted);
+      }
+    }
+
+    .header-level,
+    .header-difficulty,
+    .header-price {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+
+      .value {
+        height: 32px;
+        border-radius: 50px;
+        border: solid 1px var(--demonlord-red);
+        margin: 0 10px;
+        text-align: center;
+        color: var(--demonlord-color-input-inverted);
+      }
+    }
+
+    .header-difficulty {
+      .container-value {
+        position: relative;
+      }
+
+      .value {
+        opacity: 0;
+
+        &:focus {
+          opacity: 1;
+        }
+      }
+
+      .display-value {
+        position: absolute;
+        pointer-events: none;
+        opacity: 1;
+
+        &:has(+ .value:focus) {
+          opacity: 0;
+        }
+      }
+    }
+
+    .header-level .value,
+    .header-level .display-value {
+      width: 32px;
+      padding: 5px;
+    }
+
+    .header-difficulty .value,
+    .header-level .display-value {
+      width: 56px;
+    }
+
+    .header-price .value,
+    .header-level .display-value {
+      width: 128px;
+    }
+  }
+
+  .header-fields.attribute-fields {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    margin: 5px 0;
+
+    .attribute {
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-transform: uppercase;
+      position: relative; // Anchor for children
+
+      .name {
+        transition: filter 0.3s, -webkit-filter 0.3s;
+        font-family: 'IM Fell English SC', serif;
+
+        &:hover,
+        &:focus {
+          -webkit-filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+          filter: drop-shadow(0px 0px 4px var(--demonlord-red));
+        }
+      }
+
+      .value-container {
+        position: relative;
+      }
+
+      .value {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        margin: 5px;
+        border: solid 1px var(--demonlord-red);
+        text-align: center;
+        font-size: 18px;
+        color: var(--demonlord-color-input-inverted);
+
+        &.has-base {
+          opacity: 0;
+
+          &:focus {
+            opacity: 1;
+          }
+        }
+      }
+
+      .display-value {
+        position: absolute;
+        pointer-events: none;
+        opacity: 1;
+
+        &:has(+ .value:focus) {
+          opacity: 0;
+        }
+      }
+
+      .modifier {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
+    }
+  }
+
+  .header-fields.creature-descriptors {
+    input {
+      border: 0;
+      background-color: transparent;
+      color: var(--demonlord-color-input-inverted);
+
+      &.senses {
+        text-align: right;
+      }
+    }
+  }
+}
+
+/* #region Tabs */
+
+.tabs {
+  width: calc(100% - $sidebar-width - 20px);
+
+  i.themed-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.demonlord-v2-tab {
+  height: calc(100% - 177px);
+  width: calc(100% - $sidebar-width - 20px);
+}
+
+/* #endregion */
+
+/* #region Character */
+
+.ancestry-paths {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-around;
+  align-items: center;
+
+  .ancestry-path-group {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    font-family: 'IM Fell English SC', serif;
+  }
+
+  .frame {
+    width: 100px;
+    height: 100px;
+    filter: drop-shadow(0px 0px 3px #404040);
+
+    .border {
+      position: absolute;
+    }
+
+    .icon {
+      width: 70px;
+      height: 70px;
+      top: 14px;
+      left: 14px;
+      position: relative;
+    }
+  }
+
+  .type {
+    font-weight: bold;
+  }
+}
+
+.religion {
+  img {
+    position: absolute;
+    width: 40px;
+    right: 15px;
+    top: 365px;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px 0px #a22223;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: 0 0 0 1px #000, 0 0 0 2px #a22223, 0 0 0 3px #000, inset 0 0 8px rgba(0, 0, 0, 0.5),
+        0 0 8px 3px #a22223;
+    }
+  }
+}
+
+.languages {
+  position: relative;
+
+  .edit {
+    position: absolute;
+    right: 10px;
+    top: 3px;
+  }
+
+  .language {
+    .language-icon {
+      width: 10px;
+      height: 10px;
+    }
+  }
+}
+
+/* #endregion */

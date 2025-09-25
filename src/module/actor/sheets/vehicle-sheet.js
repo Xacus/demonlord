@@ -1,68 +1,191 @@
 import DLBaseActorSheet from './base-actor-sheet'
 
 export default class DLVehicleSheet extends DLBaseActorSheet {
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['vehicle', 'sheet', 'actor', 'dl-sheet'],
-      template: 'systems/demonlord/templates/actor/vehicle-sheet.hbs',
-      width: 900,
-      height: 700,
+  static DEFAULT_OPTIONS = {
+    // All from base plus...
+    form: {
+      handler: this.onSubmit,
+      submitOnChange: true
+    },
+    actions: {
+    }
+  }
+
+  static PARTS = {
+    // All from base
+    sidebar: { template: 'systems/demonlord/templates/actor/parts/vehicle-sheet-sidemenu.hbs' },
+    header: { template: 'systems/demonlord/templates/actor/parts/vehicle-sheet-header.hbs' },
+    tabs: { template: 'systems/demonlord/templates/generic/tab-navigation.hbs' },
+
+    // Tabs
+    combat: { template: 'systems/demonlord/templates/actor/tabs/creature-combat.hbs' },
+    inventory: { template: 'systems/demonlord/templates/actor/tabs/item.hbs' },
+    description: { template: 'systems/demonlord/templates/actor/tabs/description.hbs' },
+    reference: { template: 'systems/demonlord/templates/actor/tabs/creature-reference.hbs' },
+    effects: { template: 'systems/demonlord/templates/actor/tabs/creature-effects.hbs' }
+  }
+
+  static TABS = {
+    primary: {
       tabs: [
-        {
-          navSelector: '.sheet-navigation',
-          contentSelector: '.sheet-body',
-          initial: 'vehicle',
-        },
+        { id: 'combat', icon: 'icon-combat', tooltip: 'DL.TabsCombat' },
+        { id: 'inventory', icon: 'icon-inventory', tooltip: 'DL.TabsInventory' },
+        { id: 'description', icon: 'icon-background', tooltip: 'DL.TabsDescription' },
+        { id: 'reference', icon: 'icon-talents', tooltip: 'DL.Reference' },
+        { id: 'effects', icon: 'icon-effects', tooltip: 'DL.TabsEffects' }
       ],
-      scrollY: ['.tab.active'],
-    })
+      initial: 'combat'
+    }
   }
 
   /* -------------------------------------------- */
   /*  Data preparation                            */
+  /* -------------------------------------------- */
+
+  /** @override */
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options)
+
+    // This should be configured per sheet type
+    options.parts.push('combat')
+
+    if (game.settings.get('demonlord', 'addCreatureInventoryTab')) {
+      options.parts.push('inventory')
+    }
+
+    options.parts.push('description', 'reference', 'effects')
+
+    //this._adjustSizeByType(this.document.type, this.position)
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options)
+
+    this._prepareItems(context)
+    return context
+  }
 
   /* -------------------------------------------- */
 
   /** @override */
-  async getData() {
-    const data = await super.getData()
-    data.dtypes = ['String', 'Number', 'Boolean']
-    this.prepareItems(data)
-    return data
-  }
-
-  prepareItems(sheetData) {
-    super.prepareItems(sheetData)
+  _prepareItems(sheetData) {
+    super._prepareItems(sheetData)
     const m = sheetData._itemsByType
     const actorData = sheetData.actor
-    actorData.specialactions = m.get('specialaction') || []
-    actorData.endoftheround = m.get('endoftheround') || []
-    actorData.magic = m.get('magic') || []
+
+    const actorHasChangeBool = (actor, key) => {
+      return Array.from(actor.allApplicableEffects()).filter(e => !e.disabled && e.changes.filter(c => c.key === key && c.value === '1').length > 0).length > 0
+    }
+
+    const noSpecialAttacks = actorHasChangeBool(actorData, 'system.maluses.noSpecialAttacks')
+    const noSpecialActions = actorHasChangeBool(actorData, 'system.maluses.noSpecialActions')
+    const noEndOfRound = actorHasChangeBool(actorData, 'system.maluses.noEndOfRound')
+
+    actorData.talents = noSpecialAttacks ? [] : (m.get('talent') || [])
+    actorData.specialactions = noSpecialActions ? [] : (m.get('specialaction') || [])
+    actorData.endoftheround = noEndOfRound ? [] : (m.get('endoftheround') || [])
+    actorData.roles = m.get('creaturerole') || []
+    actorData.gear = m.get('item') || []
+    actorData.relics = m.get('relic') || []
+    actorData.armor = m.get('armor') || []
+    actorData.ammo = m.get('ammo') || []
   }
 
   /* -------------------------------------------- */
-
   /** @override */
   async checkDroppedItem(itemData) {
-    if (['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'creaturerole', 'relic'].includes(itemData.type)) return false
+    let preventedItems = await game.settings.get('demonlord', 'addCreatureInventoryTab') ? ['ancestry', 'path', 'profession', 'language', 'spell'] : ['armor', 'ammo', 'ancestry', 'path', 'profession', 'item', 'language', 'spell', 'relic']
+    if (preventedItems.includes(itemData.type)) return false
     return true
   }
 
+  /* -------------------------------------------- */
+  /*  Auxiliary functions                         */
+  /* -------------------------------------------- */
+
+  static async onSubmit(event, form, formData) {
+    const updateData = foundry.utils.expandObject(formData.object)
+    return await this.document.update(updateData)
+  }
+
+  /* -------------------------------------------- */
+  /*  Actions                                     */
+  /* -------------------------------------------- */
+
+  /** Edit HealthBar, Insanity and Corruption */
+  static async onEditStatBar() {
+    const actor = this.actor
+    const showEdit = actor.system.characteristics.editbar
+    actor.system.characteristics.editbar = !showEdit
+
+    await actor.update({ 'system.characteristics.editbar': actor.system.characteristics.editbar })
+    await this.render({ parts: ['sidebar'] })
+  }
+
+  async onEditRole(ev) {
+    const div = $(ev.currentTarget)
+    const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+
+    if (ev.button == 0) role.sheet.render(true)
+    else if (ev.button == 2) await role.delete({ parent: this.actor })
+  }
+
+  async onEditRelic(ev) {
+    const div = $(ev.currentTarget)
+    const relic = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+
+    if (ev.button == 0) relic.sheet.render(true)
+    else if (ev.button == 2) await relic.delete({ parent: this.actor })
+  }
+
+  /* -------------------------------------------- */
+
+  /* -------------------------------------------- */
+  /*  Listeners                                   */
+  /* -------------------------------------------- */
+
   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html)
+  async _onRender(context, options) {
+    super._onRender(context, options)
 
-    // Dynamically set the reference tab layout to two column if its height exceeds a certain threshold
-    html.find('.sheet-navigation').click(_ => this._resizeAutoColumns(this.element))
-    this._resizeAutoColumns(html)
+    if (!this.options.editable) return
+
+    let e = this.element
+
+    // Role edit
+    e.querySelectorAll('.role-edit')?.forEach(p => p.addEventListener('mousedown', '.role-edit', async ev => await this.onEditRole(ev)))
+
+    // Relic edit
+    e.querySelectorAll('.relic-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditRelic(ev)))
+
+    // Ammo uses
+    e.querySelectorAll('.ammo-amount')?.forEach(el => el.addEventListener('mousedown', async ev => {
+      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const item = foundry.utils.duplicate(this.actor.items.get(id))
+      const amount = item.system.quantity
+      if (ev.button == 0 && amount >= 0) item.system.quantity = +amount + 1
+      else if (ev.button == 2 && amount > 0) item.system.quantity = +amount - 1
+      await Item.updateDocuments([item], { parent: this.actor })
+    }))
+
+    // Item uses
+    e.querySelectorAll('.item-uses')?.forEach(el => el.addEventListener('mousedown', async ev => {
+      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const item = foundry.utils.duplicate(this.actor.items.get(id))
+      if (ev.button == 0) {
+        item.system.quantity++
+      } else if (ev.button == 2) {
+        if (item.system.quantity > 0) {
+          item.system.quantity--
+        }
+      }
+      await Item.updateDocuments([item], { parent: this.actor })
+    }))
+
+    e.querySelectorAll('.characteristic .name')?.forEach(el => el.addEventListener('contextmenu', async ev => {
+      const div = $(ev.currentTarget)
+      const characteristicName = div.data('key')
+      await this.actor.update({ system: { characteristics: { [characteristicName]: { immune: !this.actor.system.characteristics[characteristicName].immune } } } })
+    }))
   }
-
-  _resizeAutoColumns(element) {
-    element.find('.dl-auto-column').each((_, ac) => {
-      ac = $(ac)
-      if (ac.height() > 700) ac.css({'columns': '2'})
-    })
-  }
-
 }

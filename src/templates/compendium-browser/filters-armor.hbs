@@ -1,0 +1,44 @@
+{{!--
+  Context:
+  - filters.path
+    - source
+    - type
+    - usesMagic
+--}}
+<aside class="demonlord-compendium-browser-filters {{#if (eq search.type 'armor')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.Availability'}}</b>
+    <select class="filter-group-textbox" name="filters.armor.availability">
+      {{selectOptions availabilityOptions selected=filters.armor.availability blank="" localize=true}}
+    </select>
+  </div>
+
+  <div class="filter-group checkable">
+    <div class="input-group">
+      <input type="checkbox" name="filters.armor.hasRequirement" {{checked filters.armor.hasRequirement}}>
+      <i class="icon-strength themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.CompendiumBrowserFilters.HasRequirement'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group checkable">
+    <div class="input-group">
+      <input type="checkbox" name="filters.armor.isShield" {{checked filters.armor.isShield}}>
+      <i class="icon-shield themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.ArmorIsShield'}}</span>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.WeaponProperties'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.armor.properties" value="{{filters.armor.properties}}">
+  </div>
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.armor.description" value="{{filters.armor.description}}">
+  </div>
+</aside>

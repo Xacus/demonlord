@@ -5,8 +5,8 @@
  */
 export const preloadHandlebarsTemplates = async function () {
   return foundry.applications.handlebars.loadTemplates([
-    'systems/demonlord/templates/tabs/activeeffects.hbs',
-    'systems/demonlord/templates/tabs/afflictions.hbs',
+    'systems/demonlord/templates/actor/tabs/active-effects.hbs',
+    'systems/demonlord/templates/actor/tabs/afflictions.hbs',
     'systems/demonlord/templates/tabs/background.hbs',
     'systems/demonlord/templates/tabs/character.hbs',
     'systems/demonlord/templates/tabs/combat.hbs',
@@ -14,9 +14,8 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/tabs/creature-reference.hbs',
     'systems/demonlord/templates/tabs/vehicle-view.hbs',
     'systems/demonlord/templates/tabs/vehicle-reference.hbs',
-    'systems/demonlord/templates/tabs/creatureeffects.hbs',
     'systems/demonlord/templates/tabs/effects.hbs',
-    'systems/demonlord/templates/tabs/effectsoverview.hbs',
+    'systems/demonlord/templates/tabs/effects-overview.hbs',
     'systems/demonlord/templates/tabs/item.hbs',
     'systems/demonlord/templates/tabs/magic.hbs',
     'systems/demonlord/templates/tabs/talents.hbs',
@@ -30,7 +29,7 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/chat/makechallengeroll.hbs',
     'systems/demonlord/templates/chat/makeinitroll.hbs',
     'systems/demonlord/templates/chat/rest.hbs',
-    'systems/demonlord/templates/chat/fortune.hbs',    
+    'systems/demonlord/templates/chat/fortune.hbs',
     'systems/demonlord/templates/chat/showtalent.hbs',
     'systems/demonlord/templates/chat/spell.hbs',
     'systems/demonlord/templates/chat/talent.hbs',
@@ -53,6 +52,18 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/actor/vehicle-header.hbs',
     'systems/demonlord/templates/actor/vehicle-sidemenu.hbs',
 
+    // Actor sheet tabs
+    'systems/demonlord/templates/actor/tabs/active-effects.hbs',
+    'systems/demonlord/templates/actor/tabs/afflictions.hbs',
+    'systems/demonlord/templates/actor/tabs/background.hbs',
+    'systems/demonlord/templates/actor/tabs/character.hbs',
+    'systems/demonlord/templates/actor/tabs/combat.hbs',
+    'systems/demonlord/templates/actor/tabs/effects.hbs',
+    'systems/demonlord/templates/actor/tabs/effects-overview.hbs',
+    'systems/demonlord/templates/actor/tabs/item.hbs',
+    'systems/demonlord/templates/actor/tabs/magic.hbs',
+    'systems/demonlord/templates/actor/tabs/talents.hbs',
+
     // General templates
     'systems/demonlord/templates/generic/tab-navigation.hbs',
     "systems/demonlord/templates/item/parts/AE-config-details.hbs",
@@ -68,14 +79,14 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/item/partial/item-measured-template.hbs',
     'systems/demonlord/templates/item/partial/item-availability.hbs',
     'systems/demonlord/templates/item/partial/item-description.hbs',
-    
+
     // Item Sheets
     'systems/demonlord/templates/item/parts/item-sheet-header.hbs',
     'systems/demonlord/templates/item/parts/item-description.hbs',
     'systems/demonlord/templates/item/parts/item-effects.hbs',
     'systems/demonlord/templates/item/item-ancestry-sheet.hbs',
     'systems/demonlord/templates/item/item-ancestry-edit.hbs',
-    'systems/demonlord/templates/item/item-ancestry-view.hbs',  
+    'systems/demonlord/templates/item/item-ancestry-view.hbs',
     'systems/demonlord/templates/item/item-ammo-sheet.hbs',
     'systems/demonlord/templates/item/item-armor-sheet.hbs',
     'systems/demonlord/templates/item/item-role-sheet.hbs',
@@ -104,5 +115,13 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/demonlord/templates/chat/partial/chat-effects.hbs',
     'systems/demonlord/templates/chat/partial/chat-description.hbs',
     "systems/demonlord/templates/chat/partial/chat-extra-effects.hbs",
+
+    // Compendium Browser Partials
+    'systems/demonlord/templates/dialogs/partial/tab-ancestries.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-paths.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-spells.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-creatures.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-characters.hbs',
+    'systems/demonlord/templates/dialogs/partial/tab-creatureroles.hbs',
   ])
 }

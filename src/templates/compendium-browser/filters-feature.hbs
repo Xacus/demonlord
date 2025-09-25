@@ -1,0 +1,13 @@
+{{!--
+  Context:
+  - filters.talent
+    - source
+    - description
+--}}
+<aside class="demonlord-compendium-browser-filters  {{#if (eq search.type 'feature')}}active{{/if}}">
+
+  <div class="filter-group">
+    <b>{{localize 'DL.CharDescription'}}</b>
+    <input type="text" class="filter-group-textbox" name="filters.feature.description" value="{{filters.feature.description}}">
+  </div>
+</aside>
