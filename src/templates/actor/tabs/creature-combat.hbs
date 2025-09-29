@@ -20,7 +20,7 @@
             <label class="dl-clickable item-roll">{{item.name}}</label>
           </div>
           <div class="col-2" style="padding-top: 3px">
-            <span class="dl-clickable dlToggleInfoBtn">
+            <span class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
               <i class="fas fa-chevron-up"></i>
             </span>
             <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.FeatureDelete'}}"
@@ -58,7 +58,7 @@
             <label class="dl-clickable item-roll">{{item.name}}</label>
           </div>
           <div class="col-2" style="padding-top: 3px">
-            <span class="dl-clickable dlToggleInfoBtn">
+            <span class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
               <i class="fas fa-chevron-up"></i>
             </span>
             <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.CreatureDeleteSpecialActions'}}"
@@ -95,7 +95,7 @@
             <label class="dl-clickable item-roll">{{item.name}}</label>
           </div>
           <div class="col-2" style="padding-top: 3px">
-            <span class="dl-clickable dlToggleInfoBtn">
+            <span class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
               <i class="fas fa-chevron-up"></i>
             </span>
             {{#if (dlIsNestedItem item)}}
@@ -145,7 +145,7 @@
             {{defaultValue system.action.damage "―"}}{{#if system.action.damagetypes}}∗{{/if}}
           </div>
           <div class="col-2" style="padding-top: 3px">
-            <span class="dl-clickable dlToggleInfoBtn">
+            <span class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
               <i class="fas fa-chevron-up"></i>
             </span>
             {{#if (dlIsNestedItem item)}}
@@ -227,7 +227,7 @@
             {{/if}}
           </div>
           <div class="col-2">
-            <span class="dl-clickable dlToggleInfoBtn">
+            <span class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
               <i class="fas fa-chevron-up"></i>
             </span>
             {{#if (dlIsNestedItem talent)}}

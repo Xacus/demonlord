@@ -110,6 +110,8 @@ export function activatedEffect() {
 export function wealth() {
   return new foundry.data.fields.SchemaField({
     edit: makeBoolField(),
+    lifestyle: makeStringField(),
+    description: makeStringField(),
     bits: makeIntField(),
     cp: makeIntField(),
     ss: makeIntField(),
