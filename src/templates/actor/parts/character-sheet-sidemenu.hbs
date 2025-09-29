@@ -2,8 +2,8 @@
   <div class="sidebar" data-group="dashboard" data-tab="sidebar">
 
   <div class="switch-toggle pc-toggle">
-    <label class="switch" for="system.isPC">
-      <input class="toggleInput" type="checkbox" id="system.isPC" name="system.isPC" {{checked system.isPC}}/>
+    <label class="switch" for="{{concat actor.id}}.isPC">
+      <input class="toggleInput" type="checkbox" id="{{concat actor.id}}.isPC" name="system.isPC" {{checked system.isPC}}/>
       <div class="toggleFill"></div>
       <span class="toggleText off">{{localize "DL.ActorTypeNPC"}}</span>
       <span class="toggleText on">{{localize 'DL.ActorTypePC'}}</span>
@@ -139,8 +139,8 @@
 
       <div class="fortune">
         <div class="switch-toggle fortune-toggle">
-          <label class="switch" for="system.characteristics.fortune">
-            <input class="toggleInput" type="checkbox" id="system.characteristics.fortune" name="system.characteristics.fortune" {{checked system.characteristics.fortune}} />
+          <label class="switch" for="{{actor.id}}.fortune">
+            <input class="toggleInput" type="checkbox" id="{{actor.id}}.fortune" name="system.characteristics.fortune" {{checked system.characteristics.fortune}} />
             <div class="toggleFill"></div>
             <span class="toggleText off">{{localize 'DL.CharFortune'}}</span>
             <span class="toggleText on">{{localize 'DL.CharFortune'}}</span>
@@ -150,8 +150,8 @@
 
       <div class="turnmode">
         <div class="switch-toggle turn-toggle">
-          <label class="switch" for="system.fastturn">
-            <input class="toggleInput" type="checkbox" id="system.fastturn" name="system.fastturn" {{checked system.fastturn}}
+          <label class="switch" for="{{actor.id}}.fastturn">
+            <input class="toggleInput" type="checkbox" id="{{actor.id}}.fastturn" name="system.fastturn" {{checked system.fastturn}}
             {{disabled system.maluses.noFastTurn}}/>
             <div class="toggleFill"></div>
             <span class="toggleText off">{{localize 'DL.TurnSlowButton'}}</span>
