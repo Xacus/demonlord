@@ -660,13 +660,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // ...searched text
     if (search.text) {
       if (search.caseSensitive) {
-        //results = results.filter(e => e.name.indexOf(search.text) >= 0 || e.system.description?.indexOf(filters.text) >= 0)
         results = results.filter(e => e.name.indexOf(search.text) >= 0)
-        results = results.filter(e => e.description.indexOf(filters[search.type].description) >= 0)
+        results = results.filter(e => e.system.description.indexOf(filters[search.type].description) >= 0)
       } else {
-        //results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()) || e.system.description?.toLowerCase()?.indexOf(search.text.toLowerCase()) >= 0)
         results = results.filter(e => e.name.toLowerCase().includes(search.text.toLowerCase()))
-        results = results.filter(e => e.description.toLowerCase().includes(filters[search.type].description.toLowerCase()))
+        results = results.filter(e => e.system.description.toLowerCase().includes(filters[search.type].description.toLowerCase()))
       }
     }
 

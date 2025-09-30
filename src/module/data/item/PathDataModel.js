@@ -92,5 +92,53 @@ export default class PathDataModel extends foundry.abstract.TypeDataModel {
     }
   }
 
-  // static migrateData(source) { }
+  static migrateData(source) {
+    // Move separate attribute and characteristics properties into their respective objects
+    if (source.levels?.length > 0 && source.levels[0].attributeStrength != undefined) {
+      for (const level of source.levels) {
+        level.attributes = {
+          strength: {
+            value: level.attributes?.strength?.value ?? level.attributeStrength,
+            formula: level.attributes?.strength.formula,
+            selected: level.attributes?.strength?.selected ?? level.attributeStrengthSelected
+          },
+          agility: {
+            value: level.attributes?.agility?.value ?? level.attributeAgility,
+            formula: level.attributes?.agility.formula,
+            selected: level.attributes?.agility?.selected ?? level.attributeAgilitySelected
+          },
+          intellect: {
+            value: level.attributes?.intellect?.value ?? level.attributeIntellect,
+            formula: level.attributes?.intellect.formula,
+            selected: level.attributes?.intellect?.selected ?? level.attributeIntellectSelected
+          },
+          will: {
+            value: level.attributes?.will?.value ?? level.attributeWill,
+            formula: level.attributes?.will.formula,
+            selected: level.attributes?.will?.selected ?? level.attributeWillSelected
+          }
+        }
+  
+        level.characteristics = {
+          health: level.characteristics?.health ?? level.characteristicsHealth,
+          defense: level.characteristics?.defense ?? level.characteristicsDefense,
+          perception: level.characteristics?.perception ?? level.characteristicsPerception,
+          speed: level.characteristics?.speed ?? level.characteristicsSpeed,
+          power: level.characteristics?.power ?? level.characteristicsPower,
+          insanity: {
+            value: level.characteristics?.insanity?.value ?? level.characteristicsInsanity,
+            immune: level.characteristics?.insanity?.immune,
+            formula: level.characteristics?.insanity?.formula
+          },
+          corruption: {
+            value: level.characteristics?.corruption?.value ?? level.characteristicsCorruption,
+            immune: level.characteristics?.corruption?.immune,
+            formula: level.characteristics?.corruption?.formula
+          }
+        }
+      }
+    }
+  
+    return super.migrateData(source)
+  }
 }
