@@ -795,11 +795,11 @@ export class DemonlordActor extends Actor {
     } else await item.update({'system.castings.value': uses + 1}, {parent: this})
 
     if (isAttack && attackAttribute) {
-      launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async html => {
+      launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async (event, html) => {
         for (const target of targets) {
-          await this.useSpell(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val(), target)
+          await this.useSpell(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, target)
         }
-        if (targets.length === 0 )  await this.useSpell(item, html.find('[id="boonsbanes"]').val(), html.find('[id="modifier"]').val())
+        if (targets.length === 0 )  await this.useSpell(item,html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
       })
     } else {
       await this.useSpell(item, 0, 0)
