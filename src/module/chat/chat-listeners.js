@@ -152,7 +152,7 @@ async function _onChatRollDamage(event) {
 
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
 
-  if (['blindroll'].includes(rollMode) || !attackShow) {
+  if ((['blindroll'].includes(rollMode) || !attackShow) && !game.user.isGM) {
     totalDamage = '?'
     totalDamageGM = damageRoll.total
   } else {
