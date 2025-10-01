@@ -139,7 +139,7 @@
       <div class="dl-item-section split">
         <div class="half-panel">
           <b>{{localize "DL.PathsLevelAttributesSubtitle"}}</b>
-          <div class="attribute-select-container"> 
+          <div class="attribute-select-container">
             <div class="item-group-attribute-select display-only" name="level.attributeSelect" value="{{level.attributeSelect}}">
               <div class="input-group">
                 <span class="text">{{localize (ifThen level.attributeSelect (concat 'DL.PathsLevelAttributes' (capitalize level.attributeSelect)) 'DL.None')}}</span>
@@ -170,7 +170,7 @@
                 <span class="text-vs">{{localize "DL.PathsLevelAttributesSelectOr"}}</span>
                 {{> LevelAttributeTwoSetViewer inputName="level.attributeSelectTwoSet4" attribute=level.attributeSelectTwoSet4 groupName="attributeSet2" selected=level.attributeSelectTwoSetSelectedValue2}}
                 <div class="input-group-value">
-                  <input type="number" class="input-group-textbox" name="level.attributeSelectTwoSetValue1" value="{{level.attributeSelectTwoSetValue1}}"/>
+                  <input type="number" class="input-group-textbox" name="level.attributeSelectTwoSetValue2" value="{{level.attributeSelectTwoSetValue2}}"/>
                 </div>
               </div>
             {{/if}}

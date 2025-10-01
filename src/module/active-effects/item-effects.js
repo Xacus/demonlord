@@ -195,11 +195,11 @@ export class DLActiveEffects {
       // Two set attributes
       if (ancestryLevel.attributeSelectIsTwoSet) {
         const attributeOne = ancestryLevel.attributeSelectTwoSetSelectedValue1
-          ? ancestryLevel.attributeSelectTwoSet1
-          : ancestryLevel.attributeSelectTwoSet2
+          ? ancestryLevel.attributeSelectTwoSet2
+          : ancestryLevel.attributeSelectTwoSet1
         const attributeTwo = ancestryLevel.attributeSelectTwoSetSelectedValue2
-          ? ancestryLevel.attributeSelectTwoSet3
-          : ancestryLevel.attributeSelectTwoSet4
+          ? ancestryLevel.attributeSelectTwoSet4
+          : ancestryLevel.attributeSelectTwoSet3
 
         levelEffectData.changes = levelEffectData.changes.concat(
           [
@@ -280,11 +280,11 @@ export class DLActiveEffects {
       // Two set attributes
       if (pathLevel.attributeSelectIsTwoSet) {
         const attributeOne = pathLevel.attributeSelectTwoSetSelectedValue1
-          ? pathLevel.attributeSelectTwoSet1
-          : pathLevel.attributeSelectTwoSet2
+          ? pathLevel.attributeSelectTwoSet2
+          : pathLevel.attributeSelectTwoSet1
         const attributeTwo = pathLevel.attributeSelectTwoSetSelectedValue2
-          ? pathLevel.attributeSelectTwoSet3
-          : pathLevel.attributeSelectTwoSet4
+          ? pathLevel.attributeSelectTwoSet4
+          : pathLevel.attributeSelectTwoSet3
 
         levelEffectData.changes = levelEffectData.changes.concat(
           [
@@ -343,7 +343,7 @@ export class DLActiveEffects {
         // FIXME
         // addEffect('system.characteristics.corruption.value', data.characteristics.corruption.value, priority),
         // addEffect('system.characteristics.insanity.value', data.characteristics.insanity.value, priority),
-        
+
         addEffect('system.difficulty', data.difficulty, priority),
         overrideEffect('system.characteristics.size', data.characteristics.size, priority),
         overrideEffect('system.frightening', data.frightening, priority, true),

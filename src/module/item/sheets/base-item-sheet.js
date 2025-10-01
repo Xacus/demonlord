@@ -320,7 +320,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
       if (completeFormData.length > 0) {
         if (item.system.editPath) {
-          system.levels = this._getEditLevelsUpdateData(completeFormData)
+          system.levels = this._getEditLevelsUpdateData(completeFormData, updateData)
           system.levels.sort(this._sortLevels)
 
           // Set default image based on new path type
@@ -376,7 +376,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
       if (completeFormData.length > 0) {
         if (item.system.editAncestry) {
-          system.levels = this._getEditLevelsUpdateData(completeFormData)
+          system.levels = this._getEditLevelsUpdateData(completeFormData, updateData)
           system.levels.sort(this._sortLevels)
 
           // Set default image based on new ancestry type
@@ -912,7 +912,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     return this._mergeLevels(this.document.system.levels, completeFormData)
   }
 
-  _getEditLevelsUpdateData(completeFormData) {
+  _getEditLevelsUpdateData(completeFormData, updateData) {
     const newLevels = completeFormData.map(cf => new PathLevel(cf))
 
     // Check duplicate levels in new data
@@ -938,6 +938,13 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
           newLevel.attributes.agility.selected = foundLevel.attributes.agility.selected
           newLevel.attributes.intellect.selected = foundLevel.attributes.intellect.selected
           newLevel.attributes.will.selected = foundLevel.attributes.will.selected
+        }
+
+        if (newLevel.attributeSelectIsTwoSet === foundLevel.attributeSelectIsTwoSet) {
+          newLevel.attributeSelectTwoSet1 = newLevel.attributeSelectTwoSet1 || updateData.level.attributeSelectTwoSet1
+          newLevel.attributeSelectTwoSet2 = newLevel.attributeSelectTwoSet2 || updateData.level.attributeSelectTwoSet2
+          newLevel.attributeSelectTwoSet3 = newLevel.attributeSelectTwoSet3 || updateData.level.attributeSelectTwoSet3
+          newLevel.attributeSelectTwoSet4 = newLevel.attributeSelectTwoSet4 || updateData.level.attributeSelectTwoSet4
         }
 
         // And roll formulas

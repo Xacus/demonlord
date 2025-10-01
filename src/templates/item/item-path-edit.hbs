@@ -53,9 +53,9 @@
             {{> AttributeInput icon="will"       value=level.attributes.will.value      name="level.attributes.will.value"      loc="DL.AttributeWill"}}
           {{else if level.attributeSelectIsTwoSet}}
             <div class="attribute-set-container">
-              {{LevelAttributeTwoSet 'level.attributeSelectTwoSet1' level.attributeSelectTwoSet1 }}
+              {{LevelAttributeTwoSet 'level.attributeSelectTwoSet1' level.attributeSelectTwoSet1}}
               <span class="text-vs">{{localize "DL.PathsLevelAttributesSelectOr"}}</span>
-              {{LevelAttributeTwoSet 'level.attributeSelectTwoSet2' level.attributeSelectTwoSet2 }}
+              {{LevelAttributeTwoSet 'level.attributeSelectTwoSet2' level.attributeSelectTwoSet2}}
               <div class="input-group-value">
                 <input type="number" class="input-group-textbox" name="level.attributeSelectTwoSetValue1" value="{{level.attributeSelectTwoSetValue1}}"/>
               </div>
