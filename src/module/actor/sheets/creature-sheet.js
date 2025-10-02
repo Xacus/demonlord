@@ -148,7 +148,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     let e = this.element
 
     // Role edit
-    e.querySelectorAll('.role-edit')?.forEach(p => p.addEventListener('mousedown', '.role-edit', async ev => await this.onEditRole(ev)))
+    e.querySelectorAll('.role-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditRole(ev)))
 
     // Relic edit
     e.querySelectorAll('.relic-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditRelic(ev)))

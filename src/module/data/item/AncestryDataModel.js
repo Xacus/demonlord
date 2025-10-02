@@ -133,6 +133,8 @@ export default class AncestryDataModel extends foundry.abstract.TypeDataModel {
           corruption: source.characteristics.corruption
         },
         talents: source.talents,
+        talentspick: [],
+        spells: [],
         languages: source.languagelist
       }, ...source.levels]
     }
@@ -155,6 +157,7 @@ export default class AncestryDataModel extends foundry.abstract.TypeDataModel {
           spells: source.level4.spells,
           talentsSelected: source.level4.pickedTalents,
           talentspick: source.level4.pickedTalents,
+          languages: []
           // picks is not in use
         }
       ])
@@ -185,7 +188,7 @@ export default class AncestryDataModel extends foundry.abstract.TypeDataModel {
             selected: level.attributes?.will?.selected ?? level.attributeWillSelected
           }
         }
-  
+
         level.characteristics = {
           health: level.characteristics?.health ?? level.characteristicsHealth,
           defense: level.characteristics?.defense ?? level.characteristicsDefense,

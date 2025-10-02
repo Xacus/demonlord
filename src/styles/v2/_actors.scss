@@ -454,6 +454,33 @@ aside {
       font-family: 'IM Fell English SC', serif;
     }
   }
+
+  .dl-side-tab-container {
+    position: absolute;
+    top: 200px;
+    pointer-events: none;
+    color: var(--demonlord-color-text-inverted-primary);
+    font-family: 'IM Fell English SC', serif;
+  }
+
+  .dl-side-tab {
+    transition: left 200ms ease-in-out;
+    position: relative;
+    background-color: var(--demonlord-red);
+    width: 150px;
+    height: 32px;
+    border-radius: 0 5px 5px 0;
+    line-height: 32px;
+    text-align: center;
+    left: -130px;
+    pointer-events: initial;
+    margin-bottom: 2px;
+  }
+
+  .dl-side-tab:hover {
+    left: -60px;
+    margin-left: 20px;
+  }
 }
 
 /* #endregion */
