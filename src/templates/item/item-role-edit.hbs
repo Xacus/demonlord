@@ -56,7 +56,8 @@
     {{> AttributeInput icon='insanity' value=system.characteristics.insanity.value name="system.characteristics.insanity.value" loc='DL.CharInsanity'}}
     {{> AttributeInput icon='corruption' value=system.characteristics.corruption.value name="system.characteristics.corruption.value" loc='DL.CharCorruption'}}
     {{> AttributeInput icon='power' value=system.characteristics.power name="system.characteristics.power" loc='DL.CharPower'}}
-    {{> AttributeInput icon='difficulty' value=system.difficulty name="system.difficulty" loc='DL.CreatureDifficulty'}}
+    {{> AttributeInput icon='difficulty' value=system.characteristics.difficulty name="system.characteristics.difficulty"
+    loc='DL.CreatureDifficulty'}}
     <div class="item-group-attribute-value checkable" data-action="toggleFrightening">
       <div class="input-group" data-tippy-content="{{localize "DL.IsFrightening"}}">
         <input type="checkbox" name="system.frightening" {{checked system.frightening}}>
