@@ -70,6 +70,8 @@ static initializeSpecialDurations() {
         'TurnEnd': i18n('DL.SpecialDurationTurnEnd'),
         'TurnStartSource': i18n('DL.SpecialDurationTurnStartSource'),
         'TurnEndSource': i18n('DL.SpecialDurationTurnEndSource'),
+        'NextAttackRoll': i18n('DL.SpecialDurationNextAttackRoll'),
+        'NextChallengeRoll': i18n('DL.SpecialDurationNextChallengeRoll'),
         'NextD20Roll': i18n('DL.SpecialDurationNextD20Roll'),
         'NextDamageRoll': i18n('DL.SpecialDurationNextDamageRoll'),
         'RestComplete': i18n('DL.SpecialDurationRestComplete')
