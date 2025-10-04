@@ -501,19 +501,7 @@ export class DemonlordActor extends Actor {
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      // if (!(specialDuration?.length > 0)) continue
-        if (specialDuration === 'NextD20Roll') {
-          let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
-          if (
-            effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.weapon`)) ||
-            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.weapon`))
-          )
-            await effect?.delete()
-        }
+        if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete()
     }
 
     Hooks.call('DL.RollAttack', {
@@ -586,14 +574,7 @@ export class DemonlordActor extends Actor {
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      // if (!(specialDuration?.length > 0)) continue
-      if (specialDuration === 'NextD20Roll') {
-        if (
-          effect.changes.find(e => e.key.includes('system.bonuses.challenge.boons.all')) || !effect.changes.length ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.challenge.boons.${attribute.key}`))
-        )
-          await effect?.delete()
-      }
+      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextChallengeRoll') await effect?.delete()
     }
 
     return challengeRoll
@@ -651,16 +632,7 @@ export class DemonlordActor extends Actor {
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      // if (!(specialDuration?.length > 0)) continue
-      if (specialDuration === 'NextD20Roll') {
-        if (
-          effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${attribute.key}`)) ||
-          effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${attribute.key}`))
-        )
-          await effect?.delete()
-      }
+      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete()
     }
 
     return attackRoll
@@ -745,17 +717,7 @@ export class DemonlordActor extends Actor {
 
       for (let effect of this.appliedEffects) {
         const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-        // if (!(specialDuration?.length > 0)) continue
-        if (specialDuration === 'NextD20Roll') {
-          let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
-          if (
-            effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`))
-          )
-            await effect?.delete()
-        }
+        if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete()
       }
 
     }
@@ -858,19 +820,7 @@ export class DemonlordActor extends Actor {
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      // if (!(specialDuration?.length > 0)) continue
-      if (specialDuration === 'NextD20Roll') {
-        let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
-        if (
-          effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.spell`)) ||
-          effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`)) ||
-          effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.spell`))
-        )
-          await effect?.delete()
-      }
+      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete()
     }
 
     // Add concentration if it's in the spell duration
@@ -974,17 +924,7 @@ export class DemonlordActor extends Actor {
 
       for (let effect of this.appliedEffects) {
         const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-        // if (!(specialDuration?.length > 0)) continue
-        if (specialDuration === 'NextD20Roll') {
-          let nAttackAttribute =  attackAttribute.length ? attackAttribute : 'None'
-          if (
-            effect.changes.find(e => e.key.includes('system.bonuses.attack.boons.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.boons.${nAttackAttribute}`)) ||
-            effect.changes.find(e => e.key.includes('system.bonuses.attack.modifier.all')) || !effect.changes.length ||
-            effect.changes.find(e => e.key.includes(`system.bonuses.attack.modifier.${nAttackAttribute}`))
-          )
-            await effect?.delete()
-        }
+        if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete()
       }
     }
     postItemToChat(this, item, attackRoll, target?.actor, parseInt(inputBoons) || 0)
