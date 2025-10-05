@@ -137,15 +137,14 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
     }
 
     let specialDuration = foundry.utils.getProperty(e, `flags.${game.system.id}.specialDuration`)
-    let tokenName
     if (specialDuration !== 'None' && specialDuration !== undefined) {
-      tokenName = fromUuidSync(e.origin.substr(0, e.origin.search('.Actor.')))?.name
+      const actorName = e.origin !==null ? fromUuidSync(e.origin)?.parent.name : ''
       switch (specialDuration) {
         case 'TurnEndSource':
-          e.dlRemaining = `TurnEnd [${tokenName}]`
+          e.dlRemaining = `TurnEnd [${actorName}]`
           break
         case 'TurnStartSource':
-          e.dlRemaining = `TurnStart [${tokenName}]`
+          e.dlRemaining = `TurnStart [${actorName}]`
           break
         default:
           e.dlRemaining = specialDuration

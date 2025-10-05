@@ -357,6 +357,18 @@ export class DLAfflictions {
       ),
     )
 
+    // Helped
+    effectsDataList.push(
+      _buildBaseAffliction(
+        'helped',
+        'systems/demonlord/assets/icons/effects/helped.svg', [
+          addEffect('system.bonuses.attack.boons.all', 1, effectPriority),
+          addEffect('system.bonuses.challenge.boons.all', 1, effectPriority),
+        ],
+        {'specialDuration' : 'NextD20Roll'}
+      ),
+    )
+
     // Prepare
     effectsDataList.push(
       _buildBaseAffliction('prepare', 'systems/demonlord/assets/icons/effects/prepare.svg', [

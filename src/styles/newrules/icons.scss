@@ -155,7 +155,7 @@ i.dl-icon-check {
 }
 
 // Afflictions
-$afflictions-demonlord: 'concentrate', 'defend', 'help', 'prepare', 'reload', 'retreat', 'rush', 'stabilize', 'charmed',
+$afflictions-demonlord: 'concentrate', 'defend', 'help', 'helped', 'prepare', 'reload', 'retreat', 'rush', 'stabilize', 'charmed',
   'compelled', 'defenseless', 'diseased', 'fatigued', 'horrified', 'grabbed', 'immobilized', 'impaired', 'surprised',
   'slowed', 'injured', 'incapacitated', 'disabled', 'dying', 'surrounded';
 @each $affliction in $afflictions-demonlord {
