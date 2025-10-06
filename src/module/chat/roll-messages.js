@@ -296,7 +296,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
   data['hasTarget'] = targetNumber !== undefined
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
-  data['attackEffects'] = buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier)
+  data['attackEffects'] = attackRoll !== null ? buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier) : ''
   data['effects'] = buildTalentEffectsMessage(actor, talent)
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
@@ -631,7 +631,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['effects'] = actor.system.bonuses.attack.extraEffect
-  data['attackEffects'] = buildAttackEffectsMessage(actor, target, item, attackAttribute, defenseAttribute, inputBoons, plus20)
+  data['attackEffects'] = attackRoll !== null ? buildAttackEffectsMessage(actor, target, item, attackAttribute, defenseAttribute, inputBoons, plus20) : ''
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
   data['ifBlindedRoll'] = rollMode === 'blindroll'
