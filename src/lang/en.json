@@ -544,6 +544,7 @@
   "DL.ReligionEdit": "Edit religion",
   "DL.ReligionTitle": "Religion",
   "DL.Requirements": "Requirements",
+  "DL.Requirement": "Requirement",
   "DL.RerollBoons1": "Reroll Boon dice with result 1",
   "DL.RestAction": "Rest",
   "DL.RoleNestedItem": "From {itemName} role",
