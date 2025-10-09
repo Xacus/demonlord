@@ -681,7 +681,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         break
       case 'creature':
         results = results.filter(e => {
-          if (filters?.creature.difficulty && e.system.difficulty !== filters.creature.difficulty) return false
+          if (filters?.creature.difficulty && e.system.difficulty !== parseInt(filters.creature.difficulty)) return false
           if (filters?.creature.descriptor && !e.system.descriptor.includes(filters.creature.descriptor)) return false
           if (filters?.creature.perceptionSenses && !e.system.perceptionsenses?.toLowerCase()?.includes(filters.creature.perceptionSenses.toLowerCase())) return false
           if (!!filters?.creature?.usesMagic && (e.system.characteristics.power > 0 ? filters.creature.usesMagic !== 'yes' : filters.creature.usesMagic !== 'no')) return false
