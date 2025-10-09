@@ -112,7 +112,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['challPerception'] = savingAttribute === 'perception'
   data['targetName'] = defender?.name || ''
   data['isCreature'] = attacker.type === 'creature' || attacker.type === 'vehicle'
-  data['isPlus20Roll'] = plus20
+  data['isPlus20Roll'] = item?.type === 'attribute' ? false : plus20
   data['hasTarget'] = targetNumber !== undefined
   data['effects'] = attacker.system.bonuses.attack.extraEffect
   data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier)
