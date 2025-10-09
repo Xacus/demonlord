@@ -109,7 +109,7 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
       submitOnChange: false,
     },
     position: {
-      width: 720,
+      width: 800,
       height: 'auto',
     },
     tag: 'form',
