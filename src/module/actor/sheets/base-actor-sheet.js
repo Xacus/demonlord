@@ -414,7 +414,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     e.querySelectorAll('.effect-control')?.forEach(el => el.addEventListener('click', async ev => await onManageActiveEffect(ev, this.document)))
 
     // Disable afflictions
-    e.querySelector('disableafflictions')?.addEventListener('click', async () => {
+    e.querySelector('.disableafflictions')?.addEventListener('click', async () => {
       await DLAfflictions.clearAfflictions(this.document)
     })
 
