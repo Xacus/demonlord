@@ -696,7 +696,6 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         break
       case 'vehicle':
         results = results.filter(e => {
-          if (filters?.vehicle.difficulty && e.system.difficulty !== filters.vehicle.difficulty) return false
           if (filters?.vehicle.descriptor && !e.system.descriptor.includes(filters.vehicle.descriptor)) return false
 
           return true
