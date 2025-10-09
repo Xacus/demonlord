@@ -66,6 +66,7 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
 static initializeSpecialDurations() {
     DLActiveEffectConfig._specialDurations = {
         'None': i18n('DL.SpecialDurationNone'),
+        'EndOfTheRound' : i18n('DL.SpecialDurationEndOfTheRound'),
         'TurnStart': i18n('DL.SpecialDurationTurnStart'),
         'TurnEnd': i18n('DL.SpecialDurationTurnEnd'),
         'TurnStartSource': i18n('DL.SpecialDurationTurnStartSource'),

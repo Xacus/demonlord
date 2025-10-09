@@ -519,6 +519,18 @@ async function deleteSurroundedStatus(combatant) {
   await effect?.delete()
 }
 
+// Delete End Of The Round Effects
+async function deleteEndOfTheRoundEffects(currentActors) {
+    for await (let actor of currentActors) {
+        let deleteIds = []
+        const endOfTheRoundEffects = actor.appliedEffects.filter(e => e.flags?.demonlord?.specialDuration === 'EndOfTheRound')
+        endOfTheRoundEffects.forEach(e => {
+            deleteIds.push(e._id)
+        })
+        if (deleteIds.length) await actor.deleteEmbeddedDocuments('ActiveEffect', deleteIds)
+    }
+}
+
 Hooks.on('deleteCombat', async (combat) => {
 	for (let turn of combat.turns) {
 		let actor = turn.actor
@@ -721,5 +733,15 @@ Hooks.on('updateCombat', async (combat) => {
         }
       }
     }
+  }
+
+  // End Of The Round Expirations
+  if (game.combat.turn === 0) {
+      const allCombatants = [...combat.combatants]
+      let allActors = []
+      allCombatants.forEach((combatant) => {
+          if (combatant.actor.appliedEffects.find(e => e.flags?.demonlord?.specialDuration === 'EndOfTheRound')) allActors.push(combatant.actor)
+      })
+      await deleteEndOfTheRoundEffects(allActors)
   }
 })
