@@ -602,36 +602,21 @@ Hooks.on('targetToken', async (user, target, isTargeted) => {
           })
       return
   }
-
-  let changes = ["weapon"].map(s => ({
-      key: `system.bonuses.defense.boons.${s}`,
-      mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-      value: -1
-  }))
-
-  const effectData = {
-      changes: changes,
-      icon: 'systems/demonlord/assets/icons/effects/surrounded.svg',
-      label: 'Surrounded',
-      disabled: false,
-      description: game.i18n.localize("DL.AfflictionsSurrounded"),
-      duration: {
-          turns: 1
-      },
-      statuses: ['surrounded'],
-  }
-
+  const surrounded = CONFIG.statusEffects.find(a => a.id === "surrounded")
+  surrounded['statuses'] = [surrounded.id]
   let targetSize = Math.max(target.document.width, target.document.height)
   let numberOfSurrounders = await getNumberOfSurrounders(target, targetSize)
 
   if (effects.length === 0 && numberOfSurrounders >= targetSize + 1) {
       if (game.user.isGM)
-          await target.actor.createEmbeddedDocuments("ActiveEffect", [effectData])
+          await ActiveEffect.create(surrounded, {
+              parent: target.actor
+          })
       else
           game.socket.emit('system.demonlord', {
               request: "createEffect",
               tokenuuid: target.document.uuid,
-              effectData: effectData
+              effectData: surrounded
           })
   }
 })
