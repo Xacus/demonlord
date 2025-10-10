@@ -253,6 +253,16 @@ export class DemonlordActor extends Actor {
 
   }
 
+  /**
+   * Iterate over all applicable effects, but only for worn items
+   * @override */
+  *allApplicableEffects() {
+    for (const effect of super.allApplicableEffects()) {
+      if (effect.parent?.system?.wear === false) continue;
+      yield effect;
+    }
+  }
+
   /* -------------------------------------------- */
   /*  _onOperations                                */
 
