@@ -345,7 +345,9 @@ export class DLAfflictions {
         addEffect('system.bonuses.defense.boons.intellect', 1, effectPriority),
         addEffect('system.bonuses.defense.boons.perception', 1, effectPriority),
         // TODO: Auto disable when Dazed, Stunned or Unconscious
-      ]),
+      ],
+      {'specialDuration' : 'EndOfTheRound'}
+     ),
     )
 
     // Help
@@ -354,6 +356,7 @@ export class DLAfflictions {
         'help',
         'systems/demonlord/assets/icons/effects/help.svg',
         [], // TODO: Add boons? Aka help should be applied to the receiver
+      {'specialDuration' : 'EndOfTheRound'}
       ),
     )
 
@@ -382,20 +385,22 @@ export class DLAfflictions {
         addEffect('system.bonuses.attack.boons.intellect', 1, effectPriority),
         addEffect('system.bonuses.attack.boons.will', 1, effectPriority),
         addEffect('system.bonuses.attack.boons.perception', 1, effectPriority),
-      ]),
+      ],
+      {'specialDuration' : 'EndOfTheRound'}
+      ),
     )
 
     // Reload
-    effectsDataList.push(_buildBaseAffliction('reload', 'systems/demonlord/assets/icons/effects/reload.svg'))
+    effectsDataList.push(_buildBaseAffliction('reload', 'systems/demonlord/assets/icons/effects/reload.svg', [], {'specialDuration' : 'EndOfTheRound'}))
 
     // Retreat
-    effectsDataList.push(_buildBaseAffliction('retreat', 'systems/demonlord/assets/icons/effects/retreat.svg'))
+    effectsDataList.push(_buildBaseAffliction('retreat', 'systems/demonlord/assets/icons/effects/retreat.svg', [], {'specialDuration' : 'EndOfTheRound'}))
 
     // Rush
-    effectsDataList.push(_buildBaseAffliction('rush', 'systems/demonlord/assets/icons/effects/rush.svg'))
+    effectsDataList.push(_buildBaseAffliction('rush', 'systems/demonlord/assets/icons/effects/rush.svg', [], {'specialDuration' : 'EndOfTheRound'}))
 
     // Stabilize
-    effectsDataList.push(_buildBaseAffliction('stabilize', 'systems/demonlord/assets/icons/effects/stabilize.svg'))
+    effectsDataList.push(_buildBaseAffliction('stabilize', 'systems/demonlord/assets/icons/effects/stabilize.svg', [], {'specialDuration' : 'EndOfTheRound'}))
 
     // ----------------------- DAMAGE EFFECTS -------------------------- //
 
