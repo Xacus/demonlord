@@ -248,22 +248,64 @@ Hooks.on('createToken', async _tokenDocument => {
 })
 
 Hooks.on('updateActor', async (actor, updateData) => {
-  if (!actor.isOwner || !game.combat) return
+  if (!game.ready || !actor.isOwner) return
+  if (Object.keys(updateData).equals(['_id'])) return
 
-  let token = actor.token || game.combats?.viewed?.combatants.find(c => c.actor?.id == actor.id)?.token
-  let combatant = token?.combatant
-  let defeated = (actor?.system.characteristics.health.value >= actor?.system.characteristics.health.max) ? true : false
 
-     if (combatant != undefined && combatant.defeated != defeated && game.settings.get('demonlord', 'autoSetDefeated')) {
-         await combatant.update({ defeated: defeated })
-     }
+  if (game.combat) {
+    let token = actor.token || game.combats?.viewed?.combatants.find(c => c.actor?.id == actor.id)?.token
+    let combatant = token?.combatant
+    let defeated = (actor?.system.characteristics.health.value >= actor?.system.characteristics.health.max) ? true : false
 
-  // Update the combat initiative if the actor has changed its turn speed
-  const isUpdateTurn = typeof updateData?.system?.fastturn !== 'undefined' && updateData?.system?.fastturn !== null
-  if (!(isUpdateTurn && (game.user.isGM || actor.isOwner))) return
-  const linkedCombatants = game.combat.combatants.filter(c => c.actorId === actor.id)
-  for await (const c of linkedCombatants) {
-    game.combat.setInitiative(c.id, game.combat.getInitiativeValue(c))
+    if (combatant != undefined && combatant.defeated != defeated && game.settings.get('demonlord', 'autoSetDefeated')) {
+      await combatant.update({ defeated: defeated })
+    }
+
+    // Update the combat initiative if the actor has changed its turn speed
+    const isUpdateTurn = typeof updateData?.system?.fastturn !== 'undefined' && updateData?.system?.fastturn !== null
+    if (!(isUpdateTurn && (game.user.isGM || actor.isOwner))) return
+    const linkedCombatants = game.combat.combatants.filter(c => c.actorId === actor.id)
+    for await (const c of linkedCombatants) {
+      game.combat.setInitiative(c.id, game.combat.getInitiativeValue(c))
+    }
+  }
+
+  // Update token size
+  if (game.settings.get('demonlord', 'autoSizeTokens')) {
+    for (const token of actor.getActiveTokens(true, true)) {
+      const modifiedSize = actor.getSizeFromString(actor.system.characteristics.size)
+
+      let scale = Math.max(modifiedSize, 0.5) // Foundry can't handle token scales smaller than 0.5, so we need to adjust the texture scale further
+      let textureScale = 1
+
+      if (modifiedSize < 0.5) {
+        textureScale = modifiedSize * 2;
+      }
+
+      token.resize({ width: scale, height: scale }, { animate: true })
+      token.update({ texture: { scaleX: textureScale, scaleY: textureScale } })
+      //token.prepareDerivedData()
+      //token.object?.refresh()
+    }
+  }
+
+  // Update token vision
+  if (game.settings.get('demonlord', 'autoAdjustVision') && actor.system.type === 'creature') {
+    let visionType = 'basic'
+
+    if (actor.system.perceptionsenses.includes('truesight')) {
+      visionType = 'truesight'
+    } else if (actor.system.perceptionsenses.includes('sightless')) {
+      visionType = 'sightless'
+    } else if (actor.system.perceptionsenses.includes('darksight')) {
+      visionType = 'darksight'
+    } else if (actor.system.perceptionsenses.includes('shadowsight')) {
+      visionType = 'shadowsight'
+    }
+
+    //for (const token of actor.getActiveTokens(true, true)) {
+    gmMacros.applyVisionType(actor.token._object, visionType)
+  //}
   }
 })
 

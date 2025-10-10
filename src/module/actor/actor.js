@@ -251,23 +251,6 @@ export class DemonlordActor extends Actor {
 
     this.system.characteristics.size = newSize
 
-    // Trigger token update, so that changes are reflected
-    if (game.ready && this.isOwner && game.settings.get('demonlord', 'autoSizeTokens')) {
-      for (const token of this.getActiveTokens(true, true)) {
-
-        let scale = Math.max(modifiedSize, 0.5) // Foundry can't handle token scales smaller than 0.5, so we need to adjust the texture scale further
-        let textureScale = 1
-
-        if (modifiedSize < 0.5) {
-            textureScale = modifiedSize * 2;
-        }
-
-        token.resize({width: scale, height: scale}, { animate: true })
-        token.update({ texture: { scaleX: textureScale, scaleY: textureScale }})
-        //token.prepareDerivedData()
-        //token.object?.refresh()
-      }
-    }
   }
 
   /* -------------------------------------------- */
