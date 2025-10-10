@@ -154,7 +154,7 @@ calculateEncounterDifficulty(combatants) {
         }
     }
 
-    let difficulty = deepClone(this.ENCOUNTERDIFFICULTY.find(x => x.Level === partyLevel))
+    let difficulty = foundry.utils.deepClone(this.ENCOUNTERDIFFICULTY.find(x => x.Level === partyLevel))
 
     // Demon Lord page 189
     if (allies !== 4) {
