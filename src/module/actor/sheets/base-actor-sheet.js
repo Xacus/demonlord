@@ -339,6 +339,38 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
 
     let e = this.element
 
+    /*
+    * Modified version of the awesome https://github.com/saif-ellafi/foundryvtt-actor-link-indicator
+    * Big thanks to saif-ellafi
+    */
+
+    if (game.user.isGM && game.settings.get('demonlord', 'showActorLinkStatus')) {
+        const isUnique = this.actor.prototypeToken.actorLink;
+        let actorLink
+        if (this.actor.token === null) {
+            actorLink = {
+                style: isUnique ? 'color: darkorange;text-shadow: 0 0 8px darkorange; cursor: pointer;' : 'color: var(--demonlord-red);text-shadow: 0 0 8px var(--demonlord-red); cursor: pointer;',
+                icon: isUnique ? 'fas fa-link' : 'fas fa-unlink',
+                tooltip: isUnique ? game.i18n.localize('DL.UnLinkActorData') : game.i18n.localize('DL.LinkActorData')
+            }
+        } else {
+            actorLink = {
+                style: 'color: red;text-shadow: 0 0 8px red;',
+                icon: 'fas fa-unlink',
+                tooltip: game.i18n.localize('DL.SyntheticToken'),
+            }
+        }
+        let actorLinkIndicator = `<actorlink class="${actorLink.icon}" style ="${actorLink.style}" data-tooltip="${actorLink.tooltip}"></actorlink>`
+        e.querySelector("actorlink")?.remove()
+        e.querySelector(".header-control")?.insertAdjacentHTML("beforebegin", actorLinkIndicator)
+        // eslint-disable-next-line no-unused-vars
+        e.querySelector("actorlink")?.addEventListener('click', async ev => {
+            this.actor.update({
+                'prototypeToken.actorLink': !this.actor.prototypeToken.actorLink
+            })
+        })
+    }
+
     const autoresize = (el) => {
       const jEl = $(el)
       if (jEl.prop("tagName") === 'INPUT') {
