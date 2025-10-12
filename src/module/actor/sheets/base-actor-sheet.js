@@ -357,7 +357,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
             actorLink = {
                 style: 'color: red;text-shadow: 0 0 8px red;',
                 icon: 'fas fa-unlink',
-                tooltip: game.i18n.localize('DL.SynthetTokenic'),
+                tooltip: game.i18n.localize('DL.SyntheticToken'),
             }
         }
         let actorLinkIndicator = `<actorlink class="${actorLink.icon}" style ="${actorLink.style}" data-tooltip="${actorLink.tooltip}"></actorlink>`
