@@ -11,6 +11,9 @@ export function activateSocketListener() {
         case 'deleteEffect':
           await actor.deleteEmbeddedDocuments('ActiveEffect', message.effectData)
           break
+        case 'increaseDamage':
+          await actor.increaseDamage(message.increment)
+          break
         default:
           break
       }

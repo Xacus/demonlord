@@ -19,7 +19,7 @@ function _remapEffects(effects) {
       const obj = {
         name: effect.name,
         type: effect.flags?.demonlord?.sourceType,
-        value: change.value,
+        value: isNaN(change.value) ? change.value : parseInt(change.value),
       }
       if (!m.has(change.key)) m.set(change.key, [obj])
       else m.get(change.key).push(obj)
@@ -102,30 +102,46 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
   let inputModifierMsg = inputModifier ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputModifier)) : ''
   let itemBoons
+  let itemRollbonus
+  let itemAttributePenalty
+  let itemAttributeRequirement
+
   switch (item.type) {
     case 'spell':
       itemBoons = parseInt(item.system.action.boonsbanes) || 0
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.spell', '')
       modifiers = changeToMsg(m, 'system.bonuses.attack.modifier.spell','')
+      itemRollbonus =  parseInt(item.system.action.rollbonus) || 0
       defenderBoonsArray.push('system.bonuses.defense.boons.spell')      
       break
     case 'endoftheround':
       itemBoons = parseInt(item.system.action.boonsbanes) || 0
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.weapon', '')
       modifiers = changeToMsg(m, 'system.bonuses.attack.modifier.weapon','')
+      itemRollbonus =  parseInt(item.system.action.rollbonus) || 0
       defenderBoonsArray.push('system.bonuses.defense.boons.weapon')
-      if (item.system.wear && +item.system.requirement?.minvalue > attacker.getAttribute(item.system.requirement?.attribute)?.value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon      
+      if (item.system.wear && +item.system.requirement?.minvalue > attacker.getAttribute(item.system.requirement?.attribute)?.value)
+        {
+          itemAttributePenalty = -1
+          itemAttributeRequirement = attacker.getAttribute(item.system.requirement?.attribute)?.label + ' ' + game.i18n.localize('DL.Requirement')
+        }
       break
     case 'weapon':
       itemBoons = parseInt(item.system.action.boonsbanes) || 0
       otherBoons = changeToMsg(m, 'system.bonuses.attack.boons.weapon', '')
       modifiers = changeToMsg(m, 'system.bonuses.attack.modifier.weapon','')
+      itemRollbonus =  parseInt(item.system.action.rollbonus) || 0
       defenderBoonsArray.push('system.bonuses.defense.boons.weapon')
-      if (item.system.wear && +item.system.requirement?.minvalue > attacker.getAttribute(item.system.requirement?.attribute)?.value) itemBoons-- // If the requirements are not met, decrease the boons on the weapon      
+      if (item.system.wear && +item.system.requirement?.minvalue > attacker.getAttribute(item.system.requirement?.attribute)?.value) 
+        {
+          itemAttributePenalty = -1
+          itemAttributeRequirement = attacker.getAttribute(item.system.requirement?.attribute)?.label + ' ' + game.i18n.localize('DL.Requirement')
+        }
       break
     case 'talent':
       if (!attackAttribute) break
       itemBoons = parseInt(item.system.action.boonsbanes) || 0
+      itemRollbonus =  parseInt(item.system.action.rollbonus) || 0
       break
     case 'attribute':
       // Nothing to do, just continue with chatcard creation
@@ -149,6 +165,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   let gmOnlyMsg = gmOnlyResult ? '<div class="gmonly">' + gmOnlyResult + '</div>' : ''
   let playerOnlyMsg = playerOnlyResult ? '<div class="gmremove">' +  playerOnlyResult + '</div>' : ''
   let boonsMsg =
+    (itemAttributePenalty ? _toMsg(itemAttributeRequirement, plusify(itemAttributePenalty)) : '') +
     changeListToMsg(m, [`system.bonuses.attack.boons.${attackAttribute}`, "system.bonuses.attack.boons.all"], '') +
     (itemBoons ? _toMsg(item.name, plusify(itemBoons)) : '') +
     otherBoons +
@@ -160,7 +177,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   
   let modifiersMsg =
     changeListToMsg(m, [`system.bonuses.attack.modifier.${attackAttribute}`,"system.bonuses.attack.modifier.all"], '') +
-    modifiers
+    modifiers + (itemRollbonus ? _toMsg(item.name, plusify(itemRollbonus)) : '')
   modifiersMsg = attributeModMsg+modifiersMsg+inputModifierMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackModifiers')}<br>` + attributeModMsg+modifiersMsg+inputModifierMsg : ''
 
   const extraDamageMsg = item.system.action?.damage ? changeToMsg(m, 'system.bonuses.attack.damage', 'DL.TalentExtraDamage') : ''

@@ -9,6 +9,10 @@ import { DemonlordItem } from '../../item/item'
 import tippy from "tippy.js";
 import { buildDropdownListHover } from "../../utils/handlebars-helpers";
 import { DLAfflictions } from '../../active-effects/afflictions'
+import launchRollDialog from '../../dialog/roll-dialog'
+import {TokenManager} from '../../pixi/token-manager'
+
+const tokenManager = new TokenManager()
 
 const { TextEditor } = foundry.applications.ux //eslint-disable-line no-shadow
 
@@ -335,6 +339,38 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
 
     let e = this.element
 
+    /*
+    * Modified version of the awesome https://github.com/saif-ellafi/foundryvtt-actor-link-indicator
+    * Big thanks to saif-ellafi
+    */
+
+    if (game.user.isGM && game.settings.get('demonlord', 'showActorLinkStatus')) {
+        const isUnique = this.actor.prototypeToken.actorLink;
+        let actorLink
+        if (this.actor.token === null) {
+            actorLink = {
+                style: isUnique ? 'color: darkorange;text-shadow: 0 0 8px darkorange; cursor: pointer;' : 'color: var(--demonlord-red);text-shadow: 0 0 8px var(--demonlord-red); cursor: pointer;',
+                icon: isUnique ? 'fas fa-link' : 'fas fa-unlink',
+                tooltip: isUnique ? game.i18n.localize('DL.UnLinkActorData') : game.i18n.localize('DL.LinkActorData')
+            }
+        } else {
+            actorLink = {
+                style: 'color: red;text-shadow: 0 0 8px red;',
+                icon: 'fas fa-unlink',
+                tooltip: game.i18n.localize('DL.SyntheticToken'),
+            }
+        }
+        let actorLinkIndicator = `<actorlink class="${actorLink.icon}" style ="${actorLink.style}" data-tooltip="${actorLink.tooltip}"></actorlink>`
+        e.querySelector("actorlink")?.remove()
+        e.querySelector(".header-control")?.insertAdjacentHTML("beforebegin", actorLinkIndicator)
+        // eslint-disable-next-line no-unused-vars
+        e.querySelector("actorlink")?.addEventListener('click', async ev => {
+            this.actor.update({
+                'prototypeToken.actorLink': !this.actor.prototypeToken.actorLink
+            })
+        })
+    }
+
     const autoresize = (el) => {
       const jEl = $(el)
       if (jEl.prop("tagName") === 'INPUT') {
@@ -414,7 +450,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     e.querySelectorAll('.effect-control')?.forEach(el => el.addEventListener('click', async ev => await onManageActiveEffect(ev, this.document)))
 
     // Disable afflictions
-    e.querySelector('disableafflictions')?.addEventListener('click', async () => {
+    e.querySelector('.disableafflictions')?.addEventListener('click', async () => {
       await DLAfflictions.clearAfflictions(this.document)
     })
 
@@ -438,6 +474,53 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
         if (!affliction) return false
         affliction['statuses'] = [affliction.id]
         await ActiveEffect.create(affliction, { parent: this.actor })
+        const targets = tokenManager.targets
+        switch (afflictionId) {
+            case 'help': {
+                const attribute = this.actor.system.attributes.intellect
+                if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && targets.length === 1)
+                    launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
+                        let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+                        if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
+                            affliction['statuses'] = [affliction.id]
+                            const effect = CONFIG.statusEffects.find(a => a.id === "helped")
+                            effect['statuses'] = [effect.id]
+                            if (game.user.isGM) {
+                                await ActiveEffect.create(effect, {
+                                    parent: targets[0].actor
+                                })
+                            } else {
+                                game.socket.emit('system.demonlord', {
+                                    request: "createEffect",
+                                    tokenuuid: targets[0].document.uuid,
+                                    effectData: effect
+                                })
+                            }
+                        }
+                    })
+                break;
+            }
+            case 'stabilize': {
+                const attribute = this.actor.system.attributes.intellect
+                const isIncapacitated = targets.length === 1 ? targets[0].actor.appliedEffects.find(ef => ef?.statuses?.has('incapacitated')) : false
+                if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && isIncapacitated)
+                    launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
+                        let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+                        if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
+                            if (game.user.isGM) {
+                                await targets[0].actor.increaseDamage(-1)
+                            } else {
+                                game.socket.emit('system.demonlord', {
+                                    request: "increaseDamage",
+                                    tokenuuid: targets[0].document.uuid,
+                                    increment: -1
+                                })
+                            }
+                        }
+                    })
+                break;
+            }
+        }
       }
       return true
     }))

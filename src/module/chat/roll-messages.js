@@ -144,9 +144,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
  */
 export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons, inputModifier = 9) {
 
-  let targetNumber = 10
-
-  if (game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b') targetNumber = 11
+  let targetNumber = (game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b') ? 11 : 10
 
   challengeRoll = changeBobDieColour(challengeRoll)
 

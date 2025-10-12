@@ -109,7 +109,7 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
       submitOnChange: false,
     },
     position: {
-      width: 720,
+      width: 800,
       height: 'auto',
     },
     tag: 'form',
@@ -856,6 +856,14 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
     requiresReload: true
+  })
+  game.settings.register('demonlord', 'showActorLinkStatus', {
+    name: game.i18n.localize('DL.SettingShowActorLinkStatus'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+    requiresReload: false
   })
   game.settings.register('demonlord', 'autoSizeTokens', {
     name: game.i18n.localize('DL.SettingAutoSizeTokens'),
