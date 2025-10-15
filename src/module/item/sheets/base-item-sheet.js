@@ -200,6 +200,11 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
         context.item.system.levels[i].talentspick = await Promise.all(context.item.system.levels[i].talentspick.map(await getNestedItemData))
         context.item.system.levels[i].spells = await Promise.all(context.item.system.levels[i].spells.map(await getNestedItemData))
         context.item.system.levels[i].languages = await Promise.all(context.item.system.levels[i].languages.map(await getNestedItemData))
+
+        // Enrich level fields
+        context.item.system.levels[i].enrichedLanguagesText = await TextEditor.implementation.enrichHTML(context.item.system.levels[i].languagesText)
+        context.item.system.levels[i].enrichedEquipmentText = await TextEditor.implementation.enrichHTML(context.item.system.levels[i].equipmentText)
+        context.item.system.levels[i].enrichedMagicText = await TextEditor.implementation.enrichHTML(context.item.system.levels[i].magicText)
       }
     }
 
