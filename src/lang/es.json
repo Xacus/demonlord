@@ -345,6 +345,7 @@
   "DL.DialogUseItemHealingPotionText": "Cura # puntos de daño.",
   "DL.DialogUseTalent": "Usar Talento",
   "DL.DialogWarningActorImmune": "Eres inmune a este estado.",
+  "DL.DialogWarningActorDamageImmune": "Actor es inmune a este tipo de daño.",
   "DL.DialogWarningActorsNotSelected": "Actor(es) no seleccionados",
   "DL.DialogWarningActorsNotTargeted": "Actor(es) no marcado(s) como Objetivo",
   "DL.DialogWarningBlindedChallengeFailer": "Estás cegado y todas tus pruebas de percepción fallan automáticamente.",

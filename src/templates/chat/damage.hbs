@@ -3,7 +3,7 @@
   <div class="showlessinfo">{{data.actorInfo}}</div>
   <header class="card-headersmall tooltip">
     <div class="attackbox">
-      <div class="header">{{data.damagetype}} {{localize "DL.DamageRollText"}}: 
+      <div class="header">{{data.damagetype}} {{localize "DL.DamageRollText"}}:
         <span class="gmonly">
           {{data.damageTotalGM}}
         </span>
@@ -44,20 +44,44 @@
   </header>
   <div class="gmonly">
     <div class="damageaction apply-damage">
-      <div class="header" data-damage="{{data.damageTotal}}">
-        <div class="fas fa-tint blood"></div>
+      <div class="header" data-damage="{{data.damageTotal}}" {{#if data.isCorruption}}data-type="corruption"{{/if}}{{#if data.isInsanity}}data-type="insanity"{{/if}}>
+        {{#if (not (or data.isCorruption data.isInsanity))}}
+          <div class="fas fa-tint blood"></div>
+        {{/if}}
+        {{#if data.isInsanity}}
+          <img src="systems/demonlord/assets/ui/other-svg/insanity.svg" width="15" height="15">
+        {{/if}}
+        {{#if data.isCorruption}}
+          <img src="systems/demonlord/assets/ui/other-svg/corruption.svg" width="15" height="15">
+        {{/if}}
         <div>{{localize "DL.DialogTalentApplyDamage"}} ({{data.damageTotal}})</div>
       </div>
     </div>
     <div class="damageaction apply-damage">
-      <div class="header" data-damage="{{data.damageDouble}}">
-        <div class="fas fa-tint blood"></div>
+      <div class="header" data-damage="{{data.damageDouble}}" {{#if data.isCorruption}}data-type="corruption"{{/if}}{{#if data.isInsanity}}data-type="insanity"{{/if}}>
+        {{#if (not (or data.isCorruption data.isInsanity))}}
+          <div class="fas fa-tint blood"></div>
+        {{/if}}
+        {{#if data.isInsanity}}
+          <img src="systems/demonlord/assets/ui/other-svg/insanity.svg" width="15" height="15">
+        {{/if}}
+        {{#if data.isCorruption}}
+          <img src="systems/demonlord/assets/ui/other-svg/corruption.svg" width="15" height="15">
+        {{/if}}
         <div>{{localize "DL.DialogTalentApplyDoubleDamage"}} ({{data.damageDouble}})</div>
       </div>
     </div>
     <div class="damageaction apply-damage">
-      <div class="header" data-damage="{{data.damageHalf}}">
-        <div class="fas fa-tint blood"></div>
+      <div class="header" data-damage="{{data.damageHalf}}" {{#if data.isCorruption}}data-type="corruption"{{/if}}{{#if data.isInsanity}}data-type="insanity"{{/if}}>
+        {{#if (not (or data.isCorruption data.isInsanity))}}
+          <div class="fas fa-tint blood"></div>
+        {{/if}}
+        {{#if data.isInsanity}}
+          <img src="systems/demonlord/assets/ui/other-svg/insanity.svg" width="15" height="15">
+        {{/if}}
+        {{#if data.isCorruption}}
+          <img src="systems/demonlord/assets/ui/other-svg/corruption.svg" width="15" height="15">
+        {{/if}}
         <div>{{localize "DL.DialogTalentApplyHalfDamage"}} ({{data.damageHalf}})</div>
       </div>
     </div>

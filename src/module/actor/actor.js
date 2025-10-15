@@ -1103,6 +1103,32 @@ export class DemonlordActor extends Actor {
     })
   }
 
+  async increaseCorruption(increment) {
+    const corruption = this.system.characteristics.corruption
+    const newCorruption = Math.max(0, Math.floor(corruption.value + increment))
+
+    if (corruption.immune) {
+      ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorDamageImmune'));
+    }
+
+    return this.update({
+      'system.characteristics.corruption.value': newCorruption
+    })
+  }
+
+  async increaseInsanity(increment) {
+    const insanity = this.system.characteristics.insanity
+    const newInsanity = Math.max(0, Math.min(insanity.max, Math.floor(insanity.value + increment)))
+
+    if (insanity.immune) {
+      ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorDamageImmune'));
+    }
+
+    return this.update({
+      'system.characteristics.insanity.value': newInsanity
+    })
+  }
+
   async setUsesOnSpells() {
     const power = this.system.characteristics.power
     const diff = []
