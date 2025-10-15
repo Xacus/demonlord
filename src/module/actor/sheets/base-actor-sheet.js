@@ -716,6 +716,9 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     try {
       const item = _item
 
+      // TODO: If item (by ID) exists in this object, ignore
+      if (this.actor.items.has(_item.id)) return
+
       const isAllowed = await this.checkDroppedItem(_item)
       if (isAllowed) {
         const data = foundry.utils.duplicate(item);
