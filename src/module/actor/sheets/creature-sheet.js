@@ -38,8 +38,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
         { id: 'afflictions', icon: 'icon-afflictions', tooltip: 'DL.TabsAfflictions' },
         { id: 'effects', icon: 'icon-effects', tooltip: 'DL.TabsEffects' }
       ],
-      //initial: 'combat'
-      initial: 'combat'
+      initial: 'reference'
     }
   }
 
