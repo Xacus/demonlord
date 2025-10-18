@@ -54,7 +54,7 @@ export const addObject = (key, value) => ({
   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
 })
 
-const falsyChangeFilter = change => Boolean(change.value)
+const falsyChangeFilter = change => Boolean(change?.value)
 
 /* -------------------------------------------- */
 
@@ -153,7 +153,7 @@ export class DLActiveEffects {
           // Characteristics
           addEffect('system.characteristics.health.max', ancestryLevel.characteristics.health, priority),
           addEffect('system.characteristics.health.healingrate', ancestryLevel.characteristics.healingRate, priority),
-          overrideEffect('system.characteristics.size', ancestryLevel.characteristics.size, priority, true),
+          (ancestryLevel.level === '0' ? overrideEffect('system.characteristics.size', ancestryLevel.characteristics.size, priority, true) : null),
           addEffect('system.characteristics.power', ancestryLevel.characteristics.power, priority),
           addEffect('system.attributes.perception.value', ancestryLevel.characteristics.perception, priority),
 

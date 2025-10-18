@@ -117,30 +117,30 @@
     <hr>
 
     <div class="dl-item-section">
-      {{#if level.languagesText}}
+      {{#if level.enrichedLanguagesText}}
         <div class="dl-item-section-header">
           <b>{{localize "DL.PathsLevelLanguages"}}</b>
         </div>
         <div class="text-areas">
-          <div>{{level.languagesText}}</div>
+          <div>{{{level.enrichedLanguagesText}}}</div>
         </div>
       {{/if}}
 
-      {{#if level.equipmentText}}
+      {{#if level.enrichedEquipmentText}}
         <div class="dl-item-section-header">
           <b>{{localize "DL.PathsLevelEquipment"}}</b>
         </div>
         <div class="text-areas">
-          <div>{{level.equipmentText}}</div>
+          <div>{{{level.enrichedEquipmentText}}}</div>
         </div>
       {{/if}}
 
-      {{#if level.magicText}}
+      {{#if level.enrichedMagicText}}
         <div class="dl-item-section-header">
           <b>{{localize "DL.TabsMagic"}}</b>
         </div>
         <div class="text-areas">
-          <div>{{level.magicText}}</div>
+          <div>{{{level.enrichedMagicText}}}</div>
         </div>
       {{/if}}
 

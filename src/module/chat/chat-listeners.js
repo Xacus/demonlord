@@ -58,7 +58,7 @@ async function _onChatRollDamage(event) {
   const actor = _getChatCardActor(li.closest('.demonlord'))
 
   const appliedEffects = tokenManager.getTokenByActorId(actor.id)?.actor?.appliedEffects
-  
+
   if (appliedEffects?.length) {
     for (let effect of appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
@@ -176,6 +176,8 @@ async function _onChatRollDamage(event) {
   templateData.data['damagetype'] = damagetype
   templateData.data['isCreature'] = actor.type === 'creature'
   templateData.data['actorInfo'] = buildActorInfo(actor)
+  templateData.data['isCorruption'] = damagetype.toLowerCase() === game.i18n.localize('DL.CharCorruption').toLowerCase()
+  templateData.data['isInsanity'] = damagetype.toLowerCase() === game.i18n.localize('DL.CharInsanity').toLowerCase()
 
   const chatData = getChatBaseData(actor, rollMode)
   if (damageRoll) {
@@ -201,6 +203,7 @@ async function _onChatApplyDamage(event) {
   const li = event.currentTarget
   const item = li.children[0]
   const damage = parseInt(item.dataset.damage)
+  const type = item.dataset.type
 
   var selected = tokenManager.targets
   if (selected.length == 0) {
@@ -208,7 +211,15 @@ async function _onChatApplyDamage(event) {
     return
   }
 
-  await Promise.all(selected.map(async token => await token.actor.increaseDamage(+damage)))
+  await Promise.all(selected.map(async token => {
+    if (type === 'insanity') {
+      await token.actor.increaseInsanity(+damage)
+    } else if (type === 'corruption') {
+      await token.actor.increaseCorruption(+damage)
+    } else {
+      await token.actor.increaseDamage(+damage)
+    }
+  }))
 
   const actor = _getChatCardActor(li.closest('.demonlord'))
   const sourceToken = tokenManager.getTokenByActorId(actor.id)
@@ -249,8 +260,8 @@ async function _onChatApplyEffect(event) {
   if (activeEffect.origin.startsWith('Compendium')) {
     effectData.origin = effectOrigin
   }
-  if (effectData.name !== effectOriginName)  effectData.name = `${effectData.name} [${effectOriginName}]`  
-  
+  if (effectData.name !== effectOriginName) effectData.name = `${effectData.name} [${effectOriginName}]`
+
   for await (const target of selected) {
     // First check if the actor already has this effect
     const matchingEffects = target.actor.effects.filter(e => e.name === effectData.name && changesMatch(e.changes, effectData.changes))

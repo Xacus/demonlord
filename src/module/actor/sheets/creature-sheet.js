@@ -38,7 +38,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
         { id: 'afflictions', icon: 'icon-afflictions', tooltip: 'DL.TabsAfflictions' },
         { id: 'effects', icon: 'icon-effects', tooltip: 'DL.TabsEffects' }
       ],
-      initial: 'combat'
+      initial: 'reference'
     }
   }
 
@@ -65,6 +65,8 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
   /** @override */
   async _prepareContext(options) {
     const context = await super._prepareContext(options)
+
+    DLCreatureSheet.TABS.primary.initial = 'reference'
 
     this._prepareItems(context)
     return context
