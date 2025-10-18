@@ -128,7 +128,11 @@
   {{#if data.isCreature}}
     <div class="owneronly">
 
+  {{#if data.incantationspelluuid}}
+      {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget uuid=data.incantationspelluuid}}
+    {{else}}
       {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget uuid=item.uuid}}
+  {{/if}}
 
       {{> "systems/demonlord/templates/chat/partial/chat-damage.hbs" data=data}}
 
@@ -140,7 +144,11 @@
     <div class="gmonly">
     {{/if}}
 
+  {{#if data.incantationspelluuid}}
+    {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget uuid=data.incantationspelluuid}}
+  {{else}}
     {{> "systems/demonlord/templates/chat/partial/chat-measured-template.hbs" hasAreaTarget=data.hasAreaTarget uuid=item.uuid}}
+  {{/if}}
 
     {{> "systems/demonlord/templates/chat/partial/chat-damage.hbs" data=data}}
 

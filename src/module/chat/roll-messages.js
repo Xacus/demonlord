@@ -401,6 +401,12 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
     data['damageType'] = spellData.action?.damagetype
     data['damageTypes'] = spellData.action?.damagetypes
     data['damageExtra20PlusFormula'] = spellData.action?.plus20damage + extraDamage20Plus
+    // Incantation
+    if (spell.getFlag('demonlord','incantationSpellUuid')) {
+      [...spell.effects].forEach((effect) => {
+        effect.incantationspelluuid = `${spell.getFlag('demonlord','incantationSpellUuid')}.ActiveEffect.${effect._id}`
+      })
+    }
     data['itemEffects'] = spell.effects
   }
   data['description'] = spellData.description
@@ -435,6 +441,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['actorInfo'] = buildActorInfo(actor)
+  data['incantationspelluuid'] = spell.getFlag('demonlord','incantationSpellUuid')
 
   const chatData = getChatBaseData(actor, rollMode)
   if (attackRoll) {

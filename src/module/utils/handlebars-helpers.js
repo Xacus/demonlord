@@ -91,7 +91,7 @@ function _getAttributes(groupName) {
   } else if (groupName === 'system.requirement.attribute') {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'system.consumabletype') {
-    attributes = ['', 'D', 'F', 'P', 'V', 'T']
+    attributes = ['', 'D', 'F', 'I', 'P', 'V', 'T']
   } else if (groupName === 'level.attributeSelect') {
     attributes = ['', 'choosetwo', 'choosethree', 'fixed', 'twosets']
   }
@@ -470,7 +470,7 @@ function _buildAvailabilityDropdownItem(groupName, checkedKey) {
 
 
 function _buildConsumableDropdownItem(groupName, checkedKey) {
-  const attributes = ['', 'D', 'F', 'P', 'V', 'T']
+  const attributes = ['', 'D', 'F', 'I', 'P', 'V', 'T']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
     const label = !attribute ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
@@ -655,7 +655,7 @@ function _buildDropdownWithValue(groupName, checkedKey, valueName, valueKey) {
 }
 
 function _buildConsumableDropdown(groupName, checkedKey) {
-  const attributes = ['', 'D', 'F', 'P', 'V', 'T']
+  const attributes = ['', 'D', 'F', 'I', 'P', 'V', 'T']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
     const label = !attribute ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)

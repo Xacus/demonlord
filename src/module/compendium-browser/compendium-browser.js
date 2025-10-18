@@ -351,6 +351,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         'None': game.i18n.localize('DL.ConsumableNone'),
         'D': game.i18n.localize('DL.ConsumableTypeD'),
         'F': game.i18n.localize('DL.ConsumableTypeF'),
+        'I': game.i18n.localize('DL.ConsumableTypeI'),
         'P': game.i18n.localize('DL.ConsumableTypeP'),
         'T': game.i18n.localize('DL.ConsumableTypeT'),
         'V': game.i18n.localize('DL.ConsumableTypeV'),

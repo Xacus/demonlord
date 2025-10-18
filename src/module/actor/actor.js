@@ -871,14 +871,23 @@ export class DemonlordActor extends Actor {
       await item.update({'system.quantity': --item.system.quantity}, {parent: this})
     }
 
-    if (item.system?.action?.attack) {
-      launchRollDialog(game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html) =>
-        await this.useItem(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
-      )
+    // Incantations
+    if (item.system.consumabletype === 'I' && item.system.contents.length === 1) {
+      item.system.contents[0].name = `${game.i18n.localize('DL.ConsumableTypeI')}: ${item.system.contents[0].name}`
+      let spell = new Item(item.system.contents[0])
+      let tempSpell = await this.createEmbeddedDocuments('Item', [spell])   
+      const updateData = {[`flags.${game.system.id}.incantationSpellUuid`]: item.system.contents[0]._stats.compendiumSource};
+      await tempSpell[0].update(updateData);
+      await this.rollSpell(tempSpell[0].id)
+      await this.deleteEmbeddedDocuments('Item', [tempSpell[0].id])
     } else {
-      await this.useItem(item, 0, 0)
+      if (item.system?.action?.attack) {
+        launchRollDialog(game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html) =>
+		  await this.useItem(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value), )
+      } else {
+        await this.useItem(item, 0, 0)
+      }
     }
-
     if (deleteItem) await item.delete()
 
   }
