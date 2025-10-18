@@ -44,7 +44,7 @@ export class DiceSoNiceSettings extends HandlebarsApplicationMixin(ApplicationV2
     return `${game.i18n.format('DL.SettingDSNLabel')}`
   }
 
-  // eslint-disable-next-line no-unused-vars  
+  // eslint-disable-next-line no-unused-vars
   _prepareContext(options) {
     return {
       colourBoBDieDSN: game.settings.get('demonlord', 'colourBoBDieDSN'),
@@ -68,7 +68,7 @@ export class DiceSoNiceSettings extends HandlebarsApplicationMixin(ApplicationV2
     }
   }
 
-  // eslint-disable-next-line no-unused-vars  
+  // eslint-disable-next-line no-unused-vars
   _onRender(context, options) {
     const html = $(this.element)
     html.find('button').on('click', async event => {
@@ -285,7 +285,7 @@ export class ChatCardSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     return `${game.i18n.format('DL.SettingChatCardLabel')}`
   }
 
-  // eslint-disable-next-line no-unused-vars  
+  // eslint-disable-next-line no-unused-vars
   _prepareContext(options) {
     return {
       attackShowAttack: game.settings.get('demonlord', 'attackShowAttack'),
@@ -311,7 +311,7 @@ export class ChatCardSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     }
   }
 
-  // eslint-disable-next-line no-unused-vars  
+  // eslint-disable-next-line no-unused-vars
   _onRender(context, options) {
     const html = $(this.element)
     html.find('button').on('click', async event => {
@@ -378,7 +378,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     return `${game.i18n.format('DL.SettingCombatLabel')}`
   }
 
-  // eslint-disable-next-line no-unused-vars  
+  // eslint-disable-next-line no-unused-vars
   _prepareContext(options) {
     return {
       initMessage: game.settings.get('demonlord', 'initMessage'),
@@ -407,7 +407,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   }
 
-  // eslint-disable-next-line no-unused-vars  
+  // eslint-disable-next-line no-unused-vars
   _onRender(context, options) {
     const html = $(this.element)
     html.find('button').on('click', async event => {
@@ -688,7 +688,7 @@ export const registerSettings = function () {
     config: false,
   })
 
-// Combat / Action settings  
+  // Combat / Action settings
 
   game.settings.registerMenu('demonlord', 'combatSettings', {
     name: game.i18n.localize('DL.SettingCombat'),
@@ -740,7 +740,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: false,
-  })  
+  })
   game.settings.register('demonlord', 'templateAutoTargeting', {
     name: game.i18n.localize('DL.SettingTemplateAutoTargeting'),
     hint: game.i18n.localize('DL.SettingTemplateAutoTargetingHint'),
@@ -881,5 +881,13 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
     requiresReload: true,
-  })  
+  })
+  game.settings.register('demonlord', 'autoAdjustVision', {
+    name: game.i18n.localize('DL.SettingAutoAdjustVision'),
+    hint: game.i18n.localize('DL.SettingAutoAdjustVisionHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true
+  })
 }

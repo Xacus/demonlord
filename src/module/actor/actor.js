@@ -251,22 +251,15 @@ export class DemonlordActor extends Actor {
 
     this.system.characteristics.size = newSize
 
-    // Trigger token update, so that changes are reflected
-    if (game.ready && this.isOwner && game.settings.get('demonlord', 'autoSizeTokens')) {
-      for (const token of this.getActiveTokens(true, true)) {
+  }
 
-        let scale = Math.max(modifiedSize, 0.5) // Foundry can't handle token scales smaller than 0.5, so we need to adjust the texture scale further
-        let textureScale = 1
-
-        if (modifiedSize < 0.5) {
-            textureScale = modifiedSize * 2;
-        }
-
-        token.resize({width: scale, height: scale}, { animate: true })
-        token.update({ texture: { scaleX: textureScale, scaleY: textureScale }})
-        //token.prepareDerivedData()
-        //token.object?.refresh()
-      }
+  /**
+   * Iterate over all applicable effects, but only for worn items
+   * @override */
+  *allApplicableEffects() {
+    for (const effect of super.allApplicableEffects()) {
+      if (effect.parent?.system?.wear === false) continue;
+      yield effect;
     }
   }
 
@@ -1116,6 +1109,32 @@ export class DemonlordActor extends Actor {
 
     return this.update({
       'system.characteristics.health.value': newHp
+    })
+  }
+
+  async increaseCorruption(increment) {
+    const corruption = this.system.characteristics.corruption
+    const newCorruption = Math.max(0, Math.floor(corruption.value + increment))
+
+    if (corruption.immune) {
+      ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorDamageImmune'));
+    }
+
+    return this.update({
+      'system.characteristics.corruption.value': newCorruption
+    })
+  }
+
+  async increaseInsanity(increment) {
+    const insanity = this.system.characteristics.insanity
+    const newInsanity = Math.max(0, Math.min(insanity.max, Math.floor(insanity.value + increment)))
+
+    if (insanity.immune) {
+      ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorDamageImmune'));
+    }
+
+    return this.update({
+      'system.characteristics.insanity.value': newInsanity
     })
   }
 

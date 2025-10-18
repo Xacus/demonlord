@@ -125,7 +125,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     }
 
     // Enrich HTML
-    context.system.enrichedDescription = await TextEditor.implementation.enrichHTML(this.document.system.description, { async: true });
+    context.system.enrichedDescription = await TextEditor.implementation.enrichHTML(this.document.system.description);
 
     // Attributes checkbox
     for (const attr of Object.entries(context.system.attributes)) {
@@ -136,7 +136,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     const m = new Map()
     for await (const item of this.document.items) {
       const type = item.type
-      item.system.enrichedDescription = await TextEditor.implementation.enrichHTML(item.system.description, { async: true })
+      item.system.enrichedDescription = await TextEditor.implementation.enrichHTML(item.system.description)
       m.has(type) ? m.get(type).push(item) : m.set(type, [item])
     }
 
@@ -716,6 +716,9 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     try {
       const incantation = this.tabGroups.primary === 'inventory' && _item.type === 'spell' ? true : false
       const item = incantation ? await this.createIncantation(_item) : _item
+
+      // TODO: If item (by ID) exists in this object, ignore
+      if (this.actor.items.has(_item.id)) return
 
       const isAllowed = await this.checkDroppedItem(_item)
       if (isAllowed) {
