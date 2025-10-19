@@ -56,7 +56,6 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlConsumableDropdown', (groupName, checkedKey) => _buildConsumableDropdownItem(groupName, checkedKey))
   Handlebars.registerHelper('dlAmmoDropdown', (groupName, checkedKey, weapon) => _buildAmmoDropdownItem(groupName, checkedKey, weapon))
   Handlebars.registerHelper('dlCheckItemOnActor', (data) => _CheckItemOnActor(data))
-  Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData))
   Handlebars.registerHelper('dlIsNestedItem', (item) => _IsNestedItem(item))
   Handlebars.registerHelper('dlGetNestedItemSource', (item) => _GetNestedItemSource(item))
 
@@ -146,14 +145,6 @@ function _GetNestedItemSource(item) {
 
   return game.i18n.format(stringName, { itemName: pItem?.name })
 
-}
-
-function _CheckCharacteristicsIsNull(actorData) {
-  if (actorData === null) {
-    return true
-  } else {
-    return false
-  }
 }
 
 function _CheckItemOnActor(data) {
