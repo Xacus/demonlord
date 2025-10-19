@@ -348,7 +348,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       }
 
       consumableTypeOptions = {
-        'None': game.i18n.localize('DL.ConsumableNone'),
+        '': game.i18n.localize('DL.ConsumableNone'),
         'D': game.i18n.localize('DL.ConsumableTypeD'),
         'F': game.i18n.localize('DL.ConsumableTypeF'),
         'I': game.i18n.localize('DL.ConsumableTypeI'),
@@ -752,7 +752,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       case 'item':
         results = results.filter(e => {
           if (filters?.item?.availability && e.system.availability !== filters.item.availability) return false
-          if (filters?.item?.consumableType && e.system.consumableType !== filters.item.consumableType) return false
+          if (e.system.consumabletype !== filters.item.consumableType) return false
 
           return true
         })
