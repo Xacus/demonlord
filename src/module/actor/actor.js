@@ -868,7 +868,8 @@ export class DemonlordActor extends Actor {
     if (item.system.consumabletype === 'I' && item.system.contents.length === 1) {
       item.system.contents[0].name = `${game.i18n.localize('DL.ConsumableTypeI')}: ${item.system.contents[0].name}`
       let spell = new Item(item.system.contents[0])
-      let tempSpell = await this.createEmbeddedDocuments('Item', [spell])   
+      let tempSpell = await this.createEmbeddedDocuments('Item', [spell])
+      // Before deleting the spell we store the uuid of the spell in the chat card for later use
       const updateData = {[`flags.${game.system.id}.incantationSpellUuid`]: item.system.contents[0]._stats.compendiumSource};
       await tempSpell[0].update(updateData);
       await this.rollSpell(tempSpell[0].id)

@@ -401,7 +401,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
     data['damageType'] = spellData.action?.damagetype
     data['damageTypes'] = spellData.action?.damagetypes
     data['damageExtra20PlusFormula'] = spellData.action?.plus20damage + extraDamage20Plus
-    // Incantation
+    // Incantation (effects) -  We replace the uuid of the Scene.Actor.SpellItem.effect with the uuid of the SpellItem.effect as we already deleted the spell from the actor.
     if (spell.getFlag('demonlord','incantationSpellUuid')) {
       [...spell.effects].forEach((effect) => {
         effect.incantationspelluuid = `${spell.getFlag('demonlord','incantationSpellUuid')}.ActiveEffect.${effect._id}`
@@ -441,6 +441,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['ifBlindedRoll'] = rollMode === 'blindroll'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['actorInfo'] = buildActorInfo(actor)
+  // Incantation (measured templates) -  We replace the uuid of the Scene.Actor.SpellItem with the uuid of the SpellItem as we already deleted the spell from the actor.
   data['incantationspelluuid'] = spell.getFlag('demonlord','incantationSpellUuid')
 
   const chatData = getChatBaseData(actor, rollMode)
