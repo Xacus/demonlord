@@ -449,27 +449,27 @@ export class DemonlordActor extends Actor {
 
     // Attack modifier and Boons/Banes
     const modifiers = [
-      item.system.action?.rollbonus || 0,
-      attacker.system?.attributes[attackAttribute]?.modifier || 0,
-      attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
-      attacker.system?.bonuses.attack.modifier?.all || 0,
-      attacker.system?.bonuses.attack.modifier?.weapon || 0,
+      parseInt(item.system.action?.rollbonus) || 0,
+      parseInt(attacker.system?.attributes[attackAttribute]?.modifier) || 0,
+      parseInt(attacker.system?.bonuses.attack.modifier?.[attackAttribute]) || 0,
+      parseInt(attacker.system?.bonuses.attack.modifier?.all) || 0,
+      parseInt(attacker.system?.bonuses.attack.modifier?.weapon) || 0,
       parseInt(inputModifier) || 0,
     ]
 
     let boons =
       (parseInt(item.system.action.boonsbanes) || 0) +
       (parseInt(inputBoons) || 0) +
-      (attacker.system.bonuses.attack.boons[attackAttribute] || 0) +
-      (attacker.system.bonuses.attack.boons.all || 0) +
-      (attacker.system.bonuses.attack.boons.weapon || 0)
+      (parseInt(attacker.system.bonuses.attack.boons[attackAttribute]) || 0) +
+      (parseInt(attacker.system.bonuses.attack.boons.all) || 0) +
+      (parseInt(attacker.system.bonuses.attack.boons.weapon) || 0)
 
     const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
     const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
       boons -=
-        (defender?.system.bonuses.defense.boons[defenseAttribute] || 0) +
-        (defender?.system.bonuses.defense.boons.all || 0) +
-        (defender?.system.bonuses.defense.boons.weapon || 0) +
+        (parseInt(defender?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
+        (parseInt(defender?.system.bonuses.defense.boons.all) || 0) +
+        (parseInt(defender?.system.bonuses.defense.boons.weapon) || 0) +
         (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
 
     // Check if requirements met
@@ -560,7 +560,7 @@ export class DemonlordActor extends Actor {
 
   async rollAttributeChallenge(attribute, inputBoons, inputModifier) {
     const modifiers = [parseInt(inputModifier), this.getAttribute(attribute.key)?.modifier || 0]
-    const boons = (parseInt(inputBoons) || 0) + (this.system.bonuses.challenge.boons[attribute.key] || 0) + (this.system.bonuses.challenge.boons.all || 0)
+    const boons = (parseInt(inputBoons) || 0) + (parseInt(this.system.bonuses.challenge.boons[attribute.key]) || 0) + (parseInt(this.system.bonuses.challenge.boons.all) || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
@@ -596,15 +596,15 @@ export class DemonlordActor extends Actor {
 
     const modifiers = [
       parseInt(inputModifier),
-      attacker.system?.attributes[attribute.key]?.modifier || 0,
-      attacker.system?.bonuses?.attack?.modifier?.[attribute.key] || 0,
-      attacker.system?.bonuses?.attack?.modifier?.all || 0,
+      parseInt(attacker.system?.attributes[attribute.key]?.modifier) || 0,
+      parseInt(attacker.system?.bonuses?.attack?.modifier?.[attribute.key]) || 0,
+      parseInt(attacker.system?.bonuses?.attack?.modifier?.all) || 0,
     ]
 
     let boons =
       (parseInt(inputBoons) || 0) +
-      (attacker.system.bonuses.attack.boons?.[attribute.key] || 0) +
-      (attacker.system.bonuses.attack.boons?.all || 0)
+      (parseInt(attacker.system.bonuses.attack.boons?.[attribute.key]) || 0) +
+      (parseInt(attacker.system.bonuses.attack.boons?.all) || 0)
 
     if (defendersTokens.length === 1) boons -= (defender?.system.bonuses.defense.boons[defense] || 0) + (defender?.system.bonuses.defense.boons.all || 0) +
        (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
@@ -684,17 +684,17 @@ export class DemonlordActor extends Actor {
       const attacker = this
 
       const modifiers = [
-        talentData.action?.rollbonus || 0,
-        attacker.system?.attributes[attackAttribute]?.modifier || 0,
-        attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
-        attacker.system?.bonuses.attack.modifier?.all || 0,
+        parseInt(talentData.action?.rollbonus) || 0,
+        parseInt(attacker.system?.attributes[attackAttribute]?.modifier) || 0,
+        parseInt(attacker.system?.bonuses.attack.modifier?.[attackAttribute]) || 0,
+        parseInt(attacker.system?.bonuses.attack.modifier?.all) || 0,
         parseInt(inputModifier) || 0,
       ]
 
       let boons =
         (parseInt(inputBoons) || 0) +
-        (this.system.bonuses.attack.boons[attackAttribute] || 0) +
-        (this.system.bonuses.attack.boons.all || 0) +
+        (parseInt(this.system.bonuses.attack.boons[attackAttribute]) || 0) +
+        (parseInt(this.system.bonuses.attack.boons.all) || 0) +
         parseInt(talentData.action?.boonsbanes || 0)
 
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
@@ -773,29 +773,29 @@ export class DemonlordActor extends Actor {
       const attacker = this
 
       const modifiers = [
-        spellData.action?.rollbonus || 0,
-        attacker.system?.attributes[attackAttribute]?.modifier || 0,
-        attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
-        attacker.system?.bonuses.attack.modifier?.all || 0,
-        attacker.system?.bonuses.attack.modifier?.spell || 0,
+        parseInt(spellData.action?.rollbonus) || 0,
+        parseInt(attacker.system?.attributes[attackAttribute]?.modifier) || 0,
+        parseInt(attacker.system?.bonuses.attack.modifier?.[attackAttribute]) || 0,
+        parseInt(attacker.system?.bonuses.attack.modifier?.all) || 0,
+        parseInt(attacker.system?.bonuses.attack.modifier?.spell) || 0,
         parseInt(inputModifier) || 0,
       ]
 
       let boons =
         (parseInt(inputBoons) || 0) +
         (parseInt(spellData.action?.boonsbanes) || 0) +
-        (this.system.bonuses.attack.boons[attackAttribute] || 0) +
-        (this.system.bonuses.attack.boons.all || 0) +
-        (this.system.bonuses.attack.boons.spell || 0)
+        (parseInt(this.system.bonuses.attack.boons[attackAttribute]) || 0) +
+        (parseInt(this.system.bonuses.attack.boons.all) || 0) +
+        (parseInt(this.system.bonuses.attack.boons.spell) || 0)
 
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
       const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
 
       if (target)
         boons -=
-          (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
-          (target?.actor?.system.bonuses.defense.boons.all || 0) +
-          (target?.actor?.system.bonuses.defense.boons.spell || 0) +
+          (parseInt(target?.actor?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
+          (parseInt(target?.actor?.system.bonuses.defense.boons.all) || 0) +
+          (parseInt(target?.actor?.system.bonuses.defense.boons.spell) || 0) +
           (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0)
 
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
@@ -901,17 +901,17 @@ export class DemonlordActor extends Actor {
       const attacker = this
 
       const modifiers = [
-        item.system.action.rollbonus || 0,
-        attacker.system?.attributes[attackAttribute]?.modifier || 0,
-        attacker.system?.bonuses.attack.modifier?.[attackAttribute] || 0,
-        attacker.system?.bonuses.attack.modifier?.all || 0,
+        parseInt(item.system.action.rollbonus) || 0,
+        parseInt(attacker.system?.attributes[attackAttribute]?.modifier) || 0,
+        parseInt(attacker.system?.bonuses.attack.modifier?.[attackAttribute]) || 0,
+        parseInt(attacker.system?.bonuses.attack.modifier?.all) || 0,
         parseInt(inputModifier) || 0,
       ]
 
       let boons =
         (parseInt(inputBoons) || 0) +
-        (this.system.bonuses.attack.boons[attackAttribute] || 0) +
-        (this.system.bonuses.attack.boons.all || 0) +
+        (parseInt(this.system.bonuses.attack.boons[attackAttribute]) || 0) +
+        (parseInt(this.system.bonuses.attack.boons.all) || 0) +
         parseInt(itemData.action?.boonsbanes || 0)
 
       const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
@@ -919,8 +919,8 @@ export class DemonlordActor extends Actor {
 
       if (targets.length === 1)
         boons -= (
-          (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
-          (target?.actor?.system.bonuses.defense.boons.all || 0) +
+          (parseInt(target?.actor?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
+          (parseInt(target?.actor?.system.bonuses.defense.boons.all || 0)) +
           (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0))
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
