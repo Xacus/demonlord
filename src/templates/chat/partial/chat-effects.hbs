@@ -5,7 +5,11 @@
  --}}
 {{#each data.itemEffects as |effect|}}
   {{#unless effect.transfer}}
+  {{#if effect.incantationspelluuid}}
+    <div class="combatactions apply-effect" data-effect-uuid="{{effect.incantationspelluuid}}">
+  {{else}}
     <div class="combatactions apply-effect" data-effect-uuid="{{effect.uuid}}">
+  {{/if}}
       <div class="header">
         <img src="{{effect.img}}" width="15" height="15" />
         <div>{{effect.name}}</div>

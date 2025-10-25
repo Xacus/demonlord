@@ -21,7 +21,7 @@ export class DLCombat extends Combat {
             await this.rollInitiativeStandard(ids, options)
             return this
         case "i":
-            await this.rollInitiativeInduvidual(ids, options)
+            await this.rollInitiativeIndividual(ids, options)
             return this
         case "h":
             await this.rollInitiativeGroup(ids, options)
@@ -30,8 +30,8 @@ export class DLCombat extends Combat {
 }
 
 // eslint-disable-next-line no-unused-vars
-async rollInitiativeInduvidual(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
-  console.log("Calling rollInitiativeInduvidual with", ids, formula, updateTurn, messageOptions)
+async rollInitiativeIndividual(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
+  console.log("Calling rollInitiativeIndividual with", ids, formula, updateTurn, messageOptions)
   // Structure input data
   ids = typeof ids === 'string' ? [ids] : ids
   const combatantUpdates = []

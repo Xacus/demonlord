@@ -1064,7 +1064,8 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
           // Filter drops depending on the item type
           switch (this.document.type) {
             case 'item':
-              acceptedItemTypes = ['ammo', 'armor', 'item', 'weapon']
+               if (this.document.system.consumabletype === '') acceptedItemTypes = ['ammo', 'armor', 'item', 'weapon']
+               else if (this.document.system.consumabletype === 'I') acceptedItemTypes = ['spell']
               break
             case 'relic':
               acceptedItemTypes = ['talent']
@@ -1074,7 +1075,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
               break
           }
 
-          if (!item && !acceptedItemTypes.includes(item.type)) return
+          if (!item || !acceptedItemTypes.includes(item.type)) return
 
           const itemUpdate = {'_id': item._id}
           if (itemData.uuid.startsWith('Actor.')) {

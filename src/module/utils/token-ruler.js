@@ -5,9 +5,9 @@
 
 export default class TokenRulerDemonLord extends foundry.canvas.placeables.tokens.TokenRuler {
   static STYLES = {
-    move: { color: 0x5bcc28 },
-    run: { color: 0xffcc00 },
-    exceed: { color: 0xb22222 },
+    move: { color: 0x33bc4e, alpha: 0.5},
+    run: { color: 0xf1d836, alpha: 0.5 },
+    exceed: { color: 0xe72124, alpha: 0.5 },
   }
 
   /** @override */
@@ -20,7 +20,7 @@ export default class TokenRulerDemonLord extends foundry.canvas.placeables.token
 
     const cost = waypoint.measurement.cost
 
-    if (cost === 0) return style
+    if (cost === 0) return this.constructor.STYLES.move
     if (maxMovement < cost) return this.constructor.STYLES.exceed
 
     // 2-step gradient
@@ -33,18 +33,14 @@ export default class TokenRulerDemonLord extends foundry.canvas.placeables.token
   /** @override */
   _getSegmentStyle(waypoint) {
     const scale = canvas.dimensions.uiScale
-    if (canvas.scene.grid.type != 0) {
-      return { width: 0 }
-    } else {
-      const movement = this.token.actor.system.ranges[waypoint.action] || 0
-      const maxMovement = typeof movement === 'object' ? movement[1] : movement
-      const cost = waypoint.measurement.cost
+    const movement = this.token.actor.system.ranges[waypoint.action] || 0
+    const maxMovement = typeof movement === 'object' ? movement[1] : movement
+    const cost = waypoint.measurement.cost
 
-      let color = this.constructor.STYLES.move.color
-      if (movement[0] < cost && cost <= maxMovement) color = this.constructor.STYLES.run.color
-      else if (maxMovement < cost) color = this.constructor.STYLES.exceed.color
-      return { width: 4 * scale, color: color, alpha: 0.5 }
-    }
+    let color = this.constructor.STYLES.move.color
+    if (movement[0] < cost && cost <= maxMovement) color = this.constructor.STYLES.run.color
+    else if (maxMovement < cost) color = this.constructor.STYLES.exceed.color
+    return { width: 4 * scale, color: color}
   }
 }
 
