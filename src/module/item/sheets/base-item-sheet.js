@@ -1068,7 +1068,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
                else if (this.document.system.consumabletype === 'I') acceptedItemTypes = ['spell']
               break
             case 'relic':
-              acceptedItemTypes = ['talent']
+              acceptedItemTypes = ['ammo', 'armor', 'endoftheround', 'feature', 'item', 'language', 'profession', 'specialaction', 'spell','talent', 'weapon']
               break
             default:
               acceptedItemTypes = []
