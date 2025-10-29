@@ -535,9 +535,17 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     } else {
       // Anything without levels
       const itemData = foundry.utils.duplicate(this.document)
+      const itemId = itemData.system[itemGroup][itemIndex]._id
 
       itemData.system[itemGroup].splice(itemIndex, 1)
       await this.document.update(itemData)
+
+      //Item was deleted from relic we delete it from actor as well.
+      if (this.document.type === 'relic')
+          this.actor.items.forEach(async (item) => {
+              const nestedItemId = item.getFlag('demonlord', 'nestedItemId')
+              if (nestedItemId === itemId) await this.actor.deleteEmbeddedDocuments('Item', [item._id])
+          })
     }
   }
 
@@ -1052,6 +1060,9 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   }
 
   async _onDropItem(ev) {
+    //Prevent multiple firing
+    ev.stopImmediatePropagation()
+    ev.preventDefault()
     if (this.document.system?.contents != undefined) {
       try {
         const itemData = JSON.parse(ev.dataTransfer.getData('text/plain'))
@@ -1068,7 +1079,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
                else if (this.document.system.consumabletype === 'I') acceptedItemTypes = ['spell']
               break
             case 'relic':
-              acceptedItemTypes = ['talent']
+              acceptedItemTypes = ['ammo', 'armor', 'endoftheround', 'feature', 'item', 'language', 'profession', 'specialaction', 'spell','talent', 'weapon']
               break
             default:
               acceptedItemTypes = []
@@ -1108,6 +1119,13 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
           }
 
           await this.addContentsItem(itemData)
+          //Item was added to relic, we add it to actor as well.
+          if (this.document.type === 'relic')
+          {
+            const itemAdded = await getNestedItemData(itemData)
+            itemAdded.flags =  {'demonlord' : {nestedItemId : itemAdded._id, parentItemId :this.item._id, levelRequired : 0}}
+            await this.actor.createEmbeddedDocuments('Item', [itemAdded])
+          }
         }
       } catch (e) {
         console.warn(e)

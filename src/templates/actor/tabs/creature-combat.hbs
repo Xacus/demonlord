@@ -23,10 +23,17 @@
             <span class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
               <i class="fas fa-chevron-up"></i>
             </span>
-            <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.FeatureDelete'}}"
-              style="margin-left: 2px; margin-top: 3px;">
-              <i class="fas fa-times"></i>
-            </a>
+            {{#if (dlIsNestedItem item)}}
+              <a class="dl-clickable item-delete" data-action="editItem" title="{{dlGetNestedItemSource item}}"
+                style="margin-left: 2px; margin-top: 3px;">
+                <i class="fa-solid fa-link"></i>
+              </a>
+            {{else}}
+              <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.FeatureDelete'}}"
+                style="margin-left: 2px; margin-top: 3px;">
+                <i class="fas fa-times"></i>
+              </a>
+            {{/if}}
           </div>
         </div>
         {{#if item.system.description}}
@@ -61,10 +68,17 @@
             <span class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
               <i class="fas fa-chevron-up"></i>
             </span>
-            <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.CreatureDeleteSpecialActions'}}"
-              style="margin-left: 2px; margin-top: 3px;">
-              <i class="fas fa-times"></i>
-            </a>
+            {{#if (dlIsNestedItem item)}}
+              <a class="dl-clickable item-delete" data-action="editItem" title="{{dlGetNestedItemSource item}}"
+                style="margin-left: 2px; margin-top: 3px;">
+                <i class="fa-solid fa-link"></i>
+              </a>
+            {{else}}
+              <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.CreatureDeleteSpecialActions'}}"
+                style="margin-left: 2px; margin-top: 3px;">
+                <i class="fas fa-times"></i>
+              </a>
+            {{/if}}
           </div>
         </div>
         {{#if item.system.description}}
