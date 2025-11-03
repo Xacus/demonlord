@@ -176,8 +176,8 @@ async function _onChatRollDamage(event) {
   templateData.data['damagetype'] = damagetype
   templateData.data['isCreature'] = actor.type === 'creature'
   templateData.data['actorInfo'] = buildActorInfo(actor)
-  templateData.data['isCorruption'] = damagetype.toLowerCase() === game.i18n.localize('DL.CharCorruption').toLowerCase()
-  templateData.data['isInsanity'] = damagetype.toLowerCase() === game.i18n.localize('DL.CharInsanity').toLowerCase()
+  templateData.data['isCorruption'] = damagetype ? damagetype.toLowerCase() === game.i18n.localize('DL.CharCorruption').toLowerCase() : false
+  templateData.data['isInsanity'] = damagetype ? damagetype.toLowerCase() === game.i18n.localize('DL.CharInsanity').toLowerCase() : false
 
   const chatData = getChatBaseData(actor, rollMode)
   if (damageRoll) {
