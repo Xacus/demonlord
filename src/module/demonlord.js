@@ -550,7 +550,7 @@ Hooks.once('diceSoNiceReady', dice3d => {
     material: 'metal',
     font: 'Luminari',
     default: true,
-  })
+  },'preferred')
 })
 
 Hooks.once('dragRuler.ready', SpeedProvider => {
