@@ -673,11 +673,6 @@ Hooks.on('deleteCombatant', async (combatant) => {
 })
 
 Hooks.on('updateCombat', async (combat) => {
-  if (combat && combat.started && combat?.combatant?.token) {
-    if (canvas.dimensions.rect.contains(combat?.combatant?.token.x, combat?.combatant?.token.y)) {
-        canvas.animatePan({ x: combat?.combatant?.token.x, y: combat?.combatant?.token.y })
-    }
-  }
   if (!game.users.activeGM?.isSelf) return
   if (combat.current.combatantId === null) return
   // SOURCE type expirations
