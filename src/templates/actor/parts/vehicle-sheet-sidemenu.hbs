@@ -5,22 +5,25 @@
       <img class="profile-img img-cre" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-action="editImage"
         data-edit="img" />
     </div>
-    {{#if system.characteristics.health.injured}}
-    <div class="injured-overlay"></div>
+    {{#if (and system.characteristics.health.injured (gte ownership 2))}}
+      <div class="injured-overlay"></div>
     {{/if}}
 
     <div class="char-stats">
 
       <div class="stat-box">
         <div class="text">{{localize "DL.TalentDamage"}}</div>
-          <input class="value" name="system.characteristics.health.value" type="number"
-            value="{{system.characteristics.health.value}}" data-dtype="Number" placeholder="" />
+          <input class="value" name="system.characteristics.health.value"
+            type="{{ifThen (gte ownership 2) 'number' 'text'}}"
+            value="{{ifThen (gte ownership 2) system.characteristics.health.value '?'}}"
+            data-dtype="Number" placeholder="" />
       </div>
 
       <div class="stat-box">
         <div class="text">{{localize "DL.CreatureHealth"}}</div>
         <div class="value-container">
-          <input class="value display-value" value="{{system.characteristics.health.max}}" readonly/>
+          <input class="value display-value"
+            value="{{ifThen (gte ownership 2) system.characteristics.health.max '?'}}" readonly/>
           <input class="value has-base" name="system.characteristics.health.maxBase" type="number" value="{{system.characteristics.health.maxBase}}"
             data-dtype="Number" placeholder="" />
         </div>
@@ -29,7 +32,8 @@
       <div class="stat-box">
         <div class="text">{{localize "DL.AttributeDefense"}}</div>
         <div class="value-container">
-          <input class="value display-value" value="{{system.characteristics.defense}}" readonly/>
+          <input class="value display-value"
+            value="{{ifThen (gte ownership 2) system.characteristics.defense '?'}}" readonly/>
           <input class="value has-base" name="system.characteristics.defenseBase" type="number"
             value="{{system.characteristics.defenseBase}}" data-dtype="Number" placeholder="" />
         </div>
@@ -37,41 +41,49 @@
 
       <div class="stat-box">
         <div class="text">{{localize "DL.VehicleCargo"}}</div>
-        <input class="value" name="system.cargo" type="number"
-            value="{{system.cargo}}" data-dtype="Number" placeholder="" />
+        <input class="value" name="system.cargo"
+          type="{{ifThen (gte ownership 2) 'number' 'text'}}"
+          value="{{ifThen (gte ownership 2) system.cargo '?'}}" data-dtype="Number" placeholder="" />
       </div>
 
       <div class="stat-box">
         <div class="text">{{localize "DL.CharSize"}}</div>
         <div class="value-container">
-          <input class="value display-value" value="{{system.characteristics.size}}" readonly/>
+          <input class="value display-value"
+            value="{{ifThen (gte ownership 2)system.characteristics.size '?'}}" readonly/>
           <input class="value has-base" name="system.characteristics.sizeBase" type="text" value="{{system.characteristics.sizeBase}}"
             data-dtype="String" placeholder="" />
         </div>
       </div>
 
       <div class="text-box space">
-        <input name="system.space" type="text" value="{{system.space}}" data-dtype="String"
-          placeholder="{{localize 'DL.VehicleSpace'}}" />
+        <input name="system.space"
+          type="text"
+          value="{{ifThen (gte ownership 2) system.space '?'}}"
+          data-dtype="String" placeholder="{{localize 'DL.VehicleSpace'}}" />
       </div>
 
       <div class="text-box space">
-        <input name="system.maximumspeed" type="text" value="{{system.maximumspeed}}" data-dtype="String"
-          placeholder="{{localize 'DL.VehicleMaximumSpeed'}}" />
+        <input name="system.maximumspeed" type="text"
+          value="{{ifThen (gte ownership 2) system.maximumspeed '?'}}"
+          data-dtype="String" placeholder="{{localize 'DL.VehicleMaximumSpeed'}}" />
       </div>
 
       <div class="text-box speedtraits">
-        <input name="system.speedtraits" type="text" value="{{system.speedtraits}}" data-dtype="String"
-          placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
+        <input name="system.speedtraits" type="text"
+          value="{{ifThen (gte ownership 2) system.speedtraits '?'}}"
+          data-dtype="String" placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
       </div>
 
       <div class="text-box crew">
-        <input name="system.crew" type="text" value="{{system.crew}}" data-dtype="String"
-          placeholder="{{localize 'DL.VehicleCrew'}}" />
+        <input name="system.crew"
+          type="text"
+          value="{{ifThen (gte ownership 2) system.crew '?'}}"
+          data-dtype="String" placeholder="{{localize 'DL.VehicleCrew'}}" />
       </div>
 
     </div>
-  {{#unless hideTurnMode}}
+  {{#unless (or hideTurnMode (lt ownership 2))}}
   <div class="char-toggles">
     <div class="turnmode">
       <div class="switch-toggle turn-toggle">

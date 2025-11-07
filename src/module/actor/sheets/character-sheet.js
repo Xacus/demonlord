@@ -360,7 +360,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     })
 
     // Fortune click
-    e.querySelector('.fortune').addEventListener('mousedown', async () => {
+    e.querySelector('.fortune')?.addEventListener('mousedown', async () => {
       // Expending fortune always possible.
       if (game.settings.get('demonlord', 'fortuneAwardPrevented') && !game.user.isGM && !this.actor.system.characteristics.fortune) return
       let value = parseInt(this.actor.system.characteristics.fortune)
