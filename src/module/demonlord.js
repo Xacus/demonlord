@@ -45,6 +45,7 @@ import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for styling
 import { activateSocketListener } from "./utils/socket.js"
 import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
+import TokenRulerDemonLord from "./utils/token-ruler.js"
 
 const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
 const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
@@ -158,6 +159,18 @@ Hooks.once('init', async function () {
     Babele.get().setSystemTranslationsDir('packs/translations')
   }
   activateSocketListener()
+  // Token Ruler
+  if (game.settings.get('demonlord', 'integrateTokenRuler')) {
+    delete CONFIG.Token.movement.actions.blink
+    delete CONFIG.Token.movement.actions.jump
+    delete CONFIG.Token.movement.actions.burrow
+    delete CONFIG.Token.movement.actions.climb.getCostFunction
+    delete CONFIG.Token.movement.actions.crawl.getCostFunction
+    delete CONFIG.Token.movement.actions.fly.getCostFunction
+    delete CONFIG.Token.movement.actions.swim.getCostFunction
+    CONFIG.Token.movement.actions.fly.canSelect = token => token?.actor?.system.canFly
+    CONFIG.Token.rulerClass = TokenRulerDemonLord
+  }  
 })
 
 Hooks.once('ready', async function () {
@@ -613,6 +626,6 @@ Hooks.on('DL.ApplyHealing', data => {
 
 Hooks.on('DL.Action', async () => {
   if (!game.settings.get('demonlord', 'templateAutoRemove')) return
-  const actionTemplates = canvas.scene.templates.filter(a => a.flags.actionTemplate).map(a => a.id)
+  const actionTemplates = canvas.scene.templates.filter(a => a.flags.demonlord.actionTemplate).map(a => a.id)
   if (actionTemplates.length > 0) await canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
 })

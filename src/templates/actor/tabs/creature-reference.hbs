@@ -6,10 +6,12 @@
     </div>
   </div>
   <div class="dl-creature-sub-title">
-    {{localize "DL.CharSize"}} {{system.characteristics.size}}
-    {{#if system.horrifying}}{{toLowerCase (localize "DL.CreatureHorrifying")}}{{/if}}
-    {{#if system.frightening}}{{toLowerCase (localize "DL.CreatureFrightening")}}{{/if}}
-    {{system.descriptor}}
+    <b>
+      {{localize "DL.CharSize"}} {{system.characteristics.size}}
+      {{#if system.horrifying}}{{toLowerCase (localize "DL.CreatureHorrifying")}}{{/if}}
+      {{#if system.frightening}}{{toLowerCase (localize "DL.CreatureFrightening")}}{{/if}}
+      {{system.descriptor}}
+    </b>
   </div>
 
   <!-- STATS AND TRAITS -->
@@ -23,20 +25,24 @@
       <b>{{localize "DL.ArmorDefense"}}</b> {{system.characteristics.defense}}{{#if system.armor}}
       ({{system.armor}}){{/if}};&nbsp;
       <b>{{localize "DL.CreatureHealth"}}</b> {{system.characteristics.health.max}};&nbsp;
-      <b>{{localize "DL.CharInsanity"}}</b> {{#unless (dlCheckCharacteristicsIsNull system.characteristics.insanity.value)}}
-      {{system.characteristics.insanity.value}};&nbsp;{{/unless}}
-      {{#if (dlCheckCharacteristicsIsNull system.characteristics.insanity.value)}}–;&nbsp;{{/if}}
-      <b>{{localize "DL.CharCorruption"}}</b> {{#unless (dlCheckCharacteristicsIsNull
-      system.characteristics.corruption.value)}} {{system.characteristics.corruption.value}}&nbsp;{{/unless}}
-      {{#if (dlCheckCharacteristicsIsNull system.characteristics.corruption.value)}}–&nbsp;{{/if}}
+      <b>{{localize "DL.CharInsanity"}}</b>
+      {{#if system.characteristics.insanity.immune}}
+        –;&nbsp;
+      {{else}}
+        {{system.characteristics.insanity.value}};&nbsp;
+      {{/if}}
+      <b>{{localize "DL.CharCorruption"}}</b>
+      {{#if system.characteristics.corruption.immune}}
+        –;&nbsp;
+      {{else}}
+        {{system.characteristics.corruption.value}};&nbsp;
+      {{/if}}
     </div>
     <div>
       <b>{{localize "DL.AttributeStrength"}}</b> {{system.attributes.strength.value}} ({{plusify
       system.attributes.strength.modifier}}),
       <b>{{localize "DL.AttributeAgility"}}</b> {{system.attributes.agility.value}} ({{plusify
-      system.attributes.agility.modifier}})
-    </div>
-    <div>
+      system.attributes.agility.modifier}}),
       <b>{{localize "DL.AttributeIntellect"}}</b> {{system.attributes.intellect.value}} ({{plusify
       system.attributes.intellect.modifier}}),
       <b>{{localize "DL.AttributeWill"}}</b> {{system.attributes.will.value}} ({{plusify system.attributes.will.modifier}})

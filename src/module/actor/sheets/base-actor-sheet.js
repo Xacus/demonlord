@@ -734,7 +734,8 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
   /** @override */
   async _onDropItem(ev, _item) {
     try {
-      const item = _item
+      const incantation = this.tabGroups.primary === 'inventory' && _item.type === 'spell' ? true : false
+      const item = incantation ? await this.createIncantation(_item) : _item
 
       // TODO: If item (by ID) exists in this object, ignore
       if (this.actor.items.has(_item.id)) return
@@ -742,8 +743,9 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
       const isAllowed = await this.checkDroppedItem(_item)
       if (isAllowed) {
         const data = foundry.utils.duplicate(item);
-        this.actor.createEmbeddedDocuments('Item', [data])
+        let dropItem = await this.actor.createEmbeddedDocuments('Item', [data])
         await this.postDropItemCreate(data)
+        if (incantation) await this.embedSpell(dropItem[0], foundry.utils.duplicate(_item))
       } else {
         console.warn('Wrong item type dragged', this.document, item)
       }
@@ -758,5 +760,77 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
 
   async postDropItemCreate(_itemData) {
     return true
+  }
+
+  async embedSpell(incantation, spell) {
+    const containerData = foundry.utils.duplicate(incantation)
+  	containerData.system.contents.push(spell)
+    await incantation.update(containerData, {diff: false})
+  }
+
+  async createIncantation(_itemData) {
+    let availability
+    let value
+    switch (_itemData.system.rank) {
+      case 0:
+        availability = 'U'
+        value = '1 ss'
+        break
+      case 1:
+        availability = 'U'
+        value = '5 ss'
+        break
+      case 2:
+        availability = 'R'
+        value = '1 gc'
+        break
+      case 3:
+        availability = 'R'
+        value = '5 gc'
+        break
+      case 4:
+        availability = 'E'
+        value = '10 gc'
+        break
+      case 5:
+        availability = 'E'
+        value = '50 gc'
+        break
+      case 6:
+        availability = 'E'
+        value = '100 gc'
+        break
+      case 7:
+        availability = 'E'
+        value = '250 gc'
+        break
+      case 8:
+        availability = 'E'
+        value = '500 gc'
+        break
+      case 9:
+        availability = 'E'
+        value = '1000 gc'
+        break
+      case 10:
+        availability = 'E'
+        value = '5000 gc'
+        break
+    }        
+    
+    let incantation = new Item({
+      name: `${game.i18n.localize('DL.ConsumableTypeI')}: ${_itemData.name}`,
+      type: 'item',
+      system: {
+        consumabletype: 'I',
+        description : _itemData.system.description,
+        enrichedDescription : _itemData.system.enrichedDescription,
+        enrichedDescriptionUnrolled : _itemData.system.enrichedDescriptionUnrolled,
+        availability : availability,
+        value : value,
+      },
+      img: _itemData.img,
+    })
+    return incantation
   }
 }
