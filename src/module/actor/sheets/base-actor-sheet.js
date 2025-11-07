@@ -98,6 +98,22 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
   /* -------------------------------------------- */
 
   /** @override */
+  _prepareTabs(tabGroup) {
+    const tabs = super._prepareTabs(tabGroup);
+
+    // Set initial tab if actor ownership is limited
+    if (this.actor.limited && this.constructor.TABS[tabGroup]) {
+      const limitedInitial = this.constructor.TABS[tabGroup].limitedInitial ?? this.constructor.TABS[tabGroup].initial
+      Object.keys(tabs).forEach(t => {
+        tabs[t].active = (t === limitedInitial)
+        tabs[t].cssClass = tabs[t].active ? 'active' : ''
+      })
+    }
+
+    return tabs
+  }
+
+  /** @override */
   async _prepareContext(options) {
     const context = await super._prepareContext(options)
     context.isGM = game.user.isGM
@@ -151,7 +167,10 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     switch (partId) {
       case 'sidebar':
       case 'header':
+        break
       case 'tabs':
+        // Hide some tabs for limited actors
+        Object.keys(context.tabs).forEach(k => context.tabs[k].hide = (this.actor.limited && !context.tabs[k].alwaysShow))
         break
       case 'effects':
         context.tab = context.tabs[partId]
@@ -163,6 +182,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
         context.active = context.tab.active
+        break
     }
 
     return context

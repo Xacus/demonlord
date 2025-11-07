@@ -54,11 +54,12 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
         { id: 'talents', icon: 'icon-talents', tooltip: 'DL.TabsTalents' },
         { id: 'magic', icon: 'icon-magic', tooltip: 'DL.TabsMagic' },
         { id: 'inventory', icon: 'icon-inventory', tooltip: 'DL.TabsInventory' },
-        { id: 'background', icon: 'icon-background', tooltip: 'DL.TabsBackground' },
+        { id: 'background', icon: 'icon-background', tooltip: 'DL.TabsBackground', alwaysShow: true },
         { id: 'afflictions', icon: 'icon-afflictions', tooltip: 'DL.TabsAfflictions' },
         { id: 'effects', icon: 'icon-effects', tooltip: 'DL.TabsEffects' }
       ],
-      initial: 'character'
+      initial: 'character',
+      limitedInitial: 'background'
     },
     effects: {
       tabs: [
