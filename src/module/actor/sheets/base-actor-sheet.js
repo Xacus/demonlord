@@ -118,6 +118,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     const context = await super._prepareContext(options)
     context.isGM = game.user.isGM
     context.isOwner = this.document.isOwner
+    context.ownership = this.actor.ownership[game.userId]
     context.config = DL
     context.actor = this.document
     context.system = this.document.system
@@ -816,8 +817,8 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
         availability = 'E'
         value = '5000 gc'
         break
-    }        
-    
+    }
+
     let incantation = new Item({
       name: `${game.i18n.localize('DL.ConsumableTypeI')}: ${_itemData.name}`,
       type: 'item',
