@@ -504,6 +504,7 @@ Hooks.on('preCreateCombatant', async (combatant, _data, _options, userId) => {
 // Delete Effects with specialDuration
 async function deleteSpecialdurationEffects(combatant) {
   let tokenD = fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}`)
+  if (!tokenD) return
   let actor = tokenD.actorLink ? game.actors.get(combatant.actorId) : fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
   for (let effect of actor.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
@@ -515,6 +516,7 @@ async function deleteSpecialdurationEffects(combatant) {
 // Delete surrounded effects only where duration set
 async function deleteSurroundedStatus(combatant) {
   let actor = (combatant instanceof Actor) ? combatant : fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
+  if (!actor) return
   let effect = actor.effects.find(e => e.statuses?.has('surrounded') && e.duration.duration !== null)
   await effect?.delete()
 }
