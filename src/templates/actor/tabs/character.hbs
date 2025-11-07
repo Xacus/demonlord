@@ -165,8 +165,11 @@
           </a>
           )
           <span class="item-controls">
-            <a class="item-control" data-action="deleteItem" title="{{localize 'DL.LanguageDelete'}}"><i
-                class="fas fa-times"></i></a>
+          {{#if (dlIsNestedItem language)}}
+            <a class="item-control" title="{{dlGetNestedItemSource language}}"><i class="fa-solid fa-link"></i></a> 
+          {{else}}          
+            <a class="item-control" data-action="deleteItem" title="{{localize 'DL.LanguageDelete'}}"><i class="fas fa-times"></i></a>
+          {{/if}}
           </span>
         </div>
         {{/each}} {{else}} {{#each actor.languages as |language id|}}

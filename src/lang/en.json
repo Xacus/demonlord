@@ -226,6 +226,7 @@
   "DL.ConsumableType": "Consumable Type",
   "DL.ConsumableTypeD": "Drink",
   "DL.ConsumableTypeF": "Food",
+  "DL.ConsumableTypeI": "Incantation",
   "DL.ConsumableTypeP": "Potion",
   "DL.ConsumableTypeT": "Trinket",
   "DL.ConsumableTypeV": "Poison",

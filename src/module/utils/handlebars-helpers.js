@@ -56,7 +56,6 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('dlConsumableDropdown', (groupName, checkedKey) => _buildConsumableDropdownItem(groupName, checkedKey))
   Handlebars.registerHelper('dlAmmoDropdown', (groupName, checkedKey, weapon) => _buildAmmoDropdownItem(groupName, checkedKey, weapon))
   Handlebars.registerHelper('dlCheckItemOnActor', (data) => _CheckItemOnActor(data))
-  Handlebars.registerHelper('dlCheckCharacteristicsIsNull', (actorData) => _CheckCharacteristicsIsNull(actorData))
   Handlebars.registerHelper('dlIsNestedItem', (item) => _IsNestedItem(item))
   Handlebars.registerHelper('dlGetNestedItemSource', (item) => _GetNestedItemSource(item))
 
@@ -91,7 +90,7 @@ function _getAttributes(groupName) {
   } else if (groupName === 'system.requirement.attribute') {
     attributes = ['', 'strength', 'agility', 'intellect', 'will', 'perception']
   } else if (groupName === 'system.consumabletype') {
-    attributes = ['', 'D', 'F', 'P', 'V', 'T']
+    attributes = ['', 'D', 'F', 'I', 'P', 'V', 'T']
   } else if (groupName === 'level.attributeSelect') {
     attributes = ['', 'choosetwo', 'choosethree', 'fixed', 'twosets']
   }
@@ -146,14 +145,6 @@ function _GetNestedItemSource(item) {
 
   return game.i18n.format(stringName, { itemName: pItem?.name })
 
-}
-
-function _CheckCharacteristicsIsNull(actorData) {
-  if (actorData === null) {
-    return true
-  } else {
-    return false
-  }
 }
 
 function _CheckItemOnActor(data) {
@@ -470,7 +461,7 @@ function _buildAvailabilityDropdownItem(groupName, checkedKey) {
 
 
 function _buildConsumableDropdownItem(groupName, checkedKey) {
-  const attributes = ['', 'D', 'F', 'P', 'V', 'T']
+  const attributes = ['', 'D', 'F', 'I', 'P', 'V', 'T']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
     const label = !attribute ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)
@@ -655,7 +646,7 @@ function _buildDropdownWithValue(groupName, checkedKey, valueName, valueKey) {
 }
 
 function _buildConsumableDropdown(groupName, checkedKey) {
-  const attributes = ['', 'D', 'F', 'P', 'V', 'T']
+  const attributes = ['', 'D', 'F', 'I', 'P', 'V', 'T']
   for (let attribute of attributes) {
     if (checkedKey != attribute) continue
     const label = !attribute ? i18n('DL.ConsumableNone') : i18n(`DL.ConsumableType${attribute}`)

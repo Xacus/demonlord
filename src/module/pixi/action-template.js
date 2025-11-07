@@ -111,7 +111,8 @@ export class ActionTemplate extends foundry.canvas.placeables.MeasuredTemplate {
       canvas.app.view.oncontextmenu = null
       canvas.app.view.onwheel = null
       initialLayer.activate()
-      this.actorSheet.maximize()
+      // Incantations: Measured template does not have parent actor.
+      if (this.actorSheet) this.actorSheet.maximize()
     }
 
     // Confirm the workflow (left-click)

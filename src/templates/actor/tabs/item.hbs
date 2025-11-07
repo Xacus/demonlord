@@ -146,11 +146,7 @@
     <div class="row">
       <div class="col-7">
         <img class='dl-clickable-nored item-edit' data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
-        {{#if item.system.contents.length}}
-        <label class="dl-clickable-nored item-roll">{{item.name}} ({{item.system.contents.length}})</label>
-        {{else}}
         <label class="dl-clickable-nored item-roll">{{item.name}}</label>
-        {{/if}}
         <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
           <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
         </div>
@@ -290,7 +286,11 @@
     <div class="row">
       <div class="col-11">
         <img class='dl-clickable item-edit' data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32" height="32" />
-        <label class="dl-clickable item-roll">{{item.name}}</label>
+        {{#if item.system.contents.length}}
+        <label class="dl-clickable-nored item-roll">{{item.name}} ({{item.system.contents.length}})</label>
+        {{else}}
+        <label class="dl-clickable-nored item-roll">{{item.name}}</label>
+        {{/if}}
         <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
           <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}
         </div>

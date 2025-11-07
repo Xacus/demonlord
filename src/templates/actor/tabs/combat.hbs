@@ -33,7 +33,11 @@
         {{defaultValue (plusify system.action.boonsbanes) 0}}
       </div>
       <div class="col-2">
+      {{#if (dlIsNestedItem weapon)}}
+        <a class="dl-clickable item-delete" data-action="editItem" title="{{dlGetNestedItemSource weapon}}"><i class="fa-solid fa-link"></i></a>
+      {{else}}
         <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.WeaponDelete'}}"><i class="fas fa-times"></i></a>
+      {{/if}}
         <a class="dl-clickable {{#if system.wear}}item-wear{{else}}item-wearoff{{/if}}" data-action="toggleWear"
           title="{{localize 'DL.WeaponWear'}}">
           <i class="fas fa-shield-alt"></i>
@@ -115,7 +119,11 @@
         </div>
       </div>
       <div class="col-2">
-        <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
+        {{#if (dlIsNestedItem armor)}}
+          <a class="dl-clickable item-delete" data-action="editItem" title="{{dlGetNestedItemSource armor}}"><i class="fa-solid fa-link"></i></a>
+        {{else}}
+          <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.ArmorDelete'}}"><i class="fas fa-times"></i></a>
+        {{/if}}
         <a class="dl-clickable {{#if system.wear}}item-wear{{else}}item-wearoff{{/if}}" data-action="toggleWear"
           title="{{localize 'DL.ArmorWear'}}">
           <i class="fas fa-shield-alt"></i>
@@ -150,7 +158,11 @@
         {{system.quantity}} <i class="fas fa-arrows-alt-v"></i>
       </div>
       <div class="col-2">
-        <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.AmmoDelete'}}"><i class="fas fa-times"></i></a>
+        {{#if (dlIsNestedItem ammo)}}
+          <a class="dl-clickable item-delete" data-action="editItem" title="{{dlGetNestedItemSource ammo}}"><i class="fa-solid fa-link"></i></a>
+        {{else}}
+          <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.AmmoDelete'}}"><i class="fas fa-times"></i></a>
+        {{/if}}
       </div>
     </div>
   </div>

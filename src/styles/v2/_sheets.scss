@@ -411,6 +411,10 @@ span.vertical-rule {
   @include demonlord-icon('../assets/ui/consumables/food.svg');
 }
 
+.icon-consumable-I {
+  @include demonlord-icon('../assets/ui/consumables/incantation.svg');
+}
+
 .icon-consumable-P {
   @include demonlord-icon('../assets/ui/consumables/potion.svg');
 }

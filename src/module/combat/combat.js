@@ -21,7 +21,7 @@ export class DLCombat extends Combat {
             await this.rollInitiativeStandard(ids, options)
             return this
         case "i":
-            await this.rollInitiativeInduvidual(ids, options)
+            await this.rollInitiativeIndividual(ids, options)
             return this
         case "h":
             await this.rollInitiativeGroup(ids, options)
@@ -30,8 +30,8 @@ export class DLCombat extends Combat {
 }
 
 // eslint-disable-next-line no-unused-vars
-async rollInitiativeInduvidual(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
-  console.log("Calling rollInitiativeInduvidual with", ids, formula, updateTurn, messageOptions)
+async rollInitiativeIndividual(ids, {formula = null, updateTurn = true, messageOptions = {}} = {}) {
+  console.log("Calling rollInitiativeIndividual with", ids, formula, updateTurn, messageOptions)
   // Structure input data
   ids = typeof ids === 'string' ? [ids] : ids
   const combatantUpdates = []
@@ -542,6 +542,14 @@ Hooks.on('deleteCombat', async (combat) => {
 		}
     await deleteSurroundedStatus(actor)
 	}
+
+  // Turn marker doesn't update when combat ends #13495
+  // https://discord.com/channels/170995199584108546/1243227783082283140/1423613166625099807
+  // TODO: Remove in FVTT V14
+  if ( !canvas.ready ) return
+  const token = combat.combatant?.token
+  if ( !token?.rendered ) return
+  token.object.renderFlags.set({refreshTurnMarker: true})
 })
 
 async function setCombatantGroup(combatant) {
