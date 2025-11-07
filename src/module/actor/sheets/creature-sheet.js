@@ -33,12 +33,13 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
         { id: 'combat', icon: 'icon-combat', tooltip: 'DL.TabsCombat' },
         { id: 'magic', icon: 'icon-magic', tooltip: 'DL.TabsMagic' },
         { id: 'inventory', icon: 'icon-inventory', tooltip: 'DL.TabsInventory' },
-        { id: 'description', icon: 'icon-background', tooltip: 'DL.TabsDescription' },
+        { id: 'description', icon: 'icon-background', tooltip: 'DL.TabsDescription', alwaysShow: true },
         { id: 'reference', icon: 'icon-talents', tooltip: 'DL.Reference' },
         { id: 'afflictions', icon: 'icon-afflictions', tooltip: 'DL.TabsAfflictions' },
         { id: 'effects', icon: 'icon-effects', tooltip: 'DL.TabsEffects' }
       ],
-      initial: 'reference'
+      initial: 'reference',
+      limitedInitial: 'description'
     }
   }
 
@@ -65,8 +66,6 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
   /** @override */
   async _prepareContext(options) {
     const context = await super._prepareContext(options)
-
-    DLCreatureSheet.TABS.primary.initial = 'reference'
 
     this._prepareItems(context)
     return context
