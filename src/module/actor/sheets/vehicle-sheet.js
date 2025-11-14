@@ -30,11 +30,12 @@ export default class DLVehicleSheet extends DLBaseActorSheet {
       tabs: [
         { id: 'combat', icon: 'icon-combat', tooltip: 'DL.TabsCombat' },
         { id: 'inventory', icon: 'icon-inventory', tooltip: 'DL.TabsInventory' },
-        { id: 'description', icon: 'icon-background', tooltip: 'DL.TabsDescription' },
+        { id: 'description', icon: 'icon-background', tooltip: 'DL.TabsDescription', alwaysShow: true },
         { id: 'reference', icon: 'icon-talents', tooltip: 'DL.Reference' },
         { id: 'effects', icon: 'icon-effects', tooltip: 'DL.TabsEffects' }
       ],
-      initial: 'combat'
+      initial: 'combat',
+      limitedInitial: 'description'
     }
   }
 

@@ -7,27 +7,34 @@
     <div class="header-difficulty">
       <label for="system.difficulty">{{localize "DL.CreatureDifficulty"}}</label>
       <div class="value-container">
-        <input class="value display-value" value="{{system.difficulty}}" readonly/>
+        {{!-- The next field is dependent on actor ownership --}}
+        <input class="value display-value" value="{{ifThen (gte ownership 2) system.difficulty '?'}}" readonly />
         <input class="value" name="system.difficultyBase" type="number" value="{{system.difficultyBase}}" min="1"/>
       </div>
     </div>
   </div>
 
   <div class="header-fields creature-descriptors">
-      <input name="system.descriptor" value="{{system.descriptor}}" placeholder="{{localize 'DL.CreatureDescriptor'}}"/>
-      <input class="senses" name="system.perceptionsenses" value="{{system.perceptionsenses}}" placeholder="{{localize 'DL.CreaturePerceptionSenses'}}"/>
+    {{!-- The next two fields are dependent on actor ownership --}}
+    <input name="system.descriptor"
+      value="{{ifThen (gte ownership 2) system.descriptor ''}}"
+      placeholder="{{localize 'DL.CreatureDescriptor'}}"/>
+    <input class="senses" name="system.perceptionsenses"
+      value="{{ifThen (gte ownership 2) system.perceptionsenses ''}}"
+      placeholder="{{localize 'DL.CreaturePerceptionSenses'}}"/>
   </div>
 
   <div class="header-fields attribute-fields">
     {{#*inline "attribute-partial"}}
       <div class="attribute">
         <label class="name" data-key="{{n}}" for="system.attributes.{{n}}.value">{{attr.label}}</label>
-        <div class="value-container">
-          <input class="value display-value" value="{{ifThen attr.immune "-" attr.value}}" readonly/>
+        <div class="value-container"> {{!-- The next two fields are dependent on actor ownership and attribute immunity --}}
+          <input class="value display-value"
+            value="{{ifThen attr.immune "-" (ifThen (gte ownership 2) attr.value '?')}}" readonly/>
           <input class="value has-base" type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.base"
             value="{{ifThen attr.immune "-" attr.base}}" {{disabled attr.immune}}/>
         </div>
-        {{#unless attr.immune}}
+        {{#unless (or attr.immune (lt ownership 2))}}
           <label class="modifier">{{plusify attr.modifier}}</label>
         {{/unless}}
       </div>

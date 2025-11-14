@@ -6,12 +6,17 @@
     </div>
     <div class="header-price">
       <label for="system.price">{{localize "DL.VehiclePrice"}}</label>
-      <input class="value" name="system.price" type="text" value="{{system.price}}"/>
+      {{!-- The next field is dependent on actor ownership --}}
+      <input class="value" name="system.price" type="text"
+      value="{{ifThen (gte ownership 2) system.price '?'}}"/>
     </div>
   </div>
 
   <div class="header-fields creature-descriptors">
-      <input name="system.descriptor" value="{{system.descriptor}}" placeholder="{{localize 'DL.CreatureDescriptor'}}"/>
+      <input name="system.descriptor"
+      {{!-- The next field is dependent on actor ownership --}}
+      value="{{ifThen (gte ownership 2) system.descriptor ''}}"
+      placeholder="{{localize 'DL.CreatureDescriptor'}}"/>
   </div>
 
   <div class="header-fields attribute-fields">
@@ -19,11 +24,12 @@
       <div class="attribute">
         <label class="name" data-key="{{n}}" for="system.attributes.{{n}}.value">{{attr.label}}</label>
         <div class="value-container">
-          <input class="value display-value" value="{{ifThen attr.immune "-" attr.value}}" readonly/>
+          <input class="value display-value" {{!-- The next two fields are dependent on actor ownership and attribute immunity --}}
+          value="{{ifThen attr.immune "-" (ifThen (gte ownership 2) attr.value '?')}}" readonly/>
           <input class="value has-base" type="{{ifThen attr.immune "text" "Number"}}" name="system.attributes.{{n}}.base"
             value="{{ifThen attr.immune "-" attr.base}}" {{disabled attr.immune}}/>
         </div>
-        {{#unless attr.immune}}
+        {{#unless (or attr.immune (lt ownership 2))}}
           <label class="modifier">{{plusify attr.modifier}}</label>
         {{/unless}}
       </div>

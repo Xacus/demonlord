@@ -5,20 +5,20 @@
       <img class="profile-img img-cre" alt="{{actor.name}}" src="{{actor.img}}" title="{{actor.name}}" data-action="editImage"
         data-edit="img" />
     </div>
-    {{#if system.characteristics.health.injured}}
+    {{#if (and system.characteristics.health.injured (gte ownership 2))}}
     <div class="injured-overlay"></div>
     {{/if}}
 
     <div class="sidebar-button frightening">
       <label>
-        <input type="checkbox" name="system.frightening" id="system.frightening" {{checked system.frightening}} />
+        <input type="checkbox" name="system.frightening" id="system.frightening" {{checked (and system.frightening (gte ownership 2))}} />
       </label>
       <div class="sidebar-button-text">{{localize "DL.CreatureFrightening"}}</div>
     </div>
 
     <div class="sidebar-button horrifying">
       <label>
-        <input type="checkbox" name="system.horrifying" id="system.horrifying" {{checked system.horrifying}}>
+        <input type="checkbox" name="system.horrifying" id="system.horrifying" {{checked (and system.horrifying (gte ownership 2))}}>
       </label>
       <div class="sidebar-button-text">{{localize "DL.CreatureHorrifying"}}</div>
     </div>
@@ -27,14 +27,17 @@
 
       <div class="stat-box">
         <div class="text">{{localize "DL.TalentDamage"}}</div>
-          <input class="value" name="system.characteristics.health.value" type="number"
-            value="{{system.characteristics.health.value}}" data-dtype="Number" placeholder="" />
+          <input class="value" name="system.characteristics.health.value"
+            type="{{ifThen (gte ownership 2) 'number' 'text'}}"
+            value="{{ifThen (gte ownership 2) system.characteristics.health.value '?'}}"
+            data-dtype="Number" placeholder="" />
       </div>
 
       <div class="stat-box">
         <div class="text">{{localize "DL.CreatureHealth"}}</div>
         <div class="value-container">
-          <input class="value display-value" value="{{system.characteristics.health.max}}" readonly/>
+          <input class="value display-value"
+            value="{{ifThen (gte ownership 2) system.characteristics.health.max '?'}}" readonly/>
           <input class="value has-base" name="system.characteristics.health.maxBase" type="number" value="{{system.characteristics.health.maxBase}}"
             data-dtype="Number" placeholder="" />
         </div>
@@ -43,7 +46,8 @@
       <div class="stat-box">
         <div class="text">{{localize "DL.AttributeDefense"}}</div>
         <div class="value-container">
-          <input class="value display-value" value="{{system.characteristics.defense}}" readonly/>
+          <input class="value display-value"
+            value="{{ifThen (gte ownership 2) system.characteristics.defense '?'}}" readonly/>
           <input class="value has-base" name="system.characteristics.defenseBase" type="number"
             value="{{system.characteristics.defenseBase}}" data-dtype="Number" placeholder="" />
         </div>
@@ -52,7 +56,8 @@
       <div class="stat-box">
         <div class="text">{{localize "DL.CharPower"}}</div>
         <div class="value-container">
-          <input class="value display-value" value="{{system.characteristics.power}}" readonly/>
+          <input class="value display-value"
+            value="{{ifThen (gte ownership 2) system.characteristics.power '?'}}" readonly/>
           <input class="value has-base" name="system.characteristics.powerBase" type="number"
             value="{{system.characteristics.powerBase}}" data-dtype="Number" placeholder="" />
         </div>
@@ -61,7 +66,8 @@
       <div class="stat-box">
         <div class="text">{{localize "DL.CharSize"}}</div>
         <div class="value-container">
-          <input class="value display-value" value="{{system.characteristics.size}}" readonly/>
+          <input class="value display-value"
+            value="{{ifThen (gte ownership 2) system.characteristics.size '?'}}" readonly/>
           <input class="value has-base" name="system.characteristics.sizeBase" type="text" value="{{system.characteristics.sizeBase}}"
             data-dtype="String" placeholder="" />
         </div>
@@ -70,7 +76,8 @@
       <div class="stat-box">
         <div class="text">{{localize "DL.CharSpeed"}}</div>
         <div class="value-container">
-          <input class="value display-value" value="{{system.characteristics.speed}}" readonly/>
+          <input class="value display-value"
+            value="{{ifThen (gte ownership 2) system.characteristics.speed '?'}}" readonly/>
           <input class="value has-base" name="system.characteristics.speedBase" type="number"
               value="{{system.characteristics.speedBase}}" data-dtype="Number" placeholder="" />
           </div>
@@ -78,31 +85,35 @@
 
       <div class="stat-box characteristic">
         <div class="text name" data-key="insanity">{{localize "DL.CreatureInsanity"}}</div>
-          <input class="value" name="system.characteristics.insanity.value" type="{{ifThen system.characteristics.insanity.immune "Text" "number" }}"
+          <input class="value" name="system.characteristics.insanity.value"
+          type="{{ifThen (or system.characteristics.insanity.immune (lt ownership 2)) "text" "number"}}"
           value="{{ifThen system.characteristics.insanity.immune "-"
-          system.characteristics.insanity.value}}" data-dtype="Number" {{disabled
-          system.characteristics.insanity.immune}} />
+          (ifThen (gte ownership 2) system.characteristics.insanity.value '?')}}"
+          data-dtype="Number" {{disabled (and system.characteristics.insanity.immune (gte ownership 2))}} />
       </div>
 
       <div class="stat-box characteristic">
         <div class="text name" data-key="corruption">{{localize "DL.CreatureCorruption"}}</div>
-          <input class="value" name="system.characteristics.corruption.value" type="{{ifThen system.characteristics.corruption.immune
-          "Text" "number" }}" value="{{ifThen system.characteristics.corruption.immune "-"
-          system.characteristics.corruption.value}}" data-dtype="Number" {{disabled
-          system.characteristics.corruption.immune}} />
+          <input class="value" name="system.characteristics.corruption.value"
+          type="{{ifThen (or system.characteristics.corruption.immune (lt ownership 2) 'text' 'number')}}"
+          value="{{ifThen system.characteristics.corruption.immune "-"
+          (ifThen (gte ownership 2) system.characteristics.corruption.value '?')}}"
+          data-dtype="Number" {{disabled (and system.characteristics.corruption.immune (gte ownership 2))}} />
       </div>
 
       <div class="text-box armor">
-        <input name="system.armor" type="text" value="{{system.armor}}" data-dtype="String"
-          placeholder="{{localize 'DL.CreatureArmor'}}" />
+        <input name="system.armor" type="text"
+          value="{{ifThen (gte ownership 2) system.armor '?'}}"
+          data-dtype="String" placeholder="{{localize 'DL.CreatureArmor'}}" />
       </div>
       <div class="text-box speedtraits">
-        <input name="system.speedtraits" type="text" value="{{system.speedtraits}}" data-dtype="String"
-          placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
+        <input name="system.speedtraits" type="text"
+          value="{{ifThen (gte ownership 2) system.speedtraits '?'}}"
+          data-dtype="String" placeholder="{{localize 'DL.CreatureSpeedTraits'}}" />
       </div>
 
     </div>
-  {{#unless hideTurnMode}}
+  {{#unless (or hideTurnMode (lt ownership 2))}}
   <div class="char-toggles">
     <div class="turnmode">
       <div class="switch-toggle turn-toggle">
@@ -117,6 +128,7 @@
   </div>
   {{/unless}}
   </div>
+  {{#unless (lt ownership 2)}}
   <div class="dl-side-tab-container">
     {{#each actor.roles}}
     <div class="dl-side-tab role-edit" data-item-id="{{this.id}}">
@@ -124,4 +136,5 @@
     </div>
     {{/each}}
   </div>
+  {{/unless}}
 </aside>

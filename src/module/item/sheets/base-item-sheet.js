@@ -398,11 +398,6 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       if (updateData.level) delete updateData.level
     }
 
-    // Update magic bool
-    if (['ancestry', 'path'].includes(item.type)) {
-      updateData.magic = item.system.levels.some(l => l.spells.length > 0) || item.system.levels.some(l => l.magicText)
-    }
-
     await item.update(updateData)
     this.render()
   }

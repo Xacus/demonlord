@@ -11,7 +11,7 @@ export default class PathDataModel extends foundry.abstract.TypeDataModel {
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
       type: makeStringField('novice'),
-      magic: makeBoolField(false),
+      isMagic: makeBoolField(false),
       levels: new foundry.data.fields.ArrayField(new foundry.data.fields.ObjectField({
         level: makeStringField('1'),
         attributeSelect: makeStringField('choosetwo'),
@@ -92,6 +92,17 @@ export default class PathDataModel extends foundry.abstract.TypeDataModel {
         languages: new foundry.data.fields.ArrayField(levelItem(makeLanguageSchema)),
       })),
       editPath: makeBoolField(true)
+    }
+  }
+
+  
+  prepareDerivedData() {
+    super.prepareDerivedData()
+
+    if (['path', 'ancestry'].includes(this.parent.type)) {
+      this.isMagic = this.parent.system.levels.some(l => l.spells.length > 0) // Any of the levels have spells
+      || this.parent.system.levels.some(l => l.magicText)  // Any of the levels have magic text
+      || this.parent.system.levels.some(l => l.characteristics.power > 0) // Any of the levels increases power
     }
   }
 
