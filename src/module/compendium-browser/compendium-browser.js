@@ -556,8 +556,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
     // Temporary fix until the compendium are fixed.
     context.results.forEach(element => {
-      let module = foundry.utils.parseUuid(element.uuid).collection?.metadata?.packageName
-      switch (module) {
+      let sourceModule = foundry.utils.parseUuid(element.uuid).collection?.metadata?.packageName
+      switch (sourceModule) {
         case undefined:
           element.system.source = 'World'
           break
@@ -565,7 +565,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
           element.system.source = 'System'
           break
         default:
-          element.system.source = game.modules.get(module).title
+          element.system.source = game.modules.get(sourceModule).title
           break
       }
     })    
