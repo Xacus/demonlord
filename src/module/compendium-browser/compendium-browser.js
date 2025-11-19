@@ -1,3 +1,5 @@
+import { capitalize } from '../utils/utils'
+
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 const { DragDrop } = foundry.applications.ux //eslint-disable-line no-shadow
 
@@ -567,8 +569,53 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
     this.state.search = foundry.utils.mergeObject(this.state.search, data.search)
     this.state.filters = foundry.utils.mergeObject(this.state.filters, data.filters)
-
+    
     await this.render()
+    
+    if (event.submitter?.dataset.action === 'create') {
+        let results = await this.filterItems(this.state.sources, this.state.search, this.state.filters)
+         results = await this.sortItems(results, this.state.search)
+
+        let resultsArray = []
+        let rangeIndex = 1
+
+        results.forEach((result) => {
+            resultsArray.push({
+                type: 'document',
+                name: result.name,
+                weight: 1,
+                range: [rangeIndex, rangeIndex],
+                documentUuid: result.uuid,
+                drawn: false,
+                img: result.img
+            })
+            rangeIndex++
+        })
+
+        if (resultsArray.length) {
+          await RollTable.create({
+              name: capitalize(this.state.search.type),
+              description: 'RollTable created from Compendium Browser',
+              results: resultsArray,
+              replacement: true,
+              displayRoll: true,
+              folder: await this.checkfolder('Compendium Browser'),
+          })
+        console.log('Rolltable created.')
+      }
+    }
+  }
+
+  async checkfolder(folderName) {
+    let folder = game.folders.getName(folderName)
+    if (!folder)
+      folder = await Folder.create({
+        name: folderName,
+        type: 'RollTable',
+        sorting: 'a',
+        color : '#a22223'
+      })
+    return folder._id
   }
 
   static async onEditItem(event) {
