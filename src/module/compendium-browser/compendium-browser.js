@@ -554,6 +554,22 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // And sort them
     context.results = await this.sortItems(context.results, this.state.search)
 
+    // Temporary fix until the compendium are fixed.
+    context.results.forEach(element => {
+      let module = foundry.utils.parseUuid(element.uuid).collection?.metadata?.packageName
+      switch (module) {
+        case undefined:
+          element.system.source = 'World'
+          break
+        case 'demonlord':
+          element.system.source = 'System'
+          break
+        default:
+          element.system.source = game.modules.get(module).title
+          break
+      }
+    })    
+
     return context
   }
 
@@ -571,7 +587,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     this.state.filters = foundry.utils.mergeObject(this.state.filters, data.filters)
     
     await this.render()
-    
+
     if (event.submitter?.dataset.action === 'create') {
         let results = await this.filterItems(this.state.sources, this.state.search, this.state.filters)
          results = await this.sortItems(results, this.state.search)
