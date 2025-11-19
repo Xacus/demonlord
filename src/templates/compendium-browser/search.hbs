@@ -8,11 +8,11 @@
 
   <input name="search.text" type="text" value="{{search.text}}" placeholder="{{localize 'DL.CreatureName'}}" />
 
-  <select class="input-group-dropdown search-type" name="search.type" data-tippy-content="{{localize 'DL.SearchType'}}">
+  <select style="margin-bottom:1px" class="input-group-dropdown search-type" name="search.type" data-tippy-content="{{localize 'DL.SearchType'}}">
     {{selectOptions typeOptions selected=search.type blank="" localize=true}}
   </select>
 
-  <multi-select name="search.sources" value="{{search.sources}}" placeholder="{{localize 'DL.Source'}}">
+  <multi-select style="width:300px" name="search.sources" value="{{search.sources}}" placeholder="{{localize 'DL.Source'}}">
     {{selectOptions sourcesOptions selected=search.sources localize=false multiple=true}}
   </multi-select>
 
@@ -22,5 +22,6 @@
     <span class="text">{{localize 'DL.CompendiumBrowserSearch.IncludeLocal'}}</span>
   </div>
 
-  <button type="submit">{{localize 'DL.Search'}}</button>
+  <button style="width:300px" type="submit" data-action="search"> <i class="fas fa-magnifying-glass" inert></i> {{localize 'DL.Search'}}</button>
+  <button style="width:300px" type="submit" data-action="create"> <i class="fas fa-table-list" inert></i> {{localize 'FOLDER.CreateTable'}}</button>
 </aside>
