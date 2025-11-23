@@ -9,7 +9,7 @@
   <input name="search.text" type="text" value="{{search.text}}" placeholder="{{localize 'DL.CreatureName'}}" />
 
   <select style="margin-bottom:1px" class="input-group-dropdown search-type" name="search.type" data-tippy-content="{{localize 'DL.SearchType'}}">
-    {{selectOptions typeOptions selected=search.type blank="" localize=true}}
+    {{selectOptions typeOptions selected=search.type localize=true}}
   </select>
 
   <multi-select style="width:300px" name="search.sources" value="{{search.sources}}" placeholder="{{localize 'DL.Source'}}">

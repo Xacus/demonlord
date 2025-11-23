@@ -18,12 +18,16 @@
 
   <div class="filter-group">
     <b>{{localize 'DL.MagicTradition'}}</b>
-    <input type="text" class="filter-group-textbox" name="filters.spell.tradition" value="{{filters.spell.tradition}}">
+    <multi-select style="width:300px" name="filters.spell.tradition">
+      {{selectOptions spellTraditionOptions selected=filters.spell.tradition localize=false multiple=true}}
+    </multi-select>
   </div>
 
   <div class="filter-group">
     <b>{{localize 'DL.SpellRank'}}</b>
-    <input type="number" class="filter-group-textbox" name="filters.spell.rank" placeholder="" min="0" max="10" step="1" value="{{filters.spell.rank}}">
+    <multi-select style="width:300px" name="filters.spell.rank">
+      {{selectOptions spellRankOptions selected=filters.spell.rank localize=false multiple=true}}
+    </multi-select>
   </div>
 
   <div class="filter-group">

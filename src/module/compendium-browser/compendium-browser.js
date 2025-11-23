@@ -25,7 +25,12 @@ const indices = {
 
 let typeOptions = {}
 let sourcesOptions = {}
+let creatureDescriptorOptions = {}
+let creatureDifficultyOptions = {}
+let creaturePerceptionSensesOptions = {}
 let spellTypeOptions = {}
+let spellRankOptions = {}
+let spellTraditionOptions = {}
 let spellAttributeOptions = {}
 let consumableTypeOptions = {}
 let availabilityOptions = {}
@@ -33,6 +38,7 @@ let pathTypeOptions = {}
 let magicOptions = {}
 let frighteningOptions = {}
 let characterOptions = {}
+let characterLevelOptions = {}
 
 export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
   #dragDrop
@@ -54,7 +60,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     },
     position: {
       width: 1000,
-      height: 700,
+      height: 750,
     },
     scrollY: [],
     //editable: true,
@@ -396,6 +402,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     context.typeOptions = typeOptions
     context.sourcesOptions = sourcesOptions
     context.spellTypeOptions = spellTypeOptions
+    context.spellRankOptions = spellRankOptions
+    context.spellTraditionOptions = spellTraditionOptions
     context.spellAttributeOptions = spellAttributeOptions
     context.consumableTypeOptions = consumableTypeOptions
     context.availabilityOptions = availabilityOptions
@@ -403,6 +411,10 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     context.magicOptions = magicOptions
     context.frighteningOptions = frighteningOptions
     context.characterOptions = characterOptions
+    context.characterLevelOptions = characterLevelOptions
+    context.creatureDescriptorOptions = creatureDescriptorOptions
+    context.creatureDifficultyOptions = creatureDifficultyOptions
+    context.creaturePerceptionSensesOptions = creaturePerceptionSensesOptions
 
     context.isGM = game.user.isGM
 
@@ -554,6 +566,78 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     // And sort them
     context.results = await this.sortItems(context.results, this.state.search)
 
+    switch (this.state.search.type) {
+      case 'spell': {
+        let spellArray = await this.filterItems(this.state.sources, this.state.search, this.state.filters, true)
+        let ranks = spellArray.map(s => s.system.rank).filter((value, index, s) => s.indexOf(value) === index)
+        let obj = {}
+        for (const key of ranks) {
+          obj[key] = key
+        }
+        context.spellRankOptions = obj
+
+        let tradition = spellArray.map(s => s.system.tradition).filter((value, index, s) => s.indexOf(value) === index)
+        tradition.sort()
+        obj = {}
+        for (const key of tradition) {
+          obj[key] = key
+        }
+        context.spellTraditionOptions = obj
+        break
+      }
+      
+      case 'creature': {
+        let creatureArray = await this.filterItems(this.state.sources, this.state.search, this.state.filters, true)
+        let descriptors = creatureArray
+          .map(s => s.system.descriptor)
+          .filter((value, index, s) => s.indexOf(value) === index)
+        descriptors.sort()
+        let obj = {}
+        for (const key of descriptors) {
+          obj[key] = key
+        }
+        context.creatureDescriptorOptions = obj
+
+        let difficulties = creatureArray
+          .map(s => s.system.difficulty)
+          .filter((value, index, s) => s.indexOf(value) === index)
+        difficulties.sort()
+        obj = {}
+        for (const key of difficulties) {
+          obj[key] = key
+        }
+        context.creatureDifficultyOptions = obj
+
+        let perceptionsenses = creatureArray
+          .map(s => s.system.perceptionsenses)
+          .filter((value, index, s) => s.indexOf(value) === index)
+        perceptionsenses.sort()
+        obj = {}
+        for (const key of perceptionsenses) {
+          obj[key] = key
+        }
+        context.creaturePerceptionSensesOptions = obj
+        break
+      }
+
+      case 'character': {
+        let characterArray = await this.filterItems(this.state.sources, this.state.search, this.state.filters, true)
+        let levels = characterArray
+          .map(s => s.system.level)
+          .filter((value, index, s) => s.indexOf(value) === index)
+        levels.sort()
+        let obj = {}
+        for (const key of levels) {
+          obj[key] = key
+        }
+        context.characterLevelOptions = obj
+        break
+      }  
+
+      default:
+        break
+    }  
+
     // Temporary fix until the compendium are fixed.
     context.results.forEach(element => {
       let sourceModule = foundry.utils.parseUuid(element.uuid).collection?.metadata?.packageName
@@ -592,20 +676,16 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         let results = await this.filterItems(this.state.sources, this.state.search, this.state.filters)
          results = await this.sortItems(results, this.state.search)
 
-        let resultsArray = []
-        let rangeIndex = 1
-
-        results.forEach((result) => {
-            resultsArray.push({
+        const resultsArray = results.map((result, rangeIndex) => {
+            return {
                 type: 'document',
                 name: result.name,
                 weight: 1,
-                range: [rangeIndex, rangeIndex],
+                range: [rangeIndex + 1, rangeIndex + 1],
                 documentUuid: result.uuid,
                 drawn: false,
                 img: result.img
-            })
-            rangeIndex++
+            }
         })
 
         if (resultsArray.length) {
@@ -700,7 +780,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     }))
   }
 
-  async filterItems(compendia, search, filters) {
+  async filterItems(compendia, search, filters, justTypeSearch = false) {
     // Deal with quick returns
     if (!search.type) return []
 
@@ -721,6 +801,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     results = results.concat(sources.filter(p => p?.index?.filter(Boolean)?.[0]?.type === search.type)
       .flatMap(p => p.index.filter(Boolean)))
 
+    if (justTypeSearch) return results
+
     // ...searched text
     if (search.text) {
       if (search.caseSensitive) {
@@ -736,7 +818,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     switch (search.type) {
       case 'character':
         results = results.filter(e => {
-          if (filters?.character.level && e.system.level !== parseInt(filters.character.level)) return false
+          //if (filters?.character.level && e.system.level !== parseInt(filters.character.level)) return false
+          if (filters?.character.level.length && !filters?.character.level.includes(e.system.level.toString())) return false
           if (!!filters?.character?.usesMagic && (e.system.characteristics.power > 0 ? filters.character.usesMagic !== 'yes' : filters.character.usesMagic !== 'no')) return false
           if (!!filters?.character.characterType && (e.system.isPC ? filters.character.characterType !== 'pc' : filters.character.characterType !== 'npc')) return false
 
@@ -745,9 +828,9 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         break
       case 'creature':
         results = results.filter(e => {
-          if (filters?.creature.difficulty && e.system.difficulty !== parseInt(filters.creature.difficulty)) return false
-          if (filters?.creature.descriptor && !e.system.descriptor.includes(filters.creature.descriptor)) return false
-          if (filters?.creature.perceptionSenses && !e.system.perceptionsenses?.toLowerCase()?.includes(filters.creature.perceptionSenses.toLowerCase())) return false
+          if (filters?.creature.descriptor.length && !filters?.creature.descriptor.includes(e.system.descriptor)) return false
+          if (filters?.creature.difficulty.length && !filters?.creature.difficulty.includes(e.system.difficulty.toString())) return false
+          if (filters?.creature.perceptionSenses.length && !e.system.perceptionsenses?.toLowerCase()?.includes(filters.creature.perceptionSenses)) return false
           if (!!filters?.creature?.usesMagic && (e.system.characteristics.power > 0 ? filters.creature.usesMagic !== 'yes' : filters.creature.usesMagic !== 'no')) return false
 
           if (filters?.creature.frighteningType === 'none' && (e.system.frightening || e.system.horrifying)) return false
@@ -847,8 +930,8 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         break
       case 'spell':
         results = results.filter(e => {
-          if (filters?.spell?.tradition && e.system.tradition !== filters.spell.tradition) return false
-          if (filters?.spell?.rank !== null && e.system.rank !== filters.spell.rank) return false
+          if (filters?.spell?.tradition.length && !filters.spell.tradition.includes(e.system.tradition)) return false
+          if (filters?.spell?.rank.length && !filters.spell.rank.includes(e.system.rank.toString())) return false
           if (filters?.spell?.type && e.system.spelltype !== filters.spell.type) return false
           if (filters?.spell?.attribute && e.system.attribute !== filters.spell.attribute) return false
 
@@ -862,7 +945,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         break
       case 'talent':
         results = results.filter(e => {
-          if (filters?.talent?.groupname && e.system.groupname !== filters.talent.groupname) return false
+          if (filters?.talent?.groupname && !e.system.groupname.toLowerCase().includes(filters.talent.groupname.toLowerCase().toLowerCase())) return false
 
           if (filters?.talent?.isTriggered && !e.system.triggered) return false
           if (filters?.talent?.isHealing && !e.system.healing.healing) return false

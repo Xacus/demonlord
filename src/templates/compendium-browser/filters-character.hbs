@@ -9,7 +9,9 @@
 
   <div class="filter-group">
     <b>{{localize 'DL.CharLevel'}}</b>
-    <input type="text" class="filter-group-textbox" name="filters.character.level" value="{{filters.character.level}}">
+    <multi-select style="width:300px" name="filters.character.level">
+      {{selectOptions characterLevelOptions selected=filters.character.level localize=false multiple=true}}
+    </multi-select>
   </div>
 
   <div class="filter-group">
