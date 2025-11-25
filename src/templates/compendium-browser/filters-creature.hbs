@@ -9,17 +9,23 @@
 
   <div class="filter-group">
     <b>{{localize 'DL.CreatureDifficulty'}}</b>
-    <input type="text" class="filter-group-textbox" name="filters.creature.difficulty" value="{{filters.creature.difficulty}}">
+    <multi-select style="width:300px" name="filters.creature.difficulty">
+      {{selectOptions creatureDifficultyOptions selected=filters.creature.difficulty localize=false multiple=true}}
+    </multi-select>
   </div>
 
   <div class="filter-group">
     <b>{{localize 'DL.CreatureDescriptor'}}</b>
-    <input type="text" class="filter-group-textbox" name="filters.creature.descriptor" value="{{filters.creature.descriptor}}">
+    <multi-select style="width:300px" name="filters.creature.descriptor">
+      {{selectOptions creatureDescriptorOptions selected=filters.creature.descriptor localize=false multiple=true}}
+    </multi-select>
   </div>
 
   <div class="filter-group">
     <b>{{localize 'DL.CreaturePerceptionSenses'}}</b>
-    <input type="text" class="filter-group-textbox" name="filters.creature.perceptionSenses" value="{{filters.creature.perceptionSenses}}">
+    <multi-select style="width:300px" name="filters.creature.perceptionSenses">
+      {{selectOptions creaturePerceptionSensesOptions selected=filters.creature.perceptionSenses localize=false multiple=true}}
+    </multi-select>
   </div>
 
   <div class="filter-group">
