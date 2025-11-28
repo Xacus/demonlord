@@ -10,7 +10,7 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
     },
     position: {
       height: "auto",
-      width: 580
+      width: 612
     },
     classes: ["sheet", "active-effect-sheet"],
   };
