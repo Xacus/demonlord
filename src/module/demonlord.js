@@ -46,6 +46,7 @@ import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for sty
 import { activateSocketListener } from "./utils/socket.js"
 import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
 import TokenRulerDemonLord from "./utils/token-ruler.js"
+import * as rolltable from "./utils/rolltable.js"
 
 const { Actors, Items } = foundry.documents.collections //eslint-disable-line no-shadow
 const { ActorSheet, ItemSheet } = foundry.appv1.sheets //eslint-disable-line no-shadow
@@ -464,6 +465,13 @@ Hooks.on('updateActiveEffect', async (activeEffect, diff, _, userId) => {
 })
 
 Hooks.on("updateWorldTime", _onUpdateWorldTime)
+
+// eslint-disable-next-line no-unused-vars
+Hooks.on("renderRollTableDirectory", (rolltables, html, data) => rolltable._renderRollTableDirectory(html))
+Hooks.on("renderCompendium", (rolltables, html, data) => rolltable._renderCompendium(html,data))
+Hooks.on('renderJournalEntrySheet', (jn, element) => rolltable._renderDLSheet (jn, element))
+Hooks.on('renderDLBaseActorSheet', (jn, element) => rolltable._renderDLSheet (jn, element))
+Hooks.on('renderDLBaseItemSheet', (jn, element) => rolltable._renderDLSheet(jn, element))
 
 Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
 
