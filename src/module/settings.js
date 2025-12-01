@@ -882,6 +882,15 @@ export const registerSettings = function () {
     config: true,
     requiresReload: true,
   })
+  game.settings.register('demonlord', 'enableQuickDraw', {
+    name: game.i18n.localize('DL.SettingEnableQuickDraw'),
+    hint: game.i18n.localize('DL.SettingEnableQuickDrawHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+    requiresReload: true,
+  })
   game.settings.register('demonlord', 'autoAdjustVision', {
     name: game.i18n.localize('DL.SettingAutoAdjustVision'),
     hint: game.i18n.localize('DL.SettingAutoAdjustVisionHint'),

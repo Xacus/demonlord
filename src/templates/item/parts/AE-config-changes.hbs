@@ -1,12 +1,12 @@
 <section class="tab changes{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-    <header>
+    <header style="color: var(--color-form-label);font-weight: 700; grid-template-columns: 16rem 7rem 7rem 4rem 1rem;">
         <div class="key">{{localize "EFFECT.ChangeKey"}}</div>
         <div class="mode">{{localize "EFFECT.ChangeMode"}}</div>
         <div class="value">{{localize "EFFECT.ChangeValue"}}</div>
         <div class="priority">{{localize "EFFECT.ChangePriority"}}</div>
         <div class="controls"><a data-action="addChange"><i class="fa-regular fa-square-plus"></i></a></div>
     </header>
-    <ol class="scrollable" data-changes>
+    <ol class="scrollable" data-changes style="grid-template-columns: 16rem 7rem 7rem 4rem 1rem">
         {{#each source.changes as |change i|}}
         {{#with ../fields.changes.element.fields as |changeFields|}}
         <li data-index="{{i}}">

@@ -592,6 +592,8 @@
   "DL.SettingDSNColourDie": "Enable dice colouring",
   "DL.SettingDSNHint": "Colourize the Dice So Nice! boons/banes dice. Select d3 die numerals (Arabic/Roman) on Demon Lord theme.",
   "DL.SettingDSNLabel": "Dice So Nice! Settings",
+  "DL.SettingEnableQuickDraw": "Enable one-click draw for rolltables.",
+  "DL.SettingEnableQuickDrawHint": "Draw directly form sidebar, compendia or sheets (right-click).",
   "DL.SettingFortuneAwardPrevented": "Prevent Fortune award from non-GM users",
   "DL.SettingFortuneAwardPreventedHint": "When checked only GM can award Fortune.",
   "DL.SettingFortuneHide": "Hide Fortune on character sheets",

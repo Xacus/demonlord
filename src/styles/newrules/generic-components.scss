@@ -9,6 +9,12 @@
   justify-content: flex-end;
 }
 
+dl.roll-table {
+  cursor: pointer !important;
+  max-width: 25px;
+  margin-left: 1px;
+}
+
 .dl-editor-box {
   font-family: $font-primary;
   height: 100%;
