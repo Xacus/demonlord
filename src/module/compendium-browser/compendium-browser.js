@@ -649,7 +649,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
           element.system.source = 'System'
           break
         default:
-          element.system.source = game.modules.get(sourceModule).title
+          element.system.source = game.modules.get(sourceModule)?.title
           break
       }
     })    
