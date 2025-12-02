@@ -15,7 +15,6 @@ import {
   createActorNestedItems,
   deleteActorNestedItems,
   PathLevel,
-  PathLevelItem,
   DamageType
 } from '../nested-objects';
 import { DLStatEditor } from '../../dialog/stat-editor'
@@ -1002,7 +1001,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   }
 
   async _addItem(data, level, group) {
-    const levelItem = new PathLevelItem()
+    const levelItem = {}
     const itemData = foundry.utils.duplicate(this.document)
     const item = await getNestedItemData(data)
     if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
@@ -1013,7 +1012,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     levelItem.name = item.name
     levelItem.description = item.system.description
     levelItem.pack = data.pack ? data.pack : ''
-    levelItem.data = item
+    levelItem.system = item.system
     levelItem.img = item.img
 
     if (this.document.type === 'ancestry' || this.document.type === 'path') {
