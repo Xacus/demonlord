@@ -98,10 +98,27 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
   /* -------------------------------------------- */
 
   /** @override */
+  _prepareTabs(tabGroup) {
+    const tabs = super._prepareTabs(tabGroup);
+
+    // Set initial tab if actor ownership is limited
+    if (this.actor.limited && this.constructor.TABS[tabGroup]) {
+      const limitedInitial = this.constructor.TABS[tabGroup].limitedInitial ?? this.constructor.TABS[tabGroup].initial
+      Object.keys(tabs).forEach(t => {
+        tabs[t].active = (t === limitedInitial)
+        tabs[t].cssClass = tabs[t].active ? 'active' : ''
+      })
+    }
+
+    return tabs
+  }
+
+  /** @override */
   async _prepareContext(options) {
     const context = await super._prepareContext(options)
     context.isGM = game.user.isGM
     context.isOwner = this.document.isOwner
+    context.ownership = this.actor.ownership[game.userId]
     context.config = DL
     context.actor = this.document
     context.system = this.document.system
@@ -151,7 +168,10 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     switch (partId) {
       case 'sidebar':
       case 'header':
+        break
       case 'tabs':
+        // Hide some tabs for limited actors
+        Object.keys(context.tabs).forEach(k => context.tabs[k].hide = (this.actor.limited && !context.tabs[k].alwaysShow))
         break
       case 'effects':
         context.tab = context.tabs[partId]
@@ -163,6 +183,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
         context.active = context.tab.active
+        break
     }
 
     return context
@@ -446,211 +467,213 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
       inputs.focus(ev => ev.currentTarget.select())
     }*/
 
-    // Effects control
-    e.querySelectorAll('.effect-control')?.forEach(el => el.addEventListener('click', async ev => await onManageActiveEffect(ev, this.document)))
-
-    // Disable afflictions
-    e.querySelector('.disableafflictions')?.addEventListener('click', async () => {
-      await DLAfflictions.clearAfflictions(this.document)
-    })
-
-    // Affliction checkboxes
-    e.querySelectorAll('[data-tab="afflictions"] .item-group-affliction.checkable')?.forEach(el => el.addEventListener('click', async ev => {
-      const input = ev.target.parentElement.firstElementChild
-      const checked = input.checked
-      const afflictionId = input.dataset.name
-      if (checked) {
-        input.checked = false
-        const affliction = this.actor.effects.find(ef => ef?.statuses?.has(afflictionId))
-        if (!affliction) return false
-        await affliction.delete()
-      } else {
-        input.checked = true
-        if (this.actor.isImmuneToAffliction(afflictionId)) {
-          ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'));
-          return false;
-        }
-        const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
-        if (!affliction) return false
-        affliction['statuses'] = [affliction.id]
-        await ActiveEffect.create(affliction, { parent: this.actor })
-        const targets = tokenManager.targets
-        switch (afflictionId) {
-            case 'help': {
-                const attribute = this.actor.system.attributes.intellect
-                if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && targets.length === 1)
-                    launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
-                        let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
-                        if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
-                            affliction['statuses'] = [affliction.id]
-                            const effect = CONFIG.statusEffects.find(a => a.id === "helped")
-                            effect['statuses'] = [effect.id]
-                            if (game.user.isGM) {
-                                await ActiveEffect.create(effect, {
-                                    parent: targets[0].actor
-                                })
-                            } else {
-                                game.socket.emit('system.demonlord', {
-                                    request: "createEffect",
-                                    tokenuuid: targets[0].document.uuid,
-                                    effectData: effect
-                                })
-                            }
-                        }
-                    })
-                break;
-            }
-            case 'stabilize': {
-                const attribute = this.actor.system.attributes.intellect
-                const isIncapacitated = targets.length === 1 ? targets[0].actor.appliedEffects.find(ef => ef?.statuses?.has('incapacitated')) : false
-                if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && isIncapacitated)
-                    launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
-                        let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
-                        if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
-                            if (game.user.isGM) {
-                                await targets[0].actor.increaseDamage(-1)
-                            } else {
-                                game.socket.emit('system.demonlord', {
-                                    request: "increaseDamage",
-                                    tokenuuid: targets[0].document.uuid,
-                                    increment: -1
-                                })
-                            }
-                        }
-                    })
-                break;
-            }
-        }
-      }
-      return true
-    }))
-
-    // Toggle accordion
-    // e.querySelectorAll('.toggleAccordion').forEach(el => el.addEventListener('click', async ev => {
-    //   const div = ev.currentTarget
-
-    //   if (div.nextElementSibling.style.display === 'none') {
-    //     div.nextElementSibling.style.display = 'block'
-    //     div.className = 'toggleAccordion change'
-    //   } else {
-    //     div.nextElementSibling.style.display = 'none'
-    //     div.className = 'toggleAccordion'
-    //   }
-    //   if (['action', 'afflictions', 'damage'].includes(div.dataset.type)) {
-    //     const type = capitalize(div.dataset.type)
-    //     const k = 'system.afflictionsTab.hideAction' + type
-    //     const v = !this.actor.system.afflictionsTab[`hide${type}`]
-    //     await this.actor.update({[k]: v})
-    //   }
-    // }))
-
-    // Clone inventory item
-    e.querySelectorAll('.item-clone')?.forEach(el => el.addEventListener('click', async ev => {
-      const li = $(ev.currentTarget).parents('.item')
-      const item = foundry.utils.duplicate(this.actor.items.get(li.data('itemId')))
-      await Item.create(item, { parent: this.actor })
-    }))
-
-    // Wear item style
-    e.querySelectorAll('.item-wear')?.forEach(el => {
-      const itemId = $(el).closest('[data-item-id]').data('itemId')
-      const item = this.actor.items.get(itemId)
-      if (
-        item.system.wear &&
-        item.system.requirement?.minvalue != '' &&
-        item.system.requirement?.attribute != '' &&
-        +item.system.requirement?.minvalue > (+this.actor.getAttribute(item.system.requirement?.attribute)?.value + +this.actor.getAttribute(item.system.requirement?.attribute)?.requirementModifier)
-      ) {
-        $(el).addClass('dl-text-red')
-      }
-    })
-
-    // Spell uses
-    e.querySelectorAll('.spell-uses')?.forEach(el => el.addEventListener('mousedown', async ev => {
-      const li = ev.target.closest('[data-item-id]')
-      const item = this.actor.items.get(li.dataset.itemId)
-      let uses = +item.system.castings.value
-      const usesmax = +item.system.castings.max
-      if (ev.button == 0) uses = uses < usesmax ? uses + 1 : 0
-      else if (ev.button == 2) uses = uses > 0 ? uses - 1 : 0
-      await item.update({ 'system.castings.value': uses }, { parent: this.actor })
-    }))
-
-    // Rollable Attributes
-    e.querySelectorAll('.attribute .name')?.forEach(el => el.addEventListener('click', ev => {
-      const div = $(ev.currentTarget)
-      const attributeName = div.data('key')
-      const attribute = this.actor.getAttribute(attributeName)
-      if (!attribute.immune) {
-        // Make an attribute attack if a target is selected, otherwise, challenge roll
-        if (game.user.targets?.ids.length && !(event.ctrlKey || event.metaKey)) {
-          this.actor.rollAttack(attribute)
-        } else {
-          this.actor.rollChallenge(attribute)
-        }
-      }
-    }))
-
-    // Set immune on rollable attribute
-    e.querySelectorAll('.attribute .name')?.forEach(el => el.addEventListener('contextmenu', async ev => {
-      const div = $(ev.currentTarget)
-      const attributeName = div.data('key')
-      await this.actor.update({ system: { attributes: { [attributeName]: { immune: !this.actor.system.attributes[attributeName].immune } } } })
-    }))
-
-    // Rollable Attack
-    e.querySelectorAll('.attack-roll')?.forEach(el => el.addEventListener('click', async ev => {
-      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      await this.actor.rollWeaponAttack(id, { event: ev })
-    }))
-
-    // Rollable Talent
-    e.querySelectorAll('.talent-roll').forEach(el => el.addEventListener('mousedown', async ev => {
-      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      if (ev.button == 0) await this.actor.rollTalent(id, { event: ev })
-      else if (ev.button == 2) await this.actor.deactivateTalent(this.actor.items.get(id), 0)
-    }))
-
-    // Talent uses
-    e.querySelectorAll('.talent-uses').forEach(el => el.addEventListener('mousedown', async ev => {
-      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
-      const talent = this.actor.items.get(id)
-      if (ev.button == 0) await this.actor.activateTalent(talent, true)
-      else if (ev.button == 2) await this.actor.deactivateTalent(talent, 1)
-    }))
-
-    // Rollable Attack Spell
-    e.querySelectorAll('.magic-roll').forEach(el => el.addEventListener('click', async ev => {
-      const id = ev.currentTarget.closest("[data-item-id]").dataset.itemId
-      await this.actor.rollSpell(id, { event: ev })
-    }))
-
-    // Rollable (generic)
-    e.querySelectorAll('.rollable, .item-roll').forEach(el => el.addEventListener('click', async event => {
-      event.preventDefault()
-      const element = event.currentTarget
-      const dataset = element.dataset
-      if (dataset.roll) {
-        const roll = new Roll(dataset.roll, this.actor.system)
-        const label = dataset.label ? `Rolling ${dataset.label}` : ''
-        await roll.roll().toMessage({
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-          flavor: label,
-        })
-      } else {
-        const id = event.currentTarget.closest("[data-item-id]").dataset.itemId
-        await this.actor.rollItem(id, { event: event })
-      }
-    }))
-
-    // Drag events for macros.
     if (this.actor.isOwner) {
-      const handler = ev => this._onDragStart(ev)
-      e.querySelectorAll('.dropitem').forEach(el => {
-        if (el.classList.contains('inventory-header')) return
-        el.setAttribute('draggable', true)
-        el.addEventListener('dragstart', handler, false)
+      // Effects control
+      e.querySelectorAll('.effect-control')?.forEach(el => el.addEventListener('click', async ev => await onManageActiveEffect(ev, this.document)))
+
+      // Disable afflictions
+      e.querySelector('.disableafflictions')?.addEventListener('click', async () => {
+        await DLAfflictions.clearAfflictions(this.document)
       })
+
+      // Affliction checkboxes
+      e.querySelectorAll('[data-tab="afflictions"] .item-group-affliction.checkable')?.forEach(el => el.addEventListener('click', async ev => {
+        const input = ev.target.parentElement.firstElementChild
+        const checked = input.checked
+        const afflictionId = input.dataset.name
+        if (checked) {
+          input.checked = false
+          const affliction = this.actor.effects.find(ef => ef?.statuses?.has(afflictionId))
+          if (!affliction) return false
+          await affliction.delete()
+        } else {
+          input.checked = true
+          if (this.actor.isImmuneToAffliction(afflictionId)) {
+            ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'));
+            return false;
+          }
+          const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
+          if (!affliction) return false
+          affliction['statuses'] = [affliction.id]
+          await ActiveEffect.create(affliction, { parent: this.actor })
+          const targets = tokenManager.targets
+          switch (afflictionId) {
+              case 'help': {
+                  const attribute = this.actor.system.attributes.intellect
+                  if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && targets.length === 1)
+                      launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
+                          let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+                          if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
+                              affliction['statuses'] = [affliction.id]
+                              const effect = CONFIG.statusEffects.find(a => a.id === "helped")
+                              effect['statuses'] = [effect.id]
+                              if (game.user.isGM) {
+                                  await ActiveEffect.create(effect, {
+                                      parent: targets[0].actor
+                                  })
+                              } else {
+                                  game.socket.emit('system.demonlord', {
+                                      request: "createEffect",
+                                      tokenuuid: targets[0].document.uuid,
+                                      effectData: effect
+                                  })
+                              }
+                          }
+                      })
+                  break;
+              }
+              case 'stabilize': {
+                  const attribute = this.actor.system.attributes.intellect
+                  const isIncapacitated = targets.length === 1 ? targets[0].actor.appliedEffects.find(ef => ef?.statuses?.has('incapacitated')) : false
+                  if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && isIncapacitated)
+                      launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
+                          let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+                          if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
+                              if (game.user.isGM) {
+                                  await targets[0].actor.increaseDamage(-1)
+                              } else {
+                                  game.socket.emit('system.demonlord', {
+                                      request: "increaseDamage",
+                                      tokenuuid: targets[0].document.uuid,
+                                      increment: -1
+                                  })
+                              }
+                          }
+                      })
+                  break;
+              }
+          }
+        }
+        return true
+      }))
+
+      // Toggle accordion
+      // e.querySelectorAll('.toggleAccordion').forEach(el => el.addEventListener('click', async ev => {
+      //   const div = ev.currentTarget
+
+      //   if (div.nextElementSibling.style.display === 'none') {
+      //     div.nextElementSibling.style.display = 'block'
+      //     div.className = 'toggleAccordion change'
+      //   } else {
+      //     div.nextElementSibling.style.display = 'none'
+      //     div.className = 'toggleAccordion'
+      //   }
+      //   if (['action', 'afflictions', 'damage'].includes(div.dataset.type)) {
+      //     const type = capitalize(div.dataset.type)
+      //     const k = 'system.afflictionsTab.hideAction' + type
+      //     const v = !this.actor.system.afflictionsTab[`hide${type}`]
+      //     await this.actor.update({[k]: v})
+      //   }
+      // }))
+
+      // Clone inventory item
+      e.querySelectorAll('.item-clone')?.forEach(el => el.addEventListener('click', async ev => {
+        const li = $(ev.currentTarget).parents('.item')
+        const item = foundry.utils.duplicate(this.actor.items.get(li.data('itemId')))
+        await Item.create(item, { parent: this.actor })
+      }))
+
+      // Wear item style
+      e.querySelectorAll('.item-wear')?.forEach(el => {
+        const itemId = $(el).closest('[data-item-id]').data('itemId')
+        const item = this.actor.items.get(itemId)
+        if (
+          item.system.wear &&
+          item.system.requirement?.minvalue != '' &&
+          item.system.requirement?.attribute != '' &&
+          +item.system.requirement?.minvalue > (+this.actor.getAttribute(item.system.requirement?.attribute)?.value + +this.actor.getAttribute(item.system.requirement?.attribute)?.requirementModifier)
+        ) {
+          $(el).addClass('dl-text-red')
+        }
+      })
+
+      // Spell uses
+      e.querySelectorAll('.spell-uses')?.forEach(el => el.addEventListener('mousedown', async ev => {
+        const li = ev.target.closest('[data-item-id]')
+        const item = this.actor.items.get(li.dataset.itemId)
+        let uses = +item.system.castings.value
+        const usesmax = +item.system.castings.max
+        if (ev.button == 0) uses = uses < usesmax ? uses + 1 : 0
+        else if (ev.button == 2) uses = uses > 0 ? uses - 1 : 0
+        await item.update({ 'system.castings.value': uses }, { parent: this.actor })
+      }))
+
+      // Rollable Attributes
+      e.querySelectorAll('.attribute .name')?.forEach(el => el.addEventListener('click', ev => {
+        const div = $(ev.currentTarget)
+        const attributeName = div.data('key')
+        const attribute = this.actor.getAttribute(attributeName)
+        if (!attribute.immune) {
+          // Make an attribute attack if a target is selected, otherwise, challenge roll
+          if (game.user.targets?.ids.length && !(event.ctrlKey || event.metaKey)) {
+            this.actor.rollAttack(attribute)
+          } else {
+            this.actor.rollChallenge(attribute)
+          }
+        }
+      }))
+
+      // Set immune on rollable attribute
+      e.querySelectorAll('.attribute .name')?.forEach(el => el.addEventListener('contextmenu', async ev => {
+        const div = $(ev.currentTarget)
+        const attributeName = div.data('key')
+        await this.actor.update({ system: { attributes: { [attributeName]: { immune: !this.actor.system.attributes[attributeName].immune } } } })
+      }))
+
+      // Rollable Attack
+      e.querySelectorAll('.attack-roll')?.forEach(el => el.addEventListener('click', async ev => {
+        const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+        await this.actor.rollWeaponAttack(id, { event: ev })
+      }))
+
+      // Rollable Talent
+      e.querySelectorAll('.talent-roll').forEach(el => el.addEventListener('mousedown', async ev => {
+        const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+        if (ev.button == 0) await this.actor.rollTalent(id, { event: ev })
+        else if (ev.button == 2) await this.actor.deactivateTalent(this.actor.items.get(id), 0)
+      }))
+
+      // Talent uses
+      e.querySelectorAll('.talent-uses').forEach(el => el.addEventListener('mousedown', async ev => {
+        const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+        const talent = this.actor.items.get(id)
+        if (ev.button == 0) await this.actor.activateTalent(talent, true)
+        else if (ev.button == 2) await this.actor.deactivateTalent(talent, 1)
+      }))
+
+      // Rollable Attack Spell
+      e.querySelectorAll('.magic-roll').forEach(el => el.addEventListener('click', async ev => {
+        const id = ev.currentTarget.closest("[data-item-id]").dataset.itemId
+        await this.actor.rollSpell(id, { event: ev })
+      }))
+
+      // Rollable (generic)
+      e.querySelectorAll('.rollable, .item-roll').forEach(el => el.addEventListener('click', async event => {
+        event.preventDefault()
+        const element = event.currentTarget
+        const dataset = element.dataset
+        if (dataset.roll) {
+          const roll = new Roll(dataset.roll, this.actor.system)
+          const label = dataset.label ? `Rolling ${dataset.label}` : ''
+          await roll.roll().toMessage({
+            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+            flavor: label,
+          })
+        } else {
+          const id = event.currentTarget.closest("[data-item-id]").dataset.itemId
+          await this.actor.rollItem(id, { event: event })
+        }
+      }))
+
+      // Drag events for macros.
+      if (this.actor.isOwner) {
+        const handler = ev => this._onDragStart(ev)
+        e.querySelectorAll('.dropitem').forEach(el => {
+          if (el.classList.contains('inventory-header')) return
+          el.setAttribute('draggable', true)
+          el.addEventListener('dragstart', handler, false)
+        })
+      }
     }
   }
 
@@ -796,8 +819,8 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
         availability = 'E'
         value = '5000 gc'
         break
-    }        
-    
+    }
+
     let incantation = new Item({
       name: `${game.i18n.localize('DL.ConsumableTypeI')}: ${_itemData.name}`,
       type: 'item',

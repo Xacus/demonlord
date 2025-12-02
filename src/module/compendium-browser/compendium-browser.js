@@ -5,8 +5,8 @@ const { DragDrop } = foundry.applications.ux //eslint-disable-line no-shadow
 
 const indices = {
   common: ['name', 'system.description', 'system.source' ],
-  ancestry: ['system.magic'],
-  path: ['system.type', 'system.magic'],
+  ancestry: ['system.isMagic'],
+  path: ['system.type', 'system.isMagic'],
   ammo: ['system.availability', 'system.properties', 'system.value'],
   armor: ['system.availability', 'system.requirement.attribute', 'system.isShield', 'system.properties', 'system.value'],
   creaturerole: ['system.frightening', 'system.horrifying'],
@@ -17,8 +17,8 @@ const indices = {
   relic: ['system.requirement.attribute'],
   spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max' ],
   weapon: ['system.availability', 'system.requirement.attribute', 'system.properties', 'system.value'],
-  creature: ['system.descriptor', 'system.difficulty', 'system.perceptionsenses', 'system.frightening', 'system.horrifying', 'system.characteristics.power'],
-  character: ['system.descriptor', 'system.characteristics.power', 'system.isPC'],
+  creature: ['system.descriptor', 'system.difficulty', 'system.perceptionsenses', 'system.frightening', 'system.horrifying', 'system.isMagic'],
+  character: ['system.descriptor', 'system.isMagic', 'system.isPC'],
   vehicle: ['system.descriptor',],
   table: []
 }
@@ -585,7 +585,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         context.spellTraditionOptions = obj
         break
       }
-      
+
       case 'creature': {
         let creatureArray = await this.filterItems(this.state.sources, this.state.search, this.state.filters, true)
         let descriptors = creatureArray
@@ -632,11 +632,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         }
         context.characterLevelOptions = obj
         break
-      }  
+      }
 
       default:
         break
-    }  
+    }
 
     // Temporary fix until the compendium are fixed.
     context.results.forEach(element => {
@@ -655,7 +655,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
           break
           }
       }
-    })    
+    })
 
     return context
   }
@@ -672,7 +672,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
 
     this.state.search = foundry.utils.mergeObject(this.state.search, data.search)
     this.state.filters = foundry.utils.mergeObject(this.state.filters, data.filters)
-    
+
     await this.render()
 
     if (event.submitter?.dataset.action === 'create') {
@@ -823,7 +823,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         results = results.filter(e => {
           //if (filters?.character.level && e.system.level !== parseInt(filters.character.level)) return false
           if (filters?.character.level.length && !filters?.character.level.includes(e.system.level.toString())) return false
-          if (!!filters?.character?.usesMagic && (e.system.characteristics.power > 0 ? filters.character.usesMagic !== 'yes' : filters.character.usesMagic !== 'no')) return false
+          if (!!filters?.character?.usesMagic && (e.system.isMagic ? filters.character.usesMagic !== 'yes' : filters.character.usesMagic !== 'no')) return false
           if (!!filters?.character.characterType && (e.system.isPC ? filters.character.characterType !== 'pc' : filters.character.characterType !== 'npc')) return false
 
           return true
@@ -831,10 +831,10 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         break
       case 'creature':
         results = results.filter(e => {
-          if (filters?.creature.descriptor.length && !filters?.creature.descriptor.includes(e.system.descriptor)) return false
-          if (filters?.creature.difficulty.length && !filters?.creature.difficulty.includes(e.system.difficulty.toString())) return false
-          if (filters?.creature.perceptionSenses.length && !e.system.perceptionsenses?.toLowerCase()?.includes(filters.creature.perceptionSenses)) return false
-          if (!!filters?.creature?.usesMagic && (e.system.characteristics.power > 0 ? filters.creature.usesMagic !== 'yes' : filters.creature.usesMagic !== 'no')) return false
+          if (filters?.creature.difficulty && e.system.difficulty !== parseInt(filters.creature.difficulty)) return false
+          if (filters?.creature.descriptor && !e.system.descriptor.includes(filters.creature.descriptor)) return false
+          if (filters?.creature.perceptionSenses && !e.system.perceptionsenses?.toLowerCase()?.includes(filters.creature.perceptionSenses.toLowerCase())) return false
+          if (!!filters?.creature?.usesMagic && (e.system.isMagic > 0 ? filters.creature.usesMagic !== 'yes' : filters.creature.usesMagic !== 'no')) return false
 
           if (filters?.creature.frighteningType === 'none' && (e.system.frightening || e.system.horrifying)) return false
           if (filters?.creature.frighteningType === 'any' && (!e.system.frightening && !e.system.horrifying)) return false
@@ -853,7 +853,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         break
       case 'ancestry':
         results = results.filter(e => {
-          if (!!filters?.ancestry?.usesMagic && (e.system.magic ? filters.ancestry.usesMagic !== 'yes' : filters.ancestry.usesMagic !== 'no')) return false
+          if (!!filters?.ancestry?.usesMagic && (e.system.isMagic ? filters.ancestry.usesMagic !== 'yes' : filters.ancestry.usesMagic !== 'no')) return false
 
           return true
         })
@@ -913,7 +913,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         results = results.filter(e => {
           if (filters?.path?.type && e.system.type !== filters.path.type) return false
 
-          if (!!filters?.path?.usesMagic && (e.system.magic ? filters.path.usesMagic !== 'yes' : filters.path.usesMagic !== 'no')) return false
+          if (!!filters?.path?.usesMagic && (e.system.isMagic ? filters.path.usesMagic !== 'yes' : filters.path.usesMagic !== 'no')) return false
 
           return true
         })

@@ -81,4 +81,10 @@ export default class CharacterDataModel extends foundry.abstract.DataModel {
   get canFly() {
     return getCanFly(this)
   }
+
+  prepareDerivedData() {
+    super.prepareDerivedData()
+    this.isMagic = this.parent.spells?.length > 0 // Has any spells
+    || this.parent.system.characteristics.power > 0 // Has power
+  }
 }

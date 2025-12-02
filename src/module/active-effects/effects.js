@@ -138,7 +138,7 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
 
     let specialDuration = foundry.utils.getProperty(e, `flags.${game.system.id}.specialDuration`)
     if (specialDuration !== 'None' && specialDuration !== undefined) {
-      const actorName = e.origin !==null ? fromUuidSync(e.origin)?.parent.name : ''
+      const actorName = e.origin !== null ? fromUuidSync(e.origin)?.parent?.name : ''
       switch (specialDuration) {
         case 'TurnEndSource':
           e.dlRemaining = `TurnEnd [${actorName}]`
@@ -154,7 +154,6 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
     if (e.disabled) categories.inactive.effects.push(e)
       else if (e.isTemporary) categories.temporary.effects.push(e)
       else categories.passive.effects.push(e)
-    
   }
 
   return categories

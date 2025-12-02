@@ -6,16 +6,20 @@
       </div>
       <div class="header-level">
         <label for="system.level">{{localize 'DL.CharLevel'}}</label>
-        <input class="value" name="system.level" type="number" value="{{system.level}}" data-dtype="{{attribute.dtype}}" min="0" />
+        <input class="value" name="system.level" {{!-- The next two fields are dependent on actor ownership --}}
+          type="{{ifThen (gte ownership 2) 'number' 'text'}}"
+          value="{{ifThen (gte ownership 2) system.level '?'}}" data-dtype="{{attribute.dtype}}" min="0" />
       </div>
     </div>
     <div class="header-fields attribute-fields">
       {{#*inline "attribute-partial"}}
       <div class="attribute">
         <label class="name" data-key="{{n}}" for="system.attributes.{{n}}.value">{{attr.label}}</label>
-        <input class="value" type="{{ifThen attr.immune "text" "Number"}}"
-          value="{{ifThen attr.immune "-" attr.value}}" readonly />
-        {{#unless attr.immune}}
+        <input class="value" {{!-- The next two fields are dependent on actor ownership and attribute immunity --}}
+          type="{{ifThen attr.immune "text" (ifThen (gte ownership 2) 'number' 'text')}}"
+          value="{{ifThen attr.immune "-" (ifThen (gte ownership 2) attr.value '?')}}"
+          readonly />
+        {{#unless (or attr.immune (lt ownership 2))}}
           <label class="modifier">{{plusify attr.modifier}}</label>
         {{/unless}}
       </div>
