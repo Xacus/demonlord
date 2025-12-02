@@ -59,7 +59,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
       resizable: true
     },
     position: {
-      width: 1000,
+      width: 1300,
       height: 750,
     },
     scrollY: [],
@@ -649,8 +649,11 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
           element.system.source = 'System'
           break
         default:
-          element.system.source = game.modules.get(sourceModule)?.title
+          {
+            let title = game.modules.get(sourceModule)?.title
+            if (title) element.system.source = title.replace('SDLC - ', '')
           break
+          }
       }
     })    
 
