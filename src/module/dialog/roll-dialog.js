@@ -1,7 +1,7 @@
 export default async function launchDialog(dialogTitle, callback, withAttributeSelect = false) {
   await foundry.applications.api.DialogV2.wait({
     window: { title: dialogTitle },
-    position: { width: 400 },
+    position: { width: 420 },
     content: `
     ${withAttributeSelect ? `
         <div class="challengedialog">
@@ -17,11 +17,15 @@ export default async function launchDialog(dialogTitle, callback, withAttributeS
         ` : ''
       }
     <div class="challengedialog">
-    <input id='boonsbanes' style='width: 50px;margin: 5px;text-align: center' type='number' value=0 data-dtype='Number'/>
-    <b>${game.i18n.localize('DL.DialogAddBonesAndBanes')}</b>
+      <button type="button" class="num-btn" data-target="boonsbanes" data-delta="-1">−</button>
+      <input id='boonsbanes' style='width: 50px;margin: 5px;text-align: center' type='number' value=0 data-dtype='Number'/>
+      <button type="button" class="num-btn" data-target="boonsbanes" data-delta="1">+</button>
+      <b>${game.i18n.localize('DL.DialogAddBonesAndBanes')}</b>
     </div>
     <div class="challengedialog">
+    <button type="button" class="num-btn" data-target="modifier" data-delta="-1">−</button>
     <input id='modifier' style='width: 50px;margin: 5px;text-align: center' type='number' value=0 data-dtype='Number'/>
+    <button type="button" class="num-btn" data-target="modifier" data-delta="1">+</button>
     <b>${game.i18n.localize('DL.ModsAdd')}</b>
     </div>`,
     buttons: [
@@ -39,5 +43,24 @@ export default async function launchDialog(dialogTitle, callback, withAttributeS
         //callback: () => { },
       },
     ],
+    render: (event, dialog) => {
+      const element = dialog.element
+      const buttons = element.querySelectorAll('.num-btn')
+      buttons.forEach(btn => {
+        btn.onclick = function (e) {
+          e.preventDefault()
+          e.stopPropagation()
+
+          const targetId = this.dataset.target
+          const delta = parseInt(this.dataset.delta)
+
+          const input = element.querySelector(`#${targetId}`)
+          if (input) {
+            let val = parseInt(input.value) || 0
+            input.value = val + delta
+          }
+        }
+      })
+    }
   })
 }

@@ -76,6 +76,9 @@
 }
 
 .challengedialog {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding: 2px 0 5px 0;
 
   input {
