@@ -140,16 +140,14 @@ export function contents() {
 }
 
 export function levelItem(makeDataSchema) {
-  return new foundry.data.fields.ObjectField({
+  return new foundry.data.fields.SchemaField({
     system: makeDataSchema(),
-    description: new foundry.data.fields.SchemaField({
-      value: makeStringField()
-    }),
-    id: makeStringField(),
+    description: makeStringField(),
+    id: new foundry.data.fields.DocumentIdField(),
     name: makeStringField(),
     pack: makeStringField(),
     selected: makeBoolField(),
-    uuid: makeStringField(),
+    uuid: new foundry.data.fields.DocumentUUIDField(),
     img: makeStringField()
   })
 }
