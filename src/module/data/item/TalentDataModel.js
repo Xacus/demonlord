@@ -34,6 +34,7 @@ export default class TalentDataModel extends foundry.abstract.TypeDataModel {
       }),
       damage: makeStringField(),
       damagetype: makeStringField(),
+      extraeffect: makeStringField(),
       bonuses: new foundry.data.fields.SchemaField({
         defenseactive: makeBoolField(true),
         defense: makeStringField(),
