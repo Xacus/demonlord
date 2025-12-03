@@ -143,7 +143,7 @@ export function levelItem(makeDataSchema) {
   return new foundry.data.fields.SchemaField({
     system: makeDataSchema(),
     description: makeStringField(),
-    id: makeStringField(),
+    id: new foundry.data.fields.DocumentIdField(),
     name: makeStringField(),
     pack: makeStringField(),
     selected: makeBoolField(),
