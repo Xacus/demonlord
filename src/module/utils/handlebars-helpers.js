@@ -58,9 +58,12 @@ export function registerHandlebarsHelpers() {
       let itemString = a.system.properties
       let rangeText = ''
       itemString = itemString.toLowerCase()
+      itemString = itemString.replace ('+ ','+')
       let rangeRegExp = /\(([^)]+)\)/
+      let reachExp = /(?<=reach \+)(\w+)/
       let range = rangeRegExp.exec(itemString)
-      if (range !== null) {
+      let reach = reachExp.exec(itemString)
+      if (range) {
           let rangeType = ''
           switch (range[1]) {
               case 'short':
@@ -85,12 +88,15 @@ export function registerHandlebarsHelpers() {
       let isThrown = a.system.properties.toLowerCase().includes('thrown')
       let type = ''
 
-      if (isThrown && range !== null) {
+      if (isThrown && range) {
           type = `(${i18n('DL.WeaponMelee').toLowerCase()} ${i18n('DL.PathsLevelAttributesSelectOr')} ${rangeText})`
           return type
       }
-      if (range !== null) return `(${rangeText})`
-      else return `(${i18n('DL.WeaponMelee').toLowerCase()})`
+
+      if (range) return `(${rangeText})`
+      else if (!reach) return `(${i18n('DL.WeaponMelee').toLowerCase()})`
+      else return `(${i18n('DL.WeaponMelee').toLowerCase()}; ${i18n('DL.ActionRangeReach').toLowerCase()} +${reach[1]})`
+
   })
 
   Handlebars.registerHelper('enrichHTMLUnrolled', async (x) => await TextEditor.enrichHTML(x, { unrolled: true }))
