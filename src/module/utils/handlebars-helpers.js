@@ -53,7 +53,7 @@ export function registerHandlebarsHelpers() {
     return bobaText.toLowerCase()
   })
 
-  Handlebars.registerHelper('extraEffect', function(mode, a) {
+  Handlebars.registerHelper('extraEffectDescription', function(mode, a) {
     let text = mode === 'twentyplus' ? 'DL.WeaponAttackEffect20PlusText' : 'WeaponAttackEffect20Text'
     let regExp = /\{(.*?)\}/
     let extraEffectText = ''
