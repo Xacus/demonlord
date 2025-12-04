@@ -53,50 +53,65 @@ export function registerHandlebarsHelpers() {
     return bobaText.toLowerCase()
   })
 
+  Handlebars.registerHelper('extraEffect', function(mode, a) {
+    let text = mode === 'twentyplus' ? 'DL.WeaponAttackEffect20PlusText' : 'WeaponAttackEffect20Text'
+    let regExp = /\{(.*?)\}/
+    let extraEffectText = ''
+    if (a.startsWith("@UUID[Compendium")) {
+      let result = regExp.exec(a)
+      if (result) extraEffectText = result[1]
+    } else extraEffectText = a
+    if (extraEffectText)
+      return game.i18n.format(text, {
+        effectName: extraEffectText
+      })
+    else
+      return ''
+  })
+
   Handlebars.registerHelper('weaponType', function(a) {
-      if (!a.system.action.attack && !a.system.properties.length) return ''
-      let itemString = a.system.properties
-      let rangeText = ''
-      itemString = itemString.toLowerCase()
-      itemString = itemString.replace ('+ ','+')
-      let rangeRegExp = /\(([^)]+)\)/
-      let reachExp = /(?<=reach \+)(\w+)/
-      let range = rangeRegExp.exec(itemString)
-      let reach = reachExp.exec(itemString)
-      if (range) {
-          let rangeType = ''
-          switch (range[1]) {
-              case 'short':
-                  rangeType = i18n('DL.ActionRangeShort').toLowerCase()
-                  break;
-              case 'medium':
-                  rangeType = i18n('DL.ActionRangeMedium').toLowerCase()
-                  break;
-              case 'long':
-                  rangeType = i18n('DL.ActionRangeLong').toLowerCase()
-                  break;
-              case 'extreme':
-                  rangeType = i18n('DL.ActionRangeExtreme').toLowerCase()
-                  break;
-              default:
-                  rangeType = range[1]
-                  break;
-          }
-          rangeText = `${rangeType} ${i18n('DL.ActionRange').toLowerCase()}`
+    if (!a.system.action.attack && !a.system.properties.length) return ''
+    let itemString = a.system.properties
+    let rangeText = ''
+    itemString = itemString.toLowerCase()
+    itemString = itemString.replace ('+ ','+')
+    let rangeRegExp = /\(([^)]+)\)/
+    let reachExp = /(?<=reach \+)(\w+)/
+    let range = rangeRegExp.exec(itemString)
+    let reach = reachExp.exec(itemString)
+    if (range) {
+      let rangeType = ''
+      switch (range[1]) {
+        case 'short':
+          rangeType = i18n('DL.ActionRangeShort').toLowerCase()
+          break;
+        case 'medium':
+          rangeType = i18n('DL.ActionRangeMedium').toLowerCase()
+          break;
+        case 'long':
+          rangeType = i18n('DL.ActionRangeLong').toLowerCase()
+          break;
+        case 'extreme':
+          rangeType = i18n('DL.ActionRangeExtreme').toLowerCase()
+          break;
+        default:
+          rangeType = range[1]
+          break;
       }
+      rangeText = `${rangeType} ${i18n('DL.ActionRange').toLowerCase()}`
+    }
 
-      let isThrown = a.system.properties.toLowerCase().includes('thrown')
-      let type = ''
+    let isThrown = a.system.properties.toLowerCase().includes('thrown')
+    let type = ''
 
-      if (isThrown && range) {
-          type = `(${i18n('DL.WeaponMelee').toLowerCase()} ${i18n('DL.PathsLevelAttributesSelectOr')} ${rangeText})`
-          return type
-      }
+    if (isThrown && range) {
+        type = `(${i18n('DL.WeaponMelee').toLowerCase()} ${i18n('DL.PathsLevelAttributesSelectOr')} ${rangeText})`
+        return type
+    }
 
-      if (range) return `(${rangeText})`
-      else if (!reach) return `(${i18n('DL.WeaponMelee').toLowerCase()})`
-      else return `(${i18n('DL.WeaponMelee').toLowerCase()}; ${i18n('DL.ActionRangeReach').toLowerCase()} +${reach[1]})`
-
+    if (range) return `(${rangeText})`
+    else if (!reach) return `(${i18n('DL.WeaponMelee').toLowerCase()})`
+    else return `(${i18n('DL.WeaponMelee').toLowerCase()}; ${i18n('DL.ActionRangeReach').toLowerCase()} +${reach[1]})`
   })
 
   Handlebars.registerHelper('enrichHTMLUnrolled', async (x) => await TextEditor.enrichHTML(x, { unrolled: true }))

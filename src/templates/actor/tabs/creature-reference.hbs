@@ -75,8 +75,13 @@
             {{bobaText system.action.boonsbanes}}
           {{/ifNotEquals}}
           {{#if system.action.damage}}
-          ({{system.action.damage}})
-          <!-- TODO: EXTRA DAMAGE -->
+            ({{system.action.damage}})
+            {{#if system.action.extraEffect20}}
+              {{extraEffect 'twentyplus' system.action.extraEffect20}}
+            {{/if}}
+            {{#if system.action.extraEffect}}
+              {{extraEffect 'twenty' system.action.extraEffect}}
+            {{/if}}
           {{/if}}
           {{#if item.system.enrichedDescription}} 
           | {{{item.system.enrichedDescription}}}

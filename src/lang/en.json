@@ -837,6 +837,8 @@
   "DL.WeaponAmmoRequired": "Ammunition required",
   "DL.WeaponAttack20": "Extra Damage 20+",
   "DL.WeaponAttack20Text": "Attack Roll 20+",
+  "DL.WeaponAttackEffect20Text": "plus {effectName}",
+  "DL.WeaponAttackEffect20PlusText": "plus {effectName} on attack roll 20+",
   "DL.WeaponAttackModifier": "Attack Modifier",
   "DL.WeaponBoonsBanes": "Boons/Banes",
   "DL.WeaponBoonsBanesShort": "Bo/Ba",
