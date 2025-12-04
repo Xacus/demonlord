@@ -54,7 +54,7 @@ export function registerHandlebarsHelpers() {
   })
 
   Handlebars.registerHelper('extraEffectDescription', function(mode, a) {
-    let text = mode === 'twentyplus' ? 'DL.WeaponAttackEffect20PlusText' : 'WeaponAttackEffect20Text'
+    let text = mode === 'twentyplus' ? 'DL.WeaponAttackEffect20PlusText' : 'DL.WeaponAttackEffect20Text'
     let regExp = /\{(.*?)\}/
     let extraEffectText = ''
     if (a.startsWith("@UUID[Compendium")) {
