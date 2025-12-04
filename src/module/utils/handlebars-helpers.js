@@ -60,7 +60,7 @@ export function registerHandlebarsHelpers() {
     if (a.startsWith("@UUID[Compendium")) {
       let result = regExp.exec(a)
       if (result) extraEffectText = result[1]
-    } else extraEffectText = a
+    } else extraEffectText = a.toLowerCase()
     if (extraEffectText)
       return game.i18n.format(text, {
         effectName: extraEffectText
