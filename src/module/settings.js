@@ -390,6 +390,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       templateAutoRemove: game.settings.get('demonlord', 'templateAutoRemove'),
       autoDeleteEffects: game.settings.get('demonlord', 'autoDeleteEffects'),
       concentrationEffect: game.settings.get('demonlord', 'concentrationEffect'),
+      fineseeAutoSelect: game.settings.get('demonlord', 'fineseeAutoSelect'),
       buttons: [
         {
           type: 'submit',
@@ -412,7 +413,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const html = $(this.element)
     html.find('button').on('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
-        const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect']
+        const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect', 'fineseeAutoSelect']
         await Promise.all(
           keys.map(async key => {
             await resetToDefault(key)
@@ -424,7 +425,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   static async handler(event, form, formData) {
-    const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect']
+    const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect','fineseeAutoSelect']
     if (event.submitter.dataset.action === 'reset') {
       await Promise.all(
         keys.map(async key => {
@@ -769,6 +770,14 @@ export const registerSettings = function () {
     name: game.i18n.localize('DL.SettingConcentrationEffect'),
     hint: game.i18n.localize('DL.SettingConcentrationEffectHint'),
     default: true,
+    scope: 'world',
+    type: Boolean,
+    config: false,
+  })
+  game.settings.register('demonlord', 'fineseeAutoSelect', {
+    name: game.i18n.localize('DL.SettingFineseeAutoSelect'),
+    hint: game.i18n.localize('DL.SettingFineseeAutoSelectHint'),
+    default: false,
     scope: 'world',
     type: Boolean,
     config: false,
