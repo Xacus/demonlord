@@ -666,8 +666,6 @@
   "DL.SettingtargetingOnSelectHint": "Replace token targeting with token selection on chat log actions.",
   "DL.Source": "Source",
   "DL.SpecialDurationLabel": "Special Duration",
-  "DL.SpecialDurationNextAttackRoll": "Next Attack Roll: Expires at the targets's next Attack Roll",
-  "DL.SpecialDurationNextChallengeRoll": "Next Challenge Roll: Expires at the targets's next Challenge Roll",
   "DL.SpecialDurationEndOfTheRound": "End Of The Round: Expires at The End Of The Round (in combat)",
   "DL.SpecialDurationNextAttackRoll": "Next Attack Roll: Expires at the targets's next Attack Roll",
   "DL.SpecialDurationNextChallengeRoll": "Next Challenge Roll: Expires at the targets's next Challenge Roll",
