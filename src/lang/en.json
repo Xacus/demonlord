@@ -855,6 +855,7 @@
   "DL.WeaponProperties": "Properties",
   "DL.WeaponResourceComsumption": "Resource consumption",
   "DL.WeaponRunOutOfAmmo": "{weaponName} has run out of its ammunition.",
+  "DL.WeaponMelee": "Melee",
   "DL.WeaponTitle": "Weapons",
   "DL.WeaponWear": "Equip weapon",
   "DL.With": "with",
