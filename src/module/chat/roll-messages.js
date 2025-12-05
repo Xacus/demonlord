@@ -64,7 +64,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
   if (((attacker.type === 'creature' || attacker.type === 'vehicle') && !attackShow) || rollMode === 'blindroll') {
     diceTotal = '?'
-    resultText = ''
+    // resultText = ''
   }
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : didHit ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
@@ -159,7 +159,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
   let resultText = resultTextGM
   if (rollMode === 'blindroll') {
     diceTotal = '?'
-    resultText = ''
+    // resultText = ''
   }
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : challengeRoll.total >= targetNumber ? 'SUCCESS' : 'FAILURE')
   const templateData = {
@@ -239,7 +239,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
   if (((actor.type === 'creature' || actor.type === 'vehicle') && !attackShow) || rollMode === 'blindroll') {
     diceTotal = '?'
-    resultText = ''
+    // resultText = ''
   }
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
@@ -358,7 +358,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
   if (((actor.type === 'creature' || actor.type === 'vehicle') && !attackShow) || rollMode === 'blindroll') {
     diceTotal = '?'
-    resultText = ''
+    // resultText = ''
   }
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
@@ -578,7 +578,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
   if (((actor.type === 'creature' || actor.type === 'vehicle') && !attackShow) || rollMode === 'blindroll') {
     diceTotal = '?'
-    resultText = ''
+    // resultText = ''
   }
   const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')

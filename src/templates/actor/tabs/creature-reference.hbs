@@ -67,20 +67,25 @@
       {{#each actor.weapons as |item id|}}
       <div data-item-id="{{item._id}}">
         <b class="dl-rollable attack-roll">{{item.name}}</b>
-        <!-- TODO: RANGE-->
-        <!--{{#if system.range}}({{system.range}}){{/if}}-->
+        {{weaponType item}}
         {{#if system.action.attack}}
-        {{plusify (lookupAttributeModifier system.action.attack item.parent)}}
+          {{plusifyzero (lookupAttributeModifier system.action.attack item.parent)}}
         {{/if}}
-          {{#if system.action.boonsbanes}}
-          {{localize "DL.With"}} {{plusify system.action.boonsbanes}}
-          {{toLowerCase (localize "DL.WeaponBoonsBanesShort")}}
+          {{#if (ne system.action.boonsbanes 0)}}
+            {{bobaText system.action.boonsbanes}}
           {{/if}}
           {{#if system.action.damage}}
-          ({{system.action.damage}})
-          <!-- TODO: EXTRA DAMAGE -->
+            ({{system.action.damage}})
+            {{#if system.action.extraEffect20}}
+              {{extraEffectDescription 'twentyplus' system.action.extraEffect20}}
+            {{/if}}
+            {{#if system.action.extraEffect}}
+              {{extraEffectDescription 'twenty' system.action.extraEffect}}
+            {{/if}}
           {{/if}}
+          {{#if item.system.enrichedDescription}} 
           | {{{item.system.enrichedDescription}}}
+          {{/if}}
         </div>
         {{/each}}
     </div>

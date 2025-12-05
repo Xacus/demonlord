@@ -436,8 +436,13 @@ export class DemonlordActor extends Actor {
     if (token) defenderToken.push(token)
 
     // Get attacker attribute and defender attribute name
-    const attackAttribute = item.system.action?.attack?.toLowerCase()
+    let attackAttribute = item.system.action?.attack?.toLowerCase()
     const defenseAttribute = item.system.action?.against?.toLowerCase()
+
+    if (game.settings.get('demonlord', 'fineseeAutoSelect') && attackAttribute === '' && item.system.properties?.toLowerCase().includes('finesse')) {
+        if (this.system.attributes.strength.value > this.system.attributes.agility.value) attackAttribute = 'strength'
+        else attackAttribute = 'agility'
+    }
 
     // If no attack mod selected, warn user
     // Actually, there's a valid reason to not set the attack mod, especially for vehicles

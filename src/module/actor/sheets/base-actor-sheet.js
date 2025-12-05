@@ -118,7 +118,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     const context = await super._prepareContext(options)
     context.isGM = game.user.isGM
     context.isOwner = this.document.isOwner
-    context.ownership = this.actor.ownership[game.userId]
+    context.ownership = game.user.isGM ? 3 : this.actor.ownership[game.userId]
     context.config = DL
     context.actor = this.document
     context.system = this.document.system
