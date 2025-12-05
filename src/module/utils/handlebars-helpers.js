@@ -38,12 +38,6 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('contains', function (a, v) {
     return a?.includes(v);
   })
-  Handlebars.registerHelper('ifNotEquals', function(arg1, arg2, options) {
-      return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
-  })
-  Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
-      return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-  })
 
   Handlebars.registerHelper('bobaText', function (a) {
     let boba = parseInt(a) || 0

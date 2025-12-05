@@ -71,9 +71,9 @@
         {{#if system.action.attack}}
           {{plusifyzero (lookupAttributeModifier system.action.attack item.parent)}}
         {{/if}}
-          {{#ifNotEquals system.action.boonsbanes 0}}
+          {{#if (ne system.action.boonsbanes 0)}}
             {{bobaText system.action.boonsbanes}}
-          {{/ifNotEquals}}
+          {{/if}}
           {{#if system.action.damage}}
             ({{system.action.damage}})
             {{#if system.action.extraEffect20}}
