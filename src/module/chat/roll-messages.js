@@ -47,13 +47,13 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
 
   const attackAttributeImmune = attacker?.getAttribute(attackAttribute)?.immune
   const defenseAttributeImmune = defender?.getAttribute(defenseAttribute)?.immune
-  const voidRoll = attackAttributeImmune || defenseAttributeImmune
 
   const targetNumber =
     defenseAttribute === 'defense'
       ? defender?.system.characteristics.defense
       : defender?.getAttribute(defenseAttribute)?.value || ''
 
+  const voidRoll = attackAttributeImmune || defenseAttributeImmune || !targetNumber
   const plus20 = attackRoll?.total >= 20 && (targetNumber ? attackRoll?.total > targetNumber + (game.settings.get('demonlord', 'optionalRuleExceedsByFive') ? 5 : 4) : true)
   const didHit = voidRoll ? false : attackRoll?.total >= targetNumber
 
@@ -66,7 +66,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
     diceTotal = '?'
     // resultText = ''
   }
-  const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : didHit ? 'SUCCESS' : 'FAILURE')
+  const resultBoxClass = voidRoll ? '' : (resultText === '' ? '' : didHit ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = ((defender?.type === 'character' && defender?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
@@ -216,7 +216,6 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
 
   const attackAttributeImmune = actor?.getAttribute(attackAttribute)?.immune
   const defenseAttributeImmune = target?.getAttribute(defenseAttribute)?.immune
-  const voidRoll = attackAttributeImmune || defenseAttributeImmune
 
   let usesText = ''
   if (parseInt(talentData?.uses?.value) >= 0 && parseInt(talentData?.uses?.max) > 0) {
@@ -226,6 +225,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
   }
 
   const targetNumber = talentData?.action?.attack ? actor.getTargetNumber(talent) : ''
+  const voidRoll = attackAttributeImmune || defenseAttributeImmune || !targetNumber
   const plus20 = attackRoll?.total >= 20 && (targetNumber ? attackRoll?.total > targetNumber + (game.settings.get('demonlord', 'optionalRuleExceedsByFive') ? 5 : 4) : true)
 
   let resultText =
@@ -241,7 +241,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
     diceTotal = '?'
     // resultText = ''
   }
-  const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
+  const resultBoxClass = voidRoll ? '' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = ((target?.actor?.type === 'character' && target?.actor?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
@@ -338,7 +338,6 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
 
   const attackAttributeImmune = actor?.getAttribute(attackAttribute)?.immune
   const defenseAttributeImmune = target?.getAttribute(defenseAttribute)?.immune
-  const voidRoll = attackAttributeImmune || defenseAttributeImmune
 
   let uses = parseInt(spellData?.castings?.value)
   let usesMax = parseInt(spellData?.castings?.max)
@@ -346,6 +345,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   if (uses >= 0 && usesMax > 0) usesText = game.i18n.localize('DL.SpellCastingsUses') + ': ' + uses + ' / ' + usesMax
 
   const targetNumber = actor.getTargetNumber(spell)
+  const voidRoll = attackAttributeImmune || defenseAttributeImmune || !targetNumber
   const plus20 = attackRoll?.total >= 20 && (targetNumber ? attackRoll?.total > targetNumber + (game.settings.get('demonlord', 'optionalRuleExceedsByFive') ? 5 : 4) : true)
 
   let resultText =
@@ -360,7 +360,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
     diceTotal = '?'
     // resultText = ''
   }
-  const resultBoxClass = voidRoll ? 'FAILURE' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
+  const resultBoxClass = voidRoll ? '' : (resultText === '' ? '' : attackRoll?.total >= +targetNumber ? 'SUCCESS' : 'FAILURE')
   const defenseShow = game.settings.get('demonlord', 'attackShowDefense')
   const againstNumber = ((target?.actor?.type === 'character' && target?.actor?.isPC) || defenseShow) && targetNumber ? targetNumber : '?'
 
