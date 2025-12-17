@@ -165,7 +165,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
   const templateData = {
     actor: actor,
     tokenId: actor.token ? actor.token.uuid : null,
-    item: {name: attribute?.toUpperCase()},
+    item: {name: game.i18n.localize(CONFIG.DL.attributes[attribute]?.toUpperCase())},
     diceData: formatDice(challengeRoll),
     data: {},
   }
