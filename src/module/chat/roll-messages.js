@@ -491,26 +491,6 @@ export function postPlainTextToChat(actor, text, roll) {
   })
 }
 
-async function rollMarkOfDarkness(actor, corruptionRoll) {
-  // Get mark of darkess if roll < corruption value
-  if (corruptionRoll.total < actor.system.characteristics.corruption.value) {
-    const compendiumRollTables = await game.packs.get('demonlord.sotdl-roll-tables').getDocuments()
-    const tableMarkOfDarkess = compendiumRollTables.find(i => i.name === 'Mark of Darkness')
-    const result = await tableMarkOfDarkess.draw()
-    let resultText = result.results[0].text
-    await actor.createEmbeddedDocuments('Item', [
-      {
-        name: 'Mark of Darkness',
-        type: 'feature',
-        img: 'icons/magic/death/skull-energy-light-purple.webp',
-        system: {
-          description: resultText,
-        },
-      },
-    ])
-  }
-}
-
 export async function postCorruptionToChat(actor, corruptionRoll) {
   const templateData = {
     actor: actor,
@@ -540,16 +520,23 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
 
   chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)
   chatData.sound = CONFIG.sounds.dice
-  const msg = await ChatMessage.create(chatData)
-  // Wait for 3D roll.
-  if (game.modules.get('dice-so-nice')?.active) {
-      game.dice3d
-          .waitFor3DAnimationByMessageID(msg.id)
-          .then(() =>
-          rollMarkOfDarkness(actor,corruptionRoll)
-          )
-  } else 
-    await rollMarkOfDarkness(actor,corruptionRoll)
+  await ChatMessage.create(chatData)
+  if (corruptionRoll.total < actor.system.characteristics.corruption.value) {
+    const compendiumRollTables = await game.packs.get('demonlord.sotdl-roll-tables').getDocuments()
+    const tableMarkOfDarkess = compendiumRollTables.find(i => i.name === 'Mark of Darkness')
+    const result = await tableMarkOfDarkess.draw()
+    let resultText = result.results[0].text
+    await actor.createEmbeddedDocuments('Item', [
+      {
+        name: 'Mark of Darkness',
+        type: 'feature',
+        img: 'icons/magic/death/skull-energy-light-purple.webp',
+        system: {
+          description: resultText,
+        },
+      },
+    ])
+  }
 }
 
 export async function postFortuneToChat(actor, awarded) {
