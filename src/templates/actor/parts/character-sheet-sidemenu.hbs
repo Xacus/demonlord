@@ -138,6 +138,7 @@
     {{#if (gte ownership 2)}}
     <div class="char-toggles">
 
+      {{#unless hideFortune}}
       <div class="fortune">
         <div class="switch-toggle fortune-toggle">
           <label class="switch" for="{{actor.id}}.fortune">
@@ -148,7 +149,9 @@
           </label>
         </div>
       </div>
+      {{/unless}}
 
+      {{#unless hideTurnMode}}
       <div class="turnmode">
         <div class="switch-toggle turn-toggle">
           <label class="switch" for="{{actor.id}}.fastturn">
@@ -160,6 +163,7 @@
           </label>
         </div>
       </div>
+      {{/unless}}
     </div>
     {{/if}}
   </div>
