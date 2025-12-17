@@ -90,6 +90,9 @@
       {{#unless system.characteristics.insanity.immune}}
       <div class="insanitymax">{{ifThen (gte ownership 2) system.characteristics.insanity.max '?'}}</div>
       <div class="insanityvalue">{{ifThen (gte ownership 2) system.characteristics.insanity.value '?'}}</div>
+      {{#if (gte ownership 2)}}
+        <a class="corruption-roll" data-action="rollFrightened" title="{{localize 'DL.LookOutCreatures'}}"><i class="fa-solid fa-ghost"></i></a>
+      {{/if}}
       {{else}}
       <div class="insanitymiddle">–</div>
       {{/unless}}

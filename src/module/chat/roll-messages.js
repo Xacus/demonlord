@@ -460,6 +460,37 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
 
 /* -------------------------------------------- */
 
+export function postPlainTextToChat(actor, text, roll) {
+  const templateData = {
+    actor: actor,
+    data: {},
+  }
+
+  const rollMode = game.settings.get('core', 'rollMode')
+  const chatData = getChatBaseData(actor, rollMode)
+  const data = templateData.data
+  data['actorInfo'] = buildActorInfo(actor)
+  data['text'] = text
+  switch (text) {
+    case 'frightenedForRounds':
+      data['text'] = Math.abs(roll._total === 1) ? game.i18n.format('DL.BecomeFrightenedForRound', {round: roll._total}) : 
+          game.i18n.format('DL.BecomeFrightenedForRounds', {round: roll._total})
+      break
+    case 'stunned':
+      data['text'] = game.i18n.format('DL.BecomeStunned', {round: roll._total})
+      break
+    case 'gainedInsanity':
+      data['text'] = game.i18n.format('DL.GainedInsanity', {insanity: roll._total})
+      break
+  }
+  if (roll) chatData.rolls = [roll]
+  const template = 'systems/demonlord/templates/chat/text.hbs'
+  foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
+    chatData.content = content
+    ChatMessage.create(chatData)
+  })
+}
+
 async function rollMarkOfDarkness(actor, corruptionRoll) {
   // Get mark of darkess if roll < corruption value
   if (corruptionRoll.total < actor.system.characteristics.corruption.value) {
