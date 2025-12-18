@@ -120,17 +120,17 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
         if (e.duration.turns > 0) {
           const rr = calcEffectRemainingRounds(e, game.combat.round)
           const rt = calcEffectRemainingTurn(e, game.combat.turn)
-          const sr = `${rr} ${Math.abs(rr) > 1 ? i18n("COMBAT.Rounds") : i18n("COMBAT.Round")}`
-          const st = `${rt} ${Math.abs(rt) > 1 ? i18n("COMBAT.Turns") : i18n("COMBAT.Turn")}`
+          const sr = Math.abs(rr) > 1 ? `${rr} ${i18n("COMBAT.DURATION.ROUNDS.many")}` : `${rr} ${i18n("COMBAT.DURATION.ROUNDS.one")}`
+          const st = Math.abs(rt) > 1 ? `${rt} ${i18n("COMBAT.DURATION.TURNS.many")}` : `${rt} ${i18n("COMBAT.DURATION.TURNS.one")}`
           e.dlRemaining = sr + ' ' + st
         }
         else {
           const r = calcEffectRemainingRounds(e, game.combat.round)
-          e.dlRemaining = `${r} ${Math.abs(r) > 1 ? i18n("COMBAT.Rounds") : i18n("COMBAT.Round")}`
+          e.dlRemaining = Math.abs(r) > 1 ? `${r} ${i18n("COMBAT.DURATION.ROUNDS.many")}` : `${r} ${i18n("COMBAT.DURATION.ROUNDS.one")}`
         }
       } else {
         const r = calcEffectRemainingSeconds(e, game.time.worldTime)
-        e.dlRemaining = `${r} ${i18n("TIME.Seconds")}`
+        e.dlRemaining = Math.abs(r) > 1 ? `${r} ${i18n("TIME.Second.other")}` : `${r} ${i18n("TIME.Second.one")}`
       }
     } else {
       e.dlRemaining = e.duration.label

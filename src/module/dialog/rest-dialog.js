@@ -3,6 +3,9 @@ const { DialogV2 } = foundry.applications.api
 export default function launchRestDialog(dialogTitle, callback) {
     const d = new DialogV2({
       window: { title: dialogTitle },
+      position: {
+        width: 500,
+      },
       content: `
   <div class="restdialog">
     <div class="inputContainer">
