@@ -12,6 +12,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     },
     actions: {
       rollCorruption: this.onRollCorruption,
+      rollFrightened: this.onrollFrightened,
       editStatBar: this.onEditStatBar,
       editLanguages: this.onEditLanguages,
       //editReligion: this.onEditReligion // Unused?
@@ -213,6 +214,10 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
   static async onRollCorruption() {
     return await this.actor.rollCorruption()
+  }
+
+  static async onrollFrightened() {
+    return await this.actor.rollFrightened()
   }
 
   /** Edit HealthBar, Insanity and Corruption */
