@@ -17,8 +17,11 @@
   <!-- STATS AND TRAITS -->
   <div class="dl-creature-section-section">
     <div>
-      <b>{{localize "DL.AttributePerception"}}</b>&nbsp;
-      {{system.attributes.perception.value}} ({{plusify system.attributes.perception.modifier}});
+      {{#if system.attributes.perception.immune}}
+        <b>{{localize "DL.AttributePerception"}}</b> –&nbsp;;
+      {{else}}
+        <b>{{localize "DL.AttributePerception"}}</b>&nbsp; {{system.attributes.perception.value}} ({{plusify system.attributes.perception.modifier}});
+      {{/if}}
       {{system.perceptionsenses}}
     </div>
     <div>
@@ -33,19 +36,32 @@
       {{/if}}
       <b>{{localize "DL.CharCorruption"}}</b>
       {{#if system.characteristics.corruption.immune}}
-        –;&nbsp;
+        –&nbsp;
       {{else}}
-        {{system.characteristics.corruption.value}};&nbsp;
+        {{system.characteristics.corruption.value}}&nbsp;
       {{/if}}
     </div>
     <div>
-      <b>{{localize "DL.AttributeStrength"}}</b> {{system.attributes.strength.value}} ({{plusify
-      system.attributes.strength.modifier}}),
-      <b>{{localize "DL.AttributeAgility"}}</b> {{system.attributes.agility.value}} ({{plusify
-      system.attributes.agility.modifier}}),
-      <b>{{localize "DL.AttributeIntellect"}}</b> {{system.attributes.intellect.value}} ({{plusify
-      system.attributes.intellect.modifier}}),
-      <b>{{localize "DL.AttributeWill"}}</b> {{system.attributes.will.value}} ({{plusify system.attributes.will.modifier}})
+      {{#if system.attributes.strength.immune}}
+        <b>{{localize "DL.AttributeStrength"}}</b> –&nbsp;,
+      {{else}}
+        <b>{{localize "DL.AttributeStrength"}}</b> {{system.attributes.strength.value}} ({{plusify system.attributes.strength.modifier}}),
+      {{/if}}
+      {{#if system.attributes.agility.immune}}
+        <b>{{localize "DL.AttributeAgility"}}</b> –&nbsp;,
+      {{else}}
+        <b>{{localize "DL.AttributeAgility"}}</b> {{system.attributes.agility.value}} ({{plusify system.attributes.agility.modifier}}),
+      {{/if}}
+      {{#if system.attributes.intellect.immune}}
+        <b>{{localize "DL.AttributeIntellect"}}</b> –&nbsp;,
+      {{else}}
+        <b>{{localize "DL.AttributeIntellect"}}</b> {{system.attributes.intellect.value}} ({{plusify system.attributes.intellect.modifier}}),
+      {{/if}}
+      {{#if system.attributes.will.immune}}
+        <b>{{localize "DL.AttributeWill"}}</b> –&nbsp;
+      {{else}}
+        <b>{{localize "DL.AttributeWill"}}</b> {{system.attributes.will.value}} ({{plusify system.attributes.will.modifier}})
+      {{/if}}
     </div>
     <div>
       <b>{{localize "DL.CharSpeed"}}</b> {{system.characteristics.speed}}
