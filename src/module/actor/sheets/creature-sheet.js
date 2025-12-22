@@ -119,11 +119,17 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
   /* -------------------------------------------- */
 
   async onEditRole(ev) {
-    const div = $(ev.currentTarget)
-    const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+    const div = ev.target.closest('.role-edit')
+    const role = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
 
     if (ev.button == 0) role.sheet.render(true)
-    else if (ev.button == 2) await role.delete({ parent: this.actor })
+    else if (ev.button == 2) {
+      if (game.settings.get('demonlord', 'confirmCreatureRoleRemoval')) {
+        await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteCreatureRoleText'), div)
+      } else {
+        await role.delete({ parent: this.actor })
+      }
+    }
   }
 
   async onEditRelic(ev) {
