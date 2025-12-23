@@ -11,6 +11,7 @@ import { buildDropdownListHover } from "../../utils/handlebars-helpers";
 import { DLAfflictions } from '../../active-effects/afflictions'
 import launchRollDialog from '../../dialog/roll-dialog'
 import {TokenManager} from '../../pixi/token-manager'
+import { capitalize } from '../../utils/utils'
 
 const tokenManager = new TokenManager()
 
@@ -477,74 +478,99 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
       })
 
       // Affliction checkboxes
-      e.querySelectorAll('[data-tab="afflictions"] .item-group-affliction.checkable')?.forEach(el => el.addEventListener('click', async ev => {
+      e.querySelectorAll('[data-tab="afflictions"] .item-group-affliction.checkable')?.forEach(el => el.addEventListener('mousedown', async ev => {
         const input = ev.target.parentElement.firstElementChild
         const checked = input.checked
         const afflictionId = input.dataset.name
-        if (checked) {
-          input.checked = false
-          const affliction = this.actor.effects.find(ef => ef?.statuses?.has(afflictionId))
-          if (!affliction) return false
-          await affliction.delete()
-        } else {
-          input.checked = true
-          if (this.actor.isImmuneToAffliction(afflictionId)) {
-            ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'));
-            return false;
-          }
-          const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
-          if (!affliction) return false
-          affliction['statuses'] = [affliction.id]
-          await ActiveEffect.create(affliction, { parent: this.actor })
-          const targets = tokenManager.targets
-          switch (afflictionId) {
+        if (ev.button == 0) {
+          if (checked) {
+            input.checked = false
+            const affliction = this.actor.effects.find(ef => ef?.statuses?.has(afflictionId))
+            if (!affliction) return false
+            await affliction.delete()
+          } else {
+            input.checked = true
+            if (this.actor.isImmuneToAffliction(afflictionId)) {
+              ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'));
+              return false;
+            }
+            const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
+            if (!affliction) return false
+            affliction['statuses'] = [affliction.id]
+            await ActiveEffect.create(affliction, { parent: this.actor })
+            const targets = tokenManager.targets
+            switch (afflictionId) {
               case 'help': {
-                  const attribute = this.actor.system.attributes.intellect
-                  if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && targets.length === 1)
-                      launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
-                          let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
-                          if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
-                              affliction['statuses'] = [affliction.id]
-                              const effect = CONFIG.statusEffects.find(a => a.id === "helped")
-                              effect['statuses'] = [effect.id]
-                              if (game.user.isGM) {
-                                  await ActiveEffect.create(effect, {
-                                      parent: targets[0].actor
-                                  })
-                              } else {
-                                  game.socket.emit('system.demonlord', {
-                                      request: "createEffect",
-                                      tokenuuid: targets[0].document.uuid,
-                                      effectData: effect
-                                  })
-                              }
-                          }
-                      })
-                  break;
+                const attribute = this.actor.system.attributes.intellect
+                if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && targets.length === 1)
+                  launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
+                    let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+                    if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
+                      affliction['statuses'] = [affliction.id]
+                      const effect = CONFIG.statusEffects.find(a => a.id === "helped")
+                      effect['statuses'] = [effect.id]
+                      if (game.user.isGM) {
+                        await ActiveEffect.create(effect, {
+                          parent: targets[0].actor
+                        })
+                      } else {
+                        game.socket.emit('system.demonlord', {
+                          request: "createEffect",
+                          tokenuuid: targets[0].document.uuid,
+                          effectData: effect
+                        })
+                      }
+                    }
+                  })
+                break;
               }
               case 'stabilize': {
-                  const attribute = this.actor.system.attributes.intellect
-                  const isIncapacitated = targets.length === 1 ? targets[0].actor.appliedEffects.find(ef => ef?.statuses?.has('incapacitated')) : false
-                  if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && isIncapacitated)
-                      launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
-                          let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
-                          if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
-                              if (game.user.isGM) {
-                                  await targets[0].actor.increaseDamage(-1)
-                              } else {
-                                  game.socket.emit('system.demonlord', {
-                                      request: "increaseDamage",
-                                      tokenuuid: targets[0].document.uuid,
-                                      increment: -1
-                                  })
-                              }
-                          }
-                      })
-                  break;
+                const attribute = this.actor.system.attributes.intellect
+                const isIncapacitated = targets.length === 1 ? targets[0].actor.appliedEffects.find(ef => ef?.statuses?.has('incapacitated')) : false
+                if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && isIncapacitated)
+                  launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
+                    let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+                    if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
+                      if (game.user.isGM) {
+                        await targets[0].actor.increaseDamage(-1)
+                      } else {
+                        game.socket.emit('system.demonlord', {
+                          request: "increaseDamage",
+                          tokenuuid: targets[0].document.uuid,
+                          increment: -1
+                        })
+                      }
+                    }
+                  })
+                break;
               }
+            }
+          }
+          return true
+        } else if (ev.button == 2) {
+          // Toggle immunity
+          const immuneEffects = this.actor.appliedEffects.filter(a => !a.disabled).filter(a => a.changes.some(c => c.key == 'system.bonuses.immune.affliction' && c.value == afflictionId))
+          if (immuneEffects?.length) {
+            await immuneEffects[0].delete()
+          } else {
+            await this.actor.createEmbeddedDocuments('ActiveEffect', [
+              {
+                name: capitalize(afflictionId) + ' Immunity',
+                icon: this.actor.img,
+                origin: this.actor.uuid,
+                transfer: false,
+                flags: { demonlord: { sourceType: this.actor.type } },
+                changes: [
+                  {
+                    key: 'system.bonuses.immune.affliction',
+                    value: afflictionId,
+                    mode: 2
+                  }
+                ]
+              }
+            ])
           }
         }
-        return true
       }))
 
       // Toggle accordion

@@ -423,9 +423,6 @@ export class DemonlordActor extends Actor {
 
     if ((collection === 'items' || collection === 'effects') && userId === game.userId && !options.noEmbedEffects)
       await this._handleOnUpdateDescendant(documents, isNameChange).then(_ => this.sheet.render())
-
-    // Now process the changes to the levels
-    console.log(documentChanges)
   }
 
   async _handleOnUpdateDescendant(documents, isNameChange) {
