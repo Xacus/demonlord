@@ -983,7 +983,7 @@ export class DemonlordActor extends Actor {
             parent: actor,
           })
         }
-      } else ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'))
+      } else ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneStunned'))
     }
 
     let newValue =
@@ -1002,7 +1002,7 @@ export class DemonlordActor extends Actor {
         await ActiveEffect.create(frightenedEffect, {
           parent: actor,
         })
-      } else ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'))
+      } else ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneFrightened'))
     } else {
       const frightenedEffect = actor.effects.find(e => e.statuses?.has('frightened'))
       await frightenedEffect.update({ 'duration.rounds': newValue })
@@ -1095,7 +1095,7 @@ export class DemonlordActor extends Actor {
       await durationRoll.evaluate()
 
       if (isFrightening) {
-        if (isImmuneToFrightened) return ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'))
+        if (isImmuneToFrightened) return ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneFrightened'))
         if (!isFrightened) {
           if (!isStunned) {
             let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'frightenedForRounds')

@@ -351,6 +351,8 @@
   "DL.DialogUseItemHealingPotionText": "Heals # points of damage.",
   "DL.DialogUseTalent": "Use Talent",
   "DL.DialogWarningActorImmune": "You're immune to that affliction.",
+  "DL.DialogWarningActorImmuneFrightened": "You're immune to Frightened affliction.",
+  "DL.DialogWarningActorImmuneStunned": "You're immune to Stunned affliction.",
   "DL.DialogWarningActorDamageImmune": "Actor is immune to this type of damage.",
   "DL.DialogWarningActorsNotSelected": "Actor(s) not selected",
   "DL.DialogWarningActorsNotTargeted": "Actor(s) not targeted",
