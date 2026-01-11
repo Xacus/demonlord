@@ -10,13 +10,11 @@ import launchFrightenedDialog from '../dialog/frightened-dialog'
 import {
   postAttackToChat,
   postAttributeToChat,
-  postCorruptionToChat,
   postItemToChat,
   postSpellToChat,
   postTalentToChat,
-  postFortuneToChat,
   postRestToChat,
-  postPlainTextToChat
+  postCustomTextToChat
 } from '../chat/roll-messages'
 import {handleCreateAncestry, handleCreatePath, handleCreateRole, handleCreateRelic } from '../item/nested-objects'
 import {TokenManager} from '../pixi/token-manager'
@@ -565,14 +563,17 @@ export class DemonlordActor extends Actor {
   }
   /* -------------------------------------------- */
 
-  async rollAttributeChallenge(attribute, inputBoons, inputModifier) {
+  async rollAttributeChallenge(attribute, inputBoons, inputModifier, mode) {
     const modifiers = [parseInt(inputModifier), this.getAttribute(attribute.key)?.modifier || 0]
     const boons = (parseInt(inputBoons) || 0) + (parseInt(this.system.bonuses.challenge.boons[attribute.key]) || 0) + (parseInt(this.system.bonuses.challenge.boons.all) || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
     await challengeRoll.evaluate()
-    postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
+
+    if (mode) postCustomTextToChat(this, challengeRoll, mode, attribute.key)
+      else 
+        postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
@@ -948,43 +949,43 @@ export class DemonlordActor extends Actor {
   async rollCorruption() {
     const corruptionRoll = new Roll('1d20')
     await corruptionRoll.evaluate()
-    postCorruptionToChat(this, corruptionRoll)
+    postCustomTextToChat(this, corruptionRoll,'corruptionRoll')
   }
 
   /* -------------------------------------------- */
 
   async goingMad() {
+    let actor = this
     const compendia = await game.packs.get('sdlc-1000.tables')
     if (compendia) {
       const compendiumRollTables = await compendia.getDocuments()
       const tableMadness = compendiumRollTables.find(i => i.name === 'Madness')
       if (tableMadness) await tableMadness.draw()
     }
+    const frightenedEffect = actor.effects.find(e => e.statuses?.has('frightened'))
+    await frightenedEffect?.delete()
   }
 
-  async stunnedChallengeRoll() {
+  async setInsanityValue(increment) {
     let actor = this
-    if (!actor.isImmuneToAffliction('stunned')) {
-      const attribute = actor.getAttribute('will')
-      let roll = await actor.rollAttributeChallenge(attribute, 0, 0)
-      const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
-      if (roll._total < targetNumber) {
-        const stunnedEffect = CONFIG.statusEffects.find(e => e.id === 'stunned')
-        stunnedEffect['statuses'] = stunnedEffect.id
-        stunnedEffect.duration.rounds = 1
-        await ActiveEffect.create(stunnedEffect, {
-          parent: actor,
-        })
-      }
-      let durationRoll = new Roll(`1d1`)
-      await durationRoll.evaluate()
-      postPlainTextToChat(actor, 'stunned',durationRoll)
-    } else ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'))
-  }
 
-  async setInsanityValue(roll) {
-    let actor = this
-    let increment = roll._total
+    // Embedded function
+    async function stunnedChallengeRoll() {
+      if (!actor.isImmuneToAffliction('stunned')) {
+        const attribute = actor.getAttribute('will')
+        let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'stunnedRoll')
+        const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
+        if (roll.total < targetNumber) {
+          const stunnedEffect = CONFIG.statusEffects.find(e => e.id === 'stunned')
+          stunnedEffect['statuses'] = stunnedEffect.id
+          stunnedEffect.duration.rounds = 1
+          await ActiveEffect.create(stunnedEffect, {
+            parent: actor,
+          })
+        }
+      } else ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneStunned'))
+    }
+
     let newValue =
       actor.system.characteristics.insanity.value + increment < actor.system.characteristics.insanity.max
         ? actor.system.characteristics.insanity.value + increment
@@ -1001,87 +1002,150 @@ export class DemonlordActor extends Actor {
         await ActiveEffect.create(frightenedEffect, {
           parent: actor,
         })
-      } else ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'))
+      } else ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneFrightened'))
     } else {
       const frightenedEffect = actor.effects.find(e => e.statuses?.has('frightened'))
       await frightenedEffect.update({ 'duration.rounds': newValue })
-      if (!isStunned) await this.stunnedChallengeRoll()
+      if (!isStunned) await stunnedChallengeRoll()
     }
+    if (actor.system.characteristics.insanity.value === actor.system.characteristics.insanity.max) await this.goingMad()
   }
 
   async rollFrightened() {
     let actor = this
+    const attribute = actor.getAttribute('will')
+    const isImmuneToFrightened = actor.isImmuneToAffliction('frightened') ? true : false
     const isStunned = actor.effects.find(e => e.statuses?.has('stunned')) === undefined ? false : true
-      launchFrightenedDialog(async (dHtml, creatureTrait) => {
-        let fourOrMore = dHtml.currentTarget.querySelector("input[id='fourOrMore']").checked ? -1 : 0
-        if (fourOrMore) {
-          let fourAndMoreEffect = new ActiveEffect({
-            name: game.i18n.localize('DL.FourOrMoreCreaturesInSight'),
-            icon: 'icons/svg/terror.svg',
-            changes: [{ key: 'system.bonuses.challenge.boons.will', value: -1, mode: CONST.ACTIVE_EFFECT_MODES.ADD }],
-            flags: { demonlord: { specialDuration: 'NextChallengeRoll' } },
-          })
 
-          await ActiveEffect.create(fourAndMoreEffect, {
-            parent: actor,
-          })
-        }
-
-        if (!isStunned) {
-          const attribute = actor.getAttribute('will')
-          let roll = await actor.rollAttributeChallenge(attribute, 0, 0)
-          const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
-          if (roll._total < targetNumber) await actor.rollDurationAndSanity(creatureTrait)
-        }
-        // Stunned -> autofail
-        else await actor.rollDurationAndSanity(creatureTrait)
+    // Embedded function
+    async function setFrightenedAffliction(durationRoll) {
+      const frightenedEffect = CONFIG.statusEffects.find(e => e.id === 'frightened')
+      frightenedEffect['statuses'] = frightenedEffect.id
+      frightenedEffect.duration.rounds = durationRoll.total
+      await ActiveEffect.create(frightenedEffect, {
+        parent: actor,
       })
-  }
-
-  async rollDurationAndSanity(creatureTrait) {
-    const actor = this
-    const isHorrifying = creatureTrait === 'h' || creatureTrait === 'fh' ? true : false
-    const isFrightening = creatureTrait === 'f' ? true : false
-    const isFrightened = actor.effects.find(e => e.statuses?.has('frightened')) === undefined ? false : true
-
-    if (isFrightening) {
-      if (!isFrightened) {
-        if (!actor.isImmuneToAffliction('frightened')) {
-          let durationRoll = actor.system.characteristics.insanity.value
-            ? new Roll(`1d3+${actor.system.characteristics.insanity.value}`)
-            : new Roll(`1d3`)
-          await durationRoll.evaluate()
-          const frightenedEffect = CONFIG.statusEffects.find(e => e.id === 'frightened')
-          frightenedEffect['statuses'] = frightenedEffect.id
-          frightenedEffect.duration.rounds = durationRoll.total
-          await ActiveEffect.create(frightenedEffect, {
-            parent: actor,
-          })
-          postPlainTextToChat(actor,'frightenedForRounds', durationRoll)
-        } else ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'))
-      } else 
-        {
-          let durationRoll = new Roll(`1d1`)
-          await durationRoll.evaluate()
-          this.setInsanityValue(durationRoll)
-          postPlainTextToChat(actor,'frightenedForRounds', durationRoll)
-        }
+      await postCustomTextToChat(actor, durationRoll, 'plainTextFrightened', attribute.key)
     }
 
-    if (isHorrifying) {
-      if (!isFrightened) {
-          let durationRoll = new Roll(`1d3`)
-          await durationRoll.evaluate()
-          this.setInsanityValue(durationRoll)
-      } else {
-        let insanityIncreaseRoll = new Roll('1d3')
-        await insanityIncreaseRoll.evaluate()
-        postPlainTextToChat(actor, 'gainedInsanity', insanityIncreaseRoll)
-        this.setInsanityValue(insanityIncreaseRoll)
+    // Embedded function
+    async function setBoonsForDarkMagicSpells() {
+      // Demon Lord page 111
+      const DARK_MAGIC_TRADITIONS = ['Blood', 'Curse', 'Death', 'Demonology', 'Forbidden', 'Necromancy', 'Madness']
+      let darkMagicSpellsKnown = actor.spells.filter(a =>
+        DARK_MAGIC_TRADITIONS.map(b => b).includes(a.system.tradition),
+      )
+      if (darkMagicSpellsKnown.length) {
+        let fourAndMoreEffect = new ActiveEffect({
+          name: game.i18n.localize('DL.DarkMagicSpellsKnown'),
+          icon: 'icons/svg/terror.svg',
+          changes: [
+            {
+              key: 'system.bonuses.challenge.boons.will',
+              value: darkMagicSpellsKnown.length,
+              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+            },
+          ],
+          flags: {
+            demonlord: {
+              specialDuration: 'NextChallengeRoll',
+            },
+          },
+        })
+
+        await ActiveEffect.create(fourAndMoreEffect, {
+          parent: actor,
+        })
       }
     }
 
-    if (actor.system.characteristics.insanity.value === actor.system.characteristics.insanity.max) await this.goingMad()
+    launchFrightenedDialog(async (dHtml, creatureTrait) => {
+      let fourOrMore = dHtml.currentTarget.querySelector("input[id='fourOrMore']").checked ? -1 : 0
+      if (fourOrMore) {
+        let fourAndMoreEffect = new ActiveEffect({
+          name: game.i18n.localize('DL.FourOrMoreCreaturesInSight'),
+          icon: 'icons/svg/terror.svg',
+          changes: [
+            {
+              key: 'system.bonuses.challenge.boons.will',
+              value: -1,
+              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+            },
+          ],
+          flags: {
+            demonlord: {
+              specialDuration: 'NextChallengeRoll',
+            },
+          },
+        })
+
+        if (!isStunned)
+          await ActiveEffect.create(fourAndMoreEffect, {
+            parent: actor,
+          })
+      }
+
+      const isHorrifying = creatureTrait === 'h' || creatureTrait === 'fh' ? true : false
+      const isFrightening = creatureTrait === 'f' ? true : false
+      const isFrightened = actor.effects.find(e => e.statuses?.has('frightened')) === undefined ? false : true
+      const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
+      const durationRoll = actor.system.characteristics.insanity.value
+        ? new Roll(`1d3+${actor.system.characteristics.insanity.value}`)
+        : new Roll(`1d3`)
+      await durationRoll.evaluate()
+
+      if (isFrightening) {
+        if (isImmuneToFrightened) return ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneFrightened'))
+        if (!isFrightened) {
+          if (!isStunned) {
+            let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'frightenedForRounds')
+            if (roll.total < targetNumber) await setFrightenedAffliction(durationRoll)
+          } else {
+            ui.notifications.warn(game.i18n.localize('DL.AfflictionsStunned'))
+            await setFrightenedAffliction(durationRoll)
+          }
+        }
+        // Frightened
+        else {
+          if (!isStunned) {
+            await setBoonsForDarkMagicSpells()
+            let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'gained1Insanity')
+            if (roll.total < targetNumber) await this.setInsanityValue(1)
+          } else {
+            ui.notifications.warn(game.i18n.localize('DL.AfflictionsStunned'))
+            await postCustomTextToChat(actor, null, 'gained1InsanityWORoll')
+            await this.setInsanityValue(1)
+          }
+        }
+      }
+
+      if (isHorrifying) {
+        if (!isStunned) await setBoonsForDarkMagicSpells(actor)
+        if (!isFrightened) {
+          if (!isStunned) {
+            let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'gained1Insanity')
+            if (roll.total < targetNumber) await this.setInsanityValue(1)
+          } else {
+            await this.setInsanityValue(1)
+            ui.notifications.warn(game.i18n.localize('DL.AfflictionsStunned'))
+          }
+        }
+        // Frightened
+        else {
+          let insanityIncreaseRoll = new Roll('1d3')
+          await insanityIncreaseRoll.evaluate()
+          if (!isStunned) {
+            let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'gained1d3Insanity')
+            postCustomTextToChat(actor, insanityIncreaseRoll, 'gainedInsanity', attribute.key)
+            if (roll.total < targetNumber) await this.setInsanityValue(insanityIncreaseRoll.total)
+          } else {
+            ui.notifications.warn(game.i18n.localize('DL.AfflictionsStunned'))
+            postCustomTextToChat(actor, insanityIncreaseRoll, 'gainedInsanity', attribute.key)
+            await this.setInsanityValue(insanityIncreaseRoll.total)
+          }
+        }
+      }
+    })
   }
 
   async createItemCreate(event) {
@@ -1200,7 +1264,9 @@ export class DemonlordActor extends Actor {
   }
 
   async expendFortune(awarded = false) {
-    postFortuneToChat(this, awarded)
+    const actor = this
+    if (awarded) postCustomTextToChat(actor, null, 'fortuneAwarded', null)
+    else postCustomTextToChat(actor, null, 'fortuneExpended', null)
   }
 
   async restActor(restTime, magicRecovery, talentRecovery, healing) {

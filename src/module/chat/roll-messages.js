@@ -460,72 +460,140 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
 
 /* -------------------------------------------- */
 
-export function postPlainTextToChat(actor, text, roll) {
+export async function postCustomTextToChat(actor, roll, mode, attribute = {}) {
   const templateData = {
     actor: actor,
     data: {},
+    diceData: formatDice(roll),
   }
-
-  const rollMode = game.settings.get('core', 'rollMode')
-  const chatData = getChatBaseData(actor, rollMode)
   const data = templateData.data
-  data['actorInfo'] = buildActorInfo(actor)
-  data['text'] = text
-  switch (text) {
-    case 'frightenedForRounds':
-      data['text'] = Math.abs(roll._total === 1) ? game.i18n.format('DL.BecomeFrightenedForRound', {round: roll._total}) : 
-          game.i18n.format('DL.BecomeFrightenedForRounds', {round: roll._total})
+  const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
+
+  switch (mode) {
+    case 'corruptionRoll':
+      data['header'] = game.i18n.localize('DL.CharRolCorruption')
+      data['tagetValueText'] = game.i18n.localize('DL.CharCorruption').toUpperCase()
+      data['source'] = 'D20'
+      data['targetValue'] = actor.system.characteristics.corruption.value
+      data['failureText'] =
+        roll.total >= actor.system.characteristics.corruption.value
+          ? ''
+          : game.i18n.localize('DL.CharRolCorruptionResult')
+      data['resultText'] =
+        roll.total >= actor.system.characteristics.corruption.value
+          ? game.i18n.localize('DL.DiceResultSuccess')
+          : game.i18n.localize('DL.DiceResultFailure')
       break
-    case 'stunned':
-      data['text'] = game.i18n.format('DL.BecomeStunned', {round: roll._total})
+    case 'stunnedRoll':
+      data['header'] = game.i18n.localize('DL.ChallengeRollText')
+      data['tagetValueText'] = game.i18n.localize('DL.TalentRollTarget')
+      data['source'] = game.i18n.localize(CONFIG.DL.attributes[attribute]?.toUpperCase())
+      data['targetValue'] = targetNumber
+      data['failureText'] = roll.total >= targetNumber ? '' : game.i18n.format('DL.BecomeStunned', { round: 1 })
+      data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0)
+      data['resultText'] =
+        roll.total >= targetNumber
+          ? game.i18n.localize('DL.DiceResultSuccess')
+          : game.i18n.localize('DL.DiceResultFailure')
+      break
+    case 'frightenedForRounds':
+      {
+        let durationRollFormula = actor.system.characteristics.insanity.value
+          ? `1d3+${actor.system.characteristics.insanity.value}`
+          : `1d3`
+        let durationRollFormulaText = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          `[[/r ${durationRollFormula}]]`,
+        )
+        data['header'] = game.i18n.localize('DL.ChallengeRollText')
+        data['tagetValueText'] = game.i18n.localize('DL.TalentRollTarget')
+        data['source'] = game.i18n.localize(CONFIG.DL.attributes[attribute]?.toUpperCase())
+        data['targetValue'] = targetNumber
+        data['failureText'] =
+          roll.total >= targetNumber
+            ? ''
+            : game.i18n.format('DL.BecomeFrightenedForRounds', { round: `${durationRollFormulaText}` })
+        data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0)
+        data['resultText'] =
+          roll.total >= targetNumber
+            ? game.i18n.localize('DL.DiceResultSuccess')
+            : game.i18n.localize('DL.DiceResultFailure')
+      }
+      break
+    case 'gained1Insanity':
+      {
+        const isMad = actor.system.characteristics.insanity.value+1 === actor.system.characteristics.insanity.max ? true : false
+        data['header'] = game.i18n.localize('DL.ChallengeRollText')
+        data['tagetValueText'] = game.i18n.localize('DL.TalentRollTarget')
+        data['source'] = game.i18n.localize(CONFIG.DL.attributes[attribute]?.toUpperCase())
+        data['targetValue'] = targetNumber
+        data['failureText'] = roll.total >= targetNumber ? '' : isMad ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: 1 }) : game.i18n.format('DL.GainedInsanity', { insanity: 1 })
+        data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0)
+        data['resultText'] =
+          roll.total >= targetNumber
+            ? game.i18n.localize('DL.DiceResultSuccess')
+            : game.i18n.localize('DL.DiceResultFailure')
+      }
+      break
+    case 'gained1d3Insanity':
+      {
+        let insanityRollFormulaText = await foundry.applications.ux.TextEditor.implementation.enrichHTML(`[[/r 1d3]]`)
+        data['header'] = game.i18n.localize('DL.ChallengeRollText')
+        data['tagetValueText'] = game.i18n.localize('DL.TalentRollTarget')
+        data['source'] = game.i18n.localize(CONFIG.DL.attributes[attribute]?.toUpperCase())
+        data['targetValue'] = targetNumber
+        data['failureText'] =
+          roll.total >= targetNumber
+            ? ''
+            : game.i18n.format('DL.GainedInsanity', { insanity: `${insanityRollFormulaText}` })
+        data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0)
+        data['resultText'] =
+          roll.total >= targetNumber
+            ? game.i18n.localize('DL.DiceResultSuccess')
+            : game.i18n.localize('DL.DiceResultFailure')
+      }
+      break
+    case 'plainTextFrightened':
+      data['text'] = Math.abs(roll.total === 1)
+        ? game.i18n.format('DL.BecomeFrightenedForRound', { round: roll.total })
+        : game.i18n.format('DL.BecomeFrightenedForRounds', { round: roll.total })
       break
     case 'gainedInsanity':
-      data['text'] = game.i18n.format('DL.GainedInsanity', {insanity: roll._total})
+      {
+        const isMad = roll.total+actor.system.characteristics.insanity.value >= actor.system.characteristics.insanity.max ? true : false
+        data['text'] = isMad ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: roll.total }) : game.i18n.format('DL.GainedInsanity', { insanity: roll.total })
+      }
+      break
+    case 'gained1InsanityWORoll':
+      {
+        const isMad = actor.system.characteristics.insanity.value+1 >= actor.system.characteristics.insanity.max ? true : false
+        data['text'] = isMad ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: 1 }) : game.i18n.format('DL.GainedInsanity', { insanity: 1 })
+      }
+      break
+    case 'fortuneAwarded':
+      data['text'] = game.i18n.localize('DL.DialogFortuneAwarded')
+      break
+    case 'fortuneExpended':
+      data['text'] = game.i18n.localize('DL.DialogFortuneExpended')
       break
   }
-  if (roll) chatData.rolls = [roll]
-  const template = 'systems/demonlord/templates/chat/text.hbs'
-  foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
-    chatData.content = content
-    ChatMessage.create(chatData)
-  })
-}
 
-export async function postCorruptionToChat(actor, corruptionRoll) {
-  const templateData = {
-    actor: actor,
-    data: {},
-    diceData: formatDice(corruptionRoll),
-  }
-  const data = templateData.data
-  data['diceTotal'] = corruptionRoll.total
   data['actorInfo'] = buildActorInfo(actor)
-  data['tagetValueText'] = game.i18n.localize('DL.CharCorruption').toUpperCase()
-  data['targetValue'] = actor.system.characteristics.corruption.value
-  data['resultText'] =
-    corruptionRoll.total >= actor.system.characteristics.corruption.value
-      ? game.i18n.localize('DL.DiceResultSuccess')
-      : game.i18n.localize('DL.DiceResultFailure')
-  data['failureText'] =
-    corruptionRoll.total >= actor.system.characteristics.corruption.value
-      ? ''
-      : game.i18n.localize('DL.CharRolCorruptionResult')
-
   const rollMode = game.settings.get('core', 'rollMode')
   const chatData = getChatBaseData(actor, rollMode)
-  if (corruptionRoll) {
-    chatData.rolls = [corruptionRoll]
+  if (roll) {
+    data['diceTotal'] = roll.total
+    chatData.rolls = [roll]
+    chatData.sound = CONFIG.sounds.dice
   }
-  const template = 'systems/demonlord/templates/chat/corruption.hbs'
+  const template = 'systems/demonlord/templates/chat/text.hbs'
 
   chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)
-  chatData.sound = CONFIG.sounds.dice
   await ChatMessage.create(chatData)
-  if (corruptionRoll.total < actor.system.characteristics.corruption.value) {
+  if (roll?.total < actor.system.characteristics.corruption.value && mode === 'corruptionRoll') {
     const compendiumRollTables = await game.packs.get('demonlord.sotdl-roll-tables').getDocuments()
     const tableMarkOfDarkess = compendiumRollTables.find(i => i.name === 'Mark of Darkness')
     const result = await tableMarkOfDarkess.draw()
-    let resultText = result.results[0].text
+    let resultText = result.results[0].name
     await actor.createEmbeddedDocuments('Item', [
       {
         name: 'Mark of Darkness',
@@ -537,22 +605,6 @@ export async function postCorruptionToChat(actor, corruptionRoll) {
       },
     ])
   }
-}
-
-export async function postFortuneToChat(actor, awarded) {
-  const templateData = {
-    actor: actor,
-    data: {},
-  }
-  const data = templateData.data
-  data['actorInfo'] = buildActorInfo(actor)
-  data['awarded'] = awarded
-
-  const rollMode = game.settings.get('core', 'rollMode')
-  const chatData = getChatBaseData(actor, rollMode)
-  const template = 'systems/demonlord/templates/chat/fortune.hbs'
-  chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)
-  await ChatMessage.create(chatData)
 }
 
 export async function postRestToChat(actor, restTime, magicRecovery, talentRecovery, healing) {

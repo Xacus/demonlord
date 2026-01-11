@@ -1,9 +1,57 @@
 <div class="demonlord" {{#if actor.id}}data-actor-id="{{actor.id}}" {{/if}}
   {{#if item.id}}data-item-id="{{item.id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
   <div class="showlessinfo">{{data.actorInfo}}</div>
+
+{{#if data.text}}
   <header class="init-header">
     <div class="inittext">
       {{data.text}}
     </div>
   </header>
+{{else}}
+    <header class="card-headersmall">
+      <div class="header">{{data.header}}</div>
+      <div class="headertext {{data.resultText}}">{{data.resultText}}</div>
+    </header>
+    <div class="result">
+      <div class="box {{data.resultText}}">
+        <div class="valuetext">{{data.source}}</div>
+        <div class="boxborder tooltip">
+          <div class="value">{{data.diceTotal}}</div>
+          <span class="tooltiptext">
+            {{#each diceData.dice}}
+              <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                <label style="color:{{this.color}};">
+                  {{this.result}}
+                </label>
+                {{#if this.img}}
+                  <img src='{{this.img}}'/>
+                {{/if}}
+              </div>
+            {{/each}}
+          </span>
+        </div>
+      </div>
+      <div class="boxvs">
+        <div class="vs">{{localize "DL.ChallengeVS"}}</div>
+      </div>
+      <div class="box {{data.resultText}}">
+        <div class="valuetext">{{data.tagetValueText}}</div>
+        <div class="boxborderTarget">
+          <div class="value">{{data.targetValue}}</div>
+        </div>
+      </div>
+    </div>
+    {{#if data.actionEffects}}
+        <div class="description">
+          <div class="header">{{localize "DL.TalentRollActions"}}</div>
+          <div class="body">{{{data.actionEffects}}}</div>
+        </div>
+    {{/if}}
+    {{#if data.failureText}}
+      <div class="description">
+        {{{data.failureText}}}
+      </div>
+    {{/if}}
+  {{/if}}
 </div>
