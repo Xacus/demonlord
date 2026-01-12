@@ -10,8 +10,7 @@ import tippy from "tippy.js";
 import { buildDropdownListHover } from "../../utils/handlebars-helpers";
 import { DLAfflictions } from '../../active-effects/afflictions'
 import launchRollDialog from '../../dialog/roll-dialog'
-import {TokenManager} from '../../pixi/token-manager'
-import { capitalize } from '../../utils/utils'
+import { TokenManager } from '../../pixi/token-manager'
 
 const tokenManager = new TokenManager()
 
@@ -130,6 +129,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     context.generalEffects = prepareActiveEffectCategories(Array.from(this.document.allApplicableEffects()), true)
     context.effectsOverview = buildOverview(this.document)
     context.flags = this.document.flags
+    context.immunities = this.getImmunities()
     context.addCreatureInventoryTab = game.settings.get('demonlord', 'addCreatureInventoryTab')
     context.hideTurnMode = game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's' ? false : true
     context.hideFortune = game.settings.get('demonlord', 'fortuneHide') ? true : false
@@ -479,21 +479,30 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
 
       // Affliction checkboxes
       e.querySelectorAll('[data-tab="afflictions"] .item-group-affliction.checkable')?.forEach(el => el.addEventListener('mousedown', async ev => {
-        const input = ev.target.parentElement.firstElementChild
+        const input = ev.target.closest('.checkable').querySelector('input')
         const checked = input.checked
         const afflictionId = input.dataset.name
         if (ev.button == 0) {
           if (checked) {
-            input.checked = false
-            const affliction = this.actor.effects.find(ef => ef?.statuses?.has(afflictionId))
-            if (!affliction) return false
-            await affliction.delete()
+
+            // Ignore if there's an active effect that sets this condition (except for the status effects)
+            const effect = this.actor.appliedEffects.find(ae => ae.statuses.size === 0 && ae.changes.some(c => c.key === 'system.maluses.affliction' && c.value === afflictionId))
+
+            if (effect) {
+              ui.notifications.warn(game.i18n.localize('DL.DialogWarningAfflictionFromEffect'))
+            } else {
+              input.checked = false
+              const affliction = this.actor.effects.find(ef => ef?.statuses?.has(afflictionId))
+              if (!affliction) return false
+              await affliction.delete()
+            }
           } else {
-            input.checked = true
             if (this.actor.isImmuneToAffliction(afflictionId)) {
               ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmune'));
               return false;
             }
+
+            input.checked = true
             const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
             if (!affliction) return false
             affliction['statuses'] = [affliction.id]
@@ -549,13 +558,14 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
           return true
         } else if (ev.button == 2) {
           // Toggle immunity
-          const immuneEffects = this.actor.appliedEffects.filter(a => !a.disabled).filter(a => a.changes.some(c => c.key == 'system.bonuses.immune.affliction' && c.value == afflictionId))
+          const effectName = game.i18n.format('DL.AfflictionImmunityEffectName', { affliction: game.i18n.localize(`DL.${afflictionId}`) })
+          const immuneEffects = this.actor.appliedEffects.filter(a => !a.disabled).filter(a => a.name === effectName && a.changes.length === 1 && a.changes[0].key === 'system.bonuses.immune.affliction' && a.changes[0].value === afflictionId)
           if (immuneEffects?.length) {
             await immuneEffects[0].delete()
           } else {
             await this.actor.createEmbeddedDocuments('ActiveEffect', [
               {
-                name: capitalize(afflictionId) + ' Immunity',
+                name: effectName,
                 icon: this.actor.img,
                 origin: this.actor.uuid,
                 transfer: false,
@@ -861,5 +871,14 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
       img: _itemData.img,
     })
     return incantation
+  }
+
+  getImmunities() {
+    const immunities = {}
+
+    for (let immunityEffect of this.actor.appliedEffects.flatMap(e => e.changes).filter(c => c.key === 'system.bonuses.immune.affliction')) {
+      immunities[immunityEffect.value] = true
+    }
+    return immunities
   }
 }

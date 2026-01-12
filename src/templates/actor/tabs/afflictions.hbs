@@ -1,6 +1,6 @@
 <div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="afflictions">
   {{#*inline "dlAffliction"}}
-  <div class="item-group-affliction checkable {{#if value}}selected{{/if}}" style="width: auto; margin: 2px" {{#if
+  <div class="item-group-affliction checkable {{#if value}}selected{{/if}} {{#if immune}}locked{{/if}}" style="width: auto; margin: 2px; position: relative;" {{#if
     tooltip}}data-tippy-affliction="{{localize tooltip}}" {{/if}}>
     <input type="checkbox" id="data.afflictions.{{name}}" data-name="{{name}}" {{checked value}} />
     <i class="icon-{{name}} themed-icon"></i>
@@ -30,26 +30,26 @@
   </div>
 
   <div class="grid-4">
-    {{> dlAffliction name="asleep" value=flags.demonlord.asleep label="DL.asleep" tooltip="DL.AfflictionsAsleep" }}
-    {{> dlAffliction name="blinded" value=flags.demonlord.blinded label="DL.blinded" tooltip="DL.AfflictionsBlinded" }}
-    {{> dlAffliction name="charmed" value=flags.demonlord.charmed label="DL.charmed" tooltip="DL.AfflictionsCharmed" }}
-    {{> dlAffliction name="compelled" value=flags.demonlord.compelled label="DL.compelled" tooltip="DL.AfflictionsCompelled" }}
-    {{> dlAffliction name="dazed" value=flags.demonlord.dazed label="DL.dazed" tooltip="DL.AfflictionsDazed" }}
-    {{> dlAffliction name="deafened" value=flags.demonlord.deafened label="DL.deafened" tooltip="DL.AfflictionsDeafened" }}
-    {{> dlAffliction name="defenseless" value=flags.demonlord.defenseless label="DL.defenseless" tooltip="DL.AfflictionsDefenseless"}}
-    {{> dlAffliction name="diseased" value=flags.demonlord.diseased label="DL.diseased" tooltip="DL.AfflictionsDiseased" }}
-    {{> dlAffliction name="fatigued" value=flags.demonlord.fatigued label="DL.fatigued" tooltip="DL.AfflictionsFatigued" }}
-    {{> dlAffliction name="frightened" value=flags.demonlord.frightened label="DL.frightened" tooltip="DL.AfflictionsFrightened" }}
-    {{> dlAffliction name="horrified" value=flags.demonlord.horrified label="DL.horrified" tooltip="DL.AfflictionsHorrified" }}
-    {{> dlAffliction name="grabbed" value=flags.demonlord.grabbed label="DL.grabbed" tooltip="DL.AfflictionsGrabbed" }}
-    {{> dlAffliction name="immobilized" value=flags.demonlord.immobilized label="DL.immobilized" tooltip="DL.AfflictionsImmobilized"}}
-    {{> dlAffliction name="impaired" value=flags.demonlord.impaired label="DL.impaired" tooltip="DL.AfflictionsImpaired" }}
-    {{> dlAffliction name="poisoned" value=flags.demonlord.poisoned label="DL.poisoned" tooltip="DL.AfflictionsPoisoned" }}
-    {{> dlAffliction name="prone" value=flags.demonlord.prone label="DL.prone" tooltip="DL.AfflictionsProne" }}
-    {{> dlAffliction name="slowed" value=flags.demonlord.slowed label="DL.slowed" tooltip="DL.AfflictionsSlowed" }}
-    {{> dlAffliction name="stunned" value=flags.demonlord.stunned label="DL.stunned" tooltip="DL.AfflictionsStunned" }}
-    {{> dlAffliction name="surprised" value=flags.demonlord.surprised label="DL.surprised" tooltip="DL.AfflictionsSurprised" }}
-    {{> dlAffliction name="unconscious" value=flags.demonlord.unconscious label="DL.unconscious" tooltip="DL.AfflictionsUnconscious"}}
+    {{> dlAffliction name="asleep" value=flags.demonlord.asleep immune=immunities.asleep label="DL.asleep" tooltip="DL.AfflictionsAsleep" }}
+    {{> dlAffliction name="blinded" value=flags.demonlord.blinded immune=immunities.blinded label="DL.blinded" tooltip="DL.AfflictionsBlinded" }}
+    {{> dlAffliction name="charmed" value=flags.demonlord.charmed immune=immunities.charmed label="DL.charmed" tooltip="DL.AfflictionsCharmed" }}
+    {{> dlAffliction name="compelled" value=flags.demonlord.compelled immune=immunities.compelled label="DL.compelled" tooltip="DL.AfflictionsCompelled" }}
+    {{> dlAffliction name="dazed" value=flags.demonlord.dazed immune=immunities.dazed label="DL.dazed" tooltip="DL.AfflictionsDazed" }}
+    {{> dlAffliction name="deafened" value=flags.demonlord.deafened immune=immunities.deafened label="DL.deafened" tooltip="DL.AfflictionsDeafened" }}
+    {{> dlAffliction name="defenseless" value=flags.demonlord.defenseless immune=immunities.defenseless label="DL.defenseless" tooltip="DL.AfflictionsDefenseless"}}
+    {{> dlAffliction name="diseased" value=flags.demonlord.diseased immune=immunities.diseased label="DL.diseased" tooltip="DL.AfflictionsDiseased" }}
+    {{> dlAffliction name="fatigued" value=flags.demonlord.fatigued immune=immunities.fatigued label="DL.fatigued" tooltip="DL.AfflictionsFatigued" }}
+    {{> dlAffliction name="frightened" value=flags.demonlord.frightened immune=immunities.frightened label="DL.frightened" tooltip="DL.AfflictionsFrightened" }}
+    {{> dlAffliction name="horrified" value=flags.demonlord.horrified immune=immunities.horrified label="DL.horrified" tooltip="DL.AfflictionsHorrified" }}
+    {{> dlAffliction name="grabbed" value=flags.demonlord.grabbed immune=immunities.grabbed label="DL.grabbed" tooltip="DL.AfflictionsGrabbed" }}
+    {{> dlAffliction name="immobilized" value=flags.demonlord.immobilized immune=immunities.immobilized label="DL.immobilized" tooltip="DL.AfflictionsImmobilized"}}
+    {{> dlAffliction name="impaired" value=flags.demonlord.impaired immune=immunities.impaired label="DL.impaired" tooltip="DL.AfflictionsImpaired" }}
+    {{> dlAffliction name="poisoned" value=flags.demonlord.poisoned immune=immunities.poisoned label="DL.poisoned" tooltip="DL.AfflictionsPoisoned" }}
+    {{> dlAffliction name="prone" value=flags.demonlord.prone immune=immunities.prone label="DL.prone" tooltip="DL.AfflictionsProne" }}
+    {{> dlAffliction name="slowed" value=flags.demonlord.slowed immune=immunities.slowed label="DL.slowed" tooltip="DL.AfflictionsSlowed" }}
+    {{> dlAffliction name="stunned" value=flags.demonlord.stunned immune=immunities.stunned label="DL.stunned" tooltip="DL.AfflictionsStunned" }}
+    {{> dlAffliction name="surprised" value=flags.demonlord.surprised immune=immunities.surprised label="DL.surprised" tooltip="DL.AfflictionsSurprised" }}
+    {{> dlAffliction name="unconscious" value=flags.demonlord.unconscious immune=immunities.unconscious label="DL.unconscious" tooltip="DL.AfflictionsUnconscious"}}
   </div>
 
   <div class="dl-text-header-upper dl-underline-red dl-item-row-header" style="margin-top: 8px">
