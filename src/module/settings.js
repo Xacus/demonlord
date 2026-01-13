@@ -841,6 +841,14 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'confirmCreatureRoleRemoval', {
+    name: game.i18n.localize('DL.SettingConfirmCreatureRoleRemoval'),
+    hint: game.i18n.localize('DL.SettingConfirmCreatureRoleRemovalHint'),
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })
   game.settings.register('demonlord', 'fortuneAwardPrevented', {
     name: game.i18n.localize('DL.SettingFortuneAwardPrevented'),
     hint: game.i18n.localize('DL.SettingFortuneAwardPreventedHint'),
