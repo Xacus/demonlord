@@ -18,8 +18,7 @@ import {
 } from '../chat/roll-messages'
 import {handleCreateAncestry, handleCreatePath, handleCreateRole, handleCreateRelic } from '../item/nested-objects'
 import {TokenManager} from '../pixi/token-manager'
-import {findAddEffect, findDeleteEffect} from "../demonlord";
-import { createActorNestedItems } from '../item/nested-objects'
+import {findAddEffect, findDeleteEffect} from "../demonlord"
 
 const tokenManager = new TokenManager()
 
@@ -344,80 +343,6 @@ export class DemonlordActor extends Actor {
 
     // Don't need to update anything if the only change is the edit item state
     const isNameChange = documents.length === 1 && data[0].name !== undefined
-
-    const documentChanges = {}
-
-    // Make a list of the necessary changes to the levels, which we will update afterwards
-    for (const sourceDocument of documents) {
-      if (sourceDocument.type === 'ancestry' || sourceDocument.type === 'path') {
-        // Property will be the level and value is an array of stuff
-        const addedItems = {}
-        let updateDocument = data.find(d => d._id === sourceDocument._id)
-
-        if (!updateDocument.system.levels?.length) continue // Didn't change the levels, nothing to do
-
-        const itemsFromThisDocument = this.items.filter(i => i.flags.demonlord?.parentItemId === sourceDocument._id)
-
-        documentChanges[sourceDocument._id] = {
-        }
-
-        // Now go through each level and search for the items
-        for (const level of updateDocument.system.levels.filter(l => parseInt(l.level) <= this.system.level)) {
-          addedItems[level.level] = {
-            languages: [],
-            spells: [],
-            talents: [],
-            talentspick: [],
-            talentsSelected: []
-          }
-
-          // Languages
-          for (const item of level.languages) {
-            const foundItem = itemsFromThisDocument.find(i => i.flags.demonlord?.levelRequired === level.level && i.flags.demonlord?.nestedItemId === item.id)
-
-            if (!foundItem) {
-              addedItems[level.level].languages.push(item)
-            } else {
-              itemsFromThisDocument.splice(itemsFromThisDocument.indexOf(foundItem), 1)
-            }
-          }
-
-          // Spells
-          for (const item of level.spells) {
-            const foundItem = itemsFromThisDocument.find(i => i.flags.demonlord?.levelRequired === level.level && i.flags.demonlord?.nestedItemId === item.id)
-
-            if (!foundItem) {
-              addedItems[level.level].spells.push(item)
-            } else {
-              itemsFromThisDocument.splice(itemsFromThisDocument.indexOf(foundItem), 1)
-            }
-          }
-
-          // Talents
-          for (const item of level.talents.concat(level.talentspick, level.talentsSelected)) {
-            const foundItem = itemsFromThisDocument.find(i => i.flags.demonlord?.levelRequired === level.level && i.flags.demonlord?.nestedItemId === item.id)
-
-            if (!foundItem) {
-              addedItems[level.level].talents.push(item)
-            } else {
-              itemsFromThisDocument.splice(itemsFromThisDocument.indexOf(foundItem), 1)
-            }
-          }
-
-          documentChanges[sourceDocument._id][level.level] = {
-            toRemove: itemsFromThisDocument,
-            toAdd: addedItems[level.level].languages.concat(addedItems[level.level].spells, addedItems[level.level].talents)
-          }
-        }
-
-        this.deleteEmbeddedDocuments('Item', Object.values(documentChanges).map(o => Object.values(o)).flat()[0].toRemove.map(i => i.id))
-
-        for (const documentSource in documentChanges) {
-          for (const level in documentChanges[documentSource])
-            await createActorNestedItems(this, documentChanges[documentSource][level].toAdd, documentSource, level)
-        }
-      }
-    }
 
     if ((collection === 'items' || collection === 'effects') && userId === game.userId && !options.noEmbedEffects)
       await this._handleOnUpdateDescendant(documents, isNameChange).then(_ => this.sheet.render())
