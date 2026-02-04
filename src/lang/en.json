@@ -937,6 +937,7 @@
     "UsesMagic": "Uses Magic"
   },
   "DL.CompendiumBrowserSearch": {
-    "IncludeLocal": "Include Local Documents"
+    "IncludeLocal": "Include Local Documents",
+    "CaseSensitive": "Case Sensitive Search"
   }
 }
