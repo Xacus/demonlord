@@ -1,4 +1,4 @@
-<div class="form-block">
+<div class="standard-form">
     <input id="stat-editor-roll-target" type="number" name="value" value="{{value}}">
     <div class="form-group">
         <input id="stat-editor-roll-formula" type="text" name="formula" value="{{formula}}" placeholder="{{localize "DL.RollFormula"}}">
@@ -11,8 +11,10 @@
         <label>{{localize "DL.ImmuneAttribute"}}</label>
         <input id="stat-editor-immune" type="checkbox" name="immune" {{checked immune}}>
     </div>
-    <button class="DL.Button" type="submit" name="submit">
-        <i class="fas fa-save"></i>
-        {{localize "DL.ModsSaveChanges"}}
-    </button>
+    <div class="form-group">
+        <button class="DL.Button" type="submit" name="submit">
+            <i class="fas fa-save"></i>
+            {{localize "DL.ModsSaveChanges"}}
+        </button>
+    </div>
 </div>

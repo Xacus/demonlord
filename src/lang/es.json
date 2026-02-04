@@ -77,6 +77,7 @@
   "DL.ActorTypeNPC": "PNJ",
   "DL.ActorTypePC": "PJ",
   "DL.AddAttackOptions": "Añadir Opciones de Ataque",
+  "DL.AffectedRolls": "Tiradas Afectadas",
   "DL.Afflictions": "Aflicciones",
   "DL.AfflictionsAsleep": "Una criatura dormida se considera derribada e inconsciente. Cualquiera que pueda alcanzarla tendrá la opción de despertarla. A menos que se indique lo contrario, sufrir daño elimina la aflicción.",
   "DL.AfflictionsBlinded": "Una criatura cegada no puede ver. Considera lo que la rodea como si estuviese envuelto en una oscuridad total (consulta Oscuridad). Las demás criaturas atacan con 1 ventaja contra la Defensa o Agilidad del ser afectado. Las pruebas de Percepción que dependan de la vista fracasan automáticamente. Por último, la Velocidad del ser afectado se reduce a 2, salvo que su Velocidad normal sea menor.",

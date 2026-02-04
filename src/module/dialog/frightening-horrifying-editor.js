@@ -12,8 +12,8 @@ export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(Ap
     actions: {
     },
     position: {
-      width: 300,
-      height: 300,
+      width: 400,
+      height: 350,
     }
   }
 

@@ -77,6 +77,7 @@
   "DL.ActorTypeNPC": "NPC",
   "DL.ActorTypePC": "PC",
   "DL.AddAttackOptions": "Add Attack Options",
+  "DL.AffectedRolls": "Affected Rolls",
   "DL.Afflictions": "Afflictions",
   "DL.AfflictionsAsleep": "A sleeping creature is prone and unconscious. Another creature that can reach it can use an action to wake it up. Unless otherwise noted, taking damage removes this affliction.",
   "DL.AfflictionsBlinded": "A blinded creature cannot see. It treats its surroundings as totally obscured (see Obscurement). Other creatures make attack rolls with 1 boon against a blinded creature’s Defense or Agility. Perception challenge rolls that rely on sight automatically result in failure. Finally, the blinded creature’s Speed becomes 2 unless its normal Speed is lower.",
