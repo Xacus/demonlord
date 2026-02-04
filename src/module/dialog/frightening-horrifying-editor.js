@@ -37,12 +37,11 @@ export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(Ap
   async _prepareContext(options) { // eslint-disable-line no-unused-vars
     let context = await super._prepareContext(options)
 
-    // Placeholders, replace with actual data as needed
-    /*context.frightening = this.actor.system.frighteningHorrifyingTrait.frightening
-    context.horrifying = this.actor.system.frighteningHorrifyingTrait.horrifying
-    context.rollBanes = this.actor.system.frighteningHorrifyingTrait.rollBanes
-    context.affectedRolls = this.actor.system.frighteningHorrifyingTrait.affectedRolls
-    context.insanityFormula = this.actor.system.frighteningHorrifyingTrait.insanityFormula*/
+    context.frightening = this.actor.system.frightening
+    context.horrifying = this.actor.system.horrifying
+    context.rollBanes = this.actor.system.frighteningHorrifyingRollBanes || 1
+    context.affectedRolls = this.actor.system.frighteningHorrifyingAffectedRolls || ''
+    context.insanityFormula = this.actor.system.horrifyingInsanityFormula || '1'
 
     return context
   }
@@ -55,16 +54,17 @@ export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(Ap
    * @param {FormDataExtended} _formData           Processed data for the submitted form
    * @returns {Promise<void>}
    */
-  static async onSubmit(_event, _form, _formData) {
+  static async onSubmit(_event, _form, formData) {
     // Update with data above (like in _prepareContext)
     await this.actor.update({
       system: {
-        /*frighteningHorrifyingTrait: {
+        frighteningHorrifyingTrait: {
           frightening: formData.object.frightening,
           horrifying: formData.object.horrifying,
-          affectedRolls: formData.object.affectedRolls,
-          insanityFormula: formData.object.insanityFormula
-        }*/
+          frighteningHorrifyingRollBanes: formData.object.rollBanes,
+          frighteningHorrifyingAffectedRolls: formData.object.affectedRolls,
+          horrifyingInsanityFormula: formData.object.insanityFormula
+        }
       }
     })
 
