@@ -1,0 +1,32 @@
+<div class="standard-form">
+    <div class="form-group">
+        <label>{{localize "DL.CreatureFrightening"}}</label>
+        <input id="frightening-checkbox" type="checkbox" name="frightening" {{checked frightening}}>
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.CreatureHorrifying"}}</label>
+        <input id="horrifying-checkbox" type="checkbox" name="horrifying" {{checked horrifying}}>
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.DialogBanes"}}</label>
+        <input id="roll-banes" type="number" name="rollBanes" value="{{rollBanes}}">
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.AffectedRolls"}}</label>
+        <select class="affected-rolls-select" value="{{affectedRolls}}" name="affectedRolls">
+            <option value="attack" {{#if (eq affectedRolls "attack")}}selected{{/if}}>{{localize "DL.AttackRolls"}}</option>
+            <option value="challenge" {{#if (eq affectedRolls "challenge")}}selected{{/if}}>{{localize "DL.ChallengeRolls"}}</option>
+            <option value="both" {{#if (eq affectedRolls "both")}}selected{{/if}}>{{localize "DL.BothAttackAndChallengeRolls"}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.InsanityFormula"}}</label>
+        <input id="insanity-formula" type="text" name="insanityFormula" value="{{insanityFormula}}">
+    </div>
+    <div class="form-group">
+        <button class="DL.Button" type="submit" name="submit">
+            <i class="fas fa-save"></i>
+            {{localize "DL.ModsSaveChanges"}}
+        </button>
+    </div>
+</div>

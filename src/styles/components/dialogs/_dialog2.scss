@@ -218,10 +218,6 @@
 }
 
 .stat-editor {
-  button {
-    border: 1px groove var(--color-border-dark-5);
-  }
-
   input[type='number'] {
     font-size: 50px;
     height: 60px;
@@ -234,4 +230,9 @@
     margin-right: 2px;
     height: 32px;
   }
+}
+
+.frightening-horrifying-editor {
+  display: flex;
+  flex-direction: column;
 }

@@ -16,7 +16,7 @@ export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
     },
     position: {
       width: 300,
-      height: 230,
+      height: 280,
     }
   }
 
@@ -51,7 +51,7 @@ export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   static async onSubmit(event, form, formData) {
     const levels = this.item.system.levels
-    
+
     levels.find(l => l.level === '0')[this.statType][this.statName] = {
       value: formData.object.value,
       formula: formData.object.formula,
@@ -68,9 +68,9 @@ export class DLStatEditor extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   /**
-   * 
-   * @param {SubmitEvent} event 
-   * @param {HtmlElement} target 
+   *
+   * @param {SubmitEvent} event
+   * @param {HtmlElement} target
    */
   static async rollStat(event, target) { // eslint-disable-line no-unused-vars
     const divTarget = document.getElementById('stat-editor-roll-target')

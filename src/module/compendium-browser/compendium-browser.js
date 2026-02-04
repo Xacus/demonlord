@@ -15,7 +15,7 @@ const indices = {
   item: ['system.consumabletype', 'system.availability', 'system.properties', 'system.value'],
   talent: ['system.groupname', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max'],
   relic: ['system.requirement.attribute'],
-  spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max' ],
+  spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max', 'system.isDarkMagic'],
   weapon: ['system.availability', 'system.requirement.attribute', 'system.properties', 'system.value'],
   creature: ['system.descriptor', 'system.difficulty', 'system.perceptionsenses', 'system.frightening', 'system.horrifying', 'system.isMagic'],
   character: ['system.descriptor', 'system.isMagic', 'system.isPC'],
@@ -231,6 +231,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         isHealing: null, // Whether it has system.healing.healactive
         isDamage: null, // Whether it has system.action.damage* (any of them)
         hasChallenge: null,
+        isDarkMagic: null, // Whether the spell is dark magic
         // isInsanity: null, // Future, whether it deals insanity damage
         // isCorruption: null, // Future, whether it deals corruption damage
 
@@ -535,6 +536,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         isHealing: this.state.filters?.spell?.isHealing || null, // Whether it has system.healing.healactive
         isDamage: this.state.filters?.spell?.isDamage || null, // Whether it has system.action.damage* (any of them)
         hasChallenge: this.state.filters?.spell?.hasChallenge || null,
+        isDarkMagic: this.state.filters?.spell?.isDarkMagic || null, // Whether the spell is dark magic
         // isInsanity: null, // Future, whether it deals insanity damage
         // isCorruption: null, // Future, whether it deals corruption damage
 
@@ -942,6 +944,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
           if (filters?.spell?.isHealing && !e.system.healing.healing) return false
           if (filters?.spell?.isDamage && !e.system.action.damage) return false
           if (filters?.spell?.hasChallenge && !e.system.action.defense) return false
+          if (filters?.spell?.isDarkMagic && !e.system.isDarkMagic) return false
 
           return true
         })

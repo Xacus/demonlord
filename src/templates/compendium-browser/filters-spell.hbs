@@ -80,6 +80,15 @@
     </div>
   </div>
 
+  <div class="filter-group checkable">
+    <div class="input-group" data-tippy-content="{{localize 'DL.IsDarkMagic'}}">
+      <input type="checkbox" name="filters.spell.isDarkMagic" {{checked filters.spell.isDarkMagic}}>
+      <i class="icon-dark-magic themed-icon"></i>
+      <span class="sep"></span>
+      <span class="text">{{localize 'DL.IsDarkMagic'}}</span>
+    </div>
+  </div>
+
   <div class="filter-group">
     <b>{{localize 'DL.CharDescription'}}</b>
     <input type="text" class="filter-group-textbox" name="filters.spell.description" value="{{filters.spell.description}}">

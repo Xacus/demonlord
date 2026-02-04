@@ -21,6 +21,14 @@
     <div class="dl-item-section-group">
       {{Dropdown 'system.attribute' system.attribute 'DL.Attributes'}}
     </div>
+    <div class="item-group-dark-magic checkable" data-action="toggleDarkMagic">
+      <div class="input-group" data-tippy-content="{{localize 'DL.IsDarkMagic'}}">
+        <input type="checkbox" name="system.isDarkMagic" {{checked system.isDarkMagic}}>
+        <i class="icon-dark-magic themed-icon"></i>
+        <span class="sep"></span>
+        <span class="text">{{localize 'DL.DarkMagic'}}</span>
+      </div>
+    </div>
   </div>
 
   <div class="dl-item-section item-properties">

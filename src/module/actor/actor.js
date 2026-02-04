@@ -1031,10 +1031,7 @@ export class DemonlordActor extends Actor {
     // Embedded function
     async function setBoonsForDarkMagicSpells() {
       // Demon Lord page 111
-      const DARK_MAGIC_TRADITIONS = ['Blood', 'Curse', 'Death', 'Demonology', 'Forbidden', 'Necromancy', 'Madness']
-      let darkMagicSpellsKnown = actor.spells.filter(a =>
-        DARK_MAGIC_TRADITIONS.map(b => b).includes(a.system.tradition),
-      )
+      let darkMagicSpellsKnown = actor.spells.filter(a => a.system.isDarkMagic)
       if (darkMagicSpellsKnown.length) {
         let fourAndMoreEffect = new ActiveEffect({
           name: game.i18n.localize('DL.DarkMagicSpellsKnown'),

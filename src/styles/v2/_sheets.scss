@@ -480,6 +480,9 @@ span.vertical-rule {
   @include demonlord-icon('../assets/ui/other-svg/horrifying.svg');
 }
 
+.icon-dark-magic {
+  @include demonlord-icon('../assets/ui/other-svg/dark-magic.svg');
+}
 .icon-attack {
   @include demonlord-icon('../assets/ui/other-svg/attack.svg');
 }
@@ -725,6 +728,9 @@ span.text-vs {
   @include input-group-container();
 }
 
+.item-group-dark-magic {
+  @include input-group-container();
+}
 .item-group-spell-castings {
   @include input-group-container();
 }
