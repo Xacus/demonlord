@@ -35,7 +35,8 @@ export default class SpellDataModel extends foundry.abstract.TypeDataModel {
         healing: makeBoolField(),
         rate: makeStringField()
       }),
-      quantity: makeIntField(1)
+      quantity: makeIntField(1),
+      isDarkMagic: makeBoolField()
     }
   }
 }
