@@ -439,7 +439,7 @@ export class DemonlordActor extends Actor {
     let attackAttribute = item.system.action?.attack?.toLowerCase()
     const defenseAttribute = item.system.action?.against?.toLowerCase()
 
-    if (game.settings.get('demonlord', 'fineseeAutoSelect') && attackAttribute === '' && item.system.properties?.toLowerCase().includes('finesse')) {
+    if (game.settings.get('demonlord', 'finesseAutoSelect') && attackAttribute === '' && item.system.properties?.toLowerCase().includes('finesse')) {
         if (this.system.attributes.strength.value > this.system.attributes.agility.value) attackAttribute = 'strength'
         else attackAttribute = 'agility'
     }

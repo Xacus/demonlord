@@ -390,7 +390,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       templateAutoRemove: game.settings.get('demonlord', 'templateAutoRemove'),
       autoDeleteEffects: game.settings.get('demonlord', 'autoDeleteEffects'),
       concentrationEffect: game.settings.get('demonlord', 'concentrationEffect'),
-      fineseeAutoSelect: game.settings.get('demonlord', 'fineseeAutoSelect'),
+      finesseAutoSelect: game.settings.get('demonlord', 'finesseAutoSelect'),
       buttons: [
         {
           type: 'submit',
@@ -413,7 +413,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const html = $(this.element)
     html.find('button').on('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
-        const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect', 'fineseeAutoSelect']
+        const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect', 'finesseAutoSelect']
         await Promise.all(
           keys.map(async key => {
             await resetToDefault(key)
@@ -425,7 +425,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   static async handler(event, form, formData) {
-    const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect','fineseeAutoSelect']
+    const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect','finesseAutoSelect']
     if (event.submitter.dataset.action === 'reset') {
       await Promise.all(
         keys.map(async key => {
@@ -774,9 +774,9 @@ export const registerSettings = function () {
     type: Boolean,
     config: false,
   })
-  game.settings.register('demonlord', 'fineseeAutoSelect', {
-    name: game.i18n.localize('DL.SettingFineseeAutoSelect'),
-    hint: game.i18n.localize('DL.SettingFineseeAutoSelectHint'),
+  game.settings.register('demonlord', 'finesseAutoSelect', {
+    name: game.i18n.localize('DL.SettingFinesseAutoSelect'),
+    hint: game.i18n.localize('DL.SettingFinesseAutoSelectHint'),
     default: false,
     scope: 'world',
     type: Boolean,
