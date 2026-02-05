@@ -6,7 +6,6 @@ import {DLActiveEffects} from '../active-effects/item-effects'
 import {DLAfflictions} from '../active-effects/afflictions'
 import {capitalize, plusify} from '../utils/utils'
 import launchRollDialog from '../dialog/roll-dialog'
-import launchFrightenedDialog from '../dialog/frightened-dialog'
 import {
   postAttackToChat,
   postAttributeToChat,
@@ -423,6 +422,86 @@ export class DemonlordActor extends Actor {
     return rollFormula
   }
 
+  parseRollFormula(target) {
+  	let result = null
+  	let rollFormula = target.system.frighteningHorrifyingTrait?.horrifyingInsanityFormula
+
+  	if (Roll.validate(rollFormula)) result = rollFormula
+    if (!result && rollFormula)  console.log('Invalid Insanity roll formula:',rollFormula)
+
+  	return result
+  }
+
+  isImmuneToTarget(target) {
+  	let actor = this
+  	const immuneArray = actor.appliedEffects.filter(x => x.name === game.i18n.format('DL.ImmuneToTarget', {
+  		creature: target.name
+  	}))
+  	let result = false
+  	for (const e of immuneArray) {
+  		if (foundry.utils.getProperty(e, 'flags.demonlord.immuneToActoruuid') === target.uuid) result = true
+  	}
+  	return result
+  }
+
+  isFrightenedFrom(target) {
+  	let actor = this
+  	const immuneArray = actor.appliedEffects.filter(x => x.name === game.i18n.format('DL.FrightenedBy', {
+  		creature: target?.name
+  	}))
+  	let result = false
+  	for (const e of immuneArray) {
+  		if (foundry.utils.getProperty(e, 'flags.demonlord.FrightenedFromActoruuid') === target.uuid) result = true
+  	}
+  	return result
+  }
+
+  isHorrifying() {
+  	const actor = this
+  	if (game.settings.get('demonlord', 'optionalRuleTraitMode2025')) return actor.system.frighteningHorrifyingTrait?.horrifying
+  	else return actor.system.horrifying
+  }
+
+  isFrightening() {
+  	const actor = this
+  	if (game.settings.get('demonlord', 'optionalRuleTraitMode2025'))
+  		return actor.system.frighteningHorrifyingTrait?.frightening
+  	else return actor.system.frightening 
+  }
+
+  // getTargetAttackBane(target) {
+  //   const attacker = this
+  //   if (!target) return 0
+  //   if (!game.settings.get('demonlord', 'horrifyingBane') || attacker.isImmuneToAffliction('frightened')) return 0
+  //   const optionalRuleBaneValue = game.settings.get('demonlord', 'optionalRuleBaneValue') ? 2 : 3
+  //   const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >= 3 && attacker.system?.level <= 6 && target?.system?.difficulty <= 25) || (attacker.system?.level >= 7 && target?.system?.difficulty <= 50))) ? false : true
+  //   let baneValue = 0
+  //   if (game.settings.get('demonlord', 'optionalRuleTraitMode2025')) baneValue = (ignoreLevelDependentBane && !attacker.isHorrifying() && !attacker.isFrightening() && (target?.isFrightening() || target?.isHorrifying()) && !attacker.isImmuneToTarget(target) && 1 || 0)
+  //   else baneValue = (ignoreLevelDependentBane && !attacker.isHorrifying() && !attacker.isFrightening() && target?.isHorrifying() && !attacker.isImmuneToTarget(target) && 1 || 0)
+
+  //   // Adjust bane if source of affliction can be seen, actor already has 1 (frightened), we need to add the difference
+  //   if (attacker.isFrightenedFrom(target)) baneValue += optionalRuleBaneValue
+  //   return baneValue
+  // }
+
+getTargetAttackBane(target) {
+  const attacker = this
+  if (!target) return 0
+  if (!game.settings.get('demonlord', 'horrifyingBane') || attacker.isImmuneToAffliction('frightened')) return 0
+  const optionalRuleBaneValue = game.settings.get('demonlord', 'optionalRuleBaneValue') ? 2 : 3
+  const ignoreLevelDependentBane =
+    game.settings.get('demonlord', 'optionalRuleLevelDependentBane') &&
+    ((attacker.system?.level >= 3 && attacker.system?.level <= 6 && target?.system?.difficulty <= 25) ||
+      (attacker.system?.level >= 7 && target?.system?.difficulty <= 50)) ? false : true
+  let baneValue = game.settings.get('demonlord', 'optionalRuleTraitMode2025')
+    ? (ignoreLevelDependentBane && !attacker.isHorrifying() && !attacker.isFrightening() && (target?.isFrightening() || target?.isHorrifying()) && !attacker.isImmuneToTarget(target) && 1) || 0
+    : (ignoreLevelDependentBane && !attacker.isHorrifying() && !attacker.isFrightening() && target?.isHorrifying() && !attacker.isImmuneToTarget(target) && 1) || 0
+
+  // Adjust bane if source of affliction can be seen, actor already has 1 (frightened), we need to add the difference
+  if (attacker.isFrightenedFrom(target)) baneValue += optionalRuleBaneValue
+  return baneValue
+}
+
   /**
    * Rolls an attack using an Item
    * @param item                    Weapon / Spell / Talent used for attacking
@@ -469,13 +548,10 @@ export class DemonlordActor extends Actor {
       (parseInt(attacker.system.bonuses.attack.boons.all) || 0) +
       (parseInt(attacker.system.bonuses.attack.boons.weapon) || 0)
 
-    const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-    const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
       boons -=
         (parseInt(defender?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
         (parseInt(defender?.system.bonuses.defense.boons.all) || 0) +
-        (parseInt(defender?.system.bonuses.defense.boons.weapon) || 0) +
-        (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
+        (parseInt(defender?.system.bonuses.defense.boons.weapon) || 0) + this.getTargetAttackBane(defender)
 
     // Check if requirements met
     if (item.system.wear && parseInt(item.system.requirement?.minvalue) > attacker.getAttribute(item.system.requirement?.attribute)?.value)
@@ -548,7 +624,7 @@ export class DemonlordActor extends Actor {
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
-      launchRollDialog(game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async (event, html) => {
+      launchRollDialog(this, game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async (event, html) => {
         for (const target of targets) {
           await this.rollItemAttack(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, target)
         }
@@ -563,7 +639,7 @@ export class DemonlordActor extends Actor {
   }
   /* -------------------------------------------- */
 
-  async rollAttributeChallenge(attribute, inputBoons, inputModifier, mode) {
+  async rollAttributeChallenge(attribute, inputBoons, inputModifier, options) {
     const modifiers = [parseInt(inputModifier), this.getAttribute(attribute.key)?.modifier || 0]
     const boons = (parseInt(inputBoons) || 0) + (parseInt(this.system.bonuses.challenge.boons[attribute.key]) || 0) + (parseInt(this.system.bonuses.challenge.boons.all) || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
@@ -571,8 +647,8 @@ export class DemonlordActor extends Actor {
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
     await challengeRoll.evaluate()
 
-    if (mode) postCustomTextToChat(this, challengeRoll, mode, attribute.key)
-      else
+    if (options) postCustomTextToChat(this, challengeRoll, options, attribute.key)
+      else 
         postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     for (let effect of this.appliedEffects) {
@@ -587,7 +663,7 @@ export class DemonlordActor extends Actor {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.key))
-      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) =>
+      launchRollDialog(this, this.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) =>
         await this.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       )
   }
@@ -599,9 +675,6 @@ export class DemonlordActor extends Actor {
     const attacker = this
     const defendersTokens = tokenManager.targets
     const defender = defendersTokens[0]?.actor
-    const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-    const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
-
     const modifiers = [
       parseInt(inputModifier),
       parseInt(attacker.system?.attributes[attribute.key]?.modifier) || 0,
@@ -615,7 +688,7 @@ export class DemonlordActor extends Actor {
       (parseInt(attacker.system.bonuses.attack.boons?.all) || 0)
 
     if (defendersTokens.length === 1) boons -= (defender?.system.bonuses.defense.boons[defense] || 0) + (defender?.system.bonuses.defense.boons.all || 0) +
-       (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
+       this.getTargetAttackBane(defender)
 
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
@@ -645,7 +718,7 @@ export class DemonlordActor extends Actor {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'attack', attribute.key))
-      launchRollDialog(this.name + ' - ' + game.i18n.localize('DL.DialogAttackRoll') + attribute.label, async (event, html) =>
+      launchRollDialog(this, this.name + ' - ' + game.i18n.localize('DL.DialogAttackRoll') + attribute.label, async (event, html) =>
         await this.rollAttributeAttack(attribute, html.form.elements.defense.value, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       true
     )
@@ -668,7 +741,7 @@ export class DemonlordActor extends Actor {
     }
 
     if (item.system?.action?.attack) {
-      launchRollDialog(game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async (event, html) =>
+      launchRollDialog(this, game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async (event, html) =>
         await this.useTalent(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
       )
     } else {
@@ -705,14 +778,12 @@ export class DemonlordActor extends Actor {
         (parseInt(this.system.bonuses.attack.boons.all) || 0) +
         parseInt(talentData.action?.boonsbanes || 0)
 
-      const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
-
       if (targets.length === 1)
         boons -= (
           (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
-          (target?.actor?.system.bonuses.defense.boons.all || 0) +
-          (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0))
+          (target?.actor?.system.bonuses.defense.boons.all || 0) + 
+          this.getTargetAttackBane(target.actor))
+          
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
@@ -760,7 +831,7 @@ export class DemonlordActor extends Actor {
     } else await item.update({'system.castings.value': uses + 1}, {parent: this})
 
     if (isAttack && attackAttribute) {
-      launchRollDialog(game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async (event, html) => {
+      launchRollDialog(this, game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async (event, html) => {
         for (const target of targets) {
           await this.useSpell(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, [target])
         }
@@ -796,15 +867,12 @@ export class DemonlordActor extends Actor {
         (parseInt(this.system.bonuses.attack.boons.all) || 0) +
         (parseInt(this.system.bonuses.attack.boons.spell) || 0)
 
-      const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
-
       if (target)
         boons -=
           (parseInt(target?.actor?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
           (parseInt(target?.actor?.system.bonuses.defense.boons.all) || 0) +
           (parseInt(target?.actor?.system.bonuses.defense.boons.spell) || 0) +
-          (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0)
+          this.getTargetAttackBane(target[0]?.actor)
 
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
@@ -819,7 +887,7 @@ export class DemonlordActor extends Actor {
       attackRoll: attackRoll
     })
 
-    postSpellToChat(this, spell, attackRoll, target?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
+    postSpellToChat(this, spell, attackRoll, target[0]?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
@@ -884,7 +952,7 @@ export class DemonlordActor extends Actor {
       await this.deleteEmbeddedDocuments('Item', [tempSpell[0].id])
     } else {
       if (item.system?.action?.attack) {
-        launchRollDialog(game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html) =>
+        launchRollDialog(this, game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html) =>
 		  await this.useItem(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value), )
       } else {
         await this.useItem(item, 0, 0)
@@ -922,14 +990,12 @@ export class DemonlordActor extends Actor {
         (parseInt(this.system.bonuses.attack.boons.all) || 0) +
         parseInt(itemData.action?.boonsbanes || 0)
 
-      const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-      const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((this.system?.level >=3 && this.system?.level <=6 && target?.actor?.system?.difficulty <= 25) || (this.system?.level >=7 && target?.actor?.system?.difficulty <= 50))) ? false : true
-
       if (targets.length === 1)
         boons -= (
           (parseInt(target?.actor?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
           (parseInt(target?.actor?.system.bonuses.defense.boons.all || 0)) +
-          (horrifyingBane && ignoreLevelDependentBane && !this.system.horrifying && !this.system.frightening && target?.actor?.system.horrifying && 1 || 0))
+          this.getTargetAttackBane(target.actor))
+          
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
@@ -949,7 +1015,7 @@ export class DemonlordActor extends Actor {
   async rollCorruption() {
     const corruptionRoll = new Roll('1d20')
     await corruptionRoll.evaluate()
-    postCustomTextToChat(this, corruptionRoll,'corruptionRoll')
+    postCustomTextToChat(this, corruptionRoll, { mode: 'corruptionRoll' })
   }
 
   /* -------------------------------------------- */
@@ -969,14 +1035,14 @@ export class DemonlordActor extends Actor {
   async setInsanityValue(increment) {
     let actor = this
 
-    // Embedded function
+    // Nested function
     async function stunnedChallengeRoll() {
       if (!actor.isImmuneToAffliction('stunned')) {
         const attribute = actor.getAttribute('will')
-        let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'stunnedRoll')
+        let roll = await actor.rollAttributeChallenge(attribute, 0, 0, {mode: 'stunnedRoll'})
         const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
         if (roll.total < targetNumber) {
-          const stunnedEffect = CONFIG.statusEffects.find(e => e.id === 'stunned')
+          const stunnedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'stunned'))
           stunnedEffect['statuses'] = stunnedEffect.id
           stunnedEffect.duration.rounds = 1
           await ActiveEffect.create(stunnedEffect, {
@@ -994,7 +1060,7 @@ export class DemonlordActor extends Actor {
     const isStunned = actor.effects.find(e => e.statuses?.has('stunned')) === undefined ? false : true
     await actor.update({ 'system.characteristics.insanity.value': newValue })
     if (!isFrightened) {
-      const frightenedEffect = CONFIG.statusEffects.find(e => e.id === 'frightened')
+      const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'frightened'))
       frightenedEffect['statuses'] = frightenedEffect.id
       frightenedEffect.duration.rounds = newValue
 
@@ -1011,139 +1077,511 @@ export class DemonlordActor extends Actor {
     if (actor.system.characteristics.insanity.value === actor.system.characteristics.insanity.max) await this.goingMad()
   }
 
-  async rollFrightened() {
-    let actor = this
-    const attribute = actor.getAttribute('will')
-    const isImmuneToFrightened = actor.isImmuneToAffliction('frightened') ? true : false
-    const isStunned = actor.effects.find(e => e.statuses?.has('stunned')) === undefined ? false : true
-
-    // Embedded function
-    async function setFrightenedAffliction(durationRoll) {
-      const frightenedEffect = CONFIG.statusEffects.find(e => e.id === 'frightened')
-      frightenedEffect['statuses'] = frightenedEffect.id
-      frightenedEffect.duration.rounds = durationRoll.total
-      await ActiveEffect.create(frightenedEffect, {
-        parent: actor,
+    async rollFrightened() {
+      let actor = this
+      const attribute = actor.getAttribute('will')
+      const isImmuneToFrightened = actor.isImmuneToAffliction('frightened') ? true : false
+      const isStunned = actor.effects.find(e => e.statuses?.has('stunned')) === undefined ? false : true
+      const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
+      const fourAndMoreEffect = new ActiveEffect({
+        name: game.i18n.localize('DL.FourOrMoreCreaturesInSight'),
+        icon: 'icons/svg/terror.svg',
+        changes: [{
+          key: 'system.bonuses.challenge.boons.will',
+          value: -1,
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        }, ],
+        flags: {
+          demonlord: {
+            specialDuration: 'NextChallengeRoll',
+          },
+        },
       })
-      await postCustomTextToChat(actor, durationRoll, 'plainTextFrightened', attribute.key)
-    }
 
-    // Embedded function
-    async function setBoonsForDarkMagicSpells() {
-      // Demon Lord page 111
-      let darkMagicSpellsKnown = actor.spells.filter(a => a.system.isDarkMagic)
-      if (darkMagicSpellsKnown.length) {
-        let fourAndMoreEffect = new ActiveEffect({
-          name: game.i18n.localize('DL.DarkMagicSpellsKnown'),
-          icon: 'icons/svg/terror.svg',
-          changes: [
-            {
+      // Nested function
+      function ignoreTarget(target) {
+        return (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((actor.system?.level >= 3 && actor.system?.level <= 6 && target?.system?.difficulty <= 25) || (actor.system?.level >= 7 && target?.system?.difficulty <= 50)))
+      }
+
+      // Nested function
+      async function setFrightenedAffliction(durationRoll) {
+        const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'frightened'))
+        frightenedEffect['statuses'] = frightenedEffect.id
+        frightenedEffect.duration.rounds = durationRoll.total
+        await ActiveEffect.create(frightenedEffect, {
+          parent: actor,
+        })
+        await postCustomTextToChat(actor, durationRoll, {
+          mode: 'plainTextFrightened'
+        }, attribute.key)
+      }
+
+      // Nested function
+      async function setBanesForWillChalleneRoll(target) {
+        if (target.system.frighteningHorrifyingTrait.willChallengeRollBanes > 0) {
+          let willChallengeRollBanesEffect = new ActiveEffect({
+            name: game.i18n.localize(`${game.i18n.localize('DL.WillChallengeRollBane')} [${game.i18n.localize('DL.ActionTarget')}]`),
+            icon: 'icons/svg/terror.svg',
+            changes: [{
+              key: 'system.bonuses.challenge.boons.will',
+              value: (target.system.frighteningHorrifyingTrait.willChallengeRollBanes)*-1,
+              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+            }, ],
+            flags: {
+              demonlord: {
+                specialDuration: 'NextChallengeRoll',
+              },
+            },
+          })
+
+          await ActiveEffect.create(willChallengeRollBanesEffect, {
+            parent: actor,
+          })
+        }
+      }
+
+      // Nested function
+      async function setBoonsForDarkMagicSpells() {
+        // Demon Lord page 111
+        let darkMagicSpellsKnown = actor.spells.filter(a => a.system.isDarkMagic)
+        if (darkMagicSpellsKnown.length) {
+          let darkMagicSpellsKnownEffect = new ActiveEffect({
+            name: game.i18n.localize('DL.DarkMagicSpellsKnown'),
+            icon: 'icons/svg/terror.svg',
+            changes: [{
               key: 'system.bonuses.challenge.boons.will',
               value: darkMagicSpellsKnown.length,
               mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+            }, ],
+            flags: {
+              demonlord: {
+                specialDuration: 'NextChallengeRoll',
+              },
             },
-          ],
-          flags: {
-            demonlord: {
-              specialDuration: 'NextChallengeRoll',
-            },
-          },
-        })
+          })
 
-        await ActiveEffect.create(fourAndMoreEffect, {
-          parent: actor,
-        })
+          await ActiveEffect.create(darkMagicSpellsKnownEffect, {
+            parent: actor,
+          })
+        }
       }
-    }
 
-    launchFrightenedDialog(async (dHtml, creatureTrait) => {
-      let fourOrMore = dHtml.currentTarget.querySelector("input[id='fourOrMore']").checked ? -1 : 0
-      if (fourOrMore) {
-        let fourAndMoreEffect = new ActiveEffect({
-          name: game.i18n.localize('DL.FourOrMoreCreaturesInSight'),
-          icon: 'icons/svg/terror.svg',
-          changes: [
-            {
-              key: 'system.bonuses.challenge.boons.will',
-              value: -1,
-              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-            },
-          ],
-          flags: {
-            demonlord: {
-              specialDuration: 'NextChallengeRoll',
-            },
+      const targets = tokenManager.targets
+      if (targets.length === 0) return ui.notifications.warn(game.i18n.localize('DL.DialogWarningTargetNotSelected'))
+      if (actor.isImmuneToAffliction('frightened'))
+          return ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneFrightened'))
+
+      let oldTraitTargets = 0
+      let newTraitTargets = 0
+      for (const target of targets) {
+        if (game.settings.get('demonlord', 'optionalRuleTraitMode2025')) ++newTraitTargets
+        else ++oldTraitTargets
+      }
+
+     if (oldTraitTargets > 0 && newTraitTargets > 0) return ui.notifications.warn(game.i18n.localize('DL.DialogWarningDoNotSelectTargetsDifferentRules'))
+
+      if (!game.settings.get('demonlord', 'optionalRuleTraitMode2025')) {
+        let isFailed = false
+        if (targets.length === 1) {
+          if ((!targets[0].actor.isHorrifying() && !targets[0].actor.isFrightening()) || ignoreTarget(targets[0].actor))
+            return ui.notifications.warn(
+              game.i18n.format('DL.DialogWarningTargetNeitherFnorH', {
+                target: targets[0].actor.name
+              }),
+            )
+          if (this.isFrightenedFrom(targets[0].actor))
+            return ui.notifications.warn(
+              game.i18n.format('DL.DialogWarningAlreadyMadeWILLFrightened', {
+                creature: targets[0].actor.name
+              }),
+            )
+
+          const traitType =
+            targets[0].actor.isFrightening() && targets[0].actor.isHorrifying() ?
+            game.i18n.localize('DL.CreatureHorrifying').toLowerCase() :
+            targets[0].actor.isFrightening() ?
+            game.i18n.localize('DL.CreatureFrightening').toLowerCase() :
+            game.i18n.localize('DL.CreatureHorrifying').toLowerCase()
+
+          if (this.isImmuneToTarget(targets[0].actor))
+            return ui.notifications.warn(
+              game.i18n.format('DL.DialogWarningAlreadyMadeWILLImmune', {
+                creature: targets[0].actor.name,
+                trait: traitType
+              }),
+            )
+        }
+
+        const validTargetArray = targets.filter(
+          target =>
+          (target.actor.isHorrifying() || target.actor.isFrightening()) &&
+          !actor.isImmuneToTarget(target.actor) &&
+          !ignoreTarget(target.actor),
+        )
+
+        let content = '<p>'
+
+        if (validTargetArray.length === 0) return ui.notifications.warn(game.i18n.localize('DL.DialogWarningInvalidTarget'))
+        let isHorrifying = false
+        let isFrightening = false
+
+        for (const target of validTargetArray) {
+          content += `&bull; ${target.actor.name}<br>`
+          if (target.actor.isHorrifying() && !actor.isImmuneToTarget(target.actor) && !ignoreTarget(target.actor))
+            isHorrifying = true
+          if (target.actor.isFrightening() && !actor.isImmuneToTarget(target.actor) && !ignoreTarget(target.actor))
+            isFrightening = true
+        }
+
+        if (isHorrifying) isFrightening = false
+        content += '</p>'
+
+        if (validTargetArray.length >= 4)
+          content += `<div style="color: orange; text-align: center;"><b>${game.i18n.localize(
+            'DL.FourOrMoreCreatures',
+          )}</b></div>`
+
+        const question = validTargetArray.length === 1 ? game.i18n.localize('DL.DialogDoYouSeeThisCreatureFirstTime') : game.i18n.localize('DL.DialogDoYouSeeTheseCreaturesFirstTime')
+        const isLineOfSight = await foundry.applications.api.DialogV2.confirm({
+          window: {
+            title: game.i18n.localize('DL.LookOutCreatures'),
+          },
+          content: question + content,
+          position: {
+            width: 350,
           },
         })
 
-        if (!isStunned)
+        if (!isLineOfSight) return
+
+        if (validTargetArray.length >= 4 && !isStunned)
           await ActiveEffect.create(fourAndMoreEffect, {
             parent: actor,
           })
-      }
 
-      const isHorrifying = creatureTrait === 'h' || creatureTrait === 'fh' ? true : false
-      const isFrightening = creatureTrait === 'f' ? true : false
-      const isFrightened = actor.effects.find(e => e.statuses?.has('frightened')) === undefined ? false : true
-      const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
-      const durationRoll = actor.system.characteristics.insanity.value
-        ? new Roll(`1d3+${actor.system.characteristics.insanity.value}`)
-        : new Roll(`1d3`)
-      await durationRoll.evaluate()
+        const isFrightened = actor.effects.find(e => e.statuses?.has('frightened')) === undefined ? false : true
+        const durationRoll = actor.system.characteristics.insanity.value ?
+          new Roll(`1d3+${actor.system.characteristics.insanity.value}`) :
+          new Roll(`1d3`)
+        await durationRoll.evaluate()
 
-      if (isFrightening) {
-        if (isImmuneToFrightened) return ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneFrightened'))
-        if (!isFrightened) {
-          if (!isStunned) {
-            let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'frightenedForRounds')
-            if (roll.total < targetNumber) await setFrightenedAffliction(durationRoll)
-          } else {
-            ui.notifications.warn(game.i18n.localize('DL.AfflictionsStunned'))
-            await setFrightenedAffliction(durationRoll)
+        if (isFrightening) {
+          if (isImmuneToFrightened)
+            return ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneFrightened'))
+          if (!isFrightened) {
+            if (!isStunned) {
+              let roll = await actor.rollAttributeChallenge(attribute, 0, 0, {
+                mode: 'frightenedForRounds'
+              })
+              if (roll.total < targetNumber) {
+                await setFrightenedAffliction(durationRoll)
+                isFailed = true
+              }
+            } else {
+              ui.notifications.error(game.i18n.localize('DL.AfflictionsStunned'))
+              isFailed = true
+              await setFrightenedAffliction(durationRoll)
+            }
+          }
+          // Frightened
+          else {
+            if (!isStunned) {
+              await setBoonsForDarkMagicSpells()
+              let roll = await actor.rollAttributeChallenge(attribute, 0, 0, {
+                mode: 'gained1Insanity',
+                legacyMode: true,
+              })
+              if (roll.total < targetNumber) {
+                await this.setInsanityValue(1)
+                isFailed = true
+              }
+            } else {
+              ui.notifications.error(game.i18n.localize('DL.AfflictionsStunned'))
+              let insanityIncreaseRoll = new Roll('1')
+              await insanityIncreaseRoll.evaluate()
+              postCustomTextToChat(actor, insanityIncreaseRoll, {
+                mode: 'gainedInsanity'
+              }, attribute.key)
+              await this.setInsanityValue(1)
+              isFailed = true
+            }
           }
         }
-        // Frightened
-        else {
-          if (!isStunned) {
-            await setBoonsForDarkMagicSpells()
-            let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'gained1Insanity')
-            if (roll.total < targetNumber) await this.setInsanityValue(1)
-          } else {
-            ui.notifications.warn(game.i18n.localize('DL.AfflictionsStunned'))
-            await postCustomTextToChat(actor, null, 'gained1InsanityWORoll')
-            await this.setInsanityValue(1)
+
+        if (isHorrifying) {
+          if (!isStunned) await setBoonsForDarkMagicSpells(actor)
+          if (!isFrightened) {
+            if (!isStunned) {
+              let roll = await actor.rollAttributeChallenge(attribute, 0, 0, {
+                mode: 'gained1Insanity',
+                legacyMode: true,
+              })
+              if (roll.total < targetNumber) {
+                await this.setInsanityValue(1)
+                isFailed = true
+              }
+            } else {
+              let insanityIncreaseRoll = new Roll('1')
+              await insanityIncreaseRoll.evaluate()
+              postCustomTextToChat(actor, insanityIncreaseRoll, {
+                mode: 'gainedInsanity'
+              }, attribute.key)
+              await this.setInsanityValue(1)
+              ui.notifications.error(game.i18n.localize('DL.AfflictionsStunned'))
+              isFailed = true
+            }
           }
+          // Frightened
+          else {
+            if (!isStunned) {
+              let roll = await actor.rollAttributeChallenge(attribute, 0, 0, {
+                mode: 'horrifying2025',
+                rollFormula: '1d3',
+                legacyMode: true,
+              })
+              let insanityIncreaseRoll = new Roll('1d3')
+              await insanityIncreaseRoll.evaluate()
+              if (roll.total < targetNumber) {
+                postCustomTextToChat(actor, insanityIncreaseRoll, {
+                  mode: 'gainedInsanity'
+                }, attribute.key)
+                await this.setInsanityValue(insanityIncreaseRoll.total)
+                isFailed = true
+              }
+            } else {
+              ui.notifications.error(game.i18n.localize('DL.AfflictionsStunned'))
+              let insanityIncreaseRoll = new Roll('1d3')
+              await insanityIncreaseRoll.evaluate()
+              postCustomTextToChat(actor, insanityIncreaseRoll, {
+                mode: 'gainedInsanity'
+              }, attribute.key)
+              await this.setInsanityValue(insanityIncreaseRoll.total)
+              isFailed = true
+            }
+          }
+        }
+
+        for (const target of validTargetArray) {
+          if (isFailed) {
+
+            let effect = actor.effects.find(e => e.statuses?.has('frightened'))
+            const seesFrighteningSource = new ActiveEffect({
+              name: game.i18n.format('DL.FrightenedBy', {
+                creature: target.actor.name
+              }),
+              icon: 'systems/demonlord/assets/icons/effects/eye-target.svg',
+              flags: {
+                demonlord: {
+                  FrightenedFromActoruuid: target.actor.uuid,
+                  sourceType: "character",
+                },
+              },
+              duration: {
+                rounds: effect.duration.rounds
+              },
+              description: game.i18n.format('DL.FrightenedYou', {
+                creature: target.actor.name
+              }),
+              origin: target.actor.uuid
+            })
+
+            await ActiveEffect.create(seesFrighteningSource, {
+              parent: actor,
+            })
+          }
+
+          const imuneToFrightenedEffect = new ActiveEffect({
+            name: game.i18n.format('DL.ImmuneToTarget', {
+              creature: target.actor.name
+            }),
+            icon: 'systems/demonlord/assets/icons/effects/immune.svg',
+            duration: {
+              rounds: 1,
+            },
+            flags: {
+              demonlord: {
+                immuneToActoruuid: target.actor.uuid,
+                specialDuration: 'RestComplete',
+              },
+            },
+            description: game.i18n.format('DL.ImmuneToHorrifyingOneMinute', {
+              creature: target.actor.name
+            }),
+            origin: target.actor.uuid
+          })
+
+          await ActiveEffect.create(imuneToFrightenedEffect, {
+            parent: actor,
+          })
         }
       }
+      // Horrifying2025
+      else {
+        let roll
+        if (targets.length === 1) {
+          if (!targets[0].actor.isHorrifying() || ignoreTarget(targets[0].actor))
+            return ui.notifications.warn(
+              game.i18n.format('DL.DialogWarningTargetNotHorrifying', {
+                target: targets[0].actor.name
+              }),
+            )
+          if (this.isImmuneToTarget(targets[0].actor))
+            return ui.notifications.warn(
+              game.i18n.format('DL.DialogWarningAlreadyMadeWILLImmune', {
+                creature: targets[0].actor.name,
+                trait: game.i18n.localize('DL.CreatureHorrifying').toLowerCase()
+              }),
+            )
+          if (this.isFrightenedFrom(targets[0].actor))
+            return ui.notifications.warn(
+              game.i18n.format('DL.DialogWarningAlreadyMadeWILLFrightened', {
+                creature: targets[0].actor.name
+              }),
+            )
+        }
+        let content = '<p>'
 
-      if (isHorrifying) {
-        if (!isStunned) await setBoonsForDarkMagicSpells(actor)
-        if (!isFrightened) {
-          if (!isStunned) {
-            let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'gained1Insanity')
-            if (roll.total < targetNumber) await this.setInsanityValue(1)
-          } else {
-            await this.setInsanityValue(1)
-            ui.notifications.warn(game.i18n.localize('DL.AfflictionsStunned'))
-          }
+        const validTargetArray = targets.filter(
+          target =>
+          !(
+            !target.actor.isHorrifying() ||
+            ignoreTarget(target.actor) ||
+            actor.isFrightenedFrom(target.actor) ||
+            actor.isImmuneToTarget(target.actor)
+          ),
+        )
+        if (validTargetArray.length === 0) return ui.notifications.warn(game.i18n.localize('DL.DialogWarningInvalidTarget'))
+        for (const target of validTargetArray) {
+          content += `&bull; ${target.actor.name}<br>`
         }
-        // Frightened
-        else {
-          let insanityIncreaseRoll = new Roll('1d3')
-          await insanityIncreaseRoll.evaluate()
-          if (!isStunned) {
-            let roll = await actor.rollAttributeChallenge(attribute, 0, 0, 'gained1d3Insanity')
-            postCustomTextToChat(actor, insanityIncreaseRoll, 'gainedInsanity', attribute.key)
-            if (roll.total < targetNumber) await this.setInsanityValue(insanityIncreaseRoll.total)
+
+        content += '</p>'
+
+        const question = validTargetArray.length === 1 ? game.i18n.localize('DL.DialogDoYouStartYourTurnWithLOSCreature') : game.i18n.localize('DL.DialogDoYouStartYourTurnWithLOSCreatures')
+        const isLineOfSight = await foundry.applications.api.DialogV2.confirm({
+          window: {
+            title: game.i18n.localize('DL.LookOutCreatures'),
+          },
+          content: question + content,
+          position: {
+            width: 500,
+          },
+        })
+
+        if (!isLineOfSight) return
+
+        for (const target of validTargetArray) {
+          await setBoonsForDarkMagicSpells(actor)
+          await setBanesForWillChalleneRoll(target.actor)
+          const rollFormula = this.parseRollFormula(target.actor)
+
+          if (!rollFormula || parseInt(rollFormula) == 0) {
+            roll = await actor.rollAttributeChallenge(attribute, 0, 0, {
+              mode: 'horrifying2025',
+              target: target,
+              rollFormula: null,
+            })
+            if (roll.total < targetNumber) {
+              const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'frightened'))
+              frightenedEffect['statuses'] = frightenedEffect.id
+              await ActiveEffect.create(frightenedEffect, {
+                parent: actor,
+              })
+            }
           } else {
-            ui.notifications.warn(game.i18n.localize('DL.AfflictionsStunned'))
-            postCustomTextToChat(actor, insanityIncreaseRoll, 'gainedInsanity', attribute.key)
-            await this.setInsanityValue(insanityIncreaseRoll.total)
+            if (!isStunned) {
+              roll = await actor.rollAttributeChallenge(attribute, 0, 0, {
+                mode: 'horrifying2025',
+                target: target,
+                rollFormula: rollFormula,
+              })
+              if (roll.total < targetNumber) {
+                let insanityIncreaseRoll = new Roll(rollFormula)
+                await insanityIncreaseRoll.evaluate()
+
+                const numberRegex = /^\d+$/
+                if (!numberRegex.test(rollFormula))
+                  postCustomTextToChat(
+                    actor,
+                    insanityIncreaseRoll,
+                    {
+                      mode: 'gainedInsanity',
+                    },
+                    attribute.key,
+                  )
+                await this.setInsanityValue(insanityIncreaseRoll.total)
+              }
+            } else {
+              ui.notifications.error(game.i18n.localize('DL.AfflictionsStunned'))
+              let insanityIncreaseRoll = new Roll(rollFormula)
+              await insanityIncreaseRoll.evaluate()
+              postCustomTextToChat(
+                actor,
+                insanityIncreaseRoll,
+                {
+                  mode: 'gainedInsanity',
+                },
+                attribute.key,
+              )
+              await this.setInsanityValue(insanityIncreaseRoll.total)
+              // Actor is stunned does not have a FAILED challenge roll, let's simulate one
+              roll = new Roll('1')
+              await roll.evaluate()
+            }
           }
-        }
+
+          if (roll.total >= targetNumber) {
+            const imuneToFrightenedEffect = new ActiveEffect({
+              name: game.i18n.format('DL.ImmuneToTarget', {
+                creature: target.actor.name
+              }),
+              icon: 'systems/demonlord/assets/icons/effects/immune.svg',
+              duration: {
+                rounds: 6,
+              },
+              flags: {
+                demonlord: {
+                  immuneToActoruuid: target.actor.uuid,
+                  sourceType: "character",
+                },
+              },
+              description: game.i18n.format('DL.ImmuneToHorrifyingOneMinute', {
+                creature: target.actor.name
+              }),
+              origin: target.actor.uuid
+            })
+
+            await ActiveEffect.create(imuneToFrightenedEffect, {
+              parent: actor,
+            })
+          } else {
+            const seesFrighteningSource = new ActiveEffect({
+              name: game.i18n.format('DL.FrightenedBy', {
+                creature: target.actor.name
+              }),
+              icon: 'systems/demonlord/assets/icons/effects/eye-target.svg',
+              flags: {
+                demonlord: {
+                  FrightenedFromActoruuid: target.actor.uuid,
+                  specialDuration: 'RestComplete',
+                },
+              },
+              duration: {
+                rounds: 1,
+              },
+              description: game.i18n.format('DL.FrightenedYou', {
+                creature: target.actor.name
+              }),
+              origin: target.actor.uuid
+            })
+
+            await ActiveEffect.create(seesFrighteningSource, {
+              parent: actor,
+            })
+          }
+        } 
       }
-    })
-  }
+    }
 
   async createItemCreate(event) {
     event.preventDefault()
@@ -1262,8 +1700,8 @@ export class DemonlordActor extends Actor {
 
   async expendFortune(awarded = false) {
     const actor = this
-    if (awarded) postCustomTextToChat(actor, null, 'fortuneAwarded', null)
-    else postCustomTextToChat(actor, null, 'fortuneExpended', null)
+    if (awarded) postCustomTextToChat(actor, null, { mode: 'fortuneAwarded' }, null)
+    else postCustomTextToChat(actor, null, { mode: 'fortuneExpended' }, null)
   }
 
   async restActor(restTime, magicRecovery, talentRecovery, healing) {

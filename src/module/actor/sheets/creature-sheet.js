@@ -1,4 +1,5 @@
 import DLBaseActorSheet from './base-actor-sheet'
+import DLFrighteningHorrifyingEditor from '../../dialog/frightening-horrifying-editor'
 
 export default class DLCreatureSheet extends DLBaseActorSheet {
   static DEFAULT_OPTIONS = {
@@ -8,6 +9,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
       submitOnChange: true
     },
     actions: {
+      openFrighteningHorrifyingEditor: this.onopenFrighteningHorrifyingEditor
     }
   }
 
@@ -139,6 +141,15 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     if (ev.button == 0) relic.sheet.render(true)
     else if (ev.button == 2) await relic.delete({ parent: this.actor })
   }
+
+    static async onopenFrighteningHorrifyingEditor(event) {
+      event.preventDefault()
+      event.stopPropagation()
+      new DLFrighteningHorrifyingEditor({ actor: this.actor, }, {
+          top: 50,
+          right: 700,
+        }).render(true)
+    }
 
   /* -------------------------------------------- */
 

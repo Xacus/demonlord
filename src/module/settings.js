@@ -109,7 +109,7 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
       submitOnChange: false,
     },
     position: {
-      width: 800,
+      width: 900,
       height: 'auto',
     },
     tag: 'form',
@@ -174,6 +174,8 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
       optionalRuleLevelDependentBane: game.settings.get('demonlord', 'optionalRuleLevelDependentBane'),
       optionalRuleRevealHorrifyingBane: game.settings.get('demonlord', 'optionalRuleRevealHorrifyingBane'),
       ignoreEncumbrance: game.settings.get('demonlord', 'ignoreEncumbrance'),
+      optionalRuleBaneValue : game.settings.get('demonlord', 'optionalRuleBaneValue'),
+      optionalRuleTraitMode2025: game.settings.get('demonlord', 'optionalRuleTraitMode2025'),
       buttons: [
         {
           type: 'submit',
@@ -201,8 +203,10 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
           'optionalRuleDieRollsMode',
           'optionalRuleInitiativeMode',
           'optionalRuleRollInitEachRound',
+          'optionalRuleBaneValue',
           'optionalRuleExceedsByFive',
           'horrifyingBane',
+          'optionalRuleTraitMode2025',
           'optionalRuleLevelDependentBane',
           'optionalRuleRevealHorrifyingBane',
           'optionalRuleSurroundingMode',
@@ -227,8 +231,10 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
       'optionalRuleDieRollsMode',
       'optionalRuleInitiativeMode',
       'optionalRuleRollInitEachRound',
+      'optionalRuleBaneValue',
       'optionalRuleExceedsByFive',
       'horrifyingBane',
+      'optionalRuleTraitMode2025',
       'optionalRuleLevelDependentBane',
       'optionalRuleRevealHorrifyingBane',
       'optionalRuleSurroundingMode',
@@ -391,6 +397,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       autoDeleteEffects: game.settings.get('demonlord', 'autoDeleteEffects'),
       concentrationEffect: game.settings.get('demonlord', 'concentrationEffect'),
       finesseAutoSelect: game.settings.get('demonlord', 'finesseAutoSelect'),
+      launchDialogReminder : game.settings.get('demonlord', 'launchDialogReminder'),
       buttons: [
         {
           type: 'submit',
@@ -413,7 +420,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const html = $(this.element)
     html.find('button').on('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
-        const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect', 'finesseAutoSelect']
+        const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect', 'finesseAutoSelect', 'launchDialogReminder']
         await Promise.all(
           keys.map(async key => {
             await resetToDefault(key)
@@ -425,7 +432,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   static async handler(event, form, formData) {
-    const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect','finesseAutoSelect']
+    const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect','finesseAutoSelect', 'launchDialogReminder']
     if (event.submitter.dataset.action === 'reset') {
       await Promise.all(
         keys.map(async key => {
@@ -506,6 +513,24 @@ export const registerSettings = function () {
   game.settings.register('demonlord', 'optionalRuleExceedsByFive', {
     name: game.i18n.localize('DL.SettingOptionalRuleExceedsByFive'),
     hint: game.i18n.localize('DL.SettingOptionalRuleExceedsByFiveDamageHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: false,
+  })
+
+  game.settings.register('demonlord', 'optionalRuleBaneValue', {
+    name: game.i18n.localize('DL.SettingOptionalRuleBaneValue'),
+    hint: game.i18n.localize('DL.SettingOptionalRuleBaneValueHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: false,
+  })
+
+  game.settings.register('demonlord', 'optionalRuleTraitMode2025', {
+    name: game.i18n.localize('DL.SettingOptionalTraitMode2025'),
+    hint: game.i18n.localize('DL.SettingOptionalTraitMode2025Hint'),
     default: false,
     scope: 'world',
     type: Boolean,
@@ -777,6 +802,15 @@ export const registerSettings = function () {
   game.settings.register('demonlord', 'finesseAutoSelect', {
     name: game.i18n.localize('DL.SettingFinesseAutoSelect'),
     hint: game.i18n.localize('DL.SettingFinesseAutoSelectHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: false,
+  })
+
+  game.settings.register('demonlord', 'launchDialogReminder', {
+    name: game.i18n.localize('DL.SettingLaunchDialogReminder'),
+    hint: game.i18n.localize('DL.SettingLaunchDialogReminderHint'),
     default: false,
     scope: 'world',
     type: Boolean,

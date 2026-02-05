@@ -133,6 +133,9 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     context.addCreatureInventoryTab = game.settings.get('demonlord', 'addCreatureInventoryTab')
     context.hideTurnMode = game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's' ? false : true
     context.hideFortune = game.settings.get('demonlord', 'fortuneHide') ? true : false
+    context.isTraitMode2025 = game.settings.get('demonlord', 'optionalRuleTraitMode2025')
+    context.isHorrifying = this.actor.system.frighteningHorrifyingTrait?.horrifying
+    context.isFrightening = this.actor.system.frighteningHorrifyingTrait?.frightening
 
     //context.tabs = this._getTabs(options.parts)
     context.tabs = this._prepareTabs('primary')
@@ -205,6 +208,22 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     actorData.spells = noSpells ? [] : (m.get('spell') || [])
     actorData.talents = m.get('talent') || []
     actorData.features = m.get('feature') || []
+
+    // Sorting traits in alphabetical order with an exception: Immune, Frightening and Horrifying have to be at the top.
+    actorData.features.sort(function(a, b) {
+        if ((a.name.toLowerCase().includes('immune')) != (b.name.toLowerCase().includes('immune'))) {
+            return a.name.toLowerCase().includes('immune') ? -1 : 1;
+        }
+        if ((a.name.toLowerCase().includes('frightening')) != (b.name.toLowerCase().includes('frightening'))) {
+            return a.name.toLowerCase().includes('frightening') ? -1 : 1;
+        }
+        if ((a.name.toLowerCase().includes('horrifying')) != (b.name.toLowerCase().includes('horrifying'))) {
+            return a.name.toLowerCase().includes('horrifying') ? -1 : 1;
+        }
+        return a.name > b.name ? 1 :
+              a.name < b.name ? -1 : 0;
+    })
+
     // Sort spells in the spellbooks by their rank
     actorData.spells.sort((a, b) => a.system.rank - b.system.rank)
     // Prepare the book (spells divided by tradition)

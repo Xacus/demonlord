@@ -120,6 +120,21 @@ aside {
       cursor: pointer;
     }
 
+    &.frighteningHorrifyingEditor {
+      top: 190px;
+
+      .frighteningHorrifyingEditor {
+        height: 30px;
+      }
+
+      img.frighteningHorrifyingEditor-icon {
+        position: relative;
+        pointer-events: none;
+        top: -30px;
+        content: url('../assets/ui/other-svg/dread.svg');
+      }
+    }
+
     &.rest {
       left: 25px;
 

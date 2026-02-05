@@ -1,6 +1,6 @@
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
-export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
     tag: 'form',
     form: {
@@ -12,8 +12,8 @@ export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(Ap
     actions: {
     },
     position: {
-      width: 400,
-      height: 350,
+      width: 550,
+      height: 290,
     }
   }
 
@@ -37,11 +37,11 @@ export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(Ap
   async _prepareContext(options) { // eslint-disable-line no-unused-vars
     let context = await super._prepareContext(options)
 
-    context.frightening = this.actor.system.frightening
-    context.horrifying = this.actor.system.horrifying
-    context.rollBanes = this.actor.system.frighteningHorrifyingRollBanes || 1
-    context.affectedRolls = this.actor.system.frighteningHorrifyingAffectedRolls || ''
-    context.insanityFormula = this.actor.system.horrifyingInsanityFormula || '1'
+    context.frightening = this.actor.system.frighteningHorrifyingTrait.frightening
+    context.horrifying = this.actor.system.frighteningHorrifyingTrait.horrifying
+    context.willChallengeRollBanes = this.actor.system.frighteningHorrifyingTrait.willChallengeRollBanes || 0
+    context.affectedRolls = this.actor.system.frighteningHorrifyingTrait.frighteningHorrifyingAffectedRolls || ''
+    context.insanityFormula = this.actor.system.frighteningHorrifyingTrait.horrifyingInsanityFormula || '1'
 
     return context
   }
@@ -62,7 +62,7 @@ export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(Ap
           frightening: formData.object.frightening,
           horrifying: formData.object.horrifying,
           frighteningHorrifyingRollBanes: formData.object.rollBanes,
-          frighteningHorrifyingAffectedRolls: formData.object.affectedRolls,
+          willChallengeRollBanes: formData.object.willChallengeRollBanes,
           horrifyingInsanityFormula: formData.object.insanityFormula
         }
       }

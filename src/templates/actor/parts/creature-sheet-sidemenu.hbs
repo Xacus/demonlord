@@ -9,19 +9,27 @@
     <div class="injured-overlay"></div>
     {{/if}}
 
-    <div class="sidebar-button frightening">
-      <label>
-        <input type="checkbox" name="system.frightening" id="system.frightening" {{checked (and system.frightening (gte ownership 2))}} />
-      </label>
-      <div class="sidebar-button-text">{{localize "DL.CreatureFrightening"}}</div>
-    </div>
+    {{#if isTraitMode2025}}
+      <div class="sidebar-button frighteningHorrifyingEditor" data-action="openFrighteningHorrifyingEditor" title="{{localize 'DL.FrighteningHorrifyingEditor'}}">
+        <input class="frighteningHorrifyingEditor-char button" type="button" name="rest-char" id="rest-char">
+        <img class="frighteningHorrifyingEditor-icon">
+        <label for="frighteningHorrifyingEditor-char"></label>
+      </div>
+    {{else}}
+      <div class="sidebar-button frightening">
+        <label>
+          <input type="checkbox" name="system.frightening" id="system.frightening" {{checked (and system.frightening (gte ownership 2))}} />
+        </label>
+        <div class="sidebar-button-text">{{localize "DL.CreatureFrightening"}}</div>
+      </div>
 
-    <div class="sidebar-button horrifying">
-      <label>
-        <input type="checkbox" name="system.horrifying" id="system.horrifying" {{checked (and system.horrifying (gte ownership 2))}}>
-      </label>
-      <div class="sidebar-button-text">{{localize "DL.CreatureHorrifying"}}</div>
-    </div>
+      <div class="sidebar-button horrifying">
+        <label>
+          <input type="checkbox" name="system.horrifying" id="system.horrifying" {{checked (and system.horrifying (gte ownership 2))}}>
+        </label>
+        <div class="sidebar-button-text">{{localize "DL.CreatureHorrifying"}}</div>
+      </div>
+    {{/if}}
 
     <div class="char-stats">
 
