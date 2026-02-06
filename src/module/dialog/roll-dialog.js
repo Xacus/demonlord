@@ -63,8 +63,13 @@ if (game.settings.get('demonlord', 'launchDialogReminder')) {
 
     const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((actor.system?.level >= 3 && actor.system?.level <= 6 && targets[0]?.actor.system?.difficulty <= 25) || (actor.system?.level >= 7 && targets[0]?.actor.system?.difficulty <= 50))) ? false : true
     if (!actor.isFrightenedFrom(targets[0]?.actor) && !actor.isImmuneToTarget(targets[0]?.actor) && !actor.isImmuneToAffliction('frightened') && ignoreLevelDependentBane) {
-      if (game.settings.get('demonlord', 'optionalRuleTraitMode2025') && targets[0]?.actor.isHorrifying) content += prepareReminderHTML(game.i18n.localize('DL.YouHaventMadeWillChallengeRollAgainstTarget'))
-      else if (!game.settings.get('demonlord', 'optionalRuleTraitMode2025') && (targets[0]?.actor.isHorrifying || targets[0]?.actor.isFrightening)) content += prepareReminderHTML(game.i18n.localize('DL.YouHaventMadeWillChallengeRollAgainstTarget'))
+      if (game.settings.get('demonlord', 'optionalRuleTraitMode2025') && targets[0]?.actor.system.horrifying)
+        content += prepareReminderHTML(game.i18n.localize('DL.YouHaventMadeWillChallengeRollAgainstTarget'))
+      else if (
+        (!game.settings.get('demonlord', 'optionalRuleTraitMode2025') && targets[0]?.actor.system.horrifying) ||
+        (!game.settings.get('demonlord', 'optionalRuleTraitMode2025') && targets[0]?.actor.system.frightening)
+      )
+        content += prepareReminderHTML(game.i18n.localize('DL.YouHaventMadeWillChallengeRollAgainstTarget'))
     }
   }
 }
