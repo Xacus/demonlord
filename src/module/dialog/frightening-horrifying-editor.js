@@ -37,11 +37,11 @@ export default class DLFrighteningHorrifyingEditor extends HandlebarsApplication
   async _prepareContext(options) { // eslint-disable-line no-unused-vars
     let context = await super._prepareContext(options)
 
-    context.frightening = this.actor.system.frighteningHorrifyingTrait.frightening
-    context.horrifying = this.actor.system.frighteningHorrifyingTrait.horrifying
-    context.willChallengeRollBanes = this.actor.system.frighteningHorrifyingTrait.willChallengeRollBanes || 0
-    context.affectedRolls = this.actor.system.frighteningHorrifyingTrait.frighteningHorrifyingAffectedRolls || ''
-    context.insanityFormula = this.actor.system.frighteningHorrifyingTrait.horrifyingInsanityFormula || '1'
+    context.frightening = this.actor.system.frightening
+    context.horrifying = this.actor.system.horrifying
+    context.willChallengeRollBanes = this.actor.system.willChallengeRollBanes || 0
+    context.affectedRolls = this.actor.system.frighteningHorrifyingAffectedRolls || ''
+    context.insanityFormula = this.actor.system.horrifyingInsanityFormula || '1'
 
     return context
   }
@@ -56,17 +56,19 @@ export default class DLFrighteningHorrifyingEditor extends HandlebarsApplication
    */
   static async onSubmit(_event, _form, formData) {
     // Update with data above (like in _prepareContext)
-    await this.actor.update({
-      system: {
-        frighteningHorrifyingTrait: {
+    if (!Roll.validate(formData.object.insanityFormula)) {
+      ui.notifications.warn(`${game.i18n.format("DL.DialogInvalidRollFormula", {rollFormula : formData.object.insanityFormula})}`)
+    } else {
+      await this.actor.update({
+        system: {
           frightening: formData.object.frightening,
           horrifying: formData.object.horrifying,
           frighteningHorrifyingRollBanes: formData.object.rollBanes,
           willChallengeRollBanes: formData.object.willChallengeRollBanes,
           horrifyingInsanityFormula: formData.object.insanityFormula
         }
-      }
-    })
+      })
+    }
 
     this.actor.sheet.render(true)
   }

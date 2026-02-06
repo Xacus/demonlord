@@ -91,7 +91,7 @@
       <div class="insanitymax">{{ifThen (gte ownership 2) system.characteristics.insanity.max '?'}}</div>
       <div class="insanityvalue">{{ifThen (gte ownership 2) system.characteristics.insanity.value '?'}}</div>
       {{#if (gte ownership 2)}}
-        <a class="corruption-roll" data-action="rollFrightened" title="{{localize 'DL.LookOutCreatures'}}"><i class="fa-solid fa-ghost"></i></a>
+        <a class="corruption-roll" data-action="rollFrightened" data-tippy-html="{{localize 'DL.LookOutCreatures'}}"><i class="fa-solid fa-ghost"></i></a>
       {{/if}}
       {{else}}
       <div class="insanitymiddle">–</div>
@@ -107,7 +107,7 @@
       <div class="corruptionmax">{{ifThen (gte ownership 2) 20 '?'}}</div>
       <div class="corruptionvalue">{{ifThen (gte ownership 2) system.characteristics.corruption.value '?'}}</div>
         {{#if (gte ownership 2)}}
-        <a class="corruption-roll" data-action="rollCorruption" title="{{localize 'DL.CharRolCorruption'}}"><i
+        <a class="corruption-roll" data-action="rollCorruption" data-tippy-html="{{localize 'DL.CharRolCorruption'}}"><i
           class="fas fa-dice-d20"></i></a>
         {{/if}}
       {{else}}

@@ -35,10 +35,10 @@ function prepareReminderHTML(text)
 }
 
 if (game.settings.get('demonlord', 'launchDialogReminder')) {
-  if (targets.length === 1 && (targets[0]?.actor.isHorrifying() || targets[0]?.actor.isFrightening())) {
+  if (targets.length === 1 && (targets[0]?.actor.system.horrifying || targets[0]?.actor.system.frightening)) {
     if (actor.isFrightenedFrom(targets[0]?.actor)) content += `<fieldset><div style="color: orange; text-align: center;"><b>${game.i18n.localize('DL.YouAreAttackingSoureceOfFrightenedAffliction')}</b></div></fieldset>`
     else if (actor.isImmuneToTarget(targets[0]?.actor)) {
-      if (!game.settings.get('demonlord', 'optionalRuleTraitMode2025')) content += prepareReminderHTML(game.i18n.localize('DL.YouCannotBeEffectedUntilYouCompleteARest'))
+      if (!game.settings.get('demonlord', 'optionalRuleTraitMode2025')) content += prepareReminderHTML(game.i18n.localize('DL.YouCannotBeAffectedUntilYouCompleteARest'))
       else {
         const immuneArray = actor.appliedEffects.filter(x => x.name === game.i18n.format('DL.ImmuneToTarget', {
           creature: targets[0].actor.name

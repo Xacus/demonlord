@@ -159,11 +159,11 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
     creatureType = game.i18n.localize('DL.CreatureHorrifying')
   else
     creatureType =
-      defender?.isFrightening() && defender?.isHorrifying()
+      defender?.system.frightening && defender?.system.horrifying
         ? game.i18n.localize('DL.CreatureHorrifying')
-        : defender?.isFrightening()
+        : defender?.system.frightening
         ? game.i18n.localize('DL.CreatureFrightening')
-        : defender?.isHorrifying()
+        : defender?.system.horrifying
         ? game.i18n.localize('DL.CreatureHorrifying')
         : ''
 

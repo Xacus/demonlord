@@ -9,7 +9,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
       submitOnChange: true
     },
     actions: {
-      openFrighteningHorrifyingEditor: this.onopenFrighteningHorrifyingEditor
+      openFrighteningHorrifyingEditor: this.onOpenFrighteningHorrifyingEditor
     }
   }
 
@@ -142,7 +142,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     else if (ev.button == 2) await relic.delete({ parent: this.actor })
   }
 
-    static async onopenFrighteningHorrifyingEditor(event) {
+    static async onOpenFrighteningHorrifyingEditor(event) {
       event.preventDefault()
       event.stopPropagation()
       new DLFrighteningHorrifyingEditor({ actor: this.actor, }, {

@@ -134,8 +134,6 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     context.hideTurnMode = game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's' ? false : true
     context.hideFortune = game.settings.get('demonlord', 'fortuneHide') ? true : false
     context.isTraitMode2025 = game.settings.get('demonlord', 'optionalRuleTraitMode2025')
-    context.isHorrifying = this.actor.system.frighteningHorrifyingTrait?.horrifying
-    context.isFrightening = this.actor.system.frighteningHorrifyingTrait?.frightening
 
     //context.tabs = this._getTabs(options.parts)
     context.tabs = this._prepareTabs('primary')

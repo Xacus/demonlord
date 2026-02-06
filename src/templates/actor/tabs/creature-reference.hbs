@@ -8,13 +8,8 @@
   <div class="dl-creature-sub-title">
     <b>
       {{localize "DL.CharSize"}} {{system.characteristics.size}}
-      {{#if isTraitMode2025}}
-        {{#if isHorrifying}}{{toLowerCase (localize "DL.CreatureHorrifying")}}{{/if}}
-        {{#if isFrightening}}{{toLowerCase (localize "DL.CreatureFrightening")}}{{/if}}
-      {{else}}
-        {{#if system.horrifying}}{{toLowerCase (localize "DL.CreatureHorrifying")}}{{/if}}
-        {{#if system.frightening}}{{toLowerCase (localize "DL.CreatureFrightening")}}{{/if}}
-      {{/if}}
+      {{#if system.horrifying}}{{toLowerCase (localize "DL.CreatureHorrifying")}}{{/if}}
+      {{#if system.frightening}}{{toLowerCase (localize "DL.CreatureFrightening")}}{{/if}}
       {{system.descriptor}}
     </b>
   </div>

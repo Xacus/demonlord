@@ -424,10 +424,10 @@ export class DemonlordActor extends Actor {
 
   parseRollFormula(target) {
   	let result = null
-  	let rollFormula = target.system.frighteningHorrifyingTrait?.horrifyingInsanityFormula
+  	let rollFormula = target.system.horrifyingInsanityFormula
 
   	if (Roll.validate(rollFormula)) result = rollFormula
-    if (!result && rollFormula)  console.log('Invalid Insanity roll formula:',rollFormula)
+    if (!result && rollFormula)  console.warn(game.i18n.format("DL.DialogInvalidRollFormula", {rollFormula : rollFormula}))
 
   	return result
   }
@@ -456,46 +456,18 @@ export class DemonlordActor extends Actor {
   	return result
   }
 
-  isHorrifying() {
-  	const actor = this
-  	if (game.settings.get('demonlord', 'optionalRuleTraitMode2025')) return actor.system.frighteningHorrifyingTrait?.horrifying
-  	else return actor.system.horrifying
-  }
-
-  isFrightening() {
-  	const actor = this
-  	if (game.settings.get('demonlord', 'optionalRuleTraitMode2025'))
-  		return actor.system.frighteningHorrifyingTrait?.frightening
-  	else return actor.system.frightening 
-  }
-
-  // getTargetAttackBane(target) {
-  //   const attacker = this
-  //   if (!target) return 0
-  //   if (!game.settings.get('demonlord', 'horrifyingBane') || attacker.isImmuneToAffliction('frightened')) return 0
-  //   const optionalRuleBaneValue = game.settings.get('demonlord', 'optionalRuleBaneValue') ? 2 : 3
-  //   const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >= 3 && attacker.system?.level <= 6 && target?.system?.difficulty <= 25) || (attacker.system?.level >= 7 && target?.system?.difficulty <= 50))) ? false : true
-  //   let baneValue = 0
-  //   if (game.settings.get('demonlord', 'optionalRuleTraitMode2025')) baneValue = (ignoreLevelDependentBane && !attacker.isHorrifying() && !attacker.isFrightening() && (target?.isFrightening() || target?.isHorrifying()) && !attacker.isImmuneToTarget(target) && 1 || 0)
-  //   else baneValue = (ignoreLevelDependentBane && !attacker.isHorrifying() && !attacker.isFrightening() && target?.isHorrifying() && !attacker.isImmuneToTarget(target) && 1 || 0)
-
-  //   // Adjust bane if source of affliction can be seen, actor already has 1 (frightened), we need to add the difference
-  //   if (attacker.isFrightenedFrom(target)) baneValue += optionalRuleBaneValue
-  //   return baneValue
-  // }
-
 getTargetAttackBane(target) {
   const attacker = this
   if (!target) return 0
   if (!game.settings.get('demonlord', 'horrifyingBane') || attacker.isImmuneToAffliction('frightened')) return 0
-  const optionalRuleBaneValue = game.settings.get('demonlord', 'optionalRuleBaneValue') ? 2 : 3
+  const optionalRuleBaneValue = game.settings.get('demonlord', 'optionalRuleBaneValue') ? 1 : 2
   const ignoreLevelDependentBane =
     game.settings.get('demonlord', 'optionalRuleLevelDependentBane') &&
     ((attacker.system?.level >= 3 && attacker.system?.level <= 6 && target?.system?.difficulty <= 25) ||
       (attacker.system?.level >= 7 && target?.system?.difficulty <= 50)) ? false : true
   let baneValue = game.settings.get('demonlord', 'optionalRuleTraitMode2025')
-    ? (ignoreLevelDependentBane && !attacker.isHorrifying() && !attacker.isFrightening() && (target?.isFrightening() || target?.isHorrifying()) && !attacker.isImmuneToTarget(target) && 1) || 0
-    : (ignoreLevelDependentBane && !attacker.isHorrifying() && !attacker.isFrightening() && target?.isHorrifying() && !attacker.isImmuneToTarget(target) && 1) || 0
+    ? (ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && (target?.system.frightening || target?.system.horrifying) && !attacker.isImmuneToTarget(target) && 1) || 0
+    : (ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && target?.system.horrifying && !attacker.isImmuneToTarget(target) && 1) || 0
 
   // Adjust bane if source of affliction can be seen, actor already has 1 (frightened), we need to add the difference
   if (attacker.isFrightenedFrom(target)) baneValue += optionalRuleBaneValue
@@ -1118,13 +1090,13 @@ getTargetAttackBane(target) {
 
       // Nested function
       async function setBanesForWillChalleneRoll(target) {
-        if (target.system.frighteningHorrifyingTrait.willChallengeRollBanes > 0) {
+        if (target.system.willChallengeRollBanes > 0) {
           let willChallengeRollBanesEffect = new ActiveEffect({
             name: game.i18n.localize(`${game.i18n.localize('DL.WillChallengeRollBane')} [${game.i18n.localize('DL.ActionTarget')}]`),
             icon: 'icons/svg/terror.svg',
             changes: [{
               key: 'system.bonuses.challenge.boons.will',
-              value: (target.system.frighteningHorrifyingTrait.willChallengeRollBanes)*-1,
+              value: (target.system.willChallengeRollBanes)*-1,
               mode: CONST.ACTIVE_EFFECT_MODES.ADD,
             }, ],
             flags: {
@@ -1171,19 +1143,10 @@ getTargetAttackBane(target) {
       if (actor.isImmuneToAffliction('frightened'))
           return ui.notifications.warn(game.i18n.localize('DL.DialogWarningActorImmuneFrightened'))
 
-      let oldTraitTargets = 0
-      let newTraitTargets = 0
-      for (const target of targets) {
-        if (game.settings.get('demonlord', 'optionalRuleTraitMode2025')) ++newTraitTargets
-        else ++oldTraitTargets
-      }
-
-     if (oldTraitTargets > 0 && newTraitTargets > 0) return ui.notifications.warn(game.i18n.localize('DL.DialogWarningDoNotSelectTargetsDifferentRules'))
-
       if (!game.settings.get('demonlord', 'optionalRuleTraitMode2025')) {
         let isFailed = false
         if (targets.length === 1) {
-          if ((!targets[0].actor.isHorrifying() && !targets[0].actor.isFrightening()) || ignoreTarget(targets[0].actor))
+          if ((!targets[0].actor.system.horrifying && !targets[0].actor.system.frightening) || ignoreTarget(targets[0].actor))
             return ui.notifications.warn(
               game.i18n.format('DL.DialogWarningTargetNeitherFnorH', {
                 target: targets[0].actor.name
@@ -1197,9 +1160,9 @@ getTargetAttackBane(target) {
             )
 
           const traitType =
-            targets[0].actor.isFrightening() && targets[0].actor.isHorrifying() ?
+            targets[0].actor.system.frightening && targets[0].actor.system.horrifying ?
             game.i18n.localize('DL.CreatureHorrifying').toLowerCase() :
-            targets[0].actor.isFrightening() ?
+            targets[0].actor.system.frightening ?
             game.i18n.localize('DL.CreatureFrightening').toLowerCase() :
             game.i18n.localize('DL.CreatureHorrifying').toLowerCase()
 
@@ -1214,7 +1177,7 @@ getTargetAttackBane(target) {
 
         const validTargetArray = targets.filter(
           target =>
-          (target.actor.isHorrifying() || target.actor.isFrightening()) &&
+          (target.actor.system.horrifying || target.actor.system.frightening) &&
           !actor.isImmuneToTarget(target.actor) &&
           !ignoreTarget(target.actor),
         )
@@ -1227,9 +1190,9 @@ getTargetAttackBane(target) {
 
         for (const target of validTargetArray) {
           content += `&bull; ${target.actor.name}<br>`
-          if (target.actor.isHorrifying() && !actor.isImmuneToTarget(target.actor) && !ignoreTarget(target.actor))
+          if (target.actor.system.horrifying && !actor.isImmuneToTarget(target.actor) && !ignoreTarget(target.actor))
             isHorrifying = true
-          if (target.actor.isFrightening() && !actor.isImmuneToTarget(target.actor) && !ignoreTarget(target.actor))
+          if (target.actor.system.frightening && !actor.isImmuneToTarget(target.actor) && !ignoreTarget(target.actor))
             isFrightening = true
         }
 
@@ -1419,7 +1382,7 @@ getTargetAttackBane(target) {
       else {
         let roll
         if (targets.length === 1) {
-          if (!targets[0].actor.isHorrifying() || ignoreTarget(targets[0].actor))
+          if (!targets[0].actor.system.horrifying || ignoreTarget(targets[0].actor))
             return ui.notifications.warn(
               game.i18n.format('DL.DialogWarningTargetNotHorrifying', {
                 target: targets[0].actor.name
@@ -1444,7 +1407,7 @@ getTargetAttackBane(target) {
         const validTargetArray = targets.filter(
           target =>
           !(
-            !target.actor.isHorrifying() ||
+            !target.actor.system.horrifying ||
             ignoreTarget(target.actor) ||
             actor.isFrightenedFrom(target.actor) ||
             actor.isImmuneToTarget(target.actor)
