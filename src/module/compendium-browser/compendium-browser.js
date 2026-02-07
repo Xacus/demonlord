@@ -60,7 +60,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     },
     position: {
       width: 1300,
-      height: 750,
+      height: 800,
     },
     scrollY: [],
     //editable: true,
@@ -809,7 +809,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
     if (justTypeSearch) return results
 
     // ...searched text
-    if (search.text) {
+    if (search.text || filters[search.type].description) {
       if (search.caseSensitive) {
         results = results.filter(e => e.name.indexOf(search.text) >= 0)
         results = results.filter(e => e.system.description.indexOf(filters[search.type].description) >= 0)
@@ -835,7 +835,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         results = results.filter(e => {
           if (filters?.creature?.difficulty.length && !filters.creature.difficulty.includes(e.system.difficulty.toString())) return false
           if (filters?.creature?.descriptor.length && !e.system.descriptor.includes(filters.creature.descriptor)) return false
-          if (filters?.creature?.perceptionSenses.length && !filters.creature.perceptionSensesincludes(e.system.perceptionsenses)) return false
+          if (filters?.creature?.perceptionSenses.length && !filters.creature.perceptionSenses.includes(e.system.perceptionsenses)) return false
           if (!!filters?.creature?.usesMagic && (e.system.isMagic > 0 ? filters.creature.usesMagic !== 'yes' : filters.creature.usesMagic !== 'no')) return false
 
           if (filters?.creature.frighteningType === 'none' && (e.system.frightening || e.system.horrifying)) return false

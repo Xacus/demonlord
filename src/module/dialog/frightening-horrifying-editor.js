@@ -1,6 +1,6 @@
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
-export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
     tag: 'form',
     form: {
@@ -12,8 +12,8 @@ export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(Ap
     actions: {
     },
     position: {
-      width: 400,
-      height: 350,
+      width: 550,
+      height: 290,
     }
   }
 
@@ -39,7 +39,7 @@ export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(Ap
 
     context.frightening = this.actor.system.frightening
     context.horrifying = this.actor.system.horrifying
-    context.rollBanes = this.actor.system.frighteningHorrifyingRollBanes || 1
+    context.willChallengeRollBanes = this.actor.system.willChallengeRollBanes || 0
     context.affectedRolls = this.actor.system.frighteningHorrifyingAffectedRolls || ''
     context.insanityFormula = this.actor.system.horrifyingInsanityFormula || '1'
 
@@ -56,17 +56,19 @@ export class DLFrighteningHorrifyingEditor extends HandlebarsApplicationMixin(Ap
    */
   static async onSubmit(_event, _form, formData) {
     // Update with data above (like in _prepareContext)
-    await this.actor.update({
-      system: {
-        frighteningHorrifyingTrait: {
+    if (!Roll.validate(formData.object.insanityFormula)) {
+      ui.notifications.warn(`${game.i18n.format("DL.DialogInvalidRollFormula", {rollFormula : formData.object.insanityFormula})}`)
+    } else {
+      await this.actor.update({
+        system: {
           frightening: formData.object.frightening,
           horrifying: formData.object.horrifying,
           frighteningHorrifyingRollBanes: formData.object.rollBanes,
-          frighteningHorrifyingAffectedRolls: formData.object.affectedRolls,
+          willChallengeRollBanes: formData.object.willChallengeRollBanes,
           horrifyingInsanityFormula: formData.object.insanityFormula
         }
-      }
-    })
+      })
+    }
 
     this.actor.sheet.render(true)
   }

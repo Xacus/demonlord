@@ -94,9 +94,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   let d = _remapEffects(defenderEffects)
   let defenderBoonsArray = [`system.bonuses.defense.boons.${defenseAttribute}`,"system.bonuses.defense.boons.all"]
 
-  const horrifyingBane = game.settings.get('demonlord', 'horrifyingBane')
-  const ignoreLevelDependentBane = (game.settings.get('demonlord', 'optionalRuleLevelDependentBane') && ((attacker.system?.level >=3 && attacker.system?.level <=6 && defender?.system?.difficulty <= 25) || (attacker.system?.level >=7 && defender?.system?.difficulty <= 50))) ? false : true
-  let applyHorrifyingBane = (horrifyingBane && ignoreLevelDependentBane && !attacker.system.horrifying && !attacker.system.frightening && defender?.system.horrifying && 1 || 0)
+  const applyHorrifyingBane = attacker.getTargetAttackBane(defender)
   let otherBoons = ''
   let modifiers = ''
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
@@ -155,22 +153,38 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   let attributeModMsg = attributeMod ? _toMsg(`${game.i18n.localize(attributeText)}`, plusify(attributeMod)) : ''
 
   let revealHorrifyingBane = game.settings.get('demonlord', 'optionalRuleRevealHorrifyingBane')
-  let horrifyingTextPlayer = revealHorrifyingBane ? '<div class="gmremove">' + _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>' :  
-      '<div class="gmremove">' + _toMsg(`${game.i18n.localize('DL.OtherUnknown')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>'
+  let creatureType
 
-  let horrifyingTextGM =  '<div class="gmonly">' + _toMsg(`${game.i18n.localize('DL.CreatureHorrifying')} [${game.i18n.localize('DL.ActionTarget')}]`, -1) + '</div>'
+  if (!game.settings.get('demonlord', 'optionalRuleTraitMode2025'))
+    creatureType = game.i18n.localize('DL.CreatureHorrifying')
+  else
+    creatureType =
+      defender?.system.frightening && defender?.system.horrifying
+        ? game.i18n.localize('DL.CreatureHorrifying')
+        : defender?.system.frightening
+        ? game.i18n.localize('DL.CreatureFrightening')
+        : defender?.system.horrifying
+        ? game.i18n.localize('DL.CreatureHorrifying')
+        : ''
+
+  const horrifyingText = applyHorrifyingBane > 1 ? game.i18n.localize('DL.CanSeeSoureOfAffliction') : `${game.i18n.localize(creatureType)} [${game.i18n.localize('DL.ActionTarget')}]`
+  let horrifyingHTMLPlayer = revealHorrifyingBane 
+        ? '<div class="gmremove">' + _toMsg(horrifyingText, applyHorrifyingBane*-1) + '</div>'
+        : '<div class="gmremove">' + _toMsg(`${game.i18n.localize('DL.OtherUnknown')} [${game.i18n.localize('DL.ActionTarget')}]`, applyHorrifyingBane*-1) + '</div>'
+
+  let horrifyingHTMLGM = '<div class="gmonly">' + _toMsg(horrifyingText, applyHorrifyingBane*-1) + '</div>'
 
   let gmOnlyResult = changeListToMsgDefender(d, defenderBoonsArray, '', false)
   let playerOnlyResult = changeListToMsgDefender(d, defenderBoonsArray, '', true)
   let gmOnlyMsg = gmOnlyResult ? '<div class="gmonly">' + gmOnlyResult + '</div>' : ''
   let playerOnlyMsg = playerOnlyResult ? '<div class="gmremove">' +  playerOnlyResult + '</div>' : ''
   let boonsMsg =
+    (itemBoons ? _toMsg(item.name, plusify(itemBoons)) : '') +
     (itemAttributePenalty ? _toMsg(itemAttributeRequirement, plusify(itemAttributePenalty)) : '') +
     changeListToMsg(m, [`system.bonuses.attack.boons.${attackAttribute}`, "system.bonuses.attack.boons.all"], '') +
-    (itemBoons ? _toMsg(item.name, plusify(itemBoons)) : '') +
     otherBoons +
-    (applyHorrifyingBane ? horrifyingTextPlayer : '') +
-    (applyHorrifyingBane ? horrifyingTextGM : '') +
+    (applyHorrifyingBane ? horrifyingHTMLPlayer : '') +
+    (applyHorrifyingBane ? horrifyingHTMLGM : '') +
     (playerOnlyMsg ? playerOnlyMsg : '') +
     (gmOnlyMsg ? gmOnlyMsg : '')
   boonsMsg = boonsMsg+inputBoonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentAttackBoonsBanes')}<br>` + boonsMsg+inputBoonsMsg : ''

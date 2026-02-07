@@ -460,7 +460,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
 
 /* -------------------------------------------- */
 
-export async function postCustomTextToChat(actor, roll, mode, attribute = {}) {
+export async function postCustomTextToChat(actor, roll, options, attribute = {}) {
   const templateData = {
     actor: actor,
     data: {},
@@ -469,7 +469,7 @@ export async function postCustomTextToChat(actor, roll, mode, attribute = {}) {
   const data = templateData.data
   const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
 
-  switch (mode) {
+  switch (options.mode) {
     case 'corruptionRoll':
       data['header'] = game.i18n.localize('DL.CharRolCorruption')
       data['tagetValueText'] = game.i18n.localize('DL.CharCorruption').toUpperCase()
@@ -510,7 +510,7 @@ export async function postCustomTextToChat(actor, roll, mode, attribute = {}) {
         data['targetValue'] = targetNumber
         data['failureText'] =
           roll.total >= targetNumber
-            ? ''
+            ? game.i18n.localize('DL.YouCannotBeEffectedUntilYouCompleteARest')
             : game.i18n.format('DL.BecomeFrightenedForRounds', { round: `${durationRollFormulaText}` })
         data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0)
         data['resultText'] =
@@ -521,30 +521,29 @@ export async function postCustomTextToChat(actor, roll, mode, attribute = {}) {
       break
     case 'gained1Insanity':
       {
-        const isMad = actor.system.characteristics.insanity.value+1 === actor.system.characteristics.insanity.max ? true : false
+        const isMad =
+          actor.system.characteristics.insanity.value + 1 === actor.system.characteristics.insanity.max ? true : false
         data['header'] = game.i18n.localize('DL.ChallengeRollText')
         data['tagetValueText'] = game.i18n.localize('DL.TalentRollTarget')
         data['source'] = game.i18n.localize(CONFIG.DL.attributes[attribute]?.toUpperCase())
         data['targetValue'] = targetNumber
-        data['failureText'] = roll.total >= targetNumber ? '' : isMad ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: 1 }) : game.i18n.format('DL.GainedInsanity', { insanity: 1 })
-        data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0)
-        data['resultText'] =
-          roll.total >= targetNumber
-            ? game.i18n.localize('DL.DiceResultSuccess')
-            : game.i18n.localize('DL.DiceResultFailure')
-      }
-      break
-    case 'gained1d3Insanity':
-      {
-        let insanityRollFormulaText = await foundry.applications.ux.TextEditor.implementation.enrichHTML(`[[/r 1d3]]`)
-        data['header'] = game.i18n.localize('DL.ChallengeRollText')
-        data['tagetValueText'] = game.i18n.localize('DL.TalentRollTarget')
-        data['source'] = game.i18n.localize(CONFIG.DL.attributes[attribute]?.toUpperCase())
-        data['targetValue'] = targetNumber
-        data['failureText'] =
-          roll.total >= targetNumber
-            ? ''
-            : game.i18n.format('DL.GainedInsanity', { insanity: `${insanityRollFormulaText}` })
+        if (options.legacyMode) {
+          data['failureText'] =
+            roll.total >= targetNumber
+              ? game.i18n.localize('DL.YouCannotBeEffectedUntilYouCompleteARest')
+              : isMad
+              ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: 1 })
+              : game.i18n.format('DL.GainedInsanity', { insanity: 1 })
+        }
+        else
+        {
+          data['failureText'] =
+            roll.total >= targetNumber
+              ? game.i18n.format('DL.ImmuneToHorrifyingOneMinute', { creature: options.target.actor.name })
+              : isMad
+              ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: 1 })
+              : game.i18n.format('DL.GainedInsanity', { insanity: 1 })
+        }
         data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0)
         data['resultText'] =
           roll.total >= targetNumber
@@ -559,14 +558,13 @@ export async function postCustomTextToChat(actor, roll, mode, attribute = {}) {
       break
     case 'gainedInsanity':
       {
-        const isMad = roll.total+actor.system.characteristics.insanity.value >= actor.system.characteristics.insanity.max ? true : false
-        data['text'] = isMad ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: roll.total }) : game.i18n.format('DL.GainedInsanity', { insanity: roll.total })
-      }
-      break
-    case 'gained1InsanityWORoll':
-      {
-        const isMad = actor.system.characteristics.insanity.value+1 >= actor.system.characteristics.insanity.max ? true : false
-        data['text'] = isMad ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: 1 }) : game.i18n.format('DL.GainedInsanity', { insanity: 1 })
+        const isMad =
+          roll.total + actor.system.characteristics.insanity.value >= actor.system.characteristics.insanity.max
+            ? true
+            : false
+        data['text'] = isMad
+          ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: roll.total })
+          : game.i18n.format('DL.GainedInsanity', { insanity: roll.total })
       }
       break
     case 'fortuneAwarded':
@@ -574,6 +572,41 @@ export async function postCustomTextToChat(actor, roll, mode, attribute = {}) {
       break
     case 'fortuneExpended':
       data['text'] = game.i18n.localize('DL.DialogFortuneExpended')
+      break
+    case 'horrifying2025':
+      {
+        data['header'] = game.i18n.localize('DL.ChallengeRollText')
+        data['tagetValueText'] = game.i18n.localize('DL.TalentRollTarget')
+        data['source'] = game.i18n.localize(CONFIG.DL.attributes[attribute]?.toUpperCase())
+        data['targetValue'] = targetNumber
+
+        if (!options.rollFormula) {
+          data['failureText'] =
+            roll.total >= targetNumber
+              ? game.i18n.format('DL.ImmuneToHorrifyingOneMinute', { creature: options.target.actor.name })
+              : game.i18n.format('DL.FrightenedYou', { creature: options.target.actor.name })
+        } else {
+          let insanityRollFormulaText = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            `[[/r ${options.rollFormula}]]`,
+          )
+          if (options.legacyMode) {
+            data['failureText'] =
+              roll.total >= targetNumber
+                ? game.i18n.format('DL.YouCannotBeEffectedUntilYouCompleteARest')
+                : game.i18n.format('DL.GainedInsanity', { insanity: `${insanityRollFormulaText}` })
+          } else {
+            data['failureText'] =
+              roll.total >= targetNumber
+                ? game.i18n.format('DL.ImmuneToHorrifyingOneMinute', { creature: options.target.actor.name })
+                : game.i18n.format('DL.GainedInsanity', { insanity: `${insanityRollFormulaText}` })
+          }
+        }
+        data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0)
+        data['resultText'] =
+          roll.total >= targetNumber
+            ? game.i18n.localize('DL.DiceResultSuccess')
+            : game.i18n.localize('DL.DiceResultFailure')
+      }
       break
   }
 
@@ -589,7 +622,7 @@ export async function postCustomTextToChat(actor, roll, mode, attribute = {}) {
 
   chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)
   await ChatMessage.create(chatData)
-  if (roll?.total < actor.system.characteristics.corruption.value && mode === 'corruptionRoll') {
+  if (roll?.total < actor.system.characteristics.corruption.value && options.mode === 'corruptionRoll') {
     const compendiumRollTables = await game.packs.get('demonlord.sotdl-roll-tables').getDocuments()
     const tableMarkOfDarkess = compendiumRollTables.find(i => i.name === 'Mark of Darkness')
     const result = await tableMarkOfDarkess.draw()

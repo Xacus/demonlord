@@ -8,7 +8,7 @@
 
   <input name="search.text" type="text" value="{{search.text}}" placeholder="{{localize 'DL.CreatureName'}}" />
 
-  <select style="margin-bottom:1px" class="input-group-dropdown search-type" name="search.type" data-tippy-content="{{localize 'DL.SearchType'}}">
+  <select class="input-group-dropdown search-type" name="search.type" data-tippy-content="{{localize 'DL.SearchType'}}">
     {{selectOptions typeOptions selected=search.type localize=true}}
   </select>
 
@@ -20,6 +20,12 @@
     <input type="checkbox" name="search.includeLocal" {{checked search.includeLocal}}>
     <span class="sep"></span>
     <span class="text">{{localize 'DL.CompendiumBrowserSearch.IncludeLocal'}}</span>
+  </div>
+
+  <div class="input-group" data-tippy-content="{{localize 'DL.CompendiumBrowserSearch.CaseSensitive'}}">
+    <input type="checkbox" name="search.caseSensitive" {{checked search.caseSensitive}}>
+    <span class="sep"></span>
+    <span class="text">{{localize 'DL.CompendiumBrowserSearch.CaseSensitive'}}</span>
   </div>
 
   <button style="width:300px" type="submit" data-action="search"> <i class="fas fa-magnifying-glass" inert></i> {{localize 'DL.Search'}}</button>
