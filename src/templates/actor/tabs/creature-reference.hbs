@@ -67,10 +67,12 @@
       <b>{{localize "DL.CharSpeed"}}</b> {{system.characteristics.speed}}
       {{system.speedtraits}}
     </div>
-{{#each actor.features as |item id|}}
-<div data-item-id="{{item._id}}">
-  <b class="dl-rollable item-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
-      </div>
+    {{#each actor.features as |item id|}}
+      {{#unless (dlHideItem2025Trait item.name)}}
+        <div data-item-id="{{item._id}}">
+          <b class="dl-rollable item-roll">{{item.name}}</b> {{{item.system.enrichedDescription}}}
+        </div>
+      {{/unless}}
     {{/each}}
   </div>
 

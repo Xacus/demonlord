@@ -176,6 +176,7 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
       ignoreEncumbrance: game.settings.get('demonlord', 'ignoreEncumbrance'),
       optionalRuleBaneValue : game.settings.get('demonlord', 'optionalRuleBaneValue'),
       optionalRuleTraitMode2025: game.settings.get('demonlord', 'optionalRuleTraitMode2025'),
+      optionalRuleHide2025FHTraits: game.settings.get('demonlord','optionalRuleHide2025FHTraits'),
       buttons: [
         {
           type: 'submit',
@@ -207,6 +208,7 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
           'optionalRuleExceedsByFive',
           'horrifyingBane',
           'optionalRuleTraitMode2025',
+          'optionalRuleHide2025FHTraits',
           'optionalRuleLevelDependentBane',
           'optionalRuleRevealHorrifyingBane',
           'optionalRuleSurroundingMode',
@@ -235,6 +237,7 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
       'optionalRuleExceedsByFive',
       'horrifyingBane',
       'optionalRuleTraitMode2025',
+      'optionalRuleHide2025FHTraits',
       'optionalRuleLevelDependentBane',
       'optionalRuleRevealHorrifyingBane',
       'optionalRuleSurroundingMode',
@@ -536,6 +539,16 @@ export const registerSettings = function () {
     type: Boolean,
     config: false,
   })
+
+  game.settings.register('demonlord', 'optionalRuleHide2025FHTraits', {
+    name: game.i18n.localize('DL.SettingOptionalHide2025FHTraits'),
+    hint: game.i18n.localize('DL.SettingOptionalHide2025FHTraitsHide'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: false,
+  })
+
 
   game.settings.register('demonlord', 'horrifyingBane', {
     name: game.i18n.localize('DL.SettingHorrifyingBane'),

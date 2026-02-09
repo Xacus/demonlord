@@ -670,6 +670,8 @@
   "DL.SettingOptionalRuleBellStandardRolls": "SotDL Standard (Attack/Challenge Roll: d20, BoB: d6, Challenge target nr.: 10)",
   "DL.SettingOptionalRuleConsistentDamage": "Enable Consistent Damage",
   "DL.SettingOptionalRuleDieRollsMode": "Die Rolls Method",
+  "DL.SettingOptionalHide2025FHTraits": "Hide 2025 frigtening/horrifiyng traits in non-2025 mode",
+  "DL.SettingOptionalHide2025FHTraitsHint": "Hide traits on creature sheet - combat and reference tab.",
   "DL.SettingOptionalRuleInitiative": "Initiative Method",
   "DL.SettingOptionalRuleInitiativeGroup": "Group Rolls (d6) - PCs, NPCs, Creatures",
   "DL.SettingOptionalRuleInitiativeInduvidual": "Individual Rolls (d20)",
