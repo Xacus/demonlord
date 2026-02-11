@@ -12,38 +12,40 @@
           </div>
 
       {{#each actor.features as |item id|}}
-      <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
-        <div class="row">
-          <div class="col-10">
-            <img class='dl-clickable-nored item-edit' data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32"
-              height="32" />
-            <label class="dl-clickable item-roll">{{item.name}}</label>
-          </div>
-          <div class="col-2" style="padding-top: 3px">
-            <span class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
-              <i class="fas fa-chevron-up"></i>
-            </span>
-            {{#if (dlIsNestedItem item)}}
-              <a class="dl-clickable item-delete" data-action="editItem" title="{{dlGetNestedItemSource item}}"
-                style="margin-left: 2px; margin-top: 3px;">
-                <i class="fa-solid fa-link"></i>
-              </a>
-            {{else}}
-              <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.FeatureDelete'}}"
-                style="margin-left: 2px; margin-top: 3px;">
-                <i class="fas fa-times"></i>
-              </a>
+        {{#unless (dlHideItem2025Trait item.name)}}
+          <div class="dl-item-row dropitem" data-item-id="{{item._id}}">
+            <div class="row">
+              <div class="col-10">
+                <img class='dl-clickable-nored item-edit' data-action="editItem" src="{{item.img}}" title="{{item.name}}" width="32"
+                  height="32" />
+                <label class="dl-clickable item-roll">{{item.name}}</label>
+              </div>
+              <div class="col-2" style="padding-top: 3px">
+                <span class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
+                  <i class="fas fa-chevron-up"></i>
+                </span>
+                {{#if (dlIsNestedItem item)}}
+                  <a class="dl-clickable item-delete" data-action="editItem" title="{{dlGetNestedItemSource item}}"
+                    style="margin-left: 2px; margin-top: 3px;">
+                    <i class="fa-solid fa-link"></i>
+                  </a>
+                {{else}}
+                  <a class="dl-clickable item-delete" data-action="deleteItem" title="{{localize 'DL.FeatureDelete'}}"
+                    style="margin-left: 2px; margin-top: 3px;">
+                    <i class="fas fa-times"></i>
+                  </a>
+                {{/if}}
+              </div>
+            </div>
+            {{#if item.system.description}}
+            <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
+              <div class="col-12">
+                {{{item.system.enrichedDescription}}}
+              </div>
+            </div>
             {{/if}}
           </div>
-        </div>
-        {{#if item.system.description}}
-        <div class="row dlInfo dl-item-info" style="display: none; text-align: left">
-          <div class="col-12">
-            {{{item.system.enrichedDescription}}}
-          </div>
-        </div>
-        {{/if}}
-      </div>
+        {{/unless}}
       {{/each}}
 
       <!-- SPECIAL ACTIONS -->

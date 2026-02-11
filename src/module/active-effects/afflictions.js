@@ -177,10 +177,11 @@ export class DLAfflictions {
     effectsDataList.push(_buildBaseAffliction('grabbed', 'systems/demonlord/assets/icons/effects/grabbed.svg'))
 
     // Horrified
+    const baneValue = game.settings.get('demonlord', 'optionalRuleBaneValue') ? -2 : -3
     effectsDataList.push(
       _buildBaseAffliction('horrified', 'systems/demonlord/assets/icons/effects/horrified.svg', [
-        addEffect('system.bonuses.challenge.boons.all', -3, effectPriority),
-        addEffect('system.bonuses.attack.boons.all', -3, effectPriority),
+        addEffect('system.bonuses.challenge.boons.all', baneValue, effectPriority),
+        addEffect('system.bonuses.attack.boons.all', baneValue, effectPriority),
       ]),
     )
 

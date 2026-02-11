@@ -133,6 +133,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     context.addCreatureInventoryTab = game.settings.get('demonlord', 'addCreatureInventoryTab')
     context.hideTurnMode = game.settings.get('demonlord', 'optionalRuleInitiativeMode') === 's' ? false : true
     context.hideFortune = game.settings.get('demonlord', 'fortuneHide') ? true : false
+    context.isTraitMode2025 = game.settings.get('demonlord', 'optionalRuleTraitMode2025')
 
     //context.tabs = this._getTabs(options.parts)
     context.tabs = this._prepareTabs('primary')
@@ -205,6 +206,22 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     actorData.spells = noSpells ? [] : (m.get('spell') || [])
     actorData.talents = m.get('talent') || []
     actorData.features = m.get('feature') || []
+
+    // Sorting traits in alphabetical order with an exception: Immune, Frightening and Horrifying have to be at the top.
+    actorData.features.sort(function(a, b) {
+        if ((a.name.toLowerCase().includes('immune')) != (b.name.toLowerCase().includes('immune'))) {
+            return a.name.toLowerCase().includes('immune') ? -1 : 1;
+        }
+        if ((a.name.toLowerCase().includes('frightening')) != (b.name.toLowerCase().includes('frightening'))) {
+            return a.name.toLowerCase().includes('frightening') ? -1 : 1;
+        }
+        if ((a.name.toLowerCase().includes('horrifying')) != (b.name.toLowerCase().includes('horrifying'))) {
+            return a.name.toLowerCase().includes('horrifying') ? -1 : 1;
+        }
+        return a.name > b.name ? 1 :
+              a.name < b.name ? -1 : 0;
+    })
+
     // Sort spells in the spellbooks by their rank
     actorData.spells.sort((a, b) => a.system.rank - b.system.rank)
     // Prepare the book (spells divided by tradition)
@@ -512,7 +529,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
               case 'help': {
                 const attribute = this.actor.system.attributes.intellect
                 if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && targets.length === 1)
-                  launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
+                  launchRollDialog(this.actor, this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
                     let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
                     if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
                       affliction['statuses'] = [affliction.id]
@@ -537,7 +554,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
                 const attribute = this.actor.system.attributes.intellect
                 const isIncapacitated = targets.length === 1 ? targets[0].actor.appliedEffects.find(ef => ef?.statuses?.has('incapacitated')) : false
                 if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && isIncapacitated)
-                  launchRollDialog(this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
+                  launchRollDialog(this.actor, this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
                     let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
                     if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
                       if (game.user.isGM) {

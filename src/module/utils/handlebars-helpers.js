@@ -108,6 +108,10 @@ export function registerHandlebarsHelpers() {
     else return `(${i18n('DL.WeaponMelee').toLowerCase()}; ${i18n('DL.ActionRangeReach').toLowerCase()} +${reach[1]})`
   })
 
+  Handlebars.registerHelper('dlHideItem2025Trait', function (a) {
+    return ( game.settings.get('demonlord', 'optionalRuleHide2025FHTraits') && !game.settings.get('demonlord', 'optionalRuleTraitMode2025') && [game.i18n.localize('DL.CreatureHorrifying').toLowerCase(), game.i18n.localize('DL.CreatureFrightening').toLowerCase()].find(x => x === a.toLowerCase()!== undefined))
+  })
+
   Handlebars.registerHelper('enrichHTMLUnrolled', async (x) => await TextEditor.enrichHTML(x, { unrolled: true }))
   Handlebars.registerHelper('lookupAttributeModifier', (attributeName, actorData) =>
     actorData?.system?.attributes[attributeName.toLowerCase()]?.modifier

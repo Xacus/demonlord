@@ -13,14 +13,22 @@
       <label>
         <input type="checkbox" name="system.frightening" id="system.frightening" {{checked (and system.frightening (gte ownership 2))}} />
       </label>
-      <div class="sidebar-button-text">{{localize "DL.CreatureFrightening"}}</div>
+      {{#if isTraitMode2025}}
+        <a class="sidebar-button-text" style="transition: filter 0.3s, -webkit-filter 0.3s;" data-tippy-html="{{localize "DL.FrighteningHorrifyingEditor"}}" data-action="openFrighteningHorrifyingEditor">{{localize "DL.CreatureFrightening"}}</a>
+      {{else}}
+        <div class="sidebar-button-text">{{localize "DL.CreatureFrightening"}}</div>
+      {{/if}}
     </div>
 
     <div class="sidebar-button horrifying">
       <label>
         <input type="checkbox" name="system.horrifying" id="system.horrifying" {{checked (and system.horrifying (gte ownership 2))}}>
       </label>
-      <div class="sidebar-button-text">{{localize "DL.CreatureHorrifying"}}</div>
+      {{#if isTraitMode2025}}
+        <a class="sidebar-button-text" style="transition: filter 0.3s, -webkit-filter 0.3s;" data-tippy-html="{{localize "DL.FrighteningHorrifyingEditor"}}" data-action="openFrighteningHorrifyingEditor">{{localize "DL.CreatureHorrifying"}}</a>
+      {{else}}
+        <div class="sidebar-button-text">{{localize "DL.CreatureHorrifying"}}</div>
+      {{/if}}
     </div>
 
     <div class="char-stats">
