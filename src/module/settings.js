@@ -963,4 +963,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true
   })
+  game.settings.register('demonlord', 'darkMagicCorruptionRollOnLearn', {
+    name: game.i18n.localize('DL.SettingDarkMagicCorruptionRollOnLearn'),
+    hint: game.i18n.localize('DL.SettingDarkMagicCorruptionRollOnLearnHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true
+  })
 }
