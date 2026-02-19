@@ -320,6 +320,7 @@
   "DL.DialogDoYouStartYourTurnWithLOSCreature":"Do you start your turn with line of sight to the following creature?",
   "DL.DialogDoYouStartYourTurnWithLOSCreatures":"Do you start your turn with line of sight to the following creatures?",
   "DL.DialogInvalidRollFormula": "Invalid Roll Formula: {rollFormula}!",
+  "DL.DialogEffectsWillNotExpire": "Source actor is not on the scene! Effects with special duration 'TurnStartSource' and 'TurnEndSource' will NOT expire.",
   "DL.DialogFortuneAwarded": "Awarded a Fortune point.",
   "DL.DialogFortuneExpended": "Expended a Fortune point.",
   "DL.DialogHealedFor": "Healed ",
