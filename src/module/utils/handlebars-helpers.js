@@ -109,7 +109,7 @@ export function registerHandlebarsHelpers() {
   })
 
   Handlebars.registerHelper('dlHideItem2025Trait', function (a) {
-    return ( game.settings.get('demonlord', 'optionalRuleHide2025FHTraits') && !game.settings.get('demonlord', 'optionalRuleTraitMode2025') && [game.i18n.localize('DL.CreatureHorrifying').toLowerCase(), game.i18n.localize('DL.CreatureFrightening').toLowerCase()].find(x => x === a.toLowerCase()!== undefined))
+    return ( game.settings.get('demonlord', 'optionalRuleHide2025FHTraits') && !game.settings.get('demonlord', 'optionalRuleTraitMode2025') && ([game.i18n.localize('DL.CreatureHorrifying').toLowerCase(), game.i18n.localize('DL.CreatureFrightening').toLowerCase()].find(x => x === a.toLowerCase()) !== undefined))
   })
 
   Handlebars.registerHelper('enrichHTMLUnrolled', async (x) => await TextEditor.enrichHTML(x, { unrolled: true }))
