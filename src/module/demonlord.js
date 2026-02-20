@@ -473,8 +473,6 @@ Hooks.on('renderJournalEntrySheet', (jn, element) => rolltable._renderDLSheet (j
 Hooks.on('renderDLBaseActorSheet', (jn, element) => rolltable._renderDLSheet (jn, element))
 Hooks.on('renderDLBaseItemSheet', (jn, element) => rolltable._renderDLSheet(jn, element))
 
-Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
-
 Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
   let messageActorId = app.speaker.actor
   let messageActor = game.actors.get(messageActorId)
@@ -490,6 +488,7 @@ Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
       if (game.settings.get('demonlord', 'hideActorInfo')) html.querySelectorAll('.showlessinfo')?.forEach(el => el.remove())
       if (game.settings.get('demonlord', 'hideDescription')) html.querySelectorAll('.showdescription')?.forEach(el => $(el).empty())
   }
+  initChatListeners(html)
 })
 
 Hooks.on('renderCompendiumDirectory', async (app, html, _data) => {
