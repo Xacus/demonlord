@@ -625,7 +625,11 @@ getTargetAttackBane(target) {
 
     for (let effect of this.appliedEffects) {
       const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextChallengeRoll') await effect?.delete()
+      const doNotAnimate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? false: true
+      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextChallengeRoll') {
+        if (doNotAnimate) await effect?.delete({animate: false})
+          else await effect?.delete()
+      }
     }
 
     return challengeRoll
@@ -1066,6 +1070,7 @@ getTargetAttackBane(target) {
         flags: {
           demonlord: {
             specialDuration: 'NextChallengeRoll',
+            doNotAnimate: true,
           },
         },
       })
@@ -1101,13 +1106,13 @@ getTargetAttackBane(target) {
             }, ],
             flags: {
               demonlord: {
-                specialDuration: 'NextChallengeRoll',
+                specialDuration: 'NextChallengeRoll', animate: false
               },
             },
           })
 
           await ActiveEffect.create(willChallengeRollBanesEffect, {
-            parent: actor,
+            parent: actor, animate: false
           })
         }
       }
@@ -1128,12 +1133,13 @@ getTargetAttackBane(target) {
             flags: {
               demonlord: {
                 specialDuration: 'NextChallengeRoll',
+                doNotAnimate : true,
               },
             },
           })
 
           await ActiveEffect.create(darkMagicSpellsKnownEffect, {
-            parent: actor,
+            parent: actor, animate: false
           })
         }
       }
@@ -1219,7 +1225,7 @@ getTargetAttackBane(target) {
 
         if (validTargetArray.length >= 4 && !isStunned)
           await ActiveEffect.create(fourAndMoreEffect, {
-            parent: actor,
+            parent: actor, animate: false
           })
 
         const isFrightened = actor.effects.find(e => e.statuses?.has('frightened')) === undefined ? false : true
@@ -1349,7 +1355,7 @@ getTargetAttackBane(target) {
             })
 
             await ActiveEffect.create(seesFrighteningSource, {
-              parent: actor,
+              parent: actor, animate: false
             })
           }
 
@@ -1539,7 +1545,7 @@ getTargetAttackBane(target) {
             })
 
             await ActiveEffect.create(seesFrighteningSource, {
-              parent: actor,
+              parent: actor, animate: false
             })
           }
         } 
