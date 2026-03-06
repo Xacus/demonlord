@@ -510,7 +510,7 @@ export async function postCustomTextToChat(actor, roll, options, attribute = {})
         data['targetValue'] = targetNumber
         data['failureText'] =
           roll.total >= targetNumber
-            ? game.i18n.localize('DL.YouCannotBeEffectedUntilYouCompleteARest')
+            ? game.i18n.localize('DL.YouCannotBeAffectedUntilYouCompleteARest')
             : game.i18n.format('DL.BecomeFrightenedForRounds', { round: `${durationRollFormulaText}` })
         data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0)
         data['resultText'] =
@@ -530,7 +530,7 @@ export async function postCustomTextToChat(actor, roll, options, attribute = {})
         if (options.legacyMode) {
           data['failureText'] =
             roll.total >= targetNumber
-              ? game.i18n.localize('DL.YouCannotBeEffectedUntilYouCompleteARest')
+              ? game.i18n.localize('DL.YouCannotBeAffectedUntilYouCompleteARest')
               : isMad
               ? game.i18n.format('DL.GainedInsanityAndGoMad', { insanity: 1 })
               : game.i18n.format('DL.GainedInsanity', { insanity: 1 })
@@ -592,7 +592,7 @@ export async function postCustomTextToChat(actor, roll, options, attribute = {})
           if (options.legacyMode) {
             data['failureText'] =
               roll.total >= targetNumber
-                ? game.i18n.format('DL.YouCannotBeEffectedUntilYouCompleteARest')
+                ? game.i18n.format('DL.YouCannotBeAffectedUntilYouCompleteARest')
                 : game.i18n.format('DL.GainedInsanity', { insanity: `${insanityRollFormulaText}` })
           } else {
             data['failureText'] =
