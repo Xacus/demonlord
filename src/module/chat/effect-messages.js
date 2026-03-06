@@ -14,6 +14,8 @@ import { capitalize } from '../utils/utils'
  */
 function _remapEffects(effects) {
   let m = new Map()
+  // Active Auras module support
+  effects = game.modules.get('ActiveAuras')?.active ? effects.filter(e => !e.flags?.ActiveAuras || foundry.utils.getProperty(e, `flags.ActiveAuras.isAura`) === undefined) : effects
   effects.forEach(effect =>
     effect.changes.forEach(change => {
       const obj = {

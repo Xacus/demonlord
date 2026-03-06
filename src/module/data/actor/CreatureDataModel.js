@@ -32,6 +32,7 @@ export default class CreatureDataModel extends foundry.abstract.DataModel {
       horrifying: makeBoolField(),
       willChallengeRollBanes:  makeIntField(),
       horrifyingInsanityFormula:  makeStringField(),
+      descriptor: makeStringField(),
       perceptionsenses: makeStringField(),
       speedtraits: makeStringField(),
       armor: makeStringField(),
