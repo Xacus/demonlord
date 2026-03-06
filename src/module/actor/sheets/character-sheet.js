@@ -190,6 +190,16 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
           }
         }
       })
+    } else if (item.type === 'spell') {
+      if (item.system.isDarkMagic) {
+        if (game.settings.get('demonlord', 'darkMagicCorruptionRollOnLearn')) {
+          // If the spell is dark magic from a new tradition, trigger a corruption roll
+          const knownDarkMagicTraditions = Object.keys(Object.groupBy(game.actors.getName("Test").spells.filter(s => s.system.isDarkMagic), s => s.system.tradition))
+          if (!knownDarkMagicTraditions.includes(item.system.tradition)) {
+            await this.actor.rollCorruption()
+          }
+        }
+      }
     }
   }
 
