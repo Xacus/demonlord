@@ -261,10 +261,43 @@ Hooks.on('createToken', async _tokenDocument => {
   return 0
 })
 
-Hooks.on('updateActor', async (actor, updateData) => {
+Hooks.on("preUpdateActor", (actor, updateData, options) => {
+    options['demonlord'] = {
+        oldHealth: actor.system.characteristics.health.value
+    }
+})
+
+Hooks.on('updateActor', async (actor, updateData, options) => {
   if (!game.ready || !actor.isOwner) return
   if (Object.keys(updateData).equals(['_id'])) return
-
+  if (actor && updateData && options?.action == 'update' && options?.diff &&  game.settings.get('demonlord', 'damageScrollText')) {
+    const oldHealth = options['demonlord'].oldHealth
+    const flatChanges = foundry.utils.flattenObject(updateData)
+    for (const [key, value] of Object.entries(flatChanges)) {
+      if (key === 'system.characteristics.health.value') {
+        /**
+         * Modified version of the awesome https://github.com/foundryvtt/dnd5e/blob/5.3.x/module/documents/actor/actor.mjs
+         * Big thanks to Andrew Clayton
+         */
+        const tokens = actor.isToken ? [actor.token] : actor.getActiveTokens(true, true)
+        if (!tokens.length) return
+        const diff = value - oldHealth
+        for (const token of tokens) {
+          if (!token.object?.visible || token.isSecret) continue;
+          const t = token.object
+          canvas.interface.createScrollingText(t.center, diff * -1, {
+            duration: 1000,
+            fontSize: 28 + 20 * (Math.clamp(Math.abs(diff) / actor.system.characteristics.health.max, 0, 1)),
+            fill: diff > 0 ? "#a22223" : "#1b8f23",
+            direction: diff > 0 ? CONST.TEXT_ANCHOR_POINTS.BOTTOM : CONST.TEXT_ANCHOR_POINTS.TOP,
+            stroke: 0x000000,
+            strokeThickness: 4,
+            jitter: 0.25
+          })
+        }
+      }
+    }
+  }
 
   if (game.combat) {
     let token = actor.token || game.combats?.viewed?.combatants.find(c => c.actor?.id == actor.id)?.token
