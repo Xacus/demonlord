@@ -620,7 +620,7 @@ getTargetAttackBane(target) {
     await challengeRoll.evaluate()
 
     if (options) postCustomTextToChat(this, challengeRoll, options, attribute.key)
-      else 
+    else
         postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     for (let effect of this.appliedEffects) {
@@ -753,9 +753,9 @@ getTargetAttackBane(target) {
       if (targets.length === 1)
         boons -= (
           (target?.actor?.system.bonuses.defense.boons[defenseAttribute] || 0) +
-          (target?.actor?.system.bonuses.defense.boons.all || 0) + 
+          (target?.actor?.system.bonuses.defense.boons.all || 0) +
           this.getTargetAttackBane(target.actor))
-          
+
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
@@ -967,7 +967,7 @@ getTargetAttackBane(target) {
           (parseInt(target?.actor?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
           (parseInt(target?.actor?.system.bonuses.defense.boons.all || 0)) +
           this.getTargetAttackBane(target.actor))
-          
+
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
@@ -1542,7 +1542,7 @@ getTargetAttackBane(target) {
               parent: actor,
             })
           }
-        } 
+        }
       }
     }
 
@@ -1670,7 +1670,7 @@ getTargetAttackBane(target) {
   async restActor(restTime, magicRecovery, talentRecovery, healing) {
     // Reset talent and spell uses
     let talentData = this.items.filter(i => i.type === 'talent')
-    let spellData = this.items.filter(i => i.type === 'spell')
+    let spellData = this.items.filter(i => i.type === 'spell' && i.system.castings.regainOnRest)
     if(talentRecovery) talentData = talentData.map(t => ({_id: t.id, 'system.uses.value': 0}))
     if(magicRecovery) spellData = spellData.map(s => ({_id: s.id, 'system.castings.value': 0}))
     await this.updateEmbeddedDocuments('Item', [...talentData, ...spellData])

@@ -7,7 +7,7 @@ export function requestInitiativeRollMacro() {
 
     var targets = [];
     for (let user of users) {
-      if (actor.ownership[user.id] === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+      if (actor.getUserLevel() === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
         targets.push(user.id);
     }
 
@@ -49,7 +49,7 @@ export function requestChallengeRollMacro() {
 
     var targets = [];
     for (let user of users) {
-      if (actor.ownership[user.id] === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+      if (actor.getUserLevel() === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
         targets.push(user.id);
     }
 

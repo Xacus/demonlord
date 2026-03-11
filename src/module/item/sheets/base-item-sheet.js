@@ -58,6 +58,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       toggleFrightening: this.onToggleFrightening,
       toggleHorrifying: this.onToggleHorrifying,
       toggleDarkMagic: this.onToggleDarkMagic,
+      toggleRegainOnRest: this.onToggleRegainOnRest
     },
     window: {
       resizable: true
@@ -648,6 +649,10 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
   static async onToggleDarkMagic() {
     await this.document.update({ 'system.isDarkMagic': !this.document.system.isDarkMagic })
+  }
+
+  static async onToggleRegainOnRest() {
+    await this.document.update({ 'system.castings.regainOnRest': !this.document.system.castings.regainOnRest })
   }
 
   /* -------------------------------------------- */
