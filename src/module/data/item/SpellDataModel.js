@@ -18,7 +18,8 @@ export default class SpellDataModel extends foundry.abstract.TypeDataModel {
       castings: new foundry.data.fields.SchemaField({
         value: makeStringField(),
         max: makeStringField(),
-        ignoreCalculation: makeBoolField()
+        ignoreCalculation: makeBoolField(),
+        regainOnRest: makeBoolField(true)
       }),
       duration: makeStringField(),
       target: makeStringField(),
@@ -56,7 +57,8 @@ export function makeSpellSchema() {
     castings: new foundry.data.fields.SchemaField({
       value: makeStringField(),
       max: makeStringField(),
-      ignoreCalculation: makeBoolField()
+      ignoreCalculation: makeBoolField(),
+      regainOnRest: makeBoolField(true)
     }),
     duration: makeStringField(),
     target: makeStringField(),

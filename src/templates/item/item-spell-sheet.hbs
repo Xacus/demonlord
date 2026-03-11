@@ -20,13 +20,13 @@
     <b>{{localize 'DL.SpellAttribute'}}</b>
     <div class="dl-item-section-group">
       {{Dropdown 'system.attribute' system.attribute 'DL.Attributes'}}
-    </div>
-    <div class="item-group-dark-magic checkable" data-action="toggleDarkMagic">
-      <div class="input-group" data-tippy-content="{{localize 'DL.IsDarkMagic'}}">
-        <input type="checkbox" name="system.isDarkMagic" {{checked system.isDarkMagic}}>
-        <i class="icon-dark-magic themed-icon"></i>
-        <span class="sep"></span>
-        <span class="text">{{localize 'DL.DarkMagic'}}</span>
+      <div class="item-group-dark-magic checkable" data-action="toggleDarkMagic">
+        <div class="input-group" data-tippy-content="{{localize 'DL.IsDarkMagic'}}">
+          <input type="checkbox" name="system.isDarkMagic" {{checked system.isDarkMagic}}>
+          <i class="icon-dark-magic themed-icon"></i>
+          <span class="sep"></span>
+          <span class="text">{{localize 'DL.DarkMagic'}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -38,6 +38,14 @@
         <input type="number" class="input-group-textbox" name="system.castings.value" value="{{system.castings.value}}" data-tippy-content="{{localize 'DL.SpellCastingsUses'}}" placeholder="-" min="0"/>
         <span class="sep"></span>
         <input type="number" class="input-group-textbox max-castings-control {{ifThen system.castings.ignoreCalculation '' 'readonly'}}" name="system.castings.max" value="{{system.castings.max}}" data-tippy-content="{{localize 'DL.SpellCastingsMax'}}" placeholder="-" min="0" {{readonly (not system.castings.ignoreCalculation)}}/>
+      </div>
+      <div class="item-group-regain-on-rest checkable" data-action="toggleRegainOnRest">
+        <div class="input-group" data-tippy-content="{{localize 'DL.RegainOnRest'}}">
+          <input type="checkbox" name="system.castings.regainOnRest" {{checked system.castings.regainOnRest}}>
+          <i class="icon-regain-on-rest themed-icon"></i>
+          <span class="sep"></span>
+          <span class="text">{{localize 'DL.RegainOnRest'}}</span>
+        </div>
       </div>
     </div>
   </div>

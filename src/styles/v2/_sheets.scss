@@ -483,6 +483,11 @@ span.vertical-rule {
 .icon-dark-magic {
   @include demonlord-icon('../assets/ui/other-svg/dark-magic.svg');
 }
+
+.icon-regain-on-rest {
+  @include demonlord-icon('../../../icons/svg/sleep.svg');
+}
+
 .icon-attack {
   @include demonlord-icon('../assets/ui/other-svg/attack.svg');
 }
@@ -730,7 +735,14 @@ span.text-vs {
 
 .item-group-dark-magic {
   @include input-group-container();
+  width: 200px;
 }
+
+.item-group-regain-on-rest {
+  @include input-group-container();
+  width: 200px;
+}
+
 .item-group-spell-castings {
   @include input-group-container();
 }
