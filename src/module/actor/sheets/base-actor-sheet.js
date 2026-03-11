@@ -523,6 +523,13 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
             const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
             if (!affliction) return false
             affliction['statuses'] = [affliction.id]
+
+            if (affliction.id === "horrified")
+            {
+              affliction.description = game.settings.get('demonlord', 'optionalRuleBaneValue') ? affliction.description.replace('3','2') : affliction.description = affliction.description.replace('2','3')
+              game.settings.get('demonlord', 'optionalRuleBaneValue') ? Object.keys(affliction.changes).forEach(function(value){ affliction.changes[value].value = -2 }) : Object.keys(affliction.changes).forEach(function(value){ affliction.changes[value].value = -3 })
+            }
+
             await ActiveEffect.create(affliction, { parent: this.actor })
             const targets = tokenManager.targets
             switch (afflictionId) {

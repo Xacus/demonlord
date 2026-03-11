@@ -637,6 +637,8 @@
   "DL.SettingDSNColourDie": "Enable dice colouring",
   "DL.SettingDSNHint": "Colourize the Dice So Nice! boons/banes dice. Select d3 die numerals (Arabic/Roman) on Demon Lord theme.",
   "DL.SettingDSNLabel": "Dice So Nice! Settings",
+  "DL.SettingDamageScrollText": "Enable Scroll Text for Damage/Health",
+  "DL.SettingDamageScrollTextHint": "When checked, scrolling text appears above tokens about damage/heal value.",
   "DL.SettingEnableQuickDraw": "Enable one-click draw for rolltables.",
   "DL.SettingEnableQuickDrawHint": "Draw directly form sidebar, compendia or sheets (right-click).",
   "DL.SettingFinesseAutoSelect": "Finesse weapon attack attribute auto select",

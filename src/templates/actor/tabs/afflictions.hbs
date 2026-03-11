@@ -1,7 +1,7 @@
 <div class="tab demonlord-v2-tab scrollable {{cssClass}}" data-group="primary" data-tab="afflictions">
   {{#*inline "dlAffliction"}}
-  <div class="item-group-affliction checkable {{#if value}}selected{{/if}} {{#if immune}}locked{{/if}}" style="width: auto; margin: 2px; position: relative;" {{#if
-    tooltip}}data-tippy-affliction="{{localize tooltip}}" {{/if}}>
+  <div class="item-group-affliction checkable {{#if value}}selected{{/if}} {{#if immune}}locked{{/if}}" style="width: auto; margin: 2px; position: relative;"
+  {{#if tooltip}}data-tippy-affliction="{{dlGetAfflictionToolTip tooltip}}" {{/if}}>
     <input type="checkbox" id="data.afflictions.{{name}}" data-name="{{name}}" {{checked value}} />
     <i class="icon-{{name}} themed-icon"></i>
     <span class="sep"></span>
@@ -77,4 +77,5 @@
       <span style="margin-left: 4px; text-align: center; width: 100%">{{localize "DL.ModsDisableAfflictions"}}</span>
     </div>
   </div>
+
 </div>

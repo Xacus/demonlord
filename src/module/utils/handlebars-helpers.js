@@ -112,6 +112,14 @@ export function registerHandlebarsHelpers() {
     return ( game.settings.get('demonlord', 'optionalRuleHide2025FHTraits') && !game.settings.get('demonlord', 'optionalRuleTraitMode2025') && ([game.i18n.localize('DL.CreatureHorrifying').toLowerCase(), game.i18n.localize('DL.CreatureFrightening').toLowerCase()].find(x => x === a.toLowerCase()) !== undefined))
   })
 
+  Handlebars.registerHelper('dlGetAfflictionToolTip', function (tooltip) {
+    if (tooltip === 'DL.AfflictionsHorrified')
+      return game.settings.get('demonlord', 'optionalRuleBaneValue')
+        ? game.i18n.localize('DL.AfflictionsHorrified').replace('3', '2')
+        : game.i18n.localize('DL.AfflictionsHorrified').replace('2', '3')
+    else return game.i18n.localize(tooltip)
+  })
+
   Handlebars.registerHelper('enrichHTMLUnrolled', async (x) => await TextEditor.enrichHTML(x, { unrolled: true }))
   Handlebars.registerHelper('lookupAttributeModifier', (attributeName, actorData) =>
     actorData?.system?.attributes[attributeName.toLowerCase()]?.modifier
