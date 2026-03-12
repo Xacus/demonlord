@@ -16,7 +16,7 @@ import {
   getCanFly
 } from '../../utils/token-ruler.js'
 
-export default class CharacterDataModel extends foundry.abstract.DataModel {
+export default class CharacterDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const type = 'character'
 
@@ -84,7 +84,9 @@ export default class CharacterDataModel extends foundry.abstract.DataModel {
 
   prepareDerivedData() {
     super.prepareDerivedData()
-    this.isMagic = this.parent.spells?.length > 0 // Has any spells
-    || this.parent.system.characteristics.power > 0 // Has power
+    this.isMagic = this.parent.paths?.some(p => p.isMagic) // Any of the paths is magic
+      || this.parent.ancestry?.some(p => p.isMagic) // Any of the ancestries is magic
+      || this.parent.spells?.length > 0 // Has any spells
+      || this.parent.system.characteristics.power > 0 // Has power
   }
 }

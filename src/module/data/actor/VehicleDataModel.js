@@ -16,7 +16,7 @@ import {
   getCanFly
 } from '../../utils/token-ruler.js'
 
-export default class VehicleDataModel extends foundry.abstract.DataModel {
+export default class VehicleDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const type = 'vehicle'
 
