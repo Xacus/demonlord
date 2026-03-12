@@ -53,12 +53,14 @@ export default class CreatureDataModel extends foundry.abstract.TypeDataModel {
     return getCanFly(this)
   }
 
-  prepareDerivedData() {
+  async prepareDerivedData() {
     super.prepareDerivedData()
     this.isMagic = this.parent.paths?.some(p => p.isMagic) // Any of the paths is magic
       || this.parent.ancestry?.some(p => p.isMagic) // Any of the ancestries is magic
       || this.parent.spells?.length > 0 // Has any spells
       || this.parent.system.characteristics.power > 0 // Has power
+
+    this.doubleInitiative = await this.parent.allApplicableEffects().some(e => e.changes.some(c => c.key === 'system.bonuses.doubleInitiative' && c.value))
   }
 
   static migrateData(source) {

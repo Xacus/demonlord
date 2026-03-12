@@ -1,6 +1,6 @@
 /* globals Color */
 
-import {MapRange} from '../utils/utils.js'
+import { MapRange } from '../utils/utils.js'
 
 // Shamelessly stolen from Shadow of the Weird Wizard
 export class DemonlordToken extends foundry.canvas.placeables.Token {
@@ -62,5 +62,34 @@ export class DemonlordToken extends foundry.canvas.placeables.Token {
         // Set position
         const posY = order === 0 ? this.h - height : 0
         bar.position.set(0, posY)
+    }
+
+    // Thanks to Anderware and his Combat-Tracker-Extensions: https://github.com/Anderware/Combat-Tracker-Extensions/blob/main/scripts/duplicate-combatant.js
+    _onHoverIn(_event, _options) {
+        const combatant = this.combatant
+        if (combatant) {
+            document.querySelectorAll('.combat-sidebar').forEach(tracker => {
+                game.combat.getCombatantsByToken(combatant.token).forEach(cb => {
+                    const li = tracker.querySelector(`.combatant[data-combatant-id="${cb.id}"]`)
+                    if (li) {
+                        li.classList.add('hover')
+                    }
+                })
+            })
+        }
+    }
+
+    _onHoverOut(_event) {
+        const combatant = this.combatant;
+        if (combatant) {
+            document.querySelectorAll('.combat-sidebar').forEach(tracker => {
+                game.combat.getCombatantsByToken(combatant.token).forEach(cb => {
+                    const li = tracker.querySelector(`.combatant[data-combatant-id="${cb.id}"]`)
+                    if (li) {
+                        li.classList.remove('hover')
+                    }
+                })
+            })
+        }
     }
 }

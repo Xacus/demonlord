@@ -57,7 +57,7 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
     return context
   }
 
-  // eslint-disable-next-line 
+  // eslint-disable-next-line
   _onRender(context, options) {
     const currTabId = Object.values(context.tabs)?.find(i => i.active)?.id;
     if (currTabId !== "changes") this.position.height = this.element.offsetHeight ?? "auto";
@@ -183,6 +183,7 @@ static initializeSpecialDurations() {
       'system.maluses.affliction': i18n('DL.Malus') + ' - ' + i18n('DL.Afflictions'),
       // Other bonuses
       'system.bonuses.rerollBoon1Dice': i18n('DL.RerollBoons1'),
+      'system.bonuses.doubleInitiative': i18n('DL.DoubleInitiative'),
       // Creature only
       'system.difficulty' : i18n('DL.CreatureDifficulty'),
       'system.frightening' : i18n('DL.CreatureFrightening'),

@@ -12,6 +12,11 @@ export class DLCombat extends Combat {
   getInitiativeValue(combatant, isFast = undefined, offset = 0) {
     const isPc = combatant.actor.system.isPC ?? 0
     isFast = isFast ?? combatant.actor.system.fastturn
+
+    if (combatant.actor.system.doubleInitiative) {
+      isFast = false
+    }
+
     return (isPc * 20) + isFast * 50 + offset
   }
 
@@ -25,7 +30,7 @@ export class DLCombat extends Combat {
             return this
         case "h":
             await this.rollInitiativeGroup(ids, options)
-            return this            
+            return this
     }
 }
 
@@ -50,7 +55,7 @@ async rollInitiativeIndividual(ids, {formula = null, updateTurn = true, messageO
       else roll = new Roll(`1d20+${actorMod}`)
 
       await roll.evaluate()
-      initValue = roll._total 
+      initValue = roll._total
       if (initValue>=0) initValue += Math.random()
 
       // No Fast turn malus -> at the end of the round
@@ -81,7 +86,7 @@ async rollInitiativeIndividual(ids, {formula = null, updateTurn = true, messageO
     // Push the update and init message
     combatantUpdates.push({ _id: combatant.id, initiative: initValue })
     if (game.settings.get('demonlord', 'initMessage')) initMessages.push(await createInitChatMessage(combatant, messageOptions))
-}  
+  }
 
   // Update multiple combatants
   await this.updateEmbeddedDocuments("Combatant", combatantUpdates)
@@ -585,7 +590,7 @@ async function getNumberOfSurrounders(target, targetSize)
           //allyDispositionArray.push(CONST.TOKEN_DISPOSITIONS.FRIENDLY)
   }
   const tokensInRange = canvas.tokens.placeables.filter(e => (allyDispositionArray.find(x => x === e.document.disposition) !== undefined) && e.id !== target.id && canvas.grid.measurePath([e.center, target.center]).distance <= targetSize).map(e => (e))
-  
+
   let tokensWOAfflictions = 0
 
   tokensInRange.forEach((token) => {

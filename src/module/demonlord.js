@@ -8,6 +8,7 @@ import {registerSettings} from './settings.js'
 import {registerVisionModes} from './vision.js'
 import KeyState from './utils/key-state.js'
 import {DLCombatTracker} from './combat/combat-tracker.js'
+import { DLCombatant } from './combat/combatant.js'
 import {preloadHandlebarsTemplates} from './templates.js'
 import * as migrations from './migration.js'
 import {handleMigrations} from './migration.js'
@@ -80,6 +81,7 @@ Hooks.once('init', async function () {
   CONFIG.Item.documentClass = DemonlordItem
   foundry.applications.apps.DocumentSheetConfig.registerSheet(ActiveEffect, "demonlord", DLActiveEffectConfig, {makeDefault: true})
   CONFIG.ui.combat = DLCombatTracker
+  CONFIG.Combatant.documentClass = DLCombatant
   CONFIG.Combat.documentClass = DLCombat
   CONFIG.time.roundTime = 10
   // CONFIG.debug.hooks = true
@@ -171,7 +173,7 @@ Hooks.once('init', async function () {
     delete CONFIG.Token.movement.actions.swim.getCostFunction
     CONFIG.Token.movement.actions.fly.canSelect = token => token?.actor?.system.canFly
     CONFIG.Token.rulerClass = TokenRulerDemonLord
-  }  
+  }
 })
 
 Hooks.once('ready', async function () {
