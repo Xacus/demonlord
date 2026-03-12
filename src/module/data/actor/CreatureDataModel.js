@@ -60,7 +60,7 @@ export default class CreatureDataModel extends foundry.abstract.TypeDataModel {
       || this.parent.spells?.length > 0 // Has any spells
       || this.parent.system.characteristics.power > 0 // Has power
 
-    this.doubleInitiative = await this.parent.allApplicableEffects().some(e => e.changes.some(c => c.key === 'system.bonuses.doubleInitiative' && c.value))
+    this.fastAndSlowTurn = await this.parent.allApplicableEffects().some(e => e.changes.some(c => c.key === 'system.bonuses.fastAndSlowTurn' && c.value))
   }
 
   static migrateData(source) {

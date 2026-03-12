@@ -13,7 +13,7 @@ export class DLCombat extends Combat {
     const isPc = combatant.actor.system.isPC ?? 0
     isFast = isFast ?? combatant.actor.system.fastturn
 
-    if (combatant.actor.system.doubleInitiative) {
+    if (combatant.actor.system.fastAndSlowTurn) {
       isFast = false
     }
 

@@ -227,7 +227,7 @@ calculateEncounterDifficulty(combatants) {
     // Before doing anything else, add display-only combatant for actors with double initiative
     if (combatants) {
       for (const combatant of combatants) {
-        if (combatant.actor?.system.doubleInitiative) {
+        if (combatant.actor?.system.fastAndSlowTurn) {
           const existingDouble = game.combat.getCombatantsByToken(combatant.token).length > 1
           if (!existingDouble) {
             // Add a second combatant with initiative + 50 (see DLCombat.getInitiativeValue)
@@ -247,7 +247,7 @@ calculateEncounterDifficulty(combatants) {
 
       const multipleCombatants = game.combat.getCombatantsByToken(combatant.token)
 
-      if (combatant.actor?.system.doubleInitiative && multipleCombatants.length == 2) {
+      if (combatant.actor?.system.fastAndSlowTurn && multipleCombatants.length == 2) {
         // The combatant has a double initiative, so we display "Fast" and "Slow"
         init = combatant._id === multipleCombatants[0]._id
           ? game.i18n.localize('DL.TurnSlow')

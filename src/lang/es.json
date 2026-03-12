@@ -369,7 +369,7 @@
   "DL.DialogYes": "Sí",
   "DL.DiceResultFailure": "FALLO",
   "DL.DiceResultSuccess": "ÉXITO",
-  "DL.DoubleInitiative": "Iniciativa Doble",
+  "DL.FastAndSlowTurn": "Turno Rápido y Lento",
   "DL.EffectAdd": "Añadir Efecto",
   "DL.EffectCreate": "Añadir Efecto",
   "DL.EffectDelete": "Borrar",

@@ -183,7 +183,7 @@ static initializeSpecialDurations() {
       'system.maluses.affliction': i18n('DL.Malus') + ' - ' + i18n('DL.Afflictions'),
       // Other bonuses
       'system.bonuses.rerollBoon1Dice': i18n('DL.RerollBoons1'),
-      'system.bonuses.doubleInitiative': i18n('DL.DoubleInitiative'),
+      'system.bonuses.fastAndSlowTurn': i18n('DL.FastAndSlowTurn'),
       // Creature only
       'system.difficulty' : i18n('DL.CreatureDifficulty'),
       'system.frightening' : i18n('DL.CreatureFrightening'),
