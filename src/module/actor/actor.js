@@ -320,6 +320,20 @@ export class DemonlordActor extends Actor {
       }
 
       await DLActiveEffects.embedActiveEffects(this, doc, 'create')
+
+      // Also, if any of the effects in the document contains an affliction, activate it
+      if (['character', 'creature'].includes(this.type)) {
+        const effects = doc.effects.filter(e => e.changes.some(c => c.key === 'system.maluses.affliction'))
+        for (const activeEffect of effects) {
+          const changes = activeEffect.changes
+          for (const affliction of changes.filter(c => c.key === 'system.maluses.affliction')) {
+            if (!this.isImmuneToAffliction(affliction.value.toLowerCase())) {
+              await this.setFlag('demonlord', affliction.value.toLowerCase(), true)
+              await findAddEffect(this, affliction.value.toLowerCase())
+            }
+          }
+        }
+      }
     }
     // No need to update if nothing was changed
     if (documents.length > 0) {
@@ -367,6 +381,33 @@ export class DemonlordActor extends Actor {
       await this._handleDescendantDocuments(documents[0].parent, {debugCaller: `_handleOnUpdateDescendant [${documents.length}]`})
     }
     return await Promise.resolve()
+  }
+
+  async _onDeleteDescendantDocuments(documentParent, collection, documents, ids, options, userId) {
+    await super._onDeleteDescendantDocuments(documentParent, collection, documents, ids, options, userId)
+
+    if (userId === game.userId) {
+      await this._handleOnDeleteDescendantDocuments(documents)
+    }
+  }
+
+  async _handleOnDeleteDescendantDocuments(documents) {
+    
+    // Also, if any of the effects in the deleted documents contains an affliction (and it's the last instance of this affliction), remove it
+    if (['character', 'creature'].includes(this.type)) {
+      for (const doc of documents.filter(d => d.effects?.some(e => e.changes?.some(c => c.key === 'system.maluses.affliction')))) {
+        const effects = doc.effects.filter(e => e.changes?.some(c => c.key === 'system.maluses.affliction'))
+        for (const activeEffect of effects) {
+          const changes = activeEffect.changes
+          for (const affliction of changes.filter(c => c.key === 'system.maluses.affliction')) {
+            if (!this.appliedEffects?.some(e => e.changes.some(c => c.key === 'system.maluses.affliction'))) {
+              await this.setFlag('demonlord', affliction.value.toLowerCase(), false)
+              await findDeleteEffect(this, affliction.value.toLowerCase())
+            }
+          }
+        }
+      }
+    }
   }
 
   /**
