@@ -9,6 +9,7 @@ export default class RelicDataModel extends foundry.abstract.TypeDataModel {
       description: makeHtmlField(),
       enrichedDescription: makeHtmlField(),
       contents: contents(),
+      quantity: makeIntField(1),
       requirement: new foundry.data.fields.SchemaField({
         attribute: makeStringField(),
         minvalue: makeIntField()

@@ -210,7 +210,6 @@ export class DemonlordActor extends Actor {
         immune: 0
       }
     }
-    system.characteristics.insanity.max += system.attributes.will.value
 
     // Final armor computation
     system.characteristics.defense += system.bonuses.armor.defense

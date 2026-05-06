@@ -108,8 +108,10 @@ calculateEncounterDifficulty(combatants) {
     let difficultyTotal = 0
     let partyLevel = 0
     let encounterDifficulty
+    // Combatants which have both fast and slow turns, we take into account only once.
+    const uniqueCombatants = [...new Map(combatants.map((combatant) => [combatant["tokenId"], combatant])).values()]
 
-    for (let combatant of combatants) {
+    for (let combatant of uniqueCombatants) {
         if (combatant.token.actor.effects.find(e => e.statuses?.has('dead')) || combatant.actor.type === 'vehicle') continue
 
         if (combatant.actor.type === 'character' && combatant.actor?.system.isPC) {
