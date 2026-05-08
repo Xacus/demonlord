@@ -39,6 +39,7 @@ export class DemonlordActor extends Actor {
    * @override
    */
   prepareBaseData() {
+    super.prepareBaseData()
     const system = this.system
     // Set the base perception equal to intellect
     if (this.type === 'character') {
@@ -143,6 +144,7 @@ export class DemonlordActor extends Actor {
    * @override
    */
   prepareDerivedData() {
+    super.prepareDerivedData()
     const system = this.system
 
     // We can reapply some active effects if we know they happened
@@ -959,7 +961,7 @@ getTargetAttackBane(target) {
     }
 
     // Add concentration if it's in the spell duration
-    const concentrate = CONFIG.statusEffects.find(e => e.id === 'concentrate')
+    const concentrate = CONFIG.statusEffects['concentrate']
     if (
       spell.system.duration.toLowerCase().includes('concentration') &&
       this.effects.find(e => e.statuses?.has('concentrate')) === undefined &&
@@ -1141,7 +1143,7 @@ getTargetAttackBane(target) {
         let roll = await actor.rollAttributeChallenge(attribute, 0, 0, {mode: 'stunnedRoll'})
         const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
         if (roll.total < targetNumber) {
-          const stunnedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'stunned'))
+          const stunnedEffect = foundry.utils.deepClone(CONFIG.statusEffects['stunned'])
           stunnedEffect['statuses'] = stunnedEffect.id
           stunnedEffect.duration.rounds = 1
           await ActiveEffect.create(stunnedEffect, {
@@ -1159,7 +1161,7 @@ getTargetAttackBane(target) {
     const isStunned = actor.effects.find(e => e.statuses?.has('stunned')) === undefined ? false : true
     await actor.update({ 'system.characteristics.insanity.value': newValue })
     if (!isFrightened) {
-      const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'frightened'))
+      const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
       frightenedEffect['statuses'] = frightenedEffect.id
       frightenedEffect.duration.rounds = newValue
 
@@ -1206,7 +1208,7 @@ getTargetAttackBane(target) {
 
       // Nested function
       async function setFrightenedAffliction(durationRoll) {
-        const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'frightened'))
+        const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
         frightenedEffect['statuses'] = frightenedEffect.id
         frightenedEffect.duration.rounds = durationRoll.total
         await ActiveEffect.create(frightenedEffect, {
@@ -1564,7 +1566,7 @@ getTargetAttackBane(target) {
               rollFormula: null,
             })
             if (roll.total < targetNumber) {
-              const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'frightened'))
+              const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
               frightenedEffect['statuses'] = frightenedEffect.id
               await ActiveEffect.create(frightenedEffect, {
                 parent: actor,
@@ -1911,7 +1913,7 @@ getTargetAttackBane(target) {
 
   getSizeFromString(sizeString) {
     let result = 0
-    if (sizeString.includes("/")) {
+    if (sizeString.toString().includes("/")) {
       const [numerator, denominator] = sizeString.split("/")
       result = parseInt(numerator) / parseInt(denominator)
     } else if (['½', '¼', '⅛'].includes(sizeString)) {

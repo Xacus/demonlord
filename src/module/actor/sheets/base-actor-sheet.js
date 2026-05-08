@@ -521,7 +521,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
             }
 
             input.checked = true
-            const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
+            const affliction = CONFIG.statusEffects[afflictionId]
             if (!affliction) return false
             affliction['statuses'] = [affliction.id]
 
@@ -541,7 +541,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
                     let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
                     if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
                       affliction['statuses'] = [affliction.id]
-                      const effect = CONFIG.statusEffects.find(a => a.id === "helped")
+                      const effect = CONFIG.statusEffects["helped"]
                       effect['statuses'] = [effect.id]
                       if (game.user.isGM) {
                         await ActiveEffect.create(effect, {
