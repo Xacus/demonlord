@@ -216,26 +216,29 @@ Hooks.once('setup', function () {
 
   const effects = DLAfflictions.buildAll()
 
-  // Add the default status icons if the setting is not on
-  if (!game.settings.get('demonlord', 'statusIcons')) {
-    for (const effect of CONFIG.statusEffects) {
-      effects.push({
-        id: effect.id,
-        name: effect.name,
-        img: effect.img,
-      })
+  // Hide the default status icons if the setting is on
+  if (game.settings.get('demonlord', 'statusIcons')) {
+    // Regardless of the setting, keep the "invisible" status so that actors can turn invisible
+    // And dead, otherwise can't "kill 'em ded"
+    const importantEffects = ['dead', 'invisible']
+
+    for (const statusEffect of CONFIG.statusEffects) {
+      if (!importantEffects.includes(statusEffect.id)) {
+        statusEffect.hud = false
+      }
     }
   }
-  // Regardless of the setting, add the "invisible" status so that actors can turn invisible
-  // And dead, otherwise can't "kill 'em ded"
-  else {
-    effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'))
-    effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'))
-    effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'))
+
+  // Finally register all the system effects
+  for (const effect of effects) {
+    CONFIG.statusEffects[effect.id] = {
+      id: effect.id,
+      name: effect.name,
+      img: effect.icon,
+      hud: true,
+      order: effect.order
+    }
   }
-
-
-  CONFIG.statusEffects = effects
 
   // Set active effect keys-labels
   DLActiveEffectConfig.initializeChangeKeys()
@@ -367,7 +370,7 @@ Hooks.on('updateActor', async (actor, updateData, options) => {
 
 export async function findAddEffect(actor, effectId, overlay) {
   if (!actor.effects.find(e => e.statuses?.has(effectId)) && !actor.isImmuneToAffliction(effectId)) {
-    const effect = CONFIG.statusEffects.find(e => e.id === effectId)
+    const effect = CONFIG.statusEffects[effectId]
     if (!effect) {
       ui.notifications.error(game.i18n.localize('DL.UnknownEffect') + ': ' + effectId)
       return
