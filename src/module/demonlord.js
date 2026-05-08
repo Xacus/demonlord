@@ -79,6 +79,7 @@ Hooks.once('init', async function () {
   CONFIG.Actor.documentClass = DemonlordActor
   CONFIG.Token.objectClass = DemonlordToken
   CONFIG.Item.documentClass = DemonlordItem
+  foundry.applications.apps.DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", foundry.applications.sheets.ActiveEffectConfig, {})
   foundry.applications.apps.DocumentSheetConfig.registerSheet(ActiveEffect, "demonlord", DLActiveEffectConfig, {makeDefault: true})
   CONFIG.ui.combat = DLCombatTracker
   CONFIG.Combatant.documentClass = DLCombatant
