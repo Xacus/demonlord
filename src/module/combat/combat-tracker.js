@@ -245,14 +245,14 @@ calculateEncounterDifficulty(combatants) {
       else
         trackerHeader.innerHTML = trackerHeader.innerHTML + `<div class="encounter-controls combat"><class="encounter-difficulty">&nbsp;</div>`
     }
-    
+
     html.querySelectorAll('.combatant')?.forEach(el => {
       // For each combatant in the tracker, change the initiative selector
       const combId = el.getAttribute('data-combatant-id')
       const combatant = combatants.get(combId)
       if (!combatant) return
 
-      if (this.initiativeMethod === 's' && !game.modules.get('lancer-initiative').active) {
+      if (this.initiativeMethod === 's' && !game.modules.get('lancer-initiative')?.active) {
         const multipleCombatants = game.combat.getCombatantsByToken(combatant.token)
         const title = (game.user.isGM || combatant.actor.isOwner) && game.combat?.turn === null ? i18n('DL.TurnChangeTurn') : ''
         const style = (game.user.isGM || combatant.actor.isOwner) && game.combat?.turn === null ? 'font-weight: bold; cursor: pointer;' : 'font-weight: normal; cursor: auto; opacity: 0.5;'
@@ -275,7 +275,7 @@ calculateEncounterDifficulty(combatants) {
         }
       }
 
-      if (this.initiativeMethod === 'h' && game.user.isGM && !game.modules.get('lancer-initiative').active)
+      if (this.initiativeMethod === 'h' && game.user.isGM && !game.modules.get('lancer-initiative')?.active)
       {
         let groupID = combatant.flags?.demonlord?.group
         switch (groupID) {
