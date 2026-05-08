@@ -42,8 +42,8 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
       isActorEffect: this.document.parent.documentName === 'Actor',
       isItemEffect: this.document.parent.documentName === 'Item',
       descriptionHTML: await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.description, {secrets: this.document.isOwner}),
-      modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
-        obj[e[1]] = game.i18n.localize('EFFECT.MODE_' + e[0])
+      modes: Object.entries(CONST.ACTIVE_EFFECT_CHANGE_TYPES).reduce((obj, e) => {
+        obj[e[1]] = game.i18n.localize('EFFECT.CHANGES.TYPES.' + e[0])
         return obj
       }, {}),
     }
