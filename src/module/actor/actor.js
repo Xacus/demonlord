@@ -405,7 +405,7 @@ export class DemonlordActor extends Actor {
   }
 
   async _handleOnDeleteDescendantDocuments(documents) {
-    
+
     // Also, if any of the effects in the deleted documents contains an affliction (and it's the last instance of this affliction), remove it
     if (['character', 'creature'].includes(this.type)) {
       for (const doc of documents.filter(d => d.effects?.some(e => e.changes?.some(c => c.key === 'system.maluses.affliction')))) {
@@ -525,7 +525,7 @@ getTargetAttackBane(target) {
   // Adjust bane if source of affliction can be seen, actor already has 1 (frightened), we need to add the difference
   // 0 - no bane
   // 1 - creature is horrifying, creature is frightening (only 2025 trtait mode)
-  // 2 - creature firhtened 
+  // 2 - creature firhtened
   if (attacker.isFrightenedFrom(target)) baneValue += 2
   return baneValue
 }
@@ -1191,7 +1191,7 @@ getTargetAttackBane(target) {
         changes: [{
           key: 'system.bonuses.challenge.boons.will',
           value: -1,
-          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          mode: CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD,
         }, ],
         flags: {
           demonlord: {
@@ -1228,7 +1228,7 @@ getTargetAttackBane(target) {
             changes: [{
               key: 'system.bonuses.challenge.boons.will',
               value: (target.system.willChallengeRollBanes)*-1,
-              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+              mode: CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD,
             }, ],
             flags: {
               demonlord: {
@@ -1254,7 +1254,7 @@ getTargetAttackBane(target) {
             changes: [{
               key: 'system.bonuses.challenge.boons.will',
               value: darkMagicSpellsKnown.length,
-              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+              mode: CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD,
             }, ],
             flags: {
               demonlord: {
