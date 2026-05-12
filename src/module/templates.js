@@ -67,6 +67,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/demonlord/templates/item/parts/AE-config-details.hbs",
     "systems/demonlord/templates/item/parts/AE-config-duration.hbs",
     "systems/demonlord/templates/item/parts/AE-config-changes.hbs",
+    "systems/demonlord/templates/item/parts/AE-config-change.hbs",
 
     // Item Sheet Partials
     'systems/demonlord/templates/item/partial/item-activation.hbs',
