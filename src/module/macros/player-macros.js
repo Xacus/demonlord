@@ -11,7 +11,7 @@ export function makeChallengeRollMacro() {
       ui.notifications.info(game.i18n.localize('DL.DialogWarningActorsNotSelected'));
     }
     else {
-      await Promise.all(selected.forEach(async s => {
+      await Promise.all(selected.map(async s => {
         const a = s.actor
         await a.rollAttributeChallenge(a.getAttribute(attributeName), boonsbanes, 0)
       }))
