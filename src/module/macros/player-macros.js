@@ -18,7 +18,6 @@ export function makeChallengeRollMacro() {
     }
   }
 
-  let applyChanges = false;
   new DialogV2({
     window: {
       title: game.i18n.localize('DL.MacroMakeChallengeRollTitle'),
@@ -46,22 +45,21 @@ export function makeChallengeRollMacro() {
         action: 'yes',
         icon: 'fas fa-check',
         label: game.i18n.localize('DL.MacroMakeChallengeRollRoll'),
-        callback: () => applyChanges = true,
+        callback: (event, button, dialog) => dialog.element,
         default: true
       },
       {
         action: 'no',
         icon: 'fas fa-times',
-        label: game.i18n.localize('DL.MacroCancel')
+        label: game.i18n.localize('DL.MacroCancel'),
+        callback: () => close()
       },
     ],
-    close: async html => {
-      if (applyChanges) {
-        let attribute = html.find('[name="attribute-type"]')[0].value || "none";
-        let boonsbanes = html.find('[name="boonsbanes"]')[0].value || "none";
+    submit: async result => {
+      let attribute = result.querySelector('[name="attribute-type"]').value || "none";
+      let boonsbanes = result.querySelector('[name="boonsbanes"]').value || "none";
 
-        await makeRoll(attribute, boonsbanes);
-      }
+      await makeRoll(attribute, boonsbanes);
     }
   }).render(true);
 }
