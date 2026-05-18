@@ -446,20 +446,20 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   }
 
   static async onToggleInfo(event) {
-    const elem = $(event.target)
+    const elem = event.target
     const root = elem.closest('[data-item-id]')
     const selector = '.fa-chevron-down, .fa-chevron-up'
-    const chevron = elem.is(selector) ? elem : elem.find(selector);
-    const elements = $(root).find('.dlInfo')
-    elements.each((_, el) => {
+    const chevron = elem.matches(selector) ? elem : elem.querySelector(selector);
+    const elements = root.querySelectorAll('.dlInfo')
+    elements.forEach((_, el) => {
       if (el.style.display === 'none') {
         $(el).slideDown(100)
-        chevron?.removeClass('fa-chevron-up')
-        chevron?.addClass('fa-chevron-down')
+        chevron?.classList.remove('fa-chevron-up')
+        chevron?.classList.add('fa-chevron-down')
       } else {
         $(el).slideUp(100)
-        chevron?.removeClass('fa-chevron-down')
-        chevron?.addClass('fa-chevron-up')
+        chevron?.classList.remove('fa-chevron-down')
+        chevron?.classList.add('fa-chevron-up')
       }
     })
   }
@@ -601,13 +601,12 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
   static async onSelectLevel(event, target) {
     // Display/hide levels on click
-    const levelIndex = $(target).closest('[data-level-index]').data('levelIndex')
-    const form = $(target).closest("form")
+    const levelIndex = target.closest('[data-level-index]').dataset.levelIndex
+    const form = target.closest("form")
     this._selectedLevelIndex = levelIndex
     form.find('.level-selector').each((_, pl) => {
-      pl = $(pl)
-      if (pl.data('levelIndex') === levelIndex) pl.show()
-      else pl.hide()
+      if (pl.dataset.levelIndex === levelIndex) pl.style.display = 'block'
+      else pl.style.display = 'none'
     })
   }
 
@@ -667,7 +666,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     tippy(e.querySelectorAll('[data-tippy-content]'))
     tippy(e.querySelectorAll('[data-tippy-html]'), {
       content(reference) {
-        return $(reference).data('tippyHtml')
+        return reference.dataset.tippyHtml
       },
       allowHTML: true
     })
@@ -837,10 +836,10 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   _getPathDataFromForm() {
     // Get all html elements that are 'path-level' and group their inputs by path-level
     const htmlLevels = []
-    $(this.element)
-      .find('.level-selector')
-      .each((i, pl) => {
-        htmlLevels.push($(pl).find("*[name^='level']"))
+    this.element
+      .querySelectorAll('.level-selector')
+      .forEach((i, pl) => {
+        htmlLevels.push(pl.querySelectorAll("*[name^='level']"))
       })
 
     // From the htmlLevels, construct the levels array based on the input names and values
@@ -1059,20 +1058,20 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   }
 
   _onDragOver(event) {
-    $(event.target).addClass('drop-hover')
+    event.target.classList.add('drop-hover')
   }
 
   _onDragLeave(event) {
-    $(event.target).removeClass('drop-hover')
+    event.target.classList.remove('drop-hover')
   }
 
   async _onDrop(event) {
-    $(event.target).removeClass('drop-hover')
+    event.target.classList.remove('drop-hover')
 
     const group = event.target.closest('[data-group]')?.dataset?.group
     const levelIndex = event.target.closest('[data-level-index]')?.dataset?.levelIndex
     try {
-      $(event.target).removeClass('drop-hover')
+      event.target.classList.remove('drop-hover')
       const data = JSON.parse(event.dataTransfer.getData('text/plain'))
       if (data.type !== 'Item') return
       await this._addItem(data, levelIndex, group)
@@ -1161,7 +1160,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   //   if (!data.system.contents) {
   //     return
   //   }
-  //   const itemId = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+  //   const itemId = ev.currentTarget.closest('[data-item-id]').dataset.itemId
   //   const nestedData = data.system.contents.find(i => i._id === itemId)
   //   await getNestedDocument(nestedData).then(d => {
   //     if (d.sheet) d.sheet.render(true)
@@ -1180,7 +1179,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   }
 
   // async _onContentsItemDelete(ev) {
-  //   const itemIndex = $(ev.currentTarget).closest('[data-item-index]').data('itemIndex')
+  //   const itemIndex = ev.currentTarget.closest('[data-item-index]').dataset.itemIndex
   //   await this.deleteContentsItem(itemIndex)
   // }
 

@@ -532,7 +532,11 @@ Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
 
       html.querySelectorAll('.owneronly')?.forEach(el => el.remove())
       if (game.settings.get('demonlord', 'hideActorInfo')) html.querySelectorAll('.showlessinfo')?.forEach(el => el.remove())
-      if (game.settings.get('demonlord', 'hideDescription')) html.querySelectorAll('.showdescription')?.forEach(el => $(el).empty())
+    if (game.settings.get('demonlord', 'hideDescription')) html.querySelectorAll('.showdescription')?.forEach(el => {
+      while (el.firstChild) {
+        el.removeChild(el.lastChild)
+      }
+    })
   }
   initChatListeners(html)
 })

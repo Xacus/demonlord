@@ -484,7 +484,7 @@ function _getChatCardTargets(_card) {
 
 async function _onChatPlaceTemplate(event) {
   event.preventDefault()
-  const itemUuid = $(event.currentTarget).data('itemUuid')
+  const itemUuid = event.currentTarget.dataset.itemUuid
   const item = await fromUuid(itemUuid)
 
   const template = game.demonlord.canvas.ActionTemplate.fromItem(item)
