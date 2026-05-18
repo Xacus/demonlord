@@ -143,8 +143,8 @@ export class ActionTemplate extends foundry.canvas.placeables.MeasuredTemplate {
     }
 
     // Activate listeners
-    canvas.stage.on('mousemove', handlers.mm)
-    canvas.stage.on('mousedown', handlers.lc)
+    canvas.stage.addEventListener('mousemove', handlers.mm)
+    canvas.stage.addEventListener('mousedown', handlers.lc)
     canvas.app.view.oncontextmenu = handlers.rc
     canvas.app.view.onwheel = handlers.mw
   }
