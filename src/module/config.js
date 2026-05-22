@@ -54,12 +54,12 @@ DL.actionRange = {
 DL.actionAreaShape = {
   circle: 'circle',
   cone: 'cone',
-  cube: 'rect',
+  cube: 'rectangle',
   cylinder: 'circle',
   hemisphere: 'circle',
   line: 'ray',
   sphere: 'circle',
-  square: 'rect',
+  square: 'rectangle',
 }
 
 DL.actionDuration = {

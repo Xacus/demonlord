@@ -489,7 +489,7 @@ async function _onChatPlaceTemplate(event) {
 
   const template = game.demonlord.canvas.ActionTemplate.fromItem(item)
   if (template) {
-    template.drawPreview()
+    //template.drawPreview()
   }
 }
 

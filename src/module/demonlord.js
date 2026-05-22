@@ -72,8 +72,6 @@ Hooks.once('init', async function () {
     healingPotionMacro: macros.healingPotionMacro,
   }
 
-  CONFIG.MeasuredTemplate.defaults.angle = 53.13
-
   // Define custom Entity classes
   CONFIG.DL = DL
   CONFIG.Actor.documentClass = DemonlordActor
@@ -683,6 +681,8 @@ Hooks.on('DL.ApplyHealing', data => {
 
 Hooks.on('DL.Action', async () => {
   if (!game.settings.get('demonlord', 'templateAutoRemove')) return
-  const actionTemplates = canvas.scene.templates.filter(a => a.flags.demonlord.actionTemplate).map(a => a.id)
-  if (actionTemplates.length > 0) await canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
+  const templateType = foundry.canvas.placeables.SceneRegion ? 'SceneRegion' : 'MeasuredTemplate'
+  const sceneTemplates = canvas.scene.regions ?? canvas.scene.templates ?? []
+  const actionTemplates = sceneTemplates.filter(a => a.flags.demonlord?.actionTemplate).map(a => a.id)
+  if (actionTemplates.length > 0) await canvas.scene.deleteEmbeddedDocuments(templateType, actionTemplates)
 })
