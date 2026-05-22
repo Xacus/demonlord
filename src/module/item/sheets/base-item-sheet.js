@@ -451,7 +451,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const selector = '.fa-chevron-down, .fa-chevron-up'
     const chevron = elem.matches(selector) ? elem : elem.querySelector(selector);
     const elements = root.querySelectorAll('.dlInfo')
-    elements.forEach((_, el) => {
+    elements.forEach(el => {
       if (el.style.display === 'none') {
         $(el).slideDown(100)
         chevron?.classList.remove('fa-chevron-up')

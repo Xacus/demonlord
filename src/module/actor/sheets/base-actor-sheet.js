@@ -290,7 +290,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     const selector = '.fa-chevron-down, .fa-chevron-up'
     const chevron = elem.matches(selector) ? elem : elem.querySelector(selector);
     const elements = root.querySelectorAll('.dlInfo')
-    elements.forEach((_, i) => {
+    elements.forEach(i => {
         if (i.style.display === 'none') {
           $(i).slideDown(100)
           chevron?.classList.remove('fa-chevron-up')
