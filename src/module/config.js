@@ -57,7 +57,7 @@ DL.actionAreaShape = {
   cube: 'rectangle',
   cylinder: 'circle',
   hemisphere: 'circle',
-  line: 'ray',
+  line: 'line',
   sphere: 'circle',
   square: 'rectangle',
 }
