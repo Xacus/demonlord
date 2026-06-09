@@ -60,9 +60,6 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
       case 'circle':
         templateData.radius = value
         break
-      case 'circle':
-        template.radius = value
-        break
       default:
         break
     }
