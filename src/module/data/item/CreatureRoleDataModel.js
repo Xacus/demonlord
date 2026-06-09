@@ -34,7 +34,7 @@ export default class CreatureRoleDataModel extends foundry.abstract.TypeDataMode
         defense: makeIntField(),
         healingRate: makeIntField(),
         size: makeStringField(),
-        speed: makeIntField(10),
+        speed: makeIntField(),
         power: makeIntField(),
         insanity: makeInsanity(),
         corruption: makeCorruption(),

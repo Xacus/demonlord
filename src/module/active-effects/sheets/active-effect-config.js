@@ -25,34 +25,25 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
   /** @override */
   async _prepareContext(options={}) {
     let context = await super._prepareContext(options)
-    const legacyTransfer = CONFIG.ActiveEffect.legacyTransferral
-
-    const labels = {
-      transfer: {
-        name: game.i18n.localize(`EFFECT.Transfer${legacyTransfer ? "Legacy" : ""}`),
-        hint: game.i18n.localize(`EFFECT.TransferHint${legacyTransfer ? "Legacy" : ""}`)
-      }
-    }
 
     const effect = foundry.utils.deepClone(this.document)
     const data = {
-      labels,
+      changesFields: this.document.system.schema.fields,
+      changeFields: this.document.system.schema.fields.changes.element.fields,
       effect: effect, // Backwards compatibility
       data: effect,
       isActorEffect: this.document.parent.documentName === 'Actor',
       isItemEffect: this.document.parent.documentName === 'Item',
-      descriptionHTML: await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.description, {secrets: this.document.isOwner}),
-      modes: Object.entries(CONST.ACTIVE_EFFECT_CHANGE_TYPES).reduce((obj, e) => {
+      types: Object.entries(CONST.ACTIVE_EFFECT_CHANGE_TYPES).reduce((obj, e) => {
         obj[e[1]] = game.i18n.localize('EFFECT.CHANGES.TYPES.' + e[0])
         return obj
       }, {}),
+      descriptionHTML: await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.description, {secrets: this.document.isOwner}),
+      availableChangeKeys: DLActiveEffectConfig._availableChangeKeys,
+      specialDurations: DLActiveEffectConfig._specialDurations
     }
 
     context = foundry.utils.mergeObject(context, data)
-
-    context.descriptionHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, {secrets: effect.isOwner})
-    context.availableChangeKeys = DLActiveEffectConfig._availableChangeKeys
-    context.specialDurations = DLActiveEffectConfig._specialDurations
 
     return context
   }

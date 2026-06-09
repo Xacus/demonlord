@@ -75,7 +75,8 @@ export function requestChallengeRollMacro() {
         boonsbanestext: {
           value: boonsbanestext
         }
-      }
+      },
+      tokenId: token.document.uuid
     };
 
     let chatData = {
