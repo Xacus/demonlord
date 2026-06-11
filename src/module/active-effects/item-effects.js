@@ -1,5 +1,6 @@
 import { DemonlordActor } from '../actor/actor'
 import { plusify } from '../utils/utils'
+import { i18n } from '../utils/utils'
 
 export const multiplyEffect = (key, value, priority) => ({
   key: key,
@@ -55,6 +56,16 @@ export const addObject = (key, value) => ({
 })
 
 const falsyChangeFilter = change => Boolean(change?.value)
+
+export const registerExpiryEvents = () => {
+  CONFIG.ActiveEffect.expiryEvents.TurnStartSource = i18n('DL.SpecialDurationTurnStartSource')
+  CONFIG.ActiveEffect.expiryEvents.TurnEndSource = i18n('DL.SpecialDurationTurnEndSource')
+  CONFIG.ActiveEffect.expiryEvents.NextAttackRoll = i18n('DL.SpecialDurationNextAttackRoll')
+  CONFIG.ActiveEffect.expiryEvents.NextChallengeRoll = i18n('DL.SpecialDurationNextChallengeRoll')
+  CONFIG.ActiveEffect.expiryEvents.NextD20Roll = i18n('DL.SpecialDurationNextD20Roll')
+  CONFIG.ActiveEffect.expiryEvents.NextDamageRoll = i18n('DL.SpecialDurationNextDamageRoll')
+  CONFIG.ActiveEffect.expiryEvents.RestComplete = i18n('DL.SpecialDurationRestComplete')
+}
 
 /* -------------------------------------------- */
 

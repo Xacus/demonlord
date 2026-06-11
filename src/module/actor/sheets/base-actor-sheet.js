@@ -661,7 +661,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
 
       // Rollable Attributes
       e.querySelectorAll('.attribute .name')?.forEach(el => el.addEventListener('click', ev => {
-        const div = ev.currentTarge
+        const div = ev.currentTarget
         const attributeName = div.dataset.key
         const attribute = this.actor.getAttribute(attributeName)
         if (!attribute.immune) {

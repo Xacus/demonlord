@@ -601,11 +601,13 @@ getTargetAttackBane(target) {
 
     const hitTarget = (defender && attackRoll?.total >= targetNumber) ? defenderToken : []
 
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-    }
+    ActiveEffect.registry.refresh('nextD20Roll', {
+      actorUuid: this.uuid
+    })
+
+    ActiveEffect.registry.refresh('nextAttackRoll', {
+      actorUuid: this.uuid
+    })
 
     Hooks.call('DL.RollAttack', {
       sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
@@ -688,11 +690,13 @@ getTargetAttackBane(target) {
     else
         postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextChallengeRoll') await effect?.delete({animate:animate})
-    }
+    ActiveEffect.registry.refresh('nextD20Roll', {
+      actorUuid: this.uuid
+    })
+
+    ActiveEffect.registry.refresh('nextChallengeRoll', {
+      actorUuid: this.uuid
+    })
 
     return challengeRoll
   }
@@ -744,11 +748,13 @@ getTargetAttackBane(target) {
     await attackRoll.evaluate()
     postAttackToChat(this, tokenManager.targets[0].actor, fakeItem, attackRoll, attribute.key, defense, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-    }
+    ActiveEffect.registry.refresh('nextD20Roll', {
+      actorUuid: this.uuid
+    })
+
+    ActiveEffect.registry.refresh('nextChallengeRoll', {
+      actorUuid: this.uuid
+    })
 
     return attackRoll
   }
@@ -831,11 +837,13 @@ getTargetAttackBane(target) {
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
 
-      for (let effect of this.appliedEffects) {
-        const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-        const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-        if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-      }
+      ActiveEffect.registry.refresh('nextD20Roll', {
+        actorUuid: this.uuid
+      })
+
+      ActiveEffect.registry.refresh('nextAttackRoll', {
+        actorUuid: this.uuid
+      })
 
       if (itemMacroEnabled) {
         let successfullHit = false
@@ -954,11 +962,13 @@ getTargetAttackBane(target) {
 
     postSpellToChat(this, spell, attackRoll, target[0]?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-    }
+    ActiveEffect.registry.refresh('nextD20Roll', {
+      actorUuid: this.uuid
+    })
+
+    ActiveEffect.registry.refresh('nextAttackRoll', {
+      actorUuid: this.uuid
+    })
 
     // Add concentration if it's in the spell duration
     const concentrate = CONFIG.statusEffects['concentrate']
@@ -1091,11 +1101,14 @@ getTargetAttackBane(target) {
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
 
-      for (let effect of this.appliedEffects) {
-        const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-	      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-        if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-      }
+      ActiveEffect.registry.refresh('nextD20Roll', {
+        actorUuid: this.uuid
+      })
+
+      ActiveEffect.registry.refresh('nextAttackRoll', {
+        actorUuid: this.uuid
+      })
+
     if (itemMacroEnabled) {
       const defender = target?.actor
       const targetNumber =
@@ -1193,12 +1206,7 @@ getTargetAttackBane(target) {
           value: -1,
           mode: CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD,
         }, ],
-        flags: {
-          demonlord: {
-            specialDuration: 'NextChallengeRoll',
-            doNotAnimate: true,
-          },
-        },
+        expiry: 'NextChallengeRoll'
       })
 
       // Nested function
@@ -1230,11 +1238,7 @@ getTargetAttackBane(target) {
               value: (target.system.willChallengeRollBanes)*-1,
               mode: CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD,
             }, ],
-            flags: {
-              demonlord: {
-                specialDuration: 'NextChallengeRoll', animate: false
-              },
-            },
+            expiry: 'NextChallengeRoll'
           })
 
           await ActiveEffect.create(willChallengeRollBanesEffect, {
@@ -1256,12 +1260,7 @@ getTargetAttackBane(target) {
               value: darkMagicSpellsKnown.length,
               mode: CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD,
             }, ],
-            flags: {
-              demonlord: {
-                specialDuration: 'NextChallengeRoll',
-                doNotAnimate : true,
-              },
-            },
+            expiry: 'NextChallengeRoll'
           })
 
           await ActiveEffect.create(darkMagicSpellsKnownEffect, {
@@ -1485,12 +1484,7 @@ getTargetAttackBane(target) {
             duration: {
               rounds: 1,
             },
-            flags: {
-              demonlord: {
-                immuneToActoruuid: target.actor.uuid,
-                specialDuration: 'RestComplete',
-              },
-            },
+            expiry: 'RestComplete',
             origin: target.actor.uuid
           })
 
@@ -1644,12 +1638,7 @@ getTargetAttackBane(target) {
                 creature: target.actor.name
               }),
               icon: 'systems/demonlord/assets/icons/effects/eye-target.svg',
-              flags: {
-                demonlord: {
-                  FrightenedFromActoruuid: target.actor.uuid,
-                  specialDuration: 'RestComplete',
-                },
-              },
+              expiry: 'RestComplete',
               duration: {
                 rounds: 1,
               },
@@ -1801,11 +1790,10 @@ getTargetAttackBane(target) {
       if (restTime === 24) this.applyHealing(true)
     }
 
-		for (let effect of this.appliedEffects) {
-			const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-			// if (!(specialDuration?.length > 0)) continue
-			if (specialDuration === 'RestComplete') await effect?.delete()
-		}
+    ActiveEffect.registry.refresh('restComplete', {
+      actorUuid: this.uuid
+    })
+
     postRestToChat(this, restTime, magicRecovery, talentRecovery, healing)
   }
 
