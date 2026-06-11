@@ -16,8 +16,8 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
   };
 
   static PARTS = foundry.utils.mergeObject(super.PARTS ?? {}, {
-    details: { template: "systems/demonlord/templates/item/parts/AE-config-details.hbs"},
-    duration: { template: "systems/demonlord/templates/item/parts/AE-config-duration.hbs"},
+    // details: { template: "systems/demonlord/templates/item/parts/AE-config-details.hbs"},
+    // duration: { template: "systems/demonlord/templates/item/parts/AE-config-duration.hbs"},
     changes: { template: "systems/demonlord/templates/item/parts/AE-config-changes.hbs"}
   })
 
