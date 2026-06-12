@@ -11,16 +11,16 @@ import { changesMatch } from '../utils/chat'
 const tokenManager = new TokenManager()
 
 export function initChatListeners(html) {
-  $(html).on('click', '.roll-healing', _onChatApplyHealing.bind(this))
-  $(html).on('click', '.roll-damage', _onChatRollDamage.bind(this))
-  $(html).on('click', '.apply-damage', _onChatApplyDamage.bind(this))
-  $(html).on('click', '.apply-effect', _onChatApplyEffect.bind(this))
-  $(html).on('click', '.use-talent', _onChatUseTalent.bind(this))
-  $(html).on('click', '.place-template', _onChatPlaceTemplate.bind(this))
-  $(html).on('click', '.request-challengeroll', _onChatRequestChallengeRoll.bind(this))
-  $(html).on('click', '.make-challengeroll', _onChatMakeChallengeRoll.bind(this))
-  $(html).on('click', '.request-initroll', _onChatRequestInitRoll.bind(this))
-  $(html).on('click', '.make-initroll', _onChatMakeInitRoll.bind(this))
+  html.querySelectorAll('.roll-healing').forEach(el => el.addEventListener('click', _onChatApplyHealing.bind(this)))
+  html.querySelectorAll('.roll-damage').forEach(el => el.addEventListener('click', _onChatRollDamage.bind(this)))
+  html.querySelectorAll('.apply-damage').forEach(el => el.addEventListener('click', _onChatApplyDamage.bind(this)))
+  html.querySelectorAll('.apply-effect').forEach(el => el.addEventListener('click', _onChatApplyEffect.bind(this)))
+  html.querySelectorAll('.use-talent').forEach(el => el.addEventListener('click', _onChatUseTalent.bind(this)))
+  html.querySelectorAll('.place-template').forEach(el => el.addEventListener('click', _onChatPlaceTemplate.bind(this)))
+  html.querySelectorAll('.request-challengeroll').forEach(el => el.addEventListener('click', _onChatRequestChallengeRoll.bind(this)))
+  html.querySelectorAll('.make-challengeroll').forEach(el => el.addEventListener('click', _onChatMakeChallengeRoll.bind(this)))
+  html.querySelectorAll('.request-initroll').forEach(el => el.addEventListener('click', _onChatRequestInitRoll.bind(this)))
+  html.querySelectorAll('.make-initroll').forEach(el => el.addEventListener('click', _onChatMakeInitRoll.bind(this)))
 }
 
 /* -------------------------------------------- */
@@ -57,14 +57,9 @@ async function _onChatRollDamage(event) {
   const li = event.currentTarget
   const actor = _getChatCardActor(li.closest('.demonlord'))
 
-  const appliedEffects = tokenManager.getTokenByActorId(actor.id)?.actor?.appliedEffects
-
-  if (appliedEffects?.length) {
-    for (let effect of appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      if (specialDuration === 'NextDamageRoll') await effect?.delete()
-    }
-  }
+  ActiveEffect.registry.refresh('NextDamageRoll', {
+    actorUuid: this.uuid
+  })
 
   const item = li.children[0]
   var damageformula = item.dataset.damage
@@ -254,12 +249,13 @@ async function _onChatApplyEffect(event) {
   //Repace origin with Item UUID, otherwise effect cannot be removed
   //specialDuration: TurnStartSource, TurnEndSource
 
+  // TODO: Have a look at this
   let aeUuid = activeEffect.uuid
   let effectOrigin = aeUuid.substr(0, aeUuid.search('.ActiveEffect.'))
   let effectOriginName = fromUuidSync(effectOrigin).name
-  if (activeEffect.origin.startsWith('Compendium') || ['TurnStartSource', 'TurnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`))) {
+  if (activeEffect.origin.startsWith('Compendium') || ['turnStartSource', 'turnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`))) {
     effectData.origin = effectOrigin
-    if (['TurnStartSource', 'TurnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`)) && effectData.origin.startsWith('Actor'))
+    if (['turnStartSource', 'turnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`)) && effectData.origin.startsWith('Actor'))
       ui.notifications.warn(game.i18n.localize('DL.DialogEffectsWillNotExpire'))
   }
   if (effectData.name !== effectOriginName) effectData.name = `${effectData.name} [${effectOriginName}]`
@@ -484,12 +480,12 @@ function _getChatCardTargets(_card) {
 
 async function _onChatPlaceTemplate(event) {
   event.preventDefault()
-  const itemUuid = $(event.currentTarget).data('itemUuid')
+  const itemUuid = event.currentTarget.dataset.itemUuid
   const item = await fromUuid(itemUuid)
 
   const template = game.demonlord.canvas.ActionTemplate.fromItem(item)
   if (template) {
-    template.drawPreview()
+    //template.drawPreview()
   }
 }
 

@@ -4,25 +4,32 @@ import { TokenManager } from './token-manager'
 const tokenManager = new TokenManager()
 
 /**
- * A helper class for building MeasuredTemplates for 5e spells and abilities
- * @extends {MeasuredTemplate}
+ * A helper class for building scene regions for 5e spells and abilities
+ * @extends {SceneRegion|MeasuredTemplate}
  */
-export class ActionTemplate extends foundry.canvas.placeables.MeasuredTemplate {
-  static fromItem(item) {
+export class ActionTemplate extends foundry.canvas.placeables.Region {
+  static defaults = {
+    angle: 53.13,
+    width: 1
+  }
+
+  static async fromItem(item) {
     const target = foundry.utils.getProperty(item, 'system.activatedEffect.target') || {}
     const templateShape = DL.actionAreaShape[target.type]
     if (!templateShape) return null
 
     // Prepare template data
     const templateData = {
-      t: templateShape,
+      type: templateShape,
       user: game.user._id,
-      distance: target.value,
-      direction: 0,
+      rotation: 0,
       x: 0,
       y: 0,
       fillColor: game.user.color,
       texture: item.system.activatedEffect.texture,
+      gridBased: false,
+      hole: false,
+
       flags: {
         demonlord: {
         actionTemplate: true,
@@ -30,30 +37,61 @@ export class ActionTemplate extends foundry.canvas.placeables.MeasuredTemplate {
       },
     }
 
+    let value = Number.parseInt(target.value) * canvas.dimensions.size // The radius is in pixels, but the value is in grid units
+
     // Additional type-specific data
     switch (templateShape) {
       case 'cone':
-        templateData.angle = CONFIG.MeasuredTemplate.defaults.angle
+        templateData.angle = this.defaults.angle
+        templateData.radius = value
+        templateData.curvature = 'round'
         break
-      case 'rect': // 5e rectangular AoEs are always cubes
-        templateData.distance = Math.hypot(target.value, target.value)
-        templateData.width = target.value
-        templateData.direction = 45
+      case 'rectangle': // All rectangles are square
+        templateData.anchorX = 0.5
+        templateData.anchorY = 0.5
+        templateData.width = value
+        templateData.height = value
         break
-      case 'ray': // 5e rays are most commonly 1 square (5 ft) in width
-        templateData.width = target.width ?? canvas.dimensions.distance
+      case 'line':
+        //templateData.height = value
+        templateData.length = value
+        templateData.width = canvas.dimensions.size  // Lines are most commonly 1 square in width
+        break
+      case 'circle':
+        templateData.radius = value
         break
       default:
         break
     }
 
     // Return the template constructed from the item data
-    const cls = CONFIG.MeasuredTemplate.documentClass
-    const template = new cls(templateData, { parent: canvas.scene })
-    const object = new this(template)
-    object.item = item
-    object.actorSheet = item.actor?.sheet || null
-    return object
+    const template = await canvas.regions.placeRegion({
+      name: `${item.name}`,
+      shapes: [templateData]
+    }, { create: false })
+
+    //const cls = CONFIG.Region.documentClass
+    //const template = new cls(templateData, { parent: canvas.scene })
+
+    if (template) {
+      // Only do the following if the template was actually created
+      const object = new this(template)
+      object.item = item
+      object.actorSheet = item.actor?.sheet || null
+
+      // First clear the tokens
+      canvas.tokens.setTargets([])
+
+      // Automatically target tokens
+      for (let token of canvas.tokens.placeables) {
+        if (template.testPoint(token.document.getCenterPoint())) {
+          // TODO: Should it ignore self?
+          token.setTarget(true, { releaseOthers: false })
+        }
+      }
+
+      return object
+    }
   }
 
   /* -------------------------------------------- */
@@ -127,7 +165,7 @@ export class ActionTemplate extends foundry.canvas.placeables.MeasuredTemplate {
       this.autoTargeting()
 
       // Create the template
-      await canvas.scene.createEmbeddedDocuments('MeasuredTemplate', [data])
+      await canvas.scene.createEmbeddedDocuments('Region', [data])
     }
 
     // Rotate the template by 3 degree increments (mouse-wheel)
@@ -143,8 +181,8 @@ export class ActionTemplate extends foundry.canvas.placeables.MeasuredTemplate {
     }
 
     // Activate listeners
-    canvas.stage.on('mousemove', handlers.mm)
-    canvas.stage.on('mousedown', handlers.lc)
+    canvas.stage.addEventListener('mousemove', handlers.mm)
+    canvas.stage.addEventListener('mousedown', handlers.lc)
     canvas.app.view.oncontextmenu = handlers.rc
     canvas.app.view.onwheel = handlers.mw
   }

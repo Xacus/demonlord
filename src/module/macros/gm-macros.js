@@ -27,7 +27,7 @@ export function requestInitiativeRollMacro() {
     chatData["whisper"] = targets;
 
     let template = 'systems/demonlord/templates/chat/makeinitroll.hbs';
-    renderTemplate(template, templateData).then(content => {
+    foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
       chatData.content = content;
       ChatMessage.create(chatData);
     });
@@ -75,7 +75,8 @@ export function requestChallengeRollMacro() {
         boonsbanestext: {
           value: boonsbanestext
         }
-      }
+      },
+      tokenId: token.document.uuid
     };
 
     let chatData = {
@@ -90,13 +91,12 @@ export function requestChallengeRollMacro() {
     chatData["whisper"] = targets;
 
     let template = 'systems/demonlord/templates/chat/makechallengeroll.hbs';
-    renderTemplate(template, templateData).then(content => {
+    foundry.applications.handlebars.renderTemplate(template, templateData).then(content => {
       chatData.content = content;
       ChatMessage.create(chatData);
     });
   }
 
-  let applyChanges = false;
   new DialogV2({
     window: {
       title: game.i18n.localize('DL.MacroChallengeTitle'),
@@ -124,23 +124,22 @@ export function requestChallengeRollMacro() {
         action: 'yes',
         icon: 'fas fa-check',
         label: game.i18n.localize('DL.MacroChallengeRequestRoll'),
-        callback: () => applyChanges = true,
+        callback: (event, button, dialog) => dialog.element,
         default: true,
       },
       {
         action: 'no',
         icon: 'fas fa-times',
-        label: game.i18n.localize('DL.MacroCancel')
+        label: game.i18n.localize('DL.MacroCancel'),
+        callback: () => close()
       },
     ],
-    close: html => {
-      if (applyChanges) {
-        for (let token of canvas.tokens.controlled) {
-          let attribute = html.find('[name="attribute-type"]')[0].value || "none";
-          let boonsbanes = html.find('[name="boonsbanes"]')[0].value || "none";
+    submit: result => {
+      for (let token of canvas.tokens.controlled) {
+        let attribute = result.querySelector('[name="attribute-type"]').value || "none";
+        let boonsbanes = result.querySelector('[name="boonsbanes"]').value || "none";
 
-          requestRoll(token, attribute, boonsbanes);
-        }
+        requestRoll(token, attribute, boonsbanes);
       }
     }
   }).render(true);
@@ -177,13 +176,13 @@ export function wealthManagerMacro() {
   <p>
     <b>` + game.i18n.localize('DL.MacroWealthManager.AddSubtract') + `</b><br/>
 <label for="gc">` + game.i18n.localize('DL.MacroWealthManager.CoinsGC') + `</label>
-<input id="gc" type="number" min="-10" max="10" style="width: 40px; box-sizing: border-box;border: none;background-color: rgba(0, 0, 0, 0.1);color: black; text-align: center; margin-right:10px" value=0>
+<input id="gc" type="number" min="-10" max="10" style="width: 40px; box-sizing: border-box;border: none;background-color: rgba(0, 0, 0, 0.1);text-align: center; margin-right:10px" value=0>
 <label for="ss">` + game.i18n.localize('DL.MacroWealthManager.CoinsSS') + `</label>
-<input id="ss" type="number" min="-10" max="10" style="width: 40px; box-sizing: border-box;border: none;background-color: rgba(0, 0, 0, 0.1);color: black; text-align: center; margin-right:10px" value=0>
+<input id="ss" type="number" min="-10" max="10" style="width: 40px; box-sizing: border-box;border: none;background-color: rgba(0, 0, 0, 0.1);text-align: center; margin-right:10px" value=0>
 <label for="cp">` + game.i18n.localize('DL.MacroWealthManager.CoinsCP') + `</label>
-<input id="cp" type="number" min="-10" max="10" style="width: 40px; box-sizing: border-box;border: none;background-color: rgba(0, 0, 0, 0.1);color: black; text-align: center; margin-right:10px" value=0>
+<input id="cp" type="number" min="-10" max="10" style="width: 40px; box-sizing: border-box;border: none;background-color: rgba(0, 0, 0, 0.1);text-align: center; margin-right:10px" value=0>
 <label for="bits">` + game.i18n.localize('DL.MacroWealthManager.CoinsBits') + `</label>
-<input id="bits" type="number" min="-10" max="10" style="width: 40px; box-sizing: border-box;border: none;background-color: rgba(0, 0, 0, 0.1);color: black; text-align: center; " value=0>
+<input id="bits" type="number" min="-10" max="10" style="width: 40px; box-sizing: border-box;border: none;background-color: rgba(0, 0, 0, 0.1);text-align: center; " value=0>
   </p>
 <br/>
   <h2>` + game.i18n.localize('DL.MacroWealthManager.CurrentWealth') + `</h2>
@@ -201,8 +200,8 @@ export function wealthManagerMacro() {
         {
           action: 'ok',
           label: game.i18n.localize('DL.MacroWealthManager.ButtonApply'),
-          callback: async (html) => {
-            coinmanager(html);
+          callback: async (event, button, dialog) => {
+            coinmanager(dialog.element);
           },
         },
         {
@@ -214,11 +213,11 @@ export function wealthManagerMacro() {
   }
 
   async function coinmanager(html) {
-    let playerName = html.find("#playerName")[0].value;
-    let gc = html.find("#gc")[0].value;
-    let ss = html.find("#ss")[0].value;
-    let cp = html.find("#cp")[0].value;
-    let bits = html.find("#bits")[0].value;
+    let playerName = html.querySelector("#playerName").value;
+    let gc = html.querySelector("#gc").value;
+    let ss = html.querySelector("#ss").value;
+    let cp = html.querySelector("#cp").value;
+    let bits = html.querySelector("#bits").value;
     if (playerName == 'everyone') {
       await updateAllWealth(gc, ss, cp, bits);
     } else {
@@ -229,7 +228,7 @@ export function wealthManagerMacro() {
   async function updateWealth(playerName, gc, ss, cp, bits) {
     let actors = [];
     let players = game.users.filter((t) => t.role != 4);
-    players.forEach((p) => {
+    players?.map((p) => {
       const actor = p.character
       if (!actor) return
       if (actor.name === playerName)
@@ -241,19 +240,18 @@ export function wealthManagerMacro() {
     let currentCP = parseInt(actors[0].system.wealth.cp);
     let currentBits = parseInt(actors[0].system.wealth.bits);
 
-    await actors[0].update(
-      {
-        'system.wealth.gc': currentGC + parseInt(gc),
-        'system.wealth.ss': currentSS + parseInt(ss),
-        'system.wealth.cp': currentCP + parseInt(cp),
-        'system.wealth.bits': currentBits + parseInt(bits)
-      });
+    await actors[0].update({
+      'system.wealth.gc': currentGC + parseInt(gc),
+      'system.wealth.ss': currentSS + parseInt(ss),
+      'system.wealth.cp': currentCP + parseInt(cp),
+      'system.wealth.bits': currentBits + parseInt(bits)
+    });
     expMessage(actors[0].name, gc, ss, cp, bits);
   }
 
   async function updateAllWealth(gc, ss, cp, bits) {
     let players = game.users.filter((t) => t.role !== 4);
-    await Promise.all(players.forEach(async (p) => {
+    await Promise.all(players?.map(async (p) => {
       const actor = p.character
       if (!actor) return
 
@@ -262,13 +260,12 @@ export function wealthManagerMacro() {
       let currentCP = parseInt(actor.system.wealth.cp);
       let currentBits = parseInt(actor.system.wealth.bits);
 
-      await actor.update(
-        {
-          'system.wealth.gc': currentGC + parseInt(gc),
-          'system.wealth.ss': currentSS + parseInt(ss),
-          'system.wealth.cp': currentCP + parseInt(cp),
-          'system.wealth.bits': currentBits + parseInt(bits)
-        });
+      await actor.update({
+        'system.wealth.gc': currentGC + parseInt(gc),
+        'system.wealth.ss': currentSS + parseInt(ss),
+        'system.wealth.cp': currentCP + parseInt(cp),
+        'system.wealth.bits': currentBits + parseInt(bits)
+      });
 
       expMessage(actor.name, gc, ss, cp, bits);
     }));

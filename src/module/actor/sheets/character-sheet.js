@@ -305,16 +305,16 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
   }
 
   async onEditRole(ev) {
-    const div = $(ev.currentTarget)
-    const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+    const div = ev.currentTarget
+    const role = this.actor.getEmbeddedDocument('Item', div.data.itemId)
 
     if (ev.button == 0) role.sheet.render(true)
     else if (ev.button == 2) await role.delete({ parent: this.actor })
   }
 
   async onEditRelic(ev) {
-    const div = $(ev.currentTarget)
-    const role = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+    const div = ev.currentTarge
+    const role = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
 
     if (ev.button == 0) role.sheet.render(true)
     else if (ev.button == 2) await role.delete({ parent: this.actor })
@@ -418,7 +418,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Ammo uses
     e.querySelectorAll('.ammo-amount')?.forEach(el => el.addEventListener('mousedown', async ev => {
-      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const id = ev.currentTarget.closest('[data-item-id]').dataset.itemId
       const item = foundry.utils.duplicate(this.actor.items.get(id))
       const amount = item.system.quantity
       if (ev.button == 0 && amount >= 0) item.system.quantity = +amount + 1
@@ -428,7 +428,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Item uses
     e.querySelectorAll('.item-uses')?.forEach(el => el.addEventListener('mousedown', async ev => {
-      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const id = ev.currentTarget.closest('[data-item-id]').dataset.itemId
       const item = foundry.utils.duplicate(this.actor.items.get(id))
       if (ev.button == 0) {
         item.system.quantity++

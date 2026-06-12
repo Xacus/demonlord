@@ -136,18 +136,18 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
       e.dlRemaining = e.duration.label
     }
 
-    let specialDuration = foundry.utils.getProperty(e, `flags.${game.system.id}.specialDuration`)
-    if (specialDuration !== 'None' && specialDuration !== undefined) {
+    let expiryEvent = e.expiry
+    if (expiryEvent !== 'None' && expiryEvent !== undefined) {
       const actorName = e.origin !== null ? fromUuidSync(e.origin)?.parent?.name : ''
-      switch (specialDuration) {
-        case 'TurnEndSource':
+      switch (expiryEvent) {
+        case 'turnEndSource':
           e.dlRemaining = `TurnEnd [${actorName}]`
           break
-        case 'TurnStartSource':
+        case 'turnStartSource':
           e.dlRemaining = `TurnStart [${actorName}]`
           break
         default:
-          e.dlRemaining = specialDuration
+          e.dlRemaining = expiryEvent
       }
     }
 

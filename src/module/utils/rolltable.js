@@ -5,8 +5,8 @@
 
 export function _renderRollTableDirectory(html) {
   if (!game.settings.get('demonlord', 'enableQuickDraw')) return
-  const tables = $(html).find('.directory-item.document')
-  tables.each(k => {
+  const tables = html.querySelectorAll('.directory-item.document')
+  tables.forEach(k => {
     let rollIcon = document.createElement('dl')
     enrichRollTableSidebar(rollIcon, tables, k)
     rollIcon.addEventListener('click', rollTableFromSidebar)
@@ -16,8 +16,8 @@ export function _renderRollTableDirectory(html) {
 export function _renderCompendium(html, data) {
   if (!game.settings.get('demonlord', 'enableQuickDraw')) return
   if (data.collection.metadata.type !== 'RollTable') return
-  const tables = $(html).find('.directory-item.document')
-  tables.each(k => {
+  const tables = html.querySelectorAll('.directory-item.document')
+  tables.forEach(k => {
     let rollIcon = document.createElement('dl')
     enrichRollTableSidebar(rollIcon, tables, k)
     rollIcon.addEventListener('click', event =>
@@ -28,11 +28,10 @@ export function _renderCompendium(html, data) {
 
 export function _renderDLSheet(jn, element) {
   if (!game.settings.get('demonlord', 'enableQuickDraw')) return
-  $(element)
-    .find('.content-link')
-    .contextmenu(elem => {
+  element.querySelectorAll('.content-link').forEach(el =>
+    el.addEventListener('contextmenu', (elem => {
       linkContextDraw(elem.currentTarget)
-    })
+    })))
 }
 
 function linkContextDraw(target) {
