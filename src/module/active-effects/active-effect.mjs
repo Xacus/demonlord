@@ -7,7 +7,7 @@ export default class DLActiveEffect extends foundry.documents.ActiveEffect {
      * @inheritdoc
      */
     isExpiryEvent(event, context) {
-        const newEvents = new Set(['TurnStartSource', 'TurnEndSource', 'NextAttackRoll', 'NextChallengeRoll', 'NextD20Roll', 'NextDamageRoll', 'RestComplete'])
+        const newEvents = new Set(['turnStartSource', 'turnEndSource', 'nextAttackRoll', 'nextChallengeRoll', 'nextD20Roll', 'nextDamageRoll', 'restComplete'])
 
         if (!newEvents.has(event) || !newEvents.has(this.duration.expiry)) return super.isExpiryEvent(event, context)
 
@@ -16,7 +16,7 @@ export default class DLActiveEffect extends foundry.documents.ActiveEffect {
                 return this.origin?.startsWith(context.actorUuid)
             case 'turnEndSource':
                 // Do not delete effects which are created in the same turn and round.
-                if (context.combat.current.round === this.duration.startRound && context.combat.current.turn === this.duration.startTurn + 1 || context.combat.current.round === this.duration.startRound + 1 && context.combat.current.turn === 0) return false
+                if (context.combat.round === this.start.round && context.combat.turn === this.start.turn + 1 || context.combat.round === this.start.round + 1 && context.combat.turn === 0) return false
                 return this.origin?.startsWith(context.actorUuid)
 
             case 'nextAttackRoll':

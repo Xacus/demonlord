@@ -540,7 +540,7 @@ async function deleteCombatEffects(combatant) {
       'turnEnd',
       'combatStart',
       'combatEnd'
-    ].contains(effect.expiry)) await effect?.delete()
+    ].includes(effect.expiry)) await effect?.delete()
   }
 }
 
@@ -682,7 +682,8 @@ Hooks.on('deleteCombatant', async (combatant) => {
   await deleteSurroundedStatus(combatant)
 })
 
-Hooks.on('updateCombat', async (combat) => {
+//Hooks.on('updateCombat', async (combat) => {
+Hooks.on('combatTurn', async (combat, _updateData, _updateOptions) => {
   if (!game.users.activeGM?.isSelf) return
   if (combat.current.combatantId === null) return
 
@@ -692,11 +693,13 @@ Hooks.on('updateCombat', async (combat) => {
 
   // SOURCE type expirations
   // Now call all the events from combat changing)
-  ActiveEffect.registry.refresh('TurnEndSource', {
-    actorUuid: previousActor.uuid,
-    combat: game.combat.current
-  })
-  ActiveEffect.registry.refresh('TurnStartSource', {
+  if (previousActor) {
+    ActiveEffect.registry.refresh('turnEndSource', {
+      actorUuid: previousActor.uuid,
+      combat: game.combat.current
+    })
+  }
+  ActiveEffect.registry.refresh('turnStartSource', {
     actorUuid: currentActor.uuid,
     combat: game.combat.current
   })
