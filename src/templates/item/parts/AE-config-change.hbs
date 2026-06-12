@@ -1,16 +1,16 @@
 <li data-index="{{index}}">
     <div class="key">
-        {{formInput fields.key name=(concat "changes." index ".key") value=change.key choices=keys}}
+        {{formInput fields.key name=(concat "system.changes." index ".key") value=change.key choices=keys}}
     </div>
     <div class="type">
-        {{formInput fields.type name=(concat "changes." index ".type") value=change.type choices=types}}
+        {{formInput fields.type name=(concat "system.changes." index ".type") value=change.type choices=types}}
     </div>
     <div class="value">
-        {{formInput fields.value name=(concat "changes." index ".value") value=change.value elementType="input"}}
+        {{formInput fields.value name=(concat "system.changes." index ".value") value=change.value elementType="input"}}
     </div>
-    <input type="hidden" name="changes.{{index}}.phase" value="{{change.phase}}">
+    <input type="hidden" name="system.changes.{{index}}.phase" value="{{change.phase}}">
     <div class="priority">
-        {{formInput fields.priority name=(concat "changes." index ".name") value=change.priority placeholder=0}}
+        {{formInput fields.priority name=(concat "system.changes." index ".priority") value=change.priority placeholder=0}}
     </div>
     <div class="controls">
         <button type="button" class="inline-control icon fa-solid fa-trash" data-action="deleteChange"></button>

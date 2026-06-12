@@ -5,20 +5,15 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
 
   static DEFAULT_OPTIONS = {
     window: {
-      title: "EFFECT.ConfigTitle",
-      resizable: true
+      title: 'EFFECT.ConfigTitle',
     },
-    position: {
-      height: "auto",
-      width: 612
-    },
-    classes: ["sheet", "active-effect-sheet"],
+    classes: ['sheet', 'active-effect-sheet', 'active-effect-config'],
   };
 
   static PARTS = foundry.utils.mergeObject(super.PARTS ?? {}, {
     // details: { template: "systems/demonlord/templates/item/parts/AE-config-details.hbs"},
     // duration: { template: "systems/demonlord/templates/item/parts/AE-config-duration.hbs"},
-    changes: { template: "systems/demonlord/templates/item/parts/AE-config-changes.hbs"}
+    changes: { template: 'systems/demonlord/templates/item/parts/AE-config-changes.hbs'}
   })
 
 
@@ -35,7 +30,7 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
       isActorEffect: this.document.parent.documentName === 'Actor',
       isItemEffect: this.document.parent.documentName === 'Item',
       types: Object.entries(CONST.ACTIVE_EFFECT_CHANGE_TYPES).reduce((obj, e) => {
-        obj[e[1]] = game.i18n.localize('EFFECT.CHANGES.TYPES.' + e[0])
+        obj[e[0]] = game.i18n.localize('EFFECT.CHANGES.TYPES.' + e[0])
         return obj
       }, {}),
       descriptionHTML: await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.description, {secrets: this.document.isOwner}),
