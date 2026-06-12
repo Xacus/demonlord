@@ -16,8 +16,8 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
   };
 
   static PARTS = foundry.utils.mergeObject(super.PARTS ?? {}, {
-    details: { template: "systems/demonlord/templates/item/parts/AE-config-details.hbs"},
-    duration: { template: "systems/demonlord/templates/item/parts/AE-config-duration.hbs"},
+    // details: { template: "systems/demonlord/templates/item/parts/AE-config-details.hbs"},
+    // duration: { template: "systems/demonlord/templates/item/parts/AE-config-duration.hbs"},
     changes: { template: "systems/demonlord/templates/item/parts/AE-config-changes.hbs"}
   })
 
@@ -45,6 +45,9 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
 
     context = foundry.utils.mergeObject(context, data)
 
+    context.descriptionHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, {secrets: effect.isOwner})
+    context.availableChangeKeys = DLActiveEffectConfig._availableChangeKeys
+
     return context
   }
 
@@ -53,22 +56,6 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
     const currTabId = Object.values(context.tabs)?.find(i => i.active)?.id;
     if (currTabId !== "changes") this.position.height = this.element.offsetHeight ?? "auto";
   }
-
-static initializeSpecialDurations() {
-    DLActiveEffectConfig._specialDurations = {
-        'None': i18n('DL.SpecialDurationNone'),
-        'EndOfTheRound' : i18n('DL.SpecialDurationEndOfTheRound'),
-        'TurnStart': i18n('DL.SpecialDurationTurnStart'),
-        'TurnEnd': i18n('DL.SpecialDurationTurnEnd'),
-        'TurnStartSource': i18n('DL.SpecialDurationTurnStartSource'),
-        'TurnEndSource': i18n('DL.SpecialDurationTurnEndSource'),
-        'NextAttackRoll': i18n('DL.SpecialDurationNextAttackRoll'),
-        'NextChallengeRoll': i18n('DL.SpecialDurationNextChallengeRoll'),
-        'NextD20Roll': i18n('DL.SpecialDurationNextD20Roll'),
-        'NextDamageRoll': i18n('DL.SpecialDurationNextDamageRoll'),
-        'RestComplete': i18n('DL.SpecialDurationRestComplete')
-    }
-}
 
   static initializeChangeKeys() {
     DLActiveEffectConfig._availableChangeKeys = {

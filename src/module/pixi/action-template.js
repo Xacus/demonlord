@@ -47,17 +47,18 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
         templateData.curvature = 'round'
         break
       case 'rectangle': // All rectangles are square
-        templateData.anchorX = value * 0.5
-        templateData.anchorY = value * 0.5
+        templateData.anchorX = 0.5
+        templateData.anchorY = 0.5
         templateData.width = value
         templateData.height = value
         break
-      case 'ray': // 5e rays are most commonly 1 square (5 ft) in width
-        templateData.height = value
-        templateData.width = target.width ?? canvas.dimensions.distance
+      case 'line':
+        //templateData.height = value
+        templateData.length = value
+        templateData.width = canvas.dimensions.size  // Lines are most commonly 1 square in width
         break
       case 'circle':
-        template.radius = value
+        templateData.radius = value
         break
       default:
         break
@@ -84,6 +85,7 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
       // Automatically target tokens
       for (let token of canvas.tokens.placeables) {
         if (template.testPoint(token.document.getCenterPoint())) {
+          // TODO: Should it ignore self?
           token.setTarget(true, { releaseOthers: false })
         }
       }

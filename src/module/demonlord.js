@@ -39,10 +39,12 @@ import SpecialActionDataModel from './data/item/SpecialActionDataModel.js'
 import SpellDataModel from './data/item/SpellDataModel.js'
 import TalentDataModel from './data/item/TalentDataModel.js'
 import WeaponDataModel from './data/item/WeaponDataModel.js'
+import DLActiveEffect from './active-effects/active-effect.mjs'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
 import 'tippy.js/dist/tippy.css'
 import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"
+import { registerExpiryEvents } from "./active-effects/item-effects.js"
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for styling
 import { activateSocketListener } from "./utils/socket.js"
 import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
@@ -77,6 +79,7 @@ Hooks.once('init', async function () {
   CONFIG.Actor.documentClass = DemonlordActor
   CONFIG.Token.objectClass = DemonlordToken
   CONFIG.Item.documentClass = DemonlordItem
+  CONFIG.ActiveEffect.documentClass = DLActiveEffect
   foundry.applications.apps.DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", foundry.applications.sheets.ActiveEffectConfig, {})
   foundry.applications.apps.DocumentSheetConfig.registerSheet(ActiveEffect, "demonlord", DLActiveEffectConfig, {makeDefault: true})
   CONFIG.ui.combat = DLCombatTracker
@@ -155,6 +158,8 @@ Hooks.once('init', async function () {
 
   preloadHandlebarsTemplates()
   registerHandlebarsHelpers()
+
+  registerExpiryEvents()
 
   // Support Babele translations
   if (typeof Babele !== 'undefined') {
@@ -235,13 +240,13 @@ Hooks.once('setup', function () {
       name: effect.name,
       img: effect.icon,
       hud: true,
-      order: effect.order
+      order: effect.order,
+      duration: effect.duration
     }
   }
 
   // Set active effect keys-labels
   DLActiveEffectConfig.initializeChangeKeys()
-  DLActiveEffectConfig.initializeSpecialDurations()
 })
 
 /**
@@ -442,16 +447,6 @@ export async function findDeleteEffect(actor, effectId) {
   const effect = actor.effects.find(e => e.statuses?.has(effectId))
   return await effect?.delete()
 }
-
- Hooks.on('preUpdateActiveEffect', async (activeEffect, changes, _, userId ) => {
-    // Set specialDuration effects to temporary
-    if (game.user.id !== userId) return
-    const specialDuration = foundry.utils.getProperty(changes, `flags.${game.system.id}.specialDuration`)
-    if (specialDuration !== "None" && specialDuration !== undefined)
-    {
-      changes.duration.rounds = 1
-    }
-})
 
 Hooks.on('deleteActiveEffect', async (activeEffect, _, userId) => {
   if (game.user.id !== userId) return

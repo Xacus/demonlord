@@ -303,7 +303,7 @@ export class DLAfflictions {
           addEffect('system.bonuses.defense.boons.spell', -1, effectPriority),
         ],
       ),
-    )    
+    )
 
     // Unconscious
     effectsDataList.push(
@@ -346,7 +346,7 @@ export class DLAfflictions {
         addEffect('system.bonuses.defense.boons.perception', 1, effectPriority),
         // TODO: Auto disable when Dazed, Stunned or Unconscious
       ],
-      {'specialDuration' : 'EndOfTheRound'}
+        { 'expiry': 'endOfTheRound' }
      ),
     )
 
@@ -356,7 +356,7 @@ export class DLAfflictions {
         'help',
         'systems/demonlord/assets/icons/effects/help.svg',
         [], // TODO: Add boons? Aka help should be applied to the receiver
-      {'specialDuration' : 'EndOfTheRound'}
+        { 'expiry': 'endOfTheRound' }
       ),
     )
 
@@ -368,7 +368,7 @@ export class DLAfflictions {
           addEffect('system.bonuses.attack.boons.all', 1, effectPriority),
           addEffect('system.bonuses.challenge.boons.all', 1, effectPriority),
         ],
-        {'specialDuration' : 'NextD20Roll'}
+        { 'expiry': 'nextD20Roll' }
       ),
     )
 
@@ -386,21 +386,21 @@ export class DLAfflictions {
         addEffect('system.bonuses.attack.boons.will', 1, effectPriority),
         addEffect('system.bonuses.attack.boons.perception', 1, effectPriority),
       ],
-      {'specialDuration' : 'EndOfTheRound'}
+        { 'expiry': 'roundEnd' }
       ),
     )
 
     // Reload
-    effectsDataList.push(_buildBaseAffliction('reload', 'systems/demonlord/assets/icons/effects/reload.svg', [], {'specialDuration' : 'EndOfTheRound'}))
+    effectsDataList.push(_buildBaseAffliction('reload', 'systems/demonlord/assets/icons/effects/reload.svg', [], { 'expiry': 'roundEnd' }))
 
     // Retreat
-    effectsDataList.push(_buildBaseAffliction('retreat', 'systems/demonlord/assets/icons/effects/retreat.svg', [], {'specialDuration' : 'EndOfTheRound'}))
+    effectsDataList.push(_buildBaseAffliction('retreat', 'systems/demonlord/assets/icons/effects/retreat.svg', [], { 'expiry': 'roundEnd' }))
 
     // Rush
-    effectsDataList.push(_buildBaseAffliction('rush', 'systems/demonlord/assets/icons/effects/rush.svg', [], {'specialDuration' : 'EndOfTheRound'}))
+    effectsDataList.push(_buildBaseAffliction('rush', 'systems/demonlord/assets/icons/effects/rush.svg', [], { 'expiry': 'roundEnd' }))
 
     // Stabilize
-    effectsDataList.push(_buildBaseAffliction('stabilize', 'systems/demonlord/assets/icons/effects/stabilize.svg', [], {'specialDuration' : 'EndOfTheRound'}))
+    effectsDataList.push(_buildBaseAffliction('stabilize', 'systems/demonlord/assets/icons/effects/stabilize.svg', [], { 'expiry': 'roundEnd' }))
 
     // ----------------------- DAMAGE EFFECTS -------------------------- //
 

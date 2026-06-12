@@ -449,11 +449,6 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
     const enabledEffects = actor.effects
     const tempEffects = enabledEffects.filter(e => e.duration?.rounds > 0 || e.duration?.seconds > 0)
     tempEffects.forEach(e => {
-      // Ignore effects with specialDuration
-      if (inCombat) {
-        let specialDuration = foundry.utils.getProperty(e, `flags.${game.system.id}.specialDuration`)
-        if (specialDuration !== 'None' && specialDuration !== undefined) return
-      }
       const eType = e.flags?.demonlord?.sourceType
       const isSpell1Round = eType === 'spell' && e.duration.rounds === 1
 
@@ -529,15 +524,23 @@ Hooks.on('preCreateCombatant', async (combatant, _data, _options, userId) => {
       await combatant.updateSource({initiative: null})
 })
 
-// Delete Effects with specialDuration
-async function deleteSpecialdurationEffects(combatant) {
+// Delete effects that should expire during combat
+async function deleteCombatEffects(combatant) {
   let tokenD = fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}`)
   if (!tokenD) return
   let actor = tokenD.actorLink ? game.actors.get(combatant.actorId) : fromUuidSync(`Scene.${combatant.sceneId}.Token.${combatant.tokenId}.Actor.${combatant.actorId}`)
   for (let effect of actor.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      if (!(specialDuration?.length > 0)) continue
-      if (specialDuration !== "None" && specialDuration !== undefined && specialDuration !== 'RestComplete') await effect?.delete()
+    if ([
+      // Durations that should expire during combat
+      'turnStartSource',
+      'turnEndSource',
+      'roundStart',
+      'roundEnd',
+      'turnStart',
+      'turnEnd',
+      'combatStart',
+      'combatEnd'
+    ].includes(effect.expiry)) await effect?.delete()
   }
 }
 
@@ -549,29 +552,15 @@ async function deleteSurroundedStatus(combatant) {
   await effect?.delete()
 }
 
-// Delete End Of The Round Effects
-async function deleteEndOfTheRoundEffects(currentActors) {
-    for await (let actor of currentActors) {
-        let deleteIds = []
-        const endOfTheRoundEffects = actor.appliedEffects.filter(e => e.flags?.demonlord?.specialDuration === 'EndOfTheRound')
-        endOfTheRoundEffects.forEach(e => {
-            deleteIds.push(e._id)
-        })
-        if (deleteIds.length) await actor.deleteEmbeddedDocuments('ActiveEffect', deleteIds)
-    }
-}
-
 Hooks.on('deleteCombat', async (combat) => {
 	for (let turn of combat.turns) {
 		let actor = turn.actor
-		if (!actor) continue
-		for (let effect of actor.appliedEffects) {
-			const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-			if (!(specialDuration?.length > 0)) continue
-			if (specialDuration !== "None" && specialDuration !== undefined && specialDuration !== 'RestComplete') await effect?.delete()
-		}
+    if (!actor) continue
     await deleteSurroundedStatus(actor)
 	}
+  for (let combatant of combat.combatants) {
+    await deleteCombatEffects(combatant)
+  }
 
 })
 
@@ -666,7 +655,7 @@ Hooks.on('targetToken', async (user, target, isTargeted) => {
 
 
 Hooks.on("createCombatant", async combatant => {
-	await deleteSpecialdurationEffects(combatant)
+  await deleteCombatEffects(combatant)
 	let optionalRuleInitiative = game.settings.get("demonlord", "optionalRuleInitiativeMode")
 	if (optionalRuleInitiative === "s") return
   await setCombatantGroup(combatant)
@@ -689,90 +678,29 @@ Hooks.on("createCombatant", async combatant => {
 })
 
 Hooks.on('deleteCombatant', async (combatant) => {
-          await deleteSpecialdurationEffects(combatant)
-          await deleteSurroundedStatus(combatant)
+  await deleteCombatEffects(combatant)
+  await deleteSurroundedStatus(combatant)
 })
 
-Hooks.on('updateCombat', async (combat) => {
+//Hooks.on('updateCombat', async (combat) => {
+Hooks.on('combatTurn', async (combat, _updateData, _updateOptions) => {
   if (!game.users.activeGM?.isSelf) return
   if (combat.current.combatantId === null) return
-  // SOURCE type expirations
-  for (let turn of combat.turns) {
-    let actor = turn.actor
-    if (!actor) continue
-    for (let effect of actor.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      if (!(specialDuration?.length > 0)) continue
-      if (
-        effect.origin?.startsWith(combat.turns.find(x => x._id === combat.previous.combatantId)?.actor.uuid) &&
-        specialDuration === 'TurnEndSource'
-      ) {
-        console.warn(
-          `Effect "${effect.name}" deleted on ${actor.name}, reason: ${
-            combat.turns.find(x => x._id === combat.previous.combatantId).actor.name
-          } ending its turn.`,
-        )
-        // Do not delete effects which are created in the same turn and round.
-        if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1 || game.combat.current.round === effect.duration.startRound+1 && game.combat.current.turn ===0) continue
-        await effect?.delete()
-        continue
-      }
-      if (
-        effect.origin?.startsWith(combat.turns.find(x => x._id === combat.current.combatantId).actor.uuid) &&
-        specialDuration === 'TurnStartSource'
-      ) {
-        console.warn(
-          `Effect "${effect.name}" deleted on ${actor.name}, reason: ${
-            combat.turns.find(x => x._id === combat.current.combatantId).actor.name
-          } starting its turn.`,
-        )
-        await effect?.delete()
-        continue
-      }
-    }
-  }
 
-  // TARGET type expirations
   let currentActor = combat.turns.find(x => x._id === combat.current.combatantId).actor
   let previousActor = combat.turns.find(x => x._id === combat.previous.combatantId)?.actor
 
-  for (let effect of currentActor.allApplicableEffects()) {
-    const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-    if (specialDuration?.length > 0) {
-      if (specialDuration === 'TurnStart') {
-        console.warn(
-          `Effect "${effect.name}" deleted on ${currentActor.name}, reason: ${currentActor.name} starting its turn.`,
-        )
-        await effect?.delete()
-        continue
-      }
-    }
-  }
 
-  if (previousActor !== undefined) {
-    for (let effect of previousActor.allApplicableEffects()) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      if (specialDuration?.length > 0) {
-        if (specialDuration === 'TurnEnd') {
-          // Do not delete effects which are created in the same turn and round. PreviousActor startTurn+1!
-            if (game.combat.current.round === effect.duration.startRound && game.combat.current.turn === effect.duration.startTurn+1 || game.combat.current.round === effect.duration.startRound+1 && game.combat.current.turn ===0) continue
-          console.warn(
-            `Effect "${effect.name}" deleted on ${previousActor.name}, reason: ${previousActor.name} ending its turn.`,
-          )
-          await effect?.delete()
-          continue
-        }
-      }
-    }
+  // SOURCE type expirations
+  // Now call all the events from combat changing)
+  if (previousActor) {
+    ActiveEffect.registry.refresh('turnEndSource', {
+      actorUuid: previousActor.uuid,
+      combat: game.combat.current
+    })
   }
-
-  // End Of The Round Expirations
-  if (game.combat.turn === 0) {
-      const allCombatants = [...combat.combatants]
-      let allActors = []
-      allCombatants.forEach((combatant) => {
-          if (combatant.actor.appliedEffects.find(e => e.flags?.demonlord?.specialDuration === 'EndOfTheRound')) allActors.push(combatant.actor)
-      })
-      await deleteEndOfTheRoundEffects(allActors)
-  }
+  ActiveEffect.registry.refresh('turnStartSource', {
+    actorUuid: currentActor.uuid,
+    combat: game.combat.current
+  })
 })

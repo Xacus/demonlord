@@ -57,14 +57,9 @@ async function _onChatRollDamage(event) {
   const li = event.currentTarget
   const actor = _getChatCardActor(li.closest('.demonlord'))
 
-  const appliedEffects = tokenManager.getTokenByActorId(actor.id)?.actor?.appliedEffects
-
-  if (appliedEffects?.length) {
-    for (let effect of appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      if (specialDuration === 'NextDamageRoll') await effect?.delete()
-    }
-  }
+  ActiveEffect.registry.refresh('NextDamageRoll', {
+    actorUuid: this.uuid
+  })
 
   const item = li.children[0]
   var damageformula = item.dataset.damage
@@ -254,12 +249,13 @@ async function _onChatApplyEffect(event) {
   //Repace origin with Item UUID, otherwise effect cannot be removed
   //specialDuration: TurnStartSource, TurnEndSource
 
+  // TODO: Have a look at this
   let aeUuid = activeEffect.uuid
   let effectOrigin = aeUuid.substr(0, aeUuid.search('.ActiveEffect.'))
   let effectOriginName = fromUuidSync(effectOrigin).name
-  if (activeEffect.origin.startsWith('Compendium') || ['TurnStartSource', 'TurnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`))) {
+  if (activeEffect.origin.startsWith('Compendium') || ['turnStartSource', 'turnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`))) {
     effectData.origin = effectOrigin
-    if (['TurnStartSource', 'TurnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`)) && effectData.origin.startsWith('Actor'))
+    if (['turnStartSource', 'turnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`)) && effectData.origin.startsWith('Actor'))
       ui.notifications.warn(game.i18n.localize('DL.DialogEffectsWillNotExpire'))
   }
   if (effectData.name !== effectOriginName) effectData.name = `${effectData.name} [${effectOriginName}]`
