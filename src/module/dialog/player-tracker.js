@@ -121,9 +121,9 @@ export class PlayerTracker extends HandlebarsApplicationMixin(ApplicationV2) {
 
     if (!this.options.editable) return
 
-    const html = $(this.element)
+    const html = this.element
 
-    html.find('.gmnote-control').click(async ev => {
+    html.querySelectorAll('.gmnote-control')?.forEach(el => el.addEventListener(async ev => {
       const a = ev.currentTarget
       const actor = game.actors.get(a.dataset.id)
 
@@ -136,7 +136,7 @@ export class PlayerTracker extends HandlebarsApplicationMixin(ApplicationV2) {
               })
               .then(() => this.render())
           case 'save': {
-            const textarea = html.find('textarea[id="person.' + actor.id + '"]')
+            const textarea = html.querySelectorAll('textarea[id="person.' + actor.id + '"]')
             return await actor
               .update({
                 'data.gmnote': textarea[0].value,
@@ -146,7 +146,7 @@ export class PlayerTracker extends HandlebarsApplicationMixin(ApplicationV2) {
           }
         }
       }
-    })
+    }))
   }
 
   /**

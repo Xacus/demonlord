@@ -39,6 +39,7 @@ export class DemonlordActor extends Actor {
    * @override
    */
   prepareBaseData() {
+    super.prepareBaseData()
     const system = this.system
     // Set the base perception equal to intellect
     if (this.type === 'character') {
@@ -143,6 +144,7 @@ export class DemonlordActor extends Actor {
    * @override
    */
   prepareDerivedData() {
+    super.prepareDerivedData()
     const system = this.system
 
     // We can reapply some active effects if we know they happened
@@ -402,7 +404,7 @@ export class DemonlordActor extends Actor {
   }
 
   async _handleOnDeleteDescendantDocuments(documents) {
-    
+
     // Also, if any of the effects in the deleted documents contains an affliction (and it's the last instance of this affliction), remove it
     if (['character', 'creature'].includes(this.type)) {
       for (const doc of documents.filter(d => d.effects?.some(e => e.changes?.some(c => c.key === 'system.maluses.affliction')))) {
@@ -522,7 +524,7 @@ getTargetAttackBane(target) {
   // Adjust bane if source of affliction can be seen, actor already has 1 (frightened), we need to add the difference
   // 0 - no bane
   // 1 - creature is horrifying, creature is frightening (only 2025 trtait mode)
-  // 2 - creature firhtened 
+  // 2 - creature firhtened
   if (attacker.isFrightenedFrom(target)) baneValue += 2
   return baneValue
 }
@@ -598,11 +600,13 @@ getTargetAttackBane(target) {
 
     const hitTarget = (defender && attackRoll?.total >= targetNumber) ? defenderToken : []
 
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-    }
+    ActiveEffect.registry.refresh('nextD20Roll', {
+      actorUuid: this.uuid
+    })
+
+    ActiveEffect.registry.refresh('nextAttackRoll', {
+      actorUuid: this.uuid
+    })
 
     Hooks.call('DL.RollAttack', {
       sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
@@ -685,11 +689,13 @@ getTargetAttackBane(target) {
     else
         postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextChallengeRoll') await effect?.delete({animate:animate})
-    }
+    ActiveEffect.registry.refresh('nextD20Roll', {
+      actorUuid: this.uuid
+    })
+
+    ActiveEffect.registry.refresh('nextChallengeRoll', {
+      actorUuid: this.uuid
+    })
 
     return challengeRoll
   }
@@ -741,11 +747,13 @@ getTargetAttackBane(target) {
     await attackRoll.evaluate()
     postAttackToChat(this, tokenManager.targets[0].actor, fakeItem, attackRoll, attribute.key, defense, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-    }
+    ActiveEffect.registry.refresh('nextD20Roll', {
+      actorUuid: this.uuid
+    })
+
+    ActiveEffect.registry.refresh('nextChallengeRoll', {
+      actorUuid: this.uuid
+    })
 
     return attackRoll
   }
@@ -828,11 +836,13 @@ getTargetAttackBane(target) {
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
 
-      for (let effect of this.appliedEffects) {
-        const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-        const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-        if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-      }
+      ActiveEffect.registry.refresh('nextD20Roll', {
+        actorUuid: this.uuid
+      })
+
+      ActiveEffect.registry.refresh('nextAttackRoll', {
+        actorUuid: this.uuid
+      })
 
       if (itemMacroEnabled) {
         let successfullHit = false
@@ -951,14 +961,16 @@ getTargetAttackBane(target) {
 
     postSpellToChat(this, spell, attackRoll, target[0]?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    for (let effect of this.appliedEffects) {
-      const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-      if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-    }
+    ActiveEffect.registry.refresh('nextD20Roll', {
+      actorUuid: this.uuid
+    })
+
+    ActiveEffect.registry.refresh('nextAttackRoll', {
+      actorUuid: this.uuid
+    })
 
     // Add concentration if it's in the spell duration
-    const concentrate = CONFIG.statusEffects.find(e => e.id === 'concentrate')
+    const concentrate = CONFIG.statusEffects['concentrate']
     if (
       spell.system.duration.toLowerCase().includes('concentration') &&
       this.effects.find(e => e.statuses?.has('concentrate')) === undefined &&
@@ -1088,11 +1100,14 @@ getTargetAttackBane(target) {
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
 
-      for (let effect of this.appliedEffects) {
-        const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-	      const animate = foundry.utils.getProperty(effect, `flags.${game.system.id}.doNotAnimate`) === undefined ? true: false
-        if (specialDuration === 'NextD20Roll' || specialDuration === 'NextAttackRoll') await effect?.delete({animate:animate})
-      }
+      ActiveEffect.registry.refresh('nextD20Roll', {
+        actorUuid: this.uuid
+      })
+
+      ActiveEffect.registry.refresh('nextAttackRoll', {
+        actorUuid: this.uuid
+      })
+
     if (itemMacroEnabled) {
       const defender = target?.actor
       const targetNumber =
@@ -1140,7 +1155,7 @@ getTargetAttackBane(target) {
         let roll = await actor.rollAttributeChallenge(attribute, 0, 0, {mode: 'stunnedRoll'})
         const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
         if (roll.total < targetNumber) {
-          const stunnedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'stunned'))
+          const stunnedEffect = foundry.utils.deepClone(CONFIG.statusEffects['stunned'])
           stunnedEffect['statuses'] = stunnedEffect.id
           stunnedEffect.duration.rounds = 1
           await ActiveEffect.create(stunnedEffect, {
@@ -1158,7 +1173,7 @@ getTargetAttackBane(target) {
     const isStunned = actor.effects.find(e => e.statuses?.has('stunned')) === undefined ? false : true
     await actor.update({ 'system.characteristics.insanity.value': newValue })
     if (!isFrightened) {
-      const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'frightened'))
+      const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
       frightenedEffect['statuses'] = frightenedEffect.id
       frightenedEffect.duration.rounds = newValue
 
@@ -1188,14 +1203,9 @@ getTargetAttackBane(target) {
         changes: [{
           key: 'system.bonuses.challenge.boons.will',
           value: -1,
-          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          mode: CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD,
         }, ],
-        flags: {
-          demonlord: {
-            specialDuration: 'NextChallengeRoll',
-            doNotAnimate: true,
-          },
-        },
+        expiry: 'NextChallengeRoll'
       })
 
       // Nested function
@@ -1205,7 +1215,7 @@ getTargetAttackBane(target) {
 
       // Nested function
       async function setFrightenedAffliction(durationRoll) {
-        const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'frightened'))
+        const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
         frightenedEffect['statuses'] = frightenedEffect.id
         frightenedEffect.duration.rounds = durationRoll.total
         await ActiveEffect.create(frightenedEffect, {
@@ -1225,13 +1235,9 @@ getTargetAttackBane(target) {
             changes: [{
               key: 'system.bonuses.challenge.boons.will',
               value: (target.system.willChallengeRollBanes)*-1,
-              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+              mode: CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD,
             }, ],
-            flags: {
-              demonlord: {
-                specialDuration: 'NextChallengeRoll', animate: false
-              },
-            },
+            expiry: 'NextChallengeRoll'
           })
 
           await ActiveEffect.create(willChallengeRollBanesEffect, {
@@ -1251,14 +1257,9 @@ getTargetAttackBane(target) {
             changes: [{
               key: 'system.bonuses.challenge.boons.will',
               value: darkMagicSpellsKnown.length,
-              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+              mode: CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD,
             }, ],
-            flags: {
-              demonlord: {
-                specialDuration: 'NextChallengeRoll',
-                doNotAnimate : true,
-              },
-            },
+            expiry: 'NextChallengeRoll'
           })
 
           await ActiveEffect.create(darkMagicSpellsKnownEffect, {
@@ -1482,12 +1483,7 @@ getTargetAttackBane(target) {
             duration: {
               rounds: 1,
             },
-            flags: {
-              demonlord: {
-                immuneToActoruuid: target.actor.uuid,
-                specialDuration: 'RestComplete',
-              },
-            },
+            expiry: 'RestComplete',
             origin: target.actor.uuid
           })
 
@@ -1563,7 +1559,7 @@ getTargetAttackBane(target) {
               rollFormula: null,
             })
             if (roll.total < targetNumber) {
-              const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects.find(e => e.id === 'frightened'))
+              const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
               frightenedEffect['statuses'] = frightenedEffect.id
               await ActiveEffect.create(frightenedEffect, {
                 parent: actor,
@@ -1641,12 +1637,7 @@ getTargetAttackBane(target) {
                 creature: target.actor.name
               }),
               icon: 'systems/demonlord/assets/icons/effects/eye-target.svg',
-              flags: {
-                demonlord: {
-                  FrightenedFromActoruuid: target.actor.uuid,
-                  specialDuration: 'RestComplete',
-                },
-              },
+              expiry: 'RestComplete',
               duration: {
                 rounds: 1,
               },
@@ -1798,11 +1789,10 @@ getTargetAttackBane(target) {
       if (restTime === 24) this.applyHealing(true)
     }
 
-		for (let effect of this.appliedEffects) {
-			const specialDuration = foundry.utils.getProperty(effect, `flags.${game.system.id}.specialDuration`)
-			// if (!(specialDuration?.length > 0)) continue
-			if (specialDuration === 'RestComplete') await effect?.delete()
-		}
+    ActiveEffect.registry.refresh('restComplete', {
+      actorUuid: this.uuid
+    })
+
     postRestToChat(this, restTime, magicRecovery, talentRecovery, healing)
   }
 
@@ -1910,7 +1900,7 @@ getTargetAttackBane(target) {
 
   getSizeFromString(sizeString) {
     let result = 0
-    if (sizeString.includes("/")) {
+    if (sizeString.toString().includes("/")) {
       const [numerator, denominator] = sizeString.split("/")
       result = parseInt(numerator) / parseInt(denominator)
     } else if (['½', '¼', '⅛'].includes(sizeString)) {

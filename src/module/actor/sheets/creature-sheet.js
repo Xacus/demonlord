@@ -135,8 +135,8 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
   }
 
   async onEditRelic(ev) {
-    const div = $(ev.currentTarget)
-    const relic = this.actor.getEmbeddedDocument('Item', div.data('itemId'))
+    const div = ev.currentTarget
+    const relic = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
 
     if (ev.button == 0) relic.sheet.render(true)
     else if (ev.button == 2) await relic.delete({ parent: this.actor })
@@ -173,7 +173,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
 
     // Ammo uses
     e.querySelectorAll('.ammo-amount')?.forEach(el => el.addEventListener('mousedown', async ev => {
-      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const id = ev.currentTarget.closest('[data-item-id]').dataset.itemId
       const item = foundry.utils.duplicate(this.actor.items.get(id))
       const amount = item.system.quantity
       if (ev.button == 0 && amount >= 0) item.system.quantity = +amount + 1
@@ -183,7 +183,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
 
     // Item uses
     e.querySelectorAll('.item-uses')?.forEach(el => el.addEventListener('mousedown', async ev => {
-      const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+      const id = ev.currentTarget.closest('[data-item-id]').dataset.itemId
       const item = foundry.utils.duplicate(this.actor.items.get(id))
       if (ev.button == 0) {
         item.system.quantity++
@@ -196,8 +196,8 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     }))
 
     e.querySelectorAll('.characteristic .name')?.forEach(el => el.addEventListener('contextmenu', async ev => {
-      const div = $(ev.currentTarget)
-      const characteristicName = div.data('key')
+      const div = ev.currentTarget
+      const characteristicName = div.dataset.key
       await this.actor.update({ system: { characteristics: { [characteristicName]: { immune: !this.actor.system.characteristics[characteristicName].immune } } } })
     }))
   }

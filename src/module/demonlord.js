@@ -39,10 +39,12 @@ import SpecialActionDataModel from './data/item/SpecialActionDataModel.js'
 import SpellDataModel from './data/item/SpellDataModel.js'
 import TalentDataModel from './data/item/TalentDataModel.js'
 import WeaponDataModel from './data/item/WeaponDataModel.js'
+import DLActiveEffect from './active-effects/active-effect.mjs'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
 import 'tippy.js/dist/tippy.css'
 import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"
+import { registerExpiryEvents } from "./active-effects/item-effects.js"
 import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for styling
 import { activateSocketListener } from "./utils/socket.js"
 import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
@@ -72,13 +74,13 @@ Hooks.once('init', async function () {
     healingPotionMacro: macros.healingPotionMacro,
   }
 
-  CONFIG.MeasuredTemplate.defaults.angle = 53.13
-
   // Define custom Entity classes
   CONFIG.DL = DL
   CONFIG.Actor.documentClass = DemonlordActor
   CONFIG.Token.objectClass = DemonlordToken
   CONFIG.Item.documentClass = DemonlordItem
+  CONFIG.ActiveEffect.documentClass = DLActiveEffect
+  foundry.applications.apps.DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", foundry.applications.sheets.ActiveEffectConfig, {})
   foundry.applications.apps.DocumentSheetConfig.registerSheet(ActiveEffect, "demonlord", DLActiveEffectConfig, {makeDefault: true})
   CONFIG.ui.combat = DLCombatTracker
   CONFIG.Combatant.documentClass = DLCombatant
@@ -157,6 +159,8 @@ Hooks.once('init', async function () {
   preloadHandlebarsTemplates()
   registerHandlebarsHelpers()
 
+  registerExpiryEvents()
+
   // Support Babele translations
   if (typeof Babele !== 'undefined') {
     Babele.get().setSystemTranslationsDir('packs/translations')
@@ -216,30 +220,33 @@ Hooks.once('setup', function () {
 
   const effects = DLAfflictions.buildAll()
 
-  // Add the default status icons if the setting is not on
-  if (!game.settings.get('demonlord', 'statusIcons')) {
-    for (const effect of CONFIG.statusEffects) {
-      effects.push({
-        id: effect.id,
-        name: effect.name,
-        img: effect.img,
-      })
+  // Hide the default status icons if the setting is on
+  if (game.settings.get('demonlord', 'statusIcons')) {
+    // Regardless of the setting, keep the "invisible" status so that actors can turn invisible
+    // And dead, otherwise can't "kill 'em ded"
+    const importantEffects = ['dead', 'invisible']
+
+    for (const statusEffect of CONFIG.statusEffects) {
+      if (!importantEffects.includes(statusEffect.id)) {
+        statusEffect.hud = false
+      }
     }
   }
-  // Regardless of the setting, add the "invisible" status so that actors can turn invisible
-  // And dead, otherwise can't "kill 'em ded"
-  else {
-    effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'))
-    effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'))
-    effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'))
+
+  // Finally register all the system effects
+  for (const effect of effects) {
+    CONFIG.statusEffects[effect.id] = {
+      id: effect.id,
+      name: effect.name,
+      img: effect.icon,
+      hud: true,
+      order: effect.order,
+      duration: effect.duration
+    }
   }
-
-
-  CONFIG.statusEffects = effects
 
   // Set active effect keys-labels
   DLActiveEffectConfig.initializeChangeKeys()
-  DLActiveEffectConfig.initializeSpecialDurations()
 })
 
 /**
@@ -367,7 +374,7 @@ Hooks.on('updateActor', async (actor, updateData, options) => {
 
 export async function findAddEffect(actor, effectId, overlay) {
   if (!actor.effects.find(e => e.statuses?.has(effectId)) && !actor.isImmuneToAffliction(effectId)) {
-    const effect = CONFIG.statusEffects.find(e => e.id === effectId)
+    const effect = CONFIG.statusEffects[effectId]
     if (!effect) {
       ui.notifications.error(game.i18n.localize('DL.UnknownEffect') + ': ' + effectId)
       return
@@ -440,16 +447,6 @@ export async function findDeleteEffect(actor, effectId) {
   const effect = actor.effects.find(e => e.statuses?.has(effectId))
   return await effect?.delete()
 }
-
- Hooks.on('preUpdateActiveEffect', async (activeEffect, changes, _, userId ) => {
-    // Set specialDuration effects to temporary
-    if (game.user.id !== userId) return
-    const specialDuration = foundry.utils.getProperty(changes, `flags.${game.system.id}.specialDuration`)
-    if (specialDuration !== "None" && specialDuration !== undefined)
-    {
-      changes.duration.rounds = 1
-    }
-})
 
 Hooks.on('deleteActiveEffect', async (activeEffect, _, userId) => {
   if (game.user.id !== userId) return
@@ -528,7 +525,11 @@ Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
 
       html.querySelectorAll('.owneronly')?.forEach(el => el.remove())
       if (game.settings.get('demonlord', 'hideActorInfo')) html.querySelectorAll('.showlessinfo')?.forEach(el => el.remove())
-      if (game.settings.get('demonlord', 'hideDescription')) html.querySelectorAll('.showdescription')?.forEach(el => $(el).empty())
+    if (game.settings.get('demonlord', 'hideDescription')) html.querySelectorAll('.showdescription')?.forEach(el => {
+      while (el.firstChild) {
+        el.removeChild(el.lastChild)
+      }
+    })
   }
   initChatListeners(html)
 })
@@ -675,6 +676,8 @@ Hooks.on('DL.ApplyHealing', data => {
 
 Hooks.on('DL.Action', async () => {
   if (!game.settings.get('demonlord', 'templateAutoRemove')) return
-  const actionTemplates = canvas.scene.templates.filter(a => a.flags.demonlord.actionTemplate).map(a => a.id)
-  if (actionTemplates.length > 0) await canvas.scene.deleteEmbeddedDocuments('MeasuredTemplate', actionTemplates)
+  const templateType = foundry.canvas.placeables.SceneRegion ? 'SceneRegion' : 'MeasuredTemplate'
+  const sceneTemplates = canvas.scene.regions ?? canvas.scene.templates ?? []
+  const actionTemplates = sceneTemplates.filter(a => a.flags.demonlord?.actionTemplate).map(a => a.id)
+  if (actionTemplates.length > 0) await canvas.scene.deleteEmbeddedDocuments(templateType, actionTemplates)
 })

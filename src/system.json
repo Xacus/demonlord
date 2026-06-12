@@ -2,7 +2,7 @@
   "id": "demonlord",
   "title": "Shadow of the Demon Lord",
   "description": "The Shadow of the Demonlord system for Foundry VTT",
-  "version": "5.2.0",
+  "version": "6.0.0-beta",
   "authors": [
     {
       "name": "Xacus"
@@ -19,8 +19,8 @@
   ],
   "background": "systems/demonlord/assets/ui/thumbnail.webp",
   "compatibility": {
-    "minimum": 13,
-    "verified": 13
+    "minimum": 14,
+    "verified": 14
   },
   "esmodules": ["module/demonlord.js"],
   "styles": ["styles/demonlord.css", "module/bundle.css"],
@@ -146,7 +146,7 @@
   "socket": true,
   "url": "https://github.com/Xacus/demonlord",
   "manifest": "https://github.com/Xacus/demonlord/releases/latest/download/system.json",
-  "download": "https://github.com/Xacus/demonlord/releases/download/3.0.0/system.zip",
+  "download": "https://github.com/Xacus/demonlord/releases/download/6.0.0-beta/system.zip",
   "bugs": "https://github.com/Xacus/demonlord/issues",
   "readme": "https://github.com/Xacus/demonlord/blob/master/README.md",
   "changelog": "https://github.com/Xacus/demonlord/blob/master/CHANGELOG.md",

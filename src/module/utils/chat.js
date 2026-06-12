@@ -1,7 +1,7 @@
 /**
- * 
- * @param {[]} a 
- * @param {[]} b 
+ *
+ * @param {[]} a
+ * @param {[]} b
  */
 export function changesMatch(a, b) {
     // Falsy arrays are not equal to each other
@@ -15,7 +15,7 @@ export function changesMatch(a, b) {
 
     // Check each element (order matters)
     for (let i = 0; i < a.length; i++) {
-        if (a[i].key !== b[i].key || a[i].mode !== b[i].mode || a[i].value !== b[i].value) return false
+        if (a[i].key !== b[i].key || a[i].type !== b[i].type || a[i].value !== b[i].value) return false
     }
 
     return true

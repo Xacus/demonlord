@@ -5,54 +5,43 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
 
   static DEFAULT_OPTIONS = {
     window: {
-      title: "EFFECT.ConfigTitle",
-      resizable: true
+      title: 'EFFECT.ConfigTitle',
     },
-    position: {
-      height: "auto",
-      width: 612
-    },
-    classes: ["sheet", "active-effect-sheet"],
+    classes: ['sheet', 'active-effect-sheet', 'active-effect-config'],
   };
 
   static PARTS = foundry.utils.mergeObject(super.PARTS ?? {}, {
-    details: { template: "systems/demonlord/templates/item/parts/AE-config-details.hbs"},
-    duration: { template: "systems/demonlord/templates/item/parts/AE-config-duration.hbs"},
-    changes: { template: "systems/demonlord/templates/item/parts/AE-config-changes.hbs"}
+    // details: { template: "systems/demonlord/templates/item/parts/AE-config-details.hbs"},
+    // duration: { template: "systems/demonlord/templates/item/parts/AE-config-duration.hbs"},
+    changes: { template: 'systems/demonlord/templates/item/parts/AE-config-changes.hbs'}
   })
 
 
   /** @override */
   async _prepareContext(options={}) {
     let context = await super._prepareContext(options)
-    const legacyTransfer = CONFIG.ActiveEffect.legacyTransferral
-
-    const labels = {
-      transfer: {
-        name: game.i18n.localize(`EFFECT.Transfer${legacyTransfer ? "Legacy" : ""}`),
-        hint: game.i18n.localize(`EFFECT.TransferHint${legacyTransfer ? "Legacy" : ""}`)
-      }
-    }
 
     const effect = foundry.utils.deepClone(this.document)
     const data = {
-      labels,
+      changesFields: this.document.system.schema.fields,
+      changeFields: this.document.system.schema.fields.changes.element.fields,
       effect: effect, // Backwards compatibility
       data: effect,
       isActorEffect: this.document.parent.documentName === 'Actor',
       isItemEffect: this.document.parent.documentName === 'Item',
-      descriptionHTML: await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.description, {secrets: this.document.isOwner}),
-      modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
-        obj[e[1]] = game.i18n.localize('EFFECT.MODE_' + e[0])
+      types: Object.entries(CONST.ACTIVE_EFFECT_CHANGE_TYPES).reduce((obj, e) => {
+        obj[e[0]] = game.i18n.localize('EFFECT.CHANGES.TYPES.' + e[0])
         return obj
       }, {}),
+      descriptionHTML: await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.description, {secrets: this.document.isOwner}),
+      availableChangeKeys: DLActiveEffectConfig._availableChangeKeys,
+      specialDurations: DLActiveEffectConfig._specialDurations
     }
 
     context = foundry.utils.mergeObject(context, data)
 
     context.descriptionHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, {secrets: effect.isOwner})
     context.availableChangeKeys = DLActiveEffectConfig._availableChangeKeys
-    context.specialDurations = DLActiveEffectConfig._specialDurations
 
     return context
   }
@@ -62,22 +51,6 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
     const currTabId = Object.values(context.tabs)?.find(i => i.active)?.id;
     if (currTabId !== "changes") this.position.height = this.element.offsetHeight ?? "auto";
   }
-
-static initializeSpecialDurations() {
-    DLActiveEffectConfig._specialDurations = {
-        'None': i18n('DL.SpecialDurationNone'),
-        'EndOfTheRound' : i18n('DL.SpecialDurationEndOfTheRound'),
-        'TurnStart': i18n('DL.SpecialDurationTurnStart'),
-        'TurnEnd': i18n('DL.SpecialDurationTurnEnd'),
-        'TurnStartSource': i18n('DL.SpecialDurationTurnStartSource'),
-        'TurnEndSource': i18n('DL.SpecialDurationTurnEndSource'),
-        'NextAttackRoll': i18n('DL.SpecialDurationNextAttackRoll'),
-        'NextChallengeRoll': i18n('DL.SpecialDurationNextChallengeRoll'),
-        'NextD20Roll': i18n('DL.SpecialDurationNextD20Roll'),
-        'NextDamageRoll': i18n('DL.SpecialDurationNextDamageRoll'),
-        'RestComplete': i18n('DL.SpecialDurationRestComplete')
-    }
-}
 
   static initializeChangeKeys() {
     DLActiveEffectConfig._availableChangeKeys = {

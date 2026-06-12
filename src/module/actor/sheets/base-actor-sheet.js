@@ -285,20 +285,20 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
   }
 
   static async onToggleInfo(event) {
-    const elem = $(event.target)
+    const elem = event.target
     const root = elem.closest('[data-item-id]')
     const selector = '.fa-chevron-down, .fa-chevron-up'
-    const chevron = elem.is(selector) ? elem : elem.find(selector);
-    const elements = $(root).find('.dlInfo')
-    elements.each((_, i) => {
+    const chevron = elem.matches(selector) ? elem : elem.querySelector(selector);
+    const elements = root.querySelectorAll('.dlInfo')
+    elements.forEach(i => {
         if (i.style.display === 'none') {
           $(i).slideDown(100)
-          chevron?.removeClass('fa-chevron-up')
-          chevron?.addClass('fa-chevron-down')
+          chevron?.classList.remove('fa-chevron-up')
+          chevron?.classList.add('fa-chevron-down')
         } else {
           $(i).slideUp(100)
-          chevron?.removeClass('fa-chevron-down')
-          chevron?.addClass('fa-chevron-up')
+          chevron?.classList.remove('fa-chevron-down')
+          chevron?.classList.add('fa-chevron-up')
         }
       })
   }
@@ -442,7 +442,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     tippy(e.querySelectorAll('[data-tippy-content]'))
     tippy(e.querySelectorAll('[data-tippy-html]'), {
       content(reference) {
-        return $(reference).data('tippyHtml')
+        return reference.dataset.tippyHtml
       },
       allowHTML: true
     })
@@ -461,7 +461,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     })
     tippy(e.querySelectorAll('[data-tab="afflictions"] [data-tippy-affliction]'), {
       content(reference) {
-        return $(reference).data('tippyAffliction')
+        return reference.dataset.tippyAffliction
       },
       trigger: 'mouseenter',
       arrow: true,
@@ -521,7 +521,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
             }
 
             input.checked = true
-            const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId)
+            const affliction = CONFIG.statusEffects[afflictionId]
             if (!affliction) return false
             affliction['statuses'] = [affliction.id]
 
@@ -541,7 +541,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
                     let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
                     if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
                       affliction['statuses'] = [affliction.id]
-                      const effect = CONFIG.statusEffects.find(a => a.id === "helped")
+                      const effect = CONFIG.statusEffects["helped"]
                       effect['statuses'] = [effect.id]
                       if (game.user.isGM) {
                         await ActiveEffect.create(effect, {
@@ -629,14 +629,14 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
 
       // Clone inventory item
       e.querySelectorAll('.item-clone')?.forEach(el => el.addEventListener('click', async ev => {
-        const li = $(ev.currentTarget).parents('.item')
-        const item = foundry.utils.duplicate(this.actor.items.get(li.data('itemId')))
+        const li = ev.currentTarget.closest('.item')
+        const item = foundry.utils.duplicate(this.actor.items.get(li.dataset.itemId))
         await Item.create(item, { parent: this.actor })
       }))
 
       // Wear item style
       e.querySelectorAll('.item-wear')?.forEach(el => {
-        const itemId = $(el).closest('[data-item-id]').data('itemId')
+        const itemId = el.closest('[data-item-id]').dataset.itemId
         const item = this.actor.items.get(itemId)
         if (
           item.system.wear &&
@@ -644,7 +644,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
           item.system.requirement?.attribute != '' &&
           +item.system.requirement?.minvalue > (+this.actor.getAttribute(item.system.requirement?.attribute)?.value + +this.actor.getAttribute(item.system.requirement?.attribute)?.requirementModifier)
         ) {
-          $(el).addClass('dl-text-red')
+          el.classList.add('dl-text-red')
         }
       })
 
@@ -661,8 +661,8 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
 
       // Rollable Attributes
       e.querySelectorAll('.attribute .name')?.forEach(el => el.addEventListener('click', ev => {
-        const div = $(ev.currentTarget)
-        const attributeName = div.data('key')
+        const div = ev.currentTarget
+        const attributeName = div.dataset.key
         const attribute = this.actor.getAttribute(attributeName)
         if (!attribute.immune) {
           // Make an attribute attack if a target is selected, otherwise, challenge roll
@@ -676,27 +676,27 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
 
       // Set immune on rollable attribute
       e.querySelectorAll('.attribute .name')?.forEach(el => el.addEventListener('contextmenu', async ev => {
-        const div = $(ev.currentTarget)
-        const attributeName = div.data('key')
+        const div = ev.currentTarget
+        const attributeName = div.dataset.key
         await this.actor.update({ system: { attributes: { [attributeName]: { immune: !this.actor.system.attributes[attributeName].immune } } } })
       }))
 
       // Rollable Attack
       e.querySelectorAll('.attack-roll')?.forEach(el => el.addEventListener('click', async ev => {
-        const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+        const id = ev.currentTarget.closest('[data-item-id]').dataset.itemId
         await this.actor.rollWeaponAttack(id, { event: ev })
       }))
 
       // Rollable Talent
       e.querySelectorAll('.talent-roll').forEach(el => el.addEventListener('mousedown', async ev => {
-        const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+        const id = ev.currentTarget.closest('[data-item-id]').dataset.itemId
         if (ev.button == 0) await this.actor.rollTalent(id, { event: ev })
         else if (ev.button == 2) await this.actor.deactivateTalent(this.actor.items.get(id), 0)
       }))
 
       // Talent uses
       e.querySelectorAll('.talent-uses').forEach(el => el.addEventListener('mousedown', async ev => {
-        const id = $(ev.currentTarget).closest('[data-item-id]').data('itemId')
+        const id = ev.currentTarget.closest('[data-item-id]').dataset.itemId
         const talent = this.actor.items.get(id)
         if (ev.button == 0) await this.actor.activateTalent(talent, true)
         else if (ev.button == 2) await this.actor.deactivateTalent(talent, 1)
@@ -788,11 +788,11 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
 
   /*
   _onDragOver(event) {
-    $(event.target).addClass('drop-hover')
+    event.target.classList.add('drop-hover')
   }
 
   _onDragLeave(event) {
-    $(event.target).removeClass('drop-hover')
+    event.target.classList.remove('drop-hover')
   }*/
 
   /** @override */

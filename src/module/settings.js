@@ -70,8 +70,8 @@ export class DiceSoNiceSettings extends HandlebarsApplicationMixin(ApplicationV2
 
   // eslint-disable-next-line no-unused-vars
   _onRender(context, options) {
-    const html = $(this.element)
-    html.find('button').on('click', async event => {
+    const html = this.element
+    html.querySelectorAll('button')?.forEach(el => el.addEventListener('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
         const keys = ['colourBoBDieDSN', 'boonColour', 'baneColour', 'replaced3']
         await Promise.all(
@@ -81,7 +81,7 @@ export class DiceSoNiceSettings extends HandlebarsApplicationMixin(ApplicationV2
         )
         this.close()
       }
-    })
+    }))
   }
 
   static async handler(event, form, formData) {
@@ -196,8 +196,8 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
 
   // eslint-disable-next-line no-unused-vars
   _onRender(context, options) {
-    const html = $(this.element)
-    html.find('button').on('click', async event => {
+    const html = this.element
+    html.querySelectorAll('button')?.forEach(el => el.addEventListener('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
         const keys = [
           'optionalRuleConsistentDamage',
@@ -224,7 +224,7 @@ export class OptionalRulesSettings extends HandlebarsApplicationMixin(Applicatio
         )
         this.close()
       }
-    })
+    }))
   }
 
   static async handler(event, form, formData) {
@@ -322,8 +322,8 @@ export class ChatCardSettings extends HandlebarsApplicationMixin(ApplicationV2) 
 
   // eslint-disable-next-line no-unused-vars
   _onRender(context, options) {
-    const html = $(this.element)
-    html.find('button').on('click', async event => {
+    const html = this.element
+    html.querySelectorAll('button')?.forEach(el => el.addEventListener('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
         const keys = ['attackShowAttack','attackShowDefense','rollCreaturesToGM','hideActorInfo','hideDescription','hideDamage']
         await Promise.all(
@@ -333,7 +333,7 @@ export class ChatCardSettings extends HandlebarsApplicationMixin(ApplicationV2) 
         )
         this.close()
       }
-    })
+    }))
   }
 
   static async handler(event, form, formData) {
@@ -420,8 +420,8 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
   // eslint-disable-next-line no-unused-vars
   _onRender(context, options) {
-    const html = $(this.element)
-    html.find('button').on('click', async event => {
+    const html = this.element
+    html.querySelectorAll('button')?.forEach(el => el.addEventListener('click', async event => {
       if (event.currentTarget?.dataset?.action === 'reset') {
         const keys = ['initMessage','initRandomize','autoSetDefeated','showEncounterDifficulty','targetingOnSelect','templateAutoTargeting','templateAutoRemove','autoDeleteEffects','concentrationEffect', 'finesseAutoSelect', 'launchDialogReminder']
         await Promise.all(
@@ -431,7 +431,7 @@ export class CombatSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         )
         this.close()
       }
-    })
+    }))
   }
 
   static async handler(event, form, formData) {
