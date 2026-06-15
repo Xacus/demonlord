@@ -604,7 +604,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const levelIndex = target.closest('[data-level-index]').dataset.levelIndex
     const form = target.closest("form")
     this._selectedLevelIndex = levelIndex
-    form.find('.level-selector').each((_, pl) => {
+    form.find('.level-selector').forEach(pl => {
       if (pl.dataset.levelIndex === levelIndex) pl.style.display = 'block'
       else pl.style.display = 'none'
     })
@@ -838,7 +838,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const htmlLevels = []
     this.element
       .querySelectorAll('.level-selector')
-      .forEach((i, pl) => {
+      .forEach(pl => {
         htmlLevels.push(pl.querySelectorAll("*[name^='level']"))
       })
 
@@ -846,7 +846,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const objLevels = []
     for (const hl of htmlLevels) {
       const obj = {}
-      hl.each((i, input) => {
+      hl.forEach(input => {
         const _name = input.getAttribute('name')
         if (input.tagName === 'SELECT') {
           obj[_name] = input.options[input?.selectedIndex]?.getAttribute('value')
