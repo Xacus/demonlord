@@ -5,7 +5,6 @@
  * @param {Actor|Item} owner      The owning entity which manages this effect
  */
 import { DemonlordActor } from "../actor/actor";
-import {calcEffectRemainingRounds, calcEffectRemainingSeconds, calcEffectRemainingTurn} from "../combat/combat";
 import { DemonlordItem } from "../item/item";
 import {i18n} from "../utils/utils";
 
@@ -114,41 +113,29 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
     // Set notEditable flag on effects that come from items where !ownerIsItem
     e.flags.demonlord.notDeletable = e.flags.demonlord?.notDeletable ?? (e.parent instanceof DemonlordItem && !ownerIsItem)
 
-    // Also set the 'remaining time' in seconds or rounds depending on if in combat
-    if (e.isTemporary && (e.duration.seconds || e.duration.rounds || e.duration.turns)) {
-      if (game.combat) {
-        if (e.duration.turns > 0) {
-          const rr = calcEffectRemainingRounds(e, game.combat.round)
-          const rt = calcEffectRemainingTurn(e, game.combat.turn)
-          const sr = Math.abs(rr) > 1 ? `${rr} ${i18n("COMBAT.DURATION.ROUNDS.many")}` : `${rr} ${i18n("COMBAT.DURATION.ROUNDS.one")}`
-          const st = Math.abs(rt) > 1 ? `${rt} ${i18n("COMBAT.DURATION.TURNS.many")}` : `${rt} ${i18n("COMBAT.DURATION.TURNS.one")}`
-          e.dlRemaining = sr + ' ' + st
-        }
-        else {
-          const r = calcEffectRemainingRounds(e, game.combat.round)
-          e.dlRemaining = Math.abs(r) > 1 ? `${r} ${i18n("COMBAT.DURATION.ROUNDS.many")}` : `${r} ${i18n("COMBAT.DURATION.ROUNDS.one")}`
-        }
-      } else {
-        const r = calcEffectRemainingSeconds(e, game.time.worldTime)
-        e.dlRemaining = Math.abs(r) > 1 ? `${r} ${i18n("TIME.Second.other")}` : `${r} ${i18n("TIME.Second.one")}`
+    // Handle custom expiry events
+    let expiryEvent = e.duration.expiry
+    if (expiryEvent) {
+      const actorName = e.origin !== null ? fromUuidSync(e.origin)?.parent?.name : ''
+      switch (expiryEvent) {
+        case 'nextAttackRoll':
+        case 'nextChallengeRoll':
+        case 'nextD20Roll':
+        case 'nextDamageRoll':
+        case 'restComplete':
+          e.dlRemaining = i18n(CONFIG.ActiveEffect.expiryEvents[expiryEvent])
+          break
+        case 'turnEndSource':
+          e.dlRemaining = i18n('EFFECT.DURATION.EXPIRY_EVENTS.turnEnd').replace('{actorName}', actorName)
+          break
+        case 'turnStartSource':
+          e.dlRemaining = i18n('EFFECT.DURATION.EXPIRY_EVENTS.turnStart').replace('{actorName}', actorName)
+          break
+        default:
+          e.dlRemaining = i18n('EFFECT.DURATION.EXPIRY_EVENTS.' + expiryEvent)
       }
     } else {
       e.dlRemaining = e.duration.label
-    }
-
-    let expiryEvent = e.expiry
-    if (expiryEvent !== 'None' && expiryEvent !== undefined) {
-      const actorName = e.origin !== null ? fromUuidSync(e.origin)?.parent?.name : ''
-      switch (expiryEvent) {
-        case 'turnEndSource':
-          e.dlRemaining = `TurnEnd [${actorName}]`
-          break
-        case 'turnStartSource':
-          e.dlRemaining = `TurnStart [${actorName}]`
-          break
-        default:
-          e.dlRemaining = expiryEvent
-      }
     }
 
     if (e.disabled) categories.inactive.effects.push(e)
