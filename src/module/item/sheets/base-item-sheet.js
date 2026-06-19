@@ -537,9 +537,9 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       itemData.system[itemGroup].splice(itemIndex, 1)
       await this.document.update(itemData)
 
-      //Item was deleted from relic we delete it from actor as well.
+      // Item was deleted from relic we delete it from actor as well.
       if (this.document.type === 'relic')
-          this.actor.items.forEach(async (item) => {
+        this.document.parent?.items?.forEach(async (item) => {
               const nestedItemId = item.getFlag('demonlord', 'nestedItemId')
               if (nestedItemId === itemId) await this.actor.deleteEmbeddedDocuments('Item', [item._id])
           })
