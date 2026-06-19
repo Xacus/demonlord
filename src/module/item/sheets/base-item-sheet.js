@@ -1210,11 +1210,13 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
   async decreaseContentsItemQuantity(itemIndex) {
     const itemData = foundry.utils.duplicate(this.document)
-    if (itemData.system.contents[itemIndex].system.quantity > 0) {
+    if (itemData.system.contents[itemIndex].system.quantity > 1) {
       itemData.system.contents[itemIndex].system.quantity--
       await this.document.update(itemData, {diff: false}).then(_ => this.render)
     } else {
-      return
+      // Destroy on empty
+      itemData.system.contents.splice(itemIndex, 1)
+      await this.document.update(itemData, { diff: false }).then(_ => this.render)
     }
   }
 
