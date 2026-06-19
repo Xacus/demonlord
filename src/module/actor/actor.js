@@ -1900,6 +1900,7 @@ getTargetAttackBane(target) {
 
   getSizeFromString(sizeString) {
     let result = 0
+    if (Array.isArray(sizeString)) sizeString = sizeString[0]
     if (sizeString.toString().includes("/")) {
       const [numerator, denominator] = sizeString.split("/")
       result = parseInt(numerator) / parseInt(denominator)
