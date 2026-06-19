@@ -42,7 +42,7 @@ export function makeHtmlField(init = '') {
 
 export function makeObjectField() {
   return new foundry.data.fields.ObjectField({
-
+    uuid: new foundry.data.fields.DocumentUUIDField(),
   })
 }
 
