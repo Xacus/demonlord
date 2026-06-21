@@ -987,7 +987,7 @@ getTargetAttackBane(target) {
           concentrate['duration.seconds'] = result[0] * 3600
         }
       }
-      concentrate['statuses'] = [concentrate.id]
+      concentrate.statuses = new Set([concentrate.id])
       ActiveEffect.create(concentrate, {parent: this})
     }
 
@@ -1156,7 +1156,7 @@ getTargetAttackBane(target) {
         const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
         if (roll.total < targetNumber) {
           const stunnedEffect = foundry.utils.deepClone(CONFIG.statusEffects['stunned'])
-          stunnedEffect['statuses'] = stunnedEffect.id
+          stunnedEffect.statuses = new Set([stunnedEffect.id])
           stunnedEffect.duration.rounds = 1
           await ActiveEffect.create(stunnedEffect, {
             parent: actor,
@@ -1174,7 +1174,7 @@ getTargetAttackBane(target) {
     await actor.update({ 'system.characteristics.insanity.value': newValue })
     if (!isFrightened) {
       const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
-      frightenedEffect['statuses'] = frightenedEffect.id
+      frightenedEffect.statuses = new Set([frightenedEffect.id])
       frightenedEffect.duration.rounds = newValue
 
       if (!actor.isImmuneToAffliction('frightened')) {
@@ -1216,7 +1216,7 @@ getTargetAttackBane(target) {
       // Nested function
       async function setFrightenedAffliction(durationRoll) {
         const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
-        frightenedEffect['statuses'] = frightenedEffect.id
+        frightenedEffect.statuses = new Set([frightenedEffect.id])
         frightenedEffect.duration.rounds = durationRoll.total
         await ActiveEffect.create(frightenedEffect, {
           parent: actor,
@@ -1560,7 +1560,7 @@ getTargetAttackBane(target) {
             })
             if (roll.total < targetNumber) {
               const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
-              frightenedEffect['statuses'] = frightenedEffect.id
+              frightenedEffect.statuses = new Set([frightenedEffect.id])
               await ActiveEffect.create(frightenedEffect, {
                 parent: actor,
               })
