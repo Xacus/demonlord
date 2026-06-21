@@ -2,7 +2,7 @@
   "id": "demonlord",
   "title": "Shadow of the Demon Lord",
   "description": "The Shadow of the Demonlord system for Foundry VTT",
-  "version": "6.0.0-beta",
+  "version": "6.0.0",
   "authors": [
     {
       "name": "Xacus"
