@@ -58,7 +58,7 @@ async function _onChatRollDamage(event) {
   const actor = _getChatCardActor(li.closest('.demonlord'))
 
   ActiveEffect.registry.refresh('NextDamageRoll', {
-    actorUuid: this.uuid
+    actorUuid: actor.uuid
   })
 
   const item = li.children[0]
