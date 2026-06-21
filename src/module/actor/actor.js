@@ -1,3 +1,4 @@
+/** globals ActiveEffect */
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -198,7 +199,7 @@ export class DemonlordActor extends Actor {
     system.characteristics.health.healingrate = system.characteristics.health.max / 4
     // Reapply healingrate from ActiveEffects
     for (let change of effectChanges.filter(e => e.key.includes("healingrate"))) {
-      const result = change.effect.apply(this, change)
+      const result = ActiveEffect.applyChange(this, change)
       if (result !== null) this.overrides[change.key] = result
     }
     // And then round down
@@ -217,7 +218,7 @@ export class DemonlordActor extends Actor {
     system.characteristics.defense += system.bonuses.armor.defense
     system.characteristics.defense = system.bonuses.armor.override || system.characteristics.defense // TODO: Remove for v12
     for (let change of effectChanges.filter(e => e.key.includes("defense") && (this.type === 'character' ? e.key.startsWith("system.characteristics") : false))) {
-      const result = change.effect.apply(this, change)
+      const result = ActiveEffect.applyChange(this, change)
       if (result !== null) this.overrides[change.key] = result
     }
 
@@ -363,6 +364,9 @@ export class DemonlordActor extends Actor {
     const keys = new Set(data.reduce((prev, r) => prev.concat(Object.keys(r)), []))
     if (keys.size <= 2 && keys.has('flags')) {
       // Maybe check if the changed flag is 'levelRequired'?
+      return
+    } else if (keys.size <= 3 && keys.has('disabled')) {
+      // Most likely a round advanced, ignore it
       return
     }
 
