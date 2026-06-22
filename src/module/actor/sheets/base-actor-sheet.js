@@ -523,9 +523,9 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
             input.checked = true
             const affliction = CONFIG.statusEffects[afflictionId]
             if (!affliction) return false
-            affliction['statuses'] = [affliction.id]
+            affliction.statuses = new Set([afflictionId])
 
-            if (affliction.id === "horrified")
+            if (afflictionId === "horrified")
             {
               affliction.description = game.settings.get('demonlord', 'optionalRuleBaneValue') ? affliction.description.replace('3','2') : affliction.description = affliction.description.replace('2','3')
               game.settings.get('demonlord', 'optionalRuleBaneValue') ? Object.keys(affliction.changes).forEach(function(value){ affliction.changes[value].value = -2 }) : Object.keys(affliction.changes).forEach(function(value){ affliction.changes[value].value = -3 })
@@ -540,9 +540,9 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
                   launchRollDialog(this.actor, this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
                     let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
                     if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
-                      affliction['statuses'] = [affliction.id]
+                      affliction.statuses = new Set([afflictionId])
                       const effect = CONFIG.statusEffects["helped"]
-                      effect['statuses'] = [effect.id]
+                      effect.statuses = new Set([effect.id])
                       if (game.user.isGM) {
                         await ActiveEffect.create(effect, {
                           parent: targets[0].actor

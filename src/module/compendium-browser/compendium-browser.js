@@ -5,8 +5,8 @@ const { DragDrop } = foundry.applications.ux //eslint-disable-line no-shadow
 
 const indices = {
   common: ['name', 'system.description', 'system.source' ],
-  ancestry: ['system.isMagic'],
-  path: ['system.type', 'system.isMagic'],
+  ancestry: ['system.levels'],
+  path: ['system.type', 'system.levels' ],
   ammo: ['system.availability', 'system.properties', 'system.value'],
   armor: ['system.availability', 'system.requirement.attribute', 'system.isShield', 'system.properties', 'system.value'],
   creaturerole: ['system.frightening', 'system.horrifying'],
@@ -17,8 +17,8 @@ const indices = {
   relic: ['system.requirement.attribute'],
   spell: ['system.tradition', 'system.rank', 'system.spelltype', 'system.attribute', 'system.triggered', 'system.healing.healing', 'system.action.damage', 'system.action.defense', 'system.activatedEffect.uses.max', 'system.isDarkMagic'],
   weapon: ['system.availability', 'system.requirement.attribute', 'system.properties', 'system.value'],
-  creature: ['system.descriptor', 'system.difficulty', 'system.perceptionsenses', 'system.frightening', 'system.horrifying', 'system.isMagic'],
-  character: ['system.descriptor', 'system.isMagic', 'system.isPC'],
+  creature: ['system.descriptor', 'system.difficulty', 'system.perceptionsenses', 'system.frightening', 'system.horrifying', 'system.characteristics.power', 'system.spells'],
+  character: ['system.descriptor', 'system.characteristics.power', 'system.spells', 'system.ancestries', 'system.paths', 'system.isPC'],
   vehicle: ['system.descriptor',],
   table: []
 }
@@ -825,7 +825,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         results = results.filter(e => {
           //if (filters?.character.level && e.system.level !== parseInt(filters.character.level)) return false
           if (filters?.character.level.length && !filters?.character.level.includes(e.system.level.toString())) return false
-          if (!!filters?.character?.usesMagic && (e.system.isMagic ? filters.character.usesMagic !== 'yes' : filters.character.usesMagic !== 'no')) return false
+          if (!!filters?.character?.usesMagic && (this.isMagic(search.type, e) ? filters.character.usesMagic !== 'yes' : filters.character.usesMagic !== 'no')) return false
           if (!!filters?.character.characterType && (e.system.isPC ? filters.character.characterType !== 'pc' : filters.character.characterType !== 'npc')) return false
 
           return true
@@ -836,7 +836,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
           if (filters?.creature?.difficulty.length && !filters.creature.difficulty.includes(e.system.difficulty.toString())) return false
           if (filters?.creature?.descriptor.length && !e.system.descriptor.includes(filters.creature.descriptor)) return false
           if (filters?.creature?.perceptionSenses.length && !filters.creature.perceptionSenses.includes(e.system.perceptionsenses)) return false
-          if (!!filters?.creature?.usesMagic && (e.system.isMagic > 0 ? filters.creature.usesMagic !== 'yes' : filters.creature.usesMagic !== 'no')) return false
+          if (!!filters?.creature?.usesMagic && (this.isMagic(search.type, e) ? filters.creature.usesMagic !== 'yes' : filters.creature.usesMagic !== 'no')) return false
 
           if (filters?.creature.frighteningType === 'none' && (e.system.frightening || e.system.horrifying)) return false
           if (filters?.creature.frighteningType === 'any' && (!e.system.frightening && !e.system.horrifying)) return false
@@ -855,7 +855,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         break
       case 'ancestry':
         results = results.filter(e => {
-          if (!!filters?.ancestry?.usesMagic && (e.system.isMagic ? filters.ancestry.usesMagic !== 'yes' : filters.ancestry.usesMagic !== 'no')) return false
+          if (!!filters?.ancestry?.usesMagic && (this.isMagic(search.type, e) ? filters.ancestry.usesMagic !== 'yes' : filters.ancestry.usesMagic !== 'no')) return false
 
           return true
         })
@@ -915,7 +915,7 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         results = results.filter(e => {
           if (filters?.path?.type && e.system.type !== filters.path.type) return false
 
-          if (!!filters?.path?.usesMagic && (e.system.isMagic ? filters.path.usesMagic !== 'yes' : filters.path.usesMagic !== 'no')) return false
+          if (!!filters?.path?.usesMagic && (this.isMagic(search.type, e) ? filters.path.usesMagic !== 'yes' : filters.path.usesMagic !== 'no')) return false
 
           return true
         })
@@ -998,6 +998,31 @@ export default class DLCompendiumBrowser extends HandlebarsApplicationMixin(Appl
         }
       }
     })
+  }
+
+  // #endregion
+
+  // #region Type-specific functions
+
+  isMagic(itemType, element) {
+    switch (itemType) {
+      case 'character':
+        return element.paths?.some(p => p.isMagic) // Any of the paths is magic
+          || element.ancestry?.some(p => p.isMagic) // Any of the ancestries is magic
+          || element.spells?.length > 0 // Has any spells
+          || element.system.characteristics.power > 0 // Has power
+      case 'creature':
+        return element.spells?.length > 0 // Has any spells
+          || element.system.characteristics.power > 0 // Has power
+      case 'ancestry':      
+        return this.parent.system.levels.some(l => l.spells.length > 0) // Any of the levels have spells
+          || this.parent.system.levels.some(l => l.magicText)  // Any of the levels have magic text
+          || this.parent.system.levels.some(l => l.characteristics.power > 0) // Any of the levels increases power
+      case 'path':
+        return element.system.levels.some(l => l.spells.length > 0) // Any of the levels have spells
+          || element.system.levels.some(l => l.magicText)  // Any of the levels have magic text
+          || element.system.levels.some(l => l.characteristics.power > 0) // Any of the levels increases power
+    }
   }
 
   // #endregion

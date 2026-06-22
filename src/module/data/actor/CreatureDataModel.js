@@ -55,17 +55,13 @@ export default class CreatureDataModel extends foundry.abstract.TypeDataModel {
 
   async prepareDerivedData() {
     super.prepareDerivedData()
-    this.isMagic = this.parent.paths?.some(p => p.isMagic) // Any of the paths is magic
-      || this.parent.ancestry?.some(p => p.isMagic) // Any of the ancestries is magic
-      || this.parent.spells?.length > 0 // Has any spells
-      || this.parent.system.characteristics.power > 0 // Has power
 
     this.fastAndSlowTurn = await this.parent.allApplicableEffects().some(e => e.changes.some(c => c.key === 'system.bonuses.fastAndSlowTurn' && c.value))
   }
 
   static migrateData(source) {
     // Copy current attributes and characteristics values to their respective base
-    if (source.difficultyBase == null ) { // Null or undefined
+    if (source.attributes && !source.difficultyBase) {
       source.attributes.strength.base = source.attributes.strength.value
       source.attributes.agility.base = source.attributes.agility.value
       source.attributes.intellect.base = source.attributes.intellect.value

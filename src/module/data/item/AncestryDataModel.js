@@ -100,16 +100,6 @@ export default class AncestryDataModel extends foundry.abstract.TypeDataModel {
     }
   }
 
-  prepareDerivedData() {
-    super.prepareDerivedData()
-
-    if (['path', 'ancestry'].includes(this.parent.type)) {
-      this.isMagic = this.parent.system.levels.some(l => l.spells.length > 0) // Any of the levels have spells
-      || this.parent.system.levels.some(l => l.magicText)  // Any of the levels have magic text
-      || this.parent.system.levels.some(l => l.characteristics.power > 0) // Any of the levels increases power
-    }
-  }
-
   static migrateData(source) {
     if (parseInt(source.characteristics?.insanity)) {
       const insanity = parseInt(source.characteristics.insanity)

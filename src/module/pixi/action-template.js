@@ -19,7 +19,7 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
     if (!templateShape) return null
 
     // Prepare template data
-    const templateData = {
+    const shapeData = {
       type: templateShape,
       user: game.user._id,
       rotation: 0,
@@ -42,23 +42,23 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
     // Additional type-specific data
     switch (templateShape) {
       case 'cone':
-        templateData.angle = this.defaults.angle
-        templateData.radius = value
-        templateData.curvature = 'round'
+        shapeData.angle = this.defaults.angle
+        shapeData.radius = value
+        shapeData.curvature = 'round'
         break
       case 'rectangle': // All rectangles are square
-        templateData.anchorX = 0.5
-        templateData.anchorY = 0.5
-        templateData.width = value
-        templateData.height = value
+        shapeData.anchorX = 0.5
+        shapeData.anchorY = 0.5
+        shapeData.width = value
+        shapeData.height = value
         break
       case 'line':
         //templateData.height = value
-        templateData.length = value
-        templateData.width = canvas.dimensions.size  // Lines are most commonly 1 square in width
+        shapeData.length = value
+        shapeData.width = canvas.dimensions.size  // Lines are most commonly 1 square in width
         break
       case 'circle':
-        templateData.radius = value
+        shapeData.radius = value
         break
       default:
         break
@@ -67,8 +67,10 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
     // Return the template constructed from the item data
     const template = await canvas.regions.placeRegion({
       name: `${item.name}`,
-      shapes: [templateData]
-    }, { create: false })
+      shapes: [shapeData],
+      levels: [canvas.level.id],
+      visibility: CONST.REGION_VISIBILITY.ALWAYS,
+    }, { create: true })
 
     //const cls = CONFIG.Region.documentClass
     //const template = new cls(templateData, { parent: canvas.scene })

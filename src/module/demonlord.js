@@ -379,7 +379,7 @@ export async function findAddEffect(actor, effectId, overlay) {
       ui.notifications.error(game.i18n.localize('DL.UnknownEffect') + ': ' + effectId)
       return
     }
-    effect.statuses = [effectId]
+    effect.statuses = new Set([effectId])
     if (overlay) {
       if (!effect.flags) {
         effect.flags = {

@@ -537,9 +537,9 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       itemData.system[itemGroup].splice(itemIndex, 1)
       await this.document.update(itemData)
 
-      //Item was deleted from relic we delete it from actor as well.
+      // Item was deleted from relic we delete it from actor as well.
       if (this.document.type === 'relic')
-          this.actor.items.forEach(async (item) => {
+        this.document.parent?.items?.forEach(async (item) => {
               const nestedItemId = item.getFlag('demonlord', 'nestedItemId')
               if (nestedItemId === itemId) await this.actor.deleteEmbeddedDocuments('Item', [item._id])
           })
@@ -604,7 +604,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const levelIndex = target.closest('[data-level-index]').dataset.levelIndex
     const form = target.closest("form")
     this._selectedLevelIndex = levelIndex
-    form.find('.level-selector').each((_, pl) => {
+    form.find('.level-selector').forEach(pl => {
       if (pl.dataset.levelIndex === levelIndex) pl.style.display = 'block'
       else pl.style.display = 'none'
     })
@@ -838,7 +838,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const htmlLevels = []
     this.element
       .querySelectorAll('.level-selector')
-      .forEach((i, pl) => {
+      .forEach(pl => {
         htmlLevels.push(pl.querySelectorAll("*[name^='level']"))
       })
 
@@ -846,7 +846,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const objLevels = []
     for (const hl of htmlLevels) {
       const obj = {}
-      hl.each((i, input) => {
+      hl.forEach(input => {
         const _name = input.getAttribute('name')
         if (input.tagName === 'SELECT') {
           obj[_name] = input.options[input?.selectedIndex]?.getAttribute('value')
@@ -1210,11 +1210,13 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
   async decreaseContentsItemQuantity(itemIndex) {
     const itemData = foundry.utils.duplicate(this.document)
-    if (itemData.system.contents[itemIndex].system.quantity > 0) {
+    if (itemData.system.contents[itemIndex].system.quantity > 1) {
       itemData.system.contents[itemIndex].system.quantity--
       await this.document.update(itemData, {diff: false}).then(_ => this.render)
     } else {
-      return
+      // Destroy on empty
+      itemData.system.contents.splice(itemIndex, 1)
+      await this.document.update(itemData, { diff: false }).then(_ => this.render)
     }
   }
 
