@@ -60,6 +60,9 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
       case 'circle':
         shapeData.radius = value
         break
+      case 'emanation': // Aura
+        shapeData.radius = value
+        break
       default:
         break
     }
@@ -72,8 +75,7 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
       visibility: CONST.REGION_VISIBILITY.ALWAYS,
     }, { create: true })
 
-    //const cls = CONFIG.Region.documentClass
-    //const template = new cls(templateData, { parent: canvas.scene })
+    template.createEmbeddedDocuments('RegionBehavior', item.system.activatedEffect.behaviors)
 
     if (template) {
       // Only do the following if the template was actually created
