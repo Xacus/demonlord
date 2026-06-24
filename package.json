@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.2",
-    "@release-it/bumper": "^6.0.1",
+    "@release-it/bumper": "^7.0.5",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^4.0.0",
@@ -44,7 +44,7 @@
     "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
     "prettier": "^2.8.8",
-    "release-it": "^17.3.0",
+    "release-it": "^19.2.4",
     "rollup": "^2.79.1",
     "sass": "^1.77.4",
     "semver": "^7.3.5",
