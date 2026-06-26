@@ -12,7 +12,7 @@
 
     <div class="item-group-measured-template-target">
       <div class="input-group">
-        <span>{{localize "DL.ActionTargetType"}}</span>
+        <span class="text">{{localize "DL.ActionTargetType"}}</span>
         <span class="sep"></span>
         <select class="input-group-dropdown" name="system.activatedEffect.target.type">
           {{selectOptions config.actionTargetTypes selected=system.activatedEffect.target.type blank="—" localize=true}}
@@ -31,5 +31,15 @@
         </a>
       </div>
     </div>
+
+    <div class="item-group-measured-template-behaviors" data-action="editBehaviors">
+      <div class="input-group" data-tippy-content="{{localize "DL.ArmorIsShield"}}">
+        <input type="button" name="editBehaviors">
+        <i class="fa-solid fa-child-reaching"></i>
+        <span class="sep"></span>
+        <span class="text">{{localize "REGION.FIELDS.behaviors.label"}}</span>
+      </div>
+    </div>
+
   </div>
 </div>
