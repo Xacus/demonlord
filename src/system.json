@@ -22,6 +22,30 @@
     "minimum": 14,
     "verified": 14
   },
+  "documentTypes": {
+    "Actor": {
+      "character": { "htmlFields": ["system.description"] },
+      "creature": { "htmlFields": ["system.description"] },
+      "vehicle": { "htmlFields": ["system.description"] }
+    },
+    "Item": {
+      "ammo": { "htmlFields": ["system.description"] },
+      "ancestry": { "htmlFields": ["system.description"] },
+      "armor": { "htmlFields": ["system.description"] },
+      "creaturerole": { "htmlFields": ["system.description"] },
+      "endoftheround": { "htmlFields": ["system.description"] },
+      "feature": { "htmlFields": ["system.description"] },
+      "item": { "htmlFields": ["system.description"] },
+      "language": { "htmlFields": ["system.description"] },
+      "path": { "htmlFields": ["system.description"] },
+      "profession": { "htmlFields": ["system.description"] },
+      "relic": { "htmlFields": ["system.description"] },
+      "specialaction": { "htmlFields": ["system.description"] },
+      "spell": { "htmlFields": ["system.description"] },
+      "talent": { "htmlFields": ["system.description"] },
+      "weapon": { "htmlFields": ["system.description"] }
+    }
+  },
   "esmodules": ["module/demonlord.js"],
   "styles": ["styles/demonlord.css", "module/bundle.css"],
   "scripts": [],
