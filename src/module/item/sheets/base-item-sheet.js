@@ -606,7 +606,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const levelIndex = target.closest('[data-level-index]').dataset.levelIndex
     const form = target.closest("form")
     this._selectedLevelIndex = levelIndex
-    form.find('.level-selector').forEach(pl => {
+    form.querySelectorAll('.level-selector').forEach(pl => {
       if (pl.dataset.levelIndex === levelIndex) pl.style.display = 'block'
       else pl.style.display = 'none'
     })
