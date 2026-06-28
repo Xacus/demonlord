@@ -139,7 +139,8 @@
   ],
   "grid": {
     "distance": 1,
-    "units": "yd"
+    "units": "yd",
+    "diagonals": 0
   },
   "primaryTokenAttribute": "characteristics.health",
   "secondaryTokenAttribute": null,
