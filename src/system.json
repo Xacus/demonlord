@@ -15,6 +15,9 @@
     },
     {
       "name": "Ferrer"
+    },
+    {
+      "name": "Sasquach"
     }
   ],
   "background": "systems/demonlord/assets/ui/thumbnail.webp",
@@ -171,7 +174,7 @@
   "socket": true,
   "url": "https://github.com/Xacus/demonlord",
   "manifest": "https://github.com/Xacus/demonlord/releases/latest/download/system.json",
-  "download": "https://github.com/Xacus/demonlord/releases/download/6.0.0-beta/system.zip",
+  "download": "https://github.com/Xacus/demonlord/releases/download/6.0.0/system.zip",
   "bugs": "https://github.com/Xacus/demonlord/issues",
   "readme": "https://github.com/Xacus/demonlord/blob/master/README.md",
   "changelog": "https://github.com/Xacus/demonlord/blob/master/CHANGELOG.md",
