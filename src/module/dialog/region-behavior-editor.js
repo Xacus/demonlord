@@ -69,6 +69,14 @@ export class DLRegionBehaviorEditor extends foundry.applications.sheets.RegionCo
     this.document.delete()
   }
 
+  /** @override */
+  _onClose(options) {
+    // Delete the ephemeral region
+    this.document.delete()
+
+    super._onClose(options)
+  }
+
   constructor(options) {
     super(options)
     this.item = options.item
