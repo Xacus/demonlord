@@ -483,10 +483,7 @@ async function _onChatPlaceTemplate(event) {
   const itemUuid = event.currentTarget.dataset.itemUuid
   const item = await fromUuid(itemUuid)
 
-  const template = game.demonlord.canvas.ActionTemplate.fromItem(item)
-  if (template) {
-    //template.drawPreview()
-  }
+  game.demonlord.canvas.ActionTemplate.fromItem(item)
 }
 
 /* -------------------------------------------- */

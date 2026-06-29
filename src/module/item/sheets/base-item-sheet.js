@@ -19,6 +19,7 @@ import {
 } from '../nested-objects';
 import { DLStatEditor } from '../../dialog/stat-editor'
 import { DLItemMacroConfig } from '../../item-macro/ItemMacroConfig'
+import { DLRegionBehaviorEditor } from '../../dialog/region-behavior-editor'
 
 const { TextEditor } = foundry.applications.ux //eslint-disable-line no-shadow
 
@@ -59,7 +60,8 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       toggleFrightening: this.onToggleFrightening,
       toggleHorrifying: this.onToggleHorrifying,
       toggleDarkMagic: this.onToggleDarkMagic,
-      toggleRegainOnRest: this.onToggleRegainOnRest
+      toggleRegainOnRest: this.onToggleRegainOnRest,
+      editBehaviors: this.onEditBehaviors
     },
     window: {
       resizable: true
@@ -604,7 +606,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const levelIndex = target.closest('[data-level-index]').dataset.levelIndex
     const form = target.closest("form")
     this._selectedLevelIndex = levelIndex
-    form.find('.level-selector').forEach(pl => {
+    form.querySelectorAll('.level-selector').forEach(pl => {
       if (pl.dataset.levelIndex === levelIndex) pl.style.display = 'block'
       else pl.style.display = 'none'
     })
@@ -653,6 +655,39 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
 
   static async onToggleRegainOnRest() {
     await this.document.update({ 'system.castings.regainOnRest': !this.document.system.castings.regainOnRest })
+  }
+
+  static async onEditBehaviors() {
+    console.log("SHOWING BEHAVIORS DIALOG")
+
+    event.preventDefault()
+
+    const behaviorData = this.document.system.activatedEffect.behaviors.map(b => {
+      return {
+        _id: foundry.utils.randomID(),
+        name: b.name,
+        type: b.type,
+        disabled: b.disabled,
+        system: b.system
+      }
+    })
+
+    // Create a temporary RegionDocument, load the behaviours from the item, and render the config sheet
+    const regionID = foundry.utils.randomID()
+    //const ephemeralRegion = new CONFIG.Region.documentClass({
+    const ephemeralRegion = await foundry.documents.RegionDocument.create({
+      _id: regionID,
+      name: `Ephemeral Region ${regionID}`,
+      behaviors: behaviorData,
+      //})
+    }, { parent: canvas.scene })
+
+    new DLRegionBehaviorEditor({
+      document: ephemeralRegion,
+      item: this.document,
+      top: 50,
+      right: 700,
+    }).render(true)
   }
 
   /* -------------------------------------------- */

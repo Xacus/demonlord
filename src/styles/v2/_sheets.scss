@@ -582,6 +582,10 @@ span.text-vs {
     display: none;
   }
 
+  input[type='button'] {
+    display: none;
+  }
+
   .input-group {
     width: 100%;
     display: flex;
@@ -725,6 +729,11 @@ span.text-vs {
 }
 
 .item-group-measured-template-texture {
+  @include input-group-container();
+  width: auto;
+}
+
+.item-group-measured-template-behaviors {
   @include input-group-container();
   width: auto;
 }

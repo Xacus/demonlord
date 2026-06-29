@@ -15,12 +15,39 @@
     },
     {
       "name": "Ferrer"
+    },
+    {
+      "name": "Sasquach"
     }
   ],
   "background": "systems/demonlord/assets/ui/thumbnail.webp",
   "compatibility": {
     "minimum": 14,
     "verified": 14
+  },
+  "documentTypes": {
+    "Actor": {
+      "character": { "htmlFields": ["system.description"] },
+      "creature": { "htmlFields": ["system.description"] },
+      "vehicle": { "htmlFields": ["system.description"] }
+    },
+    "Item": {
+      "ammo": { "htmlFields": ["system.description"] },
+      "ancestry": { "htmlFields": ["system.description"] },
+      "armor": { "htmlFields": ["system.description"] },
+      "creaturerole": { "htmlFields": ["system.description"] },
+      "endoftheround": { "htmlFields": ["system.description"] },
+      "feature": { "htmlFields": ["system.description"] },
+      "item": { "htmlFields": ["system.description"] },
+      "language": { "htmlFields": ["system.description"] },
+      "path": { "htmlFields": ["system.description"] },
+      "profession": { "htmlFields": ["system.description"] },
+      "relic": { "htmlFields": ["system.description"] },
+      "specialaction": { "htmlFields": ["system.description"] },
+      "spell": { "htmlFields": ["system.description"] },
+      "talent": { "htmlFields": ["system.description"] },
+      "weapon": { "htmlFields": ["system.description"] }
+    }
   },
   "esmodules": ["module/demonlord.js"],
   "styles": ["styles/demonlord.css", "module/bundle.css"],
@@ -139,14 +166,15 @@
   ],
   "grid": {
     "distance": 1,
-    "units": "yd"
+    "units": "yd",
+    "diagonals": 0
   },
   "primaryTokenAttribute": "characteristics.health",
   "secondaryTokenAttribute": null,
   "socket": true,
   "url": "https://github.com/Xacus/demonlord",
   "manifest": "https://github.com/Xacus/demonlord/releases/latest/download/system.json",
-  "download": "https://github.com/Xacus/demonlord/releases/download/6.0.0-beta/system.zip",
+  "download": "https://github.com/Xacus/demonlord/releases/download/6.0.0/system.zip",
   "bugs": "https://github.com/Xacus/demonlord/issues",
   "readme": "https://github.com/Xacus/demonlord/blob/master/README.md",
   "changelog": "https://github.com/Xacus/demonlord/blob/master/CHANGELOG.md",
