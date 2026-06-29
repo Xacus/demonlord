@@ -5,8 +5,7 @@ export class DLRegionBehaviorEditor extends foundry.applications.sheets.RegionCo
     tag: 'form',
     classes: ['sheet', 'item', 'region-behavior-editor'],
     form: {
-      handler: this.onSubmit,
-      close: this.onClose
+      handler: this.onSubmit
     }
   }
 
@@ -52,7 +51,9 @@ export class DLRegionBehaviorEditor extends foundry.applications.sheets.RegionCo
     // Then, when config is submitted, hook into _onUpdate and copy the behaviours back into the item
     const behaviors = this.document.behaviors.map(b => {
       return {
+        name: b.name,
         type: b.type,
+        disabled: b.disabled,
         system: b.system
       }
     })
@@ -64,17 +65,14 @@ export class DLRegionBehaviorEditor extends foundry.applications.sheets.RegionCo
         }
       }
     })
-
-    // And delete the ephemeral region
-    this.document.delete()
   }
 
   /** @override */
-  _onClose(options) {
+  _onClose(_event, _form, _formData) {
     // Delete the ephemeral region
-    this.document.delete()
+    this.document?.delete()
 
-    super._onClose(options)
+    return super._onClose(_event, _form, _formData)
   }
 
   constructor(options) {

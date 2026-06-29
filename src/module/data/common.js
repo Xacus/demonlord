@@ -105,10 +105,12 @@ export function activatedEffect() {
       per: makeStringField()
     }),
     behaviors: new foundry.data.fields.ArrayField(new foundry.data.fields.SchemaField({
+      name: makeStringField(),
       type: new foundry.data.fields.StringField({
         required: true,
         choices: () => Object.keys(CONFIG.RegionBehavior.dataModels)
       }),
+      disabled: makeBoolField(),
       system: new foundry.data.fields.TypeDataField(CONFIG.RegionBehavior, {
         required: true
       })

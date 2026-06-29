@@ -665,7 +665,9 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const behaviorData = this.document.system.activatedEffect.behaviors.map(b => {
       return {
         _id: foundry.utils.randomID(),
+        name: b.name,
         type: b.type,
+        disabled: b.disabled,
         system: b.system
       }
     })
