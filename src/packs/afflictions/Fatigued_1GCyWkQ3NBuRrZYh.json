@@ -1,0 +1,42 @@
+{
+  "name": "Fatigued",
+  "img": "systems/demonlord/assets/icons/effects/fatigued.svg",
+  "type": "base",
+  "system": {
+    "changes": [
+      {
+        "key": "system.bonuses.challenge.boons.all",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.attack.boons.all",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      }
+    ]
+  },
+  "disabled": false,
+  "description": "A fatigued creature makes all attack rolls and challenge rolls with 1 bane.",
+  "statuses": ["fatigued"],
+  "showIcon": 1,
+  "_id": "1GCyWkQ3NBuRrZYh",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!1GCyWkQ3NBuRrZYh"
+}

@@ -2,8 +2,7 @@
   "_id": "yxH0XZzH6YkO7KRn",
   "name": "Tentacle",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "weapon",
   "data": {

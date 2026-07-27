@@ -1,0 +1,98 @@
+{
+  "name": "Dazed",
+  "img": "icons/svg/daze.svg",
+  "type": "base",
+  "system": {
+    "changes": [
+      {
+        "key": "system.maluses.autoFail.challenge.strength",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.agility",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.intellect",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.will",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.perception",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.strength",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.agility",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.intellect",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.will",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.perception",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      }
+    ]
+  },
+  "disabled": false,
+  "description": "A dazed creature cannot use actions.",
+  "statuses": ["dazed"],
+  "showIcon": 1,
+  "_id": "9Wbh9UvBps5XGAzT",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!9Wbh9UvBps5XGAzT"
+}

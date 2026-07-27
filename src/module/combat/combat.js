@@ -634,7 +634,7 @@ Hooks.on('targetToken', async (user, target, isTargeted) => {
           })
       return
   }
-  const surrounded = CONFIG.statusEffects["surrounded"]
+  const surrounded = foundry.utils.deepClone(CONFIG.statusEffects["surrounded"])
   surrounded.statuses = new Set([surrounded.id])
   let targetSize = Math.max(target.document.width, target.document.height)
   let numberOfSurrounders = await getNumberOfSurrounders(target, targetSize)

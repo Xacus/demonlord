@@ -2,8 +2,7 @@
   "_id": "m3RJhHOGDUTIQkuU",
   "name": "Request Initiative Roll",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "script",
   "flags": {},

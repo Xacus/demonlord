@@ -2,8 +2,7 @@
   "_id": "5Bom3CgdNePXO8gj",
   "name": "Perception Roll",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "script",
   "flags": {},

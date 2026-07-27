@@ -224,11 +224,12 @@ Hooks.once('setup', function () {
   if (game.settings.get('demonlord', 'statusIcons')) {
     // Regardless of the setting, keep the "invisible" status so that actors can turn invisible
     // And dead, otherwise can't "kill 'em ded"
-    const importantEffects = ['dead', 'invisible']
+    const importantEffects = ['dead', 'invisible', 'burrow' ]
 
-    for (const statusEffect of CONFIG.statusEffects) {
-      if (!importantEffects.includes(statusEffect.id)) {
-        statusEffect.hud = false
+    for (const statusEffect of Object.keys(CONFIG.statusEffects)) {
+      if (!importantEffects.includes(statusEffect)) {
+        //statusEffect.hud = false
+        delete CONFIG.statusEffects[statusEffect]
       }
     }
   }
@@ -241,7 +242,9 @@ Hooks.once('setup', function () {
       img: effect.icon,
       hud: true,
       order: effect.order,
-      duration: effect.duration
+      changes: effect.changes,
+      duration: effect.duration,
+      statuses: effect.statuses
     }
   }
 
@@ -374,12 +377,11 @@ Hooks.on('updateActor', async (actor, updateData, options) => {
 
 export async function findAddEffect(actor, effectId, overlay) {
   if (!actor.effects.find(e => e.statuses?.has(effectId)) && !actor.isImmuneToAffliction(effectId)) {
-    const effect = CONFIG.statusEffects[effectId]
+    const effect = foundry.utils.deepClone(CONFIG.statusEffects[effectId])
     if (!effect) {
       ui.notifications.error(game.i18n.localize('DL.UnknownEffect') + ': ' + effectId)
       return
     }
-    effect.statuses = new Set([effectId])
     if (overlay) {
       if (!effect.flags) {
         effect.flags = {
@@ -403,7 +405,10 @@ Hooks.on('createActiveEffect', async (activeEffect, _, userId) => {
   if (game.user.id !== userId) return
   const statuses = activeEffect.statuses
   const _parent = activeEffect?.parent
-  if (statuses?.size > 0 && _parent) {
+
+  if (!_parent) return
+  
+  if (statuses?.size > 0) {
     for await (const statusId of statuses) {
       // Skip immunities
       if (_parent.isImmuneToAffliction(statusId)) continue
@@ -452,7 +457,10 @@ Hooks.on('deleteActiveEffect', async (activeEffect, _, userId) => {
   if (game.user.id !== userId) return
   const statuses = activeEffect.statuses
   const _parent = activeEffect?.parent
-  if (statuses?.size > 0 && _parent) {
+
+  if (!_parent) return
+
+  if (statuses?.size > 0) {
     for await (const statusId of statuses) {
       await _parent.unsetFlag('demonlord', statusId)
 

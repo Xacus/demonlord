@@ -2,8 +2,7 @@
   "_id": "yGPE7ZL6S10RZ10n",
   "name": "Full Plate",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "armor",
   "data": {
@@ -44,7 +43,7 @@
       "changes": [
         {
           "key": "system.characteristics.speed",
-          "mode": 2,
+          "type": "add",
           "value": "-2"
         }
       ],

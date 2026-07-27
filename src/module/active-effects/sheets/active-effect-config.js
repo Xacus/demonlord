@@ -27,8 +27,8 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
       changeFields: this.document.system.schema.fields.changes.element.fields,
       effect: effect, // Backwards compatibility
       data: effect,
-      isActorEffect: this.document.parent.documentName === 'Actor',
-      isItemEffect: this.document.parent.documentName === 'Item',
+      isActorEffect: this.document.parent?.documentName === 'Actor',
+      isItemEffect: this.document.parent?.documentName === 'Item',
       types: Object.entries(CONST.ACTIVE_EFFECT_CHANGE_TYPES).reduce((obj, e) => {
         obj[e[0]] = game.i18n.localize('EFFECT.CHANGES.TYPES.' + e[0])
         return obj

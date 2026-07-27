@@ -1,0 +1,105 @@
+{
+  "name": "Surprised",
+  "img": "systems/demonlord/assets/icons/effects/surprised.svg",
+  "type": "base",
+  "system": {
+    "changes": [
+      {
+        "key": "system.maluses.autoFail.challenge.strength",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.agility",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.intellect",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.will",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.perception",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.strength",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.agility",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.intellect",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.will",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.perception",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.characteristics.speed",
+        "value": 0,
+        "type": "downgrade",
+        "priority": 110,
+        "phase": "initial"
+      }
+    ]
+  },
+  "disabled": false,
+  "description": "A surprised creature cannot use actions, cannot move, and automatically gets a failure on any challenge rolls it would make.",
+  "statuses": ["surprised"],
+  "showIcon": 1,
+  "_id": "KnDTIi9TXtSMWLSf",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!KnDTIi9TXtSMWLSf"
+}

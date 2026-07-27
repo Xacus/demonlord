@@ -521,13 +521,12 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
             }
 
             input.checked = true
-            const affliction = CONFIG.statusEffects[afflictionId]
+            const affliction = foundry.utils.deepClone(CONFIG.statusEffects[afflictionId])
             if (!affliction) return false
-            affliction.statuses = new Set([afflictionId])
 
             if (afflictionId === "horrified")
             {
-              affliction.description = game.settings.get('demonlord', 'optionalRuleBaneValue') ? affliction.description.replace('3','2') : affliction.description = affliction.description.replace('2','3')
+              affliction.description = game.settings.get('demonlord', 'optionalRuleBaneValue') ? affliction.description?.replace('3','2') : affliction.description = affliction.description?.replace('2','3')
               game.settings.get('demonlord', 'optionalRuleBaneValue') ? Object.keys(affliction.changes).forEach(function(value){ affliction.changes[value].value = -2 }) : Object.keys(affliction.changes).forEach(function(value){ affliction.changes[value].value = -3 })
             }
 
@@ -541,7 +540,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
                     let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
                     if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
                       affliction.statuses = new Set([afflictionId])
-                      const effect = CONFIG.statusEffects["helped"]
+                      const effect = foundry.utils.deepClone(CONFIG.statusEffects["helped"])
                       effect.statuses = new Set([effect.id])
                       if (game.user.isGM) {
                         await ActiveEffect.create(effect, {

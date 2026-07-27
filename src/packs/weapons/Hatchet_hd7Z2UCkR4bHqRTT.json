@@ -2,8 +2,7 @@
   "_id": "hd7Z2UCkR4bHqRTT",
   "name": "Hatchet",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "weapon",
   "data": {

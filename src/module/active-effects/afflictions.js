@@ -3,7 +3,7 @@ import { capitalize } from '../utils/utils'
 
 const effectPriority = 110
 
-const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
+const _buildBaseAffliction = (label, icon, changes = [], statuses = [], flags = {}) => ({
   id: label, // TODO: Check corrections here?
   name: game.i18n.localize('DL.' + label),
   icon: icon,
@@ -17,6 +17,7 @@ const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
       ...flags,
     }
   },
+  statuses: new Set([label, ...statuses]),
   changes: changes,
   description: game.i18n.localize('DL.Afflictions' + capitalize(label))
 })
@@ -71,6 +72,9 @@ export class DLAfflictions {
           downgradeEffect('system.characteristics.speed', 2, effectPriority),
           // overrideEffect('system.maluses.autoFail.challenge.perception', 1)  fails only perc challenges based on SIGHT
         ],
+        [
+          CONFIG.specialStatusEffects.BLIND
+        ],
         {
           warningMessage: game.i18n.localize('DL.DialogWarningBlindedChallengeFailer'),
         },
@@ -100,6 +104,7 @@ export class DLAfflictions {
           overrideEffect('system.maluses.autoFail.action.will', 1, effectPriority),
           overrideEffect('system.maluses.autoFail.action.perception', 1, effectPriority),
         ],
+        [],
         {
           warningMessage: game.i18n.localize('DL.DialogWarningDazedFailer'),
         },
@@ -131,6 +136,7 @@ export class DLAfflictions {
           overrideEffect('system.maluses.autoFail.action.will', 1, effectPriority),
           overrideEffect('system.maluses.autoFail.action.perception', 1, effectPriority),
         ],
+        [],
         {
           warningMessage: game.i18n.localize('DL.DialogWarningDefenselessFailer'),
         },
@@ -263,6 +269,7 @@ export class DLAfflictions {
           addEffect('system.bonuses.defense.boons.intellect', -1, effectPriority),
           addEffect('system.bonuses.defense.boons.perception', -1, effectPriority),
         ],
+        [],
         {
           warningMessage: game.i18n.localize('DL.DialogWarningStunnedFailer'),
         },
@@ -287,6 +294,7 @@ export class DLAfflictions {
           overrideEffect('system.maluses.autoFail.action.perception', 1, effectPriority),
           downgradeEffect('system.characteristics.speed', 0, effectPriority),
         ],
+        [],
         {
           warningMessage: game.i18n.localize('DL.DialogWarningSurprisedFailer'),
         },
@@ -324,6 +332,7 @@ export class DLAfflictions {
           downgradeEffect('system.characteristics.speed', 0, effectPriority),
           overrideEffect('system.characteristics.defense', 5, effectPriority),
         ],
+        [ CONFIG.specialStatusEffects.BLIND ],
         {
           warningMessage: game.i18n.localize('DL.DialogWarningUnconsciousFailer'),
         },
@@ -346,6 +355,7 @@ export class DLAfflictions {
         addEffect('system.bonuses.defense.boons.perception', 1, effectPriority),
         // TODO: Auto disable when Dazed, Stunned or Unconscious
       ],
+        [],
         { 'expiry': 'endOfTheRound' }
      ),
     )
@@ -356,6 +366,7 @@ export class DLAfflictions {
         'help',
         'systems/demonlord/assets/icons/effects/help.svg',
         [], // TODO: Add boons? Aka help should be applied to the receiver
+        [],
         { 'expiry': 'endOfTheRound' }
       ),
     )
@@ -368,6 +379,7 @@ export class DLAfflictions {
           addEffect('system.bonuses.attack.boons.all', 1, effectPriority),
           addEffect('system.bonuses.challenge.boons.all', 1, effectPriority),
         ],
+        [],
         { 'expiry': 'nextD20Roll' }
       ),
     )
@@ -386,21 +398,22 @@ export class DLAfflictions {
         addEffect('system.bonuses.attack.boons.will', 1, effectPriority),
         addEffect('system.bonuses.attack.boons.perception', 1, effectPriority),
       ],
+        [],
         { 'expiry': 'roundEnd' }
       ),
     )
 
     // Reload
-    effectsDataList.push(_buildBaseAffliction('reload', 'systems/demonlord/assets/icons/effects/reload.svg', [], { 'expiry': 'roundEnd' }))
+    effectsDataList.push(_buildBaseAffliction('reload', 'systems/demonlord/assets/icons/effects/reload.svg', [], [], { 'expiry': 'roundEnd' }))
 
     // Retreat
-    effectsDataList.push(_buildBaseAffliction('retreat', 'systems/demonlord/assets/icons/effects/retreat.svg', [], { 'expiry': 'roundEnd' }))
+    effectsDataList.push(_buildBaseAffliction('retreat', 'systems/demonlord/assets/icons/effects/retreat.svg', [], [], { 'expiry': 'roundEnd' }))
 
     // Rush
-    effectsDataList.push(_buildBaseAffliction('rush', 'systems/demonlord/assets/icons/effects/rush.svg', [], { 'expiry': 'roundEnd' }))
+    effectsDataList.push(_buildBaseAffliction('rush', 'systems/demonlord/assets/icons/effects/rush.svg', [], [], { 'expiry': 'roundEnd' }))
 
     // Stabilize
-    effectsDataList.push(_buildBaseAffliction('stabilize', 'systems/demonlord/assets/icons/effects/stabilize.svg', [], { 'expiry': 'roundEnd' }))
+    effectsDataList.push(_buildBaseAffliction('stabilize', 'systems/demonlord/assets/icons/effects/stabilize.svg', [], [], { 'expiry': 'roundEnd' }))
 
     // ----------------------- DAMAGE EFFECTS -------------------------- //
 
@@ -409,14 +422,14 @@ export class DLAfflictions {
 
     // Incapacitated
     effectsDataList.push(
-      _buildBaseAffliction('incapacitated', 'systems/demonlord/assets/icons/effects/incapacitated.svg'),
+      _buildBaseAffliction('incapacitated', 'systems/demonlord/assets/icons/effects/incapacitated.svg', [], []),
     )
 
     // Disabled
-    effectsDataList.push(_buildBaseAffliction('disabled', 'systems/demonlord/assets/icons/effects/disabled.svg', [], {'core.overlay': true}))
+    effectsDataList.push(_buildBaseAffliction('disabled', 'systems/demonlord/assets/icons/effects/disabled.svg', [], [], {'core.overlay': true}))
 
     // Dying
-    effectsDataList.push(_buildBaseAffliction('dying', 'systems/demonlord/assets/icons/effects/dying.svg', [], {'core.overlay': true}))
+    effectsDataList.push(_buildBaseAffliction('dying', 'systems/demonlord/assets/icons/effects/dying.svg', [], [], {'core.overlay': true}))
 
     return effectsDataList
   }

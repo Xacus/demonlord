@@ -1,0 +1,88 @@
+{
+  "label": "Aflições",
+  "mapping": {
+    "description": "system.description"
+  },
+  "entries": {
+    "Asleep": {
+      "name": "Adormecido",
+      "description": "Uma criatura adormecida fica prostrada e inconsciente. Qualquer criatura que consiga alcançá-la pode usar uma ação para acordá-la. Sofrer dano sempre remove essa aflição, exceto se especificado o contrário."
+    },
+    "Blinded": {
+      "name": "Cego",
+      "description": "Uma criatura cega não pode enxergar. Considere o ambiente ao seu redor como completamente obscurecido (veja Obscurecimento). Outras criaturas fazem rolagens de ataque com 1 dádiva contra a Defesa ou Agilidade de uma criatura cega. Rolagens de desafio de Percepção que dependem da visão fracassam automaticamente. E, por fim, a Velocidade de uma criatura cega cai para 2, exceto se sua Velocidade normal já for menor."
+    },
+    "Charmed": {
+      "name": "Encantado",
+      "description": "Uma criatura encantada considera a origem da aflição como um amigo e aliado de confiança. Ela não pode selecionar a criatura que a encantou como alvo de seus ataques."
+    },
+    "Compelled": {
+      "name": "Compelido",
+      "description": "Uma criatura compelida não pode realizar ações ou se mover. Porém, durante cada turno rápido (veja Combate), quem infligiu a aflição pode forçar a criatura compelida a se mover até sua Velocidade ou a realizar uma ação. Quem infligiu a aflição toma todas as decisões em nome da criatura compelida."
+    },
+    "Dazed": {
+      "name": "Aturdido",
+      "description": "Uma criatura aturdida não pode usar ações."
+    },
+    "Deafened": {
+      "name": "Surdo",
+      "description": "Uma criatura surda não pode ouvir. Rolagens de desafio de Percepção que dependem da audição fracassam automaticamente."
+    },
+    "Defenseless": {
+      "name": "Indefeso",
+      "description": "Uma criatura indefesa não pode se defender. Sua Defesa é 5, ela não pode usar ações e suas rolagens de desafio usando atributos fracassam automaticamente. A criatura ainda é capaz de perceber o ambiente ao seu redor e pode fazer rolagens de desafio de Percepção normalmente."
+    },
+    "Diseased": {
+      "name": "Doente",
+      "description": "Uma criatura doente realiza todas as rolagens de ataque e de desafio com 1 revés."
+    },
+    "Fatigued": {
+      "name": "Fatigado",
+      "description": "Uma criatura fatigada realiza todas as rolagens de ataque e de desafio com 1 revés."
+    },
+    "Frightened": {
+      "name": "Amedrontado",
+      "description": "Uma criatura amedrontada realiza todas as rolagens de ataque e de desafio com 1 revés."
+    },
+    "Grabbed": {
+      "name": "Agarrado",
+      "description": "Os efeitos dessa aflição dependem do Tamanho das criaturas envolvidas. Se o tamanho da criatura agarrada for igual ou menor que o da criatura que a agarrou, ela não poderá se afastar da criatura que a mantém agarrada até remover a aflição. Se o tamanho da criatura agarrada for maior que o da criatura que a agarra, sempre que a criatura agarrada se mover, aquela que a agarra pode optar por se mover juntamente com ela, agarrando-se ao seu corpo, ou encerrar o agarrão. (Veja Agarrar para mais informações sobre como agarrar e Escapar para saber como escapar de um agarrão.)"
+    },
+    "Horrified": {
+      "name": "Horrorizado",
+      "description": "Uma criatura horrorizada realiza todas as rolagens de ataque e de desafio com 3 reveses caso possa ver a fonte da aflição Amedrontado."
+    },
+    "Immobilized": {
+      "name": "Imobilizado",
+      "description": "Uma criatura imobilizada tem Velocidade reduzida para 0 e não pode se beneficiar de bônus de Velocidade. Demais criaturas realizam todas as rolagens de ataque contra uma criatura imobilizada com 1 dádiva."
+    },
+    "Impaired": {
+      "name": "Debilitado",
+      "description": "Uma criatura debilitada realiza todas as rolagens de ataque e de desafio com 1 revés."
+    },
+    "Poisoned": {
+      "name": "Envenenado",
+      "description": "Uma criatura envenenada realiza todas as rolagens de ataque e de desafio com 1 revés."
+    },
+    "Prone": {
+      "name": "Prostrado",
+      "description": "Uma criatura prostrada permanece deitada no chão. Outras criaturas podem se mover através desse espaço. Enquanto estiver prostrada, a criatura pode se mover rastejando ou usar seu movimento para se levantar. A criatura prostrada realiza rolagens de Força e Agilidade com 1 revés. Criaturas que alcançam a criatura prostrada fazem todas as rolagens de ataque contra ela com 1 dádiva, enquanto criaturas que não conseguem alcançá-la fazem as rolagens de ataque contra sua Defesa com 1 revés."
+    },
+    "Slowed": {
+      "name": "Lento",
+      "description": "Uma criatura lenta só pode realizar um turno lento (veja Combate), sua Velocidade é reduzida à metade e ela não pode se beneficiar de aumentos de Velocidade."
+    },
+    "Stunned": {
+      "name": "Atordoado",
+      "description": "Uma criatura atordoada não pode se mover ou realizar ações. A criatura fracassa automaticamente em qualquer rolagem de desafio que fizer. As demais criaturas realizam todas as rolagens de ataque contra a criatura atordoada com 1 dádiva."
+    },
+    "Surprised": {
+      "name": "Surpreendido",
+      "description": "Uma criatura surpreendida não pode usar ações, não pode se mover e fracassa automaticamente em qualquer rolagem de desafio que fizer."
+    },
+    "Unconscious": {
+      "name": "Inconsciente",
+      "description": "Uma criatura inconsciente não pode agir, mover-se ou perceber o que está ao seu redor. A Defesa da criatura é 5. Ela não pode realizar ações ou se mover, e todas as suas rolagens de desafio fracassam automaticamente."
+    }
+  }
+}

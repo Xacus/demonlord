@@ -1,0 +1,88 @@
+{
+  "label": "Nieszczęścia",
+  "mapping": {
+    "description": "system.description"
+  },
+  "entries": {
+    "Asleep": {
+      "name": "Uśpienie",
+      "description": "Uśpione stworzenie jest powalone i nieprzytomne. Inna istota, która zdoła do niego podejść, może użyć akcji, aby je obudzić. O ile opis efektu nie mówi inaczej, otrzymanie obrażeń znosi ten stan."
+    },
+    "Blinded": {
+      "name": "Oślepienie",
+      "description": "Oślepiona istota traci wzrok. Swoje otoczenie traktuje jako całkowicie przesłonięte (patrz Widoczność). Ataki przeciwko jej Obronie lub Zręczności zyskują 1 ułatwienie. Testy Percepcji oparte na wzroku wykonywane przez oślepione stworzenie automatycznie kończą się porażką. Jego Prędkość spada do 2, chyba że normalnie jest niższa."
+    },
+    "Charmed": {
+      "name": "Zauroczenie",
+      "description": "Zauroczona istota postrzega źródło tego stanu jako zaufanego przyjaciela i sojusznika. Nie może atakować stworzenia, które ją zauroczyło."
+    },
+    "Compelled": {
+      "name": "Zniewolenie",
+      "description": "Zniewolona istota nie zdoła samodzielnie się poruszać ani wykonywać akcji. Stworzenie, które ją zniewoliło, może w każdej turze krótkiej (patrz Walka) zmusić ją do wykonania ruchu (tyle, na ile pozwala jej Prędkość) lub akcji. Podejmuje także za nią wszystkie decyzje."
+    },
+    "Dazed": {
+      "name": "Oszołomienie",
+      "description": "Oszołomiona istota nie może się poruszać ani wykonywać akcji. Wszelkie wykonywane przez nią testy automatycznie kończą się porażką. Ataki przeciwko oszołomionemu stworzeniu zyskują 1 ułatwienie."
+    },
+    "Deafened": {
+      "name": "Ogłuszenie",
+      "description": "Ogłuszone stworzenie traci słuch. Wykonywane przez nie testy Percepcji oparte na słuchu automatycznie kończą się porażką."
+    },
+    "Defenseless": {
+      "name": "Bezbronność",
+      "description": "Bezbronna istota nie może się bronić. Jej Obrona wynosi 5. Samo stworzenie nie jest w stanie podejmować żadnych akcji, a wszystkie wykonywane przez nie testy oparte na atrybutach automatycznie kończą się porażką. Zachowuje jednak świadomość swojego otoczenia, więc testy Percepcji wykonuje tak, jak zwykle."
+    },
+    "Diseased": {
+      "name": "Choroba",
+      "description": "Chore stworzenie wykonuje wszystkie testy i rzuty na atak z 1 utrudnieniem."
+    },
+    "Fatigued": {
+      "name": "Wyczerpanie",
+      "description": "Wyczerpana istota wykonuje wszystkie testy i rzuty na atak z 1 utrudnieniem."
+    },
+    "Frightened": {
+      "name": "Przestraszenie",
+      "description": "Przestraszone stworzenie wykonuje wszystkie testy i rzuty na atak z 1 utrudnieniem – lub 3 utrudnieniami, jeśli widzi źródło swojego strachu."
+    },
+    "Grabbed": {
+      "name": "Pochwycenie",
+      "description": "Efekty tego stanu zależą od Rozmiaru pochwyconej istoty. Jeśli jest on równy lub mniejszy od Rozmiaru przytrzymującego ją stworzenia, nie może się ona od niego oddalić, dopóki nie pozbędzie się tego stanu. Jeśli Rozmiar pochwyconej istoty jest większy od Rozmiaru przytrzymującego ją stworzenia, to w momencie, gdy wykonuje ona ruch, przytrzymujące ją stworzenie może albo przemieścić się wraz nią, albo ją puścić."
+    },
+    "Horrified": {
+      "name": "Przerażony",
+      "description": "Przerażone stworzenie wykonuje wszystkie testy i rzuty na atak z 3 utrudnieniami, jeśli widzi źródło swojego strachu."
+    },
+    "Immobilized": {
+      "name": "Unieruchomienie",
+      "description": "Unieruchomiona istota ma Prędkość równą 0 i nie może korzystać z premii do tego atrybutu. Ataki wykonywane przeciwko unieruchomionemu stworzeniu zyskują 1 ułatwienie."
+    },
+    "Impaired": {
+      "name": "Osłabienie",
+      "description": "Osłabione stworzenie wykonuje wszystkie testy i rzuty na atak z 1 utrudnieniem."
+    },
+    "Poisoned": {
+      "name": "Zatrucie",
+      "description": "Zatrute stworzenie wykonuje wszystkie testy i rzuty na atak z 1 utrudnieniem."
+    },
+    "Prone": {
+      "name": "Powalenie",
+      "description": "Powalona istota pada na podłoże. Inne stworzenia mogą swobodnie przemieszczać się przez przestrzeń, którą zajmuje. Ona sama jest w stanie poruszać się, czołgając, lub wstać – zużywa w ten sposób swój ruch w danej turze. Wszystkie testy i rzuty na atak oparte na Sile lub Zręczności wykonuje z 1 utrudnieniem. Ataki wręcz przeciwko powalonej istocie zyskują 1 ułatwienie, natomiast ataki dystansowe przeciwko jej Obronie wykonuje się z 1 utrudnieniem."
+    },
+    "Slowed": {
+      "name": "Spowolnienie",
+      "description": "Spowolniona istota może podejmować jedynie tury długie (patrz Walka). Jej Prędkość spada o połowę; stworzenie to nie może też korzystać z premii do Prędkości."
+    },
+    "Stunned": {
+      "name": "Oszołomienie",
+      "description": "Oszołomiona istota nie może się poruszać ani wykonywać akcji. Wszelkie wykonywane przez nią testy automatycznie kończą się porażką. Ataki przeciwko oszołomionemu stworzeniu zyskują 1 ułatwienie."
+    },
+    "Surprised": {
+      "name": "Zaskoczenie",
+      "description": "Zaskoczona istota nie może się poruszać ani wykonywać akcji, a wszelkie podejmowane przez nią testy automatycznie kończą się porażką."
+    },
+    "Unconscious": {
+      "name": "Nieprzytomność",
+      "description": "Nieprzytomna istota nie może w żaden sposób działać i traci świadomość swojego otoczenia. Jej Obrona wynosi 5. Stworzenie nie jest w stanie się poruszać ani wykonywać akcji, a wszelkie podejmowane przez nie testy automatycznie kończą się porażką."
+    }
+  }
+}

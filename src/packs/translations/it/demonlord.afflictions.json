@@ -1,0 +1,88 @@
+{
+  "label": "Afflizioni",
+  "mapping": {
+    "description": "system.description"
+  },
+  "entries": {
+    "Asleep": {
+      "name": "Addormentato",
+      "description": "Una creatura addormentata è prona e svenuta. Un’altra creatura che ce l’abbia entro portata può usare un’azione per svegliarla. A meno che non sia indicato diversamente, subire danni rimuove quest’afflizione."
+    },
+    "Blinded": {
+      "name": "Accecato",
+      "description": "Una creatura accecata non può vedere. Considera ciò che la circonda come se fosse oscurato totalmente (si veda Oscuramento). Le altre creature effettuano tiri di attacco con 1 vantaggio contro la Difesa o l’Agilità di una creatura accecata. I tiri di sfida in Percezione legati alla vista falliscono automaticamente. Inoltre, la Velocità della creatura accecata diventa 2 a meno che la sua Velocità normale non sia inferiore."
+    },
+    "Charmed": {
+      "name": "Affascinato",
+      "description": "Una creatura affascinata vede la fonte dell’afflizione come amico e alleato fidato. La creatura affascinata non può scegliere la creatura che ha conferito l’afflizione come bersaglio dei suoi attacchi."
+    },
+    "Compelled": {
+      "name": "Compulso",
+      "description": "Una creatura compulsa non può intraprendere azioni o muoversi. Invece, durante ogni turno rapido (si veda Combattimento), la creatura che ha conferito l’afflizione può forzare la creatura dominata a muoversi fino alla sua Velocità o a usare un’azione. La creatura che ha conferito l’afflizione prende ogni decisione comportamentale della creatura dominata."
+    },
+    "Dazed": {
+      "name": "Frastornato",
+      "description": "Una creatura frastornata non può intraprendere azioni."
+    },
+    "Deafened": {
+      "name": "Assordato",
+      "description": "Una creatura assordata non può sentire. I tiri di sfida in Percezione legati all’udito falliscono automaticamente."
+    },
+    "Defenseless": {
+      "name": "Indifeso",
+      "description": "Una creatura indifesa non può difendersi. La sua Difesa è 5, non può intraprendere azioni e i suoi tiri di sfida che usano attributi falliscono automaticamente. La creatura può comunque percepire ciò che la circonda ed effettuare tiri di sfida in Percezione come di norma."
+    },
+    "Diseased": {
+      "name": "Infermo",
+      "description": "Una creatura inferma effettua tutti i tiri di attacco e i tiri di sfida con 1 svantaggio."
+    },
+    "Fatigued": {
+      "name": "Affaticato",
+      "description": "Una creatura affaticata effettua tutti i tiri di attacco e i tiri di sfida con 1 svantaggio."
+    },
+    "Frightened": {
+      "name": "Spaventato",
+      "description": "Una creatura spaventata effettua tutti i tiri di attacco e i tiri di sfida con 1 svantaggio. Inoltre, le creature spaventate non possono effettuare turni rapidi (si veda Combattimento)."
+    },
+    "Grabbed": {
+      "name": "Afferrato",
+      "description": "Gli effetti dell’afflizione dipendono dalla Taglia della creatura. Se la Taglia della creatura afferrata è pari o inferiore a quella della creatura afferrante, la creatura afferrata non può allontanarsi da essa senza rimuovere l’afflizione. Se la Taglia della creatura afferrata è più grande della creatura afferrante, ogni volta che la creatura afferrata si muove, la creatura afferrante può scegliere di muoversi con essa (appendendosi al suo corpo) o lasciarla andare. (Si veda Afferrare per maggiori informazioni su come afferrare, e Sfuggire su come sfuggire a un afferramento.)"
+    },
+    "Horrified": {
+      "name": "Inorridito",
+      "description": "Una creatura inorridita effettua tutti i tiri di attacco e i tiri di sfida con 3 svantaggio."
+    },
+    "Immobilized": {
+      "name": "Immobilizzato",
+      "description": "Una creatura immobilizzata ha Velocità 0 e non può beneficiare di bonus alla Velocità. Le altre creature effettuano tutti i tiri di attacco contro la creatura immobilizzata con 1 vantaggio."
+    },
+    "Impaired": {
+      "name": "Indebolito",
+      "description": "Una creatura indebolita effettua tutti i tiri di attacco e i tiri di sfida con 1 svantaggio."
+    },
+    "Poisoned": {
+      "name": "Avvelenato",
+      "description": "Una creatura avvelenata effettua tutti i tiri di attacco e i tiri di sfida con 1 svantaggio."
+    },
+    "Prone": {
+      "name": "Prono",
+      "description": "Una creatura giace a terra. Le altre creature possono muoversi attraverso il suo spazio. Mentre è prona, una creatura può muoversi strisciando o usare il suo movimento per alzarsi. La creatura prona effettua tiri di Forza e Agilità con 1 svantaggio. Le creature che ce l’hanno entro portata effettuano tutti i tiri di attacco contro la creatura prona con 1 vantaggio, mentre le altre effettuano i tiri di attacco contro la sua Difesa con 1 svantaggio."
+    },
+    "Slowed": {
+      "name": "Rallentato",
+      "description": "Una creatura rallentata può effettuare solo un turno lento (si veda Combattimento), la sua Velocità è dimezzata e non può beneficiare di incrementi alla Velocità."
+    },
+    "Stunned": {
+      "name": "Stordito",
+      "description": "Una creatura stordita non può muoversi o intraprendere azioni. La creatura fallisce automaticamente ogni tiro di sfida che effettua. Le altre creature effettuano tutti i tiri di attacco contro la creatura stordita con 1 vantaggio."
+    },
+    "Surprised": {
+      "name": "Sorpreso",
+      "description": "Una creatura sorpresa non può intraprendere azioni, non può muoversi e fallisce automaticamente qualsiasi tiro di sfida."
+    },
+    "Unconscious": {
+      "name": "Svenuto",
+      "description": "Una creatura svenuta non può agire, muoversi o percepire l’ambiente circostante. La Difesa della creatura è 5. Non può intraprendere azioni o muoversi e fallisce automaticamente tutte le sfide."
+    }
+  }
+}

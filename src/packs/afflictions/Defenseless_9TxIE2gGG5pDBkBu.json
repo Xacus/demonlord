@@ -1,0 +1,98 @@
+{
+  "name": "Defenseless",
+  "img": "systems/demonlord/assets/icons/effects/defenseless.svg",
+  "type": "base",
+  "system": {
+    "changes": [
+      {
+        "key": "system.characteristics.defense",
+        "value": 5,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.strength",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.agility",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.intellect",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.will",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.strength",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.agility",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.intellect",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.will",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.perception",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      }
+    ]
+  },
+  "disabled": false,
+  "description": "A defenseless creature cannot defend itself. Its Defense is 5, it cannot use actions, and its challenge rolls using attributes result in failure. The creature can still perceive its surroundings, however, and can make Perception challenge rolls as normal.",
+  "statuses": ["defenseless"],
+  "showIcon": 1,
+  "_id": "9TxIE2gGG5pDBkBu",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!9TxIE2gGG5pDBkBu"
+}

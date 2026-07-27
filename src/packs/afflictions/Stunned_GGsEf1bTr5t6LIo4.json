@@ -1,0 +1,140 @@
+{
+  "name": "Stunned",
+  "img": "icons/svg/stoned.svg",
+  "type": "base",
+  "system": {
+    "changes": [
+      {
+        "key": "system.maluses.autoFail.challenge.strength",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.agility",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.intellect",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.will",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.challenge.perception",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.strength",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.agility",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.intellect",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.will",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.maluses.autoFail.action.perception",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.defense",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.strength",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.agility",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.will",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.intellect",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.perception",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      }
+    ]
+  },
+  "disabled": false,
+  "description": "A stunned creature cannot move or use actions. The creature automatically gets a failure on any challenge rolls it would make. Other creatures make all attack rolls against the stunned creature with 1 boon.",
+  "statuses": ["stunned"],
+  "showIcon": 1,
+  "_id": "GGsEf1bTr5t6LIo4",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!GGsEf1bTr5t6LIo4"
+}

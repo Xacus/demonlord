@@ -1,0 +1,88 @@
+{
+  "label": "Zustände",
+  "mapping": {
+    "description": "system.description"
+  },
+  "entries": {
+    "Asleep": {
+      "name": "Schalfend",
+      "description": "Ein schlafendes Wesen zählt als liegend und bewusstlos. Andere Wesen in Nahkampfreichweite können versuchen, es zu wecken. Falls nicht anderes angegeben, hebt Schaden diesen Zustand auf."
+    },
+    "Blinded": {
+      "name": "Blind",
+      "description": "Ein blindes Wesen kann nichts sehen. Die Umgebung besitzt für sie Vollständige Tarnung (siehe Abschnitt Tarnung). Angreifer erhalten bei Angriffen gegen blinde Wesen 1 Vorteilswürfel. Sicht erfordernde Wahrnehmungs-Proben scheitern automatisch. Schließlich reduziert sich die Bewegungsrate des blinden Charakters auf 2, falls seine normale Bewegung nicht bereits langsamer ist."
+    },
+    "Charmed": {
+      "name": "Betört",
+      "description": "Ein betörtes Wesen empfindet den Auslöser des Zustands als einen vertrauten Freund und Verbündeten. Das betörte Wesen kann den Betörenden nicht als Ziel von Angriffen auswählen."
+    },
+    "Compelled": {
+      "name": "Beherrscht",
+      "description": "Ein beherrschtes Wesen kann keine Aktionen ausführen. Stattdessen kann es gezwungen werden, sich zu bewegen oder eine Aktion auszuführen. Der Beherrscher des Wesens trifft alle Entscheidungen."
+    },
+    "Dazed": {
+      "name": "Benommen",
+      "description": "Ein benommenes Lebewesen kann keine Aktionen ausführen."
+    },
+    "Deafened": {
+      "name": "Taub",
+      "description": "Ein betäubtes Wesen kann sich nicht bewegen und keine Aktionen nutzen. Alle versuchten Proben schlagen automatisch fehl. Andere Wesen erhalten bei Angriffen gegen betäubte Gegner 1 Vorteilswürfel."
+    },
+    "Defenseless": {
+      "name": "Wehrlos",
+      "description": "Ein wehrloses Wesen kann sich nicht verteidigen. Sein Wert in Verteidigung sinkt auf 5, es kann keine Aktionen nutzen und Attributs-Proben scheitern automatisch. Das Wesen kann jedoch weiterhin seine Umgebung wahrnehmen und Wahrnehmungs-Proben würfeln."
+    },
+    "Diseased": {
+      "name": "Krank",
+      "description": "Ein krankes Wesen erhält auf alle Angriffe und Proben 1 Nachteilswürfel."
+    },
+    "Fatigued": {
+      "name": "Erschöpft",
+      "description": "Ein erschöpftes Lebewesen erhält auf alle Angriffe und Proben 1 Nachteilswürfel."
+    },
+    "Frightened": {
+      "name": "Verängstigt",
+      "description": "Ein verängstigtes Wesen erhält auf alle Angriffe und Proben 1 Nachteilswürfel, wenn es die Quelle seiner Furcht sehen kann."
+    },
+    "Grabbed": {
+      "name": "Festgehalten",
+      "description": "Der Effekt dieses Zustands hängt von der Größe des Wesens ab. Ist die Größe des festgehaltenen Wesens kleiner oder gleich der Größe des Angreifers, kann es sich nicht wegbewegen, bis der Zustand endet. Ist das festgehaltene Wesen jedoch größer als der Angreifer, kann Letzterer sich dazu entscheiden, den Zustand entweder zu beenden oder sich mitzubewegen. Siehe Festhalten für weitere Informationen, wie du jemanden festhalten kannst, und Entkommen, wenn du wissen willst, wie du dich befreien kannst."
+    },
+    "Horrified": {
+      "name": "",
+      "description": "Ein verängstigtes Wesen erhält auf alle Angriffe und Proben 3 Nachteilswürfeln, wenn es die Quelle seiner Furcht sehen kann."
+    },
+    "Immobilized": {
+      "name": "Bewegungsunfähig",
+      "description": "Ein bewegungsunfähiges Wesen verfügt über Bewegungsrate 0 und kann keine entsprechenden Boni nutzen. Andere Wesen erhalten auf Angriffe 1 Vorteilswürfel."
+    },
+    "Impaired": {
+      "name": "Beeinträchtigt",
+      "description": "Ein beeinträchtigtes Wesen erhält auf alle Angriffe und Proben 1 Nachteilswürfel."
+    },
+    "Poisoned": {
+      "name": "Vergiftet",
+      "description": "Ein vergiftetes Wesen erhält auf alle Angriffe und Proben 1 Nachteilswürfel."
+    },
+    "Prone": {
+      "name": "Liegend",
+      "description": "Das Wesen liegt am Boden. Andere Wesen können sich durch ihren Bereich bewegen. Solange du liegend bist, kann du dich nur kriechend fortbewegen oder deine Bewegung nutzen, um aufzustehen. Ein liegendes Wesen erhält auf alle Stärke- und Gewandtheits-Proben 1 Nachteilswürfel. Wesen in Nahkampfreichweite erhalten auf Angriffe 1 Vorteilswürfel, Wesen außerhalb ihrer Nahkampfreichweite erhalten 1 Nachteilswürfel."
+    },
+    "Slowed": {
+      "name": "Verlangsamt",
+      "description": "Ein verlangsamtes Wesen kann nur einen Langsamen Zug ausführen (siehe Abschnitt Kampf), seine Bewegungsrate wird halbiert und es profitiert nicht von entsprechenden Boni auf Bewegung."
+    },
+    "Stunned": {
+      "name": "Betäubt",
+      "description": "Ein betäubtes Wesen kann sich nicht bewegen und keine Aktionen nutzen. Alle versuchten Proben schlagen automatisch fehl. Andere Wesen erhalten bei Angriffen gegen betäubte Gegner 1 Vorteilswürfel."
+    },
+    "Surprised": {
+      "name": "Überrascht",
+      "description": "Ein überraschtes Wesen kann keine Aktionen nutzen, sich nicht bewegen und alle Proben schlagen automatisch fehl."
+    },
+    "Unconscious": {
+      "name": "Bewusstlos",
+      "description": "Ein bewusstloses Wesen kann nicht handeln, sich bewegen oder seine Umgebung wahrnehmen. Seine Verteidigung beträgt 5. Alle Proben schlagen automatisch fehl."
+    }
+  }
+}

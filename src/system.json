@@ -61,6 +61,13 @@
       "type": "Item"
     },
     {
+      "name": "afflictions",
+      "label": "Afflictions",
+      "system": "demonlord",
+      "path": "packs/afflictions",
+      "type": "ActiveEffect"
+    },
+    {
       "name": "armor",
       "label": "Armor",
       "system": "demonlord",

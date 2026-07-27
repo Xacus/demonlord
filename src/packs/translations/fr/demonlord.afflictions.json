@@ -1,0 +1,88 @@
+{
+  "label": "Afflictions",
+  "mapping": {
+    "description": "system.description"
+  },
+  "entries": {
+    "Asleep": {
+      "name": "Endormi",
+      "description": "Une créature endormie est à terre et inconsciente. Une autre créature à portée peut utiliser une action pour la réveiller. À moins que le contraire ne soit indiqué, subir des dégâts annule cette affliction."
+    },
+    "Blinded": {
+      "name": "Aveuglé",
+      "description": "Une créature aveuglée ne peut pas voir. Elle considère son environnement comme totalement obscurci. Les autres créatures effectuent leurs jets d’attaque avec 1 avantage contre la Défense ou l’Agilité d’une créature aveuglée. Les tests de Perception dépendant de la vue échouent automatiquement. Enfin, la Vitesse d’une créature aveuglée est de 2 sauf si sa vitesse normale est inférieure."
+    },
+    "Charmed": {
+      "name": "Charmé",
+      "description": "Une créature charmée considère la source de l’affliction comme un allié ou un ami de confiance. La créature charmée ne peut prendre pour cible la créature à l’origine de son affliction."
+    },
+    "Compelled": {
+      "name": "Contraint",
+      "description": "Une créature contrainte ne peut utiliser d’action ou se déplacer. À chaque tour rapide, la créature à l’origine de cette affliction peut forcer celle qui est contrainte à se déplacer à sa Vitesse normale ou à utiliser une action. La créature qui a infligé cette affliction prend toutes les décisions à la place de la créature contrainte."
+    },
+    "Dazed": {
+      "name": "Étourdi",
+      "description": "Une créature étourdie ne peut effectuer aucune action."
+    },
+    "Deafened": {
+      "name": "Assourdi",
+      "description": "Une créature assourdie ne peut rien entendre. Les tests de Perception pour écouter échouent automatiquement."
+    },
+    "Defenseless": {
+      "name": "Vulnérable",
+      "description": "Une créature vulnérable ne peut se défendre. Sa Défense est de 5, elle ne peut utiliser d’action et ses tests d’attribut échouent automatiquement. Cependant, la créature peut encore percevoir son environnement et peut effectuer normalement des tests de Perception."
+    },
+    "Diseased": {
+      "name": "Malade",
+      "description": "Une créature malade effectue tous ses jets d’attaque et tous ses tests avec 1 désavantage."
+    },
+    "Fatigued": {
+      "name": "Fatigué",
+      "description": "Une créature fatiguée effectue tous ses jets d’attaque et tous ses tests avec 1 désavantage."
+    },
+    "Frightened": {
+      "name": "Effrayé",
+      "description": "Une créature effrayée effectue tous ses jets d’attaque et tous ses tests avec 1 désavantage ou 3 désavantages quand elle peut voir la source de son affliction."
+    },
+    "Grabbed": {
+      "name": "Saisi",
+      "description": "Les effets de cette affliction dépendent du Gabarit de la créature. Si le Gabarit de la créature saisie est égal ou inférieur à celui de la créature qui l’a saisie, la victime ne peut s’éloigner de son agresseur tant qu’elle ne s’est pas débarrassée de cette affliction. Si le Gabarit de la créature saisie est supérieur à celui de la créature qui l’a saisie, à chaque fois que la victime se déplace, celle qui l’agrippe peut choisir de se déplacer avec elle (en s’accrochant à son corps) ou de la lâcher."
+    },
+    "Horrified": {
+      "name": "Terrifié",
+      "description": "Une créature terrifiée effectue tous ses jets avec 3 désavantages tant qu'elle peut voir la source de sa terreur."
+    },
+    "Immobilized": {
+      "name": "Immobilisé",
+      "description": "Une créature immobilisée a une Vitesse de 0 et ne peut bénéficier de bonus à sa Vitesse. Les autres créatures effectuent leurs jets d’attaque contre une créature immobilisée avec 1 avantage."
+    },
+    "Impaired": {
+      "name": "Affaibli",
+      "description": "Une créature affaiblie effectue tous ses jets d’attaque et tous ses tests avec 1 désavantage."
+    },
+    "Poisoned": {
+      "name": "Empoisonné",
+      "description": "Une créature empoisonnée effectue tous ses jets d’attaque et tous ses tests avec 1 désavantage."
+    },
+    "Prone": {
+      "name": "À terre",
+      "description": "Une créature à terre est allongée sur le sol. Les autres créatures peuvent traverser son espace. Tant qu’elle est à terre, la créature peut se déplacer en rampant ou peut utiliser son déplacement pour se relever. La créature à terre effectue ses tests de Force et d’Agilité avec 1 désavantage. Les créatures qui peuvent atteindre la créature à terre peuvent effectuer des attaques contre elle avec 1 avantage tandis que les créatures qui sont hors de portée effectuent leurs jets d’attaque contre sa Défense avec 1 désavantage."
+    },
+    "Slowed": {
+      "name": "Ralenti",
+      "description": "Une créature ralentie ne peut effectuer que des tours lents, sa Vitesse est réduite de moitié et elle ne peut bénéficier d’augmentation de sa Vitesse."
+    },
+    "Stunned": {
+      "name": "Stupéfait",
+      "description": "Une créature stupéfaite ne peut se déplacer ou effectuer une action. Elle échoue automatiquement à tous ses tests. Les autres créatures effectuent leurs jets d’attaque contre une créature stupéfaite avec 1 avantage."
+    },
+    "Surprised": {
+      "name": "Surpris",
+      "description": "Une créature surprise ne peut ni utiliser d’action ni se déplacer et échoue automatiquement à tous ses tests."
+    },
+    "Unconscious": {
+      "name": "Inconscient",
+      "description": "Une créature inconsciente ne peut agir, se déplacer ou percevoir son environnement. La Défense de cette créature est de 5. Elle ne peut ni utiliser d’action ni se déplacer et échoue automatiquement à tous ses tests."
+    }
+  }
+}

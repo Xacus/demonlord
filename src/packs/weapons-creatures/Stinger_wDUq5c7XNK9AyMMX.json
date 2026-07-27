@@ -2,8 +2,7 @@
   "_id": "wDUq5c7XNK9AyMMX",
   "name": "Stinger",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "weapon",
   "data": {

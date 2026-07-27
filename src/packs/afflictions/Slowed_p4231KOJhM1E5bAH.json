@@ -1,0 +1,42 @@
+{
+  "name": "Slowed",
+  "img": "systems/demonlord/assets/icons/effects/slowed.svg",
+  "type": "base",
+  "system": {
+    "changes": [
+      {
+        "key": "system.maluses.noFastTurn",
+        "value": 1,
+        "type": "override",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.characteristics.speed",
+        "value": 0.5,
+        "type": "multiply",
+        "priority": 110,
+        "phase": "initial"
+      }
+    ]
+  },
+  "disabled": false,
+  "description": "A slowed creature can take only a slow turn (see Combat), its Speed is halved, and it cannot benefit from increases to Speed.",
+  "statuses": ["slowed"],
+  "showIcon": 1,
+  "_id": "p4231KOJhM1E5bAH",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!p4231KOJhM1E5bAH"
+}

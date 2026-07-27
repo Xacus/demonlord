@@ -1,0 +1,27 @@
+{
+  "name": "Charmed",
+  "img": "systems/demonlord/assets/icons/effects/charmed.svg",
+  "type": "base",
+  "system": {
+    "changes": []
+  },
+  "disabled": false,
+  "description": "A charmed creature sees the source of the affliction as a trusted friend and ally. The charmed creature cannot choose the creature that bestowed the affliction as the target of its attacks.",
+  "statuses": ["charmed"],
+  "showIcon": 1,
+  "_id": "OAVyF14oEixRp6jV",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!OAVyF14oEixRp6jV"
+}

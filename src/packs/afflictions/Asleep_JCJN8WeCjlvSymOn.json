@@ -1,0 +1,27 @@
+{
+  "name": "Asleep",
+  "img": "icons/svg/sleep.svg",
+  "type": "base",
+  "system": {
+    "changes": []
+  },
+  "disabled": false,
+  "description": "A sleeping creature is prone and unconscious. Another creature that can reach it can use an action to wake it up. Unless otherwise noted, taking damage removes this affliction.",
+  "statuses": ["asleep"],
+  "showIcon": 1,
+  "_id": "JCJN8WeCjlvSymOn",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!JCJN8WeCjlvSymOn"
+}

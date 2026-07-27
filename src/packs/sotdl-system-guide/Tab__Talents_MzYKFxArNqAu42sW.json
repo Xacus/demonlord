@@ -1,8 +1,7 @@
 {
   "name": "Tab: Talents",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "flags": {
     "core": {

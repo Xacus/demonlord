@@ -1,0 +1,27 @@
+{
+  "name": "Grabbed",
+  "img": "systems/demonlord/assets/icons/effects/grabbed.svg",
+  "type": "base",
+  "system": {
+    "changes": []
+  },
+  "disabled": false,
+  "description": "The effects of the affliction depend on the creature’s Size. If the grabbed creature’s Size is equal to or smaller than that of the creature grabbing it, the grabbed creature cannot move away from the creature that grabbed it until it removes the affliction. If the grabbed creature’s Size is larger than that of the creature grabbing it, whenever the grabbed creature moves, the creature grabbing it can choose to move with it (by clinging to the grabbed creature’s body) or end the grab. (See Grab for more information on how to grab, and Escape for how to escape a grab.)",
+  "statuses": ["grabbed"],
+  "showIcon": 1,
+  "_id": "eQypUlcgoBzFKI0w",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!eQypUlcgoBzFKI0w"
+}

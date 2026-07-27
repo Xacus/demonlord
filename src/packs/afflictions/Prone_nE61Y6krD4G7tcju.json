@@ -1,0 +1,98 @@
+{
+  "name": "Prone",
+  "img": "icons/svg/falling.svg",
+  "type": "base",
+  "system": {
+    "changes": [
+      {
+        "key": "system.bonuses.attack.boons.strength",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.attack.boons.agility",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.challenge.boons.strength",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.challenge.boons.agility",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.defense",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.strength",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.agility",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.will",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.intellect",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.perception",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      }
+    ]
+  },
+  "disabled": false,
+  "description": "A prone creature lies on the ground. Other creatures can move through its space. While prone, the creature can move by crawling or can use its move to stand up. The prone creature makes Strength and Agility rolls with 1 bane. Creatures that can reach the prone creature make all attack rolls against it with 1 boon, while creatures that cannot reach it make attack rolls against its Defense with 1 bane.",
+  "statuses": ["prone"],
+  "showIcon": 1,
+  "_id": "nE61Y6krD4G7tcju",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!nE61Y6krD4G7tcju"
+}

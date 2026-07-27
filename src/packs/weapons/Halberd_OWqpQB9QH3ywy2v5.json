@@ -2,8 +2,7 @@
   "_id": "OWqpQB9QH3ywy2v5",
   "name": "Halberd",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "weapon",
   "data": {

@@ -1,0 +1,27 @@
+{
+  "name": "Compelled",
+  "img": "systems/demonlord/assets/icons/effects/compelled.svg",
+  "type": "base",
+  "system": {
+    "changes": []
+  },
+  "disabled": false,
+  "description": "A compelled creature cannot use actions or move. Instead, during each fast turn (see Combat), the creature that bestowed the affliction can force the compelled creature to move up to its Speed or to use an action. The creature that bestowed the affliction makes all decisions on the compelled creature’s behalf.",
+  "statuses": ["compelled"],
+  "showIcon": 1,
+  "_id": "bosZWswIyLKtXpqf",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!bosZWswIyLKtXpqf"
+}

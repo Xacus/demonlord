@@ -2,8 +2,7 @@
   "_id": "QyQW7u8dgNIGRFg7",
   "name": "Chain",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "weapon",
   "data": {

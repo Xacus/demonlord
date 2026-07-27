@@ -1,0 +1,77 @@
+{
+  "name": "Immobilized",
+  "img": "systems/demonlord/assets/icons/effects/immobilized.svg",
+  "type": "base",
+  "system": {
+    "changes": [
+      {
+        "key": "system.characteristics.speed",
+        "value": 0,
+        "type": "downgrade",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.defense",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.strength",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.agility",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.will",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.intellect",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      },
+      {
+        "key": "system.bonuses.defense.boons.perception",
+        "value": -1,
+        "type": "add",
+        "priority": 110,
+        "phase": "initial"
+      }
+    ]
+  },
+  "disabled": false,
+  "description": "An immobilized creature has Speed 0 and cannot benefit from bonuses to Speed. Other creatures make all attack rolls against the immobilized creature with 1 boon.",
+  "statuses": ["immobilized"],
+  "showIcon": 1,
+  "_id": "fYqO3Ux6uBLriX1w",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!fYqO3Ux6uBLriX1w"
+}

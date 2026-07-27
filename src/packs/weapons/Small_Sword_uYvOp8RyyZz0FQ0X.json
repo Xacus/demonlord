@@ -2,8 +2,7 @@
   "_id": "uYvOp8RyyZz0FQ0X",
   "name": "Small Sword",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "weapon",
   "data": {

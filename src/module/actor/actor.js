@@ -155,7 +155,7 @@ export class DemonlordActor extends Actor {
       return changes.concat(e.changes.map(c => {
         c = foundry.utils.duplicate(c)
         c.effect = e
-        c.priority = c.priority ?? (c.mode * 10)
+        c.priority = c.priority ?? (CONST.ACTIVE_EFFECT_CHANGE_TYPES[c.type] * 10)
         return c
       }))
     }, []).filter(e => e.key.startsWith("system.attributes") || e.key.startsWith("system.characteristics"))
@@ -233,22 +233,25 @@ export class DemonlordActor extends Actor {
 
       sizeMod = this.getSizeFromString(change.value)
 
-      switch (change.mode) {
-        case 0: // CUSTOM
+      switch (change.type) {
+        case 'custom':
           break
-        case 1: // MULTIPLY
+        case 'multiply':
           modifiedSize *= sizeMod
           break
-        case 2: // ADD
+        case 'add':
           modifiedSize += sizeMod
           break
-        case 3: // DOWNGRADE
+        case 'subtract':
+          modifiedSize -= sizeMod
+          break
+        case 'downgrade':
           modifiedSize = Math.min(modifiedSize, sizeMod)
           break
-        case 4: // UPGRADE
+        case 'upgrade':
           modifiedSize = Math.max(modifiedSize, sizeMod)
           break
-        case 5: // OVERRIDE
+        case 'override':
           modifiedSize = sizeMod
           break
       }
@@ -775,25 +778,30 @@ getTargetAttackBane(target) {
   /* -------------------------------------------- */
 
   async rollTalent(itemID, _options = {event: null}) {
-    if (DLAfflictions.isActorBlocked(this, 'challenge', 'strength'))
-      //FIXME
-      return
-
     const item = this.items.get(itemID)
-    const uses = parseInt(item.system?.uses?.value) || 0
-    const usesMax = parseInt(item.system?.uses?.max) || 0
 
-    if (usesMax !== 0 && uses >= usesMax) {
-      ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
-      return
-    }
-
-    if (item.system?.action?.attack) {
-      launchRollDialog(this, game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async (event, html) =>
-        await this.useTalent(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
-      )
+    if (_options.event?.shiftKey) {
+      postTalentToChat(this, item, null, null, null)
     } else {
-      await this.useTalent(item, 0, 0)
+      if (DLAfflictions.isActorBlocked(this, 'challenge', 'strength'))
+        //FIXME
+        return
+
+      const uses = parseInt(item.system?.uses?.value) || 0
+      const usesMax = parseInt(item.system?.uses?.max) || 0
+
+      if (usesMax !== 0 && uses >= usesMax) {
+        ui.notifications.warn(game.i18n.localize('DL.TalentMaxUsesReached'))
+        return
+      }
+
+      if (item.system?.action?.attack) {
+        launchRollDialog(this, game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async (event, html) =>
+          await this.useTalent(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
+        )
+      } else {
+        await this.useTalent(item, 0, 0)
+      }
     }
   }
 
@@ -883,35 +891,40 @@ getTargetAttackBane(target) {
   /* -------------------------------------------- */
 
   async rollSpell(itemID, _options = {event: null}) {
-    const targets = tokenManager.targets
     const item = this.items.get(itemID)
-    const isAttack = item.system.spelltype === 'Attack'
-    const attackAttribute = item.system?.action?.attack?.toLowerCase()
-    const challengeAttribute = item.system?.attribute?.toLowerCase()
 
-    // Check if actor is blocked
-    // If it has an attack attribute, check action attack else if it has a challenge attribute, check action challenge
-    if (isAttack && attackAttribute && DLAfflictions.isActorBlocked(this, 'attack', attackAttribute)) return
-    else if (challengeAttribute && DLAfflictions.isActorBlocked(this, 'challenge', challengeAttribute)) return
-
-    // Check uses
-    const uses = parseInt(item.system?.castings?.value) || 0
-    const usesMax = parseInt(item.system?.castings?.max) || 0
-
-    if (usesMax !== 0 && uses >= usesMax) {
-      ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
-      return
-    } else await item.update({'system.castings.value': uses + 1}, {parent: this})
-
-    if (isAttack && attackAttribute) {
-      launchRollDialog(this, game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async (event, html) => {
-        for (const target of targets) {
-          await this.useSpell(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, [target])
-        }
-        if (targets.length === 0 )  await this.useSpell(item,html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
-      })
+    if (_options.event?.shiftKey) {
+      postSpellToChat(this, item, null, null, null, null)
     } else {
-      await this.useSpell(item, 0, 0)
+      const targets = tokenManager.targets
+      const isAttack = item.system.spelltype === 'Attack'
+      const attackAttribute = item.system?.action?.attack?.toLowerCase()
+      const challengeAttribute = item.system?.attribute?.toLowerCase()
+
+      // Check if actor is blocked
+      // If it has an attack attribute, check action attack else if it has a challenge attribute, check action challenge
+      if (isAttack && attackAttribute && DLAfflictions.isActorBlocked(this, 'attack', attackAttribute)) return
+      else if (challengeAttribute && DLAfflictions.isActorBlocked(this, 'challenge', challengeAttribute)) return
+
+      // Check uses
+      const uses = parseInt(item.system?.castings?.value) || 0
+      const usesMax = parseInt(item.system?.castings?.max) || 0
+
+      if (usesMax !== 0 && uses >= usesMax) {
+        ui.notifications.warn(game.i18n.localize('DL.SpellMaxUsesReached'))
+        return
+      } else await item.update({'system.castings.value': uses + 1}, {parent: this})
+
+      if (isAttack && attackAttribute) {
+        launchRollDialog(this, game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async (event, html) => {
+          for (const target of targets) {
+            await this.useSpell(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, [target])
+          }
+          if (targets.length === 0 )  await this.useSpell(item,html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+        })
+      } else {
+        await this.useSpell(item, 0, 0)
+      }
     }
   }
 
@@ -974,7 +987,7 @@ getTargetAttackBane(target) {
     })
 
     // Add concentration if it's in the spell duration
-    const concentrate = CONFIG.statusEffects['concentrate']
+    const concentrate = foundry.utils.deepClone(CONFIG.statusEffects['concentrate'])
     if (
       spell.system.duration.toLowerCase().includes('concentration') &&
       this.effects.find(e => e.statuses?.has('concentrate')) === undefined &&
@@ -1021,43 +1034,49 @@ getTargetAttackBane(target) {
 
   async rollItem(itemID, _options = {event: null}) {
     const item = this.items.get(itemID)
-    let deleteItem = false
 
-    if (item.system.quantity != null && item.system.consumabletype) {
-      if (item.system.quantity === 1 && item.system.autoDestroy) {
-        deleteItem = true
+    if (_options.event?.shiftKey) {
+      postItemToChat(this, item, null, null, null)
+    } else {
+
+      let deleteItem = false
+
+      if (item.system.quantity != null && item.system.consumabletype) {
+        if (item.system.quantity === 1 && item.system.autoDestroy) {
+          deleteItem = true
+        }
+
+        if (item.system.quantity < 1 ) {
+          if (item.system.autoDestroy) {
+            return await item.delete()
+          } else {
+            return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+          }
+        }
+
+        await item.update({'system.quantity': --item.system.quantity}, {parent: this})
       }
 
-      if (item.system.quantity < 1 ) {
-        if (item.system.autoDestroy) {
-          return await item.delete()
+      // Incantations
+      if (item.system.consumabletype === 'I' && item.system.contents.length === 1) {
+        item.system.contents[0].name = `${game.i18n.localize('DL.ConsumableTypeI')}: ${item.system.contents[0].name}`
+        let spell = new Item(item.system.contents[0])
+        let tempSpell = await this.createEmbeddedDocuments('Item', [spell])
+        // Before deleting the spell we store the uuid of the spell in the chat card for later use
+        const updateData = {[`flags.${game.system.id}.incantationSpellUuid`]: item.system.contents[0]._stats.compendiumSource};
+        await tempSpell[0].update(updateData);
+        await this.rollSpell(tempSpell[0].id)
+        await this.deleteEmbeddedDocuments('Item', [tempSpell[0].id])
+      } else {
+        if (item.system?.action?.attack) {
+          launchRollDialog(this, game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html) =>
+        await this.useItem(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value), )
         } else {
-          return ui.notifications.warn(game.i18n.localize('DL.ItemMaxUsesReached'))
+          await this.useItem(item, 0, 0)
         }
       }
-
-      await item.update({'system.quantity': --item.system.quantity}, {parent: this})
+      if (deleteItem) await item.delete()
     }
-
-    // Incantations
-    if (item.system.consumabletype === 'I' && item.system.contents.length === 1) {
-      item.system.contents[0].name = `${game.i18n.localize('DL.ConsumableTypeI')}: ${item.system.contents[0].name}`
-      let spell = new Item(item.system.contents[0])
-      let tempSpell = await this.createEmbeddedDocuments('Item', [spell])
-      // Before deleting the spell we store the uuid of the spell in the chat card for later use
-      const updateData = {[`flags.${game.system.id}.incantationSpellUuid`]: item.system.contents[0]._stats.compendiumSource};
-      await tempSpell[0].update(updateData);
-      await this.rollSpell(tempSpell[0].id)
-      await this.deleteEmbeddedDocuments('Item', [tempSpell[0].id])
-    } else {
-      if (item.system?.action?.attack) {
-        launchRollDialog(this, game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html) =>
-		  await this.useItem(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value), )
-      } else {
-        await this.useItem(item, 0, 0)
-      }
-    }
-    if (deleteItem) await item.delete()
 
   }
 

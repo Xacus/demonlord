@@ -1,8 +1,7 @@
 {
   "name": "Large Shield",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "armor",
   "data": {

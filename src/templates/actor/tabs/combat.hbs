@@ -101,7 +101,11 @@
     <div class="row">
       <div class="col-10 dl-clickable-nored item-edit">
         <img class="dl-clickable item-edit" data-action="editItem" src="{{armor.img}}" title="{{armor.name}}" width="32" height="32" />
-        <div style="font-weight: normal">{{armor.name}}</div>
+        {{#if system.wear}}
+        <label class="dl-rollable item-roll">{{armor.name}}</label>
+        {{else}}
+        <label style="font-weight: normal">{{armor.name}}</label>
+        {{/if}}
         {{!-- TODO: Add dlInfo (see above)
         <div class="dl-clickable dlToggleInfoBtn" data-action="toggleInfo">
           <i class="fas fa-angle-right"></i> {{localize "DL.ItemShowInfo"}}

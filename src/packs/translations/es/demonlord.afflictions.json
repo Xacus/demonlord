@@ -1,0 +1,88 @@
+{
+  "label": "Aflicciones",
+  "mapping": {
+    "description": "system.description"
+  },
+  "entries": {
+    "Asleep": {
+      "name": "Dormido",
+      "description": "Una criatura dormida se considera derribada e inconsciente. Cualquiera que pueda alcanzarla tendrá la opción de despertarla. A menos que se indique lo contrario, sufrir daño elimina la aflicción."
+    },
+    "Blinded": {
+      "name": "Cegado",
+      "description": "Una criatura cegada no puede ver. Considera lo que la rodea como si estuviese envuelto en una oscuridad total (consulta Oscuridad). Las demás criaturas atacan con 1 ventaja contra la Defensa o Agilidad del ser afectado. Las pruebas de Percepción que dependan de la vista fracasan automáticamente. Por último, la Velocidad del ser afectado se reduce a 2, salvo que su Velocidad normal sea menor."
+    },
+    "Charmed": {
+      "name": "Hechizado",
+      "description": "Una criatura hechizada ve a la fuente de su aflicción como un amigo o un aliado. Es incapaz de atacar a dicha fuente."
+    },
+    "Compelled": {
+      "name": "Obligado",
+      "description": "Una criatura obligada no puede emplear sus acciones ni moverse. Cada turno rápido (consulta Combate), el ser que impuso la aflicción puede forzar a la criatura obligada a moverse lo que le permita su Velocidad y realizar acciones. El ser que impuso la aflicción decide todo lo que hace la criatura afectada."
+    },
+    "Dazed": {
+      "name": "Desorientado",
+      "description": "Una criatura desorientada no puede realizar acciones."
+    },
+    "Deafened": {
+      "name": "Ensordecido",
+      "description": "Una criatura ensordecida no puede oír. Las pruebas de percepción en este sentido fracasan automáticamente."
+    },
+    "Defenseless": {
+      "name": "Indefenso",
+      "description": "Una criatura indefensa no puede hacer nada para protegerse. Su Defensa es 5, no puede llevar a cabo acciones y las pruebas de atributos fracasan automáticamente. Aun así, la criatura puede percibir su entorno y realizar pruebas de Percepción con normalidad."
+    },
+    "Diseased": {
+      "name": "Enfermo",
+      "description": "Una criatura enferma realiza todas sus pruebas y tiradas de ataque con 1 desventaja."
+    },
+    "Fatigued": {
+      "name": "Fatigado",
+      "description": "Una criatura fatigada realiza todas sus pruebas y tiradas de ataque con 1 desventaja."
+    },
+    "Frightened": {
+      "name": "Atemorizado",
+      "description": "Una criatura atemorizada realiza todas sus pruebas y tiradas de ataque con 1 desventaja. Igualmente, no puede realizar turnos rápidos (ver Combate)."
+    },
+    "Grabbed": {
+      "name": "Apresado",
+      "description": "Los efectos de esta aflicción dependen del Tamaño de la criatura. Si la víctima de la presa es igual o más pequeña que el atacante, no podrá liberarse hasta que este quite la aflicción. Si la víctima es más grande que quien realiza la presa, tan pronto como la primera se mueva, el atacante tendrá la opción de moverse con ella (ver Apresar para más información sobre cómo apresar y Liberarse para saber cómo escapar de la presa)."
+    },
+    "Horrified": {
+      "name": "Horrorizado",
+      "description": "Una criatura horrorizada realiza todas sus pruebas y tiradas de ataque con 3 desventajas mientras pueda ver a la fuente de esta aflicción."
+    },
+    "Immobilized": {
+      "name": "Inmobilizado",
+      "description": "Una criatura inmovilizada tiene una Velocidad 0 y no puede beneficiarse de ninguna bonificación a dicha característica. Los atacantes hacen sus tiradas de ataque con 1 ventaja."
+    },
+    "Impaired": {
+      "name": "Mermado",
+      "description": "Una criatura mermada realiza todas sus pruebas y tiradas de ataque con 1 desventaja."
+    },
+    "Poisoned": {
+      "name": "Envenenado",
+      "description": "Una criatura envenenada realiza todas sus pruebas y tiradas de ataque con 1 desventaja."
+    },
+    "Prone": {
+      "name": "Derribado",
+      "description": "Una criatura derribada permanece en el suelo. Otros seres pueden atravesar el espacio que ocupa. Mientras se encuentre en este estado, la criatura puede desplazarse arrastrándose o emplear su movimiento para incorporarse. Realiza todas sus pruebas de Fuerza y Agilidad con 1 desventaja. Todo el que sea capaz de alcanzarla y atacarla recibe 1 ventaja, si bien los que no consigan llegar hasta ella sufren 1 desventaja en la tirada de ataque."
+    },
+    "Slowed": {
+      "name": "Ralentizado",
+      "description": "Una criatura ralentizada solo puede usar un turno lento (ver Combate), reduce a la mitad su Velocidad y no puede beneficiarse de aumentos a esta característica."
+    },
+    "Stunned": {
+      "name": "Aturdido",
+      "description": "Una criatura aturdida no puede moverse ni realizar acciones. Todas las pruebas fracasan automáticamente. Todos sus atacantes reciben 1 ventaja."
+    },
+    "Surprised": {
+      "name": "Sorprendido",
+      "description": "Una criatura sorprendida no puede moverse ni realizar acciones. Todas las pruebas fracasan automáticamente."
+    },
+    "Unconscious": {
+      "name": "Inconsciente",
+      "description": "Una criatura inconsciente es incapaz de actuar, moverse o percibir su entorno. Su Defensa es 5. No puede realizar acciones ni moverse, y todas las pruebas fracasan  automáticamente."
+    }
+  }
+}

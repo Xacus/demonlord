@@ -1,0 +1,27 @@
+{
+  "name": "Deafened",
+  "img": "icons/svg/deaf.svg",
+  "type": "base",
+  "system": {
+    "changes": []
+  },
+  "disabled": false,
+  "description": "A deafened creature cannot hear. Perception challenge rolls made to listen automatically result in failure.",
+  "statuses": ["deafened"],
+  "showIcon": 1,
+  "_id": "CZ7TfqQ4POw4FjW3",
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_key": "!effects!CZ7TfqQ4POw4FjW3"
+}

@@ -2,8 +2,7 @@
   "_id": "GNSiOvlxJHMmDspR",
   "name": "Common Tongue",
   "permission": {
-    "default": 0,
-    "Sd8TaawsSgOTEPU7": 3
+    "default": 0
   },
   "type": "language",
   "data": {
