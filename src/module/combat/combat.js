@@ -447,7 +447,7 @@ export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
     // For each actor, select effects that are enabled and have a duration (either rounds or secs)
     // const enabledEffects = actor.effects.filter(e => !e.disabled && !e.isSuppressed)
     const enabledEffects = actor.effects
-    const tempEffects = enabledEffects.filter(e => e.duration?.rounds > 0 || e.duration?.seconds > 0)
+    const tempEffects = enabledEffects.filter(e => (e.duration?.rounds > 0 || e.duration?.seconds > 0) && !e.disabled)
     tempEffects.forEach(e => {
       const eType = e.flags?.demonlord?.sourceType
       const isSpell1Round = eType === 'spell' && e.duration.rounds === 1
