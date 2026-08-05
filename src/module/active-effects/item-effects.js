@@ -58,13 +58,13 @@ export const addObject = (key, value) => ({
 const falsyChangeFilter = change => Boolean(change?.value)
 
 export const registerExpiryEvents = () => {
-  CONFIG.ActiveEffect.expiryEvents.turnStartSource = i18n('DL.SpecialDurationTurnStartSource')
-  CONFIG.ActiveEffect.expiryEvents.turnEndSource = i18n('DL.SpecialDurationTurnEndSource')
-  CONFIG.ActiveEffect.expiryEvents.nextAttackRoll = i18n('DL.SpecialDurationNextAttackRoll')
-  CONFIG.ActiveEffect.expiryEvents.nextChallengeRoll = i18n('DL.SpecialDurationNextChallengeRoll')
-  CONFIG.ActiveEffect.expiryEvents.nextD20Roll = i18n('DL.SpecialDurationNextD20Roll')
-  CONFIG.ActiveEffect.expiryEvents.nextDamageRoll = i18n('DL.SpecialDurationNextDamageRoll')
-  CONFIG.ActiveEffect.expiryEvents.restComplete = i18n('DL.SpecialDurationRestComplete')
+  CONFIG.ActiveEffect.expiryEvents.turnStartSource = i18n('DL.ExpiryEventTurnStartSource')
+  CONFIG.ActiveEffect.expiryEvents.turnEndSource = i18n('DL.ExpiryEventTurnEndSource')
+  CONFIG.ActiveEffect.expiryEvents.nextAttackRoll = i18n('DL.ExpiryEventNextAttackRoll')
+  CONFIG.ActiveEffect.expiryEvents.nextChallengeRoll = i18n('DL.ExpiryEventNextChallengeRoll')
+  CONFIG.ActiveEffect.expiryEvents.nextD20Roll = i18n('DL.ExpiryEventNextD20Roll')
+  CONFIG.ActiveEffect.expiryEvents.nextDamageRoll = i18n('DL.ExpiryEventNextDamageRoll')
+  CONFIG.ActiveEffect.expiryEvents.restComplete = i18n('DL.ExpiryEventRestComplete')
 }
 
 /* -------------------------------------------- */

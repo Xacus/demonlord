@@ -116,7 +116,7 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
     // Handle custom expiry events
     let expiryEvent = e.duration.expiry
     if (expiryEvent) {
-      const actorName = e.origin !== null ? fromUuidSync(e.origin)?.parent?.name : ''
+      const actorName = e.origin !== null ? fromUuidSync(e.origin)?.name : ''
       switch (expiryEvent) {
         case 'nextAttackRoll':
         case 'nextChallengeRoll':
@@ -126,10 +126,10 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
           e.dlRemaining = i18n(CONFIG.ActiveEffect.expiryEvents[expiryEvent])
           break
         case 'turnEndSource':
-          e.dlRemaining = i18n('EFFECT.DURATION.EXPIRY_EVENTS.turnEnd').replace('{actorName}', actorName)
+          e.dlRemaining = i18n('DL.ExpiryEventTurnEndSourceDisplay').replace('{actorName}', actorName)
           break
         case 'turnStartSource':
-          e.dlRemaining = i18n('EFFECT.DURATION.EXPIRY_EVENTS.turnStart').replace('{actorName}', actorName)
+          e.dlRemaining = i18n('DL.ExpiryEventTurnStartSourceDisplay').replace('{actorName}', actorName)
           break
         default:
           e.dlRemaining = i18n('EFFECT.DURATION.EXPIRY_EVENTS.' + expiryEvent)
