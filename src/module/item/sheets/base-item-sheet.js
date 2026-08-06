@@ -605,7 +605,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     // Display/hide levels on click
     const levelIndex = target.closest('[data-level-index]').dataset.levelIndex
     const form = target.closest("form")
-    this._selectedLevelIndex = levelIndex
+    this._selectedLevelIndex = parseInt(levelIndex)
     form.querySelectorAll('.level-selector').forEach(pl => {
       if (pl.dataset.levelIndex === levelIndex) pl.style.display = 'block'
       else pl.style.display = 'none'
