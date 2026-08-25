@@ -996,13 +996,14 @@ getTargetAttackBane(target) {
       let result = spell.system.duration.match(/\d+/)
       if (result) {
         if (spell.system.duration.toLowerCase().includes('minute')) {
-          concentrate['duration.rounds'] = result[0] * 6
-          concentrate['duration.seconds'] = result[0] * 60
+          concentrate.duration.value = result[0] * 6
         } // hour
         else {
-          concentrate['duration.rounds'] = result[0] * 360
-          concentrate['duration.seconds'] = result[0] * 3600
+          concentrate.duration.rounds = result[0] * 360
         }
+        concentrate.duration.units = 'rounds'
+        concentrate.start.round = game.combat ? game.combat.round : 0
+        concentrate.start.turn = game.combat ? game.combat.turn : 0
       }
       concentrate.statuses = new Set([concentrate.id])
       ActiveEffect.create(concentrate, {parent: this})
@@ -1181,6 +1182,8 @@ getTargetAttackBane(target) {
           const stunnedEffect = foundry.utils.deepClone(CONFIG.statusEffects['stunned'])
           stunnedEffect.statuses = new Set([stunnedEffect.id])
           stunnedEffect.duration.rounds = 1
+          stunnedEffect.start.round = game.combat ? game.combat.round : 0
+          stunnedEffect.start.turn = game.combat ? game.combat.turn : 0
           await ActiveEffect.create(stunnedEffect, {
             parent: actor,
           })
@@ -1198,7 +1201,8 @@ getTargetAttackBane(target) {
     if (!isFrightened) {
       const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
       frightenedEffect.statuses = new Set([frightenedEffect.id])
-      frightenedEffect.duration.rounds = newValue
+      frightenedEffect.duration.units = 'rounds'
+      frightenedEffect.duration.value = newValue
 
       if (!actor.isImmuneToAffliction('frightened')) {
         await ActiveEffect.create(frightenedEffect, {
@@ -1208,7 +1212,7 @@ getTargetAttackBane(target) {
     } else {
       const frightenedEffect = actor.effects.find(e => e.statuses?.has('frightened'))
       // Only update effect duration if lasts longer than the current one
-      if ((frightenedEffect.duration.startTime + frightenedEffect.duration.rounds * 10) < (game.time.worldTime + newValue * 10)) await frightenedEffect.update({ 'duration.rounds': newValue })
+      if ((frightenedEffect.duration.start.round + frightenedEffect.duration.value * 10) < (game.time.worldTime + newValue * 10)) await frightenedEffect.update({ 'duration.value': newValue })
       if (!isStunned) await stunnedChallengeRoll()
     }
     if (actor.system.characteristics.insanity.value === actor.system.characteristics.insanity.max) await this.goingMad()
@@ -1240,7 +1244,8 @@ getTargetAttackBane(target) {
       async function setFrightenedAffliction(durationRoll) {
         const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
         frightenedEffect.statuses = new Set([frightenedEffect.id])
-        frightenedEffect.duration.rounds = durationRoll.total
+        frightenedEffect.duration.value = durationRoll.total
+        frightenedEffect.duration.units = 'rounds'
         await ActiveEffect.create(frightenedEffect, {
           parent: actor,
         })
@@ -1485,7 +1490,8 @@ getTargetAttackBane(target) {
                 },
               },
               duration: {
-                rounds: effect.duration.rounds
+                value: effect.duration.value,
+                units: effect.duration.units
               },
               description: game.i18n.format('DL.FrightenedYou', {
                 creature: target.actor.name

@@ -442,23 +442,3 @@ calculateEncounterDifficulty(combatants) {
     }
   }
 }
-
-export async function _onUpdateCombat(combatData, _updateData, _options, _userId) {
-  // TODO: DELETE
-  // Do this only if the user is GM to avoid multiple operations
-  if (!game.user.isGM && game.user.id !== _userId) return
-
-  const isRoundAdvanced = combatData?.current?.round - combatData?.previous?.round > 0
-  const actors = combatData.combatants.map(c => c.actor)
-
-  // Todo: maybe add some memory to remember what has been deactivated in last round?
-  for (let actor of actors) {
-    // Deactivate temporary talents if the round has advanced.
-    // If the round is decreased, there is no way to determine what to activate
-    if (isRoundAdvanced) {
-      await Promise.all(actor.items
-        .filter(i => i.type === 'talent')
-        .map(async t => await actor.deactivateTalent(t, 0, true)))
-    }
-  }
-}

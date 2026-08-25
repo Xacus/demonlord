@@ -12,29 +12,15 @@ export async function onManageActiveEffect(event, owner) {
   event.preventDefault()
   const a = event.currentTarget
   const li = a.closest('li')
-  const effect = li.dataset.effectId ? (owner instanceof DemonlordActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === li.dataset.effectId) : owner.effects.get(li.dataset.effectId)) : null
-  const isCharacter = owner.type === 'character'
   switch (a.dataset.action) {
     case 'create':
-      return await owner
-        .createEmbeddedDocuments('ActiveEffect', [
-          {
-            name: isCharacter ? 'New Effect' : owner.name,
-            icon: isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' : owner.img,
-            origin: owner.uuid,
-            transfer: false,
-            flags: { demonlord: { sourceType: owner.type } },
-            'duration.rounds': li.dataset.effectType === 'temporary' ? 1 : undefined,
-            disabled: li.dataset.effectType === 'inactive',
-          },
-        ])
-        .then(effects => effects[0].sheet.render(true))
+      return await onCreateEffect(li, owner)
     case 'edit':
-      return effect.sheet.render(true)
+      return await onEditEffect(li, owner)
     case 'delete':
-      return await effect.delete()
+      return await onDeleteEffect(li, owner)
     case 'toggle':
-      return await effect.update({ disabled: !effect.disabled })
+      return await onToggleEffect(li, owner)
   }
 }
 
@@ -48,7 +34,11 @@ export async function onCreateEffect(listItem, owner) {
             origin: owner.uuid,
             transfer: false,
             flags: { demonlord: {sourceType: owner.type } },
-            'duration.rounds': listItem.dataset.effectType === 'temporary' ? 1 : undefined,
+            duration: {
+              value: listItem.dataset.effectType === 'temporary' ? 1 : Infinity,
+              units: 'rounds',
+              expiry: null
+            },
             disabled: listItem.dataset.effectType === 'inactive',
           },
         ])
@@ -66,8 +56,18 @@ export async function onDeleteEffect(listItem, owner) {
 }
 
 export async function onToggleEffect(listItem, owner) {
-  const effect = listItem.dataset.effectId ? (owner instanceof DemonlordActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === listItem.dataset.effectId) : owner.effects.get(listItem.dataset.effectId)) : null
-  return await effect.update({ disabled: !effect.disabled })
+  const isActor = owner instanceof DemonlordActor
+  const effect = listItem.dataset.effectId ? (isActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === listItem.dataset.effectId) : owner.effects.get(listItem.dataset.effectId)) : null
+  const actorInCombat = isActor ? game.combat.combatants.some(c => c.actor._id === owner._id) : false
+  const effectUpdate = { disabled: !effect.disabled }
+  // Also set the activation time
+  if (effect.isTemporary) {
+    effectUpdate.start = {
+      round: actorInCombat ? game.combat.round : 0,
+      turn: actorInCombat ? game.combat.turn : 0
+    }
+  }
+  return await effect.update(effectUpdate)
 }
 
 /**

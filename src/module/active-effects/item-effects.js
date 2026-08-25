@@ -148,7 +148,7 @@ export class DLActiveEffects {
         origin: item.uuid,
         disabled: actor.system.level < ancestryLevel.level,
         transfer: false,
-        duration: { startTime: 0 },
+        start: { round: 0, turn: 0 },
         flags: {
           demonlord: {
             sourceType: 'ancestry',
@@ -240,7 +240,7 @@ export class DLActiveEffects {
         origin: item.uuid,
         disabled: actor.system.level < pathLevel.level,
         transfer: false,
-        duration: { startTime: 0 },
+        start: { round: 0, turn: 0 },
         flags: {
           demonlord: {
             sourceType: 'path',
@@ -340,7 +340,7 @@ export class DLActiveEffects {
       origin: item.uuid,
       disabled: false,
       transfer: false,
-      duration: { startTime: 0 },
+      start: { round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceType: 'creaturerole',
@@ -393,7 +393,8 @@ export class DLActiveEffects {
       origin: item.uuid,
       disabled: !talentData.addtonextroll,
       transfer: false,
-      duration: { startTime: 0, rounds: 1 * !!talentData.uses.max },
+      duration: { units: 'rounds', value: 1 * !!talentData.uses.max },
+      start: { round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceType: 'talent',
@@ -453,7 +454,7 @@ export class DLActiveEffects {
       origin: item.uuid,
       transfer: false,
       disabled: !armorData.wear,
-      duration: { startTime: 0 },
+      start: { round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceType: 'armor',
@@ -516,7 +517,7 @@ export class DLActiveEffects {
       icon: 'systems/demonlord/assets/icons/effects/fatigued.svg',
       origin: 'encumbrance',
       transfer: false,
-      duration: { startTime: 0 },
+      start: { round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceItemsLength: itemNames.length,
