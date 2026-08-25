@@ -144,11 +144,11 @@ export class DLActiveEffects {
     ancestryData.levels.forEach(ancestryLevel => {
       const levelEffectData = {
         name: `${item.name} (${game.i18n.localize('DL.CharLevel')} ${ancestryLevel.level})`,
-        icon: item.img,
+        img: item.img,
         origin: item.uuid,
         disabled: actor.system.level < ancestryLevel.level,
         transfer: false,
-        start: { round: 0, turn: 0 },
+        start: { time: 0, round: 0, turn: 0 },
         flags: {
           demonlord: {
             sourceType: 'ancestry',
@@ -236,11 +236,11 @@ export class DLActiveEffects {
     pathdata.levels.forEach(pathLevel => {
       const levelEffectData = {
         name: `${item.name} (${game.i18n.localize('DL.CharLevel')} ${pathLevel.level})`,
-        icon: item.img,
+        img: item.img,
         origin: item.uuid,
         disabled: actor.system.level < pathLevel.level,
         transfer: false,
-        start: { round: 0, turn: 0 },
+        start: { time: 0, round: 0, turn: 0 },
         flags: {
           demonlord: {
             sourceType: 'path',
@@ -336,11 +336,11 @@ export class DLActiveEffects {
 
     const effectData = {
       name: item.name,
-      icon: item.img,
+      img: item.img,
       origin: item.uuid,
       disabled: false,
       transfer: false,
-      start: { round: 0, turn: 0 },
+      start: { time: 0, round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceType: 'creaturerole',
@@ -389,12 +389,12 @@ export class DLActiveEffects {
     const talentData = item.system
     const effectData = {
       name: item.name,
-      icon: item.img,
+      img: item.img,
       origin: item.uuid,
       disabled: !talentData.addtonextroll,
       transfer: false,
       duration: { units: 'rounds', value: 1 * !!talentData.uses.max },
-      start: { round: 0, turn: 0 },
+      start: { time: 0, round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceType: 'talent',
@@ -450,11 +450,11 @@ export class DLActiveEffects {
     const armorData = item.system
     const effectData = {
       name: item.name,
-      icon: item.img,
+      img: item.img,
       origin: item.uuid,
       transfer: false,
       disabled: !armorData.wear,
-      start: { round: 0, turn: 0 },
+      start: { time: 0, round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceType: 'armor',
@@ -514,10 +514,10 @@ export class DLActiveEffects {
 
     const effectData = {
       name: effectName,
-      icon: 'systems/demonlord/assets/icons/effects/fatigued.svg',
+      img: 'systems/demonlord/assets/icons/effects/fatigued.svg',
       origin: 'encumbrance',
       transfer: false,
-      start: { round: 0, turn: 0 },
+      start: { time: 0, round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceItemsLength: itemNames.length,
