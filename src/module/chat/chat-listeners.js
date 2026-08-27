@@ -251,12 +251,12 @@ async function _onChatApplyEffect(event) {
 
   // TODO: Have a look at this
   let aeUuid = activeEffect.uuid
-  let effectOrigin = aeUuid.substr(0, aeUuid.search('.ActiveEffect.'))
-  let effectOriginName = fromUuidSync(effectOrigin).name
-  if (activeEffect.origin.startsWith('Compendium') || ['turnStartSource', 'turnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`))) {
-    effectData.origin = effectOrigin
-    if (['turnStartSource', 'turnEndSource'].includes(foundry.utils.getProperty(effectData, `flags.${game.system.id}.specialDuration`)) && effectData.origin.startsWith('Actor'))
-      ui.notifications.warn(game.i18n.localize('DL.DialogEffectsWillNotExpire'))
+  let effectOriginUUID = aeUuid.substr(0, aeUuid.search('.ActiveEffect.'))
+  let effectOrigin = await fromUuid(effectOriginUUID)
+  let effectOriginName = effectOrigin.name
+  effectData.origin = effectOrigin.type === 'Actor' ? effectOriginUUID : effectOrigin.parent.uuid
+  if (effectOriginUUID.startsWith('Compendium') && ['turnStartSource', 'turnEndSource'].includes(effectData.duration.expiry) && effectData.origin.startsWith('Actor')) {
+    ui.notifications.warn(game.i18n.localize('DL.DialogEffectsWillNotExpire'))
   }
   if (effectData.name !== effectOriginName) effectData.name = `${effectData.name} [${effectOriginName}]`
 

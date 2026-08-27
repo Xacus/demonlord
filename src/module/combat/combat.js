@@ -276,16 +276,16 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
     const combatant = game.combat.combatants.get(game.combat.current.combatantId)
     if (combatant) combatant.setFlag('demonlord', 'hasActed', true)
     const _updatedTurn = await super.nextTurn()
+  await this.allowTurnOrderChangeInTurns(_updatedTurn)
     await this._handleTurnEffects()
-    await this.allowTurnOrderChangeInTurns(_updatedTurn)
     return _updatedTurn
   }
 
   /** @override */
   async previousTurn() {
     const _updatedTurn = await super.previousTurn()
-    await this._handleTurnEffects()
     await this.allowTurnOrderChangeInTurns(_updatedTurn)
+    await this._handleTurnEffects()
     return _updatedTurn
   }
 
@@ -303,8 +303,8 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
       await combatant.setFlag('demonlord', 'hasActed', false)
     }
     const _updatedRound = await super.nextRound()
-    await this._handleTurnEffects()
     await this.allowTurnOrderChangeInRounds()
+    await this._handleTurnEffects()
     return _updatedRound
   }
 
@@ -317,21 +317,34 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
 
 
   async _handleTurnEffects() {
-    // Disable the effects which have TURN duration
+    // Disable/delete temporary effects that expire this turn
     const actors = this.combatants.map(c => c.actor)
+    const autoDelete = game.settings.get('demonlord', 'autoDeleteEffects')
     for (let actor of actors) {
       let updateData = []
       const enabledEffects = actor.effects
-      const tempEffects = enabledEffects.filter(e => e.duration?.turns > 0)
+      const tempEffects = enabledEffects.filter(e => ['turns', 'rounds'].includes(e.duration?.units) && e.duration?.value > 0)
+      let deleteIds = []
       tempEffects.forEach(e => {
-        const passedRounds = this.round - e.duration?.startRound
-        const isRoundActive = e.duration.rounds !== null
-          ? (0 <= passedRounds) && (passedRounds <= e.duration.rounds)
-          : false
-        const disabled = !isRoundActive || calcEffectRemainingTurn(e, this.turn) <= 0
-        if (disabled !== e.disabled)
-          updateData.push({_id: e._id, disabled: disabled})
+        const passedRounds = this.round - e.start?.round + (e.duration.units === 'rounds' && e.duration.value === 1 ? -1 : 0) // If the duration is 1, it should actually last 2
+        let expired = false
+
+        if (e.duration.units === 'turns') {
+          expired = calcEffectRemainingTurn(e, this.turn, this.round, this.turns.length) < 0
+        } else if (e.duration.units === 'rounds') {
+          expired = passedRounds >= e.duration.value
+        }
+
+        if (expired !== e.disabled) {
+          if (autoDelete) {
+            deleteIds.push(e._id)
+          } else {
+            updateData.push({_id: e._id, disabled: expired})
+          }
+        }
       })
+
+      if (deleteIds.length) await actor.deleteEmbeddedDocuments('ActiveEffect', deleteIds)
       if (updateData.length) await actor.updateEmbeddedDocuments('ActiveEffect', updateData).then(_ => actor.sheet.render())
     }
     return true
@@ -412,77 +425,14 @@ export async function createInitChatMessage(combatant, messageOptions) {
 // -----------------------------------------------------------------------------------------------
 
 /**
- * Handles the hook onUpdateWorldTime.
- * The function is used to automatically disable active effects as ROUNDS or SECONDS change
- * @param {number} worldTime  updated world time
- * @param {number} delta      increment of world time
- * @param {Object} _options   unused
- * @param {string} userId     id of the caller
- * @private
- */
-export async function _onUpdateWorldTime(worldTime, _delta, _options, _userId) {
-  // Automatically disable active effects, based on their start time and duration
-  const autoDelete = game.settings.get('demonlord', 'autoDeleteEffects')
-
-  // if (game.userId !== userId) return FIXME: doesn't work currently due to foundry bug (9/9/22)
-  // Dirty fix
-  // const activeGMs = game.users.filter(u => u.isGM && u.active);
-  // const sortedGMs = activeGMs.sort((a, b) => a.id.localeCompare(b.id));
-  if (game.userId !== _userId) return;
-
-  // Here we select the actors that are either in the CURRENT SCENE or in the CURRENT COMBAT
-  let currentActors
-  const inCombat = Boolean(game.combat)
-  if (inCombat)
-    currentActors = game.combat.combatants.map(c => c.actor)
-  else
-    currentActors = game.scenes.current.tokens.map(t => t.actor)
-
-  for await (let actor of currentActors) {
-    let updateData = []
-    let deleteIds = []
-
-    await deleteSurroundedStatus(actor)
-
-    // For each actor, select effects that are enabled and have a duration (either rounds or secs)
-    // const enabledEffects = actor.effects.filter(e => !e.disabled && !e.isSuppressed)
-    const enabledEffects = actor.effects
-    const tempEffects = enabledEffects.filter(e => (e.duration?.rounds > 0 || e.duration?.seconds > 0) && !e.disabled)
-    tempEffects.forEach(e => {
-      const eType = e.flags?.demonlord?.sourceType
-      const isSpell1Round = eType === 'spell' && e.duration.rounds === 1
-
-      // If in combat, handle the duration in rounds, otherwise handle the duration in seconds
-      let disabled = false
-      if (inCombat)
-        disabled = calcEffectRemainingRounds(e, game.combat.round) <= (isSpell1Round ? -1 : 0)
-      else
-        disabled = calcEffectRemainingSeconds(e, worldTime) <= 0
-
-      // Delete effects that come from spells, talents, characters or afflictions
-      if (autoDelete && disabled && ['spell', 'talent', 'character', 'affliction'].includes(eType))
-        deleteIds.push(e._id)
-      else if (disabled !== e.disabled)
-        updateData.push({_id: e._id, disabled: disabled})
-    })
-
-    // Finally, update actor's active effects
-    if (deleteIds.length) await actor.deleteEmbeddedDocuments('ActiveEffect', deleteIds)
-    if (updateData.length) await actor.updateEmbeddedDocuments('ActiveEffect', updateData).then(_ => actor.sheet.render())
-  }
-}
-
-// -----------------------------------------------------------------------------------------------
-
-/**
  * Calculates the remaining effect duration in ROUNDS
  * @param {ActiveEffect} e
  * @param {number} currentRound
  * @returns {number}
  */
 export function calcEffectRemainingRounds(e, currentRound) {
-  const durationRounds = e.duration.rounds || Math.floor(e.duration.seconds / 10) || 0
-  const startRound = e.duration.startRound || (currentRound ? 1 : 0)
+  const durationRounds = (e.duration.units === 'rounds' ? e.duration.value : e.duration.units === 'turns' ? 0 : Math.floor(e.duration.seconds / 10)) || 0
+  const startRound = e.start.round || (currentRound ? 1 : 0)
   const passedRounds = currentRound - startRound
   return durationRounds - passedRounds
 }
@@ -494,8 +444,8 @@ export function calcEffectRemainingRounds(e, currentRound) {
  * @returns {number}
  */
 export function calcEffectRemainingSeconds(e, currentTime) {
-  const durationSeconds = e.duration.seconds || e.duration.rounds * 10 || 0
-  const startSeconds = e.duration.startTime || e.duration.startRound * 10
+  const durationSeconds = e.duration.seconds || 0
+  const startSeconds = e.start.time || e.start.round * 10
   const passedSeconds = currentTime - startSeconds
   return durationSeconds - passedSeconds
 }
@@ -506,10 +456,12 @@ export function calcEffectRemainingSeconds(e, currentTime) {
  * @param {number} currentTurn
  * @returns {number}
  */
-export function calcEffectRemainingTurn(e, currentTurn) {
-  const durationTurns = e.duration.turns || 0
-  const startTurn = e.duration.startTurn || 0
-  const passedTurns = currentTurn - startTurn
+export function calcEffectRemainingTurn(e, currentTurn, currentRound, turnsPerRound) {
+  const durationTurns = e.duration.units === 'turns' ? e.duration.value : 0
+  const startTurn = e.start.turn || 0
+  const startRound = e.start.round || 0
+  const passedRounds = currentRound - startRound
+  const passedTurns = currentTurn - startTurn + (passedRounds * turnsPerRound)
   return durationTurns - passedTurns
 }
 
@@ -703,4 +655,16 @@ Hooks.on('combatTurn', async (combat, _updateData, _updateOptions) => {
     actorUuid: currentActor.uuid,
     combat: game.combat.current
   })
+
+  // Here we select the actors that are either in the CURRENT SCENE or in the CURRENT COMBAT
+  let currentActors
+  if (game.combat)
+    currentActors = game.combat.combatants.map(c => c.actor)
+  else
+    currentActors = game.scenes.current.tokens.map(t => t.actor)
+
+  // Check if they are still surrounded
+  for await (let actor of currentActors) {
+    await deleteSurroundedStatus(actor)
+  }
 })

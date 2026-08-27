@@ -2,7 +2,7 @@ import deepmerge from 'deepmerge'
 const { HandlebarsApplicationMixin } = foundry.applications.api
 const { ItemSheetV2 } = foundry.applications.sheets
 
-import {onCreateEffect, onEditEffect, onDeleteEffect, onToggleEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
+import {onManageActiveEffect, prepareActiveEffectCategories} from '../../active-effects/effects'
 import {DL} from '../../config'
 import tippy from "tippy.js";
 import {buildDropdownListHover} from "../../utils/handlebars-helpers";
@@ -425,15 +425,9 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   }
 
   static async onManageEffect(event) {
-    const a = event.target.closest('a')
     const li = event.target.closest('li')
 
-    switch (a.dataset.action) {
-      case 'createEffect': return onCreateEffect(li, this.document)
-      case 'editEffect': return onEditEffect(li, this.document)
-      case 'deleteEffect': return onDeleteEffect(li, this.document)
-      case 'toggleEffect': return onToggleEffect(li, this.document)
-    }
+    await onManageActiveEffect(li, this.document)
   }
 
   static async onEditDamage(event) {

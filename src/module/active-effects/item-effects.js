@@ -58,13 +58,13 @@ export const addObject = (key, value) => ({
 const falsyChangeFilter = change => Boolean(change?.value)
 
 export const registerExpiryEvents = () => {
-  CONFIG.ActiveEffect.expiryEvents.turnStartSource = i18n('DL.SpecialDurationTurnStartSource')
-  CONFIG.ActiveEffect.expiryEvents.turnEndSource = i18n('DL.SpecialDurationTurnEndSource')
-  CONFIG.ActiveEffect.expiryEvents.nextAttackRoll = i18n('DL.SpecialDurationNextAttackRoll')
-  CONFIG.ActiveEffect.expiryEvents.nextChallengeRoll = i18n('DL.SpecialDurationNextChallengeRoll')
-  CONFIG.ActiveEffect.expiryEvents.nextD20Roll = i18n('DL.SpecialDurationNextD20Roll')
-  CONFIG.ActiveEffect.expiryEvents.nextDamageRoll = i18n('DL.SpecialDurationNextDamageRoll')
-  CONFIG.ActiveEffect.expiryEvents.restComplete = i18n('DL.SpecialDurationRestComplete')
+  CONFIG.ActiveEffect.expiryEvents.turnStartSource = i18n('DL.ExpiryEventTurnStartSource')
+  CONFIG.ActiveEffect.expiryEvents.turnEndSource = i18n('DL.ExpiryEventTurnEndSource')
+  CONFIG.ActiveEffect.expiryEvents.nextAttackRoll = i18n('DL.ExpiryEventNextAttackRoll')
+  CONFIG.ActiveEffect.expiryEvents.nextChallengeRoll = i18n('DL.ExpiryEventNextChallengeRoll')
+  CONFIG.ActiveEffect.expiryEvents.nextD20Roll = i18n('DL.ExpiryEventNextD20Roll')
+  CONFIG.ActiveEffect.expiryEvents.nextDamageRoll = i18n('DL.ExpiryEventNextDamageRoll')
+  CONFIG.ActiveEffect.expiryEvents.restComplete = i18n('DL.ExpiryEventRestComplete')
 }
 
 /* -------------------------------------------- */
@@ -144,11 +144,11 @@ export class DLActiveEffects {
     ancestryData.levels.forEach(ancestryLevel => {
       const levelEffectData = {
         name: `${item.name} (${game.i18n.localize('DL.CharLevel')} ${ancestryLevel.level})`,
-        icon: item.img,
+        img: item.img,
         origin: item.uuid,
         disabled: actor.system.level < ancestryLevel.level,
         transfer: false,
-        duration: { startTime: 0 },
+        start: { time: 0, round: 0, turn: 0 },
         flags: {
           demonlord: {
             sourceType: 'ancestry',
@@ -236,11 +236,11 @@ export class DLActiveEffects {
     pathdata.levels.forEach(pathLevel => {
       const levelEffectData = {
         name: `${item.name} (${game.i18n.localize('DL.CharLevel')} ${pathLevel.level})`,
-        icon: item.img,
+        img: item.img,
         origin: item.uuid,
         disabled: actor.system.level < pathLevel.level,
         transfer: false,
-        duration: { startTime: 0 },
+        start: { time: 0, round: 0, turn: 0 },
         flags: {
           demonlord: {
             sourceType: 'path',
@@ -336,11 +336,11 @@ export class DLActiveEffects {
 
     const effectData = {
       name: item.name,
-      icon: item.img,
+      img: item.img,
       origin: item.uuid,
       disabled: false,
       transfer: false,
-      duration: { startTime: 0 },
+      start: { time: 0, round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceType: 'creaturerole',
@@ -389,11 +389,12 @@ export class DLActiveEffects {
     const talentData = item.system
     const effectData = {
       name: item.name,
-      icon: item.img,
+      img: item.img,
       origin: item.uuid,
       disabled: !talentData.addtonextroll,
       transfer: false,
-      duration: { startTime: 0, rounds: 1 * !!talentData.uses.max },
+      duration: { units: 'rounds', value: 1 * !!talentData.uses.max },
+      start: { time: 0, round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceType: 'talent',
@@ -449,11 +450,11 @@ export class DLActiveEffects {
     const armorData = item.system
     const effectData = {
       name: item.name,
-      icon: item.img,
+      img: item.img,
       origin: item.uuid,
       transfer: false,
       disabled: !armorData.wear,
-      duration: { startTime: 0 },
+      start: { time: 0, round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceType: 'armor',
@@ -513,10 +514,10 @@ export class DLActiveEffects {
 
     const effectData = {
       name: effectName,
-      icon: 'systems/demonlord/assets/icons/effects/fatigued.svg',
+      img: 'systems/demonlord/assets/icons/effects/fatigued.svg',
       origin: 'encumbrance',
       transfer: false,
-      duration: { startTime: 0 },
+      start: { time: 0, round: 0, turn: 0 },
       flags: {
         demonlord: {
           sourceItemsLength: itemNames.length,

@@ -1,21 +1,21 @@
 // Import Modules
-import {DL} from './config.js'
-import {DemonlordActor} from './actor/actor.js'
-import {DemonlordToken} from './actor/token.js'
-import {DemonlordItem} from './item/item.js'
-import {ActionTemplate} from './pixi/action-template.js'
-import {registerSettings} from './settings.js'
-import {registerVisionModes} from './vision.js'
+import { DL } from './config.js'
+import { DemonlordActor } from './actor/actor.js'
+import { DemonlordToken } from './actor/token.js'
+import { DemonlordItem } from './item/item.js'
+import { ActionTemplate } from './pixi/action-template.js'
+import { registerSettings } from './settings.js'
+import { registerVisionModes } from './vision.js'
 import KeyState from './utils/key-state.js'
-import {DLCombatTracker} from './combat/combat-tracker.js'
+import { DLCombatTracker } from './combat/combat-tracker.js'
 import { DLCombatant } from './combat/combatant.js'
-import {preloadHandlebarsTemplates} from './templates.js'
+import { preloadHandlebarsTemplates } from './templates.js'
 import * as migrations from './migration.js'
 import {handleMigrations} from './migration.js'
 import * as macros from './macros/item-macros.js'
 import * as gmMacros from './macros/gm-macros.js'
 import * as playerMacros from './macros/player-macros'
-import {DLAfflictions} from './active-effects/afflictions'
+import { DLAfflictions } from './active-effects/afflictions'
 import { DLActiveEffectConfig } from './active-effects/sheets/active-effect-config'
 import DLCharacterSheet from './actor/sheets/character-sheet.js'
 import DLCreatureSheet from './actor/sheets/creature-sheet.js'
@@ -43,9 +43,9 @@ import DLActiveEffect from './active-effects/active-effect.mjs'
 import './playertrackercontrol'
 import {initChatListeners} from './chat/chat-listeners'
 import 'tippy.js/dist/tippy.css'
-import {registerHandlebarsHelpers} from "./utils/handlebars-helpers"
+import { registerHandlebarsHelpers } from "./utils/handlebars-helpers"
 import { registerExpiryEvents } from "./active-effects/item-effects.js"
-import {_onUpdateWorldTime, DLCombat} from "./combat/combat" // optional for styling
+import { DLCombat } from "./combat/combat" // optional for styling
 import { activateSocketListener } from "./utils/socket.js"
 import DLCompendiumBrowser from './compendium-browser/compendium-browser.js'
 import TokenRulerDemonLord from "./utils/token-ruler.js"
@@ -160,6 +160,9 @@ Hooks.once('init', async function () {
   registerHandlebarsHelpers()
 
   registerExpiryEvents()
+
+    // Set expiry action based on setting
+  CONFIG.ActiveEffect.expiryAction = game.settings.get('demonlord', 'autoDeleteEffects') ? 'delete' : 'update'
 
   // Support Babele translations
   if (typeof Babele !== 'undefined') {
@@ -510,8 +513,6 @@ Hooks.on('updateActiveEffect', async (activeEffect, diff, _, userId) => {
     }
   }
 })
-
-Hooks.on("updateWorldTime", _onUpdateWorldTime)
 
 // eslint-disable-next-line no-unused-vars
 Hooks.on("renderRollTableDirectory", (rolltables, html, data) => rolltable._renderRollTableDirectory(html))
