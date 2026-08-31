@@ -425,9 +425,8 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
   }
 
   static async onManageEffect(event) {
-    const li = event.target.closest('li')
 
-    await onManageActiveEffect(li, this.document)
+    await onManageActiveEffect(event, this.document)
   }
 
   static async onEditDamage(event) {
