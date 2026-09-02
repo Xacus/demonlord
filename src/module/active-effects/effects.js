@@ -10,16 +10,20 @@ import {i18n} from "../utils/utils";
 
 export async function onManageActiveEffect(event, owner) {
   event.preventDefault()
-  const a = event.currentTarget
+  const a = event.target.closest('a')
   const li = a.closest('li')
   switch (a.dataset.action) {
     case 'create':
+    case 'createEffect':
       return await onCreateEffect(li, owner)
     case 'edit':
+    case 'editEffect':
       return await onEditEffect(li, owner)
     case 'delete':
+    case 'deleteEffect':
       return await onDeleteEffect(li, owner)
     case 'toggle':
+    case 'toggleEffect':
       return await onToggleEffect(li, owner)
   }
 }
@@ -35,7 +39,7 @@ export async function onCreateEffect(listItem, owner) {
             transfer: false,
             flags: { demonlord: {sourceType: owner.type } },
             duration: {
-              value: listItem.dataset.effectType === 'temporary' ? 1 : Infinity,
+              value: listItem.dataset.effectType === 'temporary' ? 1 : null,
               units: 'rounds',
               expiry: null
             },
