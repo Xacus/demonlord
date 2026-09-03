@@ -61,7 +61,7 @@ export default class CreatureDataModel extends foundry.abstract.TypeDataModel {
 
   static migrateData(source) {
     // Copy current attributes and characteristics values to their respective base
-    if (source.attributes && !source.difficultyBase) {
+    if (source.attributes && source.difficultyBase === undefined) {
       source.attributes.strength.base = source.attributes.strength.value
       source.attributes.agility.base = source.attributes.agility.value
       source.attributes.intellect.base = source.attributes.intellect.value
