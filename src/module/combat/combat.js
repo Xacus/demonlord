@@ -271,12 +271,19 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
     game.combat.setFlag('demonlord', 'allowTurnOrderChange', true)
   }
 
+  async deleteTemplates() {
+    if (!game.settings.get('demonlord', 'templateAutoRemove')) return
+    const templates = canvas.scene.regions.filter(a => (a.flags.demonlord?.expireWorldTime <= game.time.worldTime || a.flags.demonlord?.deleteNextTurn)).map(a => a.id)
+    if (templates.length > 0) await canvas.scene.deleteEmbeddedDocuments('Region', templates)
+}
+
   /** @override */
   async nextTurn() {
+    await this.deleteTemplates()
     const combatant = game.combat.combatants.get(game.combat.current.combatantId)
     if (combatant) combatant.setFlag('demonlord', 'hasActed', true)
     const _updatedTurn = await super.nextTurn()
-  await this.allowTurnOrderChangeInTurns(_updatedTurn)
+    await this.allowTurnOrderChangeInTurns(_updatedTurn)
     await this._handleTurnEffects()
     return _updatedTurn
   }
@@ -284,6 +291,7 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
   /** @override */
   async previousTurn() {
     const _updatedTurn = await super.previousTurn()
+    await this.deleteTemplates()
     await this.allowTurnOrderChangeInTurns(_updatedTurn)
     await this._handleTurnEffects()
     return _updatedTurn
@@ -291,6 +299,7 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
 
   /** @override */
   async nextRound() {
+    await this.deleteTemplates()
     let initiativeMethod = game.settings.get('demonlord', 'optionalRuleInitiativeMode')
     if (initiativeMethod !== 's' &&  game.settings.get('demonlord', 'optionalRuleRollInitEachRound')) {
         await game.combat.resetAll({
@@ -304,6 +313,7 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
     }
     const _updatedRound = await super.nextRound()
     await this.allowTurnOrderChangeInRounds()
+    await this.deleteTemplates()
     await this._handleTurnEffects()
     return _updatedRound
   }
@@ -311,6 +321,7 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
   /** @override */
   async previousRound() {
     const _updatedRound = await super.previousRound()
+    await this.deleteTemplates()
     await this._handleTurnEffects()
     return _updatedRound
   }
@@ -513,7 +524,7 @@ Hooks.on('deleteCombat', async (combat) => {
   for (let combatant of combat.combatants) {
     await deleteCombatEffects(combatant)
   }
-
+  await combat.deleteTemplates()
 })
 
 async function setCombatantGroup(combatant) {
