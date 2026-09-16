@@ -930,8 +930,7 @@ export const registerSettings = function () {
     requiresReload: false,
     // eslint-disable-next-line no-unused-vars
     onChange: value => {
-      const actorTab = ui["actors"];
-      actorTab.render()
+      ui.actors.render()
     }
   })
   game.settings.register('demonlord', 'autoSizeTokens', {
@@ -958,7 +957,9 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-    requiresReload: true,
+    onChange: value => {
+      ui.tables.render()
+    }
   })
   game.settings.register('demonlord', 'autoAdjustVision', {
     name: game.i18n.localize('DL.SettingAutoAdjustVision'),
