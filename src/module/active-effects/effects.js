@@ -62,7 +62,7 @@ export async function onDeleteEffect(listItem, owner) {
 export async function onToggleEffect(listItem, owner) {
   const isActor = owner instanceof DemonlordActor
   const effect = listItem.dataset.effectId ? (isActor ? Array.from(owner.allApplicableEffects()).find(e => e._id === listItem.dataset.effectId) : owner.effects.get(listItem.dataset.effectId)) : null
-  const actorInCombat = isActor ? game.combat.combatants.some(c => c.actor._id === owner._id) : false
+  const actorInCombat = isActor ? game.combat.combatants.some(c => c.actor?._id === owner._id) : false
   const effectUpdate = { disabled: !effect.disabled }
   // Also set the activation time
   if (effect.isTemporary) {
