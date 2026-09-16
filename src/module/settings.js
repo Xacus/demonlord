@@ -927,7 +927,6 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-    requiresReload: false,
     // eslint-disable-next-line no-unused-vars
     onChange: value => {
       ui.actors.render()
@@ -957,6 +956,7 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
+    // eslint-disable-next-line no-unused-vars
     onChange: value => {
       ui.tables.render()
     }
