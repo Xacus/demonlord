@@ -927,7 +927,12 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-    requiresReload: false
+    requiresReload: false,
+    // eslint-disable-next-line no-unused-vars
+    onChange: value => {
+      const actorTab = ui["actors"];
+      actorTab.render()
+    }
   })
   game.settings.register('demonlord', 'autoSizeTokens', {
     name: game.i18n.localize('DL.SettingAutoSizeTokens'),
