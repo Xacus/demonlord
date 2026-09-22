@@ -13,6 +13,29 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
     width: 1
   }
 
+  static async getDurationfromItem(item) {
+    const duration = item.system.duration.toLowerCase()
+    let templateDurationInSecs = 0
+
+    if (duration.includes('round')) {
+      const roundRegex = /\w+(?= +round\b)/
+      if (roundRegex.test(duration)) {
+        templateDurationInSecs = roundRegex.exec(duration)[0] * 10
+      }
+    } else if (duration.includes('minute')) {
+      const minuteRegex = /\w+(?= +minute\b)/
+      if (minuteRegex.test(duration)) {
+        templateDurationInSecs = minuteRegex.exec(duration)[0] * 60
+      }
+    } else if (duration.includes('hour')) {
+      const hourRegex = /\w+(?= +hour\b)/
+      if (hourRegex.test(duration)) {
+        templateDurationInSecs = hourRegex.exec(duration)[0] * 3600
+      }
+    }
+    return (game.time.worldTime + templateDurationInSecs)
+  }
+
   static async fromItem(item) {
     const target = foundry.utils.getProperty(item, 'system.activatedEffect.target') || {}
     const templateShape = DL.actionAreaShape[target.type]
@@ -67,12 +90,27 @@ export class ActionTemplate extends foundry.canvas.placeables.Region {
         break
     }
 
+    let flags
+    if (item.type === 'spell' && item.system.area.length && game.settings.get('demonlord', 'templateAutoRemove')) {
+      if (item.system.duration.length) {
+        const expireWorldTime = await this.getDurationfromItem(item)
+        flags = {
+          demonlord: {
+            expireWorldTime: expireWorldTime,
+          },
+        }
+      } else {
+        flags = { demonlord: { deleteNextTurn: true } }
+      }
+    }
+
     // Return the template constructed from the item data
     const template = await canvas.regions.placeRegion({
       name: `${item.name}`,
       shapes: [shapeData],
       levels: [canvas.level.id],
       visibility: CONST.REGION_VISIBILITY.ALWAYS,
+      flags : flags
     }, { create: true })
 
     template.createEmbeddedDocuments('RegionBehavior', item.system.activatedEffect.behaviors)

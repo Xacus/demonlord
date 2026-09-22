@@ -927,7 +927,10 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-    requiresReload: false
+    // eslint-disable-next-line no-unused-vars
+    onChange: value => {
+      ui.actors.render()
+    }
   })
   game.settings.register('demonlord', 'autoSizeTokens', {
     name: game.i18n.localize('DL.SettingAutoSizeTokens'),
@@ -953,7 +956,10 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: true,
-    requiresReload: true,
+    // eslint-disable-next-line no-unused-vars
+    onChange: value => {
+      ui.tables.render()
+    }
   })
   game.settings.register('demonlord', 'autoAdjustVision', {
     name: game.i18n.localize('DL.SettingAutoAdjustVision'),

@@ -520,6 +520,34 @@ Hooks.on("renderCompendium", (rolltables, html, data) => rolltable._renderCompen
 Hooks.on('renderJournalEntrySheet', (jn, element) => rolltable._renderDLSheet (jn, element))
 Hooks.on('renderDLBaseActorSheet', (jn, element) => rolltable._renderDLSheet (jn, element))
 Hooks.on('renderDLBaseItemSheet', (jn, element) => rolltable._renderDLSheet(jn, element))
+// eslint-disable-next-line no-unused-vars
+Hooks.on("renderActorDirectory", (application, html, data) => {
+    if (!(game.user.isGM && game.settings.get('demonlord', 'showActorLinkStatus'))) return
+    let actors = html.querySelectorAll("li.directory-item.document");
+    actors.forEach(actor => {
+        let actorD = game.actors.get(actor.dataset.entryId)
+        let linkIndicator = document.createElement('dl')
+        linkIndicator.classList.add('roll-table')
+        linkIndicator.setAttribute('data-action', 'roll-table')
+        linkIndicator.setAttribute('title', actorD.prototypeToken.actorLink ? game.i18n.localize('DL.UnLinkActorData') : game.i18n.localize('DL.LinkActorData'))
+        let style = actorD.prototypeToken.actorLink ? 'color: darkorange;text-shadow: 0 0 8px darkorange; font-size: 0.8em;' : 'color: var(--demonlord-red);text-shadow: 0 0 8px var(--demonlord-red); font-size: 0.8em;'
+        linkIndicator.setAttribute("style", style);
+        let linkIcon = document.createElement('i')
+        linkIcon.classList.add('fas')
+        linkIcon.classList.add(actorD.prototypeToken.actorLink ? 'fa-link' : 'fa-unlink')
+        linkIndicator.appendChild(linkIcon)
+        actor.appendChild(linkIndicator)
+        // eslint-disable-next-line no-unused-vars
+        linkIndicator.addEventListener('click', async event => {
+            await actorD.update({
+                'prototypeToken.actorLink': !actorD.prototypeToken.actorLink
+            })
+            const actorTab = ui["actors"];
+            actorTab.render()
+        })
+    })
+})
+
 
 Hooks.on('renderChatMessageHTML', async (app, html, _msg) => {
   let messageActorId = app.speaker.actor

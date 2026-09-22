@@ -5,10 +5,10 @@
 
 export function _renderRollTableDirectory(html) {
   if (!game.settings.get('demonlord', 'enableQuickDraw')) return
-  const tables = html.querySelectorAll('.directory-item.document')
-  tables.forEach(k => {
+  const tables = html.querySelectorAll('li.directory-item.document')
+  tables.forEach((table, index) => {
     let rollIcon = document.createElement('dl')
-    enrichRollTableSidebar(rollIcon, tables, k)
+    enrichRollTableSidebar(rollIcon, tables, index)
     rollIcon.addEventListener('click', rollTableFromSidebar)
   })
 }
@@ -17,9 +17,9 @@ export function _renderCompendium(html, data) {
   if (!game.settings.get('demonlord', 'enableQuickDraw')) return
   if (data.collection.metadata.type !== 'RollTable') return
   const tables = html.querySelectorAll('.directory-item.document')
-  tables.forEach(k => {
+  tables.forEach((table, index) => {
     let rollIcon = document.createElement('dl')
-    enrichRollTableSidebar(rollIcon, tables, k)
+    enrichRollTableSidebar(rollIcon, tables, index)
     rollIcon.addEventListener('click', event =>
       rollTableFromCompendium(event, `${data.collection.metadata.packageName}.${data.collection.metadata.name}`),
     )

@@ -405,9 +405,11 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
         e.querySelector(".header-control")?.insertAdjacentHTML("beforebegin", actorLinkIndicator)
         // eslint-disable-next-line no-unused-vars
         e.querySelector("actorlink")?.addEventListener('click', async ev => {
-            this.actor.update({
+            await this.actor.update({
                 'prototypeToken.actorLink': !this.actor.prototypeToken.actorLink
             })
+            const actorTab = ui["actors"];
+            actorTab.render()
         })
     }
 
