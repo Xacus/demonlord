@@ -8,14 +8,19 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
       title: 'EFFECT.ConfigTitle',
     },
     classes: ['sheet', 'active-effect-sheet', 'active-effect-config'],
+    form: {
+      closeOnSubmit: false,
+      submitOnChange: true
+    }
   };
-
-  static PARTS = foundry.utils.mergeObject(super.PARTS ?? {}, {
-    // details: { template: "systems/demonlord/templates/item/parts/AE-config-details.hbs"},
-    // duration: { template: "systems/demonlord/templates/item/parts/AE-config-duration.hbs"},
+  
+  static PARTS = {
+    header :  {template: 'templates/sheets/active-effect/header.hbs'},
+    tabs :  {template: 'templates/generic/tab-navigation.hbs'},
+    details :  {template: 'templates/sheets/active-effect/details.hbs'},
+    duration : {template: 'templates/sheets/active-effect/duration.hbs'},
     changes: { template: 'systems/demonlord/templates/item/parts/AE-config-changes.hbs'}
-  })
-
+  }
 
   /** @override */
   async _prepareContext(options={}) {
@@ -47,9 +52,24 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
   }
 
   // eslint-disable-next-line
-  _onRender(context, options) {
+  async _onRender(context, options) {
+    await super._onRender(context, options);
     const currTabId = Object.values(context.tabs)?.find(i => i.active)?.id;
     if (currTabId !== "changes") this.position.height = this.element.offsetHeight ?? "auto";
+    const duration = this.element.querySelector('[data-duration]')
+    if (duration) duration.hidden = this.document.duration.expiry
+    const expiryEvents = Object.keys(CONFIG.ActiveEffect.expiryEvents)
+    if (expiryEvents.includes(this.document.duration.expiry))
+    if (this.document.duration.expiry)
+      await this.document.update({
+        duration: {
+          value: 0,
+          remaining: 0,
+          seconds: 0,
+          secondsRemaining: 0,
+          expiry: this.document.duration.expiry,
+        },
+      })
   }
 
   static initializeChangeKeys() {

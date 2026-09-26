@@ -282,7 +282,30 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
     await this.deleteTemplates()
     const combatant = game.combat.combatants.get(game.combat.current.combatantId)
     if (combatant) combatant.setFlag('demonlord', 'hasActed', true)
+
+    if (this.turn != null)
+      for (let actCombatant of this.turns) {
+        const originA = game.combat.current.combatantId ? `Actor.${foundry.utils.parseUuid(this.turns.find(c => c._id === game.combat.current.combatantId).actor.uuid).id}` :  null
+              ActiveEffect.registry.refresh('turnEndSource', {
+                  actorUuid: `Actor.${foundry.utils.parseUuid(actCombatant.actor.uuid).id}`,
+                  combat: game.combat.current,
+                  origin: originA,
+              })
+      }
+
     const _updatedTurn = await super.nextTurn()
+
+    // It's a new turn!
+    if (this.turn != null)
+      for (let actCombatant of this.turns) {
+        const originA = game.combat.current.combatantId ? `Actor.${foundry.utils.parseUuid(this.turns.find(c => c._id === game.combat.current.combatantId).actor.uuid).id}` :  null
+              ActiveEffect.registry.refresh('turnStartSource', {
+                  actorUuid: `Actor.${foundry.utils.parseUuid(actCombatant.actor.uuid).id}`,
+                  combat: game.combat.current,
+                  origin: originA,
+              })
+      }
+
     await this.allowTurnOrderChangeInTurns(_updatedTurn)
     await this._handleTurnEffects()
     return _updatedTurn
@@ -503,7 +526,7 @@ async function deleteCombatEffects(combatant) {
       'turnEnd',
       'combatStart',
       'combatEnd'
-    ].includes(effect.expiry)) await effect?.delete()
+    ].includes(effect.duration.expiry)) await effect?.delete()
   }
 }
 
@@ -649,23 +672,6 @@ Hooks.on('deleteCombatant', async (combatant) => {
 Hooks.on('combatTurn', async (combat, _updateData, _updateOptions) => {
   if (!game.users.activeGM?.isSelf) return
   if (combat.current.combatantId === null) return
-
-  let currentActor = combat.turns.find(x => x._id === combat.current.combatantId).actor
-  let previousActor = combat.turns.find(x => x._id === combat.previous.combatantId)?.actor
-
-
-  // SOURCE type expirations
-  // Now call all the events from combat changing)
-  if (previousActor) {
-    ActiveEffect.registry.refresh('turnEndSource', {
-      actorUuid: previousActor.uuid,
-      combat: game.combat.current
-    })
-  }
-  ActiveEffect.registry.refresh('turnStartSource', {
-    actorUuid: currentActor.uuid,
-    combat: game.combat.current
-  })
 
   // Here we select the actors that are either in the CURRENT SCENE or in the CURRENT COMBAT
   let currentActors
