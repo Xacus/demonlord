@@ -193,7 +193,7 @@ export class DemonlordItem extends Item {
       }
 
       if (actor) {
-        const rollMode = game.settings.get('core', 'rollMode')
+        const rollMode = game.settings.get('core', 'messageMode')
 
         const chatData = getChatBaseData(actor, rollMode)
 

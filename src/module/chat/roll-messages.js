@@ -41,7 +41,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   attackRoll = changeBobDieColour (attackRoll)
 
   const itemData = item.system
-  const rollMode = game.settings.get('core', 'rollMode')
+  const rollMode = game.settings.get('core', 'messageMode')
 
   const savingAttribute = itemData?.action?.defense?.toLowerCase() || '' // displayed as "Defense" in the sheet
 
@@ -62,7 +62,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   let resultText = didHit ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
 
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
-  if (((attacker.type === 'creature' || attacker.type === 'vehicle') && !attackShow) || rollMode === 'blindroll') {
+  if (((attacker.type === 'creature' || attacker.type === 'vehicle') && !attackShow) || rollMode === 'blind') {
     diceTotal = '?'
     // resultText = ''
   }
@@ -118,7 +118,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier)
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
-  data['ifBlindedRoll'] = rollMode === 'blindroll'
+  data['ifBlindedRoll'] = rollMode === 'blind'
   data['hasAreaTarget'] = itemData.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['actorInfo'] = buildActorInfo(attacker)
 
@@ -148,7 +148,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
 
   challengeRoll = changeBobDieColour(challengeRoll)
 
-  const rollMode = game.settings.get('core', 'rollMode')
+  const rollMode = game.settings.get('core', 'messageMode')
 
   const voidRoll = actor.getAttribute(attribute)?.immune
 
@@ -157,7 +157,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
     challengeRoll.total >= targetNumber && !voidRoll ? game.i18n.localize('DL.DiceResultSuccess') : game.i18n.localize('DL.DiceResultFailure')
 
   let resultText = resultTextGM
-  if (rollMode === 'blindroll') {
+  if (rollMode === 'blind') {
     diceTotal = '?'
     // resultText = ''
   }
@@ -178,7 +178,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
   data['resultBoxClass'] = resultBoxClass
   data['isCreature'] = actor.type === 'creature' || actor.type === 'vehicle'
   data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, inputBoons, inputModifier)
-  data['ifBlindedRoll'] = rollMode === 'blindroll'
+  data['ifBlindedRoll'] = rollMode === 'blind'
   data['actorInfo'] = buildActorInfo(actor)
   data['targetNumber'] = targetNumber
 
@@ -208,7 +208,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
   attackRoll = changeBobDieColour (attackRoll)
 
   const talentData = talent.system
-  const rollMode = game.settings.get('core', 'rollMode')
+  const rollMode = game.settings.get('core', 'messageMode')
 
   const attackAttribute = talentData.action?.attack?.toLowerCase() || ''
   const defenseAttribute = talentData.action?.against?.toLowerCase() || '' // displayed as "against" in the sheet
@@ -237,7 +237,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
   let diceTotal = diceTotalGM
 
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
-  if (((actor.type === 'creature' || actor.type === 'vehicle') && !attackShow) || rollMode === 'blindroll') {
+  if (((actor.type === 'creature' || actor.type === 'vehicle') && !attackShow) || rollMode === 'blind') {
     diceTotal = '?'
     // resultText = ''
   }
@@ -296,7 +296,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
   data['pureDamageType'] = talentData?.damagetype
   data['attackEffects'] = attackRoll !== null ? buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier) : ''
   data['effects'] = buildTalentEffectsMessage(actor, talent)
-  data['ifBlindedRoll'] = rollMode === 'blindroll'
+  data['ifBlindedRoll'] = rollMode === 'blind'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['actorInfo'] = buildActorInfo(actor)
 
@@ -330,7 +330,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   attackRoll = changeBobDieColour (attackRoll)
 
   const spellData = spell.system
-  const rollMode = game.settings.get('core', 'rollMode')
+  const rollMode = game.settings.get('core', 'messageMode')
 
   const attackAttribute = spellData?.action?.attack?.toLowerCase()
   const defenseAttribute = spellData?.action?.against?.toLowerCase()  // displayed as "against" in the sheet
@@ -356,7 +356,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   let diceTotal = diceTotalGM
 
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
-  if (((actor.type === 'creature' || actor.type === 'vehicle') && !attackShow) || rollMode === 'blindroll') {
+  if (((actor.type === 'creature' || actor.type === 'vehicle') && !attackShow) || rollMode === 'blind') {
     diceTotal = '?'
     // resultText = ''
   }
@@ -438,7 +438,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['effectdice'] = effectdice
   data['effects'] = actor.system.bonuses.attack.extraEffect
   data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier)
-  data['ifBlindedRoll'] = rollMode === 'blindroll'
+  data['ifBlindedRoll'] = rollMode === 'blind'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['actorInfo'] = buildActorInfo(actor)
   // Incantation (measured templates) -  We replace the uuid of the Scene.Actor.SpellItem with the uuid of the SpellItem as we already deleted the spell from the actor.
@@ -612,7 +612,7 @@ export async function postCustomTextToChat(actor, roll, options, attribute = {})
 
   data['resultBoxClass'] = roll?.total ? roll.total >= targetNumber ? 'SUCCESS' : 'FAILURE' : ''
   data['actorInfo'] = buildActorInfo(actor)
-  const rollMode = game.settings.get('core', 'rollMode')
+  const rollMode = game.settings.get('core', 'messageMode')
   const chatData = getChatBaseData(actor, rollMode)
   if (roll) {
     data['diceTotal'] = roll.total
@@ -653,7 +653,7 @@ export async function postRestToChat(actor, restTime, magicRecovery, talentRecov
   data['talentRecovery'] = talentRecovery
   data['healing'] = healing
 
-  const rollMode = game.settings.get('core', 'rollMode')
+  const rollMode = game.settings.get('core', 'messageMode')
   const chatData = getChatBaseData(actor, rollMode)
   const template = 'systems/demonlord/templates/chat/rest.hbs'
   chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)
@@ -662,7 +662,7 @@ export async function postRestToChat(actor, restTime, magicRecovery, talentRecov
 
 export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   const itemData = item.system
-  const rollMode = game.settings.get('core', 'rollMode')
+  const rollMode = game.settings.get('core', 'messageMode')
 
   const attackAttribute = itemData.action?.attack?.toLowerCase() || ''
   const defenseAttribute = itemData.action?.against?.toLowerCase() || '' // displayed as "against" in the sheet
@@ -691,7 +691,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   let diceTotal = diceTotalGM
 
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
-  if (((actor.type === 'creature' || actor.type === 'vehicle') && !attackShow) || rollMode === 'blindroll') {
+  if (((actor.type === 'creature' || actor.type === 'vehicle') && !attackShow) || rollMode === 'blind') {
     diceTotal = '?'
     // resultText = ''
   }
@@ -755,7 +755,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   data['attackEffects'] = attackRoll !== null ? buildAttackEffectsMessage(actor, target, item, attackAttribute, defenseAttribute, inputBoons, plus20) : ''
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
-  data['ifBlindedRoll'] = rollMode === 'blindroll'
+  data['ifBlindedRoll'] = rollMode === 'blind'
   data['hasAreaTarget'] = itemData.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['actorInfo'] = buildActorInfo(actor)
 

@@ -13,11 +13,11 @@ export function getChatBaseData(actor, rollMode) {
       token: actor.token,
       alias: actor.name,
     },
-    blind: rollMode === 'blindroll',
+    blind: rollMode === 'blind',
     whisper:
-      rollMode === 'selfroll'
+      rollMode === 'self'
         ? [game.user.id]
-        : rollMode === 'gmroll' || rollMode === 'blindroll'
+        : rollMode === 'gm' || rollMode === 'blind'
         ? ChatMessage.getWhisperRecipients('GM')
         : [],
   }
