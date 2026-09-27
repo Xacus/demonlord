@@ -247,7 +247,9 @@ Hooks.once('setup', function () {
       order: effect.order,
       changes: effect.changes,
       duration: effect.duration,
-      statuses: effect.statuses
+      statuses: effect.statuses,
+      showIcon : 2,
+      description: effect.description
     }
   }
 
