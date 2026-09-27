@@ -65,6 +65,8 @@ export const registerExpiryEvents = () => {
   CONFIG.ActiveEffect.expiryEvents.nextD20Roll = i18n('DL.ExpiryEventNextD20Roll')
   CONFIG.ActiveEffect.expiryEvents.nextDamageRoll = i18n('DL.ExpiryEventNextDamageRoll')
   CONFIG.ActiveEffect.expiryEvents.restComplete = i18n('DL.ExpiryEventRestComplete')
+  CONFIG.ActiveEffect.expiryEvents.nextRoundEnd = i18n('DL.ExpiryEventNextRoundEnd')
+  CONFIG.ActiveEffect.expiryEvents.takesDamage = i18n('DL.ExpiryEventTakesDamage')
 }
 
 /* -------------------------------------------- */

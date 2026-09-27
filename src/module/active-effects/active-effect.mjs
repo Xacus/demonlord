@@ -7,6 +7,9 @@ export default class DLActiveEffect extends foundry.documents.ActiveEffect {
      * @inheritdoc
      */
     isExpiryEvent(event, context) {
+        // Demon Lord page 113, Duration: "1 Round", removal by combat._handleTurnEffects()
+        if (this.duration.units === 'rounds' && this.duration.value === 1) return false
+        if (event === 'roundEnd' && this.duration.expiry === 'nextRoundEnd') return this.start.round+1 <= game.combat.round-1
         const newEvents = new Set(Object.keys(CONFIG.ActiveEffect.expiryEvents))
 
         if (!newEvents.has(event) || !newEvents.has(this.duration.expiry)) return super.isExpiryEvent(event, context)
@@ -25,10 +28,10 @@ export default class DLActiveEffect extends foundry.documents.ActiveEffect {
             case 'nextAttackRoll':
                 return this.actor.uuid === context.actorUuid && event === this.duration.expiry
 
-                case 'nextChallengeRoll':
+            case 'nextChallengeRoll':
                 return this.actor.uuid === context.actorUuid && event === this.duration.expiry
 
-             case 'nextD20Roll':
+            case 'nextD20Roll':
                 return this.actor.uuid === context.actorUuid && event === this.duration.expiry
 
             case 'nextDamageRoll':
@@ -37,6 +40,8 @@ export default class DLActiveEffect extends foundry.documents.ActiveEffect {
             case 'restComplete':
                 return this.actor.uuid === context.actorUuid && event === this.duration.expiry
 
+            case 'takesDamage':
+                return this.actor.uuid === context.actorUuid && event === this.duration.expiry
         }
     }
 }

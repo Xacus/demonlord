@@ -51,6 +51,34 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
     return context
   }
 
+  /** @override */
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options)
+    if (partId === 'duration') {
+      const EXPIRITY_EVENTS_ROLL = ['nextAttackRoll', 'nextChallengeRoll', 'nextD20Roll', 'nextDamageRoll']
+      const EXPIRITY_EVENTS_OTHER = ['restComplete', 'takesDamage']
+      let newExpirityEvents = [
+        ...Object.entries(ActiveEffect.implementation.EXPIRY_EVENTS).map(([value, label]) => {
+          if (EXPIRITY_EVENTS_ROLL.includes(value)) return { value, label: i18n(label), group: i18n("DL.ExpiryEventGroupRoll") }
+          else if (EXPIRITY_EVENTS_OTHER.includes(value)) return { value, label: i18n(label), group: i18n("DL.ExpiryEventGroupOther") }
+          else return { value, label: i18n(label), group: i18n( "DL.ExpiryEventGroupCombat") }
+        }),
+      ]
+
+      newExpirityEvents.sort((a, b) => {
+        if (a.label < b.label) {
+          return -1
+        }
+        if (a.label > b.label) {
+          return 1
+        }
+        return 0
+      })
+      context.expiryEvents = Object.fromEntries(newExpirityEvents.map(({ value, ...data }) => [value, data]))
+    }
+    return context
+  }
+
   // eslint-disable-next-line
   async _onRender(context, options) {
     await super._onRender(context, options);

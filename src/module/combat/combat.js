@@ -518,6 +518,8 @@ async function deleteCombatEffects(combatant) {
   for (let effect of actor.appliedEffects) {
     if ([
       // Durations that should expire during combat
+      'takesDamage',
+      'nextRoundEnd',
       'turnStartSource',
       'turnEndSource',
       'roundStart',
