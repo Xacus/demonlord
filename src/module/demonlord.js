@@ -181,6 +181,8 @@ Hooks.once('init', async function () {
     CONFIG.Token.movement.actions.fly.canSelect = token => token?.actor?.system.canFly
     CONFIG.Token.rulerClass = TokenRulerDemonLord
   }
+
+  CONFIG.ActiveEffect.expiryAction = game.settings.get('demonlord', 'autoDeleteEffects') ? 'delete' : 'update'
 })
 
 Hooks.once('ready', async function () {

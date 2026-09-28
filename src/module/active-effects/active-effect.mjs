@@ -7,8 +7,12 @@ export default class DLActiveEffect extends foundry.documents.ActiveEffect {
      * @inheritdoc
      */
     isExpiryEvent(event, context) {
-        // Demon Lord page 113, Duration: "1 Round", removal by combat._handleTurnEffects()
-        if (this.duration.units === 'rounds' && this.duration.value === 1) return false
+        // Special handling "1 Round" duration -> Demon Lord page 113
+        if (this.duration.value === 1 && this.duration.units === 'rounds') {
+            if (event === 'roundEnd' && context.combat.round >= this.start.round + 1) return true
+            else return false
+        }
+
         if (event === 'roundEnd' && this.duration.expiry === 'nextRoundEnd') return this.start.round+1 <= game.combat.round-1
         const newEvents = new Set(Object.keys(CONFIG.ActiveEffect.expiryEvents))
 
