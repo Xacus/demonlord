@@ -1737,8 +1737,8 @@ getTargetAttackBane(target) {
       },
     }
 
-    const rollMode = game.settings.get('core', 'messageMode')
-    if (['gm', 'blind'].includes(rollMode)) {
+    const messageMode = game.settings.get('core', 'messageMode')
+    if (['gm', 'blind'].includes(messageMode)) {
       chatData.whisper = ChatMessage.getWhisperRecipients('GM')
     }
 

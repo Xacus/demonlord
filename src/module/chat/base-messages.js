@@ -1,11 +1,11 @@
 /**
  * Builds the base chat data based on settings, actor and user
  * @param actor
- * @param rollMode
+ * @param messageMode
  * @returns ChatData
  * @private
  */
-export function getChatBaseData(actor, rollMode) {
+export function getChatBaseData(actor, messageMode) {
   return {
     user: game.user.id,
     speaker: {
@@ -13,11 +13,11 @@ export function getChatBaseData(actor, rollMode) {
       token: actor.token,
       alias: actor.name,
     },
-    blind: rollMode === 'blind',
+    blind: messageMode === 'blind',
     whisper:
-      rollMode === 'self'
+      messageMode === 'self'
         ? [game.user.id]
-        : rollMode === 'gm' || rollMode === 'blind'
+        : messageMode === 'gm' || messageMode === 'blind'
         ? ChatMessage.getWhisperRecipients('GM')
         : [],
   }

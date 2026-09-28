@@ -53,7 +53,7 @@ async function _onChatApplyHealing(event) {
 
 async function _onChatRollDamage(event) {
   event.preventDefault()
-  const rollMode = game.settings.get('core', 'messageMode')
+  const messageMode = game.settings.get('core', 'messageMode')
   const li = event.currentTarget
   const actor = _getChatCardActor(li.closest('.demonlord'))
 
@@ -147,7 +147,7 @@ async function _onChatRollDamage(event) {
 
   const attackShow = game.settings.get('demonlord', 'attackShowAttack')
 
-  if ((['blind'].includes(rollMode) || !attackShow) && !game.user.isGM) {
+  if ((['blind'].includes(messageMode) || !attackShow) && !game.user.isGM) {
     totalDamage = '?'
     totalDamageGM = damageRoll.total
   } else {
@@ -174,7 +174,7 @@ async function _onChatRollDamage(event) {
   templateData.data['isCorruption'] =  damagetype?.toLowerCase() === game.i18n.localize('DL.CharCorruption').toLowerCase()
   templateData.data['isInsanity'] = damagetype?.toLowerCase() === game.i18n.localize('DL.CharInsanity').toLowerCase()
 
-  const chatData = getChatBaseData(actor, rollMode)
+  const chatData = getChatBaseData(actor, messageMode)
   if (damageRoll) {
     chatData.rolls = [damageRoll]
   }
