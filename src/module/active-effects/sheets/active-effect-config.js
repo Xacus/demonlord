@@ -8,19 +8,11 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
       title: 'EFFECT.ConfigTitle',
     },
     classes: ['sheet', 'active-effect-sheet', 'active-effect-config'],
-    form: {
-      closeOnSubmit: false,
-      submitOnChange: true
-    }
   };
   
-  static PARTS = {
-    header :  {template: 'templates/sheets/active-effect/header.hbs'},
-    tabs :  {template: 'templates/generic/tab-navigation.hbs'},
-    details :  {template: 'templates/sheets/active-effect/details.hbs'},
-    duration : {template: 'templates/sheets/active-effect/duration.hbs'},
+  static PARTS = foundry.utils.mergeObject(super.PARTS ?? {}, {
     changes: { template: 'systems/demonlord/templates/item/parts/AE-config-changes.hbs'}
-  }
+  })
 
   /** @override */
   async _prepareContext(options={}) {
@@ -51,25 +43,65 @@ export class DLActiveEffectConfig extends foundry.applications.sheets.ActiveEffe
     return context
   }
 
-  // eslint-disable-next-line
-  async _onRender(context, options) {
-    await super._onRender(context, options);
-    const currTabId = Object.values(context.tabs)?.find(i => i.active)?.id;
-    if (currTabId !== "changes") this.position.height = this.element.offsetHeight ?? "auto";
-    const duration = this.element.querySelector('[data-duration]')
-    if (duration) duration.hidden = this.document.duration.expiry
-    const expiryEvents = Object.keys(CONFIG.ActiveEffect.expiryEvents)
-    if (expiryEvents.includes(this.document.duration.expiry))
-    if (this.document.duration.expiry)
-      await this.document.update({
+  /** @override */
+  async _onChangeForm(formConfig, event)
+  {
+    super._onChangeForm(formConfig, event)
+    if (event.srcElement.name === 'duration.expiry')
+    {
+      const duration = this.element.querySelector('[data-duration]')
+      if (duration) duration.hidden = !event.srcElement.value.length ? false : true
+    }
+  }
+
+  /** @override */
+  async _onSubmitForm(formConfig, event)
+  {
+    super._onSubmitForm(formConfig, event)
+    const fromData = new foundry.applications.ux.FormDataExtended(event.currentTarget)
+    const submitData = foundry.utils.expandObject(fromData.object)
+    if (submitData.duration.expiry.length)
+       await this.document.update({
         duration: {
           value: 0,
-          remaining: 0,
-          seconds: 0,
-          secondsRemaining: 0,
-          expiry: this.document.duration.expiry,
         },
       })
+  }
+
+  /** @override */
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options)
+    if (partId === 'duration') {
+      const EXPIRITY_EVENTS_ROLL = ['nextAttackRoll', 'nextChallengeRoll', 'nextD20Roll', 'nextDamageRoll']
+      const EXPIRITY_EVENTS_OTHER = ['restComplete', 'takesDamage']
+      let newExpirityEvents = [
+        ...Object.entries(ActiveEffect.implementation.EXPIRY_EVENTS).map(([value, label]) => {
+          if (EXPIRITY_EVENTS_ROLL.includes(value)) return { value, label: i18n(label), group: i18n("DL.ExpiryEventGroupRoll") }
+          else if (EXPIRITY_EVENTS_OTHER.includes(value)) return { value, label: i18n(label), group: i18n("DL.ExpiryEventGroupOther") }
+          else return { value, label: i18n(label), group: i18n( "DL.ExpiryEventGroupCombat") }
+        }),
+      ]
+
+      newExpirityEvents.sort((a, b) => {
+        if (a.label < b.label) {
+          return -1
+        }
+        if (a.label > b.label) {
+          return 1
+        }
+        return 0
+      })
+      context.expiryEvents = Object.fromEntries(newExpirityEvents.map(({ value, ...data }) => [value, data]))
+    }
+    return context
+  }
+
+  // eslint-disable-next-line
+  async _onRender(context, options) {
+    const currTabId = Object.values(context.tabs)?.find(i => i.active)?.id
+    if (currTabId !== "changes" || currTabId !== "duration") this.position.height = this.element.offsetHeight ?? "auto"
+    const duration = this.element.querySelector('[data-duration]')
+    if (duration) duration.hidden = this.document.duration.expiry
   }
 
   static initializeChangeKeys() {

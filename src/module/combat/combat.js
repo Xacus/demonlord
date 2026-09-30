@@ -307,7 +307,6 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
       }
 
     await this.allowTurnOrderChangeInTurns(_updatedTurn)
-    await this._handleTurnEffects()
     return _updatedTurn
   }
 
@@ -316,7 +315,6 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
     const _updatedTurn = await super.previousTurn()
     await this.deleteTemplates()
     await this.allowTurnOrderChangeInTurns(_updatedTurn)
-    await this._handleTurnEffects()
     return _updatedTurn
   }
 
@@ -337,7 +335,6 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
     const _updatedRound = await super.nextRound()
     await this.allowTurnOrderChangeInRounds()
     await this.deleteTemplates()
-    await this._handleTurnEffects()
     return _updatedRound
   }
 
@@ -345,44 +342,9 @@ async rollInitiativeGroup(ids, { formula = null, updateTurn = true, messageOptio
   async previousRound() {
     const _updatedRound = await super.previousRound()
     await this.deleteTemplates()
-    await this._handleTurnEffects()
     return _updatedRound
   }
 
-
-  async _handleTurnEffects() {
-    // Disable/delete temporary effects that expire this turn
-    const actors = this.combatants.map(c => c.actor)
-    const autoDelete = game.settings.get('demonlord', 'autoDeleteEffects')
-    for (let actor of actors) {
-      let updateData = []
-      const enabledEffects = actor.effects
-      const tempEffects = enabledEffects.filter(e => ['turns', 'rounds'].includes(e.duration?.units) && e.duration?.value > 0)
-      let deleteIds = []
-      tempEffects.forEach(e => {
-        const passedRounds = this.round - e.start?.round + (e.duration.units === 'rounds' && e.duration.value === 1 ? -1 : 0) // If the duration is 1, it should actually last 2
-        let expired = false
-
-        if (e.duration.units === 'turns') {
-          expired = calcEffectRemainingTurn(e, this.turn, this.round, this.turns.length) < 0
-        } else if (e.duration.units === 'rounds') {
-          expired = passedRounds >= e.duration.value
-        }
-
-        if (expired !== e.disabled) {
-          if (autoDelete) {
-            deleteIds.push(e._id)
-          } else {
-            updateData.push({_id: e._id, disabled: expired})
-          }
-        }
-      })
-
-      if (deleteIds.length) await actor.deleteEmbeddedDocuments('ActiveEffect', deleteIds)
-      if (updateData.length) await actor.updateEmbeddedDocuments('ActiveEffect', updateData).then(_ => actor.sheet.render())
-    }
-    return true
-  }
 }
 
 
@@ -518,6 +480,8 @@ async function deleteCombatEffects(combatant) {
   for (let effect of actor.appliedEffects) {
     if ([
       // Durations that should expire during combat
+      'takesDamage',
+      'nextRoundEnd',
       'turnStartSource',
       'turnEndSource',
       'roundStart',
