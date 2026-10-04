@@ -181,6 +181,8 @@ Hooks.once('init', async function () {
     CONFIG.Token.movement.actions.fly.canSelect = token => token?.actor?.system.canFly
     CONFIG.Token.rulerClass = TokenRulerDemonLord
   }
+
+  CONFIG.ActiveEffect.expiryAction = game.settings.get('demonlord', 'autoDeleteEffects') ? 'delete' : 'update'
 })
 
 Hooks.once('ready', async function () {
@@ -247,7 +249,9 @@ Hooks.once('setup', function () {
       order: effect.order,
       changes: effect.changes,
       duration: effect.duration,
-      statuses: effect.statuses
+      statuses: effect.statuses,
+      showIcon : 2,
+      description: effect.description
     }
   }
 
@@ -301,9 +305,13 @@ Hooks.on('updateActor', async (actor, updateData, options) => {
          * Modified version of the awesome https://github.com/foundryvtt/dnd5e/blob/5.3.x/module/documents/actor/actor.mjs
          * Big thanks to Andrew Clayton
          */
+        const diff = value - oldHealth
+        if (diff > 0)
+        ActiveEffect.registry.refresh('takesDamage', {
+            actorUuid: actor.uuid,
+        })
         const tokens = actor.isToken ? [actor.token] : actor.getActiveTokens(true, true)
         if (!tokens.length) return
-        const diff = value - oldHealth
         for (const token of tokens) {
           if (!token.object?.visible || token.isSecret) continue;
           const t = token.object

@@ -193,9 +193,9 @@ export class DemonlordItem extends Item {
       }
 
       if (actor) {
-        const rollMode = game.settings.get('core', 'rollMode')
+        const messageMode = game.settings.get('core', 'messageMode')
 
-        const chatData = getChatBaseData(actor, rollMode)
+        const chatData = getChatBaseData(actor, messageMode)
 
         const template = 'systems/demonlord/templates/chat/formulaeroll.hbs'
         foundry.applications.handlebars.renderTemplate(template, templateData).then(async content => {

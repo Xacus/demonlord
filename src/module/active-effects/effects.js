@@ -135,6 +135,12 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
         case 'turnStartSource':
           e.dlRemaining = i18n('DL.ExpiryEventTurnStartSourceDisplay').replace('{actorName}', actorName)
           break
+        case 'nextRoundEnd':
+          e.dlRemaining = i18n('DL.ExpiryEventNextRoundEnd')
+        break
+        case 'takesDamage':
+          e.dlRemaining = i18n('DL.ExpiryEventTakesDamage')
+        break
         default:
           e.dlRemaining = i18n('EFFECT.DURATION.EXPIRY_EVENTS.' + expiryEvent)
       }

@@ -803,6 +803,9 @@ export const registerSettings = function () {
     scope: 'world',
     type: Boolean,
     config: false,
+    onChange: value => {
+      CONFIG.ActiveEffect.expiryAction = value ? 'delete' : 'update'
+    }
   })
   game.settings.register('demonlord', 'concentrationEffect', {
     name: game.i18n.localize('DL.SettingConcentrationEffect'),
