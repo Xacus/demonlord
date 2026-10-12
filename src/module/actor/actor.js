@@ -1898,8 +1898,7 @@ getTargetAttackBane(target) {
     if (game.settings.get('demonlord', 'ignoreEncumbrance')) return
     const armors = this.items.filter(i => i.type === 'armor')
     const notMetItemNames = armors
-      .map(a => a.system)
-      .filter(a => a.requirement?.minvalue > (this.getAttribute(a.requirement?.attribute)?.value + this.getAttribute(a.requirement?.attribute)?.requirementModifier) && a.wear)
+      .filter(a => a.system.requirement?.minvalue > (this.getAttribute(a.system.requirement?.attribute)?.value + this.getAttribute(a.system.requirement?.attribute)?.requirementModifier) && a.system.wear)
       .map(a => a.name)
     return await DLActiveEffects.addEncumbrance(this, notMetItemNames)
   }
