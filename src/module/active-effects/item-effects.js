@@ -511,13 +511,12 @@ export class DLActiveEffects {
       ')'
 
     const n = -itemNames.length
-    const oldEffect = actor.effects.find(e => e.origin === 'encumbrance')
+    const oldEffect = actor.effects.find(e => e.flags?.demonlord?.sourceType === 'encumbrance')
     if (!oldEffect && !n) return
 
     const effectData = {
       name: effectName,
       img: 'systems/demonlord/assets/icons/effects/fatigued.svg',
-      origin: 'encumbrance',
       transfer: false,
       start: { time: 0, round: 0, turn: 0 },
       flags: {
