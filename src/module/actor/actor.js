@@ -963,9 +963,9 @@ getTargetAttackBane(target) {
 
       if (target)
         boons -=
-          (parseInt(target?.actor?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
-          (parseInt(target?.actor?.system.bonuses.defense.boons.all) || 0) +
-          (parseInt(target?.actor?.system.bonuses.defense.boons.spell) || 0) +
+          (parseInt(target[0]?.actor?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
+          (parseInt(target[0]?.actor?.system.bonuses.defense.boons.all) || 0) +
+          (parseInt(target[0]?.actor?.system.bonuses.defense.boons.spell) || 0) +
           this.getTargetAttackBane(target[0]?.actor)
 
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
