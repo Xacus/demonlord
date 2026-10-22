@@ -44,18 +44,6 @@ export default class TokenRulerDemonLord extends foundry.canvas.placeables.token
   }
 }
 
-export function getSpeedModifier(dataModel) {
-  const itemsHeavy = dataModel.parent.items.filter(
-    item =>
-      Number(item.system.requirement?.minvalue) >
-      dataModel.parent.getAttribute(item.system.requirement?.attribute)?.value,
-  )
-  if (itemsHeavy.length > 0) {
-    return -2
-  }
-  return 0
-}
-
 export function isSwimPenalty(dataModel) {
   if (dataModel.parent.type === 'character') {
     if (Object.prototype.hasOwnProperty.call(dataModel.parent, 'features')) {
@@ -70,7 +58,7 @@ export function isSwimPenalty(dataModel) {
 }
 
 export function getRanges(dataModel) {
-  const baseSpeed = dataModel.parent.system.characteristics.speed + getSpeedModifier(dataModel)
+  const baseSpeed = dataModel.parent.system.characteristics.speed
   const walk = [baseSpeed, baseSpeed * 2]
   return {
     walk,
