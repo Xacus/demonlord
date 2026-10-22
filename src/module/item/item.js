@@ -27,11 +27,11 @@ export class DemonlordItem extends Item {
 
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId)
-    // Search for open path/ancestry/role sheets and re-render them. This allows the nested objects to fetch new values
-    if (!['path', 'ancestry', 'creaturerole', 'relic'].includes(this.type)) {
+    // Search for open path/ancestry/role/transformation sheets and re-render them. This allows the nested objects to fetch new values
+    if (!['path', 'ancestry', 'creaturerole', 'transformation', 'relic'].includes(this.type)) {
       // eslint-disable-next-line no-prototype-builtins
       let openSheets = Object.entries(ui.windows).map(i => i[1]).filter(i => Item.prototype.isPrototypeOf(i.object))
-      openSheets = openSheets.filter(s => ['path', 'ancestry', 'creaturerole', 'item', 'relic'].includes(s.object.type))
+      openSheets = openSheets.filter(s => ['path', 'ancestry', 'creaturerole', 'transformation', 'item', 'relic'].includes(s.object.type))
       openSheets.forEach(s => s.render())
     }
 
@@ -103,8 +103,8 @@ export class DemonlordItem extends Item {
       }
     }
 
-    // Delete nested objects if ancestry, path or role
-    if (['ancestry', 'path', 'creaturerole', 'relic'].includes(this.type)) await deleteActorNestedItems(this.parent, this.id, null)
+    // Delete nested objects if ancestry, path, role or transformation
+    if (['ancestry', 'path', 'creaturerole', 'relic', 'transformation'].includes(this.type)) await deleteActorNestedItems(this.parent, this.id, null)
     return await Promise.resolve()
   }
 

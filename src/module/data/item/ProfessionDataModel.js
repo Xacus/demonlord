@@ -9,3 +9,11 @@ export default class ProfessionDataModel extends foundry.abstract.TypeDataModel 
     }
   }
 }
+
+export function makeProfessionSchema() {
+  return new foundry.data.fields.SchemaField({
+      source: makeHtmlField(),
+      description: makeHtmlField(),
+      enrichedDescription: makeHtmlField(),
+  })
+}

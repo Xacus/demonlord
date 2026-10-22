@@ -473,16 +473,24 @@ aside {
   .dl-side-tab {
     transition: left 200ms ease-in-out;
     position: relative;
-    background-color: var(--demonlord-red);
-    width: 150px;
+    width: 200px;
     height: 32px;
     border-radius: 0 5px 5px 0;
     line-height: 32px;
     text-align: center;
-    left: -130px;
+    left: -180px;
     pointer-events: initial;
     margin-bottom: 2px;
   }
+
+  .dl-side-tab[data-type=role] {
+      background-color: var(--demonlord-red);
+  }
+
+  .dl-side-tab[data-type=transformation] {
+      background-color: #14551b;
+  }
+
 
   .dl-side-tab:hover {
     left: -60px;

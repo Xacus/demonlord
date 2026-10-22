@@ -118,6 +118,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
       Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'creaturerole'),
     )
     context.itemEffects = prepareActiveEffectCategories(
+      Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'transformation'),
+    )
+    context.itemEffects = prepareActiveEffectCategories(
       Array.from(this.actor.allApplicableEffects()).filter(effect => effect.flags?.demonlord?.sourceType === 'relic'),
     )
     this._prepareItems(context)
@@ -142,6 +145,7 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     actorData.paths = m.get('path') || []
     actorData.talentbook = this._prepareBook(actorData.talents, 'groupname', 'talents')
     actorData.roles = m.get('creaturerole') || []
+    actorData.transformation = m.get('transformation') || []
 
     // Sort paths
     actorData.paths = [
@@ -312,6 +316,20 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
     else if (ev.button == 2) await role.delete({ parent: this.actor })
   }
 
+  async onEditTransformation(ev) {
+    const div = ev.target.closest('.transformation-edit')
+    const transformation = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
+
+    if (ev.button == 0) transformation.sheet.render(true)
+    else if (ev.button == 2) {
+      if (game.settings.get('demonlord', 'confirmCreatureRoleRemoval')) {
+        await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteCreatureRoleText'), div)
+      } else {
+        await transformation.delete({ parent: this.actor })
+      }
+    }
+  }
+
   async onEditRelic(ev) {
     const div = ev.currentTarge
     const role = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
@@ -412,6 +430,9 @@ export default class DLCharacterSheet extends DLBaseActorSheet {
 
     // Role edit
     e.querySelectorAll('.role-edit')?.forEach(p => p.addEventListener('mousedown', '.role-edit', async ev => await this.onEditRole(ev)))
+
+    // Transformation edit
+    e.querySelectorAll('.transformation-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditTransformation(ev)))
 
     // Relic edit
     e.querySelectorAll('.relic-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditRelic(ev)))

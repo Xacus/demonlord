@@ -36,6 +36,7 @@
       "ancestry": { "htmlFields": ["system.description"] },
       "armor": { "htmlFields": ["system.description"] },
       "creaturerole": { "htmlFields": ["system.description"] },
+      "transformation": { "htmlFields": ["system.description"] },
       "endoftheround": { "htmlFields": ["system.description"] },
       "feature": { "htmlFields": ["system.description"] },
       "item": { "htmlFields": ["system.description"] },

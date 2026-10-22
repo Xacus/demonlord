@@ -230,6 +230,9 @@ function _GetNestedItemSource(item) {
     case 'creaturerole':
       stringName = 'DL.RoleNestedItem'
       break
+    case 'transformation':
+      stringName = 'DL.TransformationNestedItem'
+      break
     case 'path':
       stringName = 'DL.PathNestedItem'
       break

@@ -11,6 +11,7 @@ import { buildDropdownListHover } from "../../utils/handlebars-helpers";
 import { DLAfflictions } from '../../active-effects/afflictions'
 import launchRollDialog from '../../dialog/roll-dialog'
 import { TokenManager } from '../../pixi/token-manager'
+import DLTransformationDialog from '../../dialog/transformation-dialog'
 
 const tokenManager = new TokenManager()
 
@@ -389,13 +390,13 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
         let actorLink
         if (this.actor.token === null) {
             actorLink = {
-                style: isUnique ? 'color: darkorange;text-shadow: 0 0 8px darkorange; cursor: pointer;' : 'color: var(--demonlord-red);text-shadow: 0 0 8px var(--demonlord-red); cursor: pointer;',
+                style: isUnique ? 'color: darkorange;text-shadow: 0 0 8px darkorange; cursor: pointer !important;' : 'color: var(--demonlord-red);text-shadow: 0 0 8px var(--demonlord-red); cursor: pointer !important;',
                 icon: isUnique ? 'fas fa-link' : 'fas fa-unlink',
                 tooltip: isUnique ? game.i18n.localize('DL.UnLinkActorData') : game.i18n.localize('DL.LinkActorData')
             }
         } else {
             actorLink = {
-                style: 'color: red;text-shadow: 0 0 8px red;',
+                style: 'color: red;text-shadow: 0 0 8px red; cursor: help !important;',
                 icon: 'fas fa-unlink',
                 tooltip: game.i18n.localize('DL.SyntheticToken'),
             }
@@ -411,6 +412,16 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
             const actorTab = ui["actors"];
             actorTab.render()
         })
+    }
+
+    if (game.user.isGM && this.document.isPolymorphed) {
+      let revertTransformation = `<reverttransformation class="fa-solid fa-person-walking-arrow-loop-left" style="cursor: pointer !important;" data-tooltip="${game.i18n.localize("DL.TransformationRevert")}"></reverttransformation>`
+      e.querySelector("revertTransformation")?.remove()
+      e.querySelector(".header-control")?.insertAdjacentHTML("beforebegin", revertTransformation)
+      // eslint-disable-next-line no-unused-vars
+      e.querySelector("reverttransformation")?.addEventListener('click', async ev => {
+        await this.actor.revertOriginalForm({renderSheet : true})
+      })
     }
 
     const autoresize = (el) => {
@@ -817,6 +828,14 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     } catch (err) {
       console.warn(err)
     }
+  }
+
+  async _onDropActor(ev, _actor) {
+    if (!game.user.isGM)
+      ui.notifications.warn('You do not have permission to transform this actor.', { localize: true })
+    if (this.document.type != 'character')
+      console.warn('Only dropping creature on character is supported.', this.document, _actor)
+    else await new DLTransformationDialog({ actor: this.actor, source: _actor }).render(true)
   }
 
   async checkDroppedItem(_itemData) {

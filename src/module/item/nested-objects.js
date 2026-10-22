@@ -279,6 +279,13 @@ export async function handleCreateRole(actor, roleItem) {
   return await Promise.resolve()
 }
 
+export async function handleCreateTransformation(actor, transformationItem) {
+  const transformationData = transformationItem.system
+
+  await createActorNestedItems(actor, transformationData.spells.concat( transformationData.languages, transformationData.professions), transformationItem.id)
+  return await Promise.resolve()
+}
+
 export async function handleCreateRelic(actor, relicItem) {
   const relicData = relicItem.system
   const talents = await Promise.all(relicData.contents.map(t => {

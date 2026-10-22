@@ -1,0 +1,118 @@
+<!-- START OF TEMPLATES -->
+{{#*inline "AttributeInput"}}
+  <div class="item-group-attribute-value {{#if nullable}}nullable-stat{{/if}}" {{#if nullable}}data-key="{{nullable}}"{{/if}}>
+    <div class="input-group" data-tippy-content="{{localize loc}}">
+      <i class="icon-{{icon}} themed-icon"></i>
+      <span class="sep"></span>
+      <input type="{{ifThen immune 'text' 'Number'}}" class="input-group-textbox editable-stat-input" name="{{name}}" value="{{ifThen immune '-' value}}" {{disabled immune}} placeholder="0" />
+    </div>
+  </div>
+{{/inline}}
+
+{{#* inline "DropZoneEdit"}}
+  <div class="drop-zone" data-group="{{dataGroup}}" data-level="{{dataLevel}}">
+    {{#each collection as |item index|}}
+      <div class="nested-item" data-item-index="{{index}}" data-item-id="{{item._id}}" {{#if item.system.enrichedDescriptionUnrolled}}data-tippy-html="{{item.system.enrichedDescriptionUnrolled}}"{{/if}}>
+        <img src="{{item.img}}">
+        <span class="edit-nested-item dl-clickable" data-action="editNestedItem">{{item.name}}</span>
+        <a class="delete-item" data-action="deleteItem" data-tippy-content="{{localize 'DL.Delete'}}" data-type="{{type}}"
+           style="align-self: center; margin-left: auto; margin-right: 4px">
+          <i class="fas fa-times"></i>
+        </a>
+      </div>
+    {{/each}}
+  </div>
+{{/inline}}
+<!-- END OF TEMPLATES -->
+
+<div class="dl-item-section-header">
+  <b>{{item.name}}</b>
+</div>
+<hr>
+
+<!-- STARTING ATTRIBUTES  -->
+<div class="dl-item-section">
+  <b>{{localize "DL.Attributes"}}</b>
+  <div class="role-attributes-container">
+    {{> AttributeInput icon='strength' value=system.attributes.strength name="system.attributes.strength" nullable='strength' immune=system.attributes.strengthImmune loc='DL.AttributeStrength'}}
+    {{> AttributeInput icon='agility' value=system.attributes.agility name="system.attributes.agility" nullable='agility' immune=system.attributes.agilityImmune loc='DL.AttributeAgility'}}
+    {{> AttributeInput icon='intellect' value=system.attributes.intellect name="system.attributes.intellect" nullable='intellect' immune=system.attributes.intellectImmune loc='DL.AttributeIntellect'}}
+    {{> AttributeInput icon='will' value=system.attributes.will name="system.attributes.will" nullable='will' immune=system.attributes.willImmune loc='DL.AttributeWill'}}
+  </div>
+</div>
+
+<hr>
+
+<!-- CHARACTERISTICS MODIFIER  -->
+  <div class="dl-item-section">
+    <b>{{localize "DL.WeaponModifiers"}}</b>
+    <div class="characteristics-container">
+      {{> AttributeInput icon='health' value=system.characteristics.health name="system.characteristics.health" loc='DL.CharHealth'}}
+      {{> AttributeInput icon='healing' value=system.characteristics.healingRate name="system.characteristics.healingRate" loc='DL.CharHealthHealingRating'}}
+      {{> AttributeInput icon='size' value=system.characteristics.size name="system.characteristics.size" loc='DL.CharSize'}}
+      {{> AttributeInput icon='defense' value=system.characteristics.defense name="system.characteristics.defense" loc='DL.AttributeDefense'}}
+      {{> AttributeInput icon='perception' value=system.characteristics.perception name="system.characteristics.perception" loc='DL.AttributePerception'}}
+      {{> AttributeInput icon='speed' value=system.characteristics.speed name="system.characteristics.speed" loc='DL.CharSpeed'}}
+      {{> AttributeInput icon='insanity' value=system.characteristics.insanity.value name="system.characteristics.insanity.value" loc='DL.CharInsanity'}}
+      {{> AttributeInput icon='corruption' value=system.characteristics.corruption.value name="system.characteristics.corruption.value" loc='DL.CharCorruption'}}
+      {{> AttributeInput icon='power' value=system.characteristics.power name="system.characteristics.power" loc='DL.CharPower'}}
+      {{#if item.parentIsChreature}}
+      {{> AttributeInput icon='difficulty' value=system.characteristics.difficulty name="system.characteristics.difficulty"
+        loc='DL.CreatureDifficulty'}}
+        <div class="item-group-attribute-value checkable" data-action="toggleFrightening">
+          <div class="input-group" data-tippy-content="{{localize "DL.IsFrightening"}}">
+            <input type="checkbox" name="system.frightening" {{checked system.frightening}}>
+            <i class="icon-frightened themed-icon"></i>
+            <span class="sep"></span>
+            <span class="text">{{localize "DL.CreatureFrightening"}}</span>
+          </div>
+        </div>
+        <div class="item-group-attribute-value checkable" data-action="toggleHorrifying">
+          <div class="input-group" data-tippy-content="{{localize "DL.IsHorrifying"}}">
+            <input type="checkbox" name="system.horrifying" {{checked system.horrifying}}>
+            <i class="icon-horrified themed-icon"></i>
+            <span class="sep"></span>
+            <span class="text">{{localize "DL.CreatureHorrifying"}}</span>
+          </div>
+        </div>
+      {{/if}}  
+    </div>
+  </div>
+
+<hr>
+
+  <div class="dl-item-section">
+    <div class="dl-item-section-header">
+      <b>{{localize "DL.LanguagesTitle"}}</b>
+      <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.LanguagesEdit'}}"
+        data-type="language" data-group="languages" data-folder-loc="LanguagesTitle">
+        <i class="fas fa-edit"></i>
+      </a>
+    </div>
+    {{> DropZoneEdit collection=system.languages dataGroup="languages"}}
+  </div>
+
+  <div class="dl-item-section">
+    <div class="dl-item-section-header">
+      <b>{{localize "DL.ProfessionsTitle"}}</b>
+      <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.ProfessionsAdd'}}"
+        data-type="profession" data-group="professions" data-folder-loc="ProfessionsTitle">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+    {{> DropZoneEdit collection=system.professions dataGroup="professions"}}
+  </div>
+
+
+  <div class="dl-item-section">
+    <div class="dl-item-section-header">
+      <b>{{localize "DL.MagicSpellsTitle"}}</b>
+      <a class="create-nested-item" data-action="createNestedItem" data-tippy-content="{{localize 'DL.SpellAdd'}}"
+        data-type="spell" data-group="spells" data-folder-loc="MagicSpellsTitle">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+    {{> DropZoneEdit collection=system.spells dataGroup="spells"}}
+  </div>
+
+</div>

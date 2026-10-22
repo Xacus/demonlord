@@ -28,6 +28,7 @@ import AmmoDataModel from './data/item/AmmoDataModel.js'
 import AncestryDataModel from './data/item/AncestryDataModel.js'
 import ArmorDataModel from './data/item/ArmorDataModel.js'
 import CreatureRoleDataModel from './data/item/CreatureRoleDataModel.js'
+import TransformationDataModel from './data/item/TransformationDataModel.js'
 import EndOfTheRoundDataModel from './data/item/EndOfTheRoundDataModel.js'
 import FeatureDataModel from './data/item/FeatureDataModel.js'
 import ItemDataModel from './data/item/ItemDataModel.js'
@@ -99,6 +100,7 @@ Hooks.once('init', async function () {
   CONFIG.Item.dataModels.ancestry = AncestryDataModel
   CONFIG.Item.dataModels.armor = ArmorDataModel
   CONFIG.Item.dataModels.creaturerole = CreatureRoleDataModel
+  CONFIG.Item.dataModels.transformation = TransformationDataModel
   CONFIG.Item.dataModels.endoftheround = EndOfTheRoundDataModel
   CONFIG.Item.dataModels.feature = FeatureDataModel
   CONFIG.Item.dataModels.item = ItemDataModel
@@ -141,6 +143,7 @@ Hooks.once('init', async function () {
       'ammo',
       'armor',
       'creaturerole',
+      'transformation',
       'endoftheround',
       'feature',
       'item',
@@ -530,8 +533,31 @@ Hooks.on('renderDLBaseActorSheet', (jn, element) => rolltable._renderDLSheet (jn
 Hooks.on('renderDLBaseItemSheet', (jn, element) => rolltable._renderDLSheet(jn, element))
 // eslint-disable-next-line no-unused-vars
 Hooks.on("renderActorDirectory", (application, html, data) => {
-    if (!(game.user.isGM && game.settings.get('demonlord', 'showActorLinkStatus'))) return
-    let actors = html.querySelectorAll("li.directory-item.document");
+    if ( !game.user.isGM ) return
+    let actors = html.querySelectorAll("li.directory-item.document")
+    actors.forEach(actor => {
+        let actorD = game.actors.get(actor.dataset.entryId)
+        const isPolymorphed = foundry.utils.getProperty(actorD, 'flags.demonlord.originalActor') === undefined ? false : true
+        if (isPolymorphed)
+        {
+          let polymorphIndicator = document.createElement('dl')
+          polymorphIndicator.classList.add('roll-table')
+          polymorphIndicator.setAttribute('data-action', 'roll-table')
+          polymorphIndicator.setAttribute('title', game.i18n.localize('DL.TransformationRevert'))
+          polymorphIndicator.setAttribute('style', 'color: darkorange;text-shadow: 0 0 8px darkorange; font-size: 0.8em;')
+          let polymorphIcon = document.createElement('i')
+          polymorphIcon.classList.add('fa-solid')
+          polymorphIcon.classList.add('fa-person-walking-arrow-loop-left')
+          polymorphIndicator.appendChild(polymorphIcon)
+          actor.appendChild(polymorphIndicator)
+          // eslint-disable-next-line no-unused-vars
+          polymorphIndicator.addEventListener('click', async event => {
+              await actorD.revertOriginalForm({renderSheet : true})
+          })
+        }
+    })
+
+    if (!game.settings.get('demonlord', 'showActorLinkStatus')) return
     actors.forEach(actor => {
         let actorD = game.actors.get(actor.dataset.entryId)
         let linkIndicator = document.createElement('dl')

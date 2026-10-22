@@ -139,9 +139,14 @@
   {{#unless (lt ownership 2)}}
   <div class="dl-side-tab-container">
     {{#each actor.roles}}
-    <div class="dl-side-tab role-edit" data-item-id="{{this.id}}">
+    <div class="dl-side-tab role-edit" data-item-id="{{this.id}}" data-type="role">
       {{this.name}}
     </div>
+    {{/each}}
+    {{#each actor.transformation}}
+      <div class="dl-side-tab transformation-edit" data-item-id="{{this.id}}" data-type="transformation">
+        {{this.name}}
+      </div>
     {{/each}}
   </div>
   {{/unless}}

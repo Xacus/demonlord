@@ -1,0 +1,49 @@
+<div class="standard-form">
+    <transform style="font-size: 18px; text-align: center;">
+            {{actor.name}} <i class="fa-solid fa-arrow-right"></i> {{source.name}}
+    </transform>
+    <fieldset style="gap: 0 !important">
+    <div class="form-group">
+        <label>{{localize "DL.TransformationKeepPhysicalAttributes"}}</label>
+        <input id="transform-checkbox" type="checkbox" name="keep.physical" >
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.TransformationKeepMentalAttributes"}}</label>
+        <input id="keep-mental" type="checkbox" name="keep.mental">
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.TransformationKeepPerception"}}</label>
+        <input id="keep-perception" type="checkbox" name="keep.perception">
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.TransformationKeepHealth"}}</label>
+        <input id="transform-checkbox" type="checkbox" name="keep.health">
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.TransformationKeepSpells"}}</label>
+        <input id="transform-checkbox" type="checkbox" name="keep.spells">
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.CharLanguages"}}</label>
+        <input id="transform-checkbox" type="checkbox" name="keep.languages">
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.CharProfessions"}}</label>
+        <input id="transform-checkbox" type="checkbox" name="keep.professions">
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.TransformationVision"}}</label>
+        <input id="transform-checkbox" type="checkbox" name="keep.vision">
+    </div>
+    <div class="form-group">
+        <label>{{localize "DL.TransformationArtwork"}}</label>
+        <input id="transform-checkbox" type="checkbox" name="keep.self">
+    </div>
+    </fieldset>
+    <div class="form-group">
+        <button class="DL.Button" type="submit" name="submit">
+            <i class="fa-solid fa-paw"></i>
+            {{localize "DL.TransformationTransform"}}
+        </button>
+    </div>
+</div>
