@@ -1001,14 +1001,14 @@ getTargetAttackBane(target) {
       let result = spell.system.duration.match(/\d+/)
       if (result) {
         if (spell.system.duration.toLowerCase().includes('minute')) {
-          concentrate.duration.value = result[0] * 6
+          concentrate.duration.value = result[0]
+          concentrate.duration.units = 'minutes'
         } // hour
         else {
-          concentrate.duration.rounds = result[0] * 360
+          concentrate.duration.value = result[0] * 60
+          concentrate.duration.units = 'minutes'
         }
-        concentrate.duration.units = 'rounds'
-        concentrate.start.round = game.combat ? game.combat.round : 0
-        concentrate.start.turn = game.combat ? game.combat.turn : 0
+        concentrate.duration.expiry = null
       }
       concentrate.statuses = new Set([concentrate.id])
       ActiveEffect.create(concentrate, {parent: this})
