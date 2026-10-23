@@ -226,7 +226,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       context.item.system.languages = await Promise.all(context.item.system.languages.map(await getNestedItemData))
       context.item.system.professions = await Promise.all(context.item.system.professions.map(await getNestedItemData))
       context.item.system.spells = await Promise.all(context.item.system.spells.map(await getNestedItemData))
-      context.item.parentIsChreature = this.document.parent?.type === undefined ? true : this.document.parent?.type === 'creature' ? true : false
+      context.item.parentIsCreature = this.document.parent?.type === undefined ? true : this.document.parent?.type === 'creature' ? true : false
     }
 
     context.tabs = this._getTabs(options.parts)

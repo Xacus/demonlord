@@ -833,8 +833,8 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
   async _onDropActor(ev, _actor) {
     // Ensure the player is allowed to transform
     const allowed = game.settings.get('demonlord', 'allowTransformation')
-    if (!allowed) return game.i18n.localize('DL.TransformationNoPermission')
-    if (!this.isOwner) return ui.notifications.warn('DL.TransformationNoOwnership')
+    if (!allowed) return ui.notifications.warn(game.i18n.localize('DL.TransformationNoPermission'))
+    if (!this.document.isOwner) return ui.notifications.warn(game.i18n.localize('DL.TransformationNoOwnership'))
     if (this.document.type != 'character')
       console.warn('Only dropping creature on character is supported.', this.document, _actor)
     else await new DLTransformationDialog({ actor: this.actor, source: _actor }).render(true)

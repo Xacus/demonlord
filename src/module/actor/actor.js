@@ -2352,7 +2352,7 @@ getTargetAttackBane(target) {
 
   async revertOriginalForm(options = {}) {
     if (!this.isTransformed) return
-    if (!this.isOwner) return ui.notifications.warn('DL.TransformationNoOwnership')
+    if (!this.isOwner) return ui.notifications.warn(game.i18n.localize('DL.TransformationNoOwnership'))
 
     const transformOptions = Object.values(this.getFlag('demonlord', 'transformOptions'))
     const previousActorIds = this.getFlag('demonlord', 'previousActorIds') ?? []
@@ -2390,7 +2390,7 @@ getTargetAttackBane(target) {
     if (this.isToken) {
       const baseActor = original ? original : game.actors.get(this.token.actorId)
       if (!baseActor)
-        return ui.notifications.warn('DL.TransformationNoOriginalActor', {
+        return ui.notifications.warn(game.i18n.localize('DL.TransformationNoOriginalActor'), {
           format: { reference: this.getFlag('demonlord', 'originalActor') },
         })
 
@@ -2420,7 +2420,7 @@ getTargetAttackBane(target) {
     }
 
     if (!original)
-      return ui.notifications.warn('DL.TransformationNoOriginalActor', {
+      return ui.notifications.warn(game.i18n.localize('DL.TransformationNoOriginalActor'), {
         format: { reference: this.getFlag('demonlord', 'originalActor') },
       })
 
