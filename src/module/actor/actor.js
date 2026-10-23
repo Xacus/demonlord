@@ -511,6 +511,15 @@ export class DemonlordActor extends Actor {
 
   isFrightenedFrom(target) {
   	let actor = this
+    if (this.type === 'creature')
+    {
+      if (target.system.frightening && target.system.horrifying && this.system.frightening && this.system.horrifying) return false
+      if (target.system.frightening && this.system.frightening) return false
+      if (target.system.horrifying && this.system.horrifying) return false
+      if (target.system.frightening && target.system.horrifying && (!this.system.frightening || !this.system.horrifying)) return true
+      if (target.system.frightening && !this.system.frightening) return true
+      if (target.system.horrifying && !this.system.horrifying) return true
+    }
   	const immuneArray = actor.appliedEffects.filter(x => x.name === game.i18n.format('DL.FrightenedBy', {
   		creature: target?.name
   	}))
