@@ -537,21 +537,21 @@ Hooks.on("renderActorDirectory", (application, html, data) => {
     let actors = html.querySelectorAll("li.directory-item.document")
     actors.forEach(actor => {
         let actorD = game.actors.get(actor.dataset.entryId)
-        const isPolymorphed = foundry.utils.getProperty(actorD, 'flags.demonlord.originalActor') === undefined ? false : true
-        if (isPolymorphed)
+        const isTransformed = foundry.utils.getProperty(actorD, 'flags.demonlord.originalActor') === undefined ? false : true
+        if (isTransformed)
         {
-          let polymorphIndicator = document.createElement('dl')
-          polymorphIndicator.classList.add('roll-table')
-          polymorphIndicator.setAttribute('data-action', 'roll-table')
-          polymorphIndicator.setAttribute('title', game.i18n.localize('DL.TransformationRevert'))
-          polymorphIndicator.setAttribute('style', 'color: darkorange;text-shadow: 0 0 8px darkorange; font-size: 0.8em;')
-          let polymorphIcon = document.createElement('i')
-          polymorphIcon.classList.add('fa-solid')
-          polymorphIcon.classList.add('fa-person-walking-arrow-loop-left')
-          polymorphIndicator.appendChild(polymorphIcon)
-          actor.appendChild(polymorphIndicator)
+          let transformIndicator = document.createElement('dl')
+          transformIndicator.classList.add('roll-table')
+          transformIndicator.setAttribute('data-action', 'roll-table')
+          transformIndicator.setAttribute('title', game.i18n.localize('DL.TransformationRevert'))
+          transformIndicator.setAttribute('style', 'color: darkorange;text-shadow: 0 0 8px darkorange; font-size: 0.8em;')
+          let transformIcon = document.createElement('i')
+          transformIcon.classList.add('fa-solid')
+          transformIcon.classList.add('fa-person-walking-arrow-loop-left')
+          transformIndicator.appendChild(transformIcon)
+          actor.appendChild(transformIndicator)
           // eslint-disable-next-line no-unused-vars
-          polymorphIndicator.addEventListener('click', async event => {
+          transformIndicator.addEventListener('click', async event => {
               await actorD.revertOriginalForm({renderSheet : true})
           })
         }

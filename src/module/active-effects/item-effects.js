@@ -103,7 +103,7 @@ export class DLActiveEffects {
         effectDataList = DLActiveEffects.generateEffectDataFromRole(doc)
         break
       case 'transformation':
-        effectDataList = DLActiveEffects.generateEffectDataFromTransformation(doc, actor, operation)
+        effectDataList = DLActiveEffects.generateEffectDataFromTransformation(doc, actor)
         break
       default:
         return await Promise.resolve(0)
@@ -334,9 +334,39 @@ export class DLActiveEffects {
     return (operation === 'update') ? (calculatedDifficulty - actor.system.difficultyBase) : (calculatedDifficulty - actor.system.difficulty)
   }
 
-  static generateEffectDataFromTransformation(item) {
+  static generateEffectDataFromTransformation(item, actor) {
     const priority = 5
     const data = item.system
+
+    const characterChanges = [
+        addEffect('system.attributes.strength.value', data.attributes.strength, priority),
+        addEffect('system.attributes.strength.immune', data.attributes.strengthImmune, priority, true),
+        addEffect('system.attributes.agility.value', data.attributes.agility, priority),
+        addEffect('system.attributes.agility.immune', data.attributes.agilityImmune, priority, true),
+        addEffect('system.attributes.intellect.value', data.attributes.intellect, priority),
+        addEffect('system.attributes.intellect.immune', data.attributes.intellectImmune, priority, true),
+        addEffect('system.attributes.will.value', data.attributes.will, priority),
+        addEffect('system.attributes.will.immune', data.attributes.willImmune, priority, true),
+        overrideEffect('system.attributes.perception.value', data.characteristics.perception, priority),
+        addEffect('system.characteristics.defense', data.characteristics.defense, priority),
+        addEffect('system.characteristics.health.max', data.characteristics.health, priority),
+        addEffect('system.characteristics.health.healingrate', data.characteristics.healingRate, priority),
+        addEffect('system.characteristics.power', data.characteristics.power, priority),
+        addEffect('system.characteristics.speed', data.characteristics.speed, priority),
+
+        // FIXME
+        // addEffect('system.characteristics.corruption.value', data.characteristics.corruption.value, priority),
+        // addEffect('system.characteristics.insanity.value', data.characteristics.insanity.value, priority),    
+    ]
+
+    const creatureChanges = [
+        addEffect('system.difficulty', data.difficulty, priority),
+        overrideEffect('system.characteristics.size', data.characteristics.size, priority),
+        overrideEffect('system.frightening', data.frightening, priority, true),
+        overrideEffect('system.horrifying', data.horrifying, priority, true),
+    ]
+
+    let allChanges = actor.type === 'character' ? allChanges = [...characterChanges] : [...characterChanges, ...creatureChanges]
 
     const effectData = {
       name: item.name,
@@ -356,31 +386,7 @@ export class DLActiveEffects {
           slug: `transformation-${item.name.toLowerCase()}`,
         }
       },
-      changes: [
-        addEffect('system.attributes.strength.value', data.attributes.strength, priority),
-        addEffect('system.attributes.strength.immune', data.attributes.strengthImmune, priority, true),
-        addEffect('system.attributes.agility.value', data.attributes.agility, priority),
-        addEffect('system.attributes.agility.immune', data.attributes.agilityImmune, priority, true),
-        addEffect('system.attributes.intellect.value', data.attributes.intellect, priority),
-        addEffect('system.attributes.intellect.immune', data.attributes.intellectImmune, priority, true),
-        addEffect('system.attributes.will.value', data.attributes.will, priority),
-        addEffect('system.attributes.will.immune', data.attributes.willImmune, priority, true),
-        overrideEffect('system.attributes.perception.value', data.characteristics.perception, priority),
-        addEffect('system.characteristics.defense', data.characteristics.defense, priority),
-        addEffect('system.characteristics.health.max', data.characteristics.health, priority),
-        addEffect('system.characteristics.health.healingrate', data.characteristics.healingRate, priority),
-        addEffect('system.characteristics.power', data.characteristics.power, priority),
-        addEffect('system.characteristics.speed', data.characteristics.speed, priority),
-
-        // FIXME
-        // addEffect('system.characteristics.corruption.value', data.characteristics.corruption.value, priority),
-        // addEffect('system.characteristics.insanity.value', data.characteristics.insanity.value, priority),
-        
-        addEffect('system.difficulty', data.difficulty, priority),
-        overrideEffect('system.characteristics.size', data.characteristics.size, priority),
-        overrideEffect('system.frightening', data.frightening, priority, true),
-        overrideEffect('system.horrifying', data.horrifying, priority, true),
-      ].filter(falsyChangeFilter),
+      changes: allChanges.filter(falsyChangeFilter),
     }
 
     return [effectData]

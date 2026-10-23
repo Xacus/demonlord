@@ -174,7 +174,7 @@ export class DemonlordActor extends Actor {
 
     // --- Character specific data ---
     if (this.type === 'character') {
-      if (!this.isPolymorphed) {
+      if (!this.isTransformed) {
         // Override Perception value
         system.attributes.perception.value += system.attributes.intellect.modifier
         system.attributes.perception.value = Math.min(system.attributes.perception.max,
@@ -1978,14 +1978,11 @@ getTargetAttackBane(target) {
    * Big thanks to Andrew Clayton
   **/
 
-  get isPolymorphed() {
-    return this.getFlag('demonlord', 'isPolymorphed') || false
+  get isTransformed() {
+    return this.getFlag('demonlord', 'isTransformed') || false
   }
 
   async transformInto(source, settings, options = {}) {
-    // Ensure the player is allowed to polymorph
-    const allowed = game.settings.get('demonlord', 'allowTransformation')
-    if (!allowed && !game.user.isGM) return game.i18n.localize('DL.TransformationNoPermission')
     const changeKeyShortList = ['system.attributes', 'system.characteristics']
     let changeKeyList = Object.keys(this.system.characteristics)
       .map(x => `system.characteristics.${x}`)
@@ -2240,8 +2237,8 @@ getTargetAttackBane(target) {
     }
 
     // Set new data flags
-    if (!this.isPolymorphed || !d.flags.demonlord.originalActor) d.flags.demonlord.originalActor = this.id
-    d.flags.demonlord.isPolymorphed = true
+    if (!this.isTransformed || !d.flags.demonlord.originalActor) d.flags.demonlord.originalActor = this.id
+    d.flags.demonlord.isTransformed = true
 
     // Gather previous actor data
     const previousActorIds = this.getFlag('demonlord', 'previousActorIds') || []
@@ -2324,7 +2321,7 @@ getTargetAttackBane(target) {
 
       const dOriginalActor = foundry.utils.getProperty(d, 'flags.demonlord.originalActor')
       foundry.utils.setProperty(newTokenData, 'flags.demonlord.originalActor', dOriginalActor)
-      foundry.utils.setProperty(newTokenData, 'flags.demonlord.isPolymorphed', true)
+      foundry.utils.setProperty(newTokenData, 'flags.demonlord.isTransformed', true)
       if (!t.document.flags.demonlord?.previousTokenData) {
         const previousTokenData = {
           texture: {},
@@ -2345,7 +2342,7 @@ getTargetAttackBane(target) {
   }
 
   async revertOriginalForm(options = {}) {
-    if (!this.isPolymorphed) return
+    if (!this.isTransformed) return
     if (!this.isOwner) return ui.notifications.warn('DL.TransformationNoOwnership')
 
     const transformOptions = Object.values(this.getFlag('demonlord', 'transformOptions'))
@@ -2442,22 +2439,22 @@ getTargetAttackBane(target) {
       await canvas.scene.updateEmbeddedDocuments('Token', tokenUpdates, { diff: false, recursive: false })
     }
 
-    const polymorphedActorIds = previousActorIds
+    const transformedActorIds = previousActorIds
       .filter(
         id =>
           id !== original.id && // Is not original Actor Id
           game.actors?.get(id), // Actor still exists
       )
       .concat([this.id]) // Add this id
-    // Delete the polymorphed version(s) of the actor, if possible
+    // Delete the transformed version(s) of the actor, if possible
     if (game.user.isGM) {
-      await Actor.implementation.deleteDocuments(polymorphedActorIds)
+      await Actor.implementation.deleteDocuments(transformedActorIds)
     } else {
       // Remove the flags
-      const actorUpdates = polymorphedActorIds
+      const actorUpdates = transformedActorIds
         .filter(id => game.actors.get(id).isOwner)
         .map(p => {
-          return { _id: p, 'flags.demonlord': { isPolymorphed: _del, previousActorIds: _del } }
+          return { _id: p, 'flags.demonlord': { isTransformed: _del, previousActorIds: _del } }
         })
       await Actor.implementation.updateDocuments(actorUpdates)
 

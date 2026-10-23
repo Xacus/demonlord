@@ -390,13 +390,13 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
         let actorLink
         if (this.actor.token === null) {
             actorLink = {
-                style: isUnique ? 'color: darkorange;text-shadow: 0 0 8px darkorange; cursor: pointer !important;' : 'color: var(--demonlord-red);text-shadow: 0 0 8px var(--demonlord-red); cursor: pointer !important;',
+                style: isUnique ? 'color: darkorange;text-shadow: 0 0 8px darkorange; cursor: pointer;' : 'color: var(--demonlord-red);text-shadow: 0 0 8px var(--demonlord-red); cursor: pointer;',
                 icon: isUnique ? 'fas fa-link' : 'fas fa-unlink',
                 tooltip: isUnique ? game.i18n.localize('DL.UnLinkActorData') : game.i18n.localize('DL.LinkActorData')
             }
         } else {
             actorLink = {
-                style: 'color: red;text-shadow: 0 0 8px red; cursor: help !important;',
+                style: 'color: red;text-shadow: 0 0 8px red; cursor: help;',
                 icon: 'fas fa-unlink',
                 tooltip: game.i18n.localize('DL.SyntheticToken'),
             }
@@ -414,12 +414,12 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
         })
     }
 
-    if (game.user.isGM && this.document.isPolymorphed) {
-      let revertTransformation = `<reverttransformation class="fa-solid fa-person-walking-arrow-loop-left" style="cursor: pointer !important;" data-tooltip="${game.i18n.localize("DL.TransformationRevert")}"></reverttransformation>`
-      e.querySelector("revertTransformation")?.remove()
+    if (game.user.isGM && this.document.isTransformed) {
+      let revertTransformation = `<span class="fa-solid fa-person-walking-arrow-loop-left" style="cursor: pointer !important;" data-tooltip="${game.i18n.localize("DL.TransformationRevert")}"></span>`
+      e.querySelector("span")?.remove()
       e.querySelector(".header-control")?.insertAdjacentHTML("beforebegin", revertTransformation)
       // eslint-disable-next-line no-unused-vars
-      e.querySelector("reverttransformation")?.addEventListener('click', async ev => {
+      e.querySelector("span")?.addEventListener('click', async ev => {
         await this.actor.revertOriginalForm({renderSheet : true})
       })
     }
@@ -831,8 +831,10 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
   }
 
   async _onDropActor(ev, _actor) {
-    if (!game.user.isGM)
-      ui.notifications.warn('You do not have permission to transform this actor.', { localize: true })
+    // Ensure the player is allowed to transform
+    const allowed = game.settings.get('demonlord', 'allowTransformation')
+    if (!allowed) return game.i18n.localize('DL.TransformationNoPermission')
+    if (!this.isOwner) return ui.notifications.warn('DL.TransformationNoOwnership')
     if (this.document.type != 'character')
       console.warn('Only dropping creature on character is supported.', this.document, _actor)
     else await new DLTransformationDialog({ actor: this.actor, source: _actor }).render(true)
