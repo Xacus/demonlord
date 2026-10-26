@@ -93,6 +93,7 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     actorData.specialactions = noSpecialActions ? [] : (m.get('specialaction') || [])
     actorData.endoftheround = noEndOfRound ? [] : (m.get('endoftheround') || [])
     actorData.roles = m.get('creaturerole') || []
+    actorData.transformation = m.get('transformation') || []
     actorData.gear = m.get('item') || []
     actorData.relics = m.get('relic') || []
     actorData.armor = m.get('armor') || []
@@ -134,6 +135,20 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
     }
   }
 
+  async onEditTransformation(ev) {
+    const div = ev.target.closest('.transformation-edit')
+    const transformation = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
+
+    if (ev.button == 0) transformation.sheet.render(true)
+    else if (ev.button == 2) {
+      if (game.settings.get('demonlord', 'confirmCreatureRoleRemoval')) {
+        await this.showDeleteDialog(game.i18n.localize('DL.DialogAreYouSure'), game.i18n.localize('DL.DialogDeleteCreatureRoleText'), div)
+      } else {
+        await transformation.delete({ parent: this.actor })
+      }
+    }
+  }
+
   async onEditRelic(ev) {
     const div = ev.currentTarget
     const relic = this.actor.getEmbeddedDocument('Item', div.dataset.itemId)
@@ -167,6 +182,9 @@ export default class DLCreatureSheet extends DLBaseActorSheet {
 
     // Role edit
     e.querySelectorAll('.role-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditRole(ev)))
+
+    // Transformation edit
+    e.querySelectorAll('.transformation-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditTransformation(ev)))
 
     // Relic edit
     e.querySelectorAll('.relic-edit')?.forEach(p => p.addEventListener('mousedown', async ev => await this.onEditRelic(ev)))

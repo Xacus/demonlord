@@ -37,7 +37,8 @@ export default class CreatureDataModel extends foundry.abstract.TypeDataModel {
       speedtraits: makeStringField(),
       armor: makeStringField(),
       wealth: wealth(),
-      roles: new foundry.data.fields.ArrayField(makeStringField()) // ?
+      roles: new foundry.data.fields.ArrayField(makeStringField()), // ?
+      transformation: new foundry.data.fields.ArrayField(makeStringField())
     }
   }
 

@@ -996,4 +996,12 @@ export const registerSettings = function () {
     type: Boolean,
     config: true,
   })
+  game.settings.register('demonlord', 'allowTransformation', {
+    name: game.i18n.localize('DL.SettingAllowTransformation'),
+    hint: game.i18n.localize('DL.SettingAllowTransformationHint'),
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+  })
 }

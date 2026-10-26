@@ -172,4 +172,13 @@
     </div>
     {{/if}}
   </div>
+  {{#unless (lt ownership 2)}}
+  <div class="dl-side-tab-container">
+    {{#each actor.transformation}}
+      <div class="dl-side-tab transformation-edit" data-item-id="{{this.id}}" data-type="transformation">
+        {{this.name}}
+      </div>
+    {{/each}}
+  </div>
+  {{/unless}}
 </aside>

@@ -11,6 +11,7 @@ import { buildDropdownListHover } from "../../utils/handlebars-helpers";
 import { DLAfflictions } from '../../active-effects/afflictions'
 import launchRollDialog from '../../dialog/roll-dialog'
 import { TokenManager } from '../../pixi/token-manager'
+import DLTransformationDialog from '../../dialog/transformation-dialog'
 
 const tokenManager = new TokenManager()
 
@@ -395,7 +396,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
             }
         } else {
             actorLink = {
-                style: 'color: red;text-shadow: 0 0 8px red;',
+                style: 'color: red;text-shadow: 0 0 8px red; cursor: help;',
                 icon: 'fas fa-unlink',
                 tooltip: game.i18n.localize('DL.SyntheticToken'),
             }
@@ -411,6 +412,16 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
             const actorTab = ui["actors"];
             actorTab.render()
         })
+    }
+
+    if (game.user.isGM && this.document.isTransformed) {
+      let revertTransformation = `<span class="fa-solid fa-person-walking-arrow-loop-left" style="cursor: pointer !important;" data-tooltip="${game.i18n.localize("DL.TransformationRevert")}"></span>`
+      e.querySelector("span")?.remove()
+      e.querySelector(".header-control")?.insertAdjacentHTML("beforebegin", revertTransformation)
+      // eslint-disable-next-line no-unused-vars
+      e.querySelector("span")?.addEventListener('click', async ev => {
+        await this.actor.revertOriginalForm({renderSheet : true})
+      })
     }
 
     const autoresize = (el) => {
@@ -817,6 +828,16 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
     } catch (err) {
       console.warn(err)
     }
+  }
+
+  async _onDropActor(ev, _actor) {
+    // Ensure the player is allowed to transform
+    const allowed = game.settings.get('demonlord', 'allowTransformation')
+    if (!allowed) return ui.notifications.warn(game.i18n.localize('DL.TransformationNoPermission'))
+    if (!this.document.isOwner) return ui.notifications.warn(game.i18n.localize('DL.TransformationNoOwnership'))
+    if (this.document.type != 'character')
+      console.warn('Only dropping creature on character is supported.', this.document, _actor)
+    else await new DLTransformationDialog({ actor: this.actor, source: _actor }).render(true)
   }
 
   async checkDroppedItem(_itemData) {

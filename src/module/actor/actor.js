@@ -1,4 +1,4 @@
-/** globals ActiveEffect */
+/* global _replace, _del */
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -16,7 +16,7 @@ import {
   postRestToChat,
   postCustomTextToChat
 } from '../chat/roll-messages'
-import {handleCreateAncestry, handleCreatePath, handleCreateRole, handleCreateRelic } from '../item/nested-objects'
+import {handleCreateAncestry, handleCreatePath, handleCreateRole, handleCreateTransformation, handleCreateRelic } from '../item/nested-objects'
 import {TokenManager} from '../pixi/token-manager'
 import {findAddEffect, findDeleteEffect} from "../demonlord"
 
@@ -174,11 +174,14 @@ export class DemonlordActor extends Actor {
 
     // --- Character specific data ---
     if (this.type === 'character') {
-      // Override Perception value
-      system.attributes.perception.value += system.attributes.intellect.modifier
-      system.attributes.perception.value = Math.min(system.attributes.perception.max,
-        Math.max(system.attributes.perception.min, system.attributes.perception.value))
-      system.attributes.perception.modifier = system.attributes.perception.value - 10
+      if (!this.isTransformed) {
+        // Override Perception value
+        system.attributes.perception.value += system.attributes.intellect.modifier
+        system.attributes.perception.value = Math.min(system.attributes.perception.max,
+          Math.max(system.attributes.perception.min, system.attributes.perception.value),
+        )
+        system.attributes.perception.modifier = system.attributes.perception.value - 10
+      }
 
       // Health and Healing Rate
       system.characteristics.health.max += system.attributes.strength.value
@@ -331,6 +334,8 @@ export class DemonlordActor extends Actor {
         await handleCreatePath(this, doc)
       } else if (doc.type === 'creaturerole') {
         await handleCreateRole(this, doc)
+      } else if (doc.type === 'transformation') {
+        await handleCreateTransformation(this, doc)
       } else if (doc.type === 'relic') {
         await handleCreateRelic(this, doc)
       }
@@ -506,6 +511,15 @@ export class DemonlordActor extends Actor {
 
   isFrightenedFrom(target) {
   	let actor = this
+    if (this.type === 'creature')
+    {
+      if (target.system.frightening && target.system.horrifying && this.system.frightening && this.system.horrifying) return false
+      if (target.system.frightening && this.system.frightening) return false
+      if (target.system.horrifying && this.system.horrifying) return false
+      if (target.system.frightening && target.system.horrifying && (!this.system.frightening || !this.system.horrifying)) return true
+      if (target.system.frightening && !this.system.frightening) return true
+      if (target.system.horrifying && !this.system.horrifying) return true
+    }
   	const immuneArray = actor.appliedEffects.filter(x => x.name === game.i18n.format('DL.FrightenedBy', {
   		creature: target?.name
   	}))
@@ -958,9 +972,9 @@ getTargetAttackBane(target) {
 
       if (target)
         boons -=
-          (parseInt(target?.actor?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
-          (parseInt(target?.actor?.system.bonuses.defense.boons.all) || 0) +
-          (parseInt(target?.actor?.system.bonuses.defense.boons.spell) || 0) +
+          (parseInt(target[0]?.actor?.system.bonuses.defense.boons[defenseAttribute]) || 0) +
+          (parseInt(target[0]?.actor?.system.bonuses.defense.boons.all) || 0) +
+          (parseInt(target[0]?.actor?.system.bonuses.defense.boons.spell) || 0) +
           this.getTargetAttackBane(target[0]?.actor)
 
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
@@ -996,14 +1010,14 @@ getTargetAttackBane(target) {
       let result = spell.system.duration.match(/\d+/)
       if (result) {
         if (spell.system.duration.toLowerCase().includes('minute')) {
-          concentrate.duration.value = result[0] * 6
+          concentrate.duration.value = result[0]
+          concentrate.duration.units = 'minutes'
         } // hour
         else {
-          concentrate.duration.rounds = result[0] * 360
+          concentrate.duration.value = result[0] * 60
+          concentrate.duration.units = 'minutes'
         }
-        concentrate.duration.units = 'rounds'
-        concentrate.start.round = game.combat ? game.combat.round : 0
-        concentrate.start.turn = game.combat ? game.combat.turn : 0
+        concentrate.duration.expiry = null
       }
       concentrate.statuses = new Set([concentrate.id])
       ActiveEffect.create(concentrate, {parent: this})
@@ -1966,5 +1980,497 @@ getTargetAttackBane(target) {
     } else if (sizeNumber >= 0.03125) {
       return "1/32";
     }
+  }
+
+  /**
+   * Modified version of the awesome transformation from https://github.com/foundryvtt/dnd5e/blob/6.0.x/module/documents/actor/actor.mjs
+   * Big thanks to Andrew Clayton
+  **/
+
+  get isTransformed() {
+    return this.getFlag('demonlord', 'isTransformed') || false
+  }
+
+  async transformInto(source, settings, options = {}) {
+    const changeKeyShortList = ['system.attributes', 'system.characteristics']
+    let changeKeyList = Object.keys(this.system.characteristics)
+      .map(x => `system.characteristics.${x}`)
+      .concat(Object.keys(this.system.attributes).map(x => `system.attributes.${x}`))
+    const startsWithAny = (inputString, arrayToRemove) => arrayToRemove.some(w => inputString.startsWith(w))
+    const attributes = {}
+    const characteristics = {}
+
+    //Nested Function
+    function listChangeKeys(effect, changeKeys, remove = true) {
+      let filteredChanges = []
+      effect.system.changes.forEach(c => {
+        if (remove && !startsWithAny(c.key, changeKeys)) filteredChanges.push(c)
+        if (!remove && startsWithAny(c.key, changeKeys)) filteredChanges.push(c)
+      })
+      return filteredChanges
+    }
+
+    // eslint-disable-next-line no-shadow
+    async function createTransformationItem(actor, transferItems, attributes, characteristics) {
+      const tItem = new Item({
+        name: 'Transform',
+        type: 'transformation',
+        img: 'icons/magic/time/arrows-circling-green.webp',
+      })
+      const allowedTypes = ['spell', 'language', 'profession']
+      const transformations = await actor.createEmbeddedDocuments('Item', [tItem])
+      const transformation = transformations[0]
+      const itemData = foundry.utils.duplicate(tItem)
+      for (const transferItem of transferItems) {
+        if (!allowedTypes.includes(transferItem.type)) continue
+        let group = `${transferItem.type}s`
+        const item = transferItem.toObject()
+        const levelItem = {}
+        levelItem._id = item._id
+        levelItem.name = item.name
+        levelItem.description = item.system.description
+        levelItem.system = item.system
+        levelItem.img = item.img
+        itemData.system[group].push(levelItem)
+      }
+
+      if (attributes.strength != undefined) itemData.system.attributes.strength = attributes.strength * -1
+      if (attributes.strengthImmune != undefined) itemData.system.attributes.strengthImmune = attributes.strengthImmune
+      if (attributes.agility != undefined) itemData.system.attributes.agility = attributes.agility * -1
+      if (attributes.agilityImmune != undefined) itemData.system.attributes.agilityImmune = attributes.agilityImmune
+      if (attributes.intellect != undefined) itemData.system.attributes.intellect = attributes.intellect * -1
+      if (attributes.intellectImmune != undefined)
+        itemData.system.attributes.intellectImmune = attributes.intellectImmune
+      if (attributes.will != undefined) itemData.system.attributes.will = attributes.will * -1
+      if (attributes.willImmune != undefined) itemData.system.attributes.willImmune = attributes.willImmune
+
+      if (characteristics.health != undefined) itemData.system.characteristics.health = characteristics.health
+      if (characteristics.healingRate != undefined)
+        itemData.system.characteristics.healingrate = characteristics.healingRate
+      if (characteristics.perception != undefined)
+        itemData.system.characteristics.perception = characteristics.perception
+
+      await transformation.update(itemData)
+      let iArray = []
+      for (const transferItem of transferItems) {
+        if (!allowedTypes.includes(transferItem.type)) continue
+        const item = transferItem.toObject()
+        item.flags.demonlord = {
+          nestedItemId: item._id,
+          parentItemId: transformation._id,
+          levelRequired: 0,
+        }
+        iArray.push(item)
+      }
+      actor.createEmbeddedDocuments('Item', iArray)
+    }
+
+    // Get the original Actor data and the new source data
+    const o = this.toObject()
+    o.flags.demonlord = o.flags.demonlord || {}
+    o.flags.demonlord.transformOptions = {
+      ...settings.toObject(),
+    }
+    const sourceData = source.toObject()
+
+    if (settings.has('keep.self')) {
+      o.img = sourceData.img
+      o.name = `${o.name} (${game.i18n.localize('DL.TransformationApperanceOnly')})`
+      if (source.type === 'character') o.system.appearance = sourceData.system.appearance
+    }
+
+    // Prepare new data to merge from the source
+    const d = foundry.utils.mergeObject(
+      foundry.utils.deepClone({
+        type: source.type,
+        name: `${o.name} (${sourceData.name})`,
+        system: sourceData.system,
+        items: sourceData.items,
+        effects:
+          source.type === 'character'
+            ? sourceData.effects
+            : sourceData.effects.filter(e => e.flags.demonlord?.sourceType != 'ancestry'),
+        img: sourceData.img,
+        ownership: o.ownership,
+        folder: o.folder,
+        flags: o.flags,
+        prototypeToken: {
+          texture: {},
+          sight: {},
+          detectionModes: [],
+        },
+      }),
+      settings.has('keep.self') ? o : {},
+    )
+
+    // Token appearance updates
+    const tokenPropsFromSource = ['width', 'height', 'alpha', 'lockRotation', 'ring']
+    const tokenTexturePropsFromSource = ['offsetX', 'offsetY', 'scaleX', 'scaleY', 'src', 'tint']
+    const tokenPropsFromSelf = ['bar1', 'bar2', 'displayBars', 'displayName', 'actorLink', 'disposition']
+    const tokenPropsPreserved = ['rotation', 'elevation', 'hidden', 'level']
+    const tokenPropsSelfPreserved = [...tokenPropsFromSelf, ...tokenPropsPreserved]
+
+    for (const k of tokenPropsFromSource) {
+      d.prototypeToken[k] = sourceData.prototypeToken[k]
+    }
+    for (const k of tokenTexturePropsFromSource) {
+      d.prototypeToken.texture[k] = sourceData.prototypeToken.texture[k]
+    }
+    for (const k of tokenPropsSelfPreserved) {
+      d.prototypeToken[k] = o.prototypeToken[k]
+    }
+
+    if (!settings.has('keep.self')) {
+      d.items = d.items.filter(i => !['language', 'profession', 'spell'].includes(i.type))
+
+      const sightSource = settings.has('keep.vision') ? o.prototypeToken : sourceData.prototypeToken
+      for (const k of [
+        'range',
+        'angle',
+        'visionMode',
+        'color',
+        'attenuation',
+        'brightness',
+        'saturation',
+        'contrast',
+      ]) {
+        d.prototypeToken.sight[k] = sightSource.sight[k]
+      }
+      d.prototypeToken.sight.enabled = o.prototypeToken.sight.enabled
+      d.prototypeToken.detectionModes = sightSource.detectionModes
+
+      //Keep AEs for each attributes and characterstics
+      const tempEffects = this.effects.filter(e => e.duration.value != Infinity)
+      const effectArray = []
+
+      tempEffects.forEach(effect => {
+        const cks = listChangeKeys(effect, changeKeyShortList, false)
+        cks.forEach(ck => {
+          if (ck.type === 'add')
+            effectArray.push({
+              key: ck.key,
+              value: ck.value,
+            })
+        })
+      })
+
+      const changkeysAggregated = Object.values(
+        effectArray.reduce((agg, changes) => {
+          if (agg[changes.key] === undefined)
+            agg[changes.key] = {
+              changes: changes.key,
+              value: 0,
+            }
+          agg[changes.key].value += +changes.value
+          return agg
+        }, {}),
+      )
+
+      // Physical
+      if (settings.has('keep.physical')) {
+        const strengthChangeKey = changkeysAggregated.find(ck => ck.changes === 'system.attributes.strength.value')
+        const strengthModifier = strengthChangeKey === undefined ? 0 : strengthChangeKey.value
+        const agilityChangeKey = changkeysAggregated.find(ck => ck.changes === 'system.attributes.agility.value')
+        const agilityModifier = agilityChangeKey === undefined ? 0 : agilityChangeKey.value
+        attributes.strength =
+          source.system.attributes.strength.value - this.system.attributes.strength.value + strengthModifier
+        attributes.strengthImmune = source.system.attributes.strength.immune
+        attributes.agility =
+          source.system.attributes.agility.value - this.system.attributes.agility.value + agilityModifier
+        attributes.agilityImmune = source.system.attributes.agility.immune
+        changeKeyList = changeKeyList.filter(
+          el => !startsWithAny(el, ['system.attributes.strength', 'system.attributes.agility']),
+        )
+      }
+
+      // Mental
+      if (settings.has('keep.mental')) {
+        const intellectChangeKey = changkeysAggregated.find(ck => ck.changes === 'system.attributes.intellect.value')
+        const intellectModifier = intellectChangeKey === undefined ? 0 : intellectChangeKey.value
+        const willChangeKey = changkeysAggregated.find(ck => ck.changes === 'system.attributes.will.value')
+        const willModifier = willChangeKey === undefined ? 0 : willChangeKey.value
+        attributes.intellect =
+          source.system.attributes.intellect.value - this.system.attributes.intellect.value + intellectModifier
+        attributes.intellectImmune = source.system.attributes.intellect.immune
+        attributes.will = source.system.attributes.will.value - this.system.attributes.will.value + willModifier
+        attributes.willImmune = source.system.attributes.will.immune
+        changeKeyList = changeKeyList.filter(
+          el => !startsWithAny(el, ['system.attributes.intellect', 'system.attributes.will']),
+        )
+      }
+
+      if (settings.has('keep.perception')) {
+        characteristics.perception = this.system.attributes.perception.value
+        characteristics.perceptionImmune = this.system.attributes.perception.immune
+        changeKeyList = changeKeyList.filter(el => !startsWithAny(el, ['system.attributes.perception']))
+      } else characteristics.perception = sourceData.system.attributes.perception.value
+
+      // Health
+      if (settings.has('keep.health')) {
+        d.system.characteristics.health = this.system.characteristics.health
+        d.system.characteristics.health.maxBase = this.system.characteristics.health.max
+        changeKeyList = changeKeyList.filter(el => !startsWithAny(el, ['system.characteristics.health']))
+      }
+
+      const ownEffects = o.effects.filter(
+        e => !['path', 'ancestry'].includes(e.flags?.demonlord?.sourceType) || e.duration.value != Infinity,
+      )
+      ownEffects.forEach(e => {
+        if (!e.disabled) {
+          const updateData = listChangeKeys(e, changeKeyList)
+          if (updateData.length != e.system.changes.length) e.system.changes = updateData
+        }
+      })
+      d.effects = d.effects.concat(ownEffects)
+    }
+
+    let transferItems = []
+    if (settings.has('keep.languages'))
+      transferItems = transferItems.concat(this.items.filter(i => i.type === 'language'))
+    if (settings.has('keep.professions'))
+      transferItems = transferItems.concat(this.items.filter(i => i.type === 'profession'))
+    if (settings.has('keep.spells'))
+      transferItems = transferItems.concat(
+        this.items.items.filter(i => {
+          if (i.type === 'spell') {
+            i.flags.demonlord.transformed = true
+            return i
+          }
+        }),
+      )
+
+    // Set a random image if source is configured that way
+    if (sourceData.prototypeToken.randomImg) {
+      const images = await source.getTokenImages()
+      d.prototypeToken.texture.src = images[Math.floor(Math.random() * images.length)]
+    }
+
+    // Set new data flags
+    if (!this.isTransformed || !d.flags.demonlord.originalActor) d.flags.demonlord.originalActor = this.id
+    d.flags.demonlord.isTransformed = true
+
+    // Gather previous actor data
+    const previousActorIds = this.getFlag('demonlord', 'previousActorIds') || []
+    previousActorIds.push(this._id)
+    foundry.utils.setProperty(d.flags, 'demonlord.previousActorIds', previousActorIds)
+
+    // If `renderSheet` isn't specified, only render if non-transformed sheet is open
+    options.renderSheet ??= this.sheet?.rendered ?? false
+
+    // Update unlinked Tokens, and grab a copy of any actorData adjustments to re-apply
+    if (this.isToken) {
+      const tokenData = d.prototypeToken
+      delete d.prototypeToken
+      for (const k of tokenPropsSelfPreserved) {
+        tokenData[k] = this.token[k]
+      }
+      if (settings.has('keep.self')) {
+        tokenData.name = `${this.token.name} (${game.i18n.localize('DL.TransformationApperanceOnly')})`
+      } else {
+        tokenData.name = `${this.token.name} (${sourceData.name})`
+      }
+
+      if (!this.token.flags.demonlord?.previousActorData) {
+        const previousActorData = this.token.delta.toObject()
+        const previousTokenData = {
+          texture: {},
+        }
+        for (const k of [...tokenPropsFromSource, ...tokenPropsFromSelf, 'name']) {
+          previousTokenData[k] = this.token[k]
+        }
+        for (const k of tokenTexturePropsFromSource) {
+          previousTokenData.texture[k] = this.token.texture[k]
+        }
+        foundry.utils.setProperty(tokenData, 'flags.demonlord.previousActorData', previousActorData)
+        foundry.utils.setProperty(tokenData, 'flags.demonlord.previousTokenData', previousTokenData)
+      }
+      await this.sheet?.close()
+
+      const update = await this.token.update(tokenData)
+      if (source.type != 'character') {
+        await this.token.actor.update({
+          type: 'creature',
+          system: _replace(d.system),
+        })
+      }
+      const parentItems = o.items.filter(i => {
+        if (i.flags.demonlord?.parentItemId == null) return true
+      })
+      const itemIds = [...new Set(parentItems.map(i => i._id))]
+      await this.token.actor.deleteEmbeddedDocuments('Item', itemIds)
+      await this.token.actor.update(d)
+      await createTransformationItem(this.token.actor, transferItems, attributes, characteristics)
+      if (options.renderSheet) this.sheet?.render(true)
+      return update
+    }
+
+    // Close sheet for non-transformed Actor
+    await this.sheet?.close()
+
+    // Create new Actor with transformed data
+    d.prototypeToken.actorLink = true
+    const newActor = await this.constructor.create(d)
+    await createTransformationItem(newActor, transferItems, attributes, characteristics)
+
+    // Update placed Token instances
+    const tokens = this.getActiveTokens(true)
+    const updates = tokens.map(t => {
+      const newTokenData = foundry.utils.deepClone(d.prototypeToken)
+      newTokenData._id = t.id
+      newTokenData.actorId = newActor.id
+      newTokenData.actorLink = true
+      for (const k of tokenPropsSelfPreserved) {
+        newTokenData[k] = t.document[k]
+      }
+      if (settings.has('keep.self')) {
+        newTokenData.name = `${t.document.name} (${game.i18n.localize('DL.TransformationApperanceOnly')})`
+      } else {
+        newTokenData.name = `${t.document.name} (${sourceData.name})`
+      }
+
+      const dOriginalActor = foundry.utils.getProperty(d, 'flags.demonlord.originalActor')
+      foundry.utils.setProperty(newTokenData, 'flags.demonlord.originalActor', dOriginalActor)
+      foundry.utils.setProperty(newTokenData, 'flags.demonlord.isTransformed', true)
+      if (!t.document.flags.demonlord?.previousTokenData) {
+        const previousTokenData = {
+          texture: {},
+        }
+        for (const k of [...tokenPropsFromSource, ...tokenPropsFromSelf, 'name']) {
+          previousTokenData[k] = t.document[k]
+        }
+        for (const k of tokenTexturePropsFromSource) {
+          previousTokenData.texture[k] = t.document.texture[k]
+        }
+        foundry.utils.setProperty(newTokenData, 'flags.demonlord.previousTokenData', previousTokenData)
+      }
+      return newTokenData
+    })
+
+    if (options.renderSheet) newActor.sheet?.render(true)
+    return canvas.scene?.updateEmbeddedDocuments('Token', updates)
+  }
+
+  async revertOriginalForm(options = {}) {
+    if (!this.isTransformed) return
+    if (!this.isOwner) return ui.notifications.warn(game.i18n.localize('DL.TransformationNoOwnership'))
+
+    const transformOptions = Object.values(this.getFlag('demonlord', 'transformOptions'))
+    const previousActorIds = this.getFlag('demonlord', 'previousActorIds') ?? []
+    const isRendered = this.sheet.rendered
+
+    // Obtain a reference to the original actor
+    const original = game.actors.get(this.getFlag('demonlord', 'originalActor'))
+
+    const update = {}
+
+    // Nested function
+    async function adjustSpellCastingValue(sourceActor, targetActor) {
+      const spellUpdate = []
+      sourceActor.items
+        .filter(i => i.type === 'spell')
+        .forEach(s => {
+          const spellItem = targetActor.items.find(
+            i => i.type === 'spell' && i.name === s.name && i.flags.demonlord.transformed,
+          )
+          if (spellItem) spellUpdate.push({ _id: spellItem._id, 'system.castings.value': s.system.castings.value })
+        })
+      if (spellUpdate.length > 0) await targetActor.updateEmbeddedDocuments('Item', spellUpdate)
+    }
+
+    if (transformOptions.includes('keep.health')) {
+      foundry.utils.setProperty(update, 'system.characteristics.health.value', this.system.characteristics.health.value)
+      foundry.utils.setProperty(
+        update,
+        'system.characteristics.health.injured',
+        this.system.characteristics.health.injured,
+      )
+    }
+
+    // If we are reverting an unlinked token, grab the previous actorData, and create a new token
+    if (this.isToken) {
+      const baseActor = original ? original : game.actors.get(this.token.actorId)
+      if (!baseActor)
+        return ui.notifications.warn(game.i18n.localize('DL.TransformationNoOriginalActor'), {
+          format: { reference: this.getFlag('demonlord', 'originalActor') },
+        })
+
+      const prototypeTokenData = (await baseActor.getTokenDocument()).toObject()
+      const actorData = this.token.getFlag('demonlord', 'previousActorData')
+      foundry.utils.mergeObject(actorData, update)
+      const tokenUpdate = this.token.toObject()
+      actorData._id = tokenUpdate.delta._id
+      tokenUpdate.delta = actorData
+
+      foundry.utils.mergeObject(tokenUpdate, this.token.getFlag('demonlord', 'previousTokenData'))
+      tokenUpdate.sight = prototypeTokenData.sight
+      tokenUpdate.detectionModes = prototypeTokenData.detectionModes
+      delete tokenUpdate.flags.demonlord.previousActorData
+      delete tokenUpdate.flags.demonlord.previousTokenData
+
+      await this.sheet.close()
+      const token = await TokenDocument.implementation.create(tokenUpdate, { parent: this.token.parent, render: true })
+      await this.token.delete({ replacements: { [this.token._id]: token.uuid } })
+
+      if (transformOptions.includes('keep.spells')) {
+        await adjustSpellCastingValue(this, token.actor)
+      }
+
+      if (isRendered && options.renderSheet) token.actor?.sheet?.render(true)
+      return token
+    }
+
+    if (!original)
+      return ui.notifications.warn(game.i18n.localize('DL.TransformationNoOriginalActor'), {
+        format: { reference: this.getFlag('demonlord', 'originalActor') },
+      })
+
+    if (transformOptions.includes('keep.spells')) {
+      await adjustSpellCastingValue(this, original)
+    }
+
+    // Get the Tokens which represent this actor
+    if (canvas.ready) {
+      const tokens = this.getActiveTokens(true)
+      const tokenData = (await original.getTokenDocument()).toObject()
+      const tokenUpdates = tokens.map(t => {
+        // eslint-disable-next-line no-shadow
+        const update = foundry.utils.deepClone(tokenData)
+        update._id = t.id
+        foundry.utils.mergeObject(update, t.document.getFlag('demonlord', 'previousTokenData'))
+        delete update.x
+        delete update.y
+        delete update.elevation
+        delete update.hidden
+        delete update.rotation
+        delete update.level
+        return update
+      })
+      await canvas.scene.updateEmbeddedDocuments('Token', tokenUpdates, { diff: false, recursive: false })
+    }
+
+    const transformedActorIds = previousActorIds
+      .filter(
+        id =>
+          id !== original.id && // Is not original Actor Id
+          game.actors?.get(id), // Actor still exists
+      )
+      .concat([this.id]) // Add this id
+    // Delete the transformed version(s) of the actor, if possible
+    if (game.user.isGM) {
+      await Actor.implementation.deleteDocuments(transformedActorIds)
+    } else {
+      // Remove the flags
+      const actorUpdates = transformedActorIds
+        .filter(id => game.actors.get(id).isOwner)
+        .map(p => {
+          return { _id: p, 'flags.demonlord': { isTransformed: _del, previousActorIds: _del } }
+        })
+      await Actor.implementation.updateDocuments(actorUpdates)
+
+      if (isRendered) this.sheet?.close()
+    }
+    if (!foundry.utils.isEmpty(update)) await original.update(update, { demonlord: { concentrationCheck: false } })
+    if (isRendered && options.renderSheet) original.sheet?.render(isRendered)
+    return original
   }
 }

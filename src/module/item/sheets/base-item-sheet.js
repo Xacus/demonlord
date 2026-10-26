@@ -85,6 +85,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     ammo: { template: 'systems/demonlord/templates/item/item-ammo-sheet.hbs' },
     armor: { template: 'systems/demonlord/templates/item/item-armor-sheet.hbs' },
     creaturerole: { template: 'systems/demonlord/templates/item/item-role-sheet.hbs'},
+    transformation: { template: 'systems/demonlord/templates/item/item-transformation-sheet.hbs'},
     endoftheround: { template: 'systems/demonlord/templates/item/item-endoftheround-sheet.hbs' },
     feature: { template: 'systems/demonlord/templates/item/item-feature-sheet.hbs' }, // Empty
     item: { template: 'systems/demonlord/templates/item/item-item-sheet.hbs' },
@@ -104,6 +105,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     'ammo': 'ammo',
     'armor': 'armor',
     'creaturerole': 'role',
+    'transformation': 'transformation',
     'endoftheround': 'endoftheround',
     'feature': 'description',
     'item': 'item',
@@ -121,7 +123,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     let editable = this.options.editable && (this.document.isOwner || this.document.isGM)
 
     // Only some types can be toggled edit
-    if (!['ancestry', 'creaturerole', 'path'].includes(this.document.type)) {
+    if (!['ancestry', 'creaturerole', 'transformation', 'path'].includes(this.document.type)) {
       editable = false
     }
 
@@ -220,6 +222,13 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       context.item.system.endOfRound = await Promise.all(context.item.system.endOfRound.map(await getNestedItemData))
     }
 
+    if (this.document.type === 'transformation') {
+      context.item.system.languages = await Promise.all(context.item.system.languages.map(await getNestedItemData))
+      context.item.system.professions = await Promise.all(context.item.system.professions.map(await getNestedItemData))
+      context.item.system.spells = await Promise.all(context.item.system.spells.map(await getNestedItemData))
+      context.item.parentIsCreature = this.document.parent?.type === undefined ? true : this.document.parent?.type === 'creature' ? true : false
+    }
+
     context.tabs = this._getTabs(options.parts)
 
     // Enrich the description
@@ -265,6 +274,11 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
       case 'description':
       case 'effects':
       case 'creaturerole':
+        context.tab = context.tabs[partId]
+        context.cssClass = context.tab.cssClass
+        context.active = context.tab.active
+        break
+      case 'transformation':
         context.tab = context.tabs[partId]
         context.cssClass = context.tab.cssClass
         context.active = context.tab.active
@@ -1059,7 +1073,7 @@ export default class DLBaseItemSheet extends HandlebarsApplicationMixin(ItemShee
     const levelItem = {}
     const itemData = foundry.utils.duplicate(this.document)
     const item = await getNestedItemData(data)
-    if (!item || ['ancestry', 'path', 'creaturerole'].includes(item.type)) return
+    if (!item || ['ancestry', 'path', 'creaturerole', 'transformation'].includes(item.type)) return
 
     levelItem.uuid = item.uuid ?? data.uuid
     levelItem.id = item.id || item._id

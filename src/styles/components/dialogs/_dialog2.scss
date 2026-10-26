@@ -236,3 +236,10 @@
   display: flex;
   flex-direction: column;
 }
+
+.transformation-dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: normal;
+  flex-wrap: nowrap;
+}
