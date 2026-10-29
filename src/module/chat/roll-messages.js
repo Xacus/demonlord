@@ -115,7 +115,7 @@ export function postAttackToChat(attacker, defender, item, attackRoll, attackAtt
   data['isPlus20Roll'] = item?.type === 'attribute' ? false : plus20
   data['hasTarget'] = targetNumber !== undefined
   data['effects'] = attacker.system.bonuses.attack.extraEffect
-  data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier)
+  data['attackEffects'] = buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier, attackRoll?.options.boonSources)
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
   data['ifBlindedRoll'] = messageMode === 'blind'
@@ -177,7 +177,7 @@ export function postAttributeToChat(actor, attribute, challengeRoll, inputBoons,
   data['resultTextGM'] = resultTextGM
   data['resultBoxClass'] = resultBoxClass
   data['isCreature'] = actor.type === 'creature' || actor.type === 'vehicle'
-  data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, inputBoons, inputModifier)
+  data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, inputBoons, inputModifier, challengeRoll?.options.boonSources)
   data['ifBlindedRoll'] = messageMode === 'blind'
   data['actorInfo'] = buildActorInfo(actor)
   data['targetNumber'] = targetNumber
@@ -294,7 +294,7 @@ export function postTalentToChat(actor, talent, attackRoll, target, inputBoons, 
   data['hasTarget'] = targetNumber !== undefined
   data['pureDamage'] = talentData?.damage
   data['pureDamageType'] = talentData?.damagetype
-  data['attackEffects'] = attackRoll !== null ? buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier) : ''
+  data['attackEffects'] = attackRoll !== null ? buildAttackEffectsMessage(actor, target, talent, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier, attackRoll?.options.boonSources) : ''
   data['effects'] = buildTalentEffectsMessage(actor, talent)
   data['ifBlindedRoll'] = messageMode === 'blind'
   data['hasAreaTarget'] = talentData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
@@ -437,7 +437,7 @@ export async function postSpellToChat(actor, spell, attackRoll, target, inputBoo
   data['isPlus20Roll'] = plus20
   data['effectdice'] = effectdice
   data['effects'] = actor.system.bonuses.attack.extraEffect
-  data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier)
+  data['attackEffects'] = buildAttackEffectsMessage(actor, target, spell, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier, attackRoll?.options.boonSources)
   data['ifBlindedRoll'] = messageMode === 'blind'
   data['hasAreaTarget'] = spellData?.activatedEffect?.target?.type in CONFIG.DL.actionAreaShape
   data['actorInfo'] = buildActorInfo(actor)
@@ -619,6 +619,7 @@ export async function postCustomTextToChat(actor, roll, options, attribute = {})
     chatData.rolls = [roll]
     chatData.sound = CONFIG.sounds.dice
   }
+  if (roll?.options.boonSources) data['actionEffects'] = buildAttributeEffectsMessage(actor, attribute, 0, 0, roll.options.boonSources)
   const template = 'systems/demonlord/templates/chat/text.hbs'
 
   chatData.content = await foundry.applications.handlebars.renderTemplate(template, templateData)
@@ -752,7 +753,7 @@ export const postItemToChat = (actor, item, attackRoll, target, inputBoons) => {
   data['isPlus20Roll'] = plus20
   data['hasTarget'] = targetNumber !== undefined
   data['effects'] = actor.system.bonuses.attack.extraEffect
-  data['attackEffects'] = attackRoll !== null ? buildAttackEffectsMessage(actor, target, item, attackAttribute, defenseAttribute, inputBoons, plus20) : ''
+  data['attackEffects'] = attackRoll !== null ? buildAttackEffectsMessage(actor, target, item, attackAttribute, defenseAttribute, inputBoons, plus20, undefined, attackRoll?.options.boonSources) : ''
   data['armorEffects'] = '' // TODO
   data['afflictionEffects'] = '' //TODO
   data['ifBlindedRoll'] = messageMode === 'blind'

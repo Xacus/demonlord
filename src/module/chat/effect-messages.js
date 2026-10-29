@@ -1,3 +1,4 @@
+
 /* -------------------------------------------- */
 /* Utils                                        */
 /* -------------------------------------------- */
@@ -5,7 +6,7 @@
 import { DLActiveEffectConfig } from '../active-effects/sheets/active-effect-config'
 import { plusify } from '../utils/utils'
 import { capitalize } from '../utils/utils'
-
+import { sourceMessage } from '../rolls/boon-sources'
 /**
  * Groups the effects by change key
  * @param effects
@@ -90,7 +91,7 @@ const changeListToMsgDefender = (m, keys, title, anonymize, f = plusify) => {
  * @param defenseAttribute
  * @returns {*}
  */
-export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier) {
+export function buildAttackEffectsMessage(attacker, defender, item, attackAttribute, defenseAttribute, inputBoons, plus20, inputModifier, boonSources) {
   const applyBane = attacker.getTargetAttackBane(defender)
   const baneValue = applyBane <= 1 ? applyBane : 3
   // We remove Frightened Effect from ChatCard, because source is already frightened from target and later we add the correct effect name
@@ -222,7 +223,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
   // We may want to show the extra damage
   const extraDamage20PlusMsg = ((!defender && attackAttribute) || plus20) ? changeToMsg(m, 'system.bonuses.attack.plus20Damage', 'DL.TalentExtraDamage20plus') : ''
   return (
-    boonsMsg +
+    (sourceMessage(boonSources) ?? boonsMsg) +
     modifiersMsg +
     extraDamageMsg +
     extraDamage20PlusMsg
@@ -238,7 +239,7 @@ export function buildAttackEffectsMessage(attacker, defender, item, attackAttrib
  * @param attribute
  * @returns {string}
  */
-export function buildAttributeEffectsMessage(actor, attribute, inputBoons,  inputModifier) {
+export function buildAttributeEffectsMessage(actor, attribute, inputBoons, inputModifier, boonSources) {
   const actorEffects = Array.from(actor.allApplicableEffects()).filter(effect => !effect.disabled)
   let m = _remapEffects(actorEffects)
   let inputBoonsMsg = inputBoons ? _toMsg(game.i18n.localize('DL.DialogInput'), plusify(inputBoons)) : ''
@@ -256,8 +257,7 @@ export function buildAttributeEffectsMessage(actor, attribute, inputBoons,  inpu
   boonsMsg = boonsMsg + inputBoonsMsg ? `&nbsp;&nbsp;${game.i18n.localize('DL.TalentChallengeBoonsBanes')}<br>` + boonsMsg : ''
     
    let result = ''
-  result +=  boonsMsg +
-  inputBoonsMsg +
+  result += (sourceMessage(boonSources) ?? (boonsMsg + inputBoonsMsg)) +
   inputModifierMsg
 
   return result

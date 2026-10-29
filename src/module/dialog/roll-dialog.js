@@ -1,6 +1,7 @@
+import {collectBoonSources, escapeSource} from '../rolls/boon-sources'
 import {TokenManager} from '../pixi/token-manager'
 import {calcEffectRemainingRounds, calcEffectRemainingSeconds} from '../combat/combat.js'
-export default async function launchDialog(actor, dialogTitle, callback, withAttributeSelect = false) {
+export default async function launchDialog(actor, dialogTitle, callback, withAttributeSelect = false, rollContext = null) {
 const tokenManager = new TokenManager()  
 const targets = tokenManager.targets
 let content = withAttributeSelect ? `
@@ -74,6 +75,9 @@ if (game.settings.get('demonlord', 'launchDialogReminder')) {
   }
 }
 
+  let displayedSources = []
+  const disabled = new Set()
+  if (rollContext) content += `<fieldset class="boon-sources"><legend>${game.i18n.localize('DL.ModsListBoonsBanes')}</legend><div class="boon-source-list"></div></fieldset>`
   await foundry.applications.api.DialogV2.wait({
     window: { title: dialogTitle },
     position: { width: 420 },
@@ -84,7 +88,14 @@ if (game.settings.get('demonlord', 'launchDialogReminder')) {
         icon: 'fas fa-check',
         label: game.i18n.localize('DL.DialogRoll'),
         default: true,
-        callback: callback,
+        callback: (event, button, dialog) => {
+          const form = button.form || dialog?.element?.querySelector('form')
+          form?.querySelectorAll('[data-boon-source]').forEach(input => {
+            if (input.checked) disabled.delete(input.dataset.boonSource)
+            else disabled.add(input.dataset.boonSource)
+          })
+          return callback(event, button, {disabled: Array.from(disabled)})
+        },
       },
       {
         action: 'cancel',
@@ -95,6 +106,29 @@ if (game.settings.get('demonlord', 'launchDialogReminder')) {
     ],
     render: (event, dialog) => {
       const element = dialog.element
+      if (rollContext) {
+        const refreshSources = () => {
+          element.querySelectorAll('[data-boon-source]').forEach(input => {
+            if (input.checked) disabled.delete(input.dataset.boonSource)
+            else disabled.add(input.dataset.boonSource)
+          })
+          let attribute = rollContext.attribute || rollContext.item?.system.action?.attack?.toLowerCase()
+          if (!attribute && rollContext.category === 'weapon' && game.settings.get('demonlord', 'finesseAutoSelect') && rollContext.item?.system.properties?.toLowerCase().includes('finesse'))
+            attribute = actor.system.attributes.strength.value > actor.system.attributes.agility.value ? 'strength' : 'agility'
+          const defense = element.querySelector('[name="defense"]')?.value || rollContext.item?.system.action?.against?.toLowerCase()
+          const rollTargets = rollContext.targets || []
+          const applicable = rollContext.singleTarget && rollTargets.length !== 1 ? [] : rollTargets
+          displayedSources = Array.from(new Map((applicable.length ? applicable : [null]).flatMap(target =>
+            collectBoonSources(actor, {...rollContext, attribute, defense, target: target?.actor})
+          ).map(source => [source.id, source])).values())
+          element.querySelector('.boon-source-list').innerHTML = displayedSources.map(source => {
+            const label = source.hidden && !game.user.isGM ? game.i18n.localize('DL.OtherUnknown') : source.label
+            return `<label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-boon-source="${escapeSource(source.id)}" ${disabled.has(source.id) ? '' : 'checked'}><span>${source.value > 0 ? '+' : ''}${source.value} ${escapeSource(label)}</span></label>`
+          }).join('') || '—'
+        }
+        refreshSources()
+        element.querySelector('[name="defense"]')?.addEventListener('change', refreshSources)
+      }
       const buttons = element.querySelectorAll('.num-btn')
       buttons.forEach(btn => {
         btn.onclick = function (e) {
