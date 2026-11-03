@@ -44,7 +44,7 @@
   </header>
   <div class="gmonly">
     <div class="damageaction apply-damage">
-      <div class="header" data-damage="{{data.damageTotal}}" {{#if data.isCorruption}}data-type="corruption"{{/if}}{{#if data.isInsanity}}data-type="insanity"{{/if}}>
+      <div class="header" data-damage="{{data.damageTotalGM}}" {{#if data.isCorruption}}data-type="corruption"{{/if}}{{#if data.isInsanity}}data-type="insanity"{{/if}}>
         {{#if (not (or data.isCorruption data.isInsanity))}}
           <div class="fas fa-tint blood"></div>
         {{/if}}
@@ -54,7 +54,7 @@
         {{#if data.isCorruption}}
           <img src="systems/demonlord/assets/ui/other-svg/corruption.svg" width="15" height="15">
         {{/if}}
-        <div>{{localize "DL.DialogTalentApplyDamage"}} ({{data.damageTotal}})</div>
+        <div>{{localize "DL.DialogTalentApplyDamage"}} ({{data.damageTotalGM}})</div>
       </div>
     </div>
     <div class="damageaction apply-damage">

@@ -550,6 +550,10 @@ getTargetAttackBane(target) {
   return baneValue
 }
 
+async expireEffectsWithSpecialDurations(specialDurations) {
+  await this.deleteEmbeddedDocuments('ActiveEffect', this.effects.filter(e => specialDurations.includes(e.duration.expiry)).map(e => e.id))
+}
+
   /**
    * Rolls an attack using an Item
    * @param item                    Weapon / Spell / Talent used for attacking
@@ -624,13 +628,7 @@ getTargetAttackBane(target) {
 
     const hitTarget = (defender && attackRoll?.total >= targetNumber) ? defenderToken : []
 
-    ActiveEffect.registry.refresh('nextD20Roll', {
-      actorUuid: this.uuid
-    })
-
-    ActiveEffect.registry.refresh('nextAttackRoll', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextAttackRoll']) 
 
     Hooks.call('DL.RollAttack', {
       sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
@@ -716,13 +714,7 @@ getTargetAttackBane(target) {
     else
         postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    ActiveEffect.registry.refresh('nextD20Roll', {
-      actorUuid: this.uuid
-    })
-
-    ActiveEffect.registry.refresh('nextChallengeRoll', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextChallengeRoll']) 
 
     return challengeRoll
   }
@@ -777,13 +769,7 @@ getTargetAttackBane(target) {
     await attackRoll.evaluate()
     postAttackToChat(this, tokenManager.targets[0]?.actor, fakeItem, attackRoll, attribute.key, defense, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    ActiveEffect.registry.refresh('nextD20Roll', {
-      actorUuid: this.uuid
-    })
-
-    ActiveEffect.registry.refresh('nextChallengeRoll', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextChallengeRoll']) 
 
     return attackRoll
   }
@@ -874,13 +860,7 @@ getTargetAttackBane(target) {
       attackRoll.options.boonSources = resolvedBoons.sources
       await attackRoll.evaluate()
 
-      ActiveEffect.registry.refresh('nextD20Roll', {
-        actorUuid: this.uuid
-      })
-
-      ActiveEffect.registry.refresh('nextAttackRoll', {
-        actorUuid: this.uuid
-      })
+      await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextAttackRoll']) 
 
       if (itemMacroEnabled) {
         let successfullHit = false
@@ -1007,13 +987,7 @@ getTargetAttackBane(target) {
 
     postSpellToChat(this, spell, attackRoll, target[0]?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    ActiveEffect.registry.refresh('nextD20Roll', {
-      actorUuid: this.uuid
-    })
-
-    ActiveEffect.registry.refresh('nextAttackRoll', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextAttackRoll']) 
 
     // Add concentration if it's in the spell duration
     const concentrate = foundry.utils.deepClone(CONFIG.statusEffects['concentrate'])
@@ -1156,13 +1130,7 @@ getTargetAttackBane(target) {
       attackRoll.options.boonSources = resolvedBoons.sources
       await attackRoll.evaluate()
 
-      ActiveEffect.registry.refresh('nextD20Roll', {
-        actorUuid: this.uuid
-      })
-
-      ActiveEffect.registry.refresh('nextAttackRoll', {
-        actorUuid: this.uuid
-      })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextAttackRoll']) 
 
     if (itemMacroEnabled) {
       const defender = target?.actor
@@ -1213,9 +1181,8 @@ getTargetAttackBane(target) {
         if (roll.total < targetNumber) {
           const stunnedEffect = foundry.utils.deepClone(CONFIG.statusEffects['stunned'])
           stunnedEffect.statuses = new Set([stunnedEffect.id])
-          stunnedEffect.duration.rounds = 1
-          stunnedEffect.start.round = game.combat ? game.combat.round : 0
-          stunnedEffect.start.turn = game.combat ? game.combat.turn : 0
+          stunnedEffect.duration.units = 'rounds'
+          stunnedEffect.duration.value = 1
           await ActiveEffect.create(stunnedEffect, {
             parent: actor,
           })
@@ -1258,13 +1225,16 @@ getTargetAttackBane(target) {
       const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
       const fourAndMoreEffect = new ActiveEffect({
         name: game.i18n.localize('DL.FourOrMoreCreaturesInSight'),
-        icon: 'icons/svg/terror.svg',
+        img: 'icons/svg/terror.svg',
         changes: [{
           key: 'system.bonuses.challenge.boons.will',
           value: -1,
           mode: 'add',
         }, ],
-        expiry: 'NextChallengeRoll'
+        duration : {
+          expiry: 'nextChallengeRoll',
+          value: 0
+        }
       })
 
       // Nested function
@@ -1291,13 +1261,16 @@ getTargetAttackBane(target) {
         if (target.system.willChallengeRollBanes > 0) {
           let willChallengeRollBanesEffect = new ActiveEffect({
             name: game.i18n.localize(`${game.i18n.localize('DL.WillChallengeRollBane')} [${game.i18n.localize('DL.ActionTarget')}]`),
-            icon: 'icons/svg/terror.svg',
+            img: 'icons/svg/terror.svg',
             changes: [{
               key: 'system.bonuses.challenge.boons.will',
               value: (target.system.willChallengeRollBanes)*-1,
               mode: 'add',
             }, ],
-            expiry: 'NextChallengeRoll'
+            duration : {
+              expiry: 'nextChallengeRoll',
+              value : 0
+            }
           })
 
           await ActiveEffect.create(willChallengeRollBanesEffect, {
@@ -1313,13 +1286,16 @@ getTargetAttackBane(target) {
         if (darkMagicSpellsKnown.length) {
           let darkMagicSpellsKnownEffect = new ActiveEffect({
             name: game.i18n.localize('DL.DarkMagicSpellsKnown'),
-            icon: 'icons/svg/terror.svg',
+            img: 'icons/svg/terror.svg',
             changes: [{
               key: 'system.bonuses.challenge.boons.will',
               value: darkMagicSpellsKnown.length,
               mode: 'add',
             }, ],
-            expiry: 'NextChallengeRoll'
+            duration : {
+              expiry: 'nextChallengeRoll',
+              value : 0
+            }
           })
 
           await ActiveEffect.create(darkMagicSpellsKnownEffect, {
@@ -1514,7 +1490,7 @@ getTargetAttackBane(target) {
               name: game.i18n.format('DL.FrightenedBy', {
                 creature: target.actor.name
               }),
-              icon: 'systems/demonlord/assets/icons/effects/eye-target.svg',
+              img: 'systems/demonlord/assets/icons/effects/eye-target.svg',
               flags: {
                 demonlord: {
                   FrightenedFromActoruuid: target.actor.uuid,
@@ -1540,11 +1516,11 @@ getTargetAttackBane(target) {
             name: game.i18n.format('DL.FearRollAgainst', {
               creature: target.actor.name
             }),
-            icon: 'systems/demonlord/assets/ui/other-svg/dice-twenty-faces-twenty.svg',
+            img: 'systems/demonlord/assets/ui/other-svg/dice-twenty-faces-twenty.svg',
             duration: {
-              rounds: 1,
+              expiry: 'restComplete',
+              value: 0,
             },
-            expiry: 'RestComplete',
             origin: target.actor.uuid
           })
 
@@ -1620,11 +1596,13 @@ getTargetAttackBane(target) {
               rollFormula: null,
             })
             if (roll.total < targetNumber) {
-              const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
-              frightenedEffect.statuses = new Set([frightenedEffect.id])
-              await ActiveEffect.create(frightenedEffect, {
-                parent: actor,
-              })
+              if (!this.effects.find(e => e.statuses?.has('frightened'))) {
+                const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
+                frightenedEffect.statuses = new Set([frightenedEffect.id])
+                await ActiveEffect.create(frightenedEffect, {
+                  parent: actor,
+                })
+              }
             }
           } else {
             if (!isStunned) {
@@ -1673,9 +1651,10 @@ getTargetAttackBane(target) {
               name: game.i18n.format('DL.FearRollAgainst', {
                 creature: target.actor.name
               }),
-              icon: 'systems/demonlord/assets/ui/other-svg/dice-twenty-faces-twenty.svg',
-              duration: {
-                rounds: 6,
+              img: 'systems/demonlord/assets/ui/other-svg/dice-twenty-faces-twenty.svg',
+              duration : {
+                units : "rounds",
+                value: 6,
               },
               flags: {
                 demonlord: {
@@ -1697,10 +1676,16 @@ getTargetAttackBane(target) {
               name: game.i18n.format('DL.FrightenedBy', {
                 creature: target.actor.name
               }),
-              icon: 'systems/demonlord/assets/icons/effects/eye-target.svg',
-              expiry: 'RestComplete',
+              img: 'systems/demonlord/assets/icons/effects/eye-target.svg',
               duration: {
-                rounds: 1,
+                expiry: 'restComplete',
+                value: 0,
+              },
+              flags: {
+                demonlord: {
+                  FrightenedFromActoruuid: target.actor.uuid,
+                  sourceType: "character",
+                },
               },
               description: game.i18n.format('DL.FrightenedYou', {
                 creature: target.actor.name
@@ -1850,9 +1835,7 @@ getTargetAttackBane(target) {
       if (restTime === 24) this.applyHealing(true)
     }
 
-    ActiveEffect.registry.refresh('restComplete', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['restComplete']) 
 
     postRestToChat(this, restTime, magicRecovery, talentRecovery, healing)
   }
@@ -1927,7 +1910,7 @@ getTargetAttackBane(target) {
   }
 
   async setEncumbrance() {
-    if (game.settings.get('demonlord', 'ignoreEncumbrance')) return
+    if (game.settings.get('demonlord', 'ignoreEncumbrance') || this.type != 'character') return
     const armors = this.items.filter(i => i.type === 'armor')
     const notMetItemNames = armors
       .filter(a => a.system.requirement?.minvalue > (this.getAttribute(a.system.requirement?.attribute)?.value + this.getAttribute(a.system.requirement?.attribute)?.requirementModifier) && a.system.wear)
