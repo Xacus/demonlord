@@ -19,7 +19,7 @@ import {
 import {handleCreateAncestry, handleCreatePath, handleCreateRole, handleCreateTransformation, handleCreateRelic } from '../item/nested-objects'
 import {TokenManager} from '../pixi/token-manager'
 import {findAddEffect, findDeleteEffect} from "../demonlord"
-
+import {collectBoonSources, applyBoonSelection} from '../rolls/boon-sources'
 const tokenManager = new TokenManager()
 
 export class DemonlordActor extends Actor {
@@ -556,7 +556,7 @@ getTargetAttackBane(target) {
    * @param inputBoons              Number of boons/banes from the user dialog
    * @param inputModifier           Attack modifier from the user dialog
    */
-  async rollItemAttack(item, inputBoons = 0, inputModifier = 0, token = null) {
+  async rollItemAttack(item, inputBoons = 0, inputModifier = 0, token = null, selection) {
     const attacker = this
     const defender = token ? token.actor : null
     let defenderToken = []
@@ -609,7 +609,10 @@ getTargetAttackBane(target) {
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
     // Roll the attack
+    const resolvedBoons = applyBoonSelection(collectBoonSources(this, {attribute: attackAttribute, defense: defenseAttribute, item, target: defender, category: 'weapon'}), boons, inputBoons, selection)
+    boons = resolvedBoons.total
     const attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), attacker.system)
+    attackRoll.options.boonSources = resolvedBoons.sources
     await attackRoll.evaluate()
 
     postAttackToChat(attacker, defender, item, attackRoll, attackAttribute, defenseAttribute, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
@@ -683,27 +686,30 @@ getTargetAttackBane(target) {
 
     // Check if actor is blocked by an affliction
     if (!DLAfflictions.isActorBlocked(this, 'action', attribute))
-      launchRollDialog(this, game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async (event, html) => {
+      launchRollDialog(this, game.i18n.localize('DL.DialogAttackRoll') + game.i18n.localize(item.name), async (event, html, selection) => {
         for (const target of targets) {
-          await this.rollItemAttack(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, target)
+          await this.rollItemAttack(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, target, selection)
         }
-        if (targets.length === 0 ) this.rollItemAttack(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+        if (targets.length === 0 ) this.rollItemAttack(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, null, selection)
         // Decrease ammo quantity
         if (item.system.consume.ammorequired) {
           await ammoItem.update({
             'system.quantity': ammoItem.system.quantity - item.system.consume.amount,
           })
         }
-      })
+      }, false, {item, category: 'weapon', targets})
   }
   /* -------------------------------------------- */
 
-  async rollAttributeChallenge(attribute, inputBoons, inputModifier, options) {
+  async rollAttributeChallenge(attribute, inputBoons, inputModifier, options, selection) {
     const modifiers = [parseInt(inputModifier), this.getAttribute(attribute.key)?.modifier || 0]
-    const boons = (parseInt(inputBoons) || 0) + (parseInt(this.system.bonuses.challenge.boons[attribute.key]) || 0) + (parseInt(this.system.bonuses.challenge.boons.all) || 0)
+    let boons = (parseInt(inputBoons) || 0) + (parseInt(this.system.bonuses.challenge.boons[attribute.key]) || 0) + (parseInt(this.system.bonuses.challenge.boons.all) || 0)
     const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
+    const resolvedBoons = applyBoonSelection(collectBoonSources(this, {kind: 'challenge', attribute: attribute.key}), boons, inputBoons, selection)
+    boons = resolvedBoons.total
     const challengeRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
+    challengeRoll.options.boonSources = resolvedBoons.sources
     await challengeRoll.evaluate()
 
     if (options) postCustomTextToChat(this, challengeRoll, options, attribute.key)
@@ -725,14 +731,14 @@ getTargetAttackBane(target) {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'challenge', attribute.key))
-      launchRollDialog(this, this.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) =>
-        await this.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
-      )
+      launchRollDialog(this, this.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html, selection) =>
+        await this.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, undefined, selection),
+      false, {kind: 'challenge', attribute: attribute.key})
   }
 
   /* -------------------------------------------- */
 
-  async rollAttributeAttack(attribute, defense, inputBoons, inputModifier) {
+  async rollAttributeAttack(attribute, defense, inputBoons, inputModifier, selection) {
 
     const attacker = this
     const defendersTokens = tokenManager.targets
@@ -764,9 +770,12 @@ getTargetAttackBane(target) {
       }
     }
 
+    const resolvedBoons = applyBoonSelection(collectBoonSources(this, {attribute: attribute.key, defense, target: defendersTokens.length === 1 ? defender : null}), boons, inputBoons, selection)
+    boons = resolvedBoons.total
     const attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
+    attackRoll.options.boonSources = resolvedBoons.sources
     await attackRoll.evaluate()
-    postAttackToChat(this, tokenManager.targets[0].actor, fakeItem, attackRoll, attribute.key, defense, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
+    postAttackToChat(this, tokenManager.targets[0]?.actor, fakeItem, attackRoll, attribute.key, defense, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
     ActiveEffect.registry.refresh('nextD20Roll', {
       actorUuid: this.uuid
@@ -783,9 +792,9 @@ getTargetAttackBane(target) {
     if (typeof attribute === 'string' || attribute instanceof String) attribute = this.getAttribute(attribute)
 
     if (!DLAfflictions.isActorBlocked(this, 'attack', attribute.key))
-      launchRollDialog(this, this.name + ' - ' + game.i18n.localize('DL.DialogAttackRoll') + attribute.label, async (event, html) =>
-        await this.rollAttributeAttack(attribute, html.form.elements.defense.value, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
-      true
+      launchRollDialog(this, this.name + ' - ' + game.i18n.localize('DL.DialogAttackRoll') + attribute.label, async (event, html, selection) =>
+        await this.rollAttributeAttack(attribute, html.form.elements.defense.value, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, selection),
+      true, {attribute: attribute.key, targets: tokenManager.targets, singleTarget: true}
     )
   }
 
@@ -810,16 +819,16 @@ getTargetAttackBane(target) {
       }
 
       if (item.system?.action?.attack) {
-        launchRollDialog(this, game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async (event, html) =>
-          await this.useTalent(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value),
-        )
+        launchRollDialog(this, game.i18n.localize('DL.TalentVSRoll') + game.i18n.localize(item.name), async (event, html, selection) =>
+          await this.useTalent(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, selection),
+        false, {item, targets: tokenManager.targets, singleTarget: true})
       } else {
         await this.useTalent(item, 0, 0)
       }
     }
   }
 
-  async useTalent(talent, inputBoons, inputModifier) {
+  async useTalent(talent, inputBoons, inputModifier, selection) {
     const talentData = talent.system
     const targets = tokenManager.targets
     const target = targets[0]
@@ -859,7 +868,10 @@ getTargetAttackBane(target) {
 
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
       if (itemMacroEnabled) await talent.executeDLMacro({},{pass : 'preRollTalent', attackAttribute: attackAttribute, defenseAttribute: defenseAttribute, targetActorUuid: target?.actor.uuid})
+      const resolvedBoons = applyBoonSelection(collectBoonSources(this, {attribute: attackAttribute, defense: defenseAttribute, item: talent, target: targets.length === 1 ? target?.actor : null}), boons, inputBoons, selection)
+      boons = resolvedBoons.total
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
+      attackRoll.options.boonSources = resolvedBoons.sources
       await attackRoll.evaluate()
 
       ActiveEffect.registry.refresh('nextD20Roll', {
@@ -930,19 +942,19 @@ getTargetAttackBane(target) {
       } else await item.update({'system.castings.value': uses + 1}, {parent: this})
 
       if (isAttack && attackAttribute) {
-        launchRollDialog(this, game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async (event, html) => {
+        launchRollDialog(this, game.i18n.localize('DL.DialogSpellRoll') + game.i18n.localize(item.name), async (event, html, selection) => {
           for (const target of targets) {
-            await this.useSpell(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, [target])
+            await this.useSpell(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, [target], selection)
           }
-          if (targets.length === 0 )  await this.useSpell(item,html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
-        })
+          if (targets.length === 0 )  await this.useSpell(item,html.form.elements.boonsbanes.value, html.form.elements.modifier.value, [], selection)
+        }, false, {item, category: 'spell', targets})
       } else {
         await this.useSpell(item, 0, 0)
       }
     }
   }
 
-  async useSpell(spell, inputBoons, inputModifier, target = []) {
+  async useSpell(spell, inputBoons, inputModifier, target = [], selection) {
     const spellData = spell.system
     const attackAttribute = spellData?.action?.attack?.toLowerCase()
     const defenseAttribute = spellData?.action?.against?.toLowerCase()
@@ -979,7 +991,10 @@ getTargetAttackBane(target) {
 
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
+      const resolvedBoons = applyBoonSelection(collectBoonSources(this, {attribute: attackAttribute, defense: defenseAttribute, item: spell, target: target[0]?.actor, category: 'spell'}), boons, inputBoons, selection)
+      boons = resolvedBoons.total
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
+      attackRoll.options.boonSources = resolvedBoons.sources
       await attackRoll.evaluate()
     }
 
@@ -1084,8 +1099,8 @@ getTargetAttackBane(target) {
         await this.deleteEmbeddedDocuments('Item', [tempSpell[0].id])
       } else {
         if (item.system?.action?.attack) {
-          launchRollDialog(this, game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html) =>
-        await this.useItem(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value), )
+          launchRollDialog(this, game.i18n.localize('DL.ItemVSRoll') + game.i18n.localize(item.name), async (event, html, selection) =>
+        await this.useItem(item, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, selection), false, {item, targets: tokenManager.targets, singleTarget: true})
         } else {
           await this.useItem(item, 0, 0)
         }
@@ -1095,7 +1110,7 @@ getTargetAttackBane(target) {
 
   }
 
-  async useItem(item, inputBoons, inputModifier) {
+  async useItem(item, inputBoons, inputModifier, selection) {
     const itemData = item.system
     const targets = tokenManager.targets
     const target = targets[0]
@@ -1135,7 +1150,10 @@ getTargetAttackBane(target) {
       const boonsReroll = parseInt(this.system.bonuses.rerollBoon1Dice)
 
       if (itemMacroEnabled) await item.executeDLMacro({},{pass : 'preRollItem', attackAttribute : attackAttribute, defenseAttribute: defenseAttribute, targetActorUuid: target?.actor.uuid})
+      const resolvedBoons = applyBoonSelection(collectBoonSources(this, {attribute: attackAttribute, defense: defenseAttribute, item, target: targets.length === 1 ? target?.actor : null}), boons, inputBoons, selection)
+      boons = resolvedBoons.total
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
+      attackRoll.options.boonSources = resolvedBoons.sources
       await attackRoll.evaluate()
 
       ActiveEffect.registry.refresh('nextD20Roll', {

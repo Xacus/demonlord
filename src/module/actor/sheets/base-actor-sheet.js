@@ -549,8 +549,8 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
               case 'help': {
                 const attribute = this.actor.system.attributes.intellect
                 if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && targets.length === 1)
-                  launchRollDialog(this.actor, this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
-                    let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+                  launchRollDialog(this.actor, this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html, selection) => {
+                    let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, undefined, selection)
                     if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
                       affliction.statuses = new Set([afflictionId])
                       const effect = foundry.utils.deepClone(CONFIG.statusEffects["helped"])
@@ -567,15 +567,15 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
                         })
                       }
                     }
-                  })
+                  }, false, {kind: 'challenge', attribute: attribute.key})
                 break;
               }
               case 'stabilize': {
                 const attribute = this.actor.system.attributes.intellect
                 const isIncapacitated = targets.length === 1 ? targets[0].actor.appliedEffects.find(ef => ef?.statuses?.has('incapacitated')) : false
                 if (!DLAfflictions.isActorBlocked(this.actor, 'challenge', attribute.key) && isIncapacitated)
-                  launchRollDialog(this.actor, this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html) => {
-                    let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value)
+                  launchRollDialog(this.actor, this.actor.name + ' - ' + game.i18n.localize('DL.DialogChallengeRoll') + attribute.label, async (event, html, selection) => {
+                    let result = await this.actor.rollAttributeChallenge(attribute, html.form.elements.boonsbanes.value, html.form.elements.modifier.value, undefined, selection)
                     if (result._total >= 10 || game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' && result._total >= 11) {
                       if (game.user.isGM) {
                         await targets[0].actor.increaseDamage(-1)
@@ -587,7 +587,7 @@ export default class DLBaseActorSheet extends HandlebarsApplicationMixin(ActorSh
                         })
                       }
                     }
-                  })
+                  }, false, {kind: 'challenge', attribute: attribute.key})
                 break;
               }
             }
