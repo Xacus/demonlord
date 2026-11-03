@@ -309,10 +309,7 @@ Hooks.on('updateActor', async (actor, updateData, options) => {
          * Big thanks to Andrew Clayton
          */
         const diff = value - oldHealth
-        if (diff > 0)
-        ActiveEffect.registry.refresh('takesDamage', {
-            actorUuid: actor.uuid,
-        })
+        if (diff > 0) await actor.expireEffectsWithSpecialDurations(['takesDamage']) 
         const tokens = actor.isToken ? [actor.token] : actor.getActiveTokens(true, true)
         if (!tokens.length) return
         for (const token of tokens) {

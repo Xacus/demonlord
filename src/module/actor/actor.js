@@ -550,6 +550,10 @@ getTargetAttackBane(target) {
   return baneValue
 }
 
+async expireEffectsWithSpecialDurations(specialDurations) {
+  await this.deleteEmbeddedDocuments('ActiveEffect', this.effects.filter(e => specialDurations.includes(e.duration.expiry)).map(e => e.id))
+}
+
   /**
    * Rolls an attack using an Item
    * @param item                    Weapon / Spell / Talent used for attacking
@@ -621,13 +625,7 @@ getTargetAttackBane(target) {
 
     const hitTarget = (defender && attackRoll?.total >= targetNumber) ? defenderToken : []
 
-    ActiveEffect.registry.refresh('nextD20Roll', {
-      actorUuid: this.uuid
-    })
-
-    ActiveEffect.registry.refresh('nextAttackRoll', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextAttackRoll']) 
 
     Hooks.call('DL.RollAttack', {
       sourceToken: attacker.token || tokenManager.getTokenByActorId(attacker.id),
@@ -710,13 +708,7 @@ getTargetAttackBane(target) {
     else
         postAttributeToChat(this, attribute.key, challengeRoll, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    ActiveEffect.registry.refresh('nextD20Roll', {
-      actorUuid: this.uuid
-    })
-
-    ActiveEffect.registry.refresh('nextChallengeRoll', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextChallengeRoll']) 
 
     return challengeRoll
   }
@@ -768,13 +760,7 @@ getTargetAttackBane(target) {
     await attackRoll.evaluate()
     postAttackToChat(this, tokenManager.targets[0].actor, fakeItem, attackRoll, attribute.key, defense, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    ActiveEffect.registry.refresh('nextD20Roll', {
-      actorUuid: this.uuid
-    })
-
-    ActiveEffect.registry.refresh('nextChallengeRoll', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextChallengeRoll']) 
 
     return attackRoll
   }
@@ -862,13 +848,7 @@ getTargetAttackBane(target) {
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
 
-      ActiveEffect.registry.refresh('nextD20Roll', {
-        actorUuid: this.uuid
-      })
-
-      ActiveEffect.registry.refresh('nextAttackRoll', {
-        actorUuid: this.uuid
-      })
+      await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextAttackRoll']) 
 
       if (itemMacroEnabled) {
         let successfullHit = false
@@ -992,13 +972,7 @@ getTargetAttackBane(target) {
 
     postSpellToChat(this, spell, attackRoll, target[0]?.actor, parseInt(inputBoons) || 0, parseInt(inputModifier) || 0)
 
-    ActiveEffect.registry.refresh('nextD20Roll', {
-      actorUuid: this.uuid
-    })
-
-    ActiveEffect.registry.refresh('nextAttackRoll', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextAttackRoll']) 
 
     // Add concentration if it's in the spell duration
     const concentrate = foundry.utils.deepClone(CONFIG.statusEffects['concentrate'])
@@ -1138,13 +1112,7 @@ getTargetAttackBane(target) {
       attackRoll = new Roll(this.rollFormula(modifiers, boons, boonsReroll), this.system)
       await attackRoll.evaluate()
 
-      ActiveEffect.registry.refresh('nextD20Roll', {
-        actorUuid: this.uuid
-      })
-
-      ActiveEffect.registry.refresh('nextAttackRoll', {
-        actorUuid: this.uuid
-      })
+    await this.expireEffectsWithSpecialDurations(['nextD20Roll', 'nextAttackRoll']) 
 
     if (itemMacroEnabled) {
       const defender = target?.actor
@@ -1832,9 +1800,7 @@ getTargetAttackBane(target) {
       if (restTime === 24) this.applyHealing(true)
     }
 
-    ActiveEffect.registry.refresh('restComplete', {
-      actorUuid: this.uuid
-    })
+    await this.expireEffectsWithSpecialDurations(['restComplete']) 
 
     postRestToChat(this, restTime, magicRecovery, talentRecovery, healing)
   }
