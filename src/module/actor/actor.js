@@ -1892,7 +1892,7 @@ async expireEffectsWithSpecialDurations(specialDurations) {
   }
 
   async setEncumbrance() {
-    if (game.settings.get('demonlord', 'ignoreEncumbrance')) return
+    if (game.settings.get('demonlord', 'ignoreEncumbrance') || this.type != 'character') return
     const armors = this.items.filter(i => i.type === 'armor')
     const notMetItemNames = armors
       .filter(a => a.system.requirement?.minvalue > (this.getAttribute(a.system.requirement?.attribute)?.value + this.getAttribute(a.system.requirement?.attribute)?.requirementModifier) && a.system.wear)
