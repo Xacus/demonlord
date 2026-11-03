@@ -1163,9 +1163,8 @@ async expireEffectsWithSpecialDurations(specialDurations) {
         if (roll.total < targetNumber) {
           const stunnedEffect = foundry.utils.deepClone(CONFIG.statusEffects['stunned'])
           stunnedEffect.statuses = new Set([stunnedEffect.id])
-          stunnedEffect.duration.rounds = 1
-          stunnedEffect.start.round = game.combat ? game.combat.round : 0
-          stunnedEffect.start.turn = game.combat ? game.combat.turn : 0
+          stunnedEffect.duration.units = 'rounds'
+          stunnedEffect.duration.value = 1
           await ActiveEffect.create(stunnedEffect, {
             parent: actor,
           })
@@ -1208,13 +1207,16 @@ async expireEffectsWithSpecialDurations(specialDurations) {
       const targetNumber = game.settings.get('demonlord', 'optionalRuleDieRollsMode') === 'b' ? 11 : 10
       const fourAndMoreEffect = new ActiveEffect({
         name: game.i18n.localize('DL.FourOrMoreCreaturesInSight'),
-        icon: 'icons/svg/terror.svg',
+        img: 'icons/svg/terror.svg',
         changes: [{
           key: 'system.bonuses.challenge.boons.will',
           value: -1,
           mode: 'add',
         }, ],
-        expiry: 'NextChallengeRoll'
+        duration : {
+          expiry: 'nextChallengeRoll',
+          value: 0
+        }
       })
 
       // Nested function
@@ -1241,13 +1243,16 @@ async expireEffectsWithSpecialDurations(specialDurations) {
         if (target.system.willChallengeRollBanes > 0) {
           let willChallengeRollBanesEffect = new ActiveEffect({
             name: game.i18n.localize(`${game.i18n.localize('DL.WillChallengeRollBane')} [${game.i18n.localize('DL.ActionTarget')}]`),
-            icon: 'icons/svg/terror.svg',
+            img: 'icons/svg/terror.svg',
             changes: [{
               key: 'system.bonuses.challenge.boons.will',
               value: (target.system.willChallengeRollBanes)*-1,
               mode: 'add',
             }, ],
-            expiry: 'NextChallengeRoll'
+            duration : {
+              expiry: 'nextChallengeRoll',
+              value : 0
+            }
           })
 
           await ActiveEffect.create(willChallengeRollBanesEffect, {
@@ -1263,13 +1268,16 @@ async expireEffectsWithSpecialDurations(specialDurations) {
         if (darkMagicSpellsKnown.length) {
           let darkMagicSpellsKnownEffect = new ActiveEffect({
             name: game.i18n.localize('DL.DarkMagicSpellsKnown'),
-            icon: 'icons/svg/terror.svg',
+            img: 'icons/svg/terror.svg',
             changes: [{
               key: 'system.bonuses.challenge.boons.will',
               value: darkMagicSpellsKnown.length,
               mode: 'add',
             }, ],
-            expiry: 'NextChallengeRoll'
+            duration : {
+              expiry: 'nextChallengeRoll',
+              value : 0
+            }
           })
 
           await ActiveEffect.create(darkMagicSpellsKnownEffect, {
@@ -1464,7 +1472,7 @@ async expireEffectsWithSpecialDurations(specialDurations) {
               name: game.i18n.format('DL.FrightenedBy', {
                 creature: target.actor.name
               }),
-              icon: 'systems/demonlord/assets/icons/effects/eye-target.svg',
+              img: 'systems/demonlord/assets/icons/effects/eye-target.svg',
               flags: {
                 demonlord: {
                   FrightenedFromActoruuid: target.actor.uuid,
@@ -1490,11 +1498,11 @@ async expireEffectsWithSpecialDurations(specialDurations) {
             name: game.i18n.format('DL.FearRollAgainst', {
               creature: target.actor.name
             }),
-            icon: 'systems/demonlord/assets/ui/other-svg/dice-twenty-faces-twenty.svg',
+            img: 'systems/demonlord/assets/ui/other-svg/dice-twenty-faces-twenty.svg',
             duration: {
-              rounds: 1,
+              expiry: 'restComplete',
+              value: 0,
             },
-            expiry: 'RestComplete',
             origin: target.actor.uuid
           })
 
@@ -1570,11 +1578,13 @@ async expireEffectsWithSpecialDurations(specialDurations) {
               rollFormula: null,
             })
             if (roll.total < targetNumber) {
-              const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
-              frightenedEffect.statuses = new Set([frightenedEffect.id])
-              await ActiveEffect.create(frightenedEffect, {
-                parent: actor,
-              })
+              if (!this.effects.find(e => e.statuses?.has('frightened'))) {
+                const frightenedEffect = foundry.utils.deepClone(CONFIG.statusEffects['frightened'])
+                frightenedEffect.statuses = new Set([frightenedEffect.id])
+                await ActiveEffect.create(frightenedEffect, {
+                  parent: actor,
+                })
+              }
             }
           } else {
             if (!isStunned) {
@@ -1623,9 +1633,10 @@ async expireEffectsWithSpecialDurations(specialDurations) {
               name: game.i18n.format('DL.FearRollAgainst', {
                 creature: target.actor.name
               }),
-              icon: 'systems/demonlord/assets/ui/other-svg/dice-twenty-faces-twenty.svg',
-              duration: {
-                rounds: 6,
+              img: 'systems/demonlord/assets/ui/other-svg/dice-twenty-faces-twenty.svg',
+              duration : {
+                units : "rounds",
+                value: 6,
               },
               flags: {
                 demonlord: {
@@ -1647,10 +1658,16 @@ async expireEffectsWithSpecialDurations(specialDurations) {
               name: game.i18n.format('DL.FrightenedBy', {
                 creature: target.actor.name
               }),
-              icon: 'systems/demonlord/assets/icons/effects/eye-target.svg',
-              expiry: 'RestComplete',
+              img: 'systems/demonlord/assets/icons/effects/eye-target.svg',
               duration: {
-                rounds: 1,
+                expiry: 'restComplete',
+                value: 0,
+              },
+              flags: {
+                demonlord: {
+                  FrightenedFromActoruuid: target.actor.uuid,
+                  sourceType: "character",
+                },
               },
               description: game.i18n.format('DL.FrightenedYou', {
                 creature: target.actor.name
