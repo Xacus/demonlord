@@ -100,7 +100,7 @@ export class DLActiveEffects {
         effectDataList = DLActiveEffects.generateEffectDataFromArmor(doc, actor)
         break
       case 'creaturerole':
-        effectDataList = DLActiveEffects.generateEffectDataFromRole(doc)
+        effectDataList = DLActiveEffects.generateEffectDataFromRole(doc, actor, operation)
         break
       case 'transformation':
         effectDataList = DLActiveEffects.generateEffectDataFromTransformation(doc, actor)
