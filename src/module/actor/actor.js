@@ -191,7 +191,9 @@ export class DemonlordActor extends Actor {
     }
     // --- Creature specific data ---
     else {
-      system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
+      //system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
+      if (system.characteristics.defense <= system.bonuses.armor.fixed) system.characteristics.defense = system.bonuses.armor.fixed
+        else if (system.characteristics.defense <= system.attributes.agility.value + system.bonuses.armor.agility) system.characteristics.defense = system.attributes.agility.value + system.bonuses.armor.agility
     }
 
     // Insanity
@@ -2175,10 +2177,10 @@ async expireEffectsWithSpecialDurations(specialDurations) {
         const agilityModifier = agilityChangeKey === undefined ? 0 : agilityChangeKey.value
         attributes.strength =
           source.system.attributes.strength.value - this.system.attributes.strength.value + strengthModifier
-        attributes.strengthImmune = source.system.attributes.strength.immune
+        d.system.attributes.strength.immune = this.system.attributes.strength.immune
         attributes.agility =
           source.system.attributes.agility.value - this.system.attributes.agility.value + agilityModifier
-        attributes.agilityImmune = source.system.attributes.agility.immune
+        d.system.attributes.agility.immune = this.system.attributes.agility.immune
         changeKeyList = changeKeyList.filter(
           el => !startsWithAny(el, ['system.attributes.strength', 'system.attributes.agility']),
         )
@@ -2192,9 +2194,9 @@ async expireEffectsWithSpecialDurations(specialDurations) {
         const willModifier = willChangeKey === undefined ? 0 : willChangeKey.value
         attributes.intellect =
           source.system.attributes.intellect.value - this.system.attributes.intellect.value + intellectModifier
-        attributes.intellectImmune = source.system.attributes.intellect.immune
+        d.system.attributes.intellect.immune = this.system.attributes.intellect.immune
         attributes.will = source.system.attributes.will.value - this.system.attributes.will.value + willModifier
-        attributes.willImmune = source.system.attributes.will.immune
+        d.system.attributes.will.immune = this.system.attributes.will.immune
         changeKeyList = changeKeyList.filter(
           el => !startsWithAny(el, ['system.attributes.intellect', 'system.attributes.will']),
         )
@@ -2214,7 +2216,7 @@ async expireEffectsWithSpecialDurations(specialDurations) {
       }
 
       const ownEffects = o.effects.filter(
-        e => !['path', 'ancestry'].includes(e.flags?.demonlord?.sourceType) || e.duration.value != Infinity,
+        e => !['path', 'ancestry'].includes(e.flags?.demonlord?.sourceType) || e.duration.value != null,
       )
       ownEffects.forEach(e => {
         if (!e.disabled) {

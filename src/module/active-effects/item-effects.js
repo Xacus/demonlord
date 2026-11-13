@@ -100,7 +100,7 @@ export class DLActiveEffects {
         effectDataList = DLActiveEffects.generateEffectDataFromArmor(doc, actor)
         break
       case 'creaturerole':
-        effectDataList = DLActiveEffects.generateEffectDataFromRole(doc)
+        effectDataList = DLActiveEffects.generateEffectDataFromRole(doc, actor, operation)
         break
       case 'transformation':
         effectDataList = DLActiveEffects.generateEffectDataFromTransformation(doc, actor)
@@ -340,13 +340,9 @@ export class DLActiveEffects {
 
     const characterChanges = [
         addEffect('system.attributes.strength.value', data.attributes.strength, priority),
-        addEffect('system.attributes.strength.immune', data.attributes.strengthImmune, priority, true),
         addEffect('system.attributes.agility.value', data.attributes.agility, priority),
-        addEffect('system.attributes.agility.immune', data.attributes.agilityImmune, priority, true),
         addEffect('system.attributes.intellect.value', data.attributes.intellect, priority),
-        addEffect('system.attributes.intellect.immune', data.attributes.intellectImmune, priority, true),
         addEffect('system.attributes.will.value', data.attributes.will, priority),
-        addEffect('system.attributes.will.immune', data.attributes.willImmune, priority, true),
         overrideEffect('system.attributes.perception.value', data.characteristics.perception, priority),
         addEffect('system.characteristics.defense', data.characteristics.defense, priority),
         addEffect('system.characteristics.health.max', data.characteristics.health, priority),
@@ -366,7 +362,7 @@ export class DLActiveEffects {
         overrideEffect('system.horrifying', data.horrifying, priority, true),
     ]
 
-    let allChanges = actor.type === 'character' ? allChanges = [...characterChanges] : [...characterChanges, ...creatureChanges]
+    const allChanges = actor.type === 'character' ? [...characterChanges] : [...characterChanges, ...creatureChanges]
 
     const effectData = {
       name: item.name,
