@@ -191,7 +191,9 @@ export class DemonlordActor extends Actor {
     }
     // --- Creature specific data ---
     else {
-      system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
+      //system.characteristics.defense = system.characteristics.defense || system.bonuses.armor.fixed || system.attributes.agility.value + system.bonuses.armor.agility
+      if (system.characteristics.defense <= system.bonuses.armor.fixed) system.characteristics.defense = system.bonuses.armor.fixed
+        else if (system.characteristics.defense <= system.attributes.agility.value + system.bonuses.armor.agility) system.characteristics.defense = system.attributes.agility.value + system.bonuses.armor.agility
     }
 
     // Insanity
